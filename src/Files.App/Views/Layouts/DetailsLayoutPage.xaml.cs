@@ -426,12 +426,27 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
+			if (ParentShellPageInstance is null)
+				return;
+
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
+			foreach (ListedItem listedItem in filesAndFolders)
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
 					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
+			}
+
+			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
+			{
+				await Task.WhenAll(filesAndFolders.Select(item =>
+				{
+					if (item is GitItem gitItem)
+						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+
+					return Task.CompletedTask;
+				}));
 			}
 		}
 

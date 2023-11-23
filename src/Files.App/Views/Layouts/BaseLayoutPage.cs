@@ -393,6 +393,9 @@ namespace Files.App.Views.Layouts
 			navigationArguments = (NavigationArguments)e.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
 
+			// Git properties are not loaded by default
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
+
 			InitializeCommandsViewModel();
 
 			IsItemSelected = false;
@@ -486,9 +489,6 @@ namespace Files.App.Views.Layouts
 
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
-
-			// Git properties are not loaded by default
-			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
 		}
 
 		public void SetSelectedItemsOnNavigation()
@@ -1165,6 +1165,8 @@ namespace Files.App.Views.Layouts
 					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
 					{
 						await ParentShellPageInstance!.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, IconSize);
+						if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None && listedItem is GitItem gitItem)
+							await ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
 					});
 				}
 			}
