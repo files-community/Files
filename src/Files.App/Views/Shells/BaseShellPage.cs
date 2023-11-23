@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
+using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
@@ -49,7 +50,7 @@ namespace Files.App.Views.Shells
 
 		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
 
-		public IBaseLayout SlimContentPage => ContentPage;
+		public IBaseLayoutPage SlimContentPage => ContentPage;
 
 		public IFilesystemHelpers FilesystemHelpers { get; protected set; }
 
@@ -65,14 +66,14 @@ namespace Files.App.Views.Shells
 
 		public abstract bool CanNavigateBackward { get; }
 
-		public bool IsColumnView => SlimContentPage is ColumnViewBrowser;
+		public bool IsColumnView => SlimContentPage is ColumnsLayoutPage;
 
 		public ItemViewModel FilesystemViewModel { get; protected set; }
 
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 
-		protected BaseLayout _ContentPage;
-		public BaseLayout ContentPage
+		protected BaseLayoutPage _ContentPage;
+		public BaseLayoutPage ContentPage
 		{
 			get => _ContentPage;
 			set
@@ -133,7 +134,7 @@ namespace Files.App.Views.Shells
 				{
 					_IsCurrentInstance = value;
 
-					if (!value && SlimContentPage is not ColumnViewBrowser)
+					if (!value && SlimContentPage is not ColumnsLayoutPage)
 						ToolbarViewModel.IsEditModeEnabled = false;
 
 					if (value)
@@ -329,10 +330,10 @@ namespace Files.App.Views.Shells
 			var shift = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
 			var tabInstance =
-				CurrentPageType == typeof(DetailsLayoutBrowser) ||
-				CurrentPageType == typeof(GridViewBrowser) ||
-				CurrentPageType == typeof(ColumnViewBrowser) ||
-				CurrentPageType == typeof(ColumnViewBase);
+				CurrentPageType == typeof(DetailsLayoutPage) ||
+				CurrentPageType == typeof(GridLayoutPage) ||
+				CurrentPageType == typeof(ColumnsLayoutPage) ||
+				CurrentPageType == typeof(ColumnLayoutPage);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
@@ -496,7 +497,7 @@ namespace Files.App.Views.Shells
 			};
 
 			if (this is ColumnShellPage)
-				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutBrowser), args);
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
 			else
 				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
@@ -509,7 +510,7 @@ namespace Files.App.Views.Shells
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
 			var layout = navigationPath.StartsWith("tag:")
-				? typeof(DetailsLayoutBrowser)
+				? typeof(DetailsLayoutPage)
 				: FolderSettings.GetLayoutType(navigationPath);
 
 			NavigateToPath(navigationPath, layout, navArgs);
@@ -628,7 +629,7 @@ namespace Files.App.Views.Shells
 				case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
 					var columnCanNavigateBackward = false;
 					var columnCanNavigateForward = false;
-					if (SlimContentPage is ColumnViewBrowser browser)
+					if (SlimContentPage is ColumnsLayoutPage browser)
 					{
 						columnCanNavigateBackward = browser.ParentShellPageInstance?.CanNavigateBackward ?? false;
 						columnCanNavigateForward = browser.ParentShellPageInstance?.CanNavigateForward ?? false;
@@ -698,7 +699,7 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
 		}
 
-		protected async Task<BaseLayout> GetContentOrNullAsync()
+		protected async Task<BaseLayoutPage> GetContentOrNullAsync()
 		{
 			// WINUI3: Make sure not to run this synchronously, do not use EnqueueAsync
 			var tcs = new TaskCompletionSource<object?>();
@@ -707,7 +708,7 @@ namespace Files.App.Views.Shells
 				tcs.SetResult(ItemDisplay.Content);
 			});
 
-			return await tcs.Task as BaseLayout;
+			return await tcs.Task as BaseLayoutPage;
 		}
 
 		protected async Task DisplayFilesystemConsentDialogAsync()
@@ -718,7 +719,11 @@ namespace Files.App.Views.Shells
 				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-					await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+					await dialog.ShowAsync();
 				});
 			}
 		}

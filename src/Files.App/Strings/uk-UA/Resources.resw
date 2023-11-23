@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Під час обрахунку сталась помилка</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Не вдалося обчислити хеш, будь ласка, закрийте файл і спробуйте знову.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Хеші не доступні для файлів онлайн</value>
   </data>
