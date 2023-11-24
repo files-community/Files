@@ -70,6 +70,7 @@ namespace Files.App.Data.Models
 		{
 			get => propertiesWindowCount;
 		}
+
 		public int IncrementPropertiesWindowCount()
 		{
 			var result = Interlocked.Increment(ref propertiesWindowCount);
