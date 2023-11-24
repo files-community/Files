@@ -201,74 +201,48 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Invoked when an exception is not handled on the UI thread.
-		/// </summary>
-		public static void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
-		{
-			AppUnhandledException(e.Exception, true);
-		}
-
-		/// <summary>
-		/// Invoked when an exception is not handled on the current thread.
-		/// </summary>
-		public static void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
-		{
-			AppUnhandledException(e.ExceptionObject as Exception, false);
-		}
-
-		/// <summary>
-		/// Invoked when an exception is not handled on a background thread.
-		/// </summary>
-		/// <remarks>
-		/// This exception is sometimes occurred by forgotten <c>Task.Run(() => {...})</c>.
-		/// </remarks>
-		public static void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
-		{
-			AppUnhandledException(e.Exception, false);
-		}
-
-		/// <summary>
 		/// Shows exception on the Debug Output and sends Toast Notification to the Windows Notification Center.
 		/// </summary>
-		private static void AppUnhandledException(Exception? ex, bool showToastNotification)
+		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
 		{
 			StringBuilder formattedException = new()
 			{
 				Capacity = 200
 			};
 
-			formattedException.Append("--------- UNHANDLED EXCEPTION ---------");
+			formattedException.AppendLine("--------- UNHANDLED EXCEPTION ---------");
 
 			if (ex is not null)
 			{
-				formattedException.Append($"\n>>>> HRESULT: {ex.HResult}\n");
+				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
+
 				if (ex.Message is not null)
 				{
-					formattedException.Append("\n--- MESSAGE ---");
-					formattedException.Append(ex.Message);
+					formattedException.AppendLine("--- MESSAGE ---");
+					formattedException.AppendLine(ex.Message);
 				}
 				if (ex.StackTrace is not null)
 				{
-					formattedException.Append("\n--- STACKTRACE ---");
-					formattedException.Append(ex.StackTrace);
+					formattedException.AppendLine("--- STACKTRACE ---");
+					formattedException.AppendLine(ex.StackTrace);
 				}
 				if (ex.Source is not null)
 				{
-					formattedException.Append("\n--- SOURCE ---");
-					formattedException.Append(ex.Source);
+					formattedException.AppendLine("--- SOURCE ---");
+					formattedException.AppendLine(ex.Source);
 				}
 				if (ex.InnerException is not null)
 				{
-					formattedException.Append("\n--- INNER ---");
-					formattedException.Append(ex.InnerException);
+					formattedException.AppendLine("--- INNER ---");
+					formattedException.AppendLine(ex.InnerException.ToString());
 				}
 			}
 			else
 			{
-				formattedException.Append("\nException is not available.\n");
+				formattedException.AppendLine("Exception data is not available.");
 			}
 
-			formattedException.Append("---------------------------------------");
+			formattedException.AppendLine("---------------------------------------");
 
 			Debug.WriteLine(formattedException.ToString());
 
@@ -276,7 +250,7 @@ namespace Files.App.Helpers
 			Debugger.Break();
 
 			SaveSessionTabs();
-			App.Logger.LogError(ex, ex?.Message ?? "An error occurred");
+			App.Logger.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
 
 			if (!showToastNotification)
 				return;

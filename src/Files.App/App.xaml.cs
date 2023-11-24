@@ -38,9 +38,9 @@ namespace Files.App
 			InitializeComponent();
 
 			// Configure exception handlers
-			UnhandledException += AppLifecycleHelper.App_UnhandledException;
-			AppDomain.CurrentDomain.UnhandledException += AppLifecycleHelper.CurrentDomain_UnhandledException;
-			TaskScheduler.UnobservedTaskException += AppLifecycleHelper.TaskScheduler_UnobservedTaskException;
+			UnhandledException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.Exception, true);
+			AppDomain.CurrentDomain.UnhandledException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.ExceptionObject as Exception, false);
+			TaskScheduler.UnobservedTaskException += (sender, e) => AppLifecycleHelper.HandleAppUnhandledException(e.Exception, false);
 		}
 
 		/// <summary>
