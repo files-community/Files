@@ -138,14 +138,14 @@ namespace Files.App.Utils.Git
 						.OrderByDescending(b => b.Tip?.Committer.When)
 						.Take(MAX_NUMBER_OF_BRANCHES)
 						.OrderByDescending(b => b.IsCurrentRepositoryHead)
-						.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
+						.Select(b => new BranchItem(b.FriendlyName, b.IsCurrentRepositoryHead, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 						.ToArray();
-				} 
+				}
 				catch (Exception)
 				{
 					result = GitOperationResult.GenericError;
 				}
-				
+
 				return (result, branches);
 			});
 
@@ -165,7 +165,13 @@ namespace Files.App.Utils.Git
 					using var repository = new Repository(path);
 					var branch = GetValidBranches(repository.Branches).FirstOrDefault(b => b.IsCurrentRepositoryHead);
 					if (branch is not null)
-						head = new BranchItem(branch.FriendlyName, branch.IsRemote, TryGetTrackingDetails(branch)?.AheadBy ?? 0, TryGetTrackingDetails(branch)?.BehindBy ?? 0);
+						head = new BranchItem(
+							branch.FriendlyName,
+							branch.IsCurrentRepositoryHead,
+							branch.IsRemote,
+							TryGetTrackingDetails(branch)?.AheadBy ?? 0,
+							TryGetTrackingDetails(branch)?.BehindBy ?? 0
+						);
 				}
 				catch
 				{
@@ -279,6 +285,45 @@ namespace Files.App.Utils.Git
 
 			IsExecutingGitAction = false;
 		}
+
+		public static async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
+		{
+			Analytics.TrackEvent("Triggered delete git branch");
+
+			if (string.IsNullOrWhiteSpace(repositoryPath) ||
+				string.IsNullOrWhiteSpace(activeBranch) ||
+				string.IsNullOrWhiteSpace(branchToDelete) ||
+				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase) ||
+				!Repository.IsValid(repositoryPath))
+			{
+				return;
+			}
+
+			var dialog = DynamicDialogFactory.GetFor_DeleteGitBranchConfirmation(branchToDelete);
+			await dialog.TryShowAsync();
+			if (!(dialog.ViewModel.AdditionalData as bool? ?? false))
+				return;
+
+			IsExecutingGitAction = true;
+
+			await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			{
+				try
+				{
+					using var repository = new Repository(repositoryPath);
+					repository.Branches.Remove(branchToDelete);
+				}
+				catch (Exception)
+				{
+					return GitOperationResult.GenericError;
+				}
+
+				return GitOperationResult.Success;
+			});
+
+			IsExecutingGitAction = false;
+		}
+
 
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
 		{

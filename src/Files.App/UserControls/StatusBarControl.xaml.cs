@@ -68,5 +68,14 @@ namespace Files.App.UserControls
 
 			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = false;
 		}
+
+		private async void DeleteBranch_Click(object sender, RoutedEventArgs e)
+		{
+			if (DirectoryPropertiesViewModel is null)
+				return;
+
+			BranchesFlyout.Hide();
+			await DirectoryPropertiesViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
+		}
 	}
 }

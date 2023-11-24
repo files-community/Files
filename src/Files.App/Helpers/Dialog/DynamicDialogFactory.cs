@@ -291,5 +291,25 @@ namespace Files.App.Helpers
 				DynamicButtons = DynamicDialogButtons.Primary
 			});
 		}
+
+		public static DynamicDialog GetFor_DeleteGitBranchConfirmation(string branchName)
+		{
+			DynamicDialog dialog = null!;
+			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "GitDeleteBranch".GetLocalizedResource(),
+				SubtitleText = string.Format("GitDeleteBranchSubtitle".GetLocalizedResource(), branchName),
+				PrimaryButtonText = "OK".GetLocalizedResource(),
+				CloseButtonText = "Cancel".GetLocalizedResource(),
+				AdditionalData = true,
+				CloseButtonAction = (vm, e) =>
+				{
+					dialog.ViewModel.AdditionalData = false;
+					vm.HideDialog();
+				}
+			});
+
+			return dialog;
+		}
 	}
 }
