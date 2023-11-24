@@ -77,6 +77,7 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(PropertiesWindowCount));
 			return result;
 		}
+
 		public int DecrementPropertiesWindowCount()
 		{
 			var result = Interlocked.Decrement(ref propertiesWindowCount);
