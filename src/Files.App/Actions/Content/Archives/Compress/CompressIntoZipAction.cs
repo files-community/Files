@@ -17,6 +17,9 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
+			if (context.ShellPage is null)
+				return Task.CompletedTask;
+
 			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(context.ShellPage);
 
 			ICompressArchiveModel creator = new CompressArchiveModel(

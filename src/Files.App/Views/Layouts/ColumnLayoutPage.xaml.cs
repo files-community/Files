@@ -17,29 +17,35 @@ using Windows.UI.Core;
 using static Files.App.Constants;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the base page of Column View
 	/// </summary>
-	public sealed partial class ColumnViewBase : StandardViewBase
+	public sealed partial class ColumnLayoutPage : BaseGroupableLayoutPage
 	{
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
-
-		protected override ListViewBase ListViewBase => FileList;
-
-		protected override SemanticZoom RootZoom => RootGridZoom;
+		// Fields
 
 		private readonly DispatcherQueueTimer doubleClickTimer;
 
-		private ColumnViewBrowser? columnsOwner;
+		private ColumnsLayoutPage? columnsOwner;
 
 		private ListViewItem? openedFolderPresenter;
 
-		// Indicates if the selection rectangle is currently being dragged
 		private bool isDraggingSelectionRectangle = false;
 
-		public ColumnViewBase() : base()
+		public event EventHandler? ItemInvoked;
+		public event EventHandler? ItemTapped;
+
+		// Properties
+
+		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		protected override ListViewBase ListViewBase => FileList;
+		protected override SemanticZoom RootZoom => RootGridZoom;
+
+		// Constructor
+
+		public ColumnLayoutPage() : base()
 		{
 			InitializeComponent();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
@@ -50,6 +56,8 @@ namespace Files.App.Views.LayoutModes
 
 			doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
+
+		// Methods
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
 		{
@@ -111,15 +119,11 @@ namespace Files.App.Views.LayoutModes
 			FileList?.SelectedItems.Remove(e);
 		}
 
-		public event EventHandler? ItemInvoked;
-
-		public event EventHandler? ItemTapped;
-
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 			{
-				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnsLayoutPage>();
 				var index = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column;
 				navArgs.FocusOnNavigation = index == columnsOwner?.FocusIndex;
 
@@ -254,7 +258,7 @@ namespace Files.App.Views.LayoutModes
 		private void CloseFolder()
 		{
 			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-			this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
+			this.FindAscendant<ColumnsLayoutPage>()?.DismissOtherBlades(currentBladeIndex);
 			ClearOpenedFolderSelectionIndicator();
 		}
 
@@ -330,7 +334,7 @@ namespace Files.App.Views.LayoutModes
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex);
+				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToPreviousBlade(currentBladeIndex);
 				FileList.SelectedItem = null;
 				ClearOpenedFolderSelectionIndicator();
 				e.Handled = true;
@@ -341,7 +345,7 @@ namespace Files.App.Views.LayoutModes
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
+				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
 				e.Handled = true;
 			}
 		}

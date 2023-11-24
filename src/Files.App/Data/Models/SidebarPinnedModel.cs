@@ -100,7 +100,7 @@ namespace Files.App.Data.Models
 			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
 				locationItem.IsInvalid = false;
-				if (res)
+				if (res && res.Result is not null)
 				{
 					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 16u, ThumbnailMode.ListView, ThumbnailOptions.UseCurrentScale);
 					locationItem.IconData = iconData;

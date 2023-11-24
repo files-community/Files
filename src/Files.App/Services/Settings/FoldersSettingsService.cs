@@ -197,7 +197,7 @@ namespace Files.App.Services.Settings
 
 		public bool ShowGitStatusColumn
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 

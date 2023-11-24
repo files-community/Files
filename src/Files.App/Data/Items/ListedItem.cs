@@ -374,6 +374,7 @@ namespace Files.App.Utils
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
+		public virtual bool IsPythonFile => FileExtensionHelpers.IsPythonFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevated => CheckElevationRights();
@@ -404,7 +405,7 @@ namespace Files.App.Utils
 		private bool CheckElevationRights()
 		{
 			// Avoid downloading file to check elevation
-			if (SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
+			if (SyncStatusUI.LoadSyncStatus)
 				return false;
 
 			return IsShortcut

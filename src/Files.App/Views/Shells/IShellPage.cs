@@ -13,7 +13,7 @@ namespace Files.App.Views.Shells
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }
 
-		IBaseLayout SlimContentPage { get; }
+		IBaseLayoutPage SlimContentPage { get; }
 
 		Type CurrentPageType { get; }
 

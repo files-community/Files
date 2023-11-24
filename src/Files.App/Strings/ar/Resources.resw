@@ -1054,16 +1054,16 @@
     <value>تشغيل لوحة المعاينة</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>تبديل لوحة التفاصيل</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>تبديل لوحة التفاصيل لعرض الخصائص الأساسية للملف</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>تبديل لوحة المعلومات</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail\preview panes</value>
+    <value>تبديل لوحة المعلومات لعرض لوحة التفاصيل/المعاينة</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>المعاينة غير متوفرة</value>
@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>حدث خطأ أثناء الحساب</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Failed to calculate the hash, please close the file and try again.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes aren't available for online files</value>
   </data>
@@ -3607,5 +3610,8 @@
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>فشل في تعيين الخلفية</value>
   </data>
 </root>

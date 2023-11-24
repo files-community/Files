@@ -80,6 +80,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
+			if (context.ShellPage is null)
+				return Task.CompletedTask;
+
 			return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage, true);
 		}
 

@@ -19,6 +19,7 @@ namespace Files.App.Services
 		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
 		{
 			var list = DriveInfo.GetDrives();
+			var googleDrivePath = App.AppModel.GoogleDrivePath;
 
 			foreach (var drive in list)
 			{
@@ -40,6 +41,10 @@ namespace Files.App.Services
 				var type = DriveHelpers.GetDriveType(drive);
 				var label = DriveHelpers.GetExtendedDriveLabel(drive);
 				var driveItem = await LocatableDriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
+
+				// Don't add here because Google Drive is already displayed under cloud drives
+				if (drive.Name == googleDrivePath)
+					continue;
 
 				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 

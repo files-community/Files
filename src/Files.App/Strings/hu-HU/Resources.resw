@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Hiba történt a számolás során</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Failed to calculate the hash, please close the file and try again.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes aren't available for online files</value>
   </data>
@@ -3606,6 +3609,9 @@
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Nem sikerült visszaállítani az elemeket a lomtárból</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Nem sikerült beállítani a háttérképet</value>
   </data>
 </root>

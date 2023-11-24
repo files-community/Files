@@ -50,7 +50,7 @@ namespace Files.App.ViewModels.Previews
 				!string.IsNullOrEmpty(repoPath))
 			{
 				var gitDirectory = GitHelpers.GetGitRepositoryPath(Folder.Path, Path.GetPathRoot(Folder.Path));
-				var headName = GitHelpers.GetRepositoryHeadName(gitDirectory);
+				var headName = (await GitHelpers.GetRepositoryHead(gitDirectory))?.Name ?? string.Empty;
 				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
 				if(!string.IsNullOrEmpty(gitDirectory))

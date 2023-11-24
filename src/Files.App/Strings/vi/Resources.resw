@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Một lỗi đã xảy ra trong quá trình tính toán</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Không thể tính toán hash, vui lòng đóng tệp và thử lại.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hash không khả dụng cho các tệp trực tuyến</value>
   </data>
@@ -3607,5 +3610,8 @@
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Không thể khôi phục khoản mục từ thùng rác</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Không thể đặt làm hình nền</value>
   </data>
 </root>
