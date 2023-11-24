@@ -178,10 +178,10 @@
     <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>தேடு</value>
+    <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>நீங்கள் முன்பு அணுகிய கோப்புகள் மற்றும் கோப்புறைகள் இங்கு காட்டப்படும்</value>
+    <value>நீங்கள் முன்பு அணுகிய கோப்புகளும் கோப்புறைகளும் இங்குக் காட்டப்படும்</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>இந்த உருப்படியை அகற்று</value>
@@ -220,7 +220,7 @@
     <value>மேம்பட்ட</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>நீங்கள் விட்ட இடத்திலிருந்து தொடரவும்</value>
+    <value>நீங்கள் விட்ட இடத்திலிருந்தே தொடரவும்</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>புதிய தாவலைத் திற</value>
@@ -280,7 +280,7 @@
     <value>Grant permission</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>தொடங்க, நீங்கள் உங்கள் கோப்புகளைக் காண்பிக்க அனுமதியை வழங்கவும். இது ஒரு அமைப்புகள் பக்கத்தை திறக்கும், அங்கு நீங்கள் இந்த அனுமதியை எங்களுக்கு வழங்கலாம். நிறைவடைந்தவுடன் பயன்பாட்டை நீங்கள் மீண்டும் திறக்க வேண்டும்.</value>
+    <value>தொடங்க, நீங்கள் உங்கள் கோப்புகளைக் காண்பிக்க அனுமதி வழங்கவும். இது ஓர் அமைப்புகள் பக்கத்தைத் திறக்கும்; அங்கு நீங்கள் இந்த அனுமதியை எங்களுக்கு வழங்கலாம். நிறைவடைந்தவுடன் செயலியை நீங்கள் மீண்டும் திறக்க வேண்டும். </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>காட்சி</value>
@@ -298,7 +298,7 @@
     <value>இருள்</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>பயன்பாடு</value>
+    <value>செயலி</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
     <value>முறைமை</value>
@@ -310,7 +310,7 @@
     <value>New file</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>இந்தக் கோப்புறை வெறுமையாக உள்ளது</value>
+    <value>இந்தக் கோப்புறை வெறுமையாக உள்ளது.</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>பின் (Alt + இடது அம்பு)</value>
@@ -325,7 +325,7 @@
     <value>புதுப்பி</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>இந்தக் கோப்புறையில் இப்பெயருடன் ஏற்கனவே ஒரு உருப்படி உள்ளது.</value>
+    <value>இந்தக் கோப்புறையில் இப்பெயருடன் ஏற்கனவே ஓர் உருப்படி உள்ளது.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>ஏற்கனவே உள்ள உருப்படியை மாற்று</value>
@@ -355,7 +355,7 @@
     <value>நீங்கள் அணுக முயற்சிக்கும் கோப்புறை நகர்த்தப்பட்டு அல்லது நீக்கப்பட்டு இருக்கலாம்.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>நீங்கள் இந்தக் கோப்புறையை நீக்கீவிட்டீர்களா?</value>
+    <value>நீங்கள் இந்தக் கோப்புறையை நீக்குனீர்களா?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
     <value>The file you are attempting to access is currently being used by {0}</value>
@@ -379,7 +379,7 @@
     <value>{0} நாள் முன்பு</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>Pin OneDrive to the sidebar</value>
+    <value>{0} மணிநேரங்களுக்கு முன்பு</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
     <value>{0} மணிநேரம் முன்பு</value>
@@ -409,16 +409,16 @@
     <value>இற்கு அனுப்பு</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>பின்வரும் எழுத்துகுறிகளை உருப்படி பெயரில் பயன்படுத்தக் கூடாது: \ / : * ? " &lt; &gt; |</value>
+    <value>பின்வரும் எழுத்துகுறிகள் உருப்படிப் பெயரில் இருக்கக் கூடாது: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>கொடுக்கப்பட்ட பெயர் செல்லதது</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>உருப்படி தேர்ந்தெடுக்கப்பட்டது</value>
+    <value>உருப்படி தேர்ந்தெடுக்கப்பட்டுள்ளது</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>%@ உருப்படிகள் தேர்ந்தெடுக்கப்பட்டுள்ளன</value>
+    <value>உருப்படிகள் தேர்ந்தெடுக்கப்பட்டுள்ளன</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>உருப்படி</value>
@@ -427,7 +427,7 @@
     <value>உருப்படிகள்</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>சரி</value>
+    <value>ஆம்</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>இந்த உருப்படிகள் அனைத்தையும் நிரந்தரமாக நீக்க விரும்புகிறீர்களா?</value>
@@ -469,16 +469,16 @@
     <value>{0} இன் எல்லா வகை</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>பல வகைகள்</value>
+    <value>வெவ்வேறு வகைகள்</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>எல்லாம் {0} இல்</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>பயன்படுத்திய இடம்:</value>
+    <value>பயன்படுத்தப்பட்ட இடம்:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>வெறுமை இடம்:</value>
+    <value>வெற்றிடம்:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
     <value>கொள்ளளவு:</value>
@@ -559,7 +559,7 @@
     <value>பதிப்பு:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>இப்போது பகிர ஒன்றுமில்லை...</value>
+    <value>இப்போது பகிர எதுவுமில்லை...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>நீங்கள் தேர்ந்தெடுத்துள்ள உருப்படிகள் பகிரப்படும்</value>
@@ -910,7 +910,7 @@
     <value>இசை</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
-    <value>வீடியோ</value>
+    <value>காணொளி</value>
   </data>
   <data name="Document" xml:space="preserve">
     <value>ஆவணம்</value>
@@ -934,7 +934,7 @@
     <value>இயக்ககங்கள்</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>இங்கே நகர்த்து</value>
+    <value>இங்கு நகர்த்து</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Safe to remove hardware</value>
@@ -1105,7 +1105,7 @@
     <value>Partially available offline</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>ஒத்திசைக்கிறது…</value>
+    <value>ஒத்திசைக்கின்றது</value>
   </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Excluded from sync</value>
@@ -1159,10 +1159,10 @@
     <value>பிணைய இயக்ககத்தை இணை</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>பிடித்தவை</value>
+    <value>Favorites</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>நூலகங்கள்</value>
+    <value>கோப்பகங்கள்</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>No item selected</value>
@@ -1216,7 +1216,7 @@
     <value>Using this name is not allowed!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
-    <value>அதேப் பெயருடன் கோப்பகம் ஏற்கனவே உள்ளது!</value>
+    <value>அதே பெயருடன் கோப்பகம் ஏற்கனவே உள்ளது!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Open Storage Sense</value>
@@ -1405,7 +1405,7 @@
     <value>Canceling</value>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>அழி</value>
+    <value>Clear</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
@@ -1480,7 +1480,7 @@
     <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Restore Libraries</value>
+    <value>கோப்பகங்களை மீட்டெடு</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>உரிமையாளர்</value>
@@ -1654,7 +1654,7 @@
     <value>புதுப்பி</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>முகப்பு</value>
+    <value>Home</value>
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl + N</value>
@@ -1966,7 +1966,7 @@
     <value>வலபுறம் சுழற்று</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>இது புரிந்தது!</value>
+    <value>நிறுவு</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
     <value>Close tabs to the left</value>
@@ -1981,7 +1981,7 @@
     <value>இசை</value>
   </data>
   <data name="Pictures" xml:space="preserve">
-    <value>படங்கள்</value>
+    <value>புகைப்படங்கள்</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Files-ஐப் புதுப்பி</value>
@@ -2074,7 +2074,7 @@
     <value>Open folders with a single click in the Columns Layout</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>உருப்படிகளைத் திறக்கிறது</value>
+    <value>உருப்படிகளைத் திறக்கின்றது</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Compress</value>
@@ -2128,7 +2128,7 @@
     <value>{0}-ஐ உருவாக்கு</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>ஒரு பெயரை உள்ளிடு</value>
+    <value>ஒரு பெயரை உள்ளிடுங்கள்</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
     <value>Compression level</value>
@@ -2149,7 +2149,7 @@
     <value>Fast</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>ஏதுமில்லை</value>
+    <value>எதுவுமில்லை</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
     <value>Splitting size</value>
@@ -2260,7 +2260,7 @@
     <value>பிணையக் கோப்புறைப் பிழை</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>பயன்பாட்டுப் பதிப்பு</value>
+    <value>செயலிப் பதிப்பு</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
     <value>Windows பதிப்பு</value>
@@ -2272,7 +2272,7 @@
     <value>Permanent deletion only</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>ஒருபோதுமில்லை</value>
+    <value>ஒருபோது</value>
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
@@ -2284,13 +2284,13 @@
     <value>Create new tag</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>ஏற்றுகிறது...</value>
+    <value>ஏற்றுகின்றது...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Context menu options</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>கோப்பு நீட்டிப்புகளைக் காண்பி</value>
+    <value>கோப்பு நீட்டிப்புகளைக் காட்டு</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>மறைக்கப்பட்ட உருப்படிகளைக் காட்டு</value>
@@ -2299,7 +2299,7 @@
     <value>வடிவமை...</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>உதவி</value>
+    <value>Help</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
     <value>Toggle full screen</value>
@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>An error occurred during the calculation</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Failed to calculate the hash, please close the file and try again.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes aren't available for online files</value>
   </data>
@@ -2353,13 +2356,13 @@
     <value>Select hashes to show</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>கணக்கிடுகிறது...</value>
+    <value>கணக்கிடுகின்றது...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>பொருத்தப்பட்ட உருப்படிகள்</value>
+    <value>பொருத்தப்பட்டுள்ள உருப்படிகள்</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>அளவை குறை</value>
+    <value>அளவைக் குறை</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
     <value>அளவை அதிகரி</value>
@@ -2374,7 +2377,7 @@
     <value>Name must not be empty or start or end with a period.</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>வீடியோக்கள்</value>
+    <value>காணொளிகள்</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
     <value>Launch preview popup</value>
@@ -2440,7 +2443,7 @@
     <value>Create new shortcut to any item</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>மறுசுழற்சிக் கூடையைக் காலியாக்கு</value>
+    <value>மறுசுழற்சிக் கூடையைக் வெறுமையாக்கு</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Open "Format Drive" menu for selected item</value>
@@ -2512,10 +2515,10 @@
     <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>தேர்ந்தெடுத்துள்ளச் செயலியை நிர்வாகியாக இயக்கவும்</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>தேர்ந்தெடுத்துள்ளச் செயலியை வேறுரு பயனராக இயக்கவும்</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Run selected PowerShell script</value>
@@ -2734,7 +2737,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Win</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
@@ -2778,11 +2781,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>மேல் (Alt + மேல் அம்பு)</value>
+    <value>மேல்</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
-    <value>முகப்பு</value>
+    <value>Home</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
@@ -2810,7 +2813,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Clear" xml:space="preserve">
-    <value>அழி</value>
+    <value>Clear</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Print" xml:space="preserve">
@@ -2818,7 +2821,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
-    <value>உதவி</value>
+    <value>Help</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
@@ -2842,7 +2845,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mail" xml:space="preserve">
-    <value>அஞ்சல்</value>
+    <value>Mail</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
@@ -2866,11 +2869,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>தேடு</value>
+    <value>Search</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
-    <value>பிடித்தவை</value>
+    <value>Favorites</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
@@ -3065,7 +3068,7 @@
     <value>Switch</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>புதியக் கிளை</value>
+    <value>புதிய கிளை</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
     <value>Invalid branch name</value>
@@ -3107,10 +3110,10 @@
     <value>இழு</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>git fetch-ஐ இயக்கு</value>
+    <value>'git fetch'-ஐ இயக்கு</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>git pull-ஐ இயக்கு</value>
+    <value>'git pull'-ஐ இயக்கு</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
@@ -3165,25 +3168,25 @@
     <value>தள்ளு</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>git push-ஐ இயக்கு</value>
+    <value>'git push'-ஐ இயக்கு</value>
   </data>
   <data name="GitSync" xml:space="preserve">
     <value>ஒத்திசை</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>git pull-ஐ இயக்கி பிறகு git push-ஐ இயக்கு</value>
+    <value>'git pull'-ஐ இயக்கியப் பிறகு 'git push'-ஐ இயக்கு</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
     <value>{0} outgoing / {1} incoming commits</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>GitHub உடன் இணை</value>
+    <value>GitHub-உடன் இணை</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
     <value>Enter the following code at the link below to start working with GitHub repositories.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files ஆல் தற்போது GitHub-ஐ அணுக முடியவில்லை.</value>
+    <value>Files-ஆல் தற்போது GitHub-ஐ அணுக முடியவில்லை.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>Open folder in VS Code</value>
@@ -3607,5 +3610,8 @@
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
   </data>
 </root>

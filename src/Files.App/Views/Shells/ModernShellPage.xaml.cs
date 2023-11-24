@@ -158,8 +158,8 @@ namespace Files.App.Views.Shells
 			}
 
 			ToolbarViewModel.UpdateAdditionalActions();
-			if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutBrowser))
-				|| ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
+			if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutPage))
+				|| ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
 				ContentPage.ResetItemOpacity();
@@ -183,8 +183,8 @@ namespace Files.App.Views.Shells
 		{
 			args.Handled = true;
 			var tabInstance =
-				CurrentPageType == typeof(DetailsLayoutBrowser) ||
-				CurrentPageType == typeof(GridViewBrowser);
+				CurrentPageType == typeof(DetailsLayoutPage) ||
+				CurrentPageType == typeof(GridLayoutPage);
 
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
@@ -334,7 +334,7 @@ namespace Files.App.Views.Shells
 
 				if (sourcePageType == typeof(HomePage) ||
 					ItemDisplayFrame.Content.GetType() == typeof(HomePage) &&
-					(sourcePageType == typeof(DetailsLayoutBrowser) || sourcePageType == typeof(GridViewBrowser)))
+					(sourcePageType == typeof(DetailsLayoutPage) || sourcePageType == typeof(GridLayoutPage)))
 				{
 					transition = new SuppressNavigationTransitionInfo();
 				}

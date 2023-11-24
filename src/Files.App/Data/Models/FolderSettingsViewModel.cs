@@ -96,11 +96,11 @@ namespace Files.App.Data.Models
 
 			return (prefsForPath.LayoutMode) switch
 			{
-				FolderLayoutModes.DetailsView => typeof(DetailsLayoutBrowser),
-				FolderLayoutModes.TilesView => typeof(GridViewBrowser),
-				FolderLayoutModes.GridView => typeof(GridViewBrowser),
-				FolderLayoutModes.ColumnView => typeof(ColumnViewBrowser),
-				_ => typeof(DetailsLayoutBrowser)
+				FolderLayoutModes.DetailsView => typeof(DetailsLayoutPage),
+				FolderLayoutModes.TilesView => typeof(GridLayoutPage),
+				FolderLayoutModes.GridView => typeof(GridLayoutPage),
+				FolderLayoutModes.ColumnView => typeof(ColumnsLayoutPage),
+				_ => typeof(DetailsLayoutPage)
 			};
 		}
 
@@ -326,7 +326,9 @@ namespace Files.App.Data.Models
 			if (!userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
 				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
-				WriteLayoutPreferencesToDb(folderPath.TrimPath(), folderFRN, prefs);
+				var trimmedFolderPath = folderPath.TrimPath();
+				if (trimmedFolderPath is not null)
+					WriteLayoutPreferencesToDb(trimmedFolderPath, folderFRN, prefs);
 			}
 			else
 			{
@@ -334,7 +336,7 @@ namespace Files.App.Data.Models
 				userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
 
 				// Do not save options which only work in recycle bin or cloud folders or search results as global
-				if (prefs.DirectorySortOption != SortOption.Path && 
+				if (prefs.DirectorySortOption != SortOption.Path &&
 					prefs.DirectorySortOption != SortOption.OriginalFolder &&
 					prefs.DirectorySortOption != SortOption.DateDeleted &&
 					prefs.DirectorySortOption != SortOption.SyncStatus)
@@ -460,7 +462,8 @@ namespace Files.App.Data.Models
 
 			if (folderPath == Constants.UserEnvironmentPaths.DownloadsPath)
 				// Default for downloads folder is to group by date created
-				return new LayoutPreferences() {
+				return new LayoutPreferences()
+				{
 					DirectoryGroupOption = GroupOption.DateCreated,
 					DirectoryGroupDirection = SortDirection.Descending,
 					DirectoryGroupByDateUnit = GroupByDateUnit.Year

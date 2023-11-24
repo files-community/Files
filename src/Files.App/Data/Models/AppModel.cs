@@ -71,5 +71,15 @@ namespace Files.App.Data.Models
 			get => forceProcessTermination;
 			set => SetProperty(ref forceProcessTermination, value);
 		}
+
+		private string googleDrivePath = string.Empty;
+		/// <summary>
+		/// Gets or sets a value indicating the path for Google Drive.
+		/// </summary>
+		public string GoogleDrivePath
+		{
+			get => googleDrivePath;
+			set => SetProperty(ref googleDrivePath, value);
+		}
 	}
 }
