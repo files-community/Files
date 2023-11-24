@@ -329,7 +329,8 @@ namespace Files.App.Views
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			PreviewPane?.ViewModel.UpdateDateDisplay();
+			if (!App.AppModel.IsMainWindowClosed)
+				PreviewPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
