@@ -65,6 +65,26 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isMainWindowClosed, value);
 		}
 
+		private int propertiesWindowCount = 0;
+		public int PropertiesWindowCount
+		{
+			get => propertiesWindowCount;
+		}
+
+		public int IncrementPropertiesWindowCount()
+		{
+			var result = Interlocked.Increment(ref propertiesWindowCount);
+			OnPropertyChanged(nameof(PropertiesWindowCount));
+			return result;
+		}
+
+		public int DecrementPropertiesWindowCount()
+		{
+			var result = Interlocked.Decrement(ref propertiesWindowCount);
+			OnPropertyChanged(nameof(PropertiesWindowCount));
+			return result;
+		}
+
 		private bool forceProcessTermination = false;
 		public bool ForceProcessTermination
 		{
