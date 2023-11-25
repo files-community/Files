@@ -14,7 +14,6 @@
 	Title="{x:Bind ViewModel.Title, Mode=OneWay}"
 	Closing="RootDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
-	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
 	Opened="FilesystemOperationDialog_Opened"
