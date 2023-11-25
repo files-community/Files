@@ -7,8 +7,6 @@ namespace Files.App.Actions
 	{
 		private readonly IMultitaskingContext context;
 
-		private readonly MainPageViewModel mainPageViewModel;
-
 		public string Label
 			=> "DuplicateTab".GetLocalizedResource();
 
@@ -21,16 +19,20 @@ namespace Files.App.Actions
 		public DuplicateSelectedTabAction()
 		{
 			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
-			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		}
 
 		public async Task ExecuteAsync()
 		{
 			var arguments = context.SelectedTabItem.NavigationParameter;
+
 			if (arguments is null)
-				await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+			{
+				await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+			}
 			else
-				await mainPageViewModel.AddNewTabByParamAsync(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
+			{
+				await NavigationHelpers.AddNewTabByParamAsync(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
+			}
 		}
 	}
 }
