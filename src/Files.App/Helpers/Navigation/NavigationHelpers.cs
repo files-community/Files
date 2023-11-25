@@ -316,42 +316,15 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task OpenItemsWithExecutableAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
+		public static async Task OpenItemsWithExecutableAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executablePath)
 		{
 			// Don't open files and folders inside recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
 				associatedInstance.SlimContentPage is null)
-			{
 				return;
-			}
 
-			foreach (var item in items)
-			{
-				try
-				{
-					await OpenPath(executable, associatedInstance, FilesystemItemType.File, false, false, args: $"\"{item.Path}\"");
-				}
-				catch (Exception e)
-				{
-					// This is to try and figure out the root cause of AppCenter error #985932119u
-					App.Logger.LogWarning(e, e.Message);
-				}
-			}
-		}
-
-		public static async Task OpenItemsWithPythonAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string pythonScriptPath)
-		{
-			// Don't open files and folders inside recycle bin
-			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
-								associatedInstance.SlimContentPage is null)
-			{
-				return;
-			}
-
-			foreach (var item in items)
-			{
-				await Win32Helpers.InvokeWin32ComponentAsync(pythonScriptPath, associatedInstance, arguments: $"\"{item.Path}\"");
-			}
+			var arguments = string.Join(" ", items.Select(item => $"\"{item.Path}\""));
+			await Win32Helpers.InvokeWin32ComponentAsync(executablePath, associatedInstance, arguments);
 		}
 
 		/// <summary>
