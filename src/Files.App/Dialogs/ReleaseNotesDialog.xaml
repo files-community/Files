@@ -10,7 +10,7 @@
 	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="None"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind AppThemeModeService.ThemeMode}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 	<ContentDialog.Resources>

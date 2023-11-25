@@ -12,7 +12,7 @@
 	IsPrimaryButtonEnabled="True"
 	PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand}"
 	PrimaryButtonText="{helpers:ResourceString Name=Save}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind AppThemeModeService.ThemeMode}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">

@@ -8,6 +8,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class AddBranchDialog : ContentDialog, IDialog<AddBranchDialogViewModel>
 	{
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public AddBranchDialogViewModel ViewModel
 		{
 			get => (AddBranchDialogViewModel)DataContext;

@@ -7,6 +7,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class FileTooLargeDialog : ContentDialog, IDialog<FileTooLargeDialogViewModel>
 	{
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public FileTooLargeDialogViewModel ViewModel
 		{
 			get => (FileTooLargeDialogViewModel)DataContext;

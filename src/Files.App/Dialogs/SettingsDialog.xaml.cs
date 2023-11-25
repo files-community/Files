@@ -12,6 +12,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class SettingsDialog : ContentDialog, IDialog<SettingsDialogViewModel>
 	{
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public SettingsDialogViewModel ViewModel { get; set; }
 
 		private FrameworkElement RootAppElement

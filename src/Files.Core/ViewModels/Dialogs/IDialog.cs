@@ -8,6 +8,8 @@ namespace Files.Core.ViewModels.Dialogs
 	public interface IDialog<TViewModel>
 		where TViewModel : class, INotifyPropertyChanged
 	{
+		IAppThemeModeService AppThemeModeService { get; }
+
 		TViewModel ViewModel { get; set; }
 
 		Task<DialogResult> ShowAsync();

@@ -17,7 +17,7 @@
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsNameValid, Mode=OneWay}"
 	Loaded="ContentDialog_Loaded"
 	PrimaryButtonText="{helpers:ResourceString Name=Create}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind AppThemeModeService.ThemeMode}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 

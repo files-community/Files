@@ -8,6 +8,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class CredentialDialog : ContentDialog, IDialog<CredentialDialogViewModel>
 	{
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public CredentialDialogViewModel ViewModel
 		{
 			get => (CredentialDialogViewModel)DataContext;

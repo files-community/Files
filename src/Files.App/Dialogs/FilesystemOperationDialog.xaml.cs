@@ -10,6 +10,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FileSystemDialogViewModel>
 	{
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public FileSystemDialogViewModel ViewModel
 		{
 			get => (FileSystemDialogViewModel)DataContext;

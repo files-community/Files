@@ -10,6 +10,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class CreateShortcutDialog : ContentDialog, IDialog<CreateShortcutDialogViewModel>
 	{
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public CreateShortcutDialogViewModel ViewModel
 		{
 			get => (CreateShortcutDialogViewModel)DataContext;

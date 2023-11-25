@@ -17,6 +17,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ReorderSidebarItemsDialog : ContentDialog, IDialog<ReorderSidebarItemsDialogViewModel>
 	{
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public ReorderSidebarItemsDialogViewModel ViewModel
 		{
 			get => (ReorderSidebarItemsDialogViewModel)DataContext;

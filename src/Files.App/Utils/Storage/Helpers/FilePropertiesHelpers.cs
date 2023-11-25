@@ -90,13 +90,14 @@ namespace Files.App.Utils.Storage
 		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance)
 		{
 			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+			var appThemeModeService = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
 			if (item is null)
 				return;
 
 			var frame = new Frame
 			{
-				RequestedTheme = ThemeHelper.RootTheme
+				RequestedTheme = (ElementTheme)appThemeModeService.ThemeMode
 			};
 
 			WinUIEx.WindowEx propertiesWindow;

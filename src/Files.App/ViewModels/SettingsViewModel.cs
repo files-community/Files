@@ -4,7 +4,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Windows.Storage;
 
 namespace Files.App.ViewModels
@@ -14,18 +13,13 @@ namespace Files.App.ViewModels
 	{
 		private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
+		private delegate bool TryParseDelegate<T>(string inValue, out T parsedValue);
+
 		public SettingsViewModel()
 		{
-			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
 		}
 
-		public event EventHandler ThemeModeChanged;
-
-		public ICommand UpdateThemeElements { get; }
-
-		#region ReadAndSaveSettings
-
-		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
+		public bool Set<T>(T value, [CallerMemberName] string propertyName = null)
 		{
 			propertyName = 
 				propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase) ?
@@ -52,7 +46,7 @@ namespace Files.App.ViewModels
 			return true;
 		}
 
-		public TValue Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
+		public T Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] T>(T defaultValue, [CallerMemberName] string propertyName = null)
 		{
 			var name = propertyName ?? throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
 
@@ -65,16 +59,16 @@ namespace Files.App.ViewModels
 			{
 				var value = localSettings.Values[name];
 
-				if (value is not TValue tValue)
+				if (value is not T tValue)
 				{
 					if (value is IConvertible)
 					{
-						tValue = (TValue)Convert.ChangeType(value, typeof(TValue));
+						tValue = (T)Convert.ChangeType(value, typeof(T));
 					}
 					else
 					{
 						var valueType = value.GetType();
-						var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
+						var tryParse = typeof(T).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
 
 						if (tryParse is null)
 						{
@@ -85,7 +79,7 @@ namespace Files.App.ViewModels
 						tValue = default;
 
 						var tryParseDelegate =
-							(TryParseDelegate<TValue>)Delegate.CreateDelegate(valueType, tryParse, false);
+							(TryParseDelegate<T>)Delegate.CreateDelegate(valueType, tryParse, false);
 
 						tValue = (tryParseDelegate?.Invoke(stringValue, out tValue) ?? false) ? tValue : default;
 					}
@@ -102,9 +96,5 @@ namespace Files.App.ViewModels
 
 			return defaultValue;
 		}
-
-		private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
-
-		#endregion ReadAndSaveSettings
 	}
 }

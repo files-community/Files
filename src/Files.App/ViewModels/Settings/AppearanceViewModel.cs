@@ -2,27 +2,23 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using Files.Core.Services;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.Settings
 {
 	public class AppearanceViewModel : ObservableObject
 	{
-		private readonly IUserSettingsService UserSettingsService;
-		private readonly IResourcesService ResourcesService;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 
 		public List<string> Themes { get; private set; }
 		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = new();
 
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
-		public AppearanceViewModel(IUserSettingsService userSettingsService, IResourcesService resourcesService)
+		public AppearanceViewModel()
 		{
-			UserSettingsService = userSettingsService;
-			ResourcesService = resourcesService;
-
 			Themes = new List<string>()
 			{
 				"Default".GetLocalizedResource(),
@@ -87,15 +83,15 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
+		private int selectedThemeIndex;
 		public int SelectedThemeIndex
 		{
-			get => selectedThemeIndex;
+			get => (int)Enum.Parse(typeof(AppThemeMode), AppThemeModeService.ThemeMode.ToString());
 			set
 			{
 				if (SetProperty(ref selectedThemeIndex, value))
 				{
-					ThemeHelper.RootTheme = (ElementTheme)value;
+					AppThemeModeService.ThemeMode = ((AppThemeMode)value);
 					OnPropertyChanged(nameof(SelectedElementTheme));
 				}
 			}

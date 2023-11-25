@@ -13,7 +13,7 @@
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="None"
 	PrimaryButtonText="{helpers:ResourceString Name=Yes}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind AppThemeModeService.ThemeMode}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 

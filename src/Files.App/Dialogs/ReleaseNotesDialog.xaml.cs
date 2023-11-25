@@ -8,6 +8,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ReleaseNotesDialog : ContentDialog, IDialog<ReleaseNotesDialogViewModel>
 	{
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public ReleaseNotesDialogViewModel ViewModel
 		{
 			get => (ReleaseNotesDialogViewModel)DataContext;

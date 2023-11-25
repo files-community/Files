@@ -15,11 +15,11 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class MainPropertiesPage : BasePropertiesPage
 	{
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		private AppWindow AppWindow;
 
 		private Window Window;
-
-		private SettingsViewModel AppSettings { get; set; }
 
 		private MainPropertiesViewModel MainPropertiesViewModel { get; set; }
 
@@ -45,8 +45,7 @@ namespace Files.App.Views.Properties
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
-			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+			AppThemeModeService.ThemeModeChanged += AppSettings_ThemeModeChanged;
 			Window.Closed += Window_Closed;
 
 			UpdatePageLayout();
@@ -86,9 +85,9 @@ namespace Files.App.Views.Properties
 
 			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
+				((Frame)Parent).RequestedTheme = (ElementTheme)AppThemeModeService.ThemeMode;
 
-				switch (ThemeHelper.RootTheme)
+				switch ((ElementTheme)AppThemeModeService.ThemeMode)
 				{
 					case ElementTheme.Default:
 						AppWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
@@ -108,7 +107,7 @@ namespace Files.App.Views.Properties
 
 		private void Window_Closed(object sender, WindowEventArgs args)
 		{
-			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+			AppThemeModeService.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			Window.Closed -= Window_Closed;
 
 			if (MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource is not null &&

@@ -10,6 +10,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ElevateConfirmDialog : ContentDialog, IDialog<ElevateConfirmDialogViewModel>
 	{
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		public ElevateConfirmDialogViewModel ViewModel
 		{
 			get => (ElevateConfirmDialogViewModel)DataContext;
