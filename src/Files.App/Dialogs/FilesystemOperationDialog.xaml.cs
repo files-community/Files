@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Dialogs
 {
@@ -18,13 +17,14 @@ namespace Files.App.Dialogs
 			set
 			{
 				if (value is not null)
-				{
 					value.PrimaryButtonEnabled = true;
-				}
 
 				DataContext = value;
 			}
 		}
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		public FilesystemOperationDialog()
 		{

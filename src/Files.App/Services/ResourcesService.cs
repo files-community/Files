@@ -9,6 +9,8 @@ namespace Files.App.Services
 	/// <inheritdoc cref="IResourcesService"/>
 	public class ResourcesService : IResourcesService
 	{
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		/// <inheritdoc/>
 		public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)
 		{
@@ -55,7 +57,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void ApplyResources()
 		{
-			ThemeHelper.ApplyResources();
+			AppThemeModeService.RefreshThemeMode();
 		}
 	}
 }

@@ -9,10 +9,12 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="None"
-	RequestedTheme="{x:Bind AppThemeModeService.ThemeMode}"
+	RequestedTheme="{x:Bind ThemeMode, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
+
 	<ContentDialog.Resources>
 		<ResourceDictionary>
 			<Thickness x:Key="ContentDialogPadding">0</Thickness>

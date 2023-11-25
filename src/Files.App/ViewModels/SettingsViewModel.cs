@@ -26,7 +26,7 @@ namespace Files.App.ViewModels
 				propertyName.Substring(4) :
 				propertyName;
 
-			TValue originalValue = default;
+			T originalValue = default;
 
 			if (localSettings.Values.ContainsKey(propertyName))
 			{

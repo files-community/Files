@@ -2,11 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Views.Settings;
-using Files.Core.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Dialogs
 {
@@ -15,6 +12,9 @@ namespace Files.App.Dialogs
 		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
 		public SettingsDialogViewModel ViewModel { get; set; }
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		private FrameworkElement RootAppElement
 			=> (FrameworkElement)MainWindow.Instance.Content;

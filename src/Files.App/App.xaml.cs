@@ -136,6 +136,7 @@ namespace Files.App
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
+					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()

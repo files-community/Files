@@ -2,17 +2,19 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Dialogs;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class DynamicDialog : ContentDialog, IDisposable
 	{
-		public DynamicDialogViewModel ViewModel
-		{
-			get => (DynamicDialogViewModel)DataContext;
-			private set => DataContext = value;
-		}
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
+		public DynamicDialogViewModel ViewModel { get; set; }
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		public DynamicDialogResult DynamicResult
 		{

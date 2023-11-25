@@ -10,6 +10,11 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class CreateArchiveDialog : ContentDialog
 	{
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
+
 		private bool canCreate = false;
 		public bool CanCreate => canCreate;
 

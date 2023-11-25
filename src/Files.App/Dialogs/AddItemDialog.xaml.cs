@@ -13,11 +13,10 @@ namespace Files.App.Dialogs
 		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
-		public AddItemDialogViewModel ViewModel
-		{
-			get => (AddItemDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public AddItemDialogViewModel ViewModel { get; set; }
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		public AddItemDialog()
 		{

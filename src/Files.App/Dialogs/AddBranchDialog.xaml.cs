@@ -2,19 +2,19 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Dialogs;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class AddBranchDialog : ContentDialog, IDialog<AddBranchDialogViewModel>
 	{
-		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
-		public AddBranchDialogViewModel ViewModel
-		{
-			get => (AddBranchDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public AddBranchDialogViewModel ViewModel { get; set; }
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		public AddBranchDialog()
 		{

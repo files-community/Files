@@ -13,11 +13,12 @@
 	CloseButtonText="{helpers:ResourceString Name=Cancel}"
 	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsNameValid, Mode=OneWay}"
 	Loaded="ContentDialog_Loaded"
 	PrimaryButtonText="{helpers:ResourceString Name=Create}"
-	RequestedTheme="{x:Bind AppThemeModeService.ThemeMode}"
+	RequestedTheme="{x:Bind ThemeMode, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 

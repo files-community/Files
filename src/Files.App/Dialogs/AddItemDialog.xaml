@@ -13,8 +13,9 @@
 	Grid.RowSpan="4"
 	BorderThickness="0"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loaded="AddItemDialog_Loaded"
-	RequestedTheme="{x:Bind AppThemeModeService.ThemeMode}"
+	RequestedTheme="{x:Bind ThemeMode, Mode=OneWay}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">

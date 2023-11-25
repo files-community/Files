@@ -3,6 +3,7 @@
 
 using Files.App.ViewModels.Dialogs;
 using Files.Core.ViewModels.Dialogs;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 
@@ -12,11 +13,10 @@ namespace Files.App.Dialogs
 	{
 		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
-		public CreateShortcutDialogViewModel ViewModel
-		{
-			get => (CreateShortcutDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public CreateShortcutDialogViewModel ViewModel { get; set; }
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		public CreateShortcutDialog()
 		{

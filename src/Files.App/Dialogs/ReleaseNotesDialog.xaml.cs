@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Dialogs
@@ -10,11 +11,10 @@ namespace Files.App.Dialogs
 	{
 		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
-		public ReleaseNotesDialogViewModel ViewModel
-		{
-			get => (ReleaseNotesDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public ReleaseNotesDialogViewModel ViewModel { get; set; }
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		public ReleaseNotesDialog()
 		{

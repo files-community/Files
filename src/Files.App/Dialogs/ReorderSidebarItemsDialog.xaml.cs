@@ -2,15 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
 using Files.App.ViewModels.Dialogs;
-using Files.Core.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Dialogs
@@ -19,11 +14,10 @@ namespace Files.App.Dialogs
 	{
 		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
-		public ReorderSidebarItemsDialogViewModel ViewModel
-		{
-			get => (ReorderSidebarItemsDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public ReorderSidebarItemsDialogViewModel ViewModel { get; set; }
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		public ReorderSidebarItemsDialog()
 		{

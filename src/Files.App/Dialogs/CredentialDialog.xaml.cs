@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Text;
 
@@ -10,11 +11,10 @@ namespace Files.App.Dialogs
 	{
 		public IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
-		public CredentialDialogViewModel ViewModel
-		{
-			get => (CredentialDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public CredentialDialogViewModel ViewModel { get; set; }
+
+		private ElementTheme ThemeMode
+			=> (ElementTheme)AppThemeModeService.ThemeMode;
 
 		public CredentialDialog()
 		{
