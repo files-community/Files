@@ -399,15 +399,21 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+			var isExpandedData = ApplicationData.Current.LocalSettings.Values[$"section:{section.Text.Replace('\\', '_')}"].ToString();
+
+			if (!bool.TryParse(isExpandedData, out bool isExpanded))
+				isExpanded = section.Text == "SidebarFavorites".GetLocalizedResource();
+
+			section.IsExpanded = isExpanded;
 			section.PropertyChanged += Section_PropertyChanged;
 		}
 
 		private void Section_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (sender is LocationItem section && e.PropertyName == nameof(section.IsExpanded))
+			if (sender is LocationItem section &&
+				e.PropertyName == nameof(section.IsExpanded))
 			{
-				Ioc.Default.GetRequiredService<SettingsViewModel>().Set(section.IsExpanded, $"section:{section.Text.Replace('\\', '_')}");
+				ApplicationData.Current.LocalSettings.Values[$"section:{section.Text.Replace('\\', '_')}"] = section.IsExpanded;
 			}
 		}
 
