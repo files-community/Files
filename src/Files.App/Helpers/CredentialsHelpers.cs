@@ -13,6 +13,14 @@ namespace Files.App.Helpers
 			vault.Add(credential);
 		}
 
+		public static void DeleteSavedPassword(string resourceName, string username)
+		{
+			var vault = new PasswordVault();
+			var credential = vault.Retrieve(resourceName, username);
+
+			vault.Remove(credential);
+		}
+
 		public static string GetPassword(string resourceName, string username)
 		{
 			try

@@ -1051,19 +1051,19 @@
     <value>Gewenste naam</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Voorbeeld paneel in-/uitschakelen</value>
+    <value>Voorbeeldvenster in-/uitschakelen</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Schakel het detailvenster in of uit</value>
+    <value>Detailvenster in-/uitschakelen</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>Schakel het detailvenster in om standaard bestandseigenschappen te zien</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Infovenster in-/uitschakelen</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail\preview panes</value>
+    <value>Schakel het infovenster in om het detail-/voorbeeldvenster te kunnen zien</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Er is een fout opgetreden tijdens het berekenen</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Het berekenen van de hash is mislukt, sluit het bestand en probeer opnieuw.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes zijn niet beschikbaar voor online bestanden</value>
   </data>
@@ -2407,7 +2410,7 @@
     <value>Schakel of bestandsextensies getoond worden</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle the preview pane to view file previews</value>
+    <value>Schakel het voorbeeldvenster in om bestandsvoorbeelden te zien</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Zet zijbalk aan/uit</value>

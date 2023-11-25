@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Kesalahan terjadi pada saat perhitungan</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Failed to calculate the hash, please close the file and try again.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes aren't available for online files</value>
   </data>
@@ -2701,13 +2704,13 @@
     <value>Close tabs other than selected tab</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Buka kembali halaman yang terakhir ditutup</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Pindah ke tab sebelumnya</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Pindah ke tab berikutnya</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Tutup tab saat ini</value>

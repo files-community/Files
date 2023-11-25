@@ -18,6 +18,8 @@ namespace Files.App.Data.Models
 
 		private readonly ObservableCollection<string> _remoteBranches = new();
 
+		public bool IsBranchesFlyoutExpaned { get; set; } = false;
+
 		private string? _DirectoryItemCount;
 		public string? DirectoryItemCount
 		{
@@ -92,38 +94,46 @@ namespace Files.App.Data.Models
 				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX]));
 		}
 
-		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)
+		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
 		{
 			GitBranchDisplayName = isGitRepository &&
-								branches.Any() &&
-								!(ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults)
-				? branches[ACTIVE_BRANCH_INDEX].Name
+								head is not null &&
+								!ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults
+				? head.Name
 				: null;
 
 			_gitRepositoryPath = repositoryPath;
-			ShowLocals = true;
+			
+			// Change ShowLocals value only if branches flyout is closed
+			if (!IsBranchesFlyoutExpaned)
+				ShowLocals = true;
 
-			var behind = branches.Any() ? branches[0].BehindBy ?? 0 : 0;
-			var ahead = branches.Any() ? branches[0].AheadBy ?? 0 : 0;
+			var behind = head is not null ? head.BehindBy ?? 0 : 0;
+			var ahead = head is not null ? head.AheadBy ?? 0 : 0;
 
 			ExtendedStatusInfo = string.Format("GitSyncStatusExtendedInfo".GetLocalizedResource(), ahead, behind);
 			StatusInfo = $"{ahead} / {behind}";
+		}
 
-			if (isGitRepository)
+		public async Task LoadBranches()
+		{
+			if (string.IsNullOrEmpty(_gitRepositoryPath))
+				return;
+
+			var branches = await GitHelpers.GetBranchesNames(_gitRepositoryPath);
+
+			_localBranches.Clear();
+			_remoteBranches.Clear();
+
+			foreach (var branch in branches)
 			{
-				_localBranches.Clear();
-				_remoteBranches.Clear();
-
-				foreach (var branch in branches)
-				{
-					if (branch.IsRemote)
-						_remoteBranches.Add(branch.Name);
-					else
-						_localBranches.Add(branch.Name);
-				}
-
-				SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
+				if (branch.IsRemote)
+					_remoteBranches.Add(branch.Name);
+				else
+					_localBranches.Add(branch.Name);
 			}
+
+			SelectedBranchIndex = ShowLocals ? ACTIVE_BRANCH_INDEX : -1;
 		}
 	}
 }

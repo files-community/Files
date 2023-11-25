@@ -219,6 +219,7 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
 			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
 			AppInstance.InstanceViewModel.GitRepositoryPath = null;
+			AppInstance.InstanceViewModel.GitBranchName = string.Empty;
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
@@ -230,7 +231,7 @@ namespace Files.App.Views
 			// Set path of working directory empty
 			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
 
-			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, Array.Empty<BranchItem>());
+			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, null);
 
 			// Clear the path UI and replace with Favorites
 			AppInstance.ToolbarViewModel.PathComponents.Clear();

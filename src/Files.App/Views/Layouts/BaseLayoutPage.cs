@@ -393,6 +393,9 @@ namespace Files.App.Views.Layouts
 			navigationArguments = (NavigationArguments)e.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
 
+			// Git properties are not loaded by default
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
+
 			InitializeCommandsViewModel();
 
 			IsItemSelected = false;
@@ -486,9 +489,6 @@ namespace Files.App.Views.Layouts
 
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
-
-			// Git properties are not loaded by default
-			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
 		}
 
 		public void SetSelectedItemsOnNavigation()
@@ -1034,7 +1034,7 @@ namespace Files.App.Views.Layouts
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
 
-						if (item.IsExecutable)
+						if (item.IsExecutable || item.IsPythonFile)
 						{
 							e.DragUIOverride.Caption = $"{"OpenWith".GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
@@ -1112,7 +1112,7 @@ namespace Files.App.Views.Layouts
 
 			var item = GetItemFromElement(sender);
 			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable);
+				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsPythonFile);
 
 			deferral.Complete();
 		}
@@ -1165,6 +1165,8 @@ namespace Files.App.Views.Layouts
 					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
 					{
 						await ParentShellPageInstance!.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, IconSize);
+						if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None && listedItem is GitItem gitItem)
+							await ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
 					});
 				}
 			}
@@ -1257,7 +1259,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			UninitializeDrag(container);
-			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable)
+			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable || item.IsPythonFile)
 			{
 				container.AllowDrop = true;
 				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);

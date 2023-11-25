@@ -5,8 +5,6 @@ namespace Files.App.Actions
 {
 	internal class NewTabAction : IAction
 	{
-		private readonly MainPageViewModel mainPageViewModel;
-
 		public string Label
 			=> "NewTab".GetLocalizedResource();
 
@@ -18,12 +16,11 @@ namespace Files.App.Actions
 
 		public NewTabAction()
 		{
-			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		}
 
 		public Task ExecuteAsync()
 		{
-			return mainPageViewModel.AddNewTabAsync();
+			return NavigationHelpers.AddNewTabAsync();
 		}
 	}
 }

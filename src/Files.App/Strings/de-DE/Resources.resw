@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Während der Berechnung ist ein Fehler aufgetreten</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Fehler beim Berechnen des Hashs, bitte schließen Sie die Datei und versuchen Sie es erneut.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes sind für Online-Dateien nicht verfügbar</value>
   </data>
