@@ -370,10 +370,12 @@
 										<Button
 											Grid.Column="1"
 											AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
+											Background="Transparent"
+											BorderBrush="Transparent"
 											Click="DeleteBranch_Click"
 											ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}"
 											Visibility="{x:Bind converters:MultiBooleanConverter.NorConvertToVisibility(IsHead, IsRemote)}">
-											<FontIcon Glyph="&#xE74D;" />
+											<FontIcon FontSize="12" Glyph="&#xE74D;" />
 										</Button>
 									</Grid>
 								</DataTemplate>
