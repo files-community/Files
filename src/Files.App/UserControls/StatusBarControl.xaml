@@ -369,9 +369,12 @@
 											TextTrimming="CharacterEllipsis" />
 										<Button
 											Grid.Column="1"
+											AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
 											Click="DeleteBranch_Click"
-											Content="{helpers:ResourceString Name=Delete}"
-											Visibility="{x:Bind converters:MultiBooleanConverter.NorConvertToVisibility(IsHead, IsRemote)}" />
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}"
+											Visibility="{x:Bind converters:MultiBooleanConverter.NorConvertToVisibility(IsHead, IsRemote)}">
+											<FontIcon Glyph="&#xE74D;" />
+										</Button>
 									</Grid>
 								</DataTemplate>
 							</ListView.ItemTemplate>
