@@ -91,7 +91,6 @@ namespace Files.App.Helpers.ContextFlyouts
 				if (item.BitmapIcon is not null)
 				{
 					flyoutSubItem.Style = App.Current.Resources["MenuFlyoutSubItemWithImageStyle"] as Style;
-					flyoutSubItem.CornerRadius = new(4);
 					try
 					{
 						MenuFlyoutSubItemCustomProperties.SetBitmapIcon(flyoutSubItem, item.BitmapIcon);
@@ -125,7 +124,6 @@ namespace Files.App.Helpers.ContextFlyouts
 					Tag = i.Tag,
 					Command = i.Command,
 					CommandParameter = i.CommandParameter,
-					CornerRadius = new(4),
 				};
 				try
 				{
