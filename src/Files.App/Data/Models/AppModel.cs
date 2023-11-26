@@ -101,5 +101,15 @@ namespace Files.App.Data.Models
 			get => googleDrivePath;
 			set => SetProperty(ref googleDrivePath, value);
 		}
+
+		private string pCloudDrivePath = string.Empty;
+		/// <summary>
+		/// Gets or sets a value indicating the path for pCloud Drive.
+		/// </summary>
+		public string PCloudDrivePath
+		{
+			get => pCloudDrivePath;
+			set => SetProperty(ref pCloudDrivePath, value);
+		}
 	}
 }
