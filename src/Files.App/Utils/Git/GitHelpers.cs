@@ -696,6 +696,18 @@ namespace Files.App.Utils.Git
 			return gitItemModel;
 		}
 
+		// Remove saved credentails
+		public static void RemoveSavedCredentials()
+		{
+			CredentialsHelpers.DeleteSavedPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+		}
+
+		// Get saved credentails
+		public static string GetSavedCredentials()
+		{
+			return CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+		}
+
 		public static async Task InitializeRepositoryAsync(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path))

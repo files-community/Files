@@ -2295,13 +2295,13 @@ namespace Files.App.Data.Models
 					var properties = await storageItem.AsBaseStorageFile().GetBasicPropertiesAsync();
 					size = (long)properties.Size;
 					modified = properties.DateModified;
-					created = properties.ItemDate;
+					created = properties.DateCreated;
 				}
 				else if (storageItem.IsOfType(StorageItemTypes.Folder))
 				{
 					var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
 					modified = properties.DateModified;
-					created = properties.ItemDate;
+					created = properties.DateCreated;
 				}
 
 				return (item, syncStatus, size, created, modified);

@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.Previews
 			{
 				GetFileProperty("PropertyItemCount", items.Count),
 				GetFileProperty("PropertyDateModified", info.DateModified),
-				GetFileProperty("PropertyDateCreated", info.ItemDate),
+				GetFileProperty("PropertyDateCreated", info.DateCreated),
 				GetFileProperty("PropertyParsingPath", Folder.Path),
 			};
 

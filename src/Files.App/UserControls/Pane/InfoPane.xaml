@@ -20,7 +20,7 @@
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	AutomationProperties.Name="{helpers:ResourceString Name=SelectedFilePreviewPane/AutomationProperties/Name}"
-	Loading="Root_Loading"
+	Loaded="Root_Loaded"
 	SizeChanged="Root_SizeChanged"
 	Unloaded="Root_Unloaded"
 	mc:Ignorable="d">
