@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.UserControls.Menus;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -86,6 +87,21 @@ namespace Files.App.Helpers.ContextFlyouts
 					Text = item.Text,
 					Tag = item.Tag,
 				};
+
+				if (item.BitmapIcon is not null)
+				{
+					flyoutSubItem.Style = App.Current.Resources["MenuFlyoutSubItemWithImageStyle"] as Style;
+					flyoutSubItem.CornerRadius = new(4);
+					try
+					{
+						MenuFlyoutSubItemCustomProperties.SetBitmapIcon(flyoutSubItem, item.BitmapIcon);
+					}
+					catch (Exception e)
+					{
+						Debug.WriteLine(e);
+					}
+				}
+
 				item.Items.ForEach(i =>
 				{
 					flyoutSubItem.Items.Add(GetMenuItem(i));
@@ -109,6 +125,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Tag = i.Tag,
 					Command = i.Command,
 					CommandParameter = i.CommandParameter,
+					CornerRadius = new(4),
 				};
 				try
 				{
