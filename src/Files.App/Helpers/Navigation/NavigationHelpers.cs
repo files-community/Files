@@ -114,10 +114,15 @@ namespace Files.App.Helpers
 			}
 
 			// Don't update tabItem if the contents of the tab have already changed
-			if (result.Item1 is not null &&
-				(navigationArg is PaneNavigationArguments && navigationArg as PaneNavigationArguments == tabItem.NavigationParameter.NavigationParameter as PaneNavigationArguments
-				|| navigationArg is string && navigationArg as string == tabItem.NavigationParameter.NavigationParameter as string))
-				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
+			if (result.Item1 is not null)
+			{
+				var navigationParameter = tabItem.NavigationParameter.NavigationParameter;
+				var a1 = navigationParameter is PaneNavigationArguments pna1 ? pna1 : new PaneNavigationArguments() { LeftPaneNavPathParam = navigationParameter as string };
+				var a2 = navigationArg is PaneNavigationArguments pna2 ? pna2 : new PaneNavigationArguments() { LeftPaneNavPathParam = navigationArg as string };
+
+				if (a1 == a2)
+					(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
+			}
 		}
 
 		public static async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)

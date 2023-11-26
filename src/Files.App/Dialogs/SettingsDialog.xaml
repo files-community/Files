@@ -121,10 +121,19 @@
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
+					AccessKey="G"
+					AutomationProperties.AutomationId="SettingsItemGit"
+					Content="{helpers:ResourceString Name=Git}"
+					Tag="4">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE794;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
 					AccessKey="E"
 					AutomationProperties.AutomationId="SettingsItemAdvanced"
 					Content="{helpers:ResourceString Name=Advanced}"
-					Tag="4">
+					Tag="5">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xF1AD;" />
 					</NavigationViewItem.Icon>
@@ -133,7 +142,7 @@
 					AccessKey="B"
 					AutomationProperties.AutomationId="SettingsItemAbout"
 					Content="{helpers:ResourceString Name=About}"
-					Tag="5">
+					Tag="6">
 					<NavigationViewItem.Icon>
 						<FontIcon FontSize="16" Glyph="&#xE946;" />
 					</NavigationViewItem.Icon>
