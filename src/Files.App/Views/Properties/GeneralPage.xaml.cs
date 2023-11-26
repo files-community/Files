@@ -47,6 +47,9 @@ namespace Files.App.Views.Properties
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
+			if (App.AppModel.PropertiesWindowCount == 0)
+				return;
+
 			// Reassign values to update date display
 			ViewModel.ItemCreatedTimestampReal = ViewModel.ItemCreatedTimestampReal;
 			ViewModel.ItemModifiedTimestampReal = ViewModel.ItemModifiedTimestampReal;
