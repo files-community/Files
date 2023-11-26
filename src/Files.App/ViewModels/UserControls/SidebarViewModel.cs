@@ -399,7 +399,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			var isExpandedData = ApplicationData.Current.LocalSettings.Values[$"section:{section.Text.Replace('\\', '_')}"].ToString();
+			var isExpandedData = ApplicationData.Current.LocalSettings.Values[$"section:{section.Text.Replace('\\', '_')}"]?.ToString();
 
 			// If expanded or collapsed setting of the section is not set, set expanded by default
 			if (!bool.TryParse(isExpandedData, out bool isExpanded))
