@@ -18,7 +18,7 @@
 						Background="{TemplateBinding Background}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
-						CornerRadius="{TemplateBinding CornerRadius}">
+						CornerRadius="{StaticResource ControlCornerRadius}">
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
