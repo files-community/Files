@@ -1261,7 +1261,7 @@ namespace Files.App.Views.Layouts
 			UninitializeDrag(container);
 			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath))
 				|| item.IsExecutable
-				|| (item.IsPythonFile && SoftwareHelpers.IsPythonInstalled()))
+				|| item.IsPythonFile)
 			{
 				container.AllowDrop = true;
 				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);

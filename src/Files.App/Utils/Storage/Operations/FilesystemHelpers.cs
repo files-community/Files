@@ -258,6 +258,8 @@ namespace Files.App.Utils.Storage
 					if (isTargetExecutable || isTargetPythonFile)
 					{
 						var items = await GetDraggedStorageItems(packageView);
+						if (isTargetPythonFile && SoftwareHelpers.IsPythonInstalled())
+							return ReturnResult.Cancelled;
 						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}
