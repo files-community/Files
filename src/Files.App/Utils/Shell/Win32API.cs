@@ -845,11 +845,15 @@ namespace Files.App.Utils.Shell
 				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
 				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
 
-			string filePaths = string.Join(",", fontFilePaths.Select(x => string.Format("'{0}'", x)));
-			string[] destinationFilePaths = fontFilePaths.Select(item => Path.Combine(fontDirectory, Path.GetFileName(item))).ToArray();
-			string destinationPaths = string.Join(",", destinationFilePaths.Select(x => string.Format("'{0}'", x)));
+			string psCommand = string.Empty;
 
-			return RunPowershellCommandAsync($"-command \"Copy-Item '{filePaths}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(filePaths)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPaths}'\"", forAllUsers);
+			foreach (string fontFilePath in fontFilePaths)
+			{
+				var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
+				psCommand = psCommand + $"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\";";
+			}
+
+			return RunPowershellCommandAsync(psCommand, forAllUsers);
 		}
 
 		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
