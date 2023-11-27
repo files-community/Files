@@ -79,6 +79,9 @@ namespace Files.App.Views.Properties
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
+			if (App.AppModel.PropertiesWindowCount == 0)
+				return;
+
 			ViewModel.PropertySections.ForEach(section => section.ForEach(property =>
 			{
 				if (property.Value is DateTimeOffset)

@@ -22,7 +22,7 @@ namespace Files.App.Helpers
 		public static bool IsAppRunAsAdmin()
 		{
 			using WindowsIdentity identity = WindowsIdentity.GetCurrent();
-			return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+			return new WindowsPrincipal(identity).IsInRole(new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null));
 		}
 	}
 }
