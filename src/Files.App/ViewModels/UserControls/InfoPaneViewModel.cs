@@ -17,6 +17,9 @@ namespace Files.App.ViewModels.UserControls
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
+		/// <summary>
+		/// Value indicating if the info pane is on/off
+		/// </summary>
 		private bool isEnabled;
 		public bool IsEnabled
 		{
@@ -29,13 +32,10 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private bool isItemSelected;
-		public bool IsItemSelected
-		{
-			get => isItemSelected;
-			set => SetProperty(ref isItemSelected, value);
-		}
-
+		/// <summary>
+		/// Current selected item in the file list.
+		/// TODO see about removing this and accessing it from the page context instead
+		/// </summary>
 		private ListedItem selectedItem;
 		public ListedItem SelectedItem
 		{
@@ -56,6 +56,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		/// <summary>
+		/// Enum indicating whether to show the details or preview tab
+		/// </summary>
 		public InfoPaneTabs SelectedTab
 		{
 			get => infoPaneSettingsService.SelectedTab;
@@ -68,6 +71,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		/// <summary>
+		/// Enum indicating if details/preview are available
+		/// </summary>
 		private PreviewPaneStates previewPaneState;
 		public PreviewPaneStates PreviewPaneState
 		{
@@ -79,6 +85,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		/// <summary>
+		/// Value indicating if the download cloud files option should be displayed
+		/// </summary>
 		private bool showCloudItemButton;
 		public bool ShowCloudItemButton
 		{
@@ -114,12 +123,15 @@ namespace Files.App.ViewModels.UserControls
 			{
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
-					IsItemSelected = contentPageContext.SelectedItems.Count > 0;
-					SelectedItem = contentPageContext.SelectedItems.Count == 1 ? contentPageContext.SelectedItems.First() : null;
+
+					if (contentPageContext.SelectedItems.Count == 1)
+						SelectedItem = contentPageContext.SelectedItems.First();
+					else
+						SelectedItem = null;
 
 					var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive;
 					if (shouldUpdatePreview == true)
-						_= UpdateSelectedItemPreviewAsync();
+						_ = UpdateSelectedItemPreviewAsync();
 					break;
 			}
 		}
@@ -162,7 +174,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			ShowCloudItemButton = false;
 
-			if (SelectedItem.IsRecycleBinItem)
+			if (item.IsRecycleBinItem)
 			{
 				if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
 				{
@@ -173,7 +185,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					var model = new BasicPreviewViewModel(SelectedItem);
+					var model = new BasicPreviewViewModel(item);
 					await model.LoadAsync();
 
 					return new BasicPreview(model);
@@ -182,7 +194,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (item.IsShortcut)
 			{
-				var model = new ShortcutPreviewViewModel(SelectedItem);
+				var model = new ShortcutPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new BasicPreview(model);
@@ -201,7 +213,7 @@ namespace Files.App.ViewModels.UserControls
 				var model = new FolderPreviewViewModel(item);
 				await model.LoadAsync();
 
-				if (!isItemSelected)
+				if (contentPageContext.SelectedItems.Count == 0)
 					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
 
 				return new FolderPreview(model);
@@ -305,7 +317,7 @@ namespace Files.App.ViewModels.UserControls
 		public async Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
-			if (SelectedItem is not null && IsItemSelected)
+			if (SelectedItem is not null && contentPageContext.SelectedItems.Count == 1)
 			{
 				SelectedItem?.FileDetails?.Clear();
 
@@ -342,7 +354,7 @@ namespace Files.App.ViewModels.UserControls
 					PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 				}
 			}
-			else if (IsItemSelected)
+			else if (contentPageContext.SelectedItems.Count > 0)
 			{
 				PreviewPaneContent = null;
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
