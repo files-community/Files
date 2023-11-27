@@ -227,7 +227,7 @@ namespace Files.App.Utils.Archives
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
 
-				if (archive.Path is null)
+				if (archive?.Path is null)
 					return;
 
 				if (await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive)))
