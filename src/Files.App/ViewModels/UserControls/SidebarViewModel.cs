@@ -401,7 +401,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var isExpanded =
 				UserSettingsService.GeneralSettingsService.SideBarSections?
-					.Select(x => x.Key == $"section:{section.Text.Replace('\\', '_')}")
+					.Select(x => x.Key == $"Section_{section.Text}")
 					.FirstOrDefault()
 				?? true;
 
@@ -419,7 +419,7 @@ namespace Files.App.ViewModels.UserControls
 
 				UserSettingsService.GeneralSettingsService.SideBarSections
 					.Add(
-						$"section:{section.Text.Replace('\\', '_')}",
+						$"Section_{section.Text}",
 						section.IsExpanded);
 			}
 		}
