@@ -132,7 +132,7 @@ namespace Files.App.Utils.Archives
 				? associatedInstance.FilesystemViewModel.WorkingDirectory
 				: associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
-			if (archive.Path is null)
+			if (archive?.Path is null)
 				return;
 
 			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive));
