@@ -55,6 +55,11 @@ namespace Files.Core.Services.Settings
 		List<string> LastCrashedTabList { get; set; }
 
 		/// <summary>
+		/// A list containing SideBar sections with expanded/collapsed boolean.
+		/// </summary>
+		public Dictionary<string, bool> SideBarSections { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
 		/// </summary>
 		DateTimeFormats DateTimeFormat { get; set; }

@@ -67,6 +67,13 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public Dictionary<string, bool> SideBarSections
+		{
+			get => Get<Dictionary<string, bool>>(null);
+			set => Set(value);
+		}
+
 		public DateTimeFormats DateTimeFormat
 		{
 			get => Get(DateTimeFormats.Application);

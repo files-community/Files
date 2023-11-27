@@ -399,11 +399,11 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			var isExpandedData = ApplicationData.Current.LocalSettings.Values[$"section:{section.Text.Replace('\\', '_')}"]?.ToString();
-
-			// If expanded or collapsed setting of the section is not set, set expanded by default
-			if (!bool.TryParse(isExpandedData, out bool isExpanded))
-				isExpanded = true;
+			var isExpanded =
+				UserSettingsService.GeneralSettingsService.SideBarSections?
+					.Select(x => x.Key == $"section:{section.Text.Replace('\\', '_')}")
+					.FirstOrDefault()
+				?? true;
 
 			section.IsExpanded = isExpanded;
 			section.PropertyChanged += Section_PropertyChanged;
@@ -414,7 +414,13 @@ namespace Files.App.ViewModels.UserControls
 			if (sender is LocationItem section &&
 				e.PropertyName == nameof(section.IsExpanded))
 			{
-				ApplicationData.Current.LocalSettings.Values[$"section:{section.Text.Replace('\\', '_')}"] = section.IsExpanded;
+				if (UserSettingsService.GeneralSettingsService.SideBarSections is null)
+					UserSettingsService.GeneralSettingsService.SideBarSections = new();
+
+				UserSettingsService.GeneralSettingsService.SideBarSections
+					.Add(
+						$"section:{section.Text.Replace('\\', '_')}",
+						section.IsExpanded);
 			}
 		}
 
