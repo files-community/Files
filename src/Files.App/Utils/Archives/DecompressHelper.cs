@@ -128,9 +128,9 @@ namespace Files.App.Utils.Archives
 			if (associatedInstance == null)
 				return;
 
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance?.SlimContentPage?.SelectedItems?.Count != 0
-				? associatedInstance.SlimContentPage.SelectedItem.ItemPath
-				: associatedInstance.FilesystemViewModel.WorkingDirectory);
+			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage?.SelectedItems?.Count is null or 0
+				? associatedInstance.FilesystemViewModel.WorkingDirectory
+				: associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
 			if (archive.Path is null)
 				return;
