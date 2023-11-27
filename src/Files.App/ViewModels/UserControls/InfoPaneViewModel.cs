@@ -13,8 +13,7 @@ namespace Files.App.ViewModels.UserControls
 	public class InfoPaneViewModel : ObservableObject, IDisposable
 	{
 		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
-
-		private readonly IContentPageContext contentPageContextService;
+		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
@@ -101,13 +100,28 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<TagsListItem> Items { get; } = new();
 
-		public InfoPaneViewModel(IContentPageContext contentPageContextService = null)
+		public InfoPaneViewModel()
 		{
 			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+			contentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 
 			IsEnabled = infoPaneSettingsService.IsEnabled;
+		}
 
-			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.Folder):
+				case nameof(IContentPageContext.SelectedItem):
+					IsItemSelected = contentPageContext.SelectedItems.Count > 0;
+					SelectedItem = contentPageContext.SelectedItems.Count == 1 ? contentPageContext.SelectedItems.First() : null;
+
+					var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive;
+					if (shouldUpdatePreview == true)
+						_= UpdateSelectedItemPreviewAsync();
+					break;
+			}
 		}
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -206,7 +220,7 @@ namespace Files.App.ViewModels.UserControls
 			var ext = item.FileExtension.ToLowerInvariant();
 
 			if (!item.IsFtpItem &&
-				contentPageContextService.PageType != ContentPageTypes.ZipFolder &&
+				contentPageContext.PageType != ContentPageTypes.ZipFolder &&
 				(FileExtensionHelpers.IsAudioFile(ext) || FileExtensionHelpers.IsVideoFile(ext)))
 			{
 				var model = new MediaPreviewViewModel(item);
@@ -336,7 +350,7 @@ namespace Files.App.ViewModels.UserControls
 			else
 			{
 				SelectedItem?.FileDetails?.Clear();
-				var currentFolder = contentPageContextService.Folder;
+				var currentFolder = contentPageContext.Folder;
 
 				if (currentFolder is null)
 				{
@@ -388,6 +402,7 @@ namespace Files.App.ViewModels.UserControls
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
+					_ = UpdateSelectedItemPreviewAsync();
 					OnPropertyChanged(nameof(IsEnabled));
 				}
 			}
