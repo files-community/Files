@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 			{
 				try
 				{
-					MapService.ServiceToken = "bingmapskey.secret";
+					MapService.ServiceToken = Constants.AutomatedWorkflowInjectionKeys.BingMapsSecret;
 				}
 				catch (Exception)
 				{
