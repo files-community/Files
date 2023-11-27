@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Graphics;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -12,7 +9,10 @@ using WinRT.Interop;
 
 namespace Files.App.Helpers
 {
-	public static class DragZoneHelper
+	/// <summary>
+	/// Provides static helper for dragging-zone on <see cref="AppWindow"/>.
+	/// </summary>
+	internal static class AppDragZoneHelper
 	{
 		/// <summary>
 		/// Get Scale Adjustment
@@ -23,8 +23,11 @@ namespace Files.App.Helpers
 
 		/// <summary>
 		/// Calculate dragging-zones of title bar<br/>
-		/// <strong>You MUST transform the rectangles with <see cref="GetScaleAdjustment"/> before calling <see cref="AppWindowTitleBar.SetDragRectangles"/></strong>
 		/// </summary>
+		/// <remarks>
+		/// The rectangles must be transformed with <see cref="GetScaleAdjustment"/>
+		/// before calling <see cref="AppWindowTitleBar.SetDragRectangles"/>
+		/// </remarks>
 		/// <param name="viewportWidth"></param>
 		/// <param name="dragZoneHeight"></param>
 		/// <param name="dragZoneLeftIndent"></param>

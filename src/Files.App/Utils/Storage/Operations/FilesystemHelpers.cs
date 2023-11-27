@@ -255,12 +255,16 @@ namespace Files.App.Utils.Storage
 				else if (operation.HasFlag(DataPackageOperation.Link))
 				{
 					// Open with piggybacks off of the link operation, since there isn't one for it
-					if (isTargetExecutable || isTargetPythonFile)
+					if (isTargetExecutable)
 					{
 						var items = await GetDraggedStorageItems(packageView);
-						if (isTargetPythonFile && !SoftwareHelpers.IsPythonInstalled())
-							return ReturnResult.Cancelled;
-						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
+						NavigationHelper.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
+						return ReturnResult.Success;
+					}
+					else if (isTargetPythonFile)
+					{
+						var items = await GetDraggedStorageItems(packageView);
+						NavigationHelper.OpenItemsWithPythonAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}
 					else

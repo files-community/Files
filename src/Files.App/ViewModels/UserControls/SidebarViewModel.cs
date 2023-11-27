@@ -727,7 +727,7 @@ namespace Files.App.ViewModels.UserControls
 				middleClickPressed) &&
 				navigationControlItem.Path is not null)
 			{
-				await NavigationHelpers.OpenPathInNewTab(navigationControlItem.Path);
+				await NavigationHelper.OpenPathInNewTab(navigationControlItem.Path);
 				return;
 			}
 
@@ -819,7 +819,7 @@ namespace Files.App.ViewModels.UserControls
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
 
-			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path);
+			await NavigationHelper.OpenPathInNewTab(rightClickedItem.Path);
 		}
 
 		private async Task OpenInNewWindowAsync()
@@ -827,7 +827,7 @@ namespace Files.App.ViewModels.UserControls
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
 
-			await NavigationHelpers.OpenPathInNewWindowAsync(rightClickedItem.Path);
+			await NavigationHelper.OpenPathInNewWindowAsync(rightClickedItem.Path);
 		}
 
 		private void PinItem()

@@ -69,7 +69,9 @@ namespace Files.App
 		public async Task InitializeApplicationAsync(object activatedEventArgs)
 		{
 			// Set system backdrop
-			SystemBackdrop = new AppSystemBackdrop();
+			SystemBackdrop = new AppSystemBackdropHelper();
+
+			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			var rootFrame = EnsureWindowIsInitialized();
 
@@ -96,7 +98,7 @@ namespace Files.App
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
 						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
-						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 					}
 					else
 					{
@@ -176,7 +178,7 @@ namespace Files.App
 						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
 
@@ -248,7 +250,7 @@ namespace Files.App
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
 					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
-					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
+					await mainPageViewModel.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
 				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());

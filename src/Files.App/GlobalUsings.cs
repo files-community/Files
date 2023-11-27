@@ -78,3 +78,4 @@ global using global::Files.Core.Utils.CommandLine;
 // Files.Shared
 global using global::Files.Shared;
 global using global::Files.Shared.Extensions;
+global using global::Files.Shared.Helpers;

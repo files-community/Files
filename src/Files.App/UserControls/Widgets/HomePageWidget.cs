@@ -61,12 +61,12 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task OpenInNewTabAsync(WidgetCardItem item)
 		{
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
+			await NavigationHelper.OpenPathInNewTab(item.Path);
 		}
 
 		public async Task OpenInNewWindowAsync(WidgetCardItem item)
 		{
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
+			await NavigationHelper.OpenPathInNewWindowAsync(item.Path);
 		}
 
 		public virtual async Task PinToFavoritesAsync(WidgetCardItem item)

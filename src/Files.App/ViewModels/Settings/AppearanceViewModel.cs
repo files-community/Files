@@ -87,7 +87,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
+		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), AppThemeModeHelper.RootTheme.ToString());
 		public int SelectedThemeIndex
 		{
 			get => selectedThemeIndex;
@@ -95,7 +95,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (SetProperty(ref selectedThemeIndex, value))
 				{
-					ThemeHelper.RootTheme = (ElementTheme)value;
+					AppThemeModeHelper.RootTheme = (ElementTheme)value;
 					OnPropertyChanged(nameof(SelectedElementTheme));
 				}
 			}

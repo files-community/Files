@@ -41,7 +41,7 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
-		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
+		private bool isAppRunningAsAdmin => AppElevationHelpers.IsAppRunAsAdmin();
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
@@ -149,7 +149,7 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			DragZoneHelper.SetDragZones(
+			AppDragZoneHelper.SetDragZones(
 				MainWindow.Instance,
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
@@ -166,7 +166,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
-			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
+			await ViewModel.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
@@ -185,7 +185,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
-			NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
+			ViewModel.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
@@ -329,8 +329,7 @@ namespace Files.App.Views
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			if (!App.AppModel.IsMainWindowClosed)
-				PreviewPane?.ViewModel.UpdateDateDisplay();
+			PreviewPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

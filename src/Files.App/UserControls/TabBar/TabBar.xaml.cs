@@ -52,7 +52,7 @@ namespace Files.App.UserControls.TabBar
 		// - https://github.com/files-community/Files/issues/12390
 		// - https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
 		public bool AllowTabsDrag
-			=> !ElevationHelpers.IsAppRunAsAdmin();
+			=> !AppElevationHelpers.IsAppRunAsAdmin();
 
 		public Rectangle DragArea
 			=> DragAreaRectangle;
@@ -171,7 +171,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
-				HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+				HorizontalTabView.CanReorderTabs = true && !AppElevationHelpers.IsAppRunAsAdmin();
 
 				e.AcceptedOperation = DataPackageOperation.Move;
 				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
@@ -186,18 +186,18 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_DragLeave(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+			HorizontalTabView.CanReorderTabs = true && !AppElevationHelpers.IsAppRunAsAdmin();
 		}
 
 		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+			HorizontalTabView.CanReorderTabs = true && !AppElevationHelpers.IsAppRunAsAdmin();
 
 			if (!(sender is TabView tabStrip))
 				return;
 
 			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
-				tabViewItemPathObj is not string tabViewItemString)
+				!(tabViewItemPathObj is string tabViewItemString))
 				return;
 
 			var index = -1;
@@ -215,7 +215,7 @@ namespace Files.App.UserControls.TabBar
 
 			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await NavigationHelpers.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
+			await mainPageViewModel.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
@@ -256,7 +256,7 @@ namespace Files.App.UserControls.TabBar
 			var selectedTabViewItemIndex = sender.SelectedIndex;
 
 			Items.Remove(args.Item as TabBarItem);
-			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
+			if (!await NavigationHelper.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
 			{
 				Items.Insert(indexOfTabViewItem, args.Item as TabBarItem);
 				sender.SelectedIndex = selectedTabViewItemIndex;

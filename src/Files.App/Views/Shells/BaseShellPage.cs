@@ -243,18 +243,9 @@ namespace Files.App.Views.Shells
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
-			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
-					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
-					: null;
-
 			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
 			{
 				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
-
-				InstanceViewModel.GitBranchName = headBranch is not null
-					? headBranch.Name
-					: string.Empty;
-
 				if (!_gitFetch.IsCompleted)
 				{
 					_gitFetchToken.Cancel();
@@ -274,30 +265,23 @@ namespace Files.App.Views.Shells
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
-					headBranch);
+					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
 		}
 
-		protected async void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
+		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
 			if (GitHelpers.IsExecutingGitAction)
 				return;
 
-			var head = InstanceViewModel.IsGitRepository
-				? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
-				: null;
-
-			InstanceViewModel.GitBranchName = head is not null
-				? head.Name
-				: string.Empty;
-
+			InstanceViewModel.UpdateCurrentBranchName();
 			ContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
-				head);
+				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 		}
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
@@ -312,7 +296,7 @@ namespace Files.App.Views.Shells
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
-					await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath));
+					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			}
 		}
 
@@ -351,7 +335,7 @@ namespace Files.App.Views.Shells
 		protected async void ShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
 		{
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
-				await NavigationHelpers.OpenPath(item.ItemPath, this);
+				await NavigationHelper.OpenPath(item.ItemPath, this);
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
 				SubmitSearch(sender.Query, userSettingsService.GeneralSettingsService.SearchUnindexedItems);
 		}
@@ -694,7 +678,7 @@ namespace Files.App.Views.Shells
 
 		protected void InitToolbarCommands()
 		{
-			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
+			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelper.LaunchNewWindowAsync);
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
 		}
@@ -771,9 +755,6 @@ namespace Files.App.Views.Shells
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			if (App.AppModel.IsMainWindowClosed)
-				return;
-
 			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
 			{
 				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;

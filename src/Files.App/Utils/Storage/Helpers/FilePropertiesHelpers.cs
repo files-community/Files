@@ -31,6 +31,7 @@ namespace Files.App.Utils.Storage
 		public static nint GetWindowHandle(Window w)
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
+		private static int WindowCount = 0;
 		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
 		private static BlockingCollection<WinUIEx.WindowEx> WindowCache = new();
 
@@ -95,7 +96,7 @@ namespace Files.App.Utils.Storage
 
 			var frame = new Frame
 			{
-				RequestedTheme = ThemeHelper.RootTheme
+				RequestedTheme = AppThemeModeHelper.RootTheme
 			};
 
 			WinUIEx.WindowEx propertiesWindow;
@@ -112,7 +113,7 @@ namespace Files.App.Utils.Storage
 			propertiesWindow.Width = 800;
 			propertiesWindow.Height = 550;
 			propertiesWindow.Content = frame;
-			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
+			propertiesWindow.SystemBackdrop = new AppSystemBackdropHelper(true);
 
 			var appWindow = propertiesWindow.AppWindow;
 			appWindow.Title = "Properties".GetLocalizedResource();
@@ -144,7 +145,7 @@ namespace Files.App.Utils.Storage
 					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 			};
 
-			if (App.AppModel.IncrementPropertiesWindowCount() == 1)
+			if (Interlocked.Increment(ref WindowCount) == 1)
 				PropertiesWindowsClosingTCS = new();
 
 			appWindow.Move(appWindowPos);
@@ -163,14 +164,12 @@ namespace Files.App.Utils.Storage
 				window.Content = null;
 				WindowCache.Add(window);
 
-				if (App.AppModel.DecrementPropertiesWindowCount() == 0)
+				if (Interlocked.Decrement(ref WindowCount) == 0)
 				{
 					PropertiesWindowsClosingTCS!.TrySetResult();
 					PropertiesWindowsClosingTCS = null;
 				}
 			}
-			else
-				App.AppModel.DecrementPropertiesWindowCount();
 		}
 
 		/// <summary>

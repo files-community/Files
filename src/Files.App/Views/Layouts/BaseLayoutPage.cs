@@ -85,7 +85,7 @@ namespace Files.App.Views.Layouts
 		// NOTE: Dragging makes the app crash when run as admin. (#12390)
 		// For more information, visit https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
 		public bool AllowItemDrag
-			=> !ElevationHelpers.IsAppRunAsAdmin();
+			=> !AppElevationHelpers.IsAppRunAsAdmin();
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
@@ -393,9 +393,6 @@ namespace Files.App.Views.Layouts
 			navigationArguments = (NavigationArguments)e.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
 
-			// Git properties are not loaded by default
-			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
-
 			InitializeCommandsViewModel();
 
 			IsItemSelected = false;
@@ -489,6 +486,9 @@ namespace Files.App.Views.Layouts
 
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
+
+			// Git properties are not loaded by default
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
 		}
 
 		public void SetSelectedItemsOnNavigation()
@@ -1165,8 +1165,6 @@ namespace Files.App.Views.Layouts
 					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
 					{
 						await ParentShellPageInstance!.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, IconSize);
-						if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None && listedItem is GitItem gitItem)
-							await ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
 					});
 				}
 			}
@@ -1259,9 +1257,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			UninitializeDrag(container);
-			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath))
-				|| item.IsExecutable
-				|| item.IsPythonFile)
+			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable || item.IsPythonFile)
 			{
 				container.AllowDrop = true;
 				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);

@@ -64,7 +64,7 @@ namespace Files.App.Views.Properties
 		private void UpdatePageLayout()
 		{
 			// Drag zone
-			DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight, 40);
+			AppDragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight, 40);
 
 			// NavigationView Pane Mode
 			MainPropertiesWindowNavigationView.PaneDisplayMode =
@@ -86,9 +86,9 @@ namespace Files.App.Views.Properties
 
 			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
+				((Frame)Parent).RequestedTheme = AppThemeModeHelper.RootTheme;
 
-				switch (ThemeHelper.RootTheme)
+				switch (AppThemeModeHelper.RootTheme)
 				{
 					case ElementTheme.Default:
 						AppWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];

@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Runtime.InteropServices;
 using Windows.Security.Credentials;
 
 namespace Files.App.Helpers

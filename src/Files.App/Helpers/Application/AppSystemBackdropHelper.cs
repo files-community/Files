@@ -1,18 +1,19 @@
-﻿using Microsoft.UI.Composition;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 
 namespace Files.App.Helpers
 {
-	internal sealed class AppSystemBackdrop : SystemBackdrop
+	/// <summary>
+	/// Provides static helper for <see cref="SystemBackdrop"/> on <see cref="AppWindow"/>.
+	/// </summary>
+	internal sealed class AppSystemBackdropHelper : SystemBackdrop
 	{
 		private bool isSecondaryWindow;
 		private IUserSettingsService userSettingsService;
@@ -21,7 +22,7 @@ namespace Files.App.Helpers
 		private XamlRoot root;
 		private SystemBackdropTheme? prevTheme = null;
 
-		public AppSystemBackdrop(bool isSecondaryWindow = false)
+		public AppSystemBackdropHelper(bool isSecondaryWindow = false)
 		{
 			this.isSecondaryWindow = isSecondaryWindow;
 			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();

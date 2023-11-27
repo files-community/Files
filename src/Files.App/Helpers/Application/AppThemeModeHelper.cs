@@ -11,9 +11,9 @@ using Windows.UI.ViewManagement;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Class providing functionality around switching and restoring theme settings
+	/// Provides static helper for application theme mode.
 	/// </summary>
-	public static class ThemeHelper
+	internal static class AppThemeModeHelper
 	{
 		private const string selectedAppThemeKey = "theme";
 		private static Window? currentApplicationWindow;

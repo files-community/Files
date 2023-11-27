@@ -17,7 +17,7 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
-			MultitaskingTabsHelpers.CloseTabsToTheLeft(context.SelectedTabItem, context.Control!);
+			TabBarHelper.CloseTabsToTheLeft(context.SelectedTabItem, context.Control!);
 
 			return Task.CompletedTask;
 		}

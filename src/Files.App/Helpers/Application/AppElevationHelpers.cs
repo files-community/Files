@@ -6,7 +6,13 @@ using System.Security.Principal;
 
 namespace Files.App.Helpers
 {
-	public static class ElevationHelpers
+	/// <summary>
+	/// Provides static helper for application elevation.
+	/// </summary>
+	/// <remarks>
+	/// If the app is running as admin, some features will be unavailable due to the platform limitation.
+	/// </remarks>
+	internal static class AppElevationHelpers
 	{
 		[DllImport("shell32.dll", EntryPoint = "#865", CharSet = CharSet.Unicode, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)] private static extern bool _IsElevationRequired([MarshalAs(UnmanagedType.LPWStr)] string pszPath);

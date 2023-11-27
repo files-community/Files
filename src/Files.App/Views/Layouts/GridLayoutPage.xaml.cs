@@ -306,12 +306,12 @@ namespace Files.App.Views.Layouts
 					foreach (ListedItem? folder in folders)
 					{
 						if (folder is not null)
-							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+							await NavigationHelper.OpenPathInNewTab(folder.ItemPath);
 					}
 				}
 				else if (ctrlPressed && shiftPressed)
 				{
-					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
+					NavigationHelper.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
@@ -366,29 +366,14 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance is null)
-				return;
-
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
-			foreach (ListedItem listedItem in filesAndFolders)
+			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is null)
 					return;
 
 				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
-			}
-
-			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
-			{
-				await Task.WhenAll(filesAndFolders.Select(item =>
-				{
-					if (item is GitItem gitItem)
-						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
-
-					return Task.CompletedTask;
-				}));
 			}
 		}
 

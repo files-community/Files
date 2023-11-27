@@ -358,7 +358,7 @@ namespace Files.App.UserControls.Widgets
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
 			{
 				string navigationPath = ((Button)sender).Tag.ToString()!;
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
+				await NavigationHelper.OpenPathInNewTab(navigationPath);
 			}
 		}
 
@@ -410,7 +410,7 @@ namespace Files.App.UserControls.Widgets
 			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
-				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
+				await NavigationHelper.OpenPathInNewTab(NavigationPath);
 				return;
 			}
 

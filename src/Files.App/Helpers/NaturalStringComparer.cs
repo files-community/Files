@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
