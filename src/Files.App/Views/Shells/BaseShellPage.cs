@@ -243,13 +243,13 @@ namespace Files.App.Views.Shells
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
+			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
+					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+					: null;
+
 			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
 			{
 				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
-
-				BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
-					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
-					: null;
 
 				InstanceViewModel.GitBranchName = headBranch is not null
 					? headBranch.Name
@@ -267,14 +267,14 @@ namespace Files.App.Views.Shells
 						() => GitHelpers.FetchOrigin(InstanceViewModel.GitRepositoryPath),
 						_gitFetchToken.Token);
 				}
+			}
 
-				if (!GitHelpers.IsExecutingGitAction)
-				{
-					ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
-						InstanceViewModel.IsGitRepository,
-						InstanceViewModel.GitRepositoryPath,
-						headBranch);
-				}
+			if (!GitHelpers.IsExecutingGitAction)
+			{
+				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+					InstanceViewModel.IsGitRepository,
+					InstanceViewModel.GitRepositoryPath,
+					headBranch);
 			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";

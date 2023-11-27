@@ -14,9 +14,9 @@ namespace Files.App.Data.Models
 
 		private string? _gitRepositoryPath;
 
-		private readonly ObservableCollection<string> _localBranches = new();
+		private readonly ObservableCollection<BranchItem> _localBranches = new();
 
-		private readonly ObservableCollection<string> _remoteBranches = new();
+		private readonly ObservableCollection<BranchItem> _remoteBranches = new();
 
 		public bool IsBranchesFlyoutExpaned { get; set; } = false;
 
@@ -43,9 +43,9 @@ namespace Files.App.Data.Models
 				if (SetProperty(ref _SelectedBranchIndex, value) && 
 					value != -1 && 
 					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals) &&
-					value < BranchesNames.Count)
+					value < Branches.Count)
 				{
-					CheckoutRequested?.Invoke(this, BranchesNames[value]);
+					CheckoutRequested?.Invoke(this, Branches[value].Name);
 				}
 			}
 		}
@@ -58,7 +58,7 @@ namespace Files.App.Data.Models
 			{
 				if (SetProperty(ref _ShowLocals, value))
 				{
-					OnPropertyChanged(nameof(BranchesNames));
+					OnPropertyChanged(nameof(Branches));
 
 					if (value)
 						SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
@@ -80,7 +80,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _ExtendedStatusInfo, value);
 		}
 
-		public ObservableCollection<string> BranchesNames => _ShowLocals 
+		public ObservableCollection<BranchItem> Branches => _ShowLocals 
 			? _localBranches 
 			: _remoteBranches;
 
@@ -91,7 +91,7 @@ namespace Files.App.Data.Models
 		public DirectoryPropertiesViewModel()
 		{
 			NewBranchCommand = new AsyncRelayCommand(()
-				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX]));
+				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX].Name));
 		}
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
@@ -128,12 +128,17 @@ namespace Files.App.Data.Models
 			foreach (var branch in branches)
 			{
 				if (branch.IsRemote)
-					_remoteBranches.Add(branch.Name);
+					_remoteBranches.Add(branch);
 				else
-					_localBranches.Add(branch.Name);
+					_localBranches.Add(branch);
 			}
 
 			SelectedBranchIndex = ShowLocals ? ACTIVE_BRANCH_INDEX : -1;
+		}
+
+		public Task ExecuteDeleteBranch(string? branchName)
+		{
+			return GitHelpers.DeleteBranchAsync(_gitRepositoryPath, GitBranchDisplayName, branchName);
 		}
 	}
 }
