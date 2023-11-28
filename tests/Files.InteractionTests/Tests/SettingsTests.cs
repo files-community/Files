@@ -30,6 +30,7 @@ namespace Files.InteractionTests.Tests
 				"SettingsItemAppearance",
 				"SettingsItemFolders",
 				"SettingsItemTags",
+				"SettingsItemGit",
 				"SettingsItemAdvanced",
 				"SettingsItemAbout"
 			};

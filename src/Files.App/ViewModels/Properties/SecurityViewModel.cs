@@ -105,11 +105,11 @@ namespace Files.App.ViewModels.Properties
 				ErrorMessage = string.Empty;
 			}
 
-			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
-			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
+			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommandAsync);
+			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommandAsync);
 		}
 
-		private async Task ExecuteAddAccessControlEntryCommand()
+		private async Task ExecuteAddAccessControlEntryCommandAsync()
 		{
 			// Pick an user or a group with Object Picker UI
 			var sid = await FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(_window).ToInt64());
@@ -127,7 +127,7 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		private async Task ExecuteRemoveAccessControlEntryCommand()
+		private async Task ExecuteRemoveAccessControlEntryCommandAsync()
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{

@@ -9,16 +9,38 @@
 	mc:Ignorable="d">
 
 	<Grid>
-		<Image
-			x:Name="MainSplashScreenImage"
-			Width="420"
-			ImageFailed="Image_ImageFailed"
-			ImageOpened="Image_ImageOpened"
-			Source="\Assets\AppTiles\Dev\SplashScreen.png" />
+		<!--  Splash Screen Image  -->
+		<Viewbox
+			x:Name="SplashScreenImageViewbox"
+			Width="620"
+			Height="300"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			Stretch="None">
+			<Image
+				x:Name="SplashScreenImage"
+				ImageFailed="Image_ImageFailed"
+				ImageOpened="Image_ImageOpened"
+				Source="\Assets\AppTiles\Dev\SplashScreen.png" />
+		</Viewbox>
 
+		<!--  Branch Label  -->
+		<TextBlock
+			x:Name="SplashScreenBranchLabel"
+			Margin="0,164,0,0"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			FontSize="20"
+			Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+			LineHeight="32">
+			<Run FontWeight="SemiBold" Text="Files" />
+			<Run FontWeight="SemiLight" Text="{x:Bind BranchLabel, Mode=OneTime}" />
+		</TextBlock>
+
+		<!--  Loading Indicator  -->
 		<ProgressRing
-			x:Name="MainProgressRing"
-			Margin="0,0,0,88"
+			x:Name="SplashScreenLoadingProgressRing"
+			Margin="0,0,0,48"
 			VerticalAlignment="Bottom"
 			Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
 			IsIndeterminate="True" />
@@ -27,10 +49,10 @@
 			<VisualStateGroup x:Name="SizeChangesState">
 				<VisualState>
 					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="640" />
+						<AdaptiveTrigger MinWindowHeight="500" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="MainSplashScreenImage.Width" Value="480" />
+						<Setter Target="SplashScreenLoadingProgressRing.Margin" Value="0,0,0,88" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

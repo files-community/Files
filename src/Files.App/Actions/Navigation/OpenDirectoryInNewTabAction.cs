@@ -9,8 +9,6 @@ namespace Files.App.Actions
 
 		private readonly IUserSettingsService userSettingsService;
 
-		private readonly MainPageViewModel _mainPageViewModel;
-
 		public string Label
 			=> "OpenInNewTab".GetLocalizedResource();
 
@@ -21,6 +19,8 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
 		public bool IsExecutable =>
+			context.ShellPage is not null &&
+			context.ShellPage.SlimContentPage is not null &&
 			context.SelectedItems.Count <= 5 &&
 			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
@@ -29,18 +29,20 @@ namespace Files.App.Actions
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			_mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
+			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
+				return;
+
 			foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await _mainPageViewModel.AddNewTabByPathAsync(
+					await NavigationHelpers.AddNewTabByPathAsync(
 						typeof(PaneHolderPage),
 						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},

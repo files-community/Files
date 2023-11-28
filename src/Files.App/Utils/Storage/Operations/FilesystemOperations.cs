@@ -5,6 +5,7 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Text;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Files.App.Utils.Storage
@@ -18,7 +19,7 @@ namespace Files.App.Utils.Storage
 
 		public FilesystemOperations(IShellPage associatedInstance)
 		{
-			this._associatedInstance = associatedInstance;
+			_associatedInstance = associatedInstance;
 		}
 
 		public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
@@ -89,7 +90,7 @@ namespace Files.App.Utils.Storage
 						break;
 				}
 
-				fsProgress.ProcessedItemsCount = 1;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.ReportStatus(fsResult);
 				return item is not null
 					? (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item)
@@ -109,7 +110,11 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> CopyAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress);
+
 			fsProgress.Report();
 
 			if (destination.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
@@ -125,7 +130,6 @@ namespace Files.App.Utils.Storage
 			}
 
 			IStorageItem copiedItem = null;
-			//long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
 
 			if (source.ItemType == FilesystemItemType.Directory)
 			{
@@ -142,6 +146,9 @@ namespace Files.App.Utils.Storage
 						//PrimaryButtonText = "Skip".GetLocalizedResource(),
 						CloseButtonText = "Cancel".GetLocalizedResource()
 					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 					ContentDialogResult result = await dialog.TryShowAsync();
 
@@ -289,7 +296,11 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> MoveAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress);
+
 			fsProgress.Report();
 
 			if (source.Path == destination)
@@ -321,8 +332,6 @@ namespace Files.App.Utils.Storage
 
 			IStorageItem movedItem = null;
 
-			//long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
-
 			if (source.ItemType == FilesystemItemType.Directory)
 			{
 				// Also check if user tried to move anything above the source.ItemPath
@@ -339,6 +348,9 @@ namespace Files.App.Utils.Storage
 						//PrimaryButtonText = "Skip".GetLocalizedResource(),
 						CloseButtonText = "Cancel".GetLocalizedResource()
 					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 					ContentDialogResult result = await dialog.TryShowAsync();
 
@@ -366,12 +378,17 @@ namespace Files.App.Utils.Storage
 							if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
 								ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
-							// Moving folders using Storage API can result in data loss, copy instead
-							//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
-							var fsResultMove = new FilesystemResult<BaseStorageFolder>(null, FileSystemStatusCode.Generic);
+							var srcFolder = (BaseStorageFolder)fsSourceFolder;
+							var fsResultMove = await FilesystemTasks.Wrap(() => srcFolder.MoveAsync(fsDestinationFolder.Result, collision).AsTask());
 
-							if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
-								fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+							if (!fsResultMove) // Use generic move folder operation (move folder items one by one)
+							{
+								// Moving folders using Storage API can result in data loss, copy instead
+								//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
+
+								if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
+									fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+							}
 
 							if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
 								ppiu.PasswordRequestedCallback = null;
@@ -453,6 +470,14 @@ namespace Files.App.Utils.Storage
 				return null;
 			}
 
+			bool sourceInCurrentFolder = PathNormalization.TrimPath(_associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath) ==
+				PathNormalization.GetParentDir(source.Path);
+			if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder)
+			{
+				await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source.Path);
+				await _associatedInstance.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
+			}
+
 			var pathWithType = movedItem.FromStorageItem(destination, source.ItemType);
 
 			return new StorageHistory(FileOperationType.Move, source, pathWithType);
@@ -465,7 +490,11 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source, IProgress<StatusCenterItemProgressModel> progress, bool permanently, CancellationToken cancellationToken)
 		{
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress);
+
 			fsProgress.Report();
 
 			bool deleteFromRecycleBin = RecycleBinHelpers.IsPathUnderRecycleBin(source.Path);
@@ -547,12 +576,13 @@ namespace Files.App.Utils.Storage
 			return RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source,
-													   string newName,
-													   NameCollisionOption collision,
-													   IProgress<StatusCenterItemProgressModel> progress,
-													   CancellationToken cancellationToken,
-													   bool asAdmin = false)
+		public async Task<IStorageHistory> RenameAsync(
+			IStorageItemWithPath source,
+			string newName,
+			NameCollisionOption collision,
+			IProgress<StatusCenterItemProgressModel> progress,
+			CancellationToken cancellationToken,
+			bool asAdmin = false)
 		{
 			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 
@@ -652,11 +682,12 @@ namespace Files.App.Utils.Storage
 			return await RestoreItemsFromTrashAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), destination, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source,
-																	 IList<string> destination,
-																	 IProgress<StatusCenterItemProgressModel> progress,
-																	 CancellationToken token,
-																	 bool asAdmin = false)
+		public async Task<IStorageHistory> RestoreItemsFromTrashAsync(
+			IList<IStorageItemWithPath> source,
+			IList<string> destination,
+			IProgress<StatusCenterItemProgressModel> progress,
+			CancellationToken token,
+			bool asAdmin = false)
 		{
 			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
@@ -670,7 +701,7 @@ namespace Files.App.Utils.Storage
 
 				rawStorageHistory.Add(await RestoreFromTrashAsync(source[i], destination[i], null, token));
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 
 			}
@@ -713,7 +744,6 @@ namespace Files.App.Utils.Storage
 					if (fsResult)
 					{
 						// Moving folders using Storage API can result in data loss, copy instead
-
 						//fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
 
 						if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
@@ -821,7 +851,7 @@ namespace Files.App.Utils.Storage
 						token));
 				}
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 
 			}
@@ -865,7 +895,7 @@ namespace Files.App.Utils.Storage
 						token));
 				}
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 			}
 
@@ -900,7 +930,7 @@ namespace Files.App.Utils.Storage
 				permanently = RecycleBinHelpers.IsPathUnderRecycleBin(source[i].Path) || originalPermanently;
 
 				rawStorageHistory.Add(await DeleteAsync(source[i], null, permanently, token));
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 			}
 

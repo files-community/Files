@@ -147,9 +147,9 @@ namespace Files.App.ViewModels.Properties
 
 			LoadAccessControlEntry();
 
-			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);
-			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
-			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
+			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommandAsync);
+			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommandAsync);
+			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommandAsync);
 		}
 
 		private void LoadShieldIconResource()
@@ -195,7 +195,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private async Task ExecuteChangeOwnerCommand()
+		private async Task ExecuteChangeOwnerCommandAsync()
 		{
 			var sid = await FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(_window).ToInt64());
 			if (string.IsNullOrEmpty(sid))
@@ -211,7 +211,7 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		private async Task ExecuteAddAccessControlEntryCommand()
+		private async Task ExecuteAddAccessControlEntryCommandAsync()
 		{
 			// Pick an user or a group with Object Picker UI
 			var sid = await FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(_window).ToInt64());
@@ -229,7 +229,7 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		private async Task ExecuteRemoveAccessControlEntryCommand()
+		private async Task ExecuteRemoveAccessControlEntryCommandAsync()
 		{
 			if (SelectedAccessControlEntry is null)
 				return;

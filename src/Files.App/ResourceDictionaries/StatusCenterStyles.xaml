@@ -1,0 +1,375 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters">
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="ControlFillColorDisabledBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Dark">
+			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="ControlFillColorDisabledBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="SystemControlForegroundBaseHighBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="SystemControlHighlightBaseHighBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="SystemControlHighlightBaseHighBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="SystemControlForegroundTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="SystemControlHighlightBaseMediumLowBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="SystemControlDisabledTransparentBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<converters:EnumToStringConverter x:Key="EnumToStringConverter" />
+	<converters:StatusCenterStateToStateIconConverter x:Key="StatusCenterStateToStateIconConverter" />
+	<converters:StatusCenterStateToBrushConverter
+		x:Key="StatusCenterStateToBrushConverter"
+		CanceledBackgroundBrush="{ThemeResource TextFillColorSecondaryBrush}"
+		CanceledForegroundBrush="{ThemeResource TextFillColorSecondaryBrush}"
+		ErrorBackgroundBrush="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+		ErrorForegroundBrush="{ThemeResource SystemFillColorCriticalBrush}"
+		InProgressBackgroundBrush="{ThemeResource App.Theme.FillColorAttentionBrush}"
+		InProgressForegroundBrush="{ThemeResource App.Theme.FillColorAttentionBrush}"
+		SuccessfulBackgroundBrush="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
+		SuccessfulForegroundBrush="{ThemeResource SystemFillColorSuccessBrush}" />
+
+	<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+	<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+	<wctconverters:BoolToObjectConverter
+		x:Key="NegateBoolToVisibilityConverter"
+		FalseValue="Visible"
+		TrueValue="Collapsed" />
+	<wctconverters:EmptyStringToObjectConverter
+		x:Key="EmptyStringToBoolConverter"
+		EmptyValue="False"
+		NotEmptyValue="True" />
+	<wctconverters:EmptyCollectionToObjectConverter
+		x:Key="EmptyCollectionToBoolConverter"
+		EmptyValue="False"
+		NotEmptyValue="True" />
+
+	<Style x:Key="CustomProgressBarStyle" TargetType="ProgressBar">
+		<Setter Property="Foreground" Value="{ThemeResource ProgressBarForeground}" />
+		<Setter Property="Background" Value="{ThemeResource ProgressBarBackground}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource ProgressBarBorderThemeThickness}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource ProgressBarBorderBrush}" />
+		<Setter Property="MinHeight" Value="{StaticResource ProgressBarMinHeight}" />
+		<Setter Property="Maximum" Value="100" />
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="CornerRadius" Value="{StaticResource ProgressBarCornerRadius}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ProgressBar">
+					<Grid x:Name="LayoutRoot">
+						<Border
+							x:Name="ProgressBarRoot"
+							Padding="{TemplateBinding Padding}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}">
+
+							<Border Clip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClipRect}">
+								<Grid Height="{TemplateBinding MinHeight}">
+
+									<!--<Rectangle
+										x:Name="ProgressBarTrack"
+										Width="{TemplateBinding Width}"
+										Height="{ThemeResource ProgressBarTrackHeight}"
+										VerticalAlignment="Center"
+										Fill="{TemplateBinding Background}"
+										RadiusX="{Binding Source={StaticResource ProgressBarTrackCornerRadius}, Converter={StaticResource TopLeftCornerRadiusDoubleValueConverter}}"
+										RadiusY="{Binding Source={StaticResource ProgressBarTrackCornerRadius}, Converter={StaticResource BottomRightCornerRadiusDoubleValueConverter}}">
+										<Rectangle.RenderTransform>
+											<CompositeTransform />
+										</Rectangle.RenderTransform>
+									</Rectangle>-->
+
+									<Rectangle
+										x:Name="DeterminateProgressBarIndicator"
+										HorizontalAlignment="Left"
+										Fill="{TemplateBinding Foreground}"
+										Opacity="0.2"
+										RadiusX="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopLeftCornerRadiusDoubleValueConverter}}"
+										RadiusY="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomRightCornerRadiusDoubleValueConverter}}" />
+
+									<Rectangle
+										x:Name="IndeterminateProgressBarIndicator"
+										HorizontalAlignment="Left"
+										Fill="{TemplateBinding Foreground}"
+										Opacity="0"
+										RadiusX="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopLeftCornerRadiusDoubleValueConverter}}"
+										RadiusY="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomRightCornerRadiusDoubleValueConverter}}">
+										<Rectangle.RenderTransform>
+											<CompositeTransform />
+										</Rectangle.RenderTransform>
+									</Rectangle>
+
+									<Rectangle
+										x:Name="IndeterminateProgressBarIndicator2"
+										HorizontalAlignment="Left"
+										Fill="{TemplateBinding Foreground}"
+										Opacity="0"
+										RadiusX="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopLeftCornerRadiusDoubleValueConverter}}"
+										RadiusY="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomRightCornerRadiusDoubleValueConverter}}">
+										<Rectangle.RenderTransform>
+											<CompositeTransform />
+										</Rectangle.RenderTransform>
+									</Rectangle>
+								</Grid>
+							</Border>
+						</Border>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualStateGroup.Transitions>
+									<VisualTransition From="Updating" To="Determinate">
+										<Storyboard>
+											<RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorLengthDelta}" TargetName="DeterminateProgressBarIndicator" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="UpdatingError" To="Error">
+										<Storyboard>
+											<RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorLengthDelta}" TargetName="DeterminateProgressBarIndicator" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="Paused" To="Determinate">
+										<Storyboard>
+											<ColorAnimation
+												Storyboard.TargetName="DeterminateProgressBarIndicator"
+												Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+												To="{TemplateBinding Foreground}"
+												Duration="0:0:0.167" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="Error" To="Determinate">
+										<Storyboard>
+											<ColorAnimation
+												Storyboard.TargetName="DeterminateProgressBarIndicator"
+												Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+												To="{TemplateBinding Foreground}"
+												Duration="0:0:0.167" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="Indeterminate" To="Determinate">
+										<Storyboard>
+											<FadeInThemeAnimation TargetName="IndeterminateProgressBarIndicator" />
+											<FadeInThemeAnimation TargetName="IndeterminateProgressBarIndicator2" />
+											<FadeInThemeAnimation TargetName="ProgressBarTrack" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="IndeterminatePaused" To="Indeterminate">
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateProgressBarIndicator" Storyboard.TargetProperty="Opacity">
+												<DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateProgressBarIndicator2" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+												<SplineDoubleKeyFrame
+													KeySpline="1.0, 0.0, 1.0, 1.0"
+													KeyTime="0:0:0.333"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationEndPosition}" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ProgressBarTrack" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+												<SplineDoubleKeyFrame
+													KeySpline="1.0, 0.0, 1.0, 1.0"
+													KeyTime="0:0:0"
+													Value="0" />
+												<SplineDoubleKeyFrame
+													KeySpline="1.0, 0.0, 1.0, 1.0"
+													KeyTime="0:0:0.5"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationEndPosition}" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="IndeterminateError" To="Indeterminate">
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateProgressBarIndicator" Storyboard.TargetProperty="Opacity">
+												<DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateProgressBarIndicator2" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+												<SplineDoubleKeyFrame
+													KeySpline="1.0, 0.0, 1.0, 1.0"
+													KeyTime="0:0:0.333"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationEndPosition}" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ProgressBarTrack" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+												<SplineDoubleKeyFrame
+													KeySpline="1.0, 0.0, 1.0, 1.0"
+													KeyTime="0:0:0"
+													Value="0" />
+												<SplineDoubleKeyFrame
+													KeySpline="1.0, 0.0, 1.0, 1.0"
+													KeyTime="0:0:0.5"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationEndPosition}" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+								</VisualStateGroup.Transitions>
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="Determinate" />
+								<VisualState x:Name="Updating" />
+								<VisualState x:Name="UpdatingError">
+									<VisualState.Setters>
+										<Setter Target="DeterminateProgressBarIndicator.(Shape.Fill).(SolidColorBrush.Color)" Value="{ThemeResource ProgressBarErrorForegroundColor}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Error">
+									<Storyboard>
+										<ColorAnimation
+											Storyboard.TargetName="DeterminateProgressBarIndicator"
+											Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+											To="{ThemeResource ProgressBarErrorForegroundColor}"
+											Duration="0:0:0.167" />
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Paused">
+									<Storyboard>
+										<ColorAnimation
+											Storyboard.TargetName="DeterminateProgressBarIndicator"
+											Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+											To="{ThemeResource ProgressBarPausedForegroundColor}"
+											Duration="0:0:0.167" />
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Indeterminate">
+									<VisualState.Setters>
+										<Setter Target="IndeterminateProgressBarIndicator.Opacity" Value="1" />
+										<Setter Target="IndeterminateProgressBarIndicator2.Opacity" Value="1" />
+										<Setter Target="ProgressBarTrack.Opacity" Value="0" />
+									</VisualState.Setters>
+									<Storyboard RepeatBehavior="Forever">
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateProgressBarIndicator" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+											<DiscreteDoubleKeyFrame KeyTime="0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationStartPosition}" />
+											<SplineDoubleKeyFrame
+												KeySpline="0.4, 0.0, 0.6, 1.0"
+												KeyTime="0:0:1.5"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationEndPosition}" />
+											<DiscreteDoubleKeyFrame KeyTime="0:0:2" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationEndPosition}" />
+										</DoubleAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateProgressBarIndicator2" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+											<DiscreteDoubleKeyFrame KeyTime="0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationStartPosition}" />
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0.75" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationStartPosition}" />
+											<SplineDoubleKeyFrame
+												KeySpline="0.4, 0.0, 0.6, 1.0"
+												KeyTime="0:0:2"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationEndPosition}" />
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="IndeterminateError">
+									<VisualState.Setters>
+										<Setter Target="IndeterminateProgressBarIndicator.Opacity" Value="0" />
+										<Setter Target="DeterminateProgressBarIndicator.Opacity" Value="0" />
+										<Setter Target="IndeterminateProgressBarIndicator2.Opacity" Value="1" />
+										<Setter Target="ProgressBarTrack.Opacity" Value="0" />
+									</VisualState.Setters>
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateProgressBarIndicator2" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+											<SplineDoubleKeyFrame
+												KeySpline="1.0, 1.0, 0.0, 1.0"
+												KeyTime="0:0:0.167"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationEndPosition}" />
+											<SplineDoubleKeyFrame
+												KeySpline="1.0, 1.0, 0.0, 1.0"
+												KeyTime="0:0:0.167"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationStartPosition}" />
+											<SplineDoubleKeyFrame
+												KeySpline="0.0, 0.0, 0.0, 1.0"
+												KeyTime="0:0:0.75"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationMidPosition}" />
+										</DoubleAnimationUsingKeyFrames>
+										<ColorAnimation
+											Storyboard.TargetName="IndeterminateProgressBarIndicator2"
+											Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+											To="{ThemeResource ProgressBarErrorForegroundColor}"
+											Duration="0:0:0.167" />
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ProgressBarTrack" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+											<SplineDoubleKeyFrame
+												KeySpline="0.0, 0.0, 0.0, 1.0"
+												KeyTime="0:0:0"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationStartPosition}" />
+											<SplineDoubleKeyFrame
+												KeySpline="0.0, 0.0, 0.0, 1.0"
+												KeyTime="0:0:0.75"
+												Value="0" />
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="IndeterminatePaused">
+									<VisualState.Setters>
+										<Setter Target="IndeterminateProgressBarIndicator.Opacity" Value="0" />
+										<Setter Target="DeterminateProgressBarIndicator.Opacity" Value="0" />
+										<Setter Target="IndeterminateProgressBarIndicator2.Opacity" Value="1" />
+										<Setter Target="ProgressBarTrack.Opacity" Value="0" />
+									</VisualState.Setters>
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateProgressBarIndicator2" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+											<SplineDoubleKeyFrame
+												KeySpline="1.0, 1.0, 0.0, 1.0"
+												KeyTime="0:0:0.167"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationEndPosition}" />
+											<SplineDoubleKeyFrame
+												KeySpline="1.0, 1.0, 0.0, 1.0"
+												KeyTime="0:0:0.167"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationStartPosition}" />
+											<SplineDoubleKeyFrame
+												KeySpline="0.0, 0.0, 0.0, 1.0"
+												KeyTime="0:0:0.75"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContainerAnimationMidPosition}" />
+										</DoubleAnimationUsingKeyFrames>
+										<ColorAnimation
+											Storyboard.TargetName="IndeterminateProgressBarIndicator2"
+											Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+											To="{ThemeResource ProgressBarPausedForegroundColor}"
+											Duration="0:0:0.167" />
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ProgressBarTrack" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+											<SplineDoubleKeyFrame
+												KeySpline="0.0, 0.0, 0.0, 1.0"
+												KeyTime="0:0:0"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.Container2AnimationStartPosition}" />
+											<SplineDoubleKeyFrame
+												KeySpline="0.0, 0.0, 0.0, 1.0"
+												KeyTime="0:0:0.75"
+												Value="0" />
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

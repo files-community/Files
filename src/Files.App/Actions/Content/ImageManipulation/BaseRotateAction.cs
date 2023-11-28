@@ -9,7 +9,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context;
 
-		private readonly PreviewPaneViewModel _previewPaneViewModel;
+		private readonly InfoPaneViewModel _infoPaneViewModel;
 
 		public abstract string Label { get; }
 
@@ -26,7 +26,7 @@ namespace Files.App.Actions
 		public BaseRotateAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			_previewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+			_infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -34,11 +34,11 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			foreach (var image in context.SelectedItems)
-				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), Rotation);
+				await BitmapHelper.RotateAsync(PathNormalization.NormalizePath(image.ItemPath), Rotation);
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
 
-			await _previewPaneViewModel.UpdateSelectedItemPreview();
+			await _infoPaneViewModel.UpdateSelectedItemPreviewAsync();
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()

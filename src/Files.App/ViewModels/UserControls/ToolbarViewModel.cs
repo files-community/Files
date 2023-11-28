@@ -21,8 +21,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
@@ -504,7 +502,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -569,7 +567,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
 
-					if (page is StandardViewBase svb && svb.IsLoaded)
+					if (page is BaseGroupableLayoutPage svb && svb.IsLoaded)
 						page.ItemManipulationModel.FocusFileList();
 					else
 						AddressToolbar?.Focus(FocusState.Programmatic);
@@ -666,7 +664,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
+		public async Task CheckPathInputAsync(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
 			if (currentInput.StartsWith('>'))
 			{
@@ -786,7 +784,7 @@ namespace Files.App.ViewModels.UserControls
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
-		public async Task SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
+		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
 		{
 			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
 			{

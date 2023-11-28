@@ -32,10 +32,10 @@ namespace Files.App.Services.Settings
 			get => GetSettingsService(ref _AppearanceSettingsService);
 		}
 
-		private IPreviewPaneSettingsService _PreviewPaneSettingsService;
-		public IPreviewPaneSettingsService PreviewPaneSettingsService
+		private IInfoPaneSettingsService _InfoPaneSettingsService;
+		public IInfoPaneSettingsService InfoPaneSettingsService
 		{
-			get => GetSettingsService(ref _PreviewPaneSettingsService);
+			get => GetSettingsService(ref _InfoPaneSettingsService);
 		}
 
 		private ILayoutSettingsService _LayoutSettingsService;
@@ -67,7 +67,7 @@ namespace Files.App.Services.Settings
 
 		public override object ExportSettings()
 		{
-			var export = (Dictionary<string, object>)base.ExportSettings();
+			var export = (IDictionary<string, object>)base.ExportSettings();
 
 			// Remove session settings
 			export.Remove(nameof(GeneralSettingsService.LastSessionTabList));

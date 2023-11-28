@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
@@ -16,7 +16,7 @@ namespace Files.App.Data.Contexts
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
-		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutBrowser);
+		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutPage);
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
@@ -123,7 +123,7 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void Page_ContentChanged(object? sender, TabItemArguments e) => Update();
+		private void Page_ContentChanged(object? sender, CustomTabViewItemParameter e) => Update();
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{

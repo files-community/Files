@@ -280,5 +280,36 @@ namespace Files.App.Helpers
 			});
 			return dialog;
 		}
+
+		public static DynamicDialog GetFor_GitCannotInitializeqRepositoryHere()
+		{
+			return new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "Error".GetLocalizedResource(),
+				SubtitleText = "CannotInitializeGitRepo".GetLocalizedResource(),
+				PrimaryButtonText = "Close".GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary
+			});
+		}
+
+		public static DynamicDialog GetFor_DeleteGitBranchConfirmation(string branchName)
+		{
+			DynamicDialog dialog = null!;
+			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "GitDeleteBranch".GetLocalizedResource(),
+				SubtitleText = string.Format("GitDeleteBranchSubtitle".GetLocalizedResource(), branchName),
+				PrimaryButtonText = "OK".GetLocalizedResource(),
+				CloseButtonText = "Cancel".GetLocalizedResource(),
+				AdditionalData = true,
+				CloseButtonAction = (vm, e) =>
+				{
+					dialog.ViewModel.AdditionalData = false;
+					vm.HideDialog();
+				}
+			});
+
+			return dialog;
+		}
 	}
 }

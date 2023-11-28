@@ -6,7 +6,7 @@ namespace Files.App.Actions
 	internal sealed class CompressIntoZipAction : BaseCompressArchiveAction
 	{
 		public override string Label
-			=> string.Format("CreateNamedArchive".GetLocalizedResource(), $"{ArchiveHelpers.DetermineArchiveNameFromSelection(context.SelectedItems)}.zip");
+			=> string.Format("CreateNamedArchive".GetLocalizedResource(), $"{CompressHelper.DetermineArchiveNameFromSelection(context.SelectedItems)}.zip");
 
 		public override string Description
 			=> "CompressIntoZipDescription".GetLocalizedResource();
@@ -17,17 +17,18 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
-			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(context.ShellPage);
+			if (context.ShellPage is null)
+				return Task.CompletedTask;
 
-			IArchiveCreator creator = new ArchiveCreator
-			{
-				Sources = sources,
-				Directory = directory,
-				FileName = fileName,
-				FileFormat = ArchiveFormats.Zip,
-			};
+			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(context.ShellPage);
 
-			return ArchiveHelpers.CompressArchiveAsync(creator);
+			ICompressArchiveModel creator = new CompressArchiveModel(
+				sources,
+				directory,
+				fileName,
+				fileFormat: ArchiveFormats.Zip);
+
+			return CompressHelper.CompressArchiveAsync(creator);
 		}
 	}
 }

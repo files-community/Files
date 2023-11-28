@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Utils.Cloud;
 using Microsoft.Data.Sqlite;
 using System.IO;
 using Windows.Storage;
@@ -57,6 +56,8 @@ namespace Files.App.Utils.Cloud
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["title"]?.ToString() ?? folder.Name;
 
+				App.AppModel.GoogleDrivePath = path;
+
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
 					Name = $"Google Drive ({title})",
@@ -76,6 +77,8 @@ namespace Files.App.Utils.Cloud
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["name"]?.ToString() ?? folder.Name;
 				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Google", "Drive File Stream", "drive_fs.ico");
+
+				App.AppModel.GoogleDrivePath = path;
 
 				StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 

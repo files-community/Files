@@ -163,7 +163,7 @@
     <value>Інвертувати виділення</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Очистити виділення</value>
+    <value>Прибрати виділення</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Змінено</value>
@@ -175,7 +175,7 @@
     <value>Очистити все</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Введіть шлях для переходу або введіть "&gt;", щоб відкрити меню команд</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
@@ -277,10 +277,10 @@
     <value>Ласкаво просимо до Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Надати дозвіл</value>
+    <value>Надати дозволи</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити додаток після завершення.</value>
+    <value>Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити застосунок після завершення. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Відображення</value>
@@ -289,7 +289,7 @@
     <value>Введіть назву елемента</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Зберегти</value>
+    <value>Встановити ім'я</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Світла</value>
@@ -304,7 +304,7 @@
     <value>Система</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Нова папка</value>
+    <value>Нова тека</value>
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Новий файл</value>
@@ -426,12 +426,6 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>елементів</value>
   </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Видалення файлів</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Переміщення файлів до Кошика</value>
-  </data>
   <data name="Yes" xml:space="preserve">
     <value>Так</value>
   </data>
@@ -500,9 +494,6 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Статус</value>
-  </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Сторінки:</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Стандартна</value>
@@ -957,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Пристрій в даний момент використовується. Закрийте всі програми, вікна або вкладки, які можуть використовувати пристрій, а потім спробуйте ще раз.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Вилучити</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
@@ -979,7 +970,7 @@
     <value>Перевірте стан файлових операцій тут</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Центр операцій</value>
+    <value>Центр стану</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Результати пошуку в</value>
@@ -1061,6 +1052,18 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Відобразити панель попереднього перегляду</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Зобразити панель подробиць</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Перемкнути панель деталей для перегляду основних властивостей файлу</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Перемкнути інформаційну панель</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Перемкнути інформаційну панель для перегляду деталей та попереднього перегляду</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
@@ -1176,24 +1179,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Кількість елементів</value>
   </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Не вдалося видалити</value>
-  </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Видалення завершено</value>
-  </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Видалення скасовано</value>
-  </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Видалено</value>
-  </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Переміщення завершено</value>
-  </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Копіювання завершено</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Для цієї дії необхідні права адміністратора</value>
   </data>
@@ -1308,9 +1293,6 @@
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Створити папку з виділення</value>
   </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Ім’я</value>
-  </data>
   <data name="ItemType" xml:space="preserve">
     <value>Тип:</value>
   </data>
@@ -1416,104 +1398,11 @@
   <data name="Privacy" xml:space="preserve">
     <value>Конфіденційність</value>
   </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Переміщення скасовано</value>
-  </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Копіювання скасовано</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Переміщення {0} елемента з {1} в {2} було скасовано</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Переміщення {0} елементів з {1} до {2} було скасовано після переміщення {3} елементів</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Переміщення {0} елементів з {1} до {2} було скасовано після переміщення {3} елементу</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Переміщення {0} елемента з {1} до {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Переміщення {0} елементів з {1} до {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} елемент успішно переміщено з {1} до {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} елементів успішно переміщено з {1} до {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Не вдалося перемістити {0} елемент із {1} у {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Не вдалося перемістити {0} елементів із {1} у {2}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Копіювання {0} елемента в {1} скасовано</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Копіювання {0} елементів до {1} було скасовано після копіювання {2} елементів</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Копіювання {0} елементів до {1} було скасовано після копіювання {2} елемента</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Триває копіювання елемента ({0}) до папки "{1}"</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Копіювання елементів ({0}) до папки {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} елемент успішно скопійовано в {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} елементів успішно скопійовано в {1}</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Видалення {0} елемента з {1} було скасовано</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Видалення {0} елементів із {1} було скасовано після видалення {3} елементів</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Видалення {0} елементів із {1} було скасовано після видалення {3} елемента</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Триває видалення елементів ({0}) з папки "{1}"</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Видалення елементів ({0}) з папки {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} елемент успішно видалено із {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} елементів успішно видалено із {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Не вдалося видалити {0} елемент із {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Не вдалося видалити {0} елементів із {1}</value>
-  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Кошик</value>
   </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>Переміщення елементів</value>
-  </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Копіювання елементів</value>
-  </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Не вдалося перемістити елемент(и) до кошика</value>
-  </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Видалення скасовано</value>
-  </data>
-  <data name="canceling" xml:space="preserve">
-    <value>скасування</value>
+  <data name="Canceling" xml:space="preserve">
+    <value>Скасування</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Очистити</value>
@@ -1549,7 +1438,7 @@
     <value>Дозволи для {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Читати і виконати</value>
+    <value>Прочитати та виконати</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
     <value>Прочитане</value>
@@ -1708,7 +1597,7 @@
     <value>Замінити всіх записів дозволів дочірніх об'єктів на успадковувані записи дозволів з цього об'єкта</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Закрити область</value>
+    <value>Закрити панель</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Компактний режим</value>
@@ -1798,7 +1687,7 @@
     <value>Видобування завершено!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Відкрити батьківську папку</value>
+    <value>Відкрити батьківську теку</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Невідомо</value>
@@ -1810,7 +1699,7 @@
     <value>Фрагмент</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Відкрити Диск</value>
+    <value>Відкрити диск</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Будь ласка, вставте диск в пристрій {0}</value>
@@ -1834,10 +1723,10 @@
     <value>Ім’я користувача</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Віджет Диски</value>
+    <value>Віджет Дисків</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Віджет Останні файли</value>
+    <value>Віджет Останніх файлів</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Немає елементів</value>
@@ -1866,8 +1755,8 @@
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Відкрити папки у новій вкладці</value>
   </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>Поточні завдання</value>
+  <data name="StatusCenter" xml:space="preserve">
+    <value>Центр стану</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Стовпчик дати створення</value>
@@ -1903,10 +1792,10 @@
     <value>Шлях до папки</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Налаштування експорту</value>
+    <value>Експорт налаштувань</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Налаштування імпорту</value>
+    <value>Імпорт налаштувань</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Не вдалося імпортувати налаштування. Файл налаштувань пошкоджений.</value>
@@ -1929,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Відновити значення за замовчуванням</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Відкриття нового екземпляра під час відкриття каталогів зі списку переходів на панелі завдань</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Відкрити вкладку в наявному вікні, коли відкривається Files з іншої програми</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Налаштування запуску</value>
@@ -2007,9 +1896,6 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Ця опція змінює системний реєстр і може мати несподівані побічні ефекти на вашому пристрої. Продовжуйте на свій страх і ризик.</value>
   </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Очистити все</value>
-  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Створити бібліотеку</value>
   </data>
@@ -2040,14 +1926,11 @@
   <data name="CleanupDrive" xml:space="preserve">
     <value>Очистити вміст диску</value>
   </data>
-  <data name="DiskCleanup" xml:space="preserve">
-    <value>Очищення диску</value>
-  </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Піктограмна сітка</value>
+    <value>Сітка піктограм</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>байт</value>
@@ -2103,24 +1986,6 @@
   <data name="UpdateFiles" xml:space="preserve">
     <value>Оновити Files</value>
   </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Підготовка {0} елементів</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>Підготовка елементів</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Не вдалося скопіювати</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Не вдалося скопіювати {0} елементів із {1} у {2}</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Не вдалося скопіювати {0} елементів із {1} у {2}</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Не вдалося перемістити.</value>
-  </data>
   <data name="FileTags" xml:space="preserve">
     <value>Теги</value>
   </data>
@@ -2158,7 +2023,7 @@
     <value>Адаптивний макет</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Адаптивний (Ctrl+Shift+7)</value>
+    <value>Адаптивний макет (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2211,18 +2076,6 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Відкриття елементів</value>
   </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>Стиснення завершено</value>
-  </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} було стиснуто</value>
-  </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} не вдалося стиснути</value>
-  </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>Стиснення архіву</value>
-  </data>
   <data name="Compress" xml:space="preserve">
     <value>Стиснути</value>
   </data>
@@ -2255,15 +2108,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Ви не маєте дозволу на доступ до цієї папки.</value>
-  </data>
-  <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Очищення кошика</value>
-  </data>
-  <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Успішно очищено кошик</value>
-  </data>
-  <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Не вдалося очистити кошик</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Пароль архіву</value>
@@ -2367,8 +2211,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Редагувати файл налаштувань</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Список змін</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Що нового</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Створення ярлика у цьому місці потребує прав адміністратора</value>
@@ -2476,10 +2320,10 @@
     <value>Застосувати цю дію до всіх конфліктуючих елементів</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Відкрити в терміналі</value>
+    <value>Відкрити в Терміналі Windows</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Відкрити в терміналі як адміністратор</value>
+    <value>Відкрити в терміналі Windows як адміністратор</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
@@ -2495,6 +2339,12 @@
   </data>
   <data name="CalculationError" xml:space="preserve">
     <value>Під час обрахунку сталась помилка</value>
+  </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Не вдалося обчислити хеш, будь ласка, закрийте файл і спробуйте знову.</value>
+  </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Хеші не доступні для файлів онлайн</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Алгоритм</value>
@@ -2560,7 +2410,7 @@
     <value>Перемкнути для показу розширень файлів</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Відобразити панель попереднього перегляду</value>
+    <value>Перемкнути панель попереднього перегляду файлів</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Перемкнути для показу бічної панелі</value>
@@ -3062,7 +2912,7 @@
     <value>Змінити</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Перемкнути виділення</value>
+    <value>Вибрати виділені</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Відображати попередження при зміні розширень файлів</value>
@@ -3209,7 +3059,7 @@
     <value>Ви маєте не закомічені зміни на даній гілці. Що б ви хотіли зробити з ними?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Змінити Гілку</value>
+    <value>Змінити гілку</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Гілки</value>
@@ -3227,7 +3077,7 @@
     <value>Створити гілку</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Створити Гілку</value>
+    <value>Створити гілку</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
     <value>На основі</value>
@@ -3272,7 +3122,7 @@
     <value>Статус Git</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Помилка</value>
+    <value>Помилка git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>Не вдалося виконати git pull через помилку часу очікування</value>
@@ -3315,7 +3165,7 @@
     <value>Керувати гілками</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Пуш</value>
+    <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
     <value>Запустити git push</value>
@@ -3338,17 +3188,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Наразі Files не може отримати доступ до GitHub.</value>
   </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Відкрити каталог у Visual Studio Code</value>
-  </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Відкрити папку у VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Відкрити каталог у Visual Studio Code</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Відкрити репозиторій у VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Відкрийте корінь Git репозиторію за допомогою Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Скопіювати код</value>
@@ -3366,7 +3216,7 @@
     <value>Не відстежується</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Не вдалося відобразити поточного власника.</value>
+    <value>Не вдалося зобразити поточного власника.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
     <value>Чудово! Ви успішно авторизовані.</value>
@@ -3378,7 +3228,7 @@
     <value>Ініціалізувати репозиторій Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Назва віддаленого репозиторія</value>
+    <value>Назва віддаленого репозиторію</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
     <value>Поточна гілка</value>
@@ -3412,7 +3262,7 @@
     <value>Некоректна команда</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' не розпізнано в якості команди.</value>
+    <value>'{0}' не розпізнано як команду.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
     <value>Команду неможливо виконати</value>
@@ -3430,12 +3280,338 @@
     <value>Запустити в:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Turn on BitLocker</value>	
+    <value>Увімкнути BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Manage BitLocker</value>
+    <value>Керування BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>The following items are too large to be copied to this drive</value>
+    <value>Обрані елементи є завеликими для копіювання на цей диск</value>
+  </data>
+  <data name="FormatDrive" xml:space="preserve">
+    <value>Відформатувати диск</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Не показувати знову</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files запущений від імені адміністратора</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>У зв'язку з обмеженнями платформи, перемістити та відпустити недоступно при запуску Files як адміністратор.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>При закритті вікна залишати застосунок на фоні</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Синій</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Синьо-сірий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Цегляний</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Камуфляж</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Прохолодний світло-синій</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Сірий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Темно-сірий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Зелений</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Пастельно-ірисовий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Світло-м'ятний</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Помірно-червоний</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Світло-помаранчевий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Похмурий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Червоний</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Світло-трояндовий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Морська піна</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Шторм</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Світлий фіолетово-червоний</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Золотаво-жовтий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ClearCompleted" xml:space="preserve">
+    <value>Очищення завершено</value>
+  </data>
+  <data name="NameWithColon" xml:space="preserve">
+    <value>Імʼя:</value>
+  </data>
+  <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
+    <value>опрацьовано {0} з {1}</value>
+    <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
+  </data>
+  <data name="ItemsLower" xml:space="preserve">
+    <value>елементи</value>
+  </data>
+  <data name="CannotInitializeGitRepo" xml:space="preserve">
+    <value>Files не можуть ініціалізувати Git-репозиторій в цьому каталозі.</value>
+  </data>
+  <data name="ContributingArtist" xml:space="preserve">
+    <value>Художник-учасник</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Додати сторінку</value>
+  </data>
+  <data name="ProcessingItems" xml:space="preserve">
+    <value>Опрацювання елементів...</value>
+  </data>
+  <data name="SpeedWithColon" xml:space="preserve">
+    <value>Швидкість:</value>
+  </data>
+  <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
+    <value>Скасовано стиснення {0} елементів до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
+    <value>Скасовано стиснення {0} елементів з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
+    <value>Стиснення {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
+    <value>Стиснення {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
+    <value>Помилка стиснення {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
+    <value>Не вдалось стиснути {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
+    <value>Стиснення {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Стиснення {0} елемент(ів) до "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
+    <value>Скасовано копіювання {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
+    <value>Скасовано копіювання {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
+    <value>Скопійовано {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
+    <value>Скопійовано {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
+    <value>Помилка копіювання {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
+    <value>Не вдалось скопіювати {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
+    <value>Копіювання {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
+    <value>Копіювання {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
+    <value>Скасовано видобування "{0}" до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
+    <value>Скасовано видобування "{0}" з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
+    <value>Видобуто "{0}" до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
+    <value>Видобуто "{0}" з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
+    <value>Помилка видобування "{0}" до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
+    <value>Не вдалось видобути "{0}" з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
+    <value>Видобування "{0}" до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Видобування "{0}" з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
+    <value>Скасовано остаточне видалення {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Остаточно видалено {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
+    <value>Помилка при остаточному видаленні {0} елемент(ів) "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Не вдалось остаточно видалити {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
+    <value>Остаточне видалення {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
+    <value>Скасовано видалення {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+    <value>Видалено {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+    <value>Помилка при видаленні {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+    <value>Видалення {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
+    <value>Скасовано переміщення {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
+    <value>Скасовано переміщення {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
+    <value>Переміщено {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
+    <value>Переміщено {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
+    <value>Переміщення {0} елемент(ів) з "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
+    <value>Переміщення {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
+    <value>Помлка переміщення {0} елемент(ів) до "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
+    <value>Не вдалось перемістити {0} елемент(ів) з "{1}" до "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
+    <value>Скасовано очищення кошика</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
+    <value>Кошик очищено</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
+    <value>Очищення кошика</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
+    <value>Помилка очищення кошика</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
+    <value>Не вдалося очистити кошик</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_Prepare_Header" xml:space="preserve">
+    <value>Підготування операції...</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
+    <value>{0}/{1} елемент(ів) опрацьовано</value>
+    <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
+  </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Розблокувати завантажений файл</value>
+  </data>
+  <data name="NoFileOperations" xml:space="preserve">
+    <value>Немає поточних операцій з файлами</value>
+  </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>Опція для автозапуску Files не доступна через налаштування системи або групову політику. Щоб ввімкнути вручну, відкрийте сторінку автозапуску в диспетчері задач.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Не вдалося відновити об'єкти з кошика</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Не вдалося встановити шпалери</value>
   </data>
 </root>

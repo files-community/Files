@@ -86,6 +86,8 @@ namespace Files.App.Utils.Cloud
 						driveType = "iCloudPhotos";
 					if (driveType.StartsWith("ownCloud"))
 						driveType = "ownCloud";
+					if (driveType.StartsWith("ProtonDrive"))
+						driveType = "ProtonDrive";
 
 					using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
 					var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
@@ -105,6 +107,7 @@ namespace Files.App.Utils.Cloud
 						"iCloudPhotos" => CloudProviders.AppleCloudPhotos,
 						"Creative Cloud Files" => CloudProviders.AdobeCreativeCloud,
 						"ownCloud" => CloudProviders.ownCloud,
+						"ProtonDrive" => CloudProviders.ProtonDrive,
 						_ => null,
 					};
 					if (driveID is null)
@@ -114,6 +117,9 @@ namespace Files.App.Utils.Cloud
 
 					string nextCloudValue = (string)namespaceSubKey?.GetValue(string.Empty);
 					string ownCloudValue = (string)clsidSubKey?.GetValue(string.Empty);
+
+					using var defaultIconKey = clsidSubKey.OpenSubKey(@"DefaultIcon");
+					string iconPath = (string)defaultIconKey?.GetValue(string.Empty);
 
 					results.Add(new CloudProvider(driveID.Value)
 					{
@@ -127,9 +133,15 @@ namespace Files.App.Utils.Cloud
 							CloudProviders.AppleCloudPhotos => $"iCloud Photos",
 							CloudProviders.AdobeCreativeCloud => $"Creative Cloud Files",
 							CloudProviders.ownCloud => !string.IsNullOrEmpty(ownCloudValue) ? ownCloudValue : "ownCloud",
+							CloudProviders.ProtonDrive => $"Proton Drive",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
+						IconData = driveID switch
+						{
+							CloudProviders.ProtonDrive => Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault()?.IconData,
+							_ => null
+						}
 					});
 				}
 			}
@@ -232,6 +244,8 @@ namespace Files.App.Utils.Cloud
 			{
 				string iconPath = Path.Combine(programFilesFolder, "pCloud Drive", "pCloud.exe");
 				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+
+				App.AppModel.PCloudDrivePath = syncedFolder;
 
 				results.Add(new CloudProvider(CloudProviders.pCloud)
 				{

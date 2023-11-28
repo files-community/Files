@@ -18,6 +18,16 @@ namespace Files.App
 			public const float ExtraSmallThreshold = 15.0f;
 		}
 
+		// The following constants will be replaced with actual values by the Files CI workflow
+		public static class AutomatedWorkflowInjectionKeys
+		{
+			public const string AppCenterSecret = "appcenter.secret";
+
+			public const string GitHubClientId = "githubclientid.secret";
+
+			public const string BingMapsSecret = "bingmapskey.secret";
+		}
+
 		public static class KnownImageFormats
 		{
 			public const string BITMAP_IMAGE_FORMAT = "bitmapimage";

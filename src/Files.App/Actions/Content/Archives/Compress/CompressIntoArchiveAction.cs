@@ -3,6 +3,7 @@
 
 using Files.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
@@ -20,30 +21,34 @@ namespace Files.App.Actions
 
 		public override async Task ExecuteAsync()
 		{
-			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(context.ShellPage);
+			if (context.ShellPage is null)
+				return;
+
+			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(context.ShellPage);
 
 			var dialog = new CreateArchiveDialog
 			{
 				FileName = fileName,
 			};
 
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
 			var result = await dialog.TryShowAsync();
 
 			if (!dialog.CanCreate || result != ContentDialogResult.Primary)
 				return;
 
-			IArchiveCreator creator = new ArchiveCreator
-			{
-				Sources = sources,
-				Directory = directory,
-				FileName = dialog.FileName,
-				Password = dialog.Password,
-				FileFormat = dialog.FileFormat,
-				CompressionLevel = dialog.CompressionLevel,
-				SplittingSize = dialog.SplittingSize,
-			};
+			ICompressArchiveModel creator = new CompressArchiveModel(
+				sources,
+				directory,
+				dialog.FileName,
+				dialog.Password,
+				dialog.FileFormat,
+				dialog.CompressionLevel,
+				dialog.SplittingSize);
 
-			await ArchiveHelpers.CompressArchiveAsync(creator);
+			await CompressHelper.CompressArchiveAsync(creator);
 		}
 	}
 }

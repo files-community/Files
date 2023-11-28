@@ -1,12 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Dialogs;
 using Files.App.UserControls.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.InteropServices;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Files.App.Views
@@ -53,8 +53,8 @@ namespace Files.App.Views
 		public void ReloadWidgets()
 		{
 			quickAccessWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
-			drivesWidget =      WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-			fileTagsWidget =    WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
+			drivesWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+			fileTagsWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
 			recentFilesWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
 			// Reload QuickAccessWidget
@@ -143,7 +143,11 @@ namespace Files.App.Views
 			}
 			catch (UnauthorizedAccessException)
 			{
-				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+				var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+
+				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+					dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
 				await dialog.TryShowAsync();
 			}
 			catch (COMException) { }
@@ -199,7 +203,9 @@ namespace Files.App.Views
 			});
 		}
 
-		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+		protected override async void OnNavigatedTo(NavigationEventArgs e) => await OnNavigatedToAsync(e);
+
+		private async Task OnNavigatedToAsync(NavigationEventArgs eventArgs)
 		{
 			var parameters = eventArgs.Parameter as NavigationArguments;
 
@@ -213,6 +219,7 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
 			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
 			AppInstance.InstanceViewModel.GitRepositoryPath = null;
+			AppInstance.InstanceViewModel.GitBranchName = string.Empty;
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
@@ -224,7 +231,7 @@ namespace Files.App.Views
 			// Set path of working directory empty
 			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
 
-			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, Array.Empty<BranchItem>());
+			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, null);
 
 			// Clear the path UI and replace with Favorites
 			AppInstance.ToolbarViewModel.PathComponents.Clear();
@@ -250,7 +257,7 @@ namespace Files.App.Views
 		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
 			AppInstance.ToolbarViewModel.CanRefresh = false;
-			await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidget()));
+			await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 		}
 

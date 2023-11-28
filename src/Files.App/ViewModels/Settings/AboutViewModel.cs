@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand OpenPrivacyPolicyCommand { get; }
 		public ICommand OpenCrowdinCommand { get; }
 
-		private string _ThirdPartyNotices;
+		private string _ThirdPartyNotices = string.Empty;
 		public string ThirdPartyNotices
 		{
 			get => _ThirdPartyNotices;
@@ -109,7 +109,7 @@ namespace Files.App.ViewModels.Settings
 			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl)).AsTask();
 		}
 
-		public async Task LoadThirdPartyNotices()
+		public async Task LoadThirdPartyNoticesAsync()
 		{
 			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
 			ThirdPartyNotices = await FileIO.ReadTextAsync(file);

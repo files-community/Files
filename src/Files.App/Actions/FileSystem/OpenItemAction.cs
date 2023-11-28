@@ -39,7 +39,10 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return NavigationHelpers.OpenSelectedItems(context.ShellPage);
+			if (context.ShellPage is not null)
+				return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage);
+
+			return Task.CompletedTask;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -77,7 +80,10 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return NavigationHelpers.OpenSelectedItems(context.ShellPage, true);
+			if (context.ShellPage is null)
+				return Task.CompletedTask;
+
+			return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage, true);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -102,6 +108,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.HasSelection &&
+			context.ShellPage is not null &&
 			context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
 
 		public OpenParentFolderAction()
@@ -113,8 +120,14 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
+			if (context.ShellPage is null)
+				return;
+
 			var item = context.SelectedItem;
-			var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
+			var folderPath = Path.GetDirectoryName(item?.ItemPath.TrimEnd('\\'));
+
+			if (folderPath is null || item is null)
+				return;
 
 			context.ShellPage.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 			{

@@ -9,10 +9,10 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
+	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	AllowDrop="True"
@@ -137,7 +137,7 @@
 			</Grid.RowDefinitions>
 
 			<!--  Tab Control  -->
-			<usercontrols:HorizontalMultitaskingControl
+			<tabbar:TabBar
 				x:Name="TabControl"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
@@ -148,7 +148,7 @@
 				TabIndex="0"
 				TabStripVisibility="Visible"
 				Visibility="Visible">
-				<usercontrols:HorizontalMultitaskingControl.ActionsControl>
+				<tabbar:TabBar.FooterElement>
 					<Button
 						x:Name="HorizontalMultitaskingControlAddButton"
 						Width="32"
@@ -168,8 +168,8 @@
 								Glyph="&#xE710;" />
 						</Button.Content>
 					</Button>
-				</usercontrols:HorizontalMultitaskingControl.ActionsControl>
-			</usercontrols:HorizontalMultitaskingControl>
+				</tabbar:TabBar.FooterElement>
+			</tabbar:TabBar>
 
 			<!--  Address Bar  -->
 			<uc:AddressToolbar
@@ -248,7 +248,7 @@
 					Grid.Column="0"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
-					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
 				<!--  Preview Pane Splitter  -->
 				<toolkit:GridSplitter
@@ -262,7 +262,7 @@
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
 				<!--  Preview Pane  -->
-				<uc:PreviewPane
+				<uc:InfoPane
 					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"

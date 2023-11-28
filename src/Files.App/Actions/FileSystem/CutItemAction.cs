@@ -32,7 +32,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			return context.ShellPage is not null
-				? UIFilesystemHelpers.CutItem(context.ShellPage)
+				? UIFilesystemHelpers.CutItemAsync(context.ShellPage)
 				: Task.CompletedTask;
 		}
 
