@@ -60,7 +60,7 @@ jobs:
     - name: Check XAML formatting
       id: check-step
       run: |
-        $changedFiles = (git diff --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
+        $changedFiles = (git diff --diff-filter=d --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
         foreach ($file in $changedFiles)
         {
           xstyler -p -l None -f $file
