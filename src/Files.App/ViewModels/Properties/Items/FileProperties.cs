@@ -74,7 +74,7 @@ namespace Files.App.ViewModels.Properties
 				if (Item.IsLinkItem)
 				{
 					var tmpItem = (ShortcutItem)Item;
-					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await ProcessInvoker.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{
@@ -159,7 +159,7 @@ namespace Files.App.ViewModels.Properties
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
 			list.Find(x => x.ID == "address").Value =
-				await LocationHelpers.GetAddressFromCoordinatesAsync((double?)list.Find(
+				await LocationHelper.GetAddressFromCoordinatesAsync((double?)list.Find(
 					x => x.Property == "System.GPS.LatitudeDecimal").Value,
 					(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 

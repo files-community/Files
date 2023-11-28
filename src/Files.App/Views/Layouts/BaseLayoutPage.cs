@@ -21,7 +21,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
-using static Files.App.Helpers.PathNormalization;
+using static Files.App.Helpers.PathNormalizeHelper;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;

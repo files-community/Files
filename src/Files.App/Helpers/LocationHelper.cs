@@ -6,7 +6,7 @@ using Windows.Services.Maps;
 
 namespace Files.App.Helpers
 {
-	public static class LocationHelpers
+	public static class LocationHelper
 	{
 		public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
 		{

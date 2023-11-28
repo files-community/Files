@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Files.App.Helpers
 {
-	public static class PathNormalization
+	public static class PathNormalizeHelper
 	{
 		public static string GetPathRoot(string path)
 		{

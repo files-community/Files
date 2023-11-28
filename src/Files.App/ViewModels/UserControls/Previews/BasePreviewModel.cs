@@ -118,7 +118,7 @@ namespace Files.App.ViewModels.Previews
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile,
 				Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
 
-			list.Find(x => x.ID is "address").Value = await LocationHelpers.GetAddressFromCoordinatesAsync(
+			list.Find(x => x.ID is "address").Value = await LocationHelper.GetAddressFromCoordinatesAsync(
 				(double?)list.Find(x => x.Property is "System.GPS.LatitudeDecimal").Value,
 				(double?)list.Find(x => x.Property is "System.GPS.LongitudeDecimal").Value
 			);

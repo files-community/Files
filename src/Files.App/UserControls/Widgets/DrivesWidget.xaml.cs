@@ -162,7 +162,7 @@ namespace Files.App.UserControls.Widgets
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			var drive = ItemsAdded.Where(x => string.Equals(PathNormalizeHelper.NormalizePath(x.Path), PathNormalizeHelper.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;
 
 			return new List<ContextMenuFlyoutItemViewModel>()

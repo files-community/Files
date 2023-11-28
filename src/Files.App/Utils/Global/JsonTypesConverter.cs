@@ -4,7 +4,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public class KnownTypesConverter
 	{

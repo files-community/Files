@@ -376,12 +376,12 @@ namespace Files.App.Utils.Storage
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-							destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+							destinations.Add(PathNormalizeHelper.Combine(destination, matchingItem?.FileName ?? item.Name));
 						}
 					}
 					else
 					{
-						destinations.Add(PathNormalization.Combine(destination, item.Name));
+						destinations.Add(PathNormalizeHelper.Combine(destination, item.Name));
 					}
 				}
 
@@ -524,12 +524,12 @@ namespace Files.App.Utils.Storage
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 					{
 						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-						destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+						destinations.Add(PathNormalizeHelper.Combine(destination, matchingItem?.FileName ?? item.Name));
 					}
 				}
 				else
 				{
-					destinations.Add(PathNormalization.Combine(destination, item.Name));
+					destinations.Add(PathNormalizeHelper.Combine(destination, item.Name));
 				}
 			}
 

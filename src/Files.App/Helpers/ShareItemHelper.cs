@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Files.App.Helpers
 {
-	public static class ShareItemHelpers
+	public static class ShareItemHelper
 	{
 		public static bool IsItemShareable(ListedItem item)
 			=> !item.IsHiddenItem &&

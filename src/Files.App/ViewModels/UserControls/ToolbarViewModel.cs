@@ -21,6 +21,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
@@ -502,7 +504,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -713,7 +715,7 @@ namespace Files.App.ViewModels.UserControls
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
-						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalizeHelper.NormalizePath(currentInput).StartsWith(PathNormalizeHelper.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
@@ -737,7 +739,7 @@ namespace Files.App.ViewModels.UserControls
 						if (resFile)
 						{
 							var pathToInvoke = resFile.Result.Path;
-							await Win32Helpers.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
+							await ProcessInvoker.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
 						}
 						else // Not a file or not accessible
 						{
@@ -812,7 +814,7 @@ namespace Files.App.ViewModels.UserControls
 						IsCommandPaletteOpen = false;
 						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
 						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
-						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
+						var folderPath = PathNormalizeHelper.GetParentDir(expandedPath) ?? expandedPath;
 						StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 						if (folder is null)
@@ -838,7 +840,7 @@ namespace Files.App.ViewModels.UserControls
 								subPath.Select(x => new NavigationBarSuggestionItem()
 								{
 									Text = x.Path,
-									PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+									PrimaryDisplay = PathNormalizeHelper.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
 								})).ToList();
 						}
 					}

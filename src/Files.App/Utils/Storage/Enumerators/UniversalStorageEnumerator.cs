@@ -209,7 +209,7 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = false,
-						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalizeHelper.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
 						FileSize = basicProperties.Size.ToSizeString(),
 						FileSizeBytes = (long)basicProperties.Size,
 						ItemDateDeletedReal = binFolder.DateDeleted,
@@ -229,7 +229,7 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = false,
-						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalizeHelper.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
 						FileSize = null,
 						FileSizeBytes = 0
 					};
@@ -249,7 +249,7 @@ namespace Files.App.Utils.Storage
 			var itemName = file.Name;
 			var itemModifiedDate = basicProperties.DateModified;
 			var itemCreatedDate = file.DateCreated;
-			var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
+			var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalizeHelper.Combine(currentStorageFolder.Path, file.Name) : file.Path;
 			var itemSize = basicProperties.Size.ToSizeString();
 			var itemSizeBytes = basicProperties.Size;
 			var itemType = file.DisplayType;

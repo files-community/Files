@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
 using static Files.App.Constants;
-using static Files.App.Helpers.PathNormalization;
+using static Files.App.Helpers.PathNormalizeHelper;
 
 namespace Files.App.Views.Layouts
 {

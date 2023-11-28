@@ -312,14 +312,14 @@ namespace Files.App.Utils.Storage.Helpers
 				case AddItemDialogItemType.Folder:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
+						StorageHelpers.FromPathAndType(PathNormalizeHelper.Combine(currentPath, userInput), FilesystemItemType.Directory),
 						true);
 					break;
 
 				case AddItemDialogItemType.File:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
+						StorageHelpers.FromPathAndType(PathNormalizeHelper.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
 						true);
 					break;
 			}
@@ -347,7 +347,7 @@ namespace Files.App.Utils.Storage.Helpers
 				if (folder is null)
 					return;
 
-				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
+				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalizeHelper.Combine(folder.Path, x.Name)), false, true);
 				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
 			catch (Exception ex)

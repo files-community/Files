@@ -22,7 +22,7 @@ namespace Files.App.Actions
 			IsContextPageTypeAdaptedToCommand() &&
 			DataTransferManager.IsSupported() &&
 			context.SelectedItems.Any() &&
-			context.SelectedItems.All(ShareItemHelpers.IsItemShareable);
+			context.SelectedItems.All(ShareItemHelper.IsItemShareable);
 
 		public ShareItemAction()
 		{
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			ShareItemHelpers.ShareItems(context.SelectedItems);
+			ShareItemHelper.ShareItems(context.SelectedItems);
 
 			return Task.CompletedTask;
 		}

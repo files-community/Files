@@ -129,7 +129,7 @@ namespace Files.App.Views
 				if (e.IsFile)
 				{
 					var directoryName = Path.GetDirectoryName(e.ItemPath);
-					await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
+					await ProcessInvoker.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
 				}
 				else
 				{

@@ -21,10 +21,10 @@ namespace Files.App.Utils.StatusCenter
 			string? destinationDir = string.Empty;
 
 			if (source is not null && source.Any())
-				sourceDir = PathNormalization.GetParentDir(source.First().Path);
+				sourceDir = PathNormalizeHelper.GetParentDir(source.First().Path);
 
 			if (destination is not null && destination.Any())
-				destinationDir = PathNormalization.GetParentDir(destination.First());
+				destinationDir = PathNormalizeHelper.GetParentDir(destination.First());
 
 			if (returnStatus == ReturnResult.Cancelled)
 			{
@@ -88,8 +88,8 @@ namespace Files.App.Utils.StatusCenter
 			long itemsCount = 0,
 			long totalSize = 0)
 		{
-			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
-			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+			var sourceDir = PathNormalizeHelper.GetParentDir(source.FirstOrDefault()?.Path);
+			var destinationDir = PathNormalizeHelper.GetParentDir(destination.FirstOrDefault());
 
 			if (returnStatus == ReturnResult.Cancelled)
 			{
@@ -155,7 +155,7 @@ namespace Files.App.Utils.StatusCenter
 			string? sourceDir = string.Empty;
 
 			if (source is not null && source.Any())
-				sourceDir = PathNormalization.GetParentDir(source.First().Path);
+				sourceDir = PathNormalizeHelper.GetParentDir(source.First().Path);
 
 			if (returnStatus == ReturnResult.Cancelled)
 			{
@@ -221,7 +221,7 @@ namespace Files.App.Utils.StatusCenter
 			string? sourceDir = string.Empty;
 
 			if (source is not null && source.Any())
-				sourceDir = PathNormalization.GetParentDir(source.First().Path);
+				sourceDir = PathNormalizeHelper.GetParentDir(source.First().Path);
 
 			if (returnStatus == ReturnResult.Cancelled)
 			{
@@ -287,8 +287,8 @@ namespace Files.App.Utils.StatusCenter
 		{
 			// Currently not supported accurate progress report for emptying the recycle bin
 
-			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault());
-			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+			var sourceDir = PathNormalizeHelper.GetParentDir(source.FirstOrDefault());
+			var destinationDir = PathNormalizeHelper.GetParentDir(destination.FirstOrDefault());
 
 			if (returnStatus == ReturnResult.Cancelled)
 			{
@@ -354,8 +354,8 @@ namespace Files.App.Utils.StatusCenter
 		{
 			// Currently not supported accurate progress report for emptying the recycle bin
 
-			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault());
-			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+			var sourceDir = PathNormalizeHelper.GetParentDir(source.FirstOrDefault());
+			var destinationDir = PathNormalizeHelper.GetParentDir(destination.FirstOrDefault());
 
 			if (returnStatus == ReturnResult.Cancelled)
 			{
@@ -503,7 +503,7 @@ namespace Files.App.Utils.StatusCenter
 				// https://github.com/files-community/Files/issues/13590
 				if (card.Source.First() != null)
 				{
-					sourcePath = PathNormalization.GetParentDir(card.Source.First());
+					sourcePath = PathNormalizeHelper.GetParentDir(card.Source.First());
 					sourceDirName = sourcePath.Split('\\').Last();
 					sourceFileName = card.Source.First().Split('\\').Last();
 				}
@@ -511,7 +511,7 @@ namespace Files.App.Utils.StatusCenter
 
 			if (card.Destination is not null && card.Destination.Any())
 			{
-				destinationPath = PathNormalization.GetParentDir(card.Destination.First());
+				destinationPath = PathNormalizeHelper.GetParentDir(card.Destination.First());
 				destinationDirName = destinationPath.Split('\\').Last();
 			}
 

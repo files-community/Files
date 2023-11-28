@@ -227,7 +227,7 @@ namespace Files.App.Utils.Storage
 								if (await LaunchHelper.LaunchAppAsync(
 										args[0].Replace("\"", "", StringComparison.Ordinal),
 										string.Join(' ', args.Skip(1)).Replace("%1", source.Path),
-										PathNormalization.GetParentDir(source.Path)))
+										PathNormalizeHelper.GetParentDir(source.Path)))
 								{
 									success = true;
 								}
@@ -535,7 +535,7 @@ namespace Files.App.Utils.Storage
 					if (!asAdmin && await RequestAdminOperation())
 						return await MoveItemsAsync(source, destination, collisions, progress, cancellationToken, true);
 				}
-				else if (source.Zip(destination, (src, dest) => (src, dest)).FirstOrDefault(x => x.src.ItemType == FilesystemItemType.Directory && PathNormalization.GetParentDir(x.dest).IsSubPathOf(x.src.Path)) is (IStorageItemWithPath, string) subtree)
+				else if (source.Zip(destination, (src, dest) => (src, dest)).FirstOrDefault(x => x.src.ItemType == FilesystemItemType.Directory && PathNormalizeHelper.GetParentDir(x.dest).IsSubPathOf(x.src.Path)) is (IStorageItemWithPath, string) subtree)
 				{
 					var destName = subtree.dest.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
 					var srcName = subtree.src.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();

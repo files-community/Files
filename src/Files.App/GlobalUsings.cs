@@ -79,3 +79,4 @@ global using global::Files.Core.Utils.CommandLine;
 global using global::Files.Shared;
 global using global::Files.Shared.Extensions;
 global using global::Files.Shared.Helpers;
+global using global::Files.Shared.Utils;

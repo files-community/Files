@@ -245,17 +245,17 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
-				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+				var normalizedCurrentPath = PathNormalizeHelper.NormalizePath(currentPath);
+				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalizeHelper.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
 					iconSource.ImageSource = matchingCloudDrive.Icon;
 					tabLocationHeader = matchingCloudDrive.Text;
 				}
-				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
+				else if (PathNormalizeHelper.NormalizePath(PathNormalizeHelper.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = networkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-					matchingDrive ??= drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = networkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalizeHelper.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					matchingDrive ??= drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalizeHelper.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
 				else

@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 		{
 			if (drive.DriveType is System.IO.DriveType.Unknown)
 			{
-				string path = PathNormalization.NormalizePath(drive.Name);
+				string path = PathNormalizeHelper.NormalizePath(drive.Name);
 
 				if (path is "A:" or "B:")
 					return Data.Items.DriveType.FloppyDisk;

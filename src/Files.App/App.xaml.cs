@@ -163,7 +163,7 @@ namespace Files.App
 			);
 
 			await Task.WhenAll(
-				JumpListHelper.InitializeUpdatesAsync(),
+				AppJumpListHelper.InitializeUpdatesAsync(),
 				addItemService.InitializeAsync(),
 				ContextMenu.WarmUpQueryContextMenuAsync()
 			);
@@ -368,9 +368,6 @@ namespace Files.App
 				}
 			},
 			Logger);
-
-			// Dispose git operations' thread
-			GitHelpers.TryDispose();
 
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();

@@ -173,17 +173,17 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
-				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+				var normalizedCurrentPath = PathNormalizeHelper.NormalizePath(currentPath);
+				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalizeHelper.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
 					iconSource.ImageSource = matchingCloudDrive.Icon;
 					tabLocationHeader = matchingCloudDrive.Text;
 				}
-				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
+				else if (PathNormalizeHelper.NormalizePath(PathNormalizeHelper.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = NetworkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = NetworkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalizeHelper.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalizeHelper.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
 				else
@@ -301,7 +301,7 @@ namespace Files.App.Helpers
 				selectedItems.Count > 1 &&
 				selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && !x.IsExecutable && !x.IsShortcut))
 			{
-				opened = await Win32Helpers.InvokeWin32ComponentAsync(string.Join('|', selectedItems.Select(x => x.ItemPath)), associatedInstance);
+				opened = await ProcessInvoker.InvokeWin32ComponentAsync(string.Join('|', selectedItems.Select(x => x.ItemPath)), associatedInstance);
 			}
 
 			if (opened)
@@ -328,7 +328,7 @@ namespace Files.App.Helpers
 				return;
 
 			var arguments = string.Join(" ", items.Select(item => $"\"{item.Path}\""));
-			await Win32Helpers.InvokeWin32ComponentAsync(executablePath, associatedInstance, arguments);
+			await ProcessInvoker.InvokeWin32ComponentAsync(executablePath, associatedInstance, arguments);
 		}
 
 		/// <summary>
@@ -401,7 +401,7 @@ namespace Files.App.Helpers
 				{
 					if (!isDirectory &&
 						Core.Helpers.Win32Interop.GetWin32FindDataForPath(path, out var findData) &&
-						findData.dwReserved0 == Win32InteropHelper.IO_REPARSE_TAG_SYMLINK)
+						findData.dwReserved0 == Win32Interop.IO_REPARSE_TAG_SYMLINK)
 					{
 						shortcutInfo.TargetPath = Win32InteropHelper.ParseSymLink(path);
 					}
@@ -478,7 +478,7 @@ namespace Files.App.Helpers
 			{
 				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
 				{
-					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+					await ProcessInvoker.InvokeWin32ComponentAsync(path, associatedInstance);
 					opened = (FilesystemResult)true;
 				}
 				else
@@ -507,7 +507,7 @@ namespace Files.App.Helpers
 				if (opened)
 					await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance, selectItems);
 				else
-					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+					await ProcessInvoker.InvokeWin32ComponentAsync(path, associatedInstance);
 			}
 			return opened;
 		}
@@ -522,7 +522,7 @@ namespace Files.App.Helpers
 			{
 				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
 				{
-					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+					await ProcessInvoker.InvokeWin32ComponentAsync(path, associatedInstance, args);
 				}
 				else
 				{
@@ -533,13 +533,13 @@ namespace Files.App.Helpers
 						if (childFile?.Item is SystemStorageFile)
 							App.RecentItemsManager.AddToRecentItems(childFile.Path);
 					}
-					await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
+					await ProcessInvoker.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
 				}
 				opened = (FilesystemResult)true;
 			}
 			else if (isHiddenItem)
 			{
-				await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+				await ProcessInvoker.InvokeWin32ComponentAsync(path, associatedInstance, args);
 			}
 			else
 			{
@@ -567,7 +567,7 @@ namespace Files.App.Helpers
 							BaseStorageFileQueryResult? fileQueryResult = null;
 
 							//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-							BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
+							BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalizeHelper.GetParentDir(path));
 
 							if (currentFolder is not null)
 							{
@@ -639,7 +639,7 @@ namespace Files.App.Helpers
 							}
 
 							if (!launchSuccess)
-								await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+								await ProcessInvoker.InvokeWin32ComponentAsync(path, associatedInstance, args);
 						}
 					});
 			}

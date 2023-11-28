@@ -3,9 +3,9 @@
 
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
-	public static class EnumConversionHelpers
+	public static class EnumConverter
 	{
 		public static CreationCollisionOption Convert(this NameCollisionOption option)
 		{
