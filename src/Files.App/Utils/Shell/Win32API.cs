@@ -835,6 +835,36 @@ namespace Files.App.Utils.Shell
 			return RunPowershellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
 		}
 
+		public static async Task InstallFontsAsync(string[] fontFilePaths, bool forAllUsers)
+		{
+			string fontDirectory = forAllUsers
+				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
+				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+
+			string registryKey = forAllUsers
+				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+
+			var psCommand = new StringBuilder("-command \"");
+
+			foreach (string fontFilePath in fontFilePaths)
+			{
+				var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
+				var appendCommand = $"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}';";
+
+				if (psCommand.Length + appendCommand.Length > 32766)
+				{
+					// The command is too long to run at once, so run the command once up to this point.
+					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+					psCommand.Clear().Append("-command \"");
+				}
+
+				psCommand.Append(appendCommand);
+			}
+
+			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+		}
+
 		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
 		{
 			Process process = new();

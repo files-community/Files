@@ -33,7 +33,8 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return Task.WhenAll(context.SelectedItems.Select(x => Win32API.InstallFont(x.ItemPath, false)));
+			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+			return Win32API.InstallFontsAsync(paths, false);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
