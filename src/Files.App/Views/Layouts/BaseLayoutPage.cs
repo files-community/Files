@@ -225,8 +225,6 @@ namespace Files.App.Views.Layouts
 			{
 				if (value != selectedItems)
 				{
-					UpdatePreviewPaneSelection(value);
-
 					selectedItems = value;
 
 					if (selectedItems?.Count == 0 || selectedItems?[0] is null)
@@ -507,9 +505,6 @@ namespace Files.App.Views.Layouts
 				}
 				else if (navigationArguments is not null && navigationArguments.FocusOnNavigation)
 				{
-					if (SelectedItems?.Count == 0)
-						UpdatePreviewPaneSelection(null);
-
 					// Set focus on layout specific file list control
 					ItemManipulationModel.FocusFileList();
 				}
@@ -1426,32 +1421,6 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				showError?.Invoke(false);
-			}
-		}
-
-		public void ReloadPreviewPane()
-		{
-			UpdatePreviewPaneSelection(SelectedItems);
-		}
-
-		protected void UpdatePreviewPaneSelection(List<ListedItem>? value)
-		{
-			if (LockPreviewPaneContent)
-				return;
-
-			if (value?.FirstOrDefault() != InfoPaneViewModel.SelectedItem)
-			{
-				// Update preview pane properties
-				InfoPaneViewModel.IsItemSelected = value?.Count > 0;
-				InfoPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
-
-				// Check if the preview pane is open before updating the model
-				if (InfoPaneViewModel.IsEnabled && !App.AppModel.IsMainWindowClosed)
-				{
-					var isPaneEnabled = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
-					if (isPaneEnabled)
-						_ = InfoPaneViewModel.UpdateSelectedItemPreviewAsync();
-				}
 			}
 		}
 

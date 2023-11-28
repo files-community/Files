@@ -128,11 +128,11 @@ namespace Files.App.Utils.Archives
 			if (associatedInstance == null)
 				return;
 
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
-				? associatedInstance.SlimContentPage.SelectedItem.ItemPath
-				: associatedInstance.FilesystemViewModel.WorkingDirectory);
+			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage?.SelectedItems?.Count is null or 0
+				? associatedInstance.FilesystemViewModel.WorkingDirectory
+				: associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
-			if (archive is null)
+			if (archive?.Path is null)
 				return;
 
 			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive));
@@ -177,7 +177,7 @@ namespace Files.App.Utils.Archives
 
 		public static async Task DecompressArchiveHereAsync(IShellPage associatedInstance)
 		{
-			if (associatedInstance?.SlimContentPage == null)
+			if (associatedInstance?.SlimContentPage?.SelectedItems == null)
 				return;
 
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
@@ -186,7 +186,7 @@ namespace Files.App.Utils.Archives
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
-				if (archive is null)
+				if (archive?.Path is null)
 					return;
 
 				if (await FilesystemTasks.Wrap(() => IsArchiveEncrypted(archive)))
@@ -216,7 +216,7 @@ namespace Files.App.Utils.Archives
 
 		public static async Task DecompressArchiveToChildFolderAsync(IShellPage associatedInstance)
 		{
-			if (associatedInstance?.SlimContentPage == null)
+			if (associatedInstance?.SlimContentPage?.SelectedItems == null)
 				return;
 
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
@@ -227,7 +227,7 @@ namespace Files.App.Utils.Archives
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
 
-				if (archive is null)
+				if (archive?.Path is null)
 					return;
 
 				if (await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive)))
