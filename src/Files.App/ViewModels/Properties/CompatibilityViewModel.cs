@@ -93,8 +93,8 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public LocalizedEnumHelper<OSCompatibility> osCompatibility;
-		public LocalizedEnumHelper<OSCompatibility> OSCompatibility
+		public EnumToLocalizedConverter<OSCompatibility> osCompatibility;
+		public EnumToLocalizedConverter<OSCompatibility> OSCompatibility
 		{
 			get => osCompatibility;
 			set
@@ -106,8 +106,8 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public LocalizedEnumHelper<ReducedColorMode> reducedColorMode;
-		public LocalizedEnumHelper<ReducedColorMode> ReducedColorMode
+		public EnumToLocalizedConverter<ReducedColorMode> reducedColorMode;
+		public EnumToLocalizedConverter<ReducedColorMode> ReducedColorMode
 		{
 			get => reducedColorMode;
 			set
@@ -119,8 +119,8 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public LocalizedEnumHelper<HighDpiOption> highDpiOption;
-		public LocalizedEnumHelper<HighDpiOption> HighDpiOption
+		public EnumToLocalizedConverter<HighDpiOption> highDpiOption;
+		public EnumToLocalizedConverter<HighDpiOption> HighDpiOption
 		{
 			get => highDpiOption;
 			set
@@ -132,8 +132,8 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public LocalizedEnumHelper<HighDpiOverride> highDpiOverride;
-		public LocalizedEnumHelper<HighDpiOverride> HighDpiOverride
+		public EnumToLocalizedConverter<HighDpiOverride> highDpiOverride;
+		public EnumToLocalizedConverter<HighDpiOverride> HighDpiOverride
 		{
 			get => highDpiOverride;
 			set
@@ -145,10 +145,10 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public List<LocalizedEnumHelper<HighDpiOption>> HighDpiOptionList { get; } = Enum.GetValues(typeof(HighDpiOption)).Cast<HighDpiOption>().Select(x => new LocalizedEnumHelper<HighDpiOption>(x)).ToList();
-		public List<LocalizedEnumHelper<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Where(x => x != Core.Data.Items.HighDpiOverride.Advanced).Select(x => new LocalizedEnumHelper<HighDpiOverride>(x)).ToList();
-		public List<LocalizedEnumHelper<OSCompatibility>> OSCompatibilityList { get; } = Enum.GetValues(typeof(OSCompatibility)).Cast<OSCompatibility>().Select(x => new LocalizedEnumHelper<OSCompatibility>(x)).ToList();
-		public List<LocalizedEnumHelper<ReducedColorMode>> ReducedColorModeList { get; } = Enum.GetValues(typeof(ReducedColorMode)).Cast<ReducedColorMode>().Select(x => new LocalizedEnumHelper<ReducedColorMode>(x)).ToList();
+		public List<EnumToLocalizedConverter<HighDpiOption>> HighDpiOptionList { get; } = Enum.GetValues(typeof(HighDpiOption)).Cast<HighDpiOption>().Select(x => new EnumToLocalizedConverter<HighDpiOption>(x)).ToList();
+		public List<EnumToLocalizedConverter<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Where(x => x != Core.Data.Items.HighDpiOverride.Advanced).Select(x => new EnumToLocalizedConverter<HighDpiOverride>(x)).ToList();
+		public List<EnumToLocalizedConverter<OSCompatibility>> OSCompatibilityList { get; } = Enum.GetValues(typeof(OSCompatibility)).Cast<OSCompatibility>().Select(x => new EnumToLocalizedConverter<OSCompatibility>(x)).ToList();
+		public List<EnumToLocalizedConverter<ReducedColorMode>> ReducedColorModeList { get; } = Enum.GetValues(typeof(ReducedColorMode)).Cast<ReducedColorMode>().Select(x => new EnumToLocalizedConverter<ReducedColorMode>(x)).ToList();
 
 		public IRelayCommand RunTroubleshooterCommand { get; set; }
 

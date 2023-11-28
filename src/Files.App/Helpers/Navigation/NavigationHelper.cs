@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -64,7 +63,7 @@ namespace Files.App.Helpers
 
 		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
-			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
+			var tabItem = new TabBarItem()
 			{
 				Header = null,
 				IconSource = null,

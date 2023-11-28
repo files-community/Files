@@ -4,8 +4,6 @@
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {

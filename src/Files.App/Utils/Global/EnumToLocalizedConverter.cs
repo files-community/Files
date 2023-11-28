@@ -1,9 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Shared.Utils
+namespace Files.App.Utils
 {
-	public sealed class LocalizedEnumHelper<T> where T : Enum
+	public sealed class EnumToLocalizedConverter<T> where T : Enum
 	{
 		public string Name
 		{
@@ -22,7 +22,7 @@ namespace Files.Shared.Utils
 
 		public T Value { get; set; }
 
-		public LocalizedEnumHelper(T value)
+		public EnumToLocalizedConverter(T value)
 		{
 			Value = value;
 		}
