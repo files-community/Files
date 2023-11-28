@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
+using Files.App.Utils.Storage.Helpers;
 using Windows.Storage;
 
 namespace Files.App.Utils.Storage

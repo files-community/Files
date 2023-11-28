@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Files.App.Helpers
+namespace Files.Shared.Utils
 {
 	internal static class SafeNativeMethods
 	{
@@ -41,7 +41,7 @@ namespace Files.App.Helpers
 	{
 		public static IComparer<object> GetForProcessor()
 		{
-			return NativeWinApiHelper.IsRunningOnArm ? new StringComparerArm64() : new StringComparerDefault();
+			return Win32InteropHelper.IsRunningOnArm ? new StringComparerArm64() : new StringComparerDefault();
 		}
 
 		private class StringComparerArm64 : IComparer<object>

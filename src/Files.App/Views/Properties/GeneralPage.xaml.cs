@@ -8,6 +8,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Windows.Storage;
 using Microsoft.UI.Dispatching;
+using Files.App.Utils.Storage.Helpers;
 
 namespace Files.App.Views.Properties
 {
@@ -47,9 +48,6 @@ namespace Files.App.Views.Properties
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			if (App.AppModel.PropertiesWindowCount == 0)
-				return;
-
 			// Reassign values to update date display
 			ViewModel.ItemCreatedTimestampReal = ViewModel.ItemCreatedTimestampReal;
 			ViewModel.ItemModifiedTimestampReal = ViewModel.ItemModifiedTimestampReal;
@@ -152,7 +150,7 @@ namespace Files.App.Views.Properties
 				}
 
 				if (ViewModel.IsUnblockFileSelected)
-					NativeFileOperationsHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+					Win32InteropHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
 
 				if (!GetNewName(out var newName))
 					return true;

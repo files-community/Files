@@ -124,7 +124,7 @@ namespace Files.App.Helpers
 		public static void SetDragZones(Window window, int dragZoneHeight = 40, int dragZoneLeftIndent = 0, IEnumerable<RectInt32>? nonDraggingZones = null)
 		{
 			var hWnd = WindowNative.GetWindowHandle(window);
-			var windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+			var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
 			var appWindow = AppWindow.GetFromWindowId(windowId);
 			var scaleAdjustment = GetScaleAdjustment(window);
 			var windowWidth = (int)(appWindow.Size.Width / scaleAdjustment);

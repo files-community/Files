@@ -100,7 +100,7 @@ namespace Files.App.Utils.Storage
 		{
 			Func<Task<bool>> queryFileAssoc = async () =>
 			{
-				var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
+				var assoc = await Win32InteropHelper.GetFileAssociationAsync(filePath);
 				if (assoc is not null)
 				{
 					return assoc == Package.Current.Id.FamilyName
@@ -350,7 +350,7 @@ namespace Files.App.Utils.Storage
 					else
 					{
 						var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
-						NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
+						Win32InteropHelper.MoveFileFromApp(Path, fileName);
 					}
 				}
 				else
@@ -397,7 +397,7 @@ namespace Files.App.Utils.Storage
 					}
 					else if (option == StorageDeleteOption.PermanentDelete)
 					{
-						NativeFileOperationsHelper.DeleteFileFromApp(Path);
+						Win32InteropHelper.DeleteFileFromApp(Path);
 					}
 					else
 					{
@@ -488,7 +488,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+				var hFile = Win32InteropHelper.OpenFileForRead(path);
 				if (hFile.IsInvalid)
 				{
 					return false;
@@ -529,7 +529,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
+				var hFile = Win32InteropHelper.OpenFileForRead(path, true);
 				if (hFile.IsInvalid)
 				{
 					return Task.FromResult(false);
@@ -580,7 +580,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+					var hFile = Win32InteropHelper.OpenFileForRead(containerPath, readWrite);
 					if (hFile.IsInvalid)
 					{
 						return null;
@@ -653,7 +653,7 @@ namespace Files.App.Utils.Storage
 
 			public override DateTimeOffset DateModified => entry.LastWriteTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.LastWriteTime;
 
-			public override DateTimeOffset DateCreated => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
+			public override DateTimeOffset ItemDate => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 
 			public override ulong Size => entry.Size;
 		}

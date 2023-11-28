@@ -6,7 +6,7 @@ using Microsoft.Management.Infrastructure.Generic;
 using System;
 using System.Threading;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.WMI
 {
 	public delegate void EventArrivedEventHandler(object sender, EventArrivedEventArgs e);
 

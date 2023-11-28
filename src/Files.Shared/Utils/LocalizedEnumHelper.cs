@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Helpers
+namespace Files.Shared.Utils
 {
 	public sealed class LocalizedEnumHelper<T> where T : Enum
 	{

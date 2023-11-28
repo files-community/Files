@@ -13,7 +13,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage.Helpers
 {
 	public static class UIFilesystemHelpers
 	{
@@ -257,7 +257,7 @@ namespace Files.App.Helpers
 			if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
 				return true;
 
-			FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
+			FilesystemItemType itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
 
 			ReturnResult renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
 

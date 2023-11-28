@@ -1,16 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
-namespace Files.App.Helpers
+namespace Files.Core.Helpers
 {
-	public class NativeDirectoryChangesHelper
+	public partial class Win32Interop
 	{
-		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
-		public static extern bool CloseHandle(IntPtr hObject);
-
 		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
 		public static extern bool GetOverlappedResult(IntPtr hFile, OVERLAPPED lpOverlapped, out int lpNumberOfBytesTransferred, bool bWait);
 

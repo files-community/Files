@@ -4,9 +4,9 @@
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Utils;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using System.Threading.Tasks;
+using Files.App.Utils.Storage.Helpers;
 
 namespace Files.App.Views.Properties
 {

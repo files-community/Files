@@ -23,33 +23,33 @@ namespace Files.App.Utils.FileTags
 
 		public static string[] ReadFileTag(string filePath)
 		{
-			var tagString = NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
+			var tagString = Win32InteropHelper.ReadStringFromFile($"{filePath}:files");
 			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		public static void WriteFileTag(string filePath, string[] tag)
 		{
-			var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
-			var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+			var isDateOk = Win32InteropHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
+			var isReadOnly = Win32InteropHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			if (isReadOnly) // Unset read-only attribute (#7534)
 			{
-				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+				Win32InteropHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
 			if (tag is null || !tag.Any())
 			{
-				NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
+				Win32InteropHelper.DeleteFileFromApp($"{filePath}:files");
 			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
 			{
-				NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
+				Win32InteropHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
 			}
 			if (isReadOnly) // Restore read-only attribute (#7534)
 			{
-				NativeFileOperationsHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+				Win32InteropHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
 			if (isDateOk)
 			{
-				NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
+				Win32InteropHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace Files.App.Utils.FileTags
 			}
 		}
 
-		public static ulong? GetFileFRN(string filePath) => NativeFileOperationsHelper.GetFileFRN(filePath);
+		public static ulong? GetFileFRN(string filePath) => Win32InteropHelper.GetFileFRN(filePath);
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)
 		{

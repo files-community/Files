@@ -12,7 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace Files.App.Data.Factories
 {
 	public static class DynamicDialogFactory
 	{

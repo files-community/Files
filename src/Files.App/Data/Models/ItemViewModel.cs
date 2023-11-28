@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Storage.Helpers;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
 using Files.Shared.Helpers;
@@ -19,8 +20,8 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.App.Helpers.NativeDirectoryChangesHelper;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.Win32Interop;
+using static Files.Core.Helpers.Win32Interop;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -77,13 +78,19 @@ namespace Files.App.Data.Models
 			{
 				if (SetProperty(ref _EnabledGitProperties, value) && value is not GitProperties.None)
 				{
-					filesAndFolders.ToList().ForEach(async item =>
-					{
+					filesAndFolders.ToList().ForEach(async item => {
 						if (item is GitItem gitItem &&
 							(!gitItem.StatusPropertiesInitialized && value is GitProperties.All or GitProperties.Status
 							|| !gitItem.CommitPropertiesInitialized && value is GitProperties.All or GitProperties.Commit))
 						{
-								await LoadGitPropertiesAsync(gitItem);
+							try
+							{
+								await Task.Run(async () => await LoadGitPropertiesAsync(gitItem, loadPropsCTS));
+							}
+							catch (OperationCanceledException)
+							{
+								// Ignored
+							}
 						}
 					});
 				}
@@ -163,7 +170,7 @@ namespace Files.App.Data.Models
 			}
 
 			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
-			IsValidGitDirectory = !string.IsNullOrEmpty((await GitHelpers.GetRepositoryHead(GitDirectory))?.Name);
+			IsValidGitDirectory = !string.IsNullOrEmpty(GitHelpers.GetRepositoryHeadName(GitDirectory));
 
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
@@ -631,7 +638,7 @@ namespace Files.App.Data.Models
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
 
-					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+					if (Win32InteropHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 						ClearDisplay();
 					else
 						await dispatcherQueue.EnqueueOrInvokeAsync(ClearDisplay);
@@ -713,7 +720,7 @@ namespace Files.App.Data.Models
 					DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 				}
 
-				if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+				if (Win32InteropHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 				{
 					await Task.Run(ApplyChanges);
 					UpdateUI();
@@ -756,7 +763,7 @@ namespace Files.App.Data.Models
 				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders.ToList(), folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
 			}
 
-			if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+			if (Win32InteropHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 				return Task.Run(OrderEntries);
 
 			OrderEntries();
@@ -1223,6 +1230,9 @@ namespace Files.App.Data.Models
 									gp.InitializeExtendedGroupHeaderInfoAsync();
 								}));
 						}
+
+						if (EnabledGitProperties != GitProperties.None && item is GitItem gitItem)
+							await LoadGitPropertiesAsync(gitItem, cts);
 					}
 				}, cts.Token);
 			}
@@ -1236,70 +1246,57 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public async Task LoadGitPropertiesAsync(GitItem gitItem)
+		private async Task LoadGitPropertiesAsync(GitItem gitItem, CancellationTokenSource cts)
 		{
 			var getStatus = EnabledGitProperties is GitProperties.All or GitProperties.Status && !gitItem.StatusPropertiesInitialized;
 			var getCommit = EnabledGitProperties is GitProperties.All or GitProperties.Commit && !gitItem.CommitPropertiesInitialized;
-			
+
 			if (!getStatus && !getCommit)
 				return;
 
-			var cts = loadPropsCTS;
-
-			try
+			if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
+				!string.IsNullOrEmpty(repoPath))
 			{
-				await Task.Run(async () =>
-				{
+				cts.Token.ThrowIfCancellationRequested();
 
-					if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
-						!string.IsNullOrEmpty(repoPath))
+				if (getStatus)
+					gitItem.StatusPropertiesInitialized = true;
+
+				if (getCommit)
+					gitItem.CommitPropertiesInitialized = true;
+
+				await SafetyExtensions.IgnoreExceptions(() =>
+				{
+					return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
-						cts.Token.ThrowIfCancellationRequested();
+						var repo = new Repository(repoPath);
+						GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath, getStatus, getCommit);
 
 						if (getStatus)
-							gitItem.StatusPropertiesInitialized = true;
-
-						if (getCommit)
-							gitItem.CommitPropertiesInitialized = true;
-
-						await SafetyExtensions.IgnoreExceptions(() =>
 						{
-							return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+							gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
 							{
-								var repo = new Repository(repoPath);
-								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath, getStatus, getCommit);
+								ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
+								ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
+								ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
+								ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+								_ => null,
+							};
+							gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+						}
+						if (getCommit)
+						{
+							gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+							gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+							gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+							gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+							gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
+						}
 
-								if (getStatus)
-								{
-									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
-									{
-										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
-										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
-										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
-										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
-										_ => null,
-									};
-									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
-								}
-								if (getCommit)
-								{
-									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
-									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
-								}
-
-								repo.Dispose();
-							},
-							Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						});
-					}
-				}, cts.Token);
-			}
-			catch (OperationCanceledException)
-			{
-				// Ignored
+						repo.Dispose();
+					},
+					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				});
 			}
 		}
 
@@ -1443,7 +1440,7 @@ namespace Files.App.Data.Models
 						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
 						IsTypeGitRepository = IsValidGitDirectory
 					});
-
+          
 					if (!HasNoWatcher)
 						WatchForDirectoryChanges(path, syncStatus);
 					if (IsValidGitDirectory)
@@ -1864,8 +1861,8 @@ namespace Files.App.Data.Models
 		private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
 		{
 			Debug.WriteLine($"WatchForDirectoryChanges: {path}");
-			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
-				IntPtr.Zero, 3, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped, IntPtr.Zero);
+			var hWatchDir = Win32InteropHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
+				IntPtr.Zero, 3, (uint)Win32InteropHelper.File_Attributes.BackupSemantics | (uint)Win32InteropHelper.File_Attributes.Overlapped, IntPtr.Zero);
 			if (hWatchDir.ToInt64() == -1)
 				return;
 
@@ -1973,13 +1970,13 @@ namespace Files.App.Data.Models
 
 		private void WatchForGitChanges()
 		{
-			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(
+			var hWatchDir = Win32InteropHelper.CreateFileFromApp(
 				GitDirectory!,
 				1,
 				1 | 2 | 4,
 				IntPtr.Zero,
 				3,
-				(uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped,
+				(uint)Win32InteropHelper.File_Attributes.BackupSemantics | (uint)Win32InteropHelper.File_Attributes.Overlapped,
 				IntPtr.Zero);
 
 			if (hWatchDir.ToInt64() == -1)
@@ -2225,7 +2222,7 @@ namespace Files.App.Data.Models
 				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					// New file added, enumerate ADS
-					foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
+					foreach (var ads in Win32InteropHelper.GetAlternateStreams(item.ItemPath))
 					{
 						var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
 						filesAndFolders.Add(adsItem);
@@ -2295,13 +2292,13 @@ namespace Files.App.Data.Models
 					var properties = await storageItem.AsBaseStorageFile().GetBasicPropertiesAsync();
 					size = (long)properties.Size;
 					modified = properties.DateModified;
-					created = properties.DateCreated;
+					created = properties.ItemDate;
 				}
 				else if (storageItem.IsOfType(StorageItemTypes.Folder))
 				{
 					var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
 					modified = properties.DateModified;
-					created = properties.DateCreated;
+					created = properties.ItemDate;
 				}
 
 				return (item, syncStatus, size, created, modified);

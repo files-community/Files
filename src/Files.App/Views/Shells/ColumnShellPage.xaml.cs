@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.UserControls.TabBar;
+using Files.App.Utils.Storage.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;

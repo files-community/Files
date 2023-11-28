@@ -56,7 +56,7 @@ namespace Files.App
 
 			// Workaround for full screen window messing up the taskbar
 			// https://github.com/microsoft/microsoft-ui-xaml/issues/8431
-			InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+			Helpers.Win32Interop.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()
@@ -97,7 +97,7 @@ namespace Files.App
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
-						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+						Helpers.Win32Interop.SwitchToThisWindow(WindowHandle, true);
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 					}
 					else
@@ -175,7 +175,7 @@ namespace Files.App
 						index = 1;
 					}
 					else
-						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+						Helpers.Win32Interop.SwitchToThisWindow(WindowHandle, true);
 					for (; index < fileArgs.Files.Count; index++)
 					{
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
@@ -249,7 +249,7 @@ namespace Files.App
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
-					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+					Helpers.Win32Interop.SwitchToThisWindow(WindowHandle, true);
 					await mainPageViewModel.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
 				}
 				else

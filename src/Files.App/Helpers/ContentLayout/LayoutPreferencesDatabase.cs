@@ -10,11 +10,11 @@ using IO = System.IO;
 
 namespace Files.App.Helpers
 {
-	public class LayoutPrefsDb : IDisposable
+	public class LayoutPreferencesDatabase : IDisposable
 	{
 		private readonly LiteDatabase db;
 
-		public LayoutPrefsDb(string connection, bool shared = false)
+		public LayoutPreferencesDatabase(string connection, bool shared = false)
 		{
 			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(connection));
 			db = new LiteDatabase(new ConnectionString(connection)
@@ -123,7 +123,7 @@ namespace Files.App.Helpers
 			col.Update(allDocs);
 		}
 
-		~LayoutPrefsDb()
+		~LayoutPreferencesDatabase()
 		{
 			Dispose();
 		}

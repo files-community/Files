@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.Win32Interop;
 
 namespace Files.Core.Extensions
 {

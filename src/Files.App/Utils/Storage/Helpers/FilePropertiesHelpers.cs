@@ -135,7 +135,7 @@ namespace Files.App.Utils.Storage
 				new SuppressNavigationTransitionInfo());
 
 			// WINUI3: Move window to cursor position
-			InteropHelpers.GetCursorPos(out var pointerPosition);
+			Helpers.Win32Interop.GetCursorPos(out var pointerPosition);
 			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 			var appWindowPos = new PointInt32
 			{

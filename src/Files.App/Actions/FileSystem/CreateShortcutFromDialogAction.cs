@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Storage.Helpers;
+
 namespace Files.App.Actions
 {
 	internal class CreateShortcutFromDialogAction : BaseUIAction, IAction

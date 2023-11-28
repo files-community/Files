@@ -11,9 +11,9 @@ namespace Files.App.Data.Models
 		public static string LayoutSettingsDbPath
 			=> SystemIO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 
-		private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
+		private static readonly Lazy<LayoutPreferencesDatabase> dbInstance = new(() => new LayoutPreferencesDatabase(LayoutSettingsDbPath, true));
 
-		public static LayoutPrefsDb GetDbInstance()
+		public static LayoutPreferencesDatabase GetDbInstance()
 			=> dbInstance.Value;
 
 		public event EventHandler<LayoutPreferenceEventArgs>? LayoutPreferencesUpdateRequired;
@@ -310,7 +310,7 @@ namespace Files.App.Data.Models
 			if (!userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
 				folderPath = folderPath.TrimPath();
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
+				var folderFRN = Win32InteropHelper.GetFolderFRN(folderPath);
 				return ReadLayoutPreferencesFromDb(folderPath, folderFRN)
 					?? ReadLayoutPreferencesFromAds(folderPath, folderFRN)
 					?? GetDefaultLayoutPreferences(folderPath);
@@ -325,7 +325,7 @@ namespace Files.App.Data.Models
 
 			if (!userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
+				var folderFRN = Win32InteropHelper.GetFolderFRN(folderPath);
 				var trimmedFolderPath = folderPath.TrimPath();
 				if (trimmedFolderPath is not null)
 					WriteLayoutPreferencesToDb(trimmedFolderPath, folderFRN, prefs);
@@ -433,14 +433,14 @@ namespace Files.App.Data.Models
 
 		private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath, ulong? frn)
 		{
-			var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+			var str = Win32InteropHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
 
 			var adsPrefs = SafetyExtensions.IgnoreExceptions(() =>
 				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferences>(str));
 
 			// Port settings to DB, delete ADS
 			WriteLayoutPreferencesToDb(folderPath, frn, adsPrefs);
-			NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
+			Win32InteropHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
 
 			return adsPrefs;
 		}
