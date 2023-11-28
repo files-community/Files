@@ -33,8 +33,9 @@ namespace Files.App.Actions
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var path = context.ShellPage.SlimContentPage.SelectedItems is not null
-					? context.ShellPage.SlimContentPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + "\"" + current + "\"")
+				var selectedItems = context.ShellPage.SlimContentPage.SelectedItems;
+				var path = selectedItems is not null
+					? string.Join("\n", selectedItems.Select(item => $"\"{item.ItemPath}\""))
 					: context.ShellPage.FilesystemViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
