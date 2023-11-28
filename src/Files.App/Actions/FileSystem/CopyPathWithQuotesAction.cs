@@ -5,26 +5,26 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal class CopyPathAction : IAction
+	internal class CopyPathWithQuotesAction : IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CopyPath".GetLocalizedResource();
+			=> "CopyPathWithQuotes".GetLocalizedResource();
 
 		public string Description
-			=> "CopyPathDescription".GetLocalizedResource();
+			=> "CopyPathWithQuotesDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new RichGlyph(opacityStyle: "ColorIconCopyPath");
 
 		public HotKey HotKey
-			=> new(Keys.C, KeyModifiers.CtrlShift);
+			=> new(Keys.C, KeyModifiers.MenuCtrl);
 
 		public bool IsExecutable
 			=> context.HasSelection;
 
-		public CopyPathAction()
+		public CopyPathWithQuotesAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
@@ -39,6 +39,8 @@ namespace Files.App.Actions
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);
+
+				path = "\"" + path + "\"";
 
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
