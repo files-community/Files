@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copy path</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copy path with quotes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
   </data>
@@ -2419,7 +2422,10 @@
     <value>Copy item(s) to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cut item(s) to clipboard</value>
@@ -3613,5 +3619,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connected to GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>

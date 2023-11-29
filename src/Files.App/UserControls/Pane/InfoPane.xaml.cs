@@ -52,9 +52,6 @@ namespace Files.App.UserControls
 
 		private string GetLocalizedResource(string resName) => resName.GetLocalizedResource();
 
-		private void Root_Loading(FrameworkElement sender, object args)
-			=> ViewModel.UpdateSelectedItemPreviewAsync();
-
 		private void Root_Unloaded(object sender, RoutedEventArgs e)
 		{
 			PreviewControlPresenter.Content = null;

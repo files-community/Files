@@ -8,7 +8,7 @@ namespace Files.App.Utils.Storage
 		public virtual ulong Size
 			=> 0;
 
-		public virtual DateTimeOffset ItemDate
+		public virtual DateTimeOffset DateCreated
 			=> DateTimeOffset.Now;
 
 		public virtual DateTimeOffset DateModified

@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>计算时发生错误</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>计算哈希失败，请关闭该文件并重试。</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>在线文件无法计算哈希值</value>
   </data>

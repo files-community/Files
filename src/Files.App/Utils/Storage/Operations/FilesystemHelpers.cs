@@ -231,7 +231,8 @@ namespace Files.App.Utils.Storage
 			string destination,
 			bool showDialog,
 			bool registerHistory,
-			bool isTargetExecutable = false)
+			bool isTargetExecutable = false,
+			bool isTargetPythonFile = false)
 		{
 			try
 			{
@@ -254,9 +255,11 @@ namespace Files.App.Utils.Storage
 				else if (operation.HasFlag(DataPackageOperation.Link))
 				{
 					// Open with piggybacks off of the link operation, since there isn't one for it
-					if (isTargetExecutable)
+					if (isTargetExecutable || isTargetPythonFile)
 					{
 						var items = await GetDraggedStorageItems(packageView);
+						if (isTargetPythonFile && !SoftwareHelpers.IsPythonInstalled())
+							return ReturnResult.Cancelled;
 						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}

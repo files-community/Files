@@ -206,5 +206,16 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(filePathToCheck, ".cer", ".crt", ".der", ".pfx");
 		}
+
+		/// <summary>
+		/// Check if the file extension is a Python file.
+		/// </summary>
+		/// <param name="filePathToCheck"></param>
+		/// <returns><c>true</c> if the filePathToCheck is a python file; otherwise, <c>false</c>.</returns>
+		public static bool IsPythonFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".py");
+		}
+
 	}
 }
