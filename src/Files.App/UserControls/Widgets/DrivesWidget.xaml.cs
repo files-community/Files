@@ -61,6 +61,7 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IHomePageContext HomePageContext = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 

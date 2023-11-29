@@ -17,6 +17,8 @@ namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
+		private readonly IHomePageContext HomePageContext = Ioc.Default.GetRequiredService<IHomePageContext>();
+
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
 		public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;

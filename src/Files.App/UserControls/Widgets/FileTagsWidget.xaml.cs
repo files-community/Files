@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Data.Contexts.Widgets;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
@@ -18,6 +19,7 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
 	{
 		private readonly IUserSettingsService userSettingsService;
+		private readonly IHomePageContext HomePageContext = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public FileTagsWidgetViewModel ViewModel
 		{
@@ -32,6 +34,7 @@ namespace Files.App.UserControls.Widgets
 		public delegate void FileTagsOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public delegate void FileTagsNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 
+		public static event EventHandler<IEnumerable<FileTagsItemViewModel>>? SelectedTaggedItemsChanged;
 		public event FileTagsOpenLocationInvokedEventHandler FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler FileTagsNewPaneInvoked;
 

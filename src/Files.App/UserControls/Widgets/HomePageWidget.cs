@@ -29,20 +29,31 @@ namespace Files.App.UserControls.Widgets
 		protected CommandBarFlyout ItemContextMenuFlyout;
 		protected string FlyouItemPath;
 
+		public static event EventHandler<WidgetsRightClickedItemChangedEventArgs>? RightClickedItemChanged;
+
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			var itemContextMenuFlyout = new CommandBarFlyout()
+			{
+				Placement = FlyoutPlacementMode.Full
+			};
+
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
+
 			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
+
+			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			secondaryElements.OfType<FrameworkElement>()
-							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			secondaryElements
+				.OfType<FrameworkElement>()
+				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
@@ -79,5 +90,9 @@ namespace Files.App.UserControls.Widgets
 			_ = QuickAccessService.UnpinFromSidebarAsync(item.Path);
 		}
 
+		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
+		{
+			RightClickedItemChanged?.Invoke(this, new WidgetsRightClickedItemChangedEventArgs(item, flyout));
+		}
 	}
 }

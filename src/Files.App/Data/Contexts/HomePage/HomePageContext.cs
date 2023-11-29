@@ -1,15 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml.Controls;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
-namespace Files.App.Data.Contexts.Widgets
+namespace Files.App.Data.Contexts
 {
 	internal class HomePageContext : ObservableObject, IHomePageContext
 	{

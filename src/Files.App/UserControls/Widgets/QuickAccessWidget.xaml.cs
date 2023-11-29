@@ -92,6 +92,7 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IHomePageContext HomePageContext = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public static ObservableCollection<FolderCardItem> ItemsAdded = new();
 
