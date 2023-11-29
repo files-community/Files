@@ -58,7 +58,7 @@ namespace Files.App.UserControls.Widgets
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
 	}
 
-	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 

@@ -9,36 +9,112 @@ namespace Files.App.ViewModels
 {
 	public class HomeViewModel : ObservableObject, IDisposable
 	{
-		private readonly WidgetsListControlViewModel widgetsViewModel;
+		public ObservableCollection<WidgetItem> WidgetItems { get; } = new();
 
-		private IShellPage associatedInstance;
+		public ICommand HomePageLoadedCommand { get; }
 
-		public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
+		public event EventHandler<RoutedEventArgs>? HomePageLoadedInvoked;
+		public event EventHandler? WidgetListRefreshRequestedInvoked;
 
-		public ICommand YourHomeLoadedCommand { get; private set; }
-
-		public HomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
+		public HomeViewModel()
 		{
-			this.widgetsViewModel = widgetsViewModel;
-			this.associatedInstance = associatedInstance;
-
-			// Create commands
-			YourHomeLoadedCommand = new RelayCommand<RoutedEventArgs>(YourHomeLoaded);
+			HomePageLoadedCommand = new RelayCommand<RoutedEventArgs>(ExecuteHomePageLoadedCommand);
 		}
 
-		public void ChangeAppInstance(IShellPage associatedInstance)
+		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
 		{
-			this.associatedInstance = associatedInstance;
+			HomePageLoadedInvoked?.Invoke(this, e!);
 		}
 
-		private void YourHomeLoaded(RoutedEventArgs e)
+		public void RefreshWidgetList()
 		{
-			YourHomeLoadedInvoked?.Invoke(this, e);
+			for (int i = 0; i < WidgetItems.Count; i++)
+			{
+				if (!WidgetItems[i].WidgetItemModel.IsWidgetSettingEnabled)
+				{
+					RemoveWidgetAt(i);
+				}
+			}
+
+			WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
+		}
+
+		public bool AddWidget(WidgetItem widgetModel)
+		{
+			return InsertWidget(widgetModel, WidgetItems.Count + 1);
+		}
+
+		public bool InsertWidget(WidgetItem widgetModel, int atIndex)
+		{
+			// The widget must not be null and must implement IWidgetItemModel
+			if (widgetModel.WidgetItemModel is not IWidgetItem widgetItemModel)
+			{
+				return false;
+			}
+
+			// Don't add existing ones!
+			if (!CanAddWidget(widgetItemModel.WidgetName))
+			{
+				return false;
+			}
+
+			if (atIndex > WidgetItems.Count)
+			{
+				WidgetItems.Add(widgetModel);
+			}
+			else
+			{
+				WidgetItems.Insert(atIndex, widgetModel);
+			}
+
+			return true;
+		}
+
+		public bool CanAddWidget(string widgetName)
+		{
+			return !(WidgetItems.Any((item) => item.WidgetItemModel.WidgetName == widgetName));
+		}
+
+		public void RemoveWidgetAt(int index)
+		{
+			if (index < 0)
+			{
+				return;
+			}
+
+			WidgetItems[index].Dispose();
+			WidgetItems.RemoveAt(index);
+		}
+
+		public void RemoveWidget<TWidget>() where TWidget : IWidgetItem
+		{
+			int indexToRemove = -1;
+
+			for (int i = 0; i < WidgetItems.Count; i++)
+			{
+				if (typeof(TWidget).IsAssignableFrom(WidgetItems[i].WidgetControl.GetType()))
+				{
+					// Found matching types
+					indexToRemove = i;
+					break;
+				}
+			}
+
+			RemoveWidgetAt(indexToRemove);
+		}
+
+		public void ReorderWidget(WidgetItem widgetModel, int place)
+		{
+			int widgetIndex = WidgetItems.IndexOf(widgetModel);
+			WidgetItems.Move(widgetIndex, place);
 		}
 
 		public void Dispose()
 		{
-			widgetsViewModel?.Dispose();
+			for (int i = 0; i < WidgetItems.Count; i++)
+				WidgetItems[i].Dispose();
+
+			WidgetItems.Clear();
 		}
 	}
 }

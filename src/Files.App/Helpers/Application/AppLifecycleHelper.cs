@@ -163,6 +163,7 @@ namespace Files.App.Helpers
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
+					.AddTransient<HomeViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()
