@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Contexts.Widgets;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
@@ -12,14 +11,12 @@ using System.IO;
 using System.Windows.Input;
 using Windows.Storage;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
 	{
 		private readonly IUserSettingsService userSettingsService;
-		private readonly IHomePageContext HomePageContext = Ioc.Default.GetRequiredService<IHomePageContext>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public FileTagsWidgetViewModel ViewModel
 		{
@@ -72,10 +69,14 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(WidgetCardItem? item)
 		{
+			if (!HomePageContext.IsAnyItemRightClicked)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
+
 				ListedItem listedItem = new(null!)
 				{
 					ItemPath = (item.Item as FileTagsItemViewModel)?.Path ?? string.Empty,
@@ -85,7 +86,8 @@ namespace Files.App.UserControls.Widgets
 				};
 				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+
+			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 		}
 
 		private void OpenInNewPane(WidgetCardItem? item)
@@ -128,17 +130,22 @@ namespace Files.App.UserControls.Widgets
 
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
+			// Set menu min width if the overflow menu setting is disabled
 			if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
-				secondaryElements.OfType<FrameworkElement>()
-								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+			{
+				secondaryElements
+					.OfType<FrameworkElement>()
+					.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			}
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			ItemContextMenuFlyout = itemContextMenuFlyout;
+
 			if (rightClickedItem is not null)
 			{
-				FlyouItemPath = rightClickedItem.Path;
-				ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
+				FlyoutItemPath = rightClickedItem.Path;
+				HomePageContext.ItemContextFlyoutMenu!.Opened += ItemContextMenuFlyout_Opened;
 			}
+
 			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 
 			e.Handled = true;
@@ -146,8 +153,8 @@ namespace Files.App.UserControls.Widgets
 
 		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
-			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			HomePageContext.ItemContextFlyoutMenu!.Opened -= ItemContextMenuFlyout_Opened;
+			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, HomePageContext.ItemContextFlyoutMenu!, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)

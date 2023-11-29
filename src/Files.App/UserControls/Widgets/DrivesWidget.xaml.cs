@@ -61,7 +61,7 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly IHomePageContext HomePageContext = Ioc.Default.GetRequiredService<IHomePageContext>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
@@ -295,13 +295,17 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(DriveCardItem item)
 		{
+			if (!HomePageContext.IsAnyItemRightClicked)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = async (s, e) =>
+			flyoutClosed = (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
 				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, associatedInstance);
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+
+			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)

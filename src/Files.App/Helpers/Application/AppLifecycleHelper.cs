@@ -2,12 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Data.Contexts.Widgets;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
