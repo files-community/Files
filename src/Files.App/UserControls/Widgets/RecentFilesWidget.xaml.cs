@@ -111,26 +111,43 @@ namespace Files.App.UserControls.Widgets
 
 		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			HomePageContext.ItemContextFlyoutMenu!.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			HomePageContext.ItemContextFlyoutMenu!.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
-
+			// Ensure values are not null
 			if (e.OriginalSource is not FrameworkElement element ||
 				element.DataContext is not RecentItem item)
 				return;
 
-			var menuItems = GetItemMenuItems(item, false);
+			// Create a new Flyout
+			var itemContextMenuFlyout = new CommandBarFlyout()
+			{
+				Placement = FlyoutPlacementMode.Full
+			};
+
+			// Hook events
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
+
+			FlyoutItemPath = item.Path;
+
+			// Notify of the change on right clicked item
+			OnRightClickedItemChanged(item, itemContextMenuFlyout);
+
+			// Get items for the flyout
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
+			// Set max width of the flyout
 			secondaryElements
 				.OfType<FrameworkElement>()
 				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
-			secondaryElements.ForEach(i => HomePageContext.ItemContextFlyoutMenu!.SecondaryCommands.Add(i));
-			FlyoutItemPath = item.Path;
+			// Add menu items to the secondary flyout
+			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
 
-			HomePageContext.ItemContextFlyoutMenu!.ShowAt(element, new() { Position = e.GetPosition(element) });
+			// Show the flyout
+			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, HomePageContext.ItemContextFlyoutMenu!, showOpenWithMenu: true, showSendToMenu: true);
+			// Load shell menu items
+			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)

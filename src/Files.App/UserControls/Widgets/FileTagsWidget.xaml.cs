@@ -106,47 +106,43 @@ namespace Files.App.UserControls.Widgets
 
 		private void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
+			// Ensure values are not null
 			if (e.OriginalSource is not FrameworkElement element ||
 				element.DataContext is not FileTagsItemViewModel item)
-			{
 				return;
-			}
 
-			LoadContextMenu(
-				element,
-				e,
-				GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder),
-				rightClickedItem: item);
-		}
+			// Create a new Flyout
+			var itemContextMenuFlyout = new CommandBarFlyout()
+			{
+				Placement = FlyoutPlacementMode.Full
+			};
 
-		private void LoadContextMenu(
-			FrameworkElement element,
-			RightTappedRoutedEventArgs e,
-			List<ContextMenuFlyoutItemViewModel> menuItems,
-			FileTagsItemViewModel? rightClickedItem = null)
-		{
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
 
+			FlyoutItemPath = item.Path;
+
+			// Notify of the change on right clicked item
+			OnRightClickedItemChanged(item, itemContextMenuFlyout);
+
+			// Get items for the flyout
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			// Set menu min width if the overflow menu setting is disabled
-			if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
-			{
-				secondaryElements
-					.OfType<FrameworkElement>()
-					.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-			}
+			// Set max width of the flyout
+			secondaryElements
+				.OfType<FrameworkElement>()
+				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			// Add menu items to the secondary flyout
+			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
 
-			if (rightClickedItem is not null)
-			{
-				FlyoutItemPath = rightClickedItem.Path;
-				HomePageContext.ItemContextFlyoutMenu!.Opened += ItemContextMenuFlyout_Opened;
-			}
+			// Show the flyout
+			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
-			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
+			// Load shell menu items
+			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}

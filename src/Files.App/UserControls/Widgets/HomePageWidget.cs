@@ -46,6 +46,11 @@ namespace Files.App.UserControls.Widgets
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
+			// Ensure values are not null
+			if (sender is not Button widgetCardItem ||
+				widgetCardItem.DataContext is not WidgetCardItem item)
+				return;
+
 			// Create a new Flyout
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
@@ -55,11 +60,6 @@ namespace Files.App.UserControls.Widgets
 			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
-
-			// Ensure values are not null
-			if (sender is not Button widgetCardItem ||
-				widgetCardItem.DataContext is not WidgetCardItem item)
-				return;
 
 			FlyoutItemPath = item.Path;
 
