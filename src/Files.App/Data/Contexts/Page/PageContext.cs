@@ -75,6 +75,9 @@ namespace Files.App.Data.Contexts
 
 		private void UpdateContent()
 		{
+			if (pane == page?.ActivePane && paneOrColumn == page?.ActivePaneOrColumn)
+				return;
+
 			Changing?.Invoke(this, EventArgs.Empty);
 
 			pane = page?.ActivePane;
