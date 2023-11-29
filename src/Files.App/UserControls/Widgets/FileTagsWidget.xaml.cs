@@ -147,12 +147,6 @@ namespace Files.App.UserControls.Widgets
 			e.Handled = true;
 		}
 
-		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
-		{
-			HomePageContext.ItemContextFlyoutMenu!.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, HomePageContext.ItemContextFlyoutMenu!, showOpenWithMenu: true, showSendToMenu: true);
-		}
-
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
