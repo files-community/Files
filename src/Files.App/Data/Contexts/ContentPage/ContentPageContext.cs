@@ -14,8 +14,6 @@ namespace Files.App.Data.Contexts
 
 		private ItemViewModel? filesystemViewModel;
 
-		private ListedItem? lastFolder;
-
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
 		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutPage);
@@ -86,7 +84,6 @@ namespace Files.App.Data.Contexts
 
 			if (filesystemViewModel is not null)
 				filesystemViewModel.PropertyChanged -= FilesystemViewModel_PropertyChanged;
-			lastFolder = filesystemViewModel?.CurrentFolder;
 			filesystemViewModel = null;
 
 			OnPropertyChanging(nameof(ShellPage));
@@ -110,10 +107,7 @@ namespace Files.App.Data.Contexts
 
 			Update();
 			OnPropertyChanged(nameof(ShellPage));
-
-			if (lastFolder != filesystemViewModel?.CurrentFolder)
-				OnPropertyChanged(nameof(Folder));
-			lastFolder = null;
+			OnPropertyChanged(nameof(Folder));
 		}
 
 		private void Page_PropertyChanged(object? sender, PropertyChangedEventArgs e)
