@@ -14,7 +14,7 @@ namespace Files.App.Helpers
 	{
 		private static readonly IFoldersSettingsService foldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public static void ApplyAdaptativeLayout(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
+		public static void ApplyAdaptativeLayout(LayoutSettingsManager folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
 			if (foldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				return;

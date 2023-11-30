@@ -7,12 +7,12 @@ namespace Files.App.Data.EventArguments
 	{
 		public readonly bool IsAdaptiveLayoutUpdateRequired;
 
-		public readonly LayoutPreferences LayoutPreference;
+		public readonly LayoutPreferencesManager LayoutPreference;
 
-		internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref)
+		internal LayoutPreferenceEventArgs(LayoutPreferencesManager layoutPref)
 			=> LayoutPreference = layoutPref;
 
-		internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref, bool isAdaptiveLayoutUpdateRequired)
+		internal LayoutPreferenceEventArgs(LayoutPreferencesManager layoutPref, bool isAdaptiveLayoutUpdateRequired)
 			=> (LayoutPreference, IsAdaptiveLayoutUpdateRequired) = (layoutPref, isAdaptiveLayoutUpdateRequired);
 	}
 }

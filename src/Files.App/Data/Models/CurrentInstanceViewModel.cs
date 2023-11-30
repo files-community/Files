@@ -10,16 +10,16 @@ namespace Files.App.Data.Models
 		//  a single enum property providing simplified customization of the
 		//  values being manipulated inside the setter blocks
 
-		public FolderSettingsViewModel FolderSettings { get; }
+		public LayoutSettingsManager FolderSettings { get; }
 
 		public CurrentInstanceViewModel()
 		{
-			FolderSettings = new FolderSettingsViewModel();
+			FolderSettings = new LayoutSettingsManager();
 		}
 
 		public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
 		{
-			FolderSettings = new FolderSettingsViewModel(rootLayoutMode);
+			FolderSettings = new LayoutSettingsManager(rootLayoutMode);
 		}
 
 		private bool isPageTypeSearchResults = false;

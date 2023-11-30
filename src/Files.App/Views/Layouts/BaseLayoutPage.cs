@@ -73,7 +73,7 @@ namespace Files.App.Views.Layouts
 		protected AddressToolbar? NavToolbar
 			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
-		public FolderSettingsViewModel? FolderSettings
+		public LayoutSettingsManager? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
 
 		public CurrentInstanceViewModel? InstanceViewModel

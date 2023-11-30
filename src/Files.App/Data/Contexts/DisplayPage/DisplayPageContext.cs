@@ -55,7 +55,7 @@ namespace Files.App.Data.Contexts
 			get => _SortOption;
 			set
 			{
-				if (FolderSettings is FolderSettingsViewModel viewModel)
+				if (FolderSettings is LayoutSettingsManager viewModel)
 					viewModel.DirectorySortOption = value;
 			}
 		}
@@ -66,7 +66,7 @@ namespace Files.App.Data.Contexts
 			get => _SortDirection;
 			set
 			{
-				if (FolderSettings is FolderSettingsViewModel viewModel)
+				if (FolderSettings is LayoutSettingsManager viewModel)
 					viewModel.DirectorySortDirection = value;
 			}
 		}
@@ -77,7 +77,7 @@ namespace Files.App.Data.Contexts
 			get => _GroupOption;
 			set
 			{
-				if (FolderSettings is FolderSettingsViewModel viewModel)
+				if (FolderSettings is LayoutSettingsManager viewModel)
 					viewModel.DirectoryGroupOption = value;
 			}
 		}
@@ -88,7 +88,7 @@ namespace Files.App.Data.Contexts
 			get => _GroupDirection;
 			set
 			{
-				if (FolderSettings is FolderSettingsViewModel viewModel)
+				if (FolderSettings is LayoutSettingsManager viewModel)
 					viewModel.DirectoryGroupDirection = value;
 			}
 		}
@@ -99,7 +99,7 @@ namespace Files.App.Data.Contexts
 			get => _GroupByDateUnit;
 			set
 			{
-				if (FolderSettings is FolderSettingsViewModel viewModel)
+				if (FolderSettings is LayoutSettingsManager viewModel)
 					viewModel.DirectoryGroupByDateUnit = value;
 			}
 		}
@@ -110,12 +110,12 @@ namespace Files.App.Data.Contexts
 			get => _SortDirectoriesAlongsideFiles;
 			set
 			{
-				if (FolderSettings is FolderSettingsViewModel viewModel)
+				if (FolderSettings is LayoutSettingsManager viewModel)
 					viewModel.SortDirectoriesAlongsideFiles = value;
 			}
 		}
 
-		private FolderSettingsViewModel? FolderSettings => context.PaneOrColumn?.InstanceViewModel?.FolderSettings;
+		private LayoutSettingsManager? FolderSettings => context.PaneOrColumn?.InstanceViewModel?.FolderSettings;
 
 		public DisplayPageContext()
 		{
@@ -126,12 +126,12 @@ namespace Files.App.Data.Contexts
 
 		public void DecreaseLayoutSize()
 		{
-			if (FolderSettings is FolderSettingsViewModel viewModel)
+			if (FolderSettings is LayoutSettingsManager viewModel)
 				viewModel.GridViewSize -= GridViewIncrement;
 		}
 		public void IncreaseLayoutSize()
 		{
-			if (FolderSettings is FolderSettingsViewModel viewModel)
+			if (FolderSettings is LayoutSettingsManager viewModel)
 				viewModel.GridViewSize += GridViewIncrement;
 		}
 
@@ -158,27 +158,27 @@ namespace Files.App.Data.Contexts
 
 			switch (e.PropertyName)
 			{
-				case nameof(FolderSettingsViewModel.LayoutMode):
-				case nameof(FolderSettingsViewModel.GridViewSize):
-				case nameof(FolderSettingsViewModel.IsAdaptiveLayoutEnabled):
+				case nameof(LayoutSettingsManager.LayoutMode):
+				case nameof(LayoutSettingsManager.GridViewSize):
+				case nameof(LayoutSettingsManager.IsAdaptiveLayoutEnabled):
 					SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
 					break;
-				case nameof(FolderSettingsViewModel.DirectorySortOption):
+				case nameof(LayoutSettingsManager.DirectorySortOption):
 					SetProperty(ref _SortOption, viewModel.DirectorySortOption, nameof(SortOption));
 					break;
-				case nameof(FolderSettingsViewModel.DirectorySortDirection):
+				case nameof(LayoutSettingsManager.DirectorySortDirection):
 					SetProperty(ref _SortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
 					break;
-				case nameof(FolderSettingsViewModel.DirectoryGroupOption):
+				case nameof(LayoutSettingsManager.DirectoryGroupOption):
 					SetProperty(ref _GroupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
 					break;
-				case nameof(FolderSettingsViewModel.DirectoryGroupDirection):
+				case nameof(LayoutSettingsManager.DirectoryGroupDirection):
 					SetProperty(ref _GroupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
 					break;
-				case nameof(FolderSettingsViewModel.DirectoryGroupByDateUnit):
+				case nameof(LayoutSettingsManager.DirectoryGroupByDateUnit):
 					SetProperty(ref _GroupByDateUnit, viewModel.DirectoryGroupByDateUnit, nameof(GroupByDateUnit));
 					break;
-				case nameof(FolderSettingsViewModel.SortDirectoriesAlongsideFiles):
+				case nameof(LayoutSettingsManager.SortDirectoriesAlongsideFiles):
 					SetProperty(ref _SortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
 					break;
 			}
