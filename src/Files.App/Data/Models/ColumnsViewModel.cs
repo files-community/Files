@@ -160,39 +160,6 @@ namespace Files.App.Data.Models
 			SizeColumn.Length.Value +
 			StatusColumn.Length.Value;
 
-		public void SetDesiredSize(double width)
-		{
-			if (TotalWidth > width || TotalWidth < width)
-			{
-				var proportion = width / TotalWidth;
-
-				//SetColumnSizeProportionally(proportion);
-			}
-		}
-
-		/// <summary>
-		/// Multiplies every column's length by the given amount if it is within the size
-		/// </summary>
-		/// <param name="factor"></param>
-		private void SetColumnSizeProportionally(double factor)
-		{
-			NameColumn.TryMultiplySize(factor);
-			GitStatusColumn.TryMultiplySize(factor);
-			GitLastCommitDateColumn.TryMultiplySize(factor);
-			GitLastCommitMessageColumn.TryMultiplySize(factor);
-			GitCommitAuthorColumn.TryMultiplySize(factor);
-			GitLastCommitShaColumn.TryMultiplySize(factor);
-			TagColumn.TryMultiplySize(factor);
-			DateModifiedColumn.TryMultiplySize(factor);
-			PathColumn.TryMultiplySize(factor);
-			OriginalPathColumn.TryMultiplySize(factor);
-			ItemTypeColumn.TryMultiplySize(factor);
-			DateDeletedColumn.TryMultiplySize(factor);
-			DateCreatedColumn.TryMultiplySize(factor);
-			SizeColumn.TryMultiplySize(factor);
-			StatusColumn.TryMultiplySize(factor);
-		}
-
 		public override bool Equals(object? obj)
 		{
 			if (obj is null)

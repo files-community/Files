@@ -117,21 +117,6 @@ namespace Files.App.Data.Items
 			OnPropertyChanged(nameof(MinLength));
 		}
 
-		public void TryMultiplySize(double factor)
-		{
-			var newSize = Length.Value * factor;
-			if (newSize == 0)
-				return;
-
-			double setLength = newSize;
-			if (newSize < MinLength)
-				setLength = MinLength;
-			else if (newSize >= MaxLength)
-				setLength = MaxLength;
-
-			UserLength = new GridLength(setLength);
-		}
-
 		public override bool Equals(object? obj)
 		{
 			if (obj is null)

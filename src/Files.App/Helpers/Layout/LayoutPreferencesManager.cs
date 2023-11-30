@@ -3,6 +3,9 @@
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Represents manager for layout preferences.
+	/// </summary>
 	public class LayoutPreferencesManager
 	{
 		// Dependency injections

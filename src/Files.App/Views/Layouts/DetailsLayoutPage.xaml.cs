@@ -579,7 +579,6 @@ namespace Files.App.Views.Layouts
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
-			ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
@@ -786,7 +785,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
-			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
+			LayoutSettingsManager.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)

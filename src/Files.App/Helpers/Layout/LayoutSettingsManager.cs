@@ -6,6 +6,10 @@ using Windows.Storage;
 
 namespace Files.App.Data.Models
 {
+	/// <summary>
+	/// Represents manager for layout settings.
+	/// Provides richer functions than <see cref="LayoutPreferencesManager"/>.
+	/// </summary>
 	public class LayoutSettingsManager : ObservableObject
 	{
 		// Dependency injections
@@ -435,42 +439,6 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
-		{
-			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-			userSettingsService.FoldersSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowGitStatusColumn = !columns.GitStatusColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn = !columns.GitLastCommitDateColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn = !columns.GitLastCommitMessageColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !columns.GitCommitAuthorColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !columns.GitLastCommitShaColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !columns.DateDeletedColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowPathColumn = !columns.PathColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !columns.OriginalPathColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !columns.StatusColumn.UserCollapsed;
-
-			userSettingsService.FoldersSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.GitStatusColumnWidth = columns.GitStatusColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth = columns.GitLastCommitDateColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth = columns.GitLastCommitMessageColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = columns.GitCommitAuthorColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = columns.GitLastCommitShaColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.PathColumnWidth = columns.PathColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
-		}
-
 		// Static methods
 
 		public static LayoutPreferencesDatabase GetDbInstance()
@@ -648,6 +616,42 @@ namespace Files.App.Data.Models
 			else
 				// Either global setting or smart guess
 				return LayoutPreferencesManager.DefaultLayoutPreferences;
+		}
+
+		public static void SetDefaultLayoutPreferences(ColumnsViewModel columns)
+		{
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+			userSettingsService.FoldersSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowGitStatusColumn = !columns.GitStatusColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn = !columns.GitLastCommitDateColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn = !columns.GitLastCommitMessageColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !columns.GitCommitAuthorColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !columns.GitLastCommitShaColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !columns.DateDeletedColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowPathColumn = !columns.PathColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !columns.OriginalPathColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !columns.StatusColumn.UserCollapsed;
+
+			userSettingsService.FoldersSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.GitStatusColumnWidth = columns.GitStatusColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth = columns.GitLastCommitDateColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth = columns.GitLastCommitMessageColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = columns.GitCommitAuthorColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = columns.GitLastCommitShaColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.PathColumnWidth = columns.PathColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
 		}
 
 		private static void WriteLayoutPreferencesToDb(string folderPath, ulong? frn, LayoutPreferencesManager prefs)

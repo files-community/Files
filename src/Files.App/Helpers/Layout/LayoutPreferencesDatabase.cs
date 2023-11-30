@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Represents manager of database for layout preferences.
+	/// </summary>
 	public class LayoutPreferencesDatabase : IDisposable
 	{
 		// Fields
@@ -52,9 +55,11 @@ namespace Files.App.Helpers
 						tmp.Frn = frn;
 						col.Update(tmp);
 					}
+
 					return tmp;
 				}
 			}
+
 			if (frn is not null)
 			{
 				var tmp = col.FindOne(x => x.Frn == frn);
@@ -66,9 +71,11 @@ namespace Files.App.Helpers
 						tmp.FilePath = filePath;
 						col.Update(tmp);
 					}
+
 					return tmp;
 				}
 			}
+
 			return null;
 		}
 
@@ -78,6 +85,7 @@ namespace Files.App.Helpers
 			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
 
 			var tmp = FindPreferences(filePath, frn);
+
 			if (tmp is null)
 			{
 				if (preferencesManager is not null)
@@ -89,6 +97,7 @@ namespace Files.App.Helpers
 						Frn = frn,
 						LayoutPreferencesManager = preferencesManager
 					};
+
 					col.Insert(newPref);
 					col.EnsureIndex(x => x.Frn);
 					col.EnsureIndex(x => x.FilePath);
@@ -113,6 +122,7 @@ namespace Files.App.Helpers
 		public void ResetAll(Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
 			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
+
 			if (predicate is null)
 			{
 				col.Delete(Query.All());
@@ -126,7 +136,9 @@ namespace Files.App.Helpers
 		public void ApplyToAll(Action<LayoutPreferencesDatabaseItem> updateAction, Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
 			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
+
 			var allDocs = predicate is null ? col.FindAll() : col.Find(x => predicate(x));
+
 			allDocs.ForEach(x => updateAction(x));
 			col.Update(allDocs);
 		}
@@ -134,7 +146,9 @@ namespace Files.App.Helpers
 		public void Import(string json)
 		{
 			var dataValues = JsonSerializer.DeserializeArray(json);
+
 			var col = _database.GetCollection("layoutprefs");
+
 			col.Delete(Query.All());
 			col.InsertBulk(dataValues.Select(x => x.AsDocument));
 		}
@@ -152,19 +166,21 @@ namespace Files.App.Helpers
 
 			var buffer = new byte[8192 * 2];
 
-			using (var stream = new SystemIO.FileStream(filename, SystemIO.FileMode.Open, SystemIO.FileAccess.Read, SystemIO.FileShare.ReadWrite))
-			{
-				// read first 16k
-				stream.Read(buffer, 0, buffer.Length);
+			using var stream = new SystemIO.FileStream(filename, SystemIO.FileMode.Open, SystemIO.FileAccess.Read, SystemIO.FileShare.ReadWrite);
 
-				// checks if v7 (plain or encrypted)
-				if (Encoding.UTF8.GetString(buffer, 25, "** This is a LiteDB file **".Length) == "** This is a LiteDB file **" &&
-					buffer[52] == 7)
-				{
-					return; // version 4.1.4
-				}
+			// Read first 16k
+			stream.Read(buffer, 0, buffer.Length);
+
+			// Check if v7 (plain or encrypted)
+			if (Encoding.UTF8.GetString(buffer, 25, "** This is a LiteDB file **".Length) == "** This is a LiteDB file **" &&
+				buffer[52] == 7)
+			{
+				// version 4.1.4
+				return;
 			}
-			SystemIO.File.Delete(filename); // recreate DB with correct version
+
+			// Re-create database with correct version
+			SystemIO.File.Delete(filename);
 		}
 
 		// De-constructor & Disposer
