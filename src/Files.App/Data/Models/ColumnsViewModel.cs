@@ -7,135 +7,135 @@ namespace Files.App.Data.Models
 {
 	public class ColumnsViewModel : ObservableObject
 	{
-		private ColumnViewModel iconColumn = new()
+		private DetailsLayoutColumnItem iconColumn = new()
 		{
 			UserLength = new GridLength(24, GridUnitType.Pixel),
-			IsResizeable = false,
+			IsResizable = false,
 		};
 
 		[LiteDB.BsonIgnore]
-		public ColumnViewModel IconColumn
+		public DetailsLayoutColumnItem IconColumn
 		{
 			get => iconColumn;
 			set => SetProperty(ref iconColumn, value);
 		}
 
-		private ColumnViewModel _GitStatusColumn = new();
-		public ColumnViewModel GitStatusColumn
+		private DetailsLayoutColumnItem _GitStatusColumn = new();
+		public DetailsLayoutColumnItem GitStatusColumn
 		{
 			get => _GitStatusColumn;
 			set => SetProperty(ref _GitStatusColumn, value);
 		}
 
-		private ColumnViewModel _GitLastCommitDateColumn = new();
-		public ColumnViewModel GitLastCommitDateColumn
+		private DetailsLayoutColumnItem _GitLastCommitDateColumn = new();
+		public DetailsLayoutColumnItem GitLastCommitDateColumn
 		{
 			get => _GitLastCommitDateColumn;
 			set => SetProperty(ref _GitLastCommitDateColumn, value);
 		}
 
-		private ColumnViewModel _GitLastCommitMessageColumn = new();
-		public ColumnViewModel GitLastCommitMessageColumn
+		private DetailsLayoutColumnItem _GitLastCommitMessageColumn = new();
+		public DetailsLayoutColumnItem GitLastCommitMessageColumn
 		{
 			get => _GitLastCommitMessageColumn;
 			set => SetProperty(ref _GitLastCommitMessageColumn, value);
 		}
 
-		private ColumnViewModel _GitCommitAuthorColumn = new();
-		public ColumnViewModel GitCommitAuthorColumn
+		private DetailsLayoutColumnItem _GitCommitAuthorColumn = new();
+		public DetailsLayoutColumnItem GitCommitAuthorColumn
 		{
 			get => _GitCommitAuthorColumn;
 			set => SetProperty(ref _GitCommitAuthorColumn, value);
 		}
 
-		private ColumnViewModel _GitLastCommitShaColumn = new();
-		public ColumnViewModel GitLastCommitShaColumn
+		private DetailsLayoutColumnItem _GitLastCommitShaColumn = new();
+		public DetailsLayoutColumnItem GitLastCommitShaColumn
 		{
 			get => _GitLastCommitShaColumn;
 			set => SetProperty(ref _GitLastCommitShaColumn, value);
 		}
 
-		private ColumnViewModel tagColumn = new();
-		public ColumnViewModel TagColumn
+		private DetailsLayoutColumnItem tagColumn = new();
+		public DetailsLayoutColumnItem TagColumn
 		{
 			get => tagColumn;
 			set => SetProperty(ref tagColumn, value);
 		}
 
-		private ColumnViewModel nameColumn = new()
+		private DetailsLayoutColumnItem nameColumn = new()
 		{
 			NormalMaxLength = 1000d
 		};
-		public ColumnViewModel NameColumn
+		public DetailsLayoutColumnItem NameColumn
 		{
 			get => nameColumn;
 			set => SetProperty(ref nameColumn, value);
 		}
 
-		private ColumnViewModel statusColumn = new()
+		private DetailsLayoutColumnItem statusColumn = new()
 		{
 			UserLength = new GridLength(50),
 			NormalMaxLength = 80,
 		};
-		public ColumnViewModel StatusColumn
+		public DetailsLayoutColumnItem StatusColumn
 		{
 			get => statusColumn;
 			set => SetProperty(ref statusColumn, value);
 		}
 
-		private ColumnViewModel dateModifiedColumn = new();
-		public ColumnViewModel DateModifiedColumn
+		private DetailsLayoutColumnItem dateModifiedColumn = new();
+		public DetailsLayoutColumnItem DateModifiedColumn
 		{
 			get => dateModifiedColumn;
 			set => SetProperty(ref dateModifiedColumn, value);
 		}
 
-		private ColumnViewModel pathColumn = new()
+		private DetailsLayoutColumnItem pathColumn = new()
 		{
 			NormalMaxLength = 500,
 		};
-		public ColumnViewModel PathColumn
+		public DetailsLayoutColumnItem PathColumn
 		{
 			get => pathColumn;
 			set => SetProperty(ref pathColumn, value);
 		}
 
-		private ColumnViewModel originalPathColumn = new()
+		private DetailsLayoutColumnItem originalPathColumn = new()
 		{
 			NormalMaxLength = 500,
 		};
-		public ColumnViewModel OriginalPathColumn
+		public DetailsLayoutColumnItem OriginalPathColumn
 		{
 			get => originalPathColumn;
 			set => SetProperty(ref originalPathColumn, value);
 		}
 
-		private ColumnViewModel itemTypeColumn = new();
-		public ColumnViewModel ItemTypeColumn
+		private DetailsLayoutColumnItem itemTypeColumn = new();
+		public DetailsLayoutColumnItem ItemTypeColumn
 		{
 			get => itemTypeColumn;
 			set => SetProperty(ref itemTypeColumn, value);
 		}
 
-		private ColumnViewModel dateDeletedColumn = new();
-		public ColumnViewModel DateDeletedColumn
+		private DetailsLayoutColumnItem dateDeletedColumn = new();
+		public DetailsLayoutColumnItem DateDeletedColumn
 		{
 			get => dateDeletedColumn;
 			set => SetProperty(ref dateDeletedColumn, value);
 		}
 
-		private ColumnViewModel dateCreatedColumn = new()
+		private DetailsLayoutColumnItem dateCreatedColumn = new()
 		{
 			UserCollapsed = true
 		};
-		public ColumnViewModel DateCreatedColumn
+		public DetailsLayoutColumnItem DateCreatedColumn
 		{
 			get => dateCreatedColumn;
 			set => SetProperty(ref dateCreatedColumn, value);
 		}
 
-		private ColumnViewModel sizeColumn = new();
-		public ColumnViewModel SizeColumn
+		private DetailsLayoutColumnItem sizeColumn = new();
+		public DetailsLayoutColumnItem SizeColumn
 		{
 			get => sizeColumn;
 			set => SetProperty(ref sizeColumn, value);
