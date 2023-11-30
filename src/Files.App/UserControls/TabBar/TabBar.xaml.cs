@@ -266,6 +266,30 @@ namespace Files.App.UserControls.TabBar
 				(args.Item as TabBarItem)?.Unload();
 		}
 
+		private void TabView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+		{
+			var delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
+
+			if (delta > 0)
+			{
+				// Scroll up, select the next tab
+				if (HorizontalTabView.SelectedIndex < HorizontalTabView.TabItems.Count - 1)
+				{
+					HorizontalTabView.SelectedIndex++;
+				}
+			}
+			else
+			{
+				// Scroll down, select the previous tab
+				if (HorizontalTabView.SelectedIndex > 0)
+				{
+					HorizontalTabView.SelectedIndex--;
+				}
+			}
+
+			e.Handled = true;
+		}
+
 		private void TabItemContextMenu_Opening(object sender, object e)
 		{
 			MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
