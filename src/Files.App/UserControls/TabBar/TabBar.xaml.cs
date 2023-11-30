@@ -280,9 +280,7 @@ namespace Files.App.UserControls.TabBar
 			{
 				// Scroll down, select the previous tab
 				if (HorizontalTabView.SelectedIndex > 0)
-				{
 					HorizontalTabView.SelectedIndex--;
-				}
 			}
 
 			e.Handled = true;
