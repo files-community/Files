@@ -274,9 +274,7 @@ namespace Files.App.UserControls.TabBar
 			{
 				// Scroll up, select the next tab
 				if (HorizontalTabView.SelectedIndex < HorizontalTabView.TabItems.Count - 1)
-				{
 					HorizontalTabView.SelectedIndex++;
-				}
 			}
 			else
 			{
