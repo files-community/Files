@@ -17,7 +17,6 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
-		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static string? OutputPath { get; set; }
 
@@ -59,8 +58,8 @@ namespace Files.App
 				// Wait for the Window to initialize
 				await Task.Delay(10);
 
-				SplashScreenLoadingTCS = new TaskCompletionSource();
 				MainWindow.Instance.ShowSplashScreen();
+				await Task.Delay(10);
 
 				// Get AppActivationArguments
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
@@ -94,8 +93,7 @@ namespace Files.App
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
 				// Wait for the UI to update
-				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
-				SplashScreenLoadingTCS = null;
+				await Task.Delay(10);
 
 				_ = AppLifecycleHelper.InitializeAppComponentsAsync();
 				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
@@ -119,7 +117,6 @@ namespace Files.App
 		/// </summary>
 		private void Window_Activated(object sender, WindowActivatedEventArgs args)
 		{
-			// TODO(s): Is this code still needed?
 			if (args.WindowActivationState != WindowActivationState.CodeActivated ||
 				args.WindowActivationState != WindowActivationState.PointerActivated)
 				return;
