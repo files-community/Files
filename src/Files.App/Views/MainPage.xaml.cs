@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
+using Files.App.Data.Items;
 using Files.App.UserControls.Sidebar;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -14,6 +15,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Services.Store;
 using WinRT.Interop;
@@ -485,6 +487,26 @@ namespace Files.App.Views
 						Focus(FocusState.Keyboard);
 					break;
 			}
+		}
+		private async void TabView_Drop(object sender, DragEventArgs e)
+		{
+			Debug.WriteLine($"\nDEBUG: item drop {e.Data}\n");
+		}
+		private async void TabView_DragOver(object sender, DragEventArgs e)
+		{
+			Debug.WriteLine("\nDEBUG: drag over\n");
+			e.Handled = true;
+			var deferral = e.GetDeferral();
+
+			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+
+			e.DragUIOverride.IsCaptionVisible = true;
+			e.DragUIOverride.IsGlyphVisible = false;
+			e.DragUIOverride.Caption = string.Format("OpenDirectoryInNewTabDescription".GetLocalizedResource());
+			e.AcceptedOperation = DataPackageOperation.None;
+
+			deferral.Complete();
+
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
