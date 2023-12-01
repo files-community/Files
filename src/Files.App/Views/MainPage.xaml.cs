@@ -166,7 +166,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
-			await ViewModel.UpdateInstancePropertiesAsync(paneArgs);
+			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
@@ -185,12 +185,10 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
-			ViewModel.UpdateInstancePropertiesAsync(navArgs);
+			NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
-
-			SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.ReloadPreviewPane();
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -329,7 +327,8 @@ namespace Files.App.Views
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			PreviewPane?.ViewModel.UpdateDateDisplay();
+			if (!App.AppModel.IsMainWindowClosed)
+				PreviewPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -462,6 +461,9 @@ namespace Files.App.Views
 		private void OnPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+			if (propertyName == nameof(ShouldPreviewPaneBeActive) && ShouldPreviewPaneBeActive)
+				_ = Ioc.Default.GetRequiredService<InfoPaneViewModel>().UpdateSelectedItemPreviewAsync();
 		}
 
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

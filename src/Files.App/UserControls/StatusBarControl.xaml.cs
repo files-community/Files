@@ -45,18 +45,37 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private void BranchesFlyout_Opening(object sender, object e)
+		private async void BranchesFlyout_Opening(object _, object e)
 		{
 			if (DirectoryPropertiesViewModel is null)
 				return;
 
+			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = true;
 			DirectoryPropertiesViewModel.ShowLocals = true;
+			await DirectoryPropertiesViewModel.LoadBranches();
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
 		}
 
 		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			BranchesFlyout.Hide();
+		}
+
+		private void BranchesFlyout_Closing(object _, object e)
+		{
+			if (DirectoryPropertiesViewModel is null)
+				return;
+
+			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = false;
+		}
+
+		private async void DeleteBranch_Click(object sender, RoutedEventArgs e)
+		{
+			if (DirectoryPropertiesViewModel is null)
+				return;
+
+			BranchesFlyout.Hide();
+			await DirectoryPropertiesViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
 		}
 	}
 }

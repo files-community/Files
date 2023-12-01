@@ -411,17 +411,16 @@
 
 					<Grid Margin="-16">
 
+						<!-- Enable icon again if we add option to always display on the toolbar
 						<uc:OpacityIcon
 							x:Name="StatusCenterIcon"
 							Width="16"
 							Height="16"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							Style="{StaticResource ColorIconStatusCenter}" />
+							Style="{StaticResource ColorIconStatusCenter}" />-->
 
 						<ProgressRing
 							x:Name="MedianOperationProgressRing"
-							Width="20"
-							Height="20"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
@@ -431,8 +430,8 @@
 
 						<InfoBadge
 							x:Name="StatusInfoBadge"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Top"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
 							Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
 
 					</Grid>

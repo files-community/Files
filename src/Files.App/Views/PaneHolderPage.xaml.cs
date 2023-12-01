@@ -352,15 +352,7 @@ namespace Files.App.Views
 
 			var activePane = isLeftPane ? PaneLeft : PaneRight;
 			if (ActivePane != activePane)
-			{
 				ActivePane = activePane;
-
-				if (ActivePane?.SlimContentPage is IBaseLayoutPage page && !page.IsItemSelected)
-				{
-					page.InfoPaneViewModel.IsItemSelected = false;
-					await page.InfoPaneViewModel.UpdateSelectedItemPreviewAsync();
-				}
-			}
 		}
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)

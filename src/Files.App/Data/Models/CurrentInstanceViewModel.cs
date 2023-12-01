@@ -165,27 +165,15 @@ namespace Files.App.Data.Models
 			set
 			{
 				if (SetProperty(ref gitRepositoryPath, value))
-				{
 					OnPropertyChanged(nameof(IsGitRepository));
-					OnPropertyChanged(nameof(GitBranchName));
-				}
 			}
 		}
 
+		private string gitBranchName = string.Empty;
 		public string GitBranchName
 		{
-			get
-			{
-				if (IsGitRepository)
-					return GitHelpers.GetRepositoryHeadName(gitRepositoryPath);
-
-				return string.Empty;
-			}
-		}
-
-		public void UpdateCurrentBranchName()
-		{
-			OnPropertyChanged(nameof(GitBranchName));
+			get => gitBranchName;
+			set => SetProperty(ref gitBranchName, value);
 		}
 	}
 }

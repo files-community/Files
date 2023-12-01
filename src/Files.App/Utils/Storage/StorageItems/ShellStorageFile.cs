@@ -182,7 +182,7 @@ namespace Files.App.Utils.Storage
 
 			public override ulong Size => file.FileSizeBytes;
 
-			public override DateTimeOffset ItemDate => file.ModifiedDate;
+			public override DateTimeOffset DateCreated => file.CreatedDate;
 			public override DateTimeOffset DateModified => file.ModifiedDate;
 		}
 	}

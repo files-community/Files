@@ -65,6 +65,26 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isMainWindowClosed, value);
 		}
 
+		private int propertiesWindowCount = 0;
+		public int PropertiesWindowCount
+		{
+			get => propertiesWindowCount;
+		}
+
+		public int IncrementPropertiesWindowCount()
+		{
+			var result = Interlocked.Increment(ref propertiesWindowCount);
+			OnPropertyChanged(nameof(PropertiesWindowCount));
+			return result;
+		}
+
+		public int DecrementPropertiesWindowCount()
+		{
+			var result = Interlocked.Decrement(ref propertiesWindowCount);
+			OnPropertyChanged(nameof(PropertiesWindowCount));
+			return result;
+		}
+
 		private bool forceProcessTermination = false;
 		public bool ForceProcessTermination
 		{
@@ -80,6 +100,16 @@ namespace Files.App.Data.Models
 		{
 			get => googleDrivePath;
 			set => SetProperty(ref googleDrivePath, value);
+		}
+
+		private string pCloudDrivePath = string.Empty;
+		/// <summary>
+		/// Gets or sets a value indicating the path for pCloud Drive.
+		/// </summary>
+		public string PCloudDrivePath
+		{
+			get => pCloudDrivePath;
+			set => SetProperty(ref pCloudDrivePath, value);
 		}
 	}
 }
