@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using System.Data;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -490,20 +491,44 @@ namespace Files.App.Views
 		}
 		private async void TabView_Drop(object sender, DragEventArgs e)
 		{
-			Debug.WriteLine($"\nDEBUG: item drop {e.Data}\n");
+			Debug.WriteLine($"DEBUG: item drop");
+
+			if (!e.Data.Properties.ContainsKey("draggedItems"))
+				return;
+			IEnumerable<IStorageItemWithPath>? items;
+			if ((items = e.Data.Properties["draggedItems"] as IEnumerable<IStorageItemWithPath>) == null) 
+				return;
+
+			var deferral = e.GetDeferral();
+			
+			List<Task> tasks = new ();
+			foreach (var item in items)
+			{
+				await NavigationHelpers.OpenPathInNewTab(item.Path);
+				//Task task = new (() => NavigationHelpers.OpenPathInNewTab(item.Path));
+				//task.Start();
+				//tasks.Add(task);
+			}
+			//await Task.WhenAll(tasks);
+			deferral.Complete();
 		}
 		private async void TabView_DragOver(object sender, DragEventArgs e)
 		{
-			Debug.WriteLine("\nDEBUG: drag over\n");
-			e.Handled = true;
-			var deferral = e.GetDeferral();
-
+			Debug.WriteLine("DEBUG: drag over");
+			
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
+			if (!storageItems.All(item => item.ItemType == FilesystemItemType.Directory))
+				return;
+			if (e.Data.Properties.ContainsKey("draggedItems"))
+				return;
+			e.Handled = true;
+			var deferral = e.GetDeferral();
+			e.Data.Properties.TryAdd("draggedItems", storageItems);
 			e.DragUIOverride.IsCaptionVisible = true;
-			e.DragUIOverride.IsGlyphVisible = false;
+			//e.DragUIOverride.IsGlyphVisible = false;
 			e.DragUIOverride.Caption = string.Format("OpenDirectoryInNewTabDescription".GetLocalizedResource());
-			e.AcceptedOperation = DataPackageOperation.None;
+			e.AcceptedOperation = DataPackageOperation.Copy;
 
 			deferral.Complete();
 
