@@ -5,6 +5,9 @@ using LiteDB;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Represents item for the database of a folder's layout preferences.
+	/// </summary>
 	public class LayoutPreferencesDatabaseItem
 	{
 		[BsonId]
@@ -14,6 +17,6 @@ namespace Files.App.Helpers
 
 		public string FilePath { get; set; } = string.Empty;
 
-		public LayoutPreferencesManager LayoutPreferencesManager { get; set; } = LayoutPreferencesManager.DefaultLayoutPreferences;
+		public LayoutPreferencesItem LayoutPreferencesManager { get; set; } = new();
 	}
 }

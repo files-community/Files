@@ -179,7 +179,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.FolderSettings is not null)
 				{
-					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutSettingsManager.LayoutMode)));
+					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
 					instanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 				}
 			}
@@ -906,8 +906,8 @@ namespace Files.App.ViewModels.UserControls
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(LayoutSettingsManager.GridViewSize):
-				case nameof(LayoutSettingsManager.LayoutMode):
+				case nameof(LayoutPreferencesManager.GridViewSize):
+				case nameof(LayoutPreferencesManager.LayoutMode):
 					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{
 						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,

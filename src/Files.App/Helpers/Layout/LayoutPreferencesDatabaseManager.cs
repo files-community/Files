@@ -7,9 +7,9 @@ using System.Text;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Represents manager of database for layout preferences.
+	/// Represents manager for the database of layout preferences.
 	/// </summary>
-	public class LayoutPreferencesDatabase : IDisposable
+	public class LayoutPreferencesDatabaseManager : IDisposable
 	{
 		// Fields
 
@@ -17,9 +17,9 @@ namespace Files.App.Helpers
 
 		// Methods
 
-		public LayoutPreferencesDatabase(string connection, bool shared = false)
+		public LayoutPreferencesDatabaseManager(string connection, bool shared = false)
 		{
-			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(connection));
+			SafetyExtensions.IgnoreExceptions(() => EnsureDatabaseVersion(connection));
 
 			_database = new LiteDatabase(
 				new ConnectionString(connection)
@@ -34,7 +34,7 @@ namespace Files.App.Helpers
 				});
 		}
 
-		public LayoutPreferencesManager? GetPreferences(string? filePath = null, ulong? frn = null)
+		public LayoutPreferencesItem? GetPreferences(string? filePath = null, ulong? frn = null)
 		{
 			return FindPreferences(filePath, frn)?.LayoutPreferencesManager;
 		}
@@ -79,7 +79,7 @@ namespace Files.App.Helpers
 			return null;
 		}
 
-		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesManager? preferencesManager)
+		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
 		{
 			// Get a collection (or create, if doesn't exist)
 			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
@@ -88,14 +88,14 @@ namespace Files.App.Helpers
 
 			if (tmp is null)
 			{
-				if (preferencesManager is not null)
+				if (preferencesItem is not null)
 				{
 					// Insert new tagged file (Id will be auto-incremented)
 					var newPref = new LayoutPreferencesDatabaseItem()
 					{
 						FilePath = filePath,
 						Frn = frn,
-						LayoutPreferencesManager = preferencesManager
+						LayoutPreferencesManager = preferencesItem
 					};
 
 					col.Insert(newPref);
@@ -105,10 +105,10 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				if (preferencesManager is not null)
+				if (preferencesItem is not null)
 				{
 					// Update file tag
-					tmp.LayoutPreferencesManager = preferencesManager;
+					tmp.LayoutPreferencesManager = preferencesItem;
 					col.Update(tmp);
 				}
 				else
@@ -158,7 +158,7 @@ namespace Files.App.Helpers
 			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection("layoutprefs").FindAll()));
 		}
 
-		private void CheckDbVersion(string filename)
+		private void EnsureDatabaseVersion(string filename)
 		{
 			// NOTE:
 			//  For more information, visit
@@ -185,7 +185,7 @@ namespace Files.App.Helpers
 
 		// De-constructor & Disposer
 
-		~LayoutPreferencesDatabase()
+		~LayoutPreferencesDatabaseManager()
 		{
 			Dispose();
 		}

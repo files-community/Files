@@ -785,7 +785,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
-			LayoutSettingsManager.SetDefaultLayoutPreferences(ColumnsViewModel);
+			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)

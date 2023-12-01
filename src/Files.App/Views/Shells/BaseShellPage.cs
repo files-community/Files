@@ -56,7 +56,7 @@ namespace Files.App.Views.Shells
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
 
-		public LayoutSettingsManager FolderSettings => InstanceViewModel.FolderSettings;
+		public LayoutPreferencesManager FolderSettings => InstanceViewModel.FolderSettings;
 
 		public AppModel AppModel => App.AppModel;
 

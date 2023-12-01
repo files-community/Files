@@ -12,11 +12,11 @@ namespace Files.App.Helpers
 {
 	public static class AdaptiveLayoutHelpers
 	{
-		private static readonly IFoldersSettingsService foldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public static void ApplyAdaptativeLayout(LayoutSettingsManager folderSettings, string path, IList<ListedItem> filesAndFolders)
+		public static void ApplyAdaptativeLayout(LayoutPreferencesManager folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
-			if (foldersSettingsService.SyncFolderPreferencesAcrossDirectories)
+			if (FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				return;
 			if (string.IsNullOrWhiteSpace(path))
 				return;

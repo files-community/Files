@@ -53,7 +53,7 @@ namespace Files.App.Data.Models
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
-		private LayoutSettingsManager folderSettings = null;
+		private LayoutPreferencesManager folderSettings = null;
 
 		private ListedItem? currentFolder;
 		public ListedItem? CurrentFolder
@@ -408,7 +408,7 @@ namespace Files.App.Data.Models
 
 		public bool HasNoWatcher { get; private set; }
 
-		public ItemViewModel(LayoutSettingsManager folderSettingsViewModel)
+		public ItemViewModel(LayoutPreferencesManager folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
 			filesAndFolders = new ConcurrentCollection<ListedItem>();

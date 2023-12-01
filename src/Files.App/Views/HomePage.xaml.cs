@@ -22,7 +22,7 @@ namespace Files.App.Views
 
 		private IShellPage AppInstance { get; set; } = null!;
 
-		public LayoutSettingsManager FolderSettings
+		public LayoutPreferencesManager FolderSettings
 			=> AppInstance?.InstanceViewModel.FolderSettings!;
 
 		private QuickAccessWidget? quickAccessWidget;
