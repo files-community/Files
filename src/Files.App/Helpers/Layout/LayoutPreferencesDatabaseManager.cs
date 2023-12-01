@@ -15,13 +15,13 @@ namespace Files.App.Helpers
 
 		private readonly LiteDatabase _database;
 
-		// Methods
+		// Constructor
 
 		public LayoutPreferencesDatabaseManager(string connection, bool shared = false)
 		{
 			SafetyExtensions.IgnoreExceptions(() => EnsureDatabaseVersion(connection));
 
-			_database = new LiteDatabase(
+			_database = new(
 				new ConnectionString(connection)
 				{
 					Mode = shared
@@ -34,49 +34,11 @@ namespace Files.App.Helpers
 				});
 		}
 
+		// Methods
+
 		public LayoutPreferencesItem? GetPreferences(string? filePath = null, ulong? frn = null)
 		{
 			return FindPreferences(filePath, frn)?.LayoutPreferencesManager;
-		}
-
-		private LayoutPreferencesDatabaseItem? FindPreferences(string? filePath = null, ulong? frn = null)
-		{
-			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
-
-			if (filePath is not null)
-			{
-				var tmp = col.FindOne(x => x.FilePath == filePath);
-				if (tmp is not null)
-				{
-					if (frn is not null)
-					{
-						// Keep entry updated
-						tmp.Frn = frn;
-						col.Update(tmp);
-					}
-
-					return tmp;
-				}
-			}
-
-			if (frn is not null)
-			{
-				var tmp = col.FindOne(x => x.Frn == frn);
-				if (tmp is not null)
-				{
-					if (filePath is not null)
-					{
-						// Keep entry updated
-						tmp.FilePath = filePath;
-						col.Update(tmp);
-					}
-
-					return tmp;
-				}
-			}
-
-			return null;
 		}
 
 		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
@@ -156,6 +118,46 @@ namespace Files.App.Helpers
 		public string Export()
 		{
 			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection("layoutprefs").FindAll()));
+		}
+
+		private LayoutPreferencesDatabaseItem? FindPreferences(string? filePath = null, ulong? frn = null)
+		{
+			// Get a collection (or create, if doesn't exist)
+			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
+
+			if (filePath is not null)
+			{
+				var tmp = col.FindOne(x => x.FilePath == filePath);
+				if (tmp is not null)
+				{
+					if (frn is not null)
+					{
+						// Keep entry updated
+						tmp.Frn = frn;
+						col.Update(tmp);
+					}
+
+					return tmp;
+				}
+			}
+
+			if (frn is not null)
+			{
+				var tmp = col.FindOne(x => x.Frn == frn);
+				if (tmp is not null)
+				{
+					if (filePath is not null)
+					{
+						// Keep entry updated
+						tmp.FilePath = filePath;
+						col.Update(tmp);
+					}
+
+					return tmp;
+				}
+			}
+
+			return null;
 		}
 
 		private void EnsureDatabaseVersion(string filename)

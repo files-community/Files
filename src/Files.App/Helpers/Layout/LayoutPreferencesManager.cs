@@ -241,7 +241,7 @@ namespace Files.App.Data.Models
 		private LayoutPreferencesItem? _LayoutPreferencesItem;
 		public LayoutPreferencesItem LayoutPreferencesItem
 		{
-			get => _LayoutPreferencesItem;
+			get => _LayoutPreferencesItem!;
 			private set
 			{
 				if (SetProperty(ref _LayoutPreferencesItem, value))
@@ -311,6 +311,8 @@ namespace Files.App.Data.Models
 		public Type GetLayoutType(string path, bool changeLayoutMode = true)
 		{
 			var preferencesItem = GetLayoutPreferencesForPath(path);
+			if (preferencesItem is null)
+				return typeof(DetailsLayoutPage);
 
 			if (changeLayoutMode)
 			{
@@ -418,15 +420,17 @@ namespace Files.App.Data.Models
 
 		public void OnDefaultPreferencesChanged(string path, string settingsName)
 		{
-			var preferences = GetLayoutPreferencesForPath(path);
+			var preferencesItem = GetLayoutPreferencesForPath(path);
+			if (preferencesItem is null)
+				return;
 
 			switch (settingsName)
 			{
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
-					SortDirectoriesAlongsideFiles = preferences.SortDirectoriesAlongsideFiles;
+					SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
-					LayoutPreferencesItem = preferences;
+					LayoutPreferencesItem = preferencesItem;
 					// TODO: Update layout
 					break;
 			}
@@ -588,7 +592,7 @@ namespace Files.App.Data.Models
 		{
 			if (!UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
-				path = path.TrimPath();
+				path = path.TrimPath() ?? string.Empty;
 
 				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
 
@@ -607,7 +611,10 @@ namespace Files.App.Data.Models
 			var layoutPreferences = SafetyExtensions.IgnoreExceptions(() =>
 				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferencesItem>(str));
 
-			// Port settings to the Database, delete the ADS
+			if (layoutPreferences is null)
+				return null;
+
+			// Port settings to the database, delete the ADS
 			SetLayoutPreferencesToDatabase(path, frn, layoutPreferences);
 			NativeFileOperationsHelper.DeleteFileFromApp($"{path}:files_layoutmode");
 
