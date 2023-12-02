@@ -11,16 +11,22 @@
 	<Grid>
 		<!--  Splash Screen Image  -->
 		<Viewbox
+			x:Name="SplashScreenImageViewbox"
 			Width="620"
 			Height="300"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
 			Stretch="None">
-			<Image x:Name="SplashScreenImage" Source="\Assets\AppTiles\Dev\SplashScreen.png" />
+			<Image
+				x:Name="SplashScreenImage"
+				ImageFailed="Image_ImageFailed"
+				ImageOpened="Image_ImageOpened"
+				Source="\Assets\AppTiles\Dev\SplashScreen.png" />
 		</Viewbox>
 
 		<!--  Branch Label  -->
 		<TextBlock
+			x:Name="SplashScreenBranchLabel"
 			Margin="0,164,0,0"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
@@ -33,6 +39,7 @@
 
 		<!--  Loading Indicator  -->
 		<ProgressRing
+			x:Name="SplashScreenLoadingProgressRing"
 			Margin="0,0,0,48"
 			VerticalAlignment="Bottom"
 			Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
