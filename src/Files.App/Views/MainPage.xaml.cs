@@ -503,13 +503,11 @@ namespace Files.App.Views
 				);
 
 			var deferral = e.GetDeferral();
-
-			List<Task> tasks = new ();
-			foreach (var item in items)
-				tasks.Add(NavigationHelpers.OpenPathInNewTab(item.Path));
-
-			deferral.Complete();
-			try { await Task.WhenAll(tasks); } catch { } 
+			try {
+				foreach (var item in items)
+					await NavigationHelpers.OpenPathInNewTab(item.Path);
+				deferral.Complete(); 
+			} catch { } 
 			lockFlag = false;
 		}
 		private async void HorizontalMultitaskingControlAddButton_DragOver(object sender, DragEventArgs e)
