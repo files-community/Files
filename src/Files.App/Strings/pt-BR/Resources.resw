@@ -2341,7 +2341,7 @@
     <value>Ocorreu um erro durante o cálculo</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Failed to calculate the hash, please close the file and try again.</value>
+    <value>Falha ao calcular os dados, por favor feche o arquivo e tente novamente.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes não estão disponíveis para arquivos online</value>
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Falha ao definir o plano de fundo</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Conectado ao GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Conectar ao GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Entrar</value>
   </data>
 </root>

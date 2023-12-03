@@ -373,13 +373,13 @@
     <value>படிக்க மட்டும்</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} நாட்கள் முன்பு</value>
+    <value>{0} நாள்கள் முன்பு</value>
   </data>
   <data name="DayAgo" xml:space="preserve">
     <value>{0} நாள் முன்பு</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} மணிநேரங்களுக்கு முன்பு</value>
+    <value>{0} மணிநேரங்கள் முன்பு</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
     <value>{0} மணிநேரம் முன்பு</value>
@@ -733,10 +733,10 @@
     <value>துளை</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>ஆட்களின் பெயர்கள்</value>
+    <value>ஆள்களின் பெயர்கள்</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>சேனல் எண்ணிக்கை</value>
+    <value>அலைவரிசை எண்ணிக்கை</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>வடிவமைப்பு</value>
@@ -958,7 +958,7 @@
     <value>தாவலைப் புதிய சாளரத்திற்கு நகர்த்து</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>புதியத் தாவல்</value>
+    <value>புதிய தாவல்</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Some properties may contain personal information.</value>
@@ -1789,7 +1789,7 @@
     <value>Open items with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>கோப்புறை பாதை</value>
+    <value>கோப்புறைப் பாதை</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Export settings</value>
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connected to GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>GitHub-உடன் இணை</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>
