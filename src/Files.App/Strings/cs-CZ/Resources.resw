@@ -1060,7 +1060,7 @@
     <value>Toggle the details pane to view basic file properties</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Přepnout info panel</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Toggle the info pane to view the detail\preview panes</value>
@@ -2341,7 +2341,7 @@
     <value>Během výpočtu došlo k chybě</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Failed to calculate the hash, please close the file and try again.</value>
+    <value>Výpočet haše se nezdařil. Zavřete prosím soubor a zkuste to znovu.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashy nejsou k dispozici pro online soubory</value>
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Nepodařilo se nastavit tapetu pozadí</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Smazat Git větev</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Jste si jisti, že chcete navždy smazat větev "{0}"?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Připojeno ke GitHubu</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Odhlásit se</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Připojit GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Přihlásit se</value>
   </data>
 </root>

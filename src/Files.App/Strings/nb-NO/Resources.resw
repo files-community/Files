@@ -1456,7 +1456,7 @@
     <value>Du mangler rettigheter til å vise sikkerhetsegenskapene til dette objektet. Klikk "Avanserte rettigheter" for å fortsette.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Eier:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Ukjent eier</value>
@@ -1492,7 +1492,7 @@
     <value>Tilgang</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Gjelder for</value>
   </data>
   <data name="Principal" xml:space="preserve">
     <value>Principal</value>
@@ -1747,13 +1747,13 @@
     <value>Medium icons</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Small icons</value>
+    <value>Små ikoner</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Fliser</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Åpne mapper i ny fane</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
     <value>Statussenter</value>
@@ -2104,7 +2104,7 @@
     <value>Snarvei kan ikke åpnes</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Måldestinasjonen ble ikke funnet {0}. Vil du slette denne snarveien?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Du har ikke tilgang til denne mappen.</value>
@@ -2125,7 +2125,7 @@
     <value>Opprett</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Opprett {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
     <value>Angi et navn</value>
@@ -2179,10 +2179,10 @@
     <value>Format</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Synkroniser statuskolonne</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Gruppér etter</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sorter etter</value>
@@ -2197,10 +2197,10 @@
     <value>Create a new shortcut</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Opprett snarveier til lokale eller nettverksprogrammer, filer, mapper, datamaskiner eller Internett-adresser.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Angi lokasjonen til elementet:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
     <value>Creates a shortcut</value>
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connected to GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>
