@@ -20,6 +20,7 @@ global using global::CommunityToolkit.Mvvm.Input;
 global using global::CommunityToolkit.Mvvm.Messaging;
 
 // Files Back-end
+global using global::Files.Core.Data.Contracts;
 global using global::Files.Core.Data.Enums;
 global using global::Files.Core.Data.EventArguments;
 global using global::Files.Core.Data.Items;

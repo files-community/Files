@@ -221,12 +221,12 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public ColumnsViewModel ColumnsViewModel
+		public IList<IDetailsLayoutColumnItem> ColumnItems
 		{
-			get => LayoutPreferencesItem.ColumnsViewModel;
+			get => LayoutPreferencesItem.ColumnItems;
 			set
 			{
-				SetProperty(ref LayoutPreferencesItem.ColumnsViewModel, value, nameof(ColumnsViewModel));
+				SetProperty(ref LayoutPreferencesItem.ColumnItems, value);
 				LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 			}
 		}

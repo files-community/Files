@@ -9,7 +9,7 @@ namespace Files.App.Data.Models
 	{
 		private DetailsLayoutColumnItem iconColumn = new()
 		{
-			UserLength = new GridLength(24, GridUnitType.Pixel),
+			UserLengthPixels = 24,
 			IsResizable = false,
 		};
 
@@ -74,7 +74,7 @@ namespace Files.App.Data.Models
 
 		private DetailsLayoutColumnItem statusColumn = new()
 		{
-			UserLength = new GridLength(50),
+			UserLengthPixels = 50,
 			NormalMaxLength = 80,
 		};
 		public DetailsLayoutColumnItem StatusColumn
