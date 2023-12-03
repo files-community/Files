@@ -55,6 +55,7 @@ global using global::Files.App.Views.Layouts;
 global using global::Files.App.Views.Shells;
 
 // Files.Core
+global using global::Files.Core.Data.Contracts;
 global using global::Files.Core.Data.Enums;
 global using global::Files.Core.Data.EventArguments;
 global using global::Files.Core.Data.Items;

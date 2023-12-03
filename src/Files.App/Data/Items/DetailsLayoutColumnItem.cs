@@ -8,14 +8,15 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for a column shown in <see cref="DetailsLayoutPage"/>.
 	/// </summary>
-	public class DetailsLayoutColumnItem : ObservableObject
+	public class DetailsLayoutColumnItem : ObservableObject, IDetailsLayoutColumnItem
 	{
 		private const int GRID_SPLITTER_WIDTH = 12;
 
+		private double _UserLengthPixels;
 		public double UserLengthPixels
 		{
-			get => UserLength.Value;
-			set => UserLength = new GridLength(value, GridUnitType.Pixel);
+			get => _UserLengthPixels;
+			set => SetProperty(ref _UserLengthPixels, value);
 		}
 
 		private double _NormalMaxLength = 800;
@@ -37,6 +38,18 @@ namespace Files.App.Data.Items
 		}
 
 		[LiteDB.BsonIgnore]
+		public string Name { get; set; } = string.Empty;
+
+		[LiteDB.BsonIgnore]
+		public DetailsLayoutColumnKind Kind { get; set; }
+
+		[LiteDB.BsonIgnore]
+		public bool IsSortDisabled { get; set; }
+
+		[LiteDB.BsonIgnore]
+		public SortDirection? SortDirection { get; set; }
+
+		[LiteDB.BsonIgnore]
 		public bool IsResizable { get; set; } = true;
 
 		[LiteDB.BsonIgnore]
@@ -49,13 +62,13 @@ namespace Files.App.Data.Items
 
 		[LiteDB.BsonIgnore]
 		public GridLength Length
-			=> UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
+			=> new(UserCollapsed || IsHidden ? 0 : UserLengthPixels);
 
 		[LiteDB.BsonIgnore]
 		public GridLength LengthIncludingGridSplitter =>
 			UserCollapsed || IsHidden
 				? new(0)
-				: new(UserLength.Value + (IsResizable ? GRID_SPLITTER_WIDTH : 0));
+				: new(UserLengthPixels + (IsResizable ? GRID_SPLITTER_WIDTH : 0));
 
 		[LiteDB.BsonIgnore]
 		public double MaxLength
@@ -78,21 +91,6 @@ namespace Files.App.Data.Items
 			{
 				if (SetProperty(ref _NormalMinLength, value))
 					OnPropertyChanged(nameof(MinLength));
-			}
-		}
-
-		private GridLength _UserLength = new(200, GridUnitType.Pixel);
-		[LiteDB.BsonIgnore]
-		public GridLength UserLength
-		{
-			get => _UserLength;
-			set
-			{
-				if (SetProperty(ref _UserLength, value))
-				{
-					OnPropertyChanged(nameof(Length));
-					OnPropertyChanged(nameof(LengthIncludingGridSplitter));
-				}
 			}
 		}
 
@@ -131,7 +129,7 @@ namespace Files.App.Data.Items
 					model.UserCollapsed == UserCollapsed &&
 					model.Length.Value == Length.Value &&
 					model.LengthIncludingGridSplitter.Value == LengthIncludingGridSplitter.Value &&
-					model.UserLength.Value == UserLength.Value;
+					model.UserLengthPixels == UserLengthPixels;
 			}
 
 			return base.Equals(obj);
@@ -140,9 +138,10 @@ namespace Files.App.Data.Items
 		public override int GetHashCode()
 		{
 			var hashCode = UserCollapsed.GetHashCode();
+
 			hashCode = (hashCode * 397) ^ Length.Value.GetHashCode();
 			hashCode = (hashCode * 397) ^ LengthIncludingGridSplitter.Value.GetHashCode();
-			hashCode = (hashCode * 397) ^ UserLength.Value.GetHashCode();
+			hashCode = (hashCode * 397) ^ UserLengthPixels.GetHashCode();
 
 			return hashCode;
 		}

@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
-
 namespace Files.App.Services.Settings
 {
 	internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
@@ -12,6 +9,12 @@ namespace Files.App.Services.Settings
 		{
 			// Register root
 			RegisterSettingsContext(settingsSharingContext);
+		}
+
+		public List<IDetailsLayoutColumnItem> Columns
+		{
+			get => Get<List<IDetailsLayoutColumnItem>>(null);
+			set => Set(value);
 		}
 
 		public int DefaultGridViewSize

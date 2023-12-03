@@ -14,7 +14,7 @@ namespace Files.App.Helpers
 
 		// Fields
 
-		public ColumnsViewModel ColumnsViewModel;
+		public IList<IDetailsLayoutColumnItem> ColumnItems;
 
 		public bool SortDirectoriesAlongsideFiles;
 		public bool IsAdaptiveLayoutOverridden;
@@ -45,37 +45,10 @@ namespace Files.App.Helpers
 			SortDirectoriesAlongsideFiles = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
-			ColumnsViewModel = new ColumnsViewModel();
-			ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
-			ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateColumn;
-			ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowTypeColumn;
-			ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowSizeColumn;
-			ColumnsViewModel.GitStatusColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitStatusColumn;
-			ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn;
-			ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn;
-			ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn;
-			ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn;
-			ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowFileTagColumn;
-			ColumnsViewModel.DateDeletedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateDeletedColumn;
-			ColumnsViewModel.PathColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowPathColumn;
-			ColumnsViewModel.OriginalPathColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowOriginalPathColumn;
-			ColumnsViewModel.StatusColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowSyncStatusColumn;
+			ColumnItems = new List<IDetailsLayoutColumnItem>();
 
-			ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.NameColumnWidth;
-			ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateModifiedColumnWidth;
-			ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
-			ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TypeColumnWidth;
-			ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SizeColumnWidth;
-			ColumnsViewModel.GitStatusColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitStatusColumnWidth;
-			ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth;
-			ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth;
-			ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth;
-			ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth;
-			ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TagColumnWidth;
-			ColumnsViewModel.DateDeletedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
-			ColumnsViewModel.PathColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.PathColumnWidth;
-			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.OriginalPathColumnWidth;
-			ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SyncStatusColumnWidth;
+			foreach (var item in UserSettingsService.LayoutSettingsService.Columns)
+				ColumnItems.Add(item);
 		}
 
 		// Overridden methods

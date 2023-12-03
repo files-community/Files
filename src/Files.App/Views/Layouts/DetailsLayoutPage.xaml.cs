@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.UserControls.Selection;
+using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -22,6 +23,10 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
+		// Dependency injections
+
+		private DetailsLayoutViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<DetailsLayoutViewModel>();
+
 		// Constants
 
 		private const int TAG_TEXT_BLOCK = 1;
@@ -37,10 +42,6 @@ namespace Files.App.Views.Layouts
 		protected override uint IconSize => currentIconSize;
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
-
-		public ColumnsViewModel ColumnsViewModel { get; } = new();
-
-		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
@@ -111,26 +112,7 @@ namespace Files.App.Views.Layouts
 			base.OnNavigatedTo(eventArgs);
 
 			if (FolderSettings?.ColumnsViewModel is not null)
-			{
-				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
-				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
-				ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
-				ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
-				ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
-				ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
-				ColumnsViewModel.PathColumn = FolderSettings.ColumnsViewModel.PathColumn;
-				ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
-				ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
-				ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
-				ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
-				ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
-				ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
-				ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
-				ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
-				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
-			}
-
-			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+				ViewModel.InitializeColumns();
 
 			currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -143,21 +125,6 @@ namespace Files.App.Views.Layouts
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
 				_ = ReloadItemIconsAsync();
-
-			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
-			{
-				if (!Enum.TryParse<SortOption>(x, out var val))
-					return;
-				if (FolderSettings.DirectorySortOption == val)
-				{
-					FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
-				}
-				else
-				{
-					FolderSettings.DirectorySortOption = val;
-					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
-				}
-			});
 
 			FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
 			{
@@ -190,69 +157,17 @@ namespace Files.App.Views.Layouts
 
 		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
 		{
-			UpdateSortIndicator();
+			ViewModel.UpdateSortIndicator();
 		}
 
 		private void FolderSettings_SortDirectionPreferenceUpdated(object? sender, SortDirection e)
 		{
-			UpdateSortIndicator();
-		}
-
-		private void UpdateSortIndicator()
-		{
-			NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
-			TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
-			PathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Path ? FolderSettings.DirectorySortDirection : null;
-			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
-			DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
-			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
-			DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
-			FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
-			ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
-			SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
+			ViewModel.UpdateSortIndicator();
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
-			if (e.IsTypeRecycleBin)
-			{
-				ColumnsViewModel.OriginalPathColumn.Show();
-				ColumnsViewModel.DateDeletedColumn.Show();
-			}
-			else
-			{
-				ColumnsViewModel.OriginalPathColumn.Hide();
-				ColumnsViewModel.DateDeletedColumn.Hide();
-			}
-
-			if (e.IsTypeCloudDrive)
-				ColumnsViewModel.StatusColumn.Show();
-			else
-				ColumnsViewModel.StatusColumn.Hide();
-
-			if (e.IsTypeGitRepository && !e.IsTypeSearchResults)
-			{
-				ColumnsViewModel.GitCommitAuthorColumn.Show();
-				ColumnsViewModel.GitLastCommitDateColumn.Show();
-				ColumnsViewModel.GitLastCommitMessageColumn.Show();
-				ColumnsViewModel.GitLastCommitShaColumn.Show();
-				ColumnsViewModel.GitStatusColumn.Show();
-			}
-			else
-			{
-				ColumnsViewModel.GitCommitAuthorColumn.Hide();
-				ColumnsViewModel.GitLastCommitDateColumn.Hide();
-				ColumnsViewModel.GitLastCommitMessageColumn.Hide();
-				ColumnsViewModel.GitLastCommitShaColumn.Hide();
-				ColumnsViewModel.GitStatusColumn.Hide();
-			}
-
-			if (e.IsTypeSearchResults)
-				ColumnsViewModel.PathColumn.Show();
-			else
-				ColumnsViewModel.PathColumn.Hide();
-
-			UpdateSortIndicator();
+			ViewModel.UpdateDetailsLayoutColumnsVisibilities(e);
 		}
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -542,39 +457,16 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
-			UpdateColumnLayout();
+			ViewModel.UpdateColumnLayout();
 		}
 
 		private void GridSplitter_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
 			{
-				UpdateColumnLayout();
-				FolderSettings.ColumnsViewModel = ColumnsViewModel;
+				ViewModel.UpdateColumnLayout();
+				FolderSettings.ColumnsViewModel = ViewModel.ColumnsViewModel;
 			}
-		}
-
-		private void UpdateColumnLayout()
-		{
-			ColumnsViewModel.IconColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.NameColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-
-			// Git
-			ColumnsViewModel.GitStatusColumn.UserLength = new GridLength(GitStatusColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitDateColumn.UserLength = new GridLength(GitLastCommitDateColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitMessageColumn.UserLength = new GridLength(GitLastCommitMessageColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitCommitAuthorColumn.UserLength = new GridLength(GitCommitAuthorColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitShaColumn.UserLength = new GridLength(GitLastCommitShaColumnDefinition.ActualWidth, GridUnitType.Pixel);
-
-			ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.PathColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column11.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column12.ActualWidth, GridUnitType.Pixel);
 		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
@@ -589,7 +481,7 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			FolderSettings.ColumnsViewModel = ViewModel.ColumnsViewModel;
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -598,16 +490,11 @@ namespace Files.App.Views.Layouts
 			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
-		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
-		}
-
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
-			ResizeColumnToFit(columnToResize);
+
+			ViewModel.SizeColumnToFit(columnToResize);
 
 			e.Handled = true;
 		}
@@ -619,163 +506,9 @@ namespace Files.App.Views.Layouts
 				return;
 
 			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
-			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
+			int totalColumnCount = ViewModel.ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
-				ResizeColumnToFit(columnIndex);
-		}
-
-		private void ResizeColumnToFit(int columnToResize)
-		{
-			if (!FileList.Items.Any())
-				return;
-
-			var maxItemLength = columnToResize switch
-			{
-				1 => 40, // Check all items columns
-				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(), // git
-				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitMessage?.Length ?? 0).Max(), // git
-				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(), // git
-				7 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitSha?.Length ?? 0).Max(), // git
-				8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
-				9 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemPath?.Length ?? 0).Max(), // path column
-				10 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-				11 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-				12 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-				13 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-				14 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
-				15 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
-				_ => 20 // cloud status column
-			};
-
-			// if called programmatically, the column could be hidden
-			// in this case, resizing doesn't need to be done at all
-			if (maxItemLength == 0)
-				return;
-
-			var columnSizeToFit = MeasureColumnEstimate(columnToResize, 5, maxItemLength);
-
-			if (columnSizeToFit > 1)
-			{
-				var column = columnToResize switch
-				{
-					2 => ColumnsViewModel.NameColumn,
-					3 => ColumnsViewModel.GitStatusColumn,
-					4 => ColumnsViewModel.GitLastCommitDateColumn,
-					5 => ColumnsViewModel.GitLastCommitMessageColumn,
-					6 => ColumnsViewModel.GitCommitAuthorColumn,
-					7 => ColumnsViewModel.GitLastCommitShaColumn,
-					8 => ColumnsViewModel.TagColumn,
-					9 => ColumnsViewModel.PathColumn,
-					10 => ColumnsViewModel.OriginalPathColumn,
-					11 => ColumnsViewModel.DateDeletedColumn,
-					12 => ColumnsViewModel.DateModifiedColumn,
-					13 => ColumnsViewModel.DateCreatedColumn,
-					14 => ColumnsViewModel.ItemTypeColumn,
-					15 => ColumnsViewModel.SizeColumn,
-					_ => ColumnsViewModel.StatusColumn
-				};
-
-				if (columnToResize == 2) // file name column
-					columnSizeToFit += 20;
-
-				var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
-				var maxFitLength = Math.Min(minFitLength + 36, column.NormalMaxLength); // 36 to account for SortIcon & padding
-
-				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
-			}
-
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-		}
-
-		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
-		{
-			if (columnIndex == 15) // sync status
-				return maxItemLength;
-
-			if (columnIndex == 8) // file tag
-				return MeasureTagColumnEstimate(columnIndex);
-
-			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength);
-		}
-
-		private double MeasureTagColumnEstimate(int columnIndex)
-		{
-			var grids = DependencyObjectHelpers
-				.FindChildren<Grid>(FileList.ItemsPanelRoot)
-				.Where(grid => IsCorrectColumn(grid, columnIndex));
-
-			// Get the list of stack panels with the most letters
-			var stackPanels = grids
-				.Select(DependencyObjectHelpers.FindChildren<StackPanel>)
-				.OrderByDescending(sps => sps.Select(sp => DependencyObjectHelpers.FindChildren<TextBlock>(sp).Select(tb => tb.Text.Length).Sum()).Sum())
-				.First()
-				.ToArray();
-
-			var mesuredSize = stackPanels.Select(x =>
-			{
-				x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
-				return x.DesiredSize.Width;
-			}).Sum();
-
-			if (stackPanels.Length >= 2)
-				mesuredSize += 4 * (stackPanels.Length - 1); // The spacing between the tags
-
-			return mesuredSize;
-		}
-
-		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
-		{
-			var tbs = DependencyObjectHelpers
-				.FindChildren<TextBlock>(FileList.ItemsPanelRoot)
-				.Where(tb => IsCorrectColumn(tb, columnIndex));
-
-			// heuristic: usually, text with more letters are wider than shorter text with wider letters
-			// with this, we can calculate avg width using longest text(s) to avoid overshooting the width
-			var widthPerLetter = tbs
-				.OrderByDescending(x => x.Text.Length)
-				.Where(tb => !string.IsNullOrEmpty(tb.Text))
-				.Take(measureItemsCount)
-				.Select(tb =>
-				{
-					var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
-					sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
-					return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
-				});
-
-			if (!widthPerLetter.Any())
-				return 0;
-
-			// Take weighted avg between mean and max since width is an estimate
-			var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
-			return weightedAvg * maxItemLength;
-		}
-
-		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)
-		{
-			int columnIndexFromName = element.Name switch
-			{
-				"ItemName" => 2,
-				"ItemGitStatusTextBlock" => 3,
-				"ItemGitLastCommitDateTextBlock" => 4,
-				"ItemGitLastCommitMessageTextBlock" => 5,
-				"ItemGitCommitAuthorTextBlock" => 6,
-				"ItemGitLastCommitShaTextBlock" => 7,
-				"ItemTagGrid" => 8,
-				"ItemPath" => 9,
-				"ItemOriginalPath" => 10,
-				"ItemDateDeleted" => 11,
-				"ItemDateModified" => 12,
-				"ItemDateCreated" => 13,
-				"ItemType" => 14,
-				"ItemSize" => 15,
-				"ItemStatus" => 16,
-				_ => -1,
-			};
-
-			return columnIndexFromName != -1 && columnIndexFromName == columnIndex;
+				ViewModel.SizeColumnToFit(columnIndex);
 		}
 
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
@@ -785,7 +518,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
-			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
+			LayoutPreferencesManager.SetDefaultLayoutPreferences(ViewModel.ColumnsViewModel);
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
@@ -934,22 +667,6 @@ namespace Files.App.Views.Layouts
 		{
 			// Fixes an issue where double clicking the column header would navigate back as if clicking on empty space
 			e.Handled = true;
-		}
-
-		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)
-		{
-			var enableStatus = !columnsViewModel.GitStatusColumn.IsHidden && !columnsViewModel.GitStatusColumn.UserCollapsed;
-			var enableCommit = !columnsViewModel.GitLastCommitDateColumn.IsHidden && !columnsViewModel.GitLastCommitDateColumn.UserCollapsed
-				|| !columnsViewModel.GitLastCommitMessageColumn.IsHidden && !columnsViewModel.GitLastCommitMessageColumn.UserCollapsed
-				|| !columnsViewModel.GitCommitAuthorColumn.IsHidden && !columnsViewModel.GitCommitAuthorColumn.UserCollapsed
-				|| !columnsViewModel.GitLastCommitShaColumn.IsHidden && !columnsViewModel.GitLastCommitShaColumn.UserCollapsed;
-			return (enableStatus, enableCommit) switch
-			{
-				(true, true) => GitProperties.All,
-				(true, false) => GitProperties.Status,
-				(false, true) => GitProperties.Commit,
-				(false, false) => GitProperties.None
-			};
 		}
 	}
 }
