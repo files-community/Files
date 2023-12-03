@@ -286,7 +286,7 @@
     <value>显示</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>输入项目名称</value>
+    <value>键入名称</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>命名</value>
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>设置背景壁纸失败</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>删除 Git 分支</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>确定要永久删除分支 "{0}" 吗?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>已连接到 GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>登出</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>连接到 GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>登录</value>
   </data>
 </root>

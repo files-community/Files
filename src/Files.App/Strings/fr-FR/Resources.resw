@@ -1060,10 +1060,10 @@
     <value>Activer le volet des détails pour afficher les propriétés de base du fichier</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Afficher le volet des infos</value>
+    <value>Afficher le volet d'information</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Activer le volet des infos pour afficher les volets des détails et d’aperçu</value>
+    <value>Activer le volet d'information pour afficher les volets des détails et d’aperçu</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -3606,12 +3606,30 @@
     <value>Aucune opération de fichier en cours</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>L'option d'ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le Gestionnaire des tâches.</value>
+    <value>L'option pour ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le gestionnaire des tâches.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Échec de la restauration des éléments de la corbeille</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Échec de la définition du fond d'écran</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Supprimer la branche Git</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer définitivement la branche {0} ?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connecté à GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Se déconnecter</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Connectez-vous à GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Connexion</value>
   </data>
 </root>
