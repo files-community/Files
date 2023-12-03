@@ -3614,4 +3614,22 @@
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>背景の設定ができませんでした</value>
   </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Git ブランチの削除</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>"{0}" ブランチを完全に削除しますか?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>GitHub に接続しました</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>ログアウト</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>GitHub に接続</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
 </root>
