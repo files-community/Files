@@ -3614,4 +3614,22 @@
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Instellen van achtergrondafbeelding mislukt</value>
   </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Git branch verwijderen</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Weet je zeker dat je deze branche "{0}" definitief wilt verwijderen?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Verbonden met GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Uitloggen</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Verbinding maken met GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Inloggen</value>
+  </data>
 </root>
