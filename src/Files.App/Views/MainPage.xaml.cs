@@ -66,7 +66,6 @@ namespace Files.App.Views
 				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
@@ -489,49 +488,50 @@ namespace Files.App.Views
 					break;
 			}
 		}
-		private async void TabView_Drop(object sender, DragEventArgs e)
-		{
-			Debug.WriteLine($"DEBUG: item drop");
 
-			if (!e.Data.Properties.ContainsKey("draggedItems"))
+		private bool lockFlag = false;
+		//private string[] dropableArchiveTypes = { "zip", "rar", "7z", "tar" };
+		private async void HorizontalMultitaskingControlAddButton_Drop(object sender, DragEventArgs e)
+		{
+			if (lockFlag || !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 				return;
-			IEnumerable<IStorageItemWithPath>? items;
-			if ((items = e.Data.Properties["draggedItems"] as IEnumerable<IStorageItemWithPath>) == null) 
-				return;
+			lockFlag = true;
+
+			var items = (await FilesystemHelpers.GetDraggedStorageItems(e.DataView))
+				.Where(x => x.ItemType is FilesystemItemType.Directory
+				//|| dropableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
+				);
 
 			var deferral = e.GetDeferral();
-			
+
 			List<Task> tasks = new ();
 			foreach (var item in items)
-			{
-				await NavigationHelpers.OpenPathInNewTab(item.Path);
-				//Task task = new (() => NavigationHelpers.OpenPathInNewTab(item.Path));
-				//task.Start();
-				//tasks.Add(task);
-			}
-			//await Task.WhenAll(tasks);
+				tasks.Add(NavigationHelpers.OpenPathInNewTab(item.Path));
+
 			deferral.Complete();
+			try { await Task.WhenAll(tasks); } catch { } 
+			lockFlag = false;
 		}
-		private async void TabView_DragOver(object sender, DragEventArgs e)
+		private async void HorizontalMultitaskingControlAddButton_DragOver(object sender, DragEventArgs e)
 		{
-			Debug.WriteLine("DEBUG: drag over");
-			
-			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView)) { e.AcceptedOperation = DataPackageOperation.None; return; }
 
-			if (!storageItems.All(item => item.ItemType == FilesystemItemType.Directory))
-				return;
-			if (e.Data.Properties.ContainsKey("draggedItems"))
-				return;
-			e.Handled = true;
-			var deferral = e.GetDeferral();
-			e.Data.Properties.TryAdd("draggedItems", storageItems);
-			e.DragUIOverride.IsCaptionVisible = true;
-			//e.DragUIOverride.IsGlyphVisible = false;
-			e.DragUIOverride.Caption = string.Format("OpenDirectoryInNewTabDescription".GetLocalizedResource());
-			e.AcceptedOperation = DataPackageOperation.Copy;
+			bool hasValidDraggedItems = 
+				(await FilesystemHelpers.GetDraggedStorageItems(e.DataView)).Any(x => x.ItemType is FilesystemItemType.Directory
+				//|| dropableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
+				);
 
-			deferral.Complete();
+			if (!hasValidDraggedItems) { e.AcceptedOperation = DataPackageOperation.None; return; }
 
+			try
+			{
+				e.Handled = true;
+				var deferral = e.GetDeferral();
+				e.DragUIOverride.IsCaptionVisible = true;
+				e.DragUIOverride.Caption = string.Format("OpenInNewTab".GetLocalizedResource());
+				e.AcceptedOperation = DataPackageOperation.Link;
+				deferral.Complete();
+			}  catch { }
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();

@@ -333,6 +333,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
+			Debug.WriteLine("DEBUG: drag over");
 			if (IsSingleItemOverride ||
 				((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
 				pathBoxItem.Path == "Home")
