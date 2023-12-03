@@ -2341,7 +2341,7 @@
     <value>Произошла ошибка при вычислении</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Failed to calculate the hash, please close the file and try again.</value>
+    <value>Не удалось вычислить хэш, пожалуйста, закройте файл и повторите попытку.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Хэши недоступны для онлайн-файлов</value>
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Не удалось установить обои рабочего стола</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Удалить Git ветку</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Вы уверены, что хотите навсегда удалить ветку "{0}"?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Подключено к GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Подключиться к GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
   </data>
 </root>
