@@ -214,9 +214,9 @@ namespace Files.App.Views
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs e)
+		public void NotifyNavigatedTo(object parameter)
 		{
-			ViewModel.OnNavigatedToAsync(e);
+			_ = ViewModel.OnNavigatedToAsync(parameter);
 		}
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);

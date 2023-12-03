@@ -1,12 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using Windows.ApplicationModel;
@@ -61,17 +58,13 @@ namespace Files.App
 
 		public void ShowSplashScreen()
 		{
-			var rootFrame = EnsureWindowIsInitialized();
-
-			rootFrame.Navigate(typeof(SplashScreenPage));
+			MainContent.Content = new SplashScreenPage();
 		}
 
 		public async Task InitializeApplicationAsync(object activatedEventArgs)
 		{
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
-
-			var rootFrame = EnsureWindowIsInitialized();
 
 			switch (activatedEventArgs)
 			{
@@ -83,15 +76,15 @@ namespace Files.App
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
-							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+							NavigateRoot(new MainPage(), null);
 						else
-							await InitializeFromCmdLineArgsAsync(rootFrame, ppm);
+							await InitializeFromCmdLineArgsAsync(ppm);
 					}
-					else if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
+					else if (MainContent.Content is null || MainContent.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
-						rootFrame.Navigate(typeof(MainPage), launchArgs.Arguments, new SuppressNavigationTransitionInfo());
+						NavigateRoot(new MainPage(), launchArgs.Arguments);
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
@@ -100,14 +93,14 @@ namespace Files.App
 					}
 					else
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						NavigateRoot(new MainPage(), null);
 					}
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
 					if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						NavigateRoot(new MainPage(), null);
 					}
 					else
 					{
@@ -122,26 +115,22 @@ namespace Files.App
 						switch (parsedArgs[0])
 						{
 							case "tab":
-								rootFrame.Navigate(typeof(MainPage),
-									new MainPageNavigationArguments() { Parameter = CustomTabViewItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
-									new SuppressNavigationTransitionInfo());
+								NavigateRoot(new MainPage(), new MainPageNavigationArguments() { Parameter = CustomTabViewItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true });
 								break;
 
 							case "folder":
-								rootFrame.Navigate(typeof(MainPage),
-									new MainPageNavigationArguments() { Parameter = unescapedValue, IgnoreStartupSettings = true },
-									new SuppressNavigationTransitionInfo());
+								NavigateRoot(new MainPage(), new MainPageNavigationArguments() { Parameter = unescapedValue, IgnoreStartupSettings = true });
 								break;
 
 							case "cmd":
 								var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
 								if (ppm.IsEmpty())
-									rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+									NavigateRoot(new MainPage(), null);
 								else
-									await InitializeFromCmdLineArgsAsync(rootFrame, ppm);
+									await InitializeFromCmdLineArgsAsync(ppm);
 								break;
 							default:
-								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+								NavigateRoot(new MainPage(), null);
 								break;
 						}
 					}
@@ -155,21 +144,21 @@ namespace Files.App
 					var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
 					if (parsedCommands is not null && parsedCommands.Count > 0)
 					{
-						await InitializeFromCmdLineArgsAsync(rootFrame, parsedCommands, activationPath);
+						await InitializeFromCmdLineArgsAsync(parsedCommands, activationPath);
 					}
 					else
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						NavigateRoot(new MainPage(), null);
 					}
 					break;
 
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
-					if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
+					if (MainContent.Content is null || MainContent.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
-						rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
+						NavigateRoot(new MainPage(), fileArgs.Files.First().Path);
 						index = 1;
 					}
 					else
@@ -182,12 +171,12 @@ namespace Files.App
 
 				case IStartupTaskActivatedEventArgs startupArgs:
 					// Just launch the app with no arguments
-					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					NavigateRoot(new MainPage(), null);
 					break;
 
 				default:
 					// Just launch the app with no arguments
-					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					NavigateRoot(new MainPage(), null);
 					break;
 			}
 
@@ -199,22 +188,11 @@ namespace Files.App
 			}
 		}
 
-		public Frame EnsureWindowIsInitialized()
+		private void NavigateRoot(Page page, object parameter)
 		{
-			// NOTE:
-			//  Do not repeat app initialization when the Window already has content,
-			//  just ensure that the window is active
-			if (Instance.Content is not Frame rootFrame)
-			{
-				// Create a Frame to act as the navigation context and navigate to the first page
-				rootFrame = new() { CacheSize = 1 };
-				rootFrame.NavigationFailed += OnNavigationFailed;
-
-				// Place the frame in the current Window
-				Instance.Content = rootFrame;
-			}
-
-			return rootFrame;
+			MainContent.Content = page;
+			if (page is MainPage mainPage)
+				mainPage.NotifyNavigatedTo(parameter);
 		}
 
 		/// <summary>
@@ -225,7 +203,7 @@ namespace Files.App
 		private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
 			=> throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 
-		private async Task InitializeFromCmdLineArgsAsync(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
+		private async Task InitializeFromCmdLineArgsAsync(ParsedCommands parsedCommands, string activationPath = "")
 		{
 			async Task PerformNavigationAsync(string payload, string selectItem = null)
 			{
@@ -245,13 +223,13 @@ namespace Files.App
 					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
-				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
+				if (MainContent.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
 					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
 				}
 				else
-					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
+					NavigateRoot(new MainPage(), paneNavigationArgs);
 			}
 			foreach (var command in parsedCommands)
 			{

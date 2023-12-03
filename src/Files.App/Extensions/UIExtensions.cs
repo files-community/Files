@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Extensions
 {
@@ -6,7 +7,12 @@ namespace Files.App.Extensions
 	{
 		public static MainPage? GetMainPage(this MainWindow mainWindow)
 		{
-			return (mainWindow.Content as Frame)?.Content as MainPage;
+			return GetContentRoot(mainWindow) as MainPage;
+		}
+
+		public static FrameworkElement? GetContentRoot(this MainWindow mainWindow)
+		{
+			return (mainWindow.Content as ContentControl)?.Content as FrameworkElement;
 		}
 	}
 }

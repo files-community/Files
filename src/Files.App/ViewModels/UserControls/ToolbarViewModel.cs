@@ -550,7 +550,7 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAdditionalAction));
 		}
 
-		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
+		private AddressToolbar? AddressToolbar => MainWindow.Instance.GetContentRoot()?.FindDescendant<AddressToolbar>();
 
 		private void CloseSearchBox(bool doFocus = false)
 		{
