@@ -167,10 +167,6 @@ namespace Files.App.ViewModels
 			{
 				// Load the app theme resources
 				ResourcesService.LoadAppResources(AppearanceSettingsService);
-
-				await Task.WhenAll(
-					DrivesViewModel.UpdateDrivesAsync(),
-					NetworkDrivesViewModel.UpdateDrivesAsync());
 			}
 		}
 

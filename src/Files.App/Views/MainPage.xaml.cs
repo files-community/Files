@@ -36,9 +36,6 @@ namespace Files.App.Views
 
 		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
-		public static AppModel AppModel
-			=> App.AppModel;
-
 		private bool keyReleased = true;
 
 		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();

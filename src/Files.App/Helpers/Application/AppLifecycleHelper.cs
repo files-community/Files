@@ -26,47 +26,51 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class AppLifecycleHelper
 	{
+		private static Task OptionalTaskAsync(Task task, bool condition)
+		{
+			if (condition)
+				return task;
+
+			return Task.CompletedTask;
+		}
+
 		/// <summary>
 		/// Initializes the app components.
 		/// </summary>
-		public static async Task InitializeAppComponentsAsync()
+		public static async Task InitializeLateAsync(CancellationToken cancellationToken = default)
 		{
-			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-			var generalSettingsService = userSettingsService.GeneralSettingsService;
-
-			// Start off a list of tasks we need to run before we can continue startup
-			await Task.WhenAll(
-				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-				App.LibraryManager.UpdateLibrariesAsync(),
-				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-				App.QuickAccessManager.InitializeAsync()
-			);
+			var networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+			var generalSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService;
 
 			await Task.WhenAll(
 				JumpListHelper.InitializeUpdatesAsync(),
 				addItemService.InitializeAsync(),
-				ContextMenu.WarmUpQueryContextMenuAsync()
+				ContextMenu.WarmUpQueryContextMenuAsync(),
+				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+				networkDrivesViewModel.UpdateDrivesAsync()
 			);
 
 			FileTagsHelper.UpdateTagsDb();
+		}
 
-			await CheckAppUpdate();
+		public static async Task InitializeMandatoryAsync(CancellationToken cancellationToken = default)
+		{
+			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-			static Task OptionalTaskAsync(Task task, bool condition)
-			{
-				if (condition)
-					return task;
-
-				return Task.CompletedTask;
-			}
+			await Task.WhenAll(
+				App.LibraryManager.UpdateLibrariesAsync(),
+				App.QuickAccessManager.InitAsync(cancellationToken),
+				drivesViewModel.UpdateDrivesAsync()
+			);
 		}
 
 		/// <summary>
 		/// Checks application updates and download if available.
 		/// </summary>
-		public static async Task CheckAppUpdate()
+		public static async Task CheckUpdatesAsync()
 		{
 			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
 
@@ -179,7 +183,9 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void SaveSessionTabs()
 		{
-			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+			if (userSettingsService is null)
+				return;
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{

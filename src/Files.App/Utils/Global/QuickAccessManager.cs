@@ -4,10 +4,11 @@
 using Files.App.Services;
 using Files.App.UserControls.Widgets;
 using System.IO;
+using Files.Shared.Utils;
 
 namespace Files.App.Utils
 {
-	public sealed class QuickAccessManager
+	public sealed class QuickAccessManager : IAsyncInitialize
 	{
 		public FileSystemWatcher? PinnedItemsWatcher;
 
@@ -38,10 +39,8 @@ namespace Files.App.Utils
 			PinnedItemsWatcher.Changed += PinnedItemsWatcher_Changed;
 		}
 
-		private void PinnedItemsWatcher_Changed(object sender, FileSystemEventArgs e)
-			=> PinnedItemsModified?.Invoke(this, e);
-
-		public async Task InitializeAsync()
+		/// <inheritdoc/>
+		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
 			PinnedItemsModified += Model.LoadAsync;
 
@@ -50,5 +49,8 @@ namespace Files.App.Utils
 
 			await Model.LoadAsync();
 		}
+
+		private void PinnedItemsWatcher_Changed(object sender, FileSystemEventArgs e)
+			=> PinnedItemsModified?.Invoke(this, e);
 	}
 }

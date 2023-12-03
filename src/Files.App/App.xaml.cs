@@ -49,7 +49,13 @@ namespace Files.App
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
-			_ = ActivateAsync();
+			_ = ActivateAsync().ContinueWith(async (__) =>
+			{
+				// Continue initialization once the initial screen is loaded
+				// TODO(s): This is executed while SplashScreen is still shown?
+				_ = AppLifecycleHelper.InitializeLateAsync();
+				_ = AppLifecycleHelper.CheckUpdatesAsync();
+			});
 
 			async Task ActivateAsync()
 			{
@@ -97,8 +103,9 @@ namespace Files.App
 				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
 				SplashScreenLoadingTCS = null;
 
-				_ = AppLifecycleHelper.InitializeAppComponentsAsync();
-				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+				// Initialize most required components
+				_ = AppLifecycleHelper.InitializeMandatoryAsync();
+				await MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 			}
 		}
 
@@ -175,7 +182,7 @@ namespace Files.App
 					// Resume the instance
 					Program.Pool.Dispose();
 
-					_ = AppLifecycleHelper.CheckAppUpdate();
+					_ = AppLifecycleHelper.CheckUpdatesAsync();
 				}
 
 				return;
