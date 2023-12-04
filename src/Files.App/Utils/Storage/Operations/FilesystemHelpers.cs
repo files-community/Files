@@ -870,8 +870,9 @@ namespace Files.App.Utils.Storage
 		public void Dispose()
 		{
 			filesystemOperations?.Dispose();
-
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+   
+	 // SUPPRESS: Cannot convert null literal to non-nullable reference type.
+	#pragma warning disable CS8625
 			associatedInstance = null;
 			filesystemOperations = null;
 		}
