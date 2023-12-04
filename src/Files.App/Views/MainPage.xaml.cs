@@ -510,6 +510,7 @@ namespace Files.App.Views
 			} catch { } 
 			lockFlag = false;
 		}
+
 		private async void HorizontalMultitaskingControlAddButton_DragOver(object sender, DragEventArgs e)
 		{
 			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView)) { e.AcceptedOperation = DataPackageOperation.None; return; }
