@@ -156,7 +156,8 @@ namespace Files.App.Utils.RecycleBin
 		public static async Task RestoreItemAsync(IShellPage associatedInstance)
 		{
 			var selected = associatedInstance.SlimContentPage.SelectedItems;
-			if (selected == null) return;
+			if (selected == null) 
+				return;
 			var items = selected.ToList().Where(x => x is RecycleBinItem).Select((item) => new
 			{
 				Source = StorageHelpers.FromPathAndType(
@@ -170,7 +171,8 @@ namespace Files.App.Utils.RecycleBin
 		public static async Task DeleteItemAsync(IShellPage associatedInstance)
 		{
 			var selected = associatedInstance.SlimContentPage.SelectedItems;
-			if (selected == null) return;
+			if (selected == null) 
+				return;
 			var items = selected.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
