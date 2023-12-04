@@ -157,12 +157,12 @@
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
 						AllowDrop="True"
-						DragOver="HorizontalMultitaskingControlAddButton_DragOver"
-						Drop="HorizontalMultitaskingControlAddButton_Drop"
 						AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
 						Background="Transparent"
 						BorderThickness="0"
 						Command="{x:Bind Commands.NewTab}"
+						DragOver="HorizontalMultitaskingControlAddButton_DragOver"
+						Drop="HorizontalMultitaskingControlAddButton_Drop"
 						ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
 						<Button.Content>
 							<FontIcon
