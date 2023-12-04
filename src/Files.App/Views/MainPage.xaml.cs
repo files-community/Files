@@ -513,7 +513,11 @@ namespace Files.App.Views
 
 		private async void HorizontalMultitaskingControlAddButton_DragOver(object sender, DragEventArgs e)
 		{
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView)) { e.AcceptedOperation = DataPackageOperation.None; return; }
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
 
 			bool hasValidDraggedItems = 
 				(await FilesystemHelpers.GetDraggedStorageItems(e.DataView)).Any(x => x.ItemType is FilesystemItemType.Directory
