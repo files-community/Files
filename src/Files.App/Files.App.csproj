@@ -36,10 +36,6 @@
         <DefineConstants>TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <Optimize>true</Optimize>
     </PropertyGroup>
-    <ItemGroup>
-      <Page Remove="usercontrols\contentsizer\ContentSizer.xaml" />
-      <Page Remove="usercontrols\datatable\DataColumn.xaml" />
-    </ItemGroup>
 
     <ItemGroup>
         <Manifest Include="app.manifest" />
@@ -133,15 +129,6 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="UserControls\ContentSizer\ContentSizer.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </None>
-      <None Update="UserControls\DataTable\DataColumn.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </None>
     </ItemGroup>
 
 </Project>

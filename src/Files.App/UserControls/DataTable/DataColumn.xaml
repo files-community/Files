@@ -3,7 +3,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="using:Files.App.UserControls.DataTable"
-	xmlns:sizer="using:Files.App.UserControls.ContentSizer"
+	xmlns:sizer="using:Files.App.UserControls.DataTableSizer"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters">
 
 	<wctconverters:BoolToVisibilityConverter x:Key="DataColumnBoolToVisibilityConverter" />
@@ -58,4 +58,5 @@
 			</Setter>
 		</Style.Setters>
 	</Style>
+
 </ResourceDictionary>

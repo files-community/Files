@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.Specialized;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Files.App.UserControls.ContentSizer
+namespace Files.App.UserControls.DataTableSizer
 {
 	[TemplateVisualState(Name = NormalState, GroupName = CommonStates)]
 	[TemplateVisualState(Name = PointerOverState, GroupName = CommonStates)]
@@ -18,7 +18,7 @@ namespace Files.App.UserControls.ContentSizer
 	[TemplateVisualState(Name = VerticalState, GroupName = OrientationStates)]
 	[TemplateVisualState(Name = VisibleState, GroupName = ThumbVisibilityStates)]
 	[TemplateVisualState(Name = CollapsedState, GroupName = ThumbVisibilityStates)]
-	public abstract partial class ContentSizer : Control
+	public abstract partial class SizerBase : Control
 	{
 		internal const string CommonStates = "CommonStates";
 		internal const string NormalState = "Normal";
@@ -87,9 +87,9 @@ namespace Files.App.UserControls.ContentSizer
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SizerBase"/> class.
 		/// </summary>
-		public ContentSizer()
+		public SizerBase()
 		{
-			this.DefaultStyleKey = typeof(ContentSizer);
+			this.DefaultStyleKey = typeof(SizerBase);
 		}
 
 		/// <summary>
@@ -102,10 +102,8 @@ namespace Files.App.UserControls.ContentSizer
 		}
 
 		// On Uno the ProtectedCursor isn't supported yet, so we don't need this value.
-#if WINAPPSDK && !HAS_UNO
-    // Used to track when we're in the OnApplyTemplateStep to change ProtectedCursor value.
-    private bool _appliedTemplate = false;
-#endif
+		// Used to track when we're in the OnApplyTemplateStep to change ProtectedCursor value.
+		private bool _appliedTemplate = false;
 
 		/// <inheritdoc/>
 		protected override void OnApplyTemplate()
@@ -134,14 +132,14 @@ namespace Files.App.UserControls.ContentSizer
 
 			// Trigger initial state transition based on if we're Enabled or not currently.
 			SizerBase_IsEnabledChanged(this, null!);
-#if WINAPPSDK && !HAS_UNO
-        // On WinAppSDK, we'll trigger this to setup the initial ProtectedCursor value.
-        _appliedTemplate = true;
-#endif
+
+			// On WinAppSDK, we'll trigger this to setup the initial ProtectedCursor value.
+			_appliedTemplate = true;
+
 			// Ensure we have the proper cursor value setup, as we can only set now for WinUI 3
 			OnOrientationPropertyChanged(this, null!);
 
-			// Ensure we set the Thumb visiblity
+			// Ensure we set the Thumb visibility
 			OnIsThumbVisiblePropertyChanged(this, null!);
 		}
 

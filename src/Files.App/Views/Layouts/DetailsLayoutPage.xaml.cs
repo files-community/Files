@@ -111,7 +111,7 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			if (FolderSettings?.ColumnsViewModel is not null)
+			if (FolderSettings?.ColumnItems is not null)
 				ViewModel.InitializeColumns();
 
 			currentIconSize = FolderSettings.GetIconSize();
@@ -455,60 +455,9 @@ namespace Files.App.Views.Layouts
 			e.Handled = true;
 		}
 
-		private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-		{
-			ViewModel.UpdateColumnLayout();
-		}
-
-		private void GridSplitter_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
-		{
-			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
-			{
-				ViewModel.UpdateColumnLayout();
-				FolderSettings.ColumnsViewModel = ViewModel.ColumnsViewModel;
-			}
-		}
-
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
-		}
-
-		private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-		{
-			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-		}
-
-		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-		{
-			FolderSettings.ColumnsViewModel = ViewModel.ColumnsViewModel;
-			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-		}
-
-		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
-		{
-			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-		}
-
-		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-		{
-			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
-
-			ViewModel.SizeColumnToFit(columnToResize);
-
-			e.Handled = true;
-		}
-
-		private void SizeAllColumnsToFit_Click(object sender, RoutedEventArgs e)
-		{
-			// If there aren't items, do not make columns fit
-			if (!FileList.Items.Any())
-				return;
-
-			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
-			int totalColumnCount = ViewModel.ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
-			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
-				ViewModel.SizeColumnToFit(columnIndex);
 		}
 
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
@@ -518,7 +467,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
-			LayoutPreferencesManager.SetDefaultLayoutPreferences(ViewModel.ColumnsViewModel);
+			LayoutPreferencesManager.SetDefaultLayoutPreferences(ViewModel.ColumnItems);
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
