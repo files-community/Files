@@ -177,8 +177,7 @@ namespace Files.App.Views
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			var navArgs = e.CurrentInstance.TabItemParameter?.NavigationParameter;
-			var currentInstance = e.CurrentInstance as IPaneHolder;
-			if (currentInstance is null || navArgs is null) 
+			if (e.CurrentInstance is not IPaneHolder currentInstance || navArgs is null) 
    				return;
 			SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
