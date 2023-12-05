@@ -66,6 +66,7 @@ namespace Files.App.Views
 				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
