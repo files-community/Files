@@ -93,9 +93,9 @@ namespace Files.App.ViewModels.UserControls
 
 				oldQueries.Insert(0, new SuggestionModel(e.QueryText, true));
 
-				// Limit to last 5 queries to improve performance
-				if (oldQueries.Count > 5)
-					oldQueries.RemoveAt(5);
+				// Limit to last 10 queries to improve performance
+				if (oldQueries.Count > 10)
+					oldQueries.RemoveAt(10);
 			}
 		}
 
