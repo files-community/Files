@@ -204,7 +204,7 @@ namespace Files.App.Views
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 		}
-  
+
 		private void UpdateStatusBarProperties()
 		{
 			if (StatusBarControl is not null)
@@ -213,7 +213,7 @@ namespace Files.App.Views
 				StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel; 
 			}
 		}
-  
+
 		private void UpdateNavToolbarProperties()
 		{
 			if (NavToolbar is not null)
