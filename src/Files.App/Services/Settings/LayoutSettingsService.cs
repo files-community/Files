@@ -11,9 +11,9 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public List<IDetailsLayoutColumnItem> Columns
+		public List<DetailsLayoutColumnItemModel> Columns
 		{
-			get => Get<List<IDetailsLayoutColumnItem>>(null);
+			get => Get<List<DetailsLayoutColumnItemModel>>(null);
 			set => Set(value);
 		}
 

@@ -73,7 +73,7 @@ namespace Files.App.Views.Layouts
 		protected AddressToolbar? NavToolbar
 			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
-		public LayoutPreferencesManager? FolderSettings
+		public LayoutPreferencesManager? LayoutPreferencesManager
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
 
 		public CurrentInstanceViewModel? InstanceViewModel
@@ -352,7 +352,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance?.SlimContentPage is not null)
 			{
-				var layoutType = FolderSettings!.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+				var layoutType = LayoutPreferencesManager!.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
 				if (layoutType != ParentShellPageInstance.CurrentPageType)
 				{
@@ -398,10 +398,10 @@ namespace Files.App.Views.Layouts
 
 			IsItemSelected = false;
 
-			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
-			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
-			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
+			LayoutPreferencesManager!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
+			LayoutPreferencesManager.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
+			LayoutPreferencesManager.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
 
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
@@ -481,7 +481,7 @@ namespace Files.App.Views.Layouts
 			ParentShellPageInstance.FilesystemViewModel.UpdateGroupOptions();
 
 			UpdateCollectionViewSource();
-			FolderSettings.IsLayoutModeChanging = false;
+			LayoutPreferencesManager.IsLayoutModeChanging = false;
 
 			SetSelectedItemsOnNavigation();
 
@@ -547,10 +547,10 @@ namespace Files.App.Views.Layouts
 
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
-			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
-			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
-			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
+			LayoutPreferencesManager!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			LayoutPreferencesManager.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			LayoutPreferencesManager.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 

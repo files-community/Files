@@ -8,10 +8,6 @@ namespace Files.App.Helpers
 	/// </summary>
 	public class LayoutPreferencesItem
 	{
-		// Dependency injections
-
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		// Fields
 
 		public IList<IDetailsLayoutColumnItem> ColumnItems;
@@ -33,24 +29,27 @@ namespace Files.App.Helpers
 
 		public LayoutPreferencesItem()
 		{
-			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+			var defaultLayout = userSettingsService.FoldersSettingsService.DefaultLayoutMode;
+
+			SortDirectoriesAlongsideFiles = userSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
+			GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize;
 
 			LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
-			GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
-			DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultSortOption;
-			DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
-			DirectorySortDirection = UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
-			DirectoryGroupDirection = UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection;
-			DirectoryGroupByDateUnit = UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit;
-			SortDirectoriesAlongsideFiles = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
-			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
+
+			DirectorySortOption = userSettingsService.FoldersSettingsService.DefaultSortOption;
+			DirectorySortDirection = userSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
+
+			DirectoryGroupOption = userSettingsService.FoldersSettingsService.DefaultGroupOption;
+			DirectoryGroupDirection = userSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection;
+			DirectoryGroupByDateUnit = userSettingsService.FoldersSettingsService.DefaultGroupByDateUnit;
 
 			ColumnItems = new List<IDetailsLayoutColumnItem>();
+			var generatedColumns = DetailsLayoutColumnsFactory.GenerateItems();
 
-			// CHANGE HERE
-			UserSettingsService.LayoutSettingsService.Columns ??= new();
-
-			foreach (var item in UserSettingsService.LayoutSettingsService.Columns)
+			foreach (var item in generatedColumns)
 				ColumnItems.Add(item);
 		}
 

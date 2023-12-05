@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -111,15 +110,15 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			if (FolderSettings?.ColumnItems is not null)
+			if (LayoutPreferencesManager?.ColumnItems is not null)
 				ViewModel.InitializeColumns();
 
-			currentIconSize = FolderSettings.GetIconSize();
-			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
-			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
+			currentIconSize = LayoutPreferencesManager.GetIconSize();
+			LayoutPreferencesManager.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+			LayoutPreferencesManager.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated += ZoomIn;
+			LayoutPreferencesManager.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
+			LayoutPreferencesManager.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -140,11 +139,11 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			LayoutPreferencesManager.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			LayoutPreferencesManager.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated -= ZoomIn;
+			LayoutPreferencesManager.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+			LayoutPreferencesManager.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 		}
 
@@ -172,7 +171,6 @@ namespace Files.App.Views.Layouts
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-
 		}
 
 		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -329,7 +327,7 @@ namespace Files.App.Views.Layouts
 
 		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
+			var requestedIconSize = LayoutPreferencesManager.GetIconSize(); // Get new icon size
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
@@ -463,11 +461,6 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-		}
-
-		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
-		{
-			LayoutPreferencesManager.SetDefaultLayoutPreferences(ViewModel.ColumnItems);
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)

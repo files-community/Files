@@ -5,7 +5,6 @@ namespace Files.Core.Data.Enums
 {
 	public enum DetailsLayoutColumnKind
 	{
-		None,
 		Icon,
 		Name,
 		GitStatus,

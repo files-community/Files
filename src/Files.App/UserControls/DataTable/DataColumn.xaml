@@ -9,9 +9,9 @@
 	<wctconverters:BoolToVisibilityConverter x:Key="DataColumnBoolToVisibilityConverter" />
 
 	<!--  Implicitly applied default style  -->
-	<Style BasedOn="{StaticResource DefaultDataColumnStyle}" TargetType="controls:DataColumn" />
+	<Style BasedOn="{StaticResource DefaultDataColumnStyle}" TargetType="local:DataColumn" />
 
-	<Style x:Key="DefaultDataColumnStyle" TargetType="controls:DataColumn">
+	<Style x:Key="DefaultDataColumnStyle" TargetType="local:DataColumn">
 		<Style.Setters>
 			<Setter Property="Padding" Value="4,0" />
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />

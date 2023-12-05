@@ -29,11 +29,10 @@ namespace Files.App.UserControls.DataTable
 			_dataTable = null;
 		}
 
-		private void InitializeParentHeaderConnection()
+		private void GetDataTable()
 		{
 			if (this.FindAscendant<ListViewBase>() is not ListViewBase itemsPresenter)
 				return;
-
 
 			if (itemsPresenter.Header is not DataTable dataTable)
 				return;
@@ -45,9 +44,9 @@ namespace Files.App.UserControls.DataTable
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			InitializeParentHeaderConnection();
+			GetDataTable();
 
-			double maxHeight = 0;
+			double maxHeight = 32;
 
 			// Return our parent's size as the desired size.
 			if (Children.Count == 0 || _dataTable is null || _dataTable.Items.Count != Children.Count)

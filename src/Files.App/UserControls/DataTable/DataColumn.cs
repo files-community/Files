@@ -22,6 +22,7 @@ namespace Files.App.UserControls.DataTable
 		private WeakReference<DataTable>? _parent;
 
 		internal double MaxChildDesiredWidth { get; set; }
+
 		internal GridLength CurrentWidth { get; private set; }
 
 		public bool CanResize
@@ -31,7 +32,11 @@ namespace Files.App.UserControls.DataTable
 		}
 
 		public static readonly DependencyProperty CanResizeProperty =
-			DependencyProperty.Register(nameof(CanResize), typeof(bool), typeof(DataColumn), new PropertyMetadata(false));
+			DependencyProperty.Register(
+				nameof(CanResize),
+				typeof(bool),
+				typeof(DataColumn),
+				new PropertyMetadata(false));
 
 		public GridLength DesiredWidth
 		{
@@ -40,7 +45,11 @@ namespace Files.App.UserControls.DataTable
 		}
 
 		public static readonly DependencyProperty DesiredWidthProperty =
-			DependencyProperty.Register(nameof(DesiredWidth), typeof(GridLength), typeof(DataColumn), new PropertyMetadata(GridLength.Auto, DesiredWidth_PropertyChanged));
+			DependencyProperty.Register(
+				nameof(DesiredWidth),
+				typeof(GridLength),
+				typeof(DataColumn),
+				new PropertyMetadata(GridLength.Auto, DesiredWidth_PropertyChanged));
 
 		private static void DesiredWidth_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
@@ -51,7 +60,7 @@ namespace Files.App.UserControls.DataTable
 
 		public DataColumn()
 		{
-			this.DefaultStyleKey = typeof(DataColumn);
+			DefaultStyleKey = typeof(DataColumn);
 		}
 
 		protected override void OnApplyTemplate()
@@ -95,7 +104,7 @@ namespace Files.App.UserControls.DataTable
 		private void ColumnResizedByUserSizer()
 		{
 			// Update our internal representation to be our size now as a fixed value.
-			CurrentWidth = new(this.ActualWidth);
+			CurrentWidth = new(ActualWidth);
 
 			// Notify the rest of the table to update
 			if (_parent?.TryGetTarget(out DataTable? parent) == true

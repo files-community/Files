@@ -17,6 +17,6 @@ namespace Files.App.Helpers
 
 		public string FilePath { get; set; } = string.Empty;
 
-		public LayoutPreferencesItem LayoutPreferencesManager { get; set; } = new();
+		public LayoutPreferencesItem LayoutPreferencesItem { get; set; } = new();
 	}
 }

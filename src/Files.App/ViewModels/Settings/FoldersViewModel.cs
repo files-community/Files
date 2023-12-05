@@ -456,7 +456,7 @@ namespace Files.App.ViewModels.Settings
 			// Is this proper practice?
 			var dbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
 
-			dbInstance.ResetAll();
+			dbInstance.ResetPreferencesAll();
 		}
 	}
 }

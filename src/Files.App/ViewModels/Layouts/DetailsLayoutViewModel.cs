@@ -1,16 +1,18 @@
-﻿using Microsoft.UI.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Xaml;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Layouts
 {
 	public class DetailsLayoutViewModel : ObservableObject
 	{
+		// Dependency injections
+
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+		// Properties
 
 		public ObservableCollection<DetailsLayoutColumnItem> ColumnItems { get; }
 
@@ -20,8 +22,12 @@ namespace Files.App.ViewModels.Layouts
 		private ItemViewModel FilesystemViewModel
 			=> ContentPageContext.ShellPage!.FilesystemViewModel;
 
+		// Dependency injections
+
 		public ICommand UpdateSortOptionsCommand { get; }
 		public ICommand ToggleColumnVisibilityCommand { get; }
+
+		// Constructor
 
 		public DetailsLayoutViewModel()
 		{
@@ -30,6 +36,8 @@ namespace Files.App.ViewModels.Layouts
 			UpdateSortOptionsCommand = new RelayCommand<string>(ExecuteUpdateSortOptionsCommand);
 			ToggleColumnVisibilityCommand = new RelayCommand(ExecuteToggleColumnVisibilityCommand);
 		}
+
+		// Methods
 
 		public void InitializeColumns()
 		{
@@ -41,8 +49,7 @@ namespace Files.App.ViewModels.Layouts
 
 		public void UpdateDetailsLayoutColumnsVisibilities(PageTypeUpdatedEventArgs e)
 		{
-			// When page changed
-
+			// Recycle Bin Page
 			if (e.IsTypeRecycleBin)
 			{
 				GetColumnItem(DetailsLayoutColumnKind.OriginalPath)?.Show();
@@ -54,11 +61,17 @@ namespace Files.App.ViewModels.Layouts
 				GetColumnItem(DetailsLayoutColumnKind.DateDeleted)?.Hide();
 			}
 
+			// Cloud Drive Page
 			if (e.IsTypeCloudDrive)
+			{
 				GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus)?.Show();
+			}
 			else
+			{
 				GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus)?.Hide();
+			}
 
+			// Git Repository Page
 			if (e.IsTypeGitRepository && !e.IsTypeSearchResults)
 			{
 				GetColumnItem(DetailsLayoutColumnKind.GitStatus)?.Show();
@@ -76,18 +89,21 @@ namespace Files.App.ViewModels.Layouts
 				GetColumnItem(DetailsLayoutColumnKind.GitLastCommitSha)?.Hide();
 			}
 
+			// Search Page
 			if (e.IsTypeSearchResults)
+			{
 				GetColumnItem(DetailsLayoutColumnKind.Path)?.Show();
+			}
 			else
+			{
 				GetColumnItem(DetailsLayoutColumnKind.Path)?.Hide();
+			}
 
 			UpdateSortIndicator();
 		}
 
 		public void UpdateSortIndicator()
 		{
-			// Called when header clicked
-
 			_ = LayoutPreferencesManager.DirectorySortOption switch
 			{
 				SortOption.Name => SetSortDirection(DetailsLayoutColumnKind.Name),
@@ -116,40 +132,6 @@ namespace Files.App.ViewModels.Layouts
 
 				return true;
 			}
-		}
-
-		public void UpdateColumnLayout()
-		{
-			// Called when splitter moved
-		}
-
-		public void SizeColumnToFit(DetailsLayoutColumnKind columnToResize)
-		{
-		}
-
-		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)
-		{
-			int columnIndexFromName = element.Name switch
-			{
-				"ItemName" => 2,
-				"ItemGitStatusTextBlock" => 3,
-				"ItemGitLastCommitDateTextBlock" => 4,
-				"ItemGitLastCommitMessageTextBlock" => 5,
-				"ItemGitCommitAuthorTextBlock" => 6,
-				"ItemGitLastCommitShaTextBlock" => 7,
-				"ItemTagGrid" => 8,
-				"ItemPath" => 9,
-				"ItemOriginalPath" => 10,
-				"ItemDateDeleted" => 11,
-				"ItemDateModified" => 12,
-				"ItemDateCreated" => 13,
-				"ItemType" => 14,
-				"ItemSize" => 15,
-				"ItemStatus" => 16,
-				_ => -1,
-			};
-
-			return columnIndexFromName != -1 && columnIndexFromName == columnIndex;
 		}
 
 		private void ExecuteUpdateSortOptionsCommand(string? sortOptionString)
@@ -181,19 +163,25 @@ namespace Files.App.ViewModels.Layouts
 
 		private GitProperties GetEnabledGitColumns()
 		{
+			var gitStatus = (GetColumnItem(DetailsLayoutColumnKind.GitStatus));
+			var gitCommitDate = (GetColumnItem(DetailsLayoutColumnKind.GitLastCommitDate));
+			var gitCommitMessage = (GetColumnItem(DetailsLayoutColumnKind.GitLastCommitMessage));
+			var gitCommitAuthor = (GetColumnItem(DetailsLayoutColumnKind.GitCommitAuthor));
+			var gitCommitSha = (GetColumnItem(DetailsLayoutColumnKind.GitLastCommitSha));
+
 			var enableStatus =
-				!(GetColumnItem(DetailsLayoutColumnKind.GitStatus)?.IsHidden ?? false) &&
-				!(GetColumnItem(DetailsLayoutColumnKind.GitStatus)?.UserCollapsed ?? false);
+				(gitStatus?.IsAvailable ?? false) &&
+				(gitStatus?.IsVisible ?? false);
 
 			var enableCommit =
-				!(GetColumnItem(DetailsLayoutColumnKind.GitLastCommitDate)?.IsHidden ?? false) &&
-				!(GetColumnItem(DetailsLayoutColumnKind.GitLastCommitDate)?.UserCollapsed ?? false) ||
-				!(GetColumnItem(DetailsLayoutColumnKind.GitLastCommitMessage)?.IsHidden ?? false) &&
-				!(GetColumnItem(DetailsLayoutColumnKind.GitLastCommitMessage)?.UserCollapsed ?? false) ||
-				!(GetColumnItem(DetailsLayoutColumnKind.GitCommitAuthor)?.IsHidden ?? false) &&
-				!(GetColumnItem(DetailsLayoutColumnKind.GitCommitAuthor)?.UserCollapsed ?? false) ||
-				!(GetColumnItem(DetailsLayoutColumnKind.GitLastCommitSha)?.IsHidden ?? false) &&
-				!(GetColumnItem(DetailsLayoutColumnKind.GitLastCommitSha)?.UserCollapsed?? false) ;
+				(gitCommitDate?.IsAvailable ?? false) &&
+				(gitCommitDate?.IsVisible ?? false) ||
+				(gitCommitMessage?.IsAvailable ?? false) &&
+				(gitCommitMessage?.IsVisible ?? false) ||
+				(gitCommitAuthor?.IsAvailable ?? false) &&
+				(gitCommitAuthor?.IsVisible ?? false) ||
+				(gitCommitSha?.IsAvailable ?? false) &&
+				(gitCommitSha?.IsVisible?? false) ;
 
 			return (enableStatus, enableCommit) switch
 			{

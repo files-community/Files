@@ -48,7 +48,7 @@ namespace Files.App.UserControls.DataTable
 			double proportionalUnits = 0;
 			double autoSized = 0;
 
-			double maxHeight = 0;
+			double maxHeight = 32;
 
 			var elements = Items.Where(static e => e is DataColumn column && column.Visibility == Visibility.Visible);
 
@@ -65,7 +65,7 @@ namespace Files.App.UserControls.DataTable
 				}
 			}
 
-			// Add in spacing between columns to our fixed size allotment
+			// Count column spacings to our fixed size allotment
 			fixedWidth += (elements.Count() - 1) * ColumnSpacing;
 
 			// TODO: Handle infinite width?

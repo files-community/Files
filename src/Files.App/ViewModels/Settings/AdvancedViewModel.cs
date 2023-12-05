@@ -182,10 +182,10 @@ namespace Files.App.ViewModels.Settings
 					tagDbInstance.Import(importTagsDB);
 
 					// Import layout preferences and DB
-					var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(LayoutPreferencesManager.LayoutSettingsDbPath));
+					var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(LayoutPreferencesManager.LayoutSettingsDatabaseFilePath));
 					string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
 					var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
-					layoutDbInstance.Import(importPrefsDB);
+					layoutDbInstance.ImportPreferences(importPrefsDB);
 				}
 				catch (Exception ex)
 				{
@@ -230,8 +230,8 @@ namespace Files.App.ViewModels.Settings
 
 					// Export layout preferences DB
 					var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
-					byte[] exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(LayoutPreferencesManager.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
+					byte[] exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.ExportPreferences());
+					await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(LayoutPreferencesManager.LayoutSettingsDatabaseFilePath), CreationCollisionOption.ReplaceExisting);
 				}
 				catch (Exception ex)
 				{

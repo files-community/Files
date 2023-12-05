@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using DirectN;
 using System.Text.Json;
 using Windows.Storage;
 
@@ -18,13 +19,13 @@ namespace Files.App.Data.Models
 		// Fields
 
 		private static readonly Lazy<LayoutPreferencesDatabaseManager> _databaseInstance =
-			new(() => new LayoutPreferencesDatabaseManager(LayoutSettingsDbPath, true));
+			new(() => new LayoutPreferencesDatabaseManager(LayoutSettingsDatabaseFilePath, true));
 
 		private readonly FolderLayoutModes? _rootLayoutMode;
 
 		// Properties
 
-		public static string LayoutSettingsDbPath
+		public static string LayoutSettingsDatabaseFilePath
 			=> SystemIO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 
 		public bool IsLayoutModeFixed
@@ -277,6 +278,15 @@ namespace Files.App.Data.Models
 
 		public LayoutPreferencesManager()
 		{
+			if (UserSettingsService.LayoutSettingsService.Columns is null || UserSettingsService.LayoutSettingsService.Columns.Count == 0)
+			{
+				UserSettingsService.LayoutSettingsService.Columns = new();
+
+				// Set default settings if doesn't exist
+				var columns = DetailsLayoutColumnsFactory.GenerateDefaultItems();
+				UserSettingsService.LayoutSettingsService.Columns = columns.Select(DetailsLayoutColumnItem.ToModel).ToList();
+			}
+
 			LayoutPreferencesItem = new LayoutPreferencesItem();
 		}
 
@@ -431,7 +441,7 @@ namespace Files.App.Data.Models
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					LayoutPreferencesItem = preferencesItem;
-					// TODO: Update layout
+					SetDefaultLayoutPreferences(preferencesItem.ColumnItems.Cast<DetailsLayoutColumnItem>().ToList());
 					break;
 			}
 		}
@@ -445,19 +455,12 @@ namespace Files.App.Data.Models
 
 		public static void SetDefaultLayoutPreferences(IList<DetailsLayoutColumnItem> columns)
 		{
-			// TODO: ADD BACK HERE!
+			UserSettingsService.LayoutSettingsService.Columns = columns.Cast<DetailsLayoutColumnItemModel>().ToList();
 		}
 
 		public static void SetLayoutPreferencesForPath(string path, LayoutPreferencesItem preferencesItem)
 		{
-			if (!UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
-			{
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
-				var trimmedFolderPath = path.TrimPath();
-				if (trimmedFolderPath is not null)
-					SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
-			}
-			else
+			if (UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
 				UserSettingsService.FoldersSettingsService.DefaultLayoutMode = preferencesItem.LayoutMode;
 				UserSettingsService.LayoutSettingsService.DefaultGridViewSize = preferencesItem.GridViewSize;
@@ -484,7 +487,16 @@ namespace Files.App.Data.Models
 				UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
 				UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
 
-				// TODO: ADD BACK HERE
+				// Set static layout columns preferences to the json app settings
+				UserSettingsService.LayoutSettingsService.Columns = preferencesItem.ColumnItems.Cast<DetailsLayoutColumnItemModel>().ToList();
+			}
+			else
+			{
+				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
+
+				var trimmedFolderPath = path.TrimPath();
+				if (trimmedFolderPath is not null)
+					SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
 			}
 		}
 

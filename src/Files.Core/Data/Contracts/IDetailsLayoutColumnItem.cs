@@ -5,12 +5,10 @@ namespace Files.Core.Data.Contracts
 {
 	public interface IDetailsLayoutColumnItem
 	{
-		public string Name { get; }
+		public DetailsLayoutColumnKind Kind { get; }
 
-		public double UserLengthPixels { get; }
+		public double Width { get; }
 
-		public bool UserCollapsed { get; }
-
-		public bool IsHidden { get; }
+		public bool IsVisible { get; }
 	}
 }

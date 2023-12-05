@@ -5,7 +5,7 @@ namespace Files.Core.Services.Settings
 {
 	public interface ILayoutSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
-		public List<IDetailsLayoutColumnItem> Columns { get; set; }
+		public List<DetailsLayoutColumnItemModel> Columns { get; set; }
 
 		int DefaultGridViewSize { get; set; }
 	}

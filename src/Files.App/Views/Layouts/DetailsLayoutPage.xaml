@@ -6,6 +6,7 @@
 	xmlns:behaviors="using:Files.App.Data.Behaviors"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:datatable="using:Files.App.UserControls.DataTable"
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:filetags="using:Files.Core.ViewModels.FileTags"
@@ -196,7 +197,7 @@
 			x:Name="RootGridZoom"
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
-			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+			Visibility="{x:Bind LayoutPreferencesManager.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
 			<!--  Main View  -->
 			<SemanticZoom.ZoomedInView>
@@ -228,7 +229,7 @@
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
-					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
+					Visibility="{x:Bind LayoutPreferencesManager.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
 					<!--  ListView Item Transitions  -->
 					<ListView.ItemContainerTransitions>
@@ -245,7 +246,18 @@
 							HorizontalAlignment="Stretch"
 							DoubleTapped="FileListHeader_DoubleTapped"
 							ItemsSource="{x:Bind ViewModel.ColumnItems, Mode=OneWay}"
-							PointerPressed="Grid_PointerPressed" />
+							PointerPressed="Grid_PointerPressed">
+							<datatable:DataTable.ItemTemplate>
+								<DataTemplate x:DataType="dataitems:DetailsLayoutColumnItem">
+									<datatable:DataColumn
+										MinWidth="{x:Bind MinWidth}"
+										MaxWidth="{x:Bind MaxWidth, Mode=OneWay}"
+										CanResize="{x:Bind IsResizable, Mode=OneWay}"
+										Content="{x:Bind Name, Mode=OneWay}"
+										DesiredWidth="500" />
+								</DataTemplate>
+							</datatable:DataTable.ItemTemplate>
+						</datatable:DataTable>
 					</ListView.Header>
 
 					<!--  Item Template  -->
@@ -403,6 +415,7 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitDateHumanized, Mode=OneWay}" />
+
 									<!--  Item Git Last Commit Message  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitMessageTextBlock"
@@ -414,6 +427,7 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitMessage, Mode=OneWay}" />
+
 									<!--  Item Git Last Commit Author  -->
 									<TextBlock
 										x:Name="ItemGitCommitAuthorTextBlock"
@@ -425,6 +439,7 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitAuthor, Mode=OneWay}" />
+
 									<!--  Item Git Last Commit SHA  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitShaTextBlock"
@@ -538,6 +553,7 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
+
 									<!--  Item Modified Date  -->
 									<TextBlock
 										x:Name="ItemDateModified"
@@ -548,6 +564,7 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind ItemDateModified, Mode=OneWay}" />
+
 									<!--  Item Created Date  -->
 									<TextBlock
 										x:Name="ItemDateCreated"

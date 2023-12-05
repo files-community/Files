@@ -17,12 +17,12 @@ namespace Files.App.Helpers
 
 		// Constructor
 
-		public LayoutPreferencesDatabaseManager(string connection, bool shared = false)
+		public LayoutPreferencesDatabaseManager(string databasePath, bool shared = false)
 		{
-			SafetyExtensions.IgnoreExceptions(() => EnsureDatabaseVersion(connection));
+			SafetyExtensions.IgnoreExceptions(() => EnsureDatabaseVersion(databasePath));
 
 			_database = new(
-				new ConnectionString(connection)
+				new ConnectionString(databasePath)
 				{
 					Mode = shared
 						? FileMode.Shared
@@ -36,17 +36,17 @@ namespace Files.App.Helpers
 
 		// Methods
 
-		public LayoutPreferencesItem? GetPreferences(string? filePath = null, ulong? frn = null)
+		public LayoutPreferencesItem? GetPreferences(string? path = null, ulong? frn = null)
 		{
-			return FindPreferences(filePath, frn)?.LayoutPreferencesManager;
+			return FindPreferences(path, frn)?.LayoutPreferencesItem;
 		}
 
-		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
+		public void SetPreferences(string path, ulong? frn, LayoutPreferencesItem? preferencesItem)
 		{
 			// Get a collection (or create, if doesn't exist)
 			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
 
-			var tmp = FindPreferences(filePath, frn);
+			var tmp = FindPreferences(path, frn);
 
 			if (tmp is null)
 			{
@@ -55,9 +55,9 @@ namespace Files.App.Helpers
 					// Insert new tagged file (Id will be auto-incremented)
 					var newPref = new LayoutPreferencesDatabaseItem()
 					{
-						FilePath = filePath,
+						FilePath = path,
 						Frn = frn,
-						LayoutPreferencesManager = preferencesItem
+						LayoutPreferencesItem = preferencesItem
 					};
 
 					col.Insert(newPref);
@@ -70,7 +70,7 @@ namespace Files.App.Helpers
 				if (preferencesItem is not null)
 				{
 					// Update file tag
-					tmp.LayoutPreferencesManager = preferencesItem;
+					tmp.LayoutPreferencesItem = preferencesItem;
 					col.Update(tmp);
 				}
 				else
@@ -81,7 +81,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public void ResetAll(Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
+		public void ResetPreferencesAll(Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
 			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
 
@@ -95,7 +95,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public void ApplyToAll(Action<LayoutPreferencesDatabaseItem> updateAction, Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
+		public void ApplyPreferencesToAll(Action<LayoutPreferencesDatabaseItem> updateAction, Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
 			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
 
@@ -105,7 +105,7 @@ namespace Files.App.Helpers
 			col.Update(allDocs);
 		}
 
-		public void Import(string json)
+		public void ImportPreferences(string json)
 		{
 			var dataValues = JsonSerializer.DeserializeArray(json);
 
@@ -115,19 +115,19 @@ namespace Files.App.Helpers
 			col.InsertBulk(dataValues.Select(x => x.AsDocument));
 		}
 
-		public string Export()
+		public string ExportPreferences()
 		{
 			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection("layoutprefs").FindAll()));
 		}
 
-		private LayoutPreferencesDatabaseItem? FindPreferences(string? filePath = null, ulong? frn = null)
+		private LayoutPreferencesDatabaseItem? FindPreferences(string? path = null, ulong? frn = null)
 		{
 			// Get a collection (or create, if doesn't exist)
 			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
 
-			if (filePath is not null)
+			if (path is not null)
 			{
-				var tmp = col.FindOne(x => x.FilePath == filePath);
+				var tmp = col.FindOne(x => x.FilePath == path);
 				if (tmp is not null)
 				{
 					if (frn is not null)
@@ -146,10 +146,10 @@ namespace Files.App.Helpers
 				var tmp = col.FindOne(x => x.Frn == frn);
 				if (tmp is not null)
 				{
-					if (filePath is not null)
+					if (path is not null)
 					{
 						// Keep entry updated
-						tmp.FilePath = filePath;
+						tmp.FilePath = path;
 						col.Update(tmp);
 					}
 
@@ -166,16 +166,24 @@ namespace Files.App.Helpers
 			//  For more information, visit
 			//  https://github.com/mbdavid/LiteDB/blob/master/LiteDB/Engine/Engine/Upgrade.cs
 
+			var databaseFileHeaderString = "** This is a LiteDB file **";
+			var correctVersion = 7;
 			var buffer = new byte[8192 * 2];
 
-			using var stream = new SystemIO.FileStream(filename, SystemIO.FileMode.Open, SystemIO.FileAccess.Read, SystemIO.FileShare.ReadWrite);
+			// Get database file
+			using var stream =
+				new SystemIO.FileStream(
+					filename,
+					SystemIO.FileMode.Open,
+					SystemIO.FileAccess.Read,
+					SystemIO.FileShare.ReadWrite);
 
 			// Read first 16k
 			stream.Read(buffer, 0, buffer.Length);
 
 			// Check if v7 (plain or encrypted)
-			if (Encoding.UTF8.GetString(buffer, 25, "** This is a LiteDB file **".Length) == "** This is a LiteDB file **" &&
-				buffer[52] == 7)
+			if (Encoding.UTF8.GetString(buffer, 25, databaseFileHeaderString.Length) == databaseFileHeaderString &&
+				buffer[52] == correctVersion)
 			{
 				// version 4.1.4
 				return;
