@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.WinUI.UI;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
@@ -11,39 +14,33 @@ using Windows.Foundation;
 
 namespace Files.App.UserControls.DataTable
 {
-	internal class DataTable : Panel
+	internal class DataTable : ListViewBase
 	{
-		// TODO: We should cache this result and update if column properties change
-		internal bool IsAnyColumnAuto => Children.Any(static e => e is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto });
-
-		// TODO: Check with Sergio if there's a better structure here, as I don't need a Dictionary like ConditionalWeakTable
 		internal HashSet<DataRow> Rows { get; private set; } = new();
+
+		internal bool IsAnyColumnAuto
+			=> Items.Any(static e => e is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto });
+
+		public double ColumnSpacing
+		{
+			get => (double)GetValue(ColumnSpacingProperty);
+			set => SetValue(ColumnSpacingProperty, value);
+		}
+
+		public static readonly DependencyProperty ColumnSpacingProperty =
+			DependencyProperty.Register(
+				nameof(ColumnSpacing),
+				typeof(double),
+				typeof(DataTable),
+				new PropertyMetadata(0d));
 
 		internal void ColumnResized()
 		{
 			InvalidateArrange();
 
 			foreach (var row in Rows)
-			{
 				row.InvalidateArrange();
-			}
 		}
-
-		//// TODO: Would we want this named 'Spacing' instead if we support an Orientation in the future for columns being items instead of rows?
-		/// <summary>
-		/// Gets or sets the amount of space to place between columns within the table.
-		/// </summary>
-		public double ColumnSpacing
-		{
-			get { return (double)GetValue(ColumnSpacingProperty); }
-			set { SetValue(ColumnSpacingProperty, value); }
-		}
-
-		/// <summary>
-		/// Gets the <see cref="ColumnSpacing"/> <see cref="DependencyProperty"/>.
-		/// </summary>
-		public static readonly DependencyProperty ColumnSpacingProperty =
-			DependencyProperty.Register(nameof(ColumnSpacing), typeof(double), typeof(DataTable), new PropertyMetadata(0d));
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
@@ -53,10 +50,10 @@ namespace Files.App.UserControls.DataTable
 
 			double maxHeight = 0;
 
-			var elements = Children.Where(static e => e.Visibility == Visibility.Visible && e is DataColumn);
+			var elements = Items.Where(static e => e is DataColumn column && column.Visibility == Visibility.Visible);
 
 			// We only need to measure elements that are visible
-			foreach (DataColumn column in elements)
+			foreach (var column in elements.Cast<DataColumn>())
 			{
 				if (column.CurrentWidth.IsStar)
 				{
@@ -74,7 +71,7 @@ namespace Files.App.UserControls.DataTable
 			// TODO: Handle infinite width?
 			var proportionalAmount = (availableSize.Width - fixedWidth) / proportionalUnits;
 
-			foreach (DataColumn column in elements)
+			foreach (var column in elements.Cast<DataColumn>())
 			{
 				if (column.CurrentWidth.IsStar)
 				{
@@ -112,7 +109,7 @@ namespace Files.App.UserControls.DataTable
 			double proportionalUnits = 0;
 			double autoSized = 0;
 
-			var elements = Children.Where(static e => e.Visibility == Visibility.Visible && e is DataColumn);
+			var elements = Items.Where(static e => e is DataColumn column && column.Visibility == Visibility.Visible);
 
 			// We only need to measure elements that are visible
 			foreach (DataColumn column in elements)

@@ -244,42 +244,8 @@
 							Margin="16,0,-8,0"
 							HorizontalAlignment="Stretch"
 							DoubleTapped="FileListHeader_DoubleTapped"
-							PointerPressed="Grid_PointerPressed">
-
-							<!--  Item Icon  -->
-							<datatable:DataColumn MinWidth="40" CanResize="False" />
-							<!--  Item Name  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=Name}" />
-							<!--  Item Unmerged File Change Kind  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=GitStatus}" />
-							<!--  Item Last Commit Date  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=DateCommitted}" />
-							<!--  Item Last Commit Message  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=CommitMessage}" />
-							<!--  Item Last Commit Author  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=Author}" />
-							<!--  Item Last Commit SHA  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=CommitSha}" />
-							<!--  Item Tags  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=Tag}" />
-							<!--  Item Path  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=Path}" />
-							<!--  Item Original Path  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=OriginalPath}" />
-							<!--  Item Deleted Date  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=DateDeleted}" />
-							<!--  Item Modified Date  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
-							<!--  Item Created Date  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=DateCreated}" />
-							<!--  Item Type  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=Type}" />
-							<!--  Item Size  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=Size}" />
-							<!--  Item Sync Status Badge  -->
-							<datatable:DataColumn Content="{helpers:ResourceString Name=syncStatusColumn/Header}" />
-
-						</datatable:DataTable>
+							ItemsSource="{x:Bind ViewModel.ColumnItems, Mode=OneWay}"
+							PointerPressed="Grid_PointerPressed" />
 					</ListView.Header>
 
 					<!--  Item Template  -->
