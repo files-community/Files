@@ -47,6 +47,9 @@ namespace Files.App.Helpers
 
 			ColumnItems = new List<IDetailsLayoutColumnItem>();
 
+			// CHANGE HERE
+			UserSettingsService.LayoutSettingsService.Columns ??= new();
+
 			foreach (var item in UserSettingsService.LayoutSettingsService.Columns)
 				ColumnItems.Add(item);
 		}
@@ -63,7 +66,7 @@ namespace Files.App.Helpers
 
 			if (obj is LayoutPreferencesItem item)
 			{
-				return (
+				return
 					item.LayoutMode == LayoutMode &&
 					item.GridViewSize == GridViewSize &&
 					item.DirectoryGroupOption == DirectoryGroupOption &&
@@ -72,9 +75,9 @@ namespace Files.App.Helpers
 					item.DirectoryGroupDirection == DirectoryGroupDirection &&
 					item.DirectoryGroupByDateUnit == DirectoryGroupByDateUnit &&
 					item.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
-					item.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
-					item.ColumnsViewModel.Equals(ColumnsViewModel));
+					item.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden;
 			}
+
 			return base.Equals(obj);
 		}
 
@@ -91,7 +94,7 @@ namespace Files.App.Helpers
 			hash.Add(DirectoryGroupByDateUnit);
 			hash.Add(SortDirectoriesAlongsideFiles);
 			hash.Add(IsAdaptiveLayoutOverridden);
-			hash.Add(ColumnsViewModel);
+			hash.Add(ColumnItems);
 
 			return hash.ToHashCode();
 		}

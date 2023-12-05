@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.Specialized;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 
 namespace Files.App.UserControls.DataTable
 {
