@@ -524,7 +524,11 @@ namespace Files.App.Views
 				//|| dropableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
 				);
 
-			if (!hasValidDraggedItems) { e.AcceptedOperation = DataPackageOperation.None; return; }
+			if (!hasValidDraggedItems) 
+		   { 
+			   e.AcceptedOperation = DataPackageOperation.None; 
+			   return; 
+		   }
 
 			try
 			{
