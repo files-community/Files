@@ -240,7 +240,7 @@
 
 					<!--  ListView Header  -->
 					<ListView.Header>
-						<datatable:DataTable
+						<!--<datatable:DataTable
 							Height="40"
 							Margin="16,0,-8,0"
 							HorizontalAlignment="Stretch"
@@ -257,6 +257,29 @@
 										DesiredWidth="500" />
 								</DataTemplate>
 							</datatable:DataTable.ItemTemplate>
+						</datatable:DataTable>-->
+						<datatable:DataTable
+							Height="40"
+							Margin="16,0,-8,0"
+							HorizontalAlignment="Stretch"
+							DoubleTapped="FileListHeader_DoubleTapped"
+							PointerPressed="Grid_PointerPressed">
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
+							<datatable:DataColumn Content="A" DesiredWidth="500" />
 						</datatable:DataTable>
 					</ListView.Header>
 

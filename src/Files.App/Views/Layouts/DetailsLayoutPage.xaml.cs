@@ -440,9 +440,11 @@ namespace Files.App.Views.Layouts
 		{
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
 			// because you can't use bindings in the setters
-			DependencyObject item = VisualTreeHelper.GetParent(sender as StackPanel);
+			DependencyObject item = VisualTreeHelper.GetParent(sender as Panel);
+
 			while (item is not ListViewItem)
 				item = VisualTreeHelper.GetParent(item);
+
 			if (item is ListViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}

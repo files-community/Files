@@ -14,12 +14,12 @@ using Windows.Foundation;
 
 namespace Files.App.UserControls.DataTable
 {
-	internal class DataTable : ListViewBase
+	internal class DataTable : Panel
 	{
 		internal HashSet<DataRow> Rows { get; private set; } = new();
 
 		internal bool IsAnyColumnAuto
-			=> Items.Any(static e => e is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto });
+			=> Children.Any(static e => e is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto });
 
 		public double ColumnSpacing
 		{
@@ -48,12 +48,12 @@ namespace Files.App.UserControls.DataTable
 			double proportionalUnits = 0;
 			double autoSized = 0;
 
-			double maxHeight = 32;
+			double maxHeight = 0;
 
-			var elements = Items.Where(static e => e is DataColumn column && column.Visibility == Visibility.Visible);
+			var elements = Children.Where(static e => e.Visibility == Visibility.Visible && e is DataColumn);
 
 			// We only need to measure elements that are visible
-			foreach (var column in elements.Cast<DataColumn>())
+			foreach (DataColumn column in elements)
 			{
 				if (column.CurrentWidth.IsStar)
 				{
@@ -65,13 +65,13 @@ namespace Files.App.UserControls.DataTable
 				}
 			}
 
-			// Count column spacings to our fixed size allotment
+			// Add in spacing between columns to our fixed size allotment
 			fixedWidth += (elements.Count() - 1) * ColumnSpacing;
 
 			// TODO: Handle infinite width?
 			var proportionalAmount = (availableSize.Width - fixedWidth) / proportionalUnits;
 
-			foreach (var column in elements.Cast<DataColumn>())
+			foreach (DataColumn column in elements)
 			{
 				if (column.CurrentWidth.IsStar)
 				{
@@ -109,7 +109,7 @@ namespace Files.App.UserControls.DataTable
 			double proportionalUnits = 0;
 			double autoSized = 0;
 
-			var elements = Items.Where(static e => e is DataColumn column && column.Visibility == Visibility.Visible);
+			var elements = Children.Where(static e => e.Visibility == Visibility.Visible && e is DataColumn);
 
 			// We only need to measure elements that are visible
 			foreach (DataColumn column in elements)
