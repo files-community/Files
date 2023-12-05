@@ -579,7 +579,6 @@ namespace Files.App.Views.Layouts
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
-			ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
@@ -620,7 +619,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
-			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnViewModel));
+			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
 		}
@@ -786,7 +785,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
-			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
+			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
