@@ -181,8 +181,7 @@ namespace Files.App.Views
    				return;
 			SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
-			var pageNav = navArgs as PaneNavigationArguments;
-			if (pageNav is null) 
+			if (navArgs is not PaneNavigationArguments pageNav)
    				return;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(pageNav.LeftPaneNavPathParam);
 
