@@ -34,7 +34,7 @@ namespace Files.App.Helpers
 				return credential.Password;
 			}
 			// Thrown if the resource does not exist
-			catch (COMException)
+			catch (Exception)
 			{
 				return string.Empty;
 			}
