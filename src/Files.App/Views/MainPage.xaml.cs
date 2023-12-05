@@ -207,24 +207,22 @@ namespace Files.App.Views
 			LoadPaneChanged();
 		}
   
-		// SidebarAdaptiveViewModel.PaneHolder must not be null
 		private void UpdateStatusBarProperties()
 		{
 			if (StatusBarControl is not null)
 			{
 				StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel;
-				StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder!.ActivePaneOrColumn.SlimContentPage.SelectedItemsPropertiesViewModel; 
+				StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel; 
 			}
 		}
   
-		// SidebarAdaptiveViewModel.PaneHolder must not be null
 		private void UpdateNavToolbarProperties()
 		{
 			if (NavToolbar is not null)
-				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder!.ActivePaneOrColumn.ToolbarViewModel;
+				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 
 			if (InnerNavigationToolbar is not null)
-				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder!.ActivePaneOrColumn.ToolbarViewModel;
+				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
