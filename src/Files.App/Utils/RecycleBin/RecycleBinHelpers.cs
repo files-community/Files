@@ -118,7 +118,8 @@ namespace Files.App.Utils.RecycleBin
 		public static async Task RestoreSelectionRecycleBinAsync(IShellPage associatedInstance)
 		{
 			var items = associatedInstance.SlimContentPage.SelectedItems;
-			if (items == null) return;
+			if (items == null) 
+				return;
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
 				Title = "ConfirmRestoreSelectionBinDialogTitle".GetLocalizedResource(),
