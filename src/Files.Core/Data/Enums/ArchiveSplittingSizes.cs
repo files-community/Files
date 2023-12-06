@@ -29,6 +29,11 @@ namespace Files.Core.Data.Enums
 		Mo1024,
 
 		/// <summary>
+		/// Split into each 2 GB.
+		/// </summary>
+		Mo2048,
+
+		/// <summary>
 		/// Split into each 5 GB.
 		/// </summary>
 		Mo5120,
