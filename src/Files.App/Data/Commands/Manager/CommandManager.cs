@@ -79,6 +79,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
 		public IRichCommand CopyPathWithQuotes => commands[CommandCodes.CopyPathWithQuotes];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
+		public IRichCommand DuplicateItem => commands[CommandCodes.DuplicateItem];
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
@@ -243,6 +244,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.CopyPath] = new CopyPathAction(),
 			[CommandCodes.CopyPathWithQuotes] = new CopyPathWithQuotesAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
+			[CommandCodes.DuplicateItem] = new DuplicateItemAction(),
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),

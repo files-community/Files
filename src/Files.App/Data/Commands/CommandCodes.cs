@@ -31,6 +31,7 @@ namespace Files.App.Data.Commands
 		CopyPath,
 		CopyPathWithQuotes,
 		CutItem,
+		DuplicateItem,
 		PasteItem,
 		PasteItemToSelection,
 		DeleteItem,

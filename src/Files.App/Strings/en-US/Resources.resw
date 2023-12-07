@@ -2430,6 +2430,12 @@
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cut item(s) to clipboard</value>
   </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="DuplicateItemDescription" xml:space="preserve">
+    <value>Duplicate selected items</value>
+  </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to current folder</value>
   </data>
