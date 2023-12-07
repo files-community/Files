@@ -31,6 +31,7 @@ namespace Files.App.UserControls.Widgets
 		public bool Add;
 		public bool Pin = true;
 		public bool Reset = false;
+		public bool Reorder = false;
 
 		public ModifyQuickAccessEventArgs(string[] paths, bool add)
 		{
@@ -88,7 +89,7 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -106,12 +107,12 @@ namespace Files.App.UserControls.Widgets
 			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
 
-			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTabAsync);
+			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindowAsync);
 			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavoritesAsync);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavoritesAsync);
 		}
 
 		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -227,7 +228,7 @@ namespace Files.App.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		private async void ModifyItem(object? sender, ModifyQuickAccessEventArgs? e)
+		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)
 		{
 			if (e is null)
 				return;
@@ -261,6 +262,28 @@ namespace Files.App.UserControls.Widgets
 
 					return;
 				}
+				if (e.Reorder)
+				{
+					// Remove pinned items
+					foreach (var itemToRemove in ItemsAdded.Where(x => x.IsPinned).ToList())
+						ItemsAdded.Remove(itemToRemove);
+
+					// Add pinned items in the new order
+					foreach (var itemToAdd in e.Paths)
+					{
+						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+							continue;
+
+						ItemsAdded.Insert(lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
+						{
+							Path = item.Path,
+						});
+					}
+
+					return;
+				}
 				if (e.Add)
 				{
 					foreach (var itemToAdd in e.Paths)
@@ -286,18 +309,18 @@ namespace Files.App.UserControls.Widgets
 			Loaded -= QuickAccessWidget_Loaded;
 
 			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
-			ModifyItem(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false)
+			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false)
 			{
 				Reset = true
 			});
 
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
+			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 		}
 
 		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= QuickAccessWidget_Unloaded;
-			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
+			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItemAsync;
 		}
 
 		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -350,11 +373,11 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		public override async Task PinToFavorites(WidgetCardItem item)
+		public override async Task PinToFavoritesAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.PinToSidebar(item.Path);
+			await QuickAccessService.PinToSidebarAsync(item.Path);
 
-			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
@@ -362,18 +385,18 @@ namespace Files.App.UserControls.Widgets
 			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
 			if (recentItem is not null)
 			{
-				ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
+				ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
 				{
 					Pin = false
 				});
 			}
 		}
 
-		public override async Task UnpinFromFavorites(WidgetCardItem item)
+		public override async Task UnpinFromFavoritesAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.UnpinFromSidebar(item.Path);
+			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
 
-			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
@@ -394,7 +417,7 @@ namespace Files.App.UserControls.Widgets
 			CardInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = NavigationPath });
 		}
 
-		public Task RefreshWidget()
+		public Task RefreshWidgetAsync()
 		{
 			return Task.CompletedTask;
 		}

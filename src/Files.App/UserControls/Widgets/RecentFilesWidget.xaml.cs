@@ -15,7 +15,7 @@ using Windows.System;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -97,12 +97,12 @@ namespace Files.App.UserControls.Widgets
 			refreshRecentsCTS = new CancellationTokenSource();
 
 			// recent files could have changed while widget wasn't loaded
-			_ = RefreshWidget();
+			_ = RefreshWidgetAsync();
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
 
-			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(RemoveRecentItem);
-			ClearAllItemsCommand = new AsyncRelayCommand(ClearRecentItems);
+			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(RemoveRecentItemAsync);
+			ClearAllItemsCommand = new AsyncRelayCommand(ClearRecentItemsAsync);
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
 			OpenPropertiesCommand = new RelayCommand<RecentItem>(OpenProperties);
 		}
@@ -129,7 +129,7 @@ namespace Files.App.UserControls.Widgets
 		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
 			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItems(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -198,7 +198,7 @@ namespace Files.App.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		public async Task RefreshWidget()
+		public async Task RefreshWidgetAsync()
 		{
 			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
@@ -209,7 +209,7 @@ namespace Files.App.UserControls.Widgets
 			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				// e.Action can only be Reset right now; naively refresh everything for simplicity
-				await UpdateRecentsList(e);
+				await UpdateRecentsListAsync(e);
 			});
 		}
 
@@ -234,7 +234,7 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs e)
+		private async Task UpdateRecentsListAsync(NotifyCollectionChangedEventArgs e)
 		{
 			try
 			{
@@ -319,7 +319,7 @@ namespace Files.App.UserControls.Widgets
 			if (!recentItemsCollection.Any(x => x.Equals(recentItem)))
 			{
 				recentItemsCollection.Insert(index < 0 ? recentItemsCollection.Count : Math.Min(index, recentItemsCollection.Count), recentItem);
-				_ = recentItem.LoadRecentItemIcon()
+				_ = recentItem.LoadRecentItemIconAsync()
 					.ContinueWith(t => App.Logger.LogWarning(t.Exception, null), TaskContinuationOptions.OnlyOnFaulted);
 				return true;
 			}
@@ -336,7 +336,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async Task RemoveRecentItem(RecentItem item)
+		private async Task RemoveRecentItemAsync(RecentItem item)
 		{
 			await refreshRecentsSemaphore.WaitAsync();
 
@@ -350,7 +350,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private async Task ClearRecentItems()
+		private async Task ClearRecentItemsAsync()
 		{
 			await refreshRecentsSemaphore.WaitAsync();
 			try

@@ -257,6 +257,14 @@ namespace Files.App.Helpers
 				Insert(index, item);
 		}
 
+		public List<T> ToList()
+		{
+			lock (syncRoot)
+			{
+				return Enumerable.ToList(this);
+			}
+		}
+
 		int IList.Add(object? value)
 		{
 			if (value is null)

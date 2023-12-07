@@ -411,16 +411,16 @@
 
 					<Grid Margin="-16">
 
-						<FontIcon
-							x:Name="OngoingTasksFontIcon"
+						<!-- Enable icon again if we add option to always display on the toolbar
+						<uc:OpacityIcon
+							x:Name="StatusCenterIcon"
+							Width="16"
+							Height="16"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							FontSize="16"
-							Glyph="&#xF16A;" />
+							Style="{StaticResource ColorIconStatusCenter}" />-->
 
 						<ProgressRing
 							x:Name="MedianOperationProgressRing"
-							Width="20"
-							Height="20"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
@@ -430,8 +430,8 @@
 
 						<InfoBadge
 							x:Name="StatusInfoBadge"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Top"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
 							Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
 
 					</Grid>
@@ -553,7 +553,7 @@
 						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="SearchButton.Visibility" Value="Visible" />
+						<Setter Target="ShowSearchButton.Visibility" Value="Visible" />
 						<Setter Target="SearchRegion.(Grid.Column)" Value="1" />
 						<Setter Target="SearchRegion.Width" Value="NaN" />
 					</VisualState.Setters>

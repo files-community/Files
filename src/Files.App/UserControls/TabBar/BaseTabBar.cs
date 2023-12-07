@@ -11,8 +11,6 @@ namespace Files.App.UserControls.TabBar
 	/// </summary>
 	public abstract class BaseTabBar : UserControl, ITabBar
 	{
-		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
 		protected ITabBarItemContent CurrentSelectedAppInstance;
 
 		public static event EventHandler<ITabBar>? OnLoaded;
@@ -117,20 +115,20 @@ namespace Files.App.UserControls.TabBar
 			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).ToList();
 		}
 
-		public async Task ReopenClosedTab()
+		public async Task ReopenClosedTabAsync()
 		{
 			if (!IsRestoringClosedTab && RecentlyClosedTabs.Count > 0)
 			{
 				IsRestoringClosedTab = true;
 				var lastTab = RecentlyClosedTabs.Pop();
 				foreach (var item in lastTab)
-					await mainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationParameter);
+					await NavigationHelpers.AddNewTabByParamAsync(item.InitialPageType, item.NavigationParameter);
 
 				IsRestoringClosedTab = false;
 			}
 		}
 
-		public async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
+		public async void MoveTabToNewWindowAsync(object sender, RoutedEventArgs e)
 		{
 			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabBarItem, this);
 		}
@@ -141,7 +139,7 @@ namespace Files.App.UserControls.TabBar
 			tabItem?.Unload();
 			
 			// Dispose and save tab arguments
-			RecentlyClosedTabs.Push(new CustomTabViewItemParameter[]
+			PushRecentTab(new CustomTabViewItemParameter[]
 			{
 				tabItem.NavigationParameter,
 			});

@@ -21,7 +21,7 @@ namespace Files.App.Services
 		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
 		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
 
-		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(1) });
+		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(3) });
 
 		private readonly Dictionary<string, string> _sideloadVersion = new()
 		{
@@ -68,12 +68,12 @@ namespace Files.App.Services
 			get => _isReleaseNotesAvailable;
 			private set => SetProperty(ref _isReleaseNotesAvailable, value);
 		}
-		public async Task DownloadUpdates()
+		public async Task DownloadUpdatesAsync()
 		{
-			await ApplyPackageUpdate();
+			await ApplyPackageUpdateAsync();
 		}
 
-		public Task DownloadMandatoryUpdates()
+		public Task DownloadMandatoryUpdatesAsync()
 		{
 			return Task.CompletedTask;
 		}
@@ -106,7 +106,7 @@ namespace Files.App.Services
 				IsReleaseNotesAvailable = true;
 		}
 
-		public async Task CheckForUpdates()
+		public async Task CheckForUpdatesAsync()
 		{
 			IsUpdateAvailable = false;
 			try
@@ -135,7 +135,7 @@ namespace Files.App.Services
 					Logger?.LogInformation("SIDELOAD: Update found.");
 					Logger?.LogInformation("SIDELOAD: Starting background download.");
 					DownloadUri = new Uri(appInstaller.MainBundle.Uri);
-					await StartBackgroundDownload();
+					await StartBackgroundDownloadAsync();
 				}
 				else
 				{
@@ -191,7 +191,7 @@ namespace Files.App.Services
 			}
 		}
 
-		private async Task StartBackgroundDownload()
+		private async Task StartBackgroundDownloadAsync()
 		{
 			try
 			{
@@ -216,7 +216,7 @@ namespace Files.App.Services
 			}
 		}
 
-		private async Task ApplyPackageUpdate()
+		private async Task ApplyPackageUpdateAsync()
 		{
 			if (!IsUpdateAvailable)
 				return;

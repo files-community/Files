@@ -10,16 +10,16 @@ namespace Files.App.Data.Models
 		//  a single enum property providing simplified customization of the
 		//  values being manipulated inside the setter blocks
 
-		public FolderSettingsViewModel FolderSettings { get; }
+		public LayoutPreferencesManager FolderSettings { get; }
 
 		public CurrentInstanceViewModel()
 		{
-			FolderSettings = new FolderSettingsViewModel();
+			FolderSettings = new LayoutPreferencesManager();
 		}
 
 		public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
 		{
-			FolderSettings = new FolderSettingsViewModel(rootLayoutMode);
+			FolderSettings = new LayoutPreferencesManager(rootLayoutMode);
 		}
 
 		private bool isPageTypeSearchResults = false;
@@ -165,27 +165,15 @@ namespace Files.App.Data.Models
 			set
 			{
 				if (SetProperty(ref gitRepositoryPath, value))
-				{
 					OnPropertyChanged(nameof(IsGitRepository));
-					OnPropertyChanged(nameof(GitBranchName));
-				}
 			}
 		}
 
+		private string gitBranchName = string.Empty;
 		public string GitBranchName
 		{
-			get
-			{
-				if (IsGitRepository)
-					return GitHelpers.GetRepositoryHeadName(gitRepositoryPath);
-
-				return string.Empty;
-			}
-		}
-
-		public void UpdateCurrentBranchName()
-		{
-			OnPropertyChanged(nameof(GitBranchName));
+			get => gitBranchName;
+			set => SetProperty(ref gitBranchName, value);
 		}
 	}
 }

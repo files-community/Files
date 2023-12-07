@@ -86,9 +86,7 @@ namespace Files.App.UserControls.TabBar
 
 		public void Unload()
 		{
-			MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
-			ContentChanged -= mainPageViewModel.Control_ContentChanged;
+			ContentChanged -= NavigationHelpers.Control_ContentChanged;
 
 			Dispose();
 		}

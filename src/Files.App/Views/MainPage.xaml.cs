@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Services.Store;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
@@ -68,7 +69,7 @@ namespace Files.App.Views
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 		}
 
-		private async Task PromptForReview()
+		private async Task PromptForReviewAsync()
 		{
 			var promptForReviewDialog = new ContentDialog
 			{
@@ -77,6 +78,9 @@ namespace Files.App.Views
 				PrimaryButtonText = "Yes".ToLocalized(),
 				SecondaryButtonText = "No".ToLocalized()
 			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				promptForReviewDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			var result = await promptForReviewDialog.TryShowAsync();
 
@@ -96,7 +100,7 @@ namespace Files.App.Views
 			}
 		}
 
-		private async Task AppRunningAsAdminPrompt()
+		private async Task AppRunningAsAdminPromptAsync()
 		{
 			var runningAsAdminPrompt = new ContentDialog
 			{
@@ -125,7 +129,7 @@ namespace Files.App.Views
 		{
 			switch (e.SettingName)
 			{
-				case nameof(IPreviewPaneSettingsService.IsEnabled):
+				case nameof(IInfoPaneSettingsService.IsEnabled):
 					LoadPaneChanged();
 					break;
 			}
@@ -150,7 +154,7 @@ namespace Files.App.Views
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
-		public void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		public async void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
@@ -162,7 +166,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
-			ViewModel.UpdateInstanceProperties(paneArgs);
+			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
@@ -181,12 +185,10 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
-			ViewModel.UpdateInstanceProperties(navArgs);
+			NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
-
-			SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.ReloadPreviewPane();
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -217,10 +219,12 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			ViewModel.OnNavigatedTo(e);
+			ViewModel.OnNavigatedToAsync(e);
 		}
 
-		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
+		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
+
+		private async Task OnPreviewKeyDownAsync(KeyRoutedEventArgs e)
 		{
 			base.OnPreviewKeyDown(e);
 
@@ -296,7 +300,7 @@ namespace Files.App.Views
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
 			{
-				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPrompt());
+				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPromptAsync());
 			}
 
 			// ToDo put this in a StartupPromptService
@@ -307,7 +311,7 @@ namespace Files.App.Views
 			if (totalLaunchCount is 15 or 30 or 60)
 			{
 				// Prompt user to review app in the Store
-				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
+				DispatcherQueue.TryEnqueue(async () => await PromptForReviewAsync());
 			}
 		}
 
@@ -323,7 +327,8 @@ namespace Files.App.Views
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			PreviewPane?.ViewModel.UpdateDateDisplay();
+			if (!App.AppModel.IsMainWindowClosed)
+				PreviewPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -331,11 +336,11 @@ namespace Files.App.Views
 			switch (PreviewPane?.Position)
 			{
 				case PreviewPanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
-					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
+					UserSettingsService.InfoPaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
 					UpdatePositioning();
 					break;
 				case PreviewPanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
-					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
+					UserSettingsService.InfoPaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
 					UpdatePositioning();
 					break;
 			}
@@ -386,7 +391,7 @@ namespace Files.App.Views
 						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 						PaneColumn.MinWidth = PreviewPane.MinWidth;
 						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
-						PaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
+						PaneColumn.Width = new GridLength(UserSettingsService.InfoPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
 						PaneRow.MinHeight = 0;
 						PaneRow.MaxHeight = double.MaxValue;
 						PaneRow.Height = new GridLength(0);
@@ -405,7 +410,7 @@ namespace Files.App.Views
 						PaneColumn.Width = new GridLength(0);
 						PaneRow.MinHeight = PreviewPane.MinHeight;
 						PaneRow.MaxHeight = PreviewPane.MaxHeight;
-						PaneRow.Height = new GridLength(UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
+						PaneRow.Height = new GridLength(UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
 						break;
 				}
 			}
@@ -416,10 +421,10 @@ namespace Files.App.Views
 			switch (PreviewPane?.Position)
 			{
 				case PreviewPanePositions.Right:
-					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
+					UserSettingsService.InfoPaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
 					break;
 				case PreviewPanePositions.Bottom:
-					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
+					UserSettingsService.InfoPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
 					break;
 			}
 
@@ -428,7 +433,7 @@ namespace Files.App.Views
 
 		public bool ShouldViewControlBeDisplayed => SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
-		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
+		public bool ShouldPreviewPaneBeActive => UserSettingsService.InfoPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
 
 		public bool ShouldPreviewPaneBeDisplayed
 		{
@@ -456,6 +461,9 @@ namespace Files.App.Views
 		private void OnPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+			if (propertyName == nameof(ShouldPreviewPaneBeActive) && ShouldPreviewPaneBeActive)
+				_ = Ioc.Default.GetRequiredService<InfoPaneViewModel>().UpdateSelectedItemPreviewAsync();
 		}
 
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

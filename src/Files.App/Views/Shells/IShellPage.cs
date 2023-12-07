@@ -13,7 +13,7 @@ namespace Files.App.Views.Shells
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }
 
-		IBaseLayout SlimContentPage { get; }
+		IBaseLayoutPage SlimContentPage { get; }
 
 		Type CurrentPageType { get; }
 
@@ -36,7 +36,7 @@ namespace Files.App.Views.Shells
 		/// <returns>A <see cref="Task"/> to wait until the pane and column become current.</returns>
 		Task WhenIsCurrent();
 
-		Task RefreshIfNoWatcherExists();
+		Task RefreshIfNoWatcherExistsAsync();
 
 		Task Refresh_Click();
 

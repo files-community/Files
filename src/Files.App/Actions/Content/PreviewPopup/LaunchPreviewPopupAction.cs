@@ -37,10 +37,10 @@ namespace Files.App.Actions
 			if (provider is null)
 				return;
 
-			await provider.TogglePreviewPopup(context.SelectedItem!.ItemPath);
+			await provider.TogglePreviewPopupAsync(context.SelectedItem!.ItemPath);
 		}
 
-		private async Task SwitchPopupPreview()
+		private async Task SwitchPopupPreviewAsync()
 		{
 			if (IsExecutable)
 			{
@@ -48,7 +48,7 @@ namespace Files.App.Actions
 				if (provider is null)
 					return;
 
-				await provider.SwitchPreview(context.SelectedItem!.ItemPath);
+				await provider.SwitchPreviewAsync(context.SelectedItem!.ItemPath);
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					OnPropertyChanged(nameof(IsExecutable));
-					var _ = SwitchPopupPreview();
+					var _ = SwitchPopupPreviewAsync();
 					break;
 			}
 		}

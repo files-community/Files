@@ -375,10 +375,9 @@ namespace Files.App.Utils.Shell
 			using Process process = CreatePowershellProcess(command, runAsAdmin);
 			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
-			process.Start();
-
 			try
 			{
+				process.Start();
 				await process.WaitForExitAsync(cts.Token);
 				return process.ExitCode == 0;
 			}
@@ -570,7 +569,15 @@ namespace Files.App.Utils.Shell
 		public static Shell32.ITaskbarList4? CreateTaskbarObject()
 		{
 			var taskbar2 = new Shell32.ITaskbarList2();
-			taskbar2.HrInit();
+			try
+			{
+				taskbar2.HrInit();
+			}
+			catch (NotImplementedException)
+			{
+				// explorer.exe is not running as a shell
+				return null;
+			}
 
 			return taskbar2 as Shell32.ITaskbarList4;
 		}
@@ -826,6 +833,36 @@ namespace Files.App.Utils.Shell
 			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
 
 			return RunPowershellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
+		}
+
+		public static async Task InstallFontsAsync(string[] fontFilePaths, bool forAllUsers)
+		{
+			string fontDirectory = forAllUsers
+				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
+				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+
+			string registryKey = forAllUsers
+				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+
+			var psCommand = new StringBuilder("-command \"");
+
+			foreach (string fontFilePath in fontFilePaths)
+			{
+				var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
+				var appendCommand = $"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}';";
+
+				if (psCommand.Length + appendCommand.Length > 32766)
+				{
+					// The command is too long to run at once, so run the command once up to this point.
+					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+					psCommand.Clear().Append("-command \"");
+				}
+
+				psCommand.Append(appendCommand);
+			}
+
+			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
 		}
 
 		private static Process CreatePowershellProcess(string command, bool runAsAdmin)

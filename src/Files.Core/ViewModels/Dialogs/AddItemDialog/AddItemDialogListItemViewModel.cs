@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Utils;
+
 namespace Files.Core.ViewModels.Dialogs.AddItemDialog
 {
 	public sealed class AddItemDialogListItemViewModel : ObservableObject
@@ -11,7 +13,7 @@ namespace Files.Core.ViewModels.Dialogs.AddItemDialog
 
 		public string? Glyph { get; set; }
 
-		public IImageModel? Icon { get; set; }
+		public IImage? Icon { get; set; }
 
 		public bool IsItemEnabled { get; set; }
 

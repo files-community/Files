@@ -17,10 +17,15 @@ namespace Files.App.Actions
 		public string Description
 			=> "OpenInNewWindowDescription".GetLocalizedResource();
 
+		public HotKey HotKey
+			=> new(Keys.Enter, KeyModifiers.MenuCtrl);
+
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
 
 		public bool IsExecutable =>
+			context.ShellPage is not null &&
+			context.ShellPage.SlimContentPage is not null &&
 			context.SelectedItems.Count <= 5 &&
 			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
@@ -35,6 +40,9 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
+			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
+				return;
+
 			List<ListedItem> items = context.ShellPage.SlimContentPage.SelectedItems;
 
 			foreach (ListedItem listedItem in items)

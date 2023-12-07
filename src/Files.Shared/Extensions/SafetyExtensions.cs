@@ -80,7 +80,7 @@ namespace Files.Shared.Extensions
 			}
 		}
 
-		public static async Task Wrap(Func<Task> inputTask, Func<Func<Task>, Exception, Task> onFailed)
+		public static async Task WrapAsync(Func<Task> inputTask, Func<Func<Task>, Exception, Task> onFailed)
 		{
 			try
 			{

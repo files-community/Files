@@ -204,6 +204,7 @@ namespace Files.App.Data.Items
 			{
 				if (!IsRemovable)
 					return null; // Removable items don't need the eject button
+
 				var itemDecorator = new Button()
 				{
 					Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
@@ -214,7 +215,11 @@ namespace Files.App.Data.Items
 						Width = 16
 					}
 				};
+
+				ToolTipService.SetToolTip(itemDecorator, "Eject".GetLocalizedResource());
+
 				itemDecorator.Click += ItemDecorator_Click;
+        
 				return itemDecorator;
 			}
 		}

@@ -5,6 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:data="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:usercontrols="using:Files.App.UserControls"
@@ -163,62 +164,48 @@
 			Orientation="Horizontal"
 			Spacing="4">
 
-			<!--  Open in VS Code Button  -->
+			<!--  Open in IDE Button  -->
 			<Button
-				x:Name="OpenInVSCodeButton"
+				x:Name="OpenInIDEButton"
 				Height="24"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
-				x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
+				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 				Background="Transparent"
-				BorderBrush="Transparent"
-				Command="{x:Bind Commands.OpenInVSCode}"
-				ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}">
+				BorderBrush="Transparent">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<usercontrols:OpacityIcon
 							Width="16"
 							Height="16"
 							Style="{StaticResource ColorIconOpen}" />
-						<TextBlock Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}" />
+						<TextBlock Text="{helpers:ResourceString Name=Open}" />
 					</StackPanel>
 				</Button.Content>
+
+				<Button.Flyout>
+					<MenuFlyout>
+						<MenuFlyoutItem
+							x:Name="OpenFolderInVSCodeButton"
+							Command="{x:Bind Commands.OpenInVSCode}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInVSCode.HotKeys, Mode=OneWay}"
+							Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}"
+							ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" />
+						<MenuFlyoutItem
+							x:Name="OpenRepoInVSCodeButton"
+							Command="{x:Bind Commands.OpenRepoInVSCode}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
+							Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}"
+							ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInVSCode.LabelWithHotKey, Mode=OneWay}" />
+					</MenuFlyout>
+				</Button.Flyout>
 			</Button>
 			<!--  Divider  -->
 			<Border
 				x:Name="VSCodeDivider"
 				Width="1"
 				Height="18"
-				x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
-				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-
-			<!--  Open in VS Button  -->
-			<Button
-				x:Name="OpenInVSButton"
-				Height="24"
-				Padding="8,0,8,0"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
-				Background="Transparent"
-				BorderBrush="Transparent"
-				Command="{x:Bind Commands.OpenInVS}"
-				ToolTipService.ToolTip="{x:Bind Commands.OpenInVS.LabelWithHotKey, Mode=OneWay}">
-				<Button.Content>
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon
-							Width="16"
-							Height="16"
-							Style="{StaticResource ColorIconOpen}" />
-						<TextBlock Text="{x:Bind Commands.OpenInVS.Label, Mode=OneWay}" />
-					</StackPanel>
-				</Button.Content>
-			</Button>
-			<!--  Divider  -->
-			<Border
-				x:Name="VSDivider"
-				Width="1"
-				Height="18"
-				x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
+				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<Button
@@ -310,7 +297,10 @@
 			</Button.Content>
 
 			<Button.Flyout>
-				<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
+				<Flyout
+					x:Name="BranchesFlyout"
+					Closing="BranchesFlyout_Closing"
+					Opening="BranchesFlyout_Opening">
 					<Grid
 						Width="300"
 						Height="340"
@@ -361,9 +351,37 @@
 							Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 							IsItemClickEnabled="True"
 							ItemClick="BranchesList_ItemClick"
-							ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
+							ItemsSource="{x:Bind DirectoryPropertiesViewModel.Branches, Mode=OneWay}"
 							SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
-							SelectionMode="Single" />
+							SelectionMode="Single">
+
+							<ListView.ItemTemplate>
+								<DataTemplate x:DataType="data:BranchItem">
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+
+										<TextBlock
+											VerticalAlignment="Center"
+											Text="{x:Bind Name}"
+											TextTrimming="CharacterEllipsis" />
+										<Button
+											Grid.Column="1"
+											AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
+											Background="Transparent"
+											BorderBrush="Transparent"
+											Click="DeleteBranch_Click"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}"
+											Visibility="{x:Bind converters:MultiBooleanConverter.NorConvertToVisibility(IsHead, IsRemote)}">
+											<FontIcon FontSize="12" Glyph="&#xE74D;" />
+										</Button>
+									</Grid>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+
+						</ListView>
 					</Grid>
 				</Flyout>
 			</Button.Flyout>

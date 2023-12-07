@@ -6,12 +6,8 @@
 [![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
 [![Crowdin](https://badges.crowdin.net/files-app/localized.svg)](https://crowdin.com/project/files-app)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
-<a style="text-decoration:none" href="https://files.community/download">
-    <img src="https://img.shields.io/badge/Download%20Installer-blue.svg?style=flat-round" alt="Download link" />
-</a>
-<a style="text-decoration:none" href="https://files.community/docs">
-    <img src="https://img.shields.io/badge/View%20Documentation-purple.svg?style=flat-round" alt="Documentation link" />
-</a>
+[![Download](https://img.shields.io/badge/Download%20Installer-blue.svg?style=flat-round)](https://files.community/download)
+[![Documentation](https://img.shields.io/badge/View%20Documentation-purple.svg?style=flat-round)](https://files.community/docs)
 
 Introducing Files, the ultimate file manager app for Windows. With its sleek and intuitive design, navigating through your files has never been easier. Files features tabs for easy switching between different folders, a column view for quick file browsing, and dual pane support for efficient file management. In addition, you can easily create and extract archives with just a few clicks, making file compression and decompression a breeze.
 

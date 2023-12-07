@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-using Files.Core.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
+using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
@@ -51,13 +50,13 @@ namespace Files.App.Views.Shells
 
 		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
 
-		public IBaseLayout SlimContentPage => ContentPage;
+		public IBaseLayoutPage SlimContentPage => ContentPage;
 
 		public IFilesystemHelpers FilesystemHelpers { get; protected set; }
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
 
-		public FolderSettingsViewModel FolderSettings => InstanceViewModel.FolderSettings;
+		public LayoutPreferencesManager FolderSettings => InstanceViewModel.FolderSettings;
 
 		public AppModel AppModel => App.AppModel;
 
@@ -67,14 +66,14 @@ namespace Files.App.Views.Shells
 
 		public abstract bool CanNavigateBackward { get; }
 
-		public bool IsColumnView => SlimContentPage is ColumnViewBrowser;
+		public bool IsColumnView => SlimContentPage is ColumnsLayoutPage;
 
 		public ItemViewModel FilesystemViewModel { get; protected set; }
 
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 
-		protected BaseLayout _ContentPage;
-		public BaseLayout ContentPage
+		protected BaseLayoutPage _ContentPage;
+		public BaseLayoutPage ContentPage
 		{
 			get => _ContentPage;
 			set
@@ -135,7 +134,7 @@ namespace Files.App.Views.Shells
 				{
 					_IsCurrentInstance = value;
 
-					if (!value && SlimContentPage is not ColumnViewBrowser)
+					if (!value && SlimContentPage is not ColumnsLayoutPage)
 						ToolbarViewModel.IsEditModeEnabled = false;
 
 					if (value)
@@ -181,7 +180,7 @@ namespace Files.App.Views.Shells
 
 			InitToolbarCommands();
 
-			DisplayFilesystemConsentDialog();
+			DisplayFilesystemConsentDialogAsync();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
@@ -244,9 +243,18 @@ namespace Files.App.Views.Shells
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
+			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
+					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+					: null;
+
 			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
 			{
 				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
+
+				InstanceViewModel.GitBranchName = headBranch is not null
+					? headBranch.Name
+					: string.Empty;
+
 				if (!_gitFetch.IsCompleted)
 				{
 					_gitFetchToken.Cancel();
@@ -266,23 +274,30 @@ namespace Files.App.Views.Shells
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
-					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+					headBranch);
 			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
 		}
 
-		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
+		protected async void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
 			if (GitHelpers.IsExecutingGitAction)
 				return;
 
-			InstanceViewModel.UpdateCurrentBranchName();
+			var head = InstanceViewModel.IsGitRepository
+				? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+				: null;
+
+			InstanceViewModel.GitBranchName = head is not null
+				? head.Name
+				: string.Empty;
+
 			ContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
-				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+				head);
 		}
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
@@ -297,7 +312,7 @@ namespace Files.App.Views.Shells
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
-					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+					await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath));
 			}
 		}
 
@@ -315,16 +330,16 @@ namespace Files.App.Views.Shells
 			var shift = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
 			var tabInstance =
-				CurrentPageType == typeof(DetailsLayoutBrowser) ||
-				CurrentPageType == typeof(GridViewBrowser) ||
-				CurrentPageType == typeof(ColumnViewBrowser) ||
-				CurrentPageType == typeof(ColumnViewBase);
+				CurrentPageType == typeof(DetailsLayoutPage) ||
+				CurrentPageType == typeof(GridLayoutPage) ||
+				CurrentPageType == typeof(ColumnsLayoutPage) ||
+				CurrentPageType == typeof(ColumnLayoutPage);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
 				// Ctrl + Space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
-					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<InfoPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
@@ -364,24 +379,24 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
+		protected async void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
-			Refresh_Click();
+			await Refresh_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
 		{
-			FilesystemViewModel?.UpdateSortDirectionStatus();
+			FilesystemViewModel?.UpdateSortDirectionStatusAsync();
 		}
 
 		protected void AppSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
 		{
-			FilesystemViewModel?.UpdateSortOptionStatus();
+			FilesystemViewModel?.UpdateSortOptionStatusAsync();
 		}
 
 		protected void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
 		{
-			FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
+			FilesystemViewModel?.UpdateSortDirectoriesAlongsideFilesAsync();
 		}
 
 		protected void CoreWindow_PointerPressed(object sender, PointerRoutedEventArgs args)
@@ -401,9 +416,9 @@ namespace Files.App.Views.Shells
 			e.SignalEvent?.Set();
 		}
 
-		protected void ShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
+		protected async void ShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
 		{
-			ToolbarViewModel.SetAddressBarSuggestions(e.AddressBarTextField, this);
+			await ToolbarViewModel.SetAddressBarSuggestionsAsync(e.AddressBarTextField, this);
 		}
 
 		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
@@ -413,12 +428,15 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
 		{
-			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+			var pathBoxItem = ((Button)e.OpenedFlyout.Target).DataContext as PathBoxItem;
+
+			if (pathBoxItem is not null)
+				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, pathBoxItem, this);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
 		{
-			await ToolbarViewModel.CheckPathInput(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
+			await ToolbarViewModel.CheckPathInputAsync(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
 		}
 
 		protected void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)
@@ -430,10 +448,10 @@ namespace Files.App.Views.Shells
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-		protected void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		protected async void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "ShowUserConsentOnInit")
-				DisplayFilesystemConsentDialog();
+				await DisplayFilesystemConsentDialogAsync();
 		}
 
 		// Ensure that the path bar gets updated for user interaction
@@ -479,7 +497,7 @@ namespace Files.App.Views.Shells
 			};
 
 			if (this is ColumnShellPage)
-				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutBrowser), args);
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
 			else
 				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
@@ -492,7 +510,7 @@ namespace Files.App.Views.Shells
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
 			var layout = navigationPath.StartsWith("tag:")
-				? typeof(DetailsLayoutBrowser)
+				? typeof(DetailsLayoutPage)
 				: FolderSettings.GetLayoutType(navigationPath);
 
 			NavigateToPath(navigationPath, layout, navArgs);
@@ -500,15 +518,15 @@ namespace Files.App.Views.Shells
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.DragOver(e);
+			return SlimContentPage?.CommandsViewModel.DragOverAsync(e);
 		}
 
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.Drop(e);
+			return SlimContentPage?.CommandsViewModel.DropAsync(e);
 		}
 
-		public async Task RefreshIfNoWatcherExists()
+		public async Task RefreshIfNoWatcherExistsAsync()
 		{
 			if (FilesystemViewModel.HasNoWatcher)
 				await Refresh_Click();
@@ -611,10 +629,10 @@ namespace Files.App.Views.Shells
 				case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
 					var columnCanNavigateBackward = false;
 					var columnCanNavigateForward = false;
-					if (SlimContentPage is ColumnViewBrowser browser)
+					if (SlimContentPage is ColumnsLayoutPage browser)
 					{
-						columnCanNavigateBackward = browser.ParentShellPageInstance.CanNavigateBackward;
-						columnCanNavigateForward = browser.ParentShellPageInstance.CanNavigateForward;
+						columnCanNavigateBackward = browser.ParentShellPageInstance?.CanNavigateBackward ?? false;
+						columnCanNavigateForward = browser.ParentShellPageInstance?.CanNavigateForward ?? false;
 					}
 					ToolbarViewModel.CanGoBack = ItemDisplay.CanGoBack || columnCanNavigateBackward;
 					ToolbarViewModel.CanGoForward = ItemDisplay.CanGoForward || columnCanNavigateForward;
@@ -677,11 +695,11 @@ namespace Files.App.Views.Shells
 		protected void InitToolbarCommands()
 		{
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
-			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
+			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
+			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
 		}
 
-		protected async Task<BaseLayout> GetContentOrNullAsync()
+		protected async Task<BaseLayoutPage> GetContentOrNullAsync()
 		{
 			// WINUI3: Make sure not to run this synchronously, do not use EnqueueAsync
 			var tcs = new TaskCompletionSource<object?>();
@@ -690,10 +708,10 @@ namespace Files.App.Views.Shells
 				tcs.SetResult(ItemDisplay.Content);
 			});
 
-			return await tcs.Task as BaseLayout;
+			return await tcs.Task as BaseLayoutPage;
 		}
 
-		protected async Task DisplayFilesystemConsentDialog()
+		protected async Task DisplayFilesystemConsentDialogAsync()
 		{
 			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{
@@ -701,7 +719,11 @@ namespace Files.App.Views.Shells
 				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-					await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+					await dialog.ShowAsync();
 				});
 			}
 		}
@@ -731,7 +753,8 @@ namespace Files.App.Views.Shells
 		private void HandleBackForwardRequest(PageStackEntry pageContent)
 		{
 			var incomingPageNavPath = pageContent.Parameter as NavigationArguments;
-			incomingPageNavPath.IsLayoutSwitch = false;
+			if (incomingPageNavPath is not null)
+				incomingPageNavPath.IsLayoutSwitch = false;
 
 			// Update layout type
 			if (pageContent.SourcePageType != typeof(HomePage))
@@ -748,6 +771,9 @@ namespace Files.App.Views.Shells
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
+			if (App.AppModel.IsMainWindowClosed)
+				return;
+
 			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
 			{
 				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;

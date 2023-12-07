@@ -25,9 +25,12 @@ namespace Files.App.Data.Commands
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 		IRichCommand TogglePreviewPane { get; }
+		IRichCommand ToggleDetailsPane { get; }
+		IRichCommand ToggleInfoPane { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CopyPath { get; }
+		IRichCommand CopyPathWithQuotes { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand PasteItem { get; }
 		IRichCommand PasteItemToSelection { get; }
@@ -83,8 +86,8 @@ namespace Files.App.Data.Commands
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
-		IRichCommand OpenInVS { get; }
 		IRichCommand OpenInVSCode { get; }
+		IRichCommand OpenRepoInVSCode { get; }
 		IRichCommand OpenProperties { get; }
 		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }

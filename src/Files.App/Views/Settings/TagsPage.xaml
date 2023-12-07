@@ -268,8 +268,9 @@
 												Content="{helpers:ResourceString Name=Delete}">
 												<Button.Flyout>
 													<Flyout>
-														<StackPanel MaxWidth="150" Spacing="12">
+														<StackPanel Spacing="12">
 															<TextBlock
+																MaxWidth="150"
 																Text="{helpers:ResourceString Name=ConfirmDeleteTag}"
 																TextAlignment="Center"
 																TextWrapping="Wrap" />

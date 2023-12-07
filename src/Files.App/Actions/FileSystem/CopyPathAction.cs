@@ -21,6 +21,9 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.C, KeyModifiers.CtrlShift);
 
+		public bool IsExecutable
+			=> context.HasSelection;
+
 		public CopyPathAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
@@ -30,8 +33,8 @@ namespace Files.App.Actions
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var path = context.ShellPage.SlimContentPage.SelectedItem is not null
-					? context.ShellPage.SlimContentPage.SelectedItem.ItemPath
+				var path = context.ShellPage.SlimContentPage.SelectedItems is not null
+					? context.ShellPage.SlimContentPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + current)
 					: context.ShellPage.FilesystemViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))

@@ -1,9 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.Concurrent;
 using System.Text.Json;
 
 namespace Files.App.Utils.Serialization.Implementation
@@ -20,7 +18,7 @@ namespace Files.App.Utils.Serialization.Implementation
 			JsonSettingsSerializer = jsonSettingsSerializer;
 		}
 
-		protected Dictionary<string, object?> GetFreshSettings()
+		protected IDictionary<string, object?> GetFreshSettings()
 		{
 			string data = SettingsSerializer.ReadFromFile();
 
@@ -29,10 +27,19 @@ namespace Files.App.Utils.Serialization.Implementation
 				data = "null";
 			}
 
-			return JsonSettingsSerializer.DeserializeFromJson<Dictionary<string, object?>?>(data) ?? new();
+			try
+			{
+				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>(data) ?? new();
+			}
+			catch (Exception)
+			{
+				// Occurs if the settings file has invalid json
+				// TODO Display prompt to notify user #710
+				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
+			}
 		}
 
-		protected bool SaveSettings(Dictionary<string, object?> data)
+		protected bool SaveSettings(IDictionary<string, object?> data)
 		{
 			var jsonData = JsonSettingsSerializer.SerializeToJson(data);
 
@@ -58,14 +65,8 @@ namespace Files.App.Utils.Serialization.Implementation
 		{
 			var data = GetFreshSettings();
 
-			if (!data.ContainsKey(key))
-			{
-				data.Add(key, newValue);
-			}
-			else
-			{
+			if (!data.TryAdd(key, newValue))
 				data[key] = newValue;
-			}
 
 			return SaveSettings(data);
 		}
@@ -88,7 +89,7 @@ namespace Files.App.Utils.Serialization.Implementation
 			try
 			{
 				// Try convert
-				var data = (Dictionary<string, object?>?)import;
+				var data = (IDictionary<string, object?>?)import;
 				if (data is null)
 				{
 					return false;

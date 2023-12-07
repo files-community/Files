@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "CopyItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconCopy");
+			=> new(opacityStyle: "ColorIconCopy");
 
 		public HotKey HotKey
 			=> new(Keys.C, KeyModifiers.Ctrl);
@@ -32,7 +32,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				return UIFilesystemHelpers.CopyItem(context.ShellPage);
+				return UIFilesystemHelpers.CopyItemAsync(context.ShellPage);
 
 			return Task.CompletedTask;
 		}

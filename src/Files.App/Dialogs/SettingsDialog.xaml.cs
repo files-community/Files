@@ -53,8 +53,9 @@ namespace Files.App.Dialogs
 				1 => SettingsContentFrame.Navigate(typeof(AppearancePage)),
 				2 => SettingsContentFrame.Navigate(typeof(FoldersPage)),
 				3 => SettingsContentFrame.Navigate(typeof(TagsPage)),
-				4 => SettingsContentFrame.Navigate(typeof(AdvancedPage)),
-				5 => SettingsContentFrame.Navigate(typeof(AboutPage)),
+				4 => SettingsContentFrame.Navigate(typeof(GitPage)),
+				5 => SettingsContentFrame.Navigate(typeof(AdvancedPage)),
+				6 => SettingsContentFrame.Navigate(typeof(AboutPage)),
 				_ => SettingsContentFrame.Navigate(typeof(AppearancePage))
 			};
 		}

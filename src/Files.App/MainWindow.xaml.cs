@@ -66,12 +66,10 @@ namespace Files.App
 			rootFrame.Navigate(typeof(SplashScreenPage));
 		}
 
-		public async Task InitializeApplication(object activatedEventArgs)
+		public async Task InitializeApplicationAsync(object activatedEventArgs)
 		{
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
-
-			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			var rootFrame = EnsureWindowIsInitialized();
 
@@ -87,7 +85,7 @@ namespace Files.App
 						if (ppm.IsEmpty())
 							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 						else
-							await InitializeFromCmdLineArgs(rootFrame, ppm);
+							await InitializeFromCmdLineArgsAsync(rootFrame, ppm);
 					}
 					else if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
@@ -97,7 +95,8 @@ namespace Files.App
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
-						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 					}
 					else
 					{
@@ -139,7 +138,7 @@ namespace Files.App
 								if (ppm.IsEmpty())
 									rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 								else
-									await InitializeFromCmdLineArgs(rootFrame, ppm);
+									await InitializeFromCmdLineArgsAsync(rootFrame, ppm);
 								break;
 							default:
 								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -156,7 +155,7 @@ namespace Files.App
 					var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
 					if (parsedCommands is not null && parsedCommands.Count > 0)
 					{
-						await InitializeFromCmdLineArgs(rootFrame, parsedCommands, activationPath);
+						await InitializeFromCmdLineArgsAsync(rootFrame, parsedCommands, activationPath);
 					}
 					else
 					{
@@ -173,10 +172,22 @@ namespace Files.App
 						rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
 						index = 1;
 					}
+					else
+						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
+					break;
+
+				case IStartupTaskActivatedEventArgs startupArgs:
+					// Just launch the app with no arguments
+					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					break;
+
+				default:
+					// Just launch the app with no arguments
+					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 					break;
 			}
 
@@ -214,9 +225,9 @@ namespace Files.App
 		private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
 			=> throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 
-		private async Task InitializeFromCmdLineArgs(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
+		private async Task InitializeFromCmdLineArgsAsync(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
 		{
-			async Task PerformNavigation(string payload, string selectItem = null)
+			async Task PerformNavigationAsync(string payload, string selectItem = null)
 			{
 				if (!string.IsNullOrEmpty(payload))
 				{
@@ -235,7 +246,10 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
-					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
+				{
+					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
+				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
@@ -247,12 +261,12 @@ namespace Files.App
 					case ParsedCommandType.OpenPath:
 					case ParsedCommandType.ExplorerShellCommand:
 						var selectItemCommand = parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.SelectItem);
-						await PerformNavigation(command.Payload, selectItemCommand?.Payload);
+						await PerformNavigationAsync(command.Payload, selectItemCommand?.Payload);
 						break;
 
 					case ParsedCommandType.SelectItem:
 						if (IO.Path.IsPathRooted(command.Payload))
-							await PerformNavigation(IO.Path.GetDirectoryName(command.Payload), IO.Path.GetFileName(command.Payload));
+							await PerformNavigationAsync(IO.Path.GetDirectoryName(command.Payload), IO.Path.GetFileName(command.Payload));
 						break;
 
 					case ParsedCommandType.TagFiles:
@@ -275,18 +289,18 @@ namespace Files.App
 					case ParsedCommandType.Unknown:
 						if (command.Payload.Equals("."))
 						{
-							await PerformNavigation(activationPath);
+							await PerformNavigationAsync(activationPath);
 						}
 						else
 						{
 							if (!string.IsNullOrEmpty(command.Payload))
 							{
 								var target = IO.Path.GetFullPath(IO.Path.Combine(activationPath, command.Payload));
-								await PerformNavigation(target);
+								await PerformNavigationAsync(target);
 							}
 							else
 							{
-								await PerformNavigation(null);
+								await PerformNavigationAsync(null);
 							}
 						}
 						break;

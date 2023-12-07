@@ -245,6 +245,8 @@ namespace Files.App.Utils.Cloud
 				string iconPath = Path.Combine(programFilesFolder, "pCloud Drive", "pCloud.exe");
 				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
 
+				App.AppModel.PCloudDrivePath = syncedFolder;
+
 				results.Add(new CloudProvider(CloudProviders.pCloud)
 				{
 					Name = $"pCloud Drive",
