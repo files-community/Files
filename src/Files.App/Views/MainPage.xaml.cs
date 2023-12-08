@@ -181,9 +181,7 @@ namespace Files.App.Views
    				return;
 			SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
-			if (navArgs is not PaneNavigationArguments pageNav)
-   				return;
-			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(pageNav.LeftPaneNavPathParam);
+			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments)?.LeftPaneNavPathParam);
 
 			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel is not null)
 				SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.SlimContentPage.DirectoryPropertiesViewModel.ShowLocals = true;

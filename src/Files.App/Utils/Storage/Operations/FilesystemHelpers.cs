@@ -658,8 +658,8 @@ namespace Files.App.Utils.Storage
 			{
 				var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
 				incomingItems.Add(new FileSystemDialogConflictItemViewModel() { ConflictResolveOption = FileNameConflictResolveOptionType.None, SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
-				string? path;
-				if ((path = incomingItems.ElementAt(item.index).SourcePath) is not null && collisions.ContainsKey(path))
+				var path = incomingItems.ElementAt(item.index).SourcePath;
+				if (path is not null && collisions.ContainsKey(path))
 				{
 					// Something strange happened, log
 					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(item.index).SourcePath}, {item.src.Name}\n" +
