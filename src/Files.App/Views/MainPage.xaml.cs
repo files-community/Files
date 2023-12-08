@@ -159,11 +159,9 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
 
-			var paneArgs = e.NavigationParameter as PaneNavigationArguments;
-			if (paneArgs is null) 
-   				return;
+			PaneNavigationArguments? paneArgs = e.NavigationParameter as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
-				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
+				paneArgs?.LeftPaneNavPathParam : paneArgs?.RightPaneNavPathParam);
 
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
@@ -177,10 +175,11 @@ namespace Files.App.Views
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			var navArgs = e.CurrentInstance.TabItemParameter?.NavigationParameter;
-			if (e.CurrentInstance is not IPaneHolder currentInstance || navArgs is null) 
-   				return;
-			SidebarAdaptiveViewModel.PaneHolder = currentInstance;
-			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
+            if (e.CurrentInstance is IPaneHolder currentInstance)
+            {
+                SidebarAdaptiveViewModel.PaneHolder = currentInstance;
+                SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
+			}
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments)?.LeftPaneNavPathParam);
 
 			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel is not null)
@@ -208,7 +207,7 @@ namespace Files.App.Views
 			if (StatusBarControl is not null)
 			{
 				StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel;
-				StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel; 
+				StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel;
 			}
 		}
 

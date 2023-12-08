@@ -25,7 +25,7 @@ namespace Files.App.Utils.Storage
 		private readonly IJumpListService jumpListService;
 		private IFilesystemOperations filesystemOperations;
 
-		private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage.ItemManipulationModel;
+		private ItemManipulationModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
 		private readonly CancellationToken cancellationToken;
 		private static char[] RestrictedCharacters
@@ -870,8 +870,8 @@ namespace Files.App.Utils.Storage
 		public void Dispose()
 		{
 			filesystemOperations?.Dispose();
-   
-	 // SUPPRESS: Cannot convert null literal to non-nullable reference type.
+
+			// SUPPRESS: Cannot convert null literal to non-nullable reference type.
 	#pragma warning disable CS8625
 			associatedInstance = null;
 			filesystemOperations = null;
