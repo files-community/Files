@@ -1,10 +1,10 @@
-name: Deploy Preview Pipeline
+name: Files Deployment
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
     runs-on: windows-latest
     environment: Deployments
     strategy:
