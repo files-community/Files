@@ -289,12 +289,18 @@ namespace Files.App.Views.Layouts
 			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
 		}
 
-		public async void NavigateUp()
+		public void NavigateUp()
 		{
 			if (ColumnHost.ActiveBlades?.Count > 1)
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
 			else
-				await Commands.NavigateUp.ExecuteAsync();
+			{
+				var workingDirectory = ((ColumnHost.ActiveBlades?.FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+				if (workingDirectory is null || string.Equals(workingDirectory, GetPathRoot(workingDirectory), StringComparison.OrdinalIgnoreCase))
+					ParentShellPageInstance?.NavigateHome();
+				else
+					ParentShellPageInstance?.NavigateToPath(GetParentDir(workingDirectory));
+			}
 		}
 
 		public void MoveFocusToPreviousBlade(int currentBladeIndex)

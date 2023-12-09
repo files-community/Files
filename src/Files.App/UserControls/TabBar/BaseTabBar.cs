@@ -139,7 +139,7 @@ namespace Files.App.UserControls.TabBar
 			tabItem?.Unload();
 			
 			// Dispose and save tab arguments
-			RecentlyClosedTabs.Push(new CustomTabViewItemParameter[]
+			PushRecentTab(new CustomTabViewItemParameter[]
 			{
 				tabItem.NavigationParameter,
 			});
