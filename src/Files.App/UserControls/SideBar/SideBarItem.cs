@@ -9,9 +9,7 @@ using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.Specialized;
-using Vanara.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 
 namespace Files.App.UserControls.Sidebar
 {
@@ -81,7 +79,6 @@ namespace Files.App.UserControls.Sidebar
 			{
 				childrenRepeater = repeater;
 				repeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
-				repeater.SizeChanged += ChildrenPresenter_SizeChanged;
 			}
 			if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
 			{
@@ -99,14 +96,6 @@ namespace Files.App.UserControls.Sidebar
 
 			if (Item is not null)
 				Decorator = Item.ItemDecorator;
-		}
-
-		private void ChildrenPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			if (e.NewSize.Height > 1)
-			{
-				//ChildrenPresenterHeight = e.NewSize.Height;
-			}
 		}
 
 		private void HookupOwners()
