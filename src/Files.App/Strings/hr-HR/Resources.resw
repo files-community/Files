@@ -985,7 +985,7 @@
     <value>Ne</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>Prikaži zaštićene Sistemske Datoteke</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Include unindexed items in search results</value>
@@ -1747,7 +1747,7 @@
     <value>Medium icons</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Small icons</value>
+    <value>Male Ikone</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Pločice</value>
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connected to GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>

@@ -3614,4 +3614,22 @@
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Не вдалося встановити шпалери</value>
   </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Під'єднано до GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Вихід</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Під'єднати GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вхід</value>
+  </data>
 </root>
