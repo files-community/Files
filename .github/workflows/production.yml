@@ -1,28 +1,45 @@
-name: Files Deployment
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT License. See the LICENSE.
+
+# Abstract:
+#  ??? PREVIEW or STORE
+
+name: Files Production
 
 on:
   workflow_dispatch:
 
+env:
+  SOLUTION_NAME: 'Files.sln'
+  PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
+  PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
+  TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  CONFIGURATION: ${{ workflow_dispatch.inputs.branch }}
+  PLATFORM: 'x64'
+  APPX_BUNDLE_PLATFORMS: 'x64|arm64'
+  WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
+  ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
+  APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
+
+run-name: Files Production
+
 jobs:
   deploy:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: Deploy to the Azure Blob Storage
+      uses: files-community/Files/.github/workflows/deployment.yml@main
+      with:
+        branch: Stable
+
+  sumbit:
     runs-on: windows-latest
     environment: Deployments
     strategy:
       fail-fast: false
-      matrix:
-        configuration: [Preview]
-        platform: [x64]
-    env:
-      SOLUTION_NAME: 'Files.sln'
-      PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
-      PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
-      TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
-      CONFIGURATION: ${{ matrix.configuration }}
-      PLATFORM: ${{ matrix.platform }}
-      APPX_BUNDLE_PLATFORMS: 'x64|arm64'
-      WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
-      ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
-      APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
 
     steps:
     - name: Checkout the repository
@@ -39,58 +56,38 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
-    # TODO: Move the command to PowerShell script instead
-    - name: Update Package.appxmanifest
+    - name: Configure the package manifest & logo sets
       shell: pwsh
       run: |
-        [xml]$xmlDoc = Get-Content "$env:PACKAGE_PROJECT_DIR\Package.appxmanifest"
-        $xmlDoc.Package.Identity.Name="FilesPreview"
-        $xmlDoc.Package.Identity.Publisher="$env:SIDELOAD_PUBLISHER_SECRET"
-        $xmlDoc.Package.Properties.DisplayName="Files - Preview"
-        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
-        $xmlDoc.Save("$env:PACKAGE_PROJECT_DIR\Package.appxmanifest")
+        . './scripts/Configure-AppxManifest.ps1' `
+          -Branch "$env:DEPLOY_BRANCH" `
+          -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
+          -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
+          -WorkingDir "$env:WORKING_DIR"
       env:
+        DEPLOY_BRANCH: ${{ workflow_dispatch.inputs.branch }}
         SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
-
-    # TODO: Move the command to PowerShell script instead
-    - name: Use the ${{ env.CONFIGURATION }} logo sets
-      shell: pwsh
-      run: |
-        Get-ChildItem "$env:WORKING_DIR\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
-        { `
-          (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
-          Set-Content $_ -NoNewline `
-        }
 
     - name: Inject the Bing Maps API token
       shell: pwsh
       run: |
-        Get-ChildItem "$env:WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process `
-        { `
-          (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$env:BING_MAPS_SECRET" }) | `
-          Set-Content $_ -NoNewline `
-        }
+        . './scripts/Configure-AppxManifest.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New: "$env:BING_MAPS_SECRET"
       env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
 
     - name: Inject the AppCenter token
       shell: pwsh
       run: |
-        Get-ChildItem "$env:WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process `
-        { `
-          (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "appcenter.secret", "$env:APP_CENTER_SECRET" }) | `
-          Set-Content $_ -NoNewline `
-        }
+        . './scripts/Configure-AppxManifest.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New: "$env:APP_CENTER_SECRET"
       env:
         APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
 
     - name: Inject the GitHub OAuth client ID
       run: |
-        Get-ChildItem "$env:WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process `
-        { `
-          (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$env:GH_OAUTH_CLIENT_ID" }) | `
-          Set-Content $_ -NoNewline `
-        }
+        . './scripts/Configure-AppxManifest.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New: "$env:GH_OAUTH_CLIENT_ID"
       env:
         GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
@@ -148,19 +145,19 @@ jobs:
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
 
-    - uses: azure/login@v1
+    - name: Login to the Azure CLI
+      uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to blob storage
+    - name: Upload to the Azure Blob Storage
       uses: azure/powershell@v1
       with:
         inlineScript: |
          az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "preview" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
         azPSVersion: "latest"
 
-    # Azure logout
-    - name: logout
+    - name: Logout from the Azure CLI
       run: |
           az logout
           

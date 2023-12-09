@@ -1,0 +1,186 @@
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT License. See the LICENSE.
+
+# Abstract:
+#   This workflow is executed manually when the owner of files-communnity decides
+#   to deploy preview or stable version.
+
+name: Files Deployment
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: 'Select a branch'
+        required: false
+        default: 'Preview'
+        type: choice
+        options:
+          - Preview
+          - Stable
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Select a branch'
+        required: false
+        default: 'Preview'
+        type: choice
+        options:
+          - Preview
+          - Stable
+
+env:
+  SOLUTION_NAME: 'Files.sln'
+  PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
+  PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
+  TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  DEPLOY_BRANCH: ${{ workflow_dispatch.inputs.branch }}
+  CONFIGURATION: ${{ workflow_dispatch.inputs.branch }}
+  PLATFORM: 'x64'
+  APPX_BUNDLE_PLATFORMS: 'x64|arm64'
+  WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
+  ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
+  APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
+
+run-name: Files Deployment
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    environment: Deployments
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.1.1
+
+    - name: Setup .NET 7
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Set the branch environment variable
+      run: |
+        if [[ "$WORKFLOW_DISPATCH_BRANCH" == "" ]]; then
+          echo "GITHUB_SHA_SHORT=$GITHUB_SHA" >> $DEPLOY_BRANCH `
+          echo "GITHUB_SHA_SHORT=$GITHUB_SHA" >> $DEPLOY_BRANCH
+      env:
+        WORKFLOW_DISPATCH_BRANCH: ${{ workflow_dispatch.inputs.branch }}
+        WORKFLOW_CALL_BRANCH: ${{ workflow_call.inputs.branch }}
+
+    - name: Configure the package manifest & logo sets
+      shell: pwsh
+      run: |
+        . './scripts/Configure-AppxManifest.ps1' `
+          -Branch "$env:DEPLOY_BRANCH" `
+          -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
+          -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
+          -WorkingDir "$env:WORKING_DIR"
+      env:
+        SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
+
+    - name: Inject the Bing Maps API token
+      shell: pwsh
+      run: |
+        . './scripts/Configure-AppxManifest.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New: "$env:BING_MAPS_SECRET"
+      env:
+        BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
+
+    - name: Inject the AppCenter token
+      shell: pwsh
+      run: |
+        . './scripts/Configure-AppxManifest.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New: "$env:APP_CENTER_SECRET"
+      env:
+        APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
+
+    - name: Inject the GitHub OAuth client ID
+      run: |
+        . './scripts/Configure-AppxManifest.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New: "$env:GH_OAUTH_CLIENT_ID"
+      env:
+        GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+
+    - name: Use Windows SDK Preview
+      shell: cmd
+      run: |
+        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
+
+    - name: Restore NuGet
+      shell: pwsh
+      run: 'nuget restore $env:SOLUTION_NAME'
+
+    - name: Restore ${{ env.SOLUTION_NAME  }}
+      shell: pwsh
+      run: |
+        msbuild $env:SOLUTION_NAME `
+        -t:Restore `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:PublishReadyToRun=true
+
+    - name: Build ${{ env.SOLUTION_NAME }}
+      shell: pwsh
+      run: |
+        msbuild "$env:PACKAGE_PROJECT_PATH" `
+        -t:Build `
+        -t:_GenerateAppxPackage `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
+        -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
+        -p:AppxBundle=Always `
+        -p:UapAppxPackageBuildMode=Sideload `
+        -p:GenerateAppInstallerFile=True `
+        -p:AppInstallerUri=https://cdn.files.community/files/preview/
+
+    - name: Remove empty files from the packages
+      shell: bash
+      run: find $ARTIFACTS_STAGING_DIR -empty -delete
+
+    - name: Sign files with Azure Code Signing
+      uses: azure/azure-code-signing-action@v0.2.21
+      with:
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        endpoint: https://wus2.codesigning.azure.net/
+        code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+        files-folder: ${{ env.APPX_PACKAGE_DIR }}
+        files-folder-filter: msixbundle
+        files-folder-recurse: true
+        files-folder-depth: 4
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+
+    - name: Login to the Azure CLI
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Upload to the Azure Blob Storage
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "preview" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+        azPSVersion: "latest"
+
+    - name: Logout from the Azure CLI
+      run: |
+          az logout
+          
+    - name: Upload the packages to GitHub Actions
+      uses: actions/upload-artifact@v3
+      with:
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
