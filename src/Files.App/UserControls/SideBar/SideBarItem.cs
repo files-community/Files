@@ -9,7 +9,9 @@ using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.Specialized;
+using Vanara.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 
 namespace Files.App.UserControls.Sidebar
 {
@@ -103,7 +105,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (e.NewSize.Height > 1)
 			{
-				ChildrenPresenterHeight = e.NewSize.Height;
+				//ChildrenPresenterHeight = e.NewSize.Height;
 			}
 		}
 
@@ -337,12 +339,13 @@ namespace Files.App.UserControls.Sidebar
 			}
 			else
 			{
-				if (childrenRepeater != null)
+				if (Item?.Children is IList enumerable && enumerable.Count > 0 && childrenRepeater is not null)
 				{
-					if (childrenRepeater.ActualHeight > ChildrenPresenterHeight)
-					{
-						ChildrenPresenterHeight = childrenRepeater.ActualHeight;
-					}
+					var firstChild = childrenRepeater.GetOrCreateElement(0);
+
+					// Collapsed elements might have a desired size of 0 so we need to have a sensible fallback
+					var childHeight = firstChild.DesiredSize.Height > 0 ? firstChild.DesiredSize.Height : 32;
+					ChildrenPresenterHeight = enumerable.Count * childHeight;
 				}
 				VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", useAnimations);
 				VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", useAnimations);
