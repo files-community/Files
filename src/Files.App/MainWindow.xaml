@@ -12,5 +12,6 @@
 		x:Name="MainContent"
 		HorizontalContentAlignment="Stretch"
 		VerticalContentAlignment="Stretch"
+		x:FieldModifier="public"
 		Canvas.ZIndex="1" />
 </winuiex:WindowEx>

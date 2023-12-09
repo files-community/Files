@@ -1,5 +1,4 @@
 ﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Extensions
 {
@@ -12,7 +11,7 @@ namespace Files.App.Extensions
 
 		public static FrameworkElement? GetContentRoot(this MainWindow mainWindow)
 		{
-			return (mainWindow.Content as ContentControl)?.Content as FrameworkElement;
+			return mainWindow.MainContent.Content as FrameworkElement;
 		}
 	}
 }
