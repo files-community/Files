@@ -252,7 +252,7 @@ namespace Files.App.Views.Layouts
 
 			textBox.Focus(FocusState.Pointer);
 			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
+			textBox.PreviewKeyDown += RenameTextBox_PreviewKeyDown;
 
 			int selectedTextLength = SelectedItem.Name.Length;
 
@@ -283,9 +283,11 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
-		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		protected async void RenameTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var textBox = (TextBox)sender;
+			var isShiftPressed = (InteropHelpers.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
+
 			switch (e.Key)
 			{
 				case VirtualKey.Escape:
@@ -300,23 +302,47 @@ namespace Files.App.Views.Layouts
 					e.Handled = true;
 					break;
 				case VirtualKey.Up:
-					textBox.SelectionStart = 0;
+					if (isShiftPressed)
+					{
+						var selLen = textBox.SelectionStart + textBox.SelectionLength;
+						textBox.SelectionStart = 0;
+						textBox.SelectionLength = selLen;
+					}
+					else
+					{
+						textBox.SelectionStart = 0;
+						textBox.SelectionLength = 0;
+					}
 					e.Handled = true;
 					break;
 				case VirtualKey.Down:
-					textBox.SelectionStart = textBox.Text.Length;
+					if (isShiftPressed)
+					{
+						textBox.SelectionLength = textBox.Text.Length - textBox.SelectionStart;
+					}
+					else
+					{
+						textBox.SelectionStart = textBox.Text.Length;
+						textBox.SelectionLength = 0;
+					}
 					e.Handled = true;
 					break;
 				case VirtualKey.Left:
+					if (textBox.SelectionStart == 0 && !isShiftPressed)
+						textBox.SelectionLength = 0;
 					e.Handled = textBox.SelectionStart == 0;
 					break;
 				case VirtualKey.Right:
+					if (textBox.SelectionStart + textBox.SelectionLength == textBox.Text.Length && !isShiftPressed)
+					{
+						textBox.SelectionStart = textBox.Text.Length;
+						textBox.SelectionLength = 0;
+					}
 					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
 					break;
 				case VirtualKey.Tab:
 					textBox.LostFocus -= RenameTextBox_LostFocus;
 
-					var isShiftPressed = (InteropHelpers.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 					NextRenameIndex = isShiftPressed ? -1 : 1;
 
 					if (textBox.Text != OldItemName)
