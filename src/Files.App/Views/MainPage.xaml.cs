@@ -159,7 +159,7 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
 
-			PaneNavigationArguments? paneArgs = e.NavigationParameter as PaneNavigationArguments;
+			var paneArgs = e.NavigationParameter as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs?.LeftPaneNavPathParam : paneArgs?.RightPaneNavPathParam);
 
