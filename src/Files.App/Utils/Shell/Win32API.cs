@@ -574,7 +574,7 @@ namespace Files.App.Utils.Shell
 				taskbar2.HrInit();
 				return taskbar2 as Shell32.ITaskbarList4;
 			}
-			catch (NotImplementedException)
+			catch (Exception)
 			{
 				// explorer.exe is not running as a shell
 				return null;
