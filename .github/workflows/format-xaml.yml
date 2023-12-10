@@ -17,8 +17,10 @@ jobs:
         id: generate
         uses: tibdex/github-app-token@v1
         with:
-          app_id: ${{ secrets.FILES_APP_ID }}
-          private_key: ${{ secrets.FILES_PRIVATE_KEY }}
+          app_id: ${{ secrets.BOT_APP_ID }}
+
+          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
+
 
       - name: Create run condition variable
         run: |
