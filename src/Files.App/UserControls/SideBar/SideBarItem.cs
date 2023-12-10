@@ -79,7 +79,6 @@ namespace Files.App.UserControls.Sidebar
 			{
 				childrenRepeater = repeater;
 				repeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
-				repeater.SizeChanged += ChildrenPresenter_SizeChanged;
 			}
 			if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
 			{
@@ -97,14 +96,6 @@ namespace Files.App.UserControls.Sidebar
 
 			if (Item is not null)
 				Decorator = Item.ItemDecorator;
-		}
-
-		private void ChildrenPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			if (e.NewSize.Height > 1)
-			{
-				ChildrenPresenterHeight = e.NewSize.Height;
-			}
 		}
 
 		private void HookupOwners()
@@ -337,12 +328,13 @@ namespace Files.App.UserControls.Sidebar
 			}
 			else
 			{
-				if (childrenRepeater != null)
+				if (Item?.Children is IList enumerable && enumerable.Count > 0 && childrenRepeater is not null)
 				{
-					if (childrenRepeater.ActualHeight > ChildrenPresenterHeight)
-					{
-						ChildrenPresenterHeight = childrenRepeater.ActualHeight;
-					}
+					var firstChild = childrenRepeater.GetOrCreateElement(0);
+
+					// Collapsed elements might have a desired size of 0 so we need to have a sensible fallback
+					var childHeight = firstChild.DesiredSize.Height > 0 ? firstChild.DesiredSize.Height : 32;
+					ChildrenPresenterHeight = enumerable.Count * childHeight;
 				}
 				VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", useAnimations);
 				VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", useAnimations);
