@@ -175,7 +175,7 @@ namespace Files.App.Utils.Archives
 				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
 		}
 
-		public static async Task DecompressArchiveHereAsync(IShellPage associatedInstance)
+		public static async Task DecompressArchiveHereAsync(IShellPage associatedInstance, bool smart = false)
 		{
 			if (associatedInstance?.SlimContentPage?.SelectedItems == null)
 				return;
@@ -210,7 +210,13 @@ namespace Files.App.Utils.Archives
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
-				await DecompressArchiveAsync(archive, currentFolder, password);
+				if (smart && currentFolder is not null && await FilesystemTasks.Wrap(() => IsMultipleItems(archive)))
+				{
+					var destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+					await DecompressArchiveAsync(archive, destinationFolder, password);
+				}
+				else
+					await DecompressArchiveAsync(archive, currentFolder, password);
 			}
 		}
 
@@ -273,6 +279,15 @@ namespace Files.App.Utils.Archives
 				return true;
 
 			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
+		}
+
+		private static async Task<bool> IsMultipleItems(BaseStorageFile archive)
+		{
+			using SevenZipExtractor? zipFile = await GetZipFile(archive);
+			if (zipFile is null)
+				return true;
+
+			return zipFile.ArchiveFileData.Count > 1;
 		}
 	}
 }

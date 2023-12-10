@@ -3644,4 +3644,10 @@
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
     <value>There was an error applying this tag</value>
   </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extract here (Smart)</value>
+  </data>
 </root>

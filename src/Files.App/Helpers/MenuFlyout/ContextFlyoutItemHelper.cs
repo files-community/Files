@@ -516,6 +516,7 @@ namespace Files.App.Helpers
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHereSmart).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder).Build(),
 					},
