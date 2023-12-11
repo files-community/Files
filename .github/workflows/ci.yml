@@ -13,13 +13,21 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'specs/**'
-      - '*.md'
+    paths:
+      - '**'
+      - '!.github/**'
+      - '.github/workflows/ci.yml'
+      - '!specs/**'
+      - '!docs/**'
+      - '!*.md'
   pull_request:
-    paths-ignore:
-      - 'specs/**'
-      - '*.md'
+    paths:
+      - '**'
+      - '!.github/**'
+      - '.github/workflows/ci.yml'
+      - '!specs/**'
+      - '!docs/**'
+      - '!*.md'
 
 run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'Files CI Validation' }}
 
