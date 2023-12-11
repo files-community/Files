@@ -25,6 +25,7 @@ env:
   PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
   TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  CONFIGURATION: 'Preview' # NOTE: This is just placeholder
   PLATFORM: 'x64'
   APPX_BUNDLE_PLATFORMS: 'x64|arm64'
   WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
@@ -57,19 +58,20 @@ jobs:
         dotnet-version: '7.0.x'
 
     - name: Set the correct value to PACKAGE_DEPLOYMENT_BRANCH
+      shel: pwsh
       run: |
-        if [[ "$WORKFLOW_DISPATCH_BRANCH" == "" ]]; then
-          echo "GITHUB_SHA_SHORT=$GITHUB_SHA" >> $DEPLOY_BRANCH `
-          echo "GITHUB_SHA_SHORT=$GITHUB_SHA" >> $DEPLOY_BRANCH
+        if [[ "$WORKFLOW_EVENT_NAME" == "workflow_call" ]]; then
+          echo "$REQUESTED_BRANCH_NAME" >> $PACKAGE_DEPLOYMENT_BRANCH `
+          echo "$REQUESTED_BRANCH_NAME" >> $CONFIGURATION
       env:
-        WORKFLOW_DISPATCH_BRANCH: ${{ workflow_dispatch.inputs.branch }}
-        WORKFLOW_CALL_BRANCH: ${{ workflow_call.inputs.branch }}
+        WORKFLOW_EVENT_NAME: ${{ github.event_name }} 
+        REQUESTED_BRANCH_NAME: ${{ workflow_call.inputs.branch }}
 
     - name: Configure the package manifest & logo sets
       shell: pwsh
       run: |
         . './scripts/Configure-AppxManifest.ps1' `
-          -Branch "$env:DEPLOY_BRANCH" `
+          -Branch "$env:PACKAGE_DEPLOYMENT_BRANCH" `
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
           -Publisher "$env:SIDELOAD_PUBLISHER" `
           -WorkingDir "$env:WORKING_DIR"
@@ -116,8 +118,6 @@ jobs:
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
-      env:
-        CONFIGURATION: ${{ env.PACKAGE_DEPLOYMENT_BRANCH }}
 
     - name: Build & package Files
       shell: pwsh
@@ -132,9 +132,7 @@ jobs:
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=Sideload `
         -p:GenerateAppInstallerFile=True `
-        -p:AppInstallerUri=https://cdn.files.community/files/preview/
-      env:
-        CONFIGURATION: ${{ env.PACKAGE_DEPLOYMENT_BRANCH }}
+        -p:AppInstallerUri=https://cdn.files.community/files/$env:PACKAGE_DEPLOYMENT_BRANCH/
 
     - name: Remove empty files from the packages
       shell: bash
