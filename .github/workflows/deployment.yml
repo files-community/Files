@@ -2,8 +2,8 @@
 # Licensed under the MIT License. See the LICENSE.
 
 # Abstract:
-#   This workflow is executed manually when the owner of files-communnity decides
-#   to deploy preview or stable version.
+#   This workflow is triggered manually when the maintainer wants
+#   to deploy Preview or Stable to the Azure Blob Storage.
 
 name: Files Deployment
 
@@ -19,28 +19,18 @@ on:
           - Preview
           - Stable
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Select a branch'
-        required: false
-        default: 'Preview'
-        type: choice
-        options:
-          - Preview
-          - Stable
 
 env:
   SOLUTION_NAME: 'Files.sln'
   PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
   TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  DEPLOY_BRANCH: ${{ workflow_dispatch.inputs.branch }}
-  CONFIGURATION: ${{ workflow_dispatch.inputs.branch }}
   PLATFORM: 'x64'
   APPX_BUNDLE_PLATFORMS: 'x64|arm64'
   WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
   ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
   APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
+  PACKAGE_DEPLOYMENT_BRANCH: 'Preview' # NOTE: This is just placeholder
 
 run-name: Files Deployment
 
@@ -66,7 +56,7 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
-    - name: Set the branch environment variable
+    - name: Set the correct value to PACKAGE_DEPLOYMENT_BRANCH
       run: |
         if [[ "$WORKFLOW_DISPATCH_BRANCH" == "" ]]; then
           echo "GITHUB_SHA_SHORT=$GITHUB_SHA" >> $DEPLOY_BRANCH `
@@ -81,31 +71,31 @@ jobs:
         . './scripts/Configure-AppxManifest.ps1' `
           -Branch "$env:DEPLOY_BRANCH" `
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
-          -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
+          -Publisher "$env:SIDELOAD_PUBLISHER" `
           -WorkingDir "$env:WORKING_DIR"
       env:
-        SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
+        SIDELOAD_PUBLISHER: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
 
     - name: Inject the Bing Maps API token
       shell: pwsh
       run: |
-        . './scripts/Configure-AppxManifest.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New: "$env:BING_MAPS_SECRET"
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New "$env:BING_MAPS_SECRET"
       env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
 
     - name: Inject the AppCenter token
       shell: pwsh
       run: |
-        . './scripts/Configure-AppxManifest.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New: "$env:APP_CENTER_SECRET"
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New "$env:APP_CENTER_SECRET"
       env:
         APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
 
     - name: Inject the GitHub OAuth client ID
       run: |
-        . './scripts/Configure-AppxManifest.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New: "$env:GH_OAUTH_CLIENT_ID"
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New "$env:GH_OAUTH_CLIENT_ID"
       env:
         GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
@@ -118,7 +108,7 @@ jobs:
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
-    - name: Restore ${{ env.SOLUTION_NAME  }}
+    - name: Restore Files.sln
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
@@ -126,8 +116,10 @@ jobs:
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
+      env:
+        CONFIGURATION: ${{ env.PACKAGE_DEPLOYMENT_BRANCH }}
 
-    - name: Build ${{ env.SOLUTION_NAME }}
+    - name: Build & package Files
       shell: pwsh
       run: |
         msbuild "$env:PACKAGE_PROJECT_PATH" `
@@ -141,6 +133,8 @@ jobs:
         -p:UapAppxPackageBuildMode=Sideload `
         -p:GenerateAppInstallerFile=True `
         -p:AppInstallerUri=https://cdn.files.community/files/preview/
+      env:
+        CONFIGURATION: ${{ env.PACKAGE_DEPLOYMENT_BRANCH }}
 
     - name: Remove empty files from the packages
       shell: bash
@@ -178,9 +172,3 @@ jobs:
     - name: Logout from the Azure CLI
       run: |
           az logout
-          
-    - name: Upload the packages to GitHub Actions
-      uses: actions/upload-artifact@v3
-      with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-        path: ${{ env.ARTIFACTS_STAGING_DIR }}

@@ -2,7 +2,10 @@
 # Licensed under the MIT License. See the LICENSE.
 
 # Abstract:
-#  ??? PREVIEW or STORE
+#  - This workflow is triggered manually when the maintainer wants publish
+#    a new submission to the Microsoft Store.
+#  - Before submitting to the MS Store, the workflow deploy the package to
+#    the Azure Blob Storage.
 
 name: Files Production
 
@@ -20,10 +23,13 @@ env:
   WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
   ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
   APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
+  PACKAGE_DEPLOYMENT_BRANCH: 'Stable'
+  PACKAGE_SUBMISSION_BRANCH: 'Store'
 
 run-name: Files Production
 
 jobs:
+  # Deploy the package with Stable configured to the Azure Blob Storage
   deploy:
     runs-on: windows-latest
     strategy:
@@ -33,8 +39,9 @@ jobs:
     - name: Deploy to the Azure Blob Storage
       uses: files-community/Files/.github/workflows/deployment.yml@main
       with:
-        branch: Stable
+        branch: ${{ env.PACKAGE_DEPLOYMENT_BRANCH }}
 
+  # Submit the package with Store configured to the Microsoft Store
   sumbit:
     runs-on: windows-latest
     environment: Deployments
@@ -60,34 +67,33 @@ jobs:
       shell: pwsh
       run: |
         . './scripts/Configure-AppxManifest.ps1' `
-          -Branch "$env:DEPLOY_BRANCH" `
+          -Branch "$env:PACKAGE_SUBMISSION_BRANCH" `
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
-          -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
+          -Publisher "$env:PRODUCTION_PUBLISHER" `
           -WorkingDir "$env:WORKING_DIR"
       env:
-        DEPLOY_BRANCH: ${{ workflow_dispatch.inputs.branch }}
-        SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
+        PRODUCTION_PUBLISHER: 'CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7'
 
     - name: Inject the Bing Maps API token
       shell: pwsh
       run: |
-        . './scripts/Configure-AppxManifest.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New: "$env:BING_MAPS_SECRET"
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New "$env:BING_MAPS_SECRET"
       env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
 
     - name: Inject the AppCenter token
       shell: pwsh
       run: |
-        . './scripts/Configure-AppxManifest.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New: "$env:APP_CENTER_SECRET"
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New "$env:APP_CENTER_SECRET"
       env:
         APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
 
     - name: Inject the GitHub OAuth client ID
       run: |
-        . './scripts/Configure-AppxManifest.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New: "$env:GH_OAUTH_CLIENT_ID"
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New "$env:GH_OAUTH_CLIENT_ID"
       env:
         GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
@@ -100,7 +106,7 @@ jobs:
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
-    - name: Restore ${{ env.SOLUTION_NAME  }}
+    - name: Restore Files.sln
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
@@ -109,7 +115,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - name: Build ${{ env.SOLUTION_NAME }}
+    - name: Build & package Files
       shell: pwsh
       run: |
         msbuild "$env:PACKAGE_PROJECT_PATH" `
@@ -128,41 +134,4 @@ jobs:
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
-    - name: Sign files with Azure Code Signing
-      uses: azure/azure-code-signing-action@v0.2.21
-      with:
-        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        endpoint: https://wus2.codesigning.azure.net/
-        code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
-        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ env.APPX_PACKAGE_DIR }}
-        files-folder-filter: msixbundle
-        files-folder-recurse: true
-        files-folder-depth: 4
-        file-digest: SHA256
-        timestamp-rfc3161: http://timestamp.acs.microsoft.com
-        timestamp-digest: SHA256
-
-    - name: Login to the Azure CLI
-      uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Upload to the Azure Blob Storage
-      uses: azure/powershell@v1
-      with:
-        inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "preview" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
-        azPSVersion: "latest"
-
-    - name: Logout from the Azure CLI
-      run: |
-          az logout
-          
-    - name: Upload the packages to GitHub Actions
-      uses: actions/upload-artifact@v3
-      with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-        path: ${{ env.ARTIFACTS_STAGING_DIR }}
+## Create, update and publish submission
