@@ -37,7 +37,9 @@ namespace Files.App.Actions
 			if (provider is null)
 				return;
 
-			await provider.TogglePreviewPopupAsync(context.SelectedItem!.ItemPath);
+			var itemPath = context.SelectedItem?.ItemPath;
+			if (itemPath is not null)
+				await provider.TogglePreviewPopupAsync(itemPath);
 		}
 
 		private async Task SwitchPopupPreviewAsync()
@@ -48,17 +50,19 @@ namespace Files.App.Actions
 				if (provider is null)
 					return;
 
-				await provider.SwitchPreviewAsync(context.SelectedItem!.ItemPath);
+				var itemPath = context.SelectedItem?.ItemPath;
+				if (itemPath is not null)
+					await provider.SwitchPreviewAsync(itemPath);
 			}
 		}
 
-		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		public async void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					OnPropertyChanged(nameof(IsExecutable));
-					var _ = SwitchPopupPreviewAsync();
+					await SwitchPopupPreviewAsync();
 					break;
 			}
 		}

@@ -211,7 +211,7 @@ namespace Files.App.Helpers
 			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
-		public static async Task UpdateInstancePropertiesAsync(object navigationArg)
+		public static async Task UpdateInstancePropertiesAsync(object? navigationArg)
 		{
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
