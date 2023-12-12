@@ -312,16 +312,9 @@ namespace Files.App.Views.Layouts
 					e.Handled = true;
 					break;
 				case VirtualKey.Left:
-					if (textBox.SelectionStart == 0 && !isShiftPressed)
-						textBox.SelectionLength = 0;
 					e.Handled = textBox.SelectionStart == 0;
 					break;
 				case VirtualKey.Right:
-					if (textBox.SelectionStart + textBox.SelectionLength == textBox.Text.Length && !isShiftPressed)
-					{
-						textBox.SelectionStart = textBox.Text.Length;
-						textBox.SelectionLength = 0;
-					}
 					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
 					break;
 				case VirtualKey.Tab:
