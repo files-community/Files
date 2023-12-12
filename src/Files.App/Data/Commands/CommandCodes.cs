@@ -92,6 +92,7 @@ namespace Files.App.Data.Commands
 		CompressIntoZip,
 		DecompressArchive,
 		DecompressArchiveHere,
+		DecompressArchiveHereSmart,
 		DecompressArchiveToChildFolder,
 
 		// Image Manipulation

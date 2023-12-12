@@ -81,6 +81,7 @@ namespace Files.App.Data.Commands
 		IRichCommand CompressIntoZip { get; }
 		IRichCommand DecompressArchive { get; }
 		IRichCommand DecompressArchiveHere { get; }
+		IRichCommand DecompressArchiveHereSmart { get; }
 		IRichCommand DecompressArchiveToChildFolder { get; }
 
 		IRichCommand RotateLeft { get; }
