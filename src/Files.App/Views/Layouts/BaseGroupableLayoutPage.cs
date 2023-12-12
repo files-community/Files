@@ -302,29 +302,13 @@ namespace Files.App.Views.Layouts
 					e.Handled = true;
 					break;
 				case VirtualKey.Up:
-					if (isShiftPressed)
-					{
-						var selLen = textBox.SelectionStart + textBox.SelectionLength;
+					if (!isShiftPressed)
 						textBox.SelectionStart = 0;
-						textBox.SelectionLength = selLen;
-					}
-					else
-					{
-						textBox.SelectionStart = 0;
-						textBox.SelectionLength = 0;
-					}
 					e.Handled = true;
 					break;
 				case VirtualKey.Down:
-					if (isShiftPressed)
-					{
-						textBox.SelectionLength = textBox.Text.Length - textBox.SelectionStart;
-					}
-					else
-					{
+					if (!isShiftPressed)
 						textBox.SelectionStart = textBox.Text.Length;
-						textBox.SelectionLength = 0;
-					}
 					e.Handled = true;
 					break;
 				case VirtualKey.Left:
