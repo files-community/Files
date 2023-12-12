@@ -252,7 +252,7 @@ namespace Files.App.Views.Layouts
 
 			textBox.Focus(FocusState.Pointer);
 			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.PreviewKeyDown += RenameTextBox_PreviewKeyDown;
+			textBox.KeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = SelectedItem.Name.Length;
 
