@@ -492,10 +492,12 @@ namespace Files.App.Views
 
 		private bool lockFlag = false;
 		//private string[] dropableArchiveTypes = { "zip", "rar", "7z", "tar" };
+
 		private async void HorizontalMultitaskingControlAddButton_Drop(object sender, DragEventArgs e)
 		{
 			if (lockFlag || !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 				return;
+
 			lockFlag = true;
 
 			var items = (await FilesystemHelpers.GetDraggedStorageItems(e.DataView))
@@ -504,11 +506,14 @@ namespace Files.App.Views
 				);
 
 			var deferral = e.GetDeferral();
-			try {
+			try
+			{
 				foreach (var item in items)
 					await NavigationHelpers.OpenPathInNewTab(item.Path);
+
 				deferral.Complete(); 
-			} catch { } 
+			}
+			catch { } 
 			lockFlag = false;
 		}
 
@@ -526,7 +531,7 @@ namespace Files.App.Views
 				);
 
 			if (!hasValidDraggedItems) 
-		   { 
+			{
 			   e.AcceptedOperation = DataPackageOperation.None; 
 			   return; 
 		   }
@@ -539,7 +544,8 @@ namespace Files.App.Views
 				e.DragUIOverride.Caption = string.Format("OpenInNewTab".GetLocalizedResource());
 				e.AcceptedOperation = DataPackageOperation.Link;
 				deferral.Complete();
-			}  catch { }
+			}
+			catch { }
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
