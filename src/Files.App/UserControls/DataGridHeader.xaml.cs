@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -11,73 +10,73 @@ namespace Files.App.UserControls
 {
 	public sealed partial class DataGridHeader : UserControl, INotifyPropertyChanged
 	{
-		public ICommand Command { get; set; }
-		public object CommandParameter { get; set; }
+		// Properties
 
-		private string header;
+		public ICommand? Command { get; set; }
+		public object? CommandParameter { get; set; }
 
-		public string Header
+		private string? _Header;
+		public string? Header
 		{
-			get { return header; }
+			get { return _Header; }
 			set
 			{
-				if (value != header)
+				if (value != _Header)
 				{
-					header = value;
+					_Header = value;
 					NotifyPropertyChanged(nameof(Header));
 				}
 			}
 		}
 
-		private bool canBeSorted = true;
-
-		public bool CanBeSorted
+		private bool _CanSort = true;
+		public bool CanSort
 		{
-			get { return canBeSorted; }
+			get { return _CanSort; }
 			set
 			{
-				if (value != canBeSorted)
+				if (value != _CanSort)
 				{
-					canBeSorted = value;
-					NotifyPropertyChanged(nameof(CanBeSorted));
+					_CanSort = value;
+					NotifyPropertyChanged(nameof(CanSort));
 				}
 			}
 		}
 
-		private SortDirection? columnSortOption;
-
-		public SortDirection? ColumnSortOption
+		private SortDirection? _SortDirection;
+		public SortDirection? SortDirection
 		{
-			get { return columnSortOption; }
+			get => _SortDirection;
 			set
 			{
-				if (value != columnSortOption)
+				if (value != _SortDirection)
 				{
-					switch (value)
+					_SortDirection = value;
+
+					var direction = _SortDirection switch
 					{
-						case SortDirection.Ascending:
-							VisualStateManager.GoToState(this, "SortAscending", true);
-							break;
+						Core.Data.Enums.SortDirection.Ascending => "SortAscending",
+						Core.Data.Enums.SortDirection.Descending => "SortDescending",
+						_ => "Unsorted",
+					};
 
-						case SortDirection.Descending:
-							VisualStateManager.GoToState(this, "SortDescending", true);
-							break;
-
-						default:
-							VisualStateManager.GoToState(this, "Unsorted", true);
-							break;
-					}
-					columnSortOption = value;
+					VisualStateManager.GoToState(this, direction, true);
 				}
 			}
 		}
+
+		// Events
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		// Constructor
 
 		public DataGridHeader()
 		{
 			InitializeComponent();
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		// Event methods
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
