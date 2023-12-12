@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Data.Items;
 using Files.App.UserControls.Sidebar;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -14,7 +13,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Data;
-using System.Runtime.CompilerServices
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
@@ -179,10 +177,10 @@ namespace Files.App.Views
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			var navArgs = e.CurrentInstance.TabItemParameter?.NavigationParameter;
-            if (e.CurrentInstance is IPaneHolder currentInstance)
-            {
-                SidebarAdaptiveViewModel.PaneHolder = currentInstance;
-                SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
+			if (e.CurrentInstance is IPaneHolder currentInstance)
+			{
+				SidebarAdaptiveViewModel.PaneHolder = currentInstance;
+				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			}
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments)?.LeftPaneNavPathParam);
 
@@ -499,9 +497,9 @@ namespace Files.App.Views
 				foreach (var item in items)
 					await NavigationHelpers.OpenPathInNewTab(item.Path);
 
-				deferral.Complete(); 
+				deferral.Complete();
 			}
-			catch { } 
+			catch { }
 			lockFlag = false;
 		}
 
@@ -513,16 +511,16 @@ namespace Files.App.Views
 				return;
 			}
 
-			bool hasValidDraggedItems = 
+			bool hasValidDraggedItems =
 				(await FilesystemHelpers.GetDraggedStorageItems(e.DataView)).Any(x => x.ItemType is FilesystemItemType.Directory
 				//|| dropableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
 				);
 
-			if (!hasValidDraggedItems) 
+			if (!hasValidDraggedItems)
 			{
-			   e.AcceptedOperation = DataPackageOperation.None; 
-			   return; 
-		   }
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
 
 			try
 			{
