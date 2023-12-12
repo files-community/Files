@@ -4,7 +4,7 @@
 param(
     [string]$Branch = "",
     [string]$PackageProjectDir = ""
-    [string]$Publisher = "Files"
+    [string]$Publisher = ""
     [string]$WorkingDir = ""
 )
 
@@ -13,30 +13,33 @@ $xmlDoc.Package.Identity.Publisher="$Publisher"
 
 if ($Branch -eq "Preview")
 {
+    # Set identities
     $xmlDoc.Package.Identity.Name="FilesPreview"
     $xmlDoc.Package.Properties.DisplayName="Files - Preview"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
 
-    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
-    { `
-        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
-        Set-Content $_ -NoNewline `
+    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process
+    {
+        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) |
+        Set-Content $_ -NoNewline
     }
 }
 elseif ($Branch -eq "Stable")
 {
+    # Set identities
     $xmlDoc.Package.Identity.Name="Files"
     $xmlDoc.Package.Properties.DisplayName="Files"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
 
-    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
-    { `
-        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
-        Set-Content $_ -NoNewline `
+    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process
+    {
+        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) |
+        Set-Content $_ -NoNewline
     }
 }
 elseif ($Branch -eq "Store")
 {
+    # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
     $xmlDoc.Package.Properties.DisplayName="Files"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
@@ -48,10 +51,10 @@ elseif ($Branch -eq "Store")
     $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
     $xmlDoc.Package.Capabilities.RemoveChild($pm)
 
-    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
-    { `
-        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
-        Set-Content $_ -NoNewline `
+    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process
+    {
+        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) |
+        Set-Content $_ -NoNewline
     }
 }
 

@@ -8,7 +8,7 @@
 name: Files Deployment
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       branch:
         description: 'Select a branch'
@@ -18,7 +18,6 @@ on:
         options:
           - Preview
           - Stable
-  workflow_dispatch:
 
 env:
   SOLUTION_NAME: 'Files.sln'
@@ -32,6 +31,7 @@ env:
   ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
   APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
   PACKAGE_DEPLOYMENT_BRANCH: 'Preview' # NOTE: This is just placeholder
+  PACKAGE_DEPLOYMENT_BRANCH_LOWERCASE: 'preview' # NOTE: This is just placeholder
 
 run-name: Files Deployment
 
@@ -45,13 +45,10 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
-
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
-
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.1.1
-
     - name: Setup .NET 7
       uses: actions/setup-dotnet@v3
       with:
@@ -60,12 +57,18 @@ jobs:
     - name: Set the correct value to PACKAGE_DEPLOYMENT_BRANCH
       shel: pwsh
       run: |
-        if [[ "$WORKFLOW_EVENT_NAME" == "workflow_call" ]]; then
-          echo "$REQUESTED_BRANCH_NAME" >> $PACKAGE_DEPLOYMENT_BRANCH `
-          echo "$REQUESTED_BRANCH_NAME" >> $CONFIGURATION
+        if [[ "$WORKFLOW_EVENT_NAME" == "workflow_call" ]]; then \
+          echo "${BRANCH_NAME_REQUESTED_BY_CALL}" >> ${PACKAGE_DEPLOYMENT_BRANCH} \
+          echo "${BRANCH_NAME_REQUESTED_BY_CALL,,}" >>${PACKAGE_DEPLOYMENT_BRANCH_LOWERCASE} \
+          echo "${BRANCH_NAME_REQUESTED_BY_CALL}" >> ${CONFIGURATION} \
+        if [[ "$WORKFLOW_EVENT_NAME" == "workflow_dispatch" ]]; then \
+          echo "${BRANCH_NAME_REQUESTED_BY_DISPATCH}" >> ${PACKAGE_DEPLOYMENT_BRANCH} \
+          echo "${BRANCH_NAME_REQUESTED_BY_DISPATCH,,}" >>${PACKAGE_DEPLOYMENT_BRANCH_LOWERCASE}
+          echo "${BRANCH_NAME_REQUESTED_BY_DISPATCH}" >> ${CONFIGURATION} \
       env:
         WORKFLOW_EVENT_NAME: ${{ github.event_name }} 
-        REQUESTED_BRANCH_NAME: ${{ workflow_call.inputs.branch }}
+        BRANCH_NAME_REQUESTED_BY_CALL: ${{ workflow_call.inputs.branch }}
+        BRANCH_NAME_REQUESTED_BY_DISPATCH: ${{ workflow_dispatch.inputs.branch }}
 
     - name: Configure the package manifest & logo sets
       shell: pwsh
@@ -132,11 +135,7 @@ jobs:
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=Sideload `
         -p:GenerateAppInstallerFile=True `
-        -p:AppInstallerUri=https://cdn.files.community/files/$env:PACKAGE_DEPLOYMENT_BRANCH/
-
-    - name: Remove empty files from the packages
-      shell: bash
-      run: find $ARTIFACTS_STAGING_DIR -empty -delete
+        -p:AppInstallerUri=https://cdn.files.community/files/$env:PACKAGE_DEPLOYMENT_BRANCH_LOWERCASE/
 
     - name: Sign files with Azure Code Signing
       uses: azure/azure-code-signing-action@v0.2.21
@@ -160,11 +159,16 @@ jobs:
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to the Azure Blob Storage
+    - name: Upload the package to the Azure Blob Storage
       uses: azure/powershell@v1
       with:
         inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "preview" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+          az storage blob upload-batch
+            --account-name "filescommunity"
+            --destination "files"
+            --destination-path "${{ env.PACKAGE_DEPLOYMENT_BRANCH_LOWERCASE }}"
+            --source ${{ env.APPX_PACKAGE_DIR }}
+            --overwrite true
         azPSVersion: "latest"
 
     - name: Logout from the Azure CLI
