@@ -133,8 +133,8 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated -= ZoomIn;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated += ZoomIn;
 		}
 
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)

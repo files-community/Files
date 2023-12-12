@@ -35,9 +35,9 @@ namespace Files.App.Views.Layouts
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
 		public int GridViewItemMinWidth =>
-			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
+			LayoutPreferencesManager.LayoutMode == FolderLayoutModes.TilesView
 				? Constants.Browser.GridViewBrowser.TilesView
-				: FolderSettings.GridViewSize;
+				: LayoutPreferencesManager.GridViewSize;
 
 		public bool IsPointerOver
 		{
@@ -100,11 +100,11 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			currentIconSize = FolderSettings.GetIconSize();
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+			currentIconSize = LayoutPreferencesManager.GetIconSize();
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated -= ZoomIn;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated += ZoomIn;
+			LayoutPreferencesManager.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			LayoutPreferencesManager.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 
 			// Set ItemTemplate
 			SetItemTemplate();
@@ -119,18 +119,18 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			LayoutPreferencesManager.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			LayoutPreferencesManager.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
 		}
 
 		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			if (LayoutPreferencesManager.LayoutMode == FolderLayoutModes.GridView || LayoutPreferencesManager.LayoutMode == FolderLayoutModes.TilesView)
 			{
 				// Set ItemTemplate
 				SetItemTemplate();
 
-				var requestedIconSize = FolderSettings.GetIconSize();
+				var requestedIconSize = LayoutPreferencesManager.GetIconSize();
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
@@ -141,18 +141,18 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemTemplate()
 		{
-			FileList.ItemTemplate = (FolderSettings.LayoutMode == FolderLayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+			FileList.ItemTemplate = (LayoutPreferencesManager.LayoutMode == FolderLayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
 			SetItemMinWidth();
 
 			// Set GridViewSize event handlers
-			if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			if (LayoutPreferencesManager.LayoutMode == FolderLayoutModes.TilesView)
 			{
-				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+				LayoutPreferencesManager.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+			else if (LayoutPreferencesManager.LayoutMode == FolderLayoutModes.GridView)
 			{
-				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-				FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+				LayoutPreferencesManager.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+				LayoutPreferencesManager.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
 			}
 		}
 
@@ -190,7 +190,7 @@ namespace Files.App.Views.Layouts
 			TextBox textBox = null;
 
 			// Handle layout differences between tiles browser and photo album
-			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+			if (LayoutPreferencesManager.LayoutMode == FolderLayoutModes.GridView)
 			{
 				Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
@@ -249,14 +249,14 @@ namespace Files.App.Views.Layouts
 			{
 				// NOTE: Navigating away, do nothing
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+			else if (LayoutPreferencesManager.LayoutMode == FolderLayoutModes.GridView)
 			{
 				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				popup!.IsOpen = false;
 				textBlock!.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			else if (LayoutPreferencesManager.LayoutMode == FolderLayoutModes.TilesView)
 			{
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
@@ -353,7 +353,7 @@ namespace Files.App.Views.Layouts
 			SetItemMinWidth();
 
 			// Get new icon size
-			var requestedIconSize = FolderSettings.GetIconSize();
+			var requestedIconSize = LayoutPreferencesManager.GetIconSize();
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
@@ -427,7 +427,7 @@ namespace Files.App.Views.Layouts
 				{
 					if (FileList.ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
 					{
-						if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+						if (LayoutPreferencesManager.LayoutMode == FolderLayoutModes.GridView)
 						{
 							Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 							var textBox = popup.Child as TextBox;

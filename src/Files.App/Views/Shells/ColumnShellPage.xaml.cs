@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.UserControls.TabBar;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -77,7 +78,7 @@ namespace Files.App.Views.Shells
 
 		protected override void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
+			FilesystemViewModel = new ItemViewModel(InstanceViewModel?.LayoutPreferencesManager);
 			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
 			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
 			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
@@ -166,9 +167,6 @@ namespace Files.App.Views.Shells
 
 		public override void Up_Click()
 		{
-			if (!ToolbarViewModel.CanNavigateToParent)
-				return;
-
 			this.FindAscendant<ColumnsLayoutPage>()?.NavigateUp();
 		}
 

@@ -56,7 +56,7 @@ namespace Files.App.Views.Shells
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
 
-		public LayoutPreferencesManager FolderSettings => InstanceViewModel.FolderSettings;
+		public FolderSettingsViewModel FolderSettings => InstanceViewModel.LayoutPreferencesManager;
 
 		public AppModel AppModel => App.AppModel;
 
@@ -171,7 +171,7 @@ namespace Files.App.Views.Shells
 		public BaseShellPage(CurrentInstanceViewModel instanceViewModel)
 		{
 			InstanceViewModel = instanceViewModel;
-			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
+			InstanceViewModel.LayoutPreferencesManager.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
 			cancellationTokenSource = new CancellationTokenSource();
 			FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
 			StorageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
@@ -198,9 +198,9 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.SearchBox.TextChanged += ShellPage_TextChanged;
 			ToolbarViewModel.SearchBox.QuerySubmitted += ShellPage_QuerySubmitted;
 
-			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
-			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
-			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
+			InstanceViewModel.LayoutPreferencesManager.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
+			InstanceViewModel.LayoutPreferencesManager.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
+			InstanceViewModel.LayoutPreferencesManager.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
 			PointerPressed += CoreWindow_PointerPressed;
 
@@ -499,7 +499,7 @@ namespace Files.App.Views.Shells
 			if (this is ColumnShellPage)
 				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
 			else
-				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
+				ItemDisplay.Navigate(InstanceViewModel.LayoutPreferencesManager.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -541,7 +541,7 @@ namespace Files.App.Views.Shells
 				{
 					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemParameter.NavigationParameter,
 					Folder = FilesystemViewModel.WorkingDirectory,
-					ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+					ThumbnailSize = InstanceViewModel.LayoutPreferencesManager.GetIconSize(),
 					SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
 				};
 
@@ -758,7 +758,7 @@ namespace Files.App.Views.Shells
 
 			// Update layout type
 			if (pageContent.SourcePageType != typeof(HomePage))
-				InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
+				InstanceViewModel.LayoutPreferencesManager.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
 
 			SelectSidebarItemFromPath(pageContent.SourcePageType);
 		}
@@ -802,10 +802,10 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
 			ToolbarViewModel.SearchBox.TextChanged -= ShellPage_TextChanged;
 
-			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
-			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
-			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
-			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
+			InstanceViewModel.LayoutPreferencesManager.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
+			InstanceViewModel.LayoutPreferencesManager.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
+			InstanceViewModel.LayoutPreferencesManager.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
+			InstanceViewModel.LayoutPreferencesManager.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
 			// Prevent weird case of this being null when many tabs are opened/closed quickly
 			if (FilesystemViewModel is not null)

@@ -57,7 +57,7 @@ namespace Files.App.Views.Shells
 		{
 			InitializeComponent();
 
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel.FolderSettings);
+			FilesystemViewModel = new ItemViewModel(InstanceViewModel.LayoutPreferencesManager);
 			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
 			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
 			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
@@ -83,9 +83,9 @@ namespace Files.App.Views.Shells
 			if (FilesystemViewModel is null)
 				return;
 
-			LayoutPreferencesManager.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+			FolderSettingsViewModel.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
 			if (e.IsAdaptiveLayoutUpdateRequired)
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.LayoutPreferencesManager, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -100,7 +100,7 @@ namespace Files.App.Views.Shells
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
 		{
-			ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+			ItemDisplayFrame.Navigate(InstanceViewModel.LayoutPreferencesManager.GetLayoutType(e.ItemPath), new NavigationArguments()
 			{
 				NavPathParam = e.ItemPath,
 				AssociatedTabInstance = this
@@ -124,7 +124,7 @@ namespace Files.App.Views.Shells
 				var isTagSearch = NavParams.NavPath.StartsWith("tag:");
 
 				ItemDisplayFrame.Navigate(
-					InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
+					InstanceViewModel.LayoutPreferencesManager.GetLayoutType(NavParams.NavPath),
 					new NavigationArguments()
 					{
 						NavPathParam = NavParams.NavPath,
@@ -267,7 +267,7 @@ namespace Files.App.Views.Shells
 
 				SelectSidebarItemFromPath();
 				ItemDisplayFrame.Navigate(
-					InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
+					InstanceViewModel.LayoutPreferencesManager.GetLayoutType(parentDirectoryOfPath),
 					new NavigationArguments()
 					{
 						NavPathParam = parentDirectoryOfPath,
@@ -301,7 +301,7 @@ namespace Files.App.Views.Shells
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
 			if (sourcePageType is null && !string.IsNullOrEmpty(navigationPath))
-				sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
+				sourcePageType = InstanceViewModel.LayoutPreferencesManager.GetLayoutType(navigationPath);
 
 			if (navArgs is not null && navArgs.AssociatedTabInstance is not null)
 			{
@@ -321,7 +321,7 @@ namespace Files.App.Views.Shells
 					string.IsNullOrEmpty(navArg) ||
 					!navArg.StartsWith("tag:"))) // Return if already selected
 				{
-					if (InstanceViewModel?.FolderSettings is LayoutPreferencesManager fsModel)
+					if (InstanceViewModel?.LayoutPreferencesManager is FolderSettingsViewModel fsModel)
 						fsModel.IsLayoutModeChanging = false;
 
 					return;

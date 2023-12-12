@@ -110,34 +110,34 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			if (FolderSettings?.ColumnsViewModel is not null)
+			if (LayoutPreferencesManager?.ColumnsViewModel is not null)
 			{
-				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
-				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
-				ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
-				ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
-				ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
-				ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
-				ColumnsViewModel.PathColumn = FolderSettings.ColumnsViewModel.PathColumn;
-				ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
-				ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
-				ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
-				ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
-				ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
-				ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
-				ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
-				ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
-				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
+				ColumnsViewModel.DateCreatedColumn = LayoutPreferencesManager.ColumnsViewModel.DateCreatedColumn;
+				ColumnsViewModel.DateDeletedColumn = LayoutPreferencesManager.ColumnsViewModel.DateDeletedColumn;
+				ColumnsViewModel.DateModifiedColumn = LayoutPreferencesManager.ColumnsViewModel.DateModifiedColumn;
+				ColumnsViewModel.IconColumn = LayoutPreferencesManager.ColumnsViewModel.IconColumn;
+				ColumnsViewModel.ItemTypeColumn = LayoutPreferencesManager.ColumnsViewModel.ItemTypeColumn;
+				ColumnsViewModel.NameColumn = LayoutPreferencesManager.ColumnsViewModel.NameColumn;
+				ColumnsViewModel.PathColumn = LayoutPreferencesManager.ColumnsViewModel.PathColumn;
+				ColumnsViewModel.OriginalPathColumn = LayoutPreferencesManager.ColumnsViewModel.OriginalPathColumn;
+				ColumnsViewModel.SizeColumn = LayoutPreferencesManager.ColumnsViewModel.SizeColumn;
+				ColumnsViewModel.StatusColumn = LayoutPreferencesManager.ColumnsViewModel.StatusColumn;
+				ColumnsViewModel.TagColumn = LayoutPreferencesManager.ColumnsViewModel.TagColumn;
+				ColumnsViewModel.GitStatusColumn = LayoutPreferencesManager.ColumnsViewModel.GitStatusColumn;
+				ColumnsViewModel.GitLastCommitDateColumn = LayoutPreferencesManager.ColumnsViewModel.GitLastCommitDateColumn;
+				ColumnsViewModel.GitLastCommitMessageColumn = LayoutPreferencesManager.ColumnsViewModel.GitLastCommitMessageColumn;
+				ColumnsViewModel.GitCommitAuthorColumn = LayoutPreferencesManager.ColumnsViewModel.GitCommitAuthorColumn;
+				ColumnsViewModel.GitLastCommitShaColumn = LayoutPreferencesManager.ColumnsViewModel.GitLastCommitShaColumn;
 			}
 
 			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
-			currentIconSize = FolderSettings.GetIconSize();
-			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
-			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
+			currentIconSize = LayoutPreferencesManager.GetIconSize();
+			LayoutPreferencesManager.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+			LayoutPreferencesManager.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated += ZoomIn;
+			LayoutPreferencesManager.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
+			LayoutPreferencesManager.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -148,14 +148,14 @@ namespace Files.App.Views.Layouts
 			{
 				if (!Enum.TryParse<SortOption>(x, out var val))
 					return;
-				if (FolderSettings.DirectorySortOption == val)
+				if (LayoutPreferencesManager.DirectorySortOption == val)
 				{
-					FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
+					LayoutPreferencesManager.DirectorySortDirection = (SortDirection)(((int)LayoutPreferencesManager.DirectorySortDirection + 1) % 2);
 				}
 				else
 				{
-					FolderSettings.DirectorySortOption = val;
-					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
+					LayoutPreferencesManager.DirectorySortOption = val;
+					LayoutPreferencesManager.DirectorySortDirection = SortDirection.Ascending;
 				}
 			});
 
@@ -173,11 +173,11 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			LayoutPreferencesManager.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			LayoutPreferencesManager.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			LayoutPreferencesManager.GroupOptionPreferenceUpdated -= ZoomIn;
+			LayoutPreferencesManager.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+			LayoutPreferencesManager.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 		}
 
@@ -200,16 +200,16 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateSortIndicator()
 		{
-			NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
-			TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
-			PathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Path ? FolderSettings.DirectorySortDirection : null;
-			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
-			DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
-			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
-			DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
-			FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
-			ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
-			SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
+			NameHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.Name ? LayoutPreferencesManager.DirectorySortDirection : null;
+			TagHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.FileTag ? LayoutPreferencesManager.DirectorySortDirection : null;
+			PathHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.Path ? LayoutPreferencesManager.DirectorySortDirection : null;
+			OriginalPathHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.OriginalFolder ? LayoutPreferencesManager.DirectorySortDirection : null;
+			DateDeletedHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.DateDeleted ? LayoutPreferencesManager.DirectorySortDirection : null;
+			DateModifiedHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.DateModified ? LayoutPreferencesManager.DirectorySortDirection : null;
+			DateCreatedHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.DateCreated ? LayoutPreferencesManager.DirectorySortDirection : null;
+			FileTypeHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.FileType ? LayoutPreferencesManager.DirectorySortDirection : null;
+			ItemSizeHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.Size ? LayoutPreferencesManager.DirectorySortDirection : null;
+			SyncStatusHeader.ColumnSortOption = LayoutPreferencesManager.DirectorySortOption == SortOption.SyncStatus ? LayoutPreferencesManager.DirectorySortDirection : null;
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
@@ -414,7 +414,7 @@ namespace Files.App.Views.Layouts
 
 		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
+			var requestedIconSize = LayoutPreferencesManager.GetIconSize(); // Get new icon size
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
@@ -550,7 +550,7 @@ namespace Files.App.Views.Layouts
 			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
 			{
 				UpdateColumnLayout();
-				FolderSettings.ColumnsViewModel = ColumnsViewModel;
+				LayoutPreferencesManager.ColumnsViewModel = ColumnsViewModel;
 			}
 		}
 
@@ -579,6 +579,7 @@ namespace Files.App.Views.Layouts
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
+			ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
@@ -589,7 +590,7 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			LayoutPreferencesManager.ColumnsViewModel = ColumnsViewModel;
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -600,7 +601,7 @@ namespace Files.App.Views.Layouts
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			LayoutPreferencesManager.ColumnsViewModel = ColumnsViewModel;
 			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
@@ -619,7 +620,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
-			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
+			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnViewModel));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
 		}
@@ -685,7 +686,7 @@ namespace Files.App.Views.Layouts
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
 
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			LayoutPreferencesManager.ColumnsViewModel = ColumnsViewModel;
 		}
 
 		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
@@ -785,7 +786,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
-			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
+			base.LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)

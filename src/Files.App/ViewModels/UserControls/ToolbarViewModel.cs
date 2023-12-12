@@ -174,13 +174,13 @@ namespace Files.App.ViewModels.UserControls
 			get => instanceViewModel;
 			set
 			{
-				if (instanceViewModel?.FolderSettings is not null)
-					instanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
+				if (instanceViewModel?.LayoutPreferencesManager is not null)
+					instanceViewModel.LayoutPreferencesManager.PropertyChanged -= FolderSettings_PropertyChanged;
 
-				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.FolderSettings is not null)
+				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.LayoutPreferencesManager is not null)
 				{
-					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
-					instanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
+					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(FolderSettingsViewModel.LayoutMode)));
+					instanceViewModel.LayoutPreferencesManager.PropertyChanged += FolderSettings_PropertyChanged;
 				}
 			}
 		}
@@ -906,16 +906,16 @@ namespace Files.App.ViewModels.UserControls
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(LayoutPreferencesManager.GridViewSize):
-				case nameof(LayoutPreferencesManager.LayoutMode):
-					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
+				case nameof(FolderSettingsViewModel.GridViewSize):
+				case nameof(FolderSettingsViewModel.LayoutMode):
+					LayoutOpacityIcon = instanceViewModel.LayoutPreferencesManager.LayoutMode switch
 					{
 						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
 						FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
 						FolderLayoutModes.GridView =>
-							instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
+							instanceViewModel.LayoutPreferencesManager.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
 								? Commands.LayoutGridSmall.OpacityStyle!
-								: instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
+								: instanceViewModel.LayoutPreferencesManager.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
 									? Commands.LayoutGridMedium.OpacityStyle!
 									: Commands.LayoutGridLarge.OpacityStyle!,
 						_ => Commands.LayoutDetails.OpacityStyle!
@@ -974,11 +974,11 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
-		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
-		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
-		public bool IsGridSmallLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall;
-		public bool IsGridMediumLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium;
-		public bool IsGridLargeLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
+		public bool IsTilesLayout => instanceViewModel.LayoutPreferencesManager.LayoutMode is FolderLayoutModes.TilesView;
+		public bool IsColumnLayout => instanceViewModel.LayoutPreferencesManager.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridSmallLayout => instanceViewModel.LayoutPreferencesManager.LayoutMode is FolderLayoutModes.GridView && instanceViewModel.LayoutPreferencesManager.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+		public bool IsGridMediumLayout => instanceViewModel.LayoutPreferencesManager.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && instanceViewModel.LayoutPreferencesManager.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+		public bool IsGridLargeLayout => instanceViewModel.LayoutPreferencesManager.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
 		public bool IsDetailsLayout => !IsTilesLayout && !IsColumnLayout && !IsGridSmallLayout && !IsGridMediumLayout && !IsGridLargeLayout;
 
 		public string ExtractToText

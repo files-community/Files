@@ -22,8 +22,8 @@ namespace Files.App.Views
 
 		private IShellPage AppInstance { get; set; } = null!;
 
-		public LayoutPreferencesManager FolderSettings
-			=> AppInstance?.InstanceViewModel.FolderSettings!;
+		public FolderSettingsViewModel FolderSettings
+			=> AppInstance?.InstanceViewModel.LayoutPreferencesManager!;
 
 		private QuickAccessWidget? quickAccessWidget;
 		private DrivesWidget? drivesWidget;

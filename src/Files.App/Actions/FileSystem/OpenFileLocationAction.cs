@@ -46,7 +46,7 @@ namespace Files.App.Actions
 
 			if (destFolder)
 			{
-				context.ShellPage?.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+				context.ShellPage?.NavigateWithArguments(context.ShellPage.InstanceViewModel.LayoutPreferencesManager.GetLayoutType(folderPath), new NavigationArguments()
 				{
 					NavPathParam = folderPath,
 					SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },

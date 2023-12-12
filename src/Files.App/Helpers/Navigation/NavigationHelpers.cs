@@ -211,7 +211,7 @@ namespace Files.App.Helpers
 			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
-		public static async Task UpdateInstancePropertiesAsync(object? navigationArg)
+		public static async Task UpdateInstancePropertiesAsync(object navigationArg)
 		{
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
@@ -577,11 +577,11 @@ namespace Files.App.Helpers
 								//We can have many sort entries
 								SortEntry sortEntry = new()
 								{
-									AscendingOrder = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortDirection == SortDirection.Ascending
+									AscendingOrder = associatedInstance.InstanceViewModel.LayoutPreferencesManager.DirectorySortDirection == SortDirection.Ascending
 								};
 
 								//Basically we tell to the launched app to follow how we sorted the files in the directory.
-								var sortOption = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortOption;
+								var sortOption = associatedInstance.InstanceViewModel.LayoutPreferencesManager.DirectorySortOption;
 
 								switch (sortOption)
 								{
@@ -666,7 +666,7 @@ namespace Files.App.Helpers
 			else
 			{
 				associatedInstance.ToolbarViewModel.PathControlDisplayText = text;
-				associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+				associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.LayoutPreferencesManager.GetLayoutType(path), new NavigationArguments()
 				{
 					NavPathParam = path,
 					AssociatedTabInstance = associatedInstance,

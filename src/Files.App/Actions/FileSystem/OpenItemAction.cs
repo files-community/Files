@@ -129,7 +129,7 @@ namespace Files.App.Actions
 			if (folderPath is null || item is null)
 				return;
 
-			context.ShellPage.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+			context.ShellPage.NavigateWithArguments(context.ShellPage.InstanceViewModel.LayoutPreferencesManager.GetLayoutType(folderPath), new NavigationArguments()
 			{
 				NavPathParam = folderPath,
 				SelectItems = new[] { item.ItemNameRaw },
