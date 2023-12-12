@@ -283,7 +283,7 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
-		protected async void RenameTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var textBox = (TextBox)sender;
 			var isShiftPressed = (InteropHelpers.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
