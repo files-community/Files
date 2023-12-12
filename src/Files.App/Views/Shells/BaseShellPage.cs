@@ -56,7 +56,7 @@ namespace Files.App.Views.Shells
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
 
-		public FolderSettingsViewModel FolderSettings => InstanceViewModel.LayoutPreferencesManager;
+		public LayoutPreferencesManager LayoutPreferencesManager => InstanceViewModel.LayoutPreferencesManager;
 
 		public AppModel AppModel => App.AppModel;
 
@@ -511,7 +511,7 @@ namespace Files.App.Views.Shells
 		{
 			var layout = navigationPath.StartsWith("tag:")
 				? typeof(DetailsLayoutPage)
-				: FolderSettings.GetLayoutType(navigationPath);
+				: LayoutPreferencesManager.GetLayoutType(navigationPath);
 
 			NavigateToPath(navigationPath, layout, navArgs);
 		}
@@ -580,7 +580,7 @@ namespace Files.App.Views.Shells
 				if (entry.Parameter is NavigationArguments args &&
 					args.NavPathParam is not null and not "Home")
 				{
-					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
+					var correctPageType = LayoutPreferencesManager.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
 					{
 						int index = ItemDisplay.BackStack.IndexOf(entry);
@@ -596,7 +596,7 @@ namespace Files.App.Views.Shells
 				if (entry.Parameter is NavigationArguments args &&
 					args.NavPathParam is not null and not "Home")
 				{
-					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
+					var correctPageType = LayoutPreferencesManager.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
 					{
 						int index = ItemDisplay.ForwardStack.IndexOf(entry);

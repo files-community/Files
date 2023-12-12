@@ -221,12 +221,12 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public ColumnsViewModel ColumnsViewModel
+		public IList<DetailsLayoutColumnItem> ColumnItems
 		{
-			get => LayoutPreferencesItem.ColumnsViewModel;
+			get => LayoutPreferencesItem.ColumnItems;
 			set
 			{
-				SetProperty(ref LayoutPreferencesItem.ColumnsViewModel, value, nameof(ColumnsViewModel));
+				SetProperty(ref LayoutPreferencesItem.ColumnItems, value, nameof(ColumnItems));
 				LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 			}
 		}
@@ -256,7 +256,7 @@ namespace Files.App.Data.Models
 					OnPropertyChanged(nameof(DirectoryGroupDirection));
 					OnPropertyChanged(nameof(DirectoryGroupByDateUnit));
 					OnPropertyChanged(nameof(SortDirectoriesAlongsideFiles));
-					OnPropertyChanged(nameof(ColumnsViewModel));
+					OnPropertyChanged(nameof(ColumnItems));
 				}
 			}
 		}
@@ -273,17 +273,17 @@ namespace Files.App.Data.Models
 		public event EventHandler<LayoutModeEventArgs>? LayoutModeChangeRequested;
 		public event EventHandler? GridViewSizeChangeRequested;
 
-		// Constructors
+		// Constructor
 
-		public LayoutPreferencesManager()
+		public LayoutPreferencesManager(FolderLayoutModes? modeOverride = null)
 		{
 			LayoutPreferencesItem = new LayoutPreferencesItem();
-		}
 
-		public LayoutPreferencesManager(FolderLayoutModes modeOverride) : this()
-		{
-			_rootLayoutMode = modeOverride;
-			LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+			if (modeOverride is not null)
+			{
+				_rootLayoutMode = modeOverride;
+				LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+			}
 		}
 
 		// Methods
@@ -443,50 +443,14 @@ namespace Files.App.Data.Models
 			return _databaseInstance.Value;
 		}
 
-		public static void SetDefaultLayoutPreferences(ColumnsViewModel columns)
+		public static void SetDefaultLayoutPreferences(IList<DetailsLayoutColumnItem> columns)
 		{
-			UserSettingsService.FoldersSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowGitStatusColumn = !columns.GitStatusColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn = !columns.GitLastCommitDateColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn = !columns.GitLastCommitMessageColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !columns.GitCommitAuthorColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !columns.GitLastCommitShaColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !columns.DateDeletedColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowPathColumn = !columns.PathColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !columns.OriginalPathColumn.UserCollapsed;
-			UserSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !columns.StatusColumn.UserCollapsed;
-
-			UserSettingsService.FoldersSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.GitStatusColumnWidth = columns.GitStatusColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth = columns.GitLastCommitDateColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth = columns.GitLastCommitMessageColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = columns.GitCommitAuthorColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = columns.GitLastCommitShaColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.PathColumnWidth = columns.PathColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
-			UserSettingsService.FoldersSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
+			UserSettingsService.LayoutSettingsService.ColumnItems = columns.Select(DetailsLayoutColumnItem.ToModel).ToList();
 		}
 
 		public static void SetLayoutPreferencesForPath(string path, LayoutPreferencesItem preferencesItem)
 		{
-			if (!UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
-			{
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
-				var trimmedFolderPath = path.TrimPath();
-				if (trimmedFolderPath is not null)
-					SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
-			}
-			else
+			if (UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
 				UserSettingsService.FoldersSettingsService.DefaultLayoutMode = preferencesItem.LayoutMode;
 				UserSettingsService.LayoutSettingsService.DefaultGridViewSize = preferencesItem.GridViewSize;
@@ -513,78 +477,16 @@ namespace Files.App.Data.Models
 				UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
 				UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
 
-				UserSettingsService.FoldersSettingsService.NameColumnWidth = preferencesItem.ColumnsViewModel.NameColumn.UserLengthPixels;
-
-				if (!preferencesItem.ColumnsViewModel.DateModifiedColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowDateColumn = !preferencesItem.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.DateModifiedColumnWidth = preferencesItem.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.DateCreatedColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !preferencesItem.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.DateCreatedColumnWidth = preferencesItem.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.ItemTypeColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowTypeColumn = !preferencesItem.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.TypeColumnWidth = preferencesItem.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.SizeColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowSizeColumn = !preferencesItem.ColumnsViewModel.SizeColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.SizeColumnWidth = preferencesItem.ColumnsViewModel.SizeColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.TagColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowFileTagColumn = !preferencesItem.ColumnsViewModel.TagColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.TagColumnWidth = preferencesItem.ColumnsViewModel.TagColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitStatusColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowGitStatusColumn = !preferencesItem.ColumnsViewModel.GitStatusColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.GitStatusColumnWidth = preferencesItem.ColumnsViewModel.GitStatusColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitLastCommitDateColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn = !preferencesItem.ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth = preferencesItem.ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitLastCommitMessageColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn = !preferencesItem.ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth = preferencesItem.ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitCommitAuthorColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !preferencesItem.ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = preferencesItem.ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.GitLastCommitShaColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !preferencesItem.ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = preferencesItem.ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.DateDeletedColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !preferencesItem.ColumnsViewModel.DateDeletedColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.DateDeletedColumnWidth = preferencesItem.ColumnsViewModel.DateDeletedColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.PathColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowPathColumn = !preferencesItem.ColumnsViewModel.PathColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.PathColumnWidth = preferencesItem.ColumnsViewModel.PathColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.OriginalPathColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !preferencesItem.ColumnsViewModel.OriginalPathColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.OriginalPathColumnWidth = preferencesItem.ColumnsViewModel.OriginalPathColumn.UserLengthPixels;
-				}
-				if (!preferencesItem.ColumnsViewModel.StatusColumn.IsHidden)
-				{
-					UserSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !preferencesItem.ColumnsViewModel.StatusColumn.UserCollapsed;
-					UserSettingsService.FoldersSettingsService.SyncStatusColumnWidth = preferencesItem.ColumnsViewModel.StatusColumn.UserLengthPixels;
-				}
+				// Set static layout columns preferences to the json app settings
+				UserSettingsService.LayoutSettingsService.ColumnItems =
+					preferencesItem.ColumnItems.Select(DetailsLayoutColumnItem.ToModel).ToList();
+			}
+			else
+			{
+				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
+				var trimmedFolderPath = path.TrimPath();
+				if (trimmedFolderPath is not null)
+					SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
 			}
 		}
 

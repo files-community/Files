@@ -12,12 +12,7 @@ namespace Files.App.Data.Models
 
 		public LayoutPreferencesManager LayoutPreferencesManager { get; }
 
-		public CurrentInstanceViewModel()
-		{
-			LayoutPreferencesManager = new LayoutPreferencesManager();
-		}
-
-		public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
+		public CurrentInstanceViewModel(FolderLayoutModes? rootLayoutMode = null)
 		{
 			LayoutPreferencesManager = new LayoutPreferencesManager(rootLayoutMode);
 		}

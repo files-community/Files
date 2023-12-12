@@ -496,16 +496,16 @@ namespace Files.App.Views.Layouts
 				case FolderLayoutModes.ColumnView:
 					break;
 				case FolderLayoutModes.DetailsView:
-					parent.FolderSettings.ToggleLayoutModeDetailsView(true);
+					parent.LayoutPreferencesManager.ToggleLayoutModeDetailsView(true);
 					break;
 				case FolderLayoutModes.TilesView:
-					parent.FolderSettings.ToggleLayoutModeTiles(true);
+					parent.LayoutPreferencesManager.ToggleLayoutModeTiles(true);
 					break;
 				case FolderLayoutModes.GridView:
-					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+					parent.LayoutPreferencesManager.ToggleLayoutModeGridView(e.GridViewSize);
 					break;
 				case FolderLayoutModes.Adaptive:
-					parent.FolderSettings.ToggleLayoutModeAdaptive();
+					parent.LayoutPreferencesManager.ToggleLayoutModeAdaptive();
 					break;
 			}
 		}

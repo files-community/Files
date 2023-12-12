@@ -15,6 +15,12 @@ namespace Files.App.Helpers
 
 		private readonly LiteDatabase _database;
 
+		private readonly string _nodeName = "layoutprefs";
+
+		private readonly int _correctLiteDBVersion = 7;
+
+		private readonly string _liteDBFileIdentifier = "** This is a LiteDB file **";
+
 		// Constructor
 
 		public LayoutPreferencesDatabaseManager(string connection, bool shared = false)
@@ -38,13 +44,13 @@ namespace Files.App.Helpers
 
 		public LayoutPreferencesItem? GetPreferences(string? filePath = null, ulong? frn = null)
 		{
-			return FindPreferences(filePath, frn)?.LayoutPreferencesManager;
+			return FindPreferences(filePath, frn)?.LayoutPreferencesItem;
 		}
 
 		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
+			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>(_nodeName);
 
 			var tmp = FindPreferences(filePath, frn);
 
@@ -57,7 +63,7 @@ namespace Files.App.Helpers
 					{
 						FilePath = filePath,
 						Frn = frn,
-						LayoutPreferencesManager = preferencesItem
+						LayoutPreferencesItem = preferencesItem
 					};
 
 					col.Insert(newPref);
@@ -70,7 +76,7 @@ namespace Files.App.Helpers
 				if (preferencesItem is not null)
 				{
 					// Update file tag
-					tmp.LayoutPreferencesManager = preferencesItem;
+					tmp.LayoutPreferencesItem = preferencesItem;
 					col.Update(tmp);
 				}
 				else
@@ -83,7 +89,7 @@ namespace Files.App.Helpers
 
 		public void ResetAll(Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
+			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>(_nodeName);
 
 			if (predicate is null)
 			{
@@ -97,7 +103,7 @@ namespace Files.App.Helpers
 
 		public void ApplyToAll(Action<LayoutPreferencesDatabaseItem> updateAction, Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
+			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>(_nodeName);
 
 			var allDocs = predicate is null ? col.FindAll() : col.Find(x => predicate(x));
 
@@ -109,7 +115,7 @@ namespace Files.App.Helpers
 		{
 			var dataValues = JsonSerializer.DeserializeArray(json);
 
-			var col = _database.GetCollection("layoutprefs");
+			var col = _database.GetCollection(_nodeName);
 
 			col.Delete(Query.All());
 			col.InsertBulk(dataValues.Select(x => x.AsDocument));
@@ -117,13 +123,13 @@ namespace Files.App.Helpers
 
 		public string Export()
 		{
-			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection("layoutprefs").FindAll()));
+			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection(_nodeName).FindAll()));
 		}
 
 		private LayoutPreferencesDatabaseItem? FindPreferences(string? filePath = null, ulong? frn = null)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
+			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>(_nodeName);
 
 			if (filePath is not null)
 			{
@@ -162,26 +168,26 @@ namespace Files.App.Helpers
 
 		private void EnsureDatabaseVersion(string filename)
 		{
-			// NOTE:
-			//  For more information, visit
-			//  https://github.com/mbdavid/LiteDB/blob/master/LiteDB/Engine/Engine/Upgrade.cs
-
 			var buffer = new byte[8192 * 2];
 
-			using var stream = new SystemIO.FileStream(filename, SystemIO.FileMode.Open, SystemIO.FileAccess.Read, SystemIO.FileShare.ReadWrite);
+			using var stream =
+				new SystemIO.FileStream(
+					filename,
+					SystemIO.FileMode.Open,
+					SystemIO.FileAccess.Read,
+					SystemIO.FileShare.ReadWrite);
 
-			// Read first 16k
+			// Read the first 16k bites
 			stream.Read(buffer, 0, buffer.Length);
 
-			// Check if v7 (plain or encrypted)
-			if (Encoding.UTF8.GetString(buffer, 25, "** This is a LiteDB file **".Length) == "** This is a LiteDB file **" &&
-				buffer[52] == 7)
+			// Check if the database file is v7
+			if (Encoding.UTF8.GetString(buffer, 25, _liteDBFileIdentifier.Length) == _liteDBFileIdentifier &&
+				buffer[52] == _correctLiteDBVersion)
 			{
-				// version 4.1.4
 				return;
 			}
 
-			// Re-create database with correct version
+			// Delete the database to prompt creating a new one with the correct version
 			SystemIO.File.Delete(filename);
 		}
 

@@ -8,113 +8,87 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for a column shown in <see cref="DetailsLayoutPage"/>.
 	/// </summary>
-	public class DetailsLayoutColumnItem : ObservableObject
+	public class DetailsLayoutColumnItem : ObservableObject, IDetailsLayoutColumnItem
 	{
-		private const int GRID_SPLITTER_WIDTH = 12;
-
-		public double UserLengthPixels
+		// Store to the database since user can change
+		private double _Width;
+		public double Width
 		{
-			get => UserLength.Value;
-			set => UserLength = new GridLength(value, GridUnitType.Pixel);
+			get => _Width;
+			set => SetProperty(ref _Width, value);
 		}
 
-		private double _NormalMaxLength = 800;
-		public double NormalMaxLength
+		// Store to the database since user can change
+		private bool _IsVisible;
+		public bool IsVisible
 		{
-			get => _NormalMaxLength;
-			set => SetProperty(ref _NormalMaxLength, value);
+			get => _IsVisible && IsAvailable;
+			set => SetProperty(ref _IsVisible, value);
 		}
 
-		private bool _UserCollapsed;
-		public bool UserCollapsed
-		{
-			get => _UserCollapsed;
-			set
-			{
-				if (SetProperty(ref _UserCollapsed, value))
-					UpdateVisibility();
-			}
-		}
+		[LiteDB.BsonIgnore]
+		public string Name { get; set; } = string.Empty;
+
+		[LiteDB.BsonIgnore]
+		public DetailsLayoutColumnKind Kind { get; set; }
+
+		[LiteDB.BsonIgnore]
+		public bool IsSortDisabled { get; set; }
 
 		[LiteDB.BsonIgnore]
 		public bool IsResizable { get; set; } = true;
 
+		private SortDirection? _SortDirection;
 		[LiteDB.BsonIgnore]
-		public double MinLength
-			=> UserCollapsed || IsHidden ? 0 : NormalMinLength;
-
-		[LiteDB.BsonIgnore]
-		public Visibility Visibility
-			=> UserCollapsed || IsHidden ? Visibility.Collapsed : Visibility.Visible;
-
-		[LiteDB.BsonIgnore]
-		public GridLength Length
-			=> UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
-
-		[LiteDB.BsonIgnore]
-		public GridLength LengthIncludingGridSplitter =>
-			UserCollapsed || IsHidden
-				? new(0)
-				: new(UserLength.Value + (IsResizable ? GRID_SPLITTER_WIDTH : 0));
-
-		[LiteDB.BsonIgnore]
-		public double MaxLength
-			=> UserCollapsed || IsHidden ? 0 : NormalMaxLength;
-
-		private bool _IsHidden;
-		[LiteDB.BsonIgnore]
-		public bool IsHidden
+		public SortDirection? SortDirection
 		{
-			get => _IsHidden;
-			set => SetProperty(ref _IsHidden, value);
+			get => _SortDirection;
+			set => SetProperty(ref _SortDirection, value);
 		}
 
-		private double _NormalMinLength = 50;
+		private bool _IsAvailable = true;
 		[LiteDB.BsonIgnore]
-		public double NormalMinLength
+		public bool IsAvailable
 		{
-			get => _NormalMinLength;
-			set
-			{
-				if (SetProperty(ref _NormalMinLength, value))
-					OnPropertyChanged(nameof(MinLength));
-			}
+			get => _IsAvailable;
+			set => SetProperty(ref _IsAvailable, value);
 		}
 
-		private GridLength _UserLength = new(200, GridUnitType.Pixel);
+		private double _MinWidth = 50;
 		[LiteDB.BsonIgnore]
-		public GridLength UserLength
+		public double MinWidth
 		{
-			get => _UserLength;
-			set
-			{
-				if (SetProperty(ref _UserLength, value))
-				{
-					OnPropertyChanged(nameof(Length));
-					OnPropertyChanged(nameof(LengthIncludingGridSplitter));
-				}
-			}
+			get => _MinWidth;
+			set => SetProperty(ref _MinWidth, value);
+		}
+
+		private double _MaxWidth = 800;
+		[LiteDB.BsonIgnore]
+		public double MaxWidth
+		{
+			get => _MaxWidth;
+			set => SetProperty(ref _MaxWidth, value);
+		}
+
+		public DetailsLayoutColumnItem()
+		{
+		}
+
+		public DetailsLayoutColumnItem(DetailsLayoutColumnKind kind, double width, bool isVisible)
+		{
+			Kind = kind;
+			Width = width;
+			IsVisible = isVisible;
 		}
 
 		public void Hide()
 		{
-			IsHidden = true;
-			UpdateVisibility();
+			IsAvailable = false;
 		}
 
 		public void Show()
 		{
-			IsHidden = false;
-			UpdateVisibility();
-		}
-
-		private void UpdateVisibility()
-		{
-			OnPropertyChanged(nameof(Length));
-			OnPropertyChanged(nameof(LengthIncludingGridSplitter));
-			OnPropertyChanged(nameof(MaxLength));
-			OnPropertyChanged(nameof(Visibility));
-			OnPropertyChanged(nameof(MinLength));
+			IsAvailable = true;
 		}
 
 		public override bool Equals(object? obj)
@@ -128,10 +102,8 @@ namespace Files.App.Data.Items
 			if (obj is DetailsLayoutColumnItem model)
 			{
 				return
-					model.UserCollapsed == UserCollapsed &&
-					model.Length.Value == Length.Value &&
-					model.LengthIncludingGridSplitter.Value == LengthIncludingGridSplitter.Value &&
-					model.UserLength.Value == UserLength.Value;
+					model.IsVisible == IsVisible &&
+					model.Width == Width;
 			}
 
 			return base.Equals(obj);
@@ -139,12 +111,27 @@ namespace Files.App.Data.Items
 
 		public override int GetHashCode()
 		{
-			var hashCode = UserCollapsed.GetHashCode();
-			hashCode = (hashCode * 397) ^ Length.Value.GetHashCode();
-			hashCode = (hashCode * 397) ^ LengthIncludingGridSplitter.Value.GetHashCode();
-			hashCode = (hashCode * 397) ^ UserLength.Value.GetHashCode();
+			return HashCode.Combine(IsVisible, Width);
+		}
 
-			return hashCode;
+		public static DetailsLayoutColumnItemModel ToModel(DetailsLayoutColumnItem item)
+		{
+			return new()
+			{
+				Kind = item.Kind,
+				Width = item.Width,
+				IsVisible = item.IsVisible,
+			};
+		}
+
+		public static DetailsLayoutColumnItem ToItem(DetailsLayoutColumnItemModel model)
+		{
+			return new()
+			{
+				Kind = model.Kind,
+				Width = model.Width,
+				IsVisible = model.IsVisible,
+			};
 		}
 	}
 }
