@@ -1,12 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.LayoutModes;
+using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
-	public interface IBaseLayout : IDisposable
+	public interface IBaseLayoutPage : IDisposable
 	{
 		bool IsRenamingItem { get; }
 
@@ -36,7 +36,5 @@ namespace Files.App.Views.LayoutModes
 		CommandBarFlyout ItemContextMenuFlyout { get; set; }
 
 		CommandBarFlyout BaseContextMenuFlyout { get; set; }
-
-		void ReloadPreviewPane();
 	}
 }

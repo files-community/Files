@@ -189,6 +189,7 @@ namespace Files.App.Dialogs
 				new(ArchiveSplittingSizes.Cd650, ToSizeText(650), "CD".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Cd700, ToSizeText(700), "CD".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo1024, ToSizeText(1024)),
+				new(ArchiveSplittingSizes.Mo2048, ToSizeText(2048)),
 				new(ArchiveSplittingSizes.Fat4092, ToSizeText(4092), "FAT".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Dvd4480, ToSizeText(4480), "DVD".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo5120, ToSizeText(5120)),

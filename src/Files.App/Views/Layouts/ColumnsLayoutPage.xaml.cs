@@ -3,7 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.ViewModels.LayoutModes;
+using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -11,31 +11,36 @@ using Windows.Storage;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Column View
 	/// </summary>
-	public sealed partial class ColumnViewBrowser : BaseLayout
+	public sealed partial class ColumnsLayoutPage : BaseLayoutPage
 	{
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		// Properties
 
+		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 		protected override ItemsControl ItemsControl => ColumnHost;
 
 		public string? OwnerPath { get; private set; }
 
 		public int FocusIndex { get; private set; }
 
-		public ColumnViewBrowser() : base()
+		// Constructor
+
+		public ColumnsLayoutPage() : base()
 		{
 			InitializeComponent();
 		}
 
-		public void HandleSelectionChange(ColumnViewBase initiator)
+		// Methods
+
+		public void HandleSelectionChange(ColumnLayoutPage initiator)
 		{
 			foreach (var blade in ColumnHost.ActiveBlades)
 			{
-				var columnView = blade.FindDescendant<ColumnViewBase>();
+				var columnView = blade.FindDescendant<ColumnLayoutPage>();
 				if (columnView != null && columnView != initiator)
 					columnView.ClearSelectionIndicator();
 			}
@@ -55,7 +60,7 @@ namespace Files.App.Views.LayoutModes
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this)
+			if (column?.ListView.FindAscendant<ColumnsLayoutPage>() != this)
 				return;
 
 			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
@@ -94,7 +99,8 @@ namespace Files.App.Views.LayoutModes
 			if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
-					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
+					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList()
+					.Concat(App.LibraryManager.Libraries.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));
 
 				while (!rootPathList.Contains(NormalizePath(path)))
@@ -155,7 +161,7 @@ namespace Files.App.Views.LayoutModes
 				if (frame?.Content is ColumnShellPage shPage)
 				{
 					shPage.ContentChanged -= ColumnViewBrowser_ContentChanged;
-					if (shPage.SlimContentPage is ColumnViewBase viewBase)
+					if (shPage.SlimContentPage is ColumnLayoutPage viewBase)
 					{
 						viewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
 						viewBase.ItemTapped -= ColumnViewBase_ItemTapped;
@@ -197,7 +203,7 @@ namespace Files.App.Views.LayoutModes
 						if (frame?.Content is IDisposable disposableContent)
 							disposableContent.Dispose();
 
-						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnViewBase columnLayout)
+						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnLayoutPage columnLayout)
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
@@ -253,7 +259,7 @@ namespace Files.App.Views.LayoutModes
 		private void ColumnViewBrowser_ContentChanged(object sender, CustomTabViewItemParameter e)
 		{
 			var c = sender as IShellPage;
-			var columnView = c?.SlimContentPage as ColumnViewBase;
+			var columnView = c?.SlimContentPage as ColumnLayoutPage;
 			if (columnView is not null)
 			{
 				columnView.ItemInvoked -= ColumnViewBase_ItemInvoked;
@@ -284,12 +290,18 @@ namespace Files.App.Views.LayoutModes
 			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
 		}
 
-		public async void NavigateUp()
+		public void NavigateUp()
 		{
 			if (ColumnHost.ActiveBlades?.Count > 1)
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
 			else
-				await Commands.NavigateUp.ExecuteAsync();
+			{
+				var workingDirectory = ((ColumnHost.ActiveBlades?.FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+				if (workingDirectory is null || string.Equals(workingDirectory, GetPathRoot(workingDirectory), StringComparison.OrdinalIgnoreCase))
+					ParentShellPageInstance?.NavigateHome();
+				else
+					ParentShellPageInstance?.NavigateToPath(GetParentDir(workingDirectory));
+			}
 		}
 
 		public void MoveFocusToPreviousBlade(int currentBladeIndex)
@@ -326,26 +338,23 @@ namespace Files.App.Views.LayoutModes
 			if (activeBladeColumnViewBase is not null)
 			{
 				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
-				var selectedItem = activeBladeColumnViewBase.FileList.Items.FirstOrDefault() as ListedItem;
-				if (selectedItem is not null)
-					UpdatePreviewPaneSelection(new List<ListedItem>() { selectedItem });
 			}
 		}
 
-		private ColumnViewBase? RetrieveBladeColumnViewBase(BladeItem blade)
+		private ColumnLayoutPage? RetrieveBladeColumnViewBase(BladeItem blade)
 		{
 			if (blade.Content is not Frame activeBladeFrame ||
 				activeBladeFrame.Content is not ColumnShellPage activeBladePage)
 				return null;
 
-			return activeBladePage.SlimContentPage as ColumnViewBase;
+			return activeBladePage.SlimContentPage as ColumnLayoutPage;
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
 			{
-				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutBrowser), navArgs);
+				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutPage), navArgs);
 				return;
 			}
 
@@ -399,8 +408,7 @@ namespace Files.App.Views.LayoutModes
 				foreach (var item in ColumnHost.ActiveBlades)
 				{
 					if ((item.Content as Frame)?.Content is ColumnShellPage s &&
-						PathNormalization.NormalizePath(s.FilesystemViewModel.WorkingDirectory) ==
-						PathNormalization.NormalizePath(e.ItemPath))
+						NormalizePath(s.FilesystemViewModel?.WorkingDirectory) == NormalizePath(e.ItemPath))
 					{
 						DismissOtherBlades(item);
 						return;
@@ -411,8 +419,7 @@ namespace Files.App.Views.LayoutModes
 			if (ParentShellPageInstance is null)
 				return;
 
-			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) !=
-				NormalizePath(e.ItemPath))
+			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
 				ParentShellPageInstance.NavigateToPath(e.ItemPath);
 			else
 				DismissOtherBlades(0);
@@ -436,7 +443,7 @@ namespace Files.App.Views.LayoutModes
 		private void ColumnViewBase_ItemTapped(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this || string.IsNullOrEmpty(column.NavPathParam))
+			if (column?.ListView.FindAscendant<ColumnsLayoutPage>() != this || string.IsNullOrEmpty(column.NavPathParam))
 				return;
 
 			CloseUnnecessaryColumns(column);
@@ -453,7 +460,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				for (var i = 0; i < ColumnHost.ActiveBlades.Count && relativeIndex is -1; i++)
 				{
-					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnViewBase>();
+					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnLayoutPage>();
 					if (bladeColumn is not null && bladeColumn == column.Source)
 						relativeIndex = i;
 				}
@@ -471,7 +478,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (relativeIndex >= 0)
 			{
-				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewBase>()?.ClearOpenedFolderSelectionIndicator();
+				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnLayoutPage>()?.ClearOpenedFolderSelectionIndicator();
 				DismissOtherBlades(relativeIndex);
 			}
 		}

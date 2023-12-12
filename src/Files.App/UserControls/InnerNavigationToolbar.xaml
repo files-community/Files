@@ -274,6 +274,13 @@
 								Text="{x:Bind Commands.DecompressArchive.Label}"
 								Visibility="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
+								x:Name="ExtractHereSmart"
+								Command="{x:Bind Commands.DecompressArchiveHereSmart, Mode=OneWay}"
+								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchiveHereSmart.HotKeyText, Mode=OneWay}"
+								Text="{x:Bind Commands.DecompressArchiveHereSmart.Label}"
+								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+							<MenuFlyoutItem
 								x:Name="ExtractHere"
 								Command="{x:Bind Commands.DecompressArchiveHere, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"

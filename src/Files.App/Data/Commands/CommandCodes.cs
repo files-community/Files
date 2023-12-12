@@ -29,6 +29,7 @@ namespace Files.App.Data.Commands
 		// File System
 		CopyItem,
 		CopyPath,
+		CopyPathWithQuotes,
 		CutItem,
 		PasteItem,
 		PasteItemToSelection,
@@ -91,6 +92,7 @@ namespace Files.App.Data.Commands
 		CompressIntoZip,
 		DecompressArchive,
 		DecompressArchiveHere,
+		DecompressArchiveHereSmart,
 		DecompressArchiveToChildFolder,
 
 		// Image Manipulation

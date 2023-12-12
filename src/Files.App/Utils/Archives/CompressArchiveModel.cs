@@ -54,6 +54,7 @@ namespace Files.App.Utils.Archives
 			ArchiveSplittingSizes.Mo10 => 10 * 1000 * 1000L,
 			ArchiveSplittingSizes.Mo100 => 100 * 1000 * 1000L,
 			ArchiveSplittingSizes.Mo1024 => 1024 * 1000 * 1000L,
+			ArchiveSplittingSizes.Mo2048 => 2048 * 1000 * 1000L,
 			ArchiveSplittingSizes.Mo5120 => 5120 * 1000 * 1000L,
 			ArchiveSplittingSizes.Fat4092 => 4092 * 1000 * 1000L,
 			ArchiveSplittingSizes.Cd650 => 650 * 1000 * 1000L,

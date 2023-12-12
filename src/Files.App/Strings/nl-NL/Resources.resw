@@ -1051,16 +1051,19 @@
     <value>Gewenste naam</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Voorbeeld paneel in-/uitschakelen</value>
+    <value>Voorbeeldvenster in-/uitschakelen</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Schakel het detailvenster in of uit</value>
+    <value>Detailvenster in-/uitschakelen</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Schakel het detailvenster in om standaard bestandseigenschappen te zien</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Schakel het details-/voorbeeldvenster in of uit</value>
+    <value>Infovenster in-/uitschakelen</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Schakelt het details-/voorbeeldvenster in of uit</value>
+    <value>Schakel het infovenster in om het detail-/voorbeeldvenster te kunnen zien</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Standaardwaarden herstellen</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Nieuwe instantie openen bij het openen van mappen vanuit de Jumplist in de taakbalk</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Tabblad openen in bestaande instantie wanneer Files vanuit een andere app wordt geopend</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Opstart instellingen</value>
@@ -2337,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Er is een fout opgetreden tijdens het berekenen</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Het berekenen van de hash is mislukt, sluit het bestand en probeer opnieuw.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes zijn niet beschikbaar voor online bestanden</value>
   </data>
@@ -2404,10 +2410,7 @@
     <value>Schakel of bestandsextensies getoond worden</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Zet voorvertoningspaneel aan/uit</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Schakel het detailvenster in of uit</value>
+    <value>Schakel het voorbeeldvenster in om bestandsvoorbeelden te zien</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Zet zijbalk aan/uit</value>
@@ -2476,7 +2479,7 @@
     <value>Selectie item leegmaken</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Selectie item in-/uitschakelen</value>
+    <value>Items selecteren in-/uitschakelen</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Deel geselecteerde bestand(en) met anderen</value>
@@ -3604,5 +3607,29 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>De optie om Files te openen tijdens het opstarten van Windows is niet beschikbaar door systeeminstellingen of het groepsbeleid. Om dit opnieuw in te stellen, open het Opstarten tabblad in Taakbeheer.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Items terugplaatsen vanuit prullenbak mislukt</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Instellen van achtergrondafbeelding mislukt</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Git branch verwijderen</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Weet je zeker dat je deze branche "{0}" definitief wilt verwijderen?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Verbonden met GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Uitloggen</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Verbinding maken met GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Inloggen</value>
   </data>
 </root>

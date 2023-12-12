@@ -15,7 +15,7 @@ using Windows.Storage;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
+	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItem
 	{
 		private readonly IUserSettingsService userSettingsService;
 

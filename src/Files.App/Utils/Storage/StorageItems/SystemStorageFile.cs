@@ -48,7 +48,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
 			=> AsyncInfo.Run<BaseBasicProperties>(async (cancellationToken)
-				=> new SystemFileBasicProperties(await File.GetBasicPropertiesAsync())
+				=> new SystemFileBasicProperties(await File.GetBasicPropertiesAsync(), DateCreated)
 			);
 
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder)
@@ -176,13 +176,18 @@ namespace Files.App.Utils.Storage
 		private class SystemFileBasicProperties : BaseBasicProperties
 		{
 			private readonly IStorageItemExtraProperties basicProps;
+			private readonly DateTimeOffset? dateCreated;
 
 			public override ulong Size => (basicProps as BasicProperties)?.Size ?? 0;
 
-			public override DateTimeOffset ItemDate => (basicProps as BasicProperties)?.ItemDate ?? DateTimeOffset.Now;
+			public override DateTimeOffset DateCreated => dateCreated ?? DateTimeOffset.Now;
 			public override DateTimeOffset DateModified => (basicProps as BasicProperties)?.DateModified ?? DateTimeOffset.Now;
 
-			public SystemFileBasicProperties(IStorageItemExtraProperties basicProps) => this.basicProps = basicProps;
+			public SystemFileBasicProperties(IStorageItemExtraProperties basicProps, DateTimeOffset dateCreated)
+			{
+				this.basicProps = basicProps;
+				this.dateCreated = dateCreated;
+			}
 
 			public override IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
 				=> basicProps.RetrievePropertiesAsync(propertiesToRetrieve);

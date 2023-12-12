@@ -30,7 +30,7 @@ namespace Files.App.Utils.Storage
 				var basicProps = ret is not null ? await ret : null;
 
 				props["System.ParsingPath"] = _item?.Path;
-				props["System.DateCreated"] = basicProps?.ItemDate;
+				props["System.DateCreated"] = basicProps?.DateCreated;
 				props["System.DateModified"] = basicProps?.DateModified;
 
 				return props;

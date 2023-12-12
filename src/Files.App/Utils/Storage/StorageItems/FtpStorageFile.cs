@@ -296,20 +296,20 @@ namespace Files.App.Utils.Storage
 		{
 			public override ulong Size { get; }
 
-			public override DateTimeOffset ItemDate { get; }
+			public override DateTimeOffset DateCreated { get; }
 			public override DateTimeOffset DateModified { get; }
 
 			public FtpFileBasicProperties(FtpItem item)
 			{
 				Size = (ulong)item.FileSizeBytes;
-				ItemDate = item.ItemDateCreatedReal;
+				DateCreated = item.ItemDateCreatedReal;
 				DateModified = item.ItemDateModifiedReal;
 			}
 
 			public FtpFileBasicProperties(FtpListItem item)
 			{
 				Size = (ulong)item.Size;
-				ItemDate = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
+				DateCreated = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
 				DateModified = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
 			}
 		}

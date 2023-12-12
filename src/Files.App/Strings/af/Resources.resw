@@ -133,16 +133,16 @@
     <value>Geskep:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path</value>
+    <value>Pad</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Grootte:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Grootte op skyf:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Ongekomprimeerde grootte:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Hierdie aksie kan nie gedoen word nie</value>
@@ -160,10 +160,10 @@
     <value>Selekteer Alles</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Keer seleksie om</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Vee seleksie uit</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Gemodifiseer:</value>
@@ -175,7 +175,7 @@
     <value>Maak alle items skoon</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Voer 'n pad in om na te navigeer of tik "&gt;" om die opdragpalet oop te maak</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Soek</value>
@@ -277,7 +277,7 @@
     <value>Welkom by Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>Gee toestemming</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Om te begin, moet jy ons toestemming gee om jou lêers te vertoon. Dit sal 'n Instellingsbladsy oopmaak waar jy ons hierdie toestemming kan gee. Jy sal die program moet heropen sodra jy hierdie stap voltooi het.</value>
@@ -289,7 +289,7 @@
     <value>Voer 'n itemnaam in</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>Stel naam op</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Lig</value>
@@ -304,10 +304,10 @@
     <value>Stelsel</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Nuwe omslag</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Nuwe lêer</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Hierdie omslag is leeg.</value>
@@ -343,7 +343,7 @@
     <value>Voeg asseblief die nodige aandrywer in om toegang tot hierdie item te verkry.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Hardeskyf ongeprop</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Die lêer wat jy probeer toegang verkry is dalk verskuif of geskrap.</value>
@@ -394,10 +394,10 @@
     <value>{0} sekondes gelede</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 sekonde gelede</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Nou</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Die aangevraagde bewerking word nie ondersteun nie</value>
@@ -406,13 +406,13 @@
     <value>{0} vry van {1}</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Stuur aan</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Die itemnaam moet nie die volgende karakters bevat nie: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Die gespesifiseerde itemnaam is ongeldig</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item gekies</value>
@@ -472,7 +472,7 @@
     <value>Verskillende soorte</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Alles in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Gebruikte spasie:</value>
@@ -511,7 +511,7 @@
     <value>kopieer na {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>Skep kortpad</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Maak lêerligging oop</value>
@@ -592,13 +592,13 @@
     <value>Item naam was te lank</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>Wys meer opsies</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Die toepassing moet herbegin word om hierdie instellings toe te pas, wil jy die program herbegin?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Borg ons op GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Ons kon nie hierdie item skep nie</value>
@@ -613,7 +613,7 @@
     <value>Kanselleer</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>Skep 'n nuwe item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Kies 'n tipe vir hierdie nuwe item hieronder</value>
@@ -637,13 +637,13 @@
     <value>Verfris die gids</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Taal</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Skuif dopuitbreidings na 'n subkieslys</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Wys 'n bevestigingsdialoog wanneer items geskrap word</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Daar was 'n probleem met die redding van 'n paar eienskappe.</value>
@@ -731,7 +731,7 @@
     <value>Fokuslengte</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
-    <value>Aperture</value>
+    <value>Apertuur</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
     <value>Mense Name</value>
@@ -920,7 +920,7 @@
     <value>Adres</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Keuringsopsies</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Kies</value>
@@ -953,13 +953,13 @@
     <value>Ontkoppel</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Dupliseer oortjie</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Skuif duimgids na nuwe venster</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Nuwe oortjie</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Sommige eienskappe kan persoonlike inligting bevat.</value>
@@ -971,7 +971,7 @@
     <value>Kontroleer die status van lêerbedrywighede hier</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>Statussentrum</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Soekresultate in {1} vir {0}</value>
@@ -986,19 +986,19 @@
     <value>Nee</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>Wys beskermde stelsellêers</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Sluit ongeindekseerde items by soekresultate in</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Sinkroniseer uitleg en sorteervoorkeure oor gidse</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Pasmaak die regsklikkontekskieslys</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Oorspronklike pad</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Voeg By</value>
@@ -1010,16 +1010,16 @@
     <value>Verwyder</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>Maak oortjies in dubbele paneelmodus oop</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Wys opsie om gidse in 'n nuwe paneel oop te maak</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nuwe paneel</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>Maak in nuwe paneel oop</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Omslae</value>
@@ -1052,16 +1052,19 @@
     <value>Gewenste naam</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>Wissel die voorskoupaneel</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Toggle the details pane</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the details/preview pane</value>
+    <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggles the details/preview pane</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorskou beskikbaar nie</value>
@@ -1754,7 +1757,7 @@
     <value>Open folders in new tab</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>Statussentrum</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Datum geskep kolom</value>
@@ -1816,8 +1819,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Herstel verstek</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Maak nuwe geval oop wanneer gidse van die taakbalkspringlys oopgemaak word</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Opstartinstellings</value>
@@ -2338,6 +2341,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>An error occurred during the calculation</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Failed to calculate the hash, please close the file and try again.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes aren't available for online files</value>
   </data>
@@ -2405,10 +2411,7 @@
     <value>Toggle whether to show file extensions</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Toggle whether to show sidebar</value>
@@ -3605,5 +3608,29 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connected to GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>

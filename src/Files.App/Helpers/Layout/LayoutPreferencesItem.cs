@@ -3,26 +3,35 @@
 
 namespace Files.App.Helpers
 {
-	public class LayoutPreferences
+	/// <summary>
+	/// Represents item for a folder's layout preferences.
+	/// </summary>
+	public class LayoutPreferencesItem
 	{
+		// Dependency injections
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public SortOption DirectorySortOption;
-		public SortDirection DirectorySortDirection;
-		public bool SortDirectoriesAlongsideFiles;
-		public GroupOption DirectoryGroupOption;
-		public SortDirection DirectoryGroupDirection;
-		public GroupByDateUnit DirectoryGroupByDateUnit;
-		public FolderLayoutModes LayoutMode;
-		public int GridViewSize;
-		public bool IsAdaptiveLayoutOverridden;
+		// Fields
 
 		public ColumnsViewModel ColumnsViewModel;
 
-		[LiteDB.BsonIgnore]
-		public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
+		public bool SortDirectoriesAlongsideFiles;
+		public bool IsAdaptiveLayoutOverridden;
+		public int GridViewSize;
 
-		public LayoutPreferences()
+		public FolderLayoutModes LayoutMode;
+
+		public SortOption DirectorySortOption;
+		public SortDirection DirectorySortDirection;
+		public SortDirection DirectoryGroupDirection;
+
+		public GroupOption DirectoryGroupOption;
+		public GroupByDateUnit DirectoryGroupByDateUnit;
+
+		// Constructor
+
+		public LayoutPreferencesItem()
 		{
 			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
 
@@ -69,6 +78,8 @@ namespace Files.App.Helpers
 			ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SyncStatusColumnWidth;
 		}
 
+		// Overridden methods
+
 		public override bool Equals(object? obj)
 		{
 			if (obj is null)
@@ -77,36 +88,39 @@ namespace Files.App.Helpers
 			if (obj == this)
 				return true;
 
-			if (obj is LayoutPreferences prefs)
+			if (obj is LayoutPreferencesItem item)
 			{
 				return (
-					prefs.LayoutMode == LayoutMode &&
-					prefs.GridViewSize == GridViewSize &&
-					prefs.DirectoryGroupOption == DirectoryGroupOption &&
-					prefs.DirectorySortOption == DirectorySortOption &&
-					prefs.DirectorySortDirection == DirectorySortDirection &&
-					prefs.DirectoryGroupDirection == DirectoryGroupDirection &&
-					prefs.DirectoryGroupByDateUnit == DirectoryGroupByDateUnit &&
-					prefs.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
-					prefs.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
-					prefs.ColumnsViewModel.Equals(ColumnsViewModel));
+					item.LayoutMode == LayoutMode &&
+					item.GridViewSize == GridViewSize &&
+					item.DirectoryGroupOption == DirectoryGroupOption &&
+					item.DirectorySortOption == DirectorySortOption &&
+					item.DirectorySortDirection == DirectorySortDirection &&
+					item.DirectoryGroupDirection == DirectoryGroupDirection &&
+					item.DirectoryGroupByDateUnit == DirectoryGroupByDateUnit &&
+					item.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
+					item.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
+					item.ColumnsViewModel.Equals(ColumnsViewModel));
 			}
 			return base.Equals(obj);
 		}
 
 		public override int GetHashCode()
 		{
-			var hashCode = LayoutMode.GetHashCode();
-			hashCode = (hashCode * 397) ^ GridViewSize.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectoryGroupOption.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectorySortOption.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectorySortDirection.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectoryGroupDirection.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectoryGroupByDateUnit.GetHashCode();
-			hashCode = (hashCode * 397) ^ SortDirectoriesAlongsideFiles.GetHashCode();
-			hashCode = (hashCode * 397) ^ IsAdaptiveLayoutOverridden.GetHashCode();
-			hashCode = (hashCode * 397) ^ ColumnsViewModel.GetHashCode();
-			return hashCode;
+			HashCode hash = new();
+
+			hash.Add(LayoutMode);
+			hash.Add(GridViewSize);
+			hash.Add(DirectoryGroupOption);
+			hash.Add(DirectorySortOption);
+			hash.Add(DirectorySortDirection);
+			hash.Add(DirectoryGroupDirection);
+			hash.Add(DirectoryGroupByDateUnit);
+			hash.Add(SortDirectoriesAlongsideFiles);
+			hash.Add(IsAdaptiveLayoutOverridden);
+			hash.Add(ColumnsViewModel);
+
+			return hash.ToHashCode();
 		}
 	}
 }

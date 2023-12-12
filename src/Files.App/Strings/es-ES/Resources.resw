@@ -616,7 +616,7 @@
     <value>Crear nuevo elemento</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Elija un tipo para este nuevo elemento a continuación</value>
+    <value>Seleccione del siguiente listado el tipo de elemento</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Archivo</value>
@@ -1054,13 +1054,16 @@
     <value>Mostrar/Ocultar panel de vista previa</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Alternar el panel de detalles</value>
+    <value>Mostrar/Ocultar panel de detalles</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Mostrar panel de detalles para ver las propiedades básicas del archivo</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Alternar el panel de detalles/vista previa</value>
+    <value>Mostrar/Ocultar panel de información</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Alternar el panel de detalles/vista previa</value>
+    <value>Mostrar/Ocultar panel de información con paneles de vista previa y detalles</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurar predeterminado</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Abrir una nueva instancia al abrir directorios desde la lista de accesos directos de la barra de tareas</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Abrir pestaña en instancia existente al abrir Files desde otra aplicación</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Ajustes de inicio</value>
@@ -2188,13 +2191,13 @@
     <value>Agrupar en orden descendente</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Ordenar en modo descendente</value>
+    <value>Ordenar en sentido descendente</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
     <value>Crear un nuevo acceso directo</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Crea accesos directos a programas locales o de red, archivos, carpetas, ordenadores o direcciones de Internet.</value>
+    <value>Crea accesos directos a programas locales o de red, archivos, carpetas, equipos o direcciones de Internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Introducir la ubicación del elemento:</value>
@@ -2317,10 +2320,10 @@
     <value>Aplicar esta acción a todos los elementos en conflicto</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Abrir en Terminal de Windows</value>
+    <value>Abrir en Terminal Windows</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Abrir en Terminal de Windows como administrador</value>
+    <value>Abrir en Terminal Windows como administrador</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
@@ -2336,6 +2339,9 @@
   </data>
   <data name="CalculationError" xml:space="preserve">
     <value>Se ha producido un error en el cálculo</value>
+  </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>No se pudo calcular el hash, por favor, cierra el archivo e inténtalo de nuevo.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Los códigos 'hash' no están disponibles para archivos en línea</value>
@@ -2392,25 +2398,22 @@
     <value>Salir de superposición compacta</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Intercambiar superposición compacta</value>
+    <value>Entrar/Salir de superposición compacta</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Ir al cuadro de búsqueda</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Mostrar o no los elementos ocultos</value>
+    <value>Mostrar/Ocultar elementos ocultos</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Mostrar o no las extensiones de los archivos</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Mostrar o no el panel de vista previa</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Alternar el panel de detalles</value>
+    <value>Mostrar panel de vista previa de los archivos</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Mostrar o no la barra lateral</value>
+    <value>Mostrar/Ocultar barra lateral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Copiar elemento(s) al portapapeles</value>
@@ -2437,7 +2440,7 @@
     <value>Crear nuevo(s) acceso(s) directo(s) del(de los) elemento(s) seleccionado(s)</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Crear nuevo acceso directo de cualquier elemento</value>
+    <value>Crear nuevo acceso directo para cualquier elemento</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Vaciar papelera de reciclaje</value>
@@ -2527,10 +2530,10 @@
     <value>Crear archivo con elemento(s) seleccionado(s)</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Crear archivo 7z al instante con elemento(s) seleccionado(s)</value>
+    <value>Crear directamente archivo 7z con elemento(s) seleccionado(s)</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Crear archivo zip al instante con elemento(s) seleccionado(s)</value>
+    <value>Crear directamente archivo zip con elemento(s) seleccionado(s)</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
     <value>Extraer elementos del(de los) archivo(s) seleccionado(s) en cualquier carpeta</value>
@@ -2551,10 +2554,10 @@
     <value>Abrir página de configuración</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Abrir carpeta en terminal</value>
+    <value>Abrir carpeta en Terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Abrir carpeta en terminal como administrador</value>
+    <value>Abrir carpeta en Terminal como administrador</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Reducir tamaño de icono en la vista de cuadrícula</value>
@@ -2590,7 +2593,7 @@
     <value>Ordenar elementos por fecha de modificación</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Ordenar artículos por fecha de creación</value>
+    <value>Ordenar elementos por fecha de creación</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
     <value>Ordenar elementos por tamaño</value>
@@ -2611,10 +2614,10 @@
     <value>Ordenar elementos por fecha de eliminación</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Ordenar elementos de manera ascendente</value>
+    <value>Ordenar elementos en sentido ascendente</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Ordenar elementos de manera descendente</value>
+    <value>Ordenar elementos en sentido descendente</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Cambiar sentido de ordenación de elementos</value>
@@ -2623,7 +2626,7 @@
     <value>Listar y ordenar los directorios junto con los archivos</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>Listar elementos sin agrupar</value>
+    <value>Listar elementos sin agruparlos</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
     <value>Agrupar elementos por nombre</value>
@@ -2656,7 +2659,7 @@
     <value>Agrupar elementos por ruta de carpeta</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Ordenar grupos de manera ascendente</value>
+    <value>Ordenar grupos en sentido ascendente</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
     <value>Ordenar grupos de manera descendente</value>
@@ -3565,7 +3568,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>No se pudo mover {0} elemento(s) desde "{1}" a "{2}"</value>
+    <value>No se pudo mover {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3604,5 +3607,29 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>La opción de abrir Files al iniciar Windows no está disponible debido a la configuración del sistema o política de grupo. Para volver a activarla, abra la página de inicio en el Administrador de tareas.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>No se pudo restaurar los elementos desde la papelera de reciclaje</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>No se pudo establecer como fondo de escritorio</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Eliminar rama de Git</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>¿Está seguro de que desea eliminar permanentemente la rama "{0}"?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Conectado a GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Conectarse a GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Iniciar Sesión</value>
   </data>
 </root>

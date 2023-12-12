@@ -1054,13 +1054,16 @@
     <value>Afficher le volet de prévisualisation</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Basculer le volet des détails</value>
+    <value>Afficher le volet des détails</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Activer le volet des détails pour afficher les propriétés de base du fichier</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Basculer le volet de détails/prévisualisation</value>
+    <value>Afficher le volet d'information</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Bascule le volet de détails/prévisualisation</value>
+    <value>Activer le volet d'information pour afficher les volets des détails et d’aperçu</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurer les valeurs par défaut</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Ouvrir une nouvelle instance lors de l'ouverture d'un dossier depuis la liste de raccourcis de la barre des tâches</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Ouvrir l'onglet dans l'instance existante lors de l'ouverture de Files à partir d'une autre application</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Paramètres de démarrage</value>
@@ -2337,8 +2340,11 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Une erreur s'est produite lors du calcul</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Échec du calcul du hachage, veuillez fermer le fichier et réessayer.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Les hashes ne sont pas disponibles pour les fichiers en ligne</value>
+    <value>Les hachages ne sont pas disponibles pour les fichiers en ligne</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithme</value>
@@ -2404,10 +2410,7 @@
     <value>Afficher/Masquer les extensions de fichier</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Afficher/Masquer le volet de prévisualisation</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Basculer le volet des détails</value>
+    <value>Activer le volet d’aperçu pour afficher les aperçus des fichiers</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>
@@ -3603,6 +3606,30 @@
     <value>Aucune opération de fichier en cours</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>L'option d'ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le Gestionnaire des tâches.</value>
+    <value>L'option pour ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le gestionnaire des tâches.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Échec de la restauration des éléments de la corbeille</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Échec de la définition du fond d'écran</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Supprimer la branche Git</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer définitivement la branche {0} ?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connecté à GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Se déconnecter</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Connectez-vous à GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Connexion</value>
   </data>
 </root>

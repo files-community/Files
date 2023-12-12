@@ -16,7 +16,7 @@ namespace Files.App.Data.Contexts
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
-		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutBrowser);
+		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutPage);
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
@@ -107,6 +107,7 @@ namespace Files.App.Data.Contexts
 
 			Update();
 			OnPropertyChanged(nameof(ShellPage));
+			OnPropertyChanged(nameof(Folder));
 		}
 
 		private void Page_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -196,7 +197,6 @@ namespace Files.App.Data.Contexts
 			UpdatePageType();
 			UpdateSelectedItems();
 
-			OnPropertyChanged(nameof(Folder));
 			OnPropertyChanged(nameof(HasItem));
 			OnPropertyChanged(nameof(CanGoBack));
 			OnPropertyChanged(nameof(CanGoForward));

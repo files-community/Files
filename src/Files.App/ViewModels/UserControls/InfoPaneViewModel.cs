@@ -6,7 +6,6 @@ using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Windows.Input;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
@@ -14,11 +13,13 @@ namespace Files.App.ViewModels.UserControls
 	public class InfoPaneViewModel : ObservableObject, IDisposable
 	{
 		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
-
-		private readonly IContentPageContext contentPageContextService;
+		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
+		/// <summary>
+		/// Value indicating if the info pane is on/off
+		/// </summary>
 		private bool isEnabled;
 		public bool IsEnabled
 		{
@@ -31,13 +32,10 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private bool isItemSelected;
-		public bool IsItemSelected
-		{
-			get => isItemSelected;
-			set => SetProperty(ref isItemSelected, value);
-		}
-
+		/// <summary>
+		/// Current selected item in the file list.
+		/// TODO see about removing this and accessing it from the page context instead
+		/// </summary>
 		private ListedItem selectedItem;
 		public ListedItem SelectedItem
 		{
@@ -58,6 +56,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		/// <summary>
+		/// Enum indicating whether to show the details or preview tab
+		/// </summary>
 		public InfoPaneTabs SelectedTab
 		{
 			get => infoPaneSettingsService.SelectedTab;
@@ -70,6 +71,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		/// <summary>
+		/// Enum indicating if details/preview are available
+		/// </summary>
 		private PreviewPaneStates previewPaneState;
 		public PreviewPaneStates PreviewPaneState
 		{
@@ -81,6 +85,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		/// <summary>
+		/// Value indicating if the download cloud files option should be displayed
+		/// </summary>
 		private bool showCloudItemButton;
 		public bool ShowCloudItemButton
 		{
@@ -102,13 +109,31 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<TagsListItem> Items { get; } = new();
 
-		public InfoPaneViewModel(IContentPageContext contentPageContextService = null)
+		public InfoPaneViewModel()
 		{
 			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+			contentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 
 			IsEnabled = infoPaneSettingsService.IsEnabled;
+		}
 
-			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.Folder):
+				case nameof(IContentPageContext.SelectedItem):
+
+					if (contentPageContext.SelectedItems.Count == 1)
+						SelectedItem = contentPageContext.SelectedItems.First();
+					else
+						SelectedItem = null;
+
+					var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
+					if (shouldUpdatePreview == true)
+						_ = UpdateSelectedItemPreviewAsync();
+					break;
+			}
 		}
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -149,7 +174,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			ShowCloudItemButton = false;
 
-			if (SelectedItem.IsRecycleBinItem)
+			if (item.IsRecycleBinItem)
 			{
 				if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
 				{
@@ -160,7 +185,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					var model = new BasicPreviewViewModel(SelectedItem);
+					var model = new BasicPreviewViewModel(item);
 					await model.LoadAsync();
 
 					return new BasicPreview(model);
@@ -169,7 +194,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (item.IsShortcut)
 			{
-				var model = new ShortcutPreviewViewModel(SelectedItem);
+				var model = new ShortcutPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new BasicPreview(model);
@@ -188,7 +213,7 @@ namespace Files.App.ViewModels.UserControls
 				var model = new FolderPreviewViewModel(item);
 				await model.LoadAsync();
 
-				if (!isItemSelected)
+				if (contentPageContext.SelectedItems.Count == 0)
 					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
 
 				return new FolderPreview(model);
@@ -206,7 +231,9 @@ namespace Files.App.ViewModels.UserControls
 
 			var ext = item.FileExtension.ToLowerInvariant();
 
-			if (FileExtensionHelpers.IsAudioFile(ext) || FileExtensionHelpers.IsVideoFile(ext))
+			if (!item.IsFtpItem &&
+				contentPageContext.PageType != ContentPageTypes.ZipFolder &&
+				(FileExtensionHelpers.IsAudioFile(ext) || FileExtensionHelpers.IsVideoFile(ext)))
 			{
 				var model = new MediaPreviewViewModel(item);
 				await model.LoadAsync();
@@ -290,7 +317,7 @@ namespace Files.App.ViewModels.UserControls
 		public async Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
-			if (SelectedItem is not null && IsItemSelected)
+			if (SelectedItem is not null && contentPageContext.SelectedItems.Count == 1)
 			{
 				SelectedItem?.FileDetails?.Clear();
 
@@ -327,7 +354,7 @@ namespace Files.App.ViewModels.UserControls
 					PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 				}
 			}
-			else if (IsItemSelected)
+			else if (contentPageContext.SelectedItems.Count > 0)
 			{
 				PreviewPaneContent = null;
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
@@ -335,7 +362,7 @@ namespace Files.App.ViewModels.UserControls
 			else
 			{
 				SelectedItem?.FileDetails?.Clear();
-				var currentFolder = contentPageContextService.Folder;
+				var currentFolder = contentPageContext.Folder;
 
 				if (currentFolder is null)
 				{
@@ -387,6 +414,7 @@ namespace Files.App.ViewModels.UserControls
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
+					_ = UpdateSelectedItemPreviewAsync();
 					OnPropertyChanged(nameof(IsEnabled));
 				}
 			}

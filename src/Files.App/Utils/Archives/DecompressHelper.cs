@@ -128,11 +128,11 @@ namespace Files.App.Utils.Archives
 			if (associatedInstance == null)
 				return;
 
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
-				? associatedInstance.SlimContentPage.SelectedItem.ItemPath
-				: associatedInstance.FilesystemViewModel.WorkingDirectory);
+			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage?.SelectedItems?.Count is null or 0
+				? associatedInstance.FilesystemViewModel.WorkingDirectory
+				: associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
-			if (archive is null)
+			if (archive?.Path is null)
 				return;
 
 			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive));
@@ -175,9 +175,9 @@ namespace Files.App.Utils.Archives
 				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
 		}
 
-		public static async Task DecompressArchiveHereAsync(IShellPage associatedInstance)
+		public static async Task DecompressArchiveHereAsync(IShellPage associatedInstance, bool smart = false)
 		{
-			if (associatedInstance?.SlimContentPage == null)
+			if (associatedInstance?.SlimContentPage?.SelectedItems == null)
 				return;
 
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
@@ -186,7 +186,7 @@ namespace Files.App.Utils.Archives
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
-				if (archive is null)
+				if (archive?.Path is null)
 					return;
 
 				if (await FilesystemTasks.Wrap(() => IsArchiveEncrypted(archive)))
@@ -210,13 +210,19 @@ namespace Files.App.Utils.Archives
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
-				await DecompressArchiveAsync(archive, currentFolder, password);
+				if (smart && currentFolder is not null && await FilesystemTasks.Wrap(() => IsMultipleItems(archive)))
+				{
+					var destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+					await DecompressArchiveAsync(archive, destinationFolder, password);
+				}
+				else
+					await DecompressArchiveAsync(archive, currentFolder, password);
 			}
 		}
 
 		public static async Task DecompressArchiveToChildFolderAsync(IShellPage associatedInstance)
 		{
-			if (associatedInstance?.SlimContentPage == null)
+			if (associatedInstance?.SlimContentPage?.SelectedItems == null)
 				return;
 
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
@@ -227,7 +233,7 @@ namespace Files.App.Utils.Archives
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
 
-				if (archive is null)
+				if (archive?.Path is null)
 					return;
 
 				if (await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive)))
@@ -273,6 +279,15 @@ namespace Files.App.Utils.Archives
 				return true;
 
 			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
+		}
+
+		private static async Task<bool> IsMultipleItems(BaseStorageFile archive)
+		{
+			using SevenZipExtractor? zipFile = await GetZipFile(archive);
+			if (zipFile is null)
+				return true;
+
+			return zipFile.ArchiveFileData.Count > 1;
 		}
 	}
 }
