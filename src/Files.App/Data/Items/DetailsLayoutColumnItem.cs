@@ -92,11 +92,13 @@ namespace Files.App.Data.Items
 		public void Hide()
 		{
 			IsAvailable = false;
+			OnPropertyChanged(nameof(IsVisible));
 		}
 
 		public void Show()
 		{
 			IsAvailable = true;
+			OnPropertyChanged(nameof(IsVisible));
 		}
 
 		public override bool Equals(object? obj)
