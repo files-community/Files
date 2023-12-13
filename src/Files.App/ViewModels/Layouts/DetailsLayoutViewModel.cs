@@ -182,6 +182,9 @@ namespace Files.App.ViewModels.Layouts
 				if (item is null)
 					return false;
 
+				// Reset all sort direction
+				ColumnItems.ForEach(x => x.SortDirection = null);
+
 				item.SortDirection = LayoutPreferencesManager.DirectorySortDirection;
 
 				return true;
