@@ -21,7 +21,7 @@ namespace Files.App.UserControls
 		public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
 			DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
 
-		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
+		public SelectedItemsPropertiesViewModel? SelectedItemsPropertiesViewModel
 		{
 			get => (SelectedItemsPropertiesViewModel)GetValue(SelectedItemsPropertiesViewModelProperty);
 			set => SetValue(SelectedItemsPropertiesViewModelProperty, value);
