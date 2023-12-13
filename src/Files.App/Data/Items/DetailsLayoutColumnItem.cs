@@ -11,10 +11,10 @@ namespace Files.App.Data.Items
 	public class DetailsLayoutColumnItem : ObservableObject, IDetailsLayoutColumnItem
 	{
 		// Store to the database since user can change
-		private double _Width;
+		private double _Width = 200d;
 		public double Width
 		{
-			get => _Width;
+			get => IsVisible ? _Width : 0d;
 			set
 			{
 				if (SetProperty(ref _Width, value))
@@ -23,7 +23,7 @@ namespace Files.App.Data.Items
 		}
 
 		// Store to the database since user can change
-		private bool _IsVisible;
+		private bool _IsVisible = true;
 		public bool IsVisible
 		{
 			get => _IsVisible && IsAvailable;
@@ -44,7 +44,7 @@ namespace Files.App.Data.Items
 
 		[LiteDB.BsonIgnore]
 		public double WidthWithGridSplitter
-			=> Width + 12d;
+			=> IsVisible ? Width + 12d : 0d;
 
 		private SortDirection? _SortDirection;
 		[LiteDB.BsonIgnore]
@@ -62,19 +62,19 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref _IsAvailable, value);
 		}
 
-		private double _MinWidth = 50;
+		private double _MinWidth = 50d;
 		[LiteDB.BsonIgnore]
 		public double MinWidth
 		{
-			get => _MinWidth;
+			get => IsVisible ? _MinWidth : 0d;
 			set => SetProperty(ref _MinWidth, value);
 		}
 
-		private double _MaxWidth = 800;
+		private double _MaxWidth = 800d;
 		[LiteDB.BsonIgnore]
 		public double MaxWidth
 		{
-			get => _MaxWidth;
+			get => IsVisible ? _MaxWidth : 0d;
 			set => SetProperty(ref _MaxWidth, value);
 		}
 
@@ -82,23 +82,33 @@ namespace Files.App.Data.Items
 		{
 		}
 
-		public DetailsLayoutColumnItem(DetailsLayoutColumnKind kind, double width, bool isVisible)
+		public DetailsLayoutColumnItem(DetailsLayoutColumnKind kind, double width, bool isAvailable)
 		{
 			Kind = kind;
 			Width = width;
-			IsVisible = isVisible;
+			IsAvailable = isAvailable;
 		}
 
 		public void Hide()
 		{
 			IsAvailable = false;
 			OnPropertyChanged(nameof(IsVisible));
+			OnPropertyChanged(nameof(Width));
+			OnPropertyChanged(nameof(WidthWithGridSplitter));
+			OnPropertyChanged(nameof(MaxWidth));
+			OnPropertyChanged(nameof(IsAvailable));
+			OnPropertyChanged(nameof(MinWidth));
 		}
 
 		public void Show()
 		{
 			IsAvailable = true;
 			OnPropertyChanged(nameof(IsVisible));
+			OnPropertyChanged(nameof(Width));
+			OnPropertyChanged(nameof(WidthWithGridSplitter));
+			OnPropertyChanged(nameof(MaxWidth));
+			OnPropertyChanged(nameof(IsAvailable));
+			OnPropertyChanged(nameof(MinWidth));
 		}
 
 		public override bool Equals(object? obj)

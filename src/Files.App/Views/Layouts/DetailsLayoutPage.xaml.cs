@@ -459,28 +459,59 @@ namespace Files.App.Views.Layouts
 			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
 			{
 				UpdateColumnLayout();
-				LayoutPreferencesManager.ColumnItems = ViewModel.ColumnItems;
+				LayoutPreferencesManager!.ColumnItems = ViewModel.ColumnItems;
 			}
 		}
 
 		private void UpdateColumnLayout()
 		{
-			ViewModel.IconColumn.Width = IconColumnDefinition.ActualWidth;
-			ViewModel.NameColumn.Width = NameColumnDefinition.ActualWidth;
-			ViewModel.GitStatusColumn.Width = GitStatusColumnDefinition.ActualWidth;
-			ViewModel.GitLastCommitDateColumn.Width = GitLastCommitDateColumnDefinition.ActualWidth;
-			ViewModel.GitLastCommitMessageColumn.Width = GitLastCommitMessageColumnDefinition.ActualWidth;
-			ViewModel.GitCommitAuthorColumn.Width = GitCommitAuthorColumnDefinition.ActualWidth;
-			ViewModel.GitLastCommitShaColumn.Width = GitLastCommitShaColumnDefinition.ActualWidth;
-			ViewModel.TagColumn.Width = TagsColumnDefinition.ActualWidth;
-			ViewModel.PathColumn.Width = PathColumnDefinition.ActualWidth;
-			ViewModel.OriginalPathColumn.Width = OriginalPathColumnDefinition.ActualWidth;
-			ViewModel.DateDeletedColumn.Width = DateDeletedColumnDefinition.ActualWidth;
-			ViewModel.DateModifiedColumn.Width = DateModifiedColumnDefinition.ActualWidth;
-			ViewModel.DateCreatedColumn.Width = DateCreatedColumnDefinition.ActualWidth;
-			ViewModel.ItemTypeColumn.Width = TypeColumnDefinition.ActualWidth;
-			ViewModel.SizeColumn.Width = SizeColumnDefinition.ActualWidth;
-			ViewModel.StatusColumn.Width = CloudSyncStatusColumnDefinition.ActualWidth;
+			if (ViewModel.IconColumn is not null)
+				ViewModel.IconColumn.Width = IconColumnDefinition.ActualWidth;
+
+			if (ViewModel.NameColumn is not null)
+				ViewModel.NameColumn.Width = NameColumnDefinition.ActualWidth;
+
+			if (ViewModel.GitStatusColumn is not null)
+				ViewModel.GitStatusColumn.Width = GitStatusColumnDefinition.ActualWidth;
+
+			if (ViewModel.GitLastCommitDateColumn is not null)
+				ViewModel.GitLastCommitDateColumn.Width = GitLastCommitDateColumnDefinition.ActualWidth;
+
+			if (ViewModel.GitLastCommitMessageColumn is not null)
+				ViewModel.GitLastCommitMessageColumn.Width = GitLastCommitMessageColumnDefinition.ActualWidth;
+
+			if (ViewModel.GitCommitAuthorColumn is not null)
+				ViewModel.GitCommitAuthorColumn.Width = GitCommitAuthorColumnDefinition.ActualWidth;
+
+			if (ViewModel.GitLastCommitShaColumn is not null)
+				ViewModel.GitLastCommitShaColumn.Width = GitLastCommitShaColumnDefinition.ActualWidth;
+
+			if (ViewModel.TagColumn is not null)
+				ViewModel.TagColumn.Width = TagsColumnDefinition.ActualWidth;
+
+			if (ViewModel.PathColumn is not null)
+				ViewModel.PathColumn.Width = PathColumnDefinition.ActualWidth;
+
+			if (ViewModel.OriginalPathColumn is not null)
+				ViewModel.OriginalPathColumn.Width = OriginalPathColumnDefinition.ActualWidth;
+
+			if (ViewModel.DateDeletedColumn is not null)
+				ViewModel.DateDeletedColumn.Width = DateDeletedColumnDefinition.ActualWidth;
+
+			if (ViewModel.DateModifiedColumn is not null)
+				ViewModel.DateModifiedColumn.Width = DateModifiedColumnDefinition.ActualWidth;
+
+			if (ViewModel.DateCreatedColumn is not null)
+				ViewModel.DateCreatedColumn.Width = DateCreatedColumnDefinition.ActualWidth;
+
+			if (ViewModel.ItemTypeColumn is not null)
+				ViewModel.ItemTypeColumn.Width = TypeColumnDefinition.ActualWidth;
+
+			if (ViewModel.SizeColumn is not null)
+				ViewModel.SizeColumn.Width = SizeColumnDefinition.ActualWidth;
+
+			if (ViewModel.StatusColumn is not null)
+				ViewModel.StatusColumn.Width = CloudSyncStatusColumnDefinition.ActualWidth;
 		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)

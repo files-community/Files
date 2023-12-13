@@ -58,7 +58,7 @@ namespace Files.App.Data.Factories
 				new(DetailsLayoutColumnKind.DateCreated, 200, false),
 				new(DetailsLayoutColumnKind.Type, 140, true),
 				new(DetailsLayoutColumnKind.Size, 100, true),
-				new(DetailsLayoutColumnKind.CloudSyncStatus, 50, true),
+				new(DetailsLayoutColumnKind.CloudSyncStatus, 50, false) { MaxWidth = 80 },
 			};
 
 			return columns;
