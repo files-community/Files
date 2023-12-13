@@ -83,7 +83,7 @@ namespace Files.App.ViewModels.Layouts
 
 		public DetailsLayoutViewModel()
 		{
-			ColumnItems = new();
+			InitializeDetailsLayoutColumnItems();
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(ExecuteUpdateSortOptionsCommand);
 			ToggleColumnVisibilityCommand = new RelayCommand(ExecuteToggleColumnVisibilityCommand);
@@ -91,8 +91,10 @@ namespace Files.App.ViewModels.Layouts
 
 		// Methods
 
-		public void InitializeColumns()
+		public void InitializeDetailsLayoutColumnItems()
 		{
+			ColumnItems = new();
+
 			foreach (var item in LayoutPreferencesManager.ColumnItems)
 				ColumnItems.Add((DetailsLayoutColumnItem)item);
 
