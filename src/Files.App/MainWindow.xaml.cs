@@ -21,8 +21,6 @@ namespace Files.App
 	{
 		private readonly IApplicationService ApplicationService;
 
-		private MainPageViewModel mainPageViewModel;
-
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 

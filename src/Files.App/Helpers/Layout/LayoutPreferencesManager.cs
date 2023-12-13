@@ -478,8 +478,7 @@ namespace Files.App.Data.Models
 				UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
 
 				// Set static layout columns preferences to the json app settings
-				UserSettingsService.LayoutSettingsService.ColumnItems =
-					preferencesItem.ColumnItems.Select(DetailsLayoutColumnItem.ToModel).ToList();
+				SetDefaultLayoutPreferences(preferencesItem.ColumnItems);
 			}
 			else
 			{

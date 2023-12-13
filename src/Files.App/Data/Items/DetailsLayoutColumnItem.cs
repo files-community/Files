@@ -15,7 +15,11 @@ namespace Files.App.Data.Items
 		public double Width
 		{
 			get => _Width;
-			set => SetProperty(ref _Width, value);
+			set
+			{
+				if (SetProperty(ref _Width, value))
+					OnPropertyChanged(nameof(WidthWithGridSplitter));
+			}
 		}
 
 		// Store to the database since user can change
@@ -37,6 +41,10 @@ namespace Files.App.Data.Items
 
 		[LiteDB.BsonIgnore]
 		public bool IsResizable { get; set; } = true;
+
+		[LiteDB.BsonIgnore]
+		public double WidthWithGridSplitter
+			=> Width + 12d;
 
 		private SortDirection? _SortDirection;
 		[LiteDB.BsonIgnore]

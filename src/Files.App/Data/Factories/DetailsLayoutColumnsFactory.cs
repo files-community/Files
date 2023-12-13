@@ -9,7 +9,9 @@ namespace Files.App.Data.Factories
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-			var columns = userSettingsService.LayoutSettingsService.ColumnItems.Select(DetailsLayoutColumnItem.ToItem).ToList();
+			var columns =
+				userSettingsService.LayoutSettingsService.ColumnItems?.Select(DetailsLayoutColumnItem.ToItem).ToList()
+				?? GenerateDefaultItems();
 
 			// Set static settings
 			GetColumnItem(columns, DetailsLayoutColumnKind.Name).MaxWidth = 1000;

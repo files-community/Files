@@ -83,7 +83,7 @@ namespace Files.App.Views.Shells
 			if (FilesystemViewModel is null)
 				return;
 
-			FolderSettingsViewModel.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+			LayoutPreferencesManager.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
 			if (e.IsAdaptiveLayoutUpdateRequired)
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.LayoutPreferencesManager, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
 		}
@@ -321,7 +321,7 @@ namespace Files.App.Views.Shells
 					string.IsNullOrEmpty(navArg) ||
 					!navArg.StartsWith("tag:"))) // Return if already selected
 				{
-					if (InstanceViewModel?.LayoutPreferencesManager is FolderSettingsViewModel fsModel)
+					if (InstanceViewModel?.LayoutPreferencesManager is LayoutPreferencesManager fsModel)
 						fsModel.IsLayoutModeChanging = false;
 
 					return;

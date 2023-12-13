@@ -75,8 +75,8 @@
 					<Grid
 						Grid.Row="0"
 						Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
-						Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						Height="{Binding LayoutPreferencesManager.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding LayoutPreferencesManager.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 						Opacity="{x:Bind Opacity, Mode=OneWay}"
 						Tag="ItemImage">
 
@@ -96,8 +96,8 @@
 
 						<Border
 							x:Name="TypeUnknownGlyph"
-							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxWidth="{Binding LayoutPreferencesManager.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding LayoutPreferencesManager.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 							Margin="12"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
@@ -119,8 +119,8 @@
 
 						<Viewbox
 							x:Name="WebShortcutGlyph"
-							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxWidth="{Binding LayoutPreferencesManager.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding LayoutPreferencesManager.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 							Margin="12"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
@@ -156,7 +156,7 @@
 
 					<Grid
 						Grid.Row="1"
-						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding LayoutPreferencesManager.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 						Margin="4,0,4,8"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Stretch">
@@ -565,7 +565,7 @@
 			x:Name="RootGridZoom"
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
-			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+			Visibility="{x:Bind LayoutPreferencesManager.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
 			<!--  Main View  -->
 			<SemanticZoom.ZoomedInView>

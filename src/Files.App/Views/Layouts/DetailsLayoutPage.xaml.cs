@@ -465,22 +465,22 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateColumnLayout()
 		{
-			ViewModel.IconColumn.Width = Column2.ActualWidth;
-			ViewModel.NameColumn.Width = Column3.ActualWidth;
+			ViewModel.IconColumn.Width = IconColumnDefinition.ActualWidth;
+			ViewModel.NameColumn.Width = NameColumnDefinition.ActualWidth;
 			ViewModel.GitStatusColumn.Width = GitStatusColumnDefinition.ActualWidth;
 			ViewModel.GitLastCommitDateColumn.Width = GitLastCommitDateColumnDefinition.ActualWidth;
 			ViewModel.GitLastCommitMessageColumn.Width = GitLastCommitMessageColumnDefinition.ActualWidth;
 			ViewModel.GitCommitAuthorColumn.Width = GitCommitAuthorColumnDefinition.ActualWidth;
 			ViewModel.GitLastCommitShaColumn.Width = GitLastCommitShaColumnDefinition.ActualWidth;
-			ViewModel.TagColumn.Width = Column4.ActualWidth;
-			ViewModel.PathColumn.Width = Column5.ActualWidth;
-			ViewModel.OriginalPathColumn.Width = Column6.ActualWidth;
-			ViewModel.DateDeletedColumn.Width = Column7.ActualWidth;
-			ViewModel.DateModifiedColumn.Width = Column8.ActualWidth;
-			ViewModel.DateCreatedColumn.Width = Column9.ActualWidth;
-			ViewModel.ItemTypeColumn.Width = Column10.ActualWidth;
-			ViewModel.SizeColumn.Width = Column11.ActualWidth;
-			ViewModel.StatusColumn.Width = Column12.ActualWidth;
+			ViewModel.TagColumn.Width = TagsColumnDefinition.ActualWidth;
+			ViewModel.PathColumn.Width = PathColumnDefinition.ActualWidth;
+			ViewModel.OriginalPathColumn.Width = OriginalPathColumnDefinition.ActualWidth;
+			ViewModel.DateDeletedColumn.Width = DateDeletedColumnDefinition.ActualWidth;
+			ViewModel.DateModifiedColumn.Width = DateModifiedColumnDefinition.ActualWidth;
+			ViewModel.DateCreatedColumn.Width = DateCreatedColumnDefinition.ActualWidth;
+			ViewModel.ItemTypeColumn.Width = TypeColumnDefinition.ActualWidth;
+			ViewModel.SizeColumn.Width = SizeColumnDefinition.ActualWidth;
+			ViewModel.StatusColumn.Width = CloudSyncStatusColumnDefinition.ActualWidth;
 		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)

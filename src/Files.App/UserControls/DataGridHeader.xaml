@@ -120,7 +120,7 @@
 			AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
 			Command="{x:Bind Command}"
 			CommandParameter="{x:Bind CommandParameter}"
-			IsEnabled="{x:Bind CanBeSorted, Mode=OneWay}"
+			IsEnabled="{x:Bind CanSort, Mode=OneWay}"
 			Style="{StaticResource Local.HeaderButtonStyle}">
 			<Grid>
 				<Grid.ColumnDefinitions>
