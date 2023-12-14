@@ -267,35 +267,35 @@
 											Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 											IsChecked="{x:Bind ViewModel.GitStatusColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=GitStatus}"
-											Visibility="{x:Bind ViewModel.GitStatusColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.GitStatusColumn.IsAvailable, Mode=OneWay}" />
 
 										<!--  Git Last Commit Date  -->
 										<ToggleMenuFlyoutItem
 											Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 											IsChecked="{x:Bind ViewModel.GitLastCommitDateColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=DateCommitted}"
-											Visibility="{x:Bind ViewModel.GitLastCommitDateColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.GitLastCommitDateColumn.IsAvailable, Mode=OneWay}" />
 
 										<!--  Git Last Commit Message  -->
 										<ToggleMenuFlyoutItem
 											Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 											IsChecked="{x:Bind ViewModel.GitLastCommitMessageColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=CommitMessage}"
-											Visibility="{x:Bind ViewModel.GitLastCommitMessageColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.GitLastCommitMessageColumn.IsAvailable, Mode=OneWay}" />
 
 										<!--  Git Last Commit Author  -->
 										<ToggleMenuFlyoutItem
 											Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 											IsChecked="{x:Bind ViewModel.GitCommitAuthorColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=Author}"
-											Visibility="{x:Bind ViewModel.GitCommitAuthorColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.GitCommitAuthorColumn.IsAvailable, Mode=OneWay}" />
 
 										<!--  Git Last Commit SHA  -->
 										<ToggleMenuFlyoutItem
 											Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 											IsChecked="{x:Bind ViewModel.GitLastCommitShaColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=CommitSha}"
-											Visibility="{x:Bind ViewModel.GitLastCommitShaColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.GitLastCommitShaColumn.IsAvailable, Mode=OneWay}" />
 
 									</MenuFlyoutSubItem>
 
@@ -304,63 +304,63 @@
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.TagColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=Tag}"
-										Visibility="{x:Bind ViewModel.TagColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.TagColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  Item Path  -->
 									<ToggleMenuFlyoutItem
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.PathColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=PathColumn}"
-										Visibility="{x:Bind ViewModel.PathColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.PathColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  Item Original Path  -->
 									<ToggleMenuFlyoutItem
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.OriginalPathColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath/Text}"
-										Visibility="{x:Bind ViewModel.OriginalPathColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.OriginalPathColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  Item Date Deleted  -->
 									<ToggleMenuFlyoutItem
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.DateDeletedColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted/Text}"
-										Visibility="{x:Bind ViewModel.DateDeletedColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.DateDeletedColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  Item Date Modified  -->
 									<ToggleMenuFlyoutItem
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.DateModifiedColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified/Text}"
-										Visibility="{x:Bind ViewModel.DateModifiedColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.DateModifiedColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  Item Date Created  -->
 									<ToggleMenuFlyoutItem
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.DateCreatedColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated/Text}"
-										Visibility="{x:Bind ViewModel.DateCreatedColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.DateCreatedColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  Item Type  -->
 									<ToggleMenuFlyoutItem
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.ItemTypeColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemType/Text}"
-										Visibility="{x:Bind ViewModel.ItemTypeColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ItemTypeColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  Item Size  -->
 									<ToggleMenuFlyoutItem
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.SizeColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize/Text}"
-										Visibility="{x:Bind ViewModel.SizeColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.SizeColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  Cloud Sync Status  -->
 									<ToggleMenuFlyoutItem
 										Command="{x:Bind ViewModel.ToggleColumnVisibilityCommand}"
 										IsChecked="{x:Bind ViewModel.StatusColumn.IsVisible, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowSyncStatus/Text}"
-										Visibility="{x:Bind ViewModel.StatusColumn.IsAvailable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.StatusColumn.IsAvailable, Mode=OneWay}" />
 
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
