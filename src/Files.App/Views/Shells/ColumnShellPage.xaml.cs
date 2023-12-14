@@ -167,6 +167,9 @@ namespace Files.App.Views.Shells
 
 		public override void Up_Click()
 		{
+			if (!ToolbarViewModel.CanNavigateToParent)
+				return;
+
 			this.FindAscendant<ColumnsLayoutPage>()?.NavigateUp();
 		}
 

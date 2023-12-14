@@ -302,7 +302,7 @@ namespace Files.App.Utils.Storage
 
 		private static string GetPathWithoutEnvironmentVariable(string path)
 		{
-			if (path.StartsWith("~\\", StringComparison.Ordinal))
+			if (path.StartsWith("~\\", StringComparison.Ordinal) || path.StartsWith("~/", StringComparison.Ordinal) || path.Equals("~", StringComparison.Ordinal))
 				path = $"{Constants.UserEnvironmentPaths.HomePath}{path.Remove(0, 1)}";
 
 			path = path.Replace("%temp%", Constants.UserEnvironmentPaths.TempPath, StringComparison.OrdinalIgnoreCase);
