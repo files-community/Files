@@ -96,7 +96,7 @@ namespace Files.App.ViewModels.Layouts
 		public void InitializeDetailsLayoutColumnItems()
 		{
 			foreach (var item in LayoutPreferencesManager.ColumnItems)
-				ColumnItems.Add((DetailsLayoutColumnItem)item);
+				ColumnItems.Add(item);
 
 			FilesystemViewModel.EnabledGitProperties = GetEnabledGitColumns();
 		}
@@ -104,53 +104,70 @@ namespace Files.App.ViewModels.Layouts
 		public void UpdateDetailsLayoutColumnsVisibilities(PageTypeUpdatedEventArgs e)
 		{
 			// Recycle Bin Page
-			if (e.IsTypeRecycleBin)
+			if (GetColumnItem(DetailsLayoutColumnKind.OriginalPath) is DetailsLayoutColumnItem originalPathColumn &&
+				GetColumnItem(DetailsLayoutColumnKind.DateDeleted) is DetailsLayoutColumnItem dateDeletedColumn)
 			{
-				GetColumnItem(DetailsLayoutColumnKind.OriginalPath)?.Show();
-				GetColumnItem(DetailsLayoutColumnKind.DateDeleted)?.Show();
-			}
-			else
-			{
-				GetColumnItem(DetailsLayoutColumnKind.OriginalPath)?.Hide();
-				GetColumnItem(DetailsLayoutColumnKind.DateDeleted)?.Hide();
+				if (e.IsTypeRecycleBin)
+				{
+					originalPathColumn.IsAvailable = true;
+					dateDeletedColumn.IsAvailable = true;
+				}
+				else
+				{
+					originalPathColumn.IsAvailable = false;
+					dateDeletedColumn.IsAvailable = false;
+				}
 			}
 
 			// Cloud Drive Page
-			if (e.IsTypeCloudDrive)
+			if (GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus) is DetailsLayoutColumnItem cloudSyncStatusColumn)
 			{
-				GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus)?.Show();
-			}
-			else
-			{
-				GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus)?.Hide();
+				if (e.IsTypeCloudDrive)
+				{
+					cloudSyncStatusColumn.IsAvailable = true;
+				}
+				else
+				{
+					cloudSyncStatusColumn.IsAvailable = false;
+				}
 			}
 
 			// Git Repository Page
-			if (e.IsTypeGitRepository && !e.IsTypeSearchResults)
+			if (GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus) is DetailsLayoutColumnItem gitStatusColumn &&
+				GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus) is DetailsLayoutColumnItem gitCommitAuthorColumn &&
+				GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus) is DetailsLayoutColumnItem gitLastCommitDateColumn &&
+				GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus) is DetailsLayoutColumnItem gitLastCommitMessageColumn &&
+				GetColumnItem(DetailsLayoutColumnKind.CloudSyncStatus) is DetailsLayoutColumnItem gitLastCommitShaColumn)
 			{
-				GetColumnItem(DetailsLayoutColumnKind.GitStatus)?.Show();
-				GetColumnItem(DetailsLayoutColumnKind.GitCommitAuthor)?.Show();
-				GetColumnItem(DetailsLayoutColumnKind.GitLastCommitDate)?.Show();
-				GetColumnItem(DetailsLayoutColumnKind.GitLastCommitMessage)?.Show();
-				GetColumnItem(DetailsLayoutColumnKind.GitLastCommitSha)?.Show();
-			}
-			else
-			{
-				GetColumnItem(DetailsLayoutColumnKind.GitStatus)?.Hide();
-				GetColumnItem(DetailsLayoutColumnKind.GitCommitAuthor)?.Hide();
-				GetColumnItem(DetailsLayoutColumnKind.GitLastCommitDate)?.Hide();
-				GetColumnItem(DetailsLayoutColumnKind.GitLastCommitMessage)?.Hide();
-				GetColumnItem(DetailsLayoutColumnKind.GitLastCommitSha)?.Hide();
+				if (e.IsTypeGitRepository && !e.IsTypeSearchResults)
+				{
+					gitStatusColumn.IsAvailable = true;
+					gitCommitAuthorColumn.IsAvailable = true;
+					gitLastCommitDateColumn.IsAvailable = true;
+					gitLastCommitMessageColumn.IsAvailable = true;
+					gitLastCommitShaColumn.IsAvailable = true;
+				}
+				else
+				{
+					gitStatusColumn.IsAvailable = false;
+					gitCommitAuthorColumn.IsAvailable = false;
+					gitLastCommitDateColumn.IsAvailable = false;
+					gitLastCommitMessageColumn.IsAvailable = false;
+					gitLastCommitShaColumn.IsAvailable = false;
+				}
 			}
 
 			// Search Page
-			if (e.IsTypeSearchResults)
+			if (GetColumnItem(DetailsLayoutColumnKind.Path) is DetailsLayoutColumnItem pathColumn)
 			{
-				GetColumnItem(DetailsLayoutColumnKind.Path)?.Show();
-			}
-			else
-			{
-				GetColumnItem(DetailsLayoutColumnKind.Path)?.Hide();
+				if (e.IsTypeSearchResults)
+				{
+					pathColumn.IsAvailable = true;
+				}
+				else
+				{
+					pathColumn.IsAvailable = false;
+				}
 			}
 
 			UpdateSortIndicator();

@@ -27,7 +27,11 @@ namespace Files.App.Data.Items
 		public bool IsVisible
 		{
 			get => _IsVisible && IsAvailable;
-			set => SetProperty(ref _IsVisible, value);
+			set
+			{
+				if (SetProperty(ref _IsVisible, value))
+					NotifyChanges();
+			}
 		}
 
 		[LiteDB.BsonIgnore]
@@ -59,7 +63,11 @@ namespace Files.App.Data.Items
 		public bool IsAvailable
 		{
 			get => _IsAvailable;
-			set => SetProperty(ref _IsAvailable, value);
+			set
+			{
+				if (SetProperty(ref _IsAvailable, value))
+					NotifyChanges();
+			}
 		}
 
 		private double _MinWidth = 50d;
@@ -89,26 +97,14 @@ namespace Files.App.Data.Items
 			IsAvailable = isAvailable;
 		}
 
-		public void Hide()
+		public void NotifyChanges()
 		{
-			IsAvailable = false;
 			OnPropertyChanged(nameof(IsVisible));
-			OnPropertyChanged(nameof(Width));
-			OnPropertyChanged(nameof(WidthWithGridSplitter));
-			OnPropertyChanged(nameof(MaxWidth));
 			OnPropertyChanged(nameof(IsAvailable));
-			OnPropertyChanged(nameof(MinWidth));
-		}
-
-		public void Show()
-		{
-			IsAvailable = true;
-			OnPropertyChanged(nameof(IsVisible));
 			OnPropertyChanged(nameof(Width));
-			OnPropertyChanged(nameof(WidthWithGridSplitter));
 			OnPropertyChanged(nameof(MaxWidth));
-			OnPropertyChanged(nameof(IsAvailable));
 			OnPropertyChanged(nameof(MinWidth));
+			OnPropertyChanged(nameof(WidthWithGridSplitter));
 		}
 
 		public override bool Equals(object? obj)

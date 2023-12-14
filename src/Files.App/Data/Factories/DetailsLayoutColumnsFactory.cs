@@ -13,28 +13,22 @@ namespace Files.App.Data.Factories
 				userSettingsService.LayoutSettingsService.ColumnItems?.Select(DetailsLayoutColumnItem.ToItem).ToList()
 				?? GenerateDefaultItems();
 
-			// Set static settings
-			GetColumnItem(columns, DetailsLayoutColumnKind.Name).MaxWidth = 1000;
-			GetColumnItem(columns, DetailsLayoutColumnKind.Path).MaxWidth = 500;
-			GetColumnItem(columns, DetailsLayoutColumnKind.OriginalPath).MaxWidth = 500;
-			GetColumnItem(columns, DetailsLayoutColumnKind.Icon);
-
 			// Set column names
-			GetColumnItem(columns, DetailsLayoutColumnKind.Name).Name = "Name";
-			GetColumnItem(columns, DetailsLayoutColumnKind.GitStatus).Name = "GitStatus";
-			GetColumnItem(columns, DetailsLayoutColumnKind.GitLastCommitDate).Name = "DateCommitted";
-			GetColumnItem(columns, DetailsLayoutColumnKind.GitLastCommitMessage).Name = "CommitMessage";
-			GetColumnItem(columns, DetailsLayoutColumnKind.GitCommitAuthor).Name = "Author";
-			GetColumnItem(columns, DetailsLayoutColumnKind.GitLastCommitSha).Name = "CommitSha";
-			GetColumnItem(columns, DetailsLayoutColumnKind.Tags).Name = "Tag";
-			GetColumnItem(columns, DetailsLayoutColumnKind.Path).Name = "Path";
-			GetColumnItem(columns, DetailsLayoutColumnKind.OriginalPath).Name = "OriginalPath";
-			GetColumnItem(columns, DetailsLayoutColumnKind.DateDeleted).Name = "DateDeleted";
-			GetColumnItem(columns, DetailsLayoutColumnKind.DateModified).Name = "DateModifiedLowerCase";
-			GetColumnItem(columns, DetailsLayoutColumnKind.DateCreated).Name = "DateCreated";
-			GetColumnItem(columns, DetailsLayoutColumnKind.Type).Name = "Type";
-			GetColumnItem(columns, DetailsLayoutColumnKind.Size).Name = "Size";
-			GetColumnItem(columns, DetailsLayoutColumnKind.CloudSyncStatus).Name = "syncStatusColumn";
+			GetColumnItem(columns, DetailsLayoutColumnKind.Name).Name = "Name".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.GitStatus).Name = "GitStatus".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.GitLastCommitDate).Name = "DateCommitted".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.GitLastCommitMessage).Name = "CommitMessage".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.GitCommitAuthor).Name = "Author".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.GitLastCommitSha).Name = "CommitSha".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.Tags).Name = "Tag".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.Path).Name = "Path".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.OriginalPath).Name = "OriginalPath".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.DateDeleted).Name = "DateDeleted".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.DateModified).Name = "DateModifiedLowerCase".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.DateCreated).Name = "DateCreated".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.Type).Name = "Type".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.Size).Name = "Size".GetLocalizedResource();
+			GetColumnItem(columns, DetailsLayoutColumnKind.CloudSyncStatus).Name = "syncStatusColumn".GetLocalizedResource();
 
 			return columns;
 		}
