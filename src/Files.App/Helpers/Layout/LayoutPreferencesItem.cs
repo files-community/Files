@@ -17,6 +17,7 @@ namespace Files.App.Helpers
 		public ColumnsViewModel ColumnsViewModel;
 
 		public bool SortDirectoriesAlongsideFiles;
+		public bool SortFilesFirst;
 		public bool IsAdaptiveLayoutOverridden;
 		public int GridViewSize;
 
@@ -43,6 +44,7 @@ namespace Files.App.Helpers
 			DirectoryGroupDirection = UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection;
 			DirectoryGroupByDateUnit = UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit;
 			SortDirectoriesAlongsideFiles = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			SortFilesFirst = UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst;
 			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
 			ColumnsViewModel = new ColumnsViewModel();
@@ -99,6 +101,7 @@ namespace Files.App.Helpers
 					item.DirectoryGroupDirection == DirectoryGroupDirection &&
 					item.DirectoryGroupByDateUnit == DirectoryGroupByDateUnit &&
 					item.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
+					item.SortFilesFirst == SortFilesFirst &&
 					item.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
 					item.ColumnsViewModel.Equals(ColumnsViewModel));
 			}
@@ -117,6 +120,7 @@ namespace Files.App.Helpers
 			hash.Add(DirectoryGroupDirection);
 			hash.Add(DirectoryGroupByDateUnit);
 			hash.Add(SortDirectoriesAlongsideFiles);
+			hash.Add(SortFilesFirst);
 			hash.Add(IsAdaptiveLayoutOverridden);
 			hash.Add(ColumnsViewModel);
 
