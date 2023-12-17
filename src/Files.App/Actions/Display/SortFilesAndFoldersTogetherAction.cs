@@ -3,20 +3,20 @@
 
 namespace Files.App.Actions
 {
-	internal class ToggleSortDirectoriesAlongsideFilesAction : ObservableObject, IToggleAction
+	internal class SortFilesAndFoldersTogetherAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "SettingsListAndSortDirectoriesAlongsideFiles".GetLocalizedResource();
+			=> "SortFilesAndFoldersTogether".GetLocalizedResource();
 
 		public string Description
-			=> "ToggleSortDirectoriesAlongsideFilesDescription".GetLocalizedResource();
+			=> "SortFilesAndFoldersTogetherDescription".GetLocalizedResource();
 
 		public bool IsOn
 			=> context.SortDirectoriesAlongsideFiles;
 
-		public ToggleSortDirectoriesAlongsideFilesAction()
+		public SortFilesAndFoldersTogetherAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
@@ -25,7 +25,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			context.SortDirectoriesAlongsideFiles = !IsOn;
+			context.SortDirectoriesAlongsideFiles = true;
 
 			return Task.CompletedTask;
 		}

@@ -221,6 +221,14 @@ namespace Files.App.Data.Models
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
+		public async Task UpdateSortFilesFirstAsync()
+		{
+			OnPropertyChanged(nameof(AreFilesSortedFirst));
+
+			await OrderFilesAndFoldersAsync();
+			await ApplyFilesAndFoldersChangesAsync();
+		}
+
 		private void UpdateSortAndGroupOptions()
 		{
 			OnPropertyChanged(nameof(IsSortedByName));
@@ -236,6 +244,7 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(IsSortedAscending));
 			OnPropertyChanged(nameof(IsSortedDescending));
 			OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
+			OnPropertyChanged(nameof(AreFilesSortedFirst));
 		}
 
 		public bool IsSortedByName
@@ -406,6 +415,16 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		public bool AreFilesSortedFirst
+		{
+			get => folderSettings.SortFilesFirst;
+			set
+			{
+				folderSettings.SortFilesFirst = value;
+				OnPropertyChanged(nameof(AreFilesSortedFirst));
+			}
+		}
+
 		public bool HasNoWatcher { get; private set; }
 
 		public ItemViewModel(LayoutPreferencesManager folderSettingsViewModel)
@@ -547,6 +566,7 @@ namespace Files.App.Data.Models
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortOption):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupOption):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst):
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -602,7 +622,8 @@ namespace Files.App.Data.Models
 				{
 					var key = FilesAndFolders.ItemGroupKeySelector?.Invoke(item);
 					var group = FilesAndFolders.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
-					group?.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles), item);
+					group?.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
+						folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst), item);
 				}
 
 				UpdateEmptyTextType();
@@ -753,7 +774,8 @@ namespace Files.App.Data.Models
 				if (filesAndFolders.Count == 0)
 					return;
 
-				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders.ToList(), folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
+				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders.ToList(), folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
+					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst));
 			}
 
 			if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -775,7 +797,8 @@ namespace Files.App.Data.Models
 				if (token.IsCancellationRequested)
 					return;
 
-				gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
+				gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
+					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst));
 			}
 
 			if (FilesAndFolders.GroupedCollection is null || FilesAndFolders.GroupedCollection.IsSorted)

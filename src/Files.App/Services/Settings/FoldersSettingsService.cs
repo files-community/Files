@@ -339,6 +339,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool DefaultSortFilesFirst
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool ShowFileExtensions
 		{
 			get => Get(true);

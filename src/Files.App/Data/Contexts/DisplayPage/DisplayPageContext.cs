@@ -115,6 +115,17 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
+		private bool _SortFilesFirst = false;
+		public bool SortFilesFirst
+		{
+			get => _SortFilesFirst;
+			set
+			{
+				if (FolderSettings is LayoutPreferencesManager viewModel)
+					viewModel.SortFilesFirst = value;
+			}
+		}
+
 		private LayoutPreferencesManager? FolderSettings => context.PaneOrColumn?.InstanceViewModel?.FolderSettings;
 
 		public DisplayPageContext()
@@ -181,6 +192,9 @@ namespace Files.App.Data.Contexts
 				case nameof(LayoutPreferencesManager.SortDirectoriesAlongsideFiles):
 					SetProperty(ref _SortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
 					break;
+				case nameof(LayoutPreferencesManager.SortFilesFirst):
+					SetProperty(ref _SortFilesFirst, viewModel.SortFilesFirst, nameof(SortFilesFirst));
+					break;
 			}
 		}
 
@@ -214,6 +228,7 @@ namespace Files.App.Data.Contexts
 				SetProperty(ref _GroupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
 				SetProperty(ref _GroupByDateUnit, viewModel.DirectoryGroupByDateUnit, nameof(GroupByDateUnit));
 				SetProperty(ref _SortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
+				SetProperty(ref _SortFilesFirst, viewModel.SortFilesFirst, nameof(SortFilesFirst));
 			}
 		}
 
