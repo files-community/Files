@@ -394,7 +394,7 @@ namespace Files.App.Utils.Storage
 					using var imageStream = await imgSource.OpenReadAsync();
 					var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(destination);
 					// Set the name of the file to be the current time and date
-					var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
+					var file = await folder.CreateFileAsync($"{DateTime.Now:MM-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
 					SoftwareBitmap softwareBitmap;
 
