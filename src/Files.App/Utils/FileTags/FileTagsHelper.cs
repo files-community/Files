@@ -1,12 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers;
-using Files.App.Utils.Shell;
-using Files.Shared.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using IO = System.IO;
@@ -27,7 +23,7 @@ namespace Files.App.Utils.FileTags
 			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries);
 		}
 
-		public static void WriteFileTag(string filePath, string[] tag)
+		public static async void WriteFileTag(string filePath, string[] tag)
 		{
 			var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
 			var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
@@ -41,7 +37,21 @@ namespace Files.App.Utils.FileTags
 			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
 			{
-				NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
+				var result = NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
+				if (result == false)
+				{
+					ContentDialog dialog = new()
+					{
+						Title = "ErrorApplyingTagTitle".GetLocalizedResource(),
+						Content = "ErrorApplyingTagContent".GetLocalizedResource(),
+						PrimaryButtonText = "Ok".GetLocalizedResource()
+					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+					await dialog.TryShowAsync();
+				}
 			}
 			if (isReadOnly) // Restore read-only attribute (#7534)
 			{
