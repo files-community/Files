@@ -3659,4 +3659,10 @@
   <data name="SortPriority" xml:space="preserve">
     <value>Sort priority</value>
   </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
 </root>

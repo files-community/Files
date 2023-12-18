@@ -170,6 +170,14 @@ namespace Files.App
 				// Sleep current instance
 				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
 				Thread.Yield();
+
+				// Get icon file path for the system tray
+				var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+				var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, applicationService.AppIcoPath);
+
+				// Add system tray icon
+				var trayIcon = new SystemTrayIcon(Package.Current.DisplayName, iconPath).Show();
+
 				if (Program.Pool.WaitOne())
 				{
 					// Resume the instance
