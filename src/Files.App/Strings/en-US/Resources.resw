@@ -3659,4 +3659,7 @@
   <data name="SortPriority" xml:space="preserve">
     <value>Sort priority</value>
   </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Failed to rotate the image</value>
+  </data>
 </root>
