@@ -89,14 +89,14 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsSidebarCompactSize
 			=> SidebarDisplayMode == SidebarDisplayMode.Compact || SidebarDisplayMode == SidebarDisplayMode.Minimal;
 
-		public void NotifyInstanceRelatedPropertiesChanged(string arg)
+		public void NotifyInstanceRelatedPropertiesChanged(string? arg)
 		{
 			UpdateSidebarSelectedItemFromArgs(arg);
 
 			OnPropertyChanged(nameof(SidebarSelectedItem));
 		}
 
-		public void UpdateSidebarSelectedItemFromArgs(string arg)
+		public void UpdateSidebarSelectedItemFromArgs(string? arg)
 		{
 			var value = arg;
 

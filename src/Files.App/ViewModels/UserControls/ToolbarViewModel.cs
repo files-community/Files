@@ -179,7 +179,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.FolderSettings is not null)
 				{
-					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(FolderSettingsViewModel.LayoutMode)));
+					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
 					instanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 				}
 			}
@@ -664,6 +664,19 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private static string NormalizePathInput(string currentInput, bool isFtp)
+		{
+			if (currentInput.Contains('/') && !isFtp)
+				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
+
+			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
+
+			if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
+				currentInput = currentInput.Insert(0, "\\");
+
+			return currentInput;
+		}
+
 		public async Task CheckPathInputAsync(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
 			if (currentInput.StartsWith('>'))
@@ -685,13 +698,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var isFtp = FtpHelpers.IsFtpPath(currentInput);
 
-			if (currentInput.Contains('/') && !isFtp)
-				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
-
-			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
-
-			if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
-				currentInput = currentInput.Insert(0, "\\");
+			currentInput = NormalizePathInput(currentInput, isFtp);
 
 			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
 				return;
@@ -810,8 +817,10 @@ namespace Files.App.ViewModels.UserControls
 					else
 					{
 						IsCommandPaletteOpen = false;
-						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
-						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
+						var currentInput = sender.Text;
+						var isFtp = FtpHelpers.IsFtpPath(currentInput);
+						currentInput = NormalizePathInput(currentInput, isFtp);
+						var expandedPath = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
 						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
 						StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
@@ -906,8 +915,8 @@ namespace Files.App.ViewModels.UserControls
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(FolderSettingsViewModel.GridViewSize):
-				case nameof(FolderSettingsViewModel.LayoutMode):
+				case nameof(LayoutPreferencesManager.GridViewSize):
+				case nameof(LayoutPreferencesManager.LayoutMode):
 					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{
 						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,

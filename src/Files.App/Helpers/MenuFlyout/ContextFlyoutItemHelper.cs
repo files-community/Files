@@ -211,7 +211,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "NavToolbarGroupByRadioButtons/Text".GetLocalizedResource(),
+					Text = "GroupBy".GetLocalizedResource(),
 					Glyph = "\uF168",
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
@@ -516,6 +516,7 @@ namespace Files.App.Helpers
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHereSmart).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder).Build(),
 					},

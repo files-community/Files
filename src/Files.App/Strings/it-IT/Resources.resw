@@ -3225,7 +3225,7 @@
     <value>Inizializza repo</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Inizializza una repository git</value>
+    <value>Inizializza una repository Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Nome Repository Remoto</value>
@@ -3295,7 +3295,7 @@
     <value>Non mostrare più</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>File in esecuzione come amministratore</value>
+    <value>Files è in esecuzione come amministratore</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>A causa delle limitazioni della piattaforma, il drag and drop non è disponibile quando si esegue Files come amministratore.</value>
@@ -3504,23 +3504,23 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Annullata cancellazione di {0} elemento/i da "{1}"</value>
+    <value>Annullata eliminazione permanente di {0} elemento/i da "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Cancellati {0} elemento/i da "{1}"</value>
+    <value>Eliminato/i permanentemente {0} elemento/i da "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Errore nella cancellazione di {0} elemento/i da "{1}"</value>
+    <value>Errore nell'eliminazione permanente di {0} elemento/i da "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Errore nella cancellazione di {0} elemento/i da "{1}"</value>
+    <value>Errore nell'eliminazione permanente di {0} elemento/i da "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Cancellazione di {0} elemento/i da "{1}" in corso</value>
+    <value>Eliminazione permanente di {0} elemento/i da "{1}" in corso</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Impossibile impostare lo sfondo</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Elimina il branch di Git</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Sei sicuro/a di voler eliminare permanentemente il branch "{0}"?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connesso a GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Disconnettiti</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Connettiti a GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Accedi</value>
   </data>
 </root>

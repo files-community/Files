@@ -3572,7 +3572,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled emptying Recycle Bin</value>
+    <value>Geri Dönüşüm Kutusu'nun boşaltılması iptal edildi</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
@@ -3613,5 +3613,23 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Git kancasını sil</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>GitHub'a bağlanıldı</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Çıkış yap</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>GitHub'a Bağlan</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Giriş yap</value>
   </data>
 </root>

@@ -234,6 +234,11 @@ namespace Files.Core.Services.Settings
 		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating if files should be sorted first.
+		/// </summary>
+		bool DefaultSortFilesFirst { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating if file extensions should be displayed.
 		/// </summary>
 		bool ShowFileExtensions { get; set; }

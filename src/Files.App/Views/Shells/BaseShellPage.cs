@@ -56,7 +56,7 @@ namespace Files.App.Views.Shells
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
 
-		public FolderSettingsViewModel FolderSettings => InstanceViewModel.FolderSettings;
+		public LayoutPreferencesManager FolderSettings => InstanceViewModel.FolderSettings;
 
 		public AppModel AppModel => App.AppModel;
 
@@ -201,6 +201,7 @@ namespace Files.App.Views.Shells
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
+			InstanceViewModel.FolderSettings.SortFilesFirstPreferenceUpdated += AppSettings_SortFilesFirstPreferenceUpdated;
 
 			PointerPressed += CoreWindow_PointerPressed;
 
@@ -397,6 +398,11 @@ namespace Files.App.Views.Shells
 		protected void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
 		{
 			FilesystemViewModel?.UpdateSortDirectoriesAlongsideFilesAsync();
+		}
+
+		protected void AppSettings_SortFilesFirstPreferenceUpdated(object sender, bool e)
+		{
+			FilesystemViewModel?.UpdateSortFilesFirstAsync();
 		}
 
 		protected void CoreWindow_PointerPressed(object sender, PointerRoutedEventArgs args)
@@ -806,6 +812,7 @@ namespace Files.App.Views.Shells
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
+			InstanceViewModel.FolderSettings.SortFilesFirstPreferenceUpdated -= AppSettings_SortFilesFirstPreferenceUpdated;
 
 			// Prevent weird case of this being null when many tabs are opened/closed quickly
 			if (FilesystemViewModel is not null)
