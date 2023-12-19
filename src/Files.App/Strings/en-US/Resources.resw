@@ -978,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in {1} for {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
@@ -1323,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Sort</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Group By</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Date modified</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Original folder</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sort By</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descending</value>
@@ -2628,9 +2619,6 @@
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Toggle item sort direction</value>
   </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
-  </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>List items without grouping</value>
   </data>
@@ -3649,5 +3637,29 @@
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extract here (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Sort files first</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Sort files first then folders</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Sort folders first</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Sort folders first then files</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sort priority</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Failed to rotate the image</value>
   </data>
 </root>

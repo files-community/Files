@@ -131,7 +131,9 @@ namespace Files.App.Data.Commands
 		public IRichCommand SortAscending => commands[CommandCodes.SortAscending];
 		public IRichCommand SortDescending => commands[CommandCodes.SortDescending];
 		public IRichCommand ToggleSortDirection => commands[CommandCodes.ToggleSortDirection];
-		public IRichCommand ToggleSortDirectoriesAlongsideFiles => commands[CommandCodes.ToggleSortDirectoriesAlongsideFiles];
+		public IRichCommand SortFoldersFirst => commands[CommandCodes.SortFoldersFirst];
+		public IRichCommand SortFilesFirst => commands[CommandCodes.SortFilesFirst];
+		public IRichCommand SortFilesAndFoldersTogether => commands[CommandCodes.SortFilesAndFoldersTogether];
 		public IRichCommand GroupByNone => commands[CommandCodes.GroupByNone];
 		public IRichCommand GroupByName => commands[CommandCodes.GroupByName];
 		public IRichCommand GroupByDateModified => commands[CommandCodes.GroupByDateModified];
@@ -296,7 +298,9 @@ namespace Files.App.Data.Commands
 			[CommandCodes.SortAscending] = new SortAscendingAction(),
 			[CommandCodes.SortDescending] = new SortDescendingAction(),
 			[CommandCodes.ToggleSortDirection] = new ToggleSortDirectionAction(),
-			[CommandCodes.ToggleSortDirectoriesAlongsideFiles] = new ToggleSortDirectoriesAlongsideFilesAction(),
+			[CommandCodes.SortFoldersFirst] = new SortFoldersFirstAction(),
+			[CommandCodes.SortFilesFirst] = new SortFilesFirstAction(),
+			[CommandCodes.SortFilesAndFoldersTogether] = new SortFilesAndFoldersTogetherAction(),
 			[CommandCodes.GroupByNone] = new GroupByNoneAction(),
 			[CommandCodes.GroupByName] = new GroupByNameAction(),
 			[CommandCodes.GroupByDateModified] = new GroupByDateModifiedAction(),

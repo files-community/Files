@@ -221,6 +221,19 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		public bool SortFilesFirst
+		{
+			get => LayoutPreferencesItem.SortFilesFirst;
+			set
+			{
+				if (SetProperty(ref LayoutPreferencesItem.SortFilesFirst, value, nameof(SortFilesFirst)))
+				{
+					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+					SortFilesFirstPreferenceUpdated?.Invoke(this, SortFilesFirst);
+				}
+			}
+		}
+
 		public ColumnsViewModel ColumnsViewModel
 		{
 			get => LayoutPreferencesItem.ColumnsViewModel;
@@ -256,6 +269,7 @@ namespace Files.App.Data.Models
 					OnPropertyChanged(nameof(DirectoryGroupDirection));
 					OnPropertyChanged(nameof(DirectoryGroupByDateUnit));
 					OnPropertyChanged(nameof(SortDirectoriesAlongsideFiles));
+					OnPropertyChanged(nameof(SortFilesFirst));
 					OnPropertyChanged(nameof(ColumnsViewModel));
 				}
 			}
@@ -270,6 +284,7 @@ namespace Files.App.Data.Models
 		public event EventHandler<SortDirection>? GroupDirectionPreferenceUpdated;
 		public event EventHandler<GroupByDateUnit>? GroupByDateUnitPreferenceUpdated;
 		public event EventHandler<bool>? SortDirectoriesAlongsideFilesPreferenceUpdated;
+		public event EventHandler<bool>? SortFilesFirstPreferenceUpdated;
 		public event EventHandler<LayoutModeEventArgs>? LayoutModeChangeRequested;
 		public event EventHandler? GridViewSizeChangeRequested;
 
@@ -429,6 +444,9 @@ namespace Files.App.Data.Models
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
 					SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
 					break;
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst):
+					SortFilesFirst = preferencesItem.SortFilesFirst;
+					break;
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					LayoutPreferencesItem = preferencesItem;
 					// TODO: Update layout
@@ -512,6 +530,7 @@ namespace Files.App.Data.Models
 				UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection = preferencesItem.DirectoryGroupDirection;
 				UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
 				UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
+				UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst = preferencesItem.SortFilesFirst;
 
 				UserSettingsService.FoldersSettingsService.NameColumnWidth = preferencesItem.ColumnsViewModel.NameColumn.UserLengthPixels;
 

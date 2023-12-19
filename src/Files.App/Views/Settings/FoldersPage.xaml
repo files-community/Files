@@ -150,12 +150,13 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<!--  Sort Folders Alongside Files  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
-								IsOn="{x:Bind ViewModel.ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<!--  Sort Priority  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortPriority}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortPriority}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortPriorityIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=SortFoldersFirst}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesFirst}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesAndFoldersTogether}" />
+							</ComboBox>
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>

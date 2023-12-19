@@ -118,7 +118,9 @@ namespace Files.App.Data.Commands
 		IRichCommand SortAscending { get; }
 		IRichCommand SortDescending { get; }
 		IRichCommand ToggleSortDirection { get; }
-		IRichCommand ToggleSortDirectoriesAlongsideFiles { get; }
+		IRichCommand SortFoldersFirst { get; }
+		IRichCommand SortFilesFirst { get; }
+		IRichCommand SortFilesAndFoldersTogether { get; }
 
 		IRichCommand GroupByNone { get; }
 		IRichCommand GroupByName { get; }

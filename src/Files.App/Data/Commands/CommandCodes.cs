@@ -133,7 +133,9 @@ namespace Files.App.Data.Commands
 		SortAscending,
 		SortDescending,
 		ToggleSortDirection,
-		ToggleSortDirectoriesAlongsideFiles,
+		SortFoldersFirst,
+		SortFilesFirst,
+		SortFilesAndFoldersTogether,
 
 		// Group by
 		GroupByNone,

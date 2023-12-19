@@ -510,7 +510,7 @@
 						<MenuFlyoutSubItem
 							AccessKey="S"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
-							Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
+							Text="{helpers:ResourceString Name=SortBy}">
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByName.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByDateModified.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByDateModified.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByDateCreated.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByDateCreated.Label}" />
@@ -546,7 +546,7 @@
 						<MenuFlyoutSubItem
 							AccessKey="G"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
-							Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
+							Text="{helpers:ResourceString Name=GroupBy}">
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByNone.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByNone.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByName.Label}" />
 							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateModified.Label}">
@@ -589,10 +589,9 @@
 								Text="{x:Bind Commands.GroupDescending.Label}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSeparator />
-						<ToggleMenuFlyoutItem
-							AccessKey="A"
-							IsChecked="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.IsOn, Mode=TwoWay}"
-							Text="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.Label}" />
+						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFoldersFirst.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFoldersFirst.Label}" />
+						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFilesFirst.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFilesFirst.Label}" />
+						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortFilesAndFoldersTogether.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortFilesAndFoldersTogether.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
