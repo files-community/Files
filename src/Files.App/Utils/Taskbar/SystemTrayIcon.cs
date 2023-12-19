@@ -247,22 +247,25 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnClick()
 		{
-			// Add the functionality
+			if (App.Current is App thisApp)
+			{
+				thisApp.OnActivated(null);
+			}
 		}
 
 		private void OnDoubleClick()
 		{
-			// Preserved
 		}
 
 		private void OnRestart()
 		{
-			// Add the functionality
+			var failureReason = AppInstance.Restart("");
 		}
 
 		private void OnQuit()
 		{
-			// Add the functionality
+			Program.Pool.Release();
+			Environment.Exit(0);
 		}
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)

@@ -105,13 +105,24 @@ namespace Files.App
 		/// <summary>
 		/// Invoked when the application is activated.
 		/// </summary>
-		public void OnActivated(AppActivationArguments activatedEventArgs)
+		public void OnActivated(AppActivationArguments? activatedEventArgs = null)
 		{
-			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
+			if (activatedEventArgs is null)
+			{
+				Logger.LogInformation($"The app is being activated. Activated from the system tray.");
 
-			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
-				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data));
+				// InitializeApplication accesses UI, needs to be called on UI thread
+				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
+					=> MainWindow.Instance.InitializeApplicationAsync(null));
+			}
+			else
+			{
+				Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
+
+				// InitializeApplication accesses UI, needs to be called on UI thread
+				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
+					=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data));
+			}
 		}
 
 		/// <summary>
@@ -147,7 +158,7 @@ namespace Files.App
 
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
-				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
+				!Process.GetProcessesByName("Files").Any(x => x.Id != Environment.ProcessId))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
@@ -171,9 +182,14 @@ namespace Files.App
 				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
 				Thread.Yield();
 
-				// Get icon file path for the system tray
-				var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-				var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, applicationService.AppIcoPath);
+				string appIcoPath = ApplicationService.AppEnvironment switch
+				{
+					AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
+					AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
+					_ => Constants.AssetPaths.StableLogo
+				};
+
+				var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, appIcoPath);
 
 				// Add system tray icon
 				var trayIcon = new SystemTrayIcon(Package.Current.DisplayName, iconPath).Show();

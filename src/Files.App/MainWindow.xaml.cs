@@ -66,7 +66,7 @@ namespace Files.App
 			rootFrame.Navigate(typeof(SplashScreenPage));
 		}
 
-		public async Task InitializeApplicationAsync(object activatedEventArgs)
+		public async Task InitializeApplicationAsync(object? activatedEventArgs = null)
 		{
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
