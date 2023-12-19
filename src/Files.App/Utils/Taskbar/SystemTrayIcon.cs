@@ -248,9 +248,7 @@ namespace Files.App.Utils.Taskbar
 		private void OnClick()
 		{
 			if (App.Current is App thisApp)
-			{
 				thisApp.OnActivated(null);
-			}
 		}
 
 		private void OnDoubleClick()
@@ -260,6 +258,8 @@ namespace Files.App.Utils.Taskbar
 		private void OnRestart()
 		{
 			var failureReason = AppInstance.Restart("");
+			Program.Pool.Release();
+			Environment.Exit(0);
 		}
 
 		private void OnQuit()
