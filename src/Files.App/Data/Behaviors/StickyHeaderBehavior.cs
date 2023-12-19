@@ -36,6 +36,19 @@ namespace Files.App.Data.Behaviors
 
 		private InsetClip? _contentClip;
 
+		private readonly DispatcherTimer _assignAnimationTimer;
+
+		public StickyHeaderBehavior()
+		{
+			_assignAnimationTimer = new();
+			_assignAnimationTimer.Interval = TimeSpan.FromMilliseconds(200);
+			_assignAnimationTimer.Tick += (sender, e) =>
+			{
+				AssignAnimation();
+				_assignAnimationTimer.Stop();
+			};
+		}
+
 		/// <summary>
 		/// The UIElement that will be faded.
 		/// </summary>
@@ -92,7 +105,9 @@ namespace Files.App.Data.Behaviors
 		private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var b = d as StickyHeaderBehavior;
-			b?.AssignAnimation();
+
+			// For some reason, the assignment needs to be delayed. (#14237)
+			b?._assignAnimationTimer.Start();
 		}
 
 		/// <summary>
