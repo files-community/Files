@@ -1,4 +1,9 @@
-# List of commands
+# Concept of Rich Commands
+
+> [!INFO]
+> Write down here
+
+# Commands
 
 This is the list of all commands defined in `CommandCodes` enum except `None`.
 
