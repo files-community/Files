@@ -1,8 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
+using Windows.Foundation.Metadata;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -47,43 +49,60 @@ namespace Files.App.Helpers
 		/// </remarks>
 		public static async Task RotateAsync(string filePath, BitmapRotation rotation)
 		{
-			if (string.IsNullOrEmpty(filePath))
+			try
 			{
-				return;
-			}
+				if (string.IsNullOrEmpty(filePath))
+				{
+					return;
+				}
 
-			var file = await StorageHelpers.ToStorageItem<IStorageFile>(filePath);
-			if (file is null)
-			{
-				return;
-			}
+				var file = await StorageHelpers.ToStorageItem<IStorageFile>(filePath);
+				if (file is null)
+				{
+					return;
+				}
 
-			var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
-			using IRandomAccessStream fileStream = fileStreamRes.Result;
-			if (fileStream is null)
-			{
-				return;
-			}
+				var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
+				using IRandomAccessStream fileStream = fileStreamRes.Result;
+				if (fileStream is null)
+				{
+					return;
+				}
 
-			BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
-			using var memStream = new InMemoryRandomAccessStream();
-			BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
+				BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
+				using var memStream = new InMemoryRandomAccessStream();
+				BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
 
-			for (int i = 0; i < decoder.FrameCount - 1; i++) 
-			{
+				for (int i = 0; i < decoder.FrameCount - 1; i++)
+				{
+					encoder.BitmapTransform.Rotation = rotation;
+					await encoder.GoToNextFrameAsync();
+				}
+
 				encoder.BitmapTransform.Rotation = rotation;
-				await encoder.GoToNextFrameAsync();
+
+				await encoder.FlushAsync();
+
+				memStream.Seek(0);
+				fileStream.Seek(0);
+				fileStream.Size = 0;
+
+				await RandomAccessStream.CopyAsync(memStream, fileStream);
 			}
+			catch (Exception ex)
+			{
+				var errorDialog = new ContentDialog()
+				{
+					Title = "FailedToRotateImage".GetLocalizedResource(),
+					Content = ex.Message,
+					PrimaryButtonText = "OK".GetLocalizedResource(),
+				};
 
-			encoder.BitmapTransform.Rotation = rotation;
+				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+					errorDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
-			await encoder.FlushAsync();
-
-			memStream.Seek(0);
-			fileStream.Seek(0);
-			fileStream.Size = 0;
-
-			await RandomAccessStream.CopyAsync(memStream, fileStream);
+				await errorDialog.TryShowAsync();
+			}
 		}
 
 		/// <summary>

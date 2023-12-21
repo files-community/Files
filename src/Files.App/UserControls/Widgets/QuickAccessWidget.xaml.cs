@@ -92,6 +92,7 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public static ObservableCollection<FolderCardItem> ItemsAdded = new();
 
@@ -364,13 +365,18 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(FolderCardItem item)
 		{
+			if (!HomePageContext.IsAnyItemRightClicked)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
+
 			flyoutClosed = (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
 				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+
+			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 		}
 
 		public override async Task PinToFavoritesAsync(WidgetCardItem item)

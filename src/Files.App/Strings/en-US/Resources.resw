@@ -3660,9 +3660,12 @@
     <value>Sort priority</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>Close Files</value>
+    <value>Quit</value>
   </data>
   <data name="Restart" xml:space="preserve">
     <value>Restart</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Failed to rotate the image</value>
   </data>
 </root>
