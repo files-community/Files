@@ -6,7 +6,7 @@ using Microsoft.UI.Windowing;
 
 namespace Files.App.Data.Contexts
 {
-	internal class WindowContext : ObservableObject, IWindowContext
+	internal sealed class WindowContext : ObservableObject, IWindowContext
 	{
 		private bool isCompactOverlay;
 		public bool IsCompactOverlay => isCompactOverlay;

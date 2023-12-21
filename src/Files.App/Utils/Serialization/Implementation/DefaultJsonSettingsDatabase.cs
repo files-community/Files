@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace Files.App.Utils.Serialization.Implementation
 {
-	internal class DefaultJsonSettingsDatabase : IJsonSettingsDatabase
+	internal sealed class DefaultJsonSettingsDatabase : IJsonSettingsDatabase
 	{
 		protected ISettingsSerializer SettingsSerializer { get; }
 

@@ -6,7 +6,7 @@ using Files.App.UserControls.Widgets;
 
 namespace Files.App.Actions
 {
-	internal class UnpinItemAction : ObservableObject, IAction
+	internal sealed class UnpinItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

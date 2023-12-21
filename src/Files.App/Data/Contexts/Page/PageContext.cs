@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace Files.App.Data.Contexts
 {
-	internal class PageContext : IPageContext
+	internal sealed class PageContext : IPageContext
 	{
 		public event EventHandler? Changing;
 		public event EventHandler? Changed;

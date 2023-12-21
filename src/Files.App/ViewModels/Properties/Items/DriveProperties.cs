@@ -9,7 +9,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Properties
 {
-	internal class DriveProperties : BaseProperties
+	internal sealed class DriveProperties : BaseProperties
 	{
 		public DriveItem Drive { get; }
 

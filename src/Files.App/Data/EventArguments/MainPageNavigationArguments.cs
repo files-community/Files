@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.EventArguments
 {
-	internal class MainPageNavigationArguments
+	internal sealed class MainPageNavigationArguments
 	{
 		public object? Parameter { get; set; }
 

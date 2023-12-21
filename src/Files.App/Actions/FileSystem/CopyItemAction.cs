@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class CopyItemAction : ObservableObject, IAction
+	internal sealed class CopyItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class GroupByNoneAction : GroupByAction
+	internal sealed class GroupByNoneAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.None;
@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "GroupByNoneDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByNameAction : GroupByAction
+	internal sealed class GroupByNameAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.Name;
@@ -27,7 +27,7 @@ namespace Files.App.Actions
 			=> "GroupByNameDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByDateModifiedAction : GroupByAction
+	internal sealed class GroupByDateModifiedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -39,7 +39,7 @@ namespace Files.App.Actions
 			=> "GroupByDateModifiedDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByDateCreatedAction : GroupByAction
+	internal sealed class GroupByDateCreatedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -51,7 +51,7 @@ namespace Files.App.Actions
 			=> "GroupByDateCreatedDescription".GetLocalizedResource();
 	}
 
-	internal class GroupBySizeAction : GroupByAction
+	internal sealed class GroupBySizeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.Size;
@@ -63,7 +63,7 @@ namespace Files.App.Actions
 			=> "GroupBySizeDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByTypeAction : GroupByAction
+	internal sealed class GroupByTypeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FileType;
@@ -75,7 +75,7 @@ namespace Files.App.Actions
 			=> "GroupByTypeDescription".GetLocalizedResource();
 	}
 
-	internal class GroupBySyncStatusAction : GroupByAction
+	internal sealed class GroupBySyncStatusAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.SyncStatus;
@@ -90,7 +90,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.CloudDrive;
 	}
 
-	internal class GroupByTagAction : GroupByAction
+	internal sealed class GroupByTagAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FileTag;
@@ -102,7 +102,7 @@ namespace Files.App.Actions
 			=> "GroupByTagDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByOriginalFolderAction : GroupByAction
+	internal sealed class GroupByOriginalFolderAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.OriginalFolder;
@@ -117,7 +117,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal class GroupByDateDeletedAction : GroupByAction
+	internal sealed class GroupByDateDeletedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -132,7 +132,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal class GroupByFolderPathAction : GroupByAction
+	internal sealed class GroupByFolderPathAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FolderPath;
@@ -199,7 +199,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class GroupByDateModifiedYearAction : GroupByDateAction
+	internal sealed class GroupByDateModifiedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -214,7 +214,7 @@ namespace Files.App.Actions
 			=> "GroupByDateModifiedYearDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByDateModifiedMonthAction : GroupByDateAction
+	internal sealed class GroupByDateModifiedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -229,7 +229,7 @@ namespace Files.App.Actions
 			=> "GroupByDateModifiedMonthDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByDateCreatedYearAction : GroupByDateAction
+	internal sealed class GroupByDateCreatedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -244,7 +244,7 @@ namespace Files.App.Actions
 			=> "GroupByDateCreatedYearDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByDateCreatedMonthAction : GroupByDateAction
+	internal sealed class GroupByDateCreatedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -259,7 +259,7 @@ namespace Files.App.Actions
 			=> "GroupByDateCreatedMonthDescription".GetLocalizedResource();
 	}
 
-	internal class GroupByDateDeletedYearAction : GroupByDateAction
+	internal sealed class GroupByDateDeletedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -277,7 +277,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal class GroupByDateDeletedMonthAction : GroupByDateAction
+	internal sealed class GroupByDateDeletedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -351,7 +351,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class GroupAscendingAction : ObservableObject, IToggleAction
+	internal sealed class GroupAscendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -395,7 +395,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class GroupDescendingAction : ObservableObject, IToggleAction
+	internal sealed class GroupDescendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -439,7 +439,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class ToggleGroupDirectionAction : IAction
+	internal sealed class ToggleGroupDirectionAction : IAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -462,7 +462,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class GroupByYearAction : ObservableObject, IToggleAction
+	internal sealed class GroupByYearAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -506,7 +506,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class GroupByMonthAction : ObservableObject, IToggleAction
+	internal sealed class GroupByMonthAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -550,7 +550,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class ToggleGroupByDateUnitAction : IAction
+	internal sealed class ToggleGroupByDateUnitAction : IAction
 	{
 		private readonly IDisplayPageContext context;
 

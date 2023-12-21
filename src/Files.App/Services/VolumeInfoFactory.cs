@@ -3,7 +3,7 @@
 
 namespace Files.App.Services
 {
-	internal class VolumeInfoFactory : IVolumeInfoFactory
+	internal sealed class VolumeInfoFactory : IVolumeInfoFactory
 	{
 		public VolumeInfo BuildVolumeInfo(string driveName)
 		{

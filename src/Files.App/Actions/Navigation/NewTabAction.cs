@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class NewTabAction : IAction
+	internal sealed class NewTabAction : IAction
 	{
 		public string Label
 			=> "NewTab".GetLocalizedResource();

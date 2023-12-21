@@ -5,7 +5,7 @@ using Microsoft.UI.Dispatching;
 
 namespace Files.App.ViewModels.Properties
 {
-	internal class CombinedFileProperties : CombinedProperties, IFileProperties
+	internal sealed class CombinedFileProperties : CombinedProperties, IFileProperties
 	{
 		public CombinedFileProperties(
 			SelectedItemsPropertiesViewModel viewModel,

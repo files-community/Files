@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class DeleteItemAction : BaseDeleteAction, IAction
+	internal sealed class DeleteItemAction : BaseDeleteAction, IAction
 	{
 		public string Label
 			=> "Delete".GetLocalizedResource();

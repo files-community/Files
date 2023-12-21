@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class TogglePreviewPaneAction : ObservableObject, IToggleAction
+	internal sealed class TogglePreviewPaneAction : ObservableObject, IToggleAction
 	{
 		private readonly InfoPaneViewModel viewModel;
 		private readonly IInfoPaneSettingsService infoPaneSettingsService = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();

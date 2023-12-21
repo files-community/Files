@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class LaunchPreviewPopupAction : ObservableObject, IAction
+	internal sealed class LaunchPreviewPopupAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

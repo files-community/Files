@@ -12,7 +12,7 @@ using static Files.App.Helpers.InteropHelpers;
 
 namespace Files.App
 {
-	internal class Program
+	internal sealed class Program
 	{
 		public static Semaphore Pool;
 

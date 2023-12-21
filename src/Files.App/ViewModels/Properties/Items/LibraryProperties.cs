@@ -6,7 +6,7 @@ using Microsoft.UI.Dispatching;
 
 namespace Files.App.ViewModels.Properties
 {
-	internal class LibraryProperties : BaseProperties
+	internal sealed class LibraryProperties : BaseProperties
 	{
 		public LibraryItem Library { get; private set; }
 

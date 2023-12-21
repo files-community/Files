@@ -12,7 +12,7 @@ using System.Numerics;
 
 namespace Files.App.Views
 {
-	internal class NavigationInteractionTracker : IDisposable
+	internal sealed class NavigationInteractionTracker : IDisposable
 	{
 		public bool CanNavigateForward
 		{

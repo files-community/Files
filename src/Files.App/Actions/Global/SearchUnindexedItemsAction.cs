@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class SearchUnindexedItemsAction : ObservableObject, IAction
+	internal sealed class SearchUnindexedItemsAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

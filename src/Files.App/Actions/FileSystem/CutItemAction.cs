@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class CutItemAction : ObservableObject, IAction
+	internal sealed class CutItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class SetAsSlideshowBackgroundAction : BaseSetAsAction
+	internal sealed class SetAsSlideshowBackgroundAction : BaseSetAsAction
 	{
 		public override string Label
 			=> "SetAsSlideshow".GetLocalizedResource();

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Actions
 {
-	internal class ToggleSelectAction : IAction
+	internal sealed class ToggleSelectAction : IAction
 	{
 		public string Label
 			=> "ToggleSelect".GetLocalizedResource();

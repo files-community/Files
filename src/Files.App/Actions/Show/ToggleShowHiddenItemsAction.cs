@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class ToggleShowHiddenItemsAction : ObservableObject, IToggleAction
+	internal sealed class ToggleShowHiddenItemsAction : ObservableObject, IToggleAction
 	{
 		private readonly IFoldersSettingsService settings;
 

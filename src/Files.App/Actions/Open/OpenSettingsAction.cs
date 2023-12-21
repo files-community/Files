@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class OpenSettingsAction : BaseUIAction, IAction
+	internal sealed class OpenSettingsAction : BaseUIAction, IAction
 	{
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 

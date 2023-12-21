@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class OpenDirectoryInNewTabAction : ObservableObject, IAction
+	internal sealed class OpenDirectoryInNewTabAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

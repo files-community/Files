@@ -3,7 +3,7 @@
 
 namespace Files.App.Services.DateTimeFormatter
 {
-	internal class UserDateTimeFormatter : IDateTimeFormatter
+	internal sealed class UserDateTimeFormatter : IDateTimeFormatter
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.EventArguments
 {
-	internal class PaneNavigationArguments
+	internal sealed class PaneNavigationArguments
 	{
 		public string? LeftPaneNavPathParam { get; set; }
 

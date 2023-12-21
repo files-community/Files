@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class LayoutDetailsAction : ToggleLayoutAction
+	internal sealed class LayoutDetailsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Details;
@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutTilesAction : ToggleLayoutAction
+	internal sealed class LayoutTilesAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Tiles;
@@ -39,7 +39,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutGridSmallAction : ToggleLayoutAction
+	internal sealed class LayoutGridSmallAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.GridSmall;
@@ -57,7 +57,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutGridMediumAction : ToggleLayoutAction
+	internal sealed class LayoutGridMediumAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.GridMedium;
@@ -75,7 +75,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutGridLargeAction : ToggleLayoutAction
+	internal sealed class LayoutGridLargeAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.GridLarge;
@@ -93,7 +93,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutColumnsAction : ToggleLayoutAction
+	internal sealed class LayoutColumnsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Columns;
@@ -111,7 +111,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number6, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutAdaptiveAction : ToggleLayoutAction
+	internal sealed class LayoutAdaptiveAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Adaptive;
@@ -186,7 +186,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class LayoutDecreaseSizeAction : IAction
+	internal sealed class LayoutDecreaseSizeAction : IAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -215,7 +215,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class LayoutIncreaseSizeAction : IAction
+	internal sealed class LayoutIncreaseSizeAction : IAction
 	{
 		private readonly IDisplayPageContext context;
 

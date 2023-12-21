@@ -17,7 +17,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Provides static helper for general Win32API.
 	/// </summary>
-	internal class Win32API
+	internal sealed class Win32API
 	{
 		public static Task StartSTATask(Func<Task> func)
 		{

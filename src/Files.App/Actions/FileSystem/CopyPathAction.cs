@@ -5,7 +5,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal class CopyPathAction : IAction
+	internal sealed class CopyPathAction : IAction
 	{
 		private readonly IContentPageContext context;
 

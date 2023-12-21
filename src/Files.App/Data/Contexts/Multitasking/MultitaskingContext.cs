@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 
 namespace Files.App.Data.Contexts
 {
-	internal class MultitaskingContext : ObservableObject, IMultitaskingContext
+	internal sealed class MultitaskingContext : ObservableObject, IMultitaskingContext
 	{
 		private bool isPopupOpen = false;
 

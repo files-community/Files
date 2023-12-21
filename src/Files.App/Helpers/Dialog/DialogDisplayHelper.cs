@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {
-	internal class DialogDisplayHelper
+	internal sealed class DialogDisplayHelper
 	{
 		/// <summary>
 		/// Standard dialog, to ensure consistency.

@@ -5,7 +5,7 @@ using static Vanara.PInvoke.Kernel32;
 
 namespace Files.App.Utils.Storage.Operations
 {
-	internal class FileSizeCalculator
+	internal sealed class FileSizeCalculator
 	{
 		private readonly string[] _paths;
 		private readonly ConcurrentDictionary<string, long> _computedFiles = new();

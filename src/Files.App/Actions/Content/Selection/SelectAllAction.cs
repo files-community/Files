@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class SelectAllAction : IAction
+	internal sealed class SelectAllAction : IAction
 	{
 		private readonly IContentPageContext context;
 

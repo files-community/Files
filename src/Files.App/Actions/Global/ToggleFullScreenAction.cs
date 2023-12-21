@@ -5,7 +5,7 @@ using Microsoft.UI.Windowing;
 
 namespace Files.App.Actions
 {
-	internal class ToggleFullScreenAction : IToggleAction
+	internal sealed class ToggleFullScreenAction : IToggleAction
 	{
 		public string Label
 			=> "FullScreen".GetLocalizedResource();

@@ -5,7 +5,7 @@ using Microsoft.UI.Windowing;
 
 namespace Files.App.Actions
 {
-	internal class ExitCompactOverlayAction : ObservableObject, IAction
+	internal sealed class ExitCompactOverlayAction : ObservableObject, IAction
 	{
 		private readonly IWindowContext windowContext;
 

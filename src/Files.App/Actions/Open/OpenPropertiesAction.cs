@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class OpenPropertiesAction : ObservableObject, IAction
+	internal sealed class OpenPropertiesAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

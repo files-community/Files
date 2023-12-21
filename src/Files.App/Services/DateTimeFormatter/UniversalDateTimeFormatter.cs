@@ -6,7 +6,7 @@ using System;
 
 namespace Files.App.Services.DateTimeFormatter
 {
-	internal class UniversalDateTimeFormatter : AbstractDateTimeFormatter
+	internal sealed class UniversalDateTimeFormatter : AbstractDateTimeFormatter
 	{
 		public override string Name
 			=> "Universal".GetLocalizedResource();

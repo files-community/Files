@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class InvertSelectionAction : ObservableObject, IAction
+	internal sealed class InvertSelectionAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

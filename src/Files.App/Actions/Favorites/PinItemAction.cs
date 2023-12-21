@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class PinItemAction : ObservableObject, IAction
+	internal sealed class PinItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

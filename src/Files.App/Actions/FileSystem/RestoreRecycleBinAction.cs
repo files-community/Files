@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class RestoreRecycleBinAction : BaseUIAction, IAction
+	internal sealed class RestoreRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 

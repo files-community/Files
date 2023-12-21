@@ -6,7 +6,7 @@ using Files.Core.Storage;
 
 namespace Files.App.Actions
 {
-	internal class PinToStartAction : IAction
+	internal sealed class PinToStartAction : IAction
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 

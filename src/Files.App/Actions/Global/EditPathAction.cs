@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class EditPathAction : IAction
+	internal sealed class EditPathAction : IAction
 	{
 		private readonly IContentPageContext context;
 

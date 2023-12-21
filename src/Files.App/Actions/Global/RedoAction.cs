@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class RedoAction : ObservableObject, IAction
+	internal sealed class RedoAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

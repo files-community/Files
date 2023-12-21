@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class ClosePaneAction : ObservableObject, IAction
+	internal sealed class ClosePaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

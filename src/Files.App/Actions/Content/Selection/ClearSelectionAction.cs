@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class ClearSelectionAction : IAction
+	internal sealed class ClearSelectionAction : IAction
 	{
 		private readonly IContentPageContext context;
 

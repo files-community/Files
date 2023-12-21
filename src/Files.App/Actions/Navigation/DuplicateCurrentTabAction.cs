@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class DuplicateCurrentTabAction : IAction
+	internal sealed class DuplicateCurrentTabAction : IAction
 	{
 		private readonly IMultitaskingContext context;
 

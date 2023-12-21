@@ -6,7 +6,7 @@ using Windows.Graphics;
 
 namespace Files.App.Actions
 {
-	internal class EnterCompactOverlayAction : ObservableObject, IAction
+	internal sealed class EnterCompactOverlayAction : ObservableObject, IAction
 	{
 		private readonly IWindowContext windowContext;
 

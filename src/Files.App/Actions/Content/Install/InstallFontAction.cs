@@ -5,7 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal class InstallFontAction : ObservableObject, IAction
+	internal sealed class InstallFontAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
