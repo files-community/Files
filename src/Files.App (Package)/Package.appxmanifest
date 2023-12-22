@@ -143,7 +143,7 @@
                             <uap:FileType>.tar</uap:FileType>
                             <uap:FileType>.jar</uap:FileType>
                         </uap:SupportedFileTypes>
-                        <uap:Logo>Asset"s\Icons\Archives\ExtensionIcon.png</uap:Logo>
+                        <uap:Logo>Assets\Icons\Archives\ExtensionIcon.png</uap:Logo>
                     </uap:FileTypeAssociation>
                 </uap:Extension>
 
