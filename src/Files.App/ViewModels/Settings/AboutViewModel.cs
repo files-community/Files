@@ -111,7 +111,7 @@ namespace Files.App.ViewModels.Settings
 
 		public async Task LoadThirdPartyNoticesAsync()
 		{
-			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
+			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(Constants.DocsPath.ThirdPartyNoticePath));
 			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
 		}
 

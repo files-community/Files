@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Files Logo" src="src/Files.App%20(Package)/Assets/AppTiles/Release/StoreLogo.scale-400.png" width="100px" />
+  <img alt="Files Logo" src="../src/Files.App%20(Package)/Assets/AppTiles/Release/StoreLogo.scale-400.png" width="100px" />
   <h1 align="center">Files</h1>
 </p>
 
@@ -48,4 +48,4 @@ Looking for a place to start? Check out the [task board](https://github.com/orgs
 
 ## Screenshots
 
-![Files](assets/FilesScreenshot.png)
+![Files](../assets/FilesScreenshot.png)
