@@ -13,7 +13,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
 {
-	internal sealed class CombinedProperties : BaseProperties
+	internal class CombinedProperties : BaseProperties
 	{
 		public List<ListedItem> List { get; }
 
