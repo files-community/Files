@@ -10,7 +10,7 @@ namespace Files.App.Utils.Cloud
 	/// <summary>
 	/// Provides an utility for Google Drive Cloud detection.
 	/// </summary>
-	public class GoogleDriveCloudDetector : AbstractCloudDetector
+	public sealed class GoogleDriveCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{

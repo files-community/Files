@@ -18,7 +18,7 @@ using Microsoft.UI.Xaml.Markup;
 
 namespace Files.App.UserControls.Menus
 {
-	public class FileTagsContextMenu : MenuFlyout
+	public sealed class FileTagsContextMenu : MenuFlyout
 	{
 		private IFileTagsSettingsService FileTagsSettingsService { get; } =
 			Ioc.Default.GetService<IFileTagsSettingsService>();

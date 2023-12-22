@@ -11,7 +11,7 @@ namespace Files.App.Utils.Cloud
 	/// <summary>
 	/// Provides an utility for Synology Drive Cloud detection.
 	/// </summary>
-	public class SynologyDriveCloudDetector : AbstractCloudDetector
+	public sealed class SynologyDriveCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{

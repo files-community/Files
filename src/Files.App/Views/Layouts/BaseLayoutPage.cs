@@ -1424,7 +1424,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		public class ContextMenuExtensions : DependencyObject
+		public sealed class ContextMenuExtensions : DependencyObject
 		{
 			public static ItemsControl GetItemsControl(DependencyObject obj)
 			{

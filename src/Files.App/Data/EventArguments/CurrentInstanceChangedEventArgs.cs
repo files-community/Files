@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.EventArguments
 {
-	public class CurrentInstanceChangedEventArgs : EventArgs
+	public sealed class CurrentInstanceChangedEventArgs : EventArgs
 	{
 		public ITabBarItemContent CurrentInstance { get; set; }
 

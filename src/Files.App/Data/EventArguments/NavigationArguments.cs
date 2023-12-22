@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.EventArguments
 {
-	public class NavigationArguments
+	public sealed class NavigationArguments
 	{
 		public bool FocusOnNavigation { get; set; } = false;
 

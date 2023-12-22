@@ -14,7 +14,7 @@ using Windows.Storage;
 
 namespace Files.App.Utils
 {
-	public class ListedItem : ObservableObject, IGroupableItem
+	public sealed class ListedItem : ObservableObject, IGroupableItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -414,7 +414,7 @@ namespace Files.App.Utils
 		}
 	}
 
-	public class RecycleBinItem : ListedItem
+	public sealed class RecycleBinItem : ListedItem
 	{
 		public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -443,7 +443,7 @@ namespace Files.App.Utils
 		public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
 	}
 
-	public class FtpItem : ListedItem
+	public sealed class FtpItem : ListedItem
 	{
 		public FtpItem(FtpListItem item, string folder) : base(null)
 		{
@@ -479,7 +479,7 @@ namespace Files.App.Utils
 		};
 	}
 
-	public class ShortcutItem : ListedItem
+	public sealed class ShortcutItem : ListedItem
 	{
 		public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -503,7 +503,7 @@ namespace Files.App.Utils
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
 	}
 
-	public class ZipItem : ListedItem
+	public sealed class ZipItem : ListedItem
 	{
 		public ZipItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -527,7 +527,7 @@ namespace Files.App.Utils
 		{ }
 	}
 
-	public class LibraryItem : ListedItem
+	public sealed class LibraryItem : ListedItem
 	{
 		public LibraryItem(LibraryLocationItem library) : base(null)
 		{
@@ -554,7 +554,7 @@ namespace Files.App.Utils
 		public ReadOnlyCollection<string> Folders { get; }
 	}
 
-	public class AlternateStreamItem : ListedItem
+	public sealed class AlternateStreamItem : ListedItem
 	{
 		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
 		public string MainStreamName => Path.GetFileName(MainStreamPath);
@@ -574,7 +574,7 @@ namespace Files.App.Utils
 		}
 	}
 
-	public class GitItem : ListedItem
+	public sealed class GitItem : ListedItem
 	{
 		private volatile int statusPropertiesInitialized = 0;
 		public bool StatusPropertiesInitialized

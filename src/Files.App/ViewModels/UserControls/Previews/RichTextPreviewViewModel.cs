@@ -6,7 +6,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class RichTextPreviewViewModel : BasePreviewModel
+	public sealed class RichTextPreviewViewModel : BasePreviewModel
 	{
 		public IRandomAccessStream Stream { get; set; }
 

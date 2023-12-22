@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Parameters
 {
-	public class ColumnParam : NavigationArguments
+	public sealed class ColumnParam : NavigationArguments
 	{
 		public int Column { get; set; }
 

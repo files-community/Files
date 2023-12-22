@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.ViewModels.Widgets
 {
-	public class WidgetItem : ObservableObject, IDisposable
+	public sealed class WidgetItem : ObservableObject, IDisposable
 	{
 		private readonly Action<bool> _expanderValueChangedCallback;
 		private readonly Func<bool> _expanderValueRequestedCallback;

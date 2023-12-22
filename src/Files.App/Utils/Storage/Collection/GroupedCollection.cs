@@ -3,7 +3,7 @@
 
 namespace Files.App.Utils.Storage
 {
-	public class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
+	public sealed class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
 	{
 		public GroupedHeaderViewModel Model { get; set; }
 

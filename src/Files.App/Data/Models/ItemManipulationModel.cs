@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Models
 {
-	public class ItemManipulationModel
+	public sealed class ItemManipulationModel
 	{
 		public event EventHandler FocusFileListInvoked;
 

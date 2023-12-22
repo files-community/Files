@@ -9,7 +9,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public class BaseStorageItemQueryResult
+	public sealed class BaseStorageItemQueryResult
 	{
 		public BaseStorageFolder Folder { get; }
 		public QueryOptions Options { get; }
@@ -61,7 +61,7 @@ namespace Files.App.Utils.Storage
 		public virtual StorageItemQueryResult ToStorageItemQueryResult() => null;
 	}
 
-	public class BaseStorageFileQueryResult
+	public sealed class BaseStorageFileQueryResult
 	{
 		public BaseStorageFolder Folder { get; }
 		public QueryOptions Options { get; }
@@ -113,7 +113,7 @@ namespace Files.App.Utils.Storage
 		public virtual StorageFileQueryResult ToStorageFileQueryResult() => null;
 	}
 
-	public class BaseStorageFolderQueryResult
+	public sealed class BaseStorageFolderQueryResult
 	{
 		public BaseStorageFolder Folder { get; }
 		public QueryOptions Options { get; }
@@ -165,7 +165,7 @@ namespace Files.App.Utils.Storage
 		public virtual StorageFolderQueryResult ToStorageFolderQueryResult() => null;
 	}
 
-	public class SystemStorageItemQueryResult : BaseStorageItemQueryResult
+	public sealed class SystemStorageItemQueryResult : BaseStorageItemQueryResult
 	{
 		private StorageItemQueryResult StorageItemQueryResult { get; }
 
@@ -195,7 +195,7 @@ namespace Files.App.Utils.Storage
 		public override StorageItemQueryResult ToStorageItemQueryResult() => StorageItemQueryResult;
 	}
 
-	public class SystemStorageFileQueryResult : BaseStorageFileQueryResult
+	public sealed class SystemStorageFileQueryResult : BaseStorageFileQueryResult
 	{
 		private StorageFileQueryResult StorageFileQueryResult { get; }
 
@@ -225,7 +225,7 @@ namespace Files.App.Utils.Storage
 		public override StorageFileQueryResult ToStorageFileQueryResult() => StorageFileQueryResult;
 	}
 
-	public class SystemStorageFolderQueryResult : BaseStorageFolderQueryResult
+	public sealed class SystemStorageFolderQueryResult : BaseStorageFolderQueryResult
 	{
 		private StorageFolderQueryResult StorageFolderQueryResult { get; }
 

@@ -13,7 +13,7 @@ using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class GeneralViewModel : ObservableObject, IDisposable
+	public sealed class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -465,7 +465,7 @@ namespace Files.App.ViewModels.Settings
 		}
 	}
 
-	public class PageOnStartupViewModel
+	public sealed class PageOnStartupViewModel
 	{
 		public string Text
 		{
@@ -478,7 +478,7 @@ namespace Files.App.ViewModels.Settings
 			=> Path = path;
 	}
 
-	public class AppLanguageItem
+	public sealed class AppLanguageItem
 	{
 		public string LanguagID { get; set; }
 
@@ -507,7 +507,7 @@ namespace Files.App.ViewModels.Settings
 		}
 	}
 
-	public class DateTimeFormatItem
+	public sealed class DateTimeFormatItem
 	{
 		public string Label { get; }
 

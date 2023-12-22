@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
-	public class ImageFromBytes : DependencyObject
+	public sealed class ImageFromBytes : DependencyObject
 	{
 		public static byte[] GetSourceBytes(DependencyObject obj)
 		{

@@ -10,7 +10,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class ImagePreviewViewModel : BasePreviewModel
+	public sealed class ImagePreviewViewModel : BasePreviewModel
 	{
 		private ImageSource imageSource;
 		public ImageSource ImageSource

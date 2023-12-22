@@ -8,7 +8,7 @@ namespace Vanara.Windows.Shell;
 /// <summary>Queued and static file operations using the Shell.</summary>
 /// <seealso cref="IDisposable"/>
 /// https://github.com/dahall/Vanara/blob/master/Windows.Shell.Common/ShellFileOperations/ShellFileOperations.cs
-public class ShellFileOperations2 : IDisposable
+public sealed class ShellFileOperations2 : IDisposable
 {
 	private const OperationFlags defaultOptions = OperationFlags.AllowUndo | OperationFlags.NoConfirmMkDir;
 	private bool disposedValue = false;
@@ -650,7 +650,7 @@ public class ShellFileOperations2 : IDisposable
 
 	/// <summary>Arguments supplied to the <see cref="PostNewItem"/> event.</summary>
 	/// <seealso cref="ShellFileOpEventArgs"/>
-	public class ShellFileNewOpEventArgs : ShellFileOpEventArgs
+	public sealed class ShellFileNewOpEventArgs : ShellFileOpEventArgs
 	{
 		internal ShellFileNewOpEventArgs(TRANSFER_SOURCE_FLAGS flags, IShellItem source, IShellItem folder, IShellItem dest, string name, HRESULT hr, string templ, uint attr) :
 			base(flags, source, folder, dest, name, hr)
@@ -672,7 +672,7 @@ public class ShellFileOperations2 : IDisposable
 	/// Arguments supplied to events from <see cref="ShellFileOperations"/>. Depending on the event, some properties may not be set.
 	/// </summary>
 	/// <seealso cref="EventArgs"/>
-	public class ShellFileOpEventArgs : EventArgs
+	public sealed class ShellFileOpEventArgs : EventArgs
 	{
 		internal ShellFileOpEventArgs(TRANSFER_SOURCE_FLAGS flags, IShellItem source, IShellItem folder = null, IShellItem dest = null, string name = null, HRESULT hr = default)
 		{
@@ -716,7 +716,7 @@ public class ShellFileOperations2 : IDisposable
 	public delegate void ProgressChangedEventHandler(object? sender, ProgressChangedEventArgs e);
 
 	// From System.ComponentModel.ProgressChangedEventArgs but with double percentage
-	public class ProgressChangedEventArgs : EventArgs
+	public sealed class ProgressChangedEventArgs : EventArgs
 	{
 		private readonly double _progressPercentage;
 		private readonly object? _userState;

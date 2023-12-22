@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class StatusCenterViewModel : ObservableObject
+	public sealed class StatusCenterViewModel : ObservableObject
 	{
 		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = new();
 

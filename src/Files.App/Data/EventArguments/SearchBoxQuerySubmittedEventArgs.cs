@@ -7,7 +7,7 @@ using Windows.Foundation;
 
 namespace Files.App.Data.EventArguments
 {
-	public class SearchBoxQuerySubmittedEventArgs
+	public sealed class SearchBoxQuerySubmittedEventArgs
 	{
 		public SuggestionModel ChosenSuggestion { get; }
 

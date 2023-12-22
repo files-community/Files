@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Files.App.Storage.NativeStorage
 {
 	/// <inheritdoc cref="IFile"/>
-	public class NativeFile : NativeStorable<FileInfo>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile
+	public sealed class NativeFile : NativeStorable<FileInfo>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile
 	{
 		public NativeFile(FileInfo fileInfo, string? name = null)
 			: base(fileInfo, name)

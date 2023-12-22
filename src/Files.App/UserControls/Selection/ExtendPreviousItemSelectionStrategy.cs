@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Files.App.UserControls.Selection
 {
-	public class ExtendPreviousItemSelectionStrategy : ItemSelectionStrategy
+	public sealed class ExtendPreviousItemSelectionStrategy : ItemSelectionStrategy
 	{
 		private readonly List<object> prevSelectedItems;
 

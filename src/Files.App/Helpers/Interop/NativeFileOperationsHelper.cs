@@ -13,7 +13,7 @@ using Vanara.PInvoke;
 
 namespace Files.App.Helpers
 {
-	public class NativeFileOperationsHelper
+	public sealed class NativeFileOperationsHelper
 	{
 		public enum File_Attributes : uint
 		{

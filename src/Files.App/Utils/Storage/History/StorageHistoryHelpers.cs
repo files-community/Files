@@ -3,7 +3,7 @@
 
 namespace Files.App.Utils.Storage
 {
-	public class StorageHistoryHelpers : IDisposable
+	public sealed class StorageHistoryHelpers : IDisposable
 	{
 		private IStorageHistoryOperations operations;
 

@@ -8,7 +8,7 @@ using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public class DecompressArchiveDialogViewModel : ObservableObject
+	public sealed class DecompressArchiveDialogViewModel : ObservableObject
 	{
 		private readonly IStorageFile archive;
 

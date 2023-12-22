@@ -9,7 +9,7 @@ namespace Files.App.Data.Models
 	/// <summary>
 	/// Represents manager for layout preferences settings.
 	/// </summary>
-	public class LayoutPreferencesManager : ObservableObject
+	public sealed class LayoutPreferencesManager : ObservableObject
 	{
 		// Dependency injections
 

@@ -14,17 +14,17 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class QuickAccessCardEventArgs : EventArgs
+	public sealed class QuickAccessCardEventArgs : EventArgs
 	{
 		public LocationItem Item { get; set; }
 	}
 
-	public class QuickAccessCardInvokedEventArgs : EventArgs
+	public sealed class QuickAccessCardInvokedEventArgs : EventArgs
 	{
 		public string Path { get; set; }
 	}
 
-	public class ModifyQuickAccessEventArgs : EventArgs
+	public sealed class ModifyQuickAccessEventArgs : EventArgs
 	{
 		public string[] Paths { get; set; }
 		public ShellFileItem[] Items { get; set; }
@@ -47,7 +47,7 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	public sealed class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
 	{
 		private BitmapImage thumbnail;
 		private byte[] thumbnailData;

@@ -3,7 +3,7 @@
 
 namespace Files.Core.Data.Items
 {
-	public class IconFileInfo
+	public sealed class IconFileInfo
 	{
 		public byte[] IconData { get; }
 

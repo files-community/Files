@@ -3,7 +3,7 @@
 
 namespace Files.Core.Data.Items
 {
-	public class ShellOperationResult
+	public sealed class ShellOperationResult
 	{
 		public ShellOperationResult()
 		{
@@ -23,7 +23,7 @@ namespace Files.Core.Data.Items
 			Items.GroupBy(x => x.Source).Select(x => x.Last()).ToList();
 	}
 
-	public class ShellOperationItemResult
+	public sealed class ShellOperationItemResult
 	{
 		public bool Succeeded { get; set; }
 		public int HResult { get; set; }

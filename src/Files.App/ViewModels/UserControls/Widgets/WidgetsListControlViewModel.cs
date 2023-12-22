@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Widgets
 {
-	public class WidgetsListControlViewModel : ObservableObject, IDisposable
+	public sealed class WidgetsListControlViewModel : ObservableObject, IDisposable
 	{
 		public event EventHandler WidgetListRefreshRequestedInvoked;
 

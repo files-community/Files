@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace Files.App.Data.Items
 {
 
-	public class TagsListItem
+	public sealed class TagsListItem
 	{
 		public bool IsTag
 			=> this is TagItem;
@@ -21,7 +21,7 @@ namespace Files.App.Data.Items
 			=> this as FlyoutItem;
 	}
 
-	public class TagItem : TagsListItem
+	public sealed class TagItem : TagsListItem
 	{
 		public TagViewModel Tag { get; set; }
 
@@ -31,7 +31,7 @@ namespace Files.App.Data.Items
 		}
 	}
 
-	public class FlyoutItem : TagsListItem
+	public sealed class FlyoutItem : TagsListItem
 	{
 		public MenuFlyout Flyout { get; set; }
 

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Files.App.Data.Models
 {
-	public class ContextMenuFlyoutItemViewModel
+	public sealed class ContextMenuFlyoutItemViewModel
 	{
 		public bool ShowItem { get; set; } = true;
 

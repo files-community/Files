@@ -19,7 +19,7 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class DriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
+	public sealed class DriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
 	{
 		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
@@ -339,7 +339,7 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewTab(navigationPath);
 		}
 
-		public class DrivesWidgetInvokedEventArgs : EventArgs
+		public sealed class DrivesWidgetInvokedEventArgs : EventArgs
 		{
 			public string Path { get; set; }
 		}

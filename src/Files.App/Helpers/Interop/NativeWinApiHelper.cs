@@ -10,7 +10,7 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
-	public class NativeWinApiHelper
+	public sealed class NativeWinApiHelper
 	{
 		[DllImport("user32.dll")]
 		public static extern short GetKeyState(short code);

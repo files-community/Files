@@ -3,7 +3,7 @@
 
 namespace Files.App.Utils.Storage
 {
-	public class BlockingListEnumerator<T> : IEnumerator<T>
+	public sealed class BlockingListEnumerator<T> : IEnumerator<T>
 	{
 		private readonly IList<T> m_Inner;
 

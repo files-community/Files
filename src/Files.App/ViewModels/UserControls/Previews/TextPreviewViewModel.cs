@@ -6,7 +6,7 @@ using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class TextPreviewViewModel : BasePreviewModel
+	public sealed class TextPreviewViewModel : BasePreviewModel
 	{
 		private string textValue;
 		public string TextValue

@@ -8,7 +8,7 @@ namespace Files.App.Utils.Cloud
 	/// <summary>
 	/// Provides an utility for cloud detection.
 	/// </summary>
-	public class CloudDetector : ICloudDetector
+	public sealed class CloudDetector : ICloudDetector
 	{
 		public async Task<IEnumerable<ICloudProvider>> DetectCloudProvidersAsync()
 		{

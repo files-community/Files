@@ -32,12 +32,12 @@ namespace Files.Core.Data.Items
 		HBMMENU_SYSTEM = 1
 	}
 
-	public class Win32ContextMenu
+	public sealed class Win32ContextMenu
 	{
 		public List<Win32ContextMenuItem> Items { get; set; }
 	}
 
-	public class Win32ContextMenuItem
+	public sealed class Win32ContextMenuItem
 	{
 		public byte[] Icon { get; set; }
 		public int ID { get; set; } // Valid only in current menu to invoke item

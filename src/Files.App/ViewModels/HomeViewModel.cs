@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
-	public class HomeViewModel : ObservableObject, IDisposable
+	public sealed class HomeViewModel : ObservableObject, IDisposable
 	{
 		public ObservableCollection<WidgetItem> WidgetItems { get; } = new();
 

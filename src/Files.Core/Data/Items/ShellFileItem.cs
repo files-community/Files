@@ -3,7 +3,7 @@
 
 namespace Files.Core.Data.Items
 {
-	public class ShellFileItem
+	public sealed class ShellFileItem
 	{
 		public bool IsFolder { get; set; }
 

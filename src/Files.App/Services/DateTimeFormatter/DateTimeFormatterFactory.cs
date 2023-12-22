@@ -5,7 +5,7 @@ using System;
 
 namespace Files.App.Services.DateTimeFormatter
 {
-	public class DateTimeFormatterFactory : IDateTimeFormatterFactory
+	public sealed class DateTimeFormatterFactory : IDateTimeFormatterFactory
 	{
 		public IDateTimeFormatter GetDateTimeFormatter(DateTimeFormats dateTimeFormat) => dateTimeFormat switch
 		{

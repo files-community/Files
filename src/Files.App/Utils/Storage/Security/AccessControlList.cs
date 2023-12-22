@@ -6,7 +6,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Represents an access control list (ACL).
 	/// </summary>
-	public class AccessControlList : ObservableObject
+	public sealed class AccessControlList : ObservableObject
 	{
 		/// <summary>
 		/// Object path.

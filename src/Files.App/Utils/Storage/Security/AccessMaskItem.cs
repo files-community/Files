@@ -6,7 +6,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Represents an access mask details, such as its name and changeability.
 	/// </summary>
-	public class AccessMaskItem : ObservableObject
+	public sealed class AccessMaskItem : ObservableObject
 	{
 		public string AccessMaskName { get; set; }
 

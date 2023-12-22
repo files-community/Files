@@ -10,7 +10,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class InfoPaneViewModel : ObservableObject, IDisposable
+	public sealed class InfoPaneViewModel : ObservableObject, IDisposable
 	{
 		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();

@@ -6,7 +6,7 @@ namespace Files.Core.Utils.CommandLine
 	/// <summary>
 	/// Represents a collection of parsed command.
 	/// </summary>
-	public class ParsedCommands : List<ParsedCommand>
+	public sealed class ParsedCommands : List<ParsedCommand>
 	{
 	}
 }

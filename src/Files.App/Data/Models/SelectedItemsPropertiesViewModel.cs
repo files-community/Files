@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Files.App.Data.Models
 {
-	public class SelectedItemsPropertiesViewModel : ObservableObject
+	public sealed class SelectedItemsPropertiesViewModel : ObservableObject
 	{
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 

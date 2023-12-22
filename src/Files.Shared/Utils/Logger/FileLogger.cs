@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace Files.Shared
 {
-	public class FileLogger : ILogger
+	public sealed class FileLogger : ILogger
 	{
 		private readonly SemaphoreSlim semaphoreSlim = new(1);
 		private readonly string filePath;

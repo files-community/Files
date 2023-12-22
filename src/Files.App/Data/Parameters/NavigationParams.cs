@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Parameters
 {
-	public class NavigationParams
+	public sealed class NavigationParams
 	{
 		public string? NavPath { get; set; }
 

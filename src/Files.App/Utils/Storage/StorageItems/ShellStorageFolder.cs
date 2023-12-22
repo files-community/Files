@@ -9,7 +9,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
+	public sealed class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
 	{
 		public string TargetPath { get; }
 		public string Arguments { get; }
@@ -33,7 +33,7 @@ namespace Files.App.Utils.Storage
 		bool RunAsAdmin { get; }
 	}
 
-	public class BinStorageFolder : ShellStorageFolder, IBinStorageItem
+	public sealed class BinStorageFolder : ShellStorageFolder, IBinStorageItem
 	{
 		public string OriginalPath { get; }
 		public DateTimeOffset DateDeleted { get; }
@@ -51,7 +51,7 @@ namespace Files.App.Utils.Storage
 		DateTimeOffset DateDeleted { get; }
 	}
 
-	public class ShellStorageFolder : BaseStorageFolder
+	public sealed class ShellStorageFolder : BaseStorageFolder
 	{
 		public override string Path { get; }
 		public override string Name { get; }

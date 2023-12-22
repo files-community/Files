@@ -11,7 +11,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class PDFPreviewViewModel : BasePreviewModel
+	public sealed class PDFPreviewViewModel : BasePreviewModel
 	{
 		private Visibility loadingBarVisibility;
 		public Visibility LoadingBarVisibility

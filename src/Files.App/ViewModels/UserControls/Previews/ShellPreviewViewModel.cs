@@ -12,7 +12,7 @@ using static Vanara.PInvoke.User32;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class ShellPreviewViewModel : BasePreviewModel
+	public sealed class ShellPreviewViewModel : BasePreviewModel
 	{
 		public ShellPreviewViewModel(ListedItem item)
 			: base(item)

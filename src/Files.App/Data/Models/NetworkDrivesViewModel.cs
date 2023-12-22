@@ -7,7 +7,7 @@ using Files.Core.Storage.LocatableStorage;
 
 namespace Files.App.Data.Models
 {
-	public class NetworkDrivesViewModel : ObservableObject
+	public sealed class NetworkDrivesViewModel : ObservableObject
 	{
 		public ObservableCollection<ILocatableFolder> Drives
 		{

@@ -12,15 +12,15 @@ using System.Windows.Input;
 
 namespace Files.App.Helpers
 {
-	public class MenuFlyoutHelper : DependencyObject
+	public sealed class MenuFlyoutHelper : DependencyObject
 	{
 		#region View Models
 
 		public interface IMenuFlyoutItemViewModel { }
 
-		public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItemViewModel { }
+		public sealed class MenuFlyoutSeparatorViewModel : IMenuFlyoutItemViewModel { }
 
-		public class MenuFlyoutItemViewModel : IMenuFlyoutItemViewModel
+		public sealed class MenuFlyoutItemViewModel : IMenuFlyoutItemViewModel
 		{
 			public string Text { get; init; }
 
@@ -36,7 +36,7 @@ namespace Files.App.Helpers
 				=> Text = text;
 		}
 
-		public class MenuFlyoutSubItemViewModel : IMenuFlyoutItemViewModel
+		public sealed class MenuFlyoutSubItemViewModel : IMenuFlyoutItemViewModel
 		{
 			public string Text { get; }
 
@@ -48,7 +48,7 @@ namespace Files.App.Helpers
 				=> Text = text;
 		}
 
-		public class MenuFlyoutFactoryItemViewModel : IMenuFlyoutItemViewModel
+		public sealed class MenuFlyoutFactoryItemViewModel : IMenuFlyoutItemViewModel
 		{
 			public Func<MenuFlyoutItemBase> Build { get; }
 

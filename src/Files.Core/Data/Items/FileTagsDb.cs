@@ -8,7 +8,7 @@ using IO = System.IO;
 
 namespace Files.Core.Data.Items
 {
-	public class FileTagsDb : IDisposable
+	public sealed class FileTagsDb : IDisposable
 	{
 		private readonly LiteDatabase db;
 
@@ -222,7 +222,7 @@ namespace Files.Core.Data.Items
 			IO.File.Delete(filename); // recreate DB with correct version
 		}
 
-		public class TaggedFile
+		public sealed class TaggedFile
 		{
 			[BsonId] public int Id { get; set; }
 			public ulong? Frn { get; set; }

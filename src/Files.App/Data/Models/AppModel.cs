@@ -6,7 +6,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.Models
 {
-	public class AppModel : ObservableObject
+	public sealed class AppModel : ObservableObject
 	{
 		public AppModel()
 		{

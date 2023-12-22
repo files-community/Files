@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Files.App.Data.Parameters
 {
-	public class PropertiesPageNavigationParameter
+	public sealed class PropertiesPageNavigationParameter
 	{
 		public CancellationTokenSource CancellationTokenSource;
 

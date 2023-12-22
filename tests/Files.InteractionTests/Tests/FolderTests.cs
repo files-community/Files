@@ -8,7 +8,7 @@ using System.Threading;
 namespace Files.InteractionTests.Tests
 {
 	[TestClass]
-	public class FolderTests
+	public sealed class FolderTests
 	{
 
 		[TestCleanup]

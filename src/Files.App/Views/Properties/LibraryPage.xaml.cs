@@ -232,7 +232,7 @@ namespace Files.App.Views.Properties
 
 	}
 
-	public class LibraryFolder : ObservableObject
+	public sealed class LibraryFolder : ObservableObject
 	{
 		public string Path { get; set; }
 

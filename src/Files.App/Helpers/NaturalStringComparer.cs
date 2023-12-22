@@ -38,7 +38,7 @@ namespace Files.App.Helpers
 		);
 	}
 
-	public class NaturalStringComparer
+	public sealed class NaturalStringComparer
 	{
 		public static IComparer<object> GetForProcessor()
 		{

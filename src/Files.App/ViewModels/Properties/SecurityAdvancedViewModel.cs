@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class SecurityAdvancedViewModel : ObservableObject
+	public sealed class SecurityAdvancedViewModel : ObservableObject
 	{
 		private readonly PropertiesPageNavigationParameter _navigationParameter;
 

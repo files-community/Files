@@ -10,7 +10,7 @@ using Windows.Storage;
 namespace Files.App.ViewModels
 {
 	[Obsolete("Do not use this class as Settings store anymore, settings have been merged to IUserSettingsService.")]
-	public class SettingsViewModel : ObservableObject
+	public sealed class SettingsViewModel : ObservableObject
 	{
 		private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 

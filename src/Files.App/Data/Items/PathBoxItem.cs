@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Items
 {
-	public class PathBoxItem
+	public sealed class PathBoxItem
 	{
 		public string? Title { get; set; }
 

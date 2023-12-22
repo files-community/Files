@@ -7,7 +7,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.EventArguments
 {
-	public class PathNavigationEventArgs
+	public sealed class PathNavigationEventArgs
 	{
 		public string ItemPath { get; set; }
 

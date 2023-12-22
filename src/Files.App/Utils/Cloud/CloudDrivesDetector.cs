@@ -8,7 +8,7 @@ using System.Runtime.Versioning;
 namespace Files.App.Utils.Cloud
 {
 	[SupportedOSPlatform("Windows10.0.10240")]
-	public class CloudDrivesDetector
+	public sealed class CloudDrivesDetector
 	{
 		private readonly static string programFilesFolder = Environment.GetEnvironmentVariable("ProgramFiles");
 

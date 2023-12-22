@@ -6,7 +6,7 @@ namespace Files.Core.Utils.CommandLine
 	/// <summary>
 	/// Represents a parsed command node on Windows.
 	/// </summary>
-	public class ParsedCommand
+	public sealed class ParsedCommand
 	{
 		/// <summary>
 		/// Gets or sets parsed command type.

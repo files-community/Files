@@ -7,7 +7,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.EventArguments
 {
-	public class ToolbarQuerySubmittedEventArgs
+	public sealed class ToolbarQuerySubmittedEventArgs
 	{
 		public string QueryText { get; set; } = null;
 	}

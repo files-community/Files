@@ -10,7 +10,7 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Utils.RecentItem
 {
-	public class RecentItems : IDisposable
+	public sealed class RecentItems : IDisposable
 	{
 		private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 

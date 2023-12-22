@@ -6,7 +6,7 @@ using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class CodePreviewViewModel : BasePreviewModel
+	public sealed class CodePreviewViewModel : BasePreviewModel
 	{
 		private static readonly Lazy<IReadOnlyDictionary<string, ILanguage>> extensions = new(GetDictionary);
 

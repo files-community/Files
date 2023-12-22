@@ -5,7 +5,7 @@ using System;
 
 namespace Files.App.Data.EventArguments
 {
-	public class DeviceEventArgs : EventArgs
+	public sealed class DeviceEventArgs : EventArgs
 	{
 		public string DeviceName { get; }
 		public string DeviceId { get; }

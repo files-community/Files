@@ -5,7 +5,7 @@ using Files.Shared.Extensions;
 
 namespace Files.Core.Data.Items
 {
-	public class CompatibilityOptions
+	public sealed class CompatibilityOptions
 	{
 		public OSCompatibility OSCompatibility { get; set; }
 

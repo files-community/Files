@@ -11,7 +11,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Provides a utility to manage shell folders.
 	/// </summary>
-	public class Win32Shell
+	public sealed class Win32Shell
 	{
 		private readonly static ShellFolder _controlPanel;
 

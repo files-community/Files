@@ -7,7 +7,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.EventArguments
 {
-	public class PathBoxItemDroppedEventArgs
+	public sealed class PathBoxItemDroppedEventArgs
 	{
 		public DataPackageView Package { get; set; }
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Items
 {
-	public class NavigationBarSuggestionItem : ObservableObject
+	public sealed class NavigationBarSuggestionItem : ObservableObject
 	{
 		private string? _Text;
 		public string? Text

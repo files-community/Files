@@ -3,7 +3,7 @@
 
 namespace Files.Core.Data.Items
 {
-	public class ShellNewEntry
+	public sealed class ShellNewEntry
 	{
 		public string Extension { get; set; }
 

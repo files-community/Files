@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Files.Shared
 {
-	public class FileLoggerProvider : ILoggerProvider
+	public sealed class FileLoggerProvider : ILoggerProvider
 	{
 		private readonly string path;
 

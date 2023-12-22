@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.EventArguments
 {
-	public class LayoutModeEventArgs
+	public sealed class LayoutModeEventArgs
 	{
 		public readonly FolderLayoutModes LayoutMode;
 

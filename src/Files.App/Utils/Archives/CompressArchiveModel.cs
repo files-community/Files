@@ -11,7 +11,7 @@ namespace Files.App.Utils.Archives
 	/// <summary>
 	/// Provides an archive creation support.
 	/// </summary>
-	public class CompressArchiveModel : ICompressArchiveModel
+	public sealed class CompressArchiveModel : ICompressArchiveModel
 	{
 		private StatusCenterItemProgressModel _fileSystemProgress;
 

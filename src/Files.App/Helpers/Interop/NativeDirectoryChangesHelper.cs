@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
 {
-	public class NativeDirectoryChangesHelper
+	public sealed class NativeDirectoryChangesHelper
 	{
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
 		public static extern bool CloseHandle(IntPtr hObject);

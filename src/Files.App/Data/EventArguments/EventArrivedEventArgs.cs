@@ -9,7 +9,7 @@ namespace Files.App.Data.EventArguments
 	/// <summary>
 	/// CimWatcher event args, which contains CimSubscriptionResult
 	/// </summary>
-	public class EventArrivedEventArgs : EventArgs
+	public sealed class EventArrivedEventArgs : EventArgs
 	{
 		public CimSubscriptionResult NewEvent { get; }
 

@@ -5,7 +5,7 @@ using System;
 
 namespace Files.Core.Services.SizeProvider
 {
-	public class SizeChangedEventArgs : EventArgs
+	public sealed class SizeChangedEventArgs : EventArgs
 	{
 		public string Path { get; }
 		public ulong NewSize { get; }

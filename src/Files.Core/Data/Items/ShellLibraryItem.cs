@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Files.Core.Data.Items
 {
-	public class ShellLibraryItem
+	public sealed class ShellLibraryItem
 	{
 		public const string EXTENSION = ".library-ms";
 

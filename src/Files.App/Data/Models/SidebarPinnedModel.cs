@@ -9,7 +9,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.Data.Models
 {
-	public class SidebarPinnedModel
+	public sealed class SidebarPinnedModel
 	{
 		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();

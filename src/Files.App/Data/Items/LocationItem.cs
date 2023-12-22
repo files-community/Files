@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Files.App.Data.Items
 {
-	public class LocationItem : ObservableObject, INavigationControlItem
+	public sealed class LocationItem : ObservableObject, INavigationControlItem
 	{
 		public BitmapImage icon;
 		public BitmapImage Icon
@@ -121,7 +121,7 @@ namespace Files.App.Data.Items
 		}
 	}
 
-	public class RecycleBinLocationItem : LocationItem
+	public sealed class RecycleBinLocationItem : LocationItem
 	{
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{

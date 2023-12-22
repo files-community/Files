@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {
-	public class AsyncManualResetEvent
+	public sealed class AsyncManualResetEvent
 	{
 		private volatile TaskCompletionSource<bool> m_tcs = new TaskCompletionSource<bool>();
 

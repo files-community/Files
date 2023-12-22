@@ -13,7 +13,7 @@ namespace Files.App.UserControls.Selection
 	/// <summary>
 	/// Adds drag selection to a ListView, GridView or DataGrid
 	/// </summary>
-	public class RectangleSelection
+	public sealed class RectangleSelection
 	{
 		private readonly double MinSelectionDelta = 5;
 

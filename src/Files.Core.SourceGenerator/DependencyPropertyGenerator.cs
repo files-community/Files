@@ -12,7 +12,7 @@ using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
 namespace Files.Core.SourceGenerator
 {
 	[Generator]
-	public class DependencyPropertyGenerator : TypeWithAttributeGenerator
+	public sealed class DependencyPropertyGenerator : TypeWithAttributeGenerator
 	{
 		internal override string AttributeName => "DependencyPropertyAttribute`1";
 
