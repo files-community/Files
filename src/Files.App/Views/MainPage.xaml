@@ -26,7 +26,7 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/DefaultGridSplitterStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<x:Boolean x:Key="True">True</x:Boolean>

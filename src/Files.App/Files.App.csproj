@@ -38,7 +38,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Manifest Include="app.manifest" />
+        <Manifest Include="Properties\app.manifest" />
         <Content Include="7z.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
@@ -49,10 +49,10 @@
             <Link>NOTICE.md</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="Resources\PreviewPanePropertiesInformation.json">
+        <Content Include="Assets\Settings\PreviewPanePropertiesInformation.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="Resources\PropertiesInformation.json">
+        <Content Include="Assets\Settings\PropertiesInformation.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Update="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
