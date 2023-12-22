@@ -270,7 +270,7 @@ namespace WinRT
 		}
 	}
 
-	internal sealed class BaseActivationFactory
+	internal class BaseActivationFactory
 	{
 		private readonly ObjectReference<IActivationFactoryVftbl> _IActivationFactory;
 
@@ -350,7 +350,7 @@ namespace WinRT
 		I>() => _factory._ActivateInstance<I>();
 	}
 
-	internal sealed class ComponentActivationFactory : global::WinRT.Interop.IActivationFactory
+	internal class ComponentActivationFactory : global::WinRT.Interop.IActivationFactory
 	{
 		public IntPtr ActivateInstance()
 		{
@@ -358,7 +358,7 @@ namespace WinRT
 		}
 	}
 
-	internal sealed class ActivatableComponentActivationFactory<T> : ComponentActivationFactory, global::WinRT.Interop.IActivationFactory where T : class, new()
+	internal class ActivatableComponentActivationFactory<T> : ComponentActivationFactory, global::WinRT.Interop.IActivationFactory where T : class, new()
 	{
 		public new IntPtr ActivateInstance()
 		{
