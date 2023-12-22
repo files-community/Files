@@ -12,8 +12,7 @@ on:
     inputs:
       branch:
         description: 'Select a branch'
-        required: false
-        default: 'Preview'
+        required: true
         type: choice
         options:
           - Preview
