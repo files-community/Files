@@ -15,7 +15,7 @@ using Windows.Storage;
 using WinUIEx;
 using IO = System.IO;
 
-namespace Files.App
+namespace Files.App.Views
 {
 	public sealed partial class MainWindow : WindowEx
 	{

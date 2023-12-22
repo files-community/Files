@@ -86,6 +86,18 @@ namespace Files.App
 			public const string StableLogo = "Assets/AppTiles/Release/Logo.ico";
 		}
 
+		public static class IconsPaths
+		{
+			public const string FolderIconPng = "ms-appx:///Assets/Icons/Folder/FolderIcon.png";
+			public const string FolderIconSvg = "ms-appx:///Assets/Icons/Folder/FolderIcon.svg";
+			public const string FolderIconSvg2 = "ms-appx:///Assets/Icons/Folder/FolderIcon2.svg";
+
+			public const string TileIcon250 = "ms-appx:///Assets/Icons/Tile/tile-0-250x250.png";
+			public const string TileIcon300 = "ms-appx:///Assets/Icons/Tile/tile-0-300x300.png";
+
+			public const string ErrorIcon = "ms-appx:///Assets/Icons/error.png";
+		}
+
 		public static class UI
 		{
 			public const float DimItemOpacity = 0.4f;

@@ -276,7 +276,7 @@ namespace Files.App.Helpers
 						},
 						AppLogoOverride = new()
 						{
-							Source = "ms-appx:///Assets/error.png"
+							Source = Constants.IconsPaths.ErrorIcon
 						}
 					}
 				},
