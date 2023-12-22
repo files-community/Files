@@ -63,20 +63,20 @@ namespace Files.App
 
 		public static class FluentIconsPaths
 		{
-			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
-			public const string FavoritesIcon = "ms-appx:///Assets/FluentIcons/Favorites.png";
-			public const string FileTagsIcon = "ms-appx:///Assets/FluentIcons/FileTags.png";
-			public const string HomeIcon = "ms-appx:///Assets/FluentIcons/Home.png";
+			public const string CloudDriveIcon = "ms-appx:///Assets/Icons/Fluent/CloudDrive.png";
+			public const string FavoritesIcon = "ms-appx:///Assets/Icons/Fluent/Favorites.png";
+			public const string FileTagsIcon = "ms-appx:///Assets/Icons/Fluent/FileTags.png";
+			public const string HomeIcon = "ms-appx:///Assets/Icons/Fluent/Home.png";
 		}
 
 		public static class WslIconsPaths
 		{
-			public const string Alpine = "ms-appx:///Assets/WSL/alpinepng.png";
-			public const string DebianIcon = "ms-appx:///Assets/WSL/debianpng.png";
-			public const string GenericIcon = "ms-appx:///Assets/WSL/genericpng.png";
-			public const string KaliIcon = "ms-appx:///Assets/WSL/kalipng.png";
-			public const string OpenSuse = "ms-appx:///Assets/WSL/opensusepng.png";
-			public const string UbuntuIcon = "ms-appx:///Assets/WSL/ubuntupng.png";
+			public const string Alpine = "ms-appx:///Assets/Icons/WSL/alpinepng.png";
+			public const string DebianIcon = "ms-appx:///Assets/Icons/WSL/debianpng.png";
+			public const string GenericIcon = "ms-appx:///Assets/Icons/WSL/genericpng.png";
+			public const string KaliIcon = "ms-appx:///Assets/Icons/WSL/kalipng.png";
+			public const string OpenSuse = "ms-appx:///Assets/Icons/WSL/opensusepng.png";
+			public const string UbuntuIcon = "ms-appx:///Assets/Icons/WSL/ubuntupng.png";
 		}
 
 		public static class AssetPaths
@@ -194,12 +194,12 @@ namespace Files.App
 			/// <summary>
 			/// The path to the json file containing a list of file properties to be loaded in the properties window details page.
 			/// </summary>
-			public const string DetailsPagePropertiesJsonPath = @"ms-appx:///Resources/PropertiesInformation.json";
+			public const string DetailsPagePropertiesJsonPath = @"ms-appx:///Aseets/Settings/PropertiesInformation.json";
 
 			/// <summary>
 			/// The path to the json file containing a list of file properties to be loaded in the preview pane.
 			/// </summary>
-			public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
+			public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Assets/Settings/PreviewPanePropertiesInformation.json";
 		}
 
 		public static class Filesystem

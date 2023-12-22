@@ -137,7 +137,7 @@
       <OutputFile>$(OutDir)Files.App.OpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\src\Files.App\Assets\Libraries"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
 
