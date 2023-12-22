@@ -219,6 +219,11 @@ namespace Files.App
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
 		}
 
+		public static class DocsPath
+		{
+			public const string ThirdPartyNoticePath = @"ms-appx:///.github/NOTICE.md";
+		}
+
 		public static class Actions
 		{
 			public const int MaxSelectedItems = 5;
