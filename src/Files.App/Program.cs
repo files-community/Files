@@ -190,7 +190,7 @@ namespace Files.App
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
-			=> Utils.Shell.Win32Helper.OpenFolderInExistingShellWindow(shellCommand);
+			=> Win32Helper.OpenFolderInExistingShellWindow(shellCommand);
 
 		public static void OpenFileFromTile(string filePath)
 		{

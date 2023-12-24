@@ -34,7 +34,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
-			return Utils.Shell.Win32Helper.InstallFontsAsync(paths, false);
+			return Win32Helper.InstallFontsAsync(paths, false);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

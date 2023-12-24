@@ -38,11 +38,11 @@ namespace Files.App.Helpers
 					"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
 					"copyaspath", "undelete", "empty", "format", "rotate90", "rotate270",
-					Utils.Shell.Win32Helper.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
-					Utils.Shell.Win32Helper.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
-					Utils.Shell.Win32Helper.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
-					Utils.Shell.Win32Helper.ExtractStringFromDLL("shell32.dll", 5386), // Pin to taskbar
-					Utils.Shell.Win32Helper.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 5386), // Pin to taskbar
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
 				};
 
 				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
@@ -127,7 +127,7 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label) && menuFlyoutItem.SubItems is not null)
 				{
-					if (string.Equals(menuFlyoutItem.Label, Utils.Shell.Win32Helper.ExtractStringFromDLL("shell32.dll", 30312)))
+					if (string.Equals(menuFlyoutItem.Label, Win32Helper.ExtractStringFromDLL("shell32.dll", 30312)))
 						menuFlyoutItem.CommandString = "sendto";
 
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
@@ -180,25 +180,25 @@ namespace Files.App.Helpers
 					case "install" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								await Utils.Shell.Win32Helper.InstallFont(path, false);
+								await Win32Helper.InstallFont(path, false);
 						}
 						break;
 
 					case "installAllUsers" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								await Utils.Shell.Win32Helper.InstallFont(path, true);
+								await Win32Helper.InstallFont(path, true);
 						}
 						break;
 
 					case "mount":
 						var vhdPath = contextMenu.ItemsPath[0];
-						await Utils.Shell.Win32Helper.MountVhdDisk(vhdPath);
+						await Win32Helper.MountVhdDisk(vhdPath);
 						break;
 
 					case "format":
 						var drivePath = contextMenu.ItemsPath[0];
-						await Utils.Shell.Win32Helper.OpenFormatDriveDialog(drivePath);
+						await Win32Helper.OpenFormatDriveDialog(drivePath);
 						break;
 
 					default:
