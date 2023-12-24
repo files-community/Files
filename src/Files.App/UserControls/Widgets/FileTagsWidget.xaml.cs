@@ -128,7 +128,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Get items for the flyout
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			var (_, secondaryElements) = ContextMenuFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout
 			secondaryElements

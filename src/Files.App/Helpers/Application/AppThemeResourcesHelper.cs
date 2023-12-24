@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.Helpers;
-
 namespace Files.App.Helpers
 {
 	public static class AppThemeResourcesHelper
@@ -23,17 +21,17 @@ namespace Files.App.Helpers
 			service.SetAppThemeBackgroundColor(appThemeBackgroundColor.FromWindowsColor());
 
 			if (!string.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
-				service.SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor).FromWindowsColor());
+				service.SetAppThemeAddressBarBackgroundColor(CommunityToolkit.WinUI.Helpers.ColorHelper.ToColor(appThemeAddressBarBackgroundColor).FromWindowsColor());
 			else
 				appearance.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
 
 			if (!string.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
-				service.SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor).FromWindowsColor());
+				service.SetAppThemeSidebarBackgroundColor(CommunityToolkit.WinUI.Helpers.ColorHelper.ToColor(appThemeSidebarBackgroundColor).FromWindowsColor());
 			else
 				appearance.AppThemeSidebarBackgroundColor = ""; //migrate to new default
 
 			if (!string.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
-				service.SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor).FromWindowsColor());
+				service.SetAppThemeFileAreaBackgroundColor(CommunityToolkit.WinUI.Helpers.ColorHelper.ToColor(appThemeFileAreaBackgroundColor).FromWindowsColor());
 			else
 				appearance.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
 

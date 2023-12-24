@@ -702,7 +702,7 @@ namespace Files.App.ViewModels.UserControls
 			itemContextMenuFlyout.Closed += (sender, e) => RightClickedItemChanged?.Invoke(this, null);
 
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			var (_, secondaryElements) = ContextMenuFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			secondaryElements
 				.OfType<FrameworkElement>()

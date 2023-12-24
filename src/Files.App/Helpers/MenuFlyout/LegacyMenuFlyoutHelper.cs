@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Files.App.Helpers
 {
-	public class MenuFlyoutHelper : DependencyObject
+	public class LegacyMenuFlyoutHelper : DependencyObject
 	{
 		#region View Models
 
@@ -64,7 +64,7 @@ namespace Files.App.Helpers
 
 		public static void SetItemsSource(DependencyObject obj, IEnumerable<IMenuFlyoutItemViewModel> value) => obj.SetValue(ItemsSourceProperty, value);
 
-		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
+		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(LegacyMenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
 
 		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItemsAsync(d as MenuFlyout);
 
@@ -76,7 +76,7 @@ namespace Files.App.Helpers
 
 		public static void SetIsVisible(DependencyObject d, bool value) => d.SetValue(IsVisibleProperty, value);
 
-		public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(MenuFlyoutHelper), new PropertyMetadata(false, OnIsVisiblePropertyChanged));
+		public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(LegacyMenuFlyoutHelper), new PropertyMetadata(false, OnIsVisiblePropertyChanged));
 
 		private static void OnIsVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
