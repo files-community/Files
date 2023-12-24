@@ -89,7 +89,7 @@ namespace Files.App.Utils.Library
 		/// <returns>List of library items</returns>
 		public static async Task<List<LibraryLocationItem>> ListUserLibraries()
 		{
-			var libraries = await Shell.Win32Helper.StartSTATask(() =>
+			var libraries = await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{
@@ -156,7 +156,7 @@ namespace Files.App.Utils.Library
 			if (string.IsNullOrWhiteSpace(name) || !CanCreateLibrary(name).result)
 				return false;
 
-			var newLib = new LibraryLocationItem(await Shell.Win32Helper.StartSTATask(() =>
+			var newLib = new LibraryLocationItem(await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{
@@ -200,7 +200,7 @@ namespace Files.App.Utils.Library
 				// Nothing to update
 				return null;
 
-			var item = await Shell.Win32Helper.StartSTATask(() =>
+			var item = await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{
@@ -262,11 +262,11 @@ namespace Files.App.Utils.Library
 				if (libItem is not null)
 				{
 					lock (libraries)
-					{
 						libraries[libraries.IndexOf(libItem)] = newLib;
-					}
+
 					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib, libItem));
 				}
+
 				return newLib;
 			}
 			return null;

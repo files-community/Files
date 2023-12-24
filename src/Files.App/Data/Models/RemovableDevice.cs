@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using DirectN;
-using static Files.Win32PInvoke;
+using static Files.Core.Helpers.Win32PInvoke;
 
 namespace Files.App.Data.Models
 {

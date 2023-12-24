@@ -139,7 +139,7 @@ namespace Files.App.Utils.Cloud
 						SyncFolder = syncedFolder,
 						IconData = driveID switch
 						{
-							CloudProviders.ProtonDrive => Shell.Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault()?.IconData,
+							CloudProviders.ProtonDrive => Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault()?.IconData,
 							_ => null
 						}
 					});

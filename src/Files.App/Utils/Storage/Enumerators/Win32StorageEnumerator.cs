@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Storage;
-using static Files.Win32PInvoke;
+using static Files.Core.Helpers.Win32PInvoke;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
