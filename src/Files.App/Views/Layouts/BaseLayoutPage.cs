@@ -853,7 +853,7 @@ namespace Files.App.Views.Layouts
 			if (openWithMenuItem?.LoadSubMenuAction is not null && openWithOverflow is not null && openWith is not null)
 			{
 				await openWithMenuItem.LoadSubMenuAction();
-				var openWithSubItems = ContextMenuFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
+				var openWithSubItems = ContextMenuFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextMenuHelper.GetOpenWithItems(shellMenuItems));
 
 				if (openWithSubItems is not null)
 				{
@@ -879,7 +879,7 @@ namespace Files.App.Views.Layouts
 				if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
 				{
 					await sendToMenuItem.LoadSubMenuAction();
-					var sendToSubItems = ContextMenuFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
+					var sendToSubItems = ContextMenuFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextMenuHelper.GetSendToItems(shellMenuItems));
 
 					if (sendToSubItems is not null)
 					{
@@ -902,7 +902,7 @@ namespace Files.App.Views.Layouts
 			{
 				await x.LoadSubMenuAction();
 
-				ShellContextmenuHelper.AddItemsToMainMenu(mainItems, x);
+				ShellContextMenuHelper.AddItemsToMainMenu(mainItems, x);
 			});
 
 			// Add items to overflow shell submenu
@@ -910,7 +910,7 @@ namespace Files.App.Views.Layouts
 			{
 				await x.LoadSubMenuAction();
 
-				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
+				ShellContextMenuHelper.AddItemsToOverflowMenu(overflowItem, x);
 			});
 
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>

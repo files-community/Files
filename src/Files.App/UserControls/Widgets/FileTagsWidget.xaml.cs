@@ -142,7 +142,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
 			// Load shell menu items
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextMenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}

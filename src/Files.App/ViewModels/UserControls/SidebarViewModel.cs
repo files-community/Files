@@ -722,7 +722,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
+			await ShellContextMenuHelper.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
 		}
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)

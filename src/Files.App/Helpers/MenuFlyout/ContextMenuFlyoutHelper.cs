@@ -9,9 +9,7 @@ using Microsoft.UI.Xaml.Media;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
-	/// This is for use in scenarios where XAML templates and data binding will not suffice.
-	/// <see cref="ContextMenuFlyoutItemViewModel"/>
+	/// Provides static helper to convert <see cref="ContextMenuFlyoutItemViewModel"/> into <see cref="MenuFlyoutItemBase"/>.
 	/// </summary>
 	public static class ContextMenuFlyoutHelper
 	{
@@ -21,6 +19,7 @@ namespace Files.App.Helpers
 				return null;
 
 			var flyout = new List<MenuFlyoutItemBase>();
+
 			items.ForEach(i =>
 			{
 				var menuItem = GetMenuItem(i);
@@ -30,15 +29,17 @@ namespace Files.App.Helpers
 					// Add a placeholder
 					menuItem.Visibility = Visibility.Collapsed;
 
-					var placeolder = new MenuFlyoutItem()
+					var placeHolder = new MenuFlyoutItem()
 					{
 						Text = menuFlyoutSubItem.Text,
 						Tag = menuFlyoutSubItem.Tag,
 						Icon = menuFlyoutSubItem.Icon,
 					};
-					flyout.Add(placeolder);
+
+					flyout.Add(placeHolder);
 				}
 			});
+
 			return flyout;
 		}
 
@@ -52,6 +53,7 @@ namespace Files.App.Helpers
 
 			var primary = new List<ICommandBarElement>();
 			primaryModels.ForEach(i => primary.Add(GetCommandBarItem(i)));
+
 			var secondary = new List<ICommandBarElement>();
 			secondaryModels.ForEach(i => secondary.Add(GetCommandBarItem(i)));
 
@@ -59,14 +61,13 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Same as GetAppBarItemsFromModel, but ignores the IsPrimary property and returns one list
+		/// Same as GetAppBarItemsFromModel, but ignores the IsPrimary property and returns single list.
 		/// </summary>
-		/// <param name="items"></param>
-		/// <returns></returns>
 		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<ContextMenuFlyoutItemViewModel> items)
 		{
 			var elements = new List<ICommandBarElement>();
 			items.ForEach(i => elements.Add(GetCommandBarItem(i)));
+
 			return elements;
 		}
 
@@ -92,6 +93,7 @@ namespace Files.App.Helpers
 				if (item.BitmapIcon is not null)
 				{
 					flyoutSubItem.Style = App.Current.Resources["MenuFlyoutSubItemWithImageStyle"] as Style;
+
 					try
 					{
 						MenuFlyoutSubItemCustomProperties.SetBitmapIcon(flyoutSubItem, item.BitmapIcon);
@@ -112,6 +114,7 @@ namespace Files.App.Helpers
 
 				return flyoutSubItem;
 			}
+
 			return GetItem(item);
 		}
 
@@ -134,8 +137,10 @@ namespace Files.App.Helpers
 				{
 					Debug.WriteLine(e);
 				}
+
 				return item;
 			}
+
 			MenuFlyoutItem flyoutItem;
 
 			if (i.ItemType is ContextMenuFlyoutItemType.Toggle)
@@ -148,17 +153,13 @@ namespace Files.App.Helpers
 					CommandParameter = i.CommandParameter,
 					IsChecked = i.IsChecked,
 				};
+
 				if (!string.IsNullOrEmpty(i.Glyph))
-				{
 					flyoutItem.Icon = new FontIcon{ Glyph = i.Glyph };
-				}
 			}
 			else
 			{
-				var icon = string.IsNullOrEmpty(i.Glyph) ? null : new FontIcon
-				{
-					Glyph = i.Glyph,
-				};
+				var icon = string.IsNullOrEmpty(i.Glyph) ? null : new FontIcon() { Glyph = i.Glyph };
 
 				if (icon is not null && !string.IsNullOrEmpty(i.GlyphFontFamilyName))
 				{
@@ -205,6 +206,7 @@ namespace Files.App.Helpers
 		{
 			ICommandBarElement element;
 			FontIcon? icon = null;
+
 			if (!string.IsNullOrEmpty(item.Glyph))
 			{
 				icon = new FontIcon
@@ -220,6 +222,7 @@ namespace Files.App.Helpers
 			}
 
 			MenuFlyout? ctxFlyout = null;
+
 			if ((item.Items is not null && item.Items.Count > 0) || item.ID == "ItemOverflow")
 			{
 				ctxFlyout = new MenuFlyout();
@@ -227,19 +230,26 @@ namespace Files.App.Helpers
 			}
 
 			UIElement? content = null;
+
 			if (item.BitmapIcon is not null)
+			{
 				content = new Image()
 				{
 					Source = item.BitmapIcon,
 				};
+			}
 			else if (item.OpacityIcon.IsValid)
+			{
 				content = item.OpacityIcon.ToOpacityIcon();
+			}
 			else if (item.ShowLoadingIndicator)
+			{
 				content = new ProgressRing()
 				{
 					IsIndeterminate = true,
 					IsActive = true,
 				};
+			}
 
 			if (item.ItemType is ContextMenuFlyoutItemType.Toggle)
 			{

@@ -14,9 +14,10 @@ using Windows.UI.Core;
 
 namespace Files.App.Helpers
 {
-	public static class ShellContextmenuHelper
+	public static class ShellContextMenuHelper
 	{
 		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
 			bool IsItemSelected = selectedItems?.Count > 0;
