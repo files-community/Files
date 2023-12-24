@@ -2,12 +2,11 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
-using System;
 using System.IO;
 
 namespace Files.App.Helpers
 {
-	public static class PathNormalization
+	public static class StoragePathHelper
 	{
 		public static string GetPathRoot(string path)
 		{

@@ -685,10 +685,10 @@ namespace Files.App.ViewModels.UserControls
 				var command = Commands[code];
 
 				if (command == Commands.None)
-					await DialogDisplayHelper.ShowDialogAsync("InvalidCommand".GetLocalizedResource(),
+					await ContentDialogHelper.ShowDialogAsync("InvalidCommand".GetLocalizedResource(),
 						string.Format("InvalidCommandContent".GetLocalizedResource(), code));
 				else if (!command.IsExecutable)
-					await DialogDisplayHelper.ShowDialogAsync("CommandNotExecutable".GetLocalizedResource(),
+					await ContentDialogHelper.ShowDialogAsync("CommandNotExecutable".GetLocalizedResource(),
 						string.Format("CommandNotExecutableContent".GetLocalizedResource(), command.Code));
 				else
 					await command.ExecuteAsync();
@@ -720,10 +720,10 @@ namespace Files.App.ViewModels.UserControls
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
-						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => StoragePathHelper.NormalizePath(currentInput).StartsWith(StoragePathHelper.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
-							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
+							bool ejectButton = await ContentDialogHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
 							{
 								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
@@ -760,12 +760,12 @@ namespace Files.App.ViewModels.UserControls
 							try
 							{
 								if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(currentInput)))
-									await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+									await ContentDialogHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
 										string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 							}
 							catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
 							{
-								await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+								await ContentDialogHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
 									string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 							}
 						}
@@ -821,7 +821,7 @@ namespace Files.App.ViewModels.UserControls
 						var isFtp = FtpHelpers.IsFtpPath(currentInput);
 						currentInput = NormalizePathInput(currentInput, isFtp);
 						var expandedPath = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
-						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
+						var folderPath = StoragePathHelper.GetParentDir(expandedPath) ?? expandedPath;
 						StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 						if (folder is null)
@@ -847,7 +847,7 @@ namespace Files.App.ViewModels.UserControls
 								subPath.Select(x => new NavigationBarSuggestionItem()
 								{
 									Text = x.Path,
-									PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+									PrimaryDisplay = StoragePathHelper.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
 								})).ToList();
 						}
 					}

@@ -3,10 +3,8 @@
 
 using Microsoft.Management.Infrastructure;
 using Microsoft.Management.Infrastructure.Generic;
-using System;
-using System.Threading;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.WMI
 {
 	public delegate void EventArrivedEventHandler(object sender, EventArrivedEventArgs e);
 
@@ -17,7 +15,7 @@ namespace Files.App.Helpers
 	/// Original Sourced from: https://codereview.stackexchange.com/questions/255055/trying-to-replace-managementeventwatcher-class-in-system-management-to-switch-to
 	/// Adapted to newer versions of MMI
 	/// </summary>
-	public class ManagementEventWatcher : IDisposable, IObserver<CimSubscriptionResult>
+	public class WMIEventWatcher : IDisposable, IObserver<CimSubscriptionResult>
 	{
 		internal enum CimWatcherStatus
 		{
@@ -44,10 +42,10 @@ namespace Files.App.Helpers
 		internal static readonly string DefaultQueryDialect = "WQL";
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
+		/// Initializes a new instance of the <see cref="WMIEventWatcher" /> class.
 		/// </summary>
 		/// <param name="queryExpression"></param>
-		public ManagementEventWatcher(WqlEventQuery query)
+		public WMIEventWatcher(WMIQuery query)
 		{
 			string queryExpression = query.QueryExpression;
 
@@ -64,11 +62,11 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
+		/// Initializes a new instance of the <see cref="WMIEventWatcher" /> class.
 		/// </summary>
 		/// <param name="queryDialect"></param>
 		/// <param name="queryExpression"></param>
-		public ManagementEventWatcher(string queryDialect, string queryExpression)
+		public WMIEventWatcher(string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
 			{
@@ -83,12 +81,12 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
+		/// Initializes a new instance of the <see cref="WMIEventWatcher" /> class.
 		/// </summary>
 		/// <param name="nameSpace"></param>
 		/// <param name="queryDialect"></param>
 		/// <param name="queryExpression"></param>
-		public ManagementEventWatcher(string nameSpace, string queryDialect, string queryExpression)
+		public WMIEventWatcher(string nameSpace, string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
 			{
@@ -103,13 +101,13 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
+		/// Initializes a new instance of the <see cref="WMIEventWatcher" /> class.
 		/// </summary>
 		/// <param name="computerName"></param>
 		/// <param name="nameSpace"></param>
 		/// <param name="queryDialect"></param>
 		/// <param name="queryExpression"></param>
-		public ManagementEventWatcher(string computerName, string nameSpace, string queryDialect, string queryExpression)
+		public WMIEventWatcher(string computerName, string nameSpace, string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
 			{
@@ -162,7 +160,7 @@ namespace Files.App.Helpers
 			{
 				if (_isDisposed)
 				{
-					throw new ObjectDisposedException(nameof(ManagementEventWatcher));
+					throw new ObjectDisposedException(nameof(WMIEventWatcher));
 				}
 
 				if (_cimWatcherStatus != CimWatcherStatus.Default && _cimWatcherStatus != CimWatcherStatus.Stopped)
@@ -182,7 +180,7 @@ namespace Files.App.Helpers
 			{
 				if (_isDisposed)
 				{
-					throw new ObjectDisposedException(nameof(ManagementEventWatcher));
+					throw new ObjectDisposedException(nameof(WMIEventWatcher));
 				}
 
 				if (_cimWatcherStatus != CimWatcherStatus.Started)

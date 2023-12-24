@@ -174,17 +174,17 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
-				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+				var normalizedCurrentPath = StoragePathHelper.NormalizePath(currentPath);
+				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(StoragePathHelper.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
 					iconSource.ImageSource = matchingCloudDrive.Icon;
 					tabLocationHeader = matchingCloudDrive.Text;
 				}
-				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
+				else if (StoragePathHelper.NormalizePath(StoragePathHelper.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = NetworkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = NetworkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(StoragePathHelper.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(StoragePathHelper.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
 				else
@@ -390,7 +390,7 @@ namespace Files.App.Helpers
 
 					if (shortcutInfo.InvalidTarget)
 					{
-						if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
+						if (await ContentDialogHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
 							return false;
 
 						// Delete shortcut
@@ -439,7 +439,7 @@ namespace Files.App.Helpers
 
 			if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
 			{
-				await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+				await ContentDialogHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
 				associatedInstance.ToolbarViewModel.CanRefresh = false;
 				associatedInstance.FilesystemViewModel?.RefreshItems(previousDir);
 			}
@@ -568,7 +568,7 @@ namespace Files.App.Helpers
 							BaseStorageFileQueryResult? fileQueryResult = null;
 
 							//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-							BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
+							BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(path));
 
 							if (currentFolder is not null)
 							{

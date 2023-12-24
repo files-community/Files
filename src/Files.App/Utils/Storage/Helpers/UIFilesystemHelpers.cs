@@ -13,7 +13,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public static class UIFilesystemHelpers
 	{
@@ -25,6 +25,7 @@ namespace Files.App.Helpers
 			{
 				RequestedOperation = DataPackageOperation.Move
 			};
+
 			ConcurrentBag<IStorageItem> items = new();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -312,21 +313,21 @@ namespace Files.App.Helpers
 				case AddItemDialogItemType.Folder:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
+						StorageHelpers.FromPathAndType(StoragePathHelper.Combine(currentPath, userInput), FilesystemItemType.Directory),
 						true);
 					break;
 
 				case AddItemDialogItemType.File:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
+						StorageHelpers.FromPathAndType(StoragePathHelper.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
 						true);
 					break;
 			}
 
 			if (created.Status == ReturnResult.AccessUnauthorized)
 			{
-				await DialogDisplayHelper.ShowDialogAsync
+				await ContentDialogHelper.ShowDialogAsync
 				(
 					"AccessDenied".GetLocalizedResource(),
 					"AccessDeniedCreateDialog/Text".GetLocalizedResource()
@@ -347,7 +348,7 @@ namespace Files.App.Helpers
 				if (folder is null)
 					return;
 
-				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
+				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => StoragePathHelper.Combine(folder.Path, x.Name)), false, true);
 				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
 			catch (Exception ex)
@@ -411,7 +412,7 @@ namespace Files.App.Helpers
 
 		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath)
 		{
-			var result = await DialogDisplayHelper.ShowDialogAsync
+			var result = await ContentDialogHelper.ShowDialogAsync
 			(
 				"CannotCreateShortcutDialogTitle".ToLocalized(),
 				"CannotCreateShortcutDialogMessage".ToLocalized(),

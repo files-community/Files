@@ -45,7 +45,7 @@ namespace Files.App.Services.Settings
 				var tags = Get<List<TagViewModel>>(DefaultFileTags);
 
 				foreach (var tag in tags!)
-					tag.Color = ColorHelpers.FromHex(tag.Color).ToString();
+					tag.Color = ColorHelper.FromHex(tag.Color).ToString();
 
 				return tags;
 			}

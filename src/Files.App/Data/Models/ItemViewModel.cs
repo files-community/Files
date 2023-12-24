@@ -1567,7 +1567,7 @@ namespace Files.App.Data.Models
 				}
 				else if (res == FileSystemStatusCode.Unauthorized)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(
+					await ContentDialogHelper.ShowDialogAsync(
 						"AccessDenied".GetLocalizedResource(),
 						"AccessDeniedToFolder".GetLocalizedResource());
 
@@ -1575,7 +1575,7 @@ namespace Files.App.Data.Models
 				}
 				else if (res == FileSystemStatusCode.NotFound)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(
+					await ContentDialogHelper.ShowDialogAsync(
 						"FolderNotFoundDialog/Title".GetLocalizedResource(),
 						"FolderNotFoundDialog/Text".GetLocalizedResource());
 
@@ -1583,7 +1583,7 @@ namespace Files.App.Data.Models
 				}
 				else
 				{
-					await DialogDisplayHelper.ShowDialogAsync(
+					await ContentDialogHelper.ShowDialogAsync(
 						"DriveUnpluggedDialog/Title".GetLocalizedResource(),
 						res.ErrorCode.ToString());
 
@@ -1685,7 +1685,7 @@ namespace Files.App.Data.Models
 
 				if (hFile == IntPtr.Zero)
 				{
-					await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), "");
+					await ContentDialogHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), "");
 
 					return -1;
 				}
@@ -1696,7 +1696,7 @@ namespace Files.App.Data.Models
 					// errorCode == ERROR_ACCESS_DENIED
 					if (filesAndFolders.Count == 0 && errorCode == 0x5)
 					{
-						await DialogDisplayHelper.ShowDialogAsync(
+						await ContentDialogHelper.ShowDialogAsync(
 							"AccessDenied".GetLocalizedResource(),
 							"AccessDeniedToFolder".GetLocalizedResource());
 

@@ -241,7 +241,7 @@ namespace Files.App.Views.Shells
 			if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
 				return;
 
-			bool isPathRooted = string.Equals(FilesystemViewModel.WorkingDirectory, PathNormalization.GetPathRoot(FilesystemViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
+			bool isPathRooted = string.Equals(FilesystemViewModel.WorkingDirectory, StoragePathHelper.GetPathRoot(FilesystemViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
 			if (isPathRooted)
 			{
 				ItemDisplayFrame.Navigate(

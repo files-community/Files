@@ -95,7 +95,7 @@ namespace Files.App.Utils.Storage
 
 			var frame = new Frame
 			{
-				RequestedTheme = ThemeHelper.RootTheme
+				RequestedTheme = AppThemeHelper.RootTheme
 			};
 
 			WinUIEx.WindowEx propertiesWindow;

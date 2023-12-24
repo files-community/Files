@@ -60,8 +60,8 @@ namespace Files.App.Utils
 
 		public static bool TryGetDistro(string path, [NotNullWhen(true)] out WslDistroItem? distro)
 		{
-			var normalizedPath = PathNormalization.NormalizePath(path);
-			distro = Distros.FirstOrDefault(x => normalizedPath.StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+			var normalizedPath = StoragePathHelper.NormalizePath(path);
+			distro = Distros.FirstOrDefault(x => normalizedPath.StartsWith(StoragePathHelper.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 
 			return distro is not null;
 		}

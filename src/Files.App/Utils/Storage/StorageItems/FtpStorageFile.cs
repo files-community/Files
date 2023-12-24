@@ -54,7 +54,7 @@ namespace Files.App.Utils.Storage
 		}
 		public FtpStorageFile(string folder, FtpListItem ftpItem)
 		{
-			Path = PathNormalization.Combine(folder, ftpItem.Name);
+			Path = StoragePathHelper.Combine(folder, ftpItem.Name);
 			Name = ftpItem.Name;
 			FtpPath = FtpHelpers.GetFtpPath(Path);
 			DateCreated = ftpItem.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : ftpItem.RawCreated;
@@ -227,7 +227,7 @@ namespace Files.App.Utils.Storage
 					return;
 				}
 
-				string destination = $"{PathNormalization.GetParentDir(FtpPath)}/{desiredName}";
+				string destination = $"{StoragePathHelper.GetParentDir(FtpPath)}/{desiredName}";
 				var remoteExists = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
 				bool isSuccessful = await ftpClient.MoveFile(FtpPath, destination, remoteExists, cancellationToken);
 				if (!isSuccessful && option is NameCollisionOption.GenerateUniqueName)

@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using Files.Core.Services;
-using Files.Core.Services.Settings;
-using System;
 
 namespace Files.App.Helpers
 {
@@ -16,7 +13,7 @@ namespace Files.App.Helpers
 		public static void LoadAppResources(this IResourcesService service, IAppearanceSettingsService appearance)
 		{
 			var useCompactStyles = appearance.UseCompactStyles;
-			var appThemeBackgroundColor = ColorHelper.ToColor(appearance.AppThemeBackgroundColor);
+			var appThemeBackgroundColor = CommunityToolkit.WinUI.Helpers.ColorHelper.ToColor(appearance.AppThemeBackgroundColor);
 			var appThemeAddressBarBackgroundColor = appearance.AppThemeAddressBarBackgroundColor;
 			var appThemeSidebarBackgroundColor = appearance.AppThemeSidebarBackgroundColor;
 			var appThemeFileAreaBackgroundColor = appearance.AppThemeFileAreaBackgroundColor;

@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Graphics;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -12,7 +9,7 @@ using WinRT.Interop;
 
 namespace Files.App.Helpers
 {
-	public static class DragZoneHelper
+	public static class AppDragZoneHelper
 	{
 		/// <summary>
 		/// Get Scale Adjustment
@@ -22,14 +19,11 @@ namespace Files.App.Helpers
 		public static double GetScaleAdjustment(Window window) => window.Content.XamlRoot.RasterizationScale;
 
 		/// <summary>
-		/// Calculate dragging-zones of title bar<br/>
-		/// <strong>You MUST transform the rectangles with <see cref="GetScaleAdjustment"/> before calling <see cref="AppWindowTitleBar.SetDragRectangles"/></strong>
+		/// Gets dragging-zones.
 		/// </summary>
-		/// <param name="viewportWidth"></param>
-		/// <param name="dragZoneHeight"></param>
-		/// <param name="dragZoneLeftIndent"></param>
-		/// <param name="nonDraggingZones"></param>
-		/// <returns></returns>
+		/// <remarks>
+		/// The rectangles must be transformed with <see cref="GetScaleAdjustment"/> before calling <see cref="AppWindowTitleBar.SetDragRectangles"/>.
+		/// </remarks>
 		public static IEnumerable<RectInt32> GetDragZones(int viewportWidth, int dragZoneHeight, int dragZoneLeftIndent, IEnumerable<RectInt32> nonDraggingZones)
 		{
 			var draggingZonesX = new List<Range> { new(dragZoneLeftIndent, viewportWidth) };
@@ -112,12 +106,8 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Set dragging-zones of title bar
+		/// Sets draggable zones.
 		/// </summary>
-		/// <param name="window"></param>
-		/// <param name="dragZoneHeight"></param>
-		/// <param name="dragZoneLeftIndent"></param>
-		/// <param name="nonDraggingZones"></param>
 		public static void SetDragZones(Window window, int dragZoneHeight = 40, int dragZoneLeftIndent = 0, IEnumerable<RectInt32>? nonDraggingZones = null)
 		{
 			var hWnd = WindowNative.GetWindowHandle(window);
@@ -126,10 +116,12 @@ namespace Files.App.Helpers
 			var scaleAdjustment = GetScaleAdjustment(window);
 			var windowWidth = (int)(appWindow.Size.Width / scaleAdjustment);
 			nonDraggingZones ??= Array.Empty<RectInt32>();
+
 #if DEBUG
 			// Subtract the toolbar area (center-top in window), only in DEBUG mode.
 			nonDraggingZones = nonDraggingZones.Concat(new RectInt32[] { new((windowWidth - DebugToolbarWidth) / 2, 0, DebugToolbarWidth, DebugToolbarHeight) });
 #endif
+
 			appWindow.TitleBar.SetDragRectangles(
 				GetDragZones(windowWidth, dragZoneHeight, dragZoneLeftIndent, nonDraggingZones)
 					.Select(rect => new RectInt32(

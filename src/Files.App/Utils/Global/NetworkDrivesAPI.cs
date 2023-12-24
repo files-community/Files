@@ -166,7 +166,7 @@ namespace Files.App.Utils
 				return true;
 			else
 			{
-				await DialogDisplayHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), connectionError.ToString().Split(":")[1].Trim());
+				await ContentDialogHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), connectionError.ToString().Split(":")[1].Trim());
 				return false;
 			}
 		}

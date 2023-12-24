@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
@@ -26,19 +24,19 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-string-l1-1-0.dll", CharSet = CharSet.Unicode)]
 		public static extern Int32 CompareStringEx(
-		  String localeName,
-		  Int32 flags,
-		  String str1,
-		  Int32 count1,
-		  String str2,
-		  Int32 count2,
-		  IntPtr versionInformation,
-		  IntPtr reserved,
-		  Int32 param
+			String localeName,
+			Int32 flags,
+			String str1,
+			Int32 count1,
+			String str2,
+			Int32 count2,
+			IntPtr versionInformation,
+			IntPtr reserved,
+			Int32 param
 		);
 	}
 
-	public class NaturalStringComparer
+	public class StringComparisonHelper
 	{
 		public static IComparer<object> GetForProcessor()
 		{

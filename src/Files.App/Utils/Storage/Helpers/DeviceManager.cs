@@ -9,7 +9,7 @@ namespace Files.App.Utils.Storage
 	{
 		private static readonly Lazy<DeviceManager> lazy = new(() => new DeviceManager());
 
-		private ManagementEventWatcher? insertWatcher, removeWatcher, modifyWatcher;
+		private WMIEventWatcher? insertWatcher, removeWatcher, modifyWatcher;
 
 		public event EventHandler<DeviceEventArgs>? DeviceAdded;
 		public event EventHandler<DeviceEventArgs>? DeviceRemoved;
@@ -31,18 +31,18 @@ namespace Files.App.Utils.Storage
 
 		private void Initialize()
 		{
-			WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
-			insertWatcher = new ManagementEventWatcher(insertQuery);
+			WMIQuery insertQuery = new WMIQuery("SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
+			insertWatcher = new WMIEventWatcher(insertQuery);
 			insertWatcher.EventArrived += new EventArrivedEventHandler(DeviceInsertedEvent);
 			insertWatcher.Start();
 
-			WqlEventQuery modifyQuery = new WqlEventQuery("SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk' and TargetInstance.DriveType = 5");
-			modifyWatcher = new ManagementEventWatcher(modifyQuery);
+			WMIQuery modifyQuery = new WMIQuery("SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk' and TargetInstance.DriveType = 5");
+			modifyWatcher = new WMIEventWatcher(modifyQuery);
 			modifyWatcher.EventArrived += new EventArrivedEventHandler(DeviceModifiedEvent);
 			modifyWatcher.Start();
 
-			WqlEventQuery removeQuery = new WqlEventQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
-			removeWatcher = new ManagementEventWatcher(removeQuery);
+			WMIQuery removeQuery = new WMIQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
+			removeWatcher = new WMIEventWatcher(removeQuery);
 			removeWatcher.EventArrived += new EventArrivedEventHandler(DeviceRemovedEvent);
 			removeWatcher.Start();
 		}

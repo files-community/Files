@@ -376,7 +376,7 @@ namespace Files.App.Utils
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsPythonFile => FileExtensionHelpers.IsPythonFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
-		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
+		public bool IsDriveRoot => ItemPath == StoragePathHelper.GetPathRoot(ItemPath);
 		public bool IsElevated => CheckElevationRights();
 
 		private BaseStorageFile itemFile;
@@ -452,7 +452,7 @@ namespace Files.App.Utils
 			ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
 			ItemNameRaw = item.Name;
 			FileExtension = Path.GetExtension(item.Name);
-			ItemPath = PathNormalization.Combine(folder, item.Name);
+			ItemPath = StoragePathHelper.Combine(folder, item.Name);
 			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
 			ItemPropertiesInitialized = false;
 

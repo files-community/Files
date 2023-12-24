@@ -22,7 +22,7 @@ namespace Files.App.Utils.Storage
 				GroupOption.FileTag => x => x.FileTags?.FirstOrDefault() ?? "Untagged",
 				GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
 				GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now, unit).Text,
-				GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
+				GroupOption.FolderPath => x => StoragePathHelper.GetParentDir(x.ItemPath.TrimPath()),
 				_ => null,
 			};
 		}
@@ -119,7 +119,7 @@ namespace Files.App.Utils.Storage
 					ListedItem first = x.First();
 					var model = x.Model;
 					model.ShowCountTextBelow = true;
-					var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
+					var parentPath = StoragePathHelper.GetParentDir(first.ItemPath.TrimPath());
 					model.Text = GetFolderName(parentPath);
 					model.Subtext = parentPath;
 				}, null),

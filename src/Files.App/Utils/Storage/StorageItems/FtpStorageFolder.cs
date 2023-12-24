@@ -40,7 +40,7 @@ namespace Files.App.Utils.Storage
 		}
 		public FtpStorageFolder(string folder, FtpListItem ftpItem)
 		{
-			Path = PathNormalization.Combine(folder, ftpItem.Name);
+			Path = StoragePathHelper.Combine(folder, ftpItem.Name);
 			Name = ftpItem.Name;
 			FtpPath = FtpHelpers.GetFtpPath(Path);
 			DateCreated = ftpItem.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : ftpItem.RawCreated;
@@ -93,7 +93,7 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 
-				var item = await ftpClient.GetObjectInfo(FtpHelpers.GetFtpPath(PathNormalization.Combine(Path, name)));
+				var item = await ftpClient.GetObjectInfo(FtpHelpers.GetFtpPath(StoragePathHelper.Combine(Path, name)));
 				if (item is not null)
 				{
 					if (item.Type is FtpObjectType.File)
@@ -306,7 +306,7 @@ namespace Files.App.Utils.Storage
 					return;
 				}
 
-				string destination = $"{PathNormalization.GetParentDir(FtpPath)}/{desiredName}";
+				string destination = $"{StoragePathHelper.GetParentDir(FtpPath)}/{desiredName}";
 				var ftpOption = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
 				bool isSuccessful = await ftpClient.MoveDirectory(FtpPath, destination, ftpOption, cancellationToken);
 				if (!isSuccessful && option is NameCollisionOption.GenerateUniqueName)

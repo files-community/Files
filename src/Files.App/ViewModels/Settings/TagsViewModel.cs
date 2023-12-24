@@ -142,7 +142,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			Name = string.Empty;
 			IsNameValid = true;
-			Color = ColorHelpers.RandomColor();
+			Color = ColorHelper.RandomColor();
 		}
 	}
 }

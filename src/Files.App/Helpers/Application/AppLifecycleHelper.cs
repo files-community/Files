@@ -45,7 +45,7 @@ namespace Files.App.Helpers
 			);
 
 			await Task.WhenAll(
-				JumpListHelper.InitializeUpdatesAsync(),
+				AppJumpListHelper.InitializeUpdatesAsync(),
 				addItemService.InitializeAsync(),
 				ContextMenu.WarmUpQueryContextMenuAsync()
 			);

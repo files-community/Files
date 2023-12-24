@@ -95,7 +95,7 @@ namespace Files.App.Utils.Git
 				return
 					Repository.IsValid(path)
 						? path
-						: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
+						: GetGitRepositoryPath(StoragePathHelper.GetParentDir(path), root);
 			}
 			catch (LibGit2SharpException ex)
 			{

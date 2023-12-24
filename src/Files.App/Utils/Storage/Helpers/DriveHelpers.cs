@@ -41,7 +41,7 @@ namespace Files.App.Utils.Storage
 			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
-			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
+			var ejectButton = await ContentDialogHelper.ShowDialogAsync(
 				"InsertDiscDialog/Title".GetLocalizedResource(),
 				string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path),
 				"InsertDiscDialog/OpenDriveButton".GetLocalizedResource(),
@@ -66,12 +66,12 @@ namespace Files.App.Utils.Storage
 			{
 				// Check among already discovered drives
 				StorageFolder matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
+					Helpers.StoragePathHelper.NormalizePath(x.Path) == Helpers.StoragePathHelper.NormalizePath(rootPath))?.Root;
 				if (matchingDrive is null)
 				{
 					// Check on all removable drives
 					var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-					string normalizedRootPath = Helpers.PathNormalization.NormalizePath(rootPath).Replace(@"\\?\", string.Empty, StringComparison.Ordinal);
+					string normalizedRootPath = Helpers.StoragePathHelper.NormalizePath(rootPath).Replace(@"\\?\", string.Empty, StringComparison.Ordinal);
 					foreach (var item in remDevices)
 					{
 						try
@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 		{
 			if (drive.DriveType is System.IO.DriveType.Unknown)
 			{
-				string path = PathNormalization.NormalizePath(drive.Name);
+				string path = StoragePathHelper.NormalizePath(drive.Name);
 
 				if (path is "A:" or "B:")
 					return Data.Items.DriveType.FloppyDisk;

@@ -66,7 +66,7 @@ namespace Files.App.Utils.Storage
 
 			if (!IsValidForFilename(source.Name))
 			{
-				await DialogDisplayHelper.ShowDialogAsync(
+				await ContentDialogHelper.ShowDialogAsync(
 					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
 					"ErrorDialogNameNotAllowed".GetLocalizedResource());
 				return (ReturnResult.Failed, null);
@@ -372,12 +372,12 @@ namespace Files.App.Utils.Storage
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-							destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+							destinations.Add(StoragePathHelper.Combine(destination, matchingItem?.FileName ?? item.Name));
 						}
 					}
 					else
 					{
-						destinations.Add(PathNormalization.Combine(destination, item.Name));
+						destinations.Add(StoragePathHelper.Combine(destination, item.Name));
 					}
 				}
 
@@ -520,12 +520,12 @@ namespace Files.App.Utils.Storage
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 					{
 						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-						destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+						destinations.Add(StoragePathHelper.Combine(destination, matchingItem?.FileName ?? item.Name));
 					}
 				}
 				else
 				{
-					destinations.Add(PathNormalization.Combine(destination, item.Name));
+					destinations.Add(StoragePathHelper.Combine(destination, item.Name));
 				}
 			}
 
@@ -545,7 +545,7 @@ namespace Files.App.Utils.Storage
 
 			if (!IsValidForFilename(newName))
 			{
-				await DialogDisplayHelper.ShowDialogAsync(
+				await ContentDialogHelper.ShowDialogAsync(
 					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
 					"ErrorDialogNameNotAllowed".GetLocalizedResource());
 				return ReturnResult.Failed;
@@ -568,7 +568,7 @@ namespace Files.App.Utils.Storage
 						UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning
 					)
 					{
-						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
+						var yesSelected = await ContentDialogHelper.ShowDialogAsync("Rename".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
 						if (yesSelected)
 						{
 							history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);

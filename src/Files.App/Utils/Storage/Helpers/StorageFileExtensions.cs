@@ -156,10 +156,10 @@ namespace Files.App.Utils.Storage
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path).SkipLast(1))
 					{
 						folder = await folder.GetFolderAsync(component.Title);
-						path = PathNormalization.Combine(path, folder.Name);
+						path = StoragePathHelper.Combine(path, folder.Name);
 					}
 					var file = await folder.GetFileAsync(currComponents.Last().Title);
-					path = PathNormalization.Combine(path, file.Name);
+					path = StoragePathHelper.Combine(path, file.Name);
 					return new StorageFileWithPath(file, path);
 				}
 				else if (value.IsSubPathOf(rootFolder.Path))
@@ -169,10 +169,10 @@ namespace Files.App.Utils.Storage
 					foreach (var component in currComponents.Skip(1).SkipLast(1))
 					{
 						folder = await folder.GetFolderAsync(component.Title);
-						path = PathNormalization.Combine(path, folder.Name);
+						path = StoragePathHelper.Combine(path, folder.Name);
 					}
 					var file = await folder.GetFileAsync(currComponents.Last().Title);
-					path = PathNormalization.Combine(path, file.Name);
+					path = StoragePathHelper.Combine(path, file.Name);
 					return new StorageFileWithPath(file, path);
 				}
 			}
@@ -190,7 +190,7 @@ namespace Files.App.Utils.Storage
 		public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
 				=> (await parentFolder.Item.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
-					.Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+					.Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? StoragePathHelper.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 
 		public async static Task<BaseStorageFolder> DangerousGetFolderFromPathAsync
 			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
@@ -214,7 +214,7 @@ namespace Files.App.Utils.Storage
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path))
 					{
 						folder = await folder.GetFolderAsync(component.Title);
-						path = PathNormalization.Combine(path, folder.Name);
+						path = StoragePathHelper.Combine(path, folder.Name);
 					}
 					return new StorageFolderWithPath(folder, path);
 				}
@@ -225,7 +225,7 @@ namespace Files.App.Utils.Storage
 					foreach (var component in currComponents.Skip(1))
 					{
 						folder = await folder.GetFolderAsync(component.Title);
-						path = PathNormalization.Combine(path, folder.Name);
+						path = StoragePathHelper.Combine(path, folder.Name);
 					}
 					return new StorageFolderWithPath(folder, path);
 				}
@@ -244,7 +244,7 @@ namespace Files.App.Utils.Storage
 		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
 				=> (await parentFolder.Item.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
-					.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+					.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? StoragePathHelper.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
 			(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
 		{
@@ -258,7 +258,7 @@ namespace Files.App.Utils.Storage
 			BaseStorageFolderQueryResult queryResult = parentFolder.Item.CreateFolderQueryWithOptions(queryOptions);
 
 			return (await queryResult.GetFoldersAsync(0, maxNumberOfItems))
-				.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+				.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? StoragePathHelper.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 		}
 
 		private static PathBoxItem GetPathItem(string component, string path)

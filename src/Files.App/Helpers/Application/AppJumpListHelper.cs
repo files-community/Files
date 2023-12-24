@@ -1,17 +1,14 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.UserControls.Widgets;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {
-	public sealed class JumpListHelper
+	public sealed class AppJumpListHelper
 	{
-		private static IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
+		private static IJumpListService JumpListService { get; } = Ioc.Default.GetRequiredService<IJumpListService>();
 
 		public static async Task InitializeUpdatesAsync()
 		{
@@ -20,7 +17,7 @@ namespace Files.App.Helpers
 				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidgetAsync;
 				App.QuickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidgetAsync;
 
-				await jumpListService.RefreshPinnedFoldersAsync();
+				await JumpListService.RefreshPinnedFoldersAsync();
 			}
 			catch (Exception ex)
 			{
@@ -30,7 +27,7 @@ namespace Files.App.Helpers
 
 		private static async void UpdateQuickAccessWidgetAsync(object? sender, ModifyQuickAccessEventArgs e)
 		{
-			await jumpListService.RefreshPinnedFoldersAsync();
+			await JumpListService.RefreshPinnedFoldersAsync();
 		}
 	}
 }

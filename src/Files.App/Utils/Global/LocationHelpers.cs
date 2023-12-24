@@ -4,7 +4,7 @@
 using Windows.Devices.Geolocation;
 using Windows.Services.Maps;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class LocationHelpers
 	{

@@ -2,13 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using System;
 using System.Globalization;
 using Windows.UI;
 
 namespace Files.App.Helpers
 {
-	internal static class ColorHelpers
+	internal static class ColorHelper
 	{
 		private const int COLOR_LENGTH = 7;
 		private const int COLOR_LENGTH_INCLUDING_ALPHA = 9;
@@ -50,10 +49,11 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static Color FromUint(this uint value)
 		{
-			return Color.FromArgb((byte)((value >> 24) & 0xFF),
-					   (byte)((value >> 16) & 0xFF),
-					   (byte)((value >> 8) & 0xFF),
-					   (byte)(value & 0xFF));
+			return
+				Color.FromArgb((byte)((value >> 24) & 0xFF),
+					(byte)((value >> 16) & 0xFF),
+					(byte)((value >> 8) & 0xFF),
+					(byte)(value & 0xFF));
 		}
 
 		/// <summary>
@@ -67,7 +67,6 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Generates a random color and returns its Hex
 		/// </summary>
-		/// <returns></returns>
 		public static string RandomColor()
 		{
 			var color = Color.FromArgb(
@@ -84,7 +83,7 @@ namespace Files.App.Helpers
 			return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
 		}
 
-		public static Windows.UI.Color ToWindowsColor(this System.Drawing.Color color)
+		public static Color ToWindowsColor(this System.Drawing.Color color)
 		{
 			string hex = color.ToHex();
 			return FromHex(hex);

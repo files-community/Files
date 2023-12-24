@@ -1,16 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class ShareItemHelpers
 	{

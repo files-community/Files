@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Files.App.Helpers
+namespace Files.Shared.Helpers
 {
 	internal sealed class CollectionDebugView<T>
 	{

@@ -1,13 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.WMI
 {
-	public class WqlEventQuery
+	public class WMIQuery
 	{
 		public string QueryExpression { get; }
 
-		public WqlEventQuery(string queryExpression)
+		public WMIQuery(string queryExpression)
 		{
 			QueryExpression = queryExpression;
 		}

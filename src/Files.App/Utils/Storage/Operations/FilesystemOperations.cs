@@ -38,7 +38,7 @@ namespace Files.App.Utils.Storage
 							var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
 							if (newEntryInfo is null)
 							{
-								var fsFolderResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
+								var fsFolderResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(source.Path));
 								fsResult = fsFolderResult;
 								if (fsResult)
 								{
@@ -70,7 +70,7 @@ namespace Files.App.Utils.Storage
 
 					case FilesystemItemType.Directory:
 						{
-							var fsFolderResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
+							var fsFolderResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(source.Path));
 							fsResult = fsFolderResult;
 							if (fsResult)
 							{
@@ -122,7 +122,7 @@ namespace Files.App.Utils.Storage
 				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
 
 				// Do not paste files and folders inside the recycle bin
-				await DialogDisplayHelper.ShowDialogAsync(
+				await ContentDialogHelper.ShowDialogAsync(
 					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
 					"ErrorDialogUnsupportedOperation".GetLocalizedResource());
 
@@ -134,7 +134,7 @@ namespace Files.App.Utils.Storage
 			if (source.ItemType == FilesystemItemType.Directory)
 			{
 				if (!string.IsNullOrWhiteSpace(source.Path) &&
-					PathNormalization.GetParentDir(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
+					StoragePathHelper.GetParentDir(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
 				{
 					var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
 					var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
@@ -163,7 +163,7 @@ namespace Files.App.Utils.Storage
 				{
 					// CopyFileFromApp only works on file not directories
 					var fsSourceFolder = await source.ToStorageItemResult();
-					var fsDestinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					var fsDestinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(destination));
 					var fsResult = (FilesystemResult)(fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode);
 
 					if (fsResult)
@@ -216,7 +216,7 @@ namespace Files.App.Utils.Storage
 				{
 					Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(destination));
 					var sourceResult = await source.ToStorageItemResult();
 					fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
@@ -323,7 +323,7 @@ namespace Files.App.Utils.Storage
 				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
 
 				// Do not paste files and folders inside the recycle bin
-				await DialogDisplayHelper.ShowDialogAsync(
+				await ContentDialogHelper.ShowDialogAsync(
 					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
 					"ErrorDialogUnsupportedOperation".GetLocalizedResource());
 
@@ -336,7 +336,7 @@ namespace Files.App.Utils.Storage
 			{
 				// Also check if user tried to move anything above the source.ItemPath
 				if (!string.IsNullOrWhiteSpace(source.Path) &&
-					PathNormalization.GetParentDir(destination).IsSubPathOf(source.Path))
+					StoragePathHelper.GetParentDir(destination).IsSubPathOf(source.Path))
 				{
 					var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
 					var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
@@ -370,7 +370,7 @@ namespace Files.App.Utils.Storage
 						Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
 						var fsSourceFolder = await source.ToStorageItemResult();
-						var fsDestinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+						var fsDestinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(destination));
 						fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
 
 						if (fsResult)
@@ -386,7 +386,7 @@ namespace Files.App.Utils.Storage
 								// Moving folders using Storage API can result in data loss, copy instead
 								//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
 
-								if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
+								if (await ContentDialogHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
 									fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
 							}
 
@@ -429,7 +429,7 @@ namespace Files.App.Utils.Storage
 				{
 					Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(destination));
 					var sourceResult = await source.ToStorageItemResult();
 					fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
@@ -470,8 +470,8 @@ namespace Files.App.Utils.Storage
 				return null;
 			}
 
-			bool sourceInCurrentFolder = PathNormalization.TrimPath(_associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath) ==
-				PathNormalization.GetParentDir(source.Path);
+			bool sourceInCurrentFolder = StoragePathHelper.TrimPath(_associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath) ==
+				StoragePathHelper.GetParentDir(source.Path);
 			if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder)
 			{
 				await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source.Path);
@@ -528,7 +528,7 @@ namespace Files.App.Utils.Storage
 			else if (fsResult == FileSystemStatusCode.InUse)
 			{
 				// TODO: Retry
-				await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
+				await ContentDialogHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
 			}
 
 			if (deleteFromRecycleBin)
@@ -633,20 +633,20 @@ namespace Files.App.Utils.Storage
 				}
 				else if (renamed == FileSystemStatusCode.NotAFile || renamed == FileSystemStatusCode.NotAFolder)
 				{
-					await DialogDisplayHelper.ShowDialogAsync("RenameError/NameInvalid/Title".GetLocalizedResource(), "RenameError/NameInvalid/Text".GetLocalizedResource());
+					await ContentDialogHelper.ShowDialogAsync("RenameError/NameInvalid/Title".GetLocalizedResource(), "RenameError/NameInvalid/Text".GetLocalizedResource());
 				}
 				else if (renamed == FileSystemStatusCode.NameTooLong)
 				{
-					await DialogDisplayHelper.ShowDialogAsync("RenameError/TooLong/Title".GetLocalizedResource(), "RenameError/TooLong/Text".GetLocalizedResource());
+					await ContentDialogHelper.ShowDialogAsync("RenameError/TooLong/Title".GetLocalizedResource(), "RenameError/TooLong/Text".GetLocalizedResource());
 				}
 				else if (renamed == FileSystemStatusCode.InUse)
 				{
 					// TODO: Retry
-					await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
+					await ContentDialogHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
 				}
 				else if (renamed == FileSystemStatusCode.NotFound)
 				{
-					await DialogDisplayHelper.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalizedResource(), "RenameError/ItemDeleted/Text".GetLocalizedResource());
+					await ContentDialogHelper.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalizedResource(), "RenameError/ItemDeleted/Text".GetLocalizedResource());
 				}
 				else if (renamed == FileSystemStatusCode.AlreadyExists)
 				{
@@ -736,7 +736,7 @@ namespace Files.App.Utils.Storage
 				if (source.ItemType == FilesystemItemType.Directory)
 				{
 					FilesystemResult<BaseStorageFolder> sourceFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
-					FilesystemResult<BaseStorageFolder> destinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					FilesystemResult<BaseStorageFolder> destinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(destination));
 
 					fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
 					fsProgress.ReportStatus(fsResult);
@@ -746,7 +746,7 @@ namespace Files.App.Utils.Storage
 						// Moving folders using Storage API can result in data loss, copy instead
 						//fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
 
-						if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
+						if (await ContentDialogHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
 							fsResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists));
 
 						// TODO: we could use here FilesystemHelpers with registerHistory false?
@@ -757,7 +757,7 @@ namespace Files.App.Utils.Storage
 				else
 				{
 					FilesystemResult<BaseStorageFile> sourceFile = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path);
-					FilesystemResult<BaseStorageFolder> destinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					FilesystemResult<BaseStorageFolder> destinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(StoragePathHelper.GetParentDir(destination));
 
 					fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
 					fsProgress.ReportStatus(fsResult);
@@ -789,15 +789,15 @@ namespace Files.App.Utils.Storage
 			{
 				if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
 				{
-					await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalizedResource(), "AccessDeniedDeleteDialog/Text".GetLocalizedResource());
+					await ContentDialogHelper.ShowDialogAsync("AccessDenied".GetLocalizedResource(), "AccessDeniedDeleteDialog/Text".GetLocalizedResource());
 				}
 				else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.NotFound))
 				{
-					await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+					await ContentDialogHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
 				}
 				else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.AlreadyExists))
 				{
-					await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+					await ContentDialogHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
 				}
 			}
 

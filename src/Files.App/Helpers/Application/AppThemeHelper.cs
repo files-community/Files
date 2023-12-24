@@ -13,7 +13,7 @@ namespace Files.App.Helpers
 	/// <summary>
 	/// Class providing functionality around switching and restoring theme settings
 	/// </summary>
-	public static class ThemeHelper
+	public static class AppThemeHelper
 	{
 		private const string selectedAppThemeKey = "theme";
 		private static Window? currentApplicationWindow;

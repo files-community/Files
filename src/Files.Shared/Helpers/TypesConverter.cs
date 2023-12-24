@@ -1,11 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Files.App.Helpers
+namespace Files.Shared.Helpers
 {
 	public class KnownTypesConverter
 	{

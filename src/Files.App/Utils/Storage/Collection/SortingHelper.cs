@@ -32,7 +32,7 @@ namespace Files.App.Utils.Storage
 			bool sortDirectoriesAlongsideFiles, bool sortFilesFirst)
 		{
 			var orderFunc = GetSortFunc(directorySortOption);
-			var naturalStringComparer = NaturalStringComparer.GetForProcessor();
+			var naturalStringComparer = StringComparisonHelper.GetForProcessor();
 
 			// Function to prioritize folders (if sortFilesFirst is false) or files (if sortFilesFirst is true)
 			bool PrioritizeFilesOrFolders(ListedItem listedItem)
