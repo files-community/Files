@@ -350,7 +350,7 @@ namespace Files.App.Utils.Storage
 					else
 					{
 						var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
-						NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
+						InteropHelper.MoveFileFromApp(Path, fileName);
 					}
 				}
 				else
@@ -397,7 +397,7 @@ namespace Files.App.Utils.Storage
 					}
 					else if (option == StorageDeleteOption.PermanentDelete)
 					{
-						NativeFileOperationsHelper.DeleteFileFromApp(Path);
+						InteropHelper.DeleteFileFromApp(Path);
 					}
 					else
 					{
@@ -488,7 +488,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+				var hFile = InteropHelper.OpenFileForRead(path);
 				if (hFile.IsInvalid)
 				{
 					return false;
@@ -529,7 +529,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
+				var hFile = InteropHelper.OpenFileForRead(path, true);
 				if (hFile.IsInvalid)
 				{
 					return Task.FromResult(false);
@@ -580,7 +580,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+					var hFile = InteropHelper.OpenFileForRead(containerPath, readWrite);
 					if (hFile.IsInvalid)
 					{
 						return null;

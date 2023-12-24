@@ -9,8 +9,11 @@ namespace Files.Core.Helpers
 	/// <summary>
 	/// Provides a bunch of Win32API for native find storage items.
 	/// </summary>
-	public class NativeFindStorageItemHelper
+	public static partial class InteropHelper
 	{
+		public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
+		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct SYSTEMTIME
 		{
@@ -83,24 +86,25 @@ namespace Files.Core.Helpers
 			out WIN32_FIND_DATA lpFindFileData,
 			FINDEX_SEARCH_OPS fSearchOp,
 			IntPtr lpSearchFilter,
-			int dwAdditionalFlags);
-
-		public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
-		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
+			int dwAdditionalFlags
+		);
 
 		[DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
 		public static extern bool FindNextFile(
 			IntPtr hFindFile,
-			out WIN32_FIND_DATA lpFindFileData);
+			out WIN32_FIND_DATA lpFindFileData
+		);
 
 		[DllImport("api-ms-win-core-file-l1-1-0.dll")]
 		public static extern bool FindClose(
-			IntPtr hFindFile);
+			IntPtr hFindFile
+		);
 
 		[DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
 		public static extern bool FileTimeToSystemTime(
 			ref FILETIME lpFileTime,
-			out SYSTEMTIME lpSystemTime);
+			out SYSTEMTIME lpSystemTime
+		);
 
 		public static bool GetWin32FindDataForPath(
 			string targetPath,

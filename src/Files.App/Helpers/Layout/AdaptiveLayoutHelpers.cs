@@ -48,7 +48,7 @@ namespace Files.App.Helpers
 		{
 			var iniPath = IO.Path.Combine(path, "desktop.ini");
 
-			var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
+			var iniContents = InteropHelper.ReadStringFromFile(iniPath)?.Trim();
 			if (string.IsNullOrEmpty(iniContents))
 				return Layouts.None;
 

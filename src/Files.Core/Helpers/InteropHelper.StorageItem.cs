@@ -1,26 +1,23 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Files.App.Helpers
+namespace Files.Core.Helpers
 {
 	// https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209
-	public static class FileUtils
+	public static partial class InteropHelper
 	{
+		const int RmRebootReasonNone = 0;
+		const int CCH_RM_MAX_APP_NAME = 255;
+		const int CCH_RM_MAX_SVC_NAME = 63;
+
 		[StructLayout(LayoutKind.Sequential)]
 		struct RM_UNIQUE_PROCESS
 		{
 			public int dwProcessId;
 			public System.Runtime.InteropServices.ComTypes.FILETIME ProcessStartTime;
 		}
-
-		const int RmRebootReasonNone = 0;
-		const int CCH_RM_MAX_APP_NAME = 255;
-		const int CCH_RM_MAX_SVC_NAME = 63;
 
 		enum RM_APP_TYPE
 		{
@@ -52,26 +49,36 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmRegisterResources(uint pSessionHandle,
-											  UInt32 nFiles,
-											  string[] rgsFilenames,
-											  UInt32 nApplications,
-											  [In] RM_UNIQUE_PROCESS[] rgApplications,
-											  UInt32 nServices,
-											  string[] rgsServiceNames);
+		static extern int RmRegisterResources(
+			uint pSessionHandle,
+			UInt32 nFiles,
+			string[] rgsFilenames,
+			UInt32 nApplications,
+			[In] RM_UNIQUE_PROCESS[] rgApplications,
+			UInt32 nServices,
+			string[] rgsServiceNames
+		);
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, string strSessionKey);
+		static extern int RmStartSession(
+			out uint pSessionHandle,
+			int dwSessionFlags,
+			string strSessionKey
+		);
 
 		[DllImport("rstrtmgr.dll")]
-		static extern int RmEndSession(uint pSessionHandle);
+		static extern int RmEndSession(
+			uint pSessionHandle
+		);
 
 		[DllImport("rstrtmgr.dll")]
-		static extern int RmGetList(uint dwSessionHandle,
-									out uint pnProcInfoNeeded,
-									ref uint pnProcInfo,
-									[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
-									ref uint lpdwRebootReasons);
+		static extern int RmGetList(
+			uint dwSessionHandle,
+			out uint pnProcInfoNeeded,
+			ref uint pnProcInfo,
+			[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
+			ref uint lpdwRebootReasons
+		);
 
 		/// <summary>
 		/// Find out what process(es) have a lock on the specified file.
@@ -81,7 +88,6 @@ namespace Files.App.Helpers
 		/// <remarks>See also:
 		/// http://msdn.microsoft.com/library/windows/desktop/aa373661(v=vs.85).aspx
 		/// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
-		///
 		/// </remarks>
 		public static List<Process> WhoIsLocking(string[] resources)
 		{

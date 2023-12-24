@@ -19,25 +19,25 @@ namespace Files.App.Utils.FileTags
 
 		public static string[] ReadFileTag(string filePath)
 		{
-			var tagString = NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
+			var tagString = InteropHelper.ReadStringFromFile($"{filePath}:files");
 			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		public static async void WriteFileTag(string filePath, string[] tag)
 		{
-			var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
-			var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+			var isDateOk = InteropHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
+			var isReadOnly = InteropHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			if (isReadOnly) // Unset read-only attribute (#7534)
 			{
-				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+				InteropHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
 			if (tag is null || !tag.Any())
 			{
-				NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
+				InteropHelper.DeleteFileFromApp($"{filePath}:files");
 			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
 			{
-				var result = NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
+				var result = InteropHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
 				if (result == false)
 				{
 					ContentDialog dialog = new()
@@ -55,11 +55,11 @@ namespace Files.App.Utils.FileTags
 			}
 			if (isReadOnly) // Restore read-only attribute (#7534)
 			{
-				NativeFileOperationsHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+				InteropHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
 			if (isDateOk)
 			{
-				NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
+				InteropHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
 			}
 		}
 
@@ -106,7 +106,7 @@ namespace Files.App.Utils.FileTags
 			}
 		}
 
-		public static ulong? GetFileFRN(string filePath) => NativeFileOperationsHelper.GetFileFRN(filePath);
+		public static ulong? GetFileFRN(string filePath) => InteropHelper.GetFileFRN(filePath);
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)
 		{

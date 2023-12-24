@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.InteropHelper;
 
 namespace Files.App.Utils.Storage
 {

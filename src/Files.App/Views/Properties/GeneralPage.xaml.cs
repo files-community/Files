@@ -152,7 +152,7 @@ namespace Files.App.Views.Properties
 				}
 
 				if (ViewModel.IsUnblockFileSelected)
-					NativeFileOperationsHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+					InteropHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
 
 				if (!GetNewName(out var newName))
 					return true;

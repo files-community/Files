@@ -71,7 +71,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+			ViewModel.IsHidden = InteropHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale, true);
@@ -89,7 +89,7 @@ namespace Files.App.ViewModels.Properties
 
 				// Only load the size for items on the device
 				if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-					ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+					ViewModel.ItemSizeOnDisk = InteropHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 					   string.Empty;
 
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
@@ -197,12 +197,12 @@ namespace Files.App.ViewModels.Properties
 				case "IsHidden":
 					if (ViewModel.IsHidden)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(
+						InteropHelper.SetFileAttribute(
 							Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 					else
 					{
-						NativeFileOperationsHelper.UnsetFileAttribute(
+						InteropHelper.UnsetFileAttribute(
 							Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 					break;

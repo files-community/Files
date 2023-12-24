@@ -8,7 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static Files.App.Helpers.InteropHelpers;
+using static Files.App.Helpers.InteropHelper;
 
 namespace Files.App
 {

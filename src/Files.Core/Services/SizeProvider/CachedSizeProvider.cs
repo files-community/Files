@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.InteropHelper;
 
 namespace Files.Core.Services.SizeProvider
 {

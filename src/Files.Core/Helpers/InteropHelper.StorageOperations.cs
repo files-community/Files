@@ -2,19 +2,39 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Win32.SafeHandles;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using System.Threading;
-using Vanara.PInvoke;
 
-namespace Files.App.Helpers
+namespace Files.Core.Helpers
 {
-	public class NativeFileOperationsHelper
+	public static partial class InteropHelper
 	{
+		public const uint GENERIC_READ = 0x80000000;
+		public const uint GENERIC_WRITE = 0x40000000;
+		public const int FILE_SHARE_READ = 0x00000001;
+		public const int FILE_SHARE_WRITE = 0x00000002;
+		public const int OPEN_EXISTING = 3;
+
+		public const uint FILE_APPEND_DATA = 0x0004;
+		public const uint FILE_WRITE_ATTRIBUTES = 0x100;
+
+		public const uint FILE_SHARE_DELETE = 0x00000004;
+
+		public const uint FILE_BEGIN = 0;
+		public const uint FILE_END = 2;
+
+		public const uint CREATE_ALWAYS = 2;
+		public const uint CREATE_NEW = 1;
+		public const uint OPEN_ALWAYS = 4;
+		public const uint TRUNCATE_EXISTING = 5;
+
+		private const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
+		private const int FSCTL_GET_REPARSE_POINT = 0x000900A8;
+		public const uint IO_REPARSE_TAG_MOUNT_POINT = 0xA0000003;
+		public const uint IO_REPARSE_TAG_SYMLINK = 0xA000000C;
+
 		public enum File_Attributes : uint
 		{
 			Readonly = 0x00000001,
@@ -44,30 +64,12 @@ namespace Files.App.Helpers
 			FirstPipeInstance = 0x00080000
 		}
 
-		public const uint GENERIC_READ = 0x80000000;
-		public const uint GENERIC_WRITE = 0x40000000;
-		public const uint FILE_APPEND_DATA = 0x0004;
-		public const uint FILE_WRITE_ATTRIBUTES = 0x100;
-
-		public const uint FILE_SHARE_READ = 0x00000001;
-		public const uint FILE_SHARE_WRITE = 0x00000002;
-		public const uint FILE_SHARE_DELETE = 0x00000004;
-
-		public const uint FILE_BEGIN = 0;
-		public const uint FILE_END = 2;
-
-		public const uint CREATE_ALWAYS = 2;
-		public const uint CREATE_NEW = 1;
-		public const uint OPEN_ALWAYS = 4;
-		public const uint OPEN_EXISTING = 3;
-		public const uint TRUNCATE_EXISTING = 5;
-
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
-		public static extern bool CloseHandle(IntPtr hObject);
+		public static extern bool CloseHandle(
+			IntPtr hObject
+		);
 
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern IntPtr CreateFileFromApp(
 			string lpFileName,
 			uint dwDesiredAccess,
@@ -89,11 +91,6 @@ namespace Files.App.Helpers
 			return new SafeFileHandle(CreateFileFromApp(filePath,
 				GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | (readWrite ? 0 : FILE_SHARE_WRITE), IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
 		}
-
-		private const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
-		private const int FSCTL_GET_REPARSE_POINT = 0x000900A8;
-		public const uint IO_REPARSE_TAG_MOUNT_POINT = 0xA0000003;
-		public const uint IO_REPARSE_TAG_SYMLINK = 0xA000000C;
 
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 		private struct REPARSE_DATA_BUFFER
@@ -120,30 +117,10 @@ namespace Files.App.Helpers
 			out REPARSE_DATA_BUFFER outBuffer,
 			uint nOutBufferSize,
 			out uint lpBytesReturned,
-			IntPtr lpOverlapped);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern IntPtr CreateFile2FromApp(
-			string lpFileName,
-			uint dwDesiredAccess,
-			uint dwShareMode,
-			uint dwCreationDisposition,
-			IntPtr pCreateExParams
+			IntPtr lpOverlapped
 		);
 
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool CreateDirectoryFromApp(
-			string lpPathName,
-			IntPtr SecurityAttributes
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern bool MoveFileFromApp(
 			string lpExistingFileName,
 			string lpNewFileName
@@ -165,13 +142,6 @@ namespace Files.App.Helpers
 			string lpFileName
 		);
 
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool RemoveDirectoryFromApp(
-			string lpPathName
-		);
-
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool GetFileAttributesExFromApp(
@@ -185,16 +155,6 @@ namespace Files.App.Helpers
 			string lpFileName,
 			FileAttributes dwFileAttributes);
 
-		[DllImport("api-ms-win-core-file-l1-2-1.dll", ExactSpelling = true,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern uint SetFilePointer(
-			IntPtr hFile,
-			long lDistanceToMove,
-			IntPtr lpDistanceToMoveHigh,
-			uint dwMoveMethod
-		);
-
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
 		SetLastError = true)]
@@ -206,9 +166,7 @@ namespace Files.App.Helpers
 			IntPtr lpOverlapped
 		);
 
-		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
+		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public unsafe static extern bool WriteFile(
 			IntPtr hFile,
 			byte* lpBuffer,
@@ -217,15 +175,14 @@ namespace Files.App.Helpers
 			IntPtr lpOverlapped
 		);
 
-		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
-			CallingConvention = CallingConvention.StdCall,
-			SetLastError = true)]
+		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern bool WriteFileEx(
 			IntPtr hFile,
 			byte[] lpBuffer,
 			uint nNumberOfBytesToWrite,
 			[In] ref NativeOverlapped lpOverlapped,
-			LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+			LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
+		);
 
 		public delegate void LPOVERLAPPED_COMPLETION_ROUTINE(uint dwErrorCode, uint dwNumberOfBytesTransfered, ref NativeOverlapped lpOverlapped);
 
@@ -246,10 +203,20 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		public static extern bool GetFileTime([In] IntPtr hFile, out FILETIME lpCreationTime, out FILETIME lpLastAccessTime, out FILETIME lpLastWriteTime);
+		public static extern bool GetFileTime(
+			[In] IntPtr hFile,
+			out FILETIME lpCreationTime,
+			out FILETIME lpLastAccessTime,
+			out FILETIME lpLastWriteTime
+		);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		public static extern bool SetFileTime([In] IntPtr hFile, in FILETIME lpCreationTime, in FILETIME lpLastAccessTime, in FILETIME lpLastWriteTime);
+		public static extern bool SetFileTime(
+			[In] IntPtr hFile,
+			in FILETIME lpCreationTime,
+			in FILETIME lpLastAccessTime,
+			in FILETIME lpLastWriteTime
+		);
 
 		private enum FILE_INFO_BY_HANDLE_CLASS
 		{
@@ -426,26 +393,6 @@ namespace Files.App.Helpers
 			}
 			CloseHandle(hStream);
 			return true;
-		}
-
-		public static bool WriteBufferToFileWithProgress(string filePath, byte[] buffer, LPOVERLAPPED_COMPLETION_ROUTINE callback)
-		{
-			using var hFile = CreateFileForWrite(filePath);
-
-			if (hFile.IsInvalid)
-			{
-				return false;
-			}
-
-			NativeOverlapped nativeOverlapped = new NativeOverlapped();
-			bool result = WriteFileEx(hFile.DangerousGetHandle(), buffer, (uint)buffer.LongLength, ref nativeOverlapped, callback);
-
-			if (!result)
-			{
-				System.Diagnostics.Debug.WriteLine(Marshal.GetLastWin32Error());
-			}
-
-			return result;
 		}
 
 		// https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
