@@ -3666,6 +3666,6 @@
     <value>Restart</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>Quit Files</value>
+    <value>Quit</value>
   </data>
 </root>
