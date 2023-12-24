@@ -1,13 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
 namespace Files.Shared.Helpers
 {
-	internal sealed class CollectionDebugView<T>
+	public sealed class CollectionDebugView<T>
 	{
 		private readonly ICollection<T> _collection;
 

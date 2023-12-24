@@ -3,7 +3,7 @@
 
 namespace Files.Shared.Helpers
 {
-	internal class IntervalSampler
+	public sealed class IntervalSampler
 	{
 		private DateTime recordPoint;
 		private TimeSpan sampleInterval;
