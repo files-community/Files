@@ -34,6 +34,8 @@ global using global::Files.App.Utils.Serialization;
 global using global::Files.App.Utils.Shell;
 global using global::Files.App.Utils.StatusCenter;
 global using global::Files.App.Utils.Storage;
+global using global::Files.App.Utils.Widgets;
+global using global::Files.App.Utils.WMI;
 global using global::Files.App.Data.Attributes;
 global using global::Files.App.Data.Behaviors;
 global using global::Files.App.Data.Commands;
@@ -77,4 +79,5 @@ global using global::Files.Core.Utils.CommandLine;
 
 // Files.Shared
 global using global::Files.Shared;
+global using global::Files.Shared.Helpers;
 global using global::Files.Shared.Extensions;

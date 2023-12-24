@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Sidebar;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Input;
