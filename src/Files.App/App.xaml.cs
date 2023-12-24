@@ -180,7 +180,12 @@ namespace Files.App
 
 				// Sleep current instance
 				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+
+				// Add system tray icon
+				var trayIcon = new SystemTrayIcon().Show();
+
 				Thread.Yield();
+
 				if (Program.Pool.WaitOne())
 				{
 					// Resume the instance

@@ -3662,4 +3662,10 @@
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Failed to rotate the image</value>
   </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart Files</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit Files</value>
+  </data>
 </root>

@@ -1,0 +1,33 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+WNDPROC
+WNDCLASSEXW
+RegisterClassEx
+CreateWindowEx
+DestroyWindow
+GetModuleHandle
+RECT
+NOTIFYICONIDENTIFIER
+Shell_NotifyIconGetRect
+RegisterWindowMessage
+NOTIFYICONDATAW
+Shell_NotifyIcon
+GetCursorPos
+DestroyMenu
+AppendMenu
+CreatePopupMenu
+SetForegroundWindow
+TrackPopupMenuEx
+TRACK_POPUP_MENU_FLAGS
+GetSystemMetricsForDpi
+DefWindowProc
+SYSTEM_METRICS_INDEX
+GetDpiForWindow
+HWND
+LRESULT
+WPARAM
+LPARAM
+WM_LBUTTONUP
+WM_RBUTTONUP
+WM_DESTROY
