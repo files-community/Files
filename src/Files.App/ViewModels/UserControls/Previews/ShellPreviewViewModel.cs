@@ -192,13 +192,17 @@ namespace Files.App.ViewModels.Previews
 			if (onPreview)
 			{
 				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, false);
+
 				if (isOfficePreview)
-					Win32PInvoke.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
+					Win32Helper.SetWindowLong((nint)hwnd, (int)WindowLongFlags.GWL_EXSTYLE, 0);
 			}
 			else
 			{
-				Win32PInvoke.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
+				Win32Helper.SetWindowLong(
+					(nint)hwnd,
+					(int)WindowLongFlags.GWL_EXSTYLE,
 					(nint)(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED));
+
 				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true);
 			}
 		}

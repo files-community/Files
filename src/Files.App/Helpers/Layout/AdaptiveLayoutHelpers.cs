@@ -48,7 +48,7 @@ namespace Files.App.Helpers
 		{
 			var iniPath = IO.Path.Combine(path, "desktop.ini");
 
-			var iniContents = Win32PInvoke.ReadStringFromFile(iniPath)?.Trim();
+			var iniContents = Win32Helper.ReadStringFromFile(iniPath)?.Trim();
 			if (string.IsNullOrEmpty(iniContents))
 				return Layouts.None;
 

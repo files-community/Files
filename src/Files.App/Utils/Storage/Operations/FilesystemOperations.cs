@@ -185,10 +185,10 @@ namespace Files.App.Utils.Storage
 
 						if (fsCopyResult)
 						{
-							if (Win32PInvoke.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
+							if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
 							{
 								// The source folder was hidden, apply hidden attribute to destination
-								Win32PInvoke.SetFileAttribute(fsCopyResult.Result.Path, SystemIO.FileAttributes.Hidden);
+								Win32Helper.SetFileAttribute(fsCopyResult.Result.Path, SystemIO.FileAttributes.Hidden);
 							}
 
 							copiedItem = (BaseStorageFolder)fsCopyResult;
@@ -402,10 +402,10 @@ namespace Files.App.Utils.Storage
 
 							if (fsResultMove)
 							{
-								if (Win32PInvoke.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
+								if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
 								{
 									// The source folder was hidden, apply hidden attribute to destination
-									Win32PInvoke.SetFileAttribute(fsResultMove.Result.Path, SystemIO.FileAttributes.Hidden);
+									Win32Helper.SetFileAttribute(fsResultMove.Result.Path, SystemIO.FileAttributes.Hidden);
 								}
 
 								movedItem = (BaseStorageFolder)fsResultMove;

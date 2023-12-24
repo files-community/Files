@@ -128,7 +128,7 @@ namespace Files.App.Utils.Storage
 
 		private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
 		{
-			foreach (var ads in Win32PInvoke.GetAlternateStreams(itemPath))
+			foreach (var ads in Win32Helper.GetAlternateStreams(itemPath))
 				yield return GetAlternateStream(ads, main);
 		}
 
@@ -296,7 +296,7 @@ namespace Files.App.Utils.Storage
 
 			if (isSymlink)
 			{
-				var targetPath = Win32PInvoke.ParseSymLink(itemPath);
+				var targetPath = Win32Helper.ParseSymLink(itemPath);
 
 				return new ShortcutItem(null)
 				{

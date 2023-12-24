@@ -33,6 +33,13 @@ namespace Files.Core.Helpers
 		public const uint IO_REPARSE_TAG_MOUNT_POINT = 0xA0000003;
 		public const uint IO_REPARSE_TAG_SYMLINK = 0xA000000C;
 
+		public const int INVALID_HANDLE_VALUE = -1;
+
+		public const int FSCTL_LOCK_VOLUME = 0x00090018;
+		public const int FSCTL_DISMOUNT_VOLUME = 0x00090020;
+		public const int IOCTL_STORAGE_EJECT_MEDIA = 0x2D4808;
+		public const int IOCTL_STORAGE_MEDIA_REMOVAL = 0x002D4804;
+
 		public enum File_Attributes : uint
 		{
 			Readonly = 0x00000001,
@@ -65,6 +72,17 @@ namespace Files.Core.Helpers
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
 		public static extern bool CloseHandle(
 			IntPtr hObject
+		);
+
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern IntPtr CreateFileFromAppW(
+			string lpFileName,
+			uint dwDesiredAccess,
+			uint dwShareMode,
+			IntPtr SecurityAttributes,
+			uint dwCreationDisposition,
+			uint dwFlagsAndAttributes,
+			IntPtr hTemplateFile
 		);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
@@ -104,6 +122,12 @@ namespace Files.Core.Helpers
 			uint nOutBufferSize,
 			out uint lpBytesReturned,
 			IntPtr lpOverlapped
+		);
+
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+		public static extern bool CreateDirectoryFromApp(
+			string lpPathName,
+			IntPtr SecurityAttributes
 		);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]

@@ -1,10 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
-using System;
 using System.IO;
-using static Files.App.Helpers.NativeFileOperationsHelper;
+using static Files.Core.Helpers.Win32PInvoke;
+using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App.Utils.Serialization.Implementation
 {

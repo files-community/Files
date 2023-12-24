@@ -44,7 +44,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
-			ViewModel.IsDownloadedFile = Win32PInvoke.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
+			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
 
 			if (!Item.IsShortcut)
 				return;
@@ -74,7 +74,7 @@ namespace Files.App.ViewModels.Properties
 				if (Item.IsLinkItem)
 				{
 					var tmpItem = (ShortcutItem)Item;
-					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await Win32Helper.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{
@@ -90,17 +90,15 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsReadOnly = Win32PInvoke.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = Win32PInvoke.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(Item.ItemPath, SystemIO.FileAttributes.ReadOnly);
+			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, SystemIO.FileAttributes.Hidden);
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
 			// Only load the size for items on the device
 			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-				ViewModel.ItemSizeOnDisk = Win32PInvoke.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				   string.Empty;
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail, false);
@@ -266,16 +264,12 @@ namespace Files.App.ViewModels.Properties
 				case "IsReadOnly":
 					if (ViewModel.IsReadOnly)
 					{
-						Win32PInvoke.SetFileAttribute(
-							Item.ItemPath,
-							System.IO.FileAttributes.ReadOnly
+						Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly
 						);
 					}
 					else
 					{
-						Win32PInvoke.UnsetFileAttribute(
-							Item.ItemPath,
-							System.IO.FileAttributes.ReadOnly
+						Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly
 						);
 					}
 
@@ -284,16 +278,12 @@ namespace Files.App.ViewModels.Properties
 				case "IsHidden":
 					if (ViewModel.IsHidden)
 					{
-						Win32PInvoke.SetFileAttribute(
-							Item.ItemPath,
-							System.IO.FileAttributes.Hidden
+						Win32Helper.SetFileAttribute(Item.ItemPath, SystemIO.FileAttributes.Hidden
 						);
 					}
 					else
 					{
-						Win32PInvoke.UnsetFileAttribute(
-							Item.ItemPath,
-							System.IO.FileAttributes.Hidden
+						Win32Helper.UnsetFileAttribute(Item.ItemPath, SystemIO.FileAttributes.Hidden
 						);
 					}
 

@@ -95,7 +95,7 @@ namespace Files.App.Utils.Storage
 
 		private void CreateFile()
 		{
-			using var hFile = Win32PInvoke.CreateFileForWrite(Path, false);
+			using var hFile = Win32Helper.CreateFileForWrite(Path, false);
 			if (hFile.IsInvalid)
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -151,7 +151,7 @@ namespace Files.App.Utils.Storage
 
 		private static bool CheckAccess(string path)
 		{
-			using var hFile = Win32PInvoke.OpenFileForRead(path);
+			using var hFile = Win32Helper.OpenFileForRead(path);
 			return !hFile.IsInvalid;
 		}
 
@@ -200,7 +200,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
-			var hFile = Win32PInvoke.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
+			var hFile = Win32Helper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
 			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
 		}
 
@@ -216,7 +216,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
-			var hFile = Win32PInvoke.OpenFileForRead(Path);
+			var hFile = Win32Helper.OpenFileForRead(Path);
 			return Task.FromResult(new FileStream(hFile, FileAccess.Read).AsInputStream()).AsAsyncOperation();
 		}
 

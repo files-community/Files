@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -18,8 +21,38 @@ using Vanara.PInvoke;
 
 namespace Files.App.Helpers
 {
-	internal static class InteropHelper
+	internal static class Win32Helper
 	{
+		public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
+		{
+			return await InvokeWin32ComponentsAsync(applicationPath.CreateEnumerable(), associatedInstance, arguments, runAsAdmin, workingDirectory);
+		}
+
+		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
+		{
+			Debug.WriteLine("Launching EXE in FullTrustProcess");
+
+			if (string.IsNullOrEmpty(workingDirectory))
+			{
+				workingDirectory = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			}
+
+			var application = applicationPaths.FirstOrDefault();
+			if (string.IsNullOrEmpty(workingDirectory))
+			{
+				workingDirectory = associatedInstance?.FilesystemViewModel?.WorkingDirectory;
+			}
+
+			if (runAsAdmin)
+			{
+				return await LaunchHelper.LaunchAppAsync(application, "RunAs", workingDirectory);
+			}
+			else
+			{
+				return await LaunchHelper.LaunchAppAsync(application, arguments, workingDirectory);
+			}
+		}
+
 		public static bool GetWin32FindDataForPath(string targetPath, out Files.Core.Helpers.Win32PInvoke.WIN32_FIND_DATA findData)
 		{
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;

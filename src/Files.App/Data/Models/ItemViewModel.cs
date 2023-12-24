@@ -651,7 +651,7 @@ namespace Files.App.Data.Models
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
 
-					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+					if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 						ClearDisplay();
 					else
 						await dispatcherQueue.EnqueueOrInvokeAsync(ClearDisplay);
@@ -733,7 +733,7 @@ namespace Files.App.Data.Models
 					DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 				}
 
-				if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+				if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 				{
 					await Task.Run(ApplyChanges);
 					UpdateUI();
@@ -777,7 +777,7 @@ namespace Files.App.Data.Models
 					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst));
 			}
 
-			if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+			if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 				return Task.Run(OrderEntries);
 
 			OrderEntries();
@@ -2247,7 +2247,7 @@ namespace Files.App.Data.Models
 				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					// New file added, enumerate ADS
-					foreach (var ads in Win32PInvoke.GetAlternateStreams(item.ItemPath))
+					foreach (var ads in Win32Helper.GetAlternateStreams(item.ItemPath))
 					{
 						var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
 						filesAndFolders.Add(adsItem);
