@@ -152,7 +152,7 @@ namespace Files.App.Views.Properties
 				}
 
 				if (ViewModel.IsUnblockFileSelected)
-					InteropHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+					Win32PInvoke.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
 
 				if (!GetNewName(out var newName))
 					return true;

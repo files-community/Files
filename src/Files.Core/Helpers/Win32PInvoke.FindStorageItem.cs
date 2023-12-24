@@ -9,7 +9,7 @@ namespace Files.Core.Helpers
 	/// <summary>
 	/// Provides a bunch of Win32API for native find storage items.
 	/// </summary>
-	public static partial class InteropHelper
+	public static partial class Win32PInvoke
 	{
 		public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
 		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
@@ -105,31 +105,5 @@ namespace Files.Core.Helpers
 			ref FILETIME lpFileTime,
 			out SYSTEMTIME lpSystemTime
 		);
-
-		public static bool GetWin32FindDataForPath(
-			string targetPath,
-			out WIN32_FIND_DATA findData)
-		{
-			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-
-			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-			IntPtr hFile = FindFirstFileExFromApp(
-				targetPath,
-				findInfoLevel,
-				out findData,
-				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-				IntPtr.Zero,
-				additionalFlags);
-			
-			if (hFile.ToInt64() != -1)
-			{
-				FindClose(hFile);
-
-				return true;
-			}
-
-			return false;
-		}
 	}
 }
