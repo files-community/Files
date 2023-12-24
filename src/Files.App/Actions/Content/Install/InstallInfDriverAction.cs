@@ -34,7 +34,7 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			foreach (ListedItem selectedItem in context.SelectedItems)
-				await Win32API.InstallInf(selectedItem.ItemPath);
+				await Utils.Shell.Win32Helper.InstallInf(selectedItem.ItemPath);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

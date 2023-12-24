@@ -15,10 +15,20 @@ using Windows.System;
 namespace Files.App.Utils.Shell
 {
 	/// <summary>
-	/// Provides static helper for general Win32API.
+	/// Provides static helper of Win32API.
 	/// </summary>
-	internal class Win32API
+	internal static partial class Win32Helper
 	{
+		// Fields & Properties
+
+		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
+
+		private static readonly object _lock = new object();
+
+		private static readonly ConcurrentDictionary<(string File, int Index, int Size), IconFileInfo> _iconCache = new();
+
+		// Methods
+
 		public static Task StartSTATask(Func<Task> func)
 		{
 			var taskCompletionSource = new TaskCompletionSource();
@@ -217,17 +227,6 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private class IconAndOverlayCacheEntry
-		{
-			public byte[]? Icon { get; set; }
-
-			public byte[]? Overlay { get; set; }
-		}
-
-		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
-
-		private static readonly object _lock = new object();
-
 		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
 		{
 			byte[]? iconData = null, overlayData = null;
@@ -370,9 +369,9 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		public static async Task<bool> RunPowershellCommandAsync(string command, bool runAsAdmin)
+		public static async Task<bool> RunPowerShellCommandAsync(string command, bool runAsAdmin)
 		{
-			using Process process = CreatePowershellProcess(command, runAsAdmin);
+			using Process process = CreatePowerShellProcess(command, runAsAdmin);
 			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
 			try
@@ -392,11 +391,11 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		public static bool RunPowershellCommand(string command, bool runAsAdmin)
+		public static bool RunPowerShellCommand(string command, bool runAsAdmin)
 		{
 			try
 			{
-				using Process process = CreatePowershellProcess(command, runAsAdmin);
+				using Process process = CreatePowerShellProcess(command, runAsAdmin);
 
 				process.Start();
 
@@ -411,8 +410,6 @@ namespace Files.App.Utils.Shell
 				return false;
 			}
 		}
-
-		private static readonly ConcurrentDictionary<(string File, int Index, int Size), IconFileInfo> _iconCache = new();
 
 		public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
 		{
@@ -515,24 +512,24 @@ namespace Files.App.Utils.Shell
 		{
 			// Format requires elevation
 			int driveIndex = drive.ToUpperInvariant()[0] - 'A';
-			return RunPowershellCommandAsync($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+			return RunPowerShellCommandAsync($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
 		}
 
 		public static void SetVolumeLabel(string drivePath, string newLabel)
 		{
 			// Rename requires elevation
-			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{drivePath}', '{newLabel}')\"", true);
+			RunPowerShellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{drivePath}', '{newLabel}')\"", true);
 		}
 
 		public static void SetNetworkDriveLabel(string driveName, string newLabel)
 		{
-			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace('{driveName}').Self.Name='{newLabel}'\"", false);
+			RunPowerShellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace('{driveName}').Self.Name='{newLabel}'\"", false);
 		}
 
 		public static Task<bool> MountVhdDisk(string vhdPath)
 		{
 			// Mounting requires elevation
-			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
+			return RunPowerShellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
 		}
 
 		public static Bitmap? GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -581,7 +578,7 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
+		public static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
 		{
 			using var tmp = new Bitmap(bmpData.Width, bmpData.Height, bmpData.Stride, PixelFormat.Format32bppArgb, bmpData.Scan0);
 			Bitmap clone = new Bitmap(tmp.Width, tmp.Height, tmp.PixelFormat);
@@ -594,7 +591,7 @@ namespace Files.App.Utils.Shell
 			return clone;
 		}
 
-		private static bool IsAlphaBitmap(BitmapData bmpData)
+		public static bool IsAlphaBitmap(BitmapData bmpData)
 		{
 			for (int y = 0; y <= bmpData.Height - 1; y++)
 			{
@@ -609,20 +606,6 @@ namespace Files.App.Utils.Shell
 			}
 
 			return false;
-		}
-
-		// There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
-		// The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
-		// The ones below are due to bugs in the current version of the library and can be removed once fixed
-		// Structure used by SHQueryRecycleBin.
-		[StructLayout(LayoutKind.Sequential, Pack = 0)]
-		public struct SHQUERYRBINFO
-		{
-			public int cbSize;
-
-			public long i64Size;
-
-			public long i64NumItems;
 		}
 
 		public static IEnumerable<HWND> GetDesktopWindows()
@@ -704,14 +687,6 @@ namespace Files.App.Utils.Shell
 			return (ret != 0) ? sb.ToString() : null;
 		}
 
-		public class Win32Window : IWin32Window
-		{
-			public IntPtr Handle { get; set; }
-
-			public static Win32Window FromLong(long hwnd)
-				=> new Win32Window() { Handle = new IntPtr(hwnd) };
-		}
-
 		public static void OpenFolderInExistingShellWindow(string folderPath)
 		{
 			var opened = false;
@@ -791,10 +766,6 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		// Get information from recycle bin.
-		[DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Unicode)]
-		public static extern int SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
-
 		public static async Task<bool> InstallInf(string filePath)
 		{
 			try
@@ -831,7 +802,7 @@ namespace Files.App.Utils.Shell
 
 			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
 
-			return RunPowershellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
+			return RunPowerShellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
 		}
 
 		public static async Task InstallFontsAsync(string[] fontFilePaths, bool forAllUsers)
@@ -854,17 +825,17 @@ namespace Files.App.Utils.Shell
 				if (psCommand.Length + appendCommand.Length > 32766)
 				{
 					// The command is too long to run at once, so run the command once up to this point.
-					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+					await RunPowerShellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
 					psCommand.Clear().Append("-command \"");
 				}
 
 				psCommand.Append(appendCommand);
 			}
 
-			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+			await RunPowerShellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
 		}
 
-		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
+		public static Process CreatePowerShellProcess(string command, bool runAsAdmin)
 		{
 			Process process = new();
 
@@ -880,6 +851,21 @@ namespace Files.App.Utils.Shell
 			process.StartInfo.Arguments = command;
 
 			return process;
+		}
+
+		private class IconAndOverlayCacheEntry
+		{
+			public byte[]? Icon { get; set; }
+
+			public byte[]? Overlay { get; set; }
+		}
+
+		public class Win32Window : IWin32Window
+		{
+			public IntPtr Handle { get; set; }
+
+			public static Win32Window FromLong(long hwnd)
+				=> new Win32Window() { Handle = new IntPtr(hwnd) };
 		}
 	}
 }

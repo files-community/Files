@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
-using static Files.Core.Helpers.Win32PInvoke;
+using static Files.Win32PInvoke;
 
 namespace Files.App.Utils.Storage
 {

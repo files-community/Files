@@ -10,16 +10,16 @@ namespace Files.App.Utils.Storage
 	public static class FileThumbnailHelper
 	{
 		public static Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false)
-			=> Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, true, false));
+			=> Shell.Win32Helper.StartSTATask(() => Shell.Win32Helper.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, true, false));
 
 		public static async Task<byte[]> LoadOverlayAsync(string filePath, uint thumbnailSize)
 		{
-			return (await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, false, true, true))).overlay;
+			return (await Shell.Win32Helper.StartSTATask<(byte[] icon, byte[] overlay)>(() => Shell.Win32Helper.GetFileIconAndOverlay(filePath, (int)thumbnailSize, false, true, true))).overlay;
 		}
 
 		public static async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false)
 		{
-			return (await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, false))).icon;
+			return (await Shell.Win32Helper.StartSTATask<(byte[] icon, byte[] overlay)>(() => Shell.Win32Helper.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, false))).icon;
 		}
 
 		public static async Task<byte[]> LoadIconFromStorageItemAsync(IStorageItem item, uint thumbnailSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions)

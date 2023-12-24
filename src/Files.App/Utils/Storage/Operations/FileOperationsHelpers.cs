@@ -25,7 +25,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
-			return Win32API.StartSTATask(() =>
+			return Shell.Win32Helper.StartSTATask(() =>
 			{
 				System.Windows.Forms.Clipboard.Clear();
 				var fileList = new System.Collections.Specialized.StringCollection();
@@ -41,7 +41,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string template = "", byte[]? dataBytes = null)
 		{
-			return Win32API.StartSTATask(async () =>
+			return Shell.Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -74,7 +74,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				var createTcs = new TaskCompletionSource<bool>();
-				op.PostNewItem += (s, e) =>
+				op.PostNewItem += (object? s, ShellFileOperations2.ShellFileNewOpEventArgs e) =>
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
@@ -83,7 +83,7 @@ namespace Files.App.Utils.Storage
 						HResult = (int)e.Result
 					});
 				};
-				op.FinishOperations += (s, e) => createTcs.TrySetResult(e.Result.Succeeded);
+				op.FinishOperations += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) => createTcs.TrySetResult(e.Result.Succeeded);
 
 				try
 				{
@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<(bool, ShellOperationResult)> TestRecycleAsync(string[] fileToDeletePath)
 		{
-			return Win32API.StartSTATask(async () =>
+			return Shell.Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -158,7 +158,7 @@ namespace Files.App.Utils.Storage
 					return (true, shellOperationResult);
 
 				var deleteTcs = new TaskCompletionSource<bool>();
-				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
+				op.PreDeleteItem += [DebuggerHidden] (object? s, ShellFileOperations2.ShellFileOpEventArgs e) =>
 				{
 					if (!e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
 					{
@@ -181,7 +181,7 @@ namespace Files.App.Utils.Storage
 						throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
 					}
 				};
-				op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
+				op.FinishOperations += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) => deleteTcs.TrySetResult(e.Result.Succeeded);
 
 				try
 				{
@@ -219,7 +219,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32API.StartSTATask(async () =>
+			return Shell.Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -270,7 +270,7 @@ namespace Files.App.Utils.Storage
 				var deleteTcs = new TaskCompletionSource<bool>();
 
 				// Right before deleting item
-				op.PreDeleteItem += (s, e) =>
+				op.PreDeleteItem += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) =>
 				{
 					// E_FAIL, stops operation
 					if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
@@ -282,7 +282,7 @@ namespace Files.App.Utils.Storage
 				};
 
 				// Right after deleted item
-				op.PostDeleteItem += (s, e) =>
+				op.PostDeleteItem += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) =>
 				{
 					if (!e.SourceItem.IsFolder)
 					{
@@ -301,10 +301,10 @@ namespace Files.App.Utils.Storage
 					UpdateFileTagsDb(e, "delete");
 				};
 
-				op.FinishOperations += (s, e)
+				op.FinishOperations += (object? s, ShellFileOperations2.ShellFileOpEventArgs e)
 					=> deleteTcs.TrySetResult(e.Result.Succeeded);
 
-				op.UpdateProgress += (s, e) =>
+				op.UpdateProgress += (object? s, ShellFileOperations2.ProgressChangedEventArgs e) =>
 				{
 					// E_FAIL, stops operation
 					if (progressHandler.CheckCanceled(operationID))
@@ -337,7 +337,7 @@ namespace Files.App.Utils.Storage
 
 			progressHandler ??= new();
 
-			return Win32API.StartSTATask(async () =>
+			return Shell.Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -370,7 +370,7 @@ namespace Files.App.Utils.Storage
 				progressHandler.AddOperation(operationID);
 
 				var renameTcs = new TaskCompletionSource<bool>();
-				op.PostRenameItem += (s, e) =>
+				op.PostRenameItem += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) =>
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
@@ -380,8 +380,8 @@ namespace Files.App.Utils.Storage
 						HResult = (int)e.Result
 					});
 				};
-				op.PostRenameItem += (_, e) => UpdateFileTagsDb(e, "rename");
-				op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
+				op.PostRenameItem += (object? _, ShellFileOperations2.ShellFileOpEventArgs e) => UpdateFileTagsDb(e, "rename");
+				op.FinishOperations += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) => renameTcs.TrySetResult(e.Result.Succeeded);
 
 				try
 				{
@@ -421,7 +421,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32API.StartSTATask(async () =>
+			return Shell.Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -470,14 +470,14 @@ namespace Files.App.Utils.Storage
 
 				var moveTcs = new TaskCompletionSource<bool>();
 
-				op.PreMoveItem += (s, e) =>
+				op.PreMoveItem += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) =>
 				{
 					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
 				};
 
-				op.PostMoveItem += (s, e) =>
+				op.PostMoveItem += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) =>
 				{
 					if (!e.SourceItem.IsFolder)
 					{
@@ -492,14 +492,14 @@ namespace Files.App.Utils.Storage
 						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
 						HResult = (int)e.Result
 					});
-					
+
 					UpdateFileTagsDb(e, "move");
 				};
 
-				op.FinishOperations += (s, e)
+				op.FinishOperations += (object? s, ShellFileOperations2.ShellFileOpEventArgs e)
 					=> moveTcs.TrySetResult(e.Result.Succeeded);
 
-				op.UpdateProgress += (s, e) =>
+				op.UpdateProgress += (object? s, ShellFileOperations2.ProgressChangedEventArgs e) =>
 				{
 					// E_FAIL, stops operation
 					if (progressHandler.CheckCanceled(operationID))
@@ -549,7 +549,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32API.StartSTATask(async () =>
+			return Shell.Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -600,14 +600,14 @@ namespace Files.App.Utils.Storage
 
 				var copyTcs = new TaskCompletionSource<bool>();
 
-				op.PreCopyItem += (s, e) =>
+				op.PreCopyItem += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) =>
 				{
 					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
 				};
 
-				op.PostCopyItem += (s, e) =>
+				op.PostCopyItem += (object? s, ShellFileOperations2.ShellFileOpEventArgs e) =>
 				{
 					if (!e.SourceItem.IsFolder)
 					{
@@ -622,14 +622,14 @@ namespace Files.App.Utils.Storage
 						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
 						HResult = (int)e.Result
 					});
-					
+
 					UpdateFileTagsDb(e, "copy");
 				};
 
-				op.FinishOperations += (s, e)
+				op.FinishOperations += (object? s, ShellFileOperations2.ShellFileOpEventArgs e)
 					=> copyTcs.TrySetResult(e.Result.Succeeded);
 
-				op.UpdateProgress += (s, e) =>
+				op.UpdateProgress += (object? s, ShellFileOperations2.ProgressChangedEventArgs e) =>
 				{
 					// E_FAIL, stops operation
 					if (progressHandler.CheckCanceled(operationID))
@@ -661,7 +661,7 @@ namespace Files.App.Utils.Storage
 
 		public static IEnumerable<Win32Process>? CheckFileInUse(string[] fileToCheckPath)
 		{
-			var processes = SafetyExtensions.IgnoreExceptions(() => Win32Helper.WhoIsLocking(fileToCheckPath), App.Logger);
+			var processes = SafetyExtensions.IgnoreExceptions(() => Helpers.Win32Helper.WhoIsLocking(fileToCheckPath), App.Logger);
 
 			if (processes is not null)
 			{
@@ -699,7 +699,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
-					targetPath = await Win32API.StartSTATask(() =>
+					targetPath = await Shell.Win32Helper.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
@@ -746,7 +746,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
 				{
-					return Win32API.StartSTATask(() =>
+					return Shell.Win32Helper.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
@@ -784,7 +784,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{
-			return Win32API.StartSTATask(() =>
+			return Shell.Win32Helper.StartSTATask(() =>
 			{
 				var picker = new DirectoryObjectPickerDialog()
 				{
@@ -800,12 +800,12 @@ namespace Files.App.Utils.Storage
 
 				using (picker)
 				{
-					if (picker.ShowDialog(Win32API.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
+					if (picker.ShowDialog(Shell.Win32Helper.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
 					{
 						try
 						{
 							var attribs = picker.SelectedObject.FetchedAttributes;
-							if (attribs.Any() && attribs[0] is byte[] objectSid)
+							if (attribs.Any<object>() && attribs[0] is byte[] objectSid)
 								return new SecurityIdentifier(objectSid, 0).Value;
 						}
 						catch { }
@@ -831,10 +831,10 @@ namespace Files.App.Utils.Storage
 		{
 			if (string.IsNullOrEmpty(options) || options == "~")
 			{
-				return Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", true);
+				return Shell.Win32Helper.RunPowerShellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", true);
 			}
 
-			return Win32API.RunPowershellCommand(@$"New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null", true);
+			return Shell.Win32Helper.RunPowerShellCommand(@$"New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null", true);
 		}
 
 		private static ShellItem? GetFirstFile(ShellItem shi)
@@ -954,7 +954,7 @@ namespace Files.App.Utils.Storage
 
 			public ProgressHandler()
 			{
-				taskbar = Win32API.CreateTaskbarObject();
+				taskbar = Shell.Win32Helper.CreateTaskbarObject();
 				operations = new ConcurrentDictionary<string, OperationWithProgress>();
 				operationsCompletedEvent = new ManualResetEvent(true);
 			}

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using static Files.Core.Helpers.Win32PInvoke;
+using static Files.Win32PInvoke;
 
 namespace Files.App.Utils.Storage
 {

@@ -8,7 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static Files.Core.Helpers.Win32PInvoke;
+using static Files.Win32PInvoke;
 
 namespace Files.App
 {
@@ -190,7 +190,7 @@ namespace Files.App
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
-			=> Win32API.OpenFolderInExistingShellWindow(shellCommand);
+			=> Utils.Shell.Win32Helper.OpenFolderInExistingShellWindow(shellCommand);
 
 		public static void OpenFileFromTile(string filePath)
 		{

@@ -89,9 +89,9 @@ namespace Files.App.Views.Properties
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
 				if (drive.Type == Data.Items.DriveType.Network)
-					Win32API.SetNetworkDriveLabel(drive.DeviceID, newName);
+					Utils.Shell.Win32Helper.SetNetworkDriveLabel(drive.DeviceID, newName);
 				else
-					Win32API.SetVolumeLabel(drive.Path, newName);
+					Utils.Shell.Win32Helper.SetVolumeLabel(drive.Path, newName);
 
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{

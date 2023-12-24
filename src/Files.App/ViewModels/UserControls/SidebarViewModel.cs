@@ -922,7 +922,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private void FormatDrive()
 		{
-			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
+			Utils.Shell.Win32Helper.OpenFormatDriveDialog(rightClickedItem.Path);
 		}
 
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)

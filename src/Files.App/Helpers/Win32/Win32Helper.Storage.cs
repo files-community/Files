@@ -6,76 +6,26 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.Win32.SafeHandles;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
 using static Files.Core.Helpers.Win32PInvoke;
-using Vanara.PInvoke;
 
 namespace Files.App.Helpers
 {
-	internal static class Win32Helper
+	/// <summary>
+	/// Provides static helper of Win32API for Windows.
+	/// </summary>
+	internal static partial class Win32Helper
 	{
-		public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
-		{
-			return await InvokeWin32ComponentsAsync(applicationPath.CreateEnumerable(), associatedInstance, arguments, runAsAdmin, workingDirectory);
-		}
+		// Fields & Properties
 
-		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
-		{
-			Debug.WriteLine("Launching EXE in FullTrustProcess");
-
-			if (string.IsNullOrEmpty(workingDirectory))
-			{
-				workingDirectory = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			}
-
-			var application = applicationPaths.FirstOrDefault();
-			if (string.IsNullOrEmpty(workingDirectory))
-			{
-				workingDirectory = associatedInstance?.FilesystemViewModel?.WorkingDirectory;
-			}
-
-			if (runAsAdmin)
-			{
-				return await LaunchHelper.LaunchAppAsync(application, "RunAs", workingDirectory);
-			}
-			else
-			{
-				return await LaunchHelper.LaunchAppAsync(application, arguments, workingDirectory);
-			}
-		}
-
-		public static bool GetWin32FindDataForPath(string targetPath, out Files.Core.Helpers.Win32PInvoke.WIN32_FIND_DATA findData)
-		{
-			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-
-			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-			IntPtr hFile = FindFirstFileExFromApp(
-				targetPath,
-				findInfoLevel,
-				out findData,
-				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-				IntPtr.Zero,
-				additionalFlags);
-
-			if (hFile.ToInt64() != -1)
-			{
-				FindClose(hFile);
-
-				return true;
-			}
-
-			return false;
-		}
+		public static readonly Guid DataTransferManagerInteropIID =
+			new(0xa5caee9b, 0x8708, 0x49d1, 0x8d, 0x36, 0x67, 0xd2, 0x5a, 0x8d, 0xa0, 0x0c);
 
 		// https://stackoverflow.com/questions/54456140/how-to-detect-were-running-under-the-arm64-version-of-windows-10-in-net
 		// https://learn.microsoft.com/windows/win32/sysinfo/image-file-machine-constants
@@ -107,7 +57,6 @@ namespace Files.App.Helpers
 		}
 
 		private static bool? isHasThreadAccessPropertyPresent = null;
-
 		public static bool IsHasThreadAccessPropertyPresent
 		{
 			get
@@ -117,19 +66,68 @@ namespace Files.App.Helpers
 			}
 		}
 
+		// Methods
+
+		public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
+		{
+			return await InvokeWin32ComponentsAsync(applicationPath.CreateEnumerable(), associatedInstance, arguments, runAsAdmin, workingDirectory);
+		}
+
+		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
+		{
+			Debug.WriteLine("Launching EXE in FullTrustProcess");
+
+			if (string.IsNullOrEmpty(workingDirectory))
+			{
+				workingDirectory = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			}
+
+			var application = applicationPaths.FirstOrDefault();
+			if (string.IsNullOrEmpty(workingDirectory))
+			{
+				workingDirectory = associatedInstance?.FilesystemViewModel?.WorkingDirectory;
+			}
+
+			if (runAsAdmin)
+			{
+				return await LaunchHelper.LaunchAppAsync(application, "RunAs", workingDirectory);
+			}
+			else
+			{
+				return await LaunchHelper.LaunchAppAsync(application, arguments, workingDirectory);
+			}
+		}
+
+		public static bool GetWin32FindDataForPath(string targetPath, out Win32PInvoke.WIN32_FIND_DATA findData)
+		{
+			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+
+			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+			IntPtr hFile = FindFirstFileExFromApp(
+				targetPath,
+				findInfoLevel,
+				out findData,
+				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				additionalFlags);
+
+			if (hFile.ToInt64() != -1)
+			{
+				FindClose(hFile);
+
+				return true;
+			}
+
+			return false;
+		}
+
 		public static Task<string> GetFileAssociationAsync(string filePath)
-			=> Win32API.GetFileAssociationAsync(filePath, true);
+		{
+			return Utils.Shell.Win32Helper.GetFileAssociationAsync(filePath, true);
+		}
 
-
-		/// <summary>
-		/// Find out what process(es) have a lock on the specified file.
-		/// </summary>
-		/// <param name="path">Path of the file.</param>
-		/// <returns>Processes locking the file</returns>
-		/// <remarks>See also:
-		/// http://msdn.microsoft.com/library/windows/desktop/aa373661(v=vs.85).aspx
-		/// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
-		/// </remarks>
+		// https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209
 		public static List<Process> WhoIsLocking(string[] resources)
 		{
 			string key = Guid.NewGuid().ToString();
@@ -188,7 +186,6 @@ namespace Files.App.Helpers
 
 			return processes;
 		}
-
 
 		public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
 		{

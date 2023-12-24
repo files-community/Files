@@ -112,14 +112,14 @@ namespace Files.App.ViewModels.Properties
 			if (SelectedDllIcon is null)
 			{
 				result = IsShortcut
-					? Win32API.SetCustomFileIcon(_selectedItemPath, null)
-					: Win32API.SetCustomDirectoryIcon(_selectedItemPath, null);
+					? Utils.Shell.Win32Helper.SetCustomFileIcon(_selectedItemPath, null)
+					: Utils.Shell.Win32Helper.SetCustomDirectoryIcon(_selectedItemPath, null);
 			}
 			else
 			{
 				result = IsShortcut
-					? Win32API.SetCustomFileIcon(_selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index)
-					: Win32API.SetCustomDirectoryIcon(_selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index);
+					? Utils.Shell.Win32Helper.SetCustomFileIcon(_selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index)
+					: Utils.Shell.Win32Helper.SetCustomDirectoryIcon(_selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index);
 			}
 
 			if (!result)
@@ -138,7 +138,7 @@ namespace Files.App.ViewModels.Properties
 			IconResourceItemPath = path;
 			DllIcons.Clear();
 
-			var icons = Win32API.ExtractIconsFromDLL(path);
+			var icons = Utils.Shell.Win32Helper.ExtractIconsFromDLL(path);
 			if (icons?.Count is null or 0)
 				return;
 

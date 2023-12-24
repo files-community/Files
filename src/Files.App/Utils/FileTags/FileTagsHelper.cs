@@ -19,17 +19,17 @@ namespace Files.App.Utils.FileTags
 
 		public static string[] ReadFileTag(string filePath)
 		{
-			var tagString = Win32Helper.ReadStringFromFile($"{filePath}:files");
+			var tagString = Helpers.Win32Helper.ReadStringFromFile($"{filePath}:files");
 			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		public static async void WriteFileTag(string filePath, string[] tag)
 		{
-			var isDateOk = Win32Helper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
-			var isReadOnly = Win32Helper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+			var isDateOk = Helpers.Win32Helper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
+			var isReadOnly = Helpers.Win32Helper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			if (isReadOnly) // Unset read-only attribute (#7534)
 			{
-				Win32Helper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+				Helpers.Win32Helper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
 			if (tag is null || !tag.Any())
 			{
@@ -37,7 +37,7 @@ namespace Files.App.Utils.FileTags
 			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
 			{
-				var result = Win32Helper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
+				var result = Helpers.Win32Helper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
 				if (result == false)
 				{
 					ContentDialog dialog = new()
@@ -55,11 +55,11 @@ namespace Files.App.Utils.FileTags
 			}
 			if (isReadOnly) // Restore read-only attribute (#7534)
 			{
-				Win32Helper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+				Helpers.Win32Helper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
 			if (isDateOk)
 			{
-				Win32Helper.SetFileDateModified(filePath, dateModified); // Restore date modified
+				Helpers.Win32Helper.SetFileDateModified(filePath, dateModified); // Restore date modified
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace Files.App.Utils.FileTags
 			var dbInstance = GetDbInstance();
 			foreach (var file in dbInstance.GetAll())
 			{
-				var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
+				var pathFromFrn = Shell.Win32Helper.PathFromFileId(file.Frn ?? 0, file.FilePath);
 				if (pathFromFrn is not null)
 				{
 					// Frn is valid, update file path
@@ -106,7 +106,7 @@ namespace Files.App.Utils.FileTags
 			}
 		}
 
-		public static ulong? GetFileFRN(string filePath) => Win32Helper.GetFileFRN(filePath);
+		public static ulong? GetFileFRN(string filePath) => Helpers.Win32Helper.GetFileFRN(filePath);
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)
 		{

@@ -22,7 +22,7 @@ namespace Files.App.Helpers
 		public static void ShareItems(IEnumerable<ListedItem> itemsToShare)
 		{
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
+			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32Helper.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);

@@ -11,18 +11,10 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Provides a utility to manage shell folders.
 	/// </summary>
-	public class Win32Shell
+	internal static partial class Win32Helper
 	{
-		private readonly static ShellFolder _controlPanel;
-
-		private readonly static ShellFolder _controlPanelCategoryView;
-
-		static Win32Shell()
-		{
-			_controlPanel = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
-
-			_controlPanelCategoryView = new ShellFolder("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
-		}
+		private readonly static ShellFolder _controlPanel = new(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
+		private readonly static ShellFolder _controlPanelCategoryView = new("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
 
 		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, string action, int from, int count, params string[] properties)
 		{
@@ -31,7 +23,7 @@ namespace Files.App.Utils.Shell
 				path = $"shell:{path}";
 			}
 
-			return await Win32API.StartSTATask(() =>
+			return await Win32Helper.StartSTATask(() =>
 			{
 				var flc = new List<ShellFileItem>();
 				var folder = (ShellFileItem)null;
@@ -88,10 +80,10 @@ namespace Files.App.Utils.Shell
 
 		public static (bool HasRecycleBin, long NumItems, long BinSize) QueryRecycleBin(string drive = "")
 		{
-			Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
+			Win32Helper.SHQUERYRBINFO queryBinInfo = new Win32Helper.SHQUERYRBINFO();
 			queryBinInfo.cbSize = Marshal.SizeOf(queryBinInfo);
 
-			var res = Win32API.SHQueryRecycleBin(drive, ref queryBinInfo);
+			var res = Win32Helper.SHQueryRecycleBin(drive, ref queryBinInfo);
 			if (res == HRESULT.S_OK)
 			{
 				var numItems = queryBinInfo.i64NumItems;

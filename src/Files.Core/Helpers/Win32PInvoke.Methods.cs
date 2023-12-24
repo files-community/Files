@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -9,65 +9,162 @@ namespace Files.Core.Helpers
 {
 	public static partial class Win32PInvoke
 	{
-		public const uint GENERIC_READ = 0x80000000;
-		public const uint GENERIC_WRITE = 0x40000000;
-		public const uint FILE_SHARE_READ = 0x00000001;
-		public const uint FILE_SHARE_WRITE = 0x00000002;
-		public const int OPEN_EXISTING = 3;
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern IntPtr FindFirstFileExFromApp(
+			string lpFileName,
+			FINDEX_INFO_LEVELS fInfoLevelId,
+			out WIN32_FIND_DATA lpFindFileData,
+			FINDEX_SEARCH_OPS fSearchOp,
+			IntPtr lpSearchFilter,
+			int dwAdditionalFlags
+		);
 
-		public const uint FILE_APPEND_DATA = 0x0004;
-		public const uint FILE_WRITE_ATTRIBUTES = 0x100;
+		[DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
+		public static extern bool FindNextFile(
+			IntPtr hFindFile,
+			out WIN32_FIND_DATA lpFindFileData
+		);
 
-		public const uint FILE_SHARE_DELETE = 0x00000004;
+		[DllImport("api-ms-win-core-file-l1-1-0.dll")]
+		public static extern bool FindClose(
+			IntPtr hFindFile
+		);
 
-		public const uint FILE_BEGIN = 0;
-		public const uint FILE_END = 2;
+		[DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
+		public static extern bool FileTimeToSystemTime(
+			ref FILETIME lpFileTime,
+			out SYSTEMTIME lpSystemTime
+		);
 
-		public const uint CREATE_ALWAYS = 2;
-		public const uint CREATE_NEW = 1;
-		public const uint OPEN_ALWAYS = 4;
-		public const uint TRUNCATE_EXISTING = 5;
+		[DllImport("api-ms-win-core-wow64-l1-1-1.dll", SetLastError = true)]
+		public static extern bool IsWow64Process2(
+			IntPtr process,
+			out ushort processMachine,
+			out ushort nativeMachine
+		);
 
-		public const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
-		public const int FSCTL_GET_REPARSE_POINT = 0x000900A8;
-		public const uint IO_REPARSE_TAG_MOUNT_POINT = 0xA0000003;
-		public const uint IO_REPARSE_TAG_SYMLINK = 0xA000000C;
+		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
+		public static extern int RmRegisterResources(
+			uint pSessionHandle,
+			uint nFiles,
+			string[] rgsFilenames,
+			uint nApplications,
+			[In] RM_UNIQUE_PROCESS[] rgApplications,
+			uint nServices,
+			string[] rgsServiceNames
+		);
 
-		public const int INVALID_HANDLE_VALUE = -1;
+		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
+		public static extern int RmStartSession(
+			out uint pSessionHandle,
+			int dwSessionFlags,
+			string strSessionKey
+		);
 
-		public const int FSCTL_LOCK_VOLUME = 0x00090018;
-		public const int FSCTL_DISMOUNT_VOLUME = 0x00090020;
-		public const int IOCTL_STORAGE_EJECT_MEDIA = 0x2D4808;
-		public const int IOCTL_STORAGE_MEDIA_REMOVAL = 0x002D4804;
+		[DllImport("rstrtmgr.dll")]
+		public static extern int RmEndSession(
+			uint pSessionHandle
+		);
 
-		public enum File_Attributes : uint
-		{
-			Readonly = 0x00000001,
-			Hidden = 0x00000002,
-			System = 0x00000004,
-			Directory = 0x00000010,
-			Archive = 0x00000020,
-			Device = 0x00000040,
-			Normal = 0x00000080,
-			Temporary = 0x00000100,
-			SparseFile = 0x00000200,
-			ReparsePoint = 0x00000400,
-			Compressed = 0x00000800,
-			Offline = 0x00001000,
-			NotContentIndexed = 0x00002000,
-			Encrypted = 0x00004000,
-			Write_Through = 0x80000000,
-			Overlapped = 0x40000000,
-			NoBuffering = 0x20000000,
-			RandomAccess = 0x10000000,
-			SequentialScan = 0x08000000,
-			DeleteOnClose = 0x04000000,
-			BackupSemantics = 0x02000000,
-			PosixSemantics = 0x01000000,
-			OpenReparsePoint = 0x00200000,
-			OpenNoRecall = 0x00100000,
-			FirstPipeInstance = 0x00080000
-		}
+		[DllImport("rstrtmgr.dll")]
+		public static extern int RmGetList(
+			uint dwSessionHandle,
+			out uint pnProcInfoNeeded,
+			ref uint pnProcInfo,
+			[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
+			ref uint lpdwRebootReasons
+		);
+
+		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
+		public static extern bool CancelIoEx(
+			IntPtr hFile,
+			IntPtr lpOverlapped
+		);
+
+		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
+		public static extern IntPtr CreateEvent(
+			IntPtr lpEventAttributes,
+			bool bManualReset,
+			bool bInitialState,
+			string lpName
+		);
+
+		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
+		public static extern uint WaitForSingleObjectEx(
+			IntPtr hHandle,
+			uint dwMilliseconds,
+			bool bAlertable
+		);
+
+		public delegate void LpOverlappedCompletionRoutine(
+			uint dwErrorCode,
+			uint dwNumberOfBytesTransferred,
+			OVERLAPPED lpOverlapped
+		);
+
+		[DllImport("api-ms-win-core-file-l2-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public unsafe static extern bool ReadDirectoryChangesW(
+			IntPtr hDirectory,
+			byte* lpBuffer,
+			int nBufferLength,
+			bool bWatchSubtree,
+			int dwNotifyFilter,
+			int* lpBytesReturned,
+			ref OVERLAPPED lpOverlapped,
+			LpOverlappedCompletionRoutine lpCompletionRoutine
+		);
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern bool SetPropW(
+			IntPtr hWnd,
+			string lpString,
+			IntPtr hData
+		);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetCursorPos(
+			out POINT point
+		);
+
+		[DllImport("kernel32.dll")]
+		public static extern bool SetEvent(
+			IntPtr hEvent
+		);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern void SwitchToThisWindow(
+			IntPtr hWnd,
+			bool altTab
+		);
+
+		[DllImport("ole32.dll")]
+		public static extern uint CoWaitForMultipleObjects(
+			uint dwFlags,
+			uint dwMilliseconds,
+			ulong nHandles,
+			IntPtr[] pHandles,
+			out uint dwIndex
+		);
+
+		[DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLong")]
+		public static extern int SetWindowLongPtr32(
+			IntPtr hWnd,
+			int nIndex,
+			IntPtr dwNewLong
+		);
+
+		[DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLongPtr")]
+		public static extern IntPtr SetWindowLongPtr64(
+			IntPtr hWnd,
+			int nIndex,
+			IntPtr dwNewLong
+		);
+
+		[DllImport("user32.dll")]
+		public extern static short GetKeyState(
+			int n
+		);
 
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
 		public static extern bool CloseHandle(
@@ -95,20 +192,6 @@ namespace Files.Core.Helpers
 			uint dwFlagsAndAttributes,
 			IntPtr hTemplateFile
 		);
-
-		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-		public struct REPARSE_DATA_BUFFER
-		{
-			public uint ReparseTag;
-			public short ReparseDataLength;
-			public short Reserved;
-			public short SubsNameOffset;
-			public short SubsNameLength;
-			public short PrintNameOffset;
-			public short PrintNameLength;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = MAXIMUM_REPARSE_DATA_BUFFER_SIZE)]
-			public char[] PathBuffer;
-		}
 
 		[DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -199,23 +282,8 @@ namespace Files.Core.Helpers
 		public delegate void LPOVERLAPPED_COMPLETION_ROUTINE(
 			uint dwErrorCode,
 			uint dwNumberOfBytesTransferred,
-			ref NativeOverlapped lpOverlapped);
-
-		public enum GET_FILEEX_INFO_LEVELS
-		{
-			GetFileExInfoStandard,
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct WIN32_FILE_ATTRIBUTE_DATA
-		{
-			public FileAttributes dwFileAttributes;
-			public FILETIME ftCreationTime;
-			public FILETIME ftLastAccessTime;
-			public FILETIME ftLastWriteTime;
-			public uint nFileSizeHigh;
-			public uint nFileSizeLow;
-		}
+			ref NativeOverlapped lpOverlapped
+		);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern bool GetFileTime(
@@ -232,54 +300,6 @@ namespace Files.Core.Helpers
 			in FILETIME lpLastAccessTime,
 			in FILETIME lpLastWriteTime
 		);
-
-		public enum FILE_INFO_BY_HANDLE_CLASS
-		{
-			FileBasicInfo = 0,
-			FileStandardInfo = 1,
-			FileNameInfo = 2,
-			FileRenameInfo = 3,
-			FileDispositionInfo = 4,
-			FileAllocationInfo = 5,
-			FileEndOfFileInfo = 6,
-			FileStreamInfo = 7,
-			FileCompressionInfo = 8,
-			FileAttributeTagInfo = 9,
-			FileIdBothDirectoryInfo = 10,// 0x0A
-			FileIdBothDirectoryRestartInfo = 11, // 0xB
-			FileIoPriorityHintInfo = 12, // 0xC
-			FileRemoteProtocolInfo = 13, // 0xD
-			FileFullDirectoryInfo = 14, // 0xE
-			FileFullDirectoryRestartInfo = 15, // 0xF
-			FileStorageInfo = 16, // 0x10
-			FileAlignmentInfo = 17, // 0x11
-			FileIdInfo = 18, // 0x12
-			FileIdExtdDirectoryInfo = 19, // 0x13
-			FileIdExtdDirectoryRestartInfo = 20, // 0x14
-			MaximumFileInfoByHandlesClass
-		}
-
-		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-		public struct FILE_ID_BOTH_DIR_INFO
-		{
-			public uint NextEntryOffset;
-			public uint FileIndex;
-			public long CreationTime;
-			public long LastAccessTime;
-			public long LastWriteTime;
-			public long ChangeTime;
-			public long EndOfFile;
-			public long AllocationSize;
-			public uint FileAttributes;
-			public uint FileNameLength;
-			public uint EaSize;
-			public char ShortNameLength;
-			[MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 12)]
-			public string ShortName;
-			public long FileId;
-			[MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 1)]
-			public string FileName;
-		}
 
 		[DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern bool GetFileInformationByHandleEx(
@@ -307,5 +327,10 @@ namespace Files.Core.Helpers
 			IntPtr dirInfo,
 			uint dwBufferSize
 		);
+
+		[DllImport("shell32.dll", SetLastError = false, CharSet = CharSet.Unicode)]
+		public static extern int SHQueryRecycleBin(
+			string pszRootPath,
+			ref SHQUERYRBINFO pSHQueryRBInfo);
 	}
 }
