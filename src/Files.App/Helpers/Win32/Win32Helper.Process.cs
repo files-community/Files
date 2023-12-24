@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
 
-namespace Files.App.Utils.Shell
+namespace Files.App.Helpers
 {
 	/// <summary>
 	/// Provides static helper of Win32API.

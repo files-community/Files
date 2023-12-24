@@ -124,7 +124,7 @@ namespace Files.App.Helpers
 
 		public static Task<string> GetFileAssociationAsync(string filePath)
 		{
-			return Utils.Shell.Win32Helper.GetFileAssociationAsync(filePath, true);
+			return Win32Helper.GetFileAssociationAsync(filePath, true);
 		}
 
 		// https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209

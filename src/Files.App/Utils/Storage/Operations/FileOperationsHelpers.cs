@@ -25,7 +25,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
-			return Shell.Win32Helper.StartSTATask(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				System.Windows.Forms.Clipboard.Clear();
 				var fileList = new System.Collections.Specialized.StringCollection();
@@ -41,7 +41,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string template = "", byte[]? dataBytes = null)
 		{
-			return Shell.Win32Helper.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<(bool, ShellOperationResult)> TestRecycleAsync(string[] fileToDeletePath)
 		{
-			return Shell.Win32Helper.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -219,7 +219,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Shell.Win32Helper.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -337,7 +337,7 @@ namespace Files.App.Utils.Storage
 
 			progressHandler ??= new();
 
-			return Shell.Win32Helper.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -421,7 +421,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Shell.Win32Helper.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -549,7 +549,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Shell.Win32Helper.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -699,7 +699,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
-					targetPath = await Shell.Win32Helper.StartSTATask(() =>
+					targetPath = await Win32Helper.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
@@ -746,7 +746,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
 				{
-					return Shell.Win32Helper.StartSTATask(() =>
+					return Win32Helper.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
@@ -784,7 +784,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{
-			return Shell.Win32Helper.StartSTATask(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				var picker = new DirectoryObjectPickerDialog()
 				{
@@ -800,7 +800,7 @@ namespace Files.App.Utils.Storage
 
 				using (picker)
 				{
-					if (picker.ShowDialog(Shell.Win32Helper.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
+					if (picker.ShowDialog(Win32Helper.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
 					{
 						try
 						{
@@ -831,10 +831,10 @@ namespace Files.App.Utils.Storage
 		{
 			if (string.IsNullOrEmpty(options) || options == "~")
 			{
-				return Shell.Win32Helper.RunPowerShellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", true);
+				return Win32Helper.RunPowerShellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", true);
 			}
 
-			return Shell.Win32Helper.RunPowerShellCommand(@$"New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null", true);
+			return Win32Helper.RunPowerShellCommand(@$"New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null", true);
 		}
 
 		private static ShellItem? GetFirstFile(ShellItem shi)
@@ -954,7 +954,7 @@ namespace Files.App.Utils.Storage
 
 			public ProgressHandler()
 			{
-				taskbar = Shell.Win32Helper.CreateTaskbarObject();
+				taskbar = Win32Helper.CreateTaskbarObject();
 				operations = new ConcurrentDictionary<string, OperationWithProgress>();
 				operationsCompletedEvent = new ManualResetEvent(true);
 			}

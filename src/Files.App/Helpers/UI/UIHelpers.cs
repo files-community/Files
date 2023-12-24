@@ -160,7 +160,7 @@ namespace Files.App.Helpers
 		private static IEnumerable<IconFileInfo> LoadSidebarIconResources()
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
-			var imageResList = Utils.Shell.Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
+			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.RecycleBin,
 					Constants.ImageRes.NetworkDrives,
 					Constants.ImageRes.Libraries,
@@ -176,7 +176,7 @@ namespace Files.App.Helpers
 		private static IconFileInfo LoadShieldIconResource()
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
-			var imageResList = Utils.Shell.Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
+			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.ShieldIcon
 				}, 16);
 

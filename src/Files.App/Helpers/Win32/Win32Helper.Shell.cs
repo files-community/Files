@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
-namespace Files.App.Utils.Shell
+namespace Files.App.Helpers
 {
 	/// <summary>
 	/// Provides a utility to manage shell folders.
