@@ -122,7 +122,7 @@ namespace Files.App
 		{
 			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
 
-			SystemTrayIcon?.Remove();
+			SystemTrayIcon?.Hide();
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()

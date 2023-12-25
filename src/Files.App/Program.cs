@@ -172,6 +172,9 @@ namespace Files.App
 			});
 		}
 
+		/// <summary>
+		/// Gets invoked when the application is activated.
+		/// </summary>
 		private static void OnActivated(object? sender, AppActivationArguments args)
 		{
 			if (App.Current is App thisApp)
@@ -181,7 +184,12 @@ namespace Files.App
 			}
 		}
 
-		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete
+		/// <summary>
+		/// Redirects the activation to the main process.
+		/// </summary>
+		/// <remarks>
+		/// Redirects on another thread and uses a non-blocking wait method to wait for the redirection to complete.
+		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
 			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
@@ -193,11 +201,11 @@ namespace Files.App
 			});
 
 			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT,
-			   INFINITE,
-			   1,
-			   new IntPtr[] { eventHandle },
-			   out uint handleIndex);
+				CWMO_DEFAULT,
+				INFINITE,
+				1,
+				new IntPtr[] { eventHandle },
+				out uint handleIndex);
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
@@ -216,11 +224,11 @@ namespace Files.App
 			});
 
 			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT,
-			   INFINITE,
-			   1,
-			   new IntPtr[] { eventHandle },
-			   out uint handleIndex);
+				CWMO_DEFAULT,
+				INFINITE,
+				1,
+				new IntPtr[] { eventHandle },
+				out uint handleIndex);
 		}
 	}
 }
