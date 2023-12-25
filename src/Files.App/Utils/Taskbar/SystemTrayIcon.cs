@@ -223,7 +223,6 @@ namespace Files.App.Utils.Taskbar
 
 			// Generate the classic context menu
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_RESTART, "Documentation".GetLocalizedResource());
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT , "SubmitBugReport".GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_SEPARATOR, 0u, string.Empty);
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK , "Restart".GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_BUGREPORTLINK , "Quit".GetLocalizedResource());
