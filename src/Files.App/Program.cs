@@ -12,30 +12,46 @@ using static Files.App.Helpers.InteropHelpers;
 
 namespace Files.App
 {
-	internal class Program
+	/// <summary>
+	/// Represents the base entry point of the Files app.
+	/// </summary>
+	/// <remarks>
+	/// Gets called at the first time when the app launched or activated.
+	/// </remarks>
+	internal sealed class Program
 	{
-		public static Semaphore Pool;
+		private const uint CWMO_DEFAULT = 0;
+		private const uint INFINITE = 0xFFFFFFFF;
+
+		public static Semaphore Pool { get; set; }
 
 		static Program()
 		{
 			Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
+
 			if (!isNew)
 			{
 				// Resume cached instance
 				Pool.Release();
+
+				// Redirect to the main process
 				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
 				RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
+
+				// Kill the current process
 				Environment.Exit(0);
 			}
+
 			Pool.Dispose();
 		}
 
-		// Note:
-		//  We can't declare Main to be async because in a WinUI app
-		//  This prevents Narrator from reading XAML elements
-		//  https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
-		//  STAThread has no effect if main is async, needed for Clipboard
+		/// <summary>
+		/// Initializes the process; the entry point of the process.
+		/// </summary>
+		/// <remarks>
+		/// <see cref="Main"/> cannot be declared to be async because this prevents Narrator from reading XAML elements in a WinUI app.
+		/// </remarks>
 		[STAThread]
 		private static void Main()
 		{
@@ -143,18 +159,16 @@ namespace Files.App
 
 			var currentInstance = AppInstance.FindOrRegisterForKey((-proc.Id).ToString());
 			if (currentInstance.IsCurrent)
-			{
 				currentInstance.Activated += OnActivated;
-			}
 
 			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -proc.Id;
 
 			Application.Start((p) =>
 			{
-				var context = new DispatcherQueueSynchronizationContext(
-					DispatcherQueue.GetForCurrentThread());
+				var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
 				SynchronizationContext.SetSynchronizationContext(context);
-				new App();
+
+				_ = new App();
 			});
 		}
 
@@ -166,9 +180,6 @@ namespace Files.App
 				thisApp.OnActivated(args);
 			}
 		}
-
-		private const uint CWMO_DEFAULT = 0;
-		private const uint INFINITE = 0xFFFFFFFF;
 
 		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
@@ -190,7 +201,9 @@ namespace Files.App
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
-			=> Win32API.OpenFolderInExistingShellWindow(shellCommand);
+		{
+			Win32API.OpenFolderInExistingShellWindow(shellCommand);
+		}
 
 		public static void OpenFileFromTile(string filePath)
 		{
