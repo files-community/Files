@@ -143,7 +143,7 @@ namespace Files.App
 		}
 
 		/// <summary>
-		/// Gets invoked when application execution is closed.
+		/// Gets invoked when the application execution is closed.
 		/// </summary>
 		/// <remarks>
 		/// Saves the current state of the app such as opened tabs, and disposes all cached resources.
@@ -251,7 +251,7 @@ namespace Files.App
 		}
 
 		/// <summary>
-		/// Gets invoked when application execution is closed.
+		/// Gets invoked when the last opened flyout is closed.
 		/// </summary>
 		private static void LastOpenedFlyout_Closed(object? sender, object e)
 		{
