@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Pfad kopieren</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Pfad mit Anführungszeichen kopieren</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Durchsuchen</value>
   </data>
@@ -946,7 +949,7 @@
     <value>Problem beim Auswerfen des Gerätes</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Dieses Gerät wird gerade benutzt. Schließen Sie jedes Program, Fenster oder Tab, das möglicherweise das Gerät benutzt und versuchen Sie es erneut.</value>
+    <value>Dieses Gerät wird gerade verwendet. Schließe jedes Programm, Fenster oder Tab, das möglicherweise das Gerät verwendet und versuche es erneut.</value>
   </data>
   <data name="Eject" xml:space="preserve">
     <value>Auswerfen</value>
@@ -974,9 +977,6 @@
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Suchergebnisse in {1} für {0}</value>
-  </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Dateien und Ordner zusammen auflisten und sortieren</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
@@ -1063,7 +1063,7 @@
     <value>Info-Fenster umschalten</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Umschalten des Info-Fensters, um Detail\Vorschau-Fenster anzuzeigen</value>
+    <value>Info-Bereich umschalten, um Detail-/Vorschaufenster anzuzeigen</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Keine Vorschau verfügbar</value>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Sortieren</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Gruppieren nach</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Änderungsdatum</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Ursprünglicher Ordner</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sortieren nach</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Absteigend</value>
@@ -2233,10 +2227,10 @@
     <value>Mehr anzeigen</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Zeige Tags bearbeiten im Kontextmenü</value>
+    <value>"Tags bearbeiten" im Kontextmenü anzeigen</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Sende an Menü anzeigen</value>
+    <value>"Senden an"-Menü anzeigen</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Option anzeigen, um Ordner in einem neuen Tab zu öffnen</value>
@@ -2419,7 +2413,10 @@
     <value>Element(e) in Zwischenablage kopieren</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Pfad des Elements in die Zwischenablage kopieren</value>
+    <value>Pfad der ausgewählten Elemente in die Zwischenablage kopieren</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Pfad der ausgewählten Elemente mit Anführungszeichen in die Zwischenablage kopieren</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Element(e) in die Zwischenablage ausschneiden</value>
@@ -2621,9 +2618,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Element-Sortierungsrichtung umschalten</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Dateien und Ordner zusammen auflisten und sortieren</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Elemente ohne Gruppierung auflisten</value>
@@ -3631,5 +3625,41 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Anmelden</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags sind derzeit nur auf Laufwerken mit NTFS kompatibel.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Beim Anwenden dieses Tags ist ein Fehler aufgetreten</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Entpacke Elemente aus den/dem ausgewählten Archiv(en) in den aktuellen Ordner für Einzelelement-Archive, oder in einen neuen Ordner für Mehrelement-Archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Hier entpacken (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Dateien und Ordner zusammen sortieren</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Dateien und Ordner zusammen sortieren</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Datei zuerst sortieren</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Dateien vor Ordnern sortieren</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Ordner zuerst sortieren</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Ordner vor Dateien sortieren</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sortierung nach Priorität</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Fehler beim Drehen des Bildes</value>
   </data>
 </root>
