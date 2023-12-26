@@ -268,6 +268,10 @@ namespace Files.App.Helpers
 								{
 									IsToggle = true
 								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateCreatedDay)
+								{
+									IsToggle = true
+								}.Build(),
 							},
 						},
 						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByType)

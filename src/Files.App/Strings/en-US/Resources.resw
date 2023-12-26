@@ -3013,6 +3013,9 @@
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
     <value>Group by month instead of year</value>
   </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Group items by day of date created</value>
+  </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Group items by month of date created</value>
   </data>

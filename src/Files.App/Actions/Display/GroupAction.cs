@@ -274,6 +274,21 @@ namespace Files.App.Actions
 			=> "GroupByDateCreatedMonthDescription".GetLocalizedResource();
 	}
 
+	internal class GroupByDateCreatedDayAction : GroupByDateAction
+	{
+		protected override GroupOption GroupOption
+			=> GroupOption.DateCreated;
+
+		protected override GroupByDateUnit GroupByDateUnit
+			=> GroupByDateUnit.Day;
+
+		public override string Label
+			=> "Day".GetLocalizedResource();
+
+		public override string Description
+			=> "GroupByDateCreatedDayDescription".GetLocalizedResource();
+	}
+
 	internal class GroupByDateDeletedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
