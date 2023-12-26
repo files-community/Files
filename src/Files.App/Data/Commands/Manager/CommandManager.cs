@@ -147,6 +147,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand GroupByFolderPath => commands[CommandCodes.GroupByFolderPath];
 		public IRichCommand GroupByDateModifiedYear => commands[CommandCodes.GroupByDateModifiedYear];
 		public IRichCommand GroupByDateModifiedMonth => commands[CommandCodes.GroupByDateModifiedMonth];
+		public IRichCommand GroupByDateModifiedDay => commands[CommandCodes.GroupByDateModifiedDay];
 		public IRichCommand GroupByDateCreatedYear => commands[CommandCodes.GroupByDateCreatedYear];
 		public IRichCommand GroupByDateCreatedMonth => commands[CommandCodes.GroupByDateCreatedMonth];
 		public IRichCommand GroupByDateDeletedYear => commands[CommandCodes.GroupByDateDeletedYear];
@@ -314,6 +315,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.GroupByFolderPath] = new GroupByFolderPathAction(),
 			[CommandCodes.GroupByDateModifiedYear] = new GroupByDateModifiedYearAction(),
 			[CommandCodes.GroupByDateModifiedMonth] = new GroupByDateModifiedMonthAction(),
+			[CommandCodes.GroupByDateModifiedDay] = new GroupByDateModifiedDayAction(),
 			[CommandCodes.GroupByDateCreatedYear] = new GroupByDateCreatedYearAction(),
 			[CommandCodes.GroupByDateCreatedMonth] = new GroupByDateCreatedMonthAction(),
 			[CommandCodes.GroupByDateDeletedYear] = new GroupByDateDeletedYearAction(),

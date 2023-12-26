@@ -114,6 +114,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | GroupByFolderPath                   | Folder path                               | Group items by folder path                               |                     |
 |                    | GroupByDateModifiedYear             | Year                                      | Group items by year of date modified                     |                     |
 |                    | GroupByDateModifiedMonth            | Month                                     | Group items by month of date modified                    |                     |
+|                    | GroupByDateModifiedDay              | Day                                       | Group items by day of date modified                      |                     |
 |                    | GroupByDateCreatedYear              | Year                                      | Group items by year of date created                      |                     |
 |                    | GroupByDateCreatedMonth             | Month                                     | Group items by month of date created                     |                     |
 |                    | GroupByDateDeletedYear              | Year                                      | Group items by year of date deleted                      |                     |

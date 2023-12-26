@@ -33,6 +33,11 @@ namespace Files.App.Services.DateTimeFormatter
 					=> new Label("Today".GetLocalizedResource(), "\uE8D1", 1000005),
 				_ when now.AddDays(-1).Date == time.Date
 					=> new Label("Yesterday".GetLocalizedResource(), "\uE8BF", 1000004),
+
+				// Group by day
+				_ when unit == GroupByDateUnit.Day
+					=> new Label(ToString(time, "D"), "\uE8BF", time.Year * 100 + time.Month * 10 + time.Day),
+
 				_ when diff.Days <= 7 && GetWeekOfYear(now) == GetWeekOfYear(time)
 					=> new Label("EarlierThisWeek".GetLocalizedResource(), "\uE8C0", 1000003),
 				_ when diff.Days <= 14 && GetWeekOfYear(now.AddDays(-7)) == GetWeekOfYear(time)
