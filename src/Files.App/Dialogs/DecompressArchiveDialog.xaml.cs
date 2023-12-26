@@ -9,11 +9,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class DecompressArchiveDialog : ContentDialog
 	{
-		public DecompressArchiveDialogViewModel ViewModel
-		{
-			get => (DecompressArchiveDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public DecompressArchiveDialogViewModel ViewModel { get; set; }
 
 		public DecompressArchiveDialog()
 		{

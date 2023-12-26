@@ -49,7 +49,7 @@ namespace Files.App.Dialogs
 			set => ViewModel.SplittingSize = ViewModel.SplittingSizes.First(size => size.Key == value);
 		}
 
-		private DialogViewModel ViewModel { get; } = new();
+		private DialogViewModel ViewModel { get; set; } = new();
 
 		public CreateArchiveDialog()
 		{

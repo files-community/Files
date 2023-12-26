@@ -11,8 +11,14 @@ using Windows.Storage.Streams;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static helper for bitmap value.
+	/// </summary>
 	internal static class BitmapHelper
 	{
+		/// <summary>
+		/// Converts <see cref="byte[]"/> bitmap data to <see cref="BitmapImage"/>.
+		/// </summary>
 		public static async Task<BitmapImage?> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
 		{
 			if (data is null)
@@ -41,8 +47,6 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Rotates the image at the specified file path.
 		/// </summary>
-		/// <param name="filePath">The file path to the image.</param>
-		/// <param name="rotation">The rotation direction.</param>
 		/// <remarks>
 		/// https://learn.microsoft.com/uwp/api/windows.graphics.imaging.bitmapdecoder?view=winrt-22000
 		/// https://learn.microsoft.com/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22000

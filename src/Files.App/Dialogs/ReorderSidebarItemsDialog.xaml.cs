@@ -17,11 +17,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ReorderSidebarItemsDialog : ContentDialog, IDialog<ReorderSidebarItemsDialogViewModel>
 	{
-		public ReorderSidebarItemsDialogViewModel ViewModel
-		{
-			get => (ReorderSidebarItemsDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public ReorderSidebarItemsDialogViewModel ViewModel { get; set; }
 
 		public ReorderSidebarItemsDialog()
 		{

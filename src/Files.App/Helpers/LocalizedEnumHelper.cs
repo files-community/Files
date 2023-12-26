@@ -3,6 +3,7 @@
 
 namespace Files.App.Helpers
 {
+	[Obsolete("Do not use. This class makes maintaining the resources much harder.")]
 	public sealed class LocalizedEnumHelper<T> where T : Enum
 	{
 		public string Name

@@ -11,9 +11,10 @@
 	CloseButtonText="{helpers:ResourceString Name=No}"
 	Content="{helpers:ResourceString Name=ElevateConfirmDialog/Content}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="None"
 	PrimaryButtonText="{helpers:ResourceString Name=Yes}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind helpers:AppThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 

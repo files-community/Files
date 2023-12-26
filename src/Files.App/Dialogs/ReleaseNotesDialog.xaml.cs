@@ -8,11 +8,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ReleaseNotesDialog : ContentDialog, IDialog<ReleaseNotesDialogViewModel>
 	{
-		public ReleaseNotesDialogViewModel ViewModel
-		{
-			get => (ReleaseNotesDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public ReleaseNotesDialogViewModel ViewModel{ get; set; }
 
 		public ReleaseNotesDialog()
 		{

@@ -12,9 +12,10 @@
 	CloseButtonStyle="{StaticResource AccentButtonStyle}"
 	CloseButtonText="{helpers:ResourceString Name=Close}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
 	PrimaryButtonText="{helpers:ResourceString Name=OK}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind helpers:AppThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 

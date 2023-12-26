@@ -10,8 +10,13 @@ using Windows.UI.Notifications;
 
 namespace Files.App.Helpers
 {
+	// TODO: Remove this class. Can be moved all method into respective classes.
 	public static class UIHelpers
 	{
+		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
+
+		private static IconFileInfo ShieldIconResource = LoadShieldIconResource();
+
 		public static event PropertyChangedEventHandler? PropertyChanged;
 
 		private static bool canShowDialog = true;
@@ -130,10 +135,6 @@ namespace Files.App.Helpers
 				}
 			}
 		}
-
-		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
-
-		private static IconFileInfo ShieldIconResource = LoadShieldIconResource();
 
 		public static IconFileInfo GetSidebarIconResourceInfo(int index)
 		{

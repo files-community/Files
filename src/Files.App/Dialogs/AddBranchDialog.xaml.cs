@@ -8,11 +8,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class AddBranchDialog : ContentDialog, IDialog<AddBranchDialogViewModel>
 	{
-		public AddBranchDialogViewModel ViewModel
-		{
-			get => (AddBranchDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public AddBranchDialogViewModel ViewModel { get; set; }
 
 		public AddBranchDialog()
 		{

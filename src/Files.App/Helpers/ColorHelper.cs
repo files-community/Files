@@ -7,6 +7,9 @@ using Windows.UI;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static helper for color value.
+	/// </summary>
 	internal static class ColorHelper
 	{
 		private const int COLOR_LENGTH = 7;
@@ -20,10 +23,8 @@ namespace Files.App.Helpers
 		public static Color FromHex(string? colorHex)
 		{
 			// If Hex string is invalid, return Unknown Tag's color
-			if (
-				string.IsNullOrWhiteSpace(colorHex) ||
-				(colorHex.Length != COLOR_LENGTH && colorHex.Length != COLOR_LENGTH_INCLUDING_ALPHA)
-				)
+			if (string.IsNullOrWhiteSpace(colorHex) ||
+				(colorHex.Length != COLOR_LENGTH && colorHex.Length != COLOR_LENGTH_INCLUDING_ALPHA))
 				return unknownTagColor;
 
 			colorHex = colorHex.Replace("#", string.Empty);
@@ -33,19 +34,17 @@ namespace Files.App.Helpers
 			var a = (byte)255;
 			var alphaValid = alphaOffset == 0 || byte.TryParse(colorHex.AsSpan(0, 2), NumberStyles.HexNumber, null, out a);
 
-			if (
-				alphaValid &&
+			if (alphaValid &&
 				byte.TryParse(colorHex.AsSpan(alphaOffset, 2), NumberStyles.HexNumber, null, out byte r) &&
 				byte.TryParse(colorHex.AsSpan(alphaOffset + 2, 2), NumberStyles.HexNumber, null, out byte g) &&
-				byte.TryParse(colorHex.AsSpan(alphaOffset + 4, 2), NumberStyles.HexNumber, null, out byte b)
-				)
+				byte.TryParse(colorHex.AsSpan(alphaOffset + 4, 2), NumberStyles.HexNumber, null, out byte b))
 				return Color.FromArgb(a, r, g, b);
 
 			return unknownTagColor;
 		}
 
 		/// <summary>
-		/// Converts Uint to Windows.UI.Color.
+		/// Converts <see cref="uint"/> to <see cref="Color"/>.
 		/// </summary>
 		public static Color FromUint(this uint value)
 		{
@@ -57,7 +56,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Converts Windows.UI.Color to Uint.
+		/// Converts <see cref="Color"/> to <see cref="uint"/>.
 		/// </summary>
 		public static uint ToUint(this Color c)
 		{
@@ -65,7 +64,38 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Generates a random color and returns its Hex
+		/// Converts <see cref="System.Drawing.Color"/> to hex <see cref="string"/>.
+		/// </summary>
+		private static string ToHex(this System.Drawing.Color color)
+		{
+			return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
+		}
+
+		/// <summary>
+		/// Converts <see cref="System.Drawing.Color"/> to <see cref="Color"/>.
+		/// </summary>
+		public static Color ToWindowsColor(this System.Drawing.Color color)
+		{
+			string hex = color.ToHex();
+			return FromHex(hex);
+		}
+
+		/// <summary>
+		/// Converts <see cref="Color"/> to <see cref="System.Drawing.Color"/>.
+		/// </summary>
+		public static System.Drawing.Color FromWindowsColor(this Color color)
+		{
+			string hex = color.ToHex();
+
+			return System.Drawing.Color.FromArgb(
+				Convert.ToByte(hex.Substring(1, 2), 16),
+				Convert.ToByte(hex.Substring(3, 2), 16),
+				Convert.ToByte(hex.Substring(5, 2), 16),
+				Convert.ToByte(hex.Substring(7, 2), 16));
+		}
+
+		/// <summary>
+		/// Generates a random color and returns its hex <see cref="string"/>.
 		/// </summary>
 		public static string RandomColor()
 		{
@@ -76,28 +106,6 @@ namespace Files.App.Helpers
 				(byte)Random.Shared.Next(0, 256));
 
 			return color.ToHex();
-		}
-
-		private static string ToHex(this System.Drawing.Color color)
-		{
-			return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
-		}
-
-		public static Color ToWindowsColor(this System.Drawing.Color color)
-		{
-			string hex = color.ToHex();
-			return FromHex(hex);
-		}
-
-		public static System.Drawing.Color FromWindowsColor(this Windows.UI.Color color)
-		{
-			string hex = color.ToHex();
-
-			return System.Drawing.Color.FromArgb(
-				Convert.ToByte(hex.Substring(1, 2), 16),
-				Convert.ToByte(hex.Substring(3, 2), 16),
-				Convert.ToByte(hex.Substring(5, 2), 16),
-				Convert.ToByte(hex.Substring(7, 2), 16));
 		}
 	}
 }

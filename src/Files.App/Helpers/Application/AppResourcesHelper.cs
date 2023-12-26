@@ -3,7 +3,7 @@
 
 namespace Files.App.Helpers
 {
-	public static class AppThemeResourcesHelper
+	public static class AppResourcesHelper
 	{
 		/// <summary>
 		/// Loads the resource styles from settings

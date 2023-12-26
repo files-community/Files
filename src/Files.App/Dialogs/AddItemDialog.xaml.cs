@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.ViewModels.Dialogs;
-using Files.Core.ViewModels.Dialogs.AddItemDialog;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -12,11 +10,7 @@ namespace Files.App.Dialogs
 	{
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
-		public AddItemDialogViewModel ViewModel
-		{
-			get => (AddItemDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public AddItemDialogViewModel ViewModel { get; set; }
 
 		public AddItemDialog()
 		{

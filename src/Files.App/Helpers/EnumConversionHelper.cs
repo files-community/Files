@@ -5,7 +5,7 @@ using Windows.Storage;
 
 namespace Files.App.Helpers
 {
-	public static class EnumConversionHelper
+	internal static class EnumConversionHelper
 	{
 		public static CreationCollisionOption Convert(this NameCollisionOption option)
 		{

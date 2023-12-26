@@ -7,11 +7,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class FileTooLargeDialog : ContentDialog, IDialog<FileTooLargeDialogViewModel>
 	{
-		public FileTooLargeDialogViewModel ViewModel
-		{
-			get => (FileTooLargeDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public FileTooLargeDialogViewModel ViewModel { get; set; }
 
 		public FileTooLargeDialog()
 		{

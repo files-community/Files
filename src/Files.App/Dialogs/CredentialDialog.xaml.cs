@@ -8,11 +8,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class CredentialDialog : ContentDialog, IDialog<CredentialDialogViewModel>
 	{
-		public CredentialDialogViewModel ViewModel
-		{
-			get => (CredentialDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public CredentialDialogViewModel ViewModel { get; set; }
 
 		public CredentialDialog()
 		{

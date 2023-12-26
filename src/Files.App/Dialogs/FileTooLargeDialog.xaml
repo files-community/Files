@@ -8,9 +8,10 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="{helpers:ResourceString Name=CopyFailureFileToLarge}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="Primary"
 	PrimaryButtonText="{helpers:ResourceString Name=OK}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind helpers:AppThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
