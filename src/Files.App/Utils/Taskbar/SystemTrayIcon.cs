@@ -261,17 +261,17 @@ namespace Files.App.Utils.Taskbar
 			}
 		}
 
-		private static void OnLeftClicked()
+		private void OnLeftClicked()
 		{
 			// TODO: Add an ability to show the window back
 		}
 
-		private static void OnDocumentationClicked()
+		private void OnDocumentationClicked()
 		{
 			Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl)).AsTask();
 		}
 
-		private static void OnRestartClicked()
+		private void OnRestartClicked()
 		{
 			Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
 
@@ -279,7 +279,7 @@ namespace Files.App.Utils.Taskbar
 			Environment.Exit(0);
 		}
 
-		private static void OnQuitClicked()
+		private void OnQuitClicked()
 		{
 			Hide();
 
