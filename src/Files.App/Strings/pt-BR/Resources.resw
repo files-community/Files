@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copiar caminho</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copiar caminho com cotas</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegar</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultados da pesquisa em {1} para {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Listar e classificar diretórios ao lado dos arquivos</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalhes</value>
   </data>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Ordenar</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Agrupar por</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Data de modificação</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Pasta original</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Ordenar por</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descendente</value>
@@ -2176,7 +2170,7 @@
     <value>Senha</value>
   </data>
   <data name="Format" xml:space="preserve">
-    <value>Formato</value>
+    <value>Formatar</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
     <value>Sincronizar coluna estado</value>
@@ -2296,7 +2290,7 @@
     <value>Mostrar itens ocultos</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Formato...</value>
+    <value>Formatar...</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Ajuda</value>
@@ -2419,7 +2413,10 @@
     <value>Copiar item(s) para área de transferência</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copiar caminho do arquivo para área de transferência</value>
+    <value>Copiar o caminho dos itens selecionados para a área de transferência</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copiar o caminho dos itens selecionados com cotas para a área de transferência</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Recortar item(s) para área de transferência</value>
@@ -2621,9 +2618,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Alternar direção da ordem dos itens</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Listar e classificar diretórios ao lado dos arquivos</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Não agrupar itens</value>
@@ -3615,10 +3609,10 @@
     <value>Falha ao definir o plano de fundo</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Delete Git branch</value>
+    <value>Apagar a Ramificação do Git</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+    <value>Você tem certeza que quer excluir permanentemente "{0}" a ramificação?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
     <value>Conectado ao GitHub</value>
@@ -3631,5 +3625,41 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Entrar</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>As etiquetas são atualmente compatíveis apenas em unidades formatadas como NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Ocorreu um erro ao aplicar esta etiqueta</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extrair itens do(s) arquivo(s) selecionado(s) para a pasta atual para um único arquivo, ou para uma nova pasta para arquivo de vários itens</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extraia aqui (Inteligente)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Ordenar arquivos e pastas juntos</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Ordenar arquivos e pastas juntos</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Ordene arquivos primeiro</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Ordenar arquivos primeiro e depois pastas</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Organize pastas primeiro</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Ordenar pastas primeiro e depois arquivos</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Prioridade de classificação</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Falha ao rotacionar a imagem</value>
   </data>
 </root>
