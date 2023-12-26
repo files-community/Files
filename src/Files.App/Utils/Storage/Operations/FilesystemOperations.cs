@@ -946,7 +946,7 @@ namespace Files.App.Utils.Storage
 
 		public Task<IStorageHistory> CreateShortcutItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<StatusCenterItemProgressModel> progress, CancellationToken token)
 		{
-			throw new NotImplementedException("Cannot create shortcuts in UWP.");
+			throw new NotImplementedException("The operation is not implemented yet.");
 		}
 
 		public void Dispose()

@@ -5,6 +5,11 @@ namespace Files.App
 {
 	public static class Constants
 	{
+		public static class Application
+		{
+			public const string AppExecutionAlias = "files-uwp:";
+		}
+
 		public static class AdaptiveLayout
 		{
 			public const float ExtraLargeThreshold = 85.0f;

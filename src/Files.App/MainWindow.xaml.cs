@@ -105,7 +105,7 @@ namespace Files.App
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
-					if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
+					if (eventArgs.Uri.AbsoluteUri == Constants.Application.AppExecutionAlias)
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 					}

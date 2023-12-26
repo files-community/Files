@@ -39,7 +39,9 @@ namespace Files.App.BackgroundTasks
 			if (JumpList.IsSupported())
 			{
 				var instance = await JumpList.LoadCurrentAsync();
-				// Disable automatic jumplist. It doesn't work with Files UWP.
+
+				// Disable automatic jumplist. It doesn't work on UWP.
+				// TODO: Verify if this works on WinAppSdk
 				instance.SystemGroupKind = JumpListSystemGroupKind.None;
 
 				var jumpListItems = instance.Items.ToList();
