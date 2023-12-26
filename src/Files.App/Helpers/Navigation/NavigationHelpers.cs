@@ -259,14 +259,14 @@ namespace Files.App.Helpers
 			if (string.IsNullOrWhiteSpace(path))
 				return Task.FromResult(false);
 
-			var folderUri = new Uri($"{Constants.Application.AppExecutionAlias}?folder={Uri.EscapeDataString(path)}");
+			var folderUri = new Uri($"{Constants.Application.AppURIScheme}?folder={Uri.EscapeDataString(path)}");
 
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
 		public static Task<bool> OpenTabInNewWindowAsync(string tabArgs)
 		{
-			var folderUri = new Uri($"{Constants.Application.AppExecutionAlias}?tab={Uri.EscapeDataString(tabArgs)}");
+			var folderUri = new Uri($"{Constants.Application.AppURIScheme}?tab={Uri.EscapeDataString(tabArgs)}");
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
@@ -280,7 +280,7 @@ namespace Files.App.Helpers
 
 		public static Task LaunchNewWindowAsync()
 		{
-			var filesUWPUri = new Uri(Constants.Application.AppExecutionAlias);
+			var filesUWPUri = new Uri(Constants.Application.AppURIScheme);
 			return Launcher.LaunchUriAsync(filesUWPUri).AsTask();
 		}
 

@@ -316,7 +316,7 @@ namespace Files.App.Helpers
 				// Try to re-launch and start over
 				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await Launcher.LaunchUriAsync(new Uri(Constants.Application.AppExecutionAlias));
+					await Launcher.LaunchUriAsync(new Uri(Constants.Application.AppURIScheme));
 				})
 				.Wait(100);
 			}

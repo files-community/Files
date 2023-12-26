@@ -91,7 +91,7 @@ namespace Files.App
 			else if (activatedArgs.Data is ILaunchActivatedEventArgs tileArgs)
 			{
 				if (tileArgs.Arguments is not null &&
-					!tileArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase) &&
+					!tileArgs.Arguments.Contains(Constants.Application.AppExecusionAlias, StringComparison.OrdinalIgnoreCase) &&
 					FileExtensionHelpers.IsExecutableFile(tileArgs.Arguments))
 				{
 					if (File.Exists(tileArgs.Arguments))

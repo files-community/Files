@@ -222,7 +222,7 @@ namespace Files.App.ViewModels
 
 		private async Task ExecuteOpenNewWindowAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.Application.AppExecutionAlias));
+			await Launcher.LaunchUriAsync(new Uri(Constants.Application.AppURIScheme));
 
 			e!.Handled = true;
 		}

@@ -187,7 +187,7 @@ namespace Files.App.Services
 		public async Task CheckAndUpdateFilesLauncherAsync()
 		{
 			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
-			var destExeFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe");
+			var destExeFilePath = Path.Combine(destFolderPath, Constants.Application.AppLauncherName);
 
 			if (Path.Exists(destExeFilePath))
 			{
@@ -205,10 +205,10 @@ namespace Files.App.Services
 
 				if (!hashEqual)
 				{
-					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
+					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(Constants.Application.AppLauncherName));
 					var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
 
-					await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
+					await srcExeFile.CopyAsync(destFolder, Constants.Application.AppLauncherName, NameCollisionOption.ReplaceExisting);
 					await srcHashFile.CopyAsync(destFolder, "Files.App.Launcher.exe.sha256", NameCollisionOption.ReplaceExisting);
 
 					App.Logger.LogInformation("Files.App.Launcher updated.");

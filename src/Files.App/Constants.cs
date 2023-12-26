@@ -7,7 +7,11 @@ namespace Files.App
 	{
 		public static class Application
 		{
-			public const string AppExecutionAlias = "files-uwp:";
+			public const string AppURIScheme = "files-uwp:";
+
+			public const string AppExecusionAlias = "files.exe"
+
+			public const stringcs AppLauncherName = "Files.App.Launcher.exe";
 		}
 
 		public static class AdaptiveLayout
