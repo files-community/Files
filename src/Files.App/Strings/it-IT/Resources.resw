@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copia percorso</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copia percorso con virgolette</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Esplora</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Cerca risultati in {1} per {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Ordina le cartelle insieme ai file</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Dettagli</value>
   </data>
@@ -1063,7 +1063,7 @@
     <value>Commuta il riquadro informazioni</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Commuta il riquadro informazioni per visualizzare i riquadri dettaglio\anteprima</value>
+    <value>Commuta il riquadro informazioni per visualizzare i riquadri dettaglio/anteprima</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Ordina</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Raggruppa per</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Data modifica</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Cartella originale</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Ordina per</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Decrescente</value>
@@ -2419,7 +2413,10 @@
     <value>Copia gli elementi negli appunti</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copia il percorso negli appunti</value>
+    <value>Copia il percorso degli elementi selezionati negli appunti</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copia il percorso degli elementi selezionati con virgolette negli appunti</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Taglia gli elementi negli appunti</value>
@@ -2621,9 +2618,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Inverti direzione di ordinamento degli elementi</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Elenca e ordina le cartelle insieme ai file</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Elenca gli elementi senza raggruppamento</value>
@@ -3631,5 +3625,41 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Accedi</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Le etichette sono attualmente compatibili solo sulle unità formattate come NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Si è verificato un errore durante l'applicazione di quest'etichetta</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Estrae gli elementi dall'archivio/dagli archivi selezionato/i nella cartella corrente per gli archivi con un singolo elemento o in una nuova cartella per quelli con più elementi</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Estrai qui (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Ordina file e cartelle insieme</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Ordina file e cartelle insieme</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Ordina prima i file</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Ordina prima i file e poi le cartelle</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Ordina prima le cartelle</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Ordina prima le cartelle e poi i file</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Priorità di ordinamento</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Rotazione dell'immagine fallita</value>
   </data>
 </root>
