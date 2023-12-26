@@ -615,7 +615,12 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			context.GroupByDateUnit = context.GroupByDateUnit is GroupByDateUnit.Month ? GroupByDateUnit.Year : GroupByDateUnit.Month;
+			context.GroupByDateUnit = context.GroupByDateUnit switch
+			{
+				GroupByDateUnit.Year => GroupByDateUnit.Month,
+				GroupByDateUnit.Month => GroupByDateUnit.Day,
+				_ => GroupByDateUnit.Year
+			};
 
 			return Task.CompletedTask;
 		}
