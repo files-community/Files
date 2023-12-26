@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copia la ruta</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copia la ruta amb cometes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Busca</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultats de la cerca en {1} per {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Llista i ordena els directoris juntament amb els fitxers</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalls</value>
   </data>
@@ -1063,7 +1063,7 @@
     <value>Canvia el panell d'informació</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Canvia el panell d'informació per veure els panells de detalls/visualització prèvia</value>
+    <value>Canvia el panell d'informació per veure els panells de detalls/vista prèvia</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Cap visualització prèvia disponible</value>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Ordena</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Agrupa per</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Data de modificació</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Carpeta original</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Ordena per</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descendent</value>
@@ -2419,7 +2413,10 @@
     <value>Copia els elements al porta-retalls</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copia la ruta de l'element al porta-retalls</value>
+    <value>Copia la ruta dels elements seleccionats al porta-retalls</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copia la ruta dels elements seleccionats amb cometes al porta-retalls</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Retalla els elements al porta-retalls</value>
@@ -2621,9 +2618,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Canvia la direcció d'ordenació d'elements</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Llista i ordena els directoris juntament amb els fitxers</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Llista els elements sense agrupar</value>
@@ -3631,5 +3625,41 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Inicia sessió</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Actualment, les etiquetes només són compatibles amb unitats formatades com a NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>S'ha produït un error en aplicar aquesta etiqueta</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extreu elements dels arxius seleccionats a la carpeta actual per a l'arxiu d'un sol element o a una carpeta nova per a l'arxiu de diversos elements</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extreu aquí (intel·ligent)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Ordena fitxers i carpetes junts</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Ordena fitxers i carpetes junts</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Ordena primer els fitxers</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Ordena primer els fitxers i després les carpetes</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Ordena primer les carpetes</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Ordena primer les carpetes i després els fitxers</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Prioritat d'ordenació</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>No s'ha pogut girar la imatge</value>
   </data>
 </root>
