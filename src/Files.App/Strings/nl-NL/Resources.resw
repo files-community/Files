@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Pad kopiëren</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Pad kopiëren inclusief aanhalingstekens</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Bladeren</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Zoekresultaten in</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Som op en sorteer mappen naast bestanden</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Sorteren</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Groeperen op</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum gewijzigd</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Oorspronkelijke map</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sorteren op</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Aflopend</value>
@@ -2419,7 +2413,10 @@
     <value>Kopieer item(s) naar klembord</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Kopieer pad van item naar klembord</value>
+    <value>Het pad van de geselecteerde items naar het klembord kopiëren</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Het pad van de geselecteerde items inclusief aanhalingstekens naar het klembord kopiëren</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Knip item(s) naar klembord</value>
@@ -2621,9 +2618,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Wijzig sorteerrichting</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Som op en sorteer mappen naast bestanden</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Items tonen zonder groepering</value>
@@ -3631,5 +3625,41 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Inloggen</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Labels zijn momenteel alleen compatibel met schijven die geformatteerd zijn als NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Er is een fout opgetreden tijdens het toewijzen van dit label</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Bestanden uitpakken voor geselecteerde archieven naar de huidige map, voor een archief met één item, of naar een nieuwe map voor een archief met meerdere items</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Hier uitpakken (slim)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Bestanden en mappen samen sorteren</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Bestanden en mappen samen sorteren</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Bestanden eerst sorteren</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Bestanden eerst sorteren en daarna mappen</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Mappen eerst sorteren</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Mappen eerst sorteren en daarna bestanden</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sorteer prioriteiten</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Het roteren van de afbeelding is mislukt</value>
   </data>
 </root>
