@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			(IsContextPageTypeAdaptedToCommand() &&
 			CompressHelper.CanDecompress(context.SelectedItems) ||
 			CanDecompressInsideArchive()) &&
-			UIHelpers.CanShowDialog;
+			ContentDialogHelper.CanShowDialog;
 
 		public BaseDecompressArchiveAction()
 		{

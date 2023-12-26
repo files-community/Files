@@ -27,11 +27,11 @@ namespace Files.App.Actions
 
 			if (arguments is null)
 			{
-				await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+				await NavigationHelper.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 			}
 			else
 			{
-				await NavigationHelpers.AddNewTabByParamAsync(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
+				await NavigationHelper.AddNewTabByParamAsync(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
 			}
 		}
 	}

@@ -42,7 +42,7 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
-		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
+		private bool isAppRunningAsAdmin => AppElevationHelper.IsAppRunAsAdmin();
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
@@ -168,7 +168,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
-			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
+			await NavigationHelper.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
@@ -190,7 +190,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
-			NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
+			NavigationHelper.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
@@ -495,7 +495,7 @@ namespace Files.App.Views
 			try
 			{
 				foreach (var item in items)
-					await NavigationHelpers.OpenPathInNewTab(item.Path);
+					await NavigationHelper.OpenPathInNewTab(item.Path);
 
 				deferral.Complete();
 			}

@@ -1,16 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.System;
 
 namespace Files.App.Helpers
 {
 	public static class PackageHelper
 	{
-		private static readonly Uri dummyUri = new Uri("mailto:dummy@dummy.com");
+		private static readonly Uri dummyUri = new("mailto:dummy@dummy.com");
 
 		/// <summary>
 		/// Check if target <paramref name="packageName"/> is installed on this device.

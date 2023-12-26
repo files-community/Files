@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconRestoreItem");
 
 		public override bool IsExecutable =>
-			UIHelpers.CanShowDialog &&
+			ContentDialogHelper.CanShowDialog &&
 			RecycleBinHelpers.RecycleBinHasItems();
 
 		public async Task ExecuteAsync()

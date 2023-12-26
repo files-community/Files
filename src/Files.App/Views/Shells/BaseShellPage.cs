@@ -352,7 +352,7 @@ namespace Files.App.Views.Shells
 		protected async void ShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
 		{
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
-				await NavigationHelpers.OpenPath(item.ItemPath, this);
+				await NavigationHelper.OpenPath(item.ItemPath, this);
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
 				SubmitSearch(sender.Query, userSettingsService.GeneralSettingsService.SearchUnindexedItems);
 		}
@@ -700,7 +700,7 @@ namespace Files.App.Views.Shells
 
 		protected void InitToolbarCommands()
 		{
-			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
+			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelper.LaunchNewWindowAsync);
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
 		}

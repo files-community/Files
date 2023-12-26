@@ -14,7 +14,7 @@ namespace Files.App.Actions
 		public override bool IsExecutable =>
 			context.HasSelection &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false) &&
-			UIHelpers.CanShowDialog;
+			ContentDialogHelper.CanShowDialog;
 
 		public BaseDeleteAction()
 		{

@@ -119,7 +119,7 @@ namespace Files.App.Data.Models
 			}
 			else
 			{
-				locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
+				locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => AppResourcesHelper.GetSidebarIconResource(Constants.ImageRes.Folder));
 				locationItem.IsInvalid = true;
 				Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
 			}

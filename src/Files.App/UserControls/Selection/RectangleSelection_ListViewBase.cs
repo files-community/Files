@@ -221,7 +221,7 @@ namespace Files.App.UserControls.Selection
 
 		private void RectangleSelection_SizeChanged(object sender, object e)
 		{
-			scrollViewer ??= DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
+			scrollViewer ??= DependencyObjectHelper.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
 
 			if (scrollViewer is not null)
 			{
@@ -243,7 +243,7 @@ namespace Files.App.UserControls.Selection
 				uiElement.PointerCaptureLost += RectangleSelection_PointerReleased;
 				uiElement.PointerCanceled += RectangleSelection_PointerReleased;
 
-				scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
+				scrollViewer = DependencyObjectHelper.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
 				if (scrollViewer is null)
 				{
 					uiElement.SizeChanged += RectangleSelection_SizeChanged;

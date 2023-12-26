@@ -86,7 +86,7 @@ namespace Files.App.UserControls.TabBar
 
 		public void Unload()
 		{
-			ContentChanged -= NavigationHelpers.Control_ContentChanged;
+			ContentChanged -= NavigationHelper.Control_ContentChanged;
 
 			Dispose();
 		}

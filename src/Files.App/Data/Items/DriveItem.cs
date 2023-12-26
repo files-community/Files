@@ -227,7 +227,7 @@ namespace Files.App.Data.Items
 		private async void ItemDecorator_Click(object sender, RoutedEventArgs e)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(Type, result);
+			await AppNotificationHelper.ShowDeviceEjectResultAsync(Type, result);
 		}
 
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
@@ -333,9 +333,9 @@ namespace Files.App.Data.Items
 				}
 
 				if (string.Equals(DeviceID, "network-folder"))
-					IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.NetworkDrives).IconData;
+					IconData ??= AppResourcesHelper.GetSidebarIconResourceInfo(Constants.ImageRes.NetworkDrives).IconData;
 
-				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
+				IconData ??= AppResourcesHelper.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 			Icon ??= await IconData.ToBitmapAsync();
 		}

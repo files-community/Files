@@ -157,7 +157,7 @@ namespace Files.App.Views
 				ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded), 2);
 
 				fileTagsWidget.AppInstance = AppInstance;
-				fileTagsWidget.OpenAction = x => NavigationHelpers.OpenPath(x, AppInstance);
+				fileTagsWidget.OpenAction = x => NavigationHelper.OpenPath(x, AppInstance);
 				fileTagsWidget.FileTagsOpenLocationInvoked -= WidgetOpenLocationInvoked;
 				fileTagsWidget.FileTagsNewPaneInvoked -= WidgetCardNewPaneInvoked;
 				fileTagsWidget.FileTagsOpenLocationInvoked += WidgetOpenLocationInvoked;

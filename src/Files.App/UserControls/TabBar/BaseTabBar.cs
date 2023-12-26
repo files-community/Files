@@ -122,7 +122,7 @@ namespace Files.App.UserControls.TabBar
 				IsRestoringClosedTab = true;
 				var lastTab = RecentlyClosedTabs.Pop();
 				foreach (var item in lastTab)
-					await NavigationHelpers.AddNewTabByParamAsync(item.InitialPageType, item.NavigationParameter);
+					await NavigationHelper.AddNewTabByParamAsync(item.InitialPageType, item.NavigationParameter);
 
 				IsRestoringClosedTab = false;
 			}
@@ -130,7 +130,7 @@ namespace Files.App.UserControls.TabBar
 
 		public async void MoveTabToNewWindowAsync(object sender, RoutedEventArgs e)
 		{
-			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabBarItem, this);
+			await TabBarHelper.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabBarItem, this);
 		}
 
 		public void CloseTab(TabBarItem tabItem)

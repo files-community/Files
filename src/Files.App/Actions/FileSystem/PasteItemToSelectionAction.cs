@@ -55,7 +55,7 @@ namespace Files.App.Actions
 
 			return
 				context.SelectedItem?.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder &&
-				UIHelpers.CanShowDialog;
+				ContentDialogHelper.CanShowDialog;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

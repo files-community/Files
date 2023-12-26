@@ -111,7 +111,7 @@ namespace Files.App.ViewModels
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
 								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
-								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+								await NavigationHelper.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 
 							if (!UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp)
@@ -122,7 +122,7 @@ namespace Files.App.ViewModels
 						UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 					{
 						foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
-							await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+							await NavigationHelper.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 					}
 					else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 						UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
@@ -130,7 +130,7 @@ namespace Files.App.ViewModels
 						foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 						{
 							var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
-							await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+							await NavigationHelper.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 						}
 
 						var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
@@ -139,12 +139,12 @@ namespace Files.App.ViewModels
 					}
 					else
 					{
-						await NavigationHelpers.AddNewTabAsync();
+						await NavigationHelper.AddNewTabAsync();
 					}
 				}
 				catch
 				{
-					await NavigationHelpers.AddNewTabAsync();
+					await NavigationHelper.AddNewTabAsync();
 				}
 			}
 			else
@@ -157,7 +157,7 @@ namespace Files.App.ViewModels
 								UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 						{
 							foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
-								await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+								await NavigationHelper.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 						}
 						else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
@@ -165,7 +165,7 @@ namespace Files.App.ViewModels
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
 								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
-								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+								await NavigationHelper.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 
 							var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
@@ -177,11 +177,11 @@ namespace Files.App.ViewModels
 				}
 
 				if (parameter is string navArgs)
-					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
+					await NavigationHelper.AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
 				else if (parameter is PaneNavigationArguments paneArgs)
-					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneArgs);
+					await NavigationHelper.AddNewTabByParamAsync(typeof(PaneHolderPage), paneArgs);
 				else if (parameter is CustomTabViewItemParameter tabArgs)
-					await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+					await NavigationHelper.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 			}
 
 			if (isInitialized)

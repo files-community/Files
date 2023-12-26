@@ -409,8 +409,8 @@ namespace Files.App.Utils
 				return false;
 
 			return IsShortcut
-				? ElevationHelpers.IsElevationRequired(((ShortcutItem)this).TargetPath)
-				: ElevationHelpers.IsElevationRequired(this.ItemPath);
+				? AppElevationHelper.IsElevationRequired(((ShortcutItem)this).TargetPath)
+				: AppElevationHelper.IsElevationRequired(this.ItemPath);
 		}
 	}
 

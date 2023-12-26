@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Helpers;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -11,7 +9,7 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
-	public static class NavigationHelpers
+	public static class NavigationHelper
 	{
 		private static MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -368,7 +366,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					await NavigationHelpers.OpenPathInNewTab(path);
+					await NavigationHelper.OpenPathInNewTab(path);
 				}
 
 				return true;

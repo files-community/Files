@@ -25,7 +25,7 @@ namespace Files.App.Actions
 		{
 			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			_isVSCodeInstalled = SoftwareHelpers.IsVSCodeInstalled();
+			_isVSCodeInstalled = SoftwareHelper.IsVSCodeInstalled();
 			if (_isVSCodeInstalled)
 				_context.PropertyChanged += Context_PropertyChanged;
 		}

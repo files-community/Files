@@ -30,7 +30,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			NavigationHelpers.OpenInSecondaryPane(
+			NavigationHelper.OpenInSecondaryPane(
 				context.ShellPage,
 				context.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault());
 

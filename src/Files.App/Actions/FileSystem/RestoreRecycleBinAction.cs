@@ -19,7 +19,7 @@ namespace Files.App.Actions
 		public override bool IsExecutable =>
 			context.PageType is ContentPageTypes.RecycleBin &&
 			context.SelectedItems.Any() &&
-			UIHelpers.CanShowDialog;
+			ContentDialogHelper.CanShowDialog;
 
 		public RestoreRecycleBinAction()
 		{

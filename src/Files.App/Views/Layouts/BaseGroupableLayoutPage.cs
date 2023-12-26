@@ -99,12 +99,12 @@ namespace Files.App.Views.Layouts
 
 			// Don't block the various uses of enter key (key 13)
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
-			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
+			var isHeaderFocused = DependencyObjectHelper.FindParent<DataGridHeader>(focusedElement) is not null;
 			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
 				(focusedElement is Button && !isHeaderFocused) || // Allow jumpstring when header is focused
 				focusedElement is TextBox ||
 				focusedElement is PasswordBox ||
-				DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
+				DependencyObjectHelper.FindParent<ContentDialog>(focusedElement) is not null)
 				return;
 
 			base.Page_CharacterReceived(sender, args);
@@ -167,7 +167,7 @@ namespace Files.App.Views.Layouts
 		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
-			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == ItemsControl;
+			var isFileListFocused = DependencyObjectHelper.FindParent<ListViewBase>(focusedElement) == ItemsControl;
 			if (!isFileListFocused)
 				ListViewBase.Focus(FocusState.Programmatic);
 		}

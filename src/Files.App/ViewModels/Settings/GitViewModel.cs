@@ -36,7 +36,7 @@ namespace Files.App.ViewModels.Settings
 		
 		public async void DoConnectToGitHubAsync()
 		{
-			UIHelpers.CloseAllDialogs();
+			ContentDialogHelper.CloseAllDialogs();
 			await GitHelpers.RequireGitAuthenticationAsync();
 		}
 	}

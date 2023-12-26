@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconDelete");
 
 		public override bool IsExecutable =>
-			UIHelpers.CanShowDialog &&
+			ContentDialogHelper.CanShowDialog &&
 			((context.PageType == ContentPageTypes.RecycleBin && context.HasItem) ||
 			RecycleBinHelpers.RecycleBinHasItems());
 

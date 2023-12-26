@@ -340,7 +340,7 @@ namespace Files.App.Views.Layouts
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
-			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
+			var isHeaderFocused = DependencyObjectHelper.FindParent<DataGridHeader>(focusedElement) is not null;
 			var isFooterFocused = focusedElement is HyperlinkButton;
 
 			if (ctrlPressed && e.Key is VirtualKey.A)
@@ -362,14 +362,14 @@ namespace Files.App.Views.Layouts
 					if (folders is not null)
 					{
 						foreach (ListedItem folder in folders)
-							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+							await NavigationHelper.OpenPathInNewTab(folder.ItemPath);
 					}
 				}
 				else if (ctrlPressed && shiftPressed)
 				{
 					var selectedFolder = SelectedItems?.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder);
 					if (selectedFolder is not null)
-						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolder);
+						NavigationHelper.OpenInSecondaryPane(ParentShellPageInstance, selectedFolder);
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
@@ -701,14 +701,14 @@ namespace Files.App.Views.Layouts
 
 		private double MeasureTagColumnEstimate(int columnIndex)
 		{
-			var grids = DependencyObjectHelpers
+			var grids = DependencyObjectHelper
 				.FindChildren<Grid>(FileList.ItemsPanelRoot)
 				.Where(grid => IsCorrectColumn(grid, columnIndex));
 
 			// Get the list of stack panels with the most letters
 			var stackPanels = grids
-				.Select(DependencyObjectHelpers.FindChildren<StackPanel>)
-				.OrderByDescending(sps => sps.Select(sp => DependencyObjectHelpers.FindChildren<TextBlock>(sp).Select(tb => tb.Text.Length).Sum()).Sum())
+				.Select(DependencyObjectHelper.FindChildren<StackPanel>)
+				.OrderByDescending(sps => sps.Select(sp => DependencyObjectHelper.FindChildren<TextBlock>(sp).Select(tb => tb.Text.Length).Sum()).Sum())
 				.First()
 				.ToArray();
 
@@ -727,7 +727,7 @@ namespace Files.App.Views.Layouts
 
 		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
 		{
-			var tbs = DependencyObjectHelpers
+			var tbs = DependencyObjectHelper
 				.FindChildren<TextBlock>(FileList.ItemsPanelRoot)
 				.Where(tb => IsCorrectColumn(tb, columnIndex));
 

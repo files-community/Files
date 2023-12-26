@@ -1,14 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-using Files.App.ViewModels;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Files.App.Helpers
 {
-	public static class MultitaskingTabsHelpers
+	/// <summary>
+	/// Provides static helper to close or move tabs of <see cref="TabBar"/>.
+	/// </summary>
+	public static class TabBarHelper
 	{
 		public static void CloseTabsToTheLeft(TabBarItem clickedTab, ITabBar multitaskingControl)
 		{
@@ -49,8 +47,8 @@ namespace Files.App.Helpers
 			multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
 
 			return tabItemArguments is not null
-				? NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize())
-				: NavigationHelpers.OpenPathInNewWindowAsync("Home");
+				? NavigationHelper.OpenTabInNewWindowAsync(tabItemArguments.Serialize())
+				: NavigationHelper.OpenPathInNewWindowAsync("Home");
 		}
 	}
 }

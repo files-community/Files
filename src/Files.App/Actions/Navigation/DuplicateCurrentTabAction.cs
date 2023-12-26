@@ -24,11 +24,11 @@ namespace Files.App.Actions
 
 			if (arguments is null)
 			{
-				await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+				await NavigationHelper.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 			}
 			else
 			{
-				await NavigationHelpers.AddNewTabByParamAsync(
+				await NavigationHelper.AddNewTabByParamAsync(
 					arguments.InitialPageType,
 					arguments.NavigationParameter,
 					context.CurrentTabIndex + 1);

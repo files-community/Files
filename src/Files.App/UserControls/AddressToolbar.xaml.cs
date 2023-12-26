@@ -68,7 +68,7 @@ namespace Files.App.UserControls
 			// AutoSuggestBox won't receive focus unless it's fully loaded
 			VisiblePath.Focus(FocusState.Programmatic);
 
-			if (DependencyObjectHelpers.FindChild<TextBox>(VisiblePath) is TextBox textBox)
+			if (DependencyObjectHelper.FindChild<TextBox>(VisiblePath) is TextBox textBox)
 			{
 				if (textBox.Text.StartsWith(">"))
 					textBox.Select(1, textBox.Text.Length - 1);

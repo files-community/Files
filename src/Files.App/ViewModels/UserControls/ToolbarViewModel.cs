@@ -502,7 +502,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await NavigationHelper.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -727,7 +727,7 @@ namespace Files.App.ViewModels.UserControls
 							if (ejectButton)
 							{
 								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-								await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
+								await AppNotificationHelper.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
 							}
 							return;
 						}

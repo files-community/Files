@@ -14,7 +14,7 @@ namespace Files.App.Actions
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
 			CompressHelper.CanCompress(context.SelectedItems) &&
-			UIHelpers.CanShowDialog;
+			ContentDialogHelper.CanShowDialog;
 
 		public BaseCompressArchiveAction()
 		{

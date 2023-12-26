@@ -20,7 +20,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return NavigationHelpers.AddNewTabAsync();
+			return NavigationHelper.AddNewTabAsync();
 		}
 	}
 }

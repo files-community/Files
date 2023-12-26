@@ -172,7 +172,7 @@ namespace Files.App.Utils.Archives
 			await DecompressArchiveAsync(archive, destinationFolder, password);
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
-				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
+				await NavigationHelper.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
 		}
 
 		public static async Task DecompressArchiveHereAsync(IShellPage associatedInstance, bool smart = false)

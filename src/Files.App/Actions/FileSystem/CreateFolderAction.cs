@@ -21,7 +21,7 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			context.CanCreateItem &&
-			UIHelpers.CanShowDialog;
+			ContentDialogHelper.CanShowDialog;
 
 		public CreateFolderAction()
 		{

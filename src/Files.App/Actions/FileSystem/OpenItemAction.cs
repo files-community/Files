@@ -40,7 +40,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage);
+				return NavigationHelper.OpenSelectedItemsAsync(context.ShellPage);
 
 			return Task.CompletedTask;
 		}
@@ -83,7 +83,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is null)
 				return Task.CompletedTask;
 
-			return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage, true);
+			return NavigationHelper.OpenSelectedItemsAsync(context.ShellPage, true);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

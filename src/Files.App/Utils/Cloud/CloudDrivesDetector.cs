@@ -171,7 +171,7 @@ namespace Files.App.Utils.Cloud
 					{
 						Name = accountName,
 						SyncFolder = userFolder,
-						IconData = UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.OneDrive).IconData,
+						IconData = AppResourcesHelper.GetSidebarIconResourceInfo(Constants.ImageRes.OneDrive).IconData,
 					});
 				}
 			}

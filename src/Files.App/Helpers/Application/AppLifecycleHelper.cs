@@ -257,47 +257,7 @@ namespace Files.App.Helpers
 			if (!showToastNotification)
 				return;
 
-			var toastContent = new ToastContent()
-			{
-				Visual = new()
-				{
-					BindingGeneric = new ToastBindingGeneric()
-					{
-						Children =
-						{
-							new AdaptiveText()
-							{
-								Text = "ExceptionNotificationHeader".GetLocalizedResource()
-							},
-							new AdaptiveText()
-							{
-								Text = "ExceptionNotificationBody".GetLocalizedResource()
-							}
-						},
-						AppLogoOverride = new()
-						{
-							Source = "ms-appx:///Assets/error.png"
-						}
-					}
-				},
-				Actions = new ToastActionsCustom()
-				{
-					Buttons =
-					{
-						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.GitHub.BugReportUrl)
-						{
-							ActivationType = ToastActivationType.Protocol
-						}
-					}
-				},
-				ActivationType = ToastActivationType.Protocol
-			};
-
-			// Create the toast notification
-			var toastNotification = new ToastNotification(toastContent.GetXml());
-
-			// And send the notification
-			ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+			AppNotificationHelper.ShowApplicationCaughtUnhandledException();
 
 			// Restart the app
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Files.App.Helpers
 {
-	internal static class SoftwareHelpers
+	internal static class SoftwareHelper
 	{
 		public static bool IsVSCodeInstalled()
 		{

@@ -190,7 +190,7 @@ namespace Files.App.ViewModels.Settings
 				catch (Exception ex)
 				{
 					App.Logger.LogWarning(ex, "Error importing settings");
-					UIHelpers.CloseAllDialogs();
+					ContentDialogHelper.CloseAllDialogs();
 					await ContentDialogHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalizedResource(), "SettingsImportErrorDescription".GetLocalizedResource());
 				}
 			}

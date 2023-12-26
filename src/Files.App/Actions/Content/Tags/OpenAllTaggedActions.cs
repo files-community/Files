@@ -37,9 +37,9 @@ namespace Files.App.Actions
 			var folders = _tagsContext.TaggedItems.Where(item => item.isFolder);
 
 			await Task.WhenAll(files.Select(file 
-				=> NavigationHelpers.OpenPath(file.path, _pageContext.ShellPage!)));
+				=> NavigationHelper.OpenPath(file.path, _pageContext.ShellPage!)));
 
-			folders.ForEach(async folder => await NavigationHelpers.OpenPathInNewTab(folder.path));
+			folders.ForEach(async folder => await NavigationHelper.OpenPathInNewTab(folder.path));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
