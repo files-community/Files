@@ -36,6 +36,27 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref selectedTabItem, value);
 		}
 
+		private bool shouldViewControlBeDisplayed;
+		public bool ShouldViewControlBeDisplayed
+		{
+			get => shouldViewControlBeDisplayed;
+			set => SetProperty(ref shouldViewControlBeDisplayed, value);
+		}
+
+		private bool shouldPreviewPaneBeActive;
+		public bool ShouldPreviewPaneBeActive
+		{
+			get => shouldPreviewPaneBeActive;
+			set => SetProperty(ref shouldPreviewPaneBeActive, value);
+		}
+
+		private bool shouldPreviewPaneBeDisplayed;
+		public bool ShouldPreviewPaneBeDisplayed
+		{
+			get => shouldPreviewPaneBeDisplayed;
+			set => SetProperty(ref shouldPreviewPaneBeDisplayed, value);
+		}
+
 		// Commands
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; }

@@ -16,6 +16,7 @@ namespace Files.App.ViewModels.Settings
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
+			SelectedDefaultSortPriorityIndex = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles ? 2 : UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst ? 1 : 0;
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 		}
 
@@ -291,16 +292,32 @@ namespace Files.App.ViewModels.Settings
 		public bool IsGroupByDate
 			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption.IsGroupByDate();
 
-		public bool ListAndSortDirectoriesAlongsideFiles
+		private int selectedDefaultSortPriorityIndex;
+		public int SelectedDefaultSortPriorityIndex
 		{
-			get => UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			get => selectedDefaultSortPriorityIndex;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles)
+				if (SetProperty(ref selectedDefaultSortPriorityIndex, value))
 				{
-					UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
+					OnPropertyChanged(nameof(SelectedDefaultSortPriorityIndex));
 
-					OnPropertyChanged();
+					switch (value)
+					{
+						case 0:
+							UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = false;
+							UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst = false;
+							break;
+						case 1:
+							UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = false;
+							UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst = true;
+							break;
+						case 2:
+							UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = true;
+							break;
+						default:
+							break;
+					}
 				}
 			}
 		}
@@ -454,7 +471,7 @@ namespace Files.App.ViewModels.Settings
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?
-			var dbInstance = FolderSettingsViewModel.GetDbInstance();
+			var dbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
 
 			dbInstance.ResetAll();
 		}

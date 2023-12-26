@@ -71,6 +71,7 @@ namespace Files.App.ViewModels.UserControls
 		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
 
 		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
+		public static event EventHandler<INavigationControlItem?>? RightClickedItemChanged;
 
 		private readonly SectionType[] SectionOrder =
 			new SectionType[]
@@ -88,14 +89,14 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsSidebarCompactSize
 			=> SidebarDisplayMode == SidebarDisplayMode.Compact || SidebarDisplayMode == SidebarDisplayMode.Minimal;
 
-		public void NotifyInstanceRelatedPropertiesChanged(string arg)
+		public void NotifyInstanceRelatedPropertiesChanged(string? arg)
 		{
 			UpdateSidebarSelectedItemFromArgs(arg);
 
 			OnPropertyChanged(nameof(SidebarSelectedItem));
 		}
 
-		public void UpdateSidebarSelectedItemFromArgs(string arg)
+		public void UpdateSidebarSelectedItemFromArgs(string? arg)
 		{
 			var value = arg;
 
@@ -663,12 +664,14 @@ namespace Files.App.ViewModels.UserControls
 
 		public async void HandleItemContextInvokedAsync(object sender, ItemContextInvokedArgs args)
 		{
-			if (sender is not FrameworkElement sidebarItem) return;
+			if (sender is not FrameworkElement sidebarItem)
+				return;
 
 			if (args.Item is not INavigationControlItem item)
 			{
 				// We are in the pane context requested path
 				PaneFlyout.ShowAt(sender as FrameworkElement, args.Position);
+
 				return;
 			}
 
@@ -688,20 +691,29 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			rightClickedItem = item;
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			RightClickedItemChanged?.Invoke(this, item);
+
+			var itemContextMenuFlyout = new CommandBarFlyout()
+			{
+				Placement = FlyoutPlacementMode.Full
+			};
+
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Closed += (sender, e) => RightClickedItemChanged?.Invoke(this, null);
 
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			secondaryElements.OfType<FrameworkElement>()
-								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			secondaryElements
+				.OfType<FrameworkElement>()
+				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
+
 			if (item.MenuOptions.ShowShellItems)
 				itemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 
-			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = args.Position });
+			itemContextMenuFlyout.ShowAt(sidebarItem, new() { Position = args.Position });
 		}
 
 		private async void ItemContextMenuFlyout_Opened(object? sender, object e)

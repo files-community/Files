@@ -18,8 +18,19 @@ namespace Files.App
 	public partial class App : Application
 	{
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
-		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static string? OutputPath { get; set; }
+
+		private static CommandBarFlyout? _LastOpenedFlyout;
+		public static CommandBarFlyout? LastOpenedFlyout
+		{
+			set
+			{
+				_LastOpenedFlyout = value;
+
+				if (_LastOpenedFlyout is not null)
+					_LastOpenedFlyout.Closed += LastOpenedFlyout_Closed;
+			}
+		}
 
 		// TODO: Replace with DI
 		public static QuickAccessManager QuickAccessManager { get; private set; } = null!;
@@ -111,12 +122,12 @@ namespace Files.App
 		/// <summary>
 		/// Invoked when the application is activated.
 		/// </summary>
-		public void OnActivated(AppActivationArguments activatedEventArgs)
+		public async Task OnActivatedAsync(AppActivationArguments activatedEventArgs)
 		{
 			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
 				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data));
 		}
 
@@ -143,11 +154,11 @@ namespace Files.App
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			// A Workaround for the crash (#10110)
-			if (LastOpenedFlyout?.IsOpen ?? false)
+			if (_LastOpenedFlyout?.IsOpen ?? false)
 			{
 				args.Handled = true;
-				LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
-				LastOpenedFlyout.Hide();
+				_LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
+				_LastOpenedFlyout.Hide();
 				return;
 			}
 
@@ -230,6 +241,16 @@ namespace Files.App
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
+		}
+
+		private static void LastOpenedFlyout_Closed(object? sender, object e)
+		{
+			if (sender is not CommandBarFlyout commandBarFlyout)
+				return;
+
+			commandBarFlyout.Closed -= LastOpenedFlyout_Closed;
+			if (_LastOpenedFlyout == commandBarFlyout)
+				_LastOpenedFlyout = null;
 		}
 	}
 }

@@ -126,6 +126,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IPageContext, PageContext>()
 					.AddSingleton<IContentPageContext, ContentPageContext>()
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+					.AddSingleton<IHomePageContext, HomePageContext>()
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
@@ -323,7 +324,7 @@ namespace Files.App.Helpers
 				{
 					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
 				})
-				.Wait(1000);
+				.Wait(100);
 			}
 			Process.GetCurrentProcess().Kill();
 		}

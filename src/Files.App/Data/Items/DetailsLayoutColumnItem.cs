@@ -3,45 +3,41 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Data.Models
+namespace Files.App.Data.Items
 {
-	public class ColumnViewModel : ObservableObject
+	/// <summary>
+	/// Represents item for a column shown in <see cref="DetailsLayoutPage"/>.
+	/// </summary>
+	public class DetailsLayoutColumnItem : ObservableObject
 	{
-		private bool isHidden;
+		private const int GRID_SPLITTER_WIDTH = 12;
 
-		[LiteDB.BsonIgnore]
-		public bool IsHidden
+		public double UserLengthPixels
 		{
-			get => isHidden;
-			set => SetProperty(ref isHidden, value);
+			get => UserLength.Value;
+			set => UserLength = new GridLength(value, GridUnitType.Pixel);
 		}
 
-		[LiteDB.BsonIgnore]
-		public double MaxLength
-		{
-			get => UserCollapsed || IsHidden ? 0 : NormalMaxLength;
-		}
-
-		private double normalMaxLength = 800;
-
+		private double _NormalMaxLength = 800;
 		public double NormalMaxLength
 		{
-			get => normalMaxLength;
-			set => SetProperty(ref normalMaxLength, value);
+			get => _NormalMaxLength;
+			set => SetProperty(ref _NormalMaxLength, value);
 		}
 
-		private double normalMinLength = 50;
-
-		[LiteDB.BsonIgnore]
-		public double NormalMinLength
+		private bool _UserCollapsed;
+		public bool UserCollapsed
 		{
-			get => normalMinLength;
+			get => _UserCollapsed;
 			set
 			{
-				if (SetProperty(ref normalMinLength, value))
-					OnPropertyChanged(nameof(MinLength));
+				if (SetProperty(ref _UserCollapsed, value))
+					UpdateVisibility();
 			}
 		}
+
+		[LiteDB.BsonIgnore]
+		public bool IsResizable { get; set; } = true;
 
 		[LiteDB.BsonIgnore]
 		public double MinLength
@@ -51,57 +47,53 @@ namespace Files.App.Data.Models
 		public Visibility Visibility
 			=> UserCollapsed || IsHidden ? Visibility.Collapsed : Visibility.Visible;
 
-		private bool userCollapsed;
+		[LiteDB.BsonIgnore]
+		public GridLength Length
+			=> UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
 
-		public bool UserCollapsed
+		[LiteDB.BsonIgnore]
+		public GridLength LengthIncludingGridSplitter =>
+			UserCollapsed || IsHidden
+				? new(0)
+				: new(UserLength.Value + (IsResizable ? GRID_SPLITTER_WIDTH : 0));
+
+		[LiteDB.BsonIgnore]
+		public double MaxLength
+			=> UserCollapsed || IsHidden ? 0 : NormalMaxLength;
+
+		private bool _IsHidden;
+		[LiteDB.BsonIgnore]
+		public bool IsHidden
 		{
-			get => userCollapsed;
+			get => _IsHidden;
+			set => SetProperty(ref _IsHidden, value);
+		}
+
+		private double _NormalMinLength = 50;
+		[LiteDB.BsonIgnore]
+		public double NormalMinLength
+		{
+			get => _NormalMinLength;
 			set
 			{
-				if (SetProperty(ref userCollapsed, value))
-					UpdateVisibility();
+				if (SetProperty(ref _NormalMinLength, value))
+					OnPropertyChanged(nameof(MinLength));
 			}
 		}
 
-		[LiteDB.BsonIgnore]
-		public GridLength Length
-		{
-			get => UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
-		}
-
-		private const int gridSplitterWidth = 12;
-
-		[LiteDB.BsonIgnore]
-		public GridLength LengthIncludingGridSplitter
-		{
-			get => UserCollapsed || IsHidden
-				? new(0)
-				: new(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
-		}
-
-		[LiteDB.BsonIgnore]
-		public bool IsResizeable { get; set; } = true;
-
-		private GridLength userLength = new(200, GridUnitType.Pixel);
-
+		private GridLength _UserLength = new(200, GridUnitType.Pixel);
 		[LiteDB.BsonIgnore]
 		public GridLength UserLength
 		{
-			get => userLength;
+			get => _UserLength;
 			set
 			{
-				if (SetProperty(ref userLength, value))
+				if (SetProperty(ref _UserLength, value))
 				{
 					OnPropertyChanged(nameof(Length));
 					OnPropertyChanged(nameof(LengthIncludingGridSplitter));
 				}
 			}
-		}
-
-		public double UserLengthPixels
-		{
-			get => UserLength.Value;
-			set => UserLength = new GridLength(value, GridUnitType.Pixel);
 		}
 
 		public void Hide()
@@ -125,21 +117,6 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(MinLength));
 		}
 
-		public void TryMultiplySize(double factor)
-		{
-			var newSize = Length.Value * factor;
-			if (newSize == 0)
-				return;
-
-			double setLength = newSize;
-			if (newSize < MinLength)
-				setLength = MinLength;
-			else if (newSize >= MaxLength)
-				setLength = MaxLength;
-
-			UserLength = new GridLength(setLength);
-		}
-
 		public override bool Equals(object? obj)
 		{
 			if (obj is null)
@@ -148,7 +125,7 @@ namespace Files.App.Data.Models
 			if (obj == this)
 				return true;
 
-			if (obj is ColumnViewModel model)
+			if (obj is DetailsLayoutColumnItem model)
 			{
 				return
 					model.UserCollapsed == UserCollapsed &&

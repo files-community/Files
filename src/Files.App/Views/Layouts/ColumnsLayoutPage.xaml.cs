@@ -99,7 +99,8 @@ namespace Files.App.Views.Layouts
 			if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
-					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
+					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList()
+					.Concat(App.LibraryManager.Libraries.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));
 
 				while (!rootPathList.Contains(NormalizePath(path)))
@@ -289,12 +290,18 @@ namespace Files.App.Views.Layouts
 			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
 		}
 
-		public async void NavigateUp()
+		public void NavigateUp()
 		{
 			if (ColumnHost.ActiveBlades?.Count > 1)
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
 			else
-				await Commands.NavigateUp.ExecuteAsync();
+			{
+				var workingDirectory = ((ColumnHost.ActiveBlades?.FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+				if (workingDirectory is null || string.Equals(workingDirectory, GetPathRoot(workingDirectory), StringComparison.OrdinalIgnoreCase))
+					ParentShellPageInstance?.NavigateHome();
+				else
+					ParentShellPageInstance?.NavigateToPath(GetParentDir(workingDirectory));
+			}
 		}
 
 		public void MoveFocusToPreviousBlade(int currentBladeIndex)

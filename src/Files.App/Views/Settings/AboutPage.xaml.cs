@@ -16,7 +16,7 @@ namespace Files.App.Views.Settings
 
 		private async void ThirdPartyLicenses_Click(object sender, bool e)
 		{
-			if (e && ViewModel.ThirdPartyNotices is null)
+			if (e && string.IsNullOrEmpty(ViewModel.ThirdPartyNotices))
 				await ViewModel.LoadThirdPartyNoticesAsync();
 		}
 

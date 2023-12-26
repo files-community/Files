@@ -92,6 +92,7 @@ namespace Files.App.Data.Commands
 		CompressIntoZip,
 		DecompressArchive,
 		DecompressArchiveHere,
+		DecompressArchiveHereSmart,
 		DecompressArchiveToChildFolder,
 
 		// Image Manipulation
@@ -132,7 +133,9 @@ namespace Files.App.Data.Commands
 		SortAscending,
 		SortDescending,
 		ToggleSortDirection,
-		ToggleSortDirectoriesAlongsideFiles,
+		SortFoldersFirst,
+		SortFilesFirst,
+		SortFilesAndFoldersTogether,
 
 		// Group by
 		GroupByNone,

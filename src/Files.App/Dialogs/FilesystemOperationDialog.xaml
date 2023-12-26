@@ -104,15 +104,15 @@
 				</Grid>
 
 				<!--  Options  -->
+				<!--  x:Load cannot be used (#14000)  -->
 				<ComboBox
 					x:Name="ConflictOptions"
 					Grid.Column="2"
 					Width="200"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind IsConflict, Mode=OneWay}"
-					Loaded="ConflictOptions_Loaded"
-					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
+					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}"
+					Visibility="{x:Bind IsConflict, Mode=OneWay}">
 					<ComboBox.Items>
 						<ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=ReplaceExisting}" />

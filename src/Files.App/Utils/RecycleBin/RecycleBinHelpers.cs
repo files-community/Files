@@ -117,10 +117,14 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task RestoreSelectionRecycleBinAsync(IShellPage associatedInstance)
 		{
+			var items = associatedInstance.SlimContentPage.SelectedItems;
+			if (items == null) 
+				return;
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
 				Title = "ConfirmRestoreSelectionBinDialogTitle".GetLocalizedResource(),
-				Content = string.Format("ConfirmRestoreSelectionBinDialogContent".GetLocalizedResource(), associatedInstance.SlimContentPage.SelectedItems.Count),
+				
+				Content = string.Format("ConfirmRestoreSelectionBinDialogContent".GetLocalizedResource(), items.Count),
 				PrimaryButtonText = "Yes".GetLocalizedResource(),
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
@@ -152,7 +156,10 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task RestoreItemAsync(IShellPage associatedInstance)
 		{
-			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
+			var selected = associatedInstance.SlimContentPage.SelectedItems;
+			if (selected == null) 
+				return;
+			var items = selected.ToList().Where(x => x is RecycleBinItem).Select((item) => new
 			{
 				Source = StorageHelpers.FromPathAndType(
 					item.ItemPath,
@@ -164,7 +171,10 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task DeleteItemAsync(IShellPage associatedInstance)
 		{
-			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+			var selected = associatedInstance.SlimContentPage.SelectedItems;
+			if (selected == null) 
+				return;
+			var items = selected.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);

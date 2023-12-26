@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.UserControls
 					else
 						SelectedItem = null;
 
-					var shouldUpdatePreview = MainWindow.Instance.GetMainPage()?.ShouldPreviewPaneBeActive;
+					var shouldUpdatePreview = MainWindow.Instance.GetMainPage()?.ViewModel?.ShouldPreviewPaneBeActive;
 					if (shouldUpdatePreview == true)
 						_ = UpdateSelectedItemPreviewAsync();
 					break;
