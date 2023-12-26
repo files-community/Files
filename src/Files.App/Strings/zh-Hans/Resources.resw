@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>复制路径</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>复制路径（带引号）</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>在“{1}”中搜索“{0}”的结果</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>将文件夹与文件一同分类和排序</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>详细信息</value>
   </data>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>排序</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>分组依据</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>修改日期</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>原始文件夹</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>排序方式</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>递减</value>
@@ -2419,7 +2413,10 @@
     <value>复制项目到剪贴板</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>复制项目路径到剪贴板</value>
+    <value>复制选中项的路径到剪贴板</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>复制选中项的路径（带引号）到剪贴板</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>剪切项目到剪贴板</value>
@@ -2621,9 +2618,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>切换排序方向</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>将文件夹与文件一同分类和排序</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>不分组而直接列出</value>
@@ -3380,7 +3374,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>清除完成</value>
+    <value>清除已完成的条目</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
     <value>名称:</value>
@@ -3472,35 +3466,35 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>已取消将 {0} 提取到“{1}”</value>
+    <value>已取消将 {0} 解压缩到“{1}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>已取消将 {0} 从“{1}”提取到“{2}”</value>
+    <value>已取消将 {0} 从“{1}”解压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>已将“{0}”提取到“{1}”</value>
+    <value>已将“{0}”解压缩到“{1}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>已将“{0}”从“{1}”提取到“{2}”</value>
+    <value>已将“{0}”从“{1}”解压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>将“{0}”提取到“{1}”时出错</value>
+    <value>将“{0}”解压缩到“{1}”时出错</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>无法将“{0}”从“{1}”提取到“{2}”</value>
+    <value>无法将“{0}”从“{1}”解压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>正在将“{0}”提取到“{1}”</value>
+    <value>正在将“{0}”解压缩到“{1}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>正在将“{0}”从“{1}”提取到“{2}”</value>
+    <value>正在将“{0}”从“{1}”解压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
@@ -3631,5 +3625,41 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>登录</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>标签目前只兼容 NTFS 格式的驱动器。</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>应用此标签时发生错误</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>解压缩选中的压缩文件：若其中仅有一个项目，则解压缩到当前目录下；否则，解压缩到当前目录下的新文件夹</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>智能解压</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>将文件和文件夹一同排序</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>将文件和文件夹一同排序</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>先排序文件</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>先排序文件，再排序文件夹</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>先排序文件夹</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>先排序文件夹，再排序文件</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>排序优先级</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>旋转图像失败</value>
   </data>
 </root>
