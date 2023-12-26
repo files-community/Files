@@ -175,13 +175,11 @@ namespace Files.App
 		/// <summary>
 		/// Gets invoked when the application is activated.
 		/// </summary>
-		private static void OnActivated(object? sender, AppActivationArguments args)
+		private static async void OnActivated(object? sender, AppActivationArguments args)
 		{
-			if (App.Current is App thisApp)
-			{
-				// WINUI3: Verify if needed or OnLaunched is called
-				thisApp.OnActivated(args);
-			}
+			// WINUI3: Verify if needed or OnLaunched is called
+      if (App.Current is App thisApp)
+				await thisApp.OnActivatedAsync(args);
 		}
 
 		/// <summary>

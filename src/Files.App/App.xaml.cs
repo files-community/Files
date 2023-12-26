@@ -118,14 +118,14 @@ namespace Files.App
 		/// <summary>
 		/// Gets invoked when the application is activated.
 		/// </summary>
-		public void OnActivated(AppActivationArguments activatedEventArgs)
+		public async Task OnActivatedAsync(AppActivationArguments activatedEventArgs)
 		{
 			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
 
 			SystemTrayIcon?.Hide();
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
 				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data));
 		}
 
