@@ -263,7 +263,7 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnLeftClicked()
 		{
-			// TODO: Add an ability to show the window back
+			_ = Launcher.LaunchUriAsync(new Uri("files-uwp:"));
 		}
 
 		private void OnDocumentationClicked()
