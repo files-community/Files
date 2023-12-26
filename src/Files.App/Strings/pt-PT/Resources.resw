@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copiar caminho</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copiar caminho com aspas</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Explorar</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultados da pesquisa {0} em {1}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Listar e ordenar diretórios ao lado dos ficheiros</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalhes</value>
   </data>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Ordenar</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Agrupar por</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Data de alteração</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Pasta original</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Ordenar por</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descendente</value>
@@ -2419,7 +2413,10 @@
     <value>Copiar itens para a área de transferência</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copiar caminho do item para a área de transferência</value>
+    <value>Copiar caminho dos itens selecionados para a área de transferência</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copiar caminho dos itens selecionados, com aspas, para a área de transferência</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cortar itens para a área de transferência</value>
@@ -2621,9 +2618,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Alternar direção da ordem dos itens</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Listar e ordenar diretórios ao lado dos ficheiros</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Não agrupar itens</value>
@@ -3631,5 +3625,41 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Iniciar sessão</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Atualmente, apenas pode utilizar etiquetas em unidades formatadas como NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Ocorreu um erro ao aplicar a etiqueta</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extrai os itens dos arquivos selecionados para a pasta atual (se apenas possuir 1 item) ou para uma nova pasta (se possuir vários itens)</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extrair aqui (inteligente)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Ordenar ficheiros e pastas em conjunto</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Ordenar ficheiros e pastas em conjunto</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Ordenar ficheiros primeiro</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Ordenar ficheiros e só depois as pastas</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Ordenar pastas primeiro</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Ordenar pastas e só depois os ficheiros</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Prioridade de ordenação</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Falha ao rodar a imagem</value>
   </data>
 </root>
