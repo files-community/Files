@@ -573,6 +573,7 @@
 							<MenuFlyoutSubItem IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}" Text="{x:Bind Commands.GroupByDateDeleted.Label}">
 								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedYear.Label}" />
 								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedMonth.Label}" />
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedDay.Label}" />
 							</MenuFlyoutSubItem>
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"

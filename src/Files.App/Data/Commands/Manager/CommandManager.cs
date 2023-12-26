@@ -153,6 +153,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand GroupByDateCreatedDay => commands[CommandCodes.GroupByDateCreatedDay];
 		public IRichCommand GroupByDateDeletedYear => commands[CommandCodes.GroupByDateDeletedYear];
 		public IRichCommand GroupByDateDeletedMonth => commands[CommandCodes.GroupByDateDeletedMonth];
+		public IRichCommand GroupByDateDeletedDay => commands[CommandCodes.GroupByDateDeletedDay];
 		public IRichCommand GroupAscending => commands[CommandCodes.GroupAscending];
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
@@ -322,6 +323,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.GroupByDateCreatedDay] = new GroupByDateCreatedDayAction(),
 			[CommandCodes.GroupByDateDeletedYear] = new GroupByDateDeletedYearAction(),
 			[CommandCodes.GroupByDateDeletedMonth] = new GroupByDateDeletedMonthAction(),
+			[CommandCodes.GroupByDateDeletedDay] = new GroupByDateDeletedDayAction(),
 			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),

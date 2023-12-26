@@ -141,6 +141,7 @@ namespace Files.App.Data.Commands
 		IRichCommand GroupByDateCreatedDay { get; }
 		IRichCommand GroupByDateDeletedYear { get; }
 		IRichCommand GroupByDateDeletedMonth { get; }
+		IRichCommand GroupByDateDeletedDay { get; }
 		IRichCommand GroupAscending { get; }
 		IRichCommand GroupDescending { get; }
 		IRichCommand ToggleGroupDirection { get; }

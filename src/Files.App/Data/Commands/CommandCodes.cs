@@ -157,6 +157,7 @@ namespace Files.App.Data.Commands
 		GroupByDateCreatedDay,
 		GroupByDateDeletedYear,
 		GroupByDateDeletedMonth,
+		GroupByDateDeletedDay,
 		GroupAscending,
 		GroupDescending,
 		ToggleGroupDirection,

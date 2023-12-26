@@ -120,6 +120,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | GroupByDateCreatedDay               | Day                                       | Group items by day of date created                       |                     |
 |                    | GroupByDateDeletedYear              | Year                                      | Group items by year of date deleted                      |                     |
 |                    | GroupByDateDeletedMonth             | Month                                     | Group items by month of date deleted                     |                     |
+|                    | GroupByDateDeletedDay               | Day                                       | Group items by day of date deleted                       |                     |
 |                    | GroupAscending                      | Ascending                                 | Sort groups in ascending order                           |                     |
 |                    | GroupDescending                     | Descending                                | Sort groups in descending order                          |                     |
 |                    | ToggleGroupDirection                | Toggle sort direction                     | Toggle group sort direction                              |                     |

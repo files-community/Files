@@ -325,6 +325,24 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
+	internal class GroupByDateDeletedDayAction : GroupByDateAction
+	{
+		protected override GroupOption GroupOption
+			=> GroupOption.DateDeleted;
+
+		protected override GroupByDateUnit GroupByDateUnit
+			=> GroupByDateUnit.Day;
+
+		public override string Label
+			=> "Day".GetLocalizedResource();
+
+		public override string Description
+			=> "GroupByDateDeletedDayDescription".GetLocalizedResource();
+
+		protected override bool GetIsExecutable(ContentPageTypes pageType)
+			=> pageType is ContentPageTypes.RecycleBin;
+	}
+
 	internal abstract class GroupByDateAction : ObservableObject, IToggleAction
 	{
 		protected IContentPageContext ContentContext;

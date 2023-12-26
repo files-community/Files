@@ -309,6 +309,10 @@ namespace Files.App.Helpers
 								{
 									IsToggle = true
 								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateDeletedDay)
+								{
+									IsToggle = true
+								}.Build(),
 							},
 						},
 						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByFolderPath)
