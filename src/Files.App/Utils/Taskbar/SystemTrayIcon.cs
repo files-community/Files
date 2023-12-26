@@ -263,6 +263,7 @@ namespace Files.App.Utils.Taskbar
 
 		private static void OnLeftClicked()
 		{
+			// TODO: Add an ability to show the window back
 		}
 
 		private static void OnDocumentationClicked()
@@ -280,6 +281,8 @@ namespace Files.App.Utils.Taskbar
 
 		private static void OnQuitClicked()
 		{
+			Hide();
+
 			Program.Pool.Release();
 			Environment.Exit(0);
 		}

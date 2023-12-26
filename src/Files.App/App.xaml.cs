@@ -21,7 +21,7 @@ namespace Files.App
 
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
-		
+
 		private static CommandBarFlyout? _LastOpenedFlyout;
 		public static CommandBarFlyout? LastOpenedFlyout
 		{
@@ -58,7 +58,6 @@ namespace Files.App
 
 		/// <summary>
 		/// Gets invoked when the application is launched normally by the end user.
-		/// Other entry points will be used such as when the application is launched to open a specific file.
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
@@ -110,6 +109,9 @@ namespace Files.App
 				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
 				SplashScreenLoadingTCS = null;
 
+				// Create a system tray icon
+				SystemTrayIcon = new SystemTrayIcon().Show();
+
 				_ = AppLifecycleHelper.InitializeAppComponentsAsync();
 				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 			}
@@ -121,8 +123,6 @@ namespace Files.App
 		public async Task OnActivatedAsync(AppActivationArguments activatedEventArgs)
 		{
 			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
-
-			SystemTrayIcon?.Hide();
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
@@ -188,9 +188,6 @@ namespace Files.App
 
 				// Sleep current instance
 				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
-
-				// Add system tray icon
-				SystemTrayIcon = new SystemTrayIcon().Show();
 
 				Thread.Yield();
 
