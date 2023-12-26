@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copier le chemin</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copier le chemin entre guillemets</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Résultats de la recherche dans {1} pour {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Lister et trier les dossiers avec les fichiers</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Détails</value>
   </data>
@@ -1063,7 +1063,7 @@
     <value>Afficher le volet d'information</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Activer le volet d'information pour afficher les volets des détails et d’aperçu</value>
+    <value>Afficher le volet d'informations pour afficher les volets de détails/aperçu</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Trier</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Grouper par</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Date de modification</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Dossier d'origine</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Trier par</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Décroissant</value>
@@ -2419,7 +2413,10 @@
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copier le chemin de l'élément dans le presse-papiers</value>
+    <value>Copier le chemin des éléments sélectionnés dans le presse-papiers</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copier le chemin des éléments sélectionnés avec des guillemets dans le presse-papiers</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Couper le(s) élément(s) dans le presse-papiers</value>
@@ -2621,9 +2618,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Activer/désactiver la direction de tri des éléments</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Lister et trier les dossiers avec les fichiers</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Lister les éléments sans regroupement</value>
@@ -3627,9 +3621,45 @@
     <value>Se déconnecter</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
-    <value>Connectez-vous à GitHub</value>
+    <value>Se connecter à GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Connexion</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>There was an error applying this tag</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extract here (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Sort files first</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Sort files first then folders</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Sort folders first</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Sort folders first then files</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sort priority</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Failed to rotate the image</value>
   </data>
 </root>
