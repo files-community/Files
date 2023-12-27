@@ -786,10 +786,11 @@ namespace Files.App.ViewModels.UserControls
 			var pathHistoryList = UserSettingsService.GeneralSettingsService.PathHistoryList?.ToList() ?? new List<string>();
 			pathHistoryList.Remove(path);
 			pathHistoryList.Insert(0, path);
-			if (pathHistoryList.Count > MAX_SUGGESTIONS)
-				pathHistoryList.RemoveFrom(MAX_SUGGESTIONS);
 
-			UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList;
+			if (pathHistoryList.Count > MAX_SUGGESTIONS)
+				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList.RemoveFrom(MAX_SUGGESTIONS + 1);
+			else
+				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList;
 		}
 
 		private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
