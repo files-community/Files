@@ -12,7 +12,7 @@ Files also offers advanced features such as file tagging for easy organization, 
 
 This method enables you to support developers and be up to date by automatically updating through the Store.
 
-<a title="Microsoft Store" target="_blank" href="https://apps.microsoft.com/store/detail/fluenthub/9nkb9hx8rjz3">
+<a title="Microsoft Store" target="_blank" href="https://apps.microsoft.com/detail/9NGHP3DX8HDX">
   <img width="128" align="center" src="https://get.microsoft.com/images/en-us%20dark.svg" />
 </a>
 
