@@ -33,9 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			ShareItemHelpers.ShareItems(context.SelectedItems);
-
-			return Task.CompletedTask;
+			return ShareItemHelpers.ShareItemsAsync(context.SelectedItems);
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()
