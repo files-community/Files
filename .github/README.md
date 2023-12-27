@@ -10,7 +10,7 @@ Files also offers advanced features such as file tagging for easy organization, 
 
 ### via Microsoft Store
 
-ADD DESCRIPTION HERE
+This method enables you to support developers and be up to date by automatically updating through the Store.
 
 <a title="Microsoft Store" target="_blank" href="https://apps.microsoft.com/store/detail/fluenthub/9nkb9hx8rjz3">
   <img width="128" align="center" src="https://get.microsoft.com/images/en-us%20dark.svg" />
@@ -18,7 +18,7 @@ ADD DESCRIPTION HERE
 
 ### via our installer
 
-ADD DESCRIPTION HERE
+If you unable to install though the Store for some reasons, this method enables you to install directly from our website with automatic update for stable version enabled.
 
 [Install from our website](https://files.community/download)
 
@@ -32,7 +32,7 @@ ADD DESCRIPTION HERE
     - Git for Windows
 - [Windows App SDK 1.4](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#current-releases)
 
-To build the project, see [Build Instruction](https://files.community/docs/contributing/building-from-source) 
+To build the project, see [the build instruction](https://files.community/docs/contributing/building-from-source) 
 
 ## Contributing
 
