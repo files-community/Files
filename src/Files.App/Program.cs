@@ -158,12 +158,12 @@ namespace Files.App
 			});
 		}
 
-		private static void OnActivated(object? sender, AppActivationArguments args)
+		private static async void OnActivated(object? sender, AppActivationArguments args)
 		{
 			if (App.Current is App thisApp)
 			{
 				// WINUI3: Verify if needed or OnLaunched is called
-				thisApp.OnActivated(args);
+				await thisApp.OnActivatedAsync(args);
 			}
 		}
 
