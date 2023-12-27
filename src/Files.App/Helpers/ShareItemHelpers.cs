@@ -21,7 +21,7 @@ namespace Files.App.Helpers
 				(!item.IsShortcut || item.IsLinkItem) &&
 				(item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive);
 
-		public static async void ShareItems(IEnumerable<ListedItem> itemsToShare)
+		public static async Task ShareItemsAsync(IEnumerable<ListedItem> itemsToShare)
 		{
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
 			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
