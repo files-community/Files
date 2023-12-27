@@ -56,8 +56,25 @@ namespace Files.App
 
 			// Workaround for full screen window messing up the taskbar
 			// https://github.com/microsoft/microsoft-ui-xaml/issues/8431
-			InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+			// This property should only be set if the "Automatically hide the taskbar in desktop mode" setting is enabled.
+			// Setting this property when the setting is disabled will result in the taskbar overlapping the application
+			if (IsAutoHideTaskbarEnabled()) 
+				InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
+
+		private static bool IsAutoHideTaskbarEnabled()
+		{
+			const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
+			const string valueName = "Settings";
+			const byte autoHideEnabledValue = 0x03;
+
+			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey))
+			{
+				var value = key?.GetValue(valueName) as byte[];
+				return value != null && value[8] == autoHideEnabledValue;
+			}
+		}
+
 
 		public void ShowSplashScreen()
 		{
