@@ -55,6 +55,11 @@ namespace Files.Core.Services.Settings
 		List<string> LastCrashedTabList { get; set; }
 
 		/// <summary>
+		/// A list containing paths previously entered in the path bar.
+		/// </summary>
+		List<string> PathHistoryList { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
 		/// </summary>
 		DateTimeFormats DateTimeFormat { get; set; }
