@@ -8,7 +8,7 @@ Files also offers advanced features such as file tagging for easy organization, 
 
 ## Installing and running Files
 
-### via Microsoft Store
+### Via Microsoft Store
 
 This method enables you to support developers and be up to date by automatically updating through the Store.
 
@@ -16,7 +16,7 @@ This method enables you to support developers and be up to date by automatically
   <img width="128" align="center" src="https://get.microsoft.com/images/en-us%20dark.svg" />
 </a>
 
-### via our installer
+### Via our installer
 
 If you unable to install though the Store for some reasons, this method enables you to install directly from our website with automatic update for stable version enabled.
 
