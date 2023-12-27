@@ -17,7 +17,7 @@ namespace Files.App.ViewModels.UserControls
 {
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
-		private const int MAX_SUGGESTIONS = 7;
+		private const int MAX_SUGGESTIONS = 10;
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
