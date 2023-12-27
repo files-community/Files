@@ -46,4 +46,4 @@ If you would like to work on improving localization of the Files app, visit [Cro
 
 ## Screenshots
 
-![hero image](assets/here.png)
+![hero image](assets/hero.png)
