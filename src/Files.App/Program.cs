@@ -23,16 +23,16 @@ namespace Files.App
 		private const uint CWMO_DEFAULT = 0;
 		private const uint INFINITE = 0xFFFFFFFF;
 
-		public static Semaphore Pool { get; set; }
+		public static Semaphore? Pool { get; set; }
 
 		static Program()
 		{
-			Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
+			var pool = new Semaphore(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
 
 			if (!isNew)
 			{
 				// Resume cached instance
-				Pool.Release();
+				pool.Release();
 
 				// Redirect to the main process
 				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
@@ -43,7 +43,7 @@ namespace Files.App
 				Environment.Exit(0);
 			}
 
-			Pool.Dispose();
+			pool.Dispose();
 		}
 
 		/// <summary>

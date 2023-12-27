@@ -176,7 +176,6 @@ namespace Files.App
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
-				args.Handled = true;
 
 				// Save and close all tabs
 				AppLifecycleHelper.SaveSessionTabs();
@@ -195,11 +194,15 @@ namespace Files.App
 				{
 					// Resume the instance
 					Program.Pool.Dispose();
+					Program.Pool = null;
 
-					_ = AppLifecycleHelper.CheckAppUpdate();
+					if (!AppModel.ForceProcessTermination)
+					{
+						args.Handled = true;
+						_ = AppLifecycleHelper.CheckAppUpdate();
+						return;
+					}
 				}
-
-				return;
 			}
 
 			// Method can take a long time, make sure the window is hidden

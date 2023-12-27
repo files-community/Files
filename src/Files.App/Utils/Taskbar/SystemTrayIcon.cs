@@ -35,6 +35,8 @@ namespace Files.App.Utils.Taskbar
 
 		private bool _notifyIconCreated;
 
+		private DispatcherQueueTimer _timer;
+
 		// Properties
 
 		public Guid Id { get; private set; }
@@ -237,7 +239,7 @@ namespace Files.App.Utils.Taskbar
 			// Generate the classic context menu
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, "Documentation".GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_SEPARATOR, 0u, string.Empty);
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_RESTART, "Restart".GetLocalizedResource());
+			//PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_RESTART, "Restart".GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, "Quit".GetLocalizedResource());
 			PInvoke.SetForegroundWindow(_IconWindow.WindowHandle);
 
@@ -263,7 +265,19 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnLeftClicked()
 		{
-			_ = Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+			// Prevents duplicate launch
+			if (_timer?.IsRunning ?? false)
+				return;
+
+			if (Program.Pool is not null)
+			{
+				_timer ??= DispatcherQueue.GetForCurrentThread().CreateTimer();
+				_timer.Interval = TimeSpan.FromSeconds(1);
+				_timer.IsRepeating = false;
+				_timer.Start();
+
+				_ = Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+			}
 		}
 
 		private void OnDocumentationClicked()
@@ -283,8 +297,11 @@ namespace Files.App.Utils.Taskbar
 		{
 			Hide();
 
-			Program.Pool.Release();
-			Environment.Exit(0);
+			App.AppModel.ForceProcessTermination = true;
+			if (Program.Pool is not null)
+				Program.Pool.Release();
+			else
+				App.Current.Exit();
 		}
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
