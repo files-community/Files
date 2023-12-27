@@ -24,7 +24,6 @@ namespace Files.App.Utils.Taskbar
 		private const uint WM_FILES_CONTEXTMENU_DOCSLINK = 1u;
 		private const uint WM_FILES_CONTEXTMENU_RESTART = 2u;
 		private const uint WM_FILES_CONTEXTMENU_QUIT = 3u;
-		private const uint WM_FILES_CONTEXTMENU_OPEN = 4u;
 
 		// Fields
 
@@ -240,7 +239,6 @@ namespace Files.App.Utils.Taskbar
 			// Generate the classic context menu
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, "Documentation".GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_SEPARATOR, 0u, string.Empty);
-			PInvoke.AppendMenu(hMenu, Program.Pool is not null ? MENU_ITEM_FLAGS.MF_BYCOMMAND : MENU_ITEM_FLAGS.MF_GRAYED, WM_FILES_CONTEXTMENU_OPEN, "Open".GetLocalizedResource());
 			//PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_RESTART, "Restart".GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, "Quit".GetLocalizedResource());
 			PInvoke.SetForegroundWindow(_IconWindow.WindowHandle);
@@ -262,13 +260,10 @@ namespace Files.App.Utils.Taskbar
 				case 3:
 					OnQuitClicked();
 					break;
-				case 4:
-					OnOpenClicked();
-					break;
 			}
 		}
 
-		private void OnOpenClicked()
+		private void OnLeftClicked()
 		{
 			// Prevents duplicate launch
 			if (_timer?.IsRunning ?? false)
@@ -320,7 +315,7 @@ namespace Files.App.Utils.Taskbar
 							case PInvoke.WM_LBUTTONUP:
 								{
 									PInvoke.SetForegroundWindow(hWnd);
-									OnOpenClicked();
+									OnLeftClicked();
 
 									break;
 								}
