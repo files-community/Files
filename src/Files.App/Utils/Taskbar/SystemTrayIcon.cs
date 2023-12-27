@@ -142,7 +142,7 @@ namespace Files.App.Utils.Taskbar
 			var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, appIcoPath);
 
 			_Icon = new(iconPath);
-			_Tooltip = string.Empty;
+			_Tooltip = Package.Current.DisplayName;
 			_taskbarRestartMessageId = PInvoke.RegisterWindowMessage("TaskbarCreated");
 
 			Id = _trayIconGuid;
@@ -240,7 +240,7 @@ namespace Files.App.Utils.Taskbar
 			// Generate the classic context menu
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, "Documentation".GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_SEPARATOR, 0u, string.Empty);
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_OPEN, "Open".GetLocalizedResource());
+			PInvoke.AppendMenu(hMenu, Program.Pool is not null ? MENU_ITEM_FLAGS.MF_BYCOMMAND : MENU_ITEM_FLAGS.MF_GRAYED, WM_FILES_CONTEXTMENU_OPEN, "Open".GetLocalizedResource());
 			//PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_RESTART, "Restart".GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, "Quit".GetLocalizedResource());
 			PInvoke.SetForegroundWindow(_IconWindow.WindowHandle);
