@@ -1,19 +1,28 @@
-[![Files CI](https://github.com/files-community/Files/actions/workflows/ci.yml/badge.svg)](https://github.com/files-community/Files/actions/workflows/ci.yml)
-[![Files Deployment](https://github.com/files-community/Files/actions/workflows/deploy-preview.yml/badge.svg)](https://github.com/files-community/Files/actions/workflows/deploy-preview.yml)
-[![Crowdin](https://badges.crowdin.net/files-app/localized.svg)](https://crowdin.com/project/files-app)
-
 <p align="center">
-  <img alt="Files Logo" src="assets/logo.png" width="100px" />
-  <h1 align="center">Files</h1>
+  <h1 align="center"><img alt="logo" src="assets/logo.png" width="80px" /><br/>Files</h1>
 </p>
 
 Introducing Files, the ultimate file manager app for Windows. With its sleek and intuitive design, navigating through your files has never been easier. Files features tabs for easy switching between different folders, a column view for quick file browsing, and dual pane support for efficient file management. In addition, you can easily create and extract archives with just a few clicks, making file compression and decompression a breeze.
 
 Files also offers advanced features such as file tagging for easy organization, support for QuickLook for previewing files without opening them, and the ability to customize the background color to match your personal style. Whether you're a power user or just looking for a better way to manage your files, Files has everything you need to keep your files organized and easily accessible. With its combination of powerful features and ease of use, Files is the ultimate file management solution for Windows.
 
-## Building from source
+## Installing and running Files
 
-### 1. Prerequisites
+### via Microsoft Store
+
+ADD DESCRIPTION HERE
+
+<a title="Microsoft Store" target="_blank" href="https://apps.microsoft.com/store/detail/fluenthub/9nkb9hx8rjz3">
+  <img width="128" align="center" src="https://get.microsoft.com/images/en-us%20dark.svg" />
+</a>
+
+### via our installer
+
+ADD DESCRIPTION HERE
+
+[Install from our website](https://files.community/download)
+
+### Building from the source
 
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the following individual components:
     - Windows 11 SDK (10.0.22621.0)
@@ -22,28 +31,19 @@ Files also offers advanced features such as file tagging for easy organization, 
     - C++ ATL for latest v143 build tools (x86 & x64 or ARM64)
     - Git for Windows
 - [Windows App SDK 1.4](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#current-releases)
-    
-### 2. Clone the repository
 
-```ps
-git clone https://github.com/files-community/Files
-```
+To build the project, see [Build Instruction](https://files.community/docs/contributing/building-from-source) 
 
-This will create a local copy of the repository.
+## Contributing
 
-### 3. Build the project
+The project is open source and is built on contributions from the community. The community welcomes contribution in any type, including bug reports, new features, localization, docs, designs, feedback, and donations.
 
-To build Files for development, open the `Files.sln` item in Visual Studio. Right-click on the `Files.Package` packaging project in solution explorer and select ‘Set as Startup item’.
+Please read our [Contribution Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before starting to contribute on [filing an issue](https://github.com/files-community/Files/issues) to submit bug report, request a new feature and so on.
 
-In the top pane, select the items which correspond to your desired build mode and the processor architecture of your device like below:
-![image](https://user-images.githubusercontent.com/39923744/148721296-2bd132d0-4a4d-4555-8f58-16b00b18ade3.png)
+If you are looking for a place to start check [our Files project task board](https://github.com/orgs/files-community/projects/3/views/2), where you can sort tasks by size and priority.
 
-## Contributors
-
-Want to contribute to this project? Let us know with an [issue](https://github.com/files-community/Files/issues) that communicates your intent to create a [pull request](https://github.com/files-community/Files/pulls). Also, view our [contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
-
-Looking for a place to start? Check out the [task board](https://github.com/orgs/files-community/projects/3/views/2), where you can sort tasks by size and priority.
+If you would like to work on improving localization of the Files app, visit [Crowdin](https://crowdin.com/project/files-app), where holds our all localization resourcecs appear on the app.
 
 ## Screenshots
 
-![Files](assets/here.png)
+![hero image](assets/here.png)
