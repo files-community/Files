@@ -1,13 +1,8 @@
-<p align="center">
-  <img alt="Files Logo" src="../src/Files.App%20(Package)/Assets/AppTiles/Release/StoreLogo.scale-400.png" width="100px" />
-  <h1 align="center">Files</h1>
-</p>
-
-[![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
+[![Files CI](https://github.com/files-community/Files/actions/workflows/ci.yml/badge.svg)](https://github.com/files-community/Files/actions/workflows/ci.yml)
+[![Files Deployment](https://github.com/files-community/Files/actions/workflows/deploy-preview.yml/badge.svg)](https://github.com/files-community/Files/actions/workflows/deploy-preview.yml)
 [![Crowdin](https://badges.crowdin.net/files-app/localized.svg)](https://crowdin.com/project/files-app)
-[![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
-[![Download](https://img.shields.io/badge/Download%20Installer-blue.svg?style=flat-round)](https://files.community/download)
-[![Documentation](https://img.shields.io/badge/View%20Documentation-purple.svg?style=flat-round)](https://files.community/docs)
+
+# <img alt="branding" src="../src/Files.App%20(Package)/Assets/AppTiles/Release/StoreLogo.scale-400.png" width="100px" /> Files
 
 Introducing Files, the ultimate file manager app for Windows. With its sleek and intuitive design, navigating through your files has never been easier. Files features tabs for easy switching between different folders, a column view for quick file browsing, and dual pane support for efficient file management. In addition, you can easily create and extract archives with just a few clicks, making file compression and decompression a breeze.
 
