@@ -44,6 +44,8 @@ If you are looking for a place to start check [our Files project task board](htt
 
 If you would like to work on improving localization of the Files app, visit [Crowdin](https://crowdin.com/project/files-app), where holds our all localization resourcecs appear on the app.
 
+Join [our Discord](https://discord.gg/files) to give us your feedback and keep you posted.
+
 ## Screenshots
 
 ![hero image](assets/hero.png)
