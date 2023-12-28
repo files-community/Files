@@ -98,6 +98,7 @@
         <PackageReference Include="Vanara.Windows.Shell" Version="3.4.17" />
         <PackageReference Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
         <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.647-beta" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>

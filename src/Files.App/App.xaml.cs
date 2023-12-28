@@ -17,6 +17,8 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
+		private static SystemTrayIcon? SystemTrayIcon { get; set; }
+
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
 
@@ -55,8 +57,7 @@ namespace Files.App
 		}
 
 		/// <summary>
-		/// Invoked when the application is launched normally by the end user.
-		/// Other entry points will be used such as when the application is launched to open a specific file.
+		/// Gets invoked when the application is launched normally by the end user.
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
@@ -108,25 +109,28 @@ namespace Files.App
 				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
 				SplashScreenLoadingTCS = null;
 
+				// Create a system tray icon
+				SystemTrayIcon = new SystemTrayIcon().Show();
+
 				_ = AppLifecycleHelper.InitializeAppComponentsAsync();
 				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 			}
 		}
 
 		/// <summary>
-		/// Invoked when the application is activated.
+		/// Gets invoked when the application is activated.
 		/// </summary>
-		public void OnActivated(AppActivationArguments activatedEventArgs)
+		public async Task OnActivatedAsync(AppActivationArguments activatedEventArgs)
 		{
 			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
 				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data));
 		}
 
 		/// <summary>
-		/// Invoked when the main window is activated.
+		/// Gets invoked when the main window is activated.
 		/// </summary>
 		private void Window_Activated(object sender, WindowActivatedEventArgs args)
 		{
@@ -135,12 +139,15 @@ namespace Files.App
 				args.WindowActivationState != WindowActivationState.PointerActivated)
 				return;
 
-			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
+			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 		}
 
 		/// <summary>
-		/// Invoked when application execution is being closed. Save application state.
+		/// Gets invoked when the application execution is closed.
 		/// </summary>
+		/// <remarks>
+		/// Saves the current state of the app such as opened tabs, and disposes all cached resources.
+		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
@@ -156,9 +163,10 @@ namespace Files.App
 				return;
 			}
 
+			// Continue running the app on the background
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
-				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
+				!Process.GetProcessesByName("Files").Any(x => x.Id != Environment.ProcessId))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
@@ -168,7 +176,6 @@ namespace Files.App
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
-				args.Handled = true;
 
 				// Save and close all tabs
 				AppLifecycleHelper.SaveSessionTabs();
@@ -180,16 +187,22 @@ namespace Files.App
 
 				// Sleep current instance
 				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+
 				Thread.Yield();
+
 				if (Program.Pool.WaitOne())
 				{
 					// Resume the instance
 					Program.Pool.Dispose();
+					Program.Pool = null;
 
-					_ = AppLifecycleHelper.CheckAppUpdate();
+					if (!AppModel.ForceProcessTermination)
+					{
+						args.Handled = true;
+						_ = AppLifecycleHelper.CheckAppUpdate();
+						return;
+					}
 				}
-
-				return;
 			}
 
 			// Method can take a long time, make sure the window is hidden
@@ -237,6 +250,9 @@ namespace Files.App
 			FileOperationsHelpers.WaitForCompletion();
 		}
 
+		/// <summary>
+		/// Gets invoked when the last opened flyout is closed.
+		/// </summary>
 		private static void LastOpenedFlyout_Closed(object? sender, object e)
 		{
 			if (sender is not CommandBarFlyout commandBarFlyout)
