@@ -66,12 +66,11 @@ namespace Files.App
 		{
 			const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
 			const string valueName = "Settings";
-			const byte autoHideEnabledValue = 0x03;
 
 			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey))
 			{
 				var value = key?.GetValue(valueName) as byte[];
-				return value != null && value[8] == autoHideEnabledValue;
+				return value != null && ((value[8] & 0x01) == 1); // The least significant bit of the 9th byte controls the auto-hide setting
 			}
 		}
 
