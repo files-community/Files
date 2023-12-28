@@ -245,6 +245,10 @@ namespace Files.App.Helpers
 								{
 									IsToggle = true
 								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateModifiedDay)
+								{
+									IsToggle = true
+								}.Build(),
 							},
 						},
 						new ContextMenuFlyoutItemViewModel()
@@ -261,6 +265,10 @@ namespace Files.App.Helpers
 									IsToggle = true
 								}.Build(),
 								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateCreatedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateCreatedDay)
 								{
 									IsToggle = true
 								}.Build(),
@@ -298,6 +306,10 @@ namespace Files.App.Helpers
 									IsToggle = true
 								}.Build(),
 								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateDeletedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateDeletedDay)
 								{
 									IsToggle = true
 								}.Build(),
