@@ -35,7 +35,7 @@ namespace Files.App.Utils.Taskbar
 
 		private bool _notifyIconCreated;
 
-		private DispatcherQueueTimer _timer;
+		private DateTime _lastLaunchDate;
 
 		// Properties
 
@@ -266,18 +266,17 @@ namespace Files.App.Utils.Taskbar
 		private void OnLeftClicked()
 		{
 			// Prevents duplicate launch
-			if (_timer?.IsRunning ?? false)
+			if (DateTime.Now - _lastLaunchDate < TimeSpan.FromSeconds(1))
 				return;
 
 			if (Program.Pool is not null)
 			{
-				_timer ??= DispatcherQueue.GetForCurrentThread().CreateTimer();
-				_timer.Interval = TimeSpan.FromSeconds(1);
-				_timer.IsRepeating = false;
-				_timer.Start();
+				_lastLaunchDate = DateTime.Now;
 
 				_ = Launcher.LaunchUriAsync(new Uri("files-uwp:"));
 			}
+			else
+				MainWindow.Instance.Activate();
 		}
 
 		private void OnDocumentationClicked()
