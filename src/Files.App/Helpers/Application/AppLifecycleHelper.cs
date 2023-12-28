@@ -322,5 +322,17 @@ namespace Files.App.Helpers
 			}
 			Process.GetCurrentProcess().Kill();
 		}
+
+		public static bool IsAutoHideTaskbarEnabled()
+		{
+			const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
+			const string valueName = "Settings";
+
+			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey))
+			{
+				var value = key?.GetValue(valueName) as byte[];
+				return value != null && ((value[8] & 0x01) == 1); // The least significant bit of the 9th byte controls the auto-hide setting
+			}
+		}
 	}
 }
