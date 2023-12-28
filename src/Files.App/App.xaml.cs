@@ -65,17 +65,21 @@ namespace Files.App
 
 			async Task ActivateAsync()
 			{
-				// Initialize and activate MainWindow
-				MainWindow.Instance.Activate();
-
-				// Wait for the Window to initialize
-				await Task.Delay(10);
-
-				SplashScreenLoadingTCS = new TaskCompletionSource();
-				MainWindow.Instance.ShowSplashScreen();
-
 				// Get AppActivationArguments
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
+
+				if (!isStartupTask)
+				{
+					// Initialize and activate MainWindow
+					MainWindow.Instance.Activate();
+
+					// Wait for the Window to initialize
+					await Task.Delay(10);
+
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
 
 				// Start tracking app usage
 				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
@@ -89,6 +93,21 @@ namespace Files.App
 				// Configure AppCenter
 				AppLifecycleHelper.ConfigureAppCenter();
 #endif
+
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
+
+				if (isStartupTask && !isLeaveAppRunning)
+				{
+					// Initialize and activate MainWindow
+					MainWindow.Instance.Activate();
+
+					// Wait for the Window to initialize
+					await Task.Delay(10);
+
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
 
 				// TODO: Replace with DI
 				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
@@ -105,15 +124,28 @@ namespace Files.App
 
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
-				// Wait for the UI to update
-				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
-				SplashScreenLoadingTCS = null;
+				if (!(isStartupTask && isLeaveAppRunning))
+				{
+					// Wait for the UI to update
+					await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
+					SplashScreenLoadingTCS = null;
 
-				// Create a system tray icon
-				SystemTrayIcon = new SystemTrayIcon().Show();
+					// Create a system tray icon
+					SystemTrayIcon = new SystemTrayIcon().Show();
 
-				_ = AppLifecycleHelper.InitializeAppComponentsAsync();
-				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+				}
+
+				await AppLifecycleHelper.InitializeAppComponentsAsync();
+
+				if (isStartupTask && isLeaveAppRunning)
+				{
+					// Create a system tray icon when initialization is done
+					SystemTrayIcon = new SystemTrayIcon().Show();
+					App.Current.Exit();
+				}
+				else
+					await AppLifecycleHelper.CheckAppUpdate();
 			}
 		}
 
@@ -122,11 +154,12 @@ namespace Files.App
 		/// </summary>
 		public async Task OnActivatedAsync(AppActivationArguments activatedEventArgs)
 		{
-			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
+			var activatedEventArgsData = activatedEventArgs.Data;
+			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData.GetType().Name}");
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
-				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data));
+				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgsData));
 		}
 
 		/// <summary>
