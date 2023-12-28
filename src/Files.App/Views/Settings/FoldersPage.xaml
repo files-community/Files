@@ -141,10 +141,10 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<!--  Preferred Group by date unit  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=PreferredGroupByDateUnit}" HorizontalAlignment="Stretch">
+						<!--  Group by date unit  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupByDateUnit}" HorizontalAlignment="Stretch">
 							<ComboBox
-								AutomationProperties.Name="{helpers:ResourceString Name=PreferredGroupByDateUnit}"
+								AutomationProperties.Name="{helpers:ResourceString Name=GroupByDateUnit}"
 								IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
 								SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupByDateUnitIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=Year}" />

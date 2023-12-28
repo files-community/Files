@@ -3010,8 +3010,8 @@
   <data name="Year" xml:space="preserve">
     <value>Year</value>
   </data>
-  <data name="PreferredGroupByDateUnit" xml:space="preserve">
-    <value>Preferred group by date unit</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Group by date unit</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
     <value>Group items by day of date created</value>
