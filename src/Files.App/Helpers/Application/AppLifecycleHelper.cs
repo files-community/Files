@@ -323,6 +323,9 @@ namespace Files.App.Helpers
 			Process.GetCurrentProcess().Kill();
 		}
 
+		/// <summary>
+		///	Checks if the taskbar is set to auto-hide.
+		/// </summary>
 		public static bool IsAutoHideTaskbarEnabled()
 		{
 			const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
