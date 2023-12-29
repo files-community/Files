@@ -50,6 +50,8 @@ Join [our Discord](https://discord.gg/files) to give us your feedback and keep y
 
 If you want to work on localization of the app, visit [Crowdin](https://crowdin.com/project/files-app), where holds our all localization resources.
 
+<a rel="nofollow" href="https://crowdin.com/project/files-app"><img style="width:140;height:40px" src="https://badges.crowdin.net/badge/dark/crowdin-on-light.png" srcset="https://badges.crowdin.net/badge/dark/crowdin-on-light.png 1x,https://badges.crowdin.net/badge/dark/crowdin-on-light@2x.png 2x" /></a><br/>
+
 **Development**
 
 If you are looking for a place to start check [our Files project task board](https://github.com/orgs/files-community/projects/3/views/2), where you can sort tasks by size and priority.
