@@ -1971,7 +1971,7 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>List directory contents</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+  <data name="Modify" xml:space="preserve">
     <value>Rediger</value>
   </data>
   <data name="SecurityPermissionsLabel.Text" xml:space="preserve">

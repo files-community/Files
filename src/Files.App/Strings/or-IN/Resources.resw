@@ -1047,7 +1047,7 @@
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>ପୂର୍ଣ୍ଣ ନିୟନ୍ତ୍ରଣ:</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+  <data name="Modify" xml:space="preserve">
     <value>ସଂଶୋଧନ</value>
   </data>
   <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
