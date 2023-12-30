@@ -423,6 +423,19 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowCompressionOptions
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCompressionOptions;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.ShowCompressionOptions)
+					return;
+
+				UserSettingsService.GeneralSettingsService.ShowCompressionOptions = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public bool ShowSendToMenu
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowSendToMenu;
