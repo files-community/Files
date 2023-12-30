@@ -52,8 +52,6 @@ namespace Files.App.Helpers
 
 			FileTagsHelper.UpdateTagsDb();
 
-			await CheckAppUpdate();
-
 			static Task OptionalTaskAsync(Task task, bool condition)
 			{
 				if (condition)
