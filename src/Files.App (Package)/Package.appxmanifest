@@ -160,12 +160,6 @@
                 <ActivatableClass ActivatableClassId="Files.App.BackgroundTasks.UpdateTask" ThreadingModel="both" />
             </InProcessServer>
         </Extension>
-        <Extension Category="windows.activatableClass.inProcessServer">
-            <InProcessServer>
-                <Path>Files.App\Files.App.Server.dll</Path>
-                <ActivatableClass ActivatableClassId="Files.App.Server.CsWinRTWorkaround" ThreadingModel="both" />
-            </InProcessServer>
-        </Extension>
         <Extension Category="windows.activatableClass.outOfProcessServer">
             <OutOfProcessServer ServerName="Files.App.Server" uap5:IdentityType="activateAsPackage" uap5:RunFullTrust="true">
                 <Path>Files.App.Server\Files.App.Server.exe</Path>
