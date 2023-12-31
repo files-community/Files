@@ -294,6 +294,14 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Compression options  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCompressionOptions}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowCompressionOptions}"
+								IsOn="{x:Bind ViewModel.ShowCompressionOptions, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
 						<!--  Send To  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowSendToMenu}" HorizontalAlignment="Stretch">
 							<ToggleSwitch

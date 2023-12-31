@@ -187,6 +187,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowCompressionOptions
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool ShowSendToMenu
 		{
 			get => Get(true);
