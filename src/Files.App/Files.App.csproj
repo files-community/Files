@@ -110,6 +110,7 @@
         <None Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Link>Files.App.Server.winmd</Link>
+            <Visible>false</Visible>
         </None>
     </ItemGroup>
 
