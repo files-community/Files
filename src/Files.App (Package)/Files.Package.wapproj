@@ -114,7 +114,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <Target Name="RemoveOutOfProcWinMD" BeforeTargets="_GenerateCurrentProjectAppxManifest">
     <ItemGroup>
-      <_AppxWinmdFilesToHarvest Remove="$(SolutionDir)\**\Files.App.Server.winmd" />
+      <_AppxWinmdFilesToHarvest Remove="@(_AppxWinmdFilesToHarvest)" />
     </ItemGroup>
   </Target>
 </Project>
