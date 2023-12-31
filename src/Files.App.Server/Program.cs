@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Files.Shared.Helpers;
+using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.WinRT;
@@ -7,8 +8,8 @@ namespace Files.App.Server;
 
 class Program
 {
-	static readonly SemaphoreSlim semaphoreSlim = new(0);
-	static readonly CancellationTokenSource cancellationTokenSource = new();
+	internal static readonly AsyncManualResetEvent ExitSignalEvent = new();
+	private static readonly CancellationTokenSource cancellationTokenSource = new();
 
 	static async Task Main()
 	{
@@ -50,7 +51,8 @@ class Program
 
 		try
 		{
-			await semaphoreSlim.WaitAsync(cancellationTokenSource.Token);
+			ExitSignalEvent.Reset();
+			await ExitSignalEvent.WaitAsync(cancellationTokenSource.Token);
 		}
 		catch (OperationCanceledException)
 		{

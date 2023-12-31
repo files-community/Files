@@ -57,9 +57,7 @@ namespace Files.App
 		{
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
-#if DEBUG
-			Files.App.Server.GreetingService.ShowGreet();
-#endif
+			Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
