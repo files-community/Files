@@ -29,7 +29,7 @@ namespace Files.App.Data.Contexts
 
 		public TagsContext()
 		{
-			FileTagsContainerViewModel.SelectedTagChanged += SelectedTagsChanged;
+			WidgetFileTagsContainerItem.SelectedTagChanged += SelectedTagsChanged;
 			SidebarViewModel.SelectedTagChanged += SelectedTagsChanged;
 		}
 

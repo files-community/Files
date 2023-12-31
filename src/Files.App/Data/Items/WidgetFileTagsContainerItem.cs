@@ -1,12 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
 using Files.Shared.Utils;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.Data.Items
 {
-	public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
+	public sealed partial class WidgetFileTagsContainerItem : ObservableObject, IAsyncInitialize
 	{
 		private readonly string _tagUid;
 
@@ -22,7 +21,7 @@ namespace Files.App.ViewModels.Widgets
 
 		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
 
-		public ObservableCollection<FileTagsItemViewModel> Tags { get; }
+		public ObservableCollection<WidgetFileTagsItem> Tags { get; }
 
 		[ObservableProperty]
 		private string _Color;
@@ -30,7 +29,7 @@ namespace Files.App.ViewModels.Widgets
 		[ObservableProperty]
 		private string _Name;
 
-		public FileTagsContainerViewModel(string tagUid, Func<string, Task> openAction)
+		public WidgetFileTagsContainerItem(string tagUid, Func<string, Task> openAction)
 		{
 			_fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 			_imageService = Ioc.Default.GetRequiredService<IImageService>();

@@ -3,9 +3,9 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.Data.Contracts
 {
-	public interface IWidgetItem : IDisposable
+	public interface IWidgetViewModel : IDisposable
 	{
 		string WidgetName { get; }
 

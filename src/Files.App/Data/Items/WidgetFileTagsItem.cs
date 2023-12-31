@@ -1,14 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 using Files.Shared.Utils;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.Data.Items
 {
-	public sealed partial class FileTagsItemViewModel : WidgetCardItem
+	public sealed partial class WidgetFileTagsItem : WidgetCardItem
 	{
 		private readonly IStorable _associatedStorable;
 
@@ -31,7 +30,7 @@ namespace Files.App.ViewModels.Widgets
 
 		public bool IsFolder => _associatedStorable is IFolder;
 
-		public FileTagsItemViewModel(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
+		public WidgetFileTagsItem(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
 		{
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;

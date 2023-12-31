@@ -9,19 +9,26 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Windows.Input;
 
-namespace Files.App.UserControls.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
-	public abstract class HomePageWidget : UserControl
+	/// <summary>
+	/// Represents base ViewModel for Widget ViewModels.
+	/// </summary>
+	public abstract class BaseWidgetViewModel
 	{
 		// Dependency injections
 
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
-		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
+		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		protected IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		protected IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
+		protected IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+		protected IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
+		protected DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		protected NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		// Fields
 
-		protected string? FlyoutItemPath;
+		protected string? _flyoutItemPath;
 
 		// Commands
 
@@ -61,7 +68,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
 
-			FlyoutItemPath = item.Path;
+			_flyoutItemPath = item.Path;
 
 			// Notify of the change on right clicked item
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
@@ -82,29 +89,29 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new() { Position = e.GetPosition(widgetCardItem) });
 
 			// Load shell menu items
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
 
 		// Command methods
 
-		public async Task OpenInNewTabAsync(WidgetCardItem item)
+		protected async Task ExecuteOpenInNewTabCommand(WidgetCardItem? item)
 		{
 			await NavigationHelpers.OpenPathInNewTab(item.Path);
 		}
 
-		public async Task OpenInNewWindowAsync(WidgetCardItem item)
+		protected async Task ExecuteOpenInNewWindowCommand(WidgetCardItem? item)
 		{
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
-		public virtual async Task PinToFavoritesAsync(WidgetCardItem item)
+		protected virtual async Task ExecutePinToFavoritesCommand(WidgetCardItem? item)
 		{
 			await QuickAccessService.PinToSidebarAsync(item.Path);
 		}
 
-		public virtual async Task UnpinFromFavoritesAsync(WidgetCardItem item)
+		protected virtual async Task ExecuteUnpinFromFavoritesCommand(WidgetCardItem? item)
 		{
 			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
 		}
