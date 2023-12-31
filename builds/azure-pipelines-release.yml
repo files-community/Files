@@ -114,8 +114,8 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 7.0.x
-      includePreviewVersions: true
+      version: 8.0.x
+      includePreviewVersions: false
 
   - task: CmdLine@2
     inputs:
@@ -240,8 +240,8 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 7.0.x
-      includePreviewVersions: true
+      version: 8.0.x
+      includePreviewVersions: false
 
   - task: CmdLine@2
     inputs:
