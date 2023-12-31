@@ -98,9 +98,10 @@
     <Content Include="Package.appinstaller" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Files.App.Server\Files.App.Server.csproj" />
     <ProjectReference Include="..\Files.App\Files.App.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
-      <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+      <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
