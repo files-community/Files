@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Immutable;
 
@@ -30,7 +28,7 @@ namespace Files.App.Data.Contexts
 		public HomePageContext()
 		{
 			BaseWidgetViewModel.RightClickedItemChanged += HomePageWidget_RightClickedItemChanged;
-			FileTagsWidget.SelectedTaggedItemsChanged += FileTagsWidget_SelectedTaggedItemsChanged;
+			FileTagsWidgetViewModel.SelectedTaggedItemsChanged += FileTagsWidget_SelectedTaggedItemsChanged;
 		}
 
 		private void FileTagsWidget_SelectedTaggedItemsChanged(object? sender, IEnumerable<WidgetFileTagsItem> e)
