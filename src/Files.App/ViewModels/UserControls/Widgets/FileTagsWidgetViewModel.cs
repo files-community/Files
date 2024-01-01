@@ -1,14 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers.ContextFlyouts;
 using Files.Shared.Utils;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.Storage;
 
@@ -88,7 +83,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 		}
 
-		protected override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		protected override List<ContextMenuFlyoutItemViewModel> GenerateRightClickContextMenu(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{

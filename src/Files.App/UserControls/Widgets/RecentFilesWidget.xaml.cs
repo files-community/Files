@@ -23,7 +23,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void RecentFilesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			ViewModel!.BuildRightClickContextMenu(sender, e);
+			ViewModel!.ShowRightClickContextMenu(sender, e);
 		}
 
 		private void RecentFilesListView_ItemClick(object sender, ItemClickEventArgs e)

@@ -23,7 +23,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void FileTagsContainerAdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			ViewModel!.BuildRightClickContextMenu(sender, e);
+			ViewModel!.ShowRightClickContextMenu(sender, e);
 			e.Handled = true;
 		}
 

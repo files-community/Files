@@ -65,7 +65,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			FormatDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteFormatDriveCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
-
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewWindowCommand);
 			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteOpenInNewPaneCommand);
@@ -106,7 +105,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			});
 		}
 
-		protected override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		protected override List<ContextMenuFlyoutItemViewModel> GenerateRightClickContextMenu(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive = Items.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path ?? string.Empty), PathNormalization.NormalizePath(item.Path ?? string.Empty), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;

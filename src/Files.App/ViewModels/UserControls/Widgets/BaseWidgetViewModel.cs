@@ -20,11 +20,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		protected IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
-		protected IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 		protected IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		protected IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
-		protected DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		protected IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 		protected NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		protected DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		// Fields
 
@@ -47,11 +47,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Abstract methods
 
-		protected abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
+		protected abstract List<ContextMenuFlyoutItemViewModel> GenerateRightClickContextMenu(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		// Event methods
 
-		public void BuildRightClickContextMenu(object sender, RightTappedRoutedEventArgs e)
+		public void ShowRightClickContextMenu(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
 			if (sender is not FrameworkElement widgetCardItem ||
@@ -74,7 +74,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path ?? string.Empty));
+			var menuItems = GenerateRightClickContextMenu(item, QuickAccessService.IsItemPinned(item.Path ?? string.Empty));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout
