@@ -65,7 +65,7 @@ namespace Files.App.Utils.Storage
 				if (FullControlAccess)
 					accessMaskStrings.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
 				else if (ModifyAccess)
-					accessMaskStrings.Add("SecurityModifyLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add("Modify".GetLocalizedResource());
 				else if (ReadAndExecuteAccess)
 					accessMaskStrings.Add("SecurityReadAndExecuteLabel/Text".GetLocalizedResource());
 				else if (ReadAccess)

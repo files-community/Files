@@ -1,6 +1,6 @@
 ﻿using DirectN;
 using Files.App.ViewModels.Properties;
-using Microsoft.UI.Content.Private;
+using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using System.Runtime.InteropServices;

@@ -57,7 +57,8 @@ namespace Files.App
 		{
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
-			var proc = Process.GetCurrentProcess();
+			Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
+
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
@@ -76,7 +77,7 @@ namespace Files.App
 							case ParsedCommandType.ExplorerShellCommand:
 								if (!Constants.UserEnvironmentPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
 								{
-									OpenShellCommandInExplorer(command.Payload, proc.Id);
+									OpenShellCommandInExplorer(command.Payload, Environment.ProcessId);
 
 									// Exit
 									return;
@@ -157,11 +158,11 @@ namespace Files.App
 				}
 			}
 
-			var currentInstance = AppInstance.FindOrRegisterForKey((-proc.Id).ToString());
+			var currentInstance = AppInstance.FindOrRegisterForKey((-Environment.ProcessId).ToString());
 			if (currentInstance.IsCurrent)
 				currentInstance.Activated += OnActivated;
 
-			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -proc.Id;
+			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 
 			Application.Start((p) =>
 			{
@@ -178,7 +179,7 @@ namespace Files.App
 		private static async void OnActivated(object? sender, AppActivationArguments args)
 		{
 			// WINUI3: Verify if needed or OnLaunched is called
-      if (App.Current is App thisApp)
+			if (App.Current is App thisApp)
 				await thisApp.OnActivatedAsync(args);
 		}
 
