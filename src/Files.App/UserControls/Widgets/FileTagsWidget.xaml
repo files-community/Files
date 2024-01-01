@@ -158,6 +158,7 @@
 					</wctcontrols:AdaptiveGridView>
 
 					<TextBlock
+						x:Name="NoTaggedItemsTextBlock"
 						Grid.RowSpan="2"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
