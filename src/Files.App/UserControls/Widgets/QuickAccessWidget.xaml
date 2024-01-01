@@ -12,7 +12,7 @@
 	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
 		<ItemsRepeater.ItemTemplate>
-			<DataTemplate x:DataType="dataitems:FolderCardItem">
+			<DataTemplate x:DataType="dataitems:WidgetFolderCardItem">
 				<Button
 					Padding="8"
 					HorizontalAlignment="Stretch"

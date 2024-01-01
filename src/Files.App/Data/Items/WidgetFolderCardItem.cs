@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Items
 {
-	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	public class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
 	{
 		private BitmapImage thumbnail;
 
@@ -29,7 +29,7 @@ namespace Files.App.Data.Items
 
 		public bool IsPinned { get; set; }
 
-		public FolderCardItem(LocationItem item, string text, bool isPinned)
+		public WidgetFolderCardItem(LocationItem item, string text, bool isPinned)
 		{
 			if (!string.IsNullOrWhiteSpace(text))
 			{

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Items
 {
-	public class DriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
+	public class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<WidgetDriveCardItem>
 	{
 		private byte[] thumbnailData;
 
@@ -21,7 +21,7 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref thumbnail, value);
 		}
 
-		public DriveCardItem(DriveItem item)
+		public WidgetDriveCardItem(DriveItem item)
 		{
 			Item = item;
 			Path = item.Path;
@@ -45,7 +45,7 @@ namespace Files.App.Data.Items
 				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 		}
 
-		public int CompareTo(DriveCardItem? other)
+		public int CompareTo(WidgetDriveCardItem? other)
 			=> Item.Path.CompareTo(other?.Item?.Path);
 	}
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
+using Files.Shared.Utils;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -13,11 +14,13 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
-	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
+	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged, IAsyncInitialize
 	{
 		// Properties
 
 		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; }
+
+		public Func<string, Task>? OpenAction { get; set; }
 
 		private IShellPage? _AppInstance;
 		public IShellPage? AppInstance
@@ -32,8 +35,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 			}
 		}
-
-		public Func<string, Task>? OpenAction { get; set; }
 
 		public string WidgetName => nameof(FileTagsWidgetViewModel);
 		public string WidgetHeader => "FileTags".GetLocalizedResource();
@@ -53,15 +54,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Commands
 
-		private ICommand OpenInNewPaneCommand;
+		public ICommand OpenInNewPaneCommand { get; private set; }
 
 		// Constructor
 
 		public FileTagsWidgetViewModel()
 		{
 			Containers = new();
-
-			_ = LoadFileTagsContainers();
 
 			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
 			// See FileTagItemViewModel._openAction for more information
@@ -82,15 +81,17 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		public async Task LoadFileTagsContainers(CancellationToken cancellationToken = default)
+		/// <inheritdoc/>
+		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
 			await foreach (var item in FileTagsService.GetTagsAsync(cancellationToken))
 			{
-				var container = new WidgetFileTagsContainerItem(item.Uid, _openAction)
+				var container = new WidgetFileTagsContainerItem(item.Uid, OpenAction!)
 				{
 					Name = item.Name,
 					Color = item.Color
 				};
+
 				Containers.Add(container);
 
 				_ = container.InitAsync(cancellationToken);
@@ -277,18 +278,20 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			EventHandler<object> flyoutClosed = null!;
+
 			flyoutClosed = (s, e) =>
 			{
 				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
 
 				ListedItem listedItem = new(null!)
 				{
-					ItemPath = (item.Item as WidgetFileTagsItem)?.Path ?? string.Empty,
+					ItemPath = (item!.Item as WidgetFileTagsItem)?.Path ?? string.Empty,
 					ItemNameRaw = (item.Item as WidgetFileTagsItem)?.Name ?? string.Empty,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
+
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance!);
 			};
 
 			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;

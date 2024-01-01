@@ -318,12 +318,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
 		}
 
-		private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
+		private void RecentFilesListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			var recentItem = e.ClickedItem as RecentItem;
+
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
-				ItemPath = recentItem.RecentPath,
+				ItemPath = recentItem!.RecentPath,
 				IsFile = recentItem.IsFile
 			});
 		}
@@ -339,20 +340,24 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
-				ItemPath = Directory.GetParent(item.RecentPath).FullName,    // parent directory
-				ItemName = Path.GetFileName(item.RecentPath),                // file name w extension
+				// Parent directory
+				ItemPath = Directory.GetParent(item!.RecentPath)!.FullName,
+				// File name with extension
+				ItemName = Path.GetFileName(item.RecentPath),
 			});
 		}
 
 		private void ExecuteOpenPropertiesCommand(RecentItem? item)
 		{
 			EventHandler<object> flyoutClosed = null!;
+
 			flyoutClosed = async (s, e) =>
 			{
 				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
-				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, _AppInstance);
+				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item!.Path), null!, default);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance!);
 			};
+
 			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 		}
 
@@ -362,7 +367,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			try
 			{
-				await App.RecentItemsManager.UnpinFromRecentFiles(item);
+				await App.RecentItemsManager.UnpinFromRecentFiles(item!);
 			}
 			finally
 			{
@@ -373,15 +378,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private async Task ExecuteClearRecentItemsCommand()
 		{
 			await _refreshRecentFilesSemaphore.WaitAsync();
+
 			try
 			{
 				Items.Clear();
-				bool success = App.RecentItemsManager.ClearRecentItems();
 
+				bool success = App.RecentItemsManager.ClearRecentItems();
 				if (success)
-				{
 					IsEmptyRecentFilesTextVisible = true;
-				}
 			}
 			finally
 			{

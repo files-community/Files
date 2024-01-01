@@ -13,7 +13,7 @@
 	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
 		<ItemsRepeater.ItemTemplate>
-			<DataTemplate x:DataType="dataitems:DriveCardItem">
+			<DataTemplate x:DataType="dataitems:WidgetDriveCardItem">
 				<Button
 					Padding="0"
 					HorizontalAlignment="Stretch"

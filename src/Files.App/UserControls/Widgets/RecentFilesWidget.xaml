@@ -8,34 +8,34 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	xmlns:recent="using:Files.App.Utils.RecentItem"
-	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">
 
-		<!--  Message when recent files are disabled in File Explorer  -->
+		<!--  InfoBar When Recent Files Are Disabled In File Explorer  -->
 		<muxc:InfoBar
 			x:Name="RecentFilesDisabledOnWindowsWarning"
-			x:Load="{x:Bind IsRecentFilesDisabledInWindows, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.IsRecentFilesDisabledInWindows, Mode=OneWay}"
 			IsClosable="False"
 			IsIconVisible="True"
 			IsOpen="True"
 			Message="{helpers:ResourceString Name=RecentFilesDisabledOnWindowsWarning}"
 			Severity="Warning" />
 
-		<!--  Message when there are no recent files to display  -->
+		<!--  No Recent Files  -->
 		<TextBlock
 			x:Name="RecentItemDescription"
 			HorizontalAlignment="Stretch"
-			x:Load="{x:Bind IsEmptyRecentsTextVisible, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.IsEmptyRecentFilesTextVisible, Mode=OneWay}"
 			FontSize="14"
 			Text="{helpers:ResourceString Name=RecentItemDescription/Text}"
 			TextAlignment="Center"
 			TextWrapping="WrapWholeWords" />
 
-		<!--  List of recent files  -->
+		<!--  Recent Files List  -->
 		<ListView
-			x:Name="RecentsView"
+			x:Name="RecentFilesListView"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			IsItemClickEnabled="True"
@@ -60,6 +60,8 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
+
+						<!--  Item Folder Image  -->
 						<FontIcon
 							x:Name="RecentFolderImg"
 							Grid.Column="0"
@@ -70,6 +72,8 @@
 							FontSize="24"
 							Foreground="#ffe793"
 							Glyph="&#xE8B7;" />
+
+						<!--  Item Empty Icon  -->
 						<FontIcon
 							x:Name="EmptyImg"
 							Grid.Column="0"
@@ -79,6 +83,8 @@
 							x:Phase="1"
 							FontSize="24"
 							Glyph="&#xE7C3;" />
+
+						<!--  Item Thumbnail  -->
 						<Image
 							x:Name="RecentFileImg"
 							Grid.Column="0"
@@ -91,6 +97,7 @@
 							Source="{x:Bind FileImg, Mode=OneWay}"
 							Stretch="Uniform" />
 
+						<!--  Item Name  -->
 						<TextBlock
 							Grid.Column="1"
 							VerticalAlignment="Center"
@@ -98,6 +105,7 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
+						<!--  Item Location Path  -->
 						<TextBlock
 							Grid.Column="2"
 							VerticalAlignment="Center"

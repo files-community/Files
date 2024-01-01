@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	{
 		// Properties
 
-		public ObservableCollection<DriveCardItem> Items = new();
+		public ObservableCollection<WidgetDriveCardItem> Items = new();
 
 		public string WidgetName => nameof(DrivesWidgetViewModel);
 		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -57,11 +57,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Commands
 
-		public ICommand FormatDriveCommand;
-		public ICommand EjectDeviceCommand;
-		public ICommand DisconnectNetworkDriveCommand;
-		public ICommand OpenInNewPaneCommand;
-		public ICommand MapNetworkDriveCommand;
+		public ICommand FormatDriveCommand { get; private set; }
+		public ICommand EjectDeviceCommand { get; private set; }
+		public ICommand DisconnectNetworkDriveCommand { get; private set; }
+		public ICommand OpenInNewPaneCommand { get; private set; }
+		public ICommand MapNetworkDriveCommand { get; private set; }
 
 		// Constructor
 
@@ -72,14 +72,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
 			MapNetworkDriveCommand = new AsyncRelayCommand(ExecuteMapNetworkDriveCommand);
-			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(ExecuteEjectDeviceCommand);
-			FormatDriveCommand = new RelayCommand<DriveCardItem>(ExecuteFormatDriveCommand);
-			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(ExecuteOpenPropertiesCommand);
-			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
+			EjectDeviceCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteEjectDeviceCommand);
+			FormatDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteFormatDriveCommand);
+			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
+			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
 
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewWindowCommand);
-			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(ExecuteOpenInNewPaneCommand);
+			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteOpenInNewPaneCommand);
 			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToFavoritesCommand);
 			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromFavoritesCommand);
 		}
@@ -94,7 +94,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			var drive = Items.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			var drive = Items.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path ?? string.Empty), PathNormalization.NormalizePath(item.Path ?? string.Empty), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
@@ -216,8 +216,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
 		{
-			string clickedCard = (sender as Button).Tag.ToString();
-			StorageSenseHelper.OpenStorageSenseAsync(clickedCard);
+			if (sender is not Button button)
+				return;
+
+			string path = button.Tag.ToString() ?? string.Empty;
+
+			_ = StorageSenseHelper.OpenStorageSenseAsync(path);
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -272,13 +276,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					if (!Items.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
-						var cardItem = new DriveCardItem(drive);
+						var cardItem = new WidgetDriveCardItem(drive);
 						Items.AddSorted(cardItem);
 						await cardItem.LoadCardThumbnailAsync(); // After add
 					}
 				}
 
-				foreach (DriveCardItem driveCard in Items.ToList())
+				foreach (WidgetDriveCardItem driveCard in Items.ToList())
 				{
 					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
 						Items.Remove(driveCard);
@@ -288,12 +292,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Command methods
 
-		private void ExecuteFormatDriveCommand(DriveCardItem? item)
+		private void ExecuteFormatDriveCommand(WidgetDriveCardItem? item)
 		{
 			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
 		}
 
-		private void ExecuteOpenPropertiesCommand(DriveCardItem? item)
+		private void ExecuteOpenPropertiesCommand(WidgetDriveCardItem? item)
 		{
 			if (!HomePageContext.IsAnyItemRightClicked)
 				return;
@@ -308,7 +312,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 		}
 
-		private void ExecuteDisconnectNetworkDriveCommand(DriveCardItem? item)
+		private void ExecuteDisconnectNetworkDriveCommand(WidgetDriveCardItem? item)
 		{
 			NetworkDrivesViewModel.DisconnectNetworkDrive(item!.Item);
 		}
@@ -318,14 +322,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			return NetworkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
 		}
 
-		private async Task ExecuteEjectDeviceCommand(DriveCardItem? item)
+		private async Task ExecuteEjectDeviceCommand(WidgetDriveCardItem? item)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(item!.Item.Path);
 
 			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
 		}
 
-		private async Task ExecuteOpenInNewPaneCommand(DriveCardItem? item)
+		private async Task ExecuteOpenInNewPaneCommand(WidgetDriveCardItem? item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item!.Item.Path))
 				return;

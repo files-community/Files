@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	{
 		// Properties
 
-		public ObservableCollection<FolderCardItem> Items = new();
+		public ObservableCollection<WidgetFolderCardItem> Items = new();
 
 		public string WidgetName => nameof(QuickAccessWidgetViewModel);
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
@@ -54,12 +54,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 
-			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(ExecuteOpenInNewTabCommand);
-			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(ExecuteOpenInNewWindowCommand);
-			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(ExecuteOpenInNewPaneCommand);
-			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(ExecuteOpenPropertiesCommand);
-			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(ExecutePinToFavoritesCommand);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(ExecuteUnpinFromFavoritesCommand);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteOpenInNewTabCommand);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteOpenInNewWindowCommand);
+			OpenInNewPaneCommand = new RelayCommand<WidgetFolderCardItem>(ExecuteOpenInNewPaneCommand);
+			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(ExecuteOpenPropertiesCommand);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToFavoritesCommand);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromFavoritesCommand);
 		}
 
 		// Methods
@@ -97,7 +97,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						if (Items.Any(x => x.Path == itemToAdd))
 							continue;
 
-						Items.Insert(isPinned && lastIndex >= 0 ? lastIndex : Items.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						Items.Insert(isPinned && lastIndex >= 0 ? lastIndex : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
 							Path = item.Path,
 						});
@@ -115,11 +115,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					foreach (var itemToAdd in e.Paths)
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = Items.IndexOf(Items.FirstOrDefault(x => !x.IsPinned));
+						var lastIndex = Items.IndexOf(Items.FirstOrDefault(x => !x.IsPinned)!);
 						if (Items.Any(x => x.Path == itemToAdd))
 							continue;
 
-						Items.Insert(lastIndex >= 0 ? lastIndex : Items.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
+						Items.Insert(lastIndex >= 0 ? lastIndex : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), true)
 						{
 							Path = item.Path,
 						});
@@ -132,10 +132,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					foreach (var itemToAdd in e.Paths)
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = Items.IndexOf(Items.FirstOrDefault(x => !x.IsPinned));
+						var lastIndex = Items.IndexOf(Items.FirstOrDefault(x => !x.IsPinned)!);
 						if (Items.Any(x => x.Path == itemToAdd))
 							continue;
-						Items.Insert(e.Pin && lastIndex >= 0 ? lastIndex : Items.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						Items.Insert(e.Pin && lastIndex >= 0 ? lastIndex : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
 						});
@@ -214,7 +214,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					{
 						OpacityIconStyle = "ColorIconProperties",
 					},
-					Command = OpenPropertiesCommand,
+					Command = OpenPropertiesCommand!,
 					CommandParameter = item
 				},
 				new()
@@ -240,11 +240,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			var pinToFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToFavorites");
 			if (pinToFavoritesItem is not null)
-				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
+				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
 
 			var unpinFromFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
 			if (unpinFromFavoritesItem is not null)
-				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
+				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
@@ -282,19 +282,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			if (e.Action is NotifyCollectionChangedAction.Add)
 			{
-				foreach (FolderCardItem cardItem in e.NewItems!)
+				foreach (WidgetFolderCardItem cardItem in e.NewItems!)
 					await cardItem.LoadCardThumbnailAsync();
 			}
 		}
 
 		// Command methods
 
-		private void ExecuteOpenInNewPaneCommand(FolderCardItem? item)
+		private void ExecuteOpenInNewPaneCommand(WidgetFolderCardItem? item)
 		{
-			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item!.Path });
+			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item!.Path ?? string.Empty });
 		}
 
-		private void ExecuteOpenPropertiesCommand(FolderCardItem? item)
+		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)
 		{
 			if (!HomePageContext.IsAnyItemRightClicked)
 				return;
@@ -312,9 +312,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		protected override async Task ExecutePinToFavoritesCommand(WidgetCardItem? item)
 		{
-			await QuickAccessService.PinToSidebarAsync(item!.Path);
+			await QuickAccessService.PinToSidebarAsync(item!.Path ?? string.Empty);
 
-			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path ?? string.Empty }, false));
 
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
@@ -328,9 +328,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		protected override async Task ExecuteUnpinFromFavoritesCommand(WidgetCardItem? item)
 		{
-			await QuickAccessService.UnpinFromSidebarAsync(item!.Path);
+			await QuickAccessService.UnpinFromSidebarAsync(item!.Path ?? string.Empty);
 
-			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path ?? string.Empty }, false));
 		}
 
 		// Disposer

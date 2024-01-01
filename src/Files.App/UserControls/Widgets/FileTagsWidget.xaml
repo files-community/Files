@@ -5,9 +5,9 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Widgets"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
@@ -20,7 +20,7 @@
 	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers, Mode=OneWay}">
 
 		<ItemsRepeater.ItemTemplate>
-			<DataTemplate x:DataType="vm:FileTagsContainerViewModel">
+			<DataTemplate x:DataType="dataitems:WidgetFileTagsContainerItem">
 				<Grid
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
@@ -94,8 +94,8 @@
 						</Button>
 					</Grid>
 
+					<!--  NOTE: The Vertical ScrollBar Must Be Hidden Because It May Cause A Crash Inside The ScrollViewer (#12370)  -->
 					<!--  Items  -->
-					<!--  The vertical scroll bar must be hidden because it may cause a crash inside the ScrollViewer (#12370)  -->
 					<wctcontrols:AdaptiveGridView
 						Grid.Row="1"
 						Padding="4"
@@ -110,7 +110,7 @@
 						StretchContentForSingleRow="False">
 
 						<wctcontrols:AdaptiveGridView.ItemTemplate>
-							<DataTemplate x:DataType="vm:FileTagsItemViewModel">
+							<DataTemplate x:DataType="dataitems:WidgetFileTagsItem">
 								<Grid
 									ColumnSpacing="8"
 									DataContext="{x:Bind}"

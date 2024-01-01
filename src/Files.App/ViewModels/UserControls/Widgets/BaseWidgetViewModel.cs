@@ -74,7 +74,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path ?? string.Empty));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout
@@ -89,36 +89,36 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new() { Position = e.GetPosition(widgetCardItem) });
 
 			// Load shell menu items
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath ?? string.Empty, itemContextMenuFlyout);
 
 			e.Handled = true;
+		}
+
+		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
+		{
+			RightClickedItemChanged?.Invoke(this, new WidgetsRightClickedItemChangedEventArgs(item, flyout));
 		}
 
 		// Command methods
 
 		protected async Task ExecuteOpenInNewTabCommand(WidgetCardItem? item)
 		{
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
+			await NavigationHelpers.OpenPathInNewTab(item!.Path);
 		}
 
 		protected async Task ExecuteOpenInNewWindowCommand(WidgetCardItem? item)
 		{
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
+			await NavigationHelpers.OpenPathInNewWindowAsync(item!.Path);
 		}
 
 		protected virtual async Task ExecutePinToFavoritesCommand(WidgetCardItem? item)
 		{
-			await QuickAccessService.PinToSidebarAsync(item.Path);
+			await QuickAccessService.PinToSidebarAsync(item!.Path ?? string.Empty);
 		}
 
 		protected virtual async Task ExecuteUnpinFromFavoritesCommand(WidgetCardItem? item)
 		{
-			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
-		}
-
-		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
-		{
-			RightClickedItemChanged?.Invoke(this, new WidgetsRightClickedItemChangedEventArgs(item, flyout));
+			await QuickAccessService.UnpinFromSidebarAsync(item!.Path ?? string.Empty);
 		}
 	}
 }
