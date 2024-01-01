@@ -9,14 +9,13 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents ViewModel for <see cref="RecentFilesWidget"/>.
 	/// </summary>
-	public class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
+	public class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Fields
 
@@ -26,7 +25,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Properties
 
-		public ObservableCollection<RecentItem> Items = new();
+		public ObservableCollection<RecentItem> Items { get; } = new();
 
 		public string WidgetName => nameof(RecentFilesWidgetViewModel);
 		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -39,42 +38,21 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool IsEmptyRecentFilesTextVisible
 		{
 			get => _IsEmptyRecentFilesTextVisible;
-			internal set
-			{
-				if (_IsEmptyRecentFilesTextVisible != value)
-				{
-					_IsEmptyRecentFilesTextVisible = value;
-					NotifyPropertyChanged(nameof(IsEmptyRecentFilesTextVisible));
-				}
-			}
+			private set => SetProperty(ref _IsEmptyRecentFilesTextVisible, value);
 		}
 
 		private bool _IsRecentFilesDisabledInWindows = false;
 		public bool IsRecentFilesDisabledInWindows
 		{
 			get => _IsRecentFilesDisabledInWindows;
-			internal set
-			{
-				if (_IsRecentFilesDisabledInWindows != value)
-				{
-					_IsRecentFilesDisabledInWindows = value;
-					NotifyPropertyChanged(nameof(IsRecentFilesDisabledInWindows));
-				}
-			}
+			private set => SetProperty(ref _IsRecentFilesDisabledInWindows, value);
 		}
 
 		private IShellPage? _AppInstance;
 		public IShellPage? AppInstance
 		{
 			get => _AppInstance;
-			set
-			{
-				if (value != _AppInstance)
-				{
-					_AppInstance = value;
-					NotifyPropertyChanged(nameof(AppInstance));
-				}
-			}
+			set => SetProperty(ref _AppInstance, value);
 		}
 
 		// Events
@@ -83,7 +61,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public delegate void RecentFileInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public event RecentFilesOpenLocationInvokedEventHandler? RecentFilesOpenLocationInvoked;
 		public event RecentFileInvokedEventHandler? RecentFileInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Constructor
 
@@ -107,7 +84,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task RefreshWidgetAsync()
 		{
-			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
+			IsRecentFilesDisabledInWindows = !App.RecentItemsManager.CheckIsRecentFilesEnabled();
 
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
@@ -327,11 +304,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				ItemPath = recentItem!.RecentPath,
 				IsFile = recentItem.IsFile
 			});
-		}
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		// Command methods

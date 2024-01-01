@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	{
 		// Properties
 
-		public ObservableCollection<WidgetDriveCardItem> Items = new();
+		public ObservableCollection<WidgetDriveCardItem> Items { get; } = new();
 
 		public string WidgetName => nameof(DrivesWidgetViewModel);
 		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -37,14 +37,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public IShellPage? AppInstance
 		{
 			get => _AppInstance;
-			set
-			{
-				if (value != _AppInstance)
-				{
-					_AppInstance = value;
-					NotifyPropertyChanged(nameof(AppInstance));
-				}
-			}
+			set => SetProperty(ref _AppInstance, value);
 		}
 
 		// Events
@@ -53,7 +46,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public event DrivesWidgetInvokedEventHandler? DrivesWidgetInvoked;
 		public event DrivesWidgetNewPaneInvokedEventHandler? DrivesWidgetNewPaneInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Commands
 
@@ -222,11 +214,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			string path = button.Tag.ToString() ?? string.Empty;
 
 			_ = StorageSenseHelper.OpenStorageSenseAsync(path);
-		}
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)

@@ -16,11 +16,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents ViewModel for <see cref="QuickAccessWidget"/>.
 	/// </summary>
-	public class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
+	public class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 
-		public ObservableCollection<WidgetFolderCardItem> Items = new();
+		public ObservableCollection<WidgetFolderCardItem> Items { get; } = new();
 
 		public string WidgetName => nameof(QuickAccessWidgetViewModel);
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
@@ -38,7 +38,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public event QuickAccessCardNewPaneInvokedEventHandler? CardNewPaneInvoked;
 		public event QuickAccessCardPropertiesInvokedEventHandler? CardPropertiesInvoked;
 		public event EventHandler? QuickAccessWidgetShowMultiPaneControlsInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Commands
 
@@ -271,11 +270,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				string navigationPath = ((Button)sender).Tag.ToString()!;
 				await NavigationHelpers.OpenPathInNewTab(navigationPath);
 			}
-		}
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		private async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

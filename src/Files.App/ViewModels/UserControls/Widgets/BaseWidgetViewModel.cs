@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents base ViewModel for Widget ViewModels.
 	/// </summary>
-	public abstract class BaseWidgetViewModel
+	public abstract class BaseWidgetViewModel : ObservableObject
 	{
 		// Dependency injections
 

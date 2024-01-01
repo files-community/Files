@@ -14,26 +14,22 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
-	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged, IAsyncInitialize
+	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, IAsyncInitialize
 	{
 		// Properties
 
-		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; }
+		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = new();
 
+		// NOTE:
+		//  Second function is layered on top to ensure that
+		//  OpenPath function is late initialized and a null reference is not passed-in.
 		public Func<string, Task>? OpenAction { get; set; }
 
 		private IShellPage? _AppInstance;
 		public IShellPage? AppInstance
 		{
 			get => _AppInstance;
-			set
-			{
-				if (value != _AppInstance)
-				{
-					_AppInstance = value;
-					NotifyPropertyChanged(nameof(AppInstance));
-				}
-			}
+			set => SetProperty(ref _AppInstance, value);
 		}
 
 		public string WidgetName => nameof(FileTagsWidgetViewModel);
@@ -50,7 +46,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public static event EventHandler<IEnumerable<WidgetFileTagsItem>>? SelectedTaggedItemsChanged;
 		public event FileTagsOpenLocationInvokedEventHandler? FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler? FileTagsNewPaneInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Commands
 
@@ -60,11 +55,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public FileTagsWidgetViewModel()
 		{
-			Containers = new();
-
-			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
-			// See FileTagItemViewModel._openAction for more information
-
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewWindowCommand);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(ExecuteOpenFileLocationCommand);
@@ -254,11 +244,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
 
 			e.Handled = true;
-		}
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		// Command methods
