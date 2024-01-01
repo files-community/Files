@@ -441,7 +441,7 @@
 									FontWeight="SemiBold"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 									Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
-									Text="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}" />
+									Text="{x:Bind WidgetViewModel.WidgetHeader, Mode=OneWay}" />
 							</Expander.Header>
 
 							<ContentControl

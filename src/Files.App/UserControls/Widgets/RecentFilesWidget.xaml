@@ -36,6 +36,8 @@
 		<!--  Recent Files List  -->
 		<ListView
 			x:Name="RecentFilesListView"
+			Margin="-4,0"
+			Padding="0"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			IsItemClickEnabled="True"
@@ -49,16 +51,16 @@
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="recent:RecentItem">
 					<Grid
-						Padding="2.5"
+						Padding="2"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind Name}"
-						ColumnSpacing="14"
+						ColumnSpacing="12"
 						ToolTipService.ToolTip="{x:Bind RecentPath}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="2*" />
+							<ColumnDefinition Width="3*" />
 						</Grid.ColumnDefinitions>
 
 						<!--  Item Folder Image  -->
@@ -110,9 +112,11 @@
 							Grid.Column="2"
 							VerticalAlignment="Center"
 							FontSize="12"
+							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 							Text="{x:Bind RecentPath}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
+
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
@@ -121,7 +125,8 @@
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 					<Setter Property="MinHeight" Value="1" />
 					<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-					<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
+					<Setter Property="Margin" Value="0" />
+					<Setter Property="Padding" Value="8,0" />
 				</Style>
 			</ListView.ItemContainerStyle>
 

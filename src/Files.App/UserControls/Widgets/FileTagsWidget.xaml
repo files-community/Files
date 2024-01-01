@@ -9,12 +9,17 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
 		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+		<wctconverters:EmptyCollectionToObjectConverter
+			x:Key="EmptyCollectionToBooleanConverter"
+			EmptyValue="True"
+			NotEmptyValue="False" />
 	</UserControl.Resources>
 
 	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers, Mode=OneWay}">
@@ -37,7 +42,7 @@
 					<!--  Title  -->
 					<Grid
 						Background="Transparent"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 						BorderThickness="0,0,0,1">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
@@ -48,10 +53,12 @@
 						<!--  View More  -->
 						<HyperlinkButton
 							Margin="4"
+							Padding="4,6"
 							AutomationProperties.Name="{helpers:ResourceString Name=ViewMore}"
 							Command="{x:Bind ViewMoreCommand}"
 							ToolTipService.ToolTip="{helpers:ResourceString Name=ViewMore}">
 							<StackPanel Orientation="Horizontal" Spacing="8">
+
 								<!--  Tag Color  -->
 								<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 
@@ -61,13 +68,17 @@
 									FontWeight="SemiBold"
 									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 									Text="{x:Bind Name, Mode=OneWay}" />
+
 							</StackPanel>
 						</HyperlinkButton>
 
 						<!--  Additional Actions  -->
 						<Button
 							Grid.Column="2"
+							Width="36"
+							Height="32"
 							Margin="4"
+							Padding="0"
 							Background="Transparent"
 							BorderBrush="Transparent"
 							ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
@@ -87,11 +98,7 @@
 								</MenuFlyout>
 							</Button.Flyout>
 
-							<FontIcon
-								FontSize="12"
-								FontWeight="SemiBold"
-								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE712;" />
+							<FontIcon Foreground="{ThemeResource TextFillColorSecondaryBrush}" Glyph="&#xE712;" />
 
 						</Button>
 					</Grid>
@@ -149,6 +156,15 @@
 						</wctcontrols:AdaptiveGridView.ItemContainerStyle>
 
 					</wctcontrols:AdaptiveGridView>
+
+					<TextBlock
+						Grid.RowSpan="2"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						x:Load="{x:Bind Tags, Converter={StaticResource EmptyCollectionToBooleanConverter}, Mode=OneWay}"
+						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+						Style="{StaticResource CaptionTextBlockStyle}"
+						Text="{helpers:ResourceString Name=NoTaggedItems}" />
 
 				</Grid>
 			</DataTemplate>

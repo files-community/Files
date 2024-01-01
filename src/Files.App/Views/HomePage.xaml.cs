@@ -94,7 +94,7 @@ namespace Files.App.Views
 		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
 			AppInstance.ToolbarViewModel.CanRefresh = false;
-			await Task.WhenAll(ViewModel.WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
+			await Task.WhenAll(ViewModel.WidgetItems.Select(w => w.WidgetViewModel.RefreshWidgetAsync()));
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 		}
 

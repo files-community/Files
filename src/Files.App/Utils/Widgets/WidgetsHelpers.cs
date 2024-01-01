@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
-
 namespace Files.App.Helpers
 {
 	/// <summary>
@@ -50,10 +48,10 @@ namespace Files.App.Helpers
 		{
 			return typeof(TWidget).Name switch
 			{
-				nameof(QuickAccessWidget) => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget,
-				nameof(DrivesWidget) => UserSettingsService.GeneralSettingsService.ShowDrivesWidget,
-				nameof(FileTagsWidget) => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget,
-				nameof(RecentFilesWidget) => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget,
+				nameof(QuickAccessWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget,
+				nameof(DrivesWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowDrivesWidget,
+				nameof(FileTagsWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget,
+				nameof(RecentFilesWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget,
 				_ => false,
 			};
 		}

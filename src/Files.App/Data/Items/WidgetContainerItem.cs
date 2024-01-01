@@ -14,14 +14,11 @@ namespace Files.App.Data.Items
 
 		// Properties
 
-		public IWidgetViewModel WidgetItemModel
-			=> WidgetControl as IWidgetViewModel;
-
 		public string WidgetAutomationProperties
-			=> WidgetItemModel.AutomationProperties;
+			=> WidgetViewModel.AutomationProperties;
 
 		public bool ShowMenuFlyout
-			=> WidgetItemModel.ShowMenuFlyout;
+			=> WidgetViewModel.ShowMenuFlyout;
 		
 		public bool IsExpanded
 		{
@@ -34,7 +31,24 @@ namespace Files.App.Data.Items
 		}
 
 		public MenuFlyoutItem MenuFlyoutItem
-			=> WidgetItemModel.MenuFlyoutItem;
+			=> WidgetViewModel.MenuFlyoutItem;
+
+		public IWidgetViewModel WidgetViewModel
+		{
+			get
+			{
+				if (WidgetControl is DrivesWidget drivesWidget)
+					return drivesWidget.ViewModel!;
+				else if (WidgetControl is FileTagsWidget fileTagsWidget)
+					return fileTagsWidget.ViewModel!;
+				else if (WidgetControl is QuickAccessWidget quickAccessWidget)
+					return quickAccessWidget.ViewModel!;
+				else if (WidgetControl is RecentFilesWidget recentFilesWidget)
+					return recentFilesWidget.ViewModel!;
+				else
+					return default;
+			}
+		}
 
 		private object? _WidgetControl;
 		public object? WidgetControl

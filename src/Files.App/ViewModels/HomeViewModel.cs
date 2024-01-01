@@ -129,7 +129,7 @@ namespace Files.App.ViewModels
 		{
 			for (int i = 0; i < WidgetItems.Count; i++)
 			{
-				if (!WidgetItems[i].WidgetItemModel.IsWidgetSettingEnabled)
+				if (!WidgetItems[i].WidgetViewModel.IsWidgetSettingEnabled)
 				{
 					RemoveWidgetAt(i);
 				}
@@ -138,32 +138,20 @@ namespace Files.App.ViewModels
 			WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
-		public bool AddWidget(WidgetContainerItem widgetModel)
+		public bool AddWidget(WidgetContainerItem widgetContainerItem)
 		{
-			return InsertWidget(widgetModel, WidgetItems.Count + 1);
+			return InsertWidget(widgetContainerItem, WidgetItems.Count + 1);
 		}
 
-		public bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
+		public bool InsertWidget(WidgetContainerItem widgetContainerItem, int atIndex)
 		{
-			// The widget must not be null and must implement IWidgetItemModel
-			if (widgetModel.WidgetItemModel is not IWidgetViewModel widgetItemModel)
-			{
-				return false;
-			}
-
-			// Don't add existing ones!
-			if (!CanAddWidget(widgetItemModel.WidgetName))
-			{
-				return false;
-			}
-
 			if (atIndex > WidgetItems.Count)
 			{
-				WidgetItems.Add(widgetModel);
+				WidgetItems.Add(widgetContainerItem);
 			}
 			else
 			{
-				WidgetItems.Insert(atIndex, widgetModel);
+				WidgetItems.Insert(atIndex, widgetContainerItem);
 			}
 
 			return true;
@@ -171,7 +159,7 @@ namespace Files.App.ViewModels
 
 		public bool CanAddWidget(string widgetName)
 		{
-			return !(WidgetItems.Any((item) => item.WidgetItemModel.WidgetName == widgetName));
+			return !(WidgetItems.Any((item) => item.WidgetViewModel.WidgetName == widgetName));
 		}
 
 		public void RemoveWidgetAt(int index)
@@ -202,9 +190,9 @@ namespace Files.App.ViewModels
 			RemoveWidgetAt(indexToRemove);
 		}
 
-		public void ReorderWidget(WidgetContainerItem widgetModel, int place)
+		public void ReorderWidget(WidgetContainerItem widgetContainerItem, int place)
 		{
-			int widgetIndex = WidgetItems.IndexOf(widgetModel);
+			int widgetIndex = WidgetItems.IndexOf(widgetContainerItem);
 			WidgetItems.Move(widgetIndex, place);
 		}
 
