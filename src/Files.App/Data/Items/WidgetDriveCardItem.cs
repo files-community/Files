@@ -7,18 +7,18 @@ namespace Files.App.Data.Items
 {
 	public class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<WidgetDriveCardItem>
 	{
-		private byte[] thumbnailData;
+		private byte[]? _thumbnailData;
 
 		public new DriveItem Item { get; private set; }
 
 		public bool HasThumbnail
-			=> thumbnail is not null && thumbnailData is not null;
+			=> _Thumbnail is not null && _thumbnailData is not null;
 
-		private BitmapImage thumbnail;
-		public BitmapImage Thumbnail
+		private BitmapImage? _Thumbnail;
+		public BitmapImage? Thumbnail
 		{
-			get => thumbnail;
-			set => SetProperty(ref thumbnail, value);
+			get => _Thumbnail;
+			set => SetProperty(ref _Thumbnail, value);
 		}
 
 		public WidgetDriveCardItem(DriveItem item)
@@ -30,19 +30,19 @@ namespace Files.App.Data.Items
 		public async Task LoadCardThumbnailAsync()
 		{
 			// Try load thumbnail using ListView mode
-			if (thumbnailData is null || thumbnailData.Length == 0)
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+			if (_thumbnailData is null || _thumbnailData.Length == 0)
+				_thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
 
 			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
-			if (thumbnailData is null || thumbnailData.Length == 0)
+			if (_thumbnailData is null || _thumbnailData.Length == 0)
 			{
 				await Item.LoadThumbnailAsync();
-				thumbnailData = Item.IconData;
+				_thumbnailData = Item.IconData;
 			}
 
 			// Thumbnail data is valid, set the item icon
-			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+			if (_thumbnailData is not null && _thumbnailData.Length > 0)
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 		}
 
 		public int CompareTo(WidgetDriveCardItem? other)

@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Items
 {
-
 	public class TagsListItem
 	{
 		public bool IsTag

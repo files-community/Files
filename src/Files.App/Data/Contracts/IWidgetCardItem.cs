@@ -11,7 +11,7 @@ namespace Files.App.Data.Contracts
 
 		bool HasThumbnail { get; }
 
-		BitmapImage Thumbnail { get; }
+		BitmapImage? Thumbnail { get; }
 
 		Task LoadCardThumbnailAsync();
 	}
