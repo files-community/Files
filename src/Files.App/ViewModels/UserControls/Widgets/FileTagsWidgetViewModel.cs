@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		protected override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -193,57 +193,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					IsEnabled = false,
 				}
 			}.Where(x => x.ShowItem).ToList();
-		}
-
-		// Event methods
-
-		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
-		{
-			if (e.ClickedItem is WidgetFileTagsItem itemViewModel)
-				await itemViewModel.ClickCommand.ExecuteAsync(null);
-		}
-
-		private void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		{
-			// Ensure values are not null
-			if (e.OriginalSource is not FrameworkElement element ||
-				element.DataContext is not WidgetFileTagsItem item)
-				return;
-
-			// Create a new Flyout
-			var itemContextMenuFlyout = new CommandBarFlyout()
-			{
-				Placement = FlyoutPlacementMode.Full
-			};
-
-			// Hook events
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
-
-			_flyoutItemPath = item.Path;
-
-			// Notify of the change on right clicked item
-			OnRightClickedItemChanged(item, itemContextMenuFlyout);
-
-			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-
-			// Set max width of the flyout
-			secondaryElements
-				.OfType<FrameworkElement>()
-				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-
-			// Add menu items to the secondary flyout
-			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
-
-			// Show the flyout
-			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
-
-			// Load shell menu items
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
-
-			e.Handled = true;
 		}
 
 		// Command methods

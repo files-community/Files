@@ -1,11 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
@@ -42,18 +39,18 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Events
 
-		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-		public event DrivesWidgetInvokedEventHandler? DrivesWidgetInvoked;
+		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public event DrivesWidgetNewPaneInvokedEventHandler? DrivesWidgetNewPaneInvoked;
+		public event DrivesWidgetInvokedEventHandler? DrivesWidgetInvoked;
 
 		// Commands
 
-		public ICommand FormatDriveCommand { get; private set; }
-		public ICommand EjectDeviceCommand { get; private set; }
-		public ICommand DisconnectNetworkDriveCommand { get; private set; }
-		public ICommand OpenInNewPaneCommand { get; private set; }
-		public ICommand MapNetworkDriveCommand { get; private set; }
+		private ICommand FormatDriveCommand { get; set; }
+		private ICommand EjectDeviceCommand { get; set; }
+		private ICommand DisconnectNetworkDriveCommand { get; set; }
+		private ICommand OpenInNewPaneCommand { get; set; }
+		private ICommand MapNetworkDriveCommand { get; set; }
 
 		// Constructor
 
@@ -84,7 +81,32 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			await Task.WhenAll(updateTasks);
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public async Task GoToItem(object sender)
+		{
+			if (sender is not Button button)
+				return;
+
+			string pathToNavigate = button.Tag.ToString()!;
+
+			if (await DriveHelpers.CheckEmptyDrive(pathToNavigate))
+				return;
+
+			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+
+			if (ctrlPressed)
+			{
+				await NavigationHelpers.OpenPathInNewTab(pathToNavigate);
+
+				return;
+			}
+
+			DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
+			{
+				Path = pathToNavigate
+			});
+		}
+
+		protected override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive = Items.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path ?? string.Empty), PathNormalization.NormalizePath(item.Path ?? string.Empty), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;
@@ -197,64 +219,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Event methods
 
-		private void MenuFlyout_Opening(object sender, object e)
-		{
-			var pinToFavoritesItem = (sender as MenuFlyout)!.Items.Single(x => x.Name == "PinToFavorites");
-			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem)!.IsPinned ? Visibility.Collapsed : Visibility.Visible;
-
-			var unpinFromFavoritesItem = (sender as MenuFlyout)!.Items.Single(x => x.Name == "UnpinFromFavorites");
-			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem)!.IsPinned ? Visibility.Visible : Visibility.Collapsed;
-		}
-
-		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is not Button button)
-				return;
-
-			string path = button.Tag.ToString() ?? string.Empty;
-
-			_ = StorageSenseHelper.OpenStorageSenseAsync(path);
-		}
-
-		private async void Button_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is not Button button)
-				return;
-
-			string pathToNavigate = button.Tag.ToString()!;
-
-			if (await DriveHelpers.CheckEmptyDrive(pathToNavigate))
-				return;
-
-			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-
-			if (ctrlPressed)
-			{
-				await NavigationHelpers.OpenPathInNewTab(pathToNavigate);
-
-				return;
-			}
-
-			DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
-			{
-				Path = pathToNavigate
-			});
-		}
-
-		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed ||
-				sender is not Button button)
-				return;
-
-			string navigationPath = button.Tag.ToString()!;
-
-			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
-				return;
-
-			await NavigationHelpers.OpenPathInNewTab(navigationPath);
-		}
-
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -293,7 +257,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			flyoutClosed = (s, e) =>
 			{
 				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
-				FilePropertiesHelpers.OpenPropertiesWindow(item!.Item, _AppInstance!);
+				FilePropertiesHelpers.OpenPropertiesWindow(item!.Item, AppInstance!);
 			};
 
 			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;

@@ -70,6 +70,23 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false) { Reset = true });
 		}
 
+		public async Task GoToItem(object sender)
+		{
+			string NavigationPath = (sender as Button)?.Tag.ToString()!;
+
+			if (string.IsNullOrEmpty(NavigationPath))
+				return;
+
+			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			if (ctrlPressed)
+			{
+				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
+				return;
+			}
+
+			CardInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = NavigationPath });
+		}
+
 		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)
 		{
 			if (e is null)
@@ -151,7 +168,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		protected override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -234,43 +251,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		}
 
 		// Event methods
-
-		private void MenuFlyout_Opening(object sender)
-		{
-			var pinToFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToFavorites");
-			if (pinToFavoritesItem is not null)
-				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
-
-			var unpinFromFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
-			if (unpinFromFavoritesItem is not null)
-				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
-		}
-
-		private async void Button_Click(object sender, RoutedEventArgs e)
-		{
-			string NavigationPath = (sender as Button)?.Tag.ToString()!;
-
-			if (string.IsNullOrEmpty(NavigationPath))
-				return;
-
-			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			if (ctrlPressed)
-			{
-				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
-				return;
-			}
-
-			CardInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = NavigationPath });
-		}
-
-		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
-			{
-				string navigationPath = ((Button)sender).Tag.ToString()!;
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
-			}
-		}
 
 		private async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{

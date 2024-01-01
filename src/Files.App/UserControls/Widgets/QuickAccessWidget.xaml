@@ -20,11 +20,11 @@
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					AutomationProperties.Name="{x:Bind AutomationProperties}"
-					Click="Button_Click"
+					Click="CardItemButton_Click"
 					CornerRadius="{StaticResource ControlCornerRadius}"
 					DataContext="{x:Bind}"
-					PointerPressed="Button_PointerPressed"
-					RightTapped="Button_RightTapped"
+					PointerPressed="CardItemButton_PointerPressed"
+					RightTapped="CardItemButton_RightTapped"
 					Tag="{x:Bind Path}">
 					<Grid
 						HorizontalAlignment="Stretch"

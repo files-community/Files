@@ -2,20 +2,35 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class FileTagsWidget : UserControl
 	{
-		public FileTagsWidgetViewModel ViewModel
-		{
-			get => (FileTagsWidgetViewModel)DataContext;
-			set => DataContext = value;
-		}
+		// Properties
+
+		public FileTagsWidgetViewModel? ViewModel { get; set; }
+
+		// Constructor
 
 		public FileTagsWidget()
 		{
 			InitializeComponent();
+		}
+
+		// Event methods
+
+		private void FileTagsContainerAdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			ViewModel!.BuildRightClickContextMenu(sender, e);
+			e.Handled = true;
+		}
+
+		private async void FileTagsContainerAdaptiveGridView_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			if (e.ClickedItem is WidgetFileTagsItem item)
+				await item.ClickCommand.ExecuteAsync(null);
 		}
 	}
 }

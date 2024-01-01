@@ -5,13 +5,11 @@ using Windows.Foundation;
 
 namespace Files.App.UserControls
 {
-	public interface ISearchBox
+	public interface ISearchBoxViewModel
 	{
-		event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
-
-		event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
-
-		event EventHandler<ISearchBox> Escaped;
+		event TypedEventHandler<ISearchBoxViewModel, SearchBoxTextChangedEventArgs> TextChanged;
+		event TypedEventHandler<ISearchBoxViewModel, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
+		event EventHandler<ISearchBoxViewModel> Escaped;
 
 		bool WasQuerySubmitted { get; set; }
 

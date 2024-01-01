@@ -349,7 +349,7 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected async void ShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
+		protected async void ShellPage_QuerySubmitted(ISearchBoxViewModel sender, SearchBoxQuerySubmittedEventArgs e)
 		{
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
 				await NavigationHelpers.OpenPath(item.ItemPath, this);
@@ -357,7 +357,7 @@ namespace Files.App.Views.Shells
 				SubmitSearch(sender.Query, userSettingsService.GeneralSettingsService.SearchUnindexedItems);
 		}
 
-		protected async void ShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
+		protected async void ShellPage_TextChanged(ISearchBoxViewModel sender, SearchBoxTextChangedEventArgs e)
 		{
 			if (e.Reason != SearchBoxTextChangeReason.UserInput)
 				return;

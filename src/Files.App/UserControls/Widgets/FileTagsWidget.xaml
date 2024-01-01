@@ -71,6 +71,7 @@
 							Background="Transparent"
 							BorderBrush="Transparent"
 							ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
+
 							<Button.Flyout>
 								<MenuFlyout>
 									<MenuFlyoutItem
@@ -91,20 +92,21 @@
 								FontWeight="SemiBold"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 								Glyph="&#xE712;" />
+
 						</Button>
 					</Grid>
 
+					<!--  Container Items  -->
 					<!--  NOTE: The Vertical ScrollBar Must Be Hidden Because It May Cause A Crash Inside The ScrollViewer (#12370)  -->
-					<!--  Items  -->
 					<wctcontrols:AdaptiveGridView
 						Grid.Row="1"
 						Padding="4"
 						HorizontalAlignment="Stretch"
 						DesiredWidth="180"
 						IsItemClickEnabled="True"
-						ItemClick="FileTagItem_ItemClick"
+						ItemClick="FileTagsContainerAdaptiveGridView_ItemClick"
 						ItemsSource="{x:Bind Tags}"
-						RightTapped="AdaptiveGridView_RightTapped"
+						RightTapped="FileTagsContainerAdaptiveGridView_RightTapped"
 						ScrollViewer.VerticalScrollBarVisibility="Hidden"
 						SelectionMode="None"
 						StretchContentForSingleRow="False">

@@ -15,21 +15,20 @@
 		<ItemsRepeater.ItemTemplate>
 			<DataTemplate x:DataType="dataitems:WidgetDriveCardItem">
 				<Button
-					Padding="0"
+					Padding="8"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					AutomationProperties.Name="{x:Bind Item.Text, Mode=OneWay}"
-					Click="Button_Click"
+					Click="CardItemButton_Click"
 					CornerRadius="{StaticResource ControlCornerRadius}"
 					DataContext="{x:Bind}"
-					PointerPressed="Button_PointerPressed"
-					RightTapped="Button_RightTapped"
+					PointerPressed="CardItemButton_PointerPressed"
+					RightTapped="CardItemButton_RightTapped"
 					Tag="{x:Bind Item.Path}"
 					ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
 					<Grid
-						Margin="8"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						ColumnSpacing="8">

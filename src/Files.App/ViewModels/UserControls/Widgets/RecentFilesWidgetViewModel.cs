@@ -89,6 +89,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 
+		public void GoToItem(RecentItem? item)
+		{
+			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
+			{
+				ItemPath = item!.RecentPath,
+				IsFile = item.IsFile
+			});
+		}
+
 		private async Task UpdateRecentFilesListAsync(NotifyCollectionChangedEventArgs e)
 		{
 			try
@@ -165,7 +174,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		protected override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -251,58 +260,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				// e.Action can only be Reset right now; naively refresh everything for simplicity
 				await UpdateRecentFilesListAsync(e);
-			});
-		}
-
-		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		{
-			// Ensure values are not null
-			if (e.OriginalSource is not FrameworkElement element ||
-				element.DataContext is not RecentItem item)
-				return;
-
-			// Create a new Flyout
-			var itemContextMenuFlyout = new CommandBarFlyout()
-			{
-				Placement = FlyoutPlacementMode.Full
-			};
-
-			// Hook events
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
-
-			_flyoutItemPath = item.Path;
-
-			// Notify of the change on right clicked item
-			OnRightClickedItemChanged(item, itemContextMenuFlyout);
-
-			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-
-			// Set max width of the flyout
-			secondaryElements
-				.OfType<FrameworkElement>()
-				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-
-			// Add menu items to the secondary flyout
-			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
-
-			// Show the flyout
-			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
-
-			// Load shell menu items
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
-		}
-
-		private void RecentFilesListView_ItemClick(object sender, ItemClickEventArgs e)
-		{
-			var recentItem = e.ClickedItem as RecentItem;
-
-			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
-			{
-				ItemPath = recentItem!.RecentPath,
-				IsFile = recentItem.IsFile
 			});
 		}
 

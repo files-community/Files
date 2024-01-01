@@ -32,14 +32,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Commands
 
-		public ICommand? RemoveRecentItemCommand { get; protected set; }
-		public ICommand? ClearAllItemsCommand { get; protected set; }
-		public ICommand? OpenFileLocationCommand { get; protected set; }
-		public ICommand? OpenInNewTabCommand { get; protected set; }
-		public ICommand? OpenInNewWindowCommand { get; protected set; }
-		public ICommand? OpenPropertiesCommand { get; protected set; }
-		public ICommand? PinToFavoritesCommand { get; protected set; }
-		public ICommand? UnpinFromFavoritesCommand { get; protected set; }
+		protected ICommand? RemoveRecentItemCommand { get; set; }
+		protected ICommand? ClearAllItemsCommand { get; set; }
+		protected ICommand? OpenFileLocationCommand { get; set; }
+		protected ICommand? OpenInNewTabCommand { get; set; }
+		protected ICommand? OpenInNewWindowCommand { get; set; }
+		protected ICommand? OpenPropertiesCommand { get; set; }
+		protected ICommand? PinToFavoritesCommand { get; set; }
+		protected ICommand? UnpinFromFavoritesCommand { get; set; }
 
 		// Events
 
@@ -47,14 +47,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Abstract methods
 
-		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
+		protected abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		// Event methods
 
-		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		public void BuildRightClickContextMenu(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
-			if (sender is not Button widgetCardItem ||
+			if (sender is not FrameworkElement widgetCardItem ||
 				widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
 
@@ -90,8 +90,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			// Load shell menu items
 			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath ?? string.Empty, itemContextMenuFlyout);
-
-			e.Handled = true;
 		}
 
 		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
