@@ -54,8 +54,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public void ShowRightClickContextMenu(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
-			if (sender is not FrameworkElement widgetCardItem ||
-				widgetCardItem.DataContext is not WidgetCardItem item)
+			if (sender is not FrameworkElement targetElement ||
+				targetElement.DataContext is not WidgetCardItem item)
 				return;
 
 			// Create a new Flyout
@@ -86,7 +86,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
 
 			// Show the flyout
-			itemContextMenuFlyout.ShowAt(widgetCardItem, new() { Position = e.GetPosition(widgetCardItem) });
+			itemContextMenuFlyout.ShowAt(targetElement, new() { Position = e.GetPosition(targetElement) });
 
 			// Load shell menu items
 			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath ?? string.Empty, itemContextMenuFlyout);
