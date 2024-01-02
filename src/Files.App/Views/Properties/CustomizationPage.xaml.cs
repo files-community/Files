@@ -22,10 +22,10 @@ namespace Files.App.Views.Properties
 
 			base.OnNavigatedTo(e);
 
-			CustomizationViewModel = new(AppInstance, BaseProperties, parameter.AppWindow);
+			CustomizationViewModel = new(AppInstance, BaseProperties, parameter.Window.AppWindow);
 		}
 
-		public async override Task<bool> SaveChangesAsync()
+		public override async Task<bool> SaveChangesAsync()
 			=> await CustomizationViewModel.UpdateIcon();
 
 		public override void Dispose()
