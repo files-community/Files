@@ -24,13 +24,12 @@ namespace Files.App.ViewModels.Properties
 				if (SetProperty(ref _SelectedNavigationViewItem, value) &&
 					!_selectionChangedAutomatically)
 				{
-					var parameter = new PropertiesPageNavigationParameter()
+					var parameter = new PropertiesPageNavigationParameter
 					{
 						AppInstance = _parameter.AppInstance,
 						CancellationTokenSource = ChangedPropertiesCancellationTokenSource,
 						Parameter = _parameter.Parameter,
-						Window = Window,
-						AppWindow = AppWindow,
+						Window = Window
 					};
 
 					var page = value.ItemType switch
@@ -79,8 +78,7 @@ namespace Files.App.ViewModels.Properties
 
 		private readonly Window Window;
 
-		private readonly AppWindow AppWindow;
-
+		private AppWindow AppWindow => Window.AppWindow;
 		private readonly Frame _mainFrame;
 
 		private readonly BaseProperties _baseProperties;
@@ -93,12 +91,11 @@ namespace Files.App.ViewModels.Properties
 		public IAsyncRelayCommand SaveChangedPropertiesCommand { get; }
 		public IRelayCommand CancelChangedPropertiesCommand { get; }
 
-		public MainPropertiesViewModel(Window window, AppWindow appWindow, Frame mainFrame, BaseProperties baseProperties, PropertiesPageNavigationParameter parameter)
+		public MainPropertiesViewModel(Window window, Frame mainFrame, BaseProperties baseProperties, PropertiesPageNavigationParameter parameter)
 		{
 			ChangedPropertiesCancellationTokenSource = new();
 
 			Window = window;
-			AppWindow = appWindow;
 			_mainFrame = mainFrame;
 			_parameter = parameter;
 			_baseProperties = baseProperties;
@@ -108,7 +105,7 @@ namespace Files.App.ViewModels.Properties
 			CancelChangedPropertiesCommand = new RelayCommand(ExecuteCancelChangedPropertiesCommand);
 
 			NavigationViewItems = PropertiesNavigationViewItemFactory.Initialize(parameter.Parameter);
-			SelectedNavigationViewItem = NavigationViewItems.Where(x => x.ItemType == PropertiesNavigationViewItemType.General).First();
+			SelectedNavigationViewItem = NavigationViewItems.First(x => x.ItemType == PropertiesNavigationViewItemType.General);
 		}
 
 		private void ExecuteDoBackwardNavigationCommand()
