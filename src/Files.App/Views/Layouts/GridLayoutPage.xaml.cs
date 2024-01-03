@@ -430,15 +430,17 @@ namespace Files.App.Views.Layouts
 						if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 						{
 							Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-							var textBox = popup.Child as TextBox;
+							var textBox = popup?.Child as TextBox;
 
-							await CommitRenameAsync(textBox);
+							if (textBox is not null)
+								await CommitRenameAsync(textBox);
 						}
 						else
 						{
 							var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
 
-							await CommitRenameAsync(textBox);
+							if (textBox is not null)
+								await CommitRenameAsync(textBox);
 						}
 					}
 				}
