@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>نسخ المسار</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>نسخ المسار مع الاقتباس</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>تصفح</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>نتائج البحث في</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>سجل الدلائل وفرزها إلى جانب الملفات</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>التفاصيل</value>
   </data>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>فرز</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>تجميع حسب</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>تاريخ التعديل</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>المجلد الأصلي</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>فرز حسب</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>تنازلي</value>
@@ -2235,6 +2229,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>إظهار قائمة تعديل العلامات</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Show compression options</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>عرض قائمة الإرسال إلى</value>
   </data>
@@ -2419,7 +2416,10 @@
     <value>نسخ العناصر إلى الحافظة</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>نسخ مسار العنصر إلى الحافظة</value>
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>قص العناصر إلى الحافظة</value>
@@ -2621,9 +2621,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>تبديل اتجاه فرز العناصر</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>سجل الدلائل وفرزها إلى جانب الملفات</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>عرض العناصر دون تجميع</value>
@@ -3004,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>شهر</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>تبديل الوحدة للتجميع حسب التاريخ</value>
   </data>
@@ -3013,8 +3013,11 @@
   <data name="Year" xml:space="preserve">
     <value>سنة</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>تجميع حسب الشهر بدلا من السنة</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Group by date unit</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Group items by day of date created</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>تجميع العناصر حسب شهر تاريخ الإنشاء</value>
@@ -3022,11 +3025,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>تجميع العناصر حسب سنة تاريخ إنشائها</value>
   </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Group items by day of date deleted</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>تجميع العناصر حسب شهر تاريخ الحذف</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>تجميع العناصر حسب سنة تاريخ الحذف</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Group items by day of date modified</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>تجميع العناصر حسب شهر تاريخ تعديلها</value>
@@ -3432,7 +3441,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0} item(s) to "{1}"</value>
+    <value>ضغط {0} العنصر/العناصر لـ "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
@@ -3631,5 +3640,50 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>There was an error applying this tag</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>استخراج العناصر من أرشيف محدد إلى المجلد الحالي لأرشيف الفِقْرة الواحدة، أو إلى مجلد جديد لأرشيف ذو العدة فِقْرات</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>استخراج (ذكي) هنا</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Sort files first</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Sort files first then folders</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Sort folders first</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Sort folders first then files</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sort priority</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Failed to rotate the image</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Failed to share items</value>
   </data>
 </root>
