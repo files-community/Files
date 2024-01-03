@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Zkopírovat cestu</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Kopírovat cestu s uvozovkami</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Prohlížet</value>
   </data>
@@ -970,13 +973,10 @@
     <value>Zkontrolovat stav souborových operací</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Centrum stavu</value>
+    <value>Stavové centrum</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Výsledy vyhledávání v {1} pro {0}</value>
-  </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Seznam a řazení adresářů vedle souborů</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Podrobnosti</value>
@@ -1057,13 +1057,13 @@
     <value>Panel vlastností</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>Přepnout panel detailů pro zobrazení základních vlastností souboru</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
     <value>Přepnout info panel</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail\preview panes</value>
+    <value>Toggle the info pane to view the detail/preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Náhled není dostupný</value>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Seřadit</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Seskupit podle</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum změny</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Původní složka</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Seřadit podle</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Sestupně</value>
@@ -1756,7 +1750,7 @@
     <value>Otevřít složky v nové kartě</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Centrum stavu</value>
+    <value>Stavové centrum</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Sloupec data vytvoření</value>
@@ -2017,7 +2011,7 @@
     <value>Nastavit jako prezentaci plochy</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size all columns to fit</value>
+    <value>Nastavit velikost všech sloupců tak, aby se vešly</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptivní rozvržení</value>
@@ -2235,6 +2229,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Zobrazit výsuvné menu pro upravení štítků</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Zobrazit možnosti komprese</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Zobrazit odeslat do menu</value>
   </data>
@@ -2419,7 +2416,10 @@
     <value>Kopírovat do schránky</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Zkopírovat umístění položky do schránky</value>
+    <value>Kopírovat cestu vybraných položek do schránky</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Kopírovat s uvozovkami cestu vybraných položek do schránky</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Vyjmout do schránky</value>
@@ -2621,9 +2621,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Obrátit směr řazení</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Seznam a řazení adresářů vedle souborů</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Zobrazit položky bez seskupování</value>
@@ -3004,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>Měsíc</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Den</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Přepnout jednotku pro seskupování podle data</value>
   </data>
@@ -3013,8 +3013,11 @@
   <data name="Year" xml:space="preserve">
     <value>Rok</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Seskupit dle měsíce namísto roku</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Group by date unit</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Seskupit položky dle dne vytvoření</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Seskupit dle měsíce data vytvoření</value>
@@ -3022,11 +3025,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Seskupit položky dle roku vytvoření</value>
   </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Seskupit položky dle dne smazání</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Seskupit položky dle měsíce smazání</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Seskupit položky dle roku smazání</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Seskupit položky dle dne úpravy</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Seskupit položky dle měsíce úpravy</value>
@@ -3380,7 +3389,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Odstranění dokončeno</value>
+    <value>Smazat dokončené</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
     <value>Název:</value>
@@ -3440,15 +3449,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Zrušeno kopírování {0} položek do "{1}"</value>
+    <value>Zrušeno kopírování {0} položky(položek) do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Zrušeno kopírování {0} položek z "{1}" do "{2}"</value>
+    <value>Zrušeno kopírování {0} položky(položek) z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Kopírováno {0} položek do "{1}"</value>
+    <value>Kopírováno {0} položky(položek) do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
@@ -3456,7 +3465,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Chyba při kopírování {0} položek do "{1}"</value>
+    <value>Chyba při kopírování {0} položky(položek) do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
@@ -3631,5 +3640,50 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Přihlásit se</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Štítky jsou v tuto chvíli dostupné pouze na discích formátovaných jako NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Při aplikování tohoto štítku došlo k chybě</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extrahovat zde (Chytře)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Řadit soubory a složky pohromadě</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Řadit soubory a složky pohromadě</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Nejprve řadit soubory</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Nejprve řadit soubory, poté složky</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Nejprve řadit složky</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Nejprve řadit složky, poté soubory</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Seřadit dle priority</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Nepodařilo se otočit obrázek</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restartovat</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Odejít</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Sdílení položek se nezdařilo</value>
   </data>
 </root>
