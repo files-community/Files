@@ -253,20 +253,27 @@ namespace Files.App.Views.Layouts
 			{
 				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-				popup!.IsOpen = false;
-				textBlock!.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
+
+				if (popup is not null)
+					popup.IsOpen = false;
+
+				if (textBlock is not null)
+					textBlock.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+
 				textBox.Visibility = Visibility.Collapsed;
-				textBlock!.Visibility = Visibility.Visible;
+
+				if (textBlock is not null)
+					textBlock.Visibility = Visibility.Visible;
 			}
 
 			// Unsubscribe from events
 			if (textBox is not null)
 			{
-				textBox!.LostFocus -= RenameTextBox_LostFocus;
+				textBox.LostFocus -= RenameTextBox_LostFocus;
 				textBox.KeyDown -= RenameTextBox_KeyDown;
 			}
 
