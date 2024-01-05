@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Копировать путь</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Копировать путь с кавычками</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Обзор</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Результаты поиска в {1} для {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Сортировать файлы и папки вместе</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Подробно</value>
   </data>
@@ -1063,7 +1063,7 @@
     <value>Показать информационную панель</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Показать информационную панель для просмотра панелей деталь\предварительного просмотра</value>
+    <value>Переключить панель информации для просмотра панелей с подробностями / предварительным просмотром</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Предпросмотр недоступен</value>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Сортировка</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Группировка</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата изменения</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Исходная папка</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Сортировка</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>По убыванию</value>
@@ -2235,6 +2229,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Показывать опцию редактирования Меток</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Show compression options</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Показать меню "Отправить"</value>
   </data>
@@ -2419,7 +2416,10 @@
     <value>Копировать элемент(ы) в буфер обмена</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Копировать путь до элемента в буфер обмена</value>
+    <value>Копировать путь выбранных элементов в буфер обмена</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Копировать путь выбранных элементов с кавычками в буфер обмена</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Вырезать элемент(ы) в буфер обмена</value>
@@ -2621,9 +2621,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Переключить направление сортировки объектов</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Сортировать файлы и папки вместе</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Перечислять объекты без группировки</value>
@@ -3004,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>Месяц</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Включить группировку по дате</value>
   </data>
@@ -3013,8 +3013,11 @@
   <data name="Year" xml:space="preserve">
     <value>Год</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Группировать по месяцам вместо лет</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Group by date unit</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Group items by day of date created</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Группировать элементы по месяцам с даты создания</value>
@@ -3022,11 +3025,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Группировать элементы по годам с даты создания</value>
   </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Group items by day of date deleted</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Группировать элементы по месяцам с даты удаления</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Группировать элементы по годам с даты удаления</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Group items by day of date modified</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Группировать элементы по месяцам с даты изменения</value>
@@ -3631,5 +3640,50 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Вход</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>There was an error applying this tag</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Распаковать элементы из выбранных архивов в текущую папку для архива с одним элементом или в новую папку для архива с несколькими элементами</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Распаковать здесь (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Sort files first</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Sort files first then folders</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Sort folders first</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Sort folders first then files</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sort priority</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Failed to rotate the image</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Не удалось поделиться элементами</value>
   </data>
 </root>

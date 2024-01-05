@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copiar ruta</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copiar la ruta entre comillas</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegar</value>
   </data>
@@ -202,7 +205,7 @@
     <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Mostrar extensiones de archivos conocidos</value>
+    <value>Mostrar extensiones de tipos de archivo conocidos</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Mostrar archivos y carpetas ocultos</value>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultados de la búsqueda en {1} para {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Listar y ordenar los directorios junto con los archivos</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalles</value>
   </data>
@@ -1156,7 +1156,7 @@
     <value>Más opciones...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Mapear unidad de red</value>
+    <value>Conectar a unidad de red</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favoritos</value>
@@ -1320,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Ordenar</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Agrupar por</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Fecha de modificación</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Carpeta original</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Ordenar por</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descendente</value>
@@ -2235,6 +2229,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Mostrar desplegable de etiquetas de edición</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Mostrar opciones de compresión</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Mostrar menú Enviar a</value>
   </data>
@@ -2341,7 +2338,7 @@
     <value>Se ha producido un error en el cálculo</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>No se pudo calcular el hash, por favor, cierra el archivo e inténtalo de nuevo.</value>
+    <value>No se pudo calcular el hash, por favor, cierre el archivo e inténtelo de nuevo.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Los códigos 'hash' no están disponibles para archivos en línea</value>
@@ -2407,7 +2404,7 @@
     <value>Mostrar/Ocultar elementos ocultos</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Mostrar o no las extensiones de los archivos</value>
+    <value>Mostrar/Ocultar las extensiones de archivos</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Mostrar panel de vista previa de los archivos</value>
@@ -2419,7 +2416,10 @@
     <value>Copiar elemento(s) al portapapeles</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copiar ruta del elemento al portapapeles</value>
+    <value>Copiar la ruta de los elementos seleccionados al portapapeles</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copiar entre comillas la ruta de los elementos seleccionados al portapapeles</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cortar elemento(s) al portapapeles</value>
@@ -2584,7 +2584,7 @@
     <value>Cambiar a vista de columnas</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Cambiar vistas de forma adaptativa</value>
+    <value>Cambiar de vista de forma adaptativa</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Ordenar elementos por nombre</value>
@@ -2621,9 +2621,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Cambiar sentido de ordenación de elementos</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Listar y ordenar los directorios junto con los archivos</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Listar elementos sin agruparlos</value>
@@ -2662,7 +2659,7 @@
     <value>Ordenar grupos en sentido ascendente</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Ordenar grupos de manera descendente</value>
+    <value>Ordenar grupos en sentido descendente</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
     <value>Cambiar sentido de ordenación de grupos</value>
@@ -3004,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>Mes</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Día</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Alternar unidad para agrupar por fecha</value>
   </data>
@@ -3013,26 +3013,35 @@
   <data name="Year" xml:space="preserve">
     <value>Año</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Agrupar por mes en lugar de por año</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Agrupar por unidad de fecha</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Agrupar elementos por día de creación</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Agrupar elementos por mes de fecha de creación</value>
+    <value>Agrupar elementos por mes de creación</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Agrupar elementos por año de fecha de creación</value>
+    <value>Agrupar elementos por año de creación</value>
+  </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Agrupar elementos por día de eliminación</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Agrupar elementos por mes de fecha de eliminación</value>
+    <value>Agrupar elementos por mes de eliminación</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Agrupar elementos por año de fecha de eliminación</value>
+    <value>Agrupar elementos por año de eliminación</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Agrupar elementos por día de modificación</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Agrupar elementos por mes de fecha de modificación</value>
+    <value>Agrupar elementos por mes de modificación</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Agrupar elementos por año de fecha de modificación</value>
+    <value>Agrupar elementos por año de modificación</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Haga clic en 'Permisos avanzados' para continuar.</value>
@@ -3631,5 +3640,50 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Iniciar Sesión</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Actualmente, las etiquetas solo son compatibles en unidades formateadas como NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Se ha producido un error al aplicar esta etiqueta</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extraer elementos desde el/los archivo(s) seleccionado(s) a la carpeta actual para archivo de un solo elemento, o a una nueva carpeta para archivo de varios elementos</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extraer aquí (Inteligente)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Ordenar archivos y carpetas a la vez</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Ordenar archivos y carpetas a la vez</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Ordenar primero los archivos</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Ordena primero los archivos y luego las carpetas</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Ordenar primero las carpetas</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Ordenar primero las carpetas y luego los archivos</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Prioridad de clasificación</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>No se pudo girar la imagen</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Reiniciar</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>No se pudo compartir elementos</value>
   </data>
 </root>

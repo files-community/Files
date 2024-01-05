@@ -98,9 +98,6 @@ namespace Files.App.Utils.Shell
 					process.StartInfo.Arguments = arguments;
 
 					// Refresh env variables for the child process
-					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine))
-						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
-
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
 

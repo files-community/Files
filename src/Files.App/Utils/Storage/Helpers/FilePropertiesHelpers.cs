@@ -128,7 +128,6 @@ namespace Files.App.Utils.Storage
 				{
 					Parameter = item,
 					AppInstance = associatedInstance,
-					AppWindow = appWindow,
 					Window = propertiesWindow
 				},
 				new SuppressNavigationTransitionInfo());

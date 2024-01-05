@@ -221,7 +221,7 @@ namespace Files.App
 
 		public static class DocsPath
 		{
-			public const string ThirdPartyNoticePath = @"ms-appx:///.github/NOTICE.md";
+			public const string ThirdPartyNoticePath = @"ms-appx:///NOTICE.md";
 		}
 
 		public static class Actions
