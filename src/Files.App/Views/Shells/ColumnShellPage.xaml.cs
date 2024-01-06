@@ -174,7 +174,7 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
-			this.FindAscendant<ColumnsLayoutPage>().SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+			this.FindAscendant<ColumnsLayoutPage>()?.SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
 		}
 
 		public override void NavigateHome()

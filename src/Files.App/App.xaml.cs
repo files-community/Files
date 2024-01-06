@@ -167,6 +167,8 @@ namespace Files.App
 		/// </summary>
 		private void Window_Activated(object sender, WindowActivatedEventArgs args)
 		{
+			AppModel.IsMainWindowClosed = false;
+
 			// TODO(s): Is this code still needed?
 			if (args.WindowActivationState != WindowActivationState.CodeActivated ||
 				args.WindowActivationState != WindowActivationState.PointerActivated)
