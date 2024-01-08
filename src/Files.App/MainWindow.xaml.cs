@@ -9,6 +9,7 @@ using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using Microsoft.UI.Xaml;
 using WinUIEx;
 using IO = System.IO;
 
@@ -28,11 +29,8 @@ namespace Files.App
 		private MainWindow()
 		{
 			ApplicationService = new ApplicationService();
-
 			WindowHandle = this.GetWindowHandle();
-
 			InitializeComponent();
-
 			EnsureEarlyWindow();
 		}
 
@@ -56,13 +54,29 @@ namespace Files.App
 			InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
+		private ContentControl GetMainContent()
+		{
+			if (Content is ContentControl mainContent)
+				return mainContent;
+
+			return new ContentControl()
+			{
+				HorizontalContentAlignment = HorizontalAlignment.Stretch,
+				VerticalContentAlignment = VerticalAlignment.Stretch
+			};
+		}
+
 		public void ShowSplashScreen()
 		{
-			MainContent.Content = new SplashScreenPage();
+			var mainContent = GetMainContent();
+			mainContent.Content = new SplashScreenPage();
+			Content = mainContent;
 		}
 
 		public async Task InitializeApplicationAsync(object activatedEventArgs)
 		{
+			var mainContent = GetMainContent();
+
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
 
@@ -80,7 +94,7 @@ namespace Files.App
 						else
 							await InitializeFromCmdLineArgsAsync(ppm);
 					}
-					else if (MainContent.Content is null || MainContent.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
+					else if (mainContent.Content is null || mainContent.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -154,7 +168,7 @@ namespace Files.App
 
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
-					if (MainContent.Content is null || MainContent.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
+					if (mainContent.Content is null || mainContent.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -186,11 +200,16 @@ namespace Files.App
 				AppWindow.Show();
 				Activate();
 			}
+
+			Content = mainContent;
 		}
 
 		private void NavigateRoot(Page page, object parameter)
 		{
-			MainContent.Content = page;
+			if (Content is not ContentControl contentControl)
+				return;
+
+			contentControl.Content = page;
 			if (page is MainPage mainPage)
 				mainPage.NotifyNavigatedTo(parameter);
 		}
@@ -223,7 +242,7 @@ namespace Files.App
 					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
-				if (MainContent.Content is MainPage && MainPageViewModel.AppInstances.Any())
+				if (Content is ContentControl contentControl && contentControl.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
 					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);

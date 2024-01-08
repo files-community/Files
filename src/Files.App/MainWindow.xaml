@@ -6,12 +6,4 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:winuiex="using:WinUIEx"
-	mc:Ignorable="d">
-
-	<ContentControl
-		x:Name="MainContent"
-		HorizontalContentAlignment="Stretch"
-		VerticalContentAlignment="Stretch"
-		x:FieldModifier="public"
-		Canvas.ZIndex="1" />
-</winuiex:WindowEx>
+	mc:Ignorable="d" />

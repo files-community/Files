@@ -128,7 +128,12 @@ namespace Files.App
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
-				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data));
+				=>
+			{
+				// Important: To initialize app after resuming from background, we need to reset Window's content
+				MainWindow.Instance.Content = null;
+				return MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data);
+			});
 		}
 
 		/// <summary>
