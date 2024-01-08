@@ -59,7 +59,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
+			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 
 			FlyoutItemPath = item.Path;
 

@@ -72,10 +72,11 @@ namespace Files.App.UserControls.Widgets
 			if (!HomePageContext.IsAnyItemRightClicked)
 				return;
 
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = (s, e) =>
 			{
-				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
+				flyout!.Closed -= flyoutClosed;
 
 				ListedItem listedItem = new(null!)
 				{
@@ -87,7 +88,7 @@ namespace Files.App.UserControls.Widgets
 				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 			};
 
-			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
+			flyout!.Closed += flyoutClosed;
 		}
 
 		private void OpenInNewPane(WidgetCardItem? item)
@@ -119,7 +120,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
+			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 
 			FlyoutItemPath = item.Path;
 

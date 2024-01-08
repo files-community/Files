@@ -124,7 +124,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			itemContextMenuFlyout.Opened += (sender, e) => OnRightClickedItemChanged(null, null);
+			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 
 			FlyoutItemPath = item.Path;
 
@@ -242,14 +242,15 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(RecentItem item)
 		{
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = async (s, e) =>
 			{
-				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
+				flyout!.Closed -= flyoutClosed;
 				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
 				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, associatedInstance);
 			};
-			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
+			flyout!.Closed += flyoutClosed;
 		}
 
 		private async Task UpdateRecentsListAsync(NotifyCollectionChangedEventArgs e)
