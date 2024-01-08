@@ -154,7 +154,7 @@
     <value>De doelmap</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>is een submap van de bronmap</value>
+    <value>is een submap van de hoofdmap</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Overslaan</value>
@@ -178,16 +178,16 @@
     <value>Alle items wissen</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Voer een pad in om naar te navigeren of type "&gt;" om het commandopaneel te openen</value>
+    <value>Voer een pad in om te navigeren naar of type "&gt;" om het commandopaneel te openen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Zoeken</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Bestanden en mappen die u eerder heeft gebruikt worden hier weergeven</value>
+    <value>Bestanden die u eerder heeft geopend zullen hier worden weergegeven</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Verwijder dit item</value>
+    <value>Dit item verwijderen</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub Repository</value>
@@ -1771,7 +1771,7 @@
     <value>Foutrapport indienen</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Stel Files in als standaard verkenner</value>
+    <value>Gebruik Files als standaard verkenner</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Gebruik Files als Open Bestand Dialoog</value>
@@ -2230,7 +2230,7 @@
     <value>Toon Bewerk Labels menu</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Show compression options</value>
+    <value>Toon compressie opties</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Toon Versturen naar menu</value>
@@ -3002,7 +3002,7 @@
     <value>Maand</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>Day</value>
+    <value>Dag</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Wissel eenheid voor groeperen op datum</value>
@@ -3014,10 +3014,10 @@
     <value>Jaar</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>Group by date unit</value>
+    <value>Groeperen op datum eenheid</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
-    <value>Group items by day of date created</value>
+    <value>Items groeperen op aanmaakdatum</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum aangemaakt</value>
@@ -3026,7 +3026,7 @@
     <value>Items groeperen op jaar van datum aangemaakt</value>
   </data>
     <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
-    <value>Group items by day of date deleted</value>
+    <value>Items groeperen op datum verwijderd</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum verwijderd</value>
@@ -3035,7 +3035,7 @@
     <value>Items groeperen op jaar van datum verwijderd</value>
   </data>
   <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
-    <value>Group items by day of date modified</value>
+    <value>Items groeperen op datum gewijzigd</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum gewijzigd</value>
@@ -3678,10 +3678,10 @@
     <value>Het roteren van de afbeelding is mislukt</value>
   </data>
   <data name="Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>Herstarten</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>Quit</value>
+    <value>Stoppen</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Delen van items mislukt</value>
