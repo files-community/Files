@@ -7,26 +7,26 @@ namespace Files.App.Services
 	internal sealed class StartMenuService : IStartMenuService
 	{
 		[Obsolete("See IStartMenuService for further information.")]
-		public bool IsPinned(string folderPath)
+		public bool IsPinned(string itemPath)
 		{
-			var tileId = GetNativeTileId(folderPath);
+			var tileId = GetNativeTileId(itemPath);
 			return SecondaryTile.Exists(tileId);
 		}
 
 		/// <inheritdoc/>
-		public Task<bool> IsPinnedAsync(IFolder folder)
+		public Task<bool> IsPinnedAsync(IStorable storable)
 		{
-			var tileId = GetNativeTileId(folder.Id);
+			var tileId = GetNativeTileId(storable.Id);
 			var exists = SecondaryTile.Exists(tileId);
 
 			return Task.FromResult(exists);
 		}
 
 		/// <inheritdoc/>
-		public async Task PinAsync(IFolder folder, string? displayName = null)
+		public async Task PinAsync(IStorable storable, string? displayName = null)
 		{
-			var tileId = GetNativeTileId(folder.Id);
-			displayName ??= folder.Name;
+			var tileId = GetNativeTileId(storable.Id);
+			displayName ??= storable.Name;
 
 			try
 			{
@@ -36,7 +36,7 @@ namespace Files.App.Services
 				var tile = new SecondaryTile(
 					tileId,
 					displayName,
-					folder.Id,
+					storable.Id,
 					path150x150,
 					TileSize.Square150x150)
 				{
@@ -60,10 +60,10 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task UnpinAsync(IFolder folder)
+		public async Task UnpinAsync(IStorable storable)
 		{
 			var startScreen = StartScreenManager.GetDefault();
-			var tileId = GetNativeTileId(folder.Id);
+			var tileId = GetNativeTileId(storable.Id);
 
 			await startScreen.TryRemoveSecondaryTileAsync(tileId);
 		}

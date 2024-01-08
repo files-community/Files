@@ -9,28 +9,28 @@ namespace Files.Core.Services
 	{
 		// TODO(s)
 		[Obsolete("Use IsPinnedAsync instead. This method is used for a workaround in ListedItem class to avoid major refactoring.")]
-		bool IsPinned(string folderPath);
+		bool IsPinned(string itemPath);
 
 		/// <summary>
-		/// Checks if the provided <paramref name="folder"/> is pinned to the Start Menu.
+		/// Checks if the provided <paramref name="storable"/> is pinned to the Start Menu.
 		/// </summary>
-		/// <param name="folder">The folder to check for.</param>
+		/// <param name="storable">The <see cref="IStorable"/> object to check for.</param>
 		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. If the folder is pinned, returns true; otherwise false.</returns>
-		Task<bool> IsPinnedAsync(IFolder folder);
+		Task<bool> IsPinnedAsync(IStorable storable);
 
 		/// <summary>
-		/// Adds the provided <paramref name="folder"/> to the pinned items list in the Start Menu.
+		/// Adds the provided <paramref name="storable"/> to the pinned items list in the Start Menu.
 		/// </summary>
-		/// <param name="folder">The folder to pin.</param>
+		/// <param name="storable">The <see cref="IStorable"/> object to pin.</param>
 		/// <param name="displayName">The optional name to use when pinning an item.</param>
 		/// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-		Task PinAsync(IFolder folder, string? displayName = null);
+		Task PinAsync(IStorable storable, string? displayName = null);
 
 		/// <summary>
-		/// Removes the provided <paramref name="folder"/> from the pinned items list in the Start Menu.
+		/// Removes the provided <paramref name="storable"/> from the pinned items list in the Start Menu.
 		/// </summary>
-		/// <param name="folder">The folder to unpin.</param>
+		/// <param name="storable">The <see cref="IStorable"/> object to unpin.</param>
 		/// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-		Task UnpinAsync(IFolder folder);
+		Task UnpinAsync(IStorable storable);
 	}
 }
