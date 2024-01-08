@@ -245,6 +245,10 @@ namespace Files.App.Helpers
 								{
 									IsToggle = true
 								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateModifiedDay)
+								{
+									IsToggle = true
+								}.Build(),
 							},
 						},
 						new ContextMenuFlyoutItemViewModel()
@@ -261,6 +265,10 @@ namespace Files.App.Helpers
 									IsToggle = true
 								}.Build(),
 								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateCreatedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateCreatedDay)
 								{
 									IsToggle = true
 								}.Build(),
@@ -298,6 +306,10 @@ namespace Files.App.Helpers
 									IsToggle = true
 								}.Build(),
 								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateDeletedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateDeletedDay)
 								{
 									IsToggle = true
 								}.Build(),
@@ -503,7 +515,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip).Build(),
 					},
-					ShowItem = itemsSelected && CompressHelper.CanCompress(selectedItems)
+					ShowItem = userSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && CompressHelper.CanCompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
@@ -520,7 +532,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder).Build(),
 					},
-					ShowItem = CompressHelper.CanDecompress(selectedItems)
+					ShowItem = userSettingsService.GeneralSettingsService.ShowCompressionOptions && CompressHelper.CanDecompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

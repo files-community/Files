@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Windows.Graphics;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -10,12 +11,13 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.UI;
+using Microsoft.UI.Input;
 
 namespace Files.App.Views.Properties
 {
 	public sealed partial class MainPropertiesPage : BasePropertiesPage
 	{
-		private AppWindow AppWindow;
+		private AppWindow AppWindow => Window.AppWindow;
 
 		private Window Window;
 
@@ -35,12 +37,11 @@ namespace Files.App.Views.Properties
 		{
 			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
 
-			AppWindow = parameter.AppWindow;
 			Window = parameter.Window;
 
 			base.OnNavigatedTo(e);
 
-			MainPropertiesViewModel = new(Window, AppWindow, MainContentFrame, BaseProperties, parameter);
+			MainPropertiesViewModel = new(Window, MainContentFrame, BaseProperties, parameter);
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -50,6 +51,14 @@ namespace Files.App.Views.Properties
 			Window.Closed += Window_Closed;
 
 			UpdatePageLayout();
+			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			Window.AppWindow.Changed += AppWindow_Changed;
+		}
+
+		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
+		{
+			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(BackwardNavigationButton, null)]);
+			return (int)TitlebarArea.ActualHeight;
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -63,9 +72,6 @@ namespace Files.App.Views.Properties
 
 		private void UpdatePageLayout()
 		{
-			// Drag zone
-			DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight, 40);
-
 			// NavigationView Pane Mode
 			MainPropertiesWindowNavigationView.PaneDisplayMode =
 				ActualWidth <= 600
@@ -110,6 +116,7 @@ namespace Files.App.Views.Properties
 		{
 			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			Window.Closed -= Window_Closed;
+			Window.AppWindow.Changed -= AppWindow_Changed;
 
 			if (MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource is not null &&
 				!MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource.IsCancellationRequested)
@@ -118,7 +125,12 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		public async override Task<bool> SaveChangesAsync()
+		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs e)
+		{
+			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+		}
+
+		public override async Task<bool> SaveChangesAsync()
 			=> await Task.FromResult(false);
 
 		public override void Dispose()

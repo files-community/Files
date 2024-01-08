@@ -55,6 +55,11 @@ namespace Files.Core.Services.Settings
 		List<string> LastCrashedTabList { get; set; }
 
 		/// <summary>
+		/// A list containing paths previously entered in the path bar.
+		/// </summary>
+		List<string> PathHistoryList { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
 		/// </summary>
 		DateTimeFormats DateTimeFormat { get; set; }
@@ -163,6 +168,11 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating whether or not to show the option to open folders in a new pane.
 		/// </summary>
 		bool ShowOpenInNewPane { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the compression options e.g. create archive, extract files.
+		/// </summary>
+		bool ShowCompressionOptions { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the Send To menu.

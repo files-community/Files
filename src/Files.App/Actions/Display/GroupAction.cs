@@ -229,6 +229,21 @@ namespace Files.App.Actions
 			=> "GroupByDateModifiedMonthDescription".GetLocalizedResource();
 	}
 
+	internal class GroupByDateModifiedDayAction : GroupByDateAction
+	{
+		protected override GroupOption GroupOption
+			=> GroupOption.DateModified;
+
+		protected override GroupByDateUnit GroupByDateUnit
+			=> GroupByDateUnit.Day;
+
+		public override string Label
+			=> "Day".GetLocalizedResource();
+
+		public override string Description
+			=> "GroupByDateModifiedDayDescription".GetLocalizedResource();
+	}
+
 	internal class GroupByDateCreatedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -257,6 +272,21 @@ namespace Files.App.Actions
 
 		public override string Description
 			=> "GroupByDateCreatedMonthDescription".GetLocalizedResource();
+	}
+
+	internal class GroupByDateCreatedDayAction : GroupByDateAction
+	{
+		protected override GroupOption GroupOption
+			=> GroupOption.DateCreated;
+
+		protected override GroupByDateUnit GroupByDateUnit
+			=> GroupByDateUnit.Day;
+
+		public override string Label
+			=> "Day".GetLocalizedResource();
+
+		public override string Description
+			=> "GroupByDateCreatedDayDescription".GetLocalizedResource();
 	}
 
 	internal class GroupByDateDeletedYearAction : GroupByDateAction
@@ -290,6 +320,24 @@ namespace Files.App.Actions
 
 		public override string Description
 			=> "GroupByDateDeletedMonthDescription".GetLocalizedResource();
+
+		protected override bool GetIsExecutable(ContentPageTypes pageType)
+			=> pageType is ContentPageTypes.RecycleBin;
+	}
+
+	internal class GroupByDateDeletedDayAction : GroupByDateAction
+	{
+		protected override GroupOption GroupOption
+			=> GroupOption.DateDeleted;
+
+		protected override GroupByDateUnit GroupByDateUnit
+			=> GroupByDateUnit.Day;
+
+		public override string Label
+			=> "Day".GetLocalizedResource();
+
+		public override string Description
+			=> "GroupByDateDeletedDayDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.RecycleBin;
@@ -567,7 +615,12 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			context.GroupByDateUnit = context.GroupByDateUnit is GroupByDateUnit.Month ? GroupByDateUnit.Year : GroupByDateUnit.Month;
+			context.GroupByDateUnit = context.GroupByDateUnit switch
+			{
+				GroupByDateUnit.Year => GroupByDateUnit.Month,
+				GroupByDateUnit.Month => GroupByDateUnit.Day,
+				_ => GroupByDateUnit.Year
+			};
 
 			return Task.CompletedTask;
 		}

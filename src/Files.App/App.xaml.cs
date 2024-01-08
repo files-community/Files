@@ -17,6 +17,8 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
+		private static SystemTrayIcon? SystemTrayIcon { get; set; }
+
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
 
@@ -55,8 +57,7 @@ namespace Files.App
 		}
 
 		/// <summary>
-		/// Invoked when the application is launched normally by the end user.
-		/// Other entry points will be used such as when the application is launched to open a specific file.
+		/// Gets invoked when the application is launched normally by the end user.
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
@@ -64,20 +65,27 @@ namespace Files.App
 
 			async Task ActivateAsync()
 			{
-				// Initialize and activate MainWindow
-				MainWindow.Instance.Activate();
-
-				// Wait for the Window to initialize
-				await Task.Delay(10);
-
-				SplashScreenLoadingTCS = new TaskCompletionSource();
-				MainWindow.Instance.ShowSplashScreen();
-
 				// Get AppActivationArguments
-				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+				var appActivationArguments =
+					Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+				var isStartupTask =
+					appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
+
+				if (!isStartupTask)
+				{
+					// Initialize and activate MainWindow
+					MainWindow.Instance.Activate();
+
+					// Wait for the Window to initialize
+					await Task.Delay(10);
+
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
 
 				// Start tracking app usage
-				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
+				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs
+				    activationEventArgs)
 					SystemInformation.Instance.TrackAppUse(activationEventArgs);
 
 				// Configure the DI (dependency injection) container
@@ -88,6 +96,21 @@ namespace Files.App
 				// Configure AppCenter
 				AppLifecycleHelper.ConfigureAppCenter();
 #endif
+
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
+
+				if (isStartupTask && !isLeaveAppRunning)
+				{
+					// Initialize and activate MainWindow
+					MainWindow.Instance.Activate();
+
+					// Wait for the Window to initialize
+					await Task.Delay(10);
+
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
 
 				// TODO: Replace with DI
 				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
@@ -104,27 +127,44 @@ namespace Files.App
 
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
-				// Wait for the UI to update
-				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
-				SplashScreenLoadingTCS = null;
+				if (!(isStartupTask && isLeaveAppRunning))
+				{
+					// Wait for the UI to update
+					await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
+					SplashScreenLoadingTCS = null;
 
-				// Initialize most required components
-				_ = AppLifecycleHelper.InitializeMandatoryAsync();
-				await MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+					// Initialize most required components
+					_ = AppLifecycleHelper.InitializeMandatoryAsync();
+					await MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+
+					// Create a system tray icon
+					SystemTrayIcon = new SystemTrayIcon().Show();
+				}
 
 				// Continue initialization once the initial screen is loaded
 				await Task.Delay(50);
 				_ = AppLifecycleHelper.InitializeLateAsync();
-				_ = AppLifecycleHelper.CheckUpdatesAsync();
+
+
+				if (isStartupTask && isLeaveAppRunning)
+				{
+					// Create a system tray icon when initialization is done
+					SystemTrayIcon = new SystemTrayIcon().Show();
+					App.Current.Exit();
+				}
+				else
+					_ = AppLifecycleHelper.CheckUpdatesAsync();
 			}
 		}
 
+
 		/// <summary>
-		/// Invoked when the application is activated.
+		/// Gets invoked when the application is activated.
 		/// </summary>
 		public async Task OnActivatedAsync(AppActivationArguments activatedEventArgs)
 		{
-			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
+			var activatedEventArgsData = activatedEventArgs.Data;
+			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData.GetType().Name}");
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
@@ -132,26 +172,31 @@ namespace Files.App
 			{
 				// Important: To initialize app after resuming from background, we need to reset Window's content
 				MainWindow.Instance.Content = null;
-				return MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data);
+				return MainWindow.Instance.InitializeApplicationAsync(activatedEventArgsData);
 			});
 		}
 
 		/// <summary>
-		/// Invoked when the main window is activated.
+		/// Gets invoked when the main window is activated.
 		/// </summary>
 		private void Window_Activated(object sender, WindowActivatedEventArgs args)
 		{
+			AppModel.IsMainWindowClosed = false;
+
 			// TODO(s): Is this code still needed?
 			if (args.WindowActivationState != WindowActivationState.CodeActivated ||
 				args.WindowActivationState != WindowActivationState.PointerActivated)
 				return;
 
-			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
+			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 		}
 
 		/// <summary>
-		/// Invoked when application execution is being closed. Save application state.
+		/// Gets invoked when the application execution is closed.
 		/// </summary>
+		/// <remarks>
+		/// Saves the current state of the app such as opened tabs, and disposes all cached resources.
+		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
@@ -167,9 +212,10 @@ namespace Files.App
 				return;
 			}
 
+			// Continue running the app on the background
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
-				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
+				!Process.GetProcessesByName("Files").Any(x => x.Id != Environment.ProcessId))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
@@ -179,7 +225,6 @@ namespace Files.App
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
-				args.Handled = true;
 
 				// Save and close all tabs
 				AppLifecycleHelper.SaveSessionTabs();
@@ -191,16 +236,22 @@ namespace Files.App
 
 				// Sleep current instance
 				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+
 				Thread.Yield();
+
 				if (Program.Pool.WaitOne())
 				{
 					// Resume the instance
 					Program.Pool.Dispose();
+					Program.Pool = null;
 
-					_ = AppLifecycleHelper.CheckUpdatesAsync();
+					if (!AppModel.ForceProcessTermination)
+					{
+						args.Handled = true;
+						_ = AppLifecycleHelper.CheckUpdatesAsync();
+						return;
+					}
 				}
-
-				return;
 			}
 
 			// Method can take a long time, make sure the window is hidden
@@ -248,6 +299,9 @@ namespace Files.App
 			FileOperationsHelpers.WaitForCompletion();
 		}
 
+		/// <summary>
+		/// Gets invoked when the last opened flyout is closed.
+		/// </summary>
 		private static void LastOpenedFlyout_Closed(object? sender, object e)
 		{
 			if (sender is not CommandBarFlyout commandBarFlyout)

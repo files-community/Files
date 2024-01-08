@@ -298,14 +298,15 @@ namespace Files.App.UserControls.Widgets
 			if (!HomePageContext.IsAnyItemRightClicked)
 				return;
 
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = (s, e) =>
 			{
-				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
+				flyout!.Closed -= flyoutClosed;
 				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, associatedInstance);
 			};
 
-			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
+			flyout!.Closed += flyoutClosed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)

@@ -141,13 +141,16 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<!--  Group by Month  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupByMonthInsteadOfYear}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=GroupByMonthInsteadOfYear}"
+						<!--  Group by date unit  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupByDateUnit}" HorizontalAlignment="Stretch">
+							<ComboBox
+								AutomationProperties.Name="{helpers:ResourceString Name=GroupByDateUnit}"
 								IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
-								IsOn="{x:Bind ViewModel.GroupByMonth, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+								SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupByDateUnitIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=Year}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Month}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Day}" />
+							</ComboBox>
 						</local:SettingsBlockControl>
 
 						<!--  Sort Priority  -->

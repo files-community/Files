@@ -16,6 +16,7 @@ using System.Data;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
+using Windows.Graphics;
 using Windows.Services.Store;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
@@ -118,7 +119,7 @@ namespace Files.App.Views
 		// WINUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			return contentDialog;
@@ -136,9 +137,8 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
-
-			if (ViewModel.MultitaskingControl is not UserControls.TabBar.TabBar)
+			TabControl.DragArea.SizeChanged += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			if (ViewModel.MultitaskingControl is not TabBar)
 			{
 				ViewModel.MultitaskingControl = TabControl;
 				ViewModel.MultitaskingControls.Add(TabControl);
@@ -146,11 +146,11 @@ namespace Files.App.Views
 			}
 		}
 
-		private void SetRectDragRegion()
+		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
 		{
-			DragZoneHelper.SetDragZones(
-				MainWindow.Instance,
-				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
+			var height = (int)TabControl.ActualHeight;
+			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth), height))]);
+			return height;
 		}
 
 		public async void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
@@ -286,6 +286,8 @@ namespace Files.App.Views
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			MainWindow.Instance.AppWindow.Changed += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+
 			// Defers the status bar loading until after the page has loaded to improve startup perf
 			FindName(nameof(StatusBarControl));
 			FindName(nameof(InnerNavigationToolbar));

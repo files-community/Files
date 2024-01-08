@@ -368,15 +368,16 @@ namespace Files.App.UserControls.Widgets
 			if (!HomePageContext.IsAnyItemRightClicked)
 				return;
 
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
 			EventHandler<object> flyoutClosed = null!;
 
 			flyoutClosed = (s, e) =>
 			{
-				HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
+				flyout!.Closed -= flyoutClosed;
 				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
 			};
 
-			HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
+			flyout!.Closed += flyoutClosed;
 		}
 
 		public override async Task PinToFavoritesAsync(WidgetCardItem item)
