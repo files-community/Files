@@ -3171,7 +3171,7 @@
     <value>Solid</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Gestionare ramuri</value>
   </data>
   <data name="Push" xml:space="preserve">
     <value>Push</value>
@@ -3675,15 +3675,15 @@
     <value>Prioritate de sortare</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
-    <value>Failed to rotate the image</value>
+    <value>Rotirea imaginii a eșuat</value>
   </data>
   <data name="Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>Repornire</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>Quit</value>
+    <value>Ieșire</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
-    <value>Failed to share items</value>
+    <value>Partajarea elementelor a eșuat</value>
   </data>
 </root>

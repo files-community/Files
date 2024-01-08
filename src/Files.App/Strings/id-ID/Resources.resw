@@ -1816,7 +1816,7 @@
     <value>Buka tab di instance yang sama ketika membuka Files dari app lain</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>Pengaturan pengaktifan</value>
+    <value>Pengaturan startup</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Kompatibilitas</value>
@@ -2014,7 +2014,7 @@
     <value>Atur semua ukuran kolom ke pas</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Menyesuaikan</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptif (Ctrl+Shift+7)</value>
