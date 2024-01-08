@@ -52,7 +52,7 @@ namespace Files.App.Views.Properties
 
 			UpdatePageLayout();
 			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
-			Window.AppWindow.Changed += (_, _) => Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			Window.AppWindow.Changed += AppWindow_Changed;
 		}
 
 		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
@@ -116,12 +116,18 @@ namespace Files.App.Views.Properties
 		{
 			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			Window.Closed -= Window_Closed;
+			Window.AppWindow.Changed -= AppWindow_Changed;
 
 			if (MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource is not null &&
 				!MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource.IsCancellationRequested)
 			{
 				MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource.Cancel();
 			}
+		}
+
+		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs e)
+		{
+			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 		}
 
 		public override async Task<bool> SaveChangesAsync()
