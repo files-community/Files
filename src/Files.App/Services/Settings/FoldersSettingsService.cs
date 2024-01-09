@@ -297,6 +297,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ScrollToParentFolderWhenNavigatingUp
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool CalculateFolderSizes
 		{
 			get => Get(false);
@@ -421,6 +427,7 @@ namespace Files.App.Services.Settings
 				case nameof(OpenItemsWithOneClick):
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(OpenFoldersInNewTab):
+				case nameof(ScrollToParentFolderWhenNavigatingUp):
 				case nameof(CalculateFolderSizes):
 				case nameof(ShowFileExtensions):
 				case nameof(ShowThumbnails):

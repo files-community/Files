@@ -674,8 +674,11 @@ namespace Files.App.Views.Shells
 
 						if (itemToSelect is not null && ContentPage is not null)
 						{
-							ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
-							ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
+							if (userSettingsService.FoldersSettingsService.ScrollToParentFolderWhenNavigatingUp)
+							{
+								ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+								ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
+							}
 						}
 					}
 					break;

@@ -350,6 +350,18 @@
 					IsOn="{x:Bind ViewModel.DoubleClickToGoUp, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
+			
+			<!--  Scroll to parent folder when navigating up  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ScrollToParentFolderWhenNavigatingUp}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xECE7;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ScrollToParentFolderWhenNavigatingUp}"
+					IsOn="{x:Bind ViewModel.ScrollToParentFolderWhenNavigatingUp, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
 
 			<!--  Calculate folder sizes  -->
 			<local:SettingsBlockControl
