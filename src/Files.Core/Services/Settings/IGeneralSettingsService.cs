@@ -170,6 +170,21 @@ namespace Files.Core.Services.Settings
 		bool ShowOpenInNewPane { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to copy an items path.
+		/// </summary>
+		bool ShowCopyPath { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to create a shortcut.
+		/// </summary>
+		bool ShowCreateShortcut { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to create folder with selection.
+		/// </summary>
+		bool ShowCreateFolderWithSelection { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the compression options e.g. create archive, extract files.
 		/// </summary>
 		bool ShowCompressionOptions { get; set; }

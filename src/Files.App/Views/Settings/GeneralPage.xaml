@@ -286,11 +286,27 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<!--  Edit tags  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowEditTagsMenu}" HorizontalAlignment="Stretch">
+						<!--  Copy path  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCopyPath}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowEditTagsMenu}"
-								IsOn="{x:Bind ViewModel.ShowEditTagsMenu, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowCopyPath}"
+								IsOn="{x:Bind ViewModel.ShowCopyPath, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Create folder with selection  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCreateFolderWithSelection}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowCreateFolderWithSelection}"
+								IsOn="{x:Bind ViewModel.ShowCreateFolderWithSelection, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Create shortcut  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCreateShortcut}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowCreateShortcut}"
+								IsOn="{x:Bind ViewModel.ShowCreateShortcut, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
@@ -307,6 +323,14 @@
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowSendToMenu}"
 								IsOn="{x:Bind ViewModel.ShowSendToMenu, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Edit tags  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowEditTagsMenu}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowEditTagsMenu}"
+								IsOn="{x:Bind ViewModel.ShowEditTagsMenu, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
