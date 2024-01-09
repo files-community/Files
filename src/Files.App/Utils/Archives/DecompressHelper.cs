@@ -287,7 +287,14 @@ namespace Files.App.Utils.Archives
 			if (zipFile is null)
 				return true;
 
-			return zipFile.ArchiveFileData.Count > 1;
+			return zipFile.ArchiveFileData.Select(file =>
+			{
+				var pathCharIndex = file.FileName.IndexOfAny(['/', '\\']);
+				if (pathCharIndex == -1)
+					return file.FileName;
+				else
+					return file.FileName.Substring(0, pathCharIndex);
+			}).Distinct().Count() > 1;
 		}
 	}
 }
