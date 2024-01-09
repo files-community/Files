@@ -253,6 +253,48 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowCreateFolderWithSelection
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCopyPath
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCopyPath;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCopyPath)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCopyPath = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCreateShortcut
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCreateShortcut;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCreateShortcut)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCreateShortcut = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool AlwaysOpenDualPaneInNewTab
 		{
 			get => UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;

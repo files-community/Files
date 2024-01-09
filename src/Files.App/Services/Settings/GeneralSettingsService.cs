@@ -217,6 +217,24 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowCopyPath
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+		
+		public bool ShowCreateFolderWithSelection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowCreateShortcut
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool LeaveAppRunning
 		{
 #if STORE || STABLE || PREVIEW
@@ -273,6 +291,10 @@ namespace Files.App.Services.Settings
 				case nameof(ShowOpenInNewTab):
 				case nameof(ShowOpenInNewWindow):
 				case nameof(ShowOpenInNewPane):
+				case nameof(ShowCopyPath):
+				case nameof(ShowCreateFolderWithSelection):
+				case nameof(ShowCreateShortcut):
+				case nameof(ShowCompressionOptions):
 				case nameof(LeaveAppRunning):
 				case nameof(ConflictsResolveOption):
 				case nameof(ShowHashesDictionary):

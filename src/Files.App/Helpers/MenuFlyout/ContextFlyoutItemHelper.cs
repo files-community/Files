@@ -1,10 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.Layouts;
-using Files.Shared.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.Layouts;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -452,15 +451,19 @@ namespace Files.App.Helpers
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyPath)
 				{
-					IsVisible = itemsSelected && !currentInstanceViewModel.IsPageTypeRecycleBin,
+					IsVisible = userSettingsService.GeneralSettingsService.ShowCopyPath
+						&& itemsSelected
+						&&!currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateFolderWithSelection)
 				{
-					IsVisible = itemsSelected
+					IsVisible = userSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateShortcut)
 				{
-					IsVisible = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
+					IsVisible = userSettingsService.GeneralSettingsService.ShowCreateShortcut
+						&& itemsSelected
+						&& (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.Rename)
