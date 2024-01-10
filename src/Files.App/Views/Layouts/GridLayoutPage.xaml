@@ -654,22 +654,6 @@
 						</GroupStyle>
 					</toolkit:AdaptiveGridView.GroupStyle>
 
-					<!--  Search Unindexed Items  -->
-					<toolkit:AdaptiveGridView.Footer>
-						<StackPanel
-							x:Name="SearchUnindexedItemsPanel"
-							HorizontalAlignment="Stretch"
-							x:Load="{x:Bind Commands.SearchUnindexedItems.IsExecutable, Mode=OneWay}"
-							Orientation="Vertical">
-							<TextBlock HorizontalTextAlignment="Center" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
-							<HyperlinkButton
-								x:Name="SearchUnindexedItemsButton"
-								HorizontalAlignment="Center"
-								Command="{x:Bind Commands.SearchUnindexedItems}"
-								Content="{x:Bind Commands.SearchUnindexedItems.Label}" />
-						</StackPanel>
-					</toolkit:AdaptiveGridView.Footer>
-
 					<toolkit:AdaptiveGridView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />

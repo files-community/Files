@@ -987,9 +987,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Show protected system files</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sync layout and sorting preferences across directories</value>
   </data>
@@ -1280,12 +1277,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Didn't find what you're looking for?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Replace existing</value>
@@ -2967,9 +2958,6 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
-  </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus path bar</value>

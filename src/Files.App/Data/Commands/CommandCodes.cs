@@ -14,7 +14,6 @@ namespace Files.App.Data.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
-		SearchUnindexedItems,
 		EditPath,
 		Redo,
 		Undo,

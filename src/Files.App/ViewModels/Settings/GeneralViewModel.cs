@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using System.Globalization;
 using Windows.Globalization;
@@ -159,7 +158,7 @@ namespace Files.App.ViewModels.Settings
 				CommandParameter = "Home",
 				Tooltip = "Home".GetLocalizedResource()
 			});
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand });		
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand });
 		}
 
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -332,7 +331,7 @@ namespace Files.App.ViewModels.Settings
 
 		private void RemovePage(PageOnStartupViewModel page)
 		{
-				PagesOnStartupList.Remove(page);
+			PagesOnStartupList.Remove(page);
 		}
 
 		private async Task AddPageAsync(string path = null)
@@ -364,20 +363,6 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.GeneralSettingsService.DateTimeFormat)
 				{
 					UserSettingsService.GeneralSettingsService.DateTimeFormat = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool SearchUnindexedItems
-		{
-			get => UserSettingsService.GeneralSettingsService.SearchUnindexedItems;
-			set
-			{
-				if (value != UserSettingsService.GeneralSettingsService.SearchUnindexedItems)
-				{
-					UserSettingsService.GeneralSettingsService.SearchUnindexedItems = value;
-
 					OnPropertyChanged();
 				}
 			}
