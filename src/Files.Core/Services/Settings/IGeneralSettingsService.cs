@@ -10,11 +10,6 @@ namespace Files.Core.Services.Settings
 	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to search unindexed items.
-		/// </summary>
-		bool SearchUnindexedItems { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
 		/// </summary>
 		bool OpenSpecificPageOnStartup { get; set; }

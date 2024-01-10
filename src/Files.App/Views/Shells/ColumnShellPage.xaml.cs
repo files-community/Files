@@ -68,7 +68,6 @@ namespace Files.App.Views.Shells
 					IsSearchResultPage = ColumnParams.IsSearchResultPage,
 					SearchQuery = ColumnParams.SearchQuery,
 					NavPathParam = ColumnParams.NavPathParam,
-					SearchUnindexedItems = ColumnParams.SearchUnindexedItems,
 					SearchPathParam = ColumnParams.SearchPathParam,
 					AssociatedTabInstance = this,
 					SelectItems = ColumnParams.SelectItems
@@ -190,18 +189,16 @@ namespace Files.App.Views.Shells
 			ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
 		}
 
-		public void SubmitSearch(string query, bool searchUnindexedItems)
+		public void SubmitSearch(string query)
 		{
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
-			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
 			ItemDisplayFrame.Navigate(typeof(ColumnLayoutPage), new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
 				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
-				SearchUnindexedItems = searchUnindexedItems,
 			});
 
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);

@@ -362,7 +362,6 @@ namespace Files.App.Views.Layouts
 						IsSearchResultPage = navigationArguments.IsSearchResultPage,
 						SearchPathParam = navigationArguments.SearchPathParam,
 						SearchQuery = navigationArguments.SearchQuery,
-						SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
 						IsLayoutSwitch = true,
 						AssociatedTabInstance = ParentShellPageInstance
 					});
@@ -469,7 +468,6 @@ namespace Files.App.Views.Layouts
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
 						ThumbnailSize = InstanceViewModel!.FolderSettings.GetIconSize(),
-						SearchUnindexedItems = navigationArguments.SearchUnindexedItems
 					};
 
 					_ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);

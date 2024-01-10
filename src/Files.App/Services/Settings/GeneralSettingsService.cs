@@ -13,12 +13,6 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public bool SearchUnindexedItems
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool OpenSpecificPageOnStartup
 		{
 			get => Get(false);
@@ -267,7 +261,6 @@ namespace Files.App.Services.Settings
 		{
 			switch (e.SettingName)
 			{
-				case nameof(SearchUnindexedItems):
 				case nameof(OpenSpecificPageOnStartup):
 				case nameof(ContinueLastSessionOnStartUp):
 				case nameof(OpenNewTabOnStartup):

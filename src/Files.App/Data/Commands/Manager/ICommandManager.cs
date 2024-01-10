@@ -17,7 +17,6 @@ namespace Files.App.Data.Commands
 		IRichCommand ExitCompactOverlay { get; }
 		IRichCommand ToggleCompactOverlay { get; }
 		IRichCommand Search { get; }
-		IRichCommand SearchUnindexedItems { get; }
 		IRichCommand EditPath { get; }
 		IRichCommand Redo { get; }
 		IRichCommand Undo { get; }
