@@ -338,14 +338,14 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ScrollToParentFolderWhenNavigatingUp
+		public bool ScrollToPreviousFolderWhenNavigatingUp
 		{
-			get => UserSettingsService.FoldersSettingsService.ScrollToParentFolderWhenNavigatingUp;
+			get => UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ScrollToParentFolderWhenNavigatingUp)
+				if (value != UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
 				{
-					UserSettingsService.FoldersSettingsService.ScrollToParentFolderWhenNavigatingUp = value;
+					UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp = value;
 
 					OnPropertyChanged();
 				}

@@ -203,7 +203,7 @@ namespace Files.Core.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to scroll to the parent folder when navigating up.
 		/// </summary>
-		bool ScrollToParentFolderWhenNavigatingUp { get; set; }
+		bool ScrollToPreviousFolderWhenNavigatingUp { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the default sorting option.

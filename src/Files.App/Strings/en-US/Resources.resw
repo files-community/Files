@@ -3683,7 +3683,7 @@
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Failed to share items</value>
   </data>
-  <data name="ScrollToParentFolderWhenNavigatingUp" xml:space="preserve">
-    <value>Scroll to parent folder when navigating up</value>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
   </data>
 </root>

@@ -297,7 +297,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ScrollToParentFolderWhenNavigatingUp
+		public bool ScrollToPreviousFolderWhenNavigatingUp
 		{
 			get => Get(true);
 			set => Set(value);
@@ -427,7 +427,7 @@ namespace Files.App.Services.Settings
 				case nameof(OpenItemsWithOneClick):
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(OpenFoldersInNewTab):
-				case nameof(ScrollToParentFolderWhenNavigatingUp):
+				case nameof(ScrollToPreviousFolderWhenNavigatingUp):
 				case nameof(CalculateFolderSizes):
 				case nameof(ShowFileExtensions):
 				case nameof(ShowThumbnails):
