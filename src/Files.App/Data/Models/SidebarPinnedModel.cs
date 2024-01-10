@@ -111,7 +111,7 @@ namespace Files.App.Data.Models
 
 				if (locationItem.IconData is null)
 				{
-					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 48u);
+					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 48u, false, true);
 
 					if (locationItem.IconData is not null)
 						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());

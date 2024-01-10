@@ -36,7 +36,7 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int GridViewItemMinWidth =>
 			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
-				? Constants.Browser.GridViewBrowser.TilesView
+				? 260
 				: FolderSettings.GridViewSize;
 
 		public bool IsPointerOver

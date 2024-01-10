@@ -83,7 +83,7 @@ namespace Files.App.Data.Models
 							(!gitItem.StatusPropertiesInitialized && value is GitProperties.All or GitProperties.Status
 							|| !gitItem.CommitPropertiesInitialized && value is GitProperties.All or GitProperties.Commit))
 						{
-								await LoadGitPropertiesAsync(gitItem);
+							await LoadGitPropertiesAsync(gitItem);
 						}
 					});
 				}
@@ -944,136 +944,54 @@ namespace Files.App.Data.Models
 		private async Task LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96, IStorageItem? matchingStorageItem = null)
 		{
 			var wasIconLoaded = false;
+
+
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				if (UserSettingsService.FoldersSettingsService.ShowThumbnails &&
-					!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
+				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getIconOnly);
+				if (iconInfo.IconData is not null)
 				{
-					var matchingStorageFile = matchingStorageItem?.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
-
-					if (matchingStorageFile is not null)
+					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
-						// ListView is used for the details and columns layout
-						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
-
-						if (!(Thumbnail is null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+						item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+						if (!string.IsNullOrEmpty(item.FileExtension) &&
+							!item.IsShortcut && !item.IsExecutable &&
+							!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
 						{
-							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-							{
-								var img = new BitmapImage();
-								img.DecodePixelType = DecodePixelType.Logical;
-								img.DecodePixelWidth = (int)thumbnailSize;
-								await img.SetSourceAsync(Thumbnail);
-								item.FileImage = img;
-								if (!string.IsNullOrEmpty(item.FileExtension) &&
-									!item.IsShortcut && !item.IsExecutable &&
-									!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
-								{
-									DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
-								}
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-							wasIconLoaded = true;
+							DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
 						}
-
-						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
-						if (overlayInfo is not null)
-						{
-							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-							{
-								item.IconOverlay = await overlayInfo.ToBitmapAsync();
-								item.ShieldIcon = await GetShieldIcon();
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						}
-					}
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 
-				if (!wasIconLoaded)
+				if (iconInfo.OverlayData is not null)
 				{
-					var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false);
-					if (iconInfo.IconData is not null)
+					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-							if (!string.IsNullOrEmpty(item.FileExtension) &&
-								!item.IsShortcut && !item.IsExecutable &&
-								!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
-							{
-								DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
-							}
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-					}
-
-					if (iconInfo.OverlayData is not null)
-					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-							item.ShieldIcon = await GetShieldIcon();
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-					}
+						item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+						item.ShieldIcon = await GetShieldIcon();
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 			}
 			else
 			{
-				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 80;
+				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, getIconOnly);
+				if (iconInfo.IconData is not null)
 				{
-					var matchingStorageFolder = matchingStorageItem?.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
-					if (matchingStorageFolder is not null)
+					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
-						// ListView is used for the details and columns layout
-						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
-						if (!(Thumbnail is null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
-						{
-							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-							{
-								var img = new BitmapImage();
-								img.DecodePixelType = DecodePixelType.Logical;
-								img.DecodePixelWidth = (int)thumbnailSize;
-								await img.SetSourceAsync(Thumbnail);
-								item.FileImage = img;
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-							wasIconLoaded = true;
-						}
-
-						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
-						if (overlayInfo is not null)
-						{
-							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-							{
-								item.IconOverlay = await overlayInfo.ToBitmapAsync();
-								item.ShieldIcon = await GetShieldIcon();
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						}
-					}
+						item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 
-				if (!wasIconLoaded)
+				if (iconInfo.OverlayData is not null)
 				{
-					var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true);
-					if (iconInfo.IconData is not null)
+					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-					}
-
-					if (iconInfo.OverlayData is not null)
-					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-							item.ShieldIcon = await GetShieldIcon();
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-					}
+						item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+						item.ShieldIcon = await GetShieldIcon();
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 			}
 		}
@@ -1263,7 +1181,7 @@ namespace Files.App.Data.Models
 		{
 			var getStatus = EnabledGitProperties is GitProperties.All or GitProperties.Status && !gitItem.StatusPropertiesInitialized;
 			var getCommit = EnabledGitProperties is GitProperties.All or GitProperties.Commit && !gitItem.CommitPropertiesInitialized;
-			
+
 			if (!getStatus && !getCommit)
 				return;
 
@@ -1331,7 +1249,7 @@ namespace Files.App.Data.Models
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u, false);
+				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u, false, true);
 
 				if (headerIconInfo is not null && !item.IsShortcut)
 					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
