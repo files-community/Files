@@ -1294,19 +1294,21 @@ namespace Files.App.Views.Layouts
 
 			if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
 			{
-				CollectionViewSource = new()
+				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = true,
 					Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
 				};
+				CollectionViewSource = newSource;
 			}
 			else
 			{
-				CollectionViewSource = new()
+				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = false,
 					Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
 				};
+				CollectionViewSource = newSource;
 			}
 		}
 
