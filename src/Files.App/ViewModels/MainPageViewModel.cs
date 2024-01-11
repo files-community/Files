@@ -1,6 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Terminal;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
@@ -68,6 +70,21 @@ namespace Files.App.ViewModels
 		{
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteOpenNewWindowAcceleratorCommand);
+			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAcceleratorAsync);
+			TerminalToggleCommand = new RelayCommand(() => IsTerminalViewOpen = !IsTerminalViewOpen);
+			TerminalSyncUpCommand = new AsyncRelayCommand(async () =>
+			{
+				var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+				if (GetTerminalFolder is not null && await GetTerminalFolder() is string terminalFolder)
+					_ = NavigationHelpers.OpenPath(terminalFolder, context.ShellPage, FilesystemItemType.Directory);
+			});
+			TerminalSyncDownCommand = new RelayCommand(() =>
+			{
+				var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+				if (context.Folder?.ItemPath is string currentFolder)
+					SetTerminalFolder?.Invoke(currentFolder);
+			});
+			TerminalSelectedProfile = TerminalProfiles[0];
 		}
 
 		// Methods
@@ -227,5 +244,28 @@ namespace Files.App.ViewModels
 			e!.Handled = true;
 		}
 
+		// Terminal integration
+		public ICommand TerminalToggleCommand { get; init; }
+		public ICommand TerminalSyncUpCommand { get; init; }
+		public ICommand TerminalSyncDownCommand { get; init; }
+
+		public Func<Task<string?>>? GetTerminalFolder { get; set; }
+		public Action<string>? SetTerminalFolder { get; set; }
+
+		public List<ShellProfile> TerminalProfiles => new DefaultValueProvider().GetPreinstalledShellProfiles().ToList();
+
+		private bool _isTerminalViewOpen;
+		public bool IsTerminalViewOpen
+		{
+			get => _isTerminalViewOpen;
+			set => SetProperty(ref _isTerminalViewOpen, value);
+		}
+
+		private ShellProfile _terminalSelectedProfile;
+		public ShellProfile TerminalSelectedProfile
+		{
+			get => _terminalSelectedProfile;
+			set => SetProperty(ref _terminalSelectedProfile, value);
+		}
 	}
 }

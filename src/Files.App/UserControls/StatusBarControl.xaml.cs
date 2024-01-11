@@ -11,6 +11,8 @@ namespace Files.App.UserControls
 	{
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
+		public MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 		public DirectoryPropertiesViewModel? DirectoryPropertiesViewModel
 		{
 			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);

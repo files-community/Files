@@ -107,6 +107,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
 		<StackPanel
@@ -386,6 +387,73 @@
 				</Flyout>
 			</Button.Flyout>
 		</Button>
+
+		<StackPanel
+			x:Name="TerminalPanel"
+			Grid.Column="3"
+			VerticalAlignment="Center"
+			x:Load="True"
+			Orientation="Horizontal"
+			Spacing="4">
+
+			<Button
+				x:Name="SyncFolderUp"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind MainPageViewModel.IsTerminalViewOpen, Mode=OneWay}"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Command="{x:Bind MainPageViewModel.TerminalSyncUpCommand}">
+				<Button.Content>
+					<FontIcon FontSize="12" Glyph="&#xE110;" />
+				</Button.Content>
+			</Button>
+
+			<Button
+				x:Name="SyncFolderDown"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind MainPageViewModel.IsTerminalViewOpen, Mode=OneWay}"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Command="{x:Bind MainPageViewModel.TerminalSyncDownCommand}">
+				<Button.Content>
+					<FontIcon FontSize="12" Glyph="&#xE74B;" />
+				</Button.Content>
+			</Button>
+
+			<SplitButton
+				x:Name="ToggleTerminal"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				x:Load="True"
+				AutomationProperties.Name="Toggle terminal"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Command="{x:Bind MainPageViewModel.TerminalToggleCommand}">
+				<SplitButton.Content>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<FontIcon FontSize="12" Glyph="&#xE756;" />
+						<TextBlock Text="{x:Bind MainPageViewModel.TerminalSelectedProfile.Name, Mode=OneWay}" />
+					</StackPanel>
+				</SplitButton.Content>
+				<SplitButton.Flyout>
+					<Flyout Placement="Top">
+						<ListView
+							x:Name="ShellProfileList"
+							Margin="-16"
+							Padding="4"
+							DisplayMemberPath="Name"
+							ItemsSource="{x:Bind MainPageViewModel.TerminalProfiles, Mode=OneWay}"
+							SelectedItem="{x:Bind MainPageViewModel.TerminalSelectedProfile, Mode=TwoWay}"
+							SelectionMode="Single" />
+					</Flyout>
+				</SplitButton.Flyout>
+			</SplitButton>
+		</StackPanel>
 
 	</Grid>
 </UserControl>
