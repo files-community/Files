@@ -20,7 +20,7 @@ namespace Files.App.Views.Layouts
 	{
 		// Properties
 
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		protected override uint IconSize => Constants.DefaultIconSizes.Large;
 		protected override ItemsControl ItemsControl => ColumnHost;
 
 		public string? OwnerPath { get; private set; }

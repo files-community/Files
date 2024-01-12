@@ -97,7 +97,7 @@ namespace Files.App.Data.Models
 					else // Size up from tiles to grid
 					{
 						// Set grid size to allow immediate UI update
-						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax;
+						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeLarge) ? value : Constants.Browser.GridViewBrowser.GridViewSizeLarge;
 						SetProperty(ref LayoutPreferencesItem.GridViewSize, newValue, nameof(GridViewSize));
 
 						// Only update layout mode if it isn't already in grid view
@@ -113,7 +113,7 @@ namespace Files.App.Data.Models
 						}
 
 						// Don't request a grid resize if it is already at the max size
-						if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax)
+						if (value < Constants.Browser.GridViewBrowser.GridViewSizeLarge)
 							GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
 					}
 				}
@@ -308,18 +308,18 @@ namespace Files.App.Data.Models
 			return LayoutMode switch
 			{
 				FolderLayoutModes.DetailsView
-					=> Constants.Browser.DetailsLayoutBrowser.DetailsViewSize,
+					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.ColumnView
-					=> Constants.Browser.ColumnViewBrowser.ColumnViewSize,
+					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.TilesView
-					=> Constants.Browser.GridViewBrowser.GridViewSizeSmall,
+					=> Constants.Browser.GridViewBrowser.TilesView,
 				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
 					=> Constants.Browser.GridViewBrowser.GridViewSizeSmall,
 				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
 					=> Constants.Browser.GridViewBrowser.GridViewSizeMedium,
 				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge
 					=> Constants.Browser.GridViewBrowser.GridViewSizeLarge,
-				_ => Constants.Browser.GridViewBrowser.GridViewSizeMax,
+				_ => Constants.Browser.GridViewBrowser.GridViewSizeLarge,
 			};
 		}
 

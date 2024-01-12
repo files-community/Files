@@ -228,7 +228,7 @@ namespace Files.App.Utils.Shell
 
 		private static readonly object _lock = new object();
 
-		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
+		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getIconOnly, bool getOverlay = true, bool onlyGetOverlay = false)
 		{
 			byte[]? iconData = null, overlayData = null;
 			var entry = _iconAndOverlayCache.GetOrAdd(path, _ => new());
@@ -256,7 +256,9 @@ namespace Files.App.Utils.Shell
 					if (shellItem is not null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
 					{
 						var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
-						if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+
+						if (getIconOnly)
+							flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
 
 						var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
 						if (hres == HRESULT.S_OK)
