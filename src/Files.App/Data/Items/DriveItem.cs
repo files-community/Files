@@ -324,7 +324,7 @@ namespace Files.App.Data.Items
 			else
 			{
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 16, false, true);
+					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, Constants.DefaultIconSizes.Large, false, true);
 
 				if (Root is not null)
 				{

@@ -308,9 +308,9 @@ namespace Files.App.Data.Models
 			return LayoutMode switch
 			{
 				FolderLayoutModes.DetailsView
-					=> Constants.Browser.DetailsLayoutBrowser.DetailsViewSize,
+					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.ColumnView
-					=> Constants.Browser.ColumnViewBrowser.ColumnViewSize,
+					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.TilesView
 					=> Constants.Browser.GridViewBrowser.TilesView,
 				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
