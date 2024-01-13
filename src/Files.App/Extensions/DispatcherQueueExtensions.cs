@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Extensions
 {
@@ -14,7 +12,7 @@ namespace Files.App.Extensions
 			if (dispatcher is not null)
 				return dispatcher.EnqueueAsync(function, priority);
 			else
-				return function();
+				return SafetyExtensions.IgnoreExceptions(function, App.Logger);
 		}
 
 		public static Task<T> EnqueueOrInvokeAsync<T>(this DispatcherQueue? dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
@@ -22,7 +20,7 @@ namespace Files.App.Extensions
 			if (dispatcher is not null)
 				return dispatcher.EnqueueAsync(function, priority);
 			else
-				return function();
+				return SafetyExtensions.IgnoreExceptions(function, App.Logger);
 		}
 
 		public static Task EnqueueOrInvokeAsync(this DispatcherQueue? dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
@@ -31,7 +29,7 @@ namespace Files.App.Extensions
 				return dispatcher.EnqueueAsync(function, priority);
 			else
 			{
-				function();
+				SafetyExtensions.IgnoreExceptions(function, App.Logger);
 				return Task.CompletedTask;
 			}
 		}
@@ -41,7 +39,7 @@ namespace Files.App.Extensions
 			if (dispatcher is not null)
 				return dispatcher.EnqueueAsync(function, priority);
 			else
-				return Task.FromResult(function());
+				return Task.FromResult(SafetyExtensions.IgnoreExceptions(function, App.Logger));
 		}
 
 	}
