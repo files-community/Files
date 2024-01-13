@@ -680,7 +680,7 @@ namespace Files.App.Views.Layouts
 
 		public void UpdateSelectionSize()
 		{
-			var items = (selectedItems?.Any() ?? false) ? selectedItems : SafetyExtensions.IgnoreExceptions(GetAllItems);
+			var items = (selectedItems?.Any() ?? false) ? selectedItems : SafetyExtensions.IgnoreExceptions(GetAllItems, App.Logger);
 			if (items is null)
 				return;
 
