@@ -9,7 +9,7 @@ namespace Files.Shared.Extensions
 {
 	public static class SafetyExtensions
 	{
-		public static bool IgnoreExceptions(Action action, ILogger? logger = null)
+		public static bool IgnoreExceptions(Action action, ILogger? logger = null, Type? exceptionToIgnore = null)
 		{
 			try
 			{
@@ -18,13 +18,18 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.LogInformation(ex, ex.Message);
+				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				{
+					logger?.LogInformation(ex, ex.Message);
 
-				return false;
+					return false;
+				}
+				else
+					throw;
 			}
 		}
 
-		public static async Task<bool> IgnoreExceptions(Func<Task> action, ILogger? logger = null)
+		public static async Task<bool> IgnoreExceptions(Func<Task> action, ILogger? logger = null, Type? exceptionToIgnore = null)
 		{
 			try
 			{
@@ -34,13 +39,18 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.LogInformation(ex, ex.Message);
+				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				{
+					logger?.LogInformation(ex, ex.Message);
 
-				return false;
+					return false;
+				}
+				else
+					throw;
 			}
 		}
 
-		public static T? IgnoreExceptions<T>(Func<T> action, ILogger? logger = null)
+		public static T? IgnoreExceptions<T>(Func<T> action, ILogger? logger = null, Type? exceptionToIgnore = null)
 		{
 			try
 			{
@@ -48,13 +58,18 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.LogInformation(ex, ex.Message);
+				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				{
+					logger?.LogInformation(ex, ex.Message);
 
-				return default;
+					return default;
+				}
+				else
+					throw;
 			}
 		}
 
-		public static async Task<T?> IgnoreExceptions<T>(Func<Task<T>> action, ILogger? logger = null)
+		public static async Task<T?> IgnoreExceptions<T>(Func<Task<T>> action, ILogger? logger = null, Type? exceptionToIgnore = null)
 		{
 			try
 			{
@@ -62,9 +77,14 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.LogInformation(ex, ex.Message);
+				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				{
+					logger?.LogInformation(ex, ex.Message);
 
-				return default;
+					return default;
+				}
+				else
+					throw;
 			}
 		}
 

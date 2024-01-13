@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
+using System.Runtime.InteropServices;
 
 namespace Files.App.Extensions
 {
@@ -12,7 +13,7 @@ namespace Files.App.Extensions
 			if (dispatcher is not null)
 				return dispatcher.EnqueueAsync(function, priority);
 			else
-				return SafetyExtensions.IgnoreExceptions(function, App.Logger);
+				return SafetyExtensions.IgnoreExceptions(function, App.Logger, typeof(COMException));
 		}
 
 		public static Task<T> EnqueueOrInvokeAsync<T>(this DispatcherQueue? dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
@@ -20,7 +21,7 @@ namespace Files.App.Extensions
 			if (dispatcher is not null)
 				return dispatcher.EnqueueAsync(function, priority);
 			else
-				return SafetyExtensions.IgnoreExceptions(function, App.Logger);
+				return SafetyExtensions.IgnoreExceptions(function, App.Logger, typeof(COMException));
 		}
 
 		public static Task EnqueueOrInvokeAsync(this DispatcherQueue? dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
@@ -29,7 +30,7 @@ namespace Files.App.Extensions
 				return dispatcher.EnqueueAsync(function, priority);
 			else
 			{
-				SafetyExtensions.IgnoreExceptions(function, App.Logger);
+				SafetyExtensions.IgnoreExceptions(function, App.Logger, typeof(COMException));
 				return Task.CompletedTask;
 			}
 		}
@@ -39,7 +40,7 @@ namespace Files.App.Extensions
 			if (dispatcher is not null)
 				return dispatcher.EnqueueAsync(function, priority);
 			else
-				return Task.FromResult(SafetyExtensions.IgnoreExceptions(function, App.Logger));
+				return Task.FromResult(SafetyExtensions.IgnoreExceptions(function, App.Logger, typeof(COMException)));
 		}
 
 	}
