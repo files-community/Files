@@ -10,8 +10,12 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public class WidgetContainerItem : ObservableObject, IDisposable
 	{
+		// Fields
+
 		private readonly Action<bool> _expanderValueChangedCallback;
 		private readonly Func<bool> _expanderValueRequestedCallback;
+
+		// Properties
 
 		public IWidgetViewModel WidgetItemModel
 			=> WidgetControl as IWidgetViewModel;
@@ -42,6 +46,8 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		// Constructor
+
 		public WidgetContainerItem(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
 		{
 			_expanderValueChangedCallback = expanderValueChangedCallback;
@@ -49,6 +55,8 @@ namespace Files.App.Data.Items
 
 			WidgetControl = widgetControl;
 		}
+
+		// Disposer
 
 		public void Dispose()
 		{

@@ -22,13 +22,9 @@ namespace Files.App.UserControls.Widgets
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
-
 		public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
-
 		public delegate void RecentFileInvokedEventHandler(object sender, PathNavigationEventArgs e);
-
 		public event RecentFileInvokedEventHandler RecentFileInvoked;
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
@@ -40,13 +36,9 @@ namespace Files.App.UserControls.Widgets
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public string WidgetName => nameof(RecentFilesWidget);
-
 		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
-
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
-
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
-
 		public bool ShowMenuFlyout => false;
 
 		public MenuFlyoutItem? MenuFlyoutItem => null;

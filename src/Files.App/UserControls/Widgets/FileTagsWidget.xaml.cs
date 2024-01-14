@@ -33,21 +33,15 @@ namespace Files.App.UserControls.Widgets
 
 		public delegate void FileTagsOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public delegate void FileTagsNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
-
 		public static event EventHandler<IEnumerable<WidgetFileTagCardItem>>? SelectedTaggedItemsChanged;
 		public event FileTagsOpenLocationInvokedEventHandler FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler FileTagsNewPaneInvoked;
 
 		public string WidgetName => nameof(FileTagsWidget);
-
 		public string WidgetHeader => "FileTags".GetLocalizedResource();
-
 		public string AutomationProperties => "FileTags".GetLocalizedResource();
-
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
-
 		public bool ShowMenuFlyout => false;
-
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		private ICommand OpenInNewPaneCommand;

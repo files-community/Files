@@ -44,34 +44,23 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
-
 		public delegate void QuickAccessCardNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
-
 		public delegate void QuickAccessCardPropertiesInvokedEventHandler(object sender, QuickAccessCardEventArgs e);
-
 		public event QuickAccessCardInvokedEventHandler CardInvoked;
-
 		public event QuickAccessCardNewPaneInvokedEventHandler CardNewPaneInvoked;
-
 		public event QuickAccessCardPropertiesInvokedEventHandler CardPropertiesInvoked;
-
 		public event EventHandler QuickAccessWidgetShowMultiPaneControlsInvoked;
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
-
 		public bool ShowMenuFlyout => false;
-
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		public ICommand OpenPropertiesCommand;
 		public ICommand OpenInNewPaneCommand;
 
 		public string WidgetName => nameof(QuickAccessWidget);
-
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
-
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)

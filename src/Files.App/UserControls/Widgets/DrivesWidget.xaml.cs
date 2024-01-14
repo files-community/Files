@@ -19,21 +19,14 @@ namespace Files.App.UserControls.Widgets
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
 		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
-
 		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-
 		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
-
 		public event PropertyChangedEventHandler? PropertyChanged;
-
 		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = new();
 
 		private IShellPage associatedInstance;
@@ -58,15 +51,10 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		public string WidgetName => nameof(DrivesWidget);
-
 		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
-
 		public string WidgetHeader => "Drives".GetLocalizedResource();
-
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
-
 		public bool ShowMenuFlyout => true;
-
 		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
 		{
 			Icon = new FontIcon() { Glyph = "\uE710" },
