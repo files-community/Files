@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Immutable;
 
