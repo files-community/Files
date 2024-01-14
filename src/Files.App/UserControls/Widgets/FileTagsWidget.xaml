@@ -10,7 +10,6 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.UserControls.Widgets"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -132,7 +131,7 @@
 						</controls:AdaptiveGridView.ItemContainerStyle>
 
 						<controls:AdaptiveGridView.ItemTemplate>
-							<DataTemplate x:DataType="vm:FileTagsItemViewModel">
+							<DataTemplate x:DataType="dataitems:WidgetFileTagCardItem">
 								<Grid
 									ColumnSpacing="8"
 									DataContext="{x:Bind}"

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Files.App.Data.Items
 {
-	public sealed partial class WidgetFileTagsItem : WidgetCardItem
+	public sealed partial class WidgetFileTagCardItem : WidgetCardItem
 	{
 		// Fields
 
@@ -45,9 +45,9 @@ namespace Files.App.Data.Items
 
 		// Commands
 
-		public ICommand ClickAsyncCommand { get; }
+		public ICommand ClickCommand { get; }
 
-		public WidgetFileTagsItem(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
+		public WidgetFileTagCardItem(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
 		{
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;
@@ -56,7 +56,7 @@ namespace Files.App.Data.Items
 			_Path = associatedStorable.TryGetPath();
 			Item = this;
 
-			ClickAsyncCommand = new AsyncRelayCommand<CancellationToken>(ClickAsync);
+			ClickCommand = new AsyncRelayCommand<CancellationToken>(ClickAsync);
 		}
 
 		private Task ClickAsync(CancellationToken cancellationToken)

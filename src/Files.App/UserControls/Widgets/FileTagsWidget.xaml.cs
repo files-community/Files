@@ -14,7 +14,7 @@ namespace Files.App.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents group of control displays a list of <see cref="WidgetFileTagsContainerItem"/>
-	/// and its inner items with <see cref="WidgetFileTagsItem"/>.
+	/// and its inner items with <see cref="WidgetFileTagCardItem"/>.
 	/// </summary>
 	public sealed partial class FileTagsWidget : BaseWidgetViewModel, IWidgetViewModel
 	{
@@ -34,7 +34,7 @@ namespace Files.App.UserControls.Widgets
 		public delegate void FileTagsOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public delegate void FileTagsNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 
-		public static event EventHandler<IEnumerable<WidgetFileTagsItem>>? SelectedTaggedItemsChanged;
+		public static event EventHandler<IEnumerable<WidgetFileTagCardItem>>? SelectedTaggedItemsChanged;
 		public event FileTagsOpenLocationInvokedEventHandler FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler FileTagsNewPaneInvoked;
 
@@ -83,8 +83,8 @@ namespace Files.App.UserControls.Widgets
 
 				ListedItem listedItem = new(null!)
 				{
-					ItemPath = (item.Item as WidgetFileTagsItem)?.Path ?? string.Empty,
-					ItemNameRaw = (item.Item as WidgetFileTagsItem)?.Name ?? string.Empty,
+					ItemPath = (item.Item as WidgetFileTagCardItem)?.Path ?? string.Empty,
+					ItemNameRaw = (item.Item as WidgetFileTagCardItem)?.Name ?? string.Empty,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
@@ -104,15 +104,15 @@ namespace Files.App.UserControls.Widgets
 
 		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			if (e.ClickedItem is WidgetFileTagsItem itemViewModel)
-				await itemViewModel.ClickCommand.ExecuteAsync(null);
+			if (e.ClickedItem is WidgetFileTagCardItem itemViewModel)
+				itemViewModel.ClickCommand.Execute(null);
 		}
 
 		private void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
 			if (e.OriginalSource is not FrameworkElement element ||
-				element.DataContext is not WidgetFileTagsItem item)
+				element.DataContext is not WidgetFileTagCardItem item)
 				return;
 
 			// Create a new Flyout

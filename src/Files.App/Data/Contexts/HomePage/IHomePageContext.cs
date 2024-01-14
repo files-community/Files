@@ -20,7 +20,7 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// An list containing all the selected tagged items
 		/// </summary>
-		IReadOnlyList<WidgetFileTagsItem> SelectedTaggedItems { get; }
+		IReadOnlyList<WidgetFileTagCardItem> SelectedTaggedItems { get; }
 
 		/// <summary>
 		/// Tells whether any item has been right clicked

@@ -20,7 +20,7 @@ namespace Files.App.Data.Items
 
 		// Properties
 
-		public ObservableCollection<WidgetFileTagsItem> Tags { get; }
+		public ObservableCollection<WidgetFileTagCardItem> Tags { get; }
 
 		private string? _Color;
 		public string? Color
