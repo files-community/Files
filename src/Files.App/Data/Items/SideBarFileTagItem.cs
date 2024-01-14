@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Data.Items
 {
-	public class FileTagItem : ObservableObject, INavigationControlItem
+	public class SideBarFileTagItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 

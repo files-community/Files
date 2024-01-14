@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.ViewModels.Widgets;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,7 +14,10 @@ using Windows.System;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
+	/// <summary>
+	/// Represents group of control displays a list of recent folders with <see cref="WidgetFolderCardItem"/>.
+	/// </summary>
+	public sealed partial class RecentFilesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
@@ -126,7 +128,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 
-			FlyoutItemPath = item.Path;
+			_flyoutItemPath = item.Path;
 
 			// Notify of the change on right clicked item
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
@@ -147,7 +149,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
 			// Load shell menu items
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)

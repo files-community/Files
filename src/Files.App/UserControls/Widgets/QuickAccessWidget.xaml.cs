@@ -1,10 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
-using Files.App.ViewModels.Widgets;
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -14,87 +13,15 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class QuickAccessCardEventArgs : EventArgs
-	{
-		public LocationItem Item { get; set; }
-	}
-
-	public class QuickAccessCardInvokedEventArgs : EventArgs
-	{
-		public string Path { get; set; }
-	}
-
-	public class ModifyQuickAccessEventArgs : EventArgs
-	{
-		public string[] Paths { get; set; }
-		public ShellFileItem[] Items { get; set; }
-		public bool Add;
-		public bool Pin = true;
-		public bool Reset = false;
-		public bool Reorder = false;
-
-		public ModifyQuickAccessEventArgs(string[] paths, bool add)
-		{
-			Paths = paths;
-			Add = add;
-		}
-
-		public ModifyQuickAccessEventArgs(ShellFileItem[] items, bool add)
-		{
-			Paths = items.Select(x => x.FilePath).ToArray();
-			Items = items;
-			Add = add;
-		}
-	}
-
-	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
-	{
-		private BitmapImage thumbnail;
-		private byte[] thumbnailData;
-
-		public string AutomationProperties { get; set; }
-		public bool HasPath => !string.IsNullOrEmpty(Path);
-		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
-		public BitmapImage Thumbnail
-		{
-			get => thumbnail;
-			set => SetProperty(ref thumbnail, value);
-		}
-		public LocationItem Item { get; private set; }
-		public string Text { get; set; }
-		public bool IsPinned { get; set; }
-
-		public FolderCardItem(LocationItem item, string text, bool isPinned)
-		{
-			if (!string.IsNullOrWhiteSpace(text))
-			{
-				Text = text;
-				AutomationProperties = Text;
-			}
-			IsPinned = isPinned;
-			Item = item;
-			Path = item.Path;
-		}
-
-		public async Task LoadCardThumbnailAsync()
-		{
-			if (thumbnailData is null || thumbnailData.Length == 0)
-			{
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.DefaultIconSizes.Jumbo), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-			}
-			if (thumbnailData is not null && thumbnailData.Length > 0)
-			{
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.DefaultIconSizes.Jumbo));
-			}
-		}
-	}
-
-	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
+	/// <summary>
+	/// Represents group of control displays a list of quick access folders with <see cref="WidgetFolderCardItem"/>.
+	/// </summary>
+	public sealed partial class QuickAccessWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
-		public static ObservableCollection<FolderCardItem> ItemsAdded = new();
+		public static ObservableCollection<WidgetFolderCardItem> ItemsAdded = new();
 
 		static QuickAccessWidget()
 		{
@@ -108,12 +35,12 @@ namespace Files.App.UserControls.Widgets
 			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
 
-			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTabAsync);
-			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindowAsync);
-			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(OpenInNewPane);
-			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavoritesAsync);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetFolderCardItem>(OpenInNewTabAsync);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetFolderCardItem>(OpenInNewWindowAsync);
+			OpenInNewPaneCommand = new RelayCommand<WidgetFolderCardItem>(OpenInNewPane);
+			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(OpenProperties);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetFolderCardItem>(PinToFavoritesAsync);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetFolderCardItem>(UnpinFromFavoritesAsync);
 		}
 
 		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -257,7 +184,7 @@ namespace Files.App.UserControls.Widgets
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
 
-						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
 							Path = item.Path,
 						});
@@ -280,7 +207,7 @@ namespace Files.App.UserControls.Widgets
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
 
-						ItemsAdded.Insert(lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
+						ItemsAdded.Insert(lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), true)
 						{
 							Path = item.Path,
 						});
@@ -297,7 +224,7 @@ namespace Files.App.UserControls.Widgets
 						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
-						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
 						});
@@ -332,7 +259,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			if (e.Action is NotifyCollectionChangedAction.Add)
 			{
-				foreach (FolderCardItem cardItem in e.NewItems!)
+				foreach (WidgetFolderCardItem cardItem in e.NewItems!)
 					await cardItem.LoadCardThumbnailAsync();
 			}
 		}
@@ -341,11 +268,11 @@ namespace Files.App.UserControls.Widgets
 		{			
 			var pinToFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToFavorites");
 			if (pinToFavoritesItem is not null)
-				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
+				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
 
 			var unpinFromFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
 			if (unpinFromFavoritesItem is not null)
-				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
+				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -353,7 +280,7 @@ namespace Files.App.UserControls.Widgets
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private void OpenInNewPane(FolderCardItem item)
+		private void OpenInNewPane(WidgetFolderCardItem item)
 		{
 			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
 		}
@@ -367,7 +294,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private void OpenProperties(FolderCardItem item)
+		private void OpenProperties(WidgetFolderCardItem item)
 		{
 			if (!HomePageContext.IsAnyItemRightClicked)
 				return;

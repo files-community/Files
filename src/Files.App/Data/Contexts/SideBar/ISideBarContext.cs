@@ -26,6 +26,6 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// Gets the drive item to open if any
 		/// </summary>
-		DriveItem? OpenDriveItem { get; }
+		SideBarDriveItem? OpenDriveItem { get; }
 	}
 }

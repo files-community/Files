@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Files.App.Data.Items
 {
-	public class LocationItem : ObservableObject, INavigationControlItem
+	public class SideBarLocationItem : ObservableObject, INavigationControlItem
 	{
 		public BitmapImage icon;
 		public BitmapImage Icon
@@ -115,13 +115,13 @@ namespace Files.App.Data.Items
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 
-		public static T Create<T>() where T : LocationItem, new()
+		public static T Create<T>() where T : SideBarLocationItem, new()
 		{
 			return new T();
 		}
 	}
 
-	public class RecycleBinLocationItem : LocationItem
+	public class RecycleBinLocationItem : SideBarLocationItem
 	{
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{

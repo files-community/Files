@@ -66,17 +66,17 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
+		public async Task<SideBarLocationItem> CreateLocationItemFromPathAsync(string path)
 		{
 			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-			LocationItem locationItem;
+			SideBarLocationItem locationItem;
 
 			if (string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-				locationItem = LocationItem.Create<RecycleBinLocationItem>();
+				locationItem = SideBarLocationItem.Create<RecycleBinLocationItem>();
 			else
 			{
-				locationItem = LocationItem.Create<LocationItem>();
+				locationItem = SideBarLocationItem.Create<SideBarLocationItem>();
 
 				if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 					locationItem.Text = "ThisPC".GetLocalizedResource();
@@ -143,7 +143,7 @@ namespace Files.App.Data.Models
 		/// Adds the location item to the navigation sidebar
 		/// </summary>
 		/// <param name="locationItem">The location item which to save</param>
-		private void AddLocationItemToSidebar(LocationItem locationItem)
+		private void AddLocationItemToSidebar(SideBarLocationItem locationItem)
 		{
 			int insertIndex = -1;
 			lock (favoriteList)
@@ -177,7 +177,7 @@ namespace Files.App.Data.Models
 			// Remove unpinned items from favoriteList
 			foreach (var childItem in Favorites)
 			{
-				if (childItem is LocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+				if (childItem is SideBarLocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
 				{
 					lock (favoriteList)
 					{

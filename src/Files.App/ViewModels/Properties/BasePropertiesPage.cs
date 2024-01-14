@@ -30,7 +30,7 @@ namespace Files.App.ViewModels.Properties
 			if (np.Parameter is LibraryItem library)
 				BaseProperties = new LibraryProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, library, AppInstance);
 			// Drive
-			else if (np.Parameter is DriveItem drive)
+			else if (np.Parameter is SideBarDriveItem drive)
 			{
 				var props = new DriveProperties(ViewModel, drive, AppInstance);
 				BaseProperties = props;

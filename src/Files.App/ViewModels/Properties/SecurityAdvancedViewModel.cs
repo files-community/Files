@@ -132,7 +132,7 @@ namespace Files.App.ViewModels.Properties
 					_path = listedItem.ItemPath;
 					_isFolder = listedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !listedItem.IsShortcut;
 					break;
-				case DriveItem driveItem:
+				case SideBarDriveItem driveItem:
 					_path = driveItem.Path;
 					_isFolder = true;
 					break;

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml.Controls;
 
@@ -22,7 +21,7 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// An list containing all the selected tagged items
 		/// </summary>
-		IReadOnlyList<FileTagsItemViewModel> SelectedTaggedItems { get; }
+		IReadOnlyList<WidgetFileTagsItem> SelectedTaggedItems { get; }
 
 		/// <summary>
 		/// Tells whether any item has been right clicked

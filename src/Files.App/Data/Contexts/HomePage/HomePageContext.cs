@@ -10,7 +10,7 @@ namespace Files.App.Data.Contexts
 {
 	internal class HomePageContext : ObservableObject, IHomePageContext
 	{
-		private static readonly IImmutableList<FileTagsItemViewModel> emptyTaggedItems = Enumerable.Empty<FileTagsItemViewModel>().ToImmutableList();
+		private static readonly IImmutableList<WidgetFileTagsItem> emptyTaggedItems = Enumerable.Empty<WidgetFileTagsItem>().ToImmutableList();
 
 		public bool IsAnyItemRightClicked => rightClickedItem is not null;
 
@@ -20,8 +20,8 @@ namespace Files.App.Data.Contexts
 		private CommandBarFlyout? itemContextFlyoutMenu = null;
 		public CommandBarFlyout? ItemContextFlyoutMenu => itemContextFlyoutMenu;
 
-		private IReadOnlyList<FileTagsItemViewModel> selectedTaggedItems = emptyTaggedItems;
-		public IReadOnlyList<FileTagsItemViewModel> SelectedTaggedItems
+		private IReadOnlyList<WidgetFileTagsItem> selectedTaggedItems = emptyTaggedItems;
+		public IReadOnlyList<WidgetFileTagsItem> SelectedTaggedItems
 		{
 			get => selectedTaggedItems;
 			set => selectedTaggedItems = value ?? emptyTaggedItems;
@@ -29,11 +29,11 @@ namespace Files.App.Data.Contexts
 
 		public HomePageContext()
 		{
-			HomePageWidget.RightClickedItemChanged += HomePageWidget_RightClickedItemChanged;
+			BaseWidgetViewModel.RightClickedItemChanged += HomePageWidget_RightClickedItemChanged;
 			FileTagsWidget.SelectedTaggedItemsChanged += FileTagsWidget_SelectedTaggedItemsChanged;
 		}
 
-		private void FileTagsWidget_SelectedTaggedItemsChanged(object? sender, IEnumerable<FileTagsItemViewModel> e)
+		private void FileTagsWidget_SelectedTaggedItemsChanged(object? sender, IEnumerable<WidgetFileTagsItem> e)
 		{
 			SetProperty(ref selectedTaggedItems, e.ToList());
 		}

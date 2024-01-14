@@ -24,8 +24,8 @@ namespace Files.App.Data.Contexts
 			_RightClickedItem!.Section is SectionType.Favorites &&
 			FavoriteIndex is not -1;
 
-		public DriveItem? OpenDriveItem
-			=> _RightClickedItem as DriveItem;
+		public SideBarDriveItem? OpenDriveItem
+			=> _RightClickedItem as SideBarDriveItem;
 
 		public SidebarContext()
 		{

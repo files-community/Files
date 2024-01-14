@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Items
 {
-	public class WslDistroItem : ObservableObject, INavigationControlItem
+	public class SideBarWSLItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 

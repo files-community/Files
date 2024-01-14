@@ -1,5 +1,5 @@
 <!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:HomePageWidget
+<local:BaseWidgetViewModel
 	x:Class="Files.App.UserControls.Widgets.RecentFilesWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,7 +9,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	xmlns:recent="using:Files.App.Utils.RecentItem"
-	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
 
 	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">
@@ -121,4 +120,4 @@
 		</ListView>
 
 	</StackPanel>
-</local:HomePageWidget>
+</local:BaseWidgetViewModel>

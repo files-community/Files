@@ -13,8 +13,8 @@ namespace Files.App.Utils.FileTags
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private readonly List<FileTagItem> fileTags = new();
-		public IReadOnlyList<FileTagItem> FileTags
+		private readonly List<SideBarFileTagItem> fileTags = new();
+		public IReadOnlyList<SideBarFileTagItem> FileTags
 		{
 			get
 			{
@@ -45,7 +45,7 @@ namespace Files.App.Utils.FileTags
 			{
 				foreach (var tag in fileTagsSettingsService.FileTagList)
 				{
-					var tagItem = new FileTagItem
+					var tagItem = new SideBarFileTagItem
 					{
 						Text = tag.Name,
 						Path = $"tag:{tag.Name}",
