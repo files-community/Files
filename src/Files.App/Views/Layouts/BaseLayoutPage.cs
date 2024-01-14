@@ -1056,8 +1056,8 @@ namespace Files.App.Views.Layouts
 						}
 						else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
 						{
-							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
-							e.AcceptedOperation = DataPackageOperation.Move;
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
+							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
 						else
 						{

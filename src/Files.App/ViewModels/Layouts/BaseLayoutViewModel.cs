@@ -148,8 +148,8 @@ namespace Files.App.ViewModels.Layouts
 					}
 					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.FilesystemViewModel.WorkingDirectory))
 					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Move;
+						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
+						e.AcceptedOperation = DataPackageOperation.Copy;
 					}
 					else
 					{
