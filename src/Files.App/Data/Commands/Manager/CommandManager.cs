@@ -159,6 +159,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand GroupByYear => commands[CommandCodes.GroupByYear];
 		public IRichCommand GroupByMonth => commands[CommandCodes.GroupByMonth];
 		public IRichCommand ToggleGroupByDateUnit => commands[CommandCodes.ToggleGroupByDateUnit];
+		public IRichCommand NewWindow => commands[CommandCodes.NewWindow];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
@@ -328,6 +329,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.GroupByYear] = new GroupByYearAction(),
 			[CommandCodes.GroupByMonth] = new GroupByMonthAction(),
 			[CommandCodes.ToggleGroupByDateUnit] = new ToggleGroupByDateUnitAction(),
+			[CommandCodes.NewWindow] = new NewWindowAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
