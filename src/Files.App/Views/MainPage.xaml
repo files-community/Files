@@ -114,13 +114,6 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="N" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenNewWindowAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>
 
 	<Grid>
