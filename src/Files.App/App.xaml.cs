@@ -66,8 +66,10 @@ namespace Files.App
 			async Task ActivateAsync()
 			{
 				// Get AppActivationArguments
-				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
-				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
+				var appActivationArguments =
+					Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+				var isStartupTask =
+					appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
 
 				if (!isStartupTask)
 				{
@@ -82,7 +84,8 @@ namespace Files.App
 				}
 
 				// Start tracking app usage
-				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
+				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs
+				    activationEventArgs)
 					SystemInformation.Instance.TrackAppUse(activationEventArgs);
 
 				// Configure the DI (dependency injection) container
@@ -130,13 +133,18 @@ namespace Files.App
 					await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
 					SplashScreenLoadingTCS = null;
 
+					// Initialize most required components
+					_ = AppLifecycleHelper.InitializeMandatoryAsync();
+					await MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+
 					// Create a system tray icon
 					SystemTrayIcon = new SystemTrayIcon().Show();
-
-					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 				}
 
-				await AppLifecycleHelper.InitializeAppComponentsAsync();
+				// Continue initialization once the initial screen is loaded
+				await Task.Delay(50);
+				_ = AppLifecycleHelper.InitializeLateAsync();
+
 
 				if (isStartupTask && isLeaveAppRunning)
 				{
@@ -145,9 +153,10 @@ namespace Files.App
 					App.Current.Exit();
 				}
 				else
-					await AppLifecycleHelper.CheckAppUpdate();
+					_ = AppLifecycleHelper.CheckUpdatesAsync();
 			}
 		}
+
 
 		/// <summary>
 		/// Gets invoked when the application is activated.
@@ -159,7 +168,12 @@ namespace Files.App
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
-				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgsData));
+				=>
+			{
+				// Important: To initialize app after resuming from background, we need to reset Window's content
+				MainWindow.Instance.Content = null;
+				return MainWindow.Instance.InitializeApplicationAsync(activatedEventArgsData);
+			});
 		}
 
 		/// <summary>
@@ -234,7 +248,7 @@ namespace Files.App
 					if (!AppModel.ForceProcessTermination)
 					{
 						args.Handled = true;
-						_ = AppLifecycleHelper.CheckAppUpdate();
+						_ = AppLifecycleHelper.CheckUpdatesAsync();
 						return;
 					}
 				}

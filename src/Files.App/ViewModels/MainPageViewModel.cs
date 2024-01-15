@@ -72,16 +72,12 @@ namespace Files.App.ViewModels
 
 		// Methods
 
-		public async Task OnNavigatedToAsync(NavigationEventArgs e)
+		public async Task OnNavigatedToAsync(object parameter)
 		{
-			if (e.NavigationMode == NavigationMode.Back)
-				return;
-
 			// Initialize the static theme helper to capture a reference to this window
 			// to handle theme changes without restarting the app
 			var isInitialized = ThemeHelper.Initialize();
 
-			var parameter = e.Parameter;
 			var ignoreStartupSettings = false;
 			if (parameter is MainPageNavigationArguments mainPageNavigationArguments)
 			{
@@ -188,10 +184,6 @@ namespace Files.App.ViewModels
 			{
 				// Load the app theme resources
 				ResourcesService.LoadAppResources(AppearanceSettingsService);
-
-				await Task.WhenAll(
-					DrivesViewModel.UpdateDrivesAsync(),
-					NetworkDrivesViewModel.UpdateDrivesAsync());
 			}
 		}
 
