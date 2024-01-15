@@ -97,7 +97,7 @@ namespace Files.App.Data.Models
 			locationItem.IsDefaultLocation = false;
 			locationItem.Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
 
-			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+			if (res)
 			{
 				locationItem.IsInvalid = false;
 				if (res && res.Result is not null)
