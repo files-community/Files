@@ -9,7 +9,6 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Text;
-using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
