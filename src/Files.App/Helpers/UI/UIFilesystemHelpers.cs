@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Text;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -324,7 +325,10 @@ namespace Files.App.Helpers
 					break;
 			}
 
-			if (created.Status == ReturnResult.AccessUnauthorized)
+			// Add newly created item to recent files list
+			if (created.Status == ReturnResult.Success && created.Item?.Path is not null)
+				Shell32.SHAddToRecentDocs(Shell32.SHARD.SHARD_PATHW, created.Item.Path);
+			else if (created.Status == ReturnResult.AccessUnauthorized)
 			{
 				await DialogDisplayHelper.ShowDialogAsync
 				(
