@@ -135,17 +135,25 @@ namespace Files.App
 
 					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 				}
+				else
+				{
+					// Create a system tray icon
+					SystemTrayIcon = new SystemTrayIcon().Show();
+
+					// Sleep current instance
+					Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+
+					Thread.Yield();
+
+					if (Program.Pool.WaitOne())
+					{
+						// Resume the instance
+						Program.Pool.Dispose();
+						Program.Pool = null;
+					}
+				}
 
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
-
-				if (isStartupTask && isLeaveAppRunning)
-				{
-					// Create a system tray icon when initialization is done
-					SystemTrayIcon = new SystemTrayIcon().Show();
-					App.Current.Exit();
-				}
-				else
-					await AppLifecycleHelper.CheckAppUpdate();
 			}
 		}
 
