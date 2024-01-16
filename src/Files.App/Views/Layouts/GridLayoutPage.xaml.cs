@@ -183,18 +183,24 @@ namespace Files.App.Views.Layouts
 
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
 
-			GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
-			if (gridViewItem is null)
+			if (FileList.ContainerFromItem(RenamingItem) is not GridViewItem gridViewItem)
 				return;
 
-			TextBox textBox = null;
+			if (gridViewItem.FindDescendant("ItemName") is not TextBlock textBlock)
+				return;
+
+			TextBox? textBox = null;
 
 			// Handle layout differences between tiles browser and photo album
-			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+			if (FolderSettings?.LayoutMode == FolderLayoutModes.GridView)
 			{
-				Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				if (gridViewItem.FindDescendant("EditPopup") is not Popup popup)
+					return;
+
 				textBox = popup.Child as TextBox;
+				if (textBox is null)
+					return;
+
 				textBox.Text = textBlock.Text;
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
@@ -202,8 +208,10 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
-				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
+				if (textBox is null)
+					return;
+
 				textBox.Text = textBlock.Text;
 				OldItemName = textBlock.Text;
 				textBlock.Visibility = Visibility.Collapsed;
@@ -221,8 +229,8 @@ namespace Files.App.Views.Layouts
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = SelectedItem.Name.Length;
-			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+			int selectedTextLength = RenamingItem.Name.Length;
+			if (!RenamingItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
