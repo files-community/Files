@@ -1691,7 +1691,7 @@ namespace Files.App.Data.Models
 				.FirstOrDefault()?.ItemPath;
 		}
 
-		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
+		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
 		{
 			int? syncStatus = null;
 			if (item is BaseStorageFile file && file.Properties is not null)
