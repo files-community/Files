@@ -1,175 +1,124 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Utils;
-using Files.App.Helpers;
-using Files.App.Utils.Shell;
-using Files.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
+	/// <summary>
+	/// Represents view model of <see cref="Views.Properties.CompatibilityPage"/>.
+	/// </summary>
 	public class CompatibilityViewModel : ObservableObject
 	{
-		public ListedItem Item { get; }
+		// Dependency injections
 
-		private string ExePath
-			=> Item is ShortcutItem sht ? sht.TargetPath : Item.ItemPath;
+		private IWindowsCompatibilityService WindowsCompatibilityService { get; } = Ioc.Default.GetRequiredService<IWindowsCompatibilityService>();
 
-		private CompatibilityOptions compatibilityOptions;
-		public CompatibilityOptions CompatibilityOptions
+		// Properties
+
+		public string ItemPath { get; }
+
+		public WindowsCompatibilityOptions CompatibilityOptions { get; }
+
+		public Dictionary<WindowsCompatModeKind, string> CompatibilityModes { get; } = [];
+		public Dictionary<WindowsCompatReducedColorModeKind, string> ReducedColorModes { get; } = [];
+		public Dictionary<WindowsCompatDPIOptionKind, string> HighDpiOptions { get; } = [];
+		public Dictionary<WindowsCompatDpiOverrideKind, string> HighDpiOverrides { get; } = [];
+
+		public string SelectedCompatibilityMode
 		{
-			get => compatibilityOptions;
-			set
-			{
-				if (SetProperty(ref compatibilityOptions, value))
-				{
-					ExecuteAt640X480 = value.ExecuteAt640X480;
-					DisableMaximized = value.DisableMaximized;
-					RunAsAdministrator = value.RunAsAdministrator;
-					RegisterForRestart = value.RegisterForRestart;
-					OSCompatibility = OSCompatibilityList.SingleOrDefault(x => x.Value == value.OSCompatibility);
-					HighDpiOption = HighDpiOptionList.SingleOrDefault(x => x.Value == value.HighDpiOption);
-					HighDpiOverride = HighDpiOverrideList.SingleOrDefault(x => x.Value == value.HighDpiOverride);
-					ReducedColorMode = ReducedColorModeList.SingleOrDefault(x => x.Value == value.ReducedColorMode);
-				}
-			}
+			get => CompatibilityModes.GetValueOrDefault(CompatibilityOptions.CompatibilityMode)!;
+			set => SetProperty(ref CompatibilityOptions.CompatibilityMode, CompatibilityModes.First(e => e.Value == value).Key);
 		}
 
-		private bool executeAt640X480;
-		public bool ExecuteAt640X480
+		public string SelectedReducedColorMode
 		{
-			get => executeAt640X480;
-			set
-			{
-				if (SetProperty(ref executeAt640X480, value))
-				{
-					compatibilityOptions.ExecuteAt640X480 = value;
-				}
-			}
+			get => ReducedColorModes.GetValueOrDefault(CompatibilityOptions.ReducedColorMode)!;
+			set => SetProperty(ref CompatibilityOptions.ReducedColorMode, ReducedColorModes.First(e => e.Value == value).Key);
 		}
 
-		private bool disableMaximized;
-		public bool DisableMaximized
+		public bool RunIn40x480Resolution
 		{
-			get => disableMaximized;
-			set
-			{
-				if (SetProperty(ref disableMaximized, value))
-				{
-					compatibilityOptions.DisableMaximized = value;
-				}
-			}
+			get => CompatibilityOptions.RunIn40x480Resolution;
+			set => SetProperty(ref CompatibilityOptions.RunIn40x480Resolution, value);
 		}
 
-		private bool runAsAdministrator;
+		public bool DisableFullscreenOptimization
+		{
+			get => CompatibilityOptions.DisableFullscreenOptimization;
+			set => SetProperty(ref CompatibilityOptions.DisableFullscreenOptimization, value);
+		}
+
 		public bool RunAsAdministrator
 		{
-			get => runAsAdministrator;
-			set
-			{
-				if (SetProperty(ref runAsAdministrator, value))
-				{
-					compatibilityOptions.RunAsAdministrator = value;
-				}
-			}
+			get => CompatibilityOptions.RunAsAdministrator;
+			set => SetProperty(ref CompatibilityOptions.RunAsAdministrator, value);
 		}
 
-		private bool registerForRestart;
 		public bool RegisterForRestart
 		{
-			get => registerForRestart;
-			set
-			{
-				if (SetProperty(ref registerForRestart, value))
-				{
-					compatibilityOptions.RegisterForRestart = value;
-				}
-			}
+			get => CompatibilityOptions.RegisterForRestart;
+			set => SetProperty(ref CompatibilityOptions.RegisterForRestart, value);
 		}
 
-		public LocalizedEnumHelper<OSCompatibility> osCompatibility;
-		public LocalizedEnumHelper<OSCompatibility> OSCompatibility
+		public string SelectedHighDpiOption
 		{
-			get => osCompatibility;
-			set
-			{
-				if (SetProperty(ref osCompatibility, value))
-				{
-					compatibilityOptions.OSCompatibility = value.Value;
-				}
-			}
+			get => HighDpiOptions.GetValueOrDefault(CompatibilityOptions.HighDpiOption)!;
+			set => SetProperty(ref CompatibilityOptions.HighDpiOption, HighDpiOptions.First(e => e.Value == value).Key);
 		}
 
-		public LocalizedEnumHelper<ReducedColorMode> reducedColorMode;
-		public LocalizedEnumHelper<ReducedColorMode> ReducedColorMode
+		public string SelectedHighDpiOverride
 		{
-			get => reducedColorMode;
-			set
-			{
-				if (SetProperty(ref reducedColorMode, value))
-				{
-					compatibilityOptions.ReducedColorMode = value.Value;
-				}
-			}
+			get => HighDpiOverrides.GetValueOrDefault(CompatibilityOptions.HighDpiOverride)!;
+			set => SetProperty(ref CompatibilityOptions.HighDpiOverride, HighDpiOverrides.First(e => e.Value == value).Key);
 		}
 
-		public LocalizedEnumHelper<HighDpiOption> highDpiOption;
-		public LocalizedEnumHelper<HighDpiOption> HighDpiOption
-		{
-			get => highDpiOption;
-			set
-			{
-				if (SetProperty(ref highDpiOption, value))
-				{
-					compatibilityOptions.HighDpiOption = value.Value;
-				}
-			}
-		}
+		// Commands
 
-		public LocalizedEnumHelper<HighDpiOverride> highDpiOverride;
-		public LocalizedEnumHelper<HighDpiOverride> HighDpiOverride
-		{
-			get => highDpiOverride;
-			set
-			{
-				if (SetProperty(ref highDpiOverride, value))
-				{
-					compatibilityOptions.HighDpiOverride = value.Value;
-				}
-			}
-		}
+		public ICommand RunTroubleshooterCommand { get; set; }
 
-		public List<LocalizedEnumHelper<HighDpiOption>> HighDpiOptionList { get; } = Enum.GetValues(typeof(HighDpiOption)).Cast<HighDpiOption>().Select(x => new LocalizedEnumHelper<HighDpiOption>(x)).ToList();
-		public List<LocalizedEnumHelper<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Where(x => x != Core.Data.Items.HighDpiOverride.Advanced).Select(x => new LocalizedEnumHelper<HighDpiOverride>(x)).ToList();
-		public List<LocalizedEnumHelper<OSCompatibility>> OSCompatibilityList { get; } = Enum.GetValues(typeof(OSCompatibility)).Cast<OSCompatibility>().Select(x => new LocalizedEnumHelper<OSCompatibility>(x)).ToList();
-		public List<LocalizedEnumHelper<ReducedColorMode>> ReducedColorModeList { get; } = Enum.GetValues(typeof(ReducedColorMode)).Cast<ReducedColorMode>().Select(x => new LocalizedEnumHelper<ReducedColorMode>(x)).ToList();
-
-		public IRelayCommand RunTroubleshooterCommand { get; set; }
+		// Constructor
 
 		public CompatibilityViewModel(ListedItem item)
 		{
-			Item = item;
+			ItemPath = item is ShortcutItem shortcutItem ? shortcutItem.TargetPath : item.ItemPath;
 
-			RunTroubleshooterCommand = new AsyncRelayCommand(RunTroubleshooter);
+			CompatibilityOptions = WindowsCompatibilityService.GetCompatibilityOptionsForPath(ItemPath);
+
+			CompatibilityModes.Add(WindowsCompatModeKind.None, "None".GetLocalizedResource());
+			CompatibilityModes.Add(WindowsCompatModeKind.WindowsVista, "Windows Vista");
+			CompatibilityModes.Add(WindowsCompatModeKind.WindowsVistaSP1, "Windows Vista (Service Pack 1)");
+			CompatibilityModes.Add(WindowsCompatModeKind.WindowsVistaSP2, "Windows Vista (Service Pack 2)");
+			CompatibilityModes.Add(WindowsCompatModeKind.Windows7, "Windows 7");
+			CompatibilityModes.Add(WindowsCompatModeKind.Windows8, "Windows 8");
+
+			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.None, "CompatibilityNoReducedColor".GetLocalizedResource());
+			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.Color8Bit, "CompatibilityReducedColorModeColor8bit".GetLocalizedResource());
+			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.Color16Bit, "CompatibilityReducedColorModeColor16bit".GetLocalizedResource());
+
+			HighDpiOptions.Add(WindowsCompatDPIOptionKind.None, "CompatibilityDoNotAdjustDPI".GetLocalizedResource());
+			HighDpiOptions.Add(WindowsCompatDPIOptionKind.UseDPIOnLogin, "CompatibilityOnWindowsLogin".GetLocalizedResource());
+			HighDpiOptions.Add(WindowsCompatDPIOptionKind.UseDPIOnProgramStart, "CompatibilityOnProgramStart".GetLocalizedResource());
+
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.None, "CompatibilityDoNotOverrideDPI".GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.Advanced, "Advanced".GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.Application, "Application".GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.System, "System".GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.SystemAdvanced, "CompatibilitySystemEnhanced".GetLocalizedResource());
+
+			RunTroubleshooterCommand = new AsyncRelayCommand(ExecuteRunTroubleshooterCommand);
 		}
 
-		public void GetCompatibilityOptions()
-		{
-			var options = FileOperationsHelpers.ReadCompatOptions(ExePath);
-
-			CompatibilityOptions = CompatibilityOptions.FromString(options);
-		}
+		// Methods
 
 		public bool SetCompatibilityOptions()
-			=> FileOperationsHelpers.SetCompatOptions(ExePath, CompatibilityOptions.ToString());
+		{
+			return WindowsCompatibilityService.SetCompatibilityOptionsForPath(ItemPath, CompatibilityOptions);
+		}
 
-		public Task RunTroubleshooter()
-			=> LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
+		private Task ExecuteRunTroubleshooterCommand()
+		{
+			return LaunchHelper.RunCompatibilityTroubleshooterAsync(ItemPath);
+		}
 	}
 }
