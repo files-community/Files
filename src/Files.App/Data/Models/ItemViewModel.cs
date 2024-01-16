@@ -1642,8 +1642,14 @@ namespace Files.App.Data.Models
 					});
 
 					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-					if (rootFolder?.DisplayName is not null)
-						currentFolder.ItemNameRaw = rootFolder.DisplayName;
+					if (rootFolder is not null)
+					{
+						if (rootFolder.DisplayName is not null)
+							currentFolder.ItemNameRaw = rootFolder.DisplayName;
+
+						var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
+						currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+					}
 
 					return 0;
 				}
