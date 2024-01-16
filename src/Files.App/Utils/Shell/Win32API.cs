@@ -387,6 +387,10 @@ namespace Files.App.Utils.Shell
 			{
 				return false;
 			}
+			catch (InvalidOperationException)
+			{
+				return false;
+			}
 			catch (Win32Exception)
 			{
 				// If user cancels UAC
