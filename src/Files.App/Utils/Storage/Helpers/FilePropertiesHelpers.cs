@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
+using Windows.ApplicationModel;
 using Windows.Graphics;
 
 namespace Files.App.Utils.Storage
@@ -120,7 +121,14 @@ namespace Files.App.Utils.Storage
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			appWindow.SetIcon(applicationService.AppIcoPath);
+			string appIcoPath = ApplicationService.AppEnvironment switch
+			{
+				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
+				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
+				_ => Constants.AssetPaths.StableLogo
+			};
+
+			appWindow.SetIcon(SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, appIcoPath));
 
 			frame.Navigate(
 				typeof(Views.Properties.MainPropertiesPage),
