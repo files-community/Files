@@ -255,12 +255,14 @@ namespace Files.App.Views
 				ItemType = "Folder".GetLocalizedResource(),
 			};
 
-			BaseStorageFolder matchingStorageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(e.Item.Path);
-
-			if (matchingStorageFolder is not null)
+			if (!string.Equals(e.Item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var syncStatus = await AppInstance.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
-				listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+				BaseStorageFolder matchingStorageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(e.Item.Path);
+				if (matchingStorageFolder is not null)
+				{
+					var syncStatus = await AppInstance.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+					listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+				}
 			}
 
 			FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);

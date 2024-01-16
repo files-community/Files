@@ -1647,8 +1647,11 @@ namespace Files.App.Data.Models
 						if (rootFolder.DisplayName is not null)
 							currentFolder.ItemNameRaw = rootFolder.DisplayName;
 
-						var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
-						currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+						if (!string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+						{
+							var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
+							currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+						}
 					}
 
 					return 0;
