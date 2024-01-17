@@ -178,7 +178,7 @@ namespace Files.App.Views.Layouts
 		override public void StartRenameItem()
 		{
 			RenamingItem = SelectedItem;
-			if (RenamingItem is null)
+			if (RenamingItem is null || FolderSettings is null)
 				return;
 
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
@@ -192,7 +192,7 @@ namespace Files.App.Views.Layouts
 			TextBox? textBox = null;
 
 			// Handle layout differences between tiles browser and photo album
-			if (FolderSettings?.LayoutMode == FolderLayoutModes.GridView)
+			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				if (gridViewItem.FindDescendant("EditPopup") is not Popup popup)
 					return;
