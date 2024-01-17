@@ -52,6 +52,8 @@ namespace Files.App.Views.Layouts
 				typeof(GridLayoutPage),
 				new PropertyMetadata(false));
 
+		private bool isHorizontal = true;
+
 		// Constructor
 
 		public GridLayoutPage() : base()
@@ -576,5 +578,19 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		private void ChangeRotationButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (isHorizontal)
+			{
+				FileList.ItemsPanel = (ItemsPanelTemplate)Resources["VerticalItemsTemplate"];
+				FileList.ItemTemplate = GridViewBrowserTemplateVertical;
+			}
+			else
+			{
+				FileList.ItemsPanel = (ItemsPanelTemplate)Resources["HorizontalItemsTemplate"];
+				FileList.ItemTemplate = GridViewBrowserTemplate;
+			}
+			isHorizontal = !isHorizontal;
+		}
 	}
 }

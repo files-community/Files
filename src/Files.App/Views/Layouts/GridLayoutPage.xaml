@@ -22,6 +22,7 @@
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
 
+	
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
 			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
@@ -32,6 +33,34 @@
 	</i:Interaction.Behaviors>
 
 	<local:BaseGroupableLayoutPage.Resources>
+		<ItemsPanelTemplate x:Key="VerticalItemsTemplate">
+			<ItemsWrapGrid Orientation="Vertical" />
+		</ItemsPanelTemplate>
+		<ItemsPanelTemplate x:Key="HorizontalItemsTemplate">
+			<ItemsWrapGrid Orientation="Horizontal" />
+		</ItemsPanelTemplate>
+		<Style x:Key="VerticalLayoutGridView" TargetType="GridView">
+			<Style.Setters>
+				<Setter Property="ItemsPanel">
+					<Setter.Value>
+						<ItemsPanelTemplate>
+						</ItemsPanelTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style.Setters>
+		</Style>
+
+		<Style x:Key="HorizontalLayoutGridView" TargetType="GridView">
+			<Style.Setters>
+				<Setter Property="ItemsPanel">
+					<Setter.Value>
+						<ItemsPanelTemplate>
+							<ItemsWrapGrid Orientation="Horizontal" />
+						</ItemsPanelTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style.Setters>
+		</Style>
 
 		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -243,6 +272,160 @@
 						</VisualStateGroup>
 					</VisualStateManager.VisualStateGroups>
 				</Grid>
+			</UserControl>
+		</DataTemplate>
+
+		<DataTemplate x:Name="GridViewBrowserTemplateVertical" x:DataType="filesystem:ListedItem">
+			<UserControl>
+				<StackPanel 
+					Width="300"
+					x:Name="GridViewBrowserListedItem"
+					Height="60"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
+					Background="Transparent"
+					Orientation="Horizontal"
+					IsRightTapEnabled="True"
+					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+
+					<Grid
+						Grid.Row="0"
+						Width="40"
+						Height="40"
+						VerticalAlignment="Center"
+						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						Opacity="{x:Bind Opacity, Mode=OneWay}"
+						Tag="ItemImage">
+
+						<ContentPresenter
+							x:Name="PictureBorder"
+							Margin="12"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+							x:Phase="1"
+							CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
+							<Image
+								x:Name="Picture"
+								Source="{x:Bind FileImage, Mode=OneWay}"
+								Stretch="Uniform" />
+						</ContentPresenter>
+
+						<Border
+							x:Name="TypeUnknownGlyph"
+							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							Margin="12"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+							Background="{ThemeResource SystemChromeHighColor}"
+							CornerRadius="4" />
+
+						<Image
+							x:Name="IconOverlay"
+							Width="32"
+							Height="32"
+							Margin="16"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Bottom"
+							x:Load="True"
+							x:Phase="1"
+							Source="{x:Bind IconOverlay, Mode=OneWay}"
+							Stretch="Uniform" />
+
+						<Viewbox
+							x:Name="WebShortcutGlyph"
+							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							Margin="12"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+							x:Phase="1">
+							<FontIcon FontSize="28" Glyph="&#xE71B;" />
+						</Viewbox>
+
+						<Viewbox
+							x:Name="ShortcutGlyphElement"
+							Width="16"
+							Height="16"
+							Margin="14"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Bottom"
+							x:Load="{x:Bind IsShortcut}"
+							x:Phase="1">
+							<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
+						</Viewbox>
+
+						<Image
+							x:Name="ShieldOverlay"
+							Width="16"
+							Height="16"
+							Margin="14"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Bottom"
+							x:Load="{x:Bind IsElevated}"
+							x:Phase="1"
+							Source="{x:Bind ShieldIcon, Mode=OneWay}"
+							Stretch="Uniform" />
+					</Grid>
+
+					<TextBlock
+							x:Name="ItemName"
+							Grid.Column="2"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							Opacity="{x:Bind Opacity, Mode=OneWay}"
+							Text="{x:Bind Name, Mode=OneWay}"
+							TextAlignment="Center"
+							TextTrimming="CharacterEllipsis"
+							TextWrapping="Wrap" />
+					
+
+					<CheckBox
+						x:Name="SelectionCheckbox"
+						Grid.RowSpan="2"
+						Grid.ColumnSpan="2"
+						Width="32"
+						MinWidth="0"
+						MinHeight="0"
+						Margin="6"
+						Padding="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						AutomationProperties.AccessibilityView="Raw"
+						Checked="ItemSelected_Checked"
+						DoubleTapped="SelectionCheckbox_DoubleTapped"
+						Opacity="0"
+						Unchecked="ItemSelected_Unchecked" />
+
+					<Popup x:Name="EditPopup" Grid.Row="1">
+						<TextBox
+							x:Name="GridViewTextBoxItemName"
+							Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
+							Margin="0"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+							Text="{x:Bind Name, Mode=OneWay}"
+							TextAlignment="Center"
+							TextWrapping="Wrap" />
+					</Popup>
+
+					<VisualStateManager.VisualStateGroups>
+						<VisualStateGroup x:Name="CheckboxVisibilityStates">
+							<VisualState x:Name="HideCheckbox" />
+							<VisualState x:Name="ShowCheckbox">
+								<VisualState.Setters>
+									<Setter Target="SelectionCheckbox.Opacity" Value="1" />
+								</VisualState.Setters>
+							</VisualState>
+						</VisualStateGroup>
+					</VisualStateManager.VisualStateGroups>
+				</StackPanel>
 			</UserControl>
 		</DataTemplate>
 
@@ -542,7 +725,11 @@
 	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
-
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Button x:Name="ChangeRotationButton" Click="ChangeRotationButton_Click" Content="Change direction" VerticalAlignment="Top"/>
 		<!--  Empty Indicator  -->
 		<uc:FolderEmptyIndicator
 			Grid.Row="3"
@@ -563,13 +750,15 @@
 		<!--  Grouping/Ungrouping  -->
 		<SemanticZoom
 			x:Name="RootGridZoom"
+			Grid.Row="1"
+			Margin="50,0,0,0"
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
 			<!--  Main View  -->
 			<SemanticZoom.ZoomedInView>
-				<toolkit:AdaptiveGridView
+				<GridView
 					x:Name="FileList"
 					Padding="8"
 					VerticalContentAlignment="Stretch"
@@ -579,7 +768,6 @@
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
-					DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
 					DragOver="ItemsLayout_DragOver"
@@ -591,13 +779,16 @@
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.IsHorizontalScrollChainingEnabled="False"
+					ScrollViewer.HorizontalScrollBarVisibility="Auto"
+					ScrollViewer.VerticalScrollBarVisibility="Auto"
+					ScrollViewer.HorizontalScrollMode="Auto"
+					ScrollViewer.VerticalScrollMode="Auto"
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					ShowsScrollingPlaceholders="True"
-					StretchContentForSingleRow="False"
 					Tapped="FileList_ItemTapped">
 
-					<toolkit:AdaptiveGridView.GroupStyle>
+					<GridView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
 								<DataTemplate x:DataType="storage:IGroupedCollectionHeader">
@@ -652,16 +843,31 @@
 								</DataTemplate>
 							</GroupStyle.HeaderTemplate>
 						</GroupStyle>
-					</toolkit:AdaptiveGridView.GroupStyle>
+					</GridView.GroupStyle>
 
-					<toolkit:AdaptiveGridView.ItemContainerStyle>
+					<!--  Search Unindexed Items  -->
+					<GridView.Footer>
+						<StackPanel
+							x:Name="SearchUnindexedItemsPanel"
+							HorizontalAlignment="Stretch"
+							x:Load="{x:Bind Commands.SearchUnindexedItems.IsExecutable, Mode=OneWay}"
+							Orientation="Vertical">
+							<TextBlock HorizontalTextAlignment="Center" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
+							<HyperlinkButton
+								x:Name="SearchUnindexedItemsButton"
+								HorizontalAlignment="Center"
+								Command="{x:Bind Commands.SearchUnindexedItems}"
+								Content="{x:Bind Commands.SearchUnindexedItems.Label}" />
+						</StackPanel>
+					</GridView.Footer>
+
+					<GridView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 							<Setter Property="HorizontalAlignment" Value="Stretch" />
 						</Style>
-					</toolkit:AdaptiveGridView.ItemContainerStyle>
-
-				</toolkit:AdaptiveGridView>
+					</GridView.ItemContainerStyle>
+				</GridView>
 			</SemanticZoom.ZoomedInView>
 
 			<!--  Grouped View  -->
