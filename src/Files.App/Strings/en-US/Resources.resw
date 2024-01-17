@@ -3686,4 +3686,7 @@
   <data name="NewWindowDescription" xml:space="preserve">
     <value>Open new window</value>
   </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Change album cover</value>
+  </data>
 </root>

@@ -4,6 +4,10 @@
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using System.Windows.Input;
+using TagLib;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
+using Windows.Storage.Pickers;
 
 namespace Files.App.Data.Models
 {
@@ -480,6 +484,13 @@ namespace Files.App.Data.Models
 			get => formatDriveCommand;
 			set => SetProperty(ref formatDriveCommand, value);
 		}
+		
+		private ICommand editAlbumCoverCommand;
+		public ICommand EditAlbumCoverCommand
+		{
+			get => editAlbumCoverCommand;
+			set => SetProperty(ref editAlbumCoverCommand, value);
+		}
 
 		private bool itemAttributesVisibility = true;
 		public bool ItemAttributesVisibility
@@ -511,6 +522,7 @@ namespace Files.App.Data.Models
 
 		public SelectedItemsPropertiesViewModel()
 		{
+			
 		}
 
 		private bool isSelectedItemImage = false;
@@ -690,6 +702,27 @@ namespace Files.App.Data.Models
 		{
 			get => isUnblockFileSelected;
 			set => SetProperty(ref isUnblockFileSelected, value);
+		}
+		
+		private bool isAblumCoverModified;
+		public bool IsAblumCoverModified
+		{
+			get => isAblumCoverModified;
+			set => SetProperty(ref isAblumCoverModified, value);
+		}
+		
+		private bool isEditAlbumCoverVisible;
+		public bool IsEditAlbumCoverVisible
+		{
+			get => isEditAlbumCoverVisible;
+			set => SetProperty(ref isEditAlbumCoverVisible, value);
+		}
+		
+		private Picture modifiedAlbumCover;
+		public Picture ModifiedAlbumCover
+		{
+			get => modifiedAlbumCover;
+			set => SetProperty(ref modifiedAlbumCover, value);
 		}
 	}
 }

@@ -2,12 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
+using Files.Core.Storage;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Text.RegularExpressions;
 using Windows.Storage;
-using Microsoft.UI.Dispatching;
 
 namespace Files.App.Views.Properties
 {
@@ -16,6 +17,7 @@ namespace Files.App.Views.Properties
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
 		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
+		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
 		public GeneralPage()
 		{
@@ -135,6 +137,17 @@ namespace Files.App.Views.Properties
 						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, itemMM)
 						);
+
+						if (ViewModel.IsAblumCoverModified)
+						{
+							IStorable storable = await StorageService.GetFileAsync(fileOrFolder.ItemPath);
+							MediaFileHelper.ChangeAlbumCover(storable, ViewModel.ModifiedAlbumCover);
+
+							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+							{
+								AppInstance?.FilesystemViewModel?.RefreshItems(null);
+							});
+						}
 					}
 				}
 				return true;
@@ -153,6 +166,17 @@ namespace Files.App.Views.Properties
 
 				if (ViewModel.IsUnblockFileSelected)
 					NativeFileOperationsHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+
+				if (ViewModel.IsAblumCoverModified)
+				{
+					IStorable storable = await StorageService.GetFileAsync(item.ItemPath);
+					MediaFileHelper.ChangeAlbumCover(storable, ViewModel.ModifiedAlbumCover);
+
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						AppInstance?.FilesystemViewModel?.RefreshItems(null);
+					});
+				}
 
 				if (!GetNewName(out var newName))
 					return true;
