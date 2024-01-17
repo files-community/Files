@@ -387,8 +387,9 @@ namespace Files.App.Utils.Shell
 			{
 				return false;
 			}
-			catch (InvalidOperationException)
+			catch (InvalidOperationException ex)
 			{
+				App.Logger.LogWarning(ex, ex.Message);
 				return false;
 			}
 			catch (Win32Exception)
