@@ -31,10 +31,12 @@ namespace Files.App.Views.Layouts
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
+
 		/// <summary>
-		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
+		/// Width of the GridItem in the selected layout.
 		/// </summary>
-		public int GridViewItemMinWidth =>
+		public int GridViewItemWidth =>
+			FolderSettings.LayoutMode == FolderLayoutModes.ListView ||
 			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
 				? 260
 				: FolderSettings.GridViewSize;
@@ -51,8 +53,6 @@ namespace Files.App.Views.Layouts
 				typeof(bool),
 				typeof(GridLayoutPage),
 				new PropertyMetadata(false));
-
-		private bool isHorizontal = true;
 
 		// Constructor
 
@@ -127,7 +127,9 @@ namespace Files.App.Views.Layouts
 
 		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView
+				|| FolderSettings.LayoutMode == FolderLayoutModes.TilesView
+				|| FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				// Set ItemTemplate
 				SetItemTemplate();
@@ -143,13 +145,35 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemTemplate()
 		{
-			FileList.ItemTemplate = (FolderSettings.LayoutMode == FolderLayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+			switch (FolderSettings.LayoutMode)
+			{
+
+				case FolderLayoutModes.ListView:
+					FileList.ItemTemplate = ListViewBrowserTemplate;
+					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["VerticalItemsTemplate"];
+					break;
+				case FolderLayoutModes.TilesView:
+					FileList.ItemTemplate = TilesBrowserTemplate;
+					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["HorizontalItemsTemplate"];
+					break;
+				default:
+					FileList.ItemTemplate = GridViewBrowserTemplate;
+					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["HorizontalItemsTemplate"];
+					break;
+			}
+
 			SetItemMinWidth();
 
 			// Set GridViewSize event handlers
-			if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
 				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+				FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+			}
+			else if(FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			{
+				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+				FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
@@ -160,7 +184,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemMinWidth()
 		{
-			NotifyPropertyChanged(nameof(GridViewItemMinWidth));
+			NotifyPropertyChanged(nameof(GridViewItemWidth));
 		}
 
 		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -270,7 +294,7 @@ namespace Files.App.Views.Layouts
 				if (textBlock is not null)
 					textBlock.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView || FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 
@@ -576,21 +600,6 @@ namespace Files.App.Views.Layouts
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
-		}
-
-		private void ChangeRotationButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (isHorizontal)
-			{
-				FileList.ItemsPanel = (ItemsPanelTemplate)Resources["VerticalItemsTemplate"];
-				FileList.ItemTemplate = GridViewBrowserTemplateVertical;
-			}
-			else
-			{
-				FileList.ItemsPanel = (ItemsPanelTemplate)Resources["HorizontalItemsTemplate"];
-				FileList.ItemTemplate = GridViewBrowserTemplate;
-			}
-			isHorizontal = !isHorizontal;
 		}
 	}
 }

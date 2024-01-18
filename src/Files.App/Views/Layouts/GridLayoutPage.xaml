@@ -81,10 +81,12 @@
 			TrueValue="Visible" />
 		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
+		<!--  Grid View  -->
 		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
 				<Grid
 					x:Name="GridViewBrowserListedItem"
+					Width="{Binding ElementName=PageRoot, Path=GridViewItemWidth, Mode=OneWay}"
 					Height="Auto"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
@@ -273,13 +275,14 @@
 			</UserControl>
 		</DataTemplate>
 
-		<DataTemplate x:Name="GridViewBrowserTemplateVertical" x:DataType="filesystem:ListedItem">
+		<!--  List View  -->
+		<DataTemplate x:Name="ListViewBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
 				<Grid
 					x:Name="FilesRootGrid"
-					Height="30"
+					Width="{Binding ElementName=PageRoot, Path=GridViewItemWidth, Mode=OneWay}"
+					Height="32"
 					Padding="12,0,12,0"
-					Width="300"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Center"
 					CornerRadius="{StaticResource ControlCornerRadius}"
@@ -287,13 +290,12 @@
 					Loaded="Grid_Loaded"
 					PointerEntered="Grid_PointerEntered"
 					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
-					
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="24" />
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					
+
 					<!--  Item Thumbnail  -->
 					<Grid
 						Width="24"
@@ -447,9 +449,11 @@
 			</UserControl>
 		</DataTemplate>
 
+		<!--  Tiles View  -->
 		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
 				<Grid
+					Width="{Binding ElementName=PageRoot, Path=GridViewItemWidth, Mode=OneWay}"
 					MaxHeight="68"
 					Padding="0"
 					HorizontalAlignment="Left"
@@ -747,11 +751,6 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Button
-			x:Name="ChangeRotationButton"
-			VerticalAlignment="Top"
-			Click="ChangeRotationButton_Click"
-			Content="Change direction" />
 		<!--  Empty Indicator  -->
 		<uc:FolderEmptyIndicator
 			Grid.Row="3"
@@ -870,6 +869,7 @@
 						<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 							<Setter Property="HorizontalAlignment" Value="Stretch" />
+							<Setter Property="MinHeight" Value="1" />
 						</Style>
 					</GridView.ItemContainerStyle>
 				</GridView>

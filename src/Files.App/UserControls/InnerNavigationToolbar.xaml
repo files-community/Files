@@ -625,6 +625,7 @@
 									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
+									<RowDefinition MinHeight="30" />
 								</Grid.RowDefinitions>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="40" />
@@ -730,6 +731,38 @@
 									Tapped="{x:Bind Commands.LayoutTiles.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutTiles.Label}" />
 
+								<!--  List Layout  -->
+								<RadioButton
+									Grid.Row="3"
+									Grid.Column="0"
+									Width="36"
+									Height="32"
+									MinWidth="0"
+									Padding="0"
+									HorizontalContentAlignment="Center"
+									VerticalContentAlignment="Center"
+									AutomationProperties.Name="{x:Bind Commands.LayoutList.AutomationName}"
+									Command="{x:Bind Commands.LayoutList}"
+									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
+									IsChecked="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
+									Style="{StaticResource DefaultToggleButtonStyle}"
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutList.LabelWithHotKey, Mode=OneWay}">
+									<local:OpacityIcon
+										Width="16"
+										Height="16"
+										IsSelected="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
+										Style="{x:Bind Commands.LayoutList.OpacityStyle}" />
+								</RadioButton>
+
+								<TextBlock
+									x:Name="NavToolbarListHeader"
+									Grid.Row="3"
+									Grid.Column="1"
+									VerticalAlignment="Center"
+									Tapped="{x:Bind Commands.LayoutList.ExecuteTapped}"
+									Text="{x:Bind Commands.LayoutList.Label}" />
+
 								<!--  Grid Small Layout  -->
 								<RadioButton
 									Grid.Row="0"
@@ -798,7 +831,7 @@
 								<Border
 									Grid.RowSpan="4"
 									Grid.Column="2"
-									Height="120"
+									Height="140"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
 									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
