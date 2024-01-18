@@ -112,11 +112,11 @@
 						<Border
 							Width="32"
 							Height="32"
-							Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}"
+							Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
 							CornerRadius="30">
 							<FontIcon
 								FontSize="12"
-								Foreground="{ThemeResource TextOnAccentFillColorPrimary}"
+								Foreground="{ThemeResource TextFillColorPrimary}"
 								Glyph="&#xE70F;" />
 						</Border>
 
