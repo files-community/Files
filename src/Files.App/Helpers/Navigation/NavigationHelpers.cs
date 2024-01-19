@@ -302,7 +302,7 @@ namespace Files.App.Helpers
 				selectedItems.Count > 1 &&
 				selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && !x.IsExecutable && !x.IsShortcut))
 			{
-				opened = await Win32Helpers.InvokeWin32ComponentAsync(string.Join('|', selectedItems.Select(x => x.ItemPath)), associatedInstance);
+				opened = await Win32Helper.InvokeWin32ComponentAsync(string.Join('|', selectedItems.Select(x => x.ItemPath)), associatedInstance);
 			}
 
 			if (opened)
@@ -329,7 +329,7 @@ namespace Files.App.Helpers
 				return;
 
 			var arguments = string.Join(" ", items.Select(item => $"\"{item.Path}\""));
-			await Win32Helpers.InvokeWin32ComponentAsync(executablePath, associatedInstance, arguments);
+			await Win32Helper.InvokeWin32ComponentAsync(executablePath, associatedInstance, arguments);
 		}
 
 		/// <summary>
@@ -479,7 +479,7 @@ namespace Files.App.Helpers
 			{
 				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
 				{
-					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+					await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance);
 					opened = (FilesystemResult)true;
 				}
 				else
@@ -508,7 +508,7 @@ namespace Files.App.Helpers
 				if (opened)
 					await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance, selectItems);
 				else
-					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+					await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance);
 			}
 			return opened;
 		}
@@ -523,7 +523,7 @@ namespace Files.App.Helpers
 			{
 				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
 				{
-					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+					await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
 				}
 				else
 				{
@@ -534,13 +534,13 @@ namespace Files.App.Helpers
 						if (childFile?.Item is SystemStorageFile)
 							App.RecentItemsManager.AddToRecentItems(childFile.Path);
 					}
-					await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
+					await Win32Helper.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
 				}
 				opened = (FilesystemResult)true;
 			}
 			else if (isHiddenItem)
 			{
-				await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+				await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
 			}
 			else
 			{
@@ -640,7 +640,7 @@ namespace Files.App.Helpers
 							}
 
 							if (!launchSuccess)
-								await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+								await Win32Helper.InvokeWin32ComponentAsync(path, associatedInstance, args);
 						}
 					});
 			}

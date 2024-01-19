@@ -19,7 +19,7 @@ using static Files.Core.Helpers.Win32PInvoke;
 namespace Files.App.Helpers
 {
 	// https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209
-	public static class Win32Helper
+	public static partial class Win32Helper
 	{
 		// Fields
 
