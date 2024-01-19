@@ -4,7 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using static Files.App.Helpers.Win32PInvoke;
+using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App.Data.Models
 {

@@ -8,7 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static Files.App.Helpers.Win32PInvoke;
+using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App
 {

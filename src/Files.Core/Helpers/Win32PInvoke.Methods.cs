@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
-namespace Files.App.Helpers
+namespace Files.Core.Helpers
 {
 	public static partial class Win32PInvoke
 	{
@@ -167,7 +167,7 @@ namespace Files.App.Helpers
 		);
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmRegisterResources(
+		public static extern int RmRegisterResources(
 			uint pSessionHandle,
 			uint nFiles,
 			string[] rgsFilenames,
@@ -178,19 +178,19 @@ namespace Files.App.Helpers
 		);
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmStartSession(
+		public static extern int RmStartSession(
 			out uint pSessionHandle,
 			int dwSessionFlags,
 			string strSessionKey
 		);
 
 		[DllImport("rstrtmgr.dll")]
-		static extern int RmEndSession(
+		public static extern int RmEndSession(
 			uint pSessionHandle
 		);
 
 		[DllImport("rstrtmgr.dll")]
-		static extern int RmGetList(
+		public static extern int RmGetList(
 			uint dwSessionHandle,
 			out uint pnProcInfoNeeded,
 			ref uint pnProcInfo,

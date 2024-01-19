@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace Files.App.Helpers
+namespace Files.Core.Helpers
 {
 	public static partial class Win32PInvoke
 	{

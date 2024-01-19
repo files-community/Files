@@ -42,7 +42,7 @@ namespace Files.App.Helpers
 	{
 		public static IComparer<object> GetForProcessor()
 		{
-			return Win32PInvoke.IsRunningOnArm ? new StringComparerArm64() : new StringComparerDefault();
+			return Win32Helper.IsRunningOnArm ? new StringComparerArm64() : new StringComparerDefault();
 		}
 
 		private class StringComparerArm64 : IComparer<object>

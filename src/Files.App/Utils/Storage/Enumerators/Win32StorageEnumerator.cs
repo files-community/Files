@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Storage;
-using static Files.App.Helpers.Win32PInvoke;
+using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
@@ -128,7 +128,7 @@ namespace Files.App.Utils.Storage
 
 		private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
 		{
-			foreach (var ads in Helpers.Win32PInvoke.GetAlternateStreams(itemPath))
+			foreach (var ads in Helpers.Win32Helper.GetAlternateStreams(itemPath))
 				yield return GetAlternateStream(ads, main);
 		}
 
@@ -292,11 +292,11 @@ namespace Files.App.Utils.Storage
 
 			// https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
 			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
-			bool isSymlink = isReparsePoint && findData.dwReserved0 == Helpers.Win32PInvoke.IO_REPARSE_TAG_SYMLINK;
+			bool isSymlink = isReparsePoint && findData.dwReserved0 == Helpers.Win32Helper.IO_REPARSE_TAG_SYMLINK;
 
 			if (isSymlink)
 			{
-				var targetPath = Helpers.Win32PInvoke.ParseSymLink(itemPath);
+				var targetPath = Helpers.Win32Helper.ParseSymLink(itemPath);
 
 				return new ShortcutItem(null)
 				{

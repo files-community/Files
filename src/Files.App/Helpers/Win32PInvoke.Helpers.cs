@@ -14,11 +14,12 @@ using System.Text;
 using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
 using static Vanara.PInvoke.User32;
+using static Files.Core.Helpers.Win32PInvoke;
 
 namespace Files.App.Helpers
 {
 	// https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209
-	public static partial class Win32PInvoke
+	public static class Win32Helper
 	{
 		// Fields
 
@@ -461,7 +462,7 @@ namespace Files.App.Helpers
 				return SetWindowLongPtr64((nint)hWnd, (int)nIndex, dwNewLong);
 		}
 
-		public static bool GetWin32FindDataForPath(string targetPath, out WIN32_FIND_DATA findData)
+		public static bool GetWin32FindDataForPath(string targetPath, out Win32PInvoke.WIN32_FIND_DATA findData)
 		{
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 
