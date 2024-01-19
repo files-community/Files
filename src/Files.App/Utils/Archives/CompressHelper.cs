@@ -92,7 +92,7 @@ namespace Files.App.Utils.Archives
 			}
 			else
 			{
-				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
+				Win32PInvoke.DeleteFileFromApp(archivePath);
 
 				StatusCenterHelper.AddCard_Compress(
 					creator.Sources,

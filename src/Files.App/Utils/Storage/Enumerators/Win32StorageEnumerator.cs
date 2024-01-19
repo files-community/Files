@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Storage;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.Win32PInvoke;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
@@ -23,7 +23,7 @@ namespace Files.App.Utils.Storage
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
 			IntPtr hFile,
-			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Win32PInvoke.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
@@ -128,7 +128,7 @@ namespace Files.App.Utils.Storage
 
 		private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
 		{
-			foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(itemPath))
+			foreach (var ads in Helpers.Win32PInvoke.GetAlternateStreams(itemPath))
 				yield return GetAlternateStream(ads, main);
 		}
 
@@ -165,7 +165,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem> GetFolder(
-			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Win32PInvoke.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
@@ -179,10 +179,10 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -242,7 +242,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem> GetFile(
-			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Win32PInvoke.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
@@ -255,13 +255,13 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftLastAccessTime, out NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
+				FileTimeToSystemTime(ref findData.ftLastAccessTime, out Win32PInvoke.SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -292,11 +292,11 @@ namespace Files.App.Utils.Storage
 
 			// https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
 			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
-			bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
+			bool isSymlink = isReparsePoint && findData.dwReserved0 == Helpers.Win32PInvoke.IO_REPARSE_TAG_SYMLINK;
 
 			if (isSymlink)
 			{
-				var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
+				var targetPath = Helpers.Win32PInvoke.ParseSymLink(itemPath);
 
 				return new ShortcutItem(null)
 				{

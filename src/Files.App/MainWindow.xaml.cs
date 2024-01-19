@@ -60,7 +60,7 @@ namespace Files.App
 			// or "Automatically hide the taskbar in desktop mode" in Windows 10 is enabled.
 			// Setting this property when the setting is disabled will result in the taskbar overlapping the application
 			if (AppLifecycleHelper.IsAutoHideTaskbarEnabled()) 
-				InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+				Win32PInvoke.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()
@@ -99,7 +99,7 @@ namespace Files.App
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
-						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+						Win32PInvoke.SwitchToThisWindow(WindowHandle, true);
 						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 					}
 					else
@@ -177,7 +177,7 @@ namespace Files.App
 						index = 1;
 					}
 					else
-						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+						Win32PInvoke.SwitchToThisWindow(WindowHandle, true);
 					for (; index < fileArgs.Files.Count; index++)
 					{
 						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
@@ -251,7 +251,7 @@ namespace Files.App
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
-					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+					Win32PInvoke.SwitchToThisWindow(WindowHandle, true);
 					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
 				}
 				else

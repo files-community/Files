@@ -4,7 +4,7 @@
 using Files.Shared.Extensions;
 using System;
 using System.IO;
-using static Files.App.Helpers.NativeFileOperationsHelper;
+using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Utils.Serialization.Implementation
 {

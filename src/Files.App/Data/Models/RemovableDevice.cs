@@ -4,7 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using static Files.App.Helpers.NativeIoDeviceControlHelper;
+using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Data.Models
 {

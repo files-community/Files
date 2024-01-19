@@ -74,7 +74,7 @@ namespace Files.App.Utils.Storage
 				var destFile = new NativeStorageFile(destination, desiredNewName, DateTime.Now);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(Path, destination, option != NameCollisionOption.ReplaceExisting)))
+					if (!await Task.Run(() => Win32PInvoke.CopyFileFromApp(Path, destination, option != NameCollisionOption.ReplaceExisting)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}
@@ -95,7 +95,7 @@ namespace Files.App.Utils.Storage
 
 		private void CreateFile()
 		{
-			using var hFile = NativeFileOperationsHelper.CreateFileForWrite(Path, false);
+			using var hFile = Win32PInvoke.CreateFileForWrite(Path, false);
 			if (hFile.IsInvalid)
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -106,7 +106,7 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
-				if (!NativeFileOperationsHelper.DeleteFileFromApp(Path))
+				if (!Win32PInvoke.DeleteFileFromApp(Path))
 				{
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
@@ -151,7 +151,7 @@ namespace Files.App.Utils.Storage
 
 		private static bool CheckAccess(string path)
 		{
-			using var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+			using var hFile = Win32PInvoke.OpenFileForRead(path);
 			return !hFile.IsInvalid;
 		}
 
@@ -185,7 +185,7 @@ namespace Files.App.Utils.Storage
 				var destination = IO.Path.Combine(destinationFolder.Path, desiredNewName);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(Path, destination)))
+					if (!await Task.Run(() => Win32PInvoke.MoveFileFromApp(Path, destination)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}
@@ -200,7 +200,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
-			var hFile = NativeFileOperationsHelper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
+			var hFile = Win32PInvoke.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
 			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
 		}
 
@@ -216,7 +216,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
-			var hFile = NativeFileOperationsHelper.OpenFileForRead(Path);
+			var hFile = Win32PInvoke.OpenFileForRead(Path);
 			return Task.FromResult(new FileStream(hFile, FileAccess.Read).AsInputStream()).AsAsyncOperation();
 		}
 
@@ -237,7 +237,7 @@ namespace Files.App.Utils.Storage
 				var destFile = new NativeStorageFile(destination, desiredName, DateTime.Now);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(Path, destination)))
+					if (!await Task.Run(() => Win32PInvoke.MoveFileFromApp(Path, destination)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}

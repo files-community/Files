@@ -44,7 +44,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
-			ViewModel.IsDownloadedFile = NativeFileOperationsHelper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
+			ViewModel.IsDownloadedFile = Win32PInvoke.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
 
 			if (!Item.IsShortcut)
 				return;
@@ -90,9 +90,9 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
+			ViewModel.IsReadOnly = Win32PInvoke.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+			ViewModel.IsHidden = Win32PInvoke.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
 
 			ViewModel.ItemSizeVisibility = true;
@@ -100,7 +100,7 @@ namespace Files.App.ViewModels.Properties
 
 			// Only load the size for items on the device
 			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-				ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+				ViewModel.ItemSizeOnDisk = Win32PInvoke.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				   string.Empty;
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail, false);
@@ -266,14 +266,14 @@ namespace Files.App.ViewModels.Properties
 				case "IsReadOnly":
 					if (ViewModel.IsReadOnly)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(
+						Win32PInvoke.SetFileAttribute(
 							Item.ItemPath,
 							System.IO.FileAttributes.ReadOnly
 						);
 					}
 					else
 					{
-						NativeFileOperationsHelper.UnsetFileAttribute(
+						Win32PInvoke.UnsetFileAttribute(
 							Item.ItemPath,
 							System.IO.FileAttributes.ReadOnly
 						);
@@ -284,14 +284,14 @@ namespace Files.App.ViewModels.Properties
 				case "IsHidden":
 					if (ViewModel.IsHidden)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(
+						Win32PInvoke.SetFileAttribute(
 							Item.ItemPath,
 							System.IO.FileAttributes.Hidden
 						);
 					}
 					else
 					{
-						NativeFileOperationsHelper.UnsetFileAttribute(
+						Win32PInvoke.UnsetFileAttribute(
 							Item.ItemPath,
 							System.IO.FileAttributes.Hidden
 						);

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.App.Utils.Storage
 {
@@ -10,11 +9,11 @@ namespace Files.App.Utils.Storage
 	{
 		public static bool CheckFolderAccessWithWin32(string path)
 		{
-			IntPtr hFileTsk = FindFirstFileExFromApp($"{path}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
-				out WIN32_FIND_DATA _, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, FIND_FIRST_EX_LARGE_FETCH);
+			IntPtr hFileTsk = Win32PInvoke.FindFirstFileExFromApp($"{path}{Path.DirectorySeparatorChar}*.*", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+				out Win32PInvoke.WIN32_FIND_DATA _, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
 			if (hFileTsk.ToInt64() != -1)
 			{
-				FindClose(hFileTsk);
+				Win32PInvoke.FindClose(hFileTsk);
 				return true;
 			}
 			return false;
@@ -42,11 +41,11 @@ namespace Files.App.Utils.Storage
 		///
 		public static bool CheckForFilesFolders(string targetPath)
 		{
-			IntPtr hFile = FindFirstFileExFromApp($"{targetPath}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
-				out WIN32_FIND_DATA _, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, FIND_FIRST_EX_LARGE_FETCH);
-			FindNextFile(hFile, out _);
-			var result = FindNextFile(hFile, out _);
-			FindClose(hFile);
+			IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp($"{targetPath}{Path.DirectorySeparatorChar}*.*", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+				out Win32PInvoke.WIN32_FIND_DATA _, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
+			Win32PInvoke.FindNextFile(hFile, out _);
+			var result = Win32PInvoke.FindNextFile(hFile, out _);
+			Win32PInvoke.FindClose(hFile);
 			return result;
 		}
 	}
