@@ -14,15 +14,15 @@ namespace Files.App.Utils.Serialization.Implementation
 
 		public bool CreateFile(string path)
 		{
-			CreateDirectoryFromApp(Path.GetDirectoryName(path), IntPtr.Zero);
+			Win32PInvoke.CreateDirectoryFromApp(Path.GetDirectoryName(path), IntPtr.Zero);
 
-			var hFile = CreateFileFromApp(path, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
+			var hFile = Win32PInvoke.CreateFileFromApp(path, Win32PInvoke.GENERIC_READ, Win32PInvoke.FILE_SHARE_READ, IntPtr.Zero, Win32PInvoke.OPEN_ALWAYS, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero);
 			if (hFile.IsHandleInvalid())
 			{
 				return false;
 			}
 
-			CloseHandle(hFile);
+			Win32PInvoke.CloseHandle(hFile);
 
 			_filePath = path;
 			return true;

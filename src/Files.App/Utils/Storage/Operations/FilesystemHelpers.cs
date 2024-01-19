@@ -825,7 +825,7 @@ namespace Files.App.Utils.Storage
 
 							foreach (var path in itemPaths)
 							{
-								var isDirectory = Win32PInvoke.HasFileAttribute(path, FileAttributes.Directory);
+								var isDirectory = Win32Helper.HasFileAttribute(path, FileAttributes.Directory);
 								itemsList.Add(StorageHelpers.FromPathAndType(path, isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File));
 							}
 						}

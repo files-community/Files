@@ -119,9 +119,9 @@ namespace Files.App.Utils.Storage
 					// clear the temporary list every time we do an intermediate action
 					tempList.Clear();
 				}
-			} while (FindNextFile(hFile, out findData));
+			} while (Win32PInvoke.FindNextFile(hFile, out findData));
 
-			FindClose(hFile);
+			Win32PInvoke.FindClose(hFile);
 
 			return tempList;
 		}
@@ -179,10 +179,10 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
+				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
+				Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -255,13 +255,13 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedDateOutput);
+				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
+				Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftLastAccessTime, out Win32PInvoke.SYSTEMTIME systemLastAccessOutput);
+				Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastAccessTime, out Win32PInvoke.SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -292,11 +292,11 @@ namespace Files.App.Utils.Storage
 
 			// https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
 			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
-			bool isSymlink = isReparsePoint && findData.dwReserved0 == Helpers.Win32Helper.IO_REPARSE_TAG_SYMLINK;
+			bool isSymlink = isReparsePoint && findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK;
 
 			if (isSymlink)
 			{
-				var targetPath = Helpers.Win32Helper.ParseSymLink(itemPath);
+				var targetPath = ParseSymLink(itemPath);
 
 				return new ShortcutItem(null)
 				{

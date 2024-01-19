@@ -191,15 +191,15 @@ namespace Files.App
 		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			IntPtr eventHandle = Win32PInvoke.CreateEvent(IntPtr.Zero, true, false, null);
 
 			Task.Run(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-				SetEvent(eventHandle);
+				Win32PInvoke.SetEvent(eventHandle);
 			});
 
-			_ = CoWaitForMultipleObjects(
+			_ = Win32PInvoke.CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
@@ -214,15 +214,15 @@ namespace Files.App
 
 		public static void OpenFileFromTile(string filePath)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			IntPtr eventHandle = Win32PInvoke.CreateEvent(IntPtr.Zero, true, false, null);
 
 			Task.Run(() =>
 			{
 				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
-				SetEvent(eventHandle);
+				Win32PInvoke.SetEvent(eventHandle);
 			});
 
-			_ = CoWaitForMultipleObjects(
+			_ = Win32PInvoke.CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
