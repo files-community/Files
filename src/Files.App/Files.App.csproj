@@ -70,17 +70,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ByteSize" Version="2.1.1" />
+        <PackageReference Include="ByteSize" Version="2.1.2" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
         <PackageReference Include="DirectNCore" Version="1.15.0.2" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
-        <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
+        <PackageReference Include="LibGit2Sharp" Version="0.29.0" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1.2" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
