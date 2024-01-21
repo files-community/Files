@@ -45,6 +45,10 @@ namespace Files.App.Services.PreviewPopupProviders
 			{
 				client.Close();
 			}
+			catch (IOException)
+			{
+				client.Close();
+			}
 		}
 
 		public async Task<bool> DetectAvailability()
@@ -64,6 +68,11 @@ namespace Files.App.Services.PreviewPopupProviders
 					return serverInstances;
 				}
 				catch (TimeoutException)
+				{
+					client.Close();
+					return 0;
+				}
+				catch (IOException)
 				{
 					client.Close();
 					return 0;
