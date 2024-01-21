@@ -281,7 +281,7 @@
 				<Grid
 					x:Name="FilesRootGrid"
 					Width="{Binding ElementName=PageRoot, Path=GridViewItemWidth, Mode=OneWay}"
-					Height="32"
+					Height="Auto"
 					Padding="12,0,12,0"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Center"
@@ -744,6 +744,21 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
+		<Style x:Name="DefaultItemContainerStyle" BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+		</Style>
+
+		<Style x:Name="CompactListItemContainerStyle" BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="0"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Height" Value="24"/>
+		</Style>
 	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
@@ -865,13 +880,6 @@
 						</GroupStyle>
 					</GridView.GroupStyle>
 
-					<GridView.ItemContainerStyle>
-						<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-							<Setter Property="HorizontalAlignment" Value="Stretch" />
-							<Setter Property="MinHeight" Value="1" />
-						</Style>
-					</GridView.ItemContainerStyle>
 				</GridView>
 			</SemanticZoom.ZoomedInView>
 
