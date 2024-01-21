@@ -124,9 +124,7 @@ namespace Files.App.Views.Layouts
 		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(IAppearanceSettingsService.UseCompactStyles))
-			{
 				SetItemContainerStyle();
-			}
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -202,13 +200,9 @@ namespace Files.App.Views.Layouts
 		private void SetItemContainerStyle()
 		{
 			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && AppearanceSettingsService.UseCompactStyles)
-			{
 				FileList.ItemContainerStyle = CompactListItemContainerStyle;
-			}
 			else
-			{
 				FileList.ItemContainerStyle = DefaultItemContainerStyle;
-			}
 		}
 
 		private void SetItemMinWidth()
