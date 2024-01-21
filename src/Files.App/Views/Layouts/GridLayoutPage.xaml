@@ -81,6 +81,11 @@
 			TrueValue="Visible" />
 		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
+		<!--  Override border on GridViewItem  -->
+		<Thickness x:Key="GridViewItemSelectedBorderThickness">0</Thickness>
+		<SolidColorBrush x:Key="GridViewItemSelectedInnerBorderBrush" Color="Transparent" />
+		<SolidColorBrush x:Key="GridViewItemPointerOverBorderBrush" Color="Transparent" />
+
 		<!--  Grid View  -->
 		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
@@ -399,7 +404,7 @@
 						Grid.Column="1"
 						Margin="0"
 						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
+						VerticalAlignment="Center"
 						BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
 						TextAlignment="Left"
 						TextWrapping="Wrap"
