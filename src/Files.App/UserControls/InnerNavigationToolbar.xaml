@@ -635,7 +635,7 @@
 									<ColumnDefinition MaxWidth="100" />
 								</Grid.ColumnDefinitions>
 
-								<!--  Detailsl Layout  -->
+								<!--  Details Layout  -->
 								<RadioButton
 									Grid.Row="0"
 									Grid.Column="0"
