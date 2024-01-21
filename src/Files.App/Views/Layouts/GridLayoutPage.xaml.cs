@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Services.Settings;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -134,7 +133,7 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 
-			if(FolderSettings != null)
+			if (FolderSettings != null)
 			{
 				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
@@ -261,6 +260,24 @@ namespace Files.App.Views.Layouts
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
 				OldItemName = textBlock.Text;
+			}
+			else if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
+			{
+				textBox = gridViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+				if (textBox is null)
+					return;
+
+				textBox.Text = textBlock.Text;
+				OldItemName = textBlock.Text;
+				textBlock.Visibility = Visibility.Collapsed;
+				textBox.Visibility = Visibility.Visible;
+
+				if (textBox.FindParent<Grid>() is null)
+				{
+					textBlock.Visibility = Visibility.Visible;
+					textBox.Visibility = Visibility.Collapsed;
+					return;
+				}
 			}
 			else
 			{
