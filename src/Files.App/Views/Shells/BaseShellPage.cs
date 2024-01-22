@@ -506,9 +506,11 @@ namespace Files.App.Views.Shells
 
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
-			var layout = navigationPath.StartsWith("tag:")
-				? typeof(DetailsLayoutPage)
-				: FolderSettings.GetLayoutType(navigationPath);
+			var layout = FolderSettings.GetLayoutType(navigationPath);
+
+			// Don't use Columns Layout for displaying tags
+			if (navigationPath.StartsWith("tag:") && layout == typeof(ColumnsLayoutPage))
+				layout = typeof(DetailsLayoutPage);
 
 			NavigateToPath(navigationPath, layout, navArgs);
 		}
