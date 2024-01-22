@@ -45,6 +45,9 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
 			ViewModel.IsDownloadedFile = NativeFileOperationsHelper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
+			ViewModel.IsEditAlbumCoverVisible = 
+				FileExtensionHelpers.IsVideoFile(Item.FileExtension) ||
+				FileExtensionHelpers.IsAudioFile(Item.FileExtension);
 
 			if (!Item.IsShortcut)
 				return;
