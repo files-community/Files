@@ -111,6 +111,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
+		public IRichCommand LayoutList => commands[CommandCodes.LayoutList];
 		public IRichCommand LayoutTiles => commands[CommandCodes.LayoutTiles];
 		public IRichCommand LayoutGridSmall => commands[CommandCodes.LayoutGridSmall];
 		public IRichCommand LayoutGridMedium => commands[CommandCodes.LayoutGridMedium];
@@ -281,6 +282,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
+			[CommandCodes.LayoutList] = new LayoutListAction(),
 			[CommandCodes.LayoutTiles] = new LayoutTilesAction(),
 			[CommandCodes.LayoutGridSmall] = new LayoutGridSmallAction(),
 			[CommandCodes.LayoutGridMedium] = new LayoutGridMediumAction(),

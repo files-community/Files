@@ -31,10 +31,12 @@ namespace Files.App.Views.Layouts
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
+
 		/// <summary>
-		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
+		/// Width of the GridItem in the selected layout.
 		/// </summary>
-		public int GridViewItemMinWidth =>
+		public int GridViewItemWidth =>
+			FolderSettings.LayoutMode == FolderLayoutModes.ListView ||
 			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
 				? 260
 				: FolderSettings.GridViewSize;
@@ -44,6 +46,8 @@ namespace Files.App.Views.Layouts
 			get => (bool)GetValue(IsPointerOverProperty);
 			set => SetValue(IsPointerOverProperty, value);
 		}
+
+		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		public static readonly DependencyProperty IsPointerOverProperty =
 			DependencyProperty.Register(
@@ -105,6 +109,8 @@ namespace Files.App.Views.Layouts
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
+			AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
 
 			// Set ItemTemplate
 			SetItemTemplate();
@@ -115,17 +121,29 @@ namespace Files.App.Views.Layouts
 				ReloadItemIconsAsync();
 		}
 
+		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IAppearanceSettingsService.UseCompactStyles))
+				SetItemContainerStyle();
+		}
+
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
 
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			if (FolderSettings != null)
+			{
+				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			}
+			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
 		}
 
 		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView
+				|| FolderSettings.LayoutMode == FolderLayoutModes.TilesView
+				|| FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				// Set ItemTemplate
 				SetItemTemplate();
@@ -141,13 +159,36 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemTemplate()
 		{
-			FileList.ItemTemplate = (FolderSettings.LayoutMode == FolderLayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+			switch (FolderSettings.LayoutMode)
+			{
+
+				case FolderLayoutModes.ListView:
+					FileList.ItemTemplate = ListViewBrowserTemplate;
+					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["VerticalItemsTemplate"];
+					break;
+				case FolderLayoutModes.TilesView:
+					FileList.ItemTemplate = TilesBrowserTemplate;
+					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["HorizontalItemsTemplate"];
+					break;
+				default:
+					FileList.ItemTemplate = GridViewBrowserTemplate;
+					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["HorizontalItemsTemplate"];
+					break;
+			}
+
+			SetItemContainerStyle();
 			SetItemMinWidth();
 
 			// Set GridViewSize event handlers
-			if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
 				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+				FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+			}
+			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			{
+				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+				FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
@@ -156,9 +197,17 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		private void SetItemContainerStyle()
+		{
+			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && AppearanceSettingsService.UseCompactStyles)
+				FileList.ItemContainerStyle = CompactListItemContainerStyle;
+			else
+				FileList.ItemContainerStyle = DefaultItemContainerStyle;
+		}
+
 		private void SetItemMinWidth()
 		{
-			NotifyPropertyChanged(nameof(GridViewItemMinWidth));
+			NotifyPropertyChanged(nameof(GridViewItemWidth));
 		}
 
 		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -205,6 +254,24 @@ namespace Files.App.Views.Layouts
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
 				OldItemName = textBlock.Text;
+			}
+			else if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
+			{
+				textBox = gridViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+				if (textBox is null)
+					return;
+
+				textBox.Text = textBlock.Text;
+				OldItemName = textBlock.Text;
+				textBlock.Visibility = Visibility.Collapsed;
+				textBox.Visibility = Visibility.Visible;
+
+				if (textBox.FindParent<Grid>() is null)
+				{
+					textBlock.Visibility = Visibility.Visible;
+					textBox.Visibility = Visibility.Collapsed;
+					return;
+				}
 			}
 			else
 			{
@@ -268,7 +335,7 @@ namespace Files.App.Views.Layouts
 				if (textBlock is not null)
 					textBlock.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView || FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 
@@ -575,6 +642,5 @@ namespace Files.App.Views.Layouts
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
 		}
-
 	}
 }

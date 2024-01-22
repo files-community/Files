@@ -114,6 +114,10 @@ namespace Files.App.Helpers
 						{
 							IsToggle = true
 						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.LayoutList)
+						{
+							IsToggle = true
+						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.LayoutGridSmall)
 						{
 							IsToggle = true
