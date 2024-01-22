@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
-using Files.Core.Storage;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -17,8 +16,6 @@ namespace Files.App.Views.Properties
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
 		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
-		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
-
 		public GeneralPage()
 		{
 			InitializeComponent();
@@ -140,8 +137,7 @@ namespace Files.App.Views.Properties
 
 						if (ViewModel.IsAblumCoverModified)
 						{
-							IStorable storable = await StorageService.GetFileAsync(fileOrFolder.ItemPath);
-							MediaFileHelper.ChangeAlbumCover(storable, ViewModel.ModifiedAlbumCover);
+							MediaFileHelper.ChangeAlbumCover(fileOrFolder.ItemPath, ViewModel.ModifiedAlbumCover);
 
 							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
@@ -169,8 +165,7 @@ namespace Files.App.Views.Properties
 
 				if (ViewModel.IsAblumCoverModified)
 				{
-					IStorable storable = await StorageService.GetFileAsync(item.ItemPath);
-					MediaFileHelper.ChangeAlbumCover(storable, ViewModel.ModifiedAlbumCover);
+					MediaFileHelper.ChangeAlbumCover(item.ItemPath, ViewModel.ModifiedAlbumCover);
 
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
