@@ -1,12 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.App.Data.Parameters;
 using Files.App.Dialogs;
-using Files.App.Utils;
 using Files.App.ViewModels.Properties;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
@@ -15,8 +11,6 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityAdvancedPage : BasePropertiesPage
 	{
-		private AppWindow AppWindow;
-
 		private Window Window;
 
 		private SecurityAdvancedViewModel SecurityAdvancedViewModel { get; set; }
@@ -29,8 +23,6 @@ namespace Files.App.Views.Properties
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
-
-			AppWindow = parameter.AppWindow;
 			Window = parameter.Window;
 
 			SecurityAdvancedViewModel = new(parameter);
@@ -48,7 +40,7 @@ namespace Files.App.Views.Properties
 			var modifiableItem = new Utils.Storage.Security.AccessControlEntryModifiable(SecurityAdvancedViewModel.SelectedAccessControlEntry);
 
 			// Show the Dialog
-			var dialog = new PrincipalAccessControlEditorDialog()
+			var dialog = new AccessControlEditorDialog()
 			{
 				XamlRoot = Window.Content.XamlRoot,
 				ModifiableModel = modifiableItem,

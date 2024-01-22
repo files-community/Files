@@ -1,6 +1,6 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ContentDialog
-	x:Class="Files.App.Dialogs.PrincipalAccessControlEditorDialog"
+	x:Class="Files.App.Dialogs.AccessControlEditorDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,6 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Title="{x:Bind ModifiableModel.DialogTitle, Mode=OneWay}"
+	DataContext="{x:Bind ModifiableModel, Mode=OneWay}"
 	DefaultButton="Primary"
 	PrimaryButtonText="{helpers:ResourceString Name=Save}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"

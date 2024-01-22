@@ -39,9 +39,6 @@
         <DefineConstants>TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <Optimize>true</Optimize>
     </PropertyGroup>
-    <ItemGroup>
-      <None Remove="Dialogs\PrincipalAccessControlEditorDialog.xaml" />
-    </ItemGroup>
 
     <ItemGroup>
         <Manifest Include="app.manifest" />
@@ -146,12 +143,6 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="Dialogs\PrincipalAccessControlEditorDialog.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
     </ItemGroup>
 
 </Project>
