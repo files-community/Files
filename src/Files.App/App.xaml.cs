@@ -206,6 +206,8 @@ namespace Files.App
 				return;
 			}
 
+			AppLifecycleHelper.SaveSessionTabs();
+
 			// Continue running the app on the background
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
@@ -220,8 +222,7 @@ namespace Files.App
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
 
-				// Save and close all tabs
-				AppLifecycleHelper.SaveSessionTabs();
+				// Close all tabs
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
 				MainPageViewModel.AppInstances.Clear();
 
@@ -250,8 +251,6 @@ namespace Files.App
 
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
-
-			AppLifecycleHelper.SaveSessionTabs();
 
 			if (OutputPath is not null)
 			{

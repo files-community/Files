@@ -467,14 +467,8 @@ namespace Files.App.Views.Shells
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
 				var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
-				var lastCommonItemIndex = ToolbarViewModel.PathComponents
-					.Select((value, index) => new { value, index })
-					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
-
-				while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
-					ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
-
-				foreach (var component in components.Skip(lastCommonItemIndex))
+				ToolbarViewModel.PathComponents.Clear();
+				foreach (var component in components)
 					ToolbarViewModel.PathComponents.Add(component);
 			}
 			else
