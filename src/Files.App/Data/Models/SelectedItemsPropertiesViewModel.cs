@@ -117,7 +117,6 @@ namespace Files.App.Data.Models
 			get => driveFileSystem;
 			set
 			{
-				DriveFileSystemVisibility = true;
 				SetProperty(ref driveFileSystem, value);
 			}
 		}
