@@ -38,7 +38,7 @@
 			Height="365"
 			MinWidth="360"
 			VerticalScrollBarVisibility="Hidden">
-			<StackPanel Margin="0,0,0,24" Spacing="16">
+			<StackPanel Margin="0,8,0,24" Spacing="16">
 
 				<!--  Principal  -->
 				<StackPanel Grid.Row="0" Spacing="8">
