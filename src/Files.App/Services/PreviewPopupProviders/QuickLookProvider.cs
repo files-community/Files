@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Services;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.IO.Pipes;
@@ -41,11 +40,7 @@ namespace Files.App.Services.PreviewPopupProviders
 				await writer.WriteLineAsync($"{message}|{path}");
 				await writer.FlushAsync();
 			}
-			catch (TimeoutException)
-			{
-				client.Close();
-			}
-			catch (IOException)
+			catch (Exception ex) when (ex is TimeoutException or IOException)
 			{
 				client.Close();
 			}
@@ -67,12 +62,7 @@ namespace Files.App.Services.PreviewPopupProviders
 
 					return serverInstances;
 				}
-				catch (TimeoutException)
-				{
-					client.Close();
-					return 0;
-				}
-				catch (IOException)
+				catch (Exception ex) when (ex is TimeoutException or IOException)
 				{
 					client.Close();
 					return 0;
