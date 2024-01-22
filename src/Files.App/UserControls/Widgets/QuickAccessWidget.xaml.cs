@@ -54,7 +54,6 @@ namespace Files.App.UserControls.Widgets
 
 		public string AutomationProperties { get; set; }
 		public bool HasPath => !string.IsNullOrEmpty(Path);
-		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
 		public BitmapImage Thumbnail
 		{
 			get => thumbnail;
