@@ -17,7 +17,6 @@ namespace Files.App.Data.Commands
 		IRichCommand ExitCompactOverlay { get; }
 		IRichCommand ToggleCompactOverlay { get; }
 		IRichCommand Search { get; }
-		IRichCommand SearchUnindexedItems { get; }
 		IRichCommand EditPath { get; }
 		IRichCommand Redo { get; }
 		IRichCommand Undo { get; }
@@ -25,10 +24,12 @@ namespace Files.App.Data.Commands
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 		IRichCommand TogglePreviewPane { get; }
+		IRichCommand ToggleDetailsPane { get; }
 		IRichCommand ToggleInfoPane { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CopyPath { get; }
+		IRichCommand CopyPathWithQuotes { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand PasteItem { get; }
 		IRichCommand PasteItemToSelection { get; }
@@ -79,6 +80,7 @@ namespace Files.App.Data.Commands
 		IRichCommand CompressIntoZip { get; }
 		IRichCommand DecompressArchive { get; }
 		IRichCommand DecompressArchiveHere { get; }
+		IRichCommand DecompressArchiveHereSmart { get; }
 		IRichCommand DecompressArchiveToChildFolder { get; }
 
 		IRichCommand RotateLeft { get; }
@@ -115,7 +117,9 @@ namespace Files.App.Data.Commands
 		IRichCommand SortAscending { get; }
 		IRichCommand SortDescending { get; }
 		IRichCommand ToggleSortDirection { get; }
-		IRichCommand ToggleSortDirectoriesAlongsideFiles { get; }
+		IRichCommand SortFoldersFirst { get; }
+		IRichCommand SortFilesFirst { get; }
+		IRichCommand SortFilesAndFoldersTogether { get; }
 
 		IRichCommand GroupByNone { get; }
 		IRichCommand GroupByName { get; }
@@ -130,10 +134,13 @@ namespace Files.App.Data.Commands
 		IRichCommand GroupByFolderPath { get; }
 		IRichCommand GroupByDateModifiedYear { get; }
 		IRichCommand GroupByDateModifiedMonth { get; }
+		IRichCommand GroupByDateModifiedDay { get; }
 		IRichCommand GroupByDateCreatedYear { get; }
 		IRichCommand GroupByDateCreatedMonth { get; }
+		IRichCommand GroupByDateCreatedDay { get; }
 		IRichCommand GroupByDateDeletedYear { get; }
 		IRichCommand GroupByDateDeletedMonth { get; }
+		IRichCommand GroupByDateDeletedDay { get; }
 		IRichCommand GroupAscending { get; }
 		IRichCommand GroupDescending { get; }
 		IRichCommand ToggleGroupDirection { get; }
@@ -141,6 +148,7 @@ namespace Files.App.Data.Commands
 		IRichCommand GroupByMonth { get; }
 		IRichCommand ToggleGroupByDateUnit { get; }
 
+		IRichCommand NewWindow { get; }
 		IRichCommand NewTab { get; }
 		IRichCommand NavigateBack { get; }
 		IRichCommand NavigateForward { get; }

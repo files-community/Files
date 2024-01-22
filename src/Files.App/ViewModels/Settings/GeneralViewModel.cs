@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using System.Globalization;
 using Windows.Globalization;
@@ -116,7 +115,7 @@ namespace Files.App.ViewModels.Settings
 		private async void DoRestartAsync()
 		{
 			UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true; // Tells the app to restore tabs when it's next launched
-			App.SaveSessionTabs(); // Saves the open tabs
+			AppLifecycleHelper.SaveSessionTabs(); // Saves the open tabs
 			await Launcher.LaunchUriAsync(new Uri("files-uwp:")); // Launches a new instance of Files
 			Process.GetCurrentProcess().Kill(); // Closes the current instance
 		}
@@ -159,7 +158,7 @@ namespace Files.App.ViewModels.Settings
 				CommandParameter = "Home",
 				Tooltip = "Home".GetLocalizedResource()
 			});
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand });		
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand });
 		}
 
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -222,17 +221,17 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref addFlyoutItemsSource, value);
 		}
 
-		public bool AlwaysOpenANewInstance
+		public bool OpenTabInExistingInstance
 		{
-			get => UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance;
+			get => UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance;
 			set
 			{
-				if (value != UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance)
+				if (value != UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance)
 				{
-					UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance = value;
+					UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance = value;
 
 					// Needed in Program.cs
-					ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value;
+					ApplicationData.Current.LocalSettings.Values["OpenTabInExistingInstance"] = value;
 
 					OnPropertyChanged();
 				}
@@ -247,6 +246,48 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.GeneralSettingsService.ShowOpenInNewPane)
 				{
 					UserSettingsService.GeneralSettingsService.ShowOpenInNewPane = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCreateFolderWithSelection
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCopyPath
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCopyPath;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCopyPath)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCopyPath = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCreateShortcut
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCreateShortcut;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCreateShortcut)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCreateShortcut = value;
 
 					OnPropertyChanged();
 				}
@@ -290,7 +331,7 @@ namespace Files.App.ViewModels.Settings
 
 		private void RemovePage(PageOnStartupViewModel page)
 		{
-				PagesOnStartupList.Remove(page);
+			PagesOnStartupList.Remove(page);
 		}
 
 		private async Task AddPageAsync(string path = null)
@@ -322,20 +363,6 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.GeneralSettingsService.DateTimeFormat)
 				{
 					UserSettingsService.GeneralSettingsService.DateTimeFormat = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool SearchUnindexedItems
-		{
-			get => UserSettingsService.GeneralSettingsService.SearchUnindexedItems;
-			set
-			{
-				if (value != UserSettingsService.GeneralSettingsService.SearchUnindexedItems)
-				{
-					UserSettingsService.GeneralSettingsService.SearchUnindexedItems = value;
-
 					OnPropertyChanged();
 				}
 			}
@@ -420,6 +447,19 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.GeneralSettingsService.ShowOpenInNewTab = value;
 					OnPropertyChanged();
 				}
+			}
+		}
+
+		public bool ShowCompressionOptions
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCompressionOptions;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.ShowCompressionOptions)
+					return;
+
+				UserSettingsService.GeneralSettingsService.ShowCompressionOptions = value;
+				OnPropertyChanged();
 			}
 		}
 

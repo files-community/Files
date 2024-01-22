@@ -25,7 +25,7 @@ namespace Files.App.Utils.Storage
 		private readonly IJumpListService jumpListService;
 		private IFilesystemOperations filesystemOperations;
 
-		private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
+		private ItemManipulationModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
 		private readonly CancellationToken cancellationToken;
 		private static char[] RestrictedCharacters
@@ -58,7 +58,7 @@ namespace Files.App.Utils.Storage
 			jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
-		public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
+		public async Task<(ReturnResult, IStorageItem?)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
 		{
 			var returnStatus = ReturnResult.InProgress;
 			var progress = new Progress<StatusCenterItemProgressModel>();
@@ -231,7 +231,8 @@ namespace Files.App.Utils.Storage
 			string destination,
 			bool showDialog,
 			bool registerHistory,
-			bool isTargetExecutable = false)
+			bool isTargetExecutable = false,
+			bool isTargetPythonFile = false)
 		{
 			try
 			{
@@ -254,9 +255,11 @@ namespace Files.App.Utils.Storage
 				else if (operation.HasFlag(DataPackageOperation.Link))
 				{
 					// Open with piggybacks off of the link operation, since there isn't one for it
-					if (isTargetExecutable)
+					if (isTargetExecutable || isTargetPythonFile)
 					{
 						var items = await GetDraggedStorageItems(packageView);
+						if (isTargetPythonFile && !SoftwareHelpers.IsPythonInstalled())
+							return ReturnResult.Cancelled;
 						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}
@@ -360,7 +363,7 @@ namespace Files.App.Utils.Storage
 				ReturnResult returnStatus = ReturnResult.InProgress;
 
 				var destinations = new List<string>();
-				List<ShellFileItem> binItems = null;
+				List<ShellFileItem>? binItems = null;
 				foreach (var item in source)
 				{
 					if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
@@ -391,7 +394,7 @@ namespace Files.App.Utils.Storage
 					using var imageStream = await imgSource.OpenReadAsync();
 					var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(destination);
 					// Set the name of the file to be the current time and date
-					var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
+					var file = await folder.CreateFileAsync($"{DateTime.Now:MM-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
 					SoftwareBitmap softwareBitmap;
 
@@ -508,7 +511,7 @@ namespace Files.App.Utils.Storage
 			ReturnResult returnStatus = ReturnResult.InProgress;
 
 			var destinations = new List<string>();
-			List<ShellFileItem> binItems = null;
+			List<ShellFileItem>? binItems = null;
 			foreach (var item in source)
 			{
 				if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
@@ -548,7 +551,7 @@ namespace Files.App.Utils.Storage
 				return ReturnResult.Failed;
 			}
 
-			IStorageHistory history = null;
+			IStorageHistory? history = null;
 
 			switch (source.ItemType)
 			{
@@ -655,7 +658,8 @@ namespace Files.App.Utils.Storage
 			{
 				var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
 				incomingItems.Add(new FileSystemDialogConflictItemViewModel() { ConflictResolveOption = FileNameConflictResolveOptionType.None, SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
-				if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
+				var path = incomingItems.ElementAt(item.index).SourcePath;
+				if (path is not null && collisions.ContainsKey(path))
 				{
 					// Something strange happened, log
 					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(item.index).SourcePath}, {item.src.Name}\n" +
@@ -867,6 +871,8 @@ namespace Files.App.Utils.Storage
 		{
 			filesystemOperations?.Dispose();
 
+			// SUPPRESS: Cannot convert null literal to non-nullable reference type.
+	#pragma warning disable CS8625
 			associatedInstance = null;
 			filesystemOperations = null;
 		}

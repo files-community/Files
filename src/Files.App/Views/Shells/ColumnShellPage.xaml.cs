@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.UserControls.TabBar;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -14,7 +13,7 @@ namespace Files.App.Views.Shells
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
 		public override bool IsCurrentPane
-			=> this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.IsCurrentPane ?? false;
+			=> this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.IsCurrentPane ?? false;
 
 		public override bool CanNavigateBackward
 			=> false;
@@ -56,18 +55,19 @@ namespace Files.App.Views.Shells
 		}
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
-			=> this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(e);
+		{
+			this.FindAscendant<ColumnsLayoutPage>()?.SetSelectedPathOrNavigate(e);
+		}
 
 		protected override void OnNavigationParamsChanged()
 		{
 			ItemDisplayFrame.Navigate(
-				typeof(ColumnViewBase),
+				typeof(ColumnLayoutPage),
 				new NavigationArguments()
 				{
 					IsSearchResultPage = ColumnParams.IsSearchResultPage,
 					SearchQuery = ColumnParams.SearchQuery,
 					NavPathParam = ColumnParams.NavPathParam,
-					SearchUnindexedItems = ColumnParams.SearchUnindexedItems,
 					SearchPathParam = ColumnParams.SearchPathParam,
 					AssociatedTabInstance = this,
 					SelectItems = ColumnParams.SelectItems
@@ -84,7 +84,7 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
-			PaneHolder = this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.PaneHolder;
+			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.PaneHolder;
 
 			base.Page_Loaded(sender, e);
 
@@ -108,7 +108,7 @@ namespace Files.App.Views.Shells
 				ToolbarViewModel.IsSearchBoxVisible = false;
 			}
 
-			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnViewBase))
+			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnLayoutPage))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
 				ContentPage.ResetItemOpacity();
@@ -126,10 +126,10 @@ namespace Files.App.Views.Shells
 		{
 			args.Handled = true;
 			var tabInstance =
-				CurrentPageType == typeof(DetailsLayoutBrowser) ||
-				CurrentPageType == typeof(GridViewBrowser) ||
-				CurrentPageType == typeof(ColumnViewBrowser) ||
-				CurrentPageType == typeof(ColumnViewBase);
+				CurrentPageType == typeof(DetailsLayoutPage) ||
+				CurrentPageType == typeof(GridLayoutPage) ||
+				CurrentPageType == typeof(ColumnsLayoutPage) ||
+				CurrentPageType == typeof(ColumnLayoutPage);
 
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
@@ -151,7 +151,7 @@ namespace Files.App.Views.Shells
 			if (ItemDisplayFrame.CanGoBack)
 				base.Back_Click();
 			else
-				this.FindAscendant<ColumnViewBrowser>().NavigateBack();
+				this.FindAscendant<ColumnsLayoutPage>().NavigateBack();
 		}
 
 		public override void Forward_Click()
@@ -160,44 +160,45 @@ namespace Files.App.Views.Shells
 			if (ItemDisplayFrame.CanGoForward)
 				base.Forward_Click();
 			else
-				this.FindAscendant<ColumnViewBrowser>().NavigateForward();
+				this.FindAscendant<ColumnsLayoutPage>().NavigateForward();
 		}
 
 		public override void Up_Click()
 		{
-			this.FindAscendant<ColumnViewBrowser>()?.NavigateUp();
+			if (!ToolbarViewModel.CanNavigateToParent)
+				return;
+
+			this.FindAscendant<ColumnsLayoutPage>()?.NavigateUp();
 		}
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
-			this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+			this.FindAscendant<ColumnsLayoutPage>()?.SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
 		}
 
 		public override void NavigateHome()
 		{
-			this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.NavigateHome();
+			this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.NavigateHome();
 		}
 
 		public override Task WhenIsCurrent()
-			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
+			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
 
 		public void RemoveLastPageFromBackStack()
 		{
 			ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
 		}
 
-		public void SubmitSearch(string query, bool searchUnindexedItems)
+		public void SubmitSearch(string query)
 		{
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
-			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-			ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
+			ItemDisplayFrame.Navigate(typeof(ColumnLayoutPage), new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
 				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
-				SearchUnindexedItems = searchUnindexedItems,
 			});
 
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);

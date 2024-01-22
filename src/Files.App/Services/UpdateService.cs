@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Net.Http;
+using Windows.Foundation.Metadata;
 using Windows.Services.Store;
 using Windows.Storage;
 using WinRT.Interop;
@@ -108,7 +109,7 @@ namespace Files.App.Services
 
 		private async Task DownloadAndInstallAsync()
 		{
-			App.SaveSessionTabs();
+			AppLifecycleHelper.SaveSessionTabs();
 			App.AppModel.ForceProcessTermination = true;
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 			var result = await downloadOperation.AsTask();
@@ -145,6 +146,9 @@ namespace Files.App.Services
 				CloseButtonText = "Close".GetLocalizedResource(),
 				PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
 			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			ContentDialogResult result = await dialog.TryShowAsync();
 

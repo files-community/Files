@@ -16,6 +16,7 @@ namespace Files.App.Data.Contexts
 		GroupByDateUnit GroupByDateUnit { get; set; }
 
 		bool SortDirectoriesAlongsideFiles { get; set; }
+		bool SortFilesFirst { get; set; }
 
 		void DecreaseLayoutSize();
 		void IncreaseLayoutSize();

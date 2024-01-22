@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Kopioi polku</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copy path with quotes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Selaa</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Hakutulokset kohteessa {1} haulle {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Listaa ja lajittele hakemistot tiedostojen rinnalla</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Tiedot</value>
   </data>
@@ -1052,6 +1052,18 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Vaihda esikatseluruutua</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Vaihda tietoruutua</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the info pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggle the info pane to view the detail/preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Esikatselua ei ole saatavilla</value>
@@ -1308,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Lajittele</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Ryhmittelyperuste</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Muokkauspäivämäärä</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Alkuperäinen kansio</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Lajitteluperuste</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Laskeva</value>
@@ -1806,8 +1812,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Palauta oletusarvot</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Avaa uusi esiintymä, kun avaat hakemistoja tehtäväpalkin pikaluettelosta</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Avaa välilehti nykyisessä instanssissa, kun avaat Filesin toisesta sovelluksesta</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Käynnistysasetukset</value>
@@ -2223,6 +2229,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Näytä muokkaa tunnisteita -pikaikkuna</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Show compression options</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Näytä Lähetä kohteeseen -valikko</value>
   </data>
@@ -2328,6 +2337,12 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Laskennassa tapahtui virhe</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Failed to calculate the hash, please close the file and try again.</value>
+  </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Tarkistussummat eivät ole saatavilla verkkotiedostoille</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritmi</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Valitse, näytetäänkö tiedostotunnisteet</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Valitse, näytetäänkö esikatseluruutu</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Valitse, näytetäänkö sivupalkki</value>
@@ -2401,7 +2416,10 @@
     <value>Kopioi kohteet leikepöydälle</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Kopioi kohteen polku leikepöydälle</value>
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Leikkaa kohteet leikepöydälle</value>
@@ -2603,9 +2621,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Vaihda kohteiden lajittelusuuntaa</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Listaa ja lajittele hakemistot tiedostojen rinnalla</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Listaa kohteet ilman ryhmittelyä</value>
@@ -2986,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>Kuukausi</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Vaihda päivämäärän mukaan ryhmittelyä varten</value>
   </data>
@@ -2995,8 +3013,11 @@
   <data name="Year" xml:space="preserve">
     <value>Vuosi</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Ryhmittele kuukauden eikä vuoden mukaan</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Group by date unit</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Group items by day of date created</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Ryhmittele kohteet luontikuukauden mukaan</value>
@@ -3004,11 +3025,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Ryhmittele kohteet luontivuoden mukaan</value>
   </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Group items by day of date deleted</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Ryhmittele kohteet poiston kuukauden mukaan</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Ryhmittele kohteet poistovuoden mukaan</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Group items by day of date modified</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Ryhmittele kohteet muokkauskuukauden mukaan</value>
@@ -3406,19 +3433,19 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Virhe pakattaessa {0} kohde(tta) tiedostoon "{1}"</value>
+    <value>Virhe pakattaessa {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>{0} kohteen pakkaaminen epäonnistui kansiosta "{1}" tiedostoon "{2}"</value>
+    <value>{0} kohteen pakkaaminen epäonnistui kansiosta "{1}" kansioon "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Pakataan {0} kohde(tta) tiedostoon "{1}"</value>
+    <value>Pakataan {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Pakataan {0} kohde(tta) kansiosta "{1}" tiedostoon "{2}"</value>
+    <value>Pakataan {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
@@ -3430,15 +3457,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Kopioitu {0} kohde(tta) kansioon "{1}"</value>
+    <value>Kopioitu {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Kopioitu {0} kohde(tta) kansiosta "{1}" kansioon "{2}"</value>
+    <value>Kopioitu {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Virhe kopioitaessa {0} kohde(tta) kansioon "{1}"</value>
+    <value>Virhe kopioitaessa {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
@@ -3446,11 +3473,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Kopioidaan {0} kohde(tta) kansioon "{1}"</value>
+    <value>Kopioidaan {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Kopioidaan {0} kohde(tta) kansiosta "{1}" kansioon "{2}"</value>
+    <value>Kopioidaan {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3490,7 +3517,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Poistettu pysyvästi {0} kohde(tta) kansiosta "{1}"</value>
+    <value>Poistettu pysyvästi {0} kohdetta kansiosta "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
@@ -3578,7 +3605,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} kohde(tta) käsitelty</value>
+    <value>{0}/{1} kohdetta käsitelty</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3589,5 +3616,74 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>Mahdollisuus avata Files Windowsin käynnistyksessä ei ole käytettävissä järjestelmäasetusten tai ryhmäkäytäntöjen vuoksi. Ota se uudelleen käyttöön avaamalla käynnistysohjelmat Tehtävienhallinnassa.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connected to GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Yhdistä GitHubiin</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>There was an error applying this tag</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extract here (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Sort files first</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Sort files first then folders</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Sort folders first</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Sort folders first then files</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sort priority</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Kuvaa ei voitu kääntää</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Failed to share items</value>
   </data>
 </root>

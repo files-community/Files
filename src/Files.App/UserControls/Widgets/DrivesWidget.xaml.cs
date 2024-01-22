@@ -41,7 +41,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			// Try load thumbnail using ListView mode
 			if (thumbnailData is null || thumbnailData.Length == 0)
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.DefaultIconSizes.Jumbo), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
 
 			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
 			if (thumbnailData is null || thumbnailData.Length == 0)
@@ -52,15 +52,16 @@ namespace Files.App.UserControls.Widgets
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.DefaultIconSizes.Jumbo));
 		}
 
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
 	}
 
-	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
@@ -294,13 +295,18 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(DriveCardItem item)
 		{
+			if (!HomePageContext.IsAnyItemRightClicked)
+				return;
+
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
 			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = async (s, e) =>
+			flyoutClosed = (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				flyout!.Closed -= flyoutClosed;
 				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, associatedInstance);
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+
+			flyout!.Closed += flyoutClosed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)

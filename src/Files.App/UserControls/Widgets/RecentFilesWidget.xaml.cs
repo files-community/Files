@@ -15,8 +15,10 @@ using Windows.System;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
 		public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
@@ -109,27 +111,43 @@ namespace Files.App.UserControls.Widgets
 
 		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			ItemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			ItemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (e.OriginalSource is not FrameworkElement element || element.DataContext is not RecentItem item)
+			// Ensure values are not null
+			if (e.OriginalSource is not FrameworkElement element ||
+				element.DataContext is not RecentItem item)
 				return;
 
-			var menuItems = GetItemMenuItems(item, false);
+			// Create a new Flyout
+			var itemContextMenuFlyout = new CommandBarFlyout()
+			{
+				Placement = FlyoutPlacementMode.Full
+			};
+
+			// Hook events
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
+
+			FlyoutItemPath = item.Path;
+
+			// Notify of the change on right clicked item
+			OnRightClickedItemChanged(item, itemContextMenuFlyout);
+
+			// Get items for the flyout
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			secondaryElements.OfType<FrameworkElement>()
-							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			// Set max width of the flyout
+			secondaryElements
+				.OfType<FrameworkElement>()
+				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
-			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
-			FlyouItemPath = item.Path;
-			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
-			ItemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
-		}
+			// Add menu items to the secondary flyout
+			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
 
-		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
-		{
-			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			// Show the flyout
+			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
+
+			// Load shell menu items
+			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -224,14 +242,15 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(RecentItem item)
 		{
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = async (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				flyout!.Closed -= flyoutClosed;
 				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
 				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, associatedInstance);
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+			flyout!.Closed += flyoutClosed;
 		}
 
 		private async Task UpdateRecentsListAsync(NotifyCollectionChangedEventArgs e)

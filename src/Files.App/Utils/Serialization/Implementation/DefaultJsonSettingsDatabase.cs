@@ -27,7 +27,16 @@ namespace Files.App.Utils.Serialization.Implementation
 				data = "null";
 			}
 
-			return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>(data) ?? new();
+			try
+			{
+				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>(data) ?? new();
+			}
+			catch (Exception)
+			{
+				// Occurs if the settings file has invalid json
+				// TODO Display prompt to notify user #710
+				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
+			}
 		}
 
 		protected bool SaveSettings(IDictionary<string, object?> data)

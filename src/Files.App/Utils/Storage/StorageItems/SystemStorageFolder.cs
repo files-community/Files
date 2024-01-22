@@ -1,7 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
@@ -27,7 +29,31 @@ namespace Files.App.Utils.Storage
 		public SystemStorageFolder(StorageFolder folder) => Folder = folder;
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
-			=> AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => new SystemStorageFolder(await StorageFolder.GetFolderFromPathAsync(path)));
+		{
+			if (path.EndsWith(ShellLibraryItem.EXTENSION))
+			{
+				try
+				{
+					using var shellItem = new ShellLibraryEx(Shell32.ShellUtil.GetShellItemForPath(path), true);
+					if (shellItem is ShellLibraryEx library)
+					{
+						var libraryItem = ShellFolderExtensions.GetShellLibraryItem(library, path);
+						var firstFolder = libraryItem?.Folders.FirstOrDefault();
+
+						if (firstFolder != null)
+						{
+							return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => new SystemStorageFolder(await StorageFolder.GetFolderFromPathAsync(firstFolder)));
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					App.Logger.LogWarning(e, null);
+				}
+			}
+
+			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => new SystemStorageFolder(await StorageFolder.GetFolderFromPathAsync(path)));
+		}
 
 		public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => Task.FromResult(Folder).AsAsyncOperation();
 
@@ -37,7 +63,7 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<BaseStorageFolder> GetParentAsync()
 			=> AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => new SystemStorageFolder(await Folder.GetParentAsync()));
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
-			=> AsyncInfo.Run<BaseBasicProperties>(async (cancellationToken) => new SystemFolderBasicProperties(await Folder.GetBasicPropertiesAsync()));
+			=> AsyncInfo.Run<BaseBasicProperties>(async (cancellationToken) => new SystemFolderBasicProperties(await Folder.GetBasicPropertiesAsync(), DateCreated));
 
 		public override IAsyncOperation<IndexedState> GetIndexedStateAsync() => Folder.GetIndexedStateAsync();
 
@@ -128,13 +154,18 @@ namespace Files.App.Utils.Storage
 		private class SystemFolderBasicProperties : BaseBasicProperties
 		{
 			private readonly IStorageItemExtraProperties basicProps;
+			private readonly DateTimeOffset? dateCreated;
 
 			public override ulong Size => (basicProps as BasicProperties)?.Size ?? 0;
 
-			public override DateTimeOffset ItemDate => (basicProps as BasicProperties)?.ItemDate ?? DateTimeOffset.Now;
+			public override DateTimeOffset DateCreated => dateCreated ?? DateTimeOffset.Now;
 			public override DateTimeOffset DateModified => (basicProps as BasicProperties)?.DateModified ?? DateTimeOffset.Now;
 
-			public SystemFolderBasicProperties(IStorageItemExtraProperties basicProps) => this.basicProps = basicProps;
+			public SystemFolderBasicProperties(IStorageItemExtraProperties basicProps, DateTimeOffset dateCreated)
+			{
+				this.basicProps = basicProps;
+				this.dateCreated = dateCreated;
+			}
 
 			public override IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
 				=> basicProps.RetrievePropertiesAsync(propertiesToRetrieve);

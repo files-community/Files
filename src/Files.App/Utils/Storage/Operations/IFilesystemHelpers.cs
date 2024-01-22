@@ -14,7 +14,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="source">FullPath to the item</param>
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
-		Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory);
+		Task<(ReturnResult, IStorageItem?)> CreateAsync(IStorageItemWithPath source, bool registerHistory);
 
 		#region Delete
 
@@ -114,7 +114,7 @@ namespace Files.App.Utils.Storage
 		/// The <paramref name="destination"/> is NOT fullPath</param>
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
-		Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation, DataPackageView packageView, string destination, bool showDialog, bool registerHistory, bool isDestinationExecutable = false);
+		Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation, DataPackageView packageView, string destination, bool showDialog, bool registerHistory, bool isDestinationExecutable = false, bool isDestinationPython = false);
 
 		#region Copy
 

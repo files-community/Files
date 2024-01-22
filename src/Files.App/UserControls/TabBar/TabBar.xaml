@@ -50,7 +50,6 @@
 							Text="{x:Bind Commands.CloseOtherTabsSelected.Label}" />
 						<MenuFlyoutItem
 							Command="{x:Bind Commands.ReopenClosedTab}"
-							IsEnabled="{x:Bind Commands.ReopenClosedTab.IsExecutable}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.ReopenClosedTab.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.ReopenClosedTab.Label}" />
 					</MenuFlyout>
@@ -74,6 +73,7 @@
 			CanReorderTabs="{x:Bind AllowTabsDrag, Mode=OneWay}"
 			DragLeave="TabView_DragLeave"
 			IsAddTabButtonVisible="False"
+			PointerWheelChanged="TabView_PointerWheelChanged"
 			SelectedIndex="{x:Bind root:App.AppModel.TabStripSelectedIndex, Mode=TwoWay}"
 			SelectionChanged="TabView_SelectionChanged"
 			TabCloseRequested="TabView_TabCloseRequested"

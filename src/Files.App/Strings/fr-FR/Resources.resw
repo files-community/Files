@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copier le chemin</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copier le chemin entre guillemets</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Résultats de la recherche dans {1} pour {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Lister et trier les dossiers avec les fichiers</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Détails</value>
   </data>
@@ -1052,6 +1052,18 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Afficher le volet de prévisualisation</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Afficher le volet des détails</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Activer le volet des détails pour afficher les propriétés de base du fichier</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Afficher le volet d'information</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Afficher le volet d'informations pour afficher les volets de détails/aperçu</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -1308,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Trier</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Grouper par</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Date de modification</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Dossier d'origine</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Trier par</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Décroissant</value>
@@ -1806,8 +1812,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurer les valeurs par défaut</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Ouvrir une nouvelle instance lors de l'ouverture d'un dossier depuis la liste de raccourcis de la barre des tâches</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Ouvrir l'onglet dans l'instance existante lors de l'ouverture de Files à partir d'une autre application</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Paramètres de démarrage</value>
@@ -2223,6 +2229,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Afficher l'édition des étiquettes en survolant</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Afficher les options de compression</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Afficher le menu "Envoyer vers"</value>
   </data>
@@ -2328,6 +2337,12 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Une erreur s'est produite lors du calcul</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Échec du calcul du hachage, veuillez fermer le fichier et réessayer.</value>
+  </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Les hachages ne sont pas disponibles pour les fichiers en ligne</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithme</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Afficher/Masquer les extensions de fichier</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Afficher/Masquer le volet de prévisualisation</value>
+    <value>Activer le volet d’aperçu pour afficher les aperçus des fichiers</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>
@@ -2401,7 +2416,10 @@
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copier le chemin de l'élément dans le presse-papiers</value>
+    <value>Copier le chemin des éléments sélectionnés dans le presse-papiers</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copier le chemin des éléments sélectionnés avec des guillemets dans le presse-papiers</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Couper le(s) élément(s) dans le presse-papiers</value>
@@ -2603,9 +2621,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Activer/désactiver la direction de tri des éléments</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Lister et trier les dossiers avec les fichiers</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Lister les éléments sans regroupement</value>
@@ -2986,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>Mois</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Jour</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Activer/désactiver l'unité de regroupement par date</value>
   </data>
@@ -2995,8 +3013,11 @@
   <data name="Year" xml:space="preserve">
     <value>Année</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Regrouper par mois plutôt que par année</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Grouper par unité de date</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Grouper les éléments par jour de création</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Grouper les éléments par mois de création</value>
@@ -3004,11 +3025,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Grouper les éléments par année de création</value>
   </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Grouper les éléments par jour de suppression</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Grouper les éléments par mois de suppression</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Grouper les éléments par année de suppression</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Grouper les éléments par jour de modification</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Grouper les éléments par mois de modification</value>
@@ -3588,6 +3615,75 @@
     <value>Aucune opération de fichier en cours</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>L'option d'ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le Gestionnaire des tâches.</value>
+    <value>L'option pour ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le gestionnaire des tâches.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Échec de la restauration des éléments de la corbeille</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Échec de la définition du fond d'écran</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Supprimer la branche Git</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer définitivement la branche {0} ?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connecté à GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Se déconnecter</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Se connecter à GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Connexion</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Les étiquettes sont actuellement uniquement compatibles sur les lecteurs formatés en NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Une erreur s'est produite lors de l'application de cette étiquette</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extraire les éléments de(s) archive(s) sélectionnée(s) vers le dossier actuel pour une archive à un seul élément, ou vers un nouveau dossier pour une archive à plusieurs éléments</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extraire ici (Intelligent)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Trier les fichiers et les dossiers ensemble</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Trier les fichiers et les dossiers ensemble</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Trier les fichiers en premier</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Trier les fichiers en premier, puis les dossiers</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Trier les dossiers en premier</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Trier les dossiers en premier, puis les fichiers</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Trier la priorité</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Échec de la rotation de l'image</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Redémarrer</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Échec du partage d'éléments</value>
   </data>
 </root>

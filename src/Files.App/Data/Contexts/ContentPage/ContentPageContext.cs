@@ -16,7 +16,7 @@ namespace Files.App.Data.Contexts
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
-		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutBrowser);
+		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutPage);
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
@@ -46,8 +46,6 @@ namespace Files.App.Data.Contexts
 		public bool IsMultiPaneEnabled => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneEnabled;
 
 		public bool IsMultiPaneActive => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneActive;
-
-		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
 
 		public bool IsGitRepository => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository;
 
@@ -107,6 +105,7 @@ namespace Files.App.Data.Contexts
 
 			Update();
 			OnPropertyChanged(nameof(ShellPage));
+			OnPropertyChanged(nameof(Folder));
 		}
 
 		private void Page_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -149,9 +148,6 @@ namespace Files.App.Data.Contexts
 				case nameof(CurrentInstanceViewModel.IsPageTypeMtpDevice):
 				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
 					UpdatePageType();
-					break;
-				case nameof(CurrentInstanceViewModel.ShowSearchUnindexedItemsMessage):
-					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 					break;
 				case nameof(CurrentInstanceViewModel.IsGitRepository):
 					OnPropertyChanged(nameof(IsGitRepository));
@@ -196,7 +192,6 @@ namespace Files.App.Data.Contexts
 			UpdatePageType();
 			UpdateSelectedItems();
 
-			OnPropertyChanged(nameof(Folder));
 			OnPropertyChanged(nameof(HasItem));
 			OnPropertyChanged(nameof(CanGoBack));
 			OnPropertyChanged(nameof(CanGoForward));
@@ -205,7 +200,6 @@ namespace Files.App.Data.Contexts
 			OnPropertyChanged(nameof(CanCreateItem));
 			OnPropertyChanged(nameof(IsMultiPaneEnabled));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
-			OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 			OnPropertyChanged(nameof(IsGitRepository));
 			OnPropertyChanged(nameof(CanExecuteGitAction));
 		}

@@ -51,7 +51,7 @@ namespace Files.App.Utils.RecentItem
 			LinkPath = linkItem.FilePath;
 			RecentPath = linkItem.TargetPath;
 			Name = NameOrPathWithoutExtension(linkItem.FileName);
-			Type = linkItem.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File;
+			Type = linkItem.IsFolder ? StorageItemTypes.Folder : ZipStorageFolder.IsZipPath(LinkPath) ? StorageItemTypes.Folder : StorageItemTypes.File;
 			FolderImg = linkItem.IsFolder;
 			FileIconVis = !linkItem.IsFolder;
 			LastModified = linkItem.ModifiedDate;
@@ -67,7 +67,7 @@ namespace Files.App.Utils.RecentItem
 			LinkPath = ShellStorageFolder.IsShellPath(fileItem.FilePath) ? fileItem.RecyclePath : fileItem.FilePath; // use true path on disk for shell items
 			RecentPath = LinkPath; // intentionally the same
 			Name = NameOrPathWithoutExtension(fileItem.FileName);
-			Type = fileItem.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File;
+			Type = fileItem.IsFolder ? StorageItemTypes.Folder : ZipStorageFolder.IsZipPath(LinkPath) ? StorageItemTypes.Folder : StorageItemTypes.File;
 			FolderImg = fileItem.IsFolder;
 			FileIconVis = !fileItem.IsFolder;
 			LastModified = fileItem.ModifiedDate;
@@ -76,12 +76,8 @@ namespace Files.App.Utils.RecentItem
 
 		public async Task LoadRecentItemIconAsync()
 		{
-			var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(RecentPath, 96u, ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail);
-			if (iconData is null)
-			{
-				EmptyImgVis = true;
-			}
-			else
+			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(RecentPath, Constants.DefaultIconSizes.Large, false, false);
+			if (iconData is not null)
 			{
 				EmptyImgVis = false;
 				FileImg = await iconData.ToBitmapAsync();

@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>複製路徑</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copy path with quotes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>瀏覽</value>
   </data>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>從 {1} 搜尋 {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>將檔案與資料夾一起排序</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>詳細資料</value>
   </data>
@@ -1052,6 +1052,18 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>開啟/關閉預覽畫面（Ctrl + P）</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the info pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggle the info pane to view the detail/preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>無法預覽</value>
@@ -1308,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>排序</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>分類</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>修改日期</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>原始資料夾</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>排序</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>遞減</value>
@@ -1806,8 +1812,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>重設回預設圖示</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>從工作列右鍵選單開啟資料夾時，開在新的視窗中</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>啟動設定</value>
@@ -2223,6 +2229,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>顯示編輯標籤選單</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Show compression options</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>顯示「傳送到」選單</value>
   </data>
@@ -2239,7 +2248,7 @@
     <value>輸入您連線至: {0} 的憑證</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter network credentials</value>
+    <value>輸入網路憑證</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>記住我的憑證</value>
@@ -2328,6 +2337,12 @@
   <data name="CalculationError" xml:space="preserve">
     <value>在計算時發生錯誤</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Failed to calculate the hash, please close the file and try again.</value>
+  </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>無法檢視線上檔案的雜湊值</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>演算法</value>
   </data>
@@ -2335,7 +2350,7 @@
     <value>哈希值</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>選擇要顯示的哈希值</value>
+    <value>選擇要顯示的雜湊值</value>
   </data>
   <data name="Calculating" xml:space="preserve">
     <value>計算中…</value>
@@ -2392,7 +2407,7 @@
     <value>切換是否顯示檔案副檔名</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>遷換是否顯示預覽畫面</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>切換是否顯示側邊攔</value>
@@ -2401,7 +2416,10 @@
     <value>將項目複製到剪貼簿</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>複製項目路徑到剪貼簿</value>
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>剪下項目到剪貼簿</value>
@@ -2497,10 +2515,10 @@
     <value>安裝選取的憑證</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>以系統管理員身分執行</value>
+    <value>以系統管理員身分執行選擇的應用程式</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>以其他使用者身分執行</value>
+    <value>以不同的使用者身分執行選擇的應用程式</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>執行PowerShell腳本</value>
@@ -2578,22 +2596,22 @@
     <value>Sort items by date created</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>按大小排序</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>按類型排序</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>按同步狀態排序</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sort items by tags</value>
+    <value>按標籤排序</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>按原始資料夾排序</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>按刪除日期排序</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
     <value>Sort items in ascending order</value>
@@ -2603,9 +2621,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Toggle item sort direction</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>將檔案與資料夾一起排序</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>List items without grouping</value>
@@ -2698,7 +2713,7 @@
     <value>關閉目前分頁</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>開啟新畫面</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Close right pane</value>
@@ -2787,7 +2802,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>暫停</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Sleep" xml:space="preserve">
@@ -2799,7 +2814,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Print" xml:space="preserve">
-    <value>Print</value>
+    <value>列印</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
@@ -2894,7 +2909,7 @@
     <value>Change</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle selection</value>
+    <value>切換選擇</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>修改副檔名時顯示警告</value>
@@ -2906,7 +2921,7 @@
     <value>資源回收筒</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Untagged</value>
+    <value>無標記</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
     <value>移到上一索引標籤</value>
@@ -2986,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>月</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Toggle unit for grouping by date</value>
   </data>
@@ -2995,8 +3013,11 @@
   <data name="Year" xml:space="preserve">
     <value>年份</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Group by date unit</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Group items by day of date created</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>按建立日期之月對項目分組</value>
@@ -3004,11 +3025,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>按建立日期之年對項目分組</value>
   </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Group items by day of date deleted</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>按刪除日期之月對項目分組</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>按刪除日期之年對項目分組</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Group items by day of date modified</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>按修改日期之月對項目分組</value>
@@ -3277,10 +3304,10 @@
     <value>Don't show again</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>Files is running as administrator</value>
+    <value>正以系統管理員身分執行 Files</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+    <value>基於系統限制，以系統管理員身分執行 Files 時無法使用拖放功能</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>關閉視窗後在背景繼續執行</value>
@@ -3589,5 +3616,74 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Delete Git branch</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Connected to GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>There was an error applying this tag</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extract here (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Sort files first</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Sort files first then folders</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Sort folders first</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Sort folders first then files</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sort priority</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Failed to rotate the image</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Failed to share items</value>
   </data>
 </root>

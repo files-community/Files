@@ -17,7 +17,6 @@ namespace Files.App.UserControls
 		public InnerNavigationToolbar()
 		{
 			InitializeComponent();
-			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 		}
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -28,9 +27,7 @@ namespace Files.App.UserControls
 
 		public AppModel AppModel => App.AppModel;
 
-		public readonly PreviewPaneViewModel PreviewPaneViewModel;
-
-		public ToolbarViewModel ViewModel
+		public ToolbarViewModel? ViewModel
 		{
 			get => (ToolbarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);

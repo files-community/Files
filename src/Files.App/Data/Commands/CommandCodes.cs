@@ -14,7 +14,6 @@ namespace Files.App.Data.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
-		SearchUnindexedItems,
 		EditPath,
 		Redo,
 		Undo,
@@ -29,6 +28,7 @@ namespace Files.App.Data.Commands
 		// File System
 		CopyItem,
 		CopyPath,
+		CopyPathWithQuotes,
 		CutItem,
 		PasteItem,
 		PasteItemToSelection,
@@ -91,6 +91,7 @@ namespace Files.App.Data.Commands
 		CompressIntoZip,
 		DecompressArchive,
 		DecompressArchiveHere,
+		DecompressArchiveHereSmart,
 		DecompressArchiveToChildFolder,
 
 		// Image Manipulation
@@ -131,7 +132,9 @@ namespace Files.App.Data.Commands
 		SortAscending,
 		SortDescending,
 		ToggleSortDirection,
-		ToggleSortDirectoriesAlongsideFiles,
+		SortFoldersFirst,
+		SortFilesFirst,
+		SortFilesAndFoldersTogether,
 
 		// Group by
 		GroupByNone,
@@ -147,10 +150,13 @@ namespace Files.App.Data.Commands
 		GroupByFolderPath,
 		GroupByDateModifiedYear,
 		GroupByDateModifiedMonth,
+		GroupByDateModifiedDay,
 		GroupByDateCreatedYear,
 		GroupByDateCreatedMonth,
+		GroupByDateCreatedDay,
 		GroupByDateDeletedYear,
 		GroupByDateDeletedMonth,
+		GroupByDateDeletedDay,
 		GroupAscending,
 		GroupDescending,
 		ToggleGroupDirection,
@@ -159,6 +165,7 @@ namespace Files.App.Data.Commands
 		ToggleGroupByDateUnit,
 
 		// Navigation
+		NewWindow,
 		NewTab,
 		NavigateBack,
 		NavigateForward,

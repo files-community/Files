@@ -11,7 +11,6 @@
 	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -115,13 +114,6 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="N" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenNewWindowAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>
 
 	<Grid>
@@ -156,10 +148,13 @@
 						Padding="8"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
+						AllowDrop="True"
 						AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
 						Background="Transparent"
 						BorderThickness="0"
 						Command="{x:Bind Commands.NewTab}"
+						DragOver="HorizontalMultitaskingControlAddButton_DragOver"
+						Drop="HorizontalMultitaskingControlAddButton_Drop"
 						ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
 						<Button.Content>
 							<FontIcon
@@ -238,8 +233,8 @@
 					Grid.ColumnSpan="3"
 					x:Load="False"
 					Loaded="NavToolbar_Loaded"
-					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
-					ShowViewControlButton="{x:Bind ShouldViewControlBeDisplayed, Mode=OneWay}"
+					ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
+					ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
 				<!--  Page Content  -->
@@ -255,19 +250,19 @@
 					x:Name="PaneSplitter"
 					Grid.Row="1"
 					Grid.Column="1"
-					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 					ManipulationCompleted="PaneSplitter_ManipulationCompleted"
 					ManipulationStarted="PaneSplitter_ManipulationStarted"
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
 				<!--  Preview Pane  -->
-				<uc:PreviewPane
+				<uc:InfoPane
 					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
-					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 					Loaded="PreviewPane_Loaded"
 					Unloaded="PreviewPane_Unloaded" />
 

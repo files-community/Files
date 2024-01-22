@@ -228,7 +228,7 @@ namespace Files.App.Utils.Shell
 
 		private static readonly object _lock = new object();
 
-		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
+		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getIconOnly, bool getOverlay = true, bool onlyGetOverlay = false)
 		{
 			byte[]? iconData = null, overlayData = null;
 			var entry = _iconAndOverlayCache.GetOrAdd(path, _ => new());
@@ -256,7 +256,9 @@ namespace Files.App.Utils.Shell
 					if (shellItem is not null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
 					{
 						var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
-						if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+
+						if (getIconOnly)
+							flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
 
 						var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
 						if (hres == HRESULT.S_OK)
@@ -383,6 +385,11 @@ namespace Files.App.Utils.Shell
 			}
 			catch (OperationCanceledException)
 			{
+				return false;
+			}
+			catch (InvalidOperationException ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
 				return false;
 			}
 			catch (Win32Exception)
@@ -568,18 +575,17 @@ namespace Files.App.Utils.Shell
 
 		public static Shell32.ITaskbarList4? CreateTaskbarObject()
 		{
-			var taskbar2 = new Shell32.ITaskbarList2();
 			try
 			{
+				var taskbar2 = new Shell32.ITaskbarList2();
 				taskbar2.HrInit();
+				return taskbar2 as Shell32.ITaskbarList4;
 			}
-			catch (NotImplementedException)
+			catch (Exception)
 			{
 				// explorer.exe is not running as a shell
 				return null;
 			}
-
-			return taskbar2 as Shell32.ITaskbarList4;
 		}
 
 		private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
@@ -833,6 +839,36 @@ namespace Files.App.Utils.Shell
 			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
 
 			return RunPowershellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
+		}
+
+		public static async Task InstallFontsAsync(string[] fontFilePaths, bool forAllUsers)
+		{
+			string fontDirectory = forAllUsers
+				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
+				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+
+			string registryKey = forAllUsers
+				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+
+			var psCommand = new StringBuilder("-command \"");
+
+			foreach (string fontFilePath in fontFilePaths)
+			{
+				var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
+				var appendCommand = $"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}';";
+
+				if (psCommand.Length + appendCommand.Length > 32766)
+				{
+					// The command is too long to run at once, so run the command once up to this point.
+					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+					psCommand.Clear().Append("-command \"");
+				}
+
+				psCommand.Append(appendCommand);
+			}
+
+			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
 		}
 
 		private static Process CreatePowershellProcess(string command, bool runAsAdmin)

@@ -5,6 +5,7 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Text;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Files.App.Utils.Storage
@@ -145,6 +146,9 @@ namespace Files.App.Utils.Storage
 						//PrimaryButtonText = "Skip".GetLocalizedResource(),
 						CloseButtonText = "Cancel".GetLocalizedResource()
 					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 					ContentDialogResult result = await dialog.TryShowAsync();
 
@@ -344,6 +348,9 @@ namespace Files.App.Utils.Storage
 						//PrimaryButtonText = "Skip".GetLocalizedResource(),
 						CloseButtonText = "Cancel".GetLocalizedResource()
 					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 					ContentDialogResult result = await dialog.TryShowAsync();
 

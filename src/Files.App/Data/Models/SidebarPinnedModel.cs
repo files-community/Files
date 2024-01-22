@@ -97,10 +97,10 @@ namespace Files.App.Data.Models
 			locationItem.IsDefaultLocation = false;
 			locationItem.Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
 
-			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+			if (res)
 			{
 				locationItem.IsInvalid = false;
-				if (res)
+				if (res && res.Result is not null)
 				{
 					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 16u, ThumbnailMode.ListView, ThumbnailOptions.UseCurrentScale);
 					locationItem.IconData = iconData;
@@ -111,7 +111,7 @@ namespace Files.App.Data.Models
 
 				if (locationItem.IconData is null)
 				{
-					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 48u);
+					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 48u, false, true);
 
 					if (locationItem.IconData is not null)
 						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());

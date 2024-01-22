@@ -34,6 +34,7 @@ global using global::Files.App.Utils.Serialization;
 global using global::Files.App.Utils.Shell;
 global using global::Files.App.Utils.StatusCenter;
 global using global::Files.App.Utils.Storage;
+global using global::Files.App.Utils.Taskbar;
 global using global::Files.App.Data.Attributes;
 global using global::Files.App.Data.Behaviors;
 global using global::Files.App.Data.Commands;
@@ -51,7 +52,7 @@ global using global::Files.App.UserControls.TabBar;
 global using global::Files.App.ViewModels;
 global using global::Files.App.ViewModels.UserControls;
 global using global::Files.App.Views;
-global using global::Files.App.Views.LayoutModes;
+global using global::Files.App.Views.Layouts;
 global using global::Files.App.Views.Shells;
 
 // Files.Core

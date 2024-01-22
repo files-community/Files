@@ -9,6 +9,14 @@
         <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DefineConstants>TRACE;DEBUG;NETFX_CORE</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
+        <DefineConstants>TRACE;RELEASE;NETFX_CORE</DefineConstants>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="Appium.WebDriver" Version="4.4.5" />
         <PackageReference Include="Axe.Windows" Version="2.3.0" />

@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Pad kopiëren</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Pad kopiëren inclusief aanhalingstekens</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Bladeren</value>
   </data>
@@ -151,7 +154,7 @@
     <value>De doelmap</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>is een submap van de bronmap</value>
+    <value>is een submap van de hoofdmap</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Overslaan</value>
@@ -175,16 +178,16 @@
     <value>Alle items wissen</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Voer een pad in om naar te navigeren of type "&gt;" om het opdrachtpalet te openen</value>
+    <value>Voer een pad in om te navigeren naar of type "&gt;" om het commandopaneel te openen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Zoeken</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Bestanden en mappen die u eerder heeft gebruikt worden hier weergeven</value>
+    <value>Bestanden die u eerder heeft geopend zullen hier worden weergegeven</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Verwijder dit item</value>
+    <value>Dit item verwijderen</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub Repository</value>
@@ -975,9 +978,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Zoekresultaten in</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Som op en sorteer mappen naast bestanden</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
@@ -1051,7 +1051,19 @@
     <value>Gewenste naam</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Voorbeeld paneel in-/uitschakelen</value>
+    <value>Voorbeeldvenster in-/uitschakelen</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Detailvenster in-/uitschakelen</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Schakel het detailvenster in om standaard bestandseigenschappen te zien</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Infovenster in-/uitschakelen</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Schakel het infovenster in om het detail-/voorbeeldvenster te kunnen zien</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
@@ -1308,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Sorteren</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Groeperen op</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum gewijzigd</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Oorspronkelijke map</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sorteren op</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Aflopend</value>
@@ -1765,13 +1771,13 @@
     <value>Foutrapport indienen</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Stel Files in als standaard verkenner</value>
+    <value>Gebruik Files als standaard verkenner</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Gebruik Files als Open Bestand Dialoog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Bestandslabel</value>
+    <value>Label</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Open items met één klik</value>
@@ -1806,8 +1812,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Standaardwaarden herstellen</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Nieuwe instantie openen bij het openen van mappen vanuit de Jumplist in de taakbalk</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Tabblad openen in bestaande instantie wanneer Files vanuit een andere app wordt geopend</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Opstart instellingen</value>
@@ -2071,7 +2077,7 @@
     <value>Selecteer bestanden en mappen wanneer je over hen beweegt</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Weet u zeker dat u deze bestanden uit de prullenbak wilt herstellen?</value>
+    <value>Weet je zeker dat je alle items uit de prullenbak wilt terugplaatsen?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Alle items herstellen</value>
@@ -2223,6 +2229,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Toon Bewerk Labels menu</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Toon compressie opties</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Toon Versturen naar menu</value>
   </data>
@@ -2328,6 +2337,12 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Er is een fout opgetreden tijdens het berekenen</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Het berekenen van de hash is mislukt, sluit het bestand en probeer opnieuw.</value>
+  </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes zijn niet beschikbaar voor online bestanden</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritme</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Schakel of bestandsextensies getoond worden</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Zet voorvertoningspaneel aan/uit</value>
+    <value>Schakel het voorbeeldvenster in om bestandsvoorbeelden te zien</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Zet zijbalk aan/uit</value>
@@ -2401,7 +2416,10 @@
     <value>Kopieer item(s) naar klembord</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Kopieer pad van item naar klembord</value>
+    <value>Het pad van de geselecteerde items naar het klembord kopiëren</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Het pad van de geselecteerde items inclusief aanhalingstekens naar het klembord kopiëren</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Knip item(s) naar klembord</value>
@@ -2461,7 +2479,7 @@
     <value>Selectie item leegmaken</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Selectie item in-/uitschakelen</value>
+    <value>Items selecteren in-/uitschakelen</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Deel geselecteerde bestand(en) met anderen</value>
@@ -2491,7 +2509,7 @@
     <value>Geselecteerde lettertype(s) installeren</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Installeer de driver(s) met behulp van geselecteerde inf bestanden</value>
+    <value>Installeer de driver(s) met behulp van geselecteerde inf bestand(en)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
     <value>Geselecteerde certificaat(en) installeren</value>
@@ -2603,9 +2621,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Wijzig sorteerrichting</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Som op en sorteer mappen naast bestanden</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Items tonen zonder groepering</value>
@@ -2986,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>Maand</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Dag</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Wissel eenheid voor groeperen op datum</value>
   </data>
@@ -2995,8 +3013,11 @@
   <data name="Year" xml:space="preserve">
     <value>Jaar</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Groeperen per week in plaats van dag</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Groeperen op datum eenheid</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Items groeperen op aanmaakdatum</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum aangemaakt</value>
@@ -3004,11 +3025,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Items groeperen op jaar van datum aangemaakt</value>
   </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Items groeperen op datum verwijderd</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum verwijderd</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Items groeperen op jaar van datum verwijderd</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Items groeperen op datum gewijzigd</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum gewijzigd</value>
@@ -3253,10 +3280,10 @@
     <value>Het '{0}' commando is niet klaar om uitgevoerd te worden.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Opdrachtenpalet</value>
+    <value>Commandopaneel</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Opdrachtenpalet openen</value>
+    <value>Commandopaneel openen</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
@@ -3362,7 +3389,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Verwijderen voltooid</value>
+    <value>Voltooide taken wissen</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
     <value>Naam:</value>
@@ -3390,11 +3417,11 @@
     <value>Snelheid:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Comprimeren van {0} bestand(en) naar "{1}" geannuleerd</value>
+    <value>Comprimeren van {0} item(s) naar "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>Comprimeren van {0} bestand(en) van "{1}" naar "{2}" geannuleerd</value>
+    <value>Comprimeren van {0} item(s) van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
@@ -3406,15 +3433,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Fout bij het comprimeren van {0} bestand(en) naar "{1}"</value>
+    <value>Fout bij het comprimeren van {0} item(s) naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Comprimeren van {0} bestand(en) van "{1}" naar "{2}" mislukt</value>
+    <value>Comprimeren van {0} item(s) van "{1}" naar "{2}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>{0} bestand(en) naar "{1}" comprimeren</value>
+    <value>{0} item(s) naar "{1}" comprimeren</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
@@ -3422,27 +3449,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Kopiëren {0} bestand(en) naar "{1}" geannuleerd</value>
+    <value>Kopiëren {0} item(s) naar "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Kopiëren {0} bestand(en) van "{1}" naar "{2}" geannuleerd</value>
+    <value>Kopiëren {0} item(s) van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>{0} bestand(en) naar "{1}" gekopieerd</value>
+    <value>{0} item(s) naar "{1}" gekopieerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>{0} bestand(en) van "{1}" naar "{2}" gekopieerd</value>
+    <value>{0} item(s) van "{1}" naar "{2}" gekopieerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Fout bij het kopiëren van {0} bestand(en) naar "{1}"</value>
+    <value>Fout bij het kopiëren van {0} item(s) naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Kopiëren van {0} bestand(en) van "{1}" naar "{2}" mislukt</value>
+    <value>Kopiëren van {0} item(s) van "{1}" naar "{2}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
@@ -3502,7 +3529,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>{0} bestand(en) worden permanent verwijderd uit "{1}"</value>
+    <value>{0} item(s) worden permanent verwijderd uit "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
@@ -3589,5 +3616,74 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>De optie om Files te openen tijdens het opstarten van Windows is niet beschikbaar door systeeminstellingen of het groepsbeleid. Om dit opnieuw in te stellen, open het Opstarten tabblad in Taakbeheer.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Items terugplaatsen vanuit prullenbak mislukt</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Instellen van achtergrondafbeelding mislukt</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Git branch verwijderen</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Weet je zeker dat je deze branche "{0}" definitief wilt verwijderen?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Verbonden met GitHub</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Uitloggen</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Verbinding maken met GitHub</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Inloggen</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Labels zijn momenteel alleen compatibel met schijven die geformatteerd zijn als NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Er is een fout opgetreden tijdens het toewijzen van dit label</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Bestanden uitpakken voor geselecteerde archieven naar de huidige map, voor een archief met één item, of naar een nieuwe map voor een archief met meerdere items</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Hier uitpakken (slim)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Bestanden en mappen samen sorteren</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Bestanden en mappen samen sorteren</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Bestanden eerst sorteren</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Bestanden eerst sorteren en daarna mappen</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Mappen eerst sorteren</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Mappen eerst sorteren en daarna bestanden</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sorteer prioriteiten</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Het roteren van de afbeelding is mislukt</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Herstarten</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Stoppen</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Delen van items mislukt</value>
   </data>
 </root>

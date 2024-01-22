@@ -197,7 +197,7 @@ namespace Files.App.UserControls.TabBar
 				return;
 
 			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
-				!(tabViewItemPathObj is string tabViewItemString))
+				tabViewItemPathObj is not string tabViewItemString)
 				return;
 
 			var index = -1;
@@ -215,7 +215,7 @@ namespace Files.App.UserControls.TabBar
 
 			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await mainPageViewModel.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
+			await NavigationHelpers.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
@@ -264,6 +264,26 @@ namespace Files.App.UserControls.TabBar
 			else
 				// Dispose tab arguments
 				(args.Item as TabBarItem)?.Unload();
+		}
+
+		private void TabView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+		{
+			var delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
+
+			if (delta > 0)
+			{
+				// Scroll up, select the next tab
+				if (HorizontalTabView.SelectedIndex < HorizontalTabView.TabItems.Count - 1)
+					HorizontalTabView.SelectedIndex++;
+			}
+			else
+			{
+				// Scroll down, select the previous tab
+				if (HorizontalTabView.SelectedIndex > 0)
+					HorizontalTabView.SelectedIndex--;
+			}
+
+			e.Handled = true;
 		}
 
 		private void TabItemContextMenu_Opening(object sender, object e)

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Views;
-using Files.App.Views.LayoutModes;
+using Files.App.Views.Layouts;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Parameters
@@ -13,6 +13,6 @@ namespace Files.App.Data.Parameters
 
 		public ListView ListView { get; set; }
 
-		public ColumnViewBase? Source { get; set; }
+		public ColumnLayoutPage? Source { get; set; }
 	}
 }

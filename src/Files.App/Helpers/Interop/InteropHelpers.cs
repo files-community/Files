@@ -5,6 +5,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.User32;
 
@@ -69,6 +70,28 @@ namespace Files.App.Helpers
 				return SetWindowLongPtr32(hWnd, nIndex, dwNewLong);
 			else
 				return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+		}
+
+		[DllImport("User32.dll")]
+		public extern static short GetKeyState(int n);
+
+		[DllImport("shell32.dll")]
+		public static extern IntPtr SHBrowseForFolder(ref BROWSEINFO lpbi);
+
+		[DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+		public static extern bool SHGetPathFromIDList(IntPtr pidl, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszPath);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BROWSEINFO
+		{
+			public IntPtr hwndOwner;
+			public IntPtr pidlRoot;
+			public string pszDisplayName;
+			public string lpszTitle;
+			public uint ulFlags;
+			public IntPtr lpfn;
+			public int lParam;
+			public IntPtr iImage;
 		}
 	}
 

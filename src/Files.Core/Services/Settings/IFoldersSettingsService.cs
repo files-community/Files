@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Data.Enums;
-using System.ComponentModel;
-
 namespace Files.Core.Services.Settings
 {
 	public interface IFoldersSettingsService : IBaseSettingsService, INotifyPropertyChanged
@@ -204,6 +201,11 @@ namespace Files.Core.Services.Settings
 		bool CalculateFolderSizes { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to scroll to the parent folder when navigating up.
+		/// </summary>
+		bool ScrollToPreviousFolderWhenNavigatingUp { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default sorting option.
 		/// </summary>
 		SortOption DefaultSortOption { get; set; }
@@ -232,6 +234,11 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating if directories should be sorted alongside files by.
 		/// </summary>
 		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if files should be sorted first.
+		/// </summary>
+		bool DefaultSortFilesFirst { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if file extensions should be displayed.

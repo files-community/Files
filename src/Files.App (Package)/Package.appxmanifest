@@ -16,7 +16,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="3.0.3.0" />
+        Version="3.1.3.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -43,6 +43,7 @@
         <Resource Language="en-GB" />
         <Resource Language="es-ES" />
         <Resource Language="es-419" />
+        <Resource Language="fa-IR" />
         <Resource Language="fi-FI" />
         <Resource Language="fil-PH" />
         <Resource Language="fr-FR" />
@@ -158,6 +159,13 @@
                 <Path>Files.App\WinRT.Host.dll</Path>
                 <ActivatableClass ActivatableClassId="Files.App.BackgroundTasks.UpdateTask" ThreadingModel="both" />
             </InProcessServer>
+        </Extension>
+        <Extension Category="windows.activatableClass.outOfProcessServer">
+            <OutOfProcessServer ServerName="Files.App.Server" uap5:IdentityType="activateAsPackage" uap5:RunFullTrust="true">
+                <Path>Files.App.Server\Files.App.Server.exe</Path>
+                <Instancing>singleInstance</Instancing>
+                <ActivatableClass ActivatableClassId="Files.App.Server.AppInstanceMonitor" />
+            </OutOfProcessServer>
         </Extension>
     </Extensions>
   

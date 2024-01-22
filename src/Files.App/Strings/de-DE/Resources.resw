@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Pfad kopieren</value>
   </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Pfad mit Anführungszeichen kopieren</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Durchsuchen</value>
   </data>
@@ -157,7 +160,7 @@
     <value>Überspringen</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Alles wählen</value>
+    <value>Alle auswählen</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Auswahl umkehren</value>
@@ -175,13 +178,13 @@
     <value>Verlauf leeren</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Geben Sie einen Pfad zum Navigieren ein oder Tippen "&gt;", um die Befehlspalette zu öffnen</value>
+    <value>Gebe einen Pfad zum Navigieren ein oder Tippe "&gt;" ein, um die Befehlspalette zu öffnen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Kürzlich verwendete Dateien und Ordner werden hier zu sehen sein</value>
+    <value>Kürzlich verwendete Dateien und Ordner werden hier angezeigt</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Datei aus Verlauf entfernen</value>
@@ -199,19 +202,19 @@
     <value>Datumsformat</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Modus</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Dateierweiterungen für bekannte Dateitypen anzeigen</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Versteckte Dateien und Ordner anzeigen</value>
+    <value>Alle Dateien und Ordner anzeigen</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>Dateien die mit einem Punkt beginnen anzeigen</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Aussehen</value>
+    <value>Erscheinungsbild</value>
   </data>
   <data name="Background" xml:space="preserve">
     <value>Hintergrund</value>
@@ -220,7 +223,7 @@
     <value>Erweitert</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Weitermachen, wo Du aufgehört hast</value>
+    <value>Fortsetzen, wo Du aufgehört hast</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
@@ -277,10 +280,10 @@
     <value>Willkommen bei Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Berechtigung erteilen</value>
+    <value>Zugriff erlauben</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, Deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
+    <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Anzeige</value>
@@ -319,7 +322,7 @@
     <value>Vorwärts (Alt+Pfeiltaste rechts)</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Ebenen nach oben (Alt+Pfeiltaste oben)</value>
+    <value>Nach oben (Alt+Pfeiltaste oben)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Aktualisieren</value>
@@ -430,7 +433,7 @@
     <value>OK</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Bist Du sicher, dass Du alle Elemente löschen möchtest?</value>
+    <value>Bist Du sicher, dass Du alle Elemente endgültig löschen möchtest?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Papierkorb leeren</value>
@@ -844,7 +847,7 @@
     <value>Version</value>
   </data>
   <data name="PropertyDateCreated" xml:space="preserve">
-    <value>Erstellungsdatum</value>
+    <value>Erstelldatum</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>Gesamtbearbeitungszeit</value>
@@ -946,7 +949,7 @@
     <value>Problem beim Auswerfen des Gerätes</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Dieses Gerät wird gerade benutzt. Schließen Sie jedes Program, Fenster oder Tab, das möglicherweise das Gerät benutzt und versuchen Sie es erneut.</value>
+    <value>Dieses Gerät wird gerade verwendet. Schließe jedes Programm, Fenster oder Tab, das möglicherweise das Gerät verwendet und versuche es erneut.</value>
   </data>
   <data name="Eject" xml:space="preserve">
     <value>Auswerfen</value>
@@ -974,9 +977,6 @@
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Suchergebnisse in {1} für {0}</value>
-  </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Dateien und Ordner zusammen auflisten und sortieren</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
@@ -1052,6 +1052,18 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Vorschaupanel umschalten</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Detailbereich umschalten</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Umschalten des Detailfensters, um die grundlegenden Datei-Eigenschaften anzuzeigen</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Info-Fenster umschalten</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Info-Bereich umschalten, um Detail-/Vorschaufenster anzuzeigen</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Keine Vorschau verfügbar</value>
@@ -1308,17 +1320,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Sortieren</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Gruppieren nach</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Änderungsdatum</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Ursprünglicher Ordner</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sortieren nach</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Absteigend</value>
@@ -1747,7 +1753,7 @@
     <value>Status Center</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Erstellungsdatum</value>
+    <value>Erstelldatum</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Größe</value>
@@ -1806,8 +1812,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Standard wiederherstellen</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Neue Instanz öffnen, wenn Ordner von der Taskleisten-Sprungliste geöffnet werden</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Tab in existierender Instanz öffnen, wenn Files von einer anderen App geöffnet wird</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Starteinstellungen</value>
@@ -2041,7 +2047,7 @@
     <value>Datumsspalte</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Erstellungsdatum Spalte</value>
+    <value>Erstelldatumsspalte</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Größenspalte</value>
@@ -2221,10 +2227,13 @@
     <value>Mehr anzeigen</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Zeige Tags bearbeiten im Kontextmenü</value>
+    <value>"Tags bearbeiten" im Kontextmenü anzeigen</value>
+  </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Komprimierungsoptionen anzeigen</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Sende an Menü anzeigen</value>
+    <value>"Senden an"-Menü anzeigen</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Option anzeigen, um Ordner in einem neuen Tab zu öffnen</value>
@@ -2328,6 +2337,12 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Während der Berechnung ist ein Fehler aufgetreten</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Fehler beim Berechnen des Hashs, bitte schließen Sie die Datei und versuchen Sie es erneut.</value>
+  </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes sind für Online-Dateien nicht verfügbar</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithmus</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Umschalten, ob Dateierweiterungen angezeigt werden sollen</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Umschalten, ob Vorschaupanel angezeigt werden soll</value>
+    <value>Vorschau-Fenster umschalten, um Datei-Eigenschaften zu sehen</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Umschalten, ob Seitenleiste angezeigt werden soll</value>
@@ -2401,7 +2416,10 @@
     <value>Element(e) in Zwischenablage kopieren</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Pfad des Elements in die Zwischenablage kopieren</value>
+    <value>Pfad der ausgewählten Elemente in die Zwischenablage kopieren</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Pfad der ausgewählten Elemente mit Anführungszeichen in die Zwischenablage kopieren</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Element(e) in die Zwischenablage ausschneiden</value>
@@ -2575,7 +2593,7 @@
     <value>Elemente nach Änderungsdatum sortieren</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Elemente nach Erstellungsdatum sortieren</value>
+    <value>Elemente nach Erstelldatum sortieren</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
     <value>Elemente nach Größe sortieren</value>
@@ -2604,9 +2622,6 @@
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Element-Sortierungsrichtung umschalten</value>
   </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Dateien und Ordner zusammen auflisten und sortieren</value>
-  </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Elemente ohne Gruppierung auflisten</value>
   </data>
@@ -2617,7 +2632,7 @@
     <value>Elemente nach Änderungsdatum gruppieren</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Elemente nach Erstellungsdatum gruppieren</value>
+    <value>Elemente nach Erstelldatum gruppieren</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
     <value>Elemente nach Größe gruppieren</value>
@@ -2986,6 +3001,9 @@
   <data name="Month" xml:space="preserve">
     <value>Monat</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Tag</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Einheit für Datumsgruppierung umschalten</value>
   </data>
@@ -2995,20 +3013,29 @@
   <data name="Year" xml:space="preserve">
     <value>Jahr</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Nach Monat statt nach Jahr gruppieren</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Nach Datumseinheit gruppieren</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Elemente nach Tag des Erstelldatums gruppieren</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Elemente nach Monat des Erstellungsdatums gruppieren</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Elemente nach Jahr des Erstellungsdatums gruppieren</value>
+    <value>Elemente nach Jahr des Erstelldatums gruppieren</value>
+  </data>
+    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Elemente nach Tag des Löschdatums gruppieren</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Elemente nach Monat des Löschdatums gruppieren</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Elemente nach Jahr des Löschdatums gruppieren</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Elemente nach Tag des Änderungsdatums gruppieren</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Elemente nach Monat des Änderungsdatums gruppieren</value>
@@ -3589,5 +3616,74 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>Die Option, Files beim Start von Windows zu öffnen, ist aufgrund Ihrer Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Zum erneuten Aktivieren öffnen Sie die Autostart-Seite im Task-Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Wiederherstellung der Elemente aus dem Papierkorb fehlgeschlagen</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Fehler beim Festlegen des Hintergrundes</value>
+  </data>
+  <data name="GitDeleteBranch" xml:space="preserve">
+    <value>Git-Branch löschen</value>
+  </data>
+  <data name="GitDeleteBranchSubtitle" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie den Branch "{0}" unwiderruflich löschen möchten?</value>
+  </data>
+  <data name="ConnectedToGitHub" xml:space="preserve">
+    <value>Mit GitHub verbunden</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="ConnectToGitHub" xml:space="preserve">
+    <value>Mit GitHub verbinden</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags sind derzeit nur auf Laufwerken mit NTFS kompatibel.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Beim Anwenden dieses Tags ist ein Fehler aufgetreten</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Entpacke Elemente aus den/dem ausgewählten Archiv(en) in den aktuellen Ordner für Einzelelement-Archive, oder in einen neuen Ordner für Mehrelement-Archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Hier entpacken (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Dateien und Ordner zusammen sortieren</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Dateien und Ordner zusammen sortieren</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Datei zuerst sortieren</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Dateien vor Ordnern sortieren</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Ordner zuerst sortieren</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Ordner vor Dateien sortieren</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sortierung nach Priorität</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Fehler beim Drehen des Bildes</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Neu starten</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Beenden</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Teilen der Elemente fehlgeschlagen</value>
   </data>
 </root>

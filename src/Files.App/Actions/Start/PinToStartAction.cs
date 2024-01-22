@@ -1,10 +1,17 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Core.Storage;
+
 namespace Files.App.Actions
 {
 	internal class PinToStartAction : IAction
 	{
+		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
+
+		private IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
+
 		public IContentPageContext context;
 
 		public string Label
@@ -29,11 +36,21 @@ namespace Files.App.Actions
 			if (context.SelectedItems.Count > 0 && context.ShellPage?.SlimContentPage?.SelectedItems is not null)
 			{
 				foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
-					await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.Name);
+				{
+					IStorable storable = listedItem.IsFolder switch
+					{
+						true => await StorageService.GetFolderAsync(listedItem.ItemPath),
+						_ => await StorageService.GetFileAsync(listedItem.ItemPath)
+					};
+					await StartMenuService.PinAsync(storable, listedItem.Name);
+				}
 			}
 			else if (context.ShellPage?.FilesystemViewModel?.CurrentFolder is not null)
 			{
-				await App.SecondaryTileHelper.TryPinFolderAsync(context.ShellPage.FilesystemViewModel.CurrentFolder.ItemPath, context.ShellPage.FilesystemViewModel.CurrentFolder.Name);
+				var currentFolder = context.ShellPage.FilesystemViewModel.CurrentFolder;
+				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
+
+				await StartMenuService.PinAsync(folder, currentFolder.Name);
 			}
 		}
 	}

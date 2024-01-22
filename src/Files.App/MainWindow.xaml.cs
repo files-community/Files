@@ -56,7 +56,11 @@ namespace Files.App
 
 			// Workaround for full screen window messing up the taskbar
 			// https://github.com/microsoft/microsoft-ui-xaml/issues/8431
-			InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+			// This property should only be set if the "Automatically hide the taskbar" in Windows 11,
+			// or "Automatically hide the taskbar in desktop mode" in Windows 10 is enabled.
+			// Setting this property when the setting is disabled will result in the taskbar overlapping the application
+			if (AppLifecycleHelper.IsAutoHideTaskbarEnabled()) 
+				InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()
@@ -70,8 +74,6 @@ namespace Files.App
 		{
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
-
-			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			var rootFrame = EnsureWindowIsInitialized();
 
@@ -98,7 +100,7 @@ namespace Files.App
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
 						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
-						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 					}
 					else
 					{
@@ -178,7 +180,7 @@ namespace Files.App
 						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
 
@@ -250,7 +252,7 @@ namespace Files.App
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
 					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
-					await mainPageViewModel.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
+					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
 				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());

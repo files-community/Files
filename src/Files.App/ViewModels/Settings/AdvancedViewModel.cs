@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using SevenZip;
@@ -18,7 +17,7 @@ namespace Files.App.ViewModels.Settings
 	public class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		
+
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		public ICommand SetAsDefaultExplorerCommand { get; }
@@ -93,7 +92,8 @@ namespace Files.App.ViewModels.Settings
 			try
 			{
 				using var regProcess = Process.Start(new ProcessStartInfo("regedit.exe", @$"/s ""{Path.Combine(destFolder, IsSetAsDefaultFileManager ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""") { UseShellExecute = true, Verb = "runas" });
-				await regProcess.WaitForExitAsync();
+				if (regProcess is not null)
+					await regProcess.WaitForExitAsync();
 			}
 			catch
 			{
@@ -182,9 +182,9 @@ namespace Files.App.ViewModels.Settings
 					tagDbInstance.Import(importTagsDB);
 
 					// Import layout preferences and DB
-					var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
+					var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(LayoutPreferencesManager.LayoutSettingsDbPath));
 					string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
-					var layoutDbInstance = FolderSettingsViewModel.GetDbInstance();
+					var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
 					layoutDbInstance.Import(importPrefsDB);
 				}
 				catch (Exception ex)
@@ -229,9 +229,9 @@ namespace Files.App.ViewModels.Settings
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
 
 					// Export layout preferences DB
-					var layoutDbInstance = FolderSettingsViewModel.GetDbInstance();
+					var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
 					byte[] exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
+					await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(LayoutPreferencesManager.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
 				}
 				catch (Exception ex)
 				{

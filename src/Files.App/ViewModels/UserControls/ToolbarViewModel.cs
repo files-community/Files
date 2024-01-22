@@ -17,11 +17,11 @@ namespace Files.App.ViewModels.UserControls
 {
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
+		private const int MAX_SUGGESTIONS = 10;
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-
-		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
@@ -181,7 +181,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.FolderSettings is not null)
 				{
-					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(FolderSettingsViewModel.LayoutMode)));
+					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
 					instanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 				}
 			}
@@ -504,7 +504,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -569,7 +569,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
 
-					if (page is StandardViewBase svb && svb.IsLoaded)
+					if (page is BaseGroupableLayoutPage svb && svb.IsLoaded)
 						page.ItemManipulationModel.FocusFileList();
 					else
 						AddressToolbar?.Focus(FocusState.Programmatic);
@@ -666,6 +666,19 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private static string NormalizePathInput(string currentInput, bool isFtp)
+		{
+			if (currentInput.Contains('/') && !isFtp)
+				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
+
+			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
+
+			if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
+				currentInput = currentInput.Insert(0, "\\");
+
+			return currentInput;
+		}
+
 		public async Task CheckPathInputAsync(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
 			if (currentInput.StartsWith('>'))
@@ -687,13 +700,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var isFtp = FtpHelpers.IsFtpPath(currentInput);
 
-			if (currentInput.Contains('/') && !isFtp)
-				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
-
-			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
-
-			if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
-				currentInput = currentInput.Insert(0, "\\");
+			currentInput = NormalizePathInput(currentInput, isFtp);
 
 			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
 				return;
@@ -702,6 +709,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
+					SavePathToHistory("Home");
 					shellPage.NavigateHome();
 				}
 				else
@@ -727,10 +735,12 @@ namespace Files.App.ViewModels.UserControls
 							return;
 						}
 						var pathToNavigate = resFolder.Result?.Path ?? currentInput;
+						SavePathToHistory(pathToNavigate);
 						shellPage.NavigateToPath(pathToNavigate);
 					}
 					else if (isFtp)
 					{
+						SavePathToHistory(currentInput);
 						shellPage.NavigateToPath(currentInput);
 					}
 					else // Not a folder or inaccessible
@@ -771,6 +781,18 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private void SavePathToHistory(string path)
+		{
+			var pathHistoryList = UserSettingsService.GeneralSettingsService.PathHistoryList?.ToList() ?? new List<string>();
+			pathHistoryList.Remove(path);
+			pathHistoryList.Insert(0, path);
+
+			if (pathHistoryList.Count > MAX_SUGGESTIONS)
+				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList.RemoveFrom(MAX_SUGGESTIONS + 1);
+			else
+				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList;
+		}
+
 		private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
 		{
 			var trimmedInput = currentInput.Trim();
@@ -786,9 +808,9 @@ namespace Files.App.ViewModels.UserControls
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
-		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
+		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage)
 		{
-			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
+			if (sender.Text is not null && shellpage.FilesystemViewModel is not null)
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
@@ -812,36 +834,55 @@ namespace Files.App.ViewModels.UserControls
 					else
 					{
 						IsCommandPaletteOpen = false;
-						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
-						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
-						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-						StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+						var currentInput = sender.Text;
 
-						if (folder is null)
-							return false;
-
-						var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
-						if (currPath.Count >= maxSuggestions)
+						if (string.IsNullOrWhiteSpace(currentInput) || currentInput == "Home")
 						{
-							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							// Load previously entered path
+							var pathHistoryList = UserSettingsService.GeneralSettingsService.PathHistoryList;
+							if (pathHistoryList is not null)
 							{
-								Text = x.Path,
-								PrimaryDisplay = x.Item.DisplayName
-							}).ToList();
+								suggestions = pathHistoryList.Select(x => new NavigationBarSuggestionItem()
+								{
+									Text = x,
+									PrimaryDisplay = x
+								}).ToList();
+							}
 						}
-						else if (currPath.Any())
+						else
 						{
-							var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
-							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							var isFtp = FtpHelpers.IsFtpPath(currentInput);
+							currentInput = NormalizePathInput(currentInput, isFtp);
+							var expandedPath = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
+							var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
+							StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+
+							if (folder is null)
+								return false;
+
+							var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)MAX_SUGGESTIONS);
+							if (currPath.Count >= MAX_SUGGESTIONS)
 							{
-								Text = x.Path,
-								PrimaryDisplay = x.Item.DisplayName
-							}).Concat(
-								subPath.Select(x => new NavigationBarSuggestionItem()
+								suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
 								{
 									Text = x.Path,
-									PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
-								})).ToList();
+									PrimaryDisplay = x.Item.DisplayName
+								}).ToList();
+							}
+							else if (currPath.Any())
+							{
+								var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(MAX_SUGGESTIONS - currPath.Count));
+								suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+								{
+									Text = x.Path,
+									PrimaryDisplay = x.Item.DisplayName
+								}).Concat(
+									subPath.Select(x => new NavigationBarSuggestionItem()
+									{
+										Text = x.Path,
+										PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+									})).ToList();
+							}
 						}
 					}
 
@@ -908,8 +949,8 @@ namespace Files.App.ViewModels.UserControls
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(FolderSettingsViewModel.GridViewSize):
-				case nameof(FolderSettingsViewModel.LayoutMode):
+				case nameof(LayoutPreferencesManager.GridViewSize):
+				case nameof(LayoutPreferencesManager.LayoutMode):
 					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{
 						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,

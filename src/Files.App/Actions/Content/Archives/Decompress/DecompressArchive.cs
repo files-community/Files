@@ -23,6 +23,9 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
+			if (context.ShellPage is null)
+				return Task.CompletedTask;
+
 			return DecompressHelper.DecompressArchiveAsync(context.ShellPage);
 		}
 

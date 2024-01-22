@@ -80,18 +80,19 @@ namespace Files.App.UserControls.Widgets
 		{
 			if (thumbnailData is null || thumbnailData.Length == 0)
 			{
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.DefaultIconSizes.Jumbo), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
 			}
 			if (thumbnailData is not null && thumbnailData.Length > 0)
 			{
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.DefaultIconSizes.Jumbo));
 			}
 		}
 	}
 
-	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public static ObservableCollection<FolderCardItem> ItemsAdded = new();
 
@@ -238,8 +239,9 @@ namespace Files.App.UserControls.Widgets
 				if (e.Reset)
 				{
 					// Find the intersection between the two lists and determine whether to remove or add
-					var itemsToRemove = ItemsAdded.Where(x => !e.Paths.Contains(x.Path)).ToList();
-					var itemsToAdd = e.Paths.Where(x => !ItemsAdded.Any(y => y.Path == x)).ToList();
+					var originalItemsAdded = ItemsAdded.ToList();
+					var itemsToRemove = originalItemsAdded.Where(x => !e.Paths.Contains(x.Path));
+					var itemsToAdd = e.Paths.Where(x => !originalItemsAdded.Any(y => y.Path == x));
 
 					// Remove items
 					foreach (var itemToRemove in itemsToRemove)
@@ -248,13 +250,14 @@ namespace Files.App.UserControls.Widgets
 					// Add items
 					foreach (var itemToAdd in itemsToAdd)
 					{
+						var interimItemsAdded = ItemsAdded.ToList();
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
-						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
 
-						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
 							Path = item.Path,
 						});
@@ -265,18 +268,19 @@ namespace Files.App.UserControls.Widgets
 				if (e.Reorder)
 				{
 					// Remove pinned items
-					foreach (var itemToRemove in ItemsAdded.Where(x => x.IsPinned).ToList())
+					foreach (var itemToRemove in ItemsAdded.ToList().Where(x => x.IsPinned))
 						ItemsAdded.Remove(itemToRemove);
 
 					// Add pinned items in the new order
 					foreach (var itemToAdd in e.Paths)
 					{
+						var interimItemsAdded = ItemsAdded.ToList();
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
-						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
 
-						ItemsAdded.Insert(lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
+						ItemsAdded.Insert(lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
 						{
 							Path = item.Path,
 						});
@@ -288,18 +292,19 @@ namespace Files.App.UserControls.Widgets
 				{
 					foreach (var itemToAdd in e.Paths)
 					{
+						var interimItemsAdded = ItemsAdded.ToList();
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
-						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
-						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
 						});
 					}
 				}
 				else
-					foreach (var itemToRemove in ItemsAdded.Where(x => e.Paths.Contains(x.Path)).ToList())
+					foreach (var itemToRemove in ItemsAdded.ToList().Where(x => e.Paths.Contains(x.Path)))
 						ItemsAdded.Remove(itemToRemove);
 			});
 		}
@@ -364,13 +369,19 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(FolderCardItem item)
 		{
+			if (!HomePageContext.IsAnyItemRightClicked)
+				return;
+
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
 			EventHandler<object> flyoutClosed = null!;
+
 			flyoutClosed = (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				flyout!.Closed -= flyoutClosed;
 				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+
+			flyout!.Closed += flyoutClosed;
 		}
 
 		public override async Task PinToFavoritesAsync(WidgetCardItem item)
@@ -382,7 +393,7 @@ namespace Files.App.UserControls.Widgets
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
 
-			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
+			var recentItem = items.Where(x => !ItemsAdded.ToList().Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
 			if (recentItem is not null)
 			{
 				ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
