@@ -131,14 +131,7 @@ namespace Files.App.Utils.Taskbar
 		/// </remarks>
 		public SystemTrayIcon()
 		{
-			string appIcoPath = ApplicationService.AppEnvironment switch
-			{
-				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
-				_ => Constants.AssetPaths.StableLogo
-			};
-
-			var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, appIcoPath);
+			var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppLifecycleHelper.AppIconPath);
 
 			_Icon = new(iconPath);
 			_Tooltip = Package.Current.DisplayName;

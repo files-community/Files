@@ -89,8 +89,6 @@ namespace Files.App.Utils.Storage
 		/// <param name="associatedInstance">Associated main window instance</param>
 		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance)
 		{
-			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-
 			if (item is null)
 				return;
 
@@ -121,14 +119,7 @@ namespace Files.App.Utils.Storage
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			string appIcoPath = ApplicationService.AppEnvironment switch
-			{
-				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
-				_ => Constants.AssetPaths.StableLogo
-			};
-
-			appWindow.SetIcon(SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, appIcoPath));
+			appWindow.SetIcon(SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppLifecycleHelper.AppIconPath));
 
 			frame.Navigate(
 				typeof(Views.Properties.MainPropertiesPage),

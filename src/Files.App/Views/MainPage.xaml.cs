@@ -26,7 +26,6 @@ namespace Files.App.Views
 	public sealed partial class MainPage : Page
 	{
 		public IUserSettingsService UserSettingsService { get; }
-		public IApplicationService ApplicationService { get; }
 
 		public ICommandManager Commands { get; }
 
@@ -53,7 +52,6 @@ namespace Files.App.Views
 
 			// Dependency Injection
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			ApplicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
@@ -302,7 +300,7 @@ namespace Files.App.Views
 			// ToDo put this in a StartupPromptService
 			if
 			(
-				ApplicationService.Environment is not AppEnvironment.Dev &&
+				AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev &&
 				isAppRunningAsAdmin &&
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
