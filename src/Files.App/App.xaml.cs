@@ -135,17 +135,25 @@ namespace Files.App
 
 					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 				}
+				else
+				{
+					// Create a system tray icon
+					SystemTrayIcon = new SystemTrayIcon().Show();
+
+					// Sleep current instance
+					Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+
+					Thread.Yield();
+
+					if (Program.Pool.WaitOne())
+					{
+						// Resume the instance
+						Program.Pool.Dispose();
+						Program.Pool = null;
+					}
+				}
 
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
-
-				if (isStartupTask && isLeaveAppRunning)
-				{
-					// Create a system tray icon when initialization is done
-					SystemTrayIcon = new SystemTrayIcon().Show();
-					App.Current.Exit();
-				}
-				else
-					await AppLifecycleHelper.CheckAppUpdate();
 			}
 		}
 
@@ -198,6 +206,8 @@ namespace Files.App
 				return;
 			}
 
+			AppLifecycleHelper.SaveSessionTabs();
+
 			// Continue running the app on the background
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
@@ -212,8 +222,7 @@ namespace Files.App
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
 
-				// Save and close all tabs
-				AppLifecycleHelper.SaveSessionTabs();
+				// Close all tabs
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
 				MainPageViewModel.AppInstances.Clear();
 
@@ -242,8 +251,6 @@ namespace Files.App
 
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
-
-			AppLifecycleHelper.SaveSessionTabs();
 
 			if (OutputPath is not null)
 			{

@@ -165,6 +165,7 @@ namespace Files.App.Data.Commands
 		ToggleGroupByDateUnit,
 
 		// Navigation
+		NewWindow,
 		NewTab,
 		NavigateBack,
 		NavigateForward,

@@ -891,7 +891,7 @@ namespace Files.App.ViewModels.UserControls
 		private void OpenProperties(CommandBarFlyout menu)
 		{
 			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = (s, e) =>
+			flyoutClosed = async (s, e) =>
 			{
 				menu.Closed -= flyoutClosed;
 				if (rightClickedItem is SideBarDriveItem)
@@ -900,13 +900,23 @@ namespace Files.App.ViewModels.UserControls
 					FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), PaneHolder.ActivePane);
 				else if (rightClickedItem is SideBarLocationItem locationItem)
 				{
-					ListedItem listedItem = new ListedItem(null!)
+					var listedItem = new ListedItem(null!)
 					{
 						ItemPath = locationItem.Path,
 						ItemNameRaw = locationItem.Text,
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemType = "Folder".GetLocalizedResource(),
 					};
+
+					if (!string.Equals(locationItem.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+					{
+						BaseStorageFolder matchingStorageFolder = await PaneHolder.ActivePane.FilesystemViewModel.GetFolderFromPathAsync(locationItem.Path);
+						if (matchingStorageFolder is not null)
+						{
+							var syncStatus = await PaneHolder.ActivePane.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+							listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+						}
+					}
 
 					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, PaneHolder.ActivePane);
 				}

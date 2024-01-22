@@ -280,7 +280,7 @@ namespace Files.App.Helpers
 
 		public static Task LaunchNewWindowAsync()
 		{
-			var filesUWPUri = new Uri("files-uwp:");
+			var filesUWPUri = new Uri("files-uwp:?window=");
 			return Launcher.LaunchUriAsync(filesUWPUri).AsTask();
 		}
 
