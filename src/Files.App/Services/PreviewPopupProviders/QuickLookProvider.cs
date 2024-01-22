@@ -42,7 +42,7 @@ namespace Files.App.Services.PreviewPopupProviders
 			}
 			catch (Exception ex) when (ex is TimeoutException or IOException)
 			{
-				client.Close();
+				// ignore
 			}
 		}
 
