@@ -27,6 +27,9 @@ namespace Files.App.Data.Contexts
 					case LayoutTypes.Details:
 						viewModel.ToggleLayoutModeDetailsView(true);
 						break;
+					case LayoutTypes.List:
+						viewModel.ToggleLayoutModeList(true);
+						break;
 					case LayoutTypes.Tiles:
 						viewModel.ToggleLayoutModeTiles(true);
 						break;
@@ -245,6 +248,7 @@ namespace Files.App.Data.Contexts
 			return viewModel.LayoutMode switch
 			{
 				FolderLayoutModes.DetailsView => LayoutTypes.Details,
+				FolderLayoutModes.ListView => LayoutTypes.List,
 				FolderLayoutModes.TilesView => LayoutTypes.Tiles,
 				FolderLayoutModes.GridView => viewModel.GridViewSizeKind switch
 				{

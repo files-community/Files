@@ -245,7 +245,7 @@ namespace Files.App.Views
 			AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
 		}
 
-		private void QuickAccessWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
+		private async void QuickAccessWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
 		{
 			ListedItem listedItem = new(null!)
 			{
@@ -254,6 +254,16 @@ namespace Files.App.Views
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemType = "Folder".GetLocalizedResource(),
 			};
+
+			if (!string.Equals(e.Item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			{
+				BaseStorageFolder matchingStorageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(e.Item.Path);
+				if (matchingStorageFolder is not null)
+				{
+					var syncStatus = await AppInstance.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+					listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+				}
+			}
 
 			FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 		}
