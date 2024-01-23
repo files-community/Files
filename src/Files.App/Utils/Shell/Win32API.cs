@@ -258,7 +258,7 @@ namespace Files.App.Utils.Shell
 						var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
 
 						if (getIconOnly)
-							flags = Shell32.SIIGBF.SIIGBF_ICONONLY;
+							flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
 
 						var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
 						if (hres == HRESULT.S_OK)
