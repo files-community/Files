@@ -251,7 +251,19 @@ namespace Files.App.UserControls.Widgets
 
 				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path));
 				if (file is null)
-					await RemoveRecentItemAsync(item);
+				{
+					ContentDialog dialog = new()
+					{
+						Title = "CannotAccessPropertiesTitle".GetLocalizedResource(),
+						Content = "CannotAccessPropertiesContent".GetLocalizedResource(),
+						PrimaryButtonText = "Ok".GetLocalizedResource()
+					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+					await dialog.TryShowAsync();
+				}
 				else
 				{
 					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null, default);
