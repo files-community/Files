@@ -32,19 +32,19 @@
 	</i:Interaction.Behaviors>
 
 	<local:BaseGroupableLayoutPage.Resources>
-		<ItemsPanelTemplate x:Key="VerticalItemsTemplate">
-			<ItemsWrapGrid Orientation="Vertical" />
-		</ItemsPanelTemplate>
-		<ItemsPanelTemplate x:Key="HorizontalItemsTemplate">
-			<ItemsWrapGrid Orientation="Horizontal" />
-		</ItemsPanelTemplate>
 		<Style x:Key="VerticalLayoutGridView" TargetType="GridView">
 			<Style.Setters>
 				<Setter Property="ItemsPanel">
 					<Setter.Value>
-						<ItemsPanelTemplate />
+						<ItemsPanelTemplate>
+							<ItemsWrapGrid Orientation="Vertical" />
+						</ItemsPanelTemplate>
 					</Setter.Value>
 				</Setter>
+				<Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled"/>
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+				<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled"/>
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
 			</Style.Setters>
 		</Style>
 
@@ -57,6 +57,10 @@
 						</ItemsPanelTemplate>
 					</Setter.Value>
 				</Setter>
+				<Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+				<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
 			</Style.Setters>
 		</Style>
 
@@ -824,11 +828,7 @@
 					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					PreviewKeyDown="FileList_PreviewKeyDown"
-					ScrollViewer.HorizontalScrollBarVisibility="Auto"
-					ScrollViewer.HorizontalScrollMode="Auto"
 					ScrollViewer.IsHorizontalScrollChainingEnabled="False"
-					ScrollViewer.VerticalScrollBarVisibility="Auto"
-					ScrollViewer.VerticalScrollMode="Auto"
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					ShowsScrollingPlaceholders="True"
