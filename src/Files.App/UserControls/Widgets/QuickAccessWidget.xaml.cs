@@ -77,14 +77,10 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			if (thumbnailData is null || thumbnailData.Length == 0)
-			{
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.DefaultIconSizes.Jumbo), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-			}
+			thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, Constants.DefaultIconSizes.Jumbo, true, true);
+
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-			{
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.DefaultIconSizes.Jumbo));
-			}
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 	}
 
@@ -149,7 +145,7 @@ namespace Files.App.UserControls.Widgets
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
-			{				
+			{
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
@@ -337,7 +333,7 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void MenuFlyout_Opening(object sender)
-		{			
+		{
 			var pinToFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToFavorites");
 			if (pinToFavoritesItem is not null)
 				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
@@ -432,7 +428,7 @@ namespace Files.App.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		public void Dispose() 
+		public void Dispose()
 		{
 		}
 	}
