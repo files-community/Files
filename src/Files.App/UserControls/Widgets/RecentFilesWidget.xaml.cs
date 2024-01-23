@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Windows.Foundation.Metadata;
 using Windows.System;
 
 namespace Files.App.UserControls.Widgets
@@ -247,8 +248,15 @@ namespace Files.App.UserControls.Widgets
 			flyoutClosed = async (s, e) =>
 			{
 				flyout!.Closed -= flyoutClosed;
-				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, associatedInstance);
+
+				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path));
+				if (file is null)
+					await RemoveRecentItemAsync(item);
+				else
+				{
+					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null, default);
+					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, associatedInstance);
+				}
 			};
 			flyout!.Closed += flyoutClosed;
 		}
