@@ -493,10 +493,12 @@ namespace Files.App.Views.Shells
 				SearchQuery = query,
 			};
 
-			if (this is ColumnShellPage)
+			var layout = InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory);
+
+			if (layout == typeof(ColumnsLayoutPage))
 				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
 			else
-				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
+				ItemDisplay.Navigate(layout, args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
