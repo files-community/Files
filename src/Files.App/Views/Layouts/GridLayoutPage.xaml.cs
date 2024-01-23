@@ -159,25 +159,33 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemTemplate()
 		{
-			var oldSource = FileList.ItemsSource;
-			FileList.ItemsSource = null;
+			var newFileListStyle = FolderSettings.LayoutMode switch
+			{
+				FolderLayoutModes.ListView => (Style)Resources["VerticalLayoutGridView"],
+				FolderLayoutModes.TilesView => (Style)Resources["HorizontalLayoutGridView"],
+				_ => (Style)Resources["HorizontalLayoutGridView"]
+			};
+
+			if (FileList.Style != newFileListStyle)
+			{
+				var oldSource = FileList.ItemsSource;
+				FileList.ItemsSource = null;
+				FileList.Style = newFileListStyle;
+				FileList.ItemsSource = oldSource;
+			}
+
 			switch (FolderSettings.LayoutMode)
 			{
-
 				case FolderLayoutModes.ListView:
 					FileList.ItemTemplate = ListViewBrowserTemplate;
-					FileList.Style = (Style)Resources["VerticalLayoutGridView"];
 					break;
 				case FolderLayoutModes.TilesView:
 					FileList.ItemTemplate = TilesBrowserTemplate;
-					FileList.Style = (Style)Resources["HorizontalLayoutGridView"];
 					break;
 				default:
 					FileList.ItemTemplate = GridViewBrowserTemplate;
-					FileList.Style = (Style)Resources["HorizontalLayoutGridView"];
 					break;
 			}
-			FileList.ItemsSource = oldSource;
 
 			SetItemContainerStyle();
 			SetItemMinWidth();
