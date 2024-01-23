@@ -462,11 +462,11 @@ namespace Files.App.Views.Shells
 		// Ensure that the path bar gets updated for user interaction
 		// whenever the path changes.We will get the individual directories from
 		// the updated, most-current path and add them to the UI.
-		public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
+		public async Task UpdatePathUIToWorkingDirectoryAsync(string newWorkingDir, string singleItemOverride = null)
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
-				var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
+				var components = await StorageFileExtensions.GetDirectoryPathComponentsWithDisplayNameAsync(newWorkingDir);
 				ToolbarViewModel.PathComponents.Clear();
 				foreach (var component in components)
 					ToolbarViewModel.PathComponents.Add(component);

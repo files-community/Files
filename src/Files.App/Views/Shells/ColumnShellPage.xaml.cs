@@ -91,11 +91,11 @@ namespace Files.App.Views.Shells
 			NotifyPropertyChanged(nameof(FilesystemViewModel));
 		}
 
-		protected override void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
+		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
 		{
 			string value = e.Path;
 			if (!string.IsNullOrWhiteSpace(value))
-				UpdatePathUIToWorkingDirectory(value);
+				await UpdatePathUIToWorkingDirectoryAsync(value);
 		}
 
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
