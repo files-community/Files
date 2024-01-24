@@ -16,6 +16,7 @@ namespace Files.App.Data.Models
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private static NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private static readonly ICloudDetector cloudDetector = Ioc.Default.GetRequiredService<ICloudDetector>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
@@ -134,6 +135,7 @@ namespace Files.App.Data.Models
 		{
 			var normalizedPath = PathNormalization.NormalizePath(path);
 			var matchingDrive = NetworkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+			matchingDrive ??= await CloudDrivesManager.CreateCloudDriveFromProviderAsync((await cloudDetector.DetectCloudProvidersAsync()).First(x => x.SyncFolder == path));
 			matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 
 			if (matchingDrive is not null)
@@ -152,7 +154,7 @@ namespace Files.App.Data.Models
 		public async Task AddItemToSidebarAsync(string path)
 		{
 			INavigationControlItem? item;
-			if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(path)) == PathNormalization.NormalizePath(path)) // Is drive
+			if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(path)) == PathNormalization.NormalizePath(path) || (await cloudDetector.DetectCloudProvidersAsync()).Any(x => x.SyncFolder == path)) // Is drive or cloudDrive
 				item = await CreateDriveItemFromPathAsync(path);
 			else
 				item = await CreateLocationItemFromPathAsync(path);

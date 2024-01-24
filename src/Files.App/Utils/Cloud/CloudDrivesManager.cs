@@ -27,6 +27,46 @@ namespace Files.App.Utils.Cloud
 			}
 		}
 
+		public static async Task<DriveItem> CreateCloudDriveFromProviderAsync(ICloudProvider provider)
+		{
+			var item = new DriveItem()
+			{
+				Text = provider.Name,
+				Path = provider.SyncFolder,
+				Type = DriveType.CloudDrive,
+			};
+
+			try
+			{
+				item.Root = await StorageFolder.GetFolderFromPathAsync(item.Path);
+
+				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => item.UpdatePropertiesAsync());
+			}
+			catch (Exception ex)
+			{
+				_logger?.LogWarning(ex, "Cloud provider local folder couldn't be found");
+			}
+
+			item.MenuOptions = new ContextMenuOptions()
+			{
+				IsLocationItem = true,
+				ShowEjectDevice = item.IsRemovable,
+				ShowShellItems = true,
+				ShowProperties = true,
+			};
+
+			var iconData = provider.IconData ?? await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, Constants.DefaultIconSizes.Large, false, true);
+			if (iconData is not null)
+			{
+				item.IconData = iconData;
+
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async ()
+					=> item.Icon = await iconData.ToBitmapAsync());
+			}
+
+			return item;
+		}
+
 		public static async Task UpdateDrivesAsync()
 		{
 			var providers = await _detector.DetectCloudProvidersAsync();
@@ -36,41 +76,7 @@ namespace Files.App.Utils.Cloud
 			foreach (var provider in providers)
 			{
 				_logger?.LogInformation($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
-
-				var cloudProviderItem = new DriveItem()
-				{
-					Text = provider.Name,
-					Path = provider.SyncFolder,
-					Type = DriveType.CloudDrive,
-				};
-
-				try
-				{
-					cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
-
-					_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
-				}
-				catch (Exception ex)
-				{
-					_logger?.LogWarning(ex, "Cloud provider local folder couldn't be found");
-				}
-
-				cloudProviderItem.MenuOptions = new ContextMenuOptions()
-				{
-					IsLocationItem = true,
-					ShowEjectDevice = cloudProviderItem.IsRemovable,
-					ShowShellItems = true,
-					ShowProperties = true,
-				};
-
-				var iconData = provider.IconData ?? await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, Constants.DefaultIconSizes.Large, false, true);
-				if (iconData is not null)
-				{
-					cloudProviderItem.IconData = iconData;
-
-					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async ()
-						=> cloudProviderItem.Icon = await iconData.ToBitmapAsync());
-				}
+				var cloudProviderItem = await CreateCloudDriveFromProviderAsync(provider);
 
 				lock (_Drives)
 				{
