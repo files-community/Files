@@ -14,11 +14,11 @@ namespace Files.App.ViewModels.Dialogs
 		public string HeaderText = "ReorderSidebarItemsDialogText".GetLocalizedResource();
 		public ICommand PrimaryButtonCommand { get; private set; }
 
-		public ObservableCollection<LocationItem> SidebarFavoriteItems = new(App.QuickAccessManager.Model.favoriteList
-			.Where(x => x is LocationItem loc && loc.Section is SectionType.Favorites && !loc.IsHeader)
-			.Cast<LocationItem>());
+		public ObservableCollection<INavigationControlItem> SidebarFavoriteItems = new(App.QuickAccessManager.Model.favoriteList
+			.Where(x => x is INavigationControlItem loc && loc.Section is SectionType.Favorites)
+			.Cast<INavigationControlItem>());
 
-		public ReorderSidebarItemsDialogViewModel() 
+		public ReorderSidebarItemsDialogViewModel()
 		{
 			//App.Logger.LogWarning(string.Join(", ", SidebarFavoriteItems.Select(x => x.Path)));
 			PrimaryButtonCommand = new RelayCommand(SaveChanges);

@@ -43,32 +43,32 @@ namespace Files.App.Dialogs
 
 		private void ListViewItem_DragStarting(object sender, DragStartingEventArgs e)
 		{
-			if (sender is not Grid nav || nav.DataContext is not LocationItem)
+			if (sender is not Grid nav || nav.DataContext is not INavigationControlItem)
 				return;
 
 			// Adding the original Location item dragged to the DragEvents data view
-			e.Data.Properties.Add("sourceLocationItem", nav);
+			e.Data.Properties.Add("sourceItem", nav);
 			e.AllowedOperations = DataPackageOperation.Move;
 		}
 
 		private void ListViewItem_DragOver(object sender, DragEventArgs e)
 		{
-			if ((sender as Grid)?.DataContext is not LocationItem locationItem)
+			if ((sender as Grid)?.DataContext is not INavigationControlItem item)
 				return;
 			var deferral = e.GetDeferral();
 			
-			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
+			if ((e.DataView.Properties["sourceItem"] as Grid)?.DataContext is INavigationControlItem sourceItem)
 			{
-				DragOver_SetCaptions(sourceLocationItem, locationItem, e);
+				DragOver_SetCaptions(sourceItem, item, e);
 			}
 
 			deferral.Complete();
 		}
 
-		private void DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
+		private void DragOver_SetCaptions(INavigationControlItem senderItem, INavigationControlItem sourceItem, DragEventArgs e)
 		{
 			// If the location item is the same as the original dragged item
-			if (sourceLocationItem.CompareTo(senderLocationItem) == 0)
+			if (sourceItem.CompareTo(senderItem) == 0)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				e.DragUIOverride.IsCaptionVisible = false;
@@ -83,11 +83,11 @@ namespace Files.App.Dialogs
 
 		private void ListViewItem_Drop(object sender, DragEventArgs e)
 		{
-			if (sender is not Grid navView || navView.DataContext is not LocationItem locationItem)
+			if (sender is not Grid navView || navView.DataContext is not INavigationControlItem item)
 				return;
 
-			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
-				ViewModel.SidebarFavoriteItems.Move(ViewModel.SidebarFavoriteItems.IndexOf(sourceLocationItem), ViewModel.SidebarFavoriteItems.IndexOf(locationItem));
+			if ((e.DataView.Properties["sourceItem"] as Grid)?.DataContext is INavigationControlItem sourceItem)
+				ViewModel.SidebarFavoriteItems.Move(ViewModel.SidebarFavoriteItems.IndexOf(sourceItem), ViewModel.SidebarFavoriteItems.IndexOf(item));
 		}
 
 		public new async Task<DialogResult> ShowAsync()

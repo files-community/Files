@@ -21,7 +21,7 @@
 		<ListView x:Name="SidebarNavView" ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="dataitems:LocationItem">
+				<DataTemplate x:DataType="dataitems:INavigationControlItem">
 					<Grid
 						AllowDrop="True"
 						AutomationProperties.AutomationId="{x:Bind Text}"
@@ -48,8 +48,7 @@
 							HorizontalAlignment="Right"
 							DataContext="{x:Bind}"
 							Glyph="&#xE76F;"
-							PointerPressed="MoveItemAsync"
-							Visibility="{x:Bind IsPinned}" />
+							PointerPressed="MoveItemAsync" />
 
 					</Grid>
 				</DataTemplate>

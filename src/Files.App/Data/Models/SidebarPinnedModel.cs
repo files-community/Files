@@ -59,13 +59,13 @@ namespace Files.App.Data.Models
 		/// <summary>
 		/// Returns the index of the location item in the navigation sidebar
 		/// </summary>
-		/// <param name="locationItem">The location item</param>
+		/// <param name="item">The location item</param>
 		/// <returns>Index of the item</returns>
-		public int IndexOfItem(INavigationControlItem locationItem)
+		public int IndexOfItem(INavigationControlItem item)
 		{
 			lock (favoriteList)
 			{
-				return favoriteList.FindIndex(x => x.Path == locationItem.Path);
+				return favoriteList.FindIndex(x => x.Path == item.Path);
 			}
 		}
 
@@ -173,7 +173,7 @@ namespace Files.App.Data.Models
 				if (favoriteList.Any(x => x.Path == item.Path))
 					return;
 
-				var lastItem = favoriteList.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
+				var lastItem = favoriteList.LastOrDefault();
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
 				favoriteList.Insert(insertIndex, item);
 			}
