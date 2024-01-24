@@ -48,14 +48,21 @@ namespace Files.App.Data.Models
 				// Size down
 				if (value < LayoutPreferencesItem.GridViewSize)
 				{
-					// Size down from tiles to list
-					if (LayoutMode == FolderLayoutModes.TilesView)
+					// Size down from List to Details
+					if (LayoutMode == FolderLayoutModes.ListView)
 					{
 						LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
 						LayoutMode = FolderLayoutModes.DetailsView;
 						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
 					}
-					// Size down from grid to tiles
+					// Size down from Tiles to List
+					else if (LayoutMode == FolderLayoutModes.TilesView)
+					{
+						LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+						LayoutMode = FolderLayoutModes.ListView;
+						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+					}
+					// Size down from Grid to Tiles
 					else if (LayoutMode == FolderLayoutModes.GridView && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall)
 					{
 						LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
@@ -87,14 +94,21 @@ namespace Files.App.Data.Models
 				// Size up
 				else if (value > LayoutPreferencesItem.GridViewSize)
 				{
-					// Size up from list to tiles
+					// Size up from Details to List
 					if (LayoutMode == FolderLayoutModes.DetailsView)
+					{
+						LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+						LayoutMode = FolderLayoutModes.ListView;
+						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+					}
+					// Size up from List to Tiles
+					else if (LayoutMode == FolderLayoutModes.ListView)
 					{
 						LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
 						LayoutMode = FolderLayoutModes.TilesView;
 						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
 					}
-					else // Size up from tiles to grid
+					else // Size up from Tiles to Grid
 					{
 						// Set grid size to allow immediate UI update
 						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeLarge) ? value : Constants.Browser.GridViewBrowser.GridViewSizeLarge;
@@ -309,6 +323,8 @@ namespace Files.App.Data.Models
 			{
 				FolderLayoutModes.DetailsView
 					=> Constants.DefaultIconSizes.Large,
+				FolderLayoutModes.ListView
+					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.ColumnView
 					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.TilesView
@@ -338,6 +354,7 @@ namespace Files.App.Data.Models
 			return (preferencesItem.LayoutMode) switch
 			{
 				FolderLayoutModes.DetailsView => typeof(DetailsLayoutPage),
+				FolderLayoutModes.ListView => typeof(GridLayoutPage),
 				FolderLayoutModes.TilesView => typeof(GridLayoutPage),
 				FolderLayoutModes.GridView => typeof(GridLayoutPage),
 				FolderLayoutModes.ColumnView => typeof(ColumnsLayoutPage),
@@ -413,6 +430,16 @@ namespace Files.App.Data.Models
 			LayoutMode = FolderLayoutModes.TilesView;
 
 			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.TilesView, GridViewSize));
+		}
+		
+		public void ToggleLayoutModeList(bool manuallySet)
+		{
+			IsAdaptiveLayoutEnabled &= !manuallySet;
+
+			// List View
+			LayoutMode = FolderLayoutModes.ListView;
+
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.ListView, GridViewSize));
 		}
 
 		public void ToggleLayoutModeDetailsView(bool manuallySet)

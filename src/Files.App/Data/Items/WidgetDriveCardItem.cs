@@ -7,25 +7,16 @@ namespace Files.App.Data.Items
 {
 	public class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<SideBarDriveItem>, IComparable<WidgetDriveCardItem>
 	{
-		// Fields
-
-		private byte[] _thumbnailData;
-
-		// Properties
+		private byte[] thumbnailData;
 
 		public new SideBarDriveItem Item { get; private set; }
 
-		public bool HasThumbnail
-			=> _Thumbnail is not null && _thumbnailData is not null;
-
-		private BitmapImage _Thumbnail;
+		private BitmapImage thumbnail;
 		public BitmapImage Thumbnail
 		{
-			get => _Thumbnail;
-			set => SetProperty(ref _Thumbnail, value);
+			get => thumbnail;
+			set => SetProperty(ref thumbnail, value);
 		}
-
-		// Constructor
 
 		public WidgetDriveCardItem(SideBarDriveItem item)
 		{
@@ -33,29 +24,16 @@ namespace Files.App.Data.Items
 			Path = item.Path;
 		}
 
-		// Methods
-
 		public async Task LoadCardThumbnailAsync()
 		{
-			// Try load thumbnail using ListView mode
-			if (_thumbnailData is null || _thumbnailData.Length == 0)
-				_thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.DefaultIconSizes.Jumbo), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-
-			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
-			if (_thumbnailData is null || _thumbnailData.Length == 0)
-			{
-				await Item.LoadThumbnailAsync();
-				_thumbnailData = Item.IconData;
-			}
+			thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.Path, Constants.DefaultIconSizes.Jumbo, true, true);
 
 			// Thumbnail data is valid, set the item icon
-			if (_thumbnailData is not null && _thumbnailData.Length > 0)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(Constants.DefaultIconSizes.Jumbo));
+			if (thumbnailData is not null && thumbnailData.Length > 0)
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
 		public int CompareTo(WidgetDriveCardItem? other)
-		{
-			return Item.Path.CompareTo(other?.Item?.Path);
-		}
+			=> Item.Path.CompareTo(other?.Item?.Path);
 	}
 }

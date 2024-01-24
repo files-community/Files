@@ -32,7 +32,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwise, <c>false</c>.</returns>
 		public static bool IsImageFile(string? fileExtensionToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".gif", ".tiff", ".tif");
+			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif");
 		}
 		
 		/// <summary>

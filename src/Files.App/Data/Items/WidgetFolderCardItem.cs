@@ -24,9 +24,6 @@ namespace Files.App.Data.Items
 		public bool HasPath
 			=> !string.IsNullOrEmpty(Path);
 
-		public bool HasThumbnail
-			=> Thumbnail is not null && _thumbnailData is not null;
-
 		private BitmapImage? _Thumbnail;
 		public BitmapImage? Thumbnail
 		{

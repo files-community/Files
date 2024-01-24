@@ -462,7 +462,7 @@ namespace Files.App.Views.Layouts
 				if (!navigationArguments.IsLayoutSwitch)
 				{
 					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
+					await ParentShellPageInstance.UpdatePathUIToWorkingDirectoryAsync(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
 					var searchInstance = new Utils.Storage.FolderSearch
 					{
 						Query = navigationArguments.SearchQuery,

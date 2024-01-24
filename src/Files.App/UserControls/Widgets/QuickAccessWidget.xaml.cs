@@ -66,7 +66,7 @@ namespace Files.App.UserControls.Widgets
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
-			{				
+			{
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
@@ -254,7 +254,7 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void MenuFlyout_Opening(object sender)
-		{			
+		{
 			var pinToFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToFavorites");
 			if (pinToFavoritesItem is not null)
 				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
@@ -349,7 +349,7 @@ namespace Files.App.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		public void Dispose() 
+		public void Dispose()
 		{
 		}
 	}
