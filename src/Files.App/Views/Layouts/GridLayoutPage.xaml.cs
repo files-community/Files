@@ -159,20 +159,31 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemTemplate()
 		{
+			var newFileListStyle = FolderSettings.LayoutMode switch
+			{
+				FolderLayoutModes.ListView => (Style)Resources["VerticalLayoutGridView"],
+				FolderLayoutModes.TilesView => (Style)Resources["HorizontalLayoutGridView"],
+				_ => (Style)Resources["HorizontalLayoutGridView"]
+			};
+
+			if (FileList.Style != newFileListStyle)
+			{
+				var oldSource = FileList.ItemsSource;
+				FileList.ItemsSource = null;
+				FileList.Style = newFileListStyle;
+				FileList.ItemsSource = oldSource;
+			}
+
 			switch (FolderSettings.LayoutMode)
 			{
-
 				case FolderLayoutModes.ListView:
 					FileList.ItemTemplate = ListViewBrowserTemplate;
-					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["VerticalItemsTemplate"];
 					break;
 				case FolderLayoutModes.TilesView:
 					FileList.ItemTemplate = TilesBrowserTemplate;
-					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["HorizontalItemsTemplate"];
 					break;
 				default:
 					FileList.ItemTemplate = GridViewBrowserTemplate;
-					FileList.ItemsPanel = (ItemsPanelTemplate)Resources["HorizontalItemsTemplate"];
 					break;
 			}
 

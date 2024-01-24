@@ -351,6 +351,12 @@
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Cannot open properties for this file</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
+    <value>The file you are attempting to access may have been moved or deleted.</value>
+  </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>File Not Found</value>
   </data>

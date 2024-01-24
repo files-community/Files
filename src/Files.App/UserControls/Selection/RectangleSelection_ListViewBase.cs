@@ -186,6 +186,7 @@ namespace Files.App.UserControls.Selection
 
 		private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
 		{
+			if (scrollViewer is null) return;
 			Canvas.SetLeft(selectionRectangle, 0);
 			Canvas.SetTop(selectionRectangle, 0);
 			selectionRectangle.Width = 0;
