@@ -315,6 +315,7 @@
 											AutomationProperties.Name="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
 											Orientation="Horizontal"
 											Spacing="8"
+											Tapped="TagItem_Tapped"
 											ToolTipService.ToolTip="{x:Bind AsTag.Tag.Name, Mode=OneWay}">
 											<!--  Tag icon  -->
 											<PathIcon
