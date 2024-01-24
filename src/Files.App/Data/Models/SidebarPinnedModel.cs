@@ -135,7 +135,9 @@ namespace Files.App.Data.Models
 		{
 			var normalizedPath = PathNormalization.NormalizePath(path);
 			var matchingDrive = NetworkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-			matchingDrive ??= await CloudDrivesManager.CreateCloudDriveFromProviderAsync((await cloudDetector.DetectCloudProvidersAsync()).First(x => x.SyncFolder == path));
+			var cloudDriveProvider = (await cloudDetector.DetectCloudProvidersAsync()).FirstOrDefault(x => x.SyncFolder == path);
+			if (cloudDriveProvider is not null)
+				matchingDrive ??= await CloudDrivesManager.CreateCloudDriveFromProviderAsync(cloudDriveProvider);
 			matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 
 			if (matchingDrive is not null)
