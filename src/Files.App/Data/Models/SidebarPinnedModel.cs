@@ -5,6 +5,7 @@ using Files.App.UserControls.Widgets;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text.Json.Serialization;
+using Windows.Storage;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Data.Models
@@ -13,6 +14,8 @@ namespace Files.App.Data.Models
 	{
 		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private static NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
@@ -127,6 +130,20 @@ namespace Files.App.Data.Models
 			return locationItem;
 		}
 
+		public static async Task<DriveItem?> CreateDriveItemFromPathAsync(string path)
+		{
+			var normalizedPath = PathNormalization.NormalizePath(path);
+			var matchingDrive = NetworkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+			matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
+
+			if (matchingDrive is not null)
+			{
+				matchingDrive.Section = SectionType.Favorites;
+				matchingDrive.Text = (await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(matchingDrive.Path).AsTask())).Result.DisplayName;
+			}
+			return matchingDrive;
+		}
+
 		/// <summary>
 		/// Adds the item (from a path) to the navigation sidebar
 		/// </summary>
@@ -134,29 +151,34 @@ namespace Files.App.Data.Models
 		/// <returns>Task</returns>
 		public async Task AddItemToSidebarAsync(string path)
 		{
-			var locationItem = await CreateLocationItemFromPathAsync(path);
+			INavigationControlItem? item;
+			if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(path)) == PathNormalization.NormalizePath(path)) // Is drive
+				item = await CreateDriveItemFromPathAsync(path);
+			else
+				item = await CreateLocationItemFromPathAsync(path);
 
-			AddLocationItemToSidebar(locationItem);
+			if (item is not null && (item is DriveItem || item is LocationItem))
+				AddLocationItemToSidebar(item);
 		}
 
 		/// <summary>
 		/// Adds the location item to the navigation sidebar
 		/// </summary>
-		/// <param name="locationItem">The location item which to save</param>
-		private void AddLocationItemToSidebar(LocationItem locationItem)
+		/// <param name="item">The location item which to save</param>
+		private void AddLocationItemToSidebar(INavigationControlItem item)
 		{
 			int insertIndex = -1;
 			lock (favoriteList)
 			{
-				if (favoriteList.Any(x => x.Path == locationItem.Path))
+				if (favoriteList.Any(x => x.Path == item.Path))
 					return;
 
 				var lastItem = favoriteList.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
-				favoriteList.Insert(insertIndex, locationItem);
+				favoriteList.Insert(insertIndex, item);
 			}
 
-			DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
+			DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, insertIndex));
 		}
 
 		/// <summary>
@@ -184,6 +206,14 @@ namespace Files.App.Data.Models
 						favoriteList.Remove(item);
 					}
 					DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+				}
+				else if (childItem is DriveItem driveItem)
+				{
+					lock (favoriteList)
+					{
+						favoriteList.Remove(driveItem);
+					}
+					DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, driveItem));
 				}
 			}
 

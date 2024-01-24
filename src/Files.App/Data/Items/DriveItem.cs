@@ -202,6 +202,14 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
+				if (Section == SectionType.Favorites)
+				{
+					return new OpacityIcon()
+					{
+						Style = Application.Current.Resources["SidebarFavouritesPinnedIcon"] as Style
+					};
+				}
+
 				if (!IsRemovable)
 					return null; // Removable items don't need the eject button
 
