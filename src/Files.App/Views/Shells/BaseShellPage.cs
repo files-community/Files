@@ -498,7 +498,7 @@ namespace Files.App.Views.Shells
 			if (layout == typeof(ColumnsLayoutPage))
 				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
 			else
-				ItemDisplay.Navigate(layout, args);
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, layout, args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
