@@ -18,6 +18,8 @@ namespace Files.App.Utils.Storage
 {
 	public class FileOperationsHelpers
 	{
+		private static IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
+
 		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
 		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
 
@@ -861,7 +863,7 @@ namespace Files.App.Utils.Storage
 
 		private static void UpdateFileTagsDb(ShellFileOperations2.ShellFileOpEventArgs e, string operationType)
 		{
-			var dbInstance = FileTagsHelper.GetDbInstance();
+			var dbInstance = FileTagsService.GetFileTagsDatabaseInstance();
 			if (e.Result.Succeeded)
 			{
 				var sourcePath = e.SourceItem.GetParsingPath();
@@ -885,16 +887,16 @@ namespace Files.App.Utils.Storage
 						{
 							var tag = dbInstance.GetTags(sourcePath);
 
-							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
+							dbInstance.SetTags(destination, NativeFileOperationsHelper.GetFileFRN(destination), tag); // copy tag to new files
 							using var si = new ShellItem(destination);
 							if (si.IsFolder) // File tag is not copied automatically for folders
 							{
-								FileTagsHelper.WriteFileTag(destination, tag);
+								FileTagsService.SetFileTagForPathAsync(destination, tag);
 							}
 						}
 						else
 						{
-							dbInstance.UpdateTag(sourcePath, FileTagsHelper.GetFileFRN(destination), destination); // move tag to new files
+							dbInstance.UpdateTag(sourcePath, NativeFileOperationsHelper.GetFileFRN(destination), destination); // move tag to new files
 						}
 					}, App.Logger);
 				}
@@ -914,7 +916,7 @@ namespace Files.App.Utils.Storage
 								SafetyExtensions.IgnoreExceptions(() =>
 								{
 									var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-									dbInstance.SetTags(subPath, FileTagsHelper.GetFileFRN(subPath), t.Tags);
+									dbInstance.SetTags(subPath, NativeFileOperationsHelper.GetFileFRN(subPath), t.Tags);
 								}, App.Logger);
 							});
 						}
@@ -925,7 +927,7 @@ namespace Files.App.Utils.Storage
 								SafetyExtensions.IgnoreExceptions(() =>
 								{
 									var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-									dbInstance.UpdateTag(t.FilePath, FileTagsHelper.GetFileFRN(subPath), subPath);
+									dbInstance.UpdateTag(t.FilePath, NativeFileOperationsHelper.GetFileFRN(subPath), subPath);
 								}, App.Logger);
 							});
 						}

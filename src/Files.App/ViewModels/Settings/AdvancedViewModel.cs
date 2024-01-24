@@ -17,6 +17,7 @@ namespace Files.App.ViewModels.Settings
 	public class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -176,9 +177,9 @@ namespace Files.App.ViewModels.Settings
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
 					fileTagsSettingsService.ImportSettings(importTags);
-					var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
+					var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsService.FileTagsDatabasePath));
 					string importTagsDB = await fileTagsDB.ReadTextAsync();
-					var tagDbInstance = FileTagsHelper.GetDbInstance();
+					var tagDbInstance = FileTagsService.GetFileTagsDatabaseInstance();
 					tagDbInstance.Import(importTagsDB);
 
 					// Import layout preferences and DB
@@ -224,9 +225,9 @@ namespace Files.App.ViewModels.Settings
 					// Export file tags list and DB
 					var exportTags = UTF8Encoding.UTF8.GetBytes((string)fileTagsSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
-					var tagDbInstance = FileTagsHelper.GetDbInstance();
+					var tagDbInstance = FileTagsService.GetFileTagsDatabaseInstance();
 					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
+					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsService.FileTagsDatabasePath), CreationCollisionOption.ReplaceExisting);
 
 					// Export layout preferences DB
 					var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();

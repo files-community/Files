@@ -20,6 +20,7 @@ namespace Files.App
 	public sealed partial class MainWindow : WindowEx
 	{
 		private readonly IApplicationService ApplicationService;
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 		private MainPageViewModel mainPageViewModel;
 
@@ -278,14 +279,15 @@ namespace Files.App
 						var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
 						foreach (var file in command.Args.Skip(1))
 						{
-							var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
-								.OnSuccess(item => FileTagsHelper.GetFileFRN(item));
+							var item = await StorageHelpers.ToStorageItem<IStorageItem>(file);
+							var fileFRN = NativeFileOperationsHelper.GetFileFRN(item.Path);
+
 							if (fileFRN is not null)
 							{
 								var tagUid = tag is not null ? new[] { tag.Uid } : null;
-								var dbInstance = FileTagsHelper.GetDbInstance();
+								var dbInstance = FileTagsService.GetFileTagsDatabaseInstance();
 								dbInstance.SetTags(file, fileFRN, tagUid);
-								FileTagsHelper.WriteFileTag(file, tagUid);
+								await FileTagsService.SetFileTagForPathAsync(file, tagUid);
 							}
 						}
 						break;

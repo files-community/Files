@@ -26,8 +26,8 @@ namespace Files.App.ViewModels.UserControls
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private readonly IFileTagsService fileTagsService;
+		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
@@ -234,7 +234,7 @@ namespace Files.App.ViewModels.UserControls
 		public SidebarViewModel()
 		{
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
+			FileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 			sidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -254,7 +254,7 @@ namespace Files.App.ViewModels.UserControls
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
 			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			WSLDistroManager.DataChanged += Manager_DataChanged;
-			App.FileTagsManager.DataChanged += Manager_DataChanged;
+			FileTagsService.DataChanged += Manager_DataChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
 			HideSectionCommand = new RelayCommand(HideSection);
@@ -288,7 +288,13 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.WSL => WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
-					SectionType.FileTag => App.FileTagsManager.FileTags,
+					SectionType.FileTag => FileTagsService.FileTagList.Select(x => new FileTagItem()
+					{
+						Text = x.Name,
+						Path = $"tag:{x.Name}",
+						FileTag = x,
+						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
+					}).ToList().AsReadOnly(),
 					_ => null
 				};
 				await SyncSidebarItemsAsync(section, getElements, e);
@@ -582,7 +588,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
 					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => networkDrivesViewModel.UpdateDrivesAsync,
 					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
-					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
+					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => FileTagsService.UpdateFileTagsListAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
 					SectionType.Favorites => App.QuickAccessManager.Model.AddAllItemsToSidebarAsync,
 					_ => () => Task.CompletedTask
@@ -649,7 +655,7 @@ namespace Files.App.ViewModels.UserControls
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;
 			networkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
-			App.FileTagsManager.DataChanged -= Manager_DataChanged;
+			FileTagsService.DataChanged -= Manager_DataChanged;
 		}
 
 		public void UpdateTabControlMargin()
@@ -680,7 +686,7 @@ namespace Files.App.ViewModels.UserControls
 				var cts = new CancellationTokenSource();
 				var items = new List<(string path, bool isFolder)>();
 
-				await foreach (var taggedItem in fileTagsService.GetItemsForTagAsync(tagItem.FileTag.Uid, cts.Token))
+				await foreach (var taggedItem in FileTagsService.GetStorableItemsForFileTagAsync(tagItem.FileTag.Uid, cts.Token))
 				{
 					items.Add((
 						taggedItem.Storable.TryGetPath() ?? string.Empty,
@@ -1315,7 +1321,7 @@ namespace Files.App.ViewModels.UserControls
 				var listedItem = new ListedItem(null)
 				{
 					ItemPath = item.Path,
-					FileFRN = await FileTagsHelper.GetFileFRN(item.Item),
+					FileFRN = NativeFileOperationsHelper.GetFileFRN(item.Item.Path),
 					FileTags = new[] { fileTagItem.FileTag.Uid }
 				};
 			}

@@ -16,6 +16,7 @@ namespace Files.App.Utils.Storage
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -194,7 +195,7 @@ namespace Files.App.Utils.Storage
 				return;
 			}
 
-			var dbInstance = FileTagsHelper.GetDbInstance();
+			var dbInstance = FileTagsService.GetFileTagsDatabaseInstance();
 			var matches = dbInstance.GetAllUnderPath(folder)
 				.Where(x => tags.All(x.Tags.Contains));
 			if (string.IsNullOrEmpty(folder))

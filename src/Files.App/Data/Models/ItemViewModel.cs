@@ -49,6 +49,7 @@ namespace Files.App.Data.Models
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -998,7 +999,7 @@ namespace Files.App.Data.Models
 
 		private static void SetFileTag(ListedItem item)
 		{
-			var dbInstance = FileTagsHelper.GetDbInstance();
+			var dbInstance = FileTagsService.GetFileTagsDatabaseInstance();
 			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 		}
 
@@ -1047,8 +1048,8 @@ namespace Files.App.Data.Models
 									await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFile);
 
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
-									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
-									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+									var fileFRN = NativeFileOperationsHelper.GetFileFRN(matchingStorageFile.Path);
+									var fileTag = FileTagsService.GetFileTagForPath(item.ItemPath);
 									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 
@@ -1097,8 +1098,8 @@ namespace Files.App.Data.Models
 
 									cts.Token.ThrowIfCancellationRequested();
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
-									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
-									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+									var fileFRN = NativeFileOperationsHelper.GetFileFRN(matchingStorageFolder.Path);
+									var fileTag = FileTagsService.GetFileTagForPath(item.ItemPath);
 									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 
@@ -1139,7 +1140,7 @@ namespace Files.App.Data.Models
 							cts.Token.ThrowIfCancellationRequested();
 							await FilesystemTasks.Wrap(async () =>
 							{
-								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+								var fileTag = FileTagsService.GetFileTagForPath(item.ItemPath);
 
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{

@@ -37,7 +37,7 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
-			await foreach (var item in _fileTagsService.GetTagsAsync(cancellationToken))
+			await foreach (var item in _fileTagsService.GetAllTagsAsync(cancellationToken))
 			{
 				var container = new FileTagsContainerViewModel(item.Uid, _openAction)
 				{

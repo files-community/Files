@@ -44,7 +44,7 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
-			await foreach (var item in _fileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
+			await foreach (var item in _fileTagsService.GetStorableItemsForFileTagAsync(_tagUid, cancellationToken))
 			{
 				var icon = await _imageService.GetIconAsync(item.Storable, cancellationToken);
 

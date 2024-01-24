@@ -14,6 +14,7 @@ namespace Files.App.ViewModels.UserControls
 	{
 		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
@@ -214,7 +215,7 @@ namespace Files.App.ViewModels.UserControls
 				await model.LoadAsync();
 
 				if (contentPageContext.SelectedItems.Count == 0)
-					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
+					item.FileTags ??= FileTagsService.GetFileTagForPath(item.ItemPath);
 
 				return new FolderPreview(model);
 			}

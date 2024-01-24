@@ -33,6 +33,7 @@ namespace Files.App.Helpers
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+			var fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
@@ -40,7 +41,6 @@ namespace Files.App.Helpers
 				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 				App.LibraryManager.UpdateLibrariesAsync(),
 				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 				App.QuickAccessManager.InitializeAsync()
 			);
 
@@ -50,7 +50,7 @@ namespace Files.App.Helpers
 				ContextMenu.WarmUpQueryContextMenuAsync()
 			);
 
-			FileTagsHelper.UpdateTagsDb();
+			fileTagsService.UpdateFileTagsDatabase();
 
 			await CheckAppUpdate();
 
@@ -168,7 +168,6 @@ namespace Files.App.Helpers
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()
-					.AddSingleton<FileTagsManager>()
 					.AddSingleton<RecentItems>()
 					.AddSingleton<LibraryManager>()
 					.AddSingleton<AppModel>()

@@ -17,12 +17,10 @@ namespace Files.App.Utils
 	public class ListedItem : ObservableObject, IGroupableItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		protected static IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
-
-		protected static readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-
-		protected static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+		protected static IFileTagsSettingsService fileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		protected static IDateTimeFormatter dateTimeFormatter { get; } = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+		protected static IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 		public bool IsHiddenItem { get; set; } = false;
 
@@ -107,10 +105,10 @@ namespace Files.App.Utils
 			{
 				if (SetProperty(ref fileTags, value))
 				{
-					var dbInstance = FileTagsHelper.GetDbInstance();
+					var dbInstance = FileTagsService.GetFileTagsDatabaseInstance();
 					dbInstance.SetTags(ItemPath, FileFRN, value);
 					HasTags = !FileTags.IsEmpty();
-					FileTagsHelper.WriteFileTag(ItemPath, value);
+					FileTagsService.SetFileTagForPathAsync(ItemPath, value);
 					OnPropertyChanged(nameof(FileTagsUI));
 				}
 			}

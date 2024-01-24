@@ -1,13 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Helpers;
-using Files.App.Utils.Serialization;
 using Files.App.Utils.Serialization.Implementation;
-using Files.Core.Services.Settings;
-using Files.Core.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
@@ -16,6 +10,8 @@ namespace Files.App.Services.Settings
 {
 	internal sealed class FileTagsSettingsService : BaseJsonSettings, IFileTagsSettingsService
 	{
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
+
 		public event EventHandler OnSettingImportedEvent;
 
 		public event EventHandler OnTagsUpdated;
@@ -177,11 +173,11 @@ namespace Files.App.Services.Settings
 		{
 			var tagDoDelete = new string[] { uid };
 
-			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			foreach (var item in FileTagsService.GetFileTagsDatabaseInstance().GetAll())
 			{
 				if (item.Tags.Contains(uid))
 				{
-					FileTagsHelper.WriteFileTag(
+					FileTagsService.SetFileTagForPathAsync(
 						item.FilePath,
 						item.Tags.Except(tagDoDelete).ToArray());
 				}
