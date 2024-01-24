@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Library
+namespace Files.App.Data.Items
 {
 	public class LibraryLocationItem : SideBarLocationItem
 	{
@@ -13,8 +13,8 @@ namespace Files.App.Utils.Library
 
 		public LibraryLocationItem(ShellLibraryItem shellLibrary)
 		{
-			Section = SectionType.Library;
-			MenuOptions = new ContextMenuOptions
+			Section = SidebarSectionType.Library;
+			MenuOptions = new SidebarContextMenuOptions
 			{
 				IsLocationItem = true,
 				ShowProperties = true,
