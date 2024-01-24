@@ -265,7 +265,7 @@ namespace Files.App.Utils.Shell
 						{
 							using var image = GetBitmapFromHBitmap(hbitmap);
 							if (image is not null)
-								iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+								iconData = (byte[]?)new ImageConverter().ConvertTo(BitmapHelper.AutoCropTransparentPixels(image), typeof(byte[]));
 						}
 
 						//Marshal.ReleaseComObject(fctry);

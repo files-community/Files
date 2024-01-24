@@ -3,6 +3,8 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Imaging;
@@ -36,6 +38,38 @@ namespace Files.App.Helpers
 			{
 				return null;
 			}
+		}
+
+		public static Bitmap AutoCropTransparentPixels(this Bitmap bitmap)
+		{
+			// Initialize the crop rectangle to the entire bitmap
+			var cropRectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+			var bitmapData = bitmap.LockBits(cropRectangle, ImageLockMode.ReadOnly, bitmap.PixelFormat);
+			unsafe
+			{
+				var dataPointer = (byte*)bitmapData.Scan0;
+				// Loop through the pixels and update the crop rectangle
+				for (var yCoordinate = 0; yCoordinate < bitmap.Height; yCoordinate++)
+				{
+					for (var xCoordinate = 0; xCoordinate < bitmap.Width; xCoordinate++)
+					{
+						var rgbPointer = dataPointer + (xCoordinate * 4);
+						var alphaValue = rgbPointer[3]; // Alpha value of the pixel
+														// If the pixel is not transparent, adjust the crop rectangle
+						if (alphaValue != 0)
+						{
+							cropRectangle.X = Math.Min(cropRectangle.X, xCoordinate);
+							cropRectangle.Y = Math.Min(cropRectangle.Y, yCoordinate);
+							cropRectangle.Width = Math.Max(cropRectangle.Width, xCoordinate + 1 - cropRectangle.X);
+							cropRectangle.Height = Math.Max(cropRectangle.Height, yCoordinate + 1 - cropRectangle.Y);
+						}
+					}
+					dataPointer += bitmapData.Stride;
+				}
+			}
+			bitmap.UnlockBits(bitmapData);
+			// Return the cropped bitmap or null if the entire image is transparent
+			return bitmap.Clone(cropRectangle, bitmap.PixelFormat);
 		}
 
 		/// <summary>
