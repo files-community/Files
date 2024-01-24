@@ -44,21 +44,19 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Gets application package version.
 		/// </summary>
-		public static Version AppVersion { get; } = new(
-			Package.Current.Id.Version.Major,
-			Package.Current.Id.Version.Minor,
-			Package.Current.Id.Version.Build,
-			Package.Current.Id.Version.Revision);
+		public static Version AppVersion { get; } =
+			new(Package.Current.Id.Version.Major, Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
 
 		/// <summary>
-		/// Gets application icon relative path.
+		/// Gets application icon path.
 		/// </summary>
-		public static string AppIconPath { get; } = AppEnvironment switch
-		{
-			AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-			AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
-			_ => Constants.AssetPaths.StableLogo
-		};
+		public static string AppIconPath { get; } =
+			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
+			{
+				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
+				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
+				_ => Constants.AssetPaths.StableLogo
+			});
 
 		/// <summary>
 		/// Initializes the app components.

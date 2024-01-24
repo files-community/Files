@@ -119,7 +119,7 @@ namespace Files.App.Utils.Storage
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			appWindow.SetIcon(SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppLifecycleHelper.AppIconPath));
+			appWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 
 			frame.Navigate(
 				typeof(Views.Properties.MainPropertiesPage),

@@ -43,7 +43,7 @@ namespace Files.App
 			MinWidth = 516;
 
 			AppWindow.Title = "Files";
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, AppLifecycleHelper.AppIconPath));
+			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;

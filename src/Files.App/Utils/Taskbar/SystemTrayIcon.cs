@@ -131,9 +131,7 @@ namespace Files.App.Utils.Taskbar
 		/// </remarks>
 		public SystemTrayIcon()
 		{
-			var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppLifecycleHelper.AppIconPath);
-
-			_Icon = new(iconPath);
+			_Icon = new(AppLifecycleHelper.AppIconPath);
 			_Tooltip = Package.Current.DisplayName;
 			_taskbarRestartMessageId = PInvoke.RegisterWindowMessage("TaskbarCreated");
 
