@@ -459,6 +459,8 @@ namespace Files.App.Views.Shells
 				await DisplayFilesystemConsentDialogAsync();
 		}
 
+		private TaskCompletionSource? _getDisplayNameTCS;
+
 		// Ensure that the path bar gets updated for user interaction
 		// whenever the path changes.We will get the individual directories from
 		// the updated, most-current path and add them to the UI.
@@ -466,13 +468,26 @@ namespace Files.App.Views.Shells
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
+				// We need override the path bar when searching, so we use TaskCompletionSource
+				// to ensure that the override occurs after GetDirectoryPathComponentsWithDisplayNameAsync.
+				var tcs = new TaskCompletionSource();
+				_getDisplayNameTCS = tcs;
+
 				var components = await StorageFileExtensions.GetDirectoryPathComponentsWithDisplayNameAsync(newWorkingDir);
 				ToolbarViewModel.PathComponents.Clear();
 				foreach (var component in components)
 					ToolbarViewModel.PathComponents.Add(component);
+
+				tcs.TrySetResult();
+				_getDisplayNameTCS = null;
 			}
 			else
 			{
+				// Wait if awaiting GetDirectoryPathComponentsWithDisplayNameAsync
+				var tcs = _getDisplayNameTCS;
+				if (tcs is not null)
+					await tcs.Task;
+
 				// Clear the path UI
 				ToolbarViewModel.PathComponents.Clear();
 				ToolbarViewModel.IsSingleItemOverride = true;
