@@ -12,6 +12,8 @@ namespace Files.App.Utils.Storage
 		protected bool isBulkOperationStarted;
 		private readonly object syncRoot = new object();
 		private readonly List<T> collection = new List<T>();
+		private readonly List<T> bulkNewItems = new List<T>();
+		private readonly List<T> bulkOldItems = new List<T>();
 
 		// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
 		public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }
@@ -142,11 +144,22 @@ namespace Files.App.Utils.Storage
 		{
 			if (IsGrouped)
 			{
-				if (e.NewItems is not null)
-					AddItemsToGroup(e.NewItems.Cast<T>());
+				if (!isBulkOperationStarted)
+				{
+					if (e.NewItems is not null)
+						AddItemsToGroup(e.NewItems.Cast<T>());
 
-				if (e.OldItems is not null)
-					RemoveItemsFromGroup(e.OldItems.Cast<T>());
+					if (e.OldItems is not null)
+						RemoveItemsFromGroup(e.OldItems.Cast<T>());
+				}
+				else
+				{
+					if (e.NewItems is not null)
+						bulkNewItems.AddRange(e.NewItems.Cast<T>());
+
+					if (e.OldItems is not null)
+						bulkOldItems.AddRange(e.OldItems.Cast<T>());
+				}
 			}
 		}
 
@@ -226,6 +239,9 @@ namespace Files.App.Utils.Storage
 
 		public virtual void EndBulkOperation()
 		{
+			List<T> newItems;
+			List<T> oldItems;
+
 			lock (syncRoot)
 			{
 				if (!isBulkOperationStarted)
@@ -235,10 +251,19 @@ namespace Files.App.Utils.Storage
 				GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
 				GroupedCollection?.EndBulkOperation();
 
+				newItems = bulkNewItems.ToList();
+				oldItems = bulkOldItems.ToList();
+				bulkNewItems.Clear();
+				bulkOldItems.Clear();
+
 				OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
 			}
 
-			UpdateGroups(EventArgsCache.ResetCollectionChanged);
+			if (IsGrouped)
+			{
+				AddItemsToGroup(newItems);
+				RemoveItemsFromGroup(oldItems);
+			}
 		}
 
 		public void Add(T? item)
