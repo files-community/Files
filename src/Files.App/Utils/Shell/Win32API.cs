@@ -268,7 +268,7 @@ namespace Files.App.Utils.Shell
 								iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 						}
 
-						//Marshal.ReleaseComObject(fctry);
+						Marshal.ReleaseComObject(fctry);
 					}
 				}
 
