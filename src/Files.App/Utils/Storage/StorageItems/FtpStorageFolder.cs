@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Exceptions;
 using FluentFTP;
 using System.IO;
 using System.Net;
@@ -356,7 +355,7 @@ namespace Files.App.Utils.Storage
 			ushort port = FtpStorageHelper.GetFtpPort(Path);
 			var credentials = Credentials is not null ?
 				new NetworkCredential(Credentials.UserName, Credentials.SecurePassword) :
-				FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+				FtpStorageHelper.Credentials.Get(host, FtpStorageHelper.Anonymous);
 
 			return new(host, credentials, port);
 		}

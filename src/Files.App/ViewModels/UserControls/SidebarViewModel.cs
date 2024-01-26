@@ -17,7 +17,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls

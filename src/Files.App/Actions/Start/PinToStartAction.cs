@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Core.Storage;
 
 namespace Files.App.Actions
 {

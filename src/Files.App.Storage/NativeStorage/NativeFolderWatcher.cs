@@ -1,11 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.MutableStorage;
 using System.Collections.Specialized;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Files.App.Storage
 {

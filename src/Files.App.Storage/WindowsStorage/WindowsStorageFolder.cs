@@ -1,19 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
-using Files.Core.Storage.Enums;
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.ModifiableStorage;
-using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Core.Storage.DirectStorage;
-using Files.Core.Storage.ExtendableStorage;
-using Files.Core.Storage.NestedStorage;
 
 namespace Files.App.Storage
 {
@@ -106,7 +95,7 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedStorable> CreateCopyOfAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
+		public async Task<INestedStorable> CopyAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToCopy is WindowsStorable<StorageFile> sourceFile)
 			{
@@ -118,7 +107,7 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedStorable> MoveFromAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
+		public async Task<INestedStorable> MoveAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToMove is WindowsStorable<StorageFile> sourceFile)
 			{

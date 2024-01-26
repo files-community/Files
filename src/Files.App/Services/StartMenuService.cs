@@ -1,5 +1,4 @@
-﻿using Files.Core.Storage;
-using Windows.UI.StartScreen;
+﻿using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {

@@ -1,11 +1,10 @@
-// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
-
-using FluentFTP;
 
 namespace Files.App.Storage
 {
-	public abstract class FtpStorable : ILocatableStorable, INestedStorable
+	/// <inheritdoc cref="IStorable"/>
+	public abstract class ArchiveStorable : ILocatableStorable, INestedStorable
 	{
 		/// <inheritdoc/>
 		public virtual string Path { get; protected set; }
@@ -19,11 +18,11 @@ namespace Files.App.Storage
 		/// <summary>
 		/// Gets the parent folder of the storable, if any.
 		/// </summary>
-	 	protected virtual IFolder? Parent { get; }
+		protected virtual IFolder? Parent { get; }
 
-		protected internal FtpStorable(string path, string name, IFolder? parent)
+		protected internal ArchiveStorable(string path, string name, IFolder? parent)
 		{
-			Path = FtpStorageHelper.GetFtpPath(path);
+			Path = path;
 			Name = name;
 			Id = Path;
 			Parent = parent;
@@ -33,11 +32,6 @@ namespace Files.App.Storage
 		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			return Task.FromResult(Parent);
-		}
-
-		protected AsyncFtpClient GetFtpClient()
-		{
-			return FtpStorageHelper.GetFtpClient(Path);
 		}
 	}
 }

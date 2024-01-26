@@ -1,22 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
-using Files.Core.Storage.DirectStorage;
-using Files.Core.Storage.Enums;
-using Files.Core.Storage.ExtendableStorage;
 using Files.Core.Storage.Extensions;
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.ModifiableStorage;
-using Files.Core.Storage.NestedStorage;
 using Files.Shared.Helpers;
 using FluentFTP;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.App.Storage
 {
@@ -113,7 +102,7 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedStorable> CreateCopyOfAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
+		public async Task<INestedStorable> CopyAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToCopy is IFile sourceFile)
 			{
@@ -129,12 +118,12 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedStorable> MoveFromAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
+		public async Task<INestedStorable> MoveAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var newItem = await CreateCopyOfAsync(itemToMove, overwrite, cancellationToken);
+			var newItem = await CopyAsync(itemToMove, overwrite, cancellationToken);
 			await source.DeleteAsync(itemToMove, true, cancellationToken);
 
 			return newItem;

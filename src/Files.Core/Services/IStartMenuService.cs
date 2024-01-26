@@ -1,5 +1,4 @@
-﻿using Files.Core.Storage;
-
+﻿
 namespace Files.Core.Services
 {
 	/// <summary>

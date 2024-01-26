@@ -1,9 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-
-namespace Files.Core.Storage.Enums
+namespace Files.Core.Storage
 {
 	[Flags]
 	public enum StorableKind : byte

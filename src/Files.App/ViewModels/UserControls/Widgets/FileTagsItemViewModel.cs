@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
-using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 using Files.Shared.Utils;
 

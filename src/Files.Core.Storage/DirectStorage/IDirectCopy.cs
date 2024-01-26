@@ -1,12 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.ModifiableStorage;
-using Files.Core.Storage.NestedStorage;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Files.Core.Storage.DirectStorage
+namespace Files.Core.Storage
 {
 	/// <summary>
 	/// Provides direct copy operation of storage objects.
@@ -16,6 +11,6 @@ namespace Files.Core.Storage.DirectStorage
 		/// <summary>
 		/// Creates a copy of the provided storable item in this folder.
 		/// </summary>
-		Task<INestedStorable> CreateCopyOfAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
+		Task<INestedStorable> CopyAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
 	}
 }

@@ -13,4 +13,8 @@
         <Optimize Condition="'$(Configuration)' != 'Debug'">true</Optimize>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

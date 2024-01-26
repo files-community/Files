@@ -1,16 +1,14 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
 using FluentFTP;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.App.Storage
 {
+	/// <summary>
+	/// Provides static helper for FTP storage.
+	/// </summary>
 	public static class FtpStorageHelper
 	{
 		public static readonly Dictionary<string, NetworkCredential> Credentials = new();
