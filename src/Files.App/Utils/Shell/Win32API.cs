@@ -229,9 +229,11 @@ namespace Files.App.Utils.Shell
 		private static readonly object _lock = new object();
 
 		/// <summary>
-		/// Returns an icon when a thumbnail isn't available or if getIconOnly is true
-		/// Returns an icon overlay when getOverlay is true
-		/// Returns a boolean indicating if the icon/thumbnail is cached
+		/// Returns an icon when a thumbnail isn't available or if getIconOnly is true.
+		/// <br/>
+		/// Returns an icon overlay when getOverlay is true.
+		/// <br/>
+		/// Returns a boolean indicating if the icon/thumbnail is cached.
 		/// </summary>
 		/// <param name="path"></param>
 		/// <param name="thumbnailSize"></param>
