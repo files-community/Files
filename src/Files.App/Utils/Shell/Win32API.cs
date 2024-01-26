@@ -242,15 +242,13 @@ namespace Files.App.Utils.Shell
 		/// <param name="getOverlay"></param>
 		/// <param name="onlyGetOverlay"></param>
 		/// <returns></returns>
-		public static (byte[]? icon, byte[]? overlay, bool isIconCached) GetFileIconAndOverlay
-		(
+		public static (byte[]? icon, byte[]? overlay, bool isIconCached) GetFileIconAndOverlay(
 			string path,
 			int thumbnailSize,
 			bool isFolder,
 			bool getIconOnly,
 			bool getOverlay = true,
-			bool onlyGetOverlay = false
-		)
+			bool onlyGetOverlay = false)
 		{
 			byte[]? iconData = null, overlayData = null;
 			bool isIconCached = false;
