@@ -7,10 +7,10 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Files.App.Storage.NativeStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFolderWatcher"/>
-    public sealed class NativeFolderWatcher : IFolderWatcher
+	public sealed class NativeFolderWatcher : IFolderWatcher
 	{
 		private FileSystemWatcher? _fileSystemWatcher;
 		private NotifyCollectionChangedEventHandler? _collectionChanged;

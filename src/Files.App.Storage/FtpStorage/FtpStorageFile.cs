@@ -10,7 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Storage.FtpStorage
+namespace Files.App.Storage
 {
 	public sealed class FtpStorageFile : FtpStorable, IModifiableFile, ILocatableFile, INestedFile
 	{

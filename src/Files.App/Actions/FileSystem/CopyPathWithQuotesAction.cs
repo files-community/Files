@@ -38,7 +38,7 @@ namespace Files.App.Actions
 					? string.Join("\n", selectedItems.Select(item => $"\"{item.ItemPath}\""))
 					: context.ShellPage.FilesystemViewModel.WorkingDirectory;
 
-				if (FtpHelpers.IsFtpPath(path))
+				if (FtpStorageHelper.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);
 
 				SafetyExtensions.IgnoreExceptions(() =>

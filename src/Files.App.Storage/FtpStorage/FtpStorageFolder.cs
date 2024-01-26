@@ -18,7 +18,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Storage.FtpStorage
+namespace Files.App.Storage
 {
 	public sealed class FtpStorageFolder : FtpStorable, ILocatableFolder, IModifiableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
 	{
@@ -33,7 +33,7 @@ namespace Files.App.Storage.FtpStorage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Path, fileName));
+			var path = FtpStorageHelper.GetFtpPath(PathHelpers.Combine(Path, fileName));
 			var item = await ftpClient.GetObjectInfo(path, token: cancellationToken);
 
 			if (item is null || item.Type != FtpObjectType.File)
@@ -48,7 +48,7 @@ namespace Files.App.Storage.FtpStorage
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Path, folderName));
+			var path = FtpStorageHelper.GetFtpPath(PathHelpers.Combine(Path, folderName));
 			var item = await ftpClient.GetObjectInfo(path, token: cancellationToken);
 
 			if (item is null || item.Type != FtpObjectType.Directory)

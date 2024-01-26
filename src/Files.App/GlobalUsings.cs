@@ -76,6 +76,12 @@ global using global::Files.Core.Utils;
 global using global::Files.Core.Utils.Cloud;
 global using global::Files.Core.Utils.CommandLine;
 
+// Files.Core.Storage
+global using global::Files.Core.Storage;
+
+// Files.App.Storage
+global using global::Files.App.Storage;
+
 // Files.Shared
 global using global::Files.Shared;
 global using global::Files.Shared.Extensions;

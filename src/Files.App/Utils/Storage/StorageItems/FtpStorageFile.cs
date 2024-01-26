@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Storage.FtpStorage;
 using FluentFTP;
 using System.IO;
 using System.Net;
@@ -49,25 +48,25 @@ namespace Files.App.Utils.Storage
 		{
 			Path = path;
 			Name = name;
-			FtpPath = FtpHelpers.GetFtpPath(path);
+			FtpPath = FtpStorageHelper.GetFtpPath(path);
 			DateCreated = dateCreated;
 		}
 		public FtpStorageFile(string folder, FtpListItem ftpItem)
 		{
 			Path = PathNormalization.Combine(folder, ftpItem.Name);
 			Name = ftpItem.Name;
-			FtpPath = FtpHelpers.GetFtpPath(Path);
+			FtpPath = FtpStorageHelper.GetFtpPath(Path);
 			DateCreated = ftpItem.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : ftpItem.RawCreated;
 		}
 		public FtpStorageFile(IStorageItemWithPath item)
 		{
 			Path = item.Path;
 			Name = IO.Path.GetFileName(item.Path);
-			FtpPath = FtpHelpers.GetFtpPath(item.Path);
+			FtpPath = FtpStorageHelper.GetFtpPath(item.Path);
 		}
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
-			=> FtpHelpers.IsFtpPath(path) && FtpHelpers.VerifyFtpPath(path)
+			=> FtpStorageHelper.IsFtpPath(path) && FtpStorageHelper.VerifyFtpPath(path)
 				? Task.FromResult<BaseStorageFile>(new FtpStorageFile(new StorageFileWithPath(null, path))).AsAsyncOperation()
 				: Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 
@@ -259,11 +258,11 @@ namespace Files.App.Utils.Storage
 
 		private AsyncFtpClient GetFtpClient()
 		{
-			string host = FtpHelpers.GetFtpHost(Path);
-			ushort port = FtpHelpers.GetFtpPort(Path);
+			string host = FtpStorageHelper.GetFtpHost(Path);
+			ushort port = FtpStorageHelper.GetFtpPort(Path);
 			var credentials = Credentials is not null ?
 				new NetworkCredential(Credentials.UserName, Credentials.SecurePassword) :
-				FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+				FtpStorageHelper.Credentials.Get(host, FtpStorageHelper.Anonymous);
 
 			return new(host, credentials, port);
 		}

@@ -15,7 +15,7 @@ using Files.Core.Storage.DirectStorage;
 using Files.Core.Storage.ExtendableStorage;
 using Files.Core.Storage.NestedStorage;
 
-namespace Files.App.Storage.WindowsStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFolder"/>
 	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove

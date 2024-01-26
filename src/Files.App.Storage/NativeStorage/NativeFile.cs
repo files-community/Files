@@ -10,7 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Storage.NativeStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFile"/>
 	public class NativeFile : NativeStorable<FileInfo>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile

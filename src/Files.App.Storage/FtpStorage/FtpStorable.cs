@@ -8,7 +8,7 @@ using FluentFTP;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Storage.FtpStorage
+namespace Files.App.Storage
 {
 	public abstract class FtpStorable : ILocatableStorable, INestedStorable
 	{
@@ -28,7 +28,7 @@ namespace Files.App.Storage.FtpStorage
 
 		protected internal FtpStorable(string path, string name, IFolder? parent)
 		{
-			Path = FtpHelpers.GetFtpPath(path);
+			Path = FtpStorageHelper.GetFtpPath(path);
 			Name = name;
 			Id = Path;
 			Parent = parent;
@@ -37,12 +37,12 @@ namespace Files.App.Storage.FtpStorage
 		/// <inheritdoc/>
 		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
-			return Task.FromResult<IFolder?>(Parent);
+			return Task.FromResult(Parent);
 		}
 
 		protected AsyncFtpClient GetFtpClient()
 		{
-			return FtpHelpers.GetFtpClient(Path);
+			return FtpStorageHelper.GetFtpClient(Path);
 		}
 	}
 }

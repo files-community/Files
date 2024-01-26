@@ -157,7 +157,7 @@ namespace Files.App.Data.Models
 			WorkingDirectory = value;
 
 			string? pathRoot = null;
-			if (!FtpHelpers.IsFtpPath(WorkingDirectory))
+			if (!FtpStorageHelper.IsFtpPath(WorkingDirectory))
 			{
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
@@ -1038,7 +1038,7 @@ namespace Files.App.Data.Models
 
 						if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 						{
-							if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+							if (!item.IsShortcut && !item.IsHiddenItem && !FtpStorageHelper.IsFtpPath(item.ItemPath))
 							{
 								cts.Token.ThrowIfCancellationRequested();
 								matchingStorageFile = await GetFileFromPathAsync(item.ItemPath);
@@ -1081,7 +1081,7 @@ namespace Files.App.Data.Models
 						}
 						else
 						{
-							if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+							if (!item.IsShortcut && !item.IsHiddenItem && !FtpStorageHelper.IsFtpPath(item.ItemPath))
 							{
 								cts.Token.ThrowIfCancellationRequested();
 								BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath);
@@ -1264,13 +1264,13 @@ namespace Files.App.Data.Models
 					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				// The groupImage is null if loading icon from fulltrust process failed
-				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath) && groupImage is null)
+				if (!item.IsShortcut && !item.IsHiddenItem && !FtpStorageHelper.IsFtpPath(item.ItemPath) && groupImage is null)
 				{
 					matchingStorageItem ??= await GetFileFromPathAsync(item.ItemPath);
 
 					if (matchingStorageItem is not null)
 					{
-						using StorageItemThumbnail headerThumbnail = await FilesystemTasks.Wrap(() => matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale).AsTask());
+						using StorageItemThumbnail headerThumbnail = await FilesystemTasks.Wrap<StorageItemThumbnail>(() => matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale).AsTask());
 						if (headerThumbnail is not null)
 						{
 							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -1457,7 +1457,7 @@ namespace Files.App.Data.Models
 				!isMtp &&
 				!isShellFolder &&
 				!isWslDistro;
-			bool isFtp = FtpHelpers.IsFtpPath(path);
+			bool isFtp = FtpStorageHelper.IsFtpPath(path);
 			bool enumFromStorageFolder = isBoxFolder || isFtp;
 
 			BaseStorageFolder? rootFolder = null;

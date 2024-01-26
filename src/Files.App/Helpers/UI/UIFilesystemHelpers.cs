@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
@@ -448,7 +447,7 @@ namespace Files.App.Helpers
 		public async static Task<StorageCredential> RequestPassword(IPasswordProtectedItem sender)
 		{
 			var path = ((IStorageItem)sender).Path;
-			var isFtp = FtpHelpers.IsFtpPath(path);
+			var isFtp = FtpStorageHelper.IsFtpPath(path);
 
 			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
 			IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -464,7 +463,7 @@ namespace Files.App.Helpers
 
 			if (isFtp)
 			{
-				var host = FtpHelpers.GetFtpHost(path);
+				var host = FtpStorageHelper.GetFtpHost(path);
 				FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
 			}
 

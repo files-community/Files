@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Data.Exceptions;
-using Files.App.Storage.FtpStorage;
 using FluentFTP;
 using System.IO;
 using System.Net;
@@ -35,25 +34,25 @@ namespace Files.App.Utils.Storage
 		{
 			Path = path;
 			Name = name;
-			FtpPath = FtpHelpers.GetFtpPath(path);
+			FtpPath = FtpStorageHelper.GetFtpPath(path);
 			DateCreated = dateCreated;
 		}
 		public FtpStorageFolder(string folder, FtpListItem ftpItem)
 		{
 			Path = PathNormalization.Combine(folder, ftpItem.Name);
 			Name = ftpItem.Name;
-			FtpPath = FtpHelpers.GetFtpPath(Path);
+			FtpPath = FtpStorageHelper.GetFtpPath(Path);
 			DateCreated = ftpItem.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : ftpItem.RawCreated;
 		}
 		public FtpStorageFolder(IStorageItemWithPath item)
 		{
 			Path = item.Path;
 			Name = System.IO.Path.GetFileName(item.Path);
-			FtpPath = FtpHelpers.GetFtpPath(item.Path);
+			FtpPath = FtpStorageHelper.GetFtpPath(item.Path);
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
-			=> FtpHelpers.IsFtpPath(path) && FtpHelpers.VerifyFtpPath(path)
+			=> FtpStorageHelper.IsFtpPath(path) && FtpStorageHelper.VerifyFtpPath(path)
 				? Task.FromResult<BaseStorageFolder>(new FtpStorageFolder(new StorageFolderWithPath(null, path))).AsAsyncOperation()
 				: Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
 
@@ -93,7 +92,7 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 
-				var item = await ftpClient.GetObjectInfo(FtpHelpers.GetFtpPath(PathNormalization.Combine(Path, name)));
+				var item = await ftpClient.GetObjectInfo(FtpStorageHelper.GetFtpPath(PathNormalization.Combine(Path, name)));
 				if (item is not null)
 				{
 					if (item.Type is FtpObjectType.File)
@@ -353,8 +352,8 @@ namespace Files.App.Utils.Storage
 
 		private AsyncFtpClient GetFtpClient()
 		{
-			string host = FtpHelpers.GetFtpHost(Path);
-			ushort port = FtpHelpers.GetFtpPort(Path);
+			string host = FtpStorageHelper.GetFtpHost(Path);
+			ushort port = FtpStorageHelper.GetFtpPort(Path);
 			var credentials = Credentials is not null ?
 				new NetworkCredential(Credentials.UserName, Credentials.SecurePassword) :
 				FtpManager.Credentials.Get(host, FtpManager.Anonymous);

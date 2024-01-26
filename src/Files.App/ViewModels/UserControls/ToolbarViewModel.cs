@@ -698,7 +698,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var isFtp = FtpHelpers.IsFtpPath(currentInput);
+			var isFtp = FtpStorageHelper.IsFtpPath(currentInput);
 
 			currentInput = NormalizePathInput(currentInput, isFtp);
 
@@ -851,7 +851,7 @@ namespace Files.App.ViewModels.UserControls
 						}
 						else
 						{
-							var isFtp = FtpHelpers.IsFtpPath(currentInput);
+							var isFtp = FtpStorageHelper.IsFtpPath(currentInput);
 							currentInput = NormalizePathInput(currentInput, isFtp);
 							var expandedPath = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
 							var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;

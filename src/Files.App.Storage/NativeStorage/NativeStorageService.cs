@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Storage.NativeStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IStorageService"/>
 	public sealed class NativeStorageService : IStorageService

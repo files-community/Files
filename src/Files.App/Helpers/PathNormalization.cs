@@ -36,7 +36,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(path))
 				return path;
 
-			if (path.StartsWith("\\\\", StringComparison.Ordinal) || path.StartsWith("//", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(path))
+			if (path.StartsWith("\\\\", StringComparison.Ordinal) || path.StartsWith("//", StringComparison.Ordinal) || FtpStorageHelper.IsFtpPath(path))
 				return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
 
 			if (!path.EndsWith(Path.DirectorySeparatorChar))

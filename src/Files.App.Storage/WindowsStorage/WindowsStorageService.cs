@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Storage.WindowsStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IStorageService"/>
 	internal sealed class WindowsStorageService : IStorageService

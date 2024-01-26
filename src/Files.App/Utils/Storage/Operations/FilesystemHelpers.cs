@@ -672,7 +672,7 @@ namespace Files.App.Utils.Storage
 				{
 					// Same item names in both directories
 					if (StorageHelpers.Exists(item.dest) || 
-						(FtpHelpers.IsFtpPath(item.dest) && 
+						(FtpStorageHelper.IsFtpPath(item.dest) && 
 						await Ioc.Default.GetRequiredService<IFtpStorageService>().TryGetFileAsync(item.dest) is not null))
 					{
 						(incomingItems[item.index] as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;

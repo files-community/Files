@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Storage.WindowsStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFile"/>
 	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile

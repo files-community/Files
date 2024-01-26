@@ -4,13 +4,38 @@
 using Files.Shared.Extensions;
 using FluentFTP;
 using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Storage.FtpStorage
+namespace Files.App.Storage
 {
-	internal static class FtpHelpers
+	public static class FtpStorageHelper
 	{
+		public static readonly Dictionary<string, NetworkCredential> Credentials = new();
+
+		public static readonly NetworkCredential Anonymous = new("anonymous", "anonymous");
+
+		public static bool IsFtpPath(string path)
+		{
+			if (string.IsNullOrEmpty(path))
+				return false;
+
+			return
+				path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) ||
+				path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ||
+				path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
+		}
+
+		public static bool VerifyFtpPath(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
+
+			return index == -1 || ushort.TryParse(authority.Substring(index + 1), out _);
+		}
+
 		public static string GetFtpPath(string path)
 		{
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
@@ -19,11 +44,6 @@ namespace Files.App.Storage.FtpStorage
 			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
-		}
-
-		public static Task EnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
-		{
-			return ftpClient.IsConnected ? Task.CompletedTask : ftpClient.Connect(cancellationToken);
 		}
 
 		public static string GetFtpHost(string path)
@@ -61,9 +81,24 @@ namespace Files.App.Storage.FtpStorage
 		{
 			var host = GetFtpHost(ftpPath);
 			var port = GetFtpPort(ftpPath);
-			var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+			var credentials = Credentials.Get(host, Anonymous);
 
 			return new(host, credentials, port);
+		}
+
+		public static async Task<bool> EnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				if (!ftpClient.IsConnected)
+					await ftpClient.Connect(cancellationToken);
+
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 		}
 	}
 }

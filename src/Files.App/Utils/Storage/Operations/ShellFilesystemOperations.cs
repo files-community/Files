@@ -38,7 +38,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
 		{
-			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
+			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpStorageHelper.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
 				// Fallback to built-in file operations
 				return await _filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
@@ -201,7 +201,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
 		{
-			if (string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
+			if (string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpStorageHelper.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
 			{
 				// Fallback to built-in file operations
 				return await _filesystemOperations.CreateAsync(source, progress, cancellationToken);
@@ -342,7 +342,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<StatusCenterItemProgressModel> progress, bool permanently, CancellationToken cancellationToken, bool asAdmin = false)
 		{
-			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path)))
+			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpStorageHelper.IsFtpPath(x.Path)))
 			{
 				// Fallback to built-in file operations
 				return await _filesystemOperations.DeleteItemsAsync(source, progress, permanently, cancellationToken);
@@ -461,7 +461,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
 		{
-			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
+			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpStorageHelper.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
 				// Fallback to built-in file operations
 				return await _filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
@@ -620,7 +620,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
 		{
-			if (string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
+			if (string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpStorageHelper.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
 			{
 				// Fallback to built-in file operations
 				return await _filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
@@ -714,7 +714,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
 		{
-			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
+			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpStorageHelper.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
 				// Fallback to built-in file operations
 				return await _filesystemOperations.RestoreItemsFromTrashAsync(source, destination, progress, cancellationToken);
