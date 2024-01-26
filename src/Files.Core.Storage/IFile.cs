@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.Core.Storage
 {
