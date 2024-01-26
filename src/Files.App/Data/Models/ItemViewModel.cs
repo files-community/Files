@@ -941,11 +941,8 @@ namespace Files.App.Data.Models
 		}
 
 		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
-		private async Task LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96, IStorageItem? matchingStorageItem = null)
+		private async Task<bool> LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96, IStorageItem? matchingStorageItem = null)
 		{
-			var wasIconLoaded = false;
-
-
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
@@ -972,6 +969,8 @@ namespace Files.App.Data.Models
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
+
+				return iconInfo.isIconCached;
 			}
 			else
 			{
@@ -993,6 +992,8 @@ namespace Files.App.Data.Models
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
+
+				return iconInfo.isIconCached;
 			}
 		}
 
@@ -1044,12 +1045,12 @@ namespace Files.App.Data.Models
 								if (matchingStorageFile is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
-									await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFile);
 
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
 									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
+
 									cts.Token.ThrowIfCancellationRequested();
 
 									await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -1064,6 +1065,14 @@ namespace Files.App.Data.Models
 
 									SetFileTag(item);
 									wasSyncStatusLoaded = true;
+
+									var cancellationTokenSource = new CancellationTokenSource(3000);
+									// Loop until cached thumbnail is loaded or timeout is reached
+									while (!await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFile))
+									{
+										cancellationTokenSource.Token.ThrowIfCancellationRequested();
+										await Task.Delay(100);
+									}
 								}
 							}
 
