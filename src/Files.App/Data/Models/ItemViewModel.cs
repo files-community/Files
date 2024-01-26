@@ -1070,8 +1070,8 @@ namespace Files.App.Data.Models
 									// Loop until cached thumbnail is loaded or timeout is reached
 									while (!await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFile))
 									{
-										await Task.Delay(100);
 										cancellationTokenSource.Token.ThrowIfCancellationRequested();
+										await Task.Delay(100);
 									}
 								}
 							}
