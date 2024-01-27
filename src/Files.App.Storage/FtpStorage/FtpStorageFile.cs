@@ -5,11 +5,29 @@ using System.IO;
 
 namespace Files.App.Storage
 {
-	public sealed class FtpStorageFile : FtpStorable, IModifiableFile, ILocatableFile, INestedFile
+	public sealed class FtpStorageFile : FtpStorable, IModifiableFile, ILocatableFile, INestedFile, IDirectCopy, IDirectMove
 	{
 		public FtpStorageFile(string path, string name, IFolder? parent)
 			: base(path, name, parent)
 		{
+		}
+
+		/// <inheritdoc/>
+		public Task<INestedStorable> CopyAsync(INestedStorable itemToCopy, bool overwrite = false, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc/>
+		public Task DeleteAsync(INestedStorable item, bool permanently = false, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc/>
+		public Task<INestedStorable> MoveAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = false, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc/>

@@ -7,11 +7,29 @@ using Windows.Storage;
 namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFile"/>
-	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile
+	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile, IDirectCopy, IDirectMove
 	{
 		public WindowsStorageFile(StorageFile storage)
 			: base(storage)
 		{
+		}
+
+		/// <inheritdoc/>
+		public Task<INestedStorable> CopyAsync(INestedStorable itemToCopy, bool overwrite = false, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc/>
+		public Task DeleteAsync(INestedStorable item, bool permanently = false, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc/>
+		public Task<INestedStorable> MoveAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = false, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc/>

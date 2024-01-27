@@ -10,19 +10,14 @@ using System.IO;
 using System.Text;
 using Windows.Storage;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-
 namespace Files.App.Utils
 {
 	public class ListedItem : ObservableObject, IGroupableItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		protected static IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
-
-		protected static readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-
-		protected static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+		protected static IFileTagsSettingsService fileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		protected static IDateTimeFormatter dateTimeFormatter { get; } = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
 		public bool IsHiddenItem { get; set; } = false;
 

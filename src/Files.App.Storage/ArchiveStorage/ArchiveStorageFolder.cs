@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IStorable"/>
-	public class ArchiveFolder : ArchiveStorable, ILocatableFolder, IModifiableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
+	public class ArchiveStorageFolder : ArchiveStorable, ILocatableFolder, IModifiableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
 	{
-		public ArchiveFolder(string path, string name, IFolder? parent)
+		public ArchiveStorageFolder(string path, string name, IFolder? parent)
 			: base(path, name, parent)
 		{
 		}

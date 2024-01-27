@@ -8,5 +8,9 @@ namespace Files.Core.Storage
 	/// </summary>
 	public interface IModifiableFile : IFile, IModifiableStorable
 	{
+		/// <summary>
+		/// Deletes the provided storable item from this folder.
+		/// </summary>
+		Task DeleteAsync(INestedStorable item, bool permanently = default, CancellationToken cancellationToken = default);
 	}
 }

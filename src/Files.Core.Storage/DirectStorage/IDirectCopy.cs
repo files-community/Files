@@ -6,7 +6,7 @@ namespace Files.Core.Storage
 	/// <summary>
 	/// Provides direct copy operation of storage objects.
 	/// </summary>
-	public interface IDirectCopy : IModifiableFolder
+	public interface IDirectCopy : IModifiableStorable
 	{
 		/// <summary>
 		/// Creates a copy of the provided storable item in this folder.

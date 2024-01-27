@@ -5,16 +5,11 @@ using System.IO;
 
 namespace Files.App.Storage
 {
-	/// <inheritdoc cref="IFile"/>
-	public class NativeFile : NativeStorable<FileInfo>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile, IDirectCopy, IDirectMove
+	/// <inheritdoc cref="IStorable"/>
+	public class ArchiveStorageFile : ArchiveStorable, IModifiableFile, ILocatableFile, INestedFile, IDirectCopy, IDirectMove
 	{
-		public NativeFile(FileInfo fileInfo, string? name = null)
-			: base(fileInfo, name)
-		{
-		}
-
-		public NativeFile(string path, string? name = null)
-			: this(new FileInfo(path), name)
+		public ArchiveStorageFile(string path, string name, IFolder? parent)
+			: base(path, name, parent)
 		{
 		}
 
@@ -37,16 +32,9 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public virtual Task<Stream> OpenStreamAsync(FileAccess access, CancellationToken cancellationToken = default)
+		public async Task<Stream> OpenStreamAsync(FileAccess access, CancellationToken cancellationToken = default)
 		{
-			return OpenStreamAsync(access, FileShare.None, cancellationToken);
-		}
-
-		/// <inheritdoc/>
-		public virtual Task<Stream> OpenStreamAsync(FileAccess access, FileShare share = FileShare.None, CancellationToken cancellationToken = default)
-		{
-			var stream = File.Open(Path, FileMode.Open, access, share);
-			return Task.FromResult<Stream>(stream);
+			throw new NotImplementedException();
 		}
 	}
 }
