@@ -193,7 +193,7 @@ namespace Files.App.Utils.Storage
 
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-			string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
+			string itemName = await fileListCache.GetFileNameFromCache(itemPath, cancellationToken);
 			if (string.IsNullOrEmpty(itemName))
 				itemName = findData.cFileName;
 

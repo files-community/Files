@@ -75,6 +75,14 @@ namespace Files.App.Storage
 			return path.Substring(schemaIndex, hostIndex - schemaIndex);
 		}
 
+		public static int GetRootIndex(string path)
+		{
+			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+
+			return path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+		}
+
 		public static AsyncFtpClient GetFtpClient(string ftpPath)
 		{
 			var host = GetFtpHost(ftpPath);

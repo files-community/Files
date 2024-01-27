@@ -51,7 +51,7 @@ namespace Files.App.Utils.Storage
 
 		private void DeviceModifiedEvent(object sender, WMIEventArgs e)
 		{
-			CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
+			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
 			var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
 			var volumeName = (string)obj.CimInstanceProperties["VolumeName"]?.Value;
@@ -69,7 +69,7 @@ namespace Files.App.Utils.Storage
 
 		private void DeviceRemovedEvent(object sender, WMIEventArgs e)
 		{
-			CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
+			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
 			var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
 			System.Diagnostics.Debug.WriteLine($"Drive removed event: {deviceName}, {deviceId}");
@@ -78,7 +78,7 @@ namespace Files.App.Utils.Storage
 
 		private void DeviceInsertedEvent(object sender, WMIEventArgs e)
 		{
-			CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
+			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
 			var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
 			System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");

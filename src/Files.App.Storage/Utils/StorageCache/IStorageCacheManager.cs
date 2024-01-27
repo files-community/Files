@@ -16,6 +16,6 @@ namespace Files.App.Storage
 		/// <summary>
 		/// Sets file display name to cache.
 		/// </summary>
-		public ValueTask SaveFileNameToCache(string path, string displayName);
+		public ValueTask SetFileNameToCache(string path, string displayName);
 	}
 }

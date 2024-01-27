@@ -6,7 +6,7 @@ using System.Security.Principal;
 
 namespace Files.App.Storage
 {
-	public class RecycleBinWatcher : IWatcher, ITrashWatcher
+	public class RecycleBinWatcher : IWatcher, IFolderWatcher, ITrashWatcher
 	{
 		private List<SystemIO.FileSystemWatcher>? _fileSystemWatchers;
 

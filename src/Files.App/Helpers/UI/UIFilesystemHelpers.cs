@@ -464,7 +464,7 @@ namespace Files.App.Helpers
 			if (isFtp)
 			{
 				var host = FtpStorageHelper.GetFtpHost(path);
-				FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
+				FtpStorageHelper.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
 			}
 
 			return credentials;

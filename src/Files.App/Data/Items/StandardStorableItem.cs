@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
-using Files.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -468,8 +467,8 @@ namespace Files.App.Utils
 
 		public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
 		{
-			StorageItemTypes.File => await new FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
-			StorageItemTypes.Folder => new FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
+			StorageItemTypes.File => await new Storage.FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
+			StorageItemTypes.Folder => new Storage.FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
 			_ => throw new InvalidDataException(),
 		};
 	}

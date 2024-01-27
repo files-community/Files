@@ -11,11 +11,14 @@ namespace Files.App.Storage
 		// Fields
 
 		private static StorageCacheManager? _instance;
+
 		private readonly ConcurrentDictionary<string, string> _storageCacheList = new();
 
 		// Constructor
 
-		private StorageCacheManager() { }
+		private StorageCacheManager()
+		{
+		}
 
 		// Methods
 
@@ -29,7 +32,7 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public ValueTask SaveFileNameToCache(string path, string displayName)
+		public ValueTask SetFileNameToCache(string path, string displayName)
 		{
 			if (string.IsNullOrEmpty(displayName))
 				_storageCacheList.TryRemove(path, out _);

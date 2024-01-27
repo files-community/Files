@@ -1096,7 +1096,7 @@ namespace Files.App.Data.Models
 										{
 											item.ItemNameRaw = matchingStorageFolder.DisplayName;
 										});
-										await fileListCache.SaveFileDisplayNameToCache(item.ItemPath, matchingStorageFolder.DisplayName);
+										await fileListCache.SetFileNameToCache(item.ItemPath, matchingStorageFolder.DisplayName);
 										if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
 										{
 											await OrderFilesAndFoldersAsync();
