@@ -5,10 +5,15 @@ using Windows.Storage;
 
 namespace Files.App.Utils.Storage
 {
+	/// <summary>
+	/// Provides static helper for sorting storage enumeration.
+	/// </summary>
 	public static class SortingHelper
 	{
 		private static object OrderByNameFunc(ListedItem item)
-			=> item.Name;
+		{
+			return item.Name;
+		}
 
 		public static Func<ListedItem, object>? GetSortFunc(SortOption directorySortOption)
 		{
@@ -28,8 +33,12 @@ namespace Files.App.Utils.Storage
 			};
 		}
 
-		public static IEnumerable<ListedItem> OrderFileList(IList<ListedItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection,
-			bool sortDirectoriesAlongsideFiles, bool sortFilesFirst)
+		public static IEnumerable<ListedItem> OrderFileList(
+			IList<ListedItem> filesAndFolders,
+			SortOption directorySortOption,
+			SortDirection directorySortDirection,
+			bool sortDirectoriesAlongsideFiles,
+			bool sortFilesFirst)
 		{
 			var orderFunc = GetSortFunc(directorySortOption);
 			var naturalStringComparer = NaturalStringComparer.GetForProcessor();

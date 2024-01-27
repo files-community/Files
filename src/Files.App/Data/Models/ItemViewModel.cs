@@ -2360,7 +2360,7 @@ namespace Files.App.Data.Models
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async Task SearchAsync(FolderSearch search)
+		public async Task SearchAsync(StorageSearchManager search)
 		{
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 

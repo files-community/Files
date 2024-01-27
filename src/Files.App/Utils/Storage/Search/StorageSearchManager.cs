@@ -12,10 +12,10 @@ using WIN32_FIND_DATA = Files.Core.Helpers.NativeFindStorageItemHelper.WIN32_FIN
 
 namespace Files.App.Utils.Storage
 {
-	public class FolderSearch
+	public class StorageSearchManager
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -101,7 +101,7 @@ namespace Files.App.Utils.Storage
 			}
 			else
 			{
-				foreach (var drive in drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
+				foreach (var drive in DrivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
 				{
 					await AddItemsAsync(drive.Path, results, token);
 				}

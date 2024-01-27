@@ -85,3 +85,4 @@ global using global::Files.App.Storage;
 // Files.Shared
 global using global::Files.Shared;
 global using global::Files.Shared.Extensions;
+global using global::Files.Shared.Helpers;

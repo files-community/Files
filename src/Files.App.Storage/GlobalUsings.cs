@@ -20,3 +20,4 @@ global using global::Files.Core.Storage.Extensions;
 // Files.Shared
 global using global::Files.Shared;
 global using global::Files.Shared.Extensions;
+global using global::Files.Shared.Helpers;

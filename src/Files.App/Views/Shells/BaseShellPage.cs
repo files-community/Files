@@ -364,7 +364,7 @@ namespace Files.App.Views.Shells
 
 			if (!string.IsNullOrWhiteSpace(sender.Query))
 			{
-				var search = new FolderSearch
+				var search = new StorageSearchManager
 				{
 					Query = sender.Query,
 					Folder = FilesystemViewModel.WorkingDirectory,
@@ -553,7 +553,7 @@ namespace Files.App.Views.Shells
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
 				ToolbarViewModel.CanRefresh = false;
-				var searchInstance = new FolderSearch
+				var searchInstance = new StorageSearchManager
 				{
 					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemParameter.NavigationParameter,
 					Folder = FilesystemViewModel.WorkingDirectory,

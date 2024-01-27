@@ -13,6 +13,8 @@ namespace Files.App.Utils.Storage
 
 		private int m_Pos;
 
+		// Properties
+
 		public T Current
 		{
 			get
@@ -25,12 +27,16 @@ namespace Files.App.Utils.Storage
 		object IEnumerator.Current
 			=> Current;
 
+		// Constructor
+
 		public BlockingListEnumerator(IList<T> inner, object @lock)
 		{
 			m_Inner = inner;
 			m_Lock = @lock;
 			m_Pos = -1;
 		}
+
+		// Methods
 
 		public void Dispose()
 		{

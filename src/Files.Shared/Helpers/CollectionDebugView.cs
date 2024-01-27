@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Files.App.Helpers
+namespace Files.Shared.Helpers
 {
-	internal sealed class CollectionDebugView<T>
+	public sealed class CollectionDebugView<T>
 	{
 		private readonly ICollection<T> _collection;
 
@@ -23,6 +23,7 @@ namespace Files.App.Helpers
 			{
 				var items = new T[_collection.Count];
 				_collection.CopyTo(items, 0);
+
 				return items;
 			}
 		}
