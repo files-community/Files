@@ -3,7 +3,7 @@
 
 namespace Files.Core.Storage
 {
-	public interface IDeviceWatcher
+	public interface IDeviceWatcher : IWatcher
 	{
 		/// <summary>
 		/// Gets invoked when an item addition is detected by the watcher

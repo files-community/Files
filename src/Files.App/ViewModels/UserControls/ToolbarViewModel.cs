@@ -23,7 +23,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly IRemovableDrivesService RemovableDrivesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 
@@ -723,7 +723,7 @@ namespace Files.App.ViewModels.UserControls
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
-						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						var matchingDrive = RemovableDrivesService.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());

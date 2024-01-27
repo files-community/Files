@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.UserControls
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly IRemovableDrivesService RemovableDrivesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 		private readonly IFileTagsService fileTagsService;
 
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
@@ -249,7 +249,7 @@ namespace Files.App.ViewModels.UserControls
 
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
-			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
+			RemovableDrivesService.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
 			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			WSLDistroManager.DataChanged += Manager_DataChanged;
@@ -283,7 +283,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					SectionType.Favorites => App.QuickAccessManager.Model.Favorites,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
-					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Drives => RemovableDrivesService.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.WSL => WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
@@ -578,7 +578,7 @@ namespace Files.App.ViewModels.UserControls
 				Func<Task> action = sectionType switch
 				{
 					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => CloudDrivesManager.UpdateDrivesAsync,
-					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
+					SectionType.Drives => RemovableDrivesService.UpdateDrivesAsync,
 					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => networkDrivesViewModel.UpdateDrivesAsync,
 					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
@@ -644,7 +644,7 @@ namespace Files.App.ViewModels.UserControls
 
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
-			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
+			RemovableDrivesService.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;
 			networkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
 			WSLDistroManager.DataChanged -= Manager_DataChanged;

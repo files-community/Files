@@ -9,7 +9,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context;
 
-		private readonly DrivesViewModel drivesViewModel;
+		private readonly IRemovableDrivesService RemovableDrivesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 		public string Label
 			=> "FormatDriveText".GetLocalizedResource();
@@ -20,13 +20,12 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.HasItem &&
 			!context.HasSelection &&
-			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+			(RemovableDrivesService.Drives.Cast<DriveItem>().FirstOrDefault(x =>
 				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}

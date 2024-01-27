@@ -7,8 +7,18 @@ namespace Files.Core.Services
 	/// <summary>
 	/// Represents a service to enumerate drives and create a storage device watcher
 	/// </summary>
-	public interface IRemovableDrivesService
+	public interface IRemovableDrivesService : INotifyPropertyChanged, IDisposable
 	{
+		/// <summary>
+		/// Gets a list of drives.
+		/// </summary>
+		ObservableCollection<ILocatableFolder> Drives { get; }
+
+		/// <summary>
+		/// Gets the value that indicates whether the app should show confirmation dialog on initialization.
+		/// </summary>
+		bool ShowUserConsentOnInit { get; set; }
+
 		/// <summary>
 		/// Gets the primary system drive. This item is typically excluded when enumerating removable drives
 		/// </summary>
@@ -19,7 +29,7 @@ namespace Files.Core.Services
 		/// Creates a watcher for storage devices
 		/// </summary>
 		/// <returns>The created storage device watcher</returns>
-		IStorageDeviceWatcher CreateWatcher();
+		void InitializeRemovableDrivesWatcher();
 
 		/// <summary>
 		/// Enumerates all removable drives
@@ -33,5 +43,11 @@ namespace Files.Core.Services
 		/// <param name="drive"></param>
 		/// <returns></returns>
 		Task UpdateDrivePropertiesAsync(ILocatableFolder drive);
+
+		/// <summary>
+		/// Refreshes the list of drives.
+		/// </summary>
+		/// <returns></returns>
+		Task UpdateDrivesAsync();
 	}
 }

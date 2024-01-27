@@ -1,10 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.App.Helpers;
 using Microsoft.Extensions.Logging;
-using System;
 using System.IO;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;

@@ -51,7 +51,7 @@ namespace Files.App.UserControls.Widgets
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
-		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private IRemovableDrivesService drivesViewModel = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 

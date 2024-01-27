@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 
 namespace Files.Core.Storage
 {
-	internal interface IFolderWatcher : INotifyCollectionChanged
+	public interface IFolderWatcher : INotifyCollectionChanged
 	{
 		/// <summary>
 		/// Gets the folder being watched for changes.

@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IWatcher"/>
-	public sealed class NativeFolderWatcher : IWatcher
+	public sealed class NativeFolderWatcher : IWatcher, IFolderWatcher
 	{
 		private SystemIO.FileSystemWatcher? _fileSystemWatcher;
 

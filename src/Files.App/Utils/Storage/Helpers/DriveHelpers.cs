@@ -35,7 +35,8 @@ namespace Files.App.Utils.Storage
 		{
 			if (string.IsNullOrWhiteSpace(drivePath))
 				return false;
-			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
+			var drivesViewModel = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
 			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
@@ -59,14 +60,16 @@ namespace Files.App.Utils.Storage
 			if (!Path.IsPathRooted(devicePath))
 				return null;
 
-			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+			var drivesViewModel = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 			var rootPath = Path.GetPathRoot(devicePath);
 			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
 			{
 				// Check among already discovered drives
-				StorageFolder matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
+				StorageFolder matchingDrive =
+					drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+						PathNormalization.NormalizePath(x.Path) == PathNormalization.NormalizePath(rootPath))?.Root;
+
 				if (matchingDrive is null)
 				{
 					// Check on all removable drives

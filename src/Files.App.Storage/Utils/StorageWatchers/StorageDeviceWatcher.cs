@@ -4,9 +4,9 @@
 using Microsoft.Management.Infrastructure;
 using System.Collections.Specialized;
 
-namespace Files.App.Storage.Watchers
+namespace Files.App.Storage
 {
-	public class DeviceWatcher : IWatcher, IDeviceWatcher
+	public class StorageDeviceWatcher : IDeviceWatcher
 	{
 		private WMIWatcher? _insertWatcher;
 		private WMIWatcher? _removeWatcher;
@@ -20,7 +20,7 @@ namespace Files.App.Storage.Watchers
 		public event EventHandler<DeviceEventArgs>? ItemEjected;
 		public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-		public DeviceWatcher()
+		public StorageDeviceWatcher()
 		{
 			StartWatcher();
 		}

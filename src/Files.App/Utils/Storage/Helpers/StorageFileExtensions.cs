@@ -294,7 +294,7 @@ namespace Files.App.Utils.Storage
 			}
 			else if (component.Contains(':', StringComparison.Ordinal))
 			{
-				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+				var drivesViewModel = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 				var drives = drivesViewModel.Drives.Cast<DriveItem>();
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
