@@ -196,8 +196,11 @@ namespace Files.App.Utils.Storage
 
 		private bool IsHistoryNull(IStorageHistory history) // history.Destination is null with CreateNew
 			=> IsHistoryNull(history.Source) || (history.Destination is not null && IsHistoryNull(history.Destination));
-		private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) => !source.All(HasPath);
 
-		private static bool HasPath(IStorageItemWithPath item) => item is not null && !string.IsNullOrWhiteSpace(item.Path);
+		private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source)
+			=> !source.All(HasPath);
+
+		private static bool HasPath(IStorageItemWithPath item)
+			=> item is not null && !string.IsNullOrWhiteSpace(item.Path);
 	}
 }

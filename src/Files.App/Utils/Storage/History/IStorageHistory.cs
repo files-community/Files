@@ -12,21 +12,11 @@ namespace Files.App.Utils.Storage
 
 		/// <summary>
 		/// Source file/folder
-		/// <br/>
-		/// <br/>
-		/// Attention!
-		/// <br/>
-		/// May contain more that one item
 		/// </summary>
 		IList<IStorageItemWithPath> Source { get; }
 
 		/// <summary>
 		/// Destination file/folder
-		/// <br/>
-		/// <br/>
-		/// Attention!
-		/// <br/>
-		/// May contain more that one item
 		/// </summary>
 		IList<IStorageItemWithPath> Destination { get; }
 
