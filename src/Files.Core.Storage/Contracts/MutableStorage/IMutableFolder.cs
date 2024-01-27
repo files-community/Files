@@ -12,6 +12,6 @@ namespace Files.Core.Storage
 		/// Asynchronously retrieves a disposable object which can notify of changes to the folder.
 		/// </summary>
 		/// <returns>A Task representing the asynchronous operation. The result is a disposable object which can notify of changes to the folder.</returns>
-		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default);
+		public Task<IWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default);
 	}
 }

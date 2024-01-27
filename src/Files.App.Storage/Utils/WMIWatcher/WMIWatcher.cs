@@ -4,55 +4,45 @@
 using Microsoft.Management.Infrastructure;
 using Microsoft.Management.Infrastructure.Generic;
 
-namespace Files.App.Helpers
+namespace Files.App.Storage
 {
-	public delegate void EventArrivedEventHandler(object sender, WMIEventArgs e);
-
-	/// <summary>
-	/// A public class used to start/stop the subscription to specific indication source,
-	/// and listen to the incoming indications, event <see cref="EventArrived" />
-	/// will be raised for each cim indication.
-	/// Adapted to newer versions of MMI
-	/// </summary>
-	public class ManagementEventWatcher : IDisposable, IObserver<CimSubscriptionResult>
+	public class WMIWatcher : IDisposable, IObserver<CimSubscriptionResult>
 	{
-		internal enum CimWatcherStatus
-		{
-			Default,
-			Started,
-			Stopped
-		}
+		public delegate void WMIEventHandler(object sender, WMIEventArgs e);
 
 		// Events
 
-		public event EventArrivedEventHandler EventArrived = delegate { };
+		public event WMIEventHandler EventArrived = delegate { };
 
 		// Fields
 
-		private object _myLock;
-		private bool _isDisposed;
-		private CimWatcherStatus _cimWatcherStatus;
+		internal static readonly string DefaultNameSpace = @"root\cimv2";
+		internal static readonly string DefaultQueryDialect = "WQL";
+
 		private readonly string _computerName;
 		private readonly string _nameSpace;
 		private readonly string _queryDialect;
 		private readonly string _queryExpression;
+
+		private object _myLock;
+		private CimWatcherStatus _cimWatcherStatus;
 		private CimSession _cimSession;
 		private CimAsyncMultipleResults<CimSubscriptionResult> _cimObservable;
 		private IDisposable _subscription;
-		internal static readonly string DefaultNameSpace = @"root\cimv2";
-		internal static readonly string DefaultQueryDialect = "WQL";
+
+		private bool _isDisposed;
+
+		// Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
+		/// Initializes a new instance of the <see cref="WMIWatcher" /> class.
 		/// </summary>
-		public ManagementEventWatcher(WqlEventQuery query)
+		public WMIWatcher(WMIQuery query)
 		{
 			string queryExpression = query.QueryExpression;
 
 			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
 				throw new ArgumentNullException(nameof(queryExpression));
-			}
 
 			_nameSpace = DefaultNameSpace;
 			_queryDialect = DefaultQueryDialect;
@@ -62,14 +52,12 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
+		/// Initializes a new instance of the <see cref="WMIWatcher" /> class.
 		/// </summary>
-		public ManagementEventWatcher(string queryDialect, string queryExpression)
+		public WMIWatcher(string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
 				throw new ArgumentNullException(nameof(queryExpression));
-			}
 
 			_nameSpace = DefaultNameSpace;
 			_queryDialect = queryDialect ?? DefaultQueryDialect;
@@ -79,14 +67,12 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
+		/// Initializes a new instance of the <see cref="WMIWatcher" /> class.
 		/// </summary>
-		public ManagementEventWatcher(string nameSpace, string queryDialect, string queryExpression)
+		public WMIWatcher(string nameSpace, string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
 				throw new ArgumentNullException(nameof(queryExpression));
-			}
 
 			_nameSpace = nameSpace ?? DefaultNameSpace;
 			_queryDialect = queryDialect ?? DefaultQueryDialect;
@@ -96,14 +82,12 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
+		/// Initializes a new instance of the <see cref="WMIWatcher" /> class.
 		/// </summary>
-		public ManagementEventWatcher(string computerName, string nameSpace, string queryDialect, string queryExpression)
+		public WMIWatcher(string computerName, string nameSpace, string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
 				throw new ArgumentNullException(nameof(queryExpression));
-			}
 
 			_computerName = computerName;
 			_nameSpace = nameSpace ?? DefaultNameSpace;
@@ -112,6 +96,8 @@ namespace Files.App.Helpers
 
 			Initialize();
 		}
+
+		// Methods
 
 		public void Initialize()
 		{
@@ -150,14 +136,11 @@ namespace Files.App.Helpers
 			lock (_myLock)
 			{
 				if (_isDisposed)
-				{
-					throw new ObjectDisposedException(nameof(ManagementEventWatcher));
-				}
+					throw new ObjectDisposedException(nameof(WMIWatcher));
 
-				if (_cimWatcherStatus != CimWatcherStatus.Default && _cimWatcherStatus != CimWatcherStatus.Stopped)
-				{
+				if (_cimWatcherStatus != CimWatcherStatus.Default &&
+					_cimWatcherStatus != CimWatcherStatus.Stopped)
 					return;
-				}
 
 				_subscription = _cimObservable.Subscribe(this);
 
@@ -170,14 +153,10 @@ namespace Files.App.Helpers
 			lock (_myLock)
 			{
 				if (_isDisposed)
-				{
-					throw new ObjectDisposedException(nameof(ManagementEventWatcher));
-				}
+					throw new ObjectDisposedException(nameof(WMIWatcher));
 
 				if (_cimWatcherStatus != CimWatcherStatus.Started)
-				{
 					return;
-				}
 
 				_subscription?.Dispose();
 
@@ -198,6 +177,8 @@ namespace Files.App.Helpers
 				_isDisposed = true;
 			}
 		}
+
+		// Disposer
 
 		public void Dispose()
 		{

@@ -166,9 +166,9 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
+		public Task<IWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
 		{
-			return Task.FromResult<IFolderWatcher>(new NativeFolderWatcher(this));
+			return Task.FromResult<IWatcher>(new NativeFolderWatcher(this));
 		}
 	}
 }

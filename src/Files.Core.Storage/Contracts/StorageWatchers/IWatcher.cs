@@ -1,18 +1,21 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Specialized;
-
 namespace Files.Core.Storage
 {
 	/// <summary>
 	/// A disposable object which can notify of changes to the folder.
 	/// </summary>
-	public interface IFolderWatcher : INotifyCollectionChanged, IDisposable, IAsyncDisposable
+	public interface IWatcher : IDisposable, IAsyncDisposable
 	{
 		/// <summary>
-		/// The folder being watched for changes.
+		/// Starts the watcher
 		/// </summary>
-		public IMutableFolder Folder { get; }
+		void StartWatcher();
+
+		/// <summary>
+		/// Stops the watcher
+		/// </summary>
+		void StopsWatcher();
 	}
 }

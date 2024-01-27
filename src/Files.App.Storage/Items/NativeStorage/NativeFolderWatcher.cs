@@ -2,18 +2,23 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Specialized;
-using System.IO;
 
 namespace Files.App.Storage
 {
-	/// <inheritdoc cref="IFolderWatcher"/>
-	public sealed class NativeFolderWatcher : IFolderWatcher
+	/// <inheritdoc cref="IWatcher"/>
+	public sealed class NativeFolderWatcher : IWatcher
 	{
-		private FileSystemWatcher? _fileSystemWatcher;
-		private NotifyCollectionChangedEventHandler? _collectionChanged;
+		private SystemIO.FileSystemWatcher? _fileSystemWatcher;
 
-		public IMutableFolder Folder { get; }
+		public IMutableFolder TargetFolder { get; }
 
+		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemAdded;
+		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemDeleted;
+		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemChanged;
+		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemRenamed;
+		public event EventHandler<SystemIO.FileSystemEventArgs>? RefreshRequested;
+
+		private NotifyCollectionChangedEventHandler? _CollectionChanged;
 		/// <inheritdoc/>
 		public event NotifyCollectionChangedEventHandler? CollectionChanged
 		{
@@ -22,47 +27,65 @@ namespace Files.App.Storage
 				if (_fileSystemWatcher is not null)
 					_fileSystemWatcher.EnableRaisingEvents = true;
 
-				_collectionChanged += value;
+				_CollectionChanged += value;
 			}
 			remove
 			{
 				if (_fileSystemWatcher is not null)
 					_fileSystemWatcher.EnableRaisingEvents = false;
 
-				_collectionChanged -= value;
+				_CollectionChanged -= value;
 			}
 		}
 
 		public NativeFolderWatcher(IMutableFolder folder)
 		{
-			Folder = folder;
-			SetupWatcher();
+			TargetFolder = folder;
+			StartWatcher();
 		}
 
-		private void SetupWatcher()
+		/// <inheritdoc/>
+		public void StartWatcher()
 		{
-			if (Folder is ILocatableFolder locatableFolder)
+			if (TargetFolder is ILocatableFolder locatableFolder)
 			{
 				_fileSystemWatcher = new(locatableFolder.Path);
-				_fileSystemWatcher.Created += FileSystemWatcher_Created;
-				_fileSystemWatcher.Deleted += FileSystemWatcher_Deleted;
-				_fileSystemWatcher.Renamed += FileSystemWatcher_Renamed;
+				_fileSystemWatcher.Created += FileSystemWatcher_Changed;
+				_fileSystemWatcher.Deleted += FileSystemWatcher_Changed;
+				_fileSystemWatcher.Renamed += FileSystemWatcher_Changed;
 			}
 		}
 
-		private void FileSystemWatcher_Renamed(object sender, RenamedEventArgs e)
+		/// <inheritdoc/>
+		public void StopsWatcher()
 		{
-			_collectionChanged?.Invoke(this, new(NotifyCollectionChangedAction.Replace, e.FullPath, e.OldFullPath));
+			if (_fileSystemWatcher is not null)
+			{
+				_fileSystemWatcher.EnableRaisingEvents = false;
+				_fileSystemWatcher.Created -= FileSystemWatcher_Changed;
+				_fileSystemWatcher.Deleted -= FileSystemWatcher_Changed;
+				_fileSystemWatcher.Renamed -= FileSystemWatcher_Changed;
+				_fileSystemWatcher.Dispose();
+			}
 		}
 
-		private void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
+		private void FileSystemWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
 		{
-			_collectionChanged?.Invoke(this, new(NotifyCollectionChangedAction.Remove, e.FullPath));
-		}
-
-		private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
-		{
-			_collectionChanged?.Invoke(this, new(NotifyCollectionChangedAction.Add, e.FullPath));
+			switch (e.ChangeType)
+			{
+				case SystemIO.WatcherChangeTypes.Created:
+					ItemAdded?.Invoke(this, e);
+					break;
+				case SystemIO.WatcherChangeTypes.Deleted:
+					ItemDeleted?.Invoke(this, e);
+					break;
+				case SystemIO.WatcherChangeTypes.Renamed:
+					ItemRenamed?.Invoke(this, e);
+					break;
+				default:
+					RefreshRequested?.Invoke(this, e);
+					break;
+			}
 		}
 
 		/// <inheritdoc/>
@@ -75,14 +98,7 @@ namespace Files.App.Storage
 		/// <inheritdoc/>
 		public void Dispose()
 		{
-			if (_fileSystemWatcher is not null)
-			{
-				_fileSystemWatcher.EnableRaisingEvents = false;
-				_fileSystemWatcher.Created -= FileSystemWatcher_Created;
-				_fileSystemWatcher.Deleted -= FileSystemWatcher_Deleted;
-				_fileSystemWatcher.Renamed -= FileSystemWatcher_Renamed;
-				_fileSystemWatcher.Dispose();
-			}
+			StopsWatcher();
 		}
 	}
 }

@@ -9,7 +9,9 @@ namespace Files.App.Utils.Storage
 	{
 		private static readonly Lazy<DeviceManager> lazy = new(() => new DeviceManager());
 
-		private ManagementEventWatcher? insertWatcher, removeWatcher, modifyWatcher;
+		private ManagementEventWatcher? insertWatcher;
+		private ManagementEventWatcher? removeWatcher;
+		private ManagementEventWatcher? modifyWatcher;
 
 		public event EventHandler<DeviceEventArgs>? DeviceAdded;
 		public event EventHandler<DeviceEventArgs>? DeviceRemoved;
@@ -47,7 +49,7 @@ namespace Files.App.Utils.Storage
 			removeWatcher.Start();
 		}
 
-		private void DeviceModifiedEvent(object sender, EventArrivedEventArgs e)
+		private void DeviceModifiedEvent(object sender, WMIEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
@@ -65,7 +67,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
+		private void DeviceRemovedEvent(object sender, WMIEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
@@ -74,7 +76,7 @@ namespace Files.App.Utils.Storage
 			DeviceRemoved?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
 		}
 
-		private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
+		private void DeviceInsertedEvent(object sender, WMIEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
