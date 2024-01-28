@@ -55,7 +55,7 @@ namespace Files.App.Storage
 			_modifyWatcher = null;
 		}
 
-		private void WMI_DeviceModified(object sender, WMIEventArgs e)
+		private void WMI_DeviceModified(object sender, CimEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 
@@ -72,7 +72,7 @@ namespace Files.App.Storage
 				ItemEjected?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
 		}
 
-		private void WMI_DeviceRemoved(object sender, WMIEventArgs e)
+		private void WMI_DeviceRemoved(object sender, CimEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 
@@ -84,7 +84,7 @@ namespace Files.App.Storage
 			ItemDeleted?.Invoke(sender, new(deviceName, deviceId));
 		}
 
-		private void WMI_DeviceInserted(object sender, WMIEventArgs e)
+		private void WMI_DeviceInserted(object sender, CimEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 

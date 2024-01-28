@@ -296,7 +296,7 @@ namespace Files.App.Utils.Storage
 			{
 				var drivesViewModel = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
-				var drives = drivesViewModel.Drives.Cast<DriveItem>();
+				var drives = drivesViewModel.RemovableDrives.Cast<DriveItem>();
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
 				title = drive is not null ? drive.Text : string.Format("DriveWithLetter".GetLocalizedResource(), component);
 			}

@@ -125,8 +125,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <TrimmerRootAssembly Include="Files.App.BackgroundTasks" />
         <TrimmerRootAssembly Include="Files" />
+        <TrimmerRootAssembly Include="Files.App.BackgroundTasks" />
         <TrimmerRootAssembly Include="Files.App.Storage" />
         <TrimmerRootAssembly Include="Files.Core" />
         <TrimmerRootAssembly Include="Files.Core.Storage" />

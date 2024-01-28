@@ -16,7 +16,6 @@ namespace Files.App.Utils.Storage
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IRemovableDrivesService RemovableDrivesService { get; } = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
-
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		private const uint defaultStepSize = 500;
@@ -101,7 +100,7 @@ namespace Files.App.Utils.Storage
 			}
 			else
 			{
-				foreach (var drive in RemovableDrivesService.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
+				foreach (var drive in RemovableDrivesService.RemovableDrives.Cast<DriveItem>().Where(x => !x.IsNetwork))
 				{
 					await AddItemsAsync(drive.Path, results, token);
 				}

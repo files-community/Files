@@ -49,7 +49,7 @@ namespace Files.App.Utils.Storage
 			removeWatcher.Start();
 		}
 
-		private void DeviceModifiedEvent(object sender, WMIEventArgs e)
+		private void DeviceModifiedEvent(object sender, CimEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
@@ -67,7 +67,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private void DeviceRemovedEvent(object sender, WMIEventArgs e)
+		private void DeviceRemovedEvent(object sender, CimEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
@@ -76,7 +76,7 @@ namespace Files.App.Utils.Storage
 			DeviceRemoved?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
 		}
 
-		private void DeviceInsertedEvent(object sender, WMIEventArgs e)
+		private void DeviceInsertedEvent(object sender, CimEventArgs e)
 		{
 			CimInstance obj = (CimInstance)e.CimSubscriptionResult.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"].Value;

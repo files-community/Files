@@ -16,10 +16,10 @@ namespace Files.App.ViewModels
 		// Dependency injections
 
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
-		private NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private IRemovableDrivesService RemovableDrivesService { get; } = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
+		private INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
-		private IRemovableDrivesService RemovableDrivesService { get; } = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 		// Properties
 
@@ -188,8 +188,8 @@ namespace Files.App.ViewModels
 				ResourcesService.LoadAppResources(AppearanceSettingsService);
 
 				await Task.WhenAll(
-					RemovableDrivesService.UpdateDrivesAsync(),
-					NetworkDrivesViewModel.UpdateDrivesAsync());
+					RemovableDrivesService.RefreshRemovableDrivesAsync(),
+					NetworkDrivesService.RefreshNetworkDrivesAsync());
 			}
 		}
 

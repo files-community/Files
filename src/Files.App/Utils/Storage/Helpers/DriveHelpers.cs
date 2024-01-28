@@ -38,7 +38,7 @@ namespace Files.App.Utils.Storage
 
 			var drivesViewModel = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
-			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
+			var matchingDrive = drivesViewModel.RemovableDrives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
 			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
@@ -67,7 +67,7 @@ namespace Files.App.Utils.Storage
 			{
 				// Check among already discovered drives
 				StorageFolder matchingDrive =
-					drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+					drivesViewModel.RemovableDrives.Cast<DriveItem>().FirstOrDefault(x =>
 						PathNormalization.NormalizePath(x.Path) == PathNormalization.NormalizePath(rootPath))?.Root;
 
 				if (matchingDrive is null)

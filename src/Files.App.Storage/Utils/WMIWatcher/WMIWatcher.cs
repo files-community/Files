@@ -8,7 +8,7 @@ namespace Files.App.Storage
 {
 	public class WMIWatcher : IDisposable, IObserver<CimSubscriptionResult>
 	{
-		public delegate void WMIEventHandler(object sender, WMIEventArgs e);
+		public delegate void WMIEventHandler(object sender, CimEventArgs e);
 
 		// Events
 
@@ -19,16 +19,16 @@ namespace Files.App.Storage
 		internal static readonly string DefaultNameSpace = @"root\cimv2";
 		internal static readonly string DefaultQueryDialect = "WQL";
 
-		private readonly string _computerName;
-		private readonly string _nameSpace;
-		private readonly string _queryDialect;
-		private readonly string _queryExpression;
+		private readonly string? _computerName;
+		private readonly string? _nameSpace;
+		private readonly string? _queryDialect;
+		private readonly string? _queryExpression;
 
-		private object _myLock;
+		private object? _myLock;
 		private CimWatcherStatus _cimWatcherStatus;
-		private CimSession _cimSession;
-		private CimAsyncMultipleResults<CimSubscriptionResult> _cimObservable;
-		private IDisposable _subscription;
+		private CimSession? _cimSession;
+		private CimAsyncMultipleResults<CimSubscriptionResult>? _cimObservable;
+		private IDisposable? _subscription;
 
 		private bool _isDisposed;
 
@@ -111,7 +111,7 @@ namespace Files.App.Storage
 				.SubscribeAsync(_nameSpace, _queryDialect, _queryExpression);
 		}
 
-		private void OnEventArrived(WMIEventArgs cimWatcherEventArgs)
+		private void OnEventArrived(CimEventArgs cimWatcherEventArgs)
 		{
 			Volatile
 				.Read(ref EventArrived)
@@ -128,7 +128,7 @@ namespace Files.App.Storage
 
 		public void OnNext(CimSubscriptionResult cimSubscriptionResult)
 		{
-			OnEventArrived(new WMIEventArgs(cimSubscriptionResult));
+			OnEventArrived(new CimEventArgs(cimSubscriptionResult));
 		}
 
 		public void Start()

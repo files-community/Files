@@ -25,10 +25,10 @@ namespace Files.App.Services
 
 		private ObservableCollection<ILocatableFolder> _Drives = [];
 		/// <inheritdoc/>
-		public ObservableCollection<ILocatableFolder> Drives
+		public ObservableCollection<ILocatableFolder> RemovableDrives
 		{
 			get => _Drives;
-			private set => NotifyPropertyChanged(nameof(Drives));
+			private set => NotifyPropertyChanged(nameof(RemovableDrives));
 		}
 
 		private bool _ShowUserConsentOnInit;
@@ -54,17 +54,17 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task UpdateDrivesAsync()
+		public async Task RefreshRemovableDrivesAsync()
 		{
-			Drives.Clear();
+			RemovableDrives.Clear();
 
 			await foreach (ILocatableFolder item in GetDrivesAsync())
-				Drives.AddIfNotPresent(item);
+				RemovableDrives.AddIfNotPresent(item);
 
 			var osDrive = await GetPrimaryDriveAsync();
 
 			// Show consent dialog if the OS drive could not be accessed
-			if (!Drives.Any(x => Path.GetFullPath(x.Path) == Path.GetFullPath(osDrive.Path)))
+			if (!RemovableDrives.Any(x => Path.GetFullPath(x.Path) == Path.GetFullPath(osDrive.Path)))
 				ShowUserConsentOnInit = true;
 
 			if (_watcher?.CanBeStarted ?? false)
@@ -140,18 +140,18 @@ namespace Files.App.Services
 
 		private async void Watcher_DeviceModified(object? sender, string e)
 		{
-			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(e));
+			var matchingDriveEjected = RemovableDrives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(e));
 			if (matchingDriveEjected != null)
 				await UpdateDrivePropertiesAsync(matchingDriveEjected);
 		}
 
 		private void Watcher_DeviceRemoved(object? sender, string e)
 		{
-			lock (Drives)
+			lock (RemovableDrives)
 			{
-				var drive = Drives.FirstOrDefault(x => x.Id == e);
+				var drive = RemovableDrives.FirstOrDefault(x => x.Id == e);
 				if (drive is not null)
-					Drives.Remove(drive);
+					RemovableDrives.Remove(drive);
 			}
 
 			// Update the collection on the ui-thread.
@@ -160,10 +160,10 @@ namespace Files.App.Services
 
 		private void Watcher_DeviceAdded(object? sender, ILocatableFolder e)
 		{
-			lock (Drives)
+			lock (RemovableDrives)
 			{
 				// If drive already in list, remove it first.
-				var matchingDrive = Drives.FirstOrDefault(x =>
+				var matchingDrive = RemovableDrives.FirstOrDefault(x =>
 					x.Id == e.Id ||
 					string.IsNullOrEmpty(e.Path)
 						? x.Path.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
@@ -171,9 +171,9 @@ namespace Files.App.Services
 				);
 
 				if (matchingDrive is not null)
-					Drives.Remove(matchingDrive);
+					RemovableDrives.Remove(matchingDrive);
 
-				Drives.Add(e);
+				RemovableDrives.Add(e);
 			}
 
 			Watcher_EnumerationCompleted(null, EventArgs.Empty);

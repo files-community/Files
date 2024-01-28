@@ -50,10 +50,8 @@ namespace Files.App.UserControls.Widgets
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-
+		private INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 		private IRemovableDrivesService drivesViewModel = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
-
-		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
@@ -113,7 +111,7 @@ namespace Files.App.UserControls.Widgets
 
 			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			drivesViewModel.RemovableDrives.CollectionChanged += Drives_CollectionChanged;
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDeviceAsync);
@@ -131,7 +129,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
+				foreach (DriveItem drive in drivesViewModel.RemovableDrives.ToList())
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
@@ -143,7 +141,7 @@ namespace Files.App.UserControls.Widgets
 
 				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
 				{
-					if (!drivesViewModel.Drives.Contains(driveCard.Item))
+					if (!drivesViewModel.RemovableDrives.Contains(driveCard.Item))
 						ItemsAdded.Remove(driveCard);
 				}
 			});
@@ -262,7 +260,7 @@ namespace Files.App.UserControls.Widgets
 
 		private Task DoNetworkMapDriveAsync()
 		{
-			return networkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
+			return NetworkDrivesService.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -354,7 +352,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void DisconnectNetworkDrive(DriveCardItem item)
 		{
-			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
+			NetworkDrivesService.DisconnectNetworkDrive(item.Item);
 		}
 
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)

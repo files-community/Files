@@ -6,7 +6,7 @@ using Microsoft.Management.Infrastructure.Generic;
 
 namespace Files.App.Helpers
 {
-	public delegate void EventArrivedEventHandler(object sender, WMIEventArgs e);
+	public delegate void EventArrivedEventHandler(object sender, CimEventArgs e);
 
 	/// <summary>
 	/// A public class used to start/stop the subscription to specific indication source,
@@ -125,7 +125,7 @@ namespace Files.App.Helpers
 				.SubscribeAsync(_nameSpace, _queryDialect, _queryExpression);
 		}
 
-		private void OnEventArrived(WMIEventArgs cimWatcherEventArgs)
+		private void OnEventArrived(CimEventArgs cimWatcherEventArgs)
 		{
 			Volatile
 				.Read(ref EventArrived)
@@ -142,7 +142,7 @@ namespace Files.App.Helpers
 
 		public void OnNext(CimSubscriptionResult cimSubscriptionResult)
 		{
-			OnEventArrived(new WMIEventArgs(cimSubscriptionResult));
+			OnEventArrived(new CimEventArgs(cimSubscriptionResult));
 		}
 
 		public void Start()

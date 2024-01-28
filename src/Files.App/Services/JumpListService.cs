@@ -113,7 +113,7 @@ namespace Files.App.Services
 					var drivesViewModel = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
-					var drive = drivesViewModel.Drives.Where(drive => drive.Path == path).FirstOrDefault();
+					var drive = drivesViewModel.RemovableDrives.Where(drive => drive.Path == path).FirstOrDefault();
 					if (drive is null)
 						return;
 

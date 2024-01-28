@@ -24,6 +24,7 @@ namespace Files.App.Helpers
 			{
 				RequestedOperation = DataPackageOperation.Move
 			};
+
 			ConcurrentBag<IStorageItem> items = new();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -38,6 +39,7 @@ namespace Files.App.Helpers
 				try
 				{
 					var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
 					if (banner is not null)
 					{
 						banner.Progress.EnumerationCompleted = true;
@@ -53,7 +55,6 @@ namespace Files.App.Helpers
 							banner.Progress.Report();
 						}
 
-						// FTP don't support cut, fallback to copy
 						if (listedItem is not FtpItem)
 						{
 							_ = dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
@@ -62,6 +63,8 @@ namespace Files.App.Helpers
 								listedItem.Opacity = Constants.UI.DimItemOpacity;
 							});
 						}
+
+						// FTP don't support cut, fallback to copy
 						if (listedItem is FtpItem ftpItem)
 						{
 							if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)

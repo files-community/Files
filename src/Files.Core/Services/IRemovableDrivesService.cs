@@ -12,7 +12,7 @@ namespace Files.Core.Services
 		/// <summary>
 		/// Gets a list of drives.
 		/// </summary>
-		ObservableCollection<ILocatableFolder> Drives { get; }
+		ObservableCollection<ILocatableFolder> RemovableDrives { get; }
 
 		/// <summary>
 		/// Gets the value that indicates whether the app should show confirmation dialog on initialization.
@@ -48,6 +48,6 @@ namespace Files.Core.Services
 		/// Refreshes the list of drives.
 		/// </summary>
 		/// <returns></returns>
-		Task UpdateDrivesAsync();
+		Task RefreshRemovableDrivesAsync();
 	}
 }
