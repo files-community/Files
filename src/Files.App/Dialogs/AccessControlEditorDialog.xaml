@@ -45,7 +45,7 @@
 					<TextBlock
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
-						Text="Principal:" />
+						Text="{helpers:ResourceString Name=PrincipalWithColon}" />
 					<TextBlock IsTextSelectionEnabled="True" Style="{StaticResource BodyTextBlockStyle}">
 						<Run Text="{x:Bind ModifiableModel.Principal.DisplayName, Mode=OneWay}" />
 						<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind ModifiableModel.Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
@@ -60,7 +60,7 @@
 					<TextBlock
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
-						Text="Access Type:" />
+						Text="{helpers:ResourceString Name=AccessTypeWithColon}" />
 					<ComboBox
 						x:Name="AccessControlTypeComboBox"
 						MinWidth="256"
@@ -78,7 +78,7 @@
 					<TextBlock
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
-						Text="Applies to:" />
+						Text="{helpers:ResourceString Name=AppliesToWithColon}" />
 					<ComboBox
 						x:Name="AccessInheritanceAppliesToTypeComboBox"
 						MinWidth="256"
@@ -95,7 +95,7 @@
 							VerticalAlignment="Top"
 							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 							Style="{StaticResource CaptionTextBlockStyle}"
-							Text="Permissions:" />
+							Text="{helpers:ResourceString Name=PermissionsWithColon}" />
 						<HyperlinkButton
 							x:Name="BasicAdvancedToggleSwitch"
 							Padding="0"
@@ -112,38 +112,38 @@
 							Visibility="{x:Bind ModifiableModel.ShowAdvancedPermissions, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
 							<CheckBox
 								x:Name="BasicPermissionFullControlCheckBox"
-								Content="Full control"
+								Content="{helpers:ResourceString Name=FullControl}"
 								IsChecked="{x:Bind ModifiableModel.FullControlAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="BasicPermissionModifyCheckBox"
-								Content="Modify"
+								Content="{helpers:ResourceString Name=Modify}"
 								IsChecked="{x:Bind ModifiableModel.BasicModifyAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="BasicPermissionReadAndExecuteCheckBox"
-								Content="Read &amp; Execute"
+								Content="{helpers:ResourceString Name=ReadAndExecute}"
 								IsChecked="{x:Bind ModifiableModel.BasicReadAndExecuteAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="BasicPermissionListFolderContentsCheckBox"
 								x:Load="{x:Bind ModifiableModel.IsFolder, Mode=OneWay}"
-								Content="List folder contents"
+								Content="{helpers:ResourceString Name=ListFolderContents}"
 								IsChecked="{x:Bind ModifiableModel.BasicReadAndExecuteAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="BasicPermissionReadCheckBox"
-								Content="Read"
+								Content="{helpers:ResourceString Name=Read}"
 								IsChecked="{x:Bind ModifiableModel.BasicReadAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="BasicPermissionWriteCheckBox"
-								Content="Write"
+								Content="{helpers:ResourceString Name=Write}"
 								IsChecked="{x:Bind ModifiableModel.BasicWriteAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="BasicPermissionSpecialCheckBox"
-								Content="Special permissions"
+								Content="{helpers:ResourceString Name=SpecialPermissions}"
 								IsChecked="{x:Bind ModifiableModel.BasicSpecialPermissionsAccessControl, Mode=OneWay}"
 								IsEnabled="False" />
 						</StackPanel>
@@ -154,73 +154,73 @@
 							Visibility="{x:Bind ModifiableModel.ShowAdvancedPermissions, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 							<CheckBox
 								x:Name="AdvancedPermissionFullControlAccessCheckBox"
-								Content="Full control"
+								Content="{helpers:ResourceString Name=FullControl}"
 								IsChecked="{x:Bind ModifiableModel.FullControlAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionTraverseAccessCheckBox"
-								Content="Traverse folder / execute file"
+								Content="{helpers:ResourceString Name=TraverseFolderOrExecuteFile}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedTraverseAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionReadDataAccessCheckBox"
-								Content="List folder / read data"
+								Content="{helpers:ResourceString Name=ListFolderOrReadData}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedReadDataAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionReadAttributesAccessCheckBox"
-								Content="Read attributes"
+								Content="{helpers:ResourceString Name=ReadAttributes}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedReadAttributesAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionReadExtendedAttributesAccessCheckBox"
-								Content="Read extended attributes"
+								Content="{helpers:ResourceString Name=ReadExtendedAttributes}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedReadExtendedAttributesAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionWriteDataAccessCheckBox"
-								Content="Create files / write data"
+								Content="{helpers:ResourceString Name=CreateFilesOrWriteData}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedWriteDataAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionAppendDataAccessCheckBox"
-								Content="Create folders / append data"
+								Content="{helpers:ResourceString Name=CreateFoldersOrAppendData}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedAppendDataAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionWriteAttributesAccessCheckBox"
-								Content="Write attributes"
+								Content="{helpers:ResourceString Name=WriteAttributes}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedWriteAttributesAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionWriteExtendedAttributesAccessCheckBox"
-								Content="Write extended attributes"
+								Content="{helpers:ResourceString Name=WriteExtendedAttributes}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedWriteExtendedAttributesAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionDeleteSubfoldersAndFilesAccessCheckBox"
-								Content="Delete subfolders and files"
+								Content="{helpers:ResourceString Name=DeleteSubfoldersAndFiles}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedDeleteSubfoldersAndFilesAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Visibility="{x:Bind ModifiableModel.IsFolder, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionDeleteAccessCheckBox"
-								Content="Delete"
+								Content="{helpers:ResourceString Name=Delete}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedDeleteAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionReadPermissionsAccessCheckBox"
-								Content="Read permissions"
+								Content="{helpers:ResourceString Name=ReadPermissions}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedReadPermissionsAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionChangePermissionsAccessCheckBox"
-								Content="Change permissions"
+								Content="{helpers:ResourceString Name=ChangePermissions}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedChangePermissionsAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionTakeOwnershipAccessCheckBox"
-								Content="Take ownership"
+								Content="{helpers:ResourceString Name=TakeOwnership}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedTakeOwnershipAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 						</StackPanel>

@@ -3686,4 +3686,79 @@
   <data name="NewWindowDescription" xml:space="preserve">
     <value>Open new window</value>
   </data>
+  <data name="AccessTypeWithColon" xml:space="preserve">
+    <value>Access type:</value>
+  </data>
+  <data name="AddPermission" xml:space="preserve">
+    <value>Add permission</value>
+  </data>
+  <data name="AppliesToWithColon" xml:space="preserve">
+    <value>Applies to:</value>
+  </data>
+  <data name="ChangePermissions" xml:space="preserve">
+    <value>Change permissions</value>
+  </data>
+  <data name="CreateFilesOrWriteData" xml:space="preserve">
+    <value>Create files / write data</value>
+  </data>
+  <data name="CreateFoldersOrAppendData" xml:space="preserve">
+    <value>Create folders / append data</value>
+  </data>
+  <data name="DeleteSubfoldersAndFiles" xml:space="preserve">
+    <value>Delete subfolders and files</value>
+  </data>
+  <data name="EditPermission" xml:space="preserve">
+    <value>Edit permission</value>
+  </data>
+  <data name="FullControl" xml:space="preserve">
+    <value>Full control</value>
+  </data>
+  <data name="ListFolderContents" xml:space="preserve">
+    <value>List folder contents</value>
+  </data>
+  <data name="ListFolderOrReadData" xml:space="preserve">
+    <value>List folder / read data</value>
+  </data>
+  <data name="PermissionsWithColon" xml:space="preserve">
+    <value>Permissions:</value>
+  </data>
+  <data name="PrincipalWithColon" xml:space="preserve">
+    <value>Principal:</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="ReadAndExecute" xml:space="preserve">
+    <value>Read &amp;amp; Execute</value>
+  </data>
+  <data name="ReadAttributes" xml:space="preserve">
+    <value>Read attributes</value>
+  </data>
+  <data name="ReadExtendedAttributes" xml:space="preserve">
+    <value>Read extended attributes</value>
+  </data>
+  <data name="ReadPermissions" xml:space="preserve">
+    <value>Read permissions</value>
+  </data>
+  <data name="ShowAdvancedPermissions" xml:space="preserve">
+    <value>Show advanced permissions</value>
+  </data>
+  <data name="ShowBasicPermissions" xml:space="preserve">
+    <value>Show basic permissions</value>
+  </data>
+  <data name="SpecialPermissions" xml:space="preserve">
+    <value>Special permissions</value>
+  </data>
+  <data name="TakeOwnership" xml:space="preserve">
+    <value>Take ownership</value>
+  </data>
+  <data name="TraverseFolderOrExecuteFile" xml:space="preserve">
+    <value>Traverse folder / execute file</value>
+  </data>
+  <data name="WriteAttributes" xml:space="preserve">
+    <value>Write attributes</value>
+  </data>
+  <data name="WriteExtendedAttributes" xml:space="preserve">
+    <value>Write extended attributes</value>
+  </data>
 </root>

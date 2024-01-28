@@ -56,19 +56,19 @@ namespace Files.App.Utils.Storage
 					accessMaskStrings.Add("None".GetLocalizedResource());
 
 				if (FullControlAccess)
-					accessMaskStrings.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add("FullControl".GetLocalizedResource());
 				else if (ModifyAccess)
 					accessMaskStrings.Add("Modify".GetLocalizedResource());
 				else if (ReadAndExecuteAccess)
-					accessMaskStrings.Add("SecurityReadAndExecuteLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add("ReadAndExecute".GetLocalizedResource());
 				else if (ReadAccess)
-					accessMaskStrings.Add("SecurityReadLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add("Read".GetLocalizedResource());
 
 				if (!FullControlAccess && !ModifyAccess && WriteAccess)
 					accessMaskStrings.Add("Write".GetLocalizedResource());
 
 				if (SpecialAccess)
-					accessMaskStrings.Add("SecuritySpecialLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add("SpecialPermissions".GetLocalizedResource());
 
 				return string.Join(", ", accessMaskStrings);
 			}

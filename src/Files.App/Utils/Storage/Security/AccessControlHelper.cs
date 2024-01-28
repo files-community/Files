@@ -12,7 +12,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Represents a helper for file security information.
 	/// </summary>
-	public static class AccessControlHelpers
+	public static class AccessControlHelper
 	{
 		/// <summary>
 		/// Get the owner of the object specified by the path.

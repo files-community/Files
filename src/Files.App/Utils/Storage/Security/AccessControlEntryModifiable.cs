@@ -208,9 +208,9 @@ namespace Files.App.Utils.Storage.Security
 			AccessMaskFlags = item.AccessMaskFlags;
 			AccessControlEntryFlags = item.AccessControlEntryFlags;
 
-			DialogTitle = isNew ? "Add permission" : "Edit permission";
+			DialogTitle = isNew ? "AddPermission".GetLocalizedResource() : "EditPermission".GetLocalizedResource();
 			ShowAdvancedPermissions = false;
-			PermissionsVisibilityToggleLinkButtonContent = "Show advanced permissions";
+			PermissionsVisibilityToggleLinkButtonContent = "ShowAdvancedPermissions".GetLocalizedResource();
 			TogglePermissionsVisibilityCommand = new RelayCommand(ExecuteTogglePermissionsVisibility);
 
 			PossibleAccessControlTypes = new List<AccessControlEntryType>()
@@ -247,8 +247,8 @@ namespace Files.App.Utils.Storage.Security
 			ShowAdvancedPermissions = !ShowAdvancedPermissions;
 			PermissionsVisibilityToggleLinkButtonContent =
 				ShowAdvancedPermissions
-					? "Show basic permissions"
-					: "Show advanced permissions";
+					? "ShowBasicPermissions".GetLocalizedResource()
+					: "ShowAdvancedPermissions".GetLocalizedResource();
 		}
 
 		private void UpdateAccessControl(AccessMaskFlags mask, bool value)
@@ -283,7 +283,7 @@ namespace Files.App.Utils.Storage.Security
 
 		public bool SaveChanges()
 		{
-			AccessControlHelpers.UpdateAccessControlEntry(Path, this);
+			AccessControlHelper.UpdateAccessControlEntry(Path, this);
 
 			return false;
 		}
