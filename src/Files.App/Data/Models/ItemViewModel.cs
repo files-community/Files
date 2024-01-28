@@ -676,12 +676,14 @@ namespace Files.App.Data.Models
 				// run safely without needs of dispatching to UI thread
 				void ApplyChanges()
 				{
+					if (addFilesCTS.IsCancellationRequested)
+						return;
+
 					FilesAndFolders.Clear();
 					FilesAndFolders.AddRange(filesAndFoldersLocal);
 
 					if (folderSettings.DirectoryGroupOption != GroupOption.None)
 						OrderGroups();
-
 				}
 
 				void UpdateUI()
