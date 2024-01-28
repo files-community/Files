@@ -18,7 +18,8 @@ namespace Files.App.Utils.Storage
 {
 	public sealed class FilesystemHelpers : IFilesystemHelpers
 	{
-		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private static StatusCenterViewModel _statusCenterViewModel { get; } = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private static ITrashService RecycleBinService { get; } = Ioc.Default.GetRequiredService<ITrashService>();
 
 		private IShellPage associatedInstance;
 		private readonly IJumpListService jumpListService;
@@ -88,8 +89,8 @@ namespace Files.App.Utils.Storage
 
 			var returnStatus = ReturnResult.InProgress;
 
-			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => RecycleBinHelpers.IsPathUnderRecycleBin(path));
-			var canBeSentToBin = !deleteFromRecycleBin && await RecycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
+			var deleteFromRecycleBin = source.Select(item => item.Path).Any(RecycleBinService.IsTrashed);
+			var canBeSentToBin = !deleteFromRecycleBin && await RecycleBinService.CanBeTrashed(source.FirstOrDefault()?.Path);
 
 			if (showDialog is DeleteConfirmationPolicies.Always ||
 				showDialog is DeleteConfirmationPolicies.PermanentOnly &&
@@ -100,9 +101,9 @@ namespace Files.App.Utils.Storage
 
 				foreach (var src in source)
 				{
-					if (RecycleBinHelpers.IsPathUnderRecycleBin(src.Path))
+					if (RecycleBinService.IsTrashed(src.Path))
 					{
-						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await RecycleBinService.GetAllItemsAsync();
 
 						// Might still be null because we're deserializing the list from Json
 						if (!binItems.IsEmpty())
@@ -363,11 +364,13 @@ namespace Files.App.Utils.Storage
 
 				var destinations = new List<string>();
 				List<ShellFileItem>? binItems = null;
+
 				foreach (var item in source)
 				{
-					if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+					if (RecycleBinService.IsTrashed(item.Path))
 					{
-						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await RecycleBinService.GetAllItemsAsync();
+
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -511,11 +514,13 @@ namespace Files.App.Utils.Storage
 
 			var destinations = new List<string>();
 			List<ShellFileItem>? binItems = null;
+
 			foreach (var item in source)
 			{
-				if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+				if (RecycleBinService.IsTrashed(item.Path))
 				{
-					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
+					binItems ??= await RecycleBinService.GetAllItemsAsync();
+
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 					{
 						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -639,7 +644,7 @@ namespace Files.App.Utils.Storage
 			var source = await GetDraggedStorageItems(packageView);
 			ReturnResult returnStatus = ReturnResult.InProgress;
 
-			source = source.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.Path)); // Can't recycle items already in recyclebin
+			source = source.Where(x => !RecycleBinService.IsTrashed(x.Path)); // Can't recycle items already in recycle bin
 			returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
 
 			return returnStatus;

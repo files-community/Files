@@ -1,6 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Controls;
+using Windows.Storage;
+
 namespace Files.App.Actions
 {
 	internal class RestoreRecycleBinAction : BaseUIAction, IAction
@@ -30,8 +33,42 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage is not null)
-				await RecycleBinHelpers.RestoreSelectionRecycleBinAsync(context.ShellPage);
+			if (context.ShellPage is null)
+				return;
+
+			var selectedItems = context.ShellPage.SlimContentPage.SelectedItems;
+			if (selectedItems == null)
+				return;
+
+			var confirmEmptyBinDialog = new ContentDialog()
+			{
+				Title = "ConfirmRestoreSelectionBinDialogTitle".GetLocalizedResource(),
+
+				Content = string.Format("ConfirmRestoreSelectionBinDialogContent".GetLocalizedResource(), selectedItems.Count),
+				PrimaryButtonText = "Yes".GetLocalizedResource(),
+				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				DefaultButton = ContentDialogButton.Primary,
+				XamlRoot = MainWindow.Instance.Content.XamlRoot
+			};
+
+			ContentDialogResult result = await confirmEmptyBinDialog.TryShowAsync();
+
+			if (result == ContentDialogResult.Primary)
+			{
+				var selected = context.ShellPage.SlimContentPage.SelectedItems;
+				if (selected == null)
+					return;
+
+				var items = selected.ToList().Where(x => x is RecycleBinItem).Select((item) => new
+				{
+					Source = StorageHelpers.FromPathAndType(
+						item.ItemPath,
+						item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
+					Dest = ((RecycleBinItem)item).ItemOriginalPath
+				});
+
+				await context.ShellPage.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+			}
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

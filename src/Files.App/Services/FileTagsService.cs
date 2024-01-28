@@ -10,8 +10,8 @@ namespace Files.App.Services
 	internal sealed class FileTagsService : IFileTagsService
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
-
 		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private ITrashService RecycleBinService { get; } = Ioc.Default.GetRequiredService<ITrashService>();
 
 		/// <inheritdoc/>
 		public Task<bool> IsSupportedAsync()
@@ -40,7 +40,7 @@ namespace Files.App.Services
 		{
 			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
 			{
-				if (!item.Tags.Contains(tagUid) || RecycleBinHelpers.IsPathUnderRecycleBin(item.FilePath))
+				if (!item.Tags.Contains(tagUid) || RecycleBinService.IsTrashed(item.FilePath))
 					continue;
 
 				var storable = await StorageService.TryGetStorableAsync(item.FilePath, cancellationToken);

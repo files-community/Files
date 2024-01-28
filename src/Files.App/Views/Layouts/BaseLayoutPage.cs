@@ -39,6 +39,7 @@ namespace Files.App.Views.Layouts
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+		public ITrashService RecycleBinService { get; } = Ioc.Default.GetRequiredService<ITrashService>();
 
 		// ViewModels
 
@@ -1252,7 +1253,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			UninitializeDrag(container);
-			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath))
+			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinService.IsTrashed(item.ItemPath))
 				|| item.IsExecutable
 				|| item.IsPythonFile)
 			{

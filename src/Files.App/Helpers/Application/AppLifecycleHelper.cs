@@ -151,6 +151,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IJumpListService, JumpListService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<ITrashService, RecycleBinService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()

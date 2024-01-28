@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Files.App.Data.Items
 {
-	public class LocationItem : ObservableObject, INavigationControlItem
+	public class LocationItem : ObservableObject, INavigationControlItem, ILocatableStorable
 	{
 		public BitmapImage icon;
 		public BitmapImage Icon
@@ -112,6 +112,10 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		public string Id { get; set; } = string.Empty;
+
+		public string Name { get; set; } = string.Empty;
+
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 
@@ -123,11 +127,13 @@ namespace Files.App.Data.Items
 
 	public class RecycleBinLocationItem : LocationItem
 	{
+		private ITrashService RecycleBinService = Ioc.Default.GetRequiredService<ITrashService>();
+
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				SpaceUsed = RecycleBinHelpers.GetSize();
+				SpaceUsed = RecycleBinService.GetTrashSize();
 			});
 		}
 
@@ -149,10 +155,10 @@ namespace Files.App.Data.Items
 
 		public RecycleBinLocationItem()
 		{
-			SpaceUsed = RecycleBinHelpers.GetSize();
+			SpaceUsed = RecycleBinService.GetTrashSize();
 
-			RecycleBinManager.Default.RecycleBinItemCreated += RefreshSpaceUsed;
-			RecycleBinManager.Default.RecycleBinItemDeleted += RefreshSpaceUsed;
+			RecycleBinService.Watcher.ItemAdded += RefreshSpaceUsed;
+			RecycleBinService.Watcher.ItemDeleted += RefreshSpaceUsed;
 		}
 	}
 }

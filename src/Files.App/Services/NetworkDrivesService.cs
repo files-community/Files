@@ -45,7 +45,6 @@ namespace Files.App.Services
 			lock (_NetworkDrives)
 				_NetworkDrives.Add(networkItem);
 		}
-		// Methods
 
 		/// <inheritdoc/>
 		public bool DisconnectNetworkDrive(ILocatableFolder drive)
@@ -192,8 +191,6 @@ namespace Files.App.Services
 			foreach (ILocatableFolder item in orderedDrives)
 				NetworkDrives.AddIfNotPresent(item);
 		}
-
-		// Event Methods
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{

@@ -6,12 +6,9 @@ using System.Security.Principal;
 
 namespace Files.App.Storage
 {
-	public class RecycleBinWatcher : IWatcher, IFolderWatcher, ITrashWatcher
+	public class RecycleBinWatcher : IWatcher, ITrashWatcher
 	{
 		private List<SystemIO.FileSystemWatcher>? _fileSystemWatchers;
-
-		/// <inheritdoc/>
-		public IMutableFolder TargetFolder { get; }
 
 		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemAdded;
 		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemDeleted;
@@ -45,42 +42,38 @@ namespace Files.App.Storage
 			}
 		}
 
-		public RecycleBinWatcher(IMutableFolder folder)
+		public RecycleBinWatcher()
 		{
-			TargetFolder = folder;
 			StartWatcher();
 		}
 
 		/// <inheritdoc/>
 		public void StartWatcher()
 		{
-			if (TargetFolder is ILocatableFolder locatableFolder)
+			// NOTE: SHChangeNotifyRegister only works if recycle bin is opened in File Explorer
+			_fileSystemWatchers = [];
+
+			var sid = WindowsIdentity.GetCurrent().User!.ToString();
+
+			foreach (var drive in SystemIO.DriveInfo.GetDrives())
 			{
-				// NOTE: SHChangeNotifyRegister only works if recycle bin is opened in File Explorer
-				_fileSystemWatchers = [];
+				var recyclePath = SystemIO.Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
 
-				var sid = WindowsIdentity.GetCurrent().User!.ToString();
+				if (drive.DriveType == SystemIO.DriveType.Network || !SystemIO.Directory.Exists(recyclePath))
+					continue;
 
-				foreach (var drive in SystemIO.DriveInfo.GetDrives())
+				SystemIO.FileSystemWatcher watcher = new()
 				{
-					var recyclePath = SystemIO.Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
+					Path = recyclePath,
+					Filter = "*.*",
+					NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
+				};
 
-					if (drive.DriveType == SystemIO.DriveType.Network || !SystemIO.Directory.Exists(recyclePath))
-						continue;
+				watcher.Created += RecycleBinWatcher_Changed;
+				watcher.Deleted += RecycleBinWatcher_Changed;
+				watcher.EnableRaisingEvents = true;
 
-					SystemIO.FileSystemWatcher watcher = new()
-					{
-						Path = recyclePath,
-						Filter = "*.*",
-						NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
-					};
-
-					watcher.Created += RecycleBinWatcher_Changed;
-					watcher.Deleted += RecycleBinWatcher_Changed;
-					watcher.EnableRaisingEvents = true;
-
-					_fileSystemWatchers.Add(watcher);
-				}
+				_fileSystemWatchers.Add(watcher);
 			}
 		}
 

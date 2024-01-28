@@ -5,6 +5,8 @@ namespace Files.App.Actions
 {
 	internal class RestoreAllRecycleBinAction : BaseUIAction, IAction
 	{
+		private ITrashService RecycleBinService { get; } = Ioc.Default.GetRequiredService<ITrashService>();
+
 		public string Label
 			=> "RestoreAllItems".GetLocalizedResource();
 
@@ -16,11 +18,11 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			UIHelpers.CanShowDialog &&
-			RecycleBinHelpers.RecycleBinHasItems();
+			RecycleBinService.HasItems();
 
 		public async Task ExecuteAsync()
 		{
-			await RecycleBinHelpers.RestoreRecycleBinAsync();
+			await RecycleBinService.RestoreTrashAsync();
 		}
 	}
 }

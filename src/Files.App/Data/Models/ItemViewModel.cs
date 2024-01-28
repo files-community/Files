@@ -51,6 +51,7 @@ namespace Files.App.Data.Models
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 		private INetworkDrivesService NetworkDrivesService = Ioc.Default.GetRequiredService<INetworkDrivesService>();
+		private ITrashService RecycleBinService = Ioc.Default.GetRequiredService<ITrashService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -451,9 +452,9 @@ namespace Files.App.Data.Models
 			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
-			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreatedAsync;
-			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeletedAsync;
-			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequestedAsync;
+			RecycleBinService.Watcher.ItemAdded += RecycleBinItemCreatedAsync;
+			RecycleBinService.Watcher.ItemDeleted += RecycleBinItemDeletedAsync;
+			RecycleBinService.Watcher.RefreshRequested += RecycleBinRefreshRequestedAsync;
 		}
 
 		private async void RecycleBinRefreshRequestedAsync(object sender, FileSystemEventArgs e)
@@ -2429,9 +2430,9 @@ namespace Files.App.Data.Models
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
-			RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreatedAsync;
-			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeletedAsync;
-			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequestedAsync;
+			RecycleBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;
+			RecycleBinService.Watcher.ItemDeleted -= RecycleBinItemDeletedAsync;
+			RecycleBinService.Watcher.RefreshRequested -= RecycleBinRefreshRequestedAsync;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;

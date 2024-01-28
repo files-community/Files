@@ -17,6 +17,7 @@ namespace Files.App.Utils.Storage
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IRemovableDrivesService RemovableDrivesService { get; } = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private ITrashService RecycleBinService { get; } = Ioc.Default.GetRequiredService<ITrashService>();
 
 		private const uint defaultStepSize = 500;
 
@@ -197,7 +198,7 @@ namespace Files.App.Utils.Storage
 			var matches = dbInstance.GetAllUnderPath(folder)
 				.Where(x => tags.All(x.Tags.Contains));
 			if (string.IsNullOrEmpty(folder))
-				matches = matches.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.FilePath));
+				matches = matches.Where(x => !RecycleBinService.IsTrashed(x.FilePath));
 
 			foreach (var match in matches)
 			{
