@@ -5,6 +5,7 @@ using Files.Core.Services.SizeProvider;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Windows.Devices.Portable;
 using Windows.Storage;
 
 namespace Files.App.Services
@@ -19,7 +20,7 @@ namespace Files.App.Services
 
 		// Fields
 
-		private IStorageDeviceWatcher? _watcher;
+		private IDeviceWatcher? _watcher;
 
 		// Properties
 
@@ -46,10 +47,10 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void InitializeRemovableDrivesWatcher()
 		{
-			_watcher ??= new WindowsStorageDeviceWatcher();
-			_watcher.DeviceAdded += Watcher_DeviceAdded;
-			_watcher.DeviceRemoved += Watcher_DeviceRemoved;
-			_watcher.DeviceModified += Watcher_DeviceModified;
+			_watcher ??= new StorageDeviceWatcher();
+			_watcher.ItemAdded += Watcher_DeviceAdded;
+			_watcher.ItemDeleted += Watcher_DeviceRemoved;
+			_watcher.ItemChanged += Watcher_DeviceChanged;
 			_watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
 		}
 
@@ -68,7 +69,7 @@ namespace Files.App.Services
 				ShowUserConsentOnInit = true;
 
 			if (_watcher?.CanBeStarted ?? false)
-				_watcher?.Start();
+				_watcher?.StartWatcher();
 		}
 
 		/// <inheritdoc/>
@@ -133,23 +134,41 @@ namespace Files.App.Services
 
 		// Event Methods
 
-		private async void Watcher_EnumerationCompleted(object? sender, EventArgs e)
+		private async void Watcher_DeviceAdded(object? sender, DeviceEventArgs args)
 		{
-			await FolderSizeProvider.CleanAsync();
+			var root = StorageDevice.FromId(args.DeviceId);
+			var driveAdded = new DriveInfo(args.DeviceId);
+			var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(args.DeviceId).AsTask());
+
+			var type = DriveHelpers.GetDriveType(driveAdded);
+			var label = DriveHelpers.GetExtendedDriveLabel(driveAdded);
+
+			DriveItem driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, args.DeviceId, label, type);
+
+			lock (RemovableDrives)
+			{
+				// If drive already in list, remove it first.
+				var matchingDrive = RemovableDrives.FirstOrDefault(x =>
+					x.Id == args.DeviceId ||
+					string.IsNullOrEmpty(root.Path)
+						? x.Path.Contains(root.Name ?? string.Empty, StringComparison.OrdinalIgnoreCase)
+						: Path.GetFullPath(x.Path) == Path.GetFullPath(root.Path ?? string.Empty)
+				);
+
+				if (matchingDrive is not null)
+					RemovableDrives.Remove(matchingDrive);
+
+				RemovableDrives.Add(driveItem);
+			}
+
+			Watcher_EnumerationCompleted(null, EventArgs.Empty);
 		}
 
-		private async void Watcher_DeviceModified(object? sender, string e)
-		{
-			var matchingDriveEjected = RemovableDrives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(e));
-			if (matchingDriveEjected != null)
-				await UpdateDrivePropertiesAsync(matchingDriveEjected);
-		}
-
-		private void Watcher_DeviceRemoved(object? sender, string e)
+		private void Watcher_DeviceRemoved(object? sender, DeviceEventArgs args)
 		{
 			lock (RemovableDrives)
 			{
-				var drive = RemovableDrives.FirstOrDefault(x => x.Id == e);
+				var drive = RemovableDrives.FirstOrDefault(x => x.Id == args.DeviceId);
 				if (drive is not null)
 					RemovableDrives.Remove(drive);
 			}
@@ -158,40 +177,36 @@ namespace Files.App.Services
 			Watcher_EnumerationCompleted(null, EventArgs.Empty);
 		}
 
-		private void Watcher_DeviceAdded(object? sender, ILocatableFolder e)
+		private async void Watcher_DeviceChanged(object? sender, DeviceEventArgs args)
 		{
-			lock (RemovableDrives)
-			{
-				// If drive already in list, remove it first.
-				var matchingDrive = RemovableDrives.FirstOrDefault(x =>
-					x.Id == e.Id ||
-					string.IsNullOrEmpty(e.Path)
-						? x.Path.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
-						: Path.GetFullPath(x.Path) == Path.GetFullPath(e.Path)
-				);
+			var root = StorageDevice.FromId(args.DeviceId);
 
-				if (matchingDrive is not null)
-					RemovableDrives.Remove(matchingDrive);
+			var matchingDriveEjected = RemovableDrives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(root.Path ?? string.Empty));
+			if (matchingDriveEjected != null)
+				await UpdateDrivePropertiesAsync(matchingDriveEjected);
+		}
 
-				RemovableDrives.Add(e);
-			}
-
-			Watcher_EnumerationCompleted(null, EventArgs.Empty);
+		private async void Watcher_EnumerationCompleted(object? sender, EventArgs args)
+		{
+			await FolderSizeProvider.CleanAsync();
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
-		
+
 		// Disposer
 
 		public void Dispose()
 		{
-			_watcher.Stop();
-			_watcher.DeviceAdded -= Watcher_DeviceAdded;
-			_watcher.DeviceRemoved -= Watcher_DeviceRemoved;
-			_watcher.DeviceModified -= Watcher_DeviceModified;
+			if (_watcher is null)
+				return;
+
+			_watcher.StopsWatcher();
+			_watcher.ItemAdded -= Watcher_DeviceAdded;
+			_watcher.ItemDeleted -= Watcher_DeviceRemoved;
+			_watcher.ItemChanged -= Watcher_DeviceChanged;
 			_watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
 		}
 	}
