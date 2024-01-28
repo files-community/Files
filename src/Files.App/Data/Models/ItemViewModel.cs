@@ -29,6 +29,7 @@ namespace Files.App.Data.Models
 	public sealed class ItemViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
+		private readonly SemaphoreSlim loadPropertiesSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -442,6 +443,7 @@ namespace Files.App.Data.Models
 			operationEvent = new AsyncManualResetEvent();
 			gitChangedEvent = new AsyncManualResetEvent();
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
+			loadPropertiesSemaphore = new SemaphoreSlim(100);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -1026,6 +1028,9 @@ namespace Files.App.Data.Models
 					var loadGroupHeaderInfo = false;
 					ImageSource? groupImage = null;
 					GroupedCollection<ListedItem>? gp = null;
+
+					// We use the semaphore to limit the number of concurrent processes because loading properties is a heavy process
+					await loadPropertiesSemaphore.WaitAsync(cts.Token);
 					try
 					{
 						var isFileTypeGroupMode = folderSettings.DirectoryGroupOption == GroupOption.FileType;
@@ -1143,6 +1148,8 @@ namespace Files.App.Data.Models
 					}
 					finally
 					{
+						loadPropertiesSemaphore.Release();
+
 						if (!wasSyncStatusLoaded)
 						{
 							cts.Token.ThrowIfCancellationRequested();
