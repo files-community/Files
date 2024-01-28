@@ -902,7 +902,7 @@ namespace Files.App.Data.Models
 		}
 
 		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
-		private async Task<bool> LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96, IStorageItem? matchingStorageItem = null)
+		private async Task<bool> LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96)
 		{
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
@@ -1032,7 +1032,7 @@ namespace Files.App.Data.Models
 
 									var cancellationTokenSource = new CancellationTokenSource(3000);
 									// Loop until cached thumbnail is loaded or timeout is reached
-									while (!await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFile))
+									while (!await LoadItemThumbnailAsync(item, thumbnailSize))
 									{
 										cancellationTokenSource.Token.ThrowIfCancellationRequested();
 										await Task.Delay(100);
@@ -1041,7 +1041,7 @@ namespace Files.App.Data.Models
 							}
 
 							if (!wasSyncStatusLoaded)
-								await LoadItemThumbnailAsync(item, thumbnailSize, null);
+								await LoadItemThumbnailAsync(item, thumbnailSize);
 						}
 						else
 						{
@@ -1052,7 +1052,7 @@ namespace Files.App.Data.Models
 								if (matchingStorageFolder is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
-									await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFolder);
+									await LoadItemThumbnailAsync(item, thumbnailSize);
 									if (matchingStorageFolder.DisplayName != item.Name && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
 									{
 										cts.Token.ThrowIfCancellationRequested();
@@ -1092,7 +1092,7 @@ namespace Files.App.Data.Models
 							if (!wasSyncStatusLoaded)
 							{
 								cts.Token.ThrowIfCancellationRequested();
-								await LoadItemThumbnailAsync(item, thumbnailSize, null);
+								await LoadItemThumbnailAsync(item, thumbnailSize);
 							}
 						}
 
