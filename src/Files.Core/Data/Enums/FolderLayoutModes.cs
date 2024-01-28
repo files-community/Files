@@ -11,23 +11,28 @@ namespace Files.Core.Data.Enums
 		DetailsView = 0,
 
 		/// <summary>
+		/// List view 
+		/// </summary>
+		ListView = 1,
+
+		/// <summary>
 		/// Tiles view 
 		/// </summary>
-		TilesView = 1,
+		TilesView = 2,
 
 		/// <summary>
 		/// Column view 
 		/// </summary>
-		ColumnView = 2,
+		ColumnView = 3,
 
 		/// <summary>
 		/// Grid view 
 		/// </summary>
-		GridView = 3,
+		GridView = 4,
 
 		/// <summary>
 		/// Adaptive view 
 		/// </summary>
-		Adaptive = 4
+		Adaptive = 5
 	}
 }

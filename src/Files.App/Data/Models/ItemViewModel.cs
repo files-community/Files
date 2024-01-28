@@ -29,6 +29,7 @@ namespace Files.App.Data.Models
 	public sealed class ItemViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
+		private readonly SemaphoreSlim loadPropertiesSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -442,6 +443,7 @@ namespace Files.App.Data.Models
 			operationEvent = new AsyncManualResetEvent();
 			gitChangedEvent = new AsyncManualResetEvent();
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
+			loadPropertiesSemaphore = new SemaphoreSlim(100);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -674,55 +676,14 @@ namespace Files.App.Data.Models
 				// run safely without needs of dispatching to UI thread
 				void ApplyChanges()
 				{
-					var startIndex = -1;
-					var tempList = new List<ListedItem>();
+					if (addFilesCTS.IsCancellationRequested)
+						return;
 
-					void ApplyBulkInsertEntries()
-					{
-						if (startIndex != -1)
-						{
-							FilesAndFolders.ReplaceRange(startIndex, tempList);
-							startIndex = -1;
-							tempList.Clear();
-						}
-					}
-
-					for (var i = 0; i < filesAndFoldersLocal.Count; i++)
-					{
-						if (addFilesCTS.IsCancellationRequested)
-							return;
-
-						if (i < FilesAndFolders.Count)
-						{
-							if (FilesAndFolders[i] != filesAndFoldersLocal[i])
-							{
-								if (startIndex == -1)
-									startIndex = i;
-
-								tempList.Add(filesAndFoldersLocal[i]);
-							}
-							else
-							{
-								ApplyBulkInsertEntries();
-							}
-						}
-						else
-						{
-							ApplyBulkInsertEntries();
-							FilesAndFolders.InsertRange(i, filesAndFoldersLocal.Skip(i));
-
-							break;
-						}
-					}
-
-					ApplyBulkInsertEntries();
-
-					if (FilesAndFolders.Count > filesAndFoldersLocal.Count)
-						FilesAndFolders.RemoveRange(filesAndFoldersLocal.Count, FilesAndFolders.Count - filesAndFoldersLocal.Count);
+					FilesAndFolders.Clear();
+					FilesAndFolders.AddRange(filesAndFoldersLocal);
 
 					if (folderSettings.DirectoryGroupOption != GroupOption.None)
 						OrderGroups();
-
 				}
 
 				void UpdateUI()
@@ -941,11 +902,8 @@ namespace Files.App.Data.Models
 		}
 
 		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
-		private async Task LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96, IStorageItem? matchingStorageItem = null)
+		private async Task<bool> LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96, IStorageItem? matchingStorageItem = null)
 		{
-			var wasIconLoaded = false;
-
-
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
@@ -972,6 +930,8 @@ namespace Files.App.Data.Models
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
+
+				return iconInfo.isIconCached;
 			}
 			else
 			{
@@ -993,6 +953,8 @@ namespace Files.App.Data.Models
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
+
+				return iconInfo.isIconCached;
 			}
 		}
 
@@ -1025,6 +987,9 @@ namespace Files.App.Data.Models
 					var loadGroupHeaderInfo = false;
 					ImageSource? groupImage = null;
 					GroupedCollection<ListedItem>? gp = null;
+
+					// We use the semaphore to limit the number of concurrent processes because loading properties is a heavy process
+					await loadPropertiesSemaphore.WaitAsync(cts.Token);
 					try
 					{
 						var isFileTypeGroupMode = folderSettings.DirectoryGroupOption == GroupOption.FileType;
@@ -1044,12 +1009,12 @@ namespace Files.App.Data.Models
 								if (matchingStorageFile is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
-									await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFile);
 
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
 									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
+
 									cts.Token.ThrowIfCancellationRequested();
 
 									await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -1064,6 +1029,14 @@ namespace Files.App.Data.Models
 
 									SetFileTag(item);
 									wasSyncStatusLoaded = true;
+
+									var cancellationTokenSource = new CancellationTokenSource(3000);
+									// Loop until cached thumbnail is loaded or timeout is reached
+									while (!await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFile))
+									{
+										cancellationTokenSource.Token.ThrowIfCancellationRequested();
+										await Task.Delay(100);
+									}
 								}
 							}
 
@@ -1134,6 +1107,8 @@ namespace Files.App.Data.Models
 					}
 					finally
 					{
+						loadPropertiesSemaphore.Release();
+
 						if (!wasSyncStatusLoaded)
 						{
 							cts.Token.ThrowIfCancellationRequested();

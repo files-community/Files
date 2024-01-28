@@ -10,8 +10,6 @@ namespace Files.App.UserControls.Widgets
 	{
 		T Item { get; }
 
-		bool HasThumbnail { get; }
-
 		BitmapImage Thumbnail { get; }
 
 		Task LoadCardThumbnailAsync();
