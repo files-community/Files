@@ -5,5 +5,8 @@ namespace Files.Core.Services
 {
 	public interface IAppThemeModeService
 	{
+		bool RefreshAppThemeMode();
+
+		bool SetAppThemeMode();
 	}
 }

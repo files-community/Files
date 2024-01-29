@@ -5,5 +5,12 @@ namespace Files.Core.Services
 {
 	public class AppThemeModeService : IAppThemeModeService
 	{
+		public bool RefreshAppThemeMode()
+		{
+		}
+
+		public bool SetAppThemeMode()
+		{
+		}
 	}
 }
