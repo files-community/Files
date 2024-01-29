@@ -29,7 +29,7 @@ namespace Files.App.Data.Models
 	public sealed class ItemViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
-		private readonly SemaphoreSlim loadPropertiesSemaphore;
+		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -169,17 +169,57 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
-		public Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(value, workingRoot, currentStorageFolder));
+		public async Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value, CancellationToken cancellationToken = default)
+		{
+			await getFileOrFolderSemaphore.WaitAsync(cancellationToken);
+			try
+			{
+				return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(value, workingRoot, currentStorageFolder));
+			}
+			finally
+			{
+				getFileOrFolderSemaphore.Release();
+			}
+		}
 
-		public Task<FilesystemResult<BaseStorageFile>> GetFileFromPathAsync(string value)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(value, workingRoot, currentStorageFolder));
+		public async Task<FilesystemResult<BaseStorageFile>> GetFileFromPathAsync(string value, CancellationToken cancellationToken = default)
+		{
+			await getFileOrFolderSemaphore.WaitAsync(cancellationToken);
+			try
+			{
+				return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(value, workingRoot, currentStorageFolder));
+			}
+			finally
+			{
+				getFileOrFolderSemaphore.Release();
+			}
+		}
 
-		public Task<FilesystemResult<StorageFolderWithPath>> GetFolderWithPathFromPathAsync(string value)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
+		public async Task<FilesystemResult<StorageFolderWithPath>> GetFolderWithPathFromPathAsync(string value, CancellationToken cancellationToken = default)
+		{
+			await getFileOrFolderSemaphore.WaitAsync(cancellationToken);
+			try
+			{
+				return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
+			}
+			finally
+			{
+				getFileOrFolderSemaphore.Release();
+			}
+		}
 
-		public Task<FilesystemResult<StorageFileWithPath>> GetFileWithPathFromPathAsync(string value)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
+		public async Task<FilesystemResult<StorageFileWithPath>> GetFileWithPathFromPathAsync(string value, CancellationToken cancellationToken = default)
+		{
+			await getFileOrFolderSemaphore.WaitAsync(cancellationToken);
+			try
+			{
+				return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
+			}
+			finally
+			{
+				getFileOrFolderSemaphore.Release();
+			}
+		}
 
 		private EmptyTextType emptyTextType;
 		public EmptyTextType EmptyTextType
@@ -443,7 +483,7 @@ namespace Files.App.Data.Models
 			operationEvent = new AsyncManualResetEvent();
 			gitChangedEvent = new AsyncManualResetEvent();
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
-			loadPropertiesSemaphore = new SemaphoreSlim(100);
+			getFileOrFolderSemaphore = new SemaphoreSlim(50);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -988,8 +1028,6 @@ namespace Files.App.Data.Models
 					ImageSource? groupImage = null;
 					GroupedCollection<ListedItem>? gp = null;
 
-					// We use the semaphore to limit the number of concurrent processes because loading properties is a heavy process
-					await loadPropertiesSemaphore.WaitAsync(cts.Token);
 					try
 					{
 						var isFileTypeGroupMode = folderSettings.DirectoryGroupOption == GroupOption.FileType;
@@ -1005,7 +1043,7 @@ namespace Files.App.Data.Models
 							if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 							{
 								cts.Token.ThrowIfCancellationRequested();
-								matchingStorageFile = await GetFileFromPathAsync(item.ItemPath);
+								matchingStorageFile = await GetFileFromPathAsync(item.ItemPath, cts.Token);
 								if (matchingStorageFile is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
@@ -1048,7 +1086,7 @@ namespace Files.App.Data.Models
 							if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 							{
 								cts.Token.ThrowIfCancellationRequested();
-								BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath);
+								BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath, cts.Token);
 								if (matchingStorageFolder is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
@@ -1107,8 +1145,6 @@ namespace Files.App.Data.Models
 					}
 					finally
 					{
-						loadPropertiesSemaphore.Release();
-
 						if (!wasSyncStatusLoaded)
 						{
 							cts.Token.ThrowIfCancellationRequested();
