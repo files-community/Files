@@ -22,6 +22,8 @@ namespace Files.App.UserControls
 
 		private readonly ICommandManager Commands;
 
+		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		public InfoPaneViewModel ViewModel { get; private set; }
 
 		private ObservableContext Context { get; } = new();
@@ -82,6 +84,15 @@ namespace Files.App.UserControls
 				get => isHorizontal;
 				set => SetProperty(ref isHorizontal, value);
 			}
+		}
+		
+		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			var tagName = ((sender as StackPanel)?.Children[1] as TextBlock)?.Text;
+			if (tagName is null)
+				return;
+
+			contentPageContext.ShellPage?.SubmitSearch($"tag:{tagName}");
 		}
 	}
 }

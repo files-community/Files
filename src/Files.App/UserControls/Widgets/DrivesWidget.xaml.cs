@@ -1,12 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Utils.Shell;
 using Files.App.ViewModels.Widgets;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -25,12 +21,13 @@ namespace Files.App.UserControls.Widgets
 		private byte[] thumbnailData;
 
 		public new DriveItem Item { get; private set; }
-		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
+
 		public BitmapImage Thumbnail
 		{
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
+
 		public DriveCardItem(DriveItem item)
 		{
 			Item = item;
@@ -39,20 +36,11 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			// Try load thumbnail using ListView mode
-			if (thumbnailData is null || thumbnailData.Length == 0)
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.DefaultIconSizes.Jumbo), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-
-			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
-			if (thumbnailData is null || thumbnailData.Length == 0)
-			{
-				await Item.LoadThumbnailAsync();
-				thumbnailData = Item.IconData;
-			}
+			thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.Path, Constants.DefaultIconSizes.Jumbo, true, true);
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.DefaultIconSizes.Jumbo));
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
@@ -135,7 +123,7 @@ namespace Files.App.UserControls.Widgets
 			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
 			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
 			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
-			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
+			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync);
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
 
