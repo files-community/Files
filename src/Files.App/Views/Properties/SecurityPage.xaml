@@ -83,7 +83,7 @@
 						Grid.Column="0"
 						Margin="4"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=SecurityUsersGroupLabel/Text}" />
+						Text="{helpers:ResourceString Name=SecurityGroupOrUserNames}" />
 
 					<StackPanel
 						Grid.Column="1"
@@ -263,7 +263,7 @@
 						Margin="0,0,0,4"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=Allow}" />
+						Text="{helpers:ResourceString Name=SecurityAllow}" />
 
 					<!--  Deny  -->
 					<TextBlock
@@ -272,7 +272,7 @@
 						Margin="0,0,0,4"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=Deny}" />
+						Text="{helpers:ResourceString Name=SecurityDeny}" />
 
 					<!--  Full Control  -->
 					<TextBlock
@@ -280,7 +280,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=SecurityFullControlLabel/Text}" />
+						Text="{helpers:ResourceString Name=SecurityFullControl}" />
 
 					<CheckBox
 						Grid.Row="1"
@@ -308,7 +308,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=Modify}" />
+						Text="{helpers:ResourceString Name=SecurityModify}" />
 
 					<CheckBox
 						Grid.Row="2"
@@ -336,7 +336,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=SecurityReadAndExecuteLabel/Text}" />
+						Text="{helpers:ResourceString Name=SecurityReadAndExecute}" />
 
 					<CheckBox
 						Grid.Row="3"
@@ -364,7 +364,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=SecurityListDirectoryLabel/Text}"
+						Text="{helpers:ResourceString Name=SecurityListFolderOrReadData}"
 						Visibility="{x:Bind SecurityViewModel.AccessControlList.IsFolder, Mode=OneWay}" />
 
 					<CheckBox
@@ -395,7 +395,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=SecurityReadLabel/Text}" />
+						Text="{helpers:ResourceString Name=SecurityRead}" />
 
 					<CheckBox
 						Grid.Row="5"
@@ -423,7 +423,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=Write}" />
+						Text="{helpers:ResourceString Name=SecurityWrite}" />
 
 					<CheckBox
 						Grid.Row="6"

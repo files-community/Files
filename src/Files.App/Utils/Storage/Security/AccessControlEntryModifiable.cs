@@ -208,9 +208,9 @@ namespace Files.App.Utils.Storage.Security
 			AccessMaskFlags = item.AccessMaskFlags;
 			AccessControlEntryFlags = item.AccessControlEntryFlags;
 
-			DialogTitle = isNew ? "AddPermission".GetLocalizedResource() : "EditPermission".GetLocalizedResource();
+			DialogTitle = isNew ? "SecurityAddPermission".GetLocalizedResource() : "SecurityEditPermission".GetLocalizedResource();
 			ShowAdvancedPermissions = false;
-			PermissionsVisibilityToggleLinkButtonContent = "ShowAdvancedPermissions".GetLocalizedResource();
+			PermissionsVisibilityToggleLinkButtonContent = "SecurityShowAdvancedPermissions".GetLocalizedResource();
 			TogglePermissionsVisibilityCommand = new RelayCommand(ExecuteTogglePermissionsVisibility);
 
 			PossibleAccessControlTypes = new List<AccessControlEntryType>()
@@ -221,13 +221,13 @@ namespace Files.App.Utils.Storage.Security
 
 			PossibleAccessControlInheritanceAppliesToHumanizedTypes = new List<string>()
 			{
-				"This folder only",
-				"This folder, subfolders and files",
-				"This folder and subfolders",
-				"This folder and files",
-				"Subfolders and files only",
-				"Subfolders only",
-				"File only",
+				"SecurityAdvancedThisFolderOnly".GetLocalizedResource(),
+				"SecurityAdvancedFolderSubfoldersFiles".GetLocalizedResource(),
+				"SecurityAdvancedFolderSubfolders".GetLocalizedResource(),
+				"SecurityAdvancedThisFolderAndFilesOnly".GetLocalizedResource(),
+				"SecurityAdvancedSubfoldersFilesOnly".GetLocalizedResource(),
+				"SecurityAdvancedSubfoldersOnly".GetLocalizedResource(),
+				"SecurityAdvancedFileOnly".GetLocalizedResource(),
 			};
 
 			PossibleAccessControlInheritanceAppliesToTypes = new List<AccessControlEntryFlags>()
@@ -247,8 +247,8 @@ namespace Files.App.Utils.Storage.Security
 			ShowAdvancedPermissions = !ShowAdvancedPermissions;
 			PermissionsVisibilityToggleLinkButtonContent =
 				ShowAdvancedPermissions
-					? "ShowBasicPermissions".GetLocalizedResource()
-					: "ShowAdvancedPermissions".GetLocalizedResource();
+					? "SecurityShowBasicPermissions".GetLocalizedResource()
+					: "SecurityShowAdvancedPermissions".GetLocalizedResource();
 		}
 
 		private void UpdateAccessControl(AccessMaskFlags mask, bool value)

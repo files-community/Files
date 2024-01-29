@@ -29,8 +29,8 @@ namespace Files.App.Utils.Storage
 		public string AccessControlTypeHumanized
 			=> AccessControlType switch
 			{
-				AccessControlEntryType.Allow => "Allow".GetLocalizedResource(),
-				_ => "Deny".GetLocalizedResource() // AccessControlType.Deny
+				AccessControlEntryType.Allow => "SecurityAllow".GetLocalizedResource(),
+				_ => "SecurityDeny".GetLocalizedResource() // AccessControlType.Deny
 			};
 
 		/// <summary>
@@ -56,19 +56,19 @@ namespace Files.App.Utils.Storage
 					accessMaskStrings.Add("None".GetLocalizedResource());
 
 				if (FullControlAccess)
-					accessMaskStrings.Add("FullControl".GetLocalizedResource());
+					accessMaskStrings.Add("SecurityFullControl".GetLocalizedResource());
 				else if (ModifyAccess)
-					accessMaskStrings.Add("Modify".GetLocalizedResource());
+					accessMaskStrings.Add("SecurityModify".GetLocalizedResource());
 				else if (ReadAndExecuteAccess)
-					accessMaskStrings.Add("ReadAndExecute".GetLocalizedResource());
+					accessMaskStrings.Add("SecurityReadAndExecute".GetLocalizedResource());
 				else if (ReadAccess)
-					accessMaskStrings.Add("Read".GetLocalizedResource());
+					accessMaskStrings.Add("SecurityRead".GetLocalizedResource());
 
 				if (!FullControlAccess && !ModifyAccess && WriteAccess)
-					accessMaskStrings.Add("Write".GetLocalizedResource());
+					accessMaskStrings.Add("SecurityWrite".GetLocalizedResource());
 
 				if (SpecialAccess)
-					accessMaskStrings.Add("SpecialPermissions".GetLocalizedResource());
+					accessMaskStrings.Add("SecuritySpecialPermissions".GetLocalizedResource());
 
 				return string.Join(", ", accessMaskStrings);
 			}
@@ -87,23 +87,29 @@ namespace Files.App.Utils.Storage
 		{
 			get
 			{
-				var inheritanceStrings = new List<string>();
-
-				if (AccessControlEntryFlags == AccessControlEntryFlags.None ||
-					AccessControlEntryFlags == AccessControlEntryFlags.NoPropagateInherit)
-					inheritanceStrings.Add("SecurityAdvancedFlagsFolderLabel".GetLocalizedResource());
-
-				if (AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.ContainerInherit))
-					inheritanceStrings.Add("SecurityAdvancedFlagsSubfoldersLabel".GetLocalizedResource());
-
-				if (AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.ObjectInherit))
-					inheritanceStrings.Add("SecurityAdvancedFlagsFilesLabel".GetLocalizedResource());
-
-				// Capitalize the first letter
-				if (inheritanceStrings.Any())
-					inheritanceStrings[0] = char.ToUpperInvariant(inheritanceStrings[0].First()) + inheritanceStrings[0][1..];
-
-				return string.Join(", ", inheritanceStrings);
+				return AccessControlEntryFlags switch
+				{
+					AccessControlEntryFlags.None
+						=> "SecurityAdvancedThisFolderOnly".GetLocalizedResource(),
+					AccessControlEntryFlags.ObjectInherit when
+						AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.InheritOnly)
+							=> "SecurityAdvancedFileOnly".GetLocalizedResource(),
+					AccessControlEntryFlags.ObjectInherit when
+						AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.ContainerInherit)
+							=> "SecurityAdvancedThisFolderAndFilesOnly".GetLocalizedResource(),
+					AccessControlEntryFlags.ObjectInherit when
+						AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.ContainerInherit) &&
+						AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.InheritOnly)
+							=> "SecurityAdvancedSubfoldersFilesOnly".GetLocalizedResource(),
+					AccessControlEntryFlags.ObjectInherit
+						=> "SecurityAdvancedFolderSubfoldersFiles".GetLocalizedResource(),
+					AccessControlEntryFlags.ContainerInherit when
+						AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.InheritOnly)
+							=> "SecurityAdvancedSubfoldersOnly",
+					AccessControlEntryFlags.ContainerInherit
+						=> "SecurityAdvancedFolderSubfolders".GetLocalizedResource(),
+					_ => "None".GetLocalizedResource(),
+				};
 			}
 		}
 

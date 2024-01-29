@@ -89,7 +89,7 @@
 			<TextBlock
 				Grid.Column="0"
 				VerticalAlignment="Center"
-				Text="{helpers:ResourceString Name=SecurityOwnerLabel/Text}" />
+				Text="{helpers:ResourceString Name=SecurityOwnerWithColon}" />
 
 			<StackPanel
 				Grid.Column="1"
@@ -292,7 +292,7 @@
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondary}"
 							Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
-							Text="{helpers:ResourceString Name=Principal}"
+							Text="{helpers:ResourceString Name=SecurityPrincipal}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
@@ -324,7 +324,7 @@
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondary}"
 							Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
-							Text="{helpers:ResourceString Name=Inherited}"
+							Text="{helpers:ResourceString Name=SecurityInherited}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
@@ -340,7 +340,7 @@
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondary}"
 							Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
-							Text="{helpers:ResourceString Name=SecurityAdvancedAppliesTo}"
+							Text="{helpers:ResourceString Name=SecurityAppliesTo}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
@@ -448,35 +448,35 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 
-				<!--<SplitButton
+				<SplitButton
 					x:Name="SplitButton"
 					MaxWidth="196"
-					Command="{x:Bind SecurityAdvancedViewModel.DisableInheritanceCommand, Mode=OneWay}"
-					Content="{x:Bind SecurityAdvancedViewModel.DisableInheritanceOption, Mode=OneWay}">
+					Content="{x:Bind SecurityAdvancedViewModel.DisableInheritanceOption, Mode=OneWay}"
+					IsEnabled="False">
 
-					<SplitButton.Flyout>
+					<!--<SplitButton.Flyout>
 						<MenuFlyout Placement="Top">
 
 							<MenuFlyoutItem
 								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="False,False"
 								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsProtected, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedEnable/Text}" />
+								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedEnableText}" />
 
 							<MenuFlyoutItem
 								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="True,True"
 								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedConvert/Text}" />
+								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedConvertText}" />
 
 							<MenuFlyoutItem
 								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="True,False"
 								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemove/Text}" />
+								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemoveText}" />
 
 						</MenuFlyout>
-					</SplitButton.Flyout>
+					</SplitButton.Flyout>-->
 
 				</SplitButton>
 
@@ -484,11 +484,10 @@
 					x:Name="ReplaceChildPermissionsButton"
 					Grid.Column="1"
 					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Mode=OneWay}"
-					Command="{x:Bind SecurityAdvancedViewModel.ReplaceChildPermissionsCommand, Mode=OneWay}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions2/ToolTipService/ToolTip}"
-					Visibility="Collapsed">
-					<TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />
-				</Button>-->
+					Content="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissionsText}"
+					IsEnabled="False"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissionsToolTip}"
+					Visibility="Collapsed" />
 
 			</Grid>
 
