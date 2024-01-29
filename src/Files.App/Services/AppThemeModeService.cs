@@ -7,10 +7,12 @@ namespace Files.Core.Services
 	{
 		public bool RefreshAppThemeMode()
 		{
+			return false;
 		}
 
 		public bool SetAppThemeMode()
 		{
+			return false;
 		}
 	}
 }
