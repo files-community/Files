@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Notifications;
@@ -26,6 +27,37 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class AppLifecycleHelper
 	{
+		/// <summary>
+		/// Gets the value that provides application environment or branch name.
+		/// </summary>
+		public static AppEnvironment AppEnvironment { get; } =
+#if STORE
+			AppEnvironment.Store;
+#elif PREVIEW
+			AppEnvironment.Preview;
+#elif STABLE
+			AppEnvironment.Stable;
+#else
+			AppEnvironment.Dev;
+#endif
+
+		/// <summary>
+		/// Gets application package version.
+		/// </summary>
+		public static Version AppVersion { get; } =
+			new(Package.Current.Id.Version.Major, Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+
+		/// <summary>
+		/// Gets application icon path.
+		/// </summary>
+		public static string AppIconPath { get; } =
+			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
+			{
+				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
+				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
+				_ => Constants.AssetPaths.StableLogo
+			});
+
 		/// <summary>
 		/// Initializes the app components.
 		/// </summary>
@@ -103,7 +135,7 @@ namespace Files.App.Helpers
 		public static IHost ConfigureHost()
 		{
 			return Host.CreateDefaultBuilder()
-				.UseEnvironment(ApplicationService.AppEnvironment.ToString())
+				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
 				.ConfigureLogging(builder => builder
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
 					.SetMinimumLevel(LogLevel.Information))
@@ -135,7 +167,6 @@ namespace Files.App.Helpers
 					.AddSingleton<IFileTagsService, FileTagsService>()
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
-					.AddSingleton<IApplicationService, ApplicationService>()
 					.AddSingleton<IStorageService, NativeStorageService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()

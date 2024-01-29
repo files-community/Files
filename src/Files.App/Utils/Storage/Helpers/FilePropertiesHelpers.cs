@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
+using Windows.ApplicationModel;
 using Windows.Graphics;
 
 namespace Files.App.Utils.Storage
@@ -88,8 +89,6 @@ namespace Files.App.Utils.Storage
 		/// <param name="associatedInstance">Associated main window instance</param>
 		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance)
 		{
-			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-
 			if (item is null)
 				return;
 
@@ -120,7 +119,7 @@ namespace Files.App.Utils.Storage
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			appWindow.SetIcon(applicationService.AppIcoPath);
+			appWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 
 			frame.Navigate(
 				typeof(Views.Properties.MainPropertiesPage),

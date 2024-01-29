@@ -12,7 +12,7 @@ namespace Files.App.Views
 	public sealed partial class SplashScreenPage : Page
 	{
 		private string BranchLabel =>
-			ApplicationService.AppEnvironment switch
+			AppLifecycleHelper.AppEnvironment switch
 			{
 				AppEnvironment.Dev => "Dev",
 				AppEnvironment.Preview => "Preview",
