@@ -514,7 +514,7 @@ namespace Files.App.Data.Models
 			var removedItem = await RemoveFileOrFolderAsync(e.FullPath);
 
 			if (removedItem is not null)
-				await ApplySingleFileChangeAsync(removedItem);
+				await ApplyFilesAndFoldersChangesAsync();
 		}
 
 		private async void RecycleBinItemCreatedAsync(object sender, FileSystemEventArgs e)
@@ -534,7 +534,7 @@ namespace Files.App.Data.Models
 
 			await AddFileOrFolderAsync(newListedItem);
 			await OrderFilesAndFoldersAsync();
-			await ApplySingleFileChangeAsync(newListedItem);
+			await ApplyFilesAndFoldersChangesAsync();
 		}
 
 		private async void FolderSizeProvider_SizeChanged(object? sender, SizeChangedEventArgs e)
@@ -649,28 +649,6 @@ namespace Files.App.Data.Models
 		public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
 		{
 			itemLoadQueue.TryUpdate(item.ItemPath, true, false);
-		}
-
-		public async Task ApplySingleFileChangeAsync(ListedItem item)
-		{
-			var newIndex = filesAndFolders.IndexOf(item);
-			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
-			{
-				FilesAndFolders.Remove(item);
-				if (newIndex != -1)
-					FilesAndFolders.Insert(Math.Min(newIndex, FilesAndFolders.Count), item);
-
-				if (folderSettings.DirectoryGroupOption != GroupOption.None)
-				{
-					var key = FilesAndFolders.ItemGroupKeySelector?.Invoke(item);
-					var group = FilesAndFolders.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
-					group?.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
-						folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst), item);
-				}
-
-				UpdateEmptyTextType();
-				DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-			});
 		}
 
 		private bool IsSearchResults { get; set; }
@@ -1102,7 +1080,7 @@ namespace Files.App.Data.Models
 										if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
 										{
 											await OrderFilesAndFoldersAsync();
-											await ApplySingleFileChangeAsync(item);
+											await ApplyFilesAndFoldersChangesAsync();
 										}
 									}
 
