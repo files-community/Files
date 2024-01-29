@@ -1425,23 +1425,11 @@
   <data name="Deny" xml:space="preserve">
     <value>Deny</value>
   </data>
-  <data name="SecurityFullControlLabel.Text" xml:space="preserve">
-    <value>Full control</value>
-  </data>
-  <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>List directory contents</value>
-  </data>
   <data name="Modify" xml:space="preserve">
     <value>Modify</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
     <value>Permissions for {0}</value>
-  </data>
-  <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Read and execute</value>
-  </data>
-  <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>Read</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Group or user names</value>
@@ -1484,9 +1472,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Owner</value>
-  </data>
-  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>Special</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>Access</value>
@@ -1535,51 +1520,6 @@
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>This folder and subfolders</value>
-  </data>
-  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Append data</value>
-  </data>
-  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>Change permission</value>
-  </data>
-  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Create folders</value>
-  </data>
-  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Create files</value>
-  </data>
-  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
-  </data>
-  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Execute files</value>
-  </data>
-  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>Read attributes</value>
-  </data>
-  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>Read data</value>
-  </data>
-  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Read extended attributes</value>
-  </data>
-  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>Read permissions</value>
-  </data>
-  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
-    <value>Take ownership</value>
-  </data>
-  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Visit folder</value>
-  </data>
-  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>Write attributes</value>
-  </data>
-  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>Write data</value>
-  </data>
-  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Write extended attributes</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Convert inherited permissions into explicit permissions</value>
