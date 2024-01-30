@@ -30,8 +30,8 @@
 		<PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
 		<PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
 		<PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
-		<DefineConstants Condition="'$(Configuration)' == 'Debug'">TRACE;DEBUG;NETFX_CORE</DefineConstants>
-		<DefineConstants Condition="'$(Configuration)' != 'Debug'">TRACE;RELEASE;NETFX_CORE</DefineConstants>
+		<DefineConstants Condition="'$(Configuration)' == 'Debug'">TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+		<DefineConstants Condition="'$(Configuration)' != 'Debug'">TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 		<Optimize Condition="'$(Configuration)' != 'Debug'">true</Optimize>
 	</PropertyGroup>
 
