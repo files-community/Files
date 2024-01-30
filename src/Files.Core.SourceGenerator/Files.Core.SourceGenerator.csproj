@@ -1,27 +1,22 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+		<DefineConstants Condition="'$(Configuration)' == 'Debug'">TRACE;DEBUG;NETFX_CORE</DefineConstants>
+		<DefineConstants Condition="'$(Configuration)' != 'Debug'">TRACE;RELEASE;NETFX_CORE</DefineConstants>
+		<Optimize Condition="'$(Configuration)' != 'Debug'">true</Optimize>
+	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-        <DefineConstants>TRACE;DEBUG;NETFX_CORE</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
-        <DefineConstants>TRACE;RELEASE;NETFX_CORE</DefineConstants>
-        <Optimize>true</Optimize>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
-        <PackageReference Include="PolySharp" Version="1.14.1"  PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+		<PackageReference Include="PolySharp" Version="1.14.1"  PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+	</ItemGroup>
 
 </Project>
