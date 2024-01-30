@@ -30,6 +30,7 @@ namespace Files.App.Data.Models
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
+		private readonly SemaphoreSlim bulkOperationSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -484,6 +485,7 @@ namespace Files.App.Data.Models
 			gitChangedEvent = new AsyncManualResetEvent();
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			getFileOrFolderSemaphore = new SemaphoreSlim(50);
+			bulkOperationSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -687,41 +689,49 @@ namespace Files.App.Data.Models
 				// Note that both DataGrid and GridView don't support multi-items changes notification, so here
 				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
 				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
-				FilesAndFolders.BeginBulkOperation();
-
-				// After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
-				// so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
-				// run safely without needs of dispatching to UI thread
-				void ApplyChanges()
+				await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
+				try
 				{
-					if (addFilesCTS.IsCancellationRequested)
-						return;
+					FilesAndFolders.BeginBulkOperation();
 
-					FilesAndFolders.Clear();
-					FilesAndFolders.AddRange(filesAndFoldersLocal);
+					// After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
+					// so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
+					// run safely without needs of dispatching to UI thread
+					void ApplyChanges()
+					{
+						if (addFilesCTS.IsCancellationRequested)
+							return;
 
-					if (folderSettings.DirectoryGroupOption != GroupOption.None)
-						OrderGroups();
+						FilesAndFolders.Clear();
+						FilesAndFolders.AddRange(filesAndFoldersLocal);
+
+						if (folderSettings.DirectoryGroupOption != GroupOption.None)
+							OrderGroups();
+					}
+
+					void UpdateUI()
+					{
+						// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
+						// once loading is completed so that UI can be updated
+						FilesAndFolders.EndBulkOperation();
+						UpdateEmptyTextType();
+						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+					}
+
+					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+					{
+						await Task.Run(ApplyChanges);
+						UpdateUI();
+					}
+					else
+					{
+						ApplyChanges();
+						await dispatcherQueue.EnqueueOrInvokeAsync(UpdateUI);
+					}
 				}
-
-				void UpdateUI()
+				finally
 				{
-					// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
-					// once loading is completed so that UI can be updated
-					FilesAndFolders.EndBulkOperation();
-					UpdateEmptyTextType();
-					DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-				}
-
-				if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
-				{
-					await Task.Run(ApplyChanges);
-					UpdateUI();
-				}
-				else
-				{
-					ApplyChanges();
-					await dispatcherQueue.EnqueueOrInvokeAsync(UpdateUI);
+					bulkOperationSemaphore.Release();
 				}
 			}
 			catch (Exception ex)
@@ -820,30 +830,38 @@ namespace Files.App.Data.Models
 
 			try
 			{
-				FilesAndFolders.BeginBulkOperation();
-				UpdateGroupOptions();
-
-				if (FilesAndFolders.IsGrouped)
+				await bulkOperationSemaphore.WaitAsync(token);
+				try
 				{
-					await Task.Run(() =>
+					FilesAndFolders.BeginBulkOperation();
+					UpdateGroupOptions();
+
+					if (FilesAndFolders.IsGrouped)
 					{
-						FilesAndFolders.ResetGroups(token);
-						if (token.IsCancellationRequested)
-							return;
+						await Task.Run(() =>
+						{
+							FilesAndFolders.ResetGroups(token);
+							if (token.IsCancellationRequested)
+								return;
 
-						OrderGroups();
-					});
+							OrderGroups();
+						});
+					}
+					else
+					{
+						await OrderFilesAndFoldersAsync();
+					}
+
+					if (token.IsCancellationRequested)
+						return;
+
+					await dispatcherQueue.EnqueueOrInvokeAsync(
+						FilesAndFolders.EndBulkOperation);
 				}
-				else
+				finally
 				{
-					await OrderFilesAndFoldersAsync();
+					bulkOperationSemaphore.Release();
 				}
-
-				if (token.IsCancellationRequested)
-					return;
-
-				await dispatcherQueue.EnqueueOrInvokeAsync(
-					FilesAndFolders.EndBulkOperation);
 			}
 			catch (Exception ex)
 			{
