@@ -1058,6 +1058,7 @@ namespace Files.App.Data.Models
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
+										item.IsElevationRequired = CheckElevationRights(item);
 									},
 									Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
@@ -1182,6 +1183,16 @@ namespace Files.App.Data.Models
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
 			}
+		}
+
+		private bool CheckElevationRights(ListedItem item)
+		{
+			if (item.SyncStatusUI.LoadSyncStatus)
+				return false;
+
+			return item.IsShortcut
+				? ElevationHelpers.IsElevationRequired(((ShortcutItem)item).TargetPath)
+				: ElevationHelpers.IsElevationRequired(item.ItemPath);
 		}
 
 		public async Task LoadGitPropertiesAsync(GitItem gitItem)
