@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Nuova finestra</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Unità scollegata</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Il file a cui stai tentando di accedere potrebbe essere stato spostato o eliminato.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Impossibile aprire le proprietà di questo file</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Il file a cui stai tentando di accedere potrebbe essere stato spostato o eliminato.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Mostra file di sistema protetti</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Includi elementi non indicizzati nei risultati di ricerca</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sincronizza il layout e le preferenze di ordinamento tra le directory</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Mostra l'opzione per aprire le cartelle in un nuovo pannello</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Mostra l'opzione per copiare il percorso</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Mostra l'opzione per creare una cartella con la selezione</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Mostra l'opzione per creare un collegamento</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nuovo pannello</value>
@@ -1060,7 +1072,7 @@
     <value>Commuta il riquadro dettagli per visualizzare le proprietà di base dei file</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Commuta il riquadro informazioni</value>
+    <value>Mostra o nascondi il riquadro informazioni</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Commuta il riquadro informazioni per visualizzare i riquadri dettaglio/anteprima</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocità ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Non sono i droidi che stavi cercando?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Cerca fra gli elementi non indicizzati</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Sostituisci</value>
@@ -1594,7 +1600,7 @@
     <value>Chiudi pannello</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>Entra in modalità Compact Overlay</value>
+    <value>Entra in modalità Overlay Compatto</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Esci dalla modalità Overlay Compatta</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+1</value>
@@ -2014,7 +2017,7 @@
     <value>Adatta tutte le colonne</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Seleziona automaticamente il layout migliore</value>
+    <value>Layout adattativo</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Layout Adattivo (Ctrl+Maiusc+7)</value>
@@ -2059,7 +2062,7 @@
     <value>Tipo</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Colonne in visualizzazione Dettagli</value>
+    <value>Colonne nel layout Dettagli</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Schermata di blocco</value>
@@ -2299,7 +2302,7 @@
     <value>Aiuto</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Modalità a schermo intero</value>
+    <value>Attiva o disattiva schermo intero</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Sei sicuro/a di voler eliminare questo tag?</value>
@@ -2380,13 +2383,13 @@
     <value>Avvia popup anteprima</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Attiva/Disattiva modalità primo piano</value>
+    <value>Attiva o disattiva modalità Overlay Compatto</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
     <value>Apri la pagina di aiuto nel browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Modalità a schermo intero</value>
+    <value>Attiva o disattiva schermo intero</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Entra in modalità Overlay Compatto</value>
@@ -2395,7 +2398,7 @@
     <value>Esci dalla modalità Compact Overlay</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Attiva/Disattiva modalità primo piano</value>
+    <value>Attiva o disattiva modalità Overlay Compatto</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Vai alla ricerca</value>
@@ -2407,7 +2410,7 @@
     <value>Attiva o disattiva la visualizzazione delle estensioni dei file</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Commuta il riquadro di anteprima per visualizzare le anteprime dei file</value>
+    <value>Attiva o disattiva il riquadro di anteprima per visualizzare le anteprime dei file</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Attiva o disattiva la visualizzazione della barra laterale</value>
@@ -2479,7 +2482,7 @@
     <value>Annulla selezione</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Alterna selezione</value>
+    <value>Inverti la selezione degli elementi</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Condividi i file selezionati con altri</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Passa alla visualizzazione riquadri</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Passa alla visualizzazione elenco</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Elenco</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Passa alla visualizzazione griglia con icone piccole</value>
   </data>
@@ -2584,7 +2593,7 @@
     <value>Passa alla visualizzazione colonne</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Seleziona visualizzazione automaticamente</value>
+    <value>Cambia visualizzazione automaticamente</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Ordina gli elementi per nome</value>
@@ -2719,7 +2728,7 @@
     <value>Chiudi il pannello di destra</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Attiva/Disattiva barra laterale</value>
+    <value>Attiva o disattiva la barra laterale</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostra le checkbox quando si selezionano gli elementi</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Cerca fra gli elementi non indicizzati</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Apri la barra del percorso</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Raggruppa gli elementi per l'anno della data di creazione</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Raggruppa gli elementi per il giorno della data di eliminazione</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Impossibile condividere gli elementi</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scorri alla cartella precedente quando scorri verso l'alto</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Apri nuova finestra</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Cambia copertina dell'album</value>
   </data>
 </root>
