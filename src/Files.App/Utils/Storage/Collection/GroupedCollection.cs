@@ -63,17 +63,13 @@ namespace Files.App.Utils.Storage
 				Model.PausePropertyChangedNotifications();
 		}
 
-		public override void BeginBulkOperation()
+		protected override void AfterBeginBulkOperation()
 		{
-			base.BeginBulkOperation();
-			
 			Model.PausePropertyChangedNotifications();
 		}
 
-		public override void EndBulkOperation()
+		protected override void AfterEndBulkOperation()
 		{
-			base.EndBulkOperation();
-
 			Model.ResumePropertyChangedNotifications();
 		}
 	}

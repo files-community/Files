@@ -117,16 +117,29 @@ namespace Files.App.Utils.Storage
 			AddRange(items);
 		}
 
-		public virtual void BeginBulkOperation()
+		public void BeginBulkOperation()
 		{
 			bulkOperationSemaphore.WaitAsync();
-			lock (syncRoot)
+
+			try
 			{
-				isBulkOperationStarted = true;
-				GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
-				GroupedCollection?.BeginBulkOperation();
+				lock (syncRoot)
+				{
+					isBulkOperationStarted = true;
+					GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
+					GroupedCollection?.BeginBulkOperation();
+				}
+
+				AfterBeginBulkOperation();
+			}
+			catch (Exception)
+			{
+				bulkOperationSemaphore.Release();
+				throw;
 			}
 		}
+
+		protected virtual void AfterBeginBulkOperation() { }
 
 		protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e, bool countChanged = true)
 		{
@@ -241,12 +254,16 @@ namespace Files.App.Utils.Storage
 
 					OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
 				}
+
+				AfterEndBulkOperation();
 			}
 			finally
 			{
 				bulkOperationSemaphore.Release();
 			}
 		}
+
+		protected virtual void AfterEndBulkOperation() { }
 
 		public void Add(T? item)
 		{
