@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Items
 {
-	public class SideBarWSLItem : ObservableObject, ISidebarItem
+	public class WslDistroItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 
@@ -61,6 +61,6 @@ namespace Files.App.Data.Items
 			};
 		}
 
-		public int CompareTo(ISidebarItem other) => Text.CompareTo(other.Text);
+		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
 	}
 }

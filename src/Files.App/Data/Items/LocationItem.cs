@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Files.App.Data.Items
 {
-	public class SideBarLocationItem : ObservableObject, ISidebarItem
+	public class LocationItem : ObservableObject, INavigationControlItem
 	{
 		public BitmapImage icon;
 		public BitmapImage Icon
@@ -59,7 +59,7 @@ namespace Files.App.Data.Items
 		public bool IsDefaultLocation { get; set; }
 
 		public object? Children => Section == SidebarSectionType.Home ? null : ChildItems;
-		public BulkConcurrentObservableCollection<ISidebarItem>? ChildItems { get; set; }
+		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
 		public IconSource? IconSource
 		{
 			get => new ImageIconSource()
@@ -112,16 +112,16 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public int CompareTo(ISidebarItem other)
+		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 
-		public static T Create<T>() where T : SideBarLocationItem, new()
+		public static T Create<T>() where T : LocationItem, new()
 		{
 			return new T();
 		}
 	}
 
-	public class RecycleBinLocationItem : SideBarLocationItem
+	public class RecycleBinLocationItem : LocationItem
 	{
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{

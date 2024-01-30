@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Items
 {
-	public class LibraryLocationItem : SideBarLocationItem
+	public class LibraryLocationItem : LocationItem
 	{
 		public string DefaultSaveFolder { get; }
 

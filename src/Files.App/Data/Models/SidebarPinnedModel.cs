@@ -20,10 +20,10 @@ namespace Files.App.Data.Models
 
 		public List<string> FavoriteItems { get; set; } = new List<string>();
 
-		public readonly List<ISidebarItem> favoriteList = new();
+		public readonly List<INavigationControlItem> favoriteList = new();
 
 		[JsonIgnore]
-		public IReadOnlyList<ISidebarItem> Favorites
+		public IReadOnlyList<INavigationControlItem> Favorites
 		{
 			get
 			{
@@ -58,7 +58,7 @@ namespace Files.App.Data.Models
 		/// </summary>
 		/// <param name="locationItem">The location item</param>
 		/// <returns>Index of the item</returns>
-		public int IndexOfItem(ISidebarItem locationItem)
+		public int IndexOfItem(INavigationControlItem locationItem)
 		{
 			lock (favoriteList)
 			{
@@ -66,17 +66,17 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public async Task<SideBarLocationItem> CreateLocationItemFromPathAsync(string path)
+		public async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
 		{
 			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-			SideBarLocationItem locationItem;
+			LocationItem locationItem;
 
 			if (string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-				locationItem = SideBarLocationItem.Create<RecycleBinLocationItem>();
+				locationItem = LocationItem.Create<RecycleBinLocationItem>();
 			else
 			{
-				locationItem = SideBarLocationItem.Create<SideBarLocationItem>();
+				locationItem = LocationItem.Create<LocationItem>();
 
 				if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 					locationItem.Text = "ThisPC".GetLocalizedResource();
@@ -143,7 +143,7 @@ namespace Files.App.Data.Models
 		/// Adds the location item to the navigation sidebar
 		/// </summary>
 		/// <param name="locationItem">The location item which to save</param>
-		private void AddLocationItemToSidebar(SideBarLocationItem locationItem)
+		private void AddLocationItemToSidebar(LocationItem locationItem)
 		{
 			int insertIndex = -1;
 			lock (favoriteList)
@@ -177,7 +177,7 @@ namespace Files.App.Data.Models
 			// Remove unpinned items from favoriteList
 			foreach (var childItem in Favorites)
 			{
-				if (childItem is SideBarLocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+				if (childItem is LocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
 				{
 					lock (favoriteList)
 					{

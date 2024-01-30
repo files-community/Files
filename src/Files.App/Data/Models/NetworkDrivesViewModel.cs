@@ -23,7 +23,7 @@ namespace Files.App.Data.Models
 			this.networkDrivesService = networkDrivesService;
 			drives = new ObservableCollection<ILocatableFolder>();
 
-			var networkItem = new SideBarDriveItem
+			var networkItem = new DriveItem
 			{
 				DeviceID = "network-folder",
 				Text = "Network".GetLocalizedResource(),
@@ -48,13 +48,13 @@ namespace Files.App.Data.Models
 		public async Task UpdateDrivesAsync()
 		{
 			var unsortedDrives = new List<ILocatableFolder>();
-			unsortedDrives.Add(drives.Single(x => x is SideBarDriveItem o && o.DeviceID == "network-folder"));
+			unsortedDrives.Add(drives.Single(x => x is DriveItem o && o.DeviceID == "network-folder"));
 			await foreach (ILocatableFolder item in networkDrivesService.GetDrivesAsync())
 			{
 				unsortedDrives.Add(item);
 			}
 
-			var orderedDrives = unsortedDrives.Cast<SideBarDriveItem>()
+			var orderedDrives = unsortedDrives.Cast<DriveItem>()
 				.OrderByDescending(o => o.DeviceID == "network-folder")
 				.ThenBy(o => o.Text);
 

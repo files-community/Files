@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Data.Items
 {
-	public class SideBarFileTagItem : ObservableObject, ISidebarItem
+	public class FileTagItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 
@@ -34,7 +34,7 @@ namespace Files.App.Data.Items
 		public SidebarItemType ItemType
 			=> SidebarItemType.FileTag;
 
-		public int CompareTo(ISidebarItem other)
+		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 
 		public TagViewModel FileTag { get; set; }

@@ -117,7 +117,7 @@ namespace Files.App.Services
 					if (drive is null)
 						return;
 
-					displayName = (drive as SideBarDriveItem)?.Text;
+					displayName = (drive as DriveItem)?.Text;
 					path += '?';
 				}
 

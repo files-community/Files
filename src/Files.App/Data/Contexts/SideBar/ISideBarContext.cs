@@ -11,7 +11,7 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// Gets the last sidebar right clicked item
 		/// </summary>
-		ISidebarItem? RightClickedItem { get; }
+		INavigationControlItem? RightClickedItem { get; }
 
 		/// <summary>
 		/// Gets the value that indicates whether any item has been right clicked
@@ -26,6 +26,6 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// Gets the drive item to open if any
 		/// </summary>
-		SideBarDriveItem? OpenDriveItem { get; }
+		DriveItem? OpenDriveItem { get; }
 	}
 }

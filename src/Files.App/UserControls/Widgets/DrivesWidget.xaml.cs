@@ -89,7 +89,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (SideBarDriveItem drive in drivesViewModel.Drives.ToList())
+				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
@@ -304,10 +304,10 @@ namespace Files.App.UserControls.Widgets
 		private void MenuFlyout_Opening(object sender, object e)
 		{
 			var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
-			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as SideBarDriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 
 			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
-			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as SideBarDriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
+			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void DisconnectNetworkDrive(WidgetDriveCardItem item)

@@ -20,7 +20,7 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.HasItem &&
 			!context.HasSelection &&
-			(drivesViewModel.Drives.Cast<SideBarDriveItem>().FirstOrDefault(x =>
+			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
 				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()

@@ -44,10 +44,10 @@ namespace Files.App.ViewModels.UserControls
 			=> PaneHolder?.FilesystemHelpers;
 
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
-		private ISidebarItem rightClickedItem;
+		private INavigationControlItem rightClickedItem;
 
 		public object SidebarItems => sidebarItems;
-		public BulkConcurrentObservableCollection<ISidebarItem> sidebarItems { get; init; }
+		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
@@ -71,7 +71,7 @@ namespace Files.App.ViewModels.UserControls
 		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
 
 		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
-		public static event EventHandler<ISidebarItem?>? RightClickedItemChanged;
+		public static event EventHandler<INavigationControlItem?>? RightClickedItemChanged;
 
 		private readonly SidebarSectionType[] SectionOrder =
 			new SidebarSectionType[]
@@ -100,10 +100,10 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var value = arg;
 
-			ISidebarItem? item = null;
+			INavigationControlItem? item = null;
 			var filteredItems = sidebarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(sidebarItems.Where(x => (x as SideBarLocationItem)?.ChildItems is not null).SelectMany(x => ((SideBarLocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.Concat(sidebarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
 
 			if (string.IsNullOrEmpty(value))
@@ -223,9 +223,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private ISidebarItem selectedSidebarItem;
+		private INavigationControlItem selectedSidebarItem;
 
-		public ISidebarItem SidebarSelectedItem
+		public INavigationControlItem SidebarSelectedItem
 		{
 			get => selectedSidebarItem;
 			set => SetProperty(ref selectedSidebarItem, value);
@@ -236,7 +236,7 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-			sidebarItems = new BulkConcurrentObservableCollection<ISidebarItem>();
+			sidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
 
@@ -280,12 +280,12 @@ namespace Files.App.ViewModels.UserControls
 			{
 				var sectionType = (SidebarSectionType)sender;
 				var section = await GetOrCreateSectionAsync(sectionType);
-				Func<IReadOnlyList<ISidebarItem>> getElements = () => sectionType switch
+				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
 					SidebarSectionType.Favorites => App.QuickAccessManager.Model.Favorites,
 					SidebarSectionType.CloudDrives => CloudDrivesManager.Drives,
-					SidebarSectionType.Drives => drivesViewModel.Drives.Cast<SideBarDriveItem>().ToList().AsReadOnly(),
-					SidebarSectionType.Network => networkDrivesViewModel.Drives.Cast<SideBarDriveItem>().ToList().AsReadOnly(),
+					SidebarSectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SidebarSectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SidebarSectionType.WSL => WSLDistroManager.Distros,
 					SidebarSectionType.Library => App.LibraryManager.Libraries,
 					SidebarSectionType.FileTag => App.FileTagsManager.FileTags,
@@ -295,7 +295,7 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		private async Task SyncSidebarItemsAsync(SideBarLocationItem section, Func<IReadOnlyList<ISidebarItem>> getElements, NotifyCollectionChangedEventArgs e)
+		private async Task SyncSidebarItemsAsync(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
 			if (section is null)
 			{
@@ -309,7 +309,7 @@ namespace Files.App.ViewModels.UserControls
 						for (int i = 0; i < e.NewItems.Count; i++)
 						{
 							var index = e.NewStartingIndex < 0 ? -1 : i + e.NewStartingIndex;
-							await AddElementToSectionAsync((ISidebarItem)e.NewItems[i], section, index);
+							await AddElementToSectionAsync((INavigationControlItem)e.NewItems[i], section, index);
 						}
 
 						break;
@@ -319,7 +319,7 @@ namespace Files.App.ViewModels.UserControls
 				case NotifyCollectionChangedAction.Remove:
 				case NotifyCollectionChangedAction.Replace:
 					{
-						foreach (ISidebarItem elem in e.OldItems)
+						foreach (INavigationControlItem elem in e.OldItems)
 						{
 							var match = section.ChildItems.FirstOrDefault(x => x.Path == elem.Path);
 							section.ChildItems.Remove(match);
@@ -334,11 +334,11 @@ namespace Files.App.ViewModels.UserControls
 
 				case NotifyCollectionChangedAction.Reset:
 					{
-						foreach (ISidebarItem elem in getElements())
+						foreach (INavigationControlItem elem in getElements())
 						{
 							await AddElementToSectionAsync(elem, section);
 						}
-						foreach (ISidebarItem elem in section.ChildItems.ToList())
+						foreach (INavigationControlItem elem in section.ChildItems.ToList())
 						{
 							if (!getElements().Any(x => x.Path == elem.Path))
 							{
@@ -354,7 +354,7 @@ namespace Files.App.ViewModels.UserControls
 		private bool IsLibraryOnSidebar(LibraryLocationItem item)
 			=> item is not null && !item.IsEmpty && item.IsDefaultLocation;
 
-		private async Task AddElementToSectionAsync(ISidebarItem elem, SideBarLocationItem section, int index = -1)
+		private async Task AddElementToSectionAsync(INavigationControlItem elem, LocationItem section, int index = -1)
 		{
 			if (elem is LibraryLocationItem lib)
 			{
@@ -366,7 +366,7 @@ namespace Files.App.ViewModels.UserControls
 					await lib.LoadLibraryIconAsync();
 				}
 			}
-			else if (elem is SideBarDriveItem drive)
+			else if (elem is DriveItem drive)
 			{
 				if (section.Section is SidebarSectionType.Network or SidebarSectionType.CloudDrives)
 				{
@@ -406,26 +406,26 @@ namespace Files.App.ViewModels.UserControls
 
 		private void Section_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (sender is SideBarLocationItem section && e.PropertyName == nameof(section.IsExpanded))
+			if (sender is LocationItem section && e.PropertyName == nameof(section.IsExpanded))
 			{
 				Ioc.Default.GetRequiredService<SettingsViewModel>().Set(section.IsExpanded, $"section:{section.Text.Replace('\\', '_')}");
 			}
 		}
 
-		private async Task<SideBarLocationItem> GetOrCreateSectionAsync(SidebarSectionType sectionType)
+		private async Task<LocationItem> GetOrCreateSectionAsync(SidebarSectionType sectionType)
 		{
-			SideBarLocationItem? section = GetSection(sectionType) ?? await CreateSectionAsync(sectionType);
+			LocationItem? section = GetSection(sectionType) ?? await CreateSectionAsync(sectionType);
 			return section;
 		}
 
-		private SideBarLocationItem? GetSection(SidebarSectionType sectionType)
+		private LocationItem? GetSection(SidebarSectionType sectionType)
 		{
-			return sidebarItems.FirstOrDefault(x => x.Section == sectionType) as SideBarLocationItem;
+			return sidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
 		}
 
-		private async Task<SideBarLocationItem> CreateSectionAsync(SidebarSectionType sectionType)
+		private async Task<LocationItem> CreateSectionAsync(SidebarSectionType sectionType)
 		{
-			SideBarLocationItem section = null;
+			LocationItem section = null;
 			BitmapImage icon = null;
 			int iconIdex = -1;
 
@@ -552,19 +552,19 @@ namespace Files.App.ViewModels.UserControls
 			return section;
 		}
 
-		private SideBarLocationItem BuildSection(string sectionName, SidebarSectionType sectionType, SidebarContextMenuOptions options, bool selectsOnInvoked)
+		private LocationItem BuildSection(string sectionName, SidebarSectionType sectionType, SidebarContextMenuOptions options, bool selectsOnInvoked)
 		{
-			return new SideBarLocationItem()
+			return new LocationItem()
 			{
 				Text = sectionName,
 				Section = sectionType,
 				MenuOptions = options,
 				SelectsOnInvoked = selectsOnInvoked,
-				ChildItems = new BulkConcurrentObservableCollection<ISidebarItem>()
+				ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
 			};
 		}
 
-		private void AddSectionToSideBar(SideBarLocationItem section)
+		private void AddSectionToSideBar(LocationItem section)
 		{
 			var index = SectionOrder.TakeWhile(x => x != section.Section).Select(x => sidebarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 			sidebarItems.Insert(Math.Min(index, sidebarItems.Count), section);
@@ -667,7 +667,7 @@ namespace Files.App.ViewModels.UserControls
 			if (sender is not FrameworkElement sidebarItem)
 				return;
 
-			if (args.Item is not ISidebarItem item)
+			if (args.Item is not INavigationControlItem item)
 			{
 				// We are in the pane context requested path
 				PaneFlyout.ShowAt(sender as FrameworkElement, args.Position);
@@ -675,7 +675,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			if (item is SideBarFileTagItem tagItem)
+			if (item is FileTagItem tagItem)
 			{
 				var cts = new CancellationTokenSource();
 				var items = new List<(string path, bool isFolder)>();
@@ -727,7 +727,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
 		{
-			if (item is not ISidebarItem navigationControlItem) return;
+			if (item is not INavigationControlItem navigationControlItem) return;
 			var navigationPath = item as string;
 
 			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
@@ -844,12 +844,12 @@ namespace Files.App.ViewModels.UserControls
 
 		private void PinItem()
 		{
-			if (rightClickedItem is SideBarDriveItem)
+			if (rightClickedItem is DriveItem)
 				_ = QuickAccessService.PinToSidebarAsync(new[] { rightClickedItem.Path });
 		}
 		private void UnpinItem()
 		{
-			if (rightClickedItem.Section == SidebarSectionType.Favorites || rightClickedItem is SideBarDriveItem)
+			if (rightClickedItem.Section == SidebarSectionType.Favorites || rightClickedItem is DriveItem)
 				_ = QuickAccessService.UnpinFromSidebarAsync(rightClickedItem.Path);
 		}
 
@@ -894,11 +894,11 @@ namespace Files.App.ViewModels.UserControls
 			flyoutClosed = async (s, e) =>
 			{
 				menu.Closed -= flyoutClosed;
-				if (rightClickedItem is SideBarDriveItem)
+				if (rightClickedItem is DriveItem)
 					FilePropertiesHelpers.OpenPropertiesWindow(rightClickedItem, PaneHolder.ActivePane);
 				else if (rightClickedItem is LibraryLocationItem library)
 					FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), PaneHolder.ActivePane);
-				else if (rightClickedItem is SideBarLocationItem locationItem)
+				else if (rightClickedItem is LocationItem locationItem)
 				{
 					var listedItem = new ListedItem(null!)
 					{
@@ -927,7 +927,7 @@ namespace Files.App.ViewModels.UserControls
 		private async Task EjectDeviceAsync()
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(rightClickedItem is SideBarDriveItem driveItem ? driveItem.Type : Data.Items.DriveType.Unknown, result);
+			await UIHelpers.ShowDeviceEjectResultAsync(rightClickedItem is DriveItem driveItem ? driveItem.Type : Data.Items.DriveType.Unknown, result);
 		}
 
 		private void FormatDrive()
@@ -935,7 +935,7 @@ namespace Files.App.ViewModels.UserControls
 			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
 		}
 
-		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(ISidebarItem item, CommandBarFlyout menu)
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
 		{
 			var options = item.MenuOptions;
 
@@ -947,8 +947,8 @@ namespace Files.App.ViewModels.UserControls
 			var showMoveItemUp = isFavoriteItem && favoriteIndex > 0;
 			var showMoveItemDown = isFavoriteItem && favoriteIndex < favoriteCount - 1;
 
-			var isDriveItem = item is SideBarDriveItem;
-			var isDriveItemPinned = isDriveItem && ((SideBarDriveItem)item).IsPinned;
+			var isDriveItem = item is DriveItem;
+			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -1079,21 +1079,21 @@ namespace Files.App.ViewModels.UserControls
 
 		public async void HandleItemDragOverAsync(ItemDragOverEventArgs args)
 		{
-			if (args.DropTarget is SideBarLocationItem locationItem)
+			if (args.DropTarget is LocationItem locationItem)
 			{
 				HandleLocationItemDragOverAsync(locationItem, args);
 			}
-			else if (args.DropTarget is SideBarDriveItem driveItem)
+			else if (args.DropTarget is DriveItem driveItem)
 			{
 				HandleDriveItemDragOverAsync(driveItem, args);
 			}
-			else if (args.DropTarget is SideBarFileTagItem fileTagItem)
+			else if (args.DropTarget is FileTagItem fileTagItem)
 			{
 				HandleTagItemDragOverAsync(fileTagItem, args);
 			}
 		}
 
-		private async void HandleLocationItemDragOverAsync(SideBarLocationItem locationItem, ItemDragOverEventArgs args)
+		private async void HandleLocationItemDragOverAsync(LocationItem locationItem, ItemDragOverEventArgs args)
 		{
 			var rawEvent = args.RawEvent;
 			var deferral = rawEvent.GetDeferral();
@@ -1177,7 +1177,7 @@ namespace Files.App.ViewModels.UserControls
 			deferral.Complete();
 		}
 
-		private async void HandleDriveItemDragOverAsync(SideBarDriveItem driveItem, ItemDragOverEventArgs args)
+		private async void HandleDriveItemDragOverAsync(DriveItem driveItem, ItemDragOverEventArgs args)
 		{
 			if (!Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 				return;
@@ -1232,7 +1232,7 @@ namespace Files.App.ViewModels.UserControls
 			deferral.Complete();
 		}
 
-		private async void HandleTagItemDragOverAsync(SideBarFileTagItem tagItem, ItemDragOverEventArgs args)
+		private async void HandleTagItemDragOverAsync(FileTagItem tagItem, ItemDragOverEventArgs args)
 		{
 			if (!Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 				return;
@@ -1259,21 +1259,21 @@ namespace Files.App.ViewModels.UserControls
 
 		public async void HandleItemDroppedAsync(ItemDroppedEventArgs args)
 		{
-			if (args.DropTarget is SideBarLocationItem locationItem)
+			if (args.DropTarget is LocationItem locationItem)
 			{
 				HandleLocationItemDroppedAsync(locationItem, args);
 			}
-			else if (args.DropTarget is SideBarDriveItem driveItem)
+			else if (args.DropTarget is DriveItem driveItem)
 			{
 				HandleDriveItemDroppedAsync(driveItem, args);
 			}
-			else if (args.DropTarget is SideBarFileTagItem fileTagItem)
+			else if (args.DropTarget is FileTagItem fileTagItem)
 			{
 				HandleTagItemDroppedAsync(fileTagItem, args);
 			}
 		}
 
-		private async void HandleLocationItemDroppedAsync(SideBarLocationItem locationItem, ItemDroppedEventArgs args)
+		private async void HandleLocationItemDroppedAsync(LocationItem locationItem, ItemDroppedEventArgs args)
 		{
 			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 			{
@@ -1295,7 +1295,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private async void HandleDriveItemDroppedAsync(SideBarDriveItem driveItem, ItemDroppedEventArgs args)
+		private async void HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
 		{
 			var deferral = args.RawEvent.GetDeferral();
 
@@ -1305,7 +1305,7 @@ namespace Files.App.ViewModels.UserControls
 			await Task.Yield();
 		}
 
-		private async void HandleTagItemDroppedAsync(SideBarFileTagItem fileTagItem, ItemDroppedEventArgs args)
+		private async void HandleTagItemDroppedAsync(FileTagItem fileTagItem, ItemDroppedEventArgs args)
 		{
 			var deferral = args.RawEvent.GetDeferral();
 

@@ -37,7 +37,7 @@ namespace Files.App.Utils.Storage
 				return false;
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-			var matchingDrive = drivesViewModel.Drives.Cast<SideBarDriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
+			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
 			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
@@ -65,7 +65,7 @@ namespace Files.App.Utils.Storage
 			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
 			{
 				// Check among already discovered drives
-				StorageFolder matchingDrive = drivesViewModel.Drives.Cast<SideBarDriveItem>().FirstOrDefault(x =>
+				StorageFolder matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
 					Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
 				if (matchingDrive is null)
 				{

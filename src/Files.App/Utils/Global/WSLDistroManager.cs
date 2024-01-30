@@ -12,8 +12,8 @@ namespace Files.App.Utils
 	{
 		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private static readonly List<SideBarWSLItem> distros = new();
-		public static IReadOnlyList<SideBarWSLItem> Distros
+		private static readonly List<WslDistroItem> distros = new();
+		public static IReadOnlyList<WslDistroItem> Distros
 		{
 			get
 			{
@@ -33,7 +33,7 @@ namespace Files.App.Utils
 				{
 					Uri logoURI = GetLogoUri(folder.DisplayName);
 
-					var distro = new SideBarWSLItem
+					var distro = new WslDistroItem
 					{
 						Text = folder.DisplayName,
 						Path = folder.Path,
@@ -58,7 +58,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public static bool TryGetDistro(string path, [NotNullWhen(true)] out SideBarWSLItem? distro)
+		public static bool TryGetDistro(string path, [NotNullWhen(true)] out WslDistroItem? distro)
 		{
 			var normalizedPath = PathNormalization.NormalizePath(path);
 			distro = Distros.FirstOrDefault(x => normalizedPath.StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));

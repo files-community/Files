@@ -5,11 +5,11 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Items
 {
-	public class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<SideBarDriveItem>, IComparable<WidgetDriveCardItem>
+	public class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<WidgetDriveCardItem>
 	{
 		private byte[] thumbnailData;
 
-		public new SideBarDriveItem Item { get; private set; }
+		public new DriveItem Item { get; private set; }
 
 		private BitmapImage thumbnail;
 		public BitmapImage Thumbnail
@@ -18,7 +18,7 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref thumbnail, value);
 		}
 
-		public WidgetDriveCardItem(SideBarDriveItem item)
+		public WidgetDriveCardItem(DriveItem item)
 		{
 			Item = item;
 			Path = item.Path;

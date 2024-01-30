@@ -21,7 +21,7 @@
 		<ListView x:Name="SidebarNavView" ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="dataitems:SideBarLocationItem">
+				<DataTemplate x:DataType="dataitems:LocationItem">
 					<Grid
 						AllowDrop="True"
 						AutomationProperties.AutomationId="{x:Bind Text}"

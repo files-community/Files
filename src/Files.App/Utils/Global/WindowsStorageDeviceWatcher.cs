@@ -65,7 +65,7 @@ namespace Files.App.Utils
 			
 			var type = DriveHelpers.GetDriveType(driveAdded);
 			var label = DriveHelpers.GetExtendedDriveLabel(driveAdded);
-			SideBarDriveItem driveItem = await SideBarDriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, label, type);
+			DriveItem driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, label, type);
 
 			DeviceAdded?.Invoke(this, driveItem);
 		}
@@ -110,7 +110,7 @@ namespace Files.App.Utils
 				label = string.Empty;
 			}
 
-			var driveItem = await SideBarDriveItem.CreateFromPropertiesAsync(root, deviceId, label, type);
+			var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, label, type);
 
 			DeviceAdded?.Invoke(this, driveItem);
 		}
