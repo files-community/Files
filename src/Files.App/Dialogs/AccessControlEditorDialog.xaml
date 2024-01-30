@@ -88,7 +88,9 @@
 				</StackPanel>
 
 				<!--  Access Controls  -->
-				<StackPanel Grid.Row="2" Spacing="8">
+				<StackPanel Grid.Row="2" Spacing="0">
+
+					<!--  Header  -->
 					<Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
 						<TextBlock
 							HorizontalAlignment="Left"
@@ -104,7 +106,10 @@
 							Command="{x:Bind ModifiableModel.TogglePermissionsVisibilityCommand, Mode=OneWay}"
 							Content="{x:Bind ModifiableModel.PermissionsVisibilityToggleLinkButtonContent, Mode=OneWay}" />
 					</Grid>
+
 					<Grid>
+
+						<!--  Basic Access Controls  -->
 						<StackPanel
 							x:Name="BasicPermissionsPanel"
 							VerticalAlignment="Top"
@@ -147,6 +152,8 @@
 								IsChecked="{x:Bind ModifiableModel.BasicSpecialPermissionsAccessControl, Mode=OneWay}"
 								IsEnabled="False" />
 						</StackPanel>
+
+						<!--  Advanced Access Controls  -->
 						<StackPanel
 							x:Name="AdvancedPermissionsPanel"
 							VerticalAlignment="Top"
@@ -205,7 +212,7 @@
 								Visibility="{x:Bind ModifiableModel.IsFolder, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionDeleteAccessCheckBox"
-								Content="{helpers:ResourceString Name=SecurityDelete}"
+								Content="{helpers:ResourceString Name=Delete}"
 								IsChecked="{x:Bind ModifiableModel.AdvancedDeleteAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							<CheckBox
@@ -224,7 +231,9 @@
 								IsChecked="{x:Bind ModifiableModel.AdvancedTakeOwnershipAccessControl, Mode=TwoWay}"
 								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 						</StackPanel>
+
 					</Grid>
+
 				</StackPanel>
 
 			</StackPanel>

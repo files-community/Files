@@ -3593,8 +3593,11 @@
   <data name="SecurityGroupOrUserNames" xml:space="preserve">
     <value>Group or user names</value>
   </data>
-  <data name="SecurityAdvancedFolderSubfoldersFiles" xml:space="preserve">
+  <data name="SecurityAdvancedFolderAndSubfoldersAndFiles" xml:space="preserve">
     <value>This folder, subfolders and files</value>
+  </data>
+  <data name="SecurityAdvancedFolderAndSubfolders" xml:space="preserve">
+    <value>This folder and subfolders</value>
   </data>
   <data name="SecurityAdvancedFileOnly" xml:space="preserve">
     <value>File only</value>
@@ -3610,9 +3613,6 @@
   </data>
   <data name="SecurityAdvancedThisFolderAndFilesOnly" xml:space="preserve">
     <value>This folder and files</value>
-  </data>
-  <data name="SecurityAdvancedFolderSubfolders" xml:space="preserve">
-    <value>This folder and subfolders</value>
   </data>
   <data name="SecurityAccessTypeWithColon" xml:space="preserve">
     <value>Access type:</value>

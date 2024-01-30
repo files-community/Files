@@ -222,8 +222,8 @@ namespace Files.App.Utils.Storage.Security
 			PossibleAccessControlInheritanceAppliesToHumanizedTypes = new List<string>()
 			{
 				"SecurityAdvancedThisFolderOnly".GetLocalizedResource(),
-				"SecurityAdvancedFolderSubfoldersFiles".GetLocalizedResource(),
-				"SecurityAdvancedFolderSubfolders".GetLocalizedResource(),
+				"SecurityAdvancedFolderAndSubfoldersAndFiles".GetLocalizedResource(),
+				"SecurityAdvancedFolderAndSubfolders".GetLocalizedResource(),
 				"SecurityAdvancedThisFolderAndFilesOnly".GetLocalizedResource(),
 				"SecurityAdvancedSubfoldersFilesOnly".GetLocalizedResource(),
 				"SecurityAdvancedSubfoldersOnly".GetLocalizedResource(),

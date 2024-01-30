@@ -102,12 +102,12 @@ namespace Files.App.Utils.Storage
 						AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.InheritOnly)
 							=> "SecurityAdvancedSubfoldersFilesOnly".GetLocalizedResource(),
 					AccessControlEntryFlags.ObjectInherit
-						=> "SecurityAdvancedFolderSubfoldersFiles".GetLocalizedResource(),
+						=> "SecurityAdvancedFolderAndSubfoldersAndFiles".GetLocalizedResource(),
 					AccessControlEntryFlags.ContainerInherit when
 						AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.InheritOnly)
 							=> "SecurityAdvancedSubfoldersOnly",
 					AccessControlEntryFlags.ContainerInherit
-						=> "SecurityAdvancedFolderSubfolders".GetLocalizedResource(),
+						=> "SecurityAdvancedFolderAndSubfolders".GetLocalizedResource(),
 					_ => "None".GetLocalizedResource(),
 				};
 			}
