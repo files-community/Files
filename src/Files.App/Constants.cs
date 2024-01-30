@@ -210,7 +210,7 @@ namespace Files.App
 			public const string DocumentationUrl = @"https://files.community/docs";
 			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?labels=feature+request&template=feature_request.yml";
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
-			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
+			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/.github/PRIVACY.md";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
 		}
 
