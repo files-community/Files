@@ -1058,7 +1058,7 @@ namespace Files.App.Data.Models
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
-										item.IsElevated = CheckElevationRights(item);
+										item.IsElevationRequired = CheckElevationRights(item);
 									},
 									Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 

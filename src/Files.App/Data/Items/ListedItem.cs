@@ -377,7 +377,7 @@ namespace Files.App.Utils
 		public virtual bool IsPythonFile => FileExtensionHelpers.IsPythonFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
-		public bool IsElevated { get; set; }
+		public bool IsElevationRequired { get; set; }
 
 		private BaseStorageFile itemFile;
 		public BaseStorageFile ItemFile
