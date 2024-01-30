@@ -1,10 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Generic;
 using System.Net;
 
-namespace Files.App.Storage.FtpStorage
+namespace Files.App.Storage
 {
 	public static class FtpManager
 	{

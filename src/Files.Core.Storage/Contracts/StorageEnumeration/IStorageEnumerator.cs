@@ -1,11 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-
-namespace Files.Core.Storage.StorageEnumeration
+namespace Files.Core.Storage.Contracts
 {
 	/// <summary>
 	/// Enumerates storage objects of a given directory.

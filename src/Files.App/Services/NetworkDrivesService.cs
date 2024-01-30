@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Shell;
-using Files.Core.Storage.LocatableStorage;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 

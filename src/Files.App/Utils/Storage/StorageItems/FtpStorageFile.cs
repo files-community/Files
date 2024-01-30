@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Storage.FtpStorage;
+using Files.App.Storage;
 using FluentFTP;
 using System.IO;
 using System.Net;

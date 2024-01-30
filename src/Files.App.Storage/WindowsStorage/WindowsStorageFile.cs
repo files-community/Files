@@ -1,18 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
-using Files.Core.Storage.ExtendableStorage;
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.ModifiableStorage;
-using Files.Core.Storage.NestedStorage;
-using System;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Storage.WindowsStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFile"/>
 	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile

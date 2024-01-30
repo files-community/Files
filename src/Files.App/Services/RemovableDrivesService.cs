@@ -1,8 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Storage.WindowsStorage;
-using Files.Core.Storage.LocatableStorage;
+using Files.App.Storage;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;

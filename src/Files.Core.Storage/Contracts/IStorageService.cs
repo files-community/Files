@@ -1,11 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.LocatableStorage;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Files.Core.Storage
+namespace Files.Core.Storage.Contracts
 {
 	/// <summary>
 	/// Provides an abstract layer for accessing the file system.

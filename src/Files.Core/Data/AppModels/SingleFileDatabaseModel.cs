@@ -1,6 +1,4 @@
-﻿using Files.Core.Storage;
-using Files.Core.Storage.Extensions;
-using Files.Core.Storage.ModifiableStorage;
+﻿using Files.Core.Storage.Extensions;
 using Files.Shared.Extensions;
 using Files.Shared.Utils;
 using System.IO;

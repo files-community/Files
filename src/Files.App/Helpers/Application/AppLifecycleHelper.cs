@@ -4,11 +4,10 @@
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
-using Files.App.Storage.FtpStorage;
-using Files.App.Storage.NativeStorage;
+using Files.App.Storage;
+using Files.App.Storage;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
-using Files.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

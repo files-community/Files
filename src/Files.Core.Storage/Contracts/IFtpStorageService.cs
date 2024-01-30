@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Core.Storage
+namespace Files.Core.Storage.Contracts
 {
 	/// <summary>
 	/// Provides an abstract layer for accessing an ftp file system

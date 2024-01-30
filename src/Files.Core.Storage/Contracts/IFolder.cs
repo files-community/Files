@@ -1,12 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.Enums;
-using Files.Core.Storage.NestedStorage;
-using System.Collections.Generic;
-using System.Threading;
-
-namespace Files.Core.Storage
+namespace Files.Core.Storage.Contracts
 {
 	/// <summary>
 	/// Represents a folder on the file system.

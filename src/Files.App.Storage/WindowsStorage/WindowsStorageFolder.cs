@@ -1,21 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
-using Files.Core.Storage.Enums;
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.ModifiableStorage;
-using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Core.Storage.DirectStorage;
-using Files.Core.Storage.ExtendableStorage;
-using Files.Core.Storage.NestedStorage;
 
-namespace Files.App.Storage.WindowsStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFolder"/>
 	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove

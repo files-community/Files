@@ -1,13 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.MutableStorage;
 using System.Collections.Specialized;
 using System.IO;
-using System.Threading.Tasks;
 
-namespace Files.App.Storage.NativeStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFolderWatcher"/>
     public sealed class NativeFolderWatcher : IFolderWatcher
@@ -15,7 +12,7 @@ namespace Files.App.Storage.NativeStorage
 		private FileSystemWatcher? _fileSystemWatcher;
 		private NotifyCollectionChangedEventHandler? _collectionChanged;
 
-		public IMutableFolder Folder { get; }
+		public IMutableFolder TargetFolder { get; }
 
 		/// <inheritdoc/>
 		public event NotifyCollectionChangedEventHandler? CollectionChanged
@@ -38,13 +35,13 @@ namespace Files.App.Storage.NativeStorage
 
 		public NativeFolderWatcher(IMutableFolder folder)
 		{
-			Folder = folder;
+			TargetFolder = folder;
 			SetupWatcher();
 		}
 
 		private void SetupWatcher()
 		{
-			if (Folder is ILocatableFolder locatableFolder)
+			if (TargetFolder is ILocatableFolder locatableFolder)
 			{
 				_fileSystemWatcher = new(locatableFolder.Path);
 				_fileSystemWatcher.Created += FileSystemWatcher_Created;

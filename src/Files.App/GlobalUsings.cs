@@ -79,3 +79,11 @@ global using global::Files.Core.Utils.CommandLine;
 // Files.Shared
 global using global::Files.Shared;
 global using global::Files.Shared.Extensions;
+
+// Files.Core.Storage
+global using global::Files.Core.Storage.Contracts;
+global using global::Files.Core.Storage.Enums;
+global using global::Files.Core.Storage.Extensions;
+
+// Files.App.Storage
+global using global::Files.App.Storage;

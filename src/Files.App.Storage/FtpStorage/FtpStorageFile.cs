@@ -1,16 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.ModifiableStorage;
-using Files.Core.Storage.NestedStorage;
-using System;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Files.App.Storage.FtpStorage
+namespace Files.App.Storage
 {
 	public sealed class FtpStorageFile : FtpStorable, IModifiableFile, ILocatableFile, INestedFile
 	{

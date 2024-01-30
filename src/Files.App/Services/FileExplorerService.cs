@@ -1,8 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Storage.WindowsStorage;
-using Files.Core.Storage.LocatableStorage;
+using Files.App.Storage;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;

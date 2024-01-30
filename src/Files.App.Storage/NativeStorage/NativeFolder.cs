@@ -1,23 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
-using Files.Core.Storage.DirectStorage;
-using Files.Core.Storage.Enums;
-using Files.Core.Storage.ExtendableStorage;
-using Files.Core.Storage.Extensions;
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.ModifiableStorage;
-using Files.Core.Storage.MutableStorage;
-using Files.Core.Storage.NestedStorage;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Files.App.Storage.NativeStorage
+namespace Files.App.Storage
 {
 	/// <inheritdoc cref="IFolder"/>
 	public class NativeFolder : NativeStorable<DirectoryInfo>, ILocatableFolder, IModifiableFolder, IMutableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove

@@ -2,10 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Files.Core.Storage.ExtendableStorage
+namespace Files.Core.Storage.Contracts
 {
 	/// <summary>
 	/// Represents a file that provides additional options for its manipulation.
