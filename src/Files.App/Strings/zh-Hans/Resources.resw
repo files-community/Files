@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>打开新窗口</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>新建窗口</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>复制路径</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>复制路径（带引号）</value>
+    <value>复制带引号的路径</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
@@ -211,7 +211,7 @@
     <value>显示隐藏的文件和文件夹</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>显示以英文句点 (.) 开头的项</value>
+    <value>显示仅有扩展名的项</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
@@ -277,13 +277,13 @@
     <value>固定到收藏夹</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>欢迎使用 Files!</value>
+    <value>欢迎使用 Files！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>授予权限</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>要开始使用，请授予我们访问文件系统的权限。你可以在稍后打开的设置窗口中授权。完成设置后，需要重新打开应用程序。 </value>
+    <value>使用此应用需授予我们访问文件系统的权限。你可在稍后打开的设置页面中授权。完成设置后，需重启应用程序。 </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>显示</value>
@@ -349,6 +349,12 @@
     <value>驱动器已弹出</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>要访问的文件可能已被移动或删除。</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>无法打开此文件的属性</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>要访问的文件可能已被移动或删除。</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>显示受保护的系统文件</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>在搜索结果中包含未建立索引的项</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>在不同目录之间使用相同的布局和排序设置</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>显示“在新面板中打开”</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>显示“复制路径”选项</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>显示“用选中项创建文件夹”选项</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>显示“创建快捷方式”选项</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新面板</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO 感光度</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>没有找到你想要的内容?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>搜索未索引的项目</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>替换已有的项目</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>主页</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>切换至平铺视图</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>切换到列表视图</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>列表</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>切换至小图标网格视图</value>
   </data>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>选择项目时显示复选框</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>搜索未编入索引的项</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>移动焦点到路径栏</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>按创建日期的年份分组</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>按删除日期分组</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>共享项目失败</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>向上导航时滚动至前一个文件夹</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>打开新窗口</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>更改专辑封面</value>
   </data>
 </root>
