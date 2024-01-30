@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Yeni pencere</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Sürücü Çıkarıldı</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Erişmeye çalıştığınız dosya taşınmış ya da silinmiş olabilir.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Bu dosya için özellikler açılamıyor</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya taşınmış ya da silinmiş olabilir.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Korunan sistem dosyalarını göster</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Dizine alınmamış öğeleri arama sonuçlarına dahil et</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Dizinler arası düzen ve sıralama tercihlerini senkronla</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Dizinleri yeni bir bölmede açma seçeneğini göster</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Yolu kopyalama seçeneğini göster</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Seçimle klasör oluşturma seçeneğini göster</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Kısayol oluşturma seçeneğini göster</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Yeni bölme</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO hızı</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Aradığınızı bulamadınız mı?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Dizine alınmamış ögeleri arayın</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Var olanı değiştir</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Ev</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2233,7 +2236,7 @@
     <value>Sıkıştırma seçeneklerini göster</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Gönder menüsünü göster</value>
+    <value>Menüye gönder'i göster</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Dizinleri yeni bir sekmede açma seçeneğini göster</value>
@@ -2570,6 +2573,12 @@
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Döşeme görünümüne geç</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Liste görünümüne geç</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Liste</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Küçük simgeli tablo görünümüne geç</value>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Öğeleri seçerken onay kutularını göster</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Dizine eklenmemiş öğeleri ara</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Odak yolu çubuğu</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Öğeleri oluşturulma tarihine göre gruplandırma</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Öğeleri silindikleri güne göre grupla</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Öğeler paylaşılamadı</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Yukarı doğru gezinirken önceki klasöre kaydır</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Yeni pencere aç</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Albüm kapağını değiştir</value>
   </data>
 </root>
