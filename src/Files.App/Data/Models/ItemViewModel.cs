@@ -687,6 +687,7 @@ namespace Files.App.Data.Models
 				// Note that both DataGrid and GridView don't support multi-items changes notification, so here
 				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
 				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
+				FilesAndFolders.BeginBulkOperation();
 
 				// After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
 				// so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
@@ -714,32 +715,12 @@ namespace Files.App.Data.Models
 
 				if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 				{
-					FilesAndFolders.BeginBulkOperation();
-					try
-					{
-						await Task.Run(ApplyChanges);
-					}
-					catch (Exception)
-					{
-						// Ensure to end the bulk operation
-						FilesAndFolders.EndBulkOperation();
-						throw;
-					}
+					await Task.Run(ApplyChanges);
 					UpdateUI();
 				}
 				else
 				{
-					FilesAndFolders.BeginBulkOperation();
-					try
-					{
-						ApplyChanges();
-					}
-					catch (Exception)
-					{
-						// Ensure to end the bulk operation
-						await dispatcherQueue.EnqueueOrInvokeAsync(FilesAndFolders.EndBulkOperation);
-						throw;
-					}
+					ApplyChanges();
 					await dispatcherQueue.EnqueueOrInvokeAsync(UpdateUI);
 				}
 			}
@@ -840,35 +821,29 @@ namespace Files.App.Data.Models
 			try
 			{
 				FilesAndFolders.BeginBulkOperation();
-				try
+				UpdateGroupOptions();
+
+				if (FilesAndFolders.IsGrouped)
 				{
-					UpdateGroupOptions();
-
-					if (FilesAndFolders.IsGrouped)
+					await Task.Run(() =>
 					{
-						await Task.Run(() =>
-						{
-							FilesAndFolders.ResetGroups(token);
-							if (token.IsCancellationRequested)
-								return;
+						FilesAndFolders.ResetGroups(token);
+						if (token.IsCancellationRequested)
+							return;
 
-							OrderGroups();
-						});
-					}
-					else
-					{
-						await OrderFilesAndFoldersAsync();
-					}
-
-					if (token.IsCancellationRequested)
-						return;
-
+						OrderGroups();
+					});
 				}
-				finally
+				else
 				{
-					await dispatcherQueue.EnqueueOrInvokeAsync(
-						FilesAndFolders.EndBulkOperation);
+					await OrderFilesAndFoldersAsync();
 				}
+
+				if (token.IsCancellationRequested)
+					return;
+
+				await dispatcherQueue.EnqueueOrInvokeAsync(
+					FilesAndFolders.EndBulkOperation);
 			}
 			catch (Exception ex)
 			{
