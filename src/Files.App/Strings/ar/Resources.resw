@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>نافذة جديدة</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>محرك الأقراص غير موصول</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>الملف الذي تحاول الوصول إليه قد تم نقله او حذفه.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Cannot open properties for this file</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>الملف الذي تحاول الوصول إليه قد تم نقله او حذفه.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>إظهار ملفات النظام المحمية</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>تضمين العناصر الغير مفهرسة في نتائج البحث</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>مزامنة التخطيط وفرز التفضيلات عبر الدلائل</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>إظهار خيار فتح المجلدات في لوحة جديدة</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>عرض خِيار نسخ المسار</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>عرض خِيار إنشاء مجلد مع التحديد</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Show option to create shortcut</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>لوحة جديدة</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>‏‏السرعة وفق ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>ألم تجد ما تبحث عنه؟</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>البحث عن العناصر غير المفهرسة</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>استبدال الموجود</value>
@@ -1650,9 +1656,6 @@
   <data name="Home" xml:space="preserve">
     <value>الصفحة الرئيسية</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1813,7 +1816,7 @@
     <value>استعادة الافتراضي</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Open tab in existing instance when opening Files from another app</value>
+    <value>فتح تاب جديدة في نفس الواجهة الموجودة عند فتح الملفات من تطبيق آخر</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>إعدادات بدء التشغيل</value>
@@ -2233,7 +2236,7 @@
     <value>Show compression options</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>عرض قائمة الإرسال إلى</value>
+    <value>Show send to menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>إظهار خيار فتح المجلدات في علامة تبويب جديدة</value>
@@ -2570,6 +2573,12 @@
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>التبديل إلى عرض المربعات</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Switch to list view</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>التبديل إلى عرض الشبكة مع أيقونات صغيرة</value>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>إظهار مربعات الاختيار عند تحديد العناصر</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>البحث عن عناصر غير مفهرسة</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>تركيز شريط المسار</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>تجميع العناصر حسب سنة تاريخ إنشائها</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Group items by day of date deleted</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Failed to share items</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>فتح نافذة جديدة</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Change album cover</value>
   </data>
 </root>
