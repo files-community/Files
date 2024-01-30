@@ -945,13 +945,16 @@ namespace Files.App.Data.Models
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getIconOnly);
 
-				if (iconInfo.IconData is not null && !iconInfo.isIconCached)
+				if (!iconInfo.isIconCached)
 				{
 					// Display icon while trying to load cached thumbnail
-					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					if (iconInfo.IconData is not null)
 					{
-						item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					}
 
 					// Loop until cached thumbnail is loaded or timeout is reached
 					var cancellationTokenSource = new CancellationTokenSource(3000);
@@ -990,6 +993,7 @@ namespace Files.App.Data.Models
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 80;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, getIconOnly);
+				
 				if (iconInfo.IconData is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
