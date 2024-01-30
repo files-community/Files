@@ -27,12 +27,12 @@ namespace Files.App.Data.Items
 
 		public string ToolTipText { get; private set; }
 
-		public SidebarSectionType Section { get; set; }
+		public SectionType  Section { get; set; }
 
-		public SidebarContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions MenuOptions { get; set; }
 
-		public SidebarItemType ItemType
-			=> SidebarItemType.FileTag;
+		public NavigationControlItemType ItemType
+			=> NavigationControlItemType.FileTag;
 
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);

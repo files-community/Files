@@ -29,9 +29,9 @@ namespace Files.App.Data.Models
 				Text = "Network".GetLocalizedResource(),
 				Path = Constants.UserEnvironmentPaths.NetworkFolderPath,
 				Type = DriveType.Network,
-				ItemType = SidebarItemType.Drive,
+				ItemType = NavigationControlItemType.Drive,
 			};
-			networkItem.MenuOptions = new SidebarContextMenuOptions
+			networkItem.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
 				ShowShellItems = true,

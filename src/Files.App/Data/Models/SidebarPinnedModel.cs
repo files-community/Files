@@ -85,8 +85,8 @@ namespace Files.App.Data.Models
 			}
 
 			locationItem.Path = path;
-			locationItem.Section = SidebarSectionType.Favorites;
-			locationItem.MenuOptions = new SidebarContextMenuOptions
+			locationItem.Section = SectionType .Favorites;
+			locationItem.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
 				ShowProperties = true,
@@ -151,12 +151,12 @@ namespace Files.App.Data.Models
 				if (favoriteList.Any(x => x.Path == locationItem.Path))
 					return;
 
-				var lastItem = favoriteList.LastOrDefault(x => x.ItemType is SidebarItemType.Location);
+				var lastItem = favoriteList.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
 				favoriteList.Insert(insertIndex, locationItem);
 			}
 
-			DataChanged?.Invoke(SidebarSectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
+			DataChanged?.Invoke(SectionType .Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
 		/// <summary>
@@ -183,12 +183,12 @@ namespace Files.App.Data.Models
 					{
 						favoriteList.Remove(item);
 					}
-					DataChanged?.Invoke(SidebarSectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+					DataChanged?.Invoke(SectionType .Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 
 			// Remove unpinned items from sidebar
-			DataChanged?.Invoke(SidebarSectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			DataChanged?.Invoke(SectionType .Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)

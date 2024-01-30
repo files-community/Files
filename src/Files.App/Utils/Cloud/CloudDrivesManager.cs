@@ -55,7 +55,7 @@ namespace Files.App.Utils.Cloud
 					_logger?.LogWarning(ex, "Cloud provider local folder couldn't be found");
 				}
 
-				cloudProviderItem.MenuOptions = new SidebarContextMenuOptions()
+				cloudProviderItem.MenuOptions = new ContextMenuOptions()
 				{
 					IsLocationItem = true,
 					ShowEjectDevice = cloudProviderItem.IsRemovable,
@@ -81,7 +81,7 @@ namespace Files.App.Utils.Cloud
 				}
 
 				DataChanged?.Invoke(
-					SidebarSectionType.CloudDrives,
+					SectionType .CloudDrives,
 					new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem)
 				);
 			}

@@ -20,8 +20,8 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public SidebarItemType ItemType
-			=> SidebarItemType.LinuxDistro;
+		public NavigationControlItemType ItemType
+			=> NavigationControlItemType.LinuxDistro;
 
 		private Uri icon;
 		public Uri Icon
@@ -34,9 +34,9 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public SidebarSectionType Section { get; set; }
+		public SectionType  Section { get; set; }
 
-		public SidebarContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions MenuOptions { get; set; }
 
 		public object? Children => null;
 

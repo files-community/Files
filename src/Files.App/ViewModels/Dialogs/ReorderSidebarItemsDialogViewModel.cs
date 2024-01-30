@@ -15,7 +15,7 @@ namespace Files.App.ViewModels.Dialogs
 		public ICommand PrimaryButtonCommand { get; private set; }
 
 		public ObservableCollection<LocationItem> SidebarFavoriteItems = new(App.QuickAccessManager.Model.favoriteList
-			.Where(x => x is LocationItem loc && loc.Section is SidebarSectionType.Favorites && !loc.IsHeader)
+			.Where(x => x is LocationItem loc && loc.Section is SectionType .Favorites && !loc.IsHeader)
 			.Cast<LocationItem>());
 
 		public ReorderSidebarItemsDialogViewModel() 

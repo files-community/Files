@@ -41,7 +41,7 @@ namespace Files.App.Data.Items
 
 		public StorageFolder Root { get; set; }
 
-		public SidebarItemType ItemType { get; set; } = SidebarItemType.Drive;
+		public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
 
 		public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
@@ -147,9 +147,9 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref spaceText, value);
 		}
 
-		public SidebarSectionType Section { get; set; }
+		public SectionType  Section { get; set; }
 
-		public SidebarContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions MenuOptions { get; set; }
 
 		private float percentageUsed = 0.0f;
 		public float PercentageUsed
@@ -243,7 +243,7 @@ namespace Files.App.Data.Items
 				_ => root.DisplayName
 			};
 			item.Type = type;
-			item.MenuOptions = new SidebarContextMenuOptions
+			item.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
 				ShowEjectDevice = item.IsRemovable,
