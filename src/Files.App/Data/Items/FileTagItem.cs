@@ -27,7 +27,7 @@ namespace Files.App.Data.Items
 
 		public string ToolTipText { get; private set; }
 
-		public SectionType  Section { get; set; }
+		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
 

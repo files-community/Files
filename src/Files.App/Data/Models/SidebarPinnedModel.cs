@@ -85,7 +85,7 @@ namespace Files.App.Data.Models
 			}
 
 			locationItem.Path = path;
-			locationItem.Section = SectionType .Favorites;
+			locationItem.Section = SectionType.Favorites;
 			locationItem.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
@@ -156,7 +156,7 @@ namespace Files.App.Data.Models
 				favoriteList.Insert(insertIndex, locationItem);
 			}
 
-			DataChanged?.Invoke(SectionType .Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
+			DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
 		/// <summary>
@@ -183,12 +183,12 @@ namespace Files.App.Data.Models
 					{
 						favoriteList.Remove(item);
 					}
-					DataChanged?.Invoke(SectionType .Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+					DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 
 			// Remove unpinned items from sidebar
-			DataChanged?.Invoke(SectionType .Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)

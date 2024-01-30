@@ -81,7 +81,7 @@ namespace Files.App.Utils.Cloud
 				}
 
 				DataChanged?.Invoke(
-					SectionType .CloudDrives,
+					SectionType.CloudDrives,
 					new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem)
 				);
 			}

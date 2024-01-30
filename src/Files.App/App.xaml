@@ -31,7 +31,7 @@
 
 				<!--  Styles for the custom icons  -->
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PathIcons.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/SidebarStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///UserControls/SideBar/SideBarControls.xaml" />
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/App.Theme.TextBlockStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/MenuFlyoutSubItemWithImageStyle.xaml" />
 				<ResourceDictionary>

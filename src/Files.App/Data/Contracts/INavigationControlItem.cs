@@ -11,7 +11,7 @@ namespace Files.App.Data.Contracts
 
 		public string Path { get; }
 
-		public SectionType  Section { get; }
+		public SectionType Section { get; }
 
 		public NavigationControlItemType ItemType { get; }
 
@@ -26,7 +26,7 @@ namespace Files.App.Data.Contracts
 		FileTag
 	}
 
-	public enum SectionType 
+	public enum SectionType
 	{
 		Home,
 		Favorites,

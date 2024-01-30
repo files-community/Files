@@ -147,7 +147,7 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref spaceText, value);
 		}
 
-		public SectionType  Section { get; set; }
+		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
 
