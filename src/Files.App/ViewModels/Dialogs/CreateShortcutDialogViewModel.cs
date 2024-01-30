@@ -138,7 +138,8 @@ namespace Files.App.ViewModels.Dialogs
 				destinationName = uri.Host;
 			}
 
-			var shortcutName = string.Format("ShortcutCreateNewSuffix".ToLocalized(), destinationName);
+			var shortcutName = FilesystemHelpers.GetShortcutNamingPreference(destinationName);
+
 			ShortcutCompleteName = shortcutName + extension;
 			var filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 
