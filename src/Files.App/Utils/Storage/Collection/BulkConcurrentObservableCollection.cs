@@ -12,6 +12,7 @@ namespace Files.App.Utils.Storage
 		protected bool isBulkOperationStarted;
 		private readonly object syncRoot = new object();
 		private readonly List<T> collection = new List<T>();
+		private readonly SemaphoreSlim bulkOperationSemaphore = new SemaphoreSlim(1, 1);
 
 		// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
 		public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }
@@ -118,6 +119,7 @@ namespace Files.App.Utils.Storage
 
 		public virtual void BeginBulkOperation()
 		{
+			bulkOperationSemaphore.WaitAsync();
 			lock (syncRoot)
 			{
 				isBulkOperationStarted = true;
@@ -226,19 +228,24 @@ namespace Files.App.Utils.Storage
 
 		public virtual void EndBulkOperation()
 		{
-			lock (syncRoot)
+			try
 			{
-				if (!isBulkOperationStarted)
-					return;
+				lock (syncRoot)
+				{
+					if (!isBulkOperationStarted)
+						return;
 
-				isBulkOperationStarted = false;
-				GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
-				GroupedCollection?.EndBulkOperation();
+					isBulkOperationStarted = false;
+					GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
+					GroupedCollection?.EndBulkOperation();
 
-				OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+					OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+				}
 			}
-
-			UpdateGroups(EventArgsCache.ResetCollectionChanged);
+			finally
+			{
+				bulkOperationSemaphore.Release();
+			}
 		}
 
 		public void Add(T? item)
