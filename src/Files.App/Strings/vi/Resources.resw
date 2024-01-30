@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Cửa sổ mới</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Ổ lưu trữ đã bị ngắt kết nối</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Tệp bạn cố truy cập có thể đã bị di chuyển hoặc xóa bỏ.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Không thể mở thuộc tính của tệp này</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Tệp bạn cố truy cập có thể đã bị di chuyển hoặc xóa bỏ.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -760,7 +766,7 @@
     <value>Nhịp mỗi phút</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
-    <value>Nhà soạn nhạc</value>
+    <value>Nhạc sĩ</value>
   </data>
   <data name="Conductor" xml:space="preserve">
     <value>Nhạc trưởng</value>
@@ -772,7 +778,7 @@
     <value>Thể loại</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
-    <value>Số rãnh</value>
+    <value>Số rãnh âm</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
     <value>Thời lượng</value>
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Hiện tệp hệ thống được bảo vệ</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Tìm kiếm các kết quả chưa đánh chỉ mục</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Áp dụng tùy chọn bố cục và sắp xếp ở mọi thư mục</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Hiện tùy chọn mở thư mục trong ngăn mới</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Hiện tùy chọn sao chép đường dẫn</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Hiện tùy chọn tạo thư mục với lựa chọn</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Hiện tùy chọn tạo lối tắt</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Ngăn mới</value>
@@ -1272,12 +1284,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Tốc độ ISO</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Bạn không tìm thấy nội dung cần tìm?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Tìm kiếm kết quả ngoài chỉ mục</value>
-  </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Thay thế hiện có</value>
   </data>
@@ -1291,7 +1297,7 @@
     <value>Có một tên tệp xung đột.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Tạo đường dẫn chứa mục đã chọn</value>
+    <value>Tạo thư mục với lựa chọn</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Loại:</value>
@@ -1650,9 +1656,6 @@
   <data name="Home" xml:space="preserve">
     <value>Trang chủ</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1822,7 +1825,7 @@
     <value>Tương thích</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>Không có</value>
+    <value>Không</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
     <value>Khi đăng nhập Windows</value>
@@ -2233,7 +2236,7 @@
     <value>Hiện tùy chọn nén</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Hiện menu Gửi tới</value>
+    <value>Hiện menu gửi tới</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Hiện tùy chọn mở thư mục trong thẻ mới</value>
@@ -2570,6 +2573,12 @@
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Chuyển sang bố cục lát</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Chuyển sang bố cục danh sách</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Danh sách</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Chuyển sang bố cục lưới với biểu tượng nhỏ</value>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Hiện hộp kiểm khi chọn khoản mục</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Tìm kiếm kết quả ngoài chỉ mục</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Đặt tiêu điểm vào thanh đường dẫn</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Nhóm khoản mục theo năm tạo</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Nhóm khoản mục theo ngày xóa</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3405,7 +3411,7 @@
     <value>Files không thể khởi tạo đường dẫn này dưới dạng kho lưu trữ Git.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
-    <value>Hoạ sĩ đóng góp</value>
+    <value>Nghệ sĩ đóng góp</value>
   </data>
   <data name="AddPage" xml:space="preserve">
     <value>Thêm trang</value>
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Không thể chia sẻ khoản mục</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Cuộn đến vị trí thư mục trước đó khi điều hướng lùi về</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Mở cửa sổ mới</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Thay đổi bìa album</value>
   </data>
 </root>
