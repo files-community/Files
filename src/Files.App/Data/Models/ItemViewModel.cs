@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
 using Files.Shared.Helpers;
 using LibGit2Sharp;
@@ -909,9 +908,9 @@ namespace Files.App.Data.Models
 			if (currentDefaultIconSize == size)
 				return;
 
-			// TODO: Add more than just the folder icon
 			DefaultIcons.Clear();
 
+			// TODO: Add more than just the folder icon
 			using StorageItemThumbnail icon = await FilesystemTasks.Wrap(() => StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist));
 			if (icon is not null)
 			{
@@ -947,7 +946,7 @@ namespace Files.App.Data.Models
 
 				if (!iconInfo.isIconCached)
 				{
-					// Display icon while trying to load cached thumbnail
+					// Assign a placeholder icon while trying to get a cached thumbnail
 					if (iconInfo.IconData is not null)
 					{
 						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -970,18 +969,23 @@ namespace Files.App.Data.Models
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
+						// Assign the thumbnail/icon to the listed item
 						item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-						if (!string.IsNullOrEmpty(item.FileExtension) &&
-							!item.IsShortcut && !item.IsExecutable &&
-							!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
+
+						// Add the file icon to the DefaultIcons list
+						if (!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) && !string.IsNullOrEmpty(item.FileExtension))
 						{
-							DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
+							var fileIcon = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, true);
+							var bitmapImage = await fileIcon.IconData.ToBitmapAsync();
+							DefaultIcons.Add(item.FileExtension.ToLowerInvariant(), bitmapImage);
 						}
+
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 
 				if (iconInfo.OverlayData is not null)
 				{
+					// Assign the icon overlay to the listed item
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
 						item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
@@ -993,7 +997,7 @@ namespace Files.App.Data.Models
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 80;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, getIconOnly);
-				
+
 				if (iconInfo.IconData is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>

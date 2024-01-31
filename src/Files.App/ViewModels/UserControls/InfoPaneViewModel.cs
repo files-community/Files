@@ -129,9 +129,12 @@ namespace Files.App.ViewModels.UserControls
 					else
 						SelectedItem = null;
 
-					var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
-					if (shouldUpdatePreview == true)
-						_ = UpdateSelectedItemPreviewAsync();
+					if (!App.AppModel.IsMainWindowClosed)
+					{
+						var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
+						if (shouldUpdatePreview == true)
+							_ = UpdateSelectedItemPreviewAsync();
+					}
 					break;
 			}
 		}
