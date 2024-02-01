@@ -24,7 +24,7 @@ namespace Files.App.Utils.Storage
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
 			IntPtr hFile,
-			WIN32_FIND_DATA findData,
+			Win32PInvoke.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
@@ -166,7 +166,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem> GetFolder(
-			WIN32_FIND_DATA findData,
+			Win32PInvoke.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
@@ -180,10 +180,10 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -243,7 +243,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem> GetFile(
-			WIN32_FIND_DATA findData,
+			Win32PInvoke.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
@@ -256,13 +256,13 @@ namespace Files.App.Utils.Storage
 
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
+				FileTimeToSystemTime(ref findData.ftLastAccessTime, out Win32PInvoke.SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)
