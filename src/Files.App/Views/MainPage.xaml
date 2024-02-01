@@ -272,7 +272,7 @@
 					Grid.Row="4"
 					Grid.ColumnSpan="3"
 					x:Load="False"
-					ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+					ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.ShellInstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
 
 			</Grid>
 
