@@ -264,7 +264,7 @@
 										Margin="2"
 										HorizontalAlignment="Right"
 										VerticalAlignment="Bottom"
-										x:Load="{x:Bind IsElevated}"
+										x:Load="{x:Bind IsElevationRequired}"
 										Source="{x:Bind ShieldIcon, Mode=OneWay}"
 										Stretch="Uniform" />
 								</Grid>

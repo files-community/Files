@@ -938,12 +938,34 @@ namespace Files.App.Data.Models
 		}
 
 		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
-		private async Task<bool> LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96)
+		private async Task LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96)
 		{
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getIconOnly);
+
+				if (!iconInfo.isIconCached)
+				{
+					// Display icon while trying to load cached thumbnail
+					if (iconInfo.IconData is not null)
+					{
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					}
+
+					// Loop until cached thumbnail is loaded or timeout is reached
+					var cancellationTokenSource = new CancellationTokenSource(3000);
+					while (!iconInfo.isIconCached)
+					{
+						iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getIconOnly);
+						cancellationTokenSource.Token.ThrowIfCancellationRequested();
+						await Task.Delay(500);
+					}
+				}
+
 				if (iconInfo.IconData is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -966,13 +988,12 @@ namespace Files.App.Data.Models
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
-
-				return iconInfo.isIconCached;
 			}
 			else
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 80;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, getIconOnly);
+				
 				if (iconInfo.IconData is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -989,8 +1010,6 @@ namespace Files.App.Data.Models
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
-
-				return iconInfo.isIconCached;
 			}
 		}
 
@@ -1058,19 +1077,14 @@ namespace Files.App.Data.Models
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
+										item.IsElevationRequired = CheckElevationRights(item);
 									},
 									Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 									SetFileTag(item);
 									wasSyncStatusLoaded = true;
 
-									var cancellationTokenSource = new CancellationTokenSource(3000);
-									// Loop until cached thumbnail is loaded or timeout is reached
-									while (!await LoadItemThumbnailAsync(item, thumbnailSize))
-									{
-										cancellationTokenSource.Token.ThrowIfCancellationRequested();
-										await Task.Delay(100);
-									}
+									await LoadItemThumbnailAsync(item, thumbnailSize);
 								}
 							}
 
@@ -1182,6 +1196,16 @@ namespace Files.App.Data.Models
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
 			}
+		}
+
+		private bool CheckElevationRights(ListedItem item)
+		{
+			if (item.SyncStatusUI.LoadSyncStatus)
+				return false;
+
+			return item.IsShortcut
+				? ElevationHelpers.IsElevationRequired(((ShortcutItem)item).TargetPath)
+				: ElevationHelpers.IsElevationRequired(item.ItemPath);
 		}
 
 		public async Task LoadGitPropertiesAsync(GitItem gitItem)

@@ -143,10 +143,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SortBy".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconSort",
-					},
+					OpacityIcon = new("ColorIconSort"),
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
@@ -355,10 +352,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = commands.AddItem.Glyph.OpacityStyle
-					},
+					OpacityIcon = new(commands.AddItem.Glyph.OpacityStyle),
 					Text = commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
 					ShowItem = !itemsSelected,
@@ -385,10 +379,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenWith"
-					},
+					OpacityIcon = new("ColorIconOpenWith"),
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
@@ -512,10 +503,7 @@ namespace Files.App.Helpers
 				{
 					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconZip",
-					},
+					OpacityIcon = new("ColorIconZip"),
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive).Build(),
@@ -528,10 +516,7 @@ namespace Files.App.Helpers
 				{
 					Text = "Extract".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconZip",
-					},
+					OpacityIcon = new("ColorIconZip"),
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive).Build(),
