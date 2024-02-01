@@ -615,7 +615,6 @@ namespace Files.App.Utils.Storage
 			source = source.Where(x => !string.IsNullOrEmpty(x.Path));
 
 			var dest = source.Select(x => Path.Combine(destination, FilesystemHelpers.GetShortcutNamingPreference(x.Name)));
-
 			source = await source.ToListAsync();
 			dest = await dest.ToListAsync();
 
