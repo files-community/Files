@@ -7,7 +7,7 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using static Files.App.Helpers.MenuFlyoutHelper;
+using static Files.App.Helpers.LegacyMenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
