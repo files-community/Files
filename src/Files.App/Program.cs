@@ -8,7 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static Files.App.Helpers.Win32Helper;
+using static Files.Core.Helpers.Win32PInvoke;
 
 namespace Files.App
 {
@@ -191,15 +191,15 @@ namespace Files.App
 		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			IntPtr eventHandle = Win32PInvoke.CreateEvent(IntPtr.Zero, true, false, null);
+			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
 
 			Task.Run(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-				Win32PInvoke.SetEvent(eventHandle);
+				SetEvent(eventHandle);
 			});
 
-			_ = Win32PInvoke.CoWaitForMultipleObjects(
+			_ = CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
@@ -214,15 +214,15 @@ namespace Files.App
 
 		public static void OpenFileFromTile(string filePath)
 		{
-			IntPtr eventHandle = Win32PInvoke.CreateEvent(IntPtr.Zero, true, false, null);
+			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
 
 			Task.Run(() =>
 			{
 				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
-				Win32PInvoke.SetEvent(eventHandle);
+				SetEvent(eventHandle);
 			});
 
-			_ = Win32PInvoke.CoWaitForMultipleObjects(
+			_ = CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
 				1,

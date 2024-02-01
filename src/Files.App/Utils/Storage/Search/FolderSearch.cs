@@ -6,6 +6,8 @@ using System.IO;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using static Files.Core.Helpers.Win32PInvoke;
+using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
@@ -200,11 +202,11 @@ namespace Files.App.Utils.Storage
 
 			foreach (var match in matches)
 			{
-				(IntPtr hFile, Win32PInvoke.WIN32_FIND_DATA findData) = await Task.Run(() =>
+				(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
 				{
-					int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
-					IntPtr hFileTsk = Win32PInvoke.FindFirstFileExFromApp(match.FilePath, Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
-						out Win32PInvoke.WIN32_FIND_DATA findDataTsk, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+					int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+					IntPtr hFileTsk = FindFirstFileExFromApp(match.FilePath, FINDEX_INFO_LEVELS.FindExInfoBasic,
+						out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 					return (hFileTsk, findDataTsk);
 				}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
@@ -228,7 +230,7 @@ namespace Files.App.Utils.Storage
 						}
 					}
 
-					Win32PInvoke.FindClose(hFile);
+					FindClose(hFile);
 				}
 				else
 				{
@@ -282,11 +284,11 @@ namespace Files.App.Utils.Storage
 		private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<ListedItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
-			(IntPtr hFile, Win32PInvoke.WIN32_FIND_DATA findData) = await Task.Run(() =>
+			(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
 			{
-				int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
-				IntPtr hFileTsk = Win32PInvoke.FindFirstFileExFromApp($"{folder}\\{QueryWithWildcard}", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
-					out Win32PInvoke.WIN32_FIND_DATA findDataTsk, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+				int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+				IntPtr hFileTsk = FindFirstFileExFromApp($"{folder}\\{QueryWithWildcard}", FINDEX_INFO_LEVELS.FindExInfoBasic,
+					out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 				return (hFileTsk, findDataTsk);
 			}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
@@ -331,15 +333,15 @@ namespace Files.App.Utils.Storage
 							SearchTick?.Invoke(this, EventArgs.Empty);
 						}
 
-						hasNextFile = Win32PInvoke.FindNextFile(hFile, out findData);
+						hasNextFile = FindNextFile(hFile, out findData);
 					} while (hasNextFile);
 
-					Win32PInvoke.FindClose(hFile);
+					FindClose(hFile);
 				});
 			}
 		}
 
-		private ListedItem GetListedItemAsync(string itemPath, Win32PInvoke.WIN32_FIND_DATA findData)
+		private ListedItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
 		{
 			ListedItem listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;

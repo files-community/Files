@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using static Files.Core.Helpers.Win32PInvoke;
 using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App.Data.Models
@@ -19,17 +20,17 @@ namespace Files.App.Data.Models
 
 			string filename = @"\\.\" + driveLetter + ":";
 
-			handle = Win32PInvoke.CreateFileFromAppW(filename,
-				Win32PInvoke.GENERIC_READ | Win32PInvoke.GENERIC_WRITE,
-				Win32PInvoke.FILE_SHARE_READ | Win32PInvoke.FILE_SHARE_WRITE,
-				nint.Zero, Win32PInvoke.OPEN_EXISTING, 0, nint.Zero);
+			handle = CreateFileFromAppW(filename,
+				GENERIC_READ | GENERIC_WRITE,
+				FILE_SHARE_READ | FILE_SHARE_WRITE,
+				nint.Zero, OPEN_EXISTING, 0, nint.Zero);
 		}
 
 		public async Task<bool> EjectAsync()
 		{
 			bool result = false;
 
-			if (handle.ToInt32() == Win32PInvoke.INVALID_HANDLE_VALUE)
+			if (handle.ToInt32() == INVALID_HANDLE_VALUE)
 			{
 				Debug.WriteLine($"Unable to open drive {driveLetter}");
 				return false;
@@ -52,7 +53,7 @@ namespace Files.App.Data.Models
 
 			for (int i = 0; i < 5; i++)
 			{
-				if (Win32PInvoke.DeviceIoControl(handle, Win32PInvoke.FSCTL_LOCK_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero))
+				if (DeviceIoControl(handle, FSCTL_LOCK_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero))
 				{
 					Debug.WriteLine("Lock successful!");
 					result = true;
@@ -72,7 +73,7 @@ namespace Files.App.Data.Models
 
 		private bool DismountVolume()
 		{
-			return Win32PInvoke.DeviceIoControl(handle, Win32PInvoke.FSCTL_DISMOUNT_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
+			return DeviceIoControl(handle, FSCTL_DISMOUNT_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
 		}
 
 		private bool PreventRemovalOfVolume(bool prevent)
@@ -80,17 +81,17 @@ namespace Files.App.Data.Models
 			byte[] buf = new byte[1];
 			buf[0] = prevent ? (byte)1 : (byte)0;
 
-			return Win32PInvoke.DeviceIoControl(handle, Win32PInvoke.IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, nint.Zero, 0, out _, nint.Zero);
+			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, nint.Zero, 0, out _, nint.Zero);
 		}
 
 		private bool AutoEjectVolume()
 		{
-			return Win32PInvoke.DeviceIoControl(handle, Win32PInvoke.IOCTL_STORAGE_EJECT_MEDIA, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
+			return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
 		}
 
 		private bool CloseVolume()
 		{
-			return Win32PInvoke.CloseHandle(handle);
+			return CloseHandle(handle);
 		}
 	}
 }

@@ -3,6 +3,8 @@
 
 using System.Collections.Concurrent;
 using System.IO;
+using static Files.Core.Helpers.Win32PInvoke;
+using static Files.App.Helpers.Win32Helper;
 
 namespace Files.Core.Services.SizeProvider
 {
@@ -44,8 +46,8 @@ namespace Files.Core.Services.SizeProvider
 					return 0;
 				}
 
-				IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp($"{path}{Path.DirectorySeparatorChar}*.*", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
-					out Win32PInvoke.WIN32_FIND_DATA findData, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
+				IntPtr hFile = FindFirstFileExFromApp($"{path}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
+					out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, FIND_FIRST_EX_LARGE_FETCH);
 
 				ulong size = 0;
 				ulong localSize = 0;
@@ -85,9 +87,9 @@ namespace Files.Core.Services.SizeProvider
 						{
 							break;
 						}
-					} while (Win32PInvoke.FindNextFile(hFile, out findData));
+					} while (FindNextFile(hFile, out findData));
 
-					Win32PInvoke.FindClose(hFile);
+					FindClose(hFile);
 				}
 				return size;
 			}
