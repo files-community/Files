@@ -20,7 +20,7 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			_isVSCodeInstalled &&
 			_context.Folder is not null &&
-			_context.ShellPage!.InstanceViewModel.IsGitRepository;
+			_context.ShellPage!.ShellInstanceViewModel.IsGitRepository;
 
 		public OpenRepoInVSCodeAction()
 		{
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return Win32API.RunPowershellCommandAsync($"code \'{_context.ShellPage!.InstanceViewModel.GitRepositoryPath}\'", false);
+			return Win32API.RunPowershellCommandAsync($"code \'{_context.ShellPage!.ShellInstanceViewModel.GitRepositoryPath}\'", false);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

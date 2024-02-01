@@ -129,7 +129,7 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private LayoutPreferencesManager? FolderSettings => context.PaneOrColumn?.InstanceViewModel?.FolderSettings;
+		private LayoutPreferencesManager? FolderSettings => context.PaneOrColumn?.ShellInstanceViewModel?.FolderSettings;
 
 		public DisplayPageContext()
 		{

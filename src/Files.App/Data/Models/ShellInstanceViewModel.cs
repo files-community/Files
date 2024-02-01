@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Models
 {
-	public class CurrentInstanceViewModel : ObservableObject
+	public class ShellInstanceViewModel : ObservableObject
 	{
 		// TODO:
 		//  In the future, we should consolidate these public variables into
@@ -12,12 +12,12 @@ namespace Files.App.Data.Models
 
 		public LayoutPreferencesManager FolderSettings { get; }
 
-		public CurrentInstanceViewModel()
+		public ShellInstanceViewModel()
 		{
 			FolderSettings = new LayoutPreferencesManager();
 		}
 
-		public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
+		public ShellInstanceViewModel(FolderLayoutModes rootLayoutMode)
 		{
 			FolderSettings = new LayoutPreferencesManager(rootLayoutMode);
 		}

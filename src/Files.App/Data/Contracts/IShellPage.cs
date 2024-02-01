@@ -1,28 +1,56 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-
-namespace Files.App.Views.Shells
+namespace Files.App.Data.Contracts
 {
+	/// <summary>
+	/// Represents contract class for Shell page.
+	/// </summary>
 	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
-		ItemViewModel FilesystemViewModel { get; }
+		/// <summary>
+		/// Gets view model of <see cref="IShellPage"/>.
+		/// </summary>
+		ShellViewModel ShellViewModel { get; }
 
-		CurrentInstanceViewModel InstanceViewModel { get; }
+		/// <summary>
+		/// Gets view model for current instance.
+		/// </summary>
+		ShellInstanceViewModel ShellInstanceViewModel { get; }
 
+		/// <summary>
+		/// Gets <see cref="StorageHistoryHelpers"/> instance.
+		/// </summary>
 		StorageHistoryHelpers StorageHistoryHelpers { get; }
 
+		/// <summary>
+		/// Gets contract for layout pages.
+		/// </summary>
 		IBaseLayoutPage SlimContentPage { get; }
 
+		/// <summary>
+		/// Gets type of content page.
+		/// </summary>
 		Type CurrentPageType { get; }
 
+		/// <summary>
+		/// Gets contract for storage helpers.
+		/// </summary>
 		IFilesystemHelpers FilesystemHelpers { get; }
 
+		/// <summary>
+		/// Gets view model of <see cref="AddressToolbar"/>
+		/// </summary>
 		ToolbarViewModel ToolbarViewModel { get; }
 
+		/// <summary>
+		/// Gets the value that indicates whether the content page can navigate backward.
+		/// </summary>
 		bool CanNavigateBackward { get; }
 
+		/// <summary>
+		/// Gets the value that indicates whether the content page can navigate forward.
+		/// </summary>
 		bool CanNavigateForward { get; }
 
 		/// <summary>
@@ -31,9 +59,13 @@ namespace Files.App.Views.Shells
 		bool IsCurrentPane { get; }
 
 		/// <summary>
+		/// Gets the value whether the page type is columns layout.
+		/// </summary>
+		public bool IsColumnView { get; }
+
+		/// <summary>
 		/// Returns a <see cref="Task"/> to wait until the pane and column become current.
 		/// </summary>
-		/// <returns>A <see cref="Task"/> to wait until the pane and column become current.</returns>
 		Task WhenIsCurrent();
 
 		Task RefreshIfNoWatcherExistsAsync();
@@ -53,8 +85,6 @@ namespace Files.App.Views.Shells
 		/// <summary>
 		/// Gets the layout mode for the specified path then navigates to it
 		/// </summary>
-		/// <param name="navigationPath"></param>
-		/// <param name="navArgs"></param>
 		public void NavigateToPath(string navigationPath, NavigationArguments navArgs = null);
 
 		/// <summary>
@@ -72,41 +102,5 @@ namespace Files.App.Views.Shells
 		void ResetNavigationStackLayoutMode();
 
 		void SubmitSearch(string query);
-
-		/// <summary>
-		/// Used to make commands in the column view work properly
-		/// </summary>
-		public bool IsColumnView { get; }
-	}
-
-	public interface IPaneHolder : IDisposable, INotifyPropertyChanged
-	{
-		public IShellPage ActivePane { get; set; }
-
-		// If column view, returns the last column shell page, otherwise returns the active pane normally
-		public IShellPage ActivePaneOrColumn { get; }
-
-		public IFilesystemHelpers FilesystemHelpers { get; }
-
-		public CustomTabViewItemParameter TabItemParameter { get; set; }
-
-		public void OpenPathInNewPane(string path);
-
-		public void CloseActivePane();
-
-		public bool IsLeftPaneActive { get; }
-
-		public bool IsRightPaneActive { get; }
-
-		// Another pane is shown
-		public bool IsMultiPaneActive { get; }
-
-		// Multi pane is enabled
-		public bool IsMultiPaneEnabled { get; }
-	}
-
-	public interface IMultiPaneInfo
-	{
-		public IPaneHolder PaneHolder { get; }
 	}
 }

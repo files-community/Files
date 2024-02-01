@@ -74,10 +74,10 @@ namespace Files.App.ViewModels.Layouts
 
 				// Mouse wheel down
 				if (delta < 0)
-					_associatedInstance.InstanceViewModel.FolderSettings.GridViewSize -= Constants.Browser.GridViewBrowser.GridViewIncrement;
+					_associatedInstance.ShellInstanceViewModel.FolderSettings.GridViewSize -= Constants.Browser.GridViewBrowser.GridViewIncrement;
 				// Mouse wheel up
 				else if (delta > 0)
-					_associatedInstance.InstanceViewModel.FolderSettings.GridViewSize += Constants.Browser.GridViewBrowser.GridViewIncrement;
+					_associatedInstance.ShellInstanceViewModel.FolderSettings.GridViewSize += Constants.Browser.GridViewBrowser.GridViewIncrement;
 
 				e.Handled = true;
 			}
@@ -87,7 +87,7 @@ namespace Files.App.ViewModels.Layouts
 		{
 			var deferral = e.GetDeferral();
 
-			if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
+			if (_associatedInstance.ShellInstanceViewModel.IsPageTypeSearchResults)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				deferral.Complete();
@@ -103,11 +103,11 @@ namespace Files.App.ViewModels.Layouts
 
 				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-				var pwd = _associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
+				var pwd = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
 				var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
 
 				// As long as one file doesn't already belong to this folder
-				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.FilesystemViewModel.WorkingDirectory))
+				if (_associatedInstance.ShellInstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -146,7 +146,7 @@ namespace Files.App.ViewModels.Layouts
 						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Copy;
 					}
-					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.FilesystemViewModel.WorkingDirectory))
+					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.ShellViewModel.WorkingDirectory))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Move;
@@ -168,7 +168,7 @@ namespace Files.App.ViewModels.Layouts
 
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
-				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
 				await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
 		}

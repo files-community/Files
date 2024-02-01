@@ -12,7 +12,7 @@ namespace Files.App.Data.Contexts
 
 		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 
-		private ItemViewModel? filesystemViewModel;
+		private ShellViewModel? filesystemViewModel;
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
@@ -21,7 +21,7 @@ namespace Files.App.Data.Contexts
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
 
-		public ListedItem? Folder => ShellPage?.FilesystemViewModel?.CurrentFolder;
+		public ListedItem? Folder => ShellPage?.ShellViewModel?.CurrentFolder;
 
 		public bool HasItem => ShellPage?.ToolbarViewModel?.HasItem ?? false;
 
@@ -47,11 +47,11 @@ namespace Files.App.Data.Contexts
 
 		public bool IsMultiPaneActive => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneActive;
 
-		public bool IsGitRepository => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository;
+		public bool IsGitRepository => ShellPage is not null && ShellPage.ShellInstanceViewModel.IsGitRepository;
 
 		public bool CanExecuteGitAction => IsGitRepository && !GitHelpers.IsExecutingGitAction;
 
-		public string? SolutionFilePath => ShellPage?.FilesystemViewModel?.SolutionFilePath;
+		public string? SolutionFilePath => ShellPage?.ShellViewModel?.SolutionFilePath;
 
 		public ContentPageContext()
 		{
@@ -73,7 +73,7 @@ namespace Files.App.Data.Contexts
 			{
 				page.PropertyChanged -= Page_PropertyChanged;
 				page.ContentChanged -= Page_ContentChanged;
-				page.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
+				page.ShellInstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
 
 				if (page.PaneHolder is not null)
@@ -92,14 +92,14 @@ namespace Files.App.Data.Contexts
 			{
 				page.PropertyChanged += Page_PropertyChanged;
 				page.ContentChanged += Page_ContentChanged;
-				page.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
+				page.ShellInstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
 				
 				if (page.PaneHolder is not null)
 					page.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			}
 
-			filesystemViewModel = ShellPage?.FilesystemViewModel;
+			filesystemViewModel = ShellPage?.ShellViewModel;
 			if (filesystemViewModel is not null)
 				filesystemViewModel.PropertyChanged += FilesystemViewModel_PropertyChanged;
 
@@ -139,17 +139,17 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(CurrentInstanceViewModel.IsPageTypeNotHome):
-				case nameof(CurrentInstanceViewModel.IsPageTypeRecycleBin):
-				case nameof(CurrentInstanceViewModel.IsPageTypeZipFolder):
-				case nameof(CurrentInstanceViewModel.IsPageTypeFtp):
-				case nameof(CurrentInstanceViewModel.IsPageTypeLibrary):
-				case nameof(CurrentInstanceViewModel.IsPageTypeCloudDrive):
-				case nameof(CurrentInstanceViewModel.IsPageTypeMtpDevice):
-				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
+				case nameof(ShellInstanceViewModel.IsPageTypeNotHome):
+				case nameof(ShellInstanceViewModel.IsPageTypeRecycleBin):
+				case nameof(ShellInstanceViewModel.IsPageTypeZipFolder):
+				case nameof(ShellInstanceViewModel.IsPageTypeFtp):
+				case nameof(ShellInstanceViewModel.IsPageTypeLibrary):
+				case nameof(ShellInstanceViewModel.IsPageTypeCloudDrive):
+				case nameof(ShellInstanceViewModel.IsPageTypeMtpDevice):
+				case nameof(ShellInstanceViewModel.IsPageTypeSearchResults):
 					UpdatePageType();
 					break;
-				case nameof(CurrentInstanceViewModel.IsGitRepository):
+				case nameof(ShellInstanceViewModel.IsGitRepository):
 					OnPropertyChanged(nameof(IsGitRepository));
 					OnPropertyChanged(nameof(CanExecuteGitAction));
 					break;
@@ -178,10 +178,10 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(ItemViewModel.CurrentFolder):
+				case nameof(ShellViewModel.CurrentFolder):
 					OnPropertyChanged(nameof(Folder));
 					break;
-				case nameof(ItemViewModel.SolutionFilePath):
+				case nameof(ShellViewModel.SolutionFilePath):
 					OnPropertyChanged(nameof(SolutionFilePath));
 					break;
 			}
@@ -206,7 +206,7 @@ namespace Files.App.Data.Contexts
 
 		private void UpdatePageType()
 		{
-			var type = ShellPage?.InstanceViewModel switch
+			var type = ShellPage?.ShellInstanceViewModel switch
 			{
 				null => ContentPageTypes.None,
 				{ IsPageTypeNotHome: false } => ContentPageTypes.Home,

@@ -23,7 +23,7 @@ namespace Files.App.Views
 		private IShellPage AppInstance { get; set; } = null!;
 
 		public LayoutPreferencesManager FolderSettings
-			=> AppInstance?.InstanceViewModel.FolderSettings!;
+			=> AppInstance?.ShellInstanceViewModel.FolderSettings!;
 
 		private QuickAccessWidget? quickAccessWidget;
 		private DrivesWidget? drivesWidget;
@@ -49,15 +49,15 @@ namespace Files.App.Views
 
 			AppInstance = parameters.AssociatedTabInstance!;
 
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
-			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-			AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
-			AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
-			AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-			AppInstance.InstanceViewModel.IsPageTypeFtp = false;
-			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
-			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
-			AppInstance.InstanceViewModel.GitRepositoryPath = null;
+			AppInstance.ShellInstanceViewModel.IsPageTypeNotHome = false;
+			AppInstance.ShellInstanceViewModel.IsPageTypeSearchResults = false;
+			AppInstance.ShellInstanceViewModel.IsPageTypeMtpDevice = false;
+			AppInstance.ShellInstanceViewModel.IsPageTypeRecycleBin = false;
+			AppInstance.ShellInstanceViewModel.IsPageTypeCloudDrive = false;
+			AppInstance.ShellInstanceViewModel.IsPageTypeFtp = false;
+			AppInstance.ShellInstanceViewModel.IsPageTypeZipFolder = false;
+			AppInstance.ShellInstanceViewModel.IsPageTypeLibrary = false;
+			AppInstance.ShellInstanceViewModel.GitRepositoryPath = null;
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
@@ -67,7 +67,7 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
 			// Set path of working directory empty
-			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
 
 			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, null);
 
@@ -257,10 +257,10 @@ namespace Files.App.Views
 
 			if (!string.Equals(e.Item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				BaseStorageFolder matchingStorageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(e.Item.Path);
+				BaseStorageFolder matchingStorageFolder = await AppInstance.ShellViewModel.GetFolderFromPathAsync(e.Item.Path);
 				if (matchingStorageFolder is not null)
 				{
-					var syncStatus = await AppInstance.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+					var syncStatus = await AppInstance.ShellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 					listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 				}
 			}

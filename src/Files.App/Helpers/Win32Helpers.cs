@@ -23,13 +23,13 @@ namespace Files.App.Helpers
 
 			if (string.IsNullOrEmpty(workingDirectory))
 			{
-				workingDirectory = associatedInstance.FilesystemViewModel.WorkingDirectory;
+				workingDirectory = associatedInstance.ShellViewModel.WorkingDirectory;
 			}
 
 			var application = applicationPaths.FirstOrDefault();
 			if (string.IsNullOrEmpty(workingDirectory))
 			{
-				workingDirectory = associatedInstance?.FilesystemViewModel?.WorkingDirectory;
+				workingDirectory = associatedInstance?.ShellViewModel?.WorkingDirectory;
 			}
 
 			if (runAsAdmin)

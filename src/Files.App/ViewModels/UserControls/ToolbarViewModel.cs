@@ -170,8 +170,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
 
-		private CurrentInstanceViewModel instanceViewModel;
-		public CurrentInstanceViewModel InstanceViewModel
+		private ShellInstanceViewModel instanceViewModel;
+		public ShellInstanceViewModel InstanceViewModel
 		{
 			get => instanceViewModel;
 			set
@@ -610,7 +610,7 @@ namespace Files.App.ViewModels.UserControls
 			var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
 			IList<StorageFolderWithPath>? childFolders = null;
 
-			StorageFolderWithPath folder = await shellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+			StorageFolderWithPath folder = await shellPage.ShellViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
 			if (folder is not null)
 				childFolders = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
 
@@ -705,7 +705,7 @@ namespace Files.App.ViewModels.UserControls
 			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
 				return;
 
-			if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
+			if (currentInput != shellPage.ShellViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
 			{
 				if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
@@ -754,10 +754,10 @@ namespace Files.App.ViewModels.UserControls
 						else // Not a file or not accessible
 						{
 							var workingDir =
-								string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory) ||
+								string.IsNullOrEmpty(shellPage.ShellViewModel.WorkingDirectory) ||
 								shellPage.CurrentPageType == typeof(HomePage) ?
 									Constants.UserEnvironmentPaths.HomePath :
-									shellPage.FilesystemViewModel.WorkingDirectory;
+									shellPage.ShellViewModel.WorkingDirectory;
 
 							if (await LaunchApplicationFromPath(currentInput, workingDir))
 								return;
@@ -777,7 +777,7 @@ namespace Files.App.ViewModels.UserControls
 					}
 				}
 
-				PathControlDisplayText = shellPage.FilesystemViewModel.WorkingDirectory;
+				PathControlDisplayText = shellPage.ShellViewModel.WorkingDirectory;
 			}
 		}
 
@@ -810,7 +810,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage)
 		{
-			if (sender.Text is not null && shellpage.FilesystemViewModel is not null)
+			if (sender.Text is not null && shellpage.ShellViewModel is not null)
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
@@ -855,7 +855,7 @@ namespace Files.App.ViewModels.UserControls
 							currentInput = NormalizePathInput(currentInput, isFtp);
 							var expandedPath = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
 							var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-							StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+							StorageFolderWithPath folder = await shellpage.ShellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 							if (folder is null)
 								return false;
@@ -889,7 +889,7 @@ namespace Files.App.ViewModels.UserControls
 					if (suggestions is null || suggestions.Count == 0)
 					{
 						suggestions = new List<NavigationBarSuggestionItem>() { new NavigationBarSuggestionItem() {
-						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						Text = shellpage.ShellViewModel.WorkingDirectory,
 						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
 					}
 
@@ -938,7 +938,7 @@ namespace Files.App.ViewModels.UserControls
 					NavigationBarSuggestions.Clear();
 					NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 					{
-						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						Text = shellpage.ShellViewModel.WorkingDirectory,
 						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
 					});
 				}

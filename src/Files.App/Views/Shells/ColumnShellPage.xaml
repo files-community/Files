@@ -27,29 +27,7 @@
 			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
 
-	<Grid
-		x:Name="RootGrid"
-		BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-		BorderThickness="0,0,0,2">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="2*" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition
-				x:Name="PreviewPaneRow"
-				Height="2*"
-				MaxHeight="400" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="3*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition
-				x:Name="PreviewPaneColumn"
-				Width="2*"
-				MaxWidth="600" />
-		</Grid.ColumnDefinitions>
+	<Grid BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}" BorderThickness="0,0,0,2">
 
 		<Frame
 			x:Name="ItemDisplayFrame"

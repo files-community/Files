@@ -109,7 +109,7 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.HasSelection &&
 			context.ShellPage is not null &&
-			context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
+			context.ShellPage.ShellInstanceViewModel.IsPageTypeSearchResults;
 
 		public OpenParentFolderAction()
 		{
@@ -129,7 +129,7 @@ namespace Files.App.Actions
 			if (folderPath is null || item is null)
 				return;
 
-			context.ShellPage.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+			context.ShellPage.NavigateWithArguments(context.ShellPage.ShellInstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 			{
 				NavPathParam = folderPath,
 				SelectItems = new[] { item.ItemNameRaw },

@@ -39,6 +39,7 @@ global using global::Files.App.Data.Attributes;
 global using global::Files.App.Data.Behaviors;
 global using global::Files.App.Data.Commands;
 global using global::Files.App.Data.Contexts;
+global using global::Files.App.Data.Contracts;
 global using global::Files.App.Data.EventArguments;
 global using global::Files.App.Data.Exceptions;
 global using global::Files.App.Data.Factories;

@@ -26,7 +26,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Data.Models
 {
-	public sealed class ItemViewModel : ObservableObject, IDisposable
+	public sealed class ShellViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
@@ -469,7 +469,7 @@ namespace Files.App.Data.Models
 
 		public bool HasNoWatcher { get; private set; }
 
-		public ItemViewModel(LayoutPreferencesManager folderSettingsViewModel)
+		public ShellViewModel(LayoutPreferencesManager folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
 			filesAndFolders = new ConcurrentCollection<ListedItem>();

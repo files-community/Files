@@ -36,7 +36,7 @@ namespace Files.App.Actions
 
 			await context.ShellPage!.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
 
-			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
+			await context.ShellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

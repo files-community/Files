@@ -287,7 +287,7 @@ namespace Files.App.Helpers
 		public static async Task OpenSelectedItemsAsync(IShellPage associatedInstance, bool openViaApplicationPicker = false)
 		{
 			// Don't open files and folders inside recycle bin
-			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
+			if (associatedInstance.ShellViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
 				associatedInstance.SlimContentPage?.SelectedItems is null)
 			{
 				return;
@@ -324,7 +324,7 @@ namespace Files.App.Helpers
 		public static async Task OpenItemsWithExecutableAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executablePath)
 		{
 			// Don't open files and folders inside recycle bin
-			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
+			if (associatedInstance.ShellViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
 				associatedInstance.SlimContentPage is null)
 				return;
 
@@ -344,7 +344,7 @@ namespace Files.App.Helpers
 		/// <param name="forceOpenInNewTab">Open folders in a new tab regardless of the "OpenFoldersInNewTab" option</param>
 		public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string>? selectItems = null, string? args = default, bool forceOpenInNewTab = false)
 		{
-			string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			string previousDir = associatedInstance.ShellViewModel.WorkingDirectory;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
@@ -441,7 +441,7 @@ namespace Files.App.Helpers
 			{
 				await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
 				associatedInstance.ToolbarViewModel.CanRefresh = false;
-				associatedInstance.FilesystemViewModel?.RefreshItems(previousDir);
+				associatedInstance.ShellViewModel?.RefreshItems(previousDir);
 			}
 
 			return opened;
@@ -495,7 +495,7 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
+				opened = await associatedInstance.ShellViewModel.GetFolderWithPathFromPathAsync(path)
 					.OnSuccess((childFolder) =>
 					{
 						// Add location to Recent Items List
@@ -529,7 +529,7 @@ namespace Files.App.Helpers
 				{
 					if (!FileExtensionHelpers.IsWebLinkFile(path))
 					{
-						StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
+						StorageFileWithPath childFile = await associatedInstance.ShellViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
 						// Add location to Recent Items List
 						if (childFile?.Item is SystemStorageFile)
 							App.RecentItemsManager.AddToRecentItems(childFile.Path);
@@ -544,7 +544,7 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				opened = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
+				opened = await associatedInstance.ShellViewModel.GetFileWithPathFromPathAsync(path)
 					.OnSuccess(async childFile =>
 					{
 						// Add location to Recent Items List
@@ -568,7 +568,7 @@ namespace Files.App.Helpers
 							BaseStorageFileQueryResult? fileQueryResult = null;
 
 							//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-							BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
+							BaseStorageFolder currentFolder = await associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
 
 							if (currentFolder is not null)
 							{
@@ -577,11 +577,11 @@ namespace Files.App.Helpers
 								//We can have many sort entries
 								SortEntry sortEntry = new()
 								{
-									AscendingOrder = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortDirection == SortDirection.Ascending
+									AscendingOrder = associatedInstance.ShellInstanceViewModel.FolderSettings.DirectorySortDirection == SortDirection.Ascending
 								};
 
 								//Basically we tell to the launched app to follow how we sorted the files in the directory.
-								var sortOption = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortOption;
+								var sortOption = associatedInstance.ShellInstanceViewModel.FolderSettings.DirectorySortOption;
 
 								switch (sortOption)
 								{
@@ -666,7 +666,7 @@ namespace Files.App.Helpers
 			else
 			{
 				associatedInstance.ToolbarViewModel.PathControlDisplayText = text;
-				associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+				associatedInstance.NavigateWithArguments(associatedInstance.ShellInstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
 				{
 					NavPathParam = path,
 					AssociatedTabInstance = associatedInstance,
