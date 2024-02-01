@@ -262,7 +262,7 @@
 					<local:OpacityIcon Style="{StaticResource ColorIconZip}" />
 
 					<AppBarButton.Flyout>
-						<MenuFlyout helpers:MenuFlyoutHelper.="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
+						<MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
 							<MenuFlyoutItem
 								x:Name="ExtractSingle"
 								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
