@@ -1091,6 +1091,9 @@ namespace Files.App.Data.Models
 							loadGroupHeaderInfo = gp is not null && !gp.Model.Initialized && gp.GetExtendedGroupHeaderInfo is not null;
 						}
 
+						cts.Token.ThrowIfCancellationRequested();
+						await LoadItemThumbnailAsync(item, thumbnailSize);
+
 						if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 						{
 							if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
@@ -1121,13 +1124,8 @@ namespace Files.App.Data.Models
 
 									SetFileTag(item);
 									wasSyncStatusLoaded = true;
-
-									await LoadItemThumbnailAsync(item, thumbnailSize);
 								}
 							}
-
-							if (!wasSyncStatusLoaded)
-								await LoadItemThumbnailAsync(item, thumbnailSize);
 						}
 						else
 						{
@@ -1137,8 +1135,6 @@ namespace Files.App.Data.Models
 								BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath, cts.Token);
 								if (matchingStorageFolder is not null)
 								{
-									cts.Token.ThrowIfCancellationRequested();
-									await LoadItemThumbnailAsync(item, thumbnailSize);
 									if (matchingStorageFolder.DisplayName != item.Name && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
 									{
 										cts.Token.ThrowIfCancellationRequested();
@@ -1174,11 +1170,6 @@ namespace Files.App.Data.Models
 									SetFileTag(item);
 									wasSyncStatusLoaded = true;
 								}
-							}
-							if (!wasSyncStatusLoaded)
-							{
-								cts.Token.ThrowIfCancellationRequested();
-								await LoadItemThumbnailAsync(item, thumbnailSize);
 							}
 						}
 
