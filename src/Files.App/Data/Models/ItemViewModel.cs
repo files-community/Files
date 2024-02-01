@@ -973,7 +973,13 @@ namespace Files.App.Data.Models
 						item.FileImage = await iconInfo.IconData.ToBitmapAsync();
 
 						// Add the file icon to the DefaultIcons list
-						if (!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) && !string.IsNullOrEmpty(item.FileExtension))
+						if
+						(
+							!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) && 
+							!string.IsNullOrEmpty(item.FileExtension) &&
+							!item.IsShortcut &&
+							!item.IsExecutable
+						)
 						{
 							var fileIcon = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, true);
 							var bitmapImage = await fileIcon.IconData.ToBitmapAsync();
