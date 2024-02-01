@@ -4,7 +4,6 @@
 using System.Collections.Concurrent;
 using System.IO;
 using static Files.Core.Helpers.Win32PInvoke;
-using static Files.App.Helpers.Win32Helper;
 
 namespace Files.Core.Services.SizeProvider
 {
