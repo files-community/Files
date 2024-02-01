@@ -12,6 +12,7 @@ using System.Windows.Input;
 
 namespace Files.App.Helpers
 {
+	[Obsolete("Must not use this helper to generate menu flyout any longer.")]
 	public class LegacyMenuFlyoutHelper : DependencyObject
 	{
 		public interface IMenuFlyoutItemViewModel { }
