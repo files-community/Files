@@ -24,10 +24,23 @@ using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Data.Models
+namespace Files.App.ViewModels.Shells
 {
+	/// <summary>
+	/// Represents view model of <see cref="IShellPage"/>.
+	/// </summary>
 	public sealed class ShellViewModel : ObservableObject, IDisposable
 	{
+		// Dependency injections
+
+		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ISizeProvider FolderSizeProvider { get; } = Ioc.Default.GetRequiredService<ISizeProvider>();
+		private IJumpListService JumpListService { get; } = Ioc.Default.GetRequiredService<IJumpListService>();
+		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+
+		// Fields
+
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
@@ -46,11 +59,6 @@ namespace Files.App.Data.Models
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
-		private readonly IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
-		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -154,7 +162,7 @@ namespace Files.App.Data.Models
 			if (value == "Home")
 				currentStorageFolder = null;
 			else
-				_ = Task.Run(() => jumpListService.AddFolderAsync(value));
+				_ = Task.Run(() => JumpListService.AddFolderAsync(value));
 
 			WorkingDirectory = value;
 
@@ -489,9 +497,9 @@ namespace Files.App.Data.Models
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
-			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
-			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
+			FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
+			FileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
+			FolderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
 			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreatedAsync;
 			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeletedAsync;
 			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequestedAsync;
@@ -2447,9 +2455,9 @@ namespace Files.App.Data.Models
 			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeletedAsync;
 			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequestedAsync;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
-			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
-			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
+			FileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
+			FileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
+			FolderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			DefaultIcons.Clear();
 		}
 	}
