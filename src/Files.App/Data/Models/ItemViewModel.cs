@@ -689,6 +689,7 @@ namespace Files.App.Data.Models
 				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
 				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
 				await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
+				var isSemaphoreReleased = false;
 				try
 				{
 					FilesAndFolders.BeginBulkOperation();
@@ -710,11 +711,19 @@ namespace Files.App.Data.Models
 
 					void UpdateUI()
 					{
-						// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
-						// once loading is completed so that UI can be updated
-						FilesAndFolders.EndBulkOperation();
-						UpdateEmptyTextType();
-						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+						try
+						{
+							// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
+							// once loading is completed so that UI can be updated
+							FilesAndFolders.EndBulkOperation();
+							UpdateEmptyTextType();
+							DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+						}
+						finally
+						{
+							isSemaphoreReleased = true;
+							bulkOperationSemaphore.Release();
+						}
 					}
 
 					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -726,11 +735,15 @@ namespace Files.App.Data.Models
 					{
 						ApplyChanges();
 						await dispatcherQueue.EnqueueOrInvokeAsync(UpdateUI);
+
+						// The semaphore will be released in UI thread
+						isSemaphoreReleased = true;
 					}
 				}
 				finally
 				{
-					bulkOperationSemaphore.Release();
+					if (!isSemaphoreReleased)
+						bulkOperationSemaphore.Release();
 				}
 			}
 			catch (Exception ex)
@@ -830,6 +843,7 @@ namespace Files.App.Data.Models
 			try
 			{
 				await bulkOperationSemaphore.WaitAsync(token);
+				var isSemaphoreReleased = false;
 				try
 				{
 					FilesAndFolders.BeginBulkOperation();
@@ -854,12 +868,26 @@ namespace Files.App.Data.Models
 					if (token.IsCancellationRequested)
 						return;
 
-					await dispatcherQueue.EnqueueOrInvokeAsync(
-						FilesAndFolders.EndBulkOperation);
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						try
+						{
+							FilesAndFolders.EndBulkOperation();
+						}
+						finally
+						{
+							isSemaphoreReleased = true;
+							bulkOperationSemaphore.Release();
+						}
+					});
+
+					// The semaphore will be released in UI thread
+					isSemaphoreReleased = true;
 				}
 				finally
 				{
-					bulkOperationSemaphore.Release();
+					if (!isSemaphoreReleased)
+						bulkOperationSemaphore.Release();
 				}
 			}
 			catch (Exception ex)
