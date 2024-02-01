@@ -139,7 +139,6 @@ namespace Files.App.ViewModels.Dialogs
 			}
 
 			var shortcutName = FilesystemHelpers.GetShortcutNamingPreference(destinationName);
-
 			ShortcutCompleteName = shortcutName + extension;
 			var filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 
