@@ -977,7 +977,7 @@ namespace Files.App.Data.Models
 						{
 							var fileIcon = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, true);
 							var bitmapImage = await fileIcon.IconData.ToBitmapAsync();
-							DefaultIcons.Add(item.FileExtension.ToLowerInvariant(), bitmapImage);
+							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), bitmapImage);
 						}
 
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
