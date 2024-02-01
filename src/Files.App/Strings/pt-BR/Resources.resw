@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Nova janela</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Unidade desconectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>O arquivo que você está tentando acessar pode ter sido movido ou excluído.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Não foi possível abrir propriedades para este arquivo</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>O arquivo que você está tentando acessar pode ter sido movido ou excluído.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Mostrar arquivos de sistema protegido</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Incluir itens não indexados nos resultados de pesquisa</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sincronizar o layout e a ordenação entre diretórios</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Mostrar opção para abrir pastas em um novo painel</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Mostrar a opção de copiar o caminho</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Exibir opção para criar uma pasta com a seleção</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Mostrar a opção de criar um atalho</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Novo painel</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocidade ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Não encontrou o que procurava?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Pesquisar itens não indexados</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Substituir existente</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Início</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Alternar para visualização de blocos</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Alternar para visualização em lista</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Lista</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Alterne para a visualização em grade com ícones pequenos</value>
   </data>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar caixas de seleção ao selecionar itens</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Pesquisar itens não indexados</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Foco na barra de endereço</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Agrupar itens por ano de data de criação</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Agrupar itens por dia da data eliminada</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Falha ao compartilhar itens</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Rolar para a pasta anterior ao navegar para cima</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Abrir uma nova janela</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Alterar capa do álbum</value>
   </data>
 </root>

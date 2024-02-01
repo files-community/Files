@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Új ablak</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>New window</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Útvonal másolása</value>
@@ -163,7 +163,7 @@
     <value>Összes kijelölése</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Kiválasztás megfordítása</value>
+    <value>Kijelölés megfordítása</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>Kijelölés törlése</value>
@@ -349,6 +349,12 @@
     <value>Meghajtó leválasztva</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>A fájl, amit próbál megnyitni, már nem található ezen a helyen.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Cannot open properties for this file</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>A fájl, amit próbál megnyitni, már nem található ezen a helyen.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Az operációs rendszer védett fájljainak megjelenítése</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Keresés nem indexelt elemek között is</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Egységes sorrend és elrendezés beállítások használata minden mappához</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Mappa megnyitása új panelen</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Show option to copy path</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Show option to create folder with selection</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Show option to create shortcut</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Új panel</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO sebesség</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Nincs itt amit keresett?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Nem indexelt elemek keresése</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Célhelyen lévő fájl felülírása</value>
@@ -1650,9 +1656,6 @@
   <data name="Home" xml:space="preserve">
     <value>Kezdőlap</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -2011,10 +2014,10 @@
     <value>Beállítás asztali háttérképként</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Minden oszlop méretezése a kitöltéshez</value>
+    <value>Oszlopok méretezése a tartalomhoz</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Adaptív elrendezés</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptív (Ctrl+Shift+7)</value>
@@ -2233,7 +2236,7 @@
     <value>Show compression options</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Menühöz küldés mutatása</value>
+    <value>Show send to menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Mappa megnyitása új lapon</value>
@@ -2350,7 +2353,7 @@
     <value>Hash érték</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>Válassza ki a megjelenítendő hash-eket</value>
+    <value>Megjelenítendő hash típusok</value>
   </data>
   <data name="Calculating" xml:space="preserve">
     <value>Számolás...</value>
@@ -2570,6 +2573,12 @@
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Váltás a csempés nézetre</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Switch to list view</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Váltás a rácsos nézetre kicsi ikonokkal</value>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Jelölőnégyzetek megjelenítése elemek kiválasztásakor</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Nem indexelt elemek keresése</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Fókuszálás az útvonalra</value>
   </data>
@@ -3014,7 +3020,7 @@
     <value>Év</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>Group by date unit</value>
+    <value>Dátum csoportosítás ez alapján</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
     <value>Elemek csoportosítása létrehozás napja alapján</value>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Elemek csoportosítása létrehozás éve alapján</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Elemek csoportosítása törlés napja alapján</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3672,7 +3678,7 @@
     <value>Fájlok rendezése mappák után</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Sort priority</value>
+    <value>Rendezési prioritás</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Nem sikerült a kép forgatása</value>
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Az elemek megosztása sikertelen</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Open new window</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Change album cover</value>
   </data>
 </root>

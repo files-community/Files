@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Neues Fenster</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Laufwerk getrennt</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Die Datei, auf die Sie zugreifen möchten, wurde eventuell verschoben oder gelöscht.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Eigenschaften für diese Datei können nicht geöffnet werden</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Die Datei, auf die Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Geschützte Systemdateien anzeigen</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Nicht indizierte Elemente in Suchergebnisse einbeziehen</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Layout- und Sortierungspräferenzen zwischen Verzeichnissen synchronisieren</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Option anzeigen, um Ordner in einem neuen Panel zu öffnen</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Option anzeigen, um den Pfad zu kopieren</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Option anzeigen, um einen Ordner mit Auswahl zu erstellen</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Option anzeigen, um Verknüpfung zu erstellen</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Neues Panel</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO-Empfindlichkeit</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Nicht gefunden, was Du suchst?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Unindexierte Elemente durchsuchen</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Bestehende ersetzen</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Strg+Umschalt+1</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Zur Kachelansicht wechseln</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Zur Listenansicht wechseln</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Liste</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Zur Rasteransicht mit kleinen Symbolen wechseln</value>
   </data>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Auswahlkästchen beim Auswählen von Elementen anzeigen</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Nach nicht indizierten Elementen suchen</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Pfadleiste fokussieren</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Elemente nach Jahr des Erstelldatums gruppieren</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Elemente nach Tag des Löschdatums gruppieren</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Teilen der Elemente fehlgeschlagen</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Springe beim Zurücknavigieren zum vorherigen Ordner</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Neues Fenster öffnen</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Album-Cover ändern</value>
   </data>
 </root>

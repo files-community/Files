@@ -5,19 +5,27 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
-	public struct OpacityIconModel
+	/// <summary>
+	/// Represents a model for <see cref="OpacityIcon"/>.
+	/// </summary>
+	public class OpacityIconModel
 	{
-		public string OpacityIconStyle { get; set; }
+		public string? OpacityIconStyle { get; set; }
 
-		public readonly OpacityIcon ToOpacityIcon()
+		public bool IsValid
+			=> !string.IsNullOrWhiteSpace(OpacityIconStyle);
+
+		public OpacityIconModel(string styleName)
+		{
+			OpacityIconStyle = styleName;
+		}
+
+		public OpacityIcon ToOpacityIcon()
 		{
 			return new()
 			{
 				Style = (Style)Application.Current.Resources[OpacityIconStyle],
 			};
 		}
-
-		public readonly bool IsValid
-			=> !string.IsNullOrEmpty(OpacityIconStyle);
 	}
 }

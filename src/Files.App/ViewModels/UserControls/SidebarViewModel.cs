@@ -977,20 +977,14 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab",
-					},
+					OpacityIcon = new("ColorIconOpenInNewTab"),
 					Command = OpenInNewTabCommand,
 					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow",
-					},
+					OpacityIcon = new("ColorIconOpenInNewWindow"),
 					Command = OpenInNewWindowCommand,
 					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
@@ -1003,20 +997,14 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
-					},
+					OpacityIcon = new("ColorIconPinToFavorites"),
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
-					},
+					OpacityIcon = new("ColorIconUnpinFromFavorites"),
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
 				},
@@ -1050,10 +1038,7 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
+					OpacityIcon = new("ColorIconProperties"),
 					Command = OpenPropertiesCommand,
 					CommandParameter = menu,
 					ShowItem = options.ShowProperties

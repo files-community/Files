@@ -141,7 +141,7 @@ namespace Files.App
 					SystemTrayIcon = new SystemTrayIcon().Show();
 
 					// Sleep current instance
-					Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
 
 					Thread.Yield();
 
@@ -230,7 +230,7 @@ namespace Files.App
 				await FilePropertiesHelpers.WaitClosingAll();
 
 				// Sleep current instance
-				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+				Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
 
 				Thread.Yield();
 

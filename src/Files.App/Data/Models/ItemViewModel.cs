@@ -29,6 +29,7 @@ namespace Files.App.Data.Models
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
+		private readonly SemaphoreSlim bulkOperationSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -483,6 +484,7 @@ namespace Files.App.Data.Models
 			gitChangedEvent = new AsyncManualResetEvent();
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			getFileOrFolderSemaphore = new SemaphoreSlim(50);
+			bulkOperationSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -513,7 +515,7 @@ namespace Files.App.Data.Models
 			var removedItem = await RemoveFileOrFolderAsync(e.FullPath);
 
 			if (removedItem is not null)
-				await ApplySingleFileChangeAsync(removedItem);
+				await ApplyFilesAndFoldersChangesAsync();
 		}
 
 		private async void RecycleBinItemCreatedAsync(object sender, FileSystemEventArgs e)
@@ -533,7 +535,7 @@ namespace Files.App.Data.Models
 
 			await AddFileOrFolderAsync(newListedItem);
 			await OrderFilesAndFoldersAsync();
-			await ApplySingleFileChangeAsync(newListedItem);
+			await ApplyFilesAndFoldersChangesAsync();
 		}
 
 		private async void FolderSizeProvider_SizeChanged(object? sender, SizeChangedEventArgs e)
@@ -650,28 +652,6 @@ namespace Files.App.Data.Models
 			itemLoadQueue.TryUpdate(item.ItemPath, true, false);
 		}
 
-		public async Task ApplySingleFileChangeAsync(ListedItem item)
-		{
-			var newIndex = filesAndFolders.IndexOf(item);
-			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
-			{
-				FilesAndFolders.Remove(item);
-				if (newIndex != -1)
-					FilesAndFolders.Insert(Math.Min(newIndex, FilesAndFolders.Count), item);
-
-				if (folderSettings.DirectoryGroupOption != GroupOption.None)
-				{
-					var key = FilesAndFolders.ItemGroupKeySelector?.Invoke(item);
-					var group = FilesAndFolders.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
-					group?.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
-						folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst), item);
-				}
-
-				UpdateEmptyTextType();
-				DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-			});
-		}
-
 		private bool IsSearchResults { get; set; }
 
 		public void UpdateEmptyTextType()
@@ -708,41 +688,49 @@ namespace Files.App.Data.Models
 				// Note that both DataGrid and GridView don't support multi-items changes notification, so here
 				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
 				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
-				FilesAndFolders.BeginBulkOperation();
-
-				// After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
-				// so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
-				// run safely without needs of dispatching to UI thread
-				void ApplyChanges()
+				await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
+				try
 				{
-					if (addFilesCTS.IsCancellationRequested)
-						return;
+					FilesAndFolders.BeginBulkOperation();
 
-					FilesAndFolders.Clear();
-					FilesAndFolders.AddRange(filesAndFoldersLocal);
+					// After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
+					// so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
+					// run safely without needs of dispatching to UI thread
+					void ApplyChanges()
+					{
+						if (addFilesCTS.IsCancellationRequested)
+							return;
 
-					if (folderSettings.DirectoryGroupOption != GroupOption.None)
-						OrderGroups();
+						FilesAndFolders.Clear();
+						FilesAndFolders.AddRange(filesAndFoldersLocal);
+
+						if (folderSettings.DirectoryGroupOption != GroupOption.None)
+							OrderGroups();
+					}
+
+					void UpdateUI()
+					{
+						// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
+						// once loading is completed so that UI can be updated
+						FilesAndFolders.EndBulkOperation();
+						UpdateEmptyTextType();
+						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+					}
+
+					if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+					{
+						await Task.Run(ApplyChanges);
+						UpdateUI();
+					}
+					else
+					{
+						ApplyChanges();
+						await dispatcherQueue.EnqueueOrInvokeAsync(UpdateUI);
+					}
 				}
-
-				void UpdateUI()
+				finally
 				{
-					// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
-					// once loading is completed so that UI can be updated
-					FilesAndFolders.EndBulkOperation();
-					UpdateEmptyTextType();
-					DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-				}
-
-				if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
-				{
-					await Task.Run(ApplyChanges);
-					UpdateUI();
-				}
-				else
-				{
-					ApplyChanges();
-					await dispatcherQueue.EnqueueOrInvokeAsync(UpdateUI);
+					bulkOperationSemaphore.Release();
 				}
 			}
 			catch (Exception ex)
@@ -841,30 +829,38 @@ namespace Files.App.Data.Models
 
 			try
 			{
-				FilesAndFolders.BeginBulkOperation();
-				UpdateGroupOptions();
-
-				if (FilesAndFolders.IsGrouped)
+				await bulkOperationSemaphore.WaitAsync(token);
+				try
 				{
-					await Task.Run(() =>
+					FilesAndFolders.BeginBulkOperation();
+					UpdateGroupOptions();
+
+					if (FilesAndFolders.IsGrouped)
 					{
-						FilesAndFolders.ResetGroups(token);
-						if (token.IsCancellationRequested)
-							return;
+						await Task.Run(() =>
+						{
+							FilesAndFolders.ResetGroups(token);
+							if (token.IsCancellationRequested)
+								return;
 
-						OrderGroups();
-					});
+							OrderGroups();
+						});
+					}
+					else
+					{
+						await OrderFilesAndFoldersAsync();
+					}
+
+					if (token.IsCancellationRequested)
+						return;
+
+					await dispatcherQueue.EnqueueOrInvokeAsync(
+						FilesAndFolders.EndBulkOperation);
 				}
-				else
+				finally
 				{
-					await OrderFilesAndFoldersAsync();
+					bulkOperationSemaphore.Release();
 				}
-
-				if (token.IsCancellationRequested)
-					return;
-
-				await dispatcherQueue.EnqueueOrInvokeAsync(
-					FilesAndFolders.EndBulkOperation);
 			}
 			catch (Exception ex)
 			{
@@ -941,12 +937,34 @@ namespace Files.App.Data.Models
 		}
 
 		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
-		private async Task<bool> LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96)
+		private async Task LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96)
 		{
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getIconOnly);
+
+				if (!iconInfo.isIconCached)
+				{
+					// Display icon while trying to load cached thumbnail
+					if (iconInfo.IconData is not null)
+					{
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					}
+
+					// Loop until cached thumbnail is loaded or timeout is reached
+					var cancellationTokenSource = new CancellationTokenSource(3000);
+					while (!iconInfo.isIconCached)
+					{
+						iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getIconOnly);
+						cancellationTokenSource.Token.ThrowIfCancellationRequested();
+						await Task.Delay(500);
+					}
+				}
+
 				if (iconInfo.IconData is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -969,13 +987,12 @@ namespace Files.App.Data.Models
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
-
-				return iconInfo.isIconCached;
 			}
 			else
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 80;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, getIconOnly);
+				
 				if (iconInfo.IconData is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -992,8 +1009,6 @@ namespace Files.App.Data.Models
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
-
-				return iconInfo.isIconCached;
 			}
 		}
 
@@ -1061,19 +1076,14 @@ namespace Files.App.Data.Models
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
+										item.IsElevationRequired = CheckElevationRights(item);
 									},
 									Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 									SetFileTag(item);
 									wasSyncStatusLoaded = true;
 
-									var cancellationTokenSource = new CancellationTokenSource(3000);
-									// Loop until cached thumbnail is loaded or timeout is reached
-									while (!await LoadItemThumbnailAsync(item, thumbnailSize))
-									{
-										cancellationTokenSource.Token.ThrowIfCancellationRequested();
-										await Task.Delay(100);
-									}
+									await LoadItemThumbnailAsync(item, thumbnailSize);
 								}
 							}
 
@@ -1101,7 +1111,7 @@ namespace Files.App.Data.Models
 										if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
 										{
 											await OrderFilesAndFoldersAsync();
-											await ApplySingleFileChangeAsync(item);
+											await ApplyFilesAndFoldersChangesAsync();
 										}
 									}
 
@@ -1185,6 +1195,16 @@ namespace Files.App.Data.Models
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
 			}
+		}
+
+		private bool CheckElevationRights(ListedItem item)
+		{
+			if (item.SyncStatusUI.LoadSyncStatus)
+				return false;
+
+			return item.IsShortcut
+				? ElevationHelpers.IsElevationRequired(((ShortcutItem)item).TargetPath)
+				: ElevationHelpers.IsElevationRequired(item.ItemPath);
 		}
 
 		public async Task LoadGitPropertiesAsync(GitItem gitItem)
