@@ -12,7 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Files.App.Helpers.LegacyMenuFlyoutHelper;
+using static Files.App.Helpers.MenuFlyoutHelper;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 
@@ -27,7 +27,7 @@ namespace Files.App.UserControls.Menus
 
 		public FileTagsContextMenu(IEnumerable<ListedItem> selectedItems)
 		{
-			SetValue(LegacyMenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
+			SetValue(MenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
 				.Select(tag => new MenuFlyoutFactoryItemViewModel(() =>
 				{
 					var tagItem = new ToggleMenuFlyoutItem()
