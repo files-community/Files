@@ -699,11 +699,51 @@ namespace Files.App.Data.Models
 					// run safely without needs of dispatching to UI thread
 					void ApplyChanges()
 					{
-						if (addFilesCTS.IsCancellationRequested)
-							return;
+						var startIndex = -1;
+						var tempList = new List<ListedItem>();
 
-						FilesAndFolders.Clear();
-						FilesAndFolders.AddRange(filesAndFoldersLocal);
+						void ApplyBulkInsertEntries()
+						{
+							if (startIndex != -1)
+							{
+								FilesAndFolders.ReplaceRange(startIndex, tempList);
+								startIndex = -1;
+								tempList.Clear();
+							}
+						}
+
+						for (var i = 0; i < filesAndFoldersLocal.Count; i++)
+						{
+							if (addFilesCTS.IsCancellationRequested)
+								return;
+
+							if (i < FilesAndFolders.Count)
+							{
+								if (FilesAndFolders[i] != filesAndFoldersLocal[i])
+								{
+									if (startIndex == -1)
+										startIndex = i;
+
+									tempList.Add(filesAndFoldersLocal[i]);
+								}
+								else
+								{
+									ApplyBulkInsertEntries();
+								}
+							}
+							else
+							{
+								ApplyBulkInsertEntries();
+								FilesAndFolders.InsertRange(i, filesAndFoldersLocal.Skip(i));
+
+								break;
+							}
+						}
+
+						ApplyBulkInsertEntries();
+
+						if (FilesAndFolders.Count > filesAndFoldersLocal.Count)
+							FilesAndFolders.RemoveRange(filesAndFoldersLocal.Count, FilesAndFolders.Count - filesAndFoldersLocal.Count);
 
 						if (folderSettings.DirectoryGroupOption != GroupOption.None)
 							OrderGroups();
@@ -1087,7 +1127,7 @@ namespace Files.App.Data.Models
 						BaseStorageFile? matchingStorageFile = null;
 						if (item.Key is not null && FilesAndFolders.IsGrouped && FilesAndFolders.GetExtendedGroupHeaderInfo is not null)
 						{
-							gp = FilesAndFolders.GroupedCollection?.Where(x => x.Model.Key == item.Key).FirstOrDefault();
+							gp = FilesAndFolders.GroupedCollection?.ToList().Where(x => x.Model.Key == item.Key).FirstOrDefault();
 							loadGroupHeaderInfo = gp is not null && !gp.Model.Initialized && gp.GetExtendedGroupHeaderInfo is not null;
 						}
 
