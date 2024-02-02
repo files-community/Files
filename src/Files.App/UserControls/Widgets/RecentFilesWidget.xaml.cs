@@ -158,7 +158,7 @@ namespace Files.App.UserControls.Widgets
 				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new()
 					{
 						OpacityIconStyle = "ColorIconOpenWith",
 					},
@@ -193,7 +193,7 @@ namespace Files.App.UserControls.Widgets
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new()
 					{
 						OpacityIconStyle = "ColorIconProperties",
 					},
@@ -208,7 +208,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new,
+					Items = new(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

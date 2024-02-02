@@ -87,7 +87,7 @@ namespace Files.App.Data.Factories
 				new()
 				{
 					Text = "SortBy".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new()
 					{
 						OpacityIconStyle = "ColorIconSort",
 					},
@@ -201,7 +201,7 @@ namespace Files.App.Data.Factories
 				},
 				new()
 				{
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new()
 					{
 						OpacityIconStyle = Commands.AddItem.Glyph.OpacityStyle
 					},
@@ -231,7 +231,7 @@ namespace Files.App.Data.Factories
 				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new()
 					{
 						OpacityIconStyle = "ColorIconOpenWith"
 					},
@@ -358,7 +358,7 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new()
 					{
 						OpacityIconStyle = "ColorIconZip",
 					},
@@ -374,7 +374,7 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Extract".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new()
 					{
 						OpacityIconStyle = "ColorIconZip",
 					},

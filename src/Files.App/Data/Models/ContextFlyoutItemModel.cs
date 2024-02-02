@@ -8,6 +8,9 @@ using Windows.System;
 
 namespace Files.App.Data.Models
 {
+	/// <summary>
+	/// Represents model for context flyout item, such as <see cref="Microsoft.UI.Xaml.Controls.MenuFlyoutItem"/>.
+	/// </summary>
 	public class ContextFlyoutItemModel
 	{
 		public ICommand? Command { get; set; }
@@ -21,8 +24,8 @@ namespace Files.App.Data.Models
 		public string? ID { get; set; }
 
 		public bool IsAvailable { get; set; } = true;
-		public bool IsEnabled { get; set; } = true;
 		public bool IsVisible { get; set; } = true;
+		public bool IsEnabled { get; set; } = true;
 
 		public bool ShowOnShift { get; set; }
 		public bool ShowInRecycleBin { get; set; }
@@ -34,15 +37,14 @@ namespace Files.App.Data.Models
 		public bool ShowLoadingIndicator { get; set; }
 
 		public bool IsPrimary { get; set; }
-		public bool IsToggle { get; init; }
 		public bool IsChecked { get; set; }
 
 		public ContextMenuFlyoutItemType ItemType { get; set; }
-		public Func<Task>? LoadSubMenuAction { get; set; }
+		public OpacityIconModel OpacityIcon { get; set; }
 		public List<ContextFlyoutItemModel>? Items { get; set; }
 		public BitmapImage? BitmapIcon { get; set; }
 		public KeyboardAccelerator? KeyboardAccelerator { get; set; }
-		public OpacityIconModel OpacityIcon { get; set; }
+		public Func<Task>? LoadSubMenuAction { get; set; }
 
 		public ContextFlyoutItemModel()
 		{
@@ -76,7 +78,7 @@ namespace Files.App.Data.Models
 
 			if (!string.IsNullOrEmpty(richCommand.Glyph.OpacityStyle))
 			{
-				OpacityIcon = new OpacityIconModel() { OpacityIconStyle = richCommand.Glyph.OpacityStyle };
+				OpacityIcon = new() { OpacityIconStyle = richCommand.Glyph.OpacityStyle };
 			}
 			else
 			{

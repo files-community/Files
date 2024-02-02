@@ -84,11 +84,12 @@ namespace Files.App.Helpers
 				var moreItem = menuItemsListLocal.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
 				if (moreItem is null)
 				{
-					var menuLayoutSubItem = new()
+					var menuLayoutSubItem = new ContextFlyoutItemModel()
 					{
 						Text = "ShowMoreOptions".GetLocalizedResource(),
 						Glyph = "\xE712",
 					};
+
 					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
@@ -120,7 +121,7 @@ namespace Files.App.Helpers
 
 				if (menuFlyoutItem.Type is MenuItemType.MFT_SEPARATOR)
 				{
-					var menuLayoutItem = new()
+					var menuLayoutItem = new ContextFlyoutItemModel()
 					{
 						ItemType = ContextMenuFlyoutItemType.Separator,
 						Tag = menuFlyoutItem
@@ -132,12 +133,12 @@ namespace Files.App.Helpers
 					if (string.Equals(menuFlyoutItem.Label, Win32API.ExtractStringFromDLL("shell32.dll", 30312)))
 						menuFlyoutItem.CommandString = "sendto";
 
-					var menuLayoutSubItem = new()
+					var menuLayoutSubItem = new ContextFlyoutItemModel()
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
 						BitmapIcon = image,
-						Items = new List<ContextFlyoutItemModel>(),
+						Items = new(),
 					};
 
 					if (menuFlyoutItem.SubItems.Any())
@@ -157,7 +158,7 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
 				{
-					var menuLayoutItem = new
+					var menuLayoutItem = new ContextFlyoutItemModel()
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
@@ -165,6 +166,7 @@ namespace Files.App.Helpers
 						Command = new AsyncRelayCommand<object>(x => InvokeShellMenuItemAsync(contextMenu, x)),
 						CommandParameter = menuFlyoutItem
 					};
+
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
 			}
@@ -334,7 +336,7 @@ namespace Files.App.Helpers
 				{
 					await openWithItem.LoadSubMenuAction();
 
-					openWithItem.OpacityIcon = new OpacityIconModel()
+					openWithItem.OpacityIcon = new()
 					{
 						OpacityIconStyle = "ColorIconOpenWith",
 					};
