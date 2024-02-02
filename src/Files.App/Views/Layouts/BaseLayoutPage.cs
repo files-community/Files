@@ -1287,6 +1287,9 @@ namespace Files.App.Views.Layouts
 			CommandsViewModel?.DropCommand?.Execute(e);
 		}
 
+		private CollectionViewSource _CollectionViewSource;
+		private CollectionViewSource _GroupedCollectionViewSource;
+
 		private void UpdateCollectionViewSource()
 		{
 			if (ParentShellPageInstance is null)
@@ -1294,21 +1297,21 @@ namespace Files.App.Views.Layouts
 
 			if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
 			{
-				var newSource = new CollectionViewSource()
+				_GroupedCollectionViewSource ??= new CollectionViewSource()
 				{
-					IsSourceGrouped = true,
-					Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
+					IsSourceGrouped = true
 				};
-				CollectionViewSource = newSource;
+				_GroupedCollectionViewSource.Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection;
+				CollectionViewSource = _GroupedCollectionViewSource;
 			}
 			else
 			{
-				var newSource = new CollectionViewSource()
+				_CollectionViewSource ??= new CollectionViewSource()
 				{
 					IsSourceGrouped = false,
 					Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
 				};
-				CollectionViewSource = newSource;
+				CollectionViewSource = _CollectionViewSource;
 			}
 		}
 
