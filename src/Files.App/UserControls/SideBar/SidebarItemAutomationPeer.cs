@@ -9,6 +9,9 @@ using Microsoft.UI.Xaml.Automation.Provider;
 
 namespace Files.App.UserControls.Sidebar
 {
+	/// <summary>
+	/// Exposes <see cref="SidebarItem"/> types to Microsoft UI Automation.
+	/// </summary>
 	public class SidebarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
 	{
 		public ExpandCollapseState ExpandCollapseState

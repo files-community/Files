@@ -151,7 +151,7 @@ namespace Files.App.UserControls.Sidebar
 
 		public static readonly DependencyProperty TemplateRootProperty =
 			DependencyProperty.Register(
-				nameof(TemplateRoot),
+				"TemplateRoot",
 				typeof(FrameworkElement),
 				typeof(FrameworkElement),
 				new PropertyMetadata(null));

@@ -29,14 +29,18 @@ namespace Files.App.UserControls.Sidebar
 
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
 		public event EventHandler<ItemDragOverEventArgs>? ItemDragOver;
-		public event EventHandler<object>? ItemInvoked;
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
+		public event EventHandler<object>? ItemInvoked;
+
+		// Constructor
 
 		public SidebarView()
 		{
 			InitializeComponent();
 		}
+
+		// Methods
 
 		internal void UpdateSelectedItemContainer(SidebarItem container)
 		{
@@ -121,6 +125,8 @@ namespace Files.App.UserControls.Sidebar
 		{
 			DisplayColumn.Width = new GridLength(OpenPaneLength);
 		}
+
+		// Event Methods
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{

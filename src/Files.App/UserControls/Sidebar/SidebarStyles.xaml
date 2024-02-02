@@ -54,6 +54,7 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
+						<!--  Drag Target Indicator  -->
 						<Rectangle
 							x:Name="DragTargetIndicator"
 							Grid.ColumnSpan="3"
@@ -87,6 +88,7 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
+							<!--  Selection Indicator  -->
 							<Rectangle
 								x:Name="SelectionIndicator"
 								Width="3"
@@ -99,6 +101,7 @@
 								RadiusX="2"
 								RadiusY="2" />
 
+							<!--  Icon  -->
 							<ContentPresenter
 								x:Name="IconPresenter"
 								Width="16"
@@ -107,6 +110,8 @@
 								VerticalAlignment="Center"
 								AutomationProperties.AccessibilityView="Raw"
 								Content="{Binding Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+
+							<!--  Text  -->
 							<TextBlock
 								x:Name="ItemNameTextBlock"
 								Grid.Column="1"
@@ -118,6 +123,7 @@
 								LineHeight="16"
 								Text="{Binding Text, Mode=OneWay}" />
 
+							<!--  Item Decorator  -->
 							<ContentPresenter
 								x:Name="ItemDecoratorPresenter"
 								Grid.Column="3"
@@ -129,6 +135,7 @@
 								Content="{Binding Decorator, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
 								Visibility="Collapsed" />
 
+							<!--  Expand/Collapse Chevron  -->
 							<AnimatedIcon
 								x:Name="ExpandCollapseChevron"
 								Grid.Column="3"
@@ -155,15 +162,7 @@
 								</AnimatedIcon.RenderTransform>
 							</AnimatedIcon>
 
-							<FontIcon
-								x:Name="ExpanderIcon"
-								Grid.Column="2"
-								Margin="8,0,14,0"
-								AutomationProperties.AccessibilityView="Raw"
-								FontSize="8"
-								Glyph="&#xE70E;"
-								Visibility="Collapsed" />
-
+							<!--  Overflowed Items Flyout Presenter  -->
 							<FlyoutBase.AttachedFlyout>
 								<Flyout x:Name="ChildrenFlyout" Placement="Right">
 									<Flyout.FlyoutPresenterStyle>
@@ -207,6 +206,7 @@
 								<StackLayout />
 							</ItemsRepeater.Layout>
 						</ItemsRepeater>
+
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ExpansionStates">
 								<VisualState x:Name="NoExpansion">
@@ -441,4 +441,5 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+
 </ResourceDictionary>

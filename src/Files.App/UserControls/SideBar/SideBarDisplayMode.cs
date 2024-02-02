@@ -4,7 +4,7 @@
 namespace Files.App.UserControls.Sidebar
 {
 	/// <summary>
-	/// The display mode of the <see cref="SidebarView"/>
+	/// Defines constants that specify how and where the <see cref="SidebarView"/> pane is shown.
 	/// </summary>
 	public enum SidebarDisplayMode
 	{

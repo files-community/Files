@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -181,7 +182,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void ChildItems_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		private void ChildItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			ReevaluateSelection();
 			UpdateExpansionState();
@@ -358,33 +359,33 @@ namespace Files.App.UserControls.Sidebar
 			UpdateSelectionState();
 		}
 
-		private void ItemGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void ItemGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			isPointerOver = true;
 			UpdatePointerState();
 		}
 
-		private void ItemGrid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void ItemGrid_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			isPointerOver = false;
 			isClicking = false;
 			UpdatePointerState();
 		}
 
-		private void ItemGrid_PointerCanceled(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void ItemGrid_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
 			isClicking = false;
 			UpdatePointerState();
 		}
 
-		private void ItemGrid_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void ItemGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			isClicking = true;
 			UpdatePointerState(true);
 			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconPressed" : "CollapsedIconPressed", true);
 		}
 
-		private void Item_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void Item_PointerReleased(object sender, PointerRoutedEventArgs e)
 		{
 			if (!isClicking)
 				return;
@@ -426,7 +427,7 @@ namespace Files.App.UserControls.Sidebar
 			Owner?.RaiseItemDragOver(this, insertsAbove, e);
 		}
 
-		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
+		private void ItemGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
 		{
 			Owner?.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
 			args.Handled = true;
