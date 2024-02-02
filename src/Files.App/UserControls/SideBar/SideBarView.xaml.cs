@@ -15,19 +15,23 @@ namespace Files.App.UserControls.Sidebar
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
 	{
+		// Constants
 
 		private const double COMPACT_MAX_WIDTH = 200;
+
+		// Fields
+
+		internal SidebarItem? SelectedItemContainer = null;
+		private bool draggingSidebarResizer;
+		private double preManipulationSidebarWidth = 0;
+
+		// Events
 
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
 		public event EventHandler<ItemDragOverEventArgs>? ItemDragOver;
 		public event EventHandler<object>? ItemInvoked;
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
-
-		internal SidebarItem? SelectedItemContainer = null;
-
-		private bool draggingSidebarResizer;
-		private double preManipulationSidebarWidth = 0;
 
 		public SidebarView()
 		{

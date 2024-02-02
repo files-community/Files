@@ -7,6 +7,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	HorizontalAlignment="Stretch"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loaded="SidebarView_Loaded"
 	TabFocusNavigation="Local"
 	mc:Ignorable="d">
@@ -21,13 +22,14 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<!--  This is the background for the sidebar pane and sidebar content  -->
+		<!--  View Background  -->
 		<Border
 			x:Name="PaneBackground"
 			Grid.Row="1"
 			Grid.ColumnSpan="3"
 			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}" />
 
+		<!--  Content View Light Dismiss Layer  -->
 		<Grid
 			x:Name="PaneLightDismissLayer"
 			Grid.Row="1"
@@ -41,6 +43,7 @@
 			Tapped="PaneLightDismissLayer_Tapped"
 			Visibility="Collapsed" />
 
+		<!--  Pane View  -->
 		<Grid
 			x:Name="PaneColumnGrid"
 			Grid.Row="1"
@@ -49,7 +52,6 @@
 			Canvas.ZIndex="10"
 			ContextRequested="PaneColumnGrid_ContextRequested"
 			XYFocusKeyboardNavigation="Enabled">
-
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
@@ -59,10 +61,11 @@
 				<CompositeTransform x:Name="PaneColumnGridTransform" />
 			</Grid.RenderTransform>
 
+			<!--  Main Items  -->
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="2,8,0,2"
+					Padding="0,8,0,0"
 					HorizontalScrollMode="Disabled"
 					VerticalScrollBarVisibility="Auto"
 					XYFocusKeyboardNavigation="Enabled">
@@ -84,6 +87,7 @@
 				</ScrollViewer>
 			</ItemsRepeaterScrollHost>
 
+			<!--  Footer Items  -->
 			<ContentPresenter
 				Grid.Row="1"
 				HorizontalAlignment="Stretch"
@@ -91,8 +95,10 @@
 				HorizontalContentAlignment="Stretch"
 				VerticalContentAlignment="Stretch"
 				Content="{x:Bind Footer, Mode=OneWay}" />
+
 		</Grid>
 
+		<!--  Pane Sizer  -->
 		<Border
 			x:Name="SidebarResizer"
 			Grid.Row="1"
@@ -124,6 +130,7 @@
 				UseSystemFocusVisuals="True" />
 		</Border>
 
+		<!--  Conrtent View  -->
 		<Grid
 			x:Name="ContentPresenter"
 			Grid.Row="1"
@@ -140,6 +147,7 @@
 				Child="{x:Bind InnerContent, Mode=OneWay}"
 				TabFocusNavigation="Local" />
 		</Grid>
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="DisplayModes">
 				<VisualState x:Name="Expanded" />
@@ -188,7 +196,6 @@
 						</Setter>
 					</VisualState.Setters>
 				</VisualState>
-
 				<VisualStateGroup.Transitions>
 					<!--  From compact  -->
 					<VisualTransition From="Compact" To="MinimalCollapsed">
@@ -333,7 +340,6 @@
 					</VisualTransition>
 				</VisualStateGroup.Transitions>
 			</VisualStateGroup>
-
 			<VisualStateGroup x:Name="ResizerStates">
 				<VisualState x:Name="ResizerNormal" />
 				<VisualState x:Name="ResizerPointerOver">
@@ -346,7 +352,6 @@
 						</ObjectAnimationUsingKeyFrames>
 					</Storyboard>
 				</VisualState>
-
 				<VisualState x:Name="ResizerPressed">
 					<Storyboard>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="Background">

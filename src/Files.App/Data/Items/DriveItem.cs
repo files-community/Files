@@ -15,7 +15,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {
-	public class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
+	public class DriveItem : ObservableObject, ISidebarItem, ILocatableFolder
 	{
 		private BitmapImage icon;
 		public BitmapImage Icon
@@ -41,7 +41,7 @@ namespace Files.App.Data.Items
 
 		public StorageFolder Root { get; set; }
 
-		public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
+		public SidebarItemType ItemType { get; set; } = SidebarItemType.Drive;
 
 		public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
@@ -147,9 +147,9 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref spaceText, value);
 		}
 
-		public SectionType Section { get; set; }
+		public SidebarSectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public SidebarContextMenuOptions MenuOptions { get; set; }
 
 		private float percentageUsed = 0.0f;
 		public float PercentageUsed
@@ -243,7 +243,7 @@ namespace Files.App.Data.Items
 				_ => root.DisplayName
 			};
 			item.Type = type;
-			item.MenuOptions = new ContextMenuOptions
+			item.MenuOptions = new SidebarContextMenuOptions
 			{
 				IsLocationItem = true,
 				ShowEjectDevice = item.IsRemovable,
@@ -308,7 +308,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public int CompareTo(INavigationControlItem other)
+		public int CompareTo(ISidebarItem other)
 		{
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
 			return result == 0 ? Text.CompareTo(other.Text) : result;

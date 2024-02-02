@@ -15,18 +15,34 @@ namespace Files.App.UserControls.Sidebar
 {
 	public sealed partial class SidebarItem : Control
 	{
-		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
+		// Constants
 
-		public bool HasChildren => Item?.Children is IList enumerable && enumerable.Count > 0;
-		public bool IsGroupHeader => Item?.Children is not null;
-		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
+		// NOTE: Represents percentage of top/bottom at which we consider a drop to be a reposition/insertion
+		private const double DROP_REPOSITION_THRESHOLD = 0.2;
 
-		private bool hasChildSelection => selectedChildItem != null;
+		// Fields
+
 		private bool isPointerOver = false;
 		private bool isClicking = false;
 		private object? selectedChildItem = null;
 		private ItemsRepeater? childrenRepeater;
 		private ISidebarItemModel? lastSubscriber;
+
+		// Properties
+
+		public bool HasChildren
+			=> Item?.Children is IList enumerable && enumerable.Count > 0;
+
+		public bool IsGroupHeader
+			=> Item?.Children is not null;
+
+		public bool CollapseEnabled
+			=> DisplayMode != SidebarDisplayMode.Compact;
+
+		private bool hasChildSelection
+			=> selectedChildItem != null;
+
+		// Constructor
 
 		public SidebarItem()
 		{

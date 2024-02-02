@@ -1,26 +1,22 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Sidebar;
-using Microsoft.UI.Xaml.Controls;
-
 namespace Files.App.Data.Items
 {
-
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface ISidebarItem : IComparable<ISidebarItem>, INotifyPropertyChanged, ISidebarItemModel
 	{
 		public new string Text { get; }
 
 		public string Path { get; }
 
-		public SectionType Section { get; }
+		public SidebarSectionType Section { get; }
 
-		public NavigationControlItemType ItemType { get; }
+		public SidebarItemType ItemType { get; }
 
-		public ContextMenuOptions MenuOptions { get; }
+		public SidebarContextMenuOptions MenuOptions { get; }
 	}
 
-	public enum NavigationControlItemType
+	public enum SidebarItemType
 	{
 		Drive,
 		LinuxDistro,
@@ -28,7 +24,7 @@ namespace Files.App.Data.Items
 		FileTag
 	}
 
-	public enum SectionType
+	public enum SidebarSectionType
 	{
 		Home,
 		Favorites,
@@ -40,7 +36,7 @@ namespace Files.App.Data.Items
 		FileTag
 	}
 
-	public class ContextMenuOptions
+	public class SidebarContextMenuOptions
 	{
 		public bool IsLibrariesHeader { get; set; }
 

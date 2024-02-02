@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Data.Items
 {
-	public class FileTagItem : ObservableObject, INavigationControlItem
+	public class FileTagItem : ObservableObject, ISidebarItem
 	{
 		public string Text { get; set; }
 
@@ -27,14 +27,14 @@ namespace Files.App.Data.Items
 
 		public string ToolTipText { get; private set; }
 
-		public SectionType Section { get; set; }
+		public SidebarSectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public SidebarContextMenuOptions MenuOptions { get; set; }
 
-		public NavigationControlItemType ItemType
-			=> NavigationControlItemType.FileTag;
+		public SidebarItemType ItemType
+			=> SidebarItemType.FileTag;
 
-		public int CompareTo(INavigationControlItem other)
+		public int CompareTo(ISidebarItem other)
 			=> Text.CompareTo(other.Text);
 
 		public TagViewModel FileTag { get; set; }
