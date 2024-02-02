@@ -244,6 +244,10 @@ namespace Files.App.UserControls.Widgets
 		private void OpenProperties(RecentItem item)
 		{
 			var flyout = HomePageContext.ItemContextFlyoutMenu;
+
+			if (item is null || flyout is null)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = async (s, e) =>
 			{
