@@ -156,7 +156,7 @@ namespace Files.App.UserControls.Widgets
 
 			return new List<ContextFlyoutItemModel>()
 			{
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -167,7 +167,7 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -178,14 +178,14 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -196,7 +196,7 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = !isPinned
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -207,21 +207,21 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = isPinned
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "Eject".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "FormatDriveText".GetLocalizedResource(),
 					Command = FormatDriveCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowFormatDrive ?? false
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -231,24 +231,24 @@ namespace Files.App.UserControls.Widgets
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "TurnOnBitLocker".GetLocalizedResource(),
 					Tag = "TurnOnBitLockerPlaceholder",
 					IsEnabled = false
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "ManageBitLocker".GetLocalizedResource(),
 					Tag = "ManageBitLockerPlaceholder",
 					IsEnabled = false
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",

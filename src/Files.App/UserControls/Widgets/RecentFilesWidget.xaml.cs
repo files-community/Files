@@ -155,7 +155,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			return new List<ContextFlyoutItemModel>()
 			{
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -164,33 +164,33 @@ namespace Files.App.UserControls.Widgets
 					},
 					Tag = "OpenWithPlaceholder",
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "RecentItemRemove/Text".GetLocalizedResource(),
 					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
 					CommandParameter = item
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "RecentItemClearAll/Text".GetLocalizedResource(),
 					Glyph = "\uE74D",
 					Command = ClearAllItemsCommand
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -200,12 +200,12 @@ namespace Files.App.UserControls.Widgets
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",

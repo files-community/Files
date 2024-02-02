@@ -152,7 +152,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			return new List<ContextFlyoutItemModel>()
 			{
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -162,13 +162,13 @@ namespace Files.App.UserControls.Widgets
 					Tag = "OpenWithPlaceholder",
 					ShowItem = !isFolder
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = !isFolder && userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -179,7 +179,7 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = isFolder
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -190,7 +190,7 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = isFolder
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
@@ -198,14 +198,14 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = !isFolder
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -216,7 +216,7 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = !isPinned && isFolder
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -227,7 +227,7 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = isPinned && isFolder
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -238,12 +238,12 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = isFolder
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",

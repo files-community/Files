@@ -97,7 +97,7 @@ namespace Files.App.Data.Factories
 
 			return new List<ContextFlyoutItemModel>()
 			{
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "LayoutMode".GetLocalizedResource(),
 					Glyph = "\uE152",
@@ -142,7 +142,7 @@ namespace Files.App.Data.Factories
 						}.Build(),
 					},
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "SortBy".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -214,7 +214,7 @@ namespace Files.App.Data.Factories
 						}.Build(),
 					},
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "GroupBy".GetLocalizedResource(),
 					Glyph = "\uF168",
@@ -233,7 +233,7 @@ namespace Files.App.Data.Factories
 						{
 							IsToggle = true
 						}.Build(),
-						new ContextFlyoutItemModel()
+						new()
 						{
 							Text = "DateModifiedLowerCase".GetLocalizedResource(),
 							ShowInRecycleBin = true,
@@ -256,7 +256,7 @@ namespace Files.App.Data.Factories
 								}.Build(),
 							},
 						},
-						new ContextFlyoutItemModel()
+						new()
 						{
 							Text = "DateCreated".GetLocalizedResource(),
 							ShowInRecycleBin = true,
@@ -299,7 +299,7 @@ namespace Files.App.Data.Factories
 						{
 							IsToggle = true
 						}.Build(),
-						new ContextFlyoutItemModel()
+						new()
 						{
 							Text = "DateDeleted".GetLocalizedResource(),
 							ShowInRecycleBin = true,
@@ -348,14 +348,14 @@ namespace Files.App.Data.Factories
 				{
 					IsVisible = !itemsSelected,
 				}.Build(),
-				new ContextFlyoutItemModel()
+				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					ShowItem = !itemsSelected
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					OpacityIcon = new OpacityIconModel()
 					{
@@ -384,7 +384,7 @@ namespace Files.App.Data.Factories
 				{
 					Tag = "OpenWith",
 				}.Build(),
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -408,7 +408,7 @@ namespace Files.App.Data.Factories
 				new ContextFlyoutItemModelBuilder(Commands.OpenDirectoryInNewTabAction).Build(),
 				new ContextFlyoutItemModelBuilder(Commands.OpenInNewWindowItemAction).Build(),
 				new ContextFlyoutItemModelBuilder(Commands.OpenDirectoryInNewPaneAction).Build(),
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
 					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false),
@@ -434,7 +434,7 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextFlyoutItemModelBuilder(Commands.RunAsAdmin).Build(),
 				new ContextFlyoutItemModelBuilder(Commands.RunAsAnotherUser).Build(),
-				new ContextFlyoutItemModel()
+				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowInSearchPage = true,
@@ -543,7 +543,7 @@ namespace Files.App.Data.Factories
 					},
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && CompressHelper.CanDecompress(selectedItems)
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendTo",
@@ -551,7 +551,7 @@ namespace Files.App.Data.Factories
 					ShowInSearchPage = true,
 					ShowItem = itemsSelected && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToOverflow",
@@ -567,7 +567,7 @@ namespace Files.App.Data.Factories
 					ShowInSearchPage = true,
 					ShowItem = itemsSelected && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "TurnOnBitLocker".GetLocalizedResource(),
 					Tag = "TurnOnBitLockerPlaceholder",
@@ -575,7 +575,7 @@ namespace Files.App.Data.Factories
 					IsEnabled = false,
 					ShowItem = isDriveRoot
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "ManageBitLocker".GetLocalizedResource(),
 					Tag = "ManageBitLockerPlaceholder",
@@ -586,7 +586,7 @@ namespace Files.App.Data.Factories
 				// Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
 				// unless there is at least one menu item with an icon that is not an OpacityIcon. (#12943)
-				new ContextFlyoutItemModel()
+				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
@@ -595,7 +595,7 @@ namespace Files.App.Data.Factories
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 				},
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
@@ -616,7 +616,7 @@ namespace Files.App.Data.Factories
 			var list = new List<ContextFlyoutItemModel>()
 			{
 				new ContextFlyoutItemModelBuilder(Commands.CreateFolder).Build(),
-				new ContextFlyoutItemModel()
+				new()
 				{
 					Text = "File".GetLocalizedResource(),
 					Glyph = "\uE7C3",
@@ -626,7 +626,7 @@ namespace Files.App.Data.Factories
 					IsEnabled = canCreateFileInPage
 				},
 				new ContextFlyoutItemModelBuilder(Commands.CreateShortcutFromDialog).Build(),
-				new ContextFlyoutItemModel()
+				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 				}
@@ -644,7 +644,7 @@ namespace Files.App.Data.Factories
 						using var ms = new MemoryStream(bitmapData);
 						var bitmap = new BitmapImage();
 						_ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
-						list.Add(new ContextFlyoutItemModel()
+						list.Add(new()
 						{
 							Text = i.Name,
 							BitmapIcon = bitmap,
@@ -654,7 +654,7 @@ namespace Files.App.Data.Factories
 					}
 					else
 					{
-						list.Add(new ContextFlyoutItemModel()
+						list.Add(new()
 						{
 							Text = i.Name,
 							Glyph = "\xE7C3",

@@ -84,7 +84,7 @@ namespace Files.App.Helpers
 				var moreItem = menuItemsListLocal.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
 				if (moreItem is null)
 				{
-					var menuLayoutSubItem = new ContextFlyoutItemModel()
+					var menuLayoutSubItem = new()
 					{
 						Text = "ShowMoreOptions".GetLocalizedResource(),
 						Glyph = "\xE712",
@@ -120,7 +120,7 @@ namespace Files.App.Helpers
 
 				if (menuFlyoutItem.Type is MenuItemType.MFT_SEPARATOR)
 				{
-					var menuLayoutItem = new ContextFlyoutItemModel()
+					var menuLayoutItem = new()
 					{
 						ItemType = ContextMenuFlyoutItemType.Separator,
 						Tag = menuFlyoutItem
@@ -132,7 +132,7 @@ namespace Files.App.Helpers
 					if (string.Equals(menuFlyoutItem.Label, Win32API.ExtractStringFromDLL("shell32.dll", 30312)))
 						menuFlyoutItem.CommandString = "sendto";
 
-					var menuLayoutSubItem = new ContextFlyoutItemModel()
+					var menuLayoutSubItem = new()
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
