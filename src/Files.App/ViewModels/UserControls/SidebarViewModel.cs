@@ -935,7 +935,7 @@ namespace Files.App.ViewModels.UserControls
 			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
 		}
 
-		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
+		private List<ContextFlyoutItemModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
 		{
 			var options = item.MenuOptions;
 
@@ -950,31 +950,31 @@ namespace Files.App.ViewModels.UserControls
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
 
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<ContextFlyoutItemModel>()
 			{
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
 					Glyph = "\uE710",
 					Command = CreateLibraryCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "SideBarRestoreLibraries/Text".GetLocalizedResource(),
 					Glyph = "\uE10E",
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.EmptyRecycleBin)
+				new ContextFlyoutItemModelBuilder(Commands.EmptyRecycleBin)
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.RestoreAllRecycleBin)
+				new ContextFlyoutItemModelBuilder(Commands.RestoreAllRecycleBin)
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -984,7 +984,7 @@ namespace Files.App.ViewModels.UserControls
 					Command = OpenInNewTabCommand,
 					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -994,13 +994,13 @@ namespace Files.App.ViewModels.UserControls
 					Command = OpenInNewWindowCommand,
 					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -1010,7 +1010,7 @@ namespace Files.App.ViewModels.UserControls
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -1020,34 +1020,34 @@ namespace Files.App.ViewModels.UserControls
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
 					Glyph = "\uE8D8",
 					Command = ReorderItemsCommand,
 					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalizedResource(), rightClickedItem.Text),
 					Glyph = "\uE77A",
 					Command = HideSectionCommand,
 					ShowItem = options.ShowHideSection
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "Eject".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					ShowItem = options.ShowEjectDevice
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "FormatDriveText".GetLocalizedResource(),
 					Command = FormatDriveCommand,
 					CommandParameter = item,
 					ShowItem = options.ShowFormatDrive
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -1058,17 +1058,17 @@ namespace Files.App.ViewModels.UserControls
 					CommandParameter = menu,
 					ShowItem = options.ShowProperties
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					IsHidden = !options.ShowShellItems,
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextFlyoutItemModel()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = new List<ContextFlyoutItemModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

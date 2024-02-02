@@ -749,7 +749,7 @@ namespace Files.App.Views.Layouts
 			});
 		}
 
-		private async Task AddShellMenuItemsAsync(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
+		private async Task AddShellMenuItemsAsync(List<ContextFlyoutItemModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
 			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });

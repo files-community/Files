@@ -5,9 +5,9 @@ using Windows.System;
 
 namespace Files.App.Data.Models
 {
-	public class ContextMenuFlyoutItemViewModelBuilder
+	public class ContextFlyoutItemModelBuilder
 	{
-		private static readonly ContextMenuFlyoutItemViewModel none = new()
+		private static readonly ContextFlyoutItemModel none = new()
 		{
 			ShowItem = false,
 			IsHidden = true,
@@ -29,14 +29,14 @@ namespace Files.App.Data.Models
 
 		public bool ShowOnShift { get; init; } = false;
 
-		public List<ContextMenuFlyoutItemViewModel>? Items { get; init; } = null;
+		public List<ContextFlyoutItemModel>? Items { get; init; } = null;
 
-		public ContextMenuFlyoutItemViewModelBuilder(IRichCommand command)
+		public ContextFlyoutItemModelBuilder(IRichCommand command)
 		{
 			this.command = command;
 		}
 
-		public ContextMenuFlyoutItemViewModel Build()
+		public ContextFlyoutItemModel Build()
 		{
 			if (isVisible is false)
 				return none;
@@ -48,7 +48,7 @@ namespace Files.App.Data.Models
 
 			ContextMenuFlyoutItemType type = IsToggle ? ContextMenuFlyoutItemType.Toggle : ContextMenuFlyoutItemType.Item;
 
-			var viewModel = new ContextMenuFlyoutItemViewModel
+			var viewModel = new ContextFlyoutItemModel
 			{
 				Text = command.Label,
 				Tag = Tag,

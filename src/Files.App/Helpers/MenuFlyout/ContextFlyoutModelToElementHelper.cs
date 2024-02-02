@@ -12,7 +12,7 @@ namespace Files.App.Helpers.ContextFlyouts
 	/// </summary>
 	public static class ContextFlyoutModelToElementHelper
 	{
-		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
+		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextFlyoutItemModel>? items)
 		{
 			if (items is null)
 				return null;
@@ -39,7 +39,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			return flyout;
 		}
 
-		public static (List<ICommandBarElement> primaryElements, List<ICommandBarElement> secondaryElements) GetAppBarItemsFromModel(List<ContextMenuFlyoutItemViewModel> items)
+		public static (List<ICommandBarElement> primaryElements, List<ICommandBarElement> secondaryElements) GetAppBarItemsFromModel(List<ContextFlyoutItemModel> items)
 		{
 			var primaryModels = items.Where(i => i.IsPrimary).ToList();
 			var secondaryModels = items.Except(primaryModels).ToList();
@@ -60,14 +60,14 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// </summary>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<ContextMenuFlyoutItemViewModel> items)
+		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<ContextFlyoutItemModel> items)
 		{
 			var elements = new List<ICommandBarElement>();
 			items.ForEach(i => elements.Add(GetCommandBarItem(i)));
 			return elements;
 		}
 
-		public static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item)
+		public static MenuFlyoutItemBase GetMenuItem(ContextFlyoutItemModel item)
 		{
 			return item.ItemType switch
 			{
@@ -76,7 +76,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			};
 		}
 
-		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item)
+		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextFlyoutItemModel item)
 		{
 			if (item.Items is not null)
 			{
@@ -112,7 +112,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			return GetItem(item);
 		}
 
-		private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
+		private static MenuFlyoutItemBase GetItem(ContextFlyoutItemModel i)
 		{
 			if (i.BitmapIcon is not null)
 			{
@@ -185,7 +185,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			return flyoutItem;
 		}
 
-		public static ICommandBarElement GetCommandBarItem(ContextMenuFlyoutItemViewModel item)
+		public static ICommandBarElement GetCommandBarItem(ContextFlyoutItemModel item)
 		{
 			return item.ItemType switch
 			{
@@ -198,7 +198,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			};
 		}
 
-		private static ICommandBarElement GetCommandBarButton(ContextMenuFlyoutItemViewModel item)
+		private static ICommandBarElement GetCommandBarButton(ContextFlyoutItemModel item)
 		{
 			ICommandBarElement element;
 			FontIcon? icon = null;

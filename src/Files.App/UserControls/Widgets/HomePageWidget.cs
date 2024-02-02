@@ -40,7 +40,7 @@ namespace Files.App.UserControls.Widgets
 
 		// Abstract methods
 
-		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
+		public abstract List<ContextFlyoutItemModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		// Event methods
 
