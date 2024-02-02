@@ -155,7 +155,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					IsAvailable = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new()
 				{
@@ -166,14 +166,14 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					IsAvailable = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					IsAvailable = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new()
 				{
@@ -184,7 +184,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
-					ShowItem = !isPinned
+					IsAvailable = !isPinned
 				},
 				new()
 				{
@@ -195,7 +195,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
-					ShowItem = isPinned
+					IsAvailable = isPinned
 				},
 				new()
 				{
@@ -221,7 +221,7 @@ namespace Files.App.UserControls.Widgets
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}
-			}.Where(x => x.ShowItem).ToList();
+			}.Where(x => x.IsAvailable).ToList();
 		}
 
 		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)

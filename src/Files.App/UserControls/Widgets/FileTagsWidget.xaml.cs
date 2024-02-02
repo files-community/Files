@@ -160,13 +160,13 @@ namespace Files.App.UserControls.Widgets
 						OpacityIconStyle = "ColorIconOpenWith",
 					},
 					Tag = "OpenWithPlaceholder",
-					ShowItem = !isFolder
+					IsAvailable = !isFolder
 				},
 				new()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					ShowItem = !isFolder && userSettingsService.GeneralSettingsService.ShowSendToMenu
+					IsAvailable = !isFolder && userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
@@ -177,7 +177,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
 				new()
 				{
@@ -188,7 +188,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
 				new()
 				{
@@ -196,14 +196,14 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item,
-					ShowItem = !isFolder
+					IsAvailable = !isFolder
 				},
 				new()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
+					IsAvailable = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
 				new()
 				{
@@ -214,7 +214,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
-					ShowItem = !isPinned && isFolder
+					IsAvailable = !isPinned && isFolder
 				},
 				new()
 				{
@@ -225,7 +225,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
-					ShowItem = isPinned && isFolder
+					IsAvailable = isPinned && isFolder
 				},
 				new()
 				{
@@ -236,7 +236,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
 				new()
 				{
@@ -252,7 +252,7 @@ namespace Files.App.UserControls.Widgets
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}
-			}.Where(x => x.ShowItem).ToList();
+			}.Where(x => x.IsAvailable).ToList();
 		}
 
 		public void OpenFileLocation(WidgetCardItem? item)

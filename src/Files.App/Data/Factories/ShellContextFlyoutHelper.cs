@@ -157,7 +157,7 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
 				{
-					var menuLayoutItem = new ContextFlyoutItemModel
+					var menuLayoutItem = new
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,

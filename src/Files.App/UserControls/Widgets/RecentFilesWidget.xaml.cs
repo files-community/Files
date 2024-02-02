@@ -168,7 +168,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					ShowItem = userSettingsService.GeneralSettingsService.ShowSendToMenu
+					IsAvailable = userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
@@ -214,7 +214,7 @@ namespace Files.App.UserControls.Widgets
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}
-			}.Where(x => x.ShowItem).ToList();
+			}.Where(x => x.IsAvailable).ToList();
 		}
 
 		public async Task RefreshWidgetAsync()

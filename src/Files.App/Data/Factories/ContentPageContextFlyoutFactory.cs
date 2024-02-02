@@ -23,58 +23,9 @@ namespace Files.App.Data.Factories
 		private static readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public static List<ContextFlyoutItemModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
-		{
-			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
-			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
-			return menuItemsList;
-		}
+		// Static Methods
 
-		public static Task<List<ContextFlyoutItemModel>> GetItemContextShellCommandsAsync(string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
-		{
-			return ShellContextFlyoutFactory.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
-		}
-
-		public static List<ContextFlyoutItemModel> Filter(List<ContextFlyoutItemModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
-		{
-			items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList();
-			items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList());
-
-			var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
-			if (overflow is not null)
-			{
-				if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
-				{
-					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
-
-					// Adds a separator between items already there and the new ones
-					if (overflow.Items.Count != 0 && overflowItems.Count > 0 && overflow.Items.Last().ItemType != ContextMenuFlyoutItemType.Separator)
-						overflow.Items.Add(new ContextFlyoutItemModel { ItemType = ContextMenuFlyoutItemType.Separator });
-
-					items = items.Except(overflowItems).ToList();
-					overflow.Items.AddRange(overflowItems);
-				}
-
-				// remove the overflow if it has no child items
-				if (overflow.Items.Count == 0 && removeOverflowMenu)
-					items.Remove(overflow);
-			}
-
-			return items;
-		}
-
-		private static bool Check(ContextFlyoutItemModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
-		{
-			return
-				(item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) &&
-				(item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults) &&
-				(item.ShowInFtpPage || !currentInstanceViewModel.IsPageTypeFtp) &&
-				(item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder) &&
-				(!item.SingleItemOnly || selectedItems.Count == 1) &&
-				item.ShowItem;
-		}
-
-		public static List<ContextFlyoutItemModel> GetBaseItemMenuItems(
+		public static List<ContextFlyoutItemModel> GenerateContextFlyout(
 			BaseLayoutViewModel commandsViewModel,
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
@@ -82,18 +33,33 @@ namespace Files.App.Data.Factories
 			ItemViewModel? itemViewModel = null)
 		{
 			bool itemsSelected = itemViewModel is null;
-			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
-				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+
+			bool canDecompress =
+				selectedItems.Count != 0 &&
+				selectedItems.All(x => x.IsArchive) ||
+				selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+
 			bool canCompress = !canDecompress || selectedItems.Count > 1;
-			bool showOpenItemWith = selectedItems.All(
-				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
+
+			bool showOpenItemWith =
+				selectedItems.All(i =>
+					(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) ||
+					(i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
+
 			bool areAllItemsFolders = selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder);
+
 			bool isFirstFileExecutable = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault()?.FileExtension);
+
 			string newArchiveName =
-				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
+				Path.GetFileName(
+					selectedItems.Count is 1
+						? selectedItems[0].ItemPath
+						: Path.GetDirectoryName(selectedItems[0].ItemPath))
 				?? string.Empty;
 
-			bool isDriveRoot = itemViewModel?.CurrentFolder is not null && (itemViewModel.CurrentFolder.ItemPath == Path.GetPathRoot(itemViewModel.CurrentFolder.ItemPath));
+			bool isDriveRoot =
+				itemViewModel?.CurrentFolder is not null &&
+				(itemViewModel.CurrentFolder.ItemPath == Path.GetPathRoot(itemViewModel.CurrentFolder.ItemPath));
 
 			return new List<ContextFlyoutItemModel>()
 			{
@@ -101,45 +67,45 @@ namespace Files.App.Data.Factories
 				{
 					Text = "LayoutMode".GetLocalizedResource(),
 					Glyph = "\uE152",
-					ShowItem = !itemsSelected,
+					IsAvailable = !itemsSelected,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					Items = new List<ContextFlyoutItemModel>
+					Items = new()
 					{
-						new ContextFlyoutItemModelBuilder(Commands.LayoutDetails)
+						new(Commands.LayoutDetails)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.LayoutTiles)
+						},
+						new(Commands.LayoutTiles)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.LayoutList)
+						},
+						new(Commands.LayoutList)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.LayoutGridSmall)
+						},
+						new(Commands.LayoutGridSmall)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.LayoutGridMedium)
+						},
+						new(Commands.LayoutGridMedium)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.LayoutGridLarge)
+						},
+						new(Commands.LayoutGridLarge)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.LayoutColumns)
+						},
+						new(Commands.LayoutColumns)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.LayoutAdaptive)
+						},
+						new(Commands.LayoutAdaptive)
 						{
 							IsToggle = true
-						}.Build(),
+						},
 					},
 				},
 				new()
@@ -149,54 +115,54 @@ namespace Files.App.Data.Factories
 					{
 						OpacityIconStyle = "ColorIconSort",
 					},
-					ShowItem = !itemsSelected,
+					IsAvailable = !itemsSelected,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					Items = new List<ContextFlyoutItemModel>
+					Items = new()
 					{
-						new ContextFlyoutItemModelBuilder(Commands.SortByName)
+						new(Commands.SortByName)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortByDateModified)
+						},
+						new(Commands.SortByDateModified)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortByDateCreated)
+						},
+						new(Commands.SortByDateCreated)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortByType)
+						},
+						new(Commands.SortByType)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortBySize)
+						},
+						new(Commands.SortBySize)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortBySyncStatus)
+						},
+						new(Commands.SortBySyncStatus)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortByTag)
+						},
+						new(Commands.SortByTag)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortByPath)
+						},
+						new(Commands.SortByPath)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortByOriginalFolder)
+						},
+						new(Commands.SortByOriginalFolder)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortByDateDeleted)
+						},
+						new(Commands.SortByDateDeleted)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModel
+						},
+						new()
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
 							ShowInRecycleBin = true,
@@ -204,35 +170,35 @@ namespace Files.App.Data.Factories
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new ContextFlyoutItemModelBuilder(Commands.SortAscending)
+						new(Commands.SortAscending)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SortDescending)
+						},
+						new(Commands.SortDescending)
 						{
 							IsToggle = true
-						}.Build(),
+						},
 					},
 				},
 				new()
 				{
 					Text = "GroupBy".GetLocalizedResource(),
 					Glyph = "\uF168",
-					ShowItem = !itemsSelected,
+					IsAvailable = !itemsSelected,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					Items = new List<ContextFlyoutItemModel>
+					Items = new()
 					{
-						new ContextFlyoutItemModelBuilder(Commands.GroupByNone)
+						new(Commands.GroupByNone)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.GroupByName)
+						},
+						new(Commands.GroupByName)
 						{
 							IsToggle = true
-						}.Build(),
+						},
 						new()
 						{
 							Text = "DateModifiedLowerCase".GetLocalizedResource(),
@@ -240,20 +206,20 @@ namespace Files.App.Data.Factories
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
-							Items = new List<ContextFlyoutItemModel>
+							Items = new()
 							{
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateModifiedYear)
+								new(Commands.GroupByDateModifiedYear)
 								{
 									IsToggle = true
-								}.Build(),
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateModifiedMonth)
+								},
+								new(Commands.GroupByDateModifiedMonth)
 								{
 									IsToggle = true
-								}.Build(),
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateModifiedDay)
+								},
+								new(Commands.GroupByDateModifiedDay)
 								{
 									IsToggle = true
-								}.Build(),
+								},
 							},
 						},
 						new()
@@ -263,68 +229,68 @@ namespace Files.App.Data.Factories
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
-							Items = new List<ContextFlyoutItemModel>
+							Items = new()
 							{
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateCreatedYear)
+								new(Commands.GroupByDateCreatedYear)
 								{
 									IsToggle = true
-								}.Build(),
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateCreatedMonth)
+								},
+								new(Commands.GroupByDateCreatedMonth)
 								{
 									IsToggle = true
-								}.Build(),
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateCreatedDay)
+								},
+								new(Commands.GroupByDateCreatedDay)
 								{
 									IsToggle = true
-								}.Build(),
+								},
 							},
 						},
-						new ContextFlyoutItemModelBuilder(Commands.GroupByType)
+						new(Commands.GroupByType)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.GroupBySize)
+						},
+						new(Commands.GroupBySize)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.GroupBySyncStatus)
+						},
+						new(Commands.GroupBySyncStatus)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.GroupByTag)
+						},
+						new(Commands.GroupByTag)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.GroupByOriginalFolder)
+						},
+						new(Commands.GroupByOriginalFolder)
 						{
 							IsToggle = true
-						}.Build(),
+						},
 						new()
 						{
 							Text = "DateDeleted".GetLocalizedResource(),
 							ShowInRecycleBin = true,
-							IsHidden = !currentInstanceViewModel.IsPageTypeRecycleBin,
-							Items = new List<ContextFlyoutItemModel>
+							IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin,
+							Items = new()
 							{
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateDeletedYear)
+								new(Commands.GroupByDateDeletedYear)
 								{
 									IsToggle = true
-								}.Build(),
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateDeletedMonth)
+								},
+								new(Commands.GroupByDateDeletedMonth)
 								{
 									IsToggle = true
-								}.Build(),
-								new ContextFlyoutItemModelBuilder(Commands.GroupByDateDeletedDay)
+								},
+								new(Commands.GroupByDateDeletedDay)
 								{
 									IsToggle = true
-								}.Build(),
+								},
 							},
 						},
-						new ContextFlyoutItemModelBuilder(Commands.GroupByFolderPath)
+						new(Commands.GroupByFolderPath)
 						{
 							IsToggle = true
-						}.Build(),
-						new ContextFlyoutItemModel
+						},
+						new()
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
 							ShowInRecycleBin = true,
@@ -332,28 +298,28 @@ namespace Files.App.Data.Factories
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new ContextFlyoutItemModelBuilder(Commands.GroupAscending)
+						new(Commands.GroupAscending)
 						{
 							IsToggle = true,
 							IsVisible = true
-						}.Build(),
-						new ContextFlyoutItemModelBuilder(Commands.GroupDescending)
+						},
+						new(Commands.GroupDescending)
 						{
 							IsToggle = true,
 							IsVisible = true
-						}.Build(),
+						},
 					},
 				},
-				new ContextFlyoutItemModelBuilder(Commands.RefreshItems)
+				new(Commands.RefreshItems)
 				{
 					IsVisible = !itemsSelected,
-				}.Build(),
+				},
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					ShowItem = !itemsSelected
+					IsAvailable = !itemsSelected
 				},
 				new()
 				{
@@ -363,27 +329,27 @@ namespace Files.App.Data.Factories
 					},
 					Text = Commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
-					ShowItem = !itemsSelected,
+					IsAvailable = !itemsSelected,
 					ShowInFtpPage = true
 				},
-				new ContextFlyoutItemModelBuilder(Commands.FormatDrive).Build(),
-				new ContextFlyoutItemModelBuilder(Commands.EmptyRecycleBin)
+				new(Commands.FormatDrive),
+				new(Commands.EmptyRecycleBin)
 				{
 					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.RestoreAllRecycleBin)
+				},
+				new(Commands.RestoreAllRecycleBin)
 				{
 					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.RestoreRecycleBin)
+				},
+				new(Commands.RestoreRecycleBin)
 				{
 					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && itemsSelected,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.OpenItem).Build(),
-				new ContextFlyoutItemModelBuilder(Commands.OpenItemWithApplicationPicker)
+				},
+				new(Commands.OpenItem),
+				new(Commands.OpenItemWithApplicationPicker)
 				{
 					Tag = "OpenWith",
-				}.Build(),
+				},
 				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
@@ -392,9 +358,10 @@ namespace Files.App.Data.Factories
 						OpacityIconStyle = "ColorIconOpenWith"
 					},
 					Tag = "OpenWithOverflow",
-					IsHidden = true,
+					IsVisible = false,
 					CollapseLabel = true,
-					Items = new List<ContextFlyoutItemModel>() {
+					Items = new()
+					{
 						new()
 						{
 							Text = "Placeholder",
@@ -402,115 +369,115 @@ namespace Files.App.Data.Factories
 						}
 					},
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && showOpenItemWith
+					IsAvailable = itemsSelected && showOpenItemWith
 				},
-				new ContextFlyoutItemModelBuilder(Commands.OpenFileLocation).Build(),
-				new ContextFlyoutItemModelBuilder(Commands.OpenDirectoryInNewTabAction).Build(),
-				new ContextFlyoutItemModelBuilder(Commands.OpenInNewWindowItemAction).Build(),
-				new ContextFlyoutItemModelBuilder(Commands.OpenDirectoryInNewPaneAction).Build(),
+				new(Commands.OpenFileLocation),
+				new(Commands.OpenDirectoryInNewTabAction),
+				new(Commands.OpenInNewWindowItemAction),
+				new(Commands.OpenDirectoryInNewPaneAction),
 				new()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
-					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false),
+					IsAvailable = itemsSelected && (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false),
 					ShowInSearchPage = true,
-					Items = new List<ContextFlyoutItemModel>
+					Items = new()
 					{
-						new ContextFlyoutItemModelBuilder(Commands.SetAsWallpaperBackground).Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SetAsLockscreenBackground).Build(),
-						new ContextFlyoutItemModelBuilder(Commands.SetAsSlideshowBackground).Build(),
+						new(Commands.SetAsWallpaperBackground),
+						new(Commands.SetAsLockscreenBackground),
+						new(Commands.SetAsSlideshowBackground),
 					}
 				},
-				new ContextFlyoutItemModelBuilder(Commands.RotateLeft)
+				new(Commands.RotateLeft)
 				{
 					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
 								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.RotateRight)
+				},
+				new(Commands.RotateRight)
 				{
 					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
 								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.RunAsAdmin).Build(),
-				new ContextFlyoutItemModelBuilder(Commands.RunAsAnotherUser).Build(),
+				},
+				new(Commands.RunAsAdmin),
+				new(Commands.RunAsAnotherUser),
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					ShowItem = itemsSelected
+					IsAvailable = itemsSelected
 				},
-				new ContextFlyoutItemModelBuilder(Commands.CutItem)
+				new(Commands.CutItem)
 				{
 					IsPrimary = true,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.CopyItem)
+				},
+				new(Commands.CopyItem)
 				{
 					IsPrimary = true,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.PasteItemToSelection)
+				},
+				new(Commands.PasteItemToSelection)
 				{
 					IsPrimary = true,
 					IsVisible = true,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.CopyPath)
+				},
+				new(Commands.CopyPath)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCopyPath
 						&& itemsSelected
 						&&!currentInstanceViewModel.IsPageTypeRecycleBin,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.CreateFolderWithSelection)
+				},
+				new(Commands.CreateFolderWithSelection)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.CreateShortcut)
+				},
+				new(Commands.CreateShortcut)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateShortcut
 						&& itemsSelected
 						&& (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.Rename)
+				},
+				new(Commands.Rename)
 				{
 					IsPrimary = true,
 					IsVisible = itemsSelected
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.ShareItem)
+				},
+				new(Commands.ShareItem)
 				{
 					IsPrimary = true
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(ModifiableCommands.DeleteItem)
+				},
+				new(ModifiableCommands.DeleteItem)
 				{
 					IsVisible = itemsSelected,
 					IsPrimary = true,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.OpenProperties)
+				},
+				new(Commands.OpenProperties)
 				{
 					IsPrimary = true,
 					IsVisible = Commands.OpenProperties.IsExecutable
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.OpenParentFolder).Build(),
-				new ContextFlyoutItemModelBuilder(Commands.PinItemToFavorites)
+				},
+				new(Commands.OpenParentFolder),
+				new(Commands.PinItemToFavorites)
 				{
 					IsVisible = Commands.PinItemToFavorites.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.UnpinItemFromFavorites)
+				},
+				new(Commands.UnpinItemFromFavorites)
 				{
 					IsVisible = Commands.UnpinItemFromFavorites.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.PinToStart)
+				},
+				new(Commands.PinToStart)
 				{
 					IsVisible = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && !x.IsItemPinnedToStart),
 					ShowOnShift = true,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.UnpinFromStart)
+				},
+				new(Commands.UnpinFromStart)
 				{
 					IsVisible = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && x.IsItemPinnedToStart),
 					ShowOnShift = true,
-				}.Build(),
-				new ContextFlyoutItemModel
+				},
+				new()
 				{
 					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
@@ -520,13 +487,13 @@ namespace Files.App.Data.Factories
 					},
 					Items = new List<ContextFlyoutItemModel>
 					{
-						new ContextFlyoutItemModelBuilder(Commands.CompressIntoArchive).Build(),
-						new ContextFlyoutItemModelBuilder(Commands.CompressIntoZip).Build(),
-						new ContextFlyoutItemModelBuilder(Commands.CompressIntoSevenZip).Build(),
+						new(Commands.CompressIntoArchive),
+						new(Commands.CompressIntoZip),
+						new(Commands.CompressIntoSevenZip),
 					},
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && CompressHelper.CanCompress(selectedItems)
+					IsAvailable = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && CompressHelper.CanCompress(selectedItems)
 				},
-				new ContextFlyoutItemModel
+				new()
 				{
 					Text = "Extract".GetLocalizedResource(),
 					ShowInSearchPage = true,
@@ -534,14 +501,14 @@ namespace Files.App.Data.Factories
 					{
 						OpacityIconStyle = "ColorIconZip",
 					},
-					Items = new List<ContextFlyoutItemModel>
+					Items = new()
 					{
-						new ContextFlyoutItemModelBuilder(Commands.DecompressArchive).Build(),
-						new ContextFlyoutItemModelBuilder(Commands.DecompressArchiveHereSmart).Build(),
-						new ContextFlyoutItemModelBuilder(Commands.DecompressArchiveHere).Build(),
-						new ContextFlyoutItemModelBuilder(Commands.DecompressArchiveToChildFolder).Build(),
+						new(Commands.DecompressArchive),
+						new(Commands.DecompressArchiveHereSmart),
+						new(Commands.DecompressArchiveHere),
+						new(Commands.DecompressArchiveToChildFolder),
 					},
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && CompressHelper.CanDecompress(selectedItems)
+					IsAvailable = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && CompressHelper.CanDecompress(selectedItems)
 				},
 				new()
 				{
@@ -549,15 +516,16 @@ namespace Files.App.Data.Factories
 					Tag = "SendTo",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && UserSettingsService.GeneralSettingsService.ShowSendToMenu
+					IsAvailable = itemsSelected && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToOverflow",
-					IsHidden = true,
+					IsVisible = false,
 					CollapseLabel = true,
-					Items = new List<ContextFlyoutItemModel>() {
+					Items = new()
+					{
 						new()
 						{
 							Text = "Placeholder",
@@ -565,7 +533,7 @@ namespace Files.App.Data.Factories
 						}
 					},
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && UserSettingsService.GeneralSettingsService.ShowSendToMenu
+					IsAvailable = itemsSelected && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
@@ -573,14 +541,14 @@ namespace Files.App.Data.Factories
 					Tag = "TurnOnBitLockerPlaceholder",
 					CollapseLabel = true,
 					IsEnabled = false,
-					ShowItem = isDriveRoot
+					IsAvailable = isDriveRoot
 				},
 				new()
 				{
 					Text = "ManageBitLocker".GetLocalizedResource(),
 					Tag = "ManageBitLockerPlaceholder",
 					CollapseLabel = true,
-					ShowItem = isDriveRoot,
+					IsAvailable = isDriveRoot,
 					IsEnabled = false
 				},
 				// Shell extensions are not available on the FTP server or in the archive,
@@ -599,7 +567,7 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextFlyoutItemModel>(),
+					Items = new(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					ShowInFtpPage = true,
@@ -608,14 +576,14 @@ namespace Files.App.Data.Factories
 					ShowInSearchPage = true,
 					IsEnabled = false
 				},
-			}.Where(x => x.ShowItem).ToList();
+			}.Where(x => x.IsAvailable).ToList();
 		}
 
 		public static List<ContextFlyoutItemModel> GetNewItemItems(BaseLayoutViewModel commandsViewModel, bool canCreateFileInPage)
 		{
 			var list = new List<ContextFlyoutItemModel>()
 			{
-				new ContextFlyoutItemModelBuilder(Commands.CreateFolder).Build(),
+				new(Commands.CreateFolder),
 				new()
 				{
 					Text = "File".GetLocalizedResource(),
@@ -625,7 +593,7 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					IsEnabled = canCreateFileInPage
 				},
-				new ContextFlyoutItemModelBuilder(Commands.CreateShortcutFromDialog).Build(),
+				new(Commands.CreateShortcutFromDialog),
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
@@ -666,6 +634,71 @@ namespace Files.App.Data.Factories
 			}
 
 			return list;
+		}
+
+		public static List<ContextFlyoutItemModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		{
+			var menuItemsList =
+				GenerateContextFlyout(
+					commandsViewModel,
+					selectedItemsPropertiesViewModel,
+					selectedItems,
+					currentInstanceViewModel,
+					itemViewModel);
+
+			menuItemsList =
+				FillContextFlyout(
+					menuItemsList,
+					selectedItems,
+					shiftPressed,
+					currentInstanceViewModel,
+					false);
+
+			return menuItemsList;
+		}
+
+		public static Task<List<ContextFlyoutItemModel>> GetItemContextShellCommandsAsync(string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
+		{
+			return ShellContextFlyoutFactory.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
+		}
+
+		public static List<ContextFlyoutItemModel> FillContextFlyout(List<ContextFlyoutItemModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
+		{
+			items = items.Where(x => CheckVisibility(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList();
+			items.ForEach(x => x.Items = x.Items?.Where(y => CheckVisibility(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList());
+
+			var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
+			if (overflow is not null)
+			{
+				if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
+				{
+					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
+
+					// Adds a separator between items already there and the new ones
+					if (overflow.Items.Count != 0 && overflowItems.Count > 0 && overflow.Items.Last().ItemType != ContextMenuFlyoutItemType.Separator)
+						overflow.Items.Add(new() { ItemType = ContextMenuFlyoutItemType.Separator });
+
+					items = items.Except(overflowItems).ToList();
+					overflow.Items.AddRange(overflowItems);
+				}
+
+				// remove the overflow if it has no child items
+				if (overflow.Items.Count == 0 && removeOverflowMenu)
+					items.Remove(overflow);
+			}
+
+			return items;
+		}
+
+		private static bool CheckVisibility(ContextFlyoutItemModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
+		{
+			return
+				(item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) &&
+				(item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults) &&
+				(item.ShowInFtpPage || !currentInstanceViewModel.IsPageTypeFtp) &&
+				(item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder) &&
+				(!item.SingleItemOnly || selectedItems.Count == 1) &&
+				item.IsAvailable;
 		}
 
 		public static void SwapPlaceholderWithShellOption(CommandBarFlyout contextMenu, string placeholderName, ContextFlyoutItemModel? replacingItem, int position)

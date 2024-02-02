@@ -105,7 +105,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				});
 
 				flyoutSubItem.IsEnabled = item.IsEnabled;
-				flyoutSubItem.Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible;
+				flyoutSubItem.Visibility = item.IsVisible ? Visibility.Visible : Visibility.Collapsed;
 
 				return flyoutSubItem;
 			}
@@ -177,7 +177,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				flyoutItem.KeyboardAccelerators.Add(i.KeyboardAccelerator);
 
 			flyoutItem.IsEnabled = i.IsEnabled;
-			flyoutItem.Visibility = i.IsHidden ? Visibility.Collapsed : Visibility.Visible;
+			flyoutItem.Visibility = i.IsVisible ? Visibility.Visible : Visibility.Collapsed;
 
 			if (i.KeyboardAcceleratorTextOverride is not null)
 				flyoutItem.KeyboardAcceleratorTextOverride = i.KeyboardAcceleratorTextOverride;
@@ -192,7 +192,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				ContextMenuFlyoutItemType.Separator => new AppBarSeparator()
 				{
 					Tag = item.Tag,
-					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
+					Visibility = item.IsVisible ? Visibility.Visible : Visibility.Collapsed,
 				},
 				_ => GetCommandBarButton(item),
 			};
@@ -250,7 +250,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Content = content,
 					LabelPosition = item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
 					IsEnabled = item.IsEnabled,
-					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
+					Visibility = item.IsVisible ? Visibility.Visible : Visibility.Collapsed,
 				};
 
 				if (element is AppBarToggleButton toggleButton)
@@ -280,7 +280,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					LabelPosition = item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
 					Content = content,
 					IsEnabled = item.IsEnabled,
-					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
+					Visibility = item.IsVisible ? Visibility.Visible : Visibility.Collapsed,
 				};
 
 				if (element is AppBarButton button)

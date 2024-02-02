@@ -203,7 +203,7 @@ namespace Files.App.Helpers
 					.AddSingleton<RecentItems>()
 					.AddSingleton<LibraryManager>()
 					.AddSingleton<AppModel>()
-				).Build();
+				);
 		}
 
 		/// <summary>

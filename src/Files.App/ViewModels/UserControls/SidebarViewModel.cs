@@ -957,23 +957,23 @@ namespace Files.App.ViewModels.UserControls
 					Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
 					Glyph = "\uE710",
 					Command = CreateLibraryCommand,
-					ShowItem = options.IsLibrariesHeader
+					IsAvailable = options.IsLibrariesHeader
 				},
 				new()
 				{
 					Text = "SideBarRestoreLibraries/Text".GetLocalizedResource(),
 					Glyph = "\uE10E",
 					Command = RestoreLibrariesCommand,
-					ShowItem = options.IsLibrariesHeader
+					IsAvailable = options.IsLibrariesHeader
 				},
-				new ContextFlyoutItemModelBuilder(Commands.EmptyRecycleBin)
+				new(Commands.EmptyRecycleBin)
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
-				}.Build(),
-				new ContextFlyoutItemModelBuilder(Commands.RestoreAllRecycleBin)
+				},
+				new(Commands.RestoreAllRecycleBin)
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
-				}.Build(),
+				},
 				new()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
@@ -982,7 +982,7 @@ namespace Files.App.ViewModels.UserControls
 						OpacityIconStyle = "ColorIconOpenInNewTab",
 					},
 					Command = OpenInNewTabCommand,
-					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					IsAvailable = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new()
 				{
@@ -992,13 +992,13 @@ namespace Files.App.ViewModels.UserControls
 						OpacityIconStyle = "ColorIconOpenInNewWindow",
 					},
 					Command = OpenInNewWindowCommand,
-					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					IsAvailable = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
-					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					IsAvailable = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new()
 				{
@@ -1008,7 +1008,7 @@ namespace Files.App.ViewModels.UserControls
 						OpacityIconStyle = "ColorIconPinToFavorites",
 					},
 					Command = PinItemCommand,
-					ShowItem = isDriveItem && !isDriveItemPinned
+					IsAvailable = isDriveItem && !isDriveItemPinned
 				},
 				new()
 				{
@@ -1018,34 +1018,34 @@ namespace Files.App.ViewModels.UserControls
 						OpacityIconStyle = "ColorIconUnpinFromFavorites",
 					},
 					Command = UnpinItemCommand,
-					ShowItem = options.ShowUnpinItem || isDriveItemPinned
+					IsAvailable = options.ShowUnpinItem || isDriveItemPinned
 				},
 				new()
 				{
 					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
 					Glyph = "\uE8D8",
 					Command = ReorderItemsCommand,
-					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
+					IsAvailable = isFavoriteItem || item.Section is SectionType.Favorites
 				},
 				new()
 				{
 					Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalizedResource(), rightClickedItem.Text),
 					Glyph = "\uE77A",
 					Command = HideSectionCommand,
-					ShowItem = options.ShowHideSection
+					IsAvailable = options.ShowHideSection
 				},
 				new()
 				{
 					Text = "Eject".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
-					ShowItem = options.ShowEjectDevice
+					IsAvailable = options.ShowEjectDevice
 				},
 				new()
 				{
 					Text = "FormatDriveText".GetLocalizedResource(),
 					Command = FormatDriveCommand,
 					CommandParameter = item,
-					ShowItem = options.ShowFormatDrive
+					IsAvailable = options.ShowFormatDrive
 				},
 				new()
 				{
@@ -1056,13 +1056,13 @@ namespace Files.App.ViewModels.UserControls
 					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = menu,
-					ShowItem = options.ShowProperties
+					IsAvailable = options.ShowProperties
 				},
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
-					IsHidden = !options.ShowShellItems,
+					IsVisible = options.ShowShellItems,
 				},
 				new()
 				{
@@ -1072,9 +1072,9 @@ namespace Files.App.ViewModels.UserControls
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
-					IsHidden = !options.ShowShellItems,
+					IsVisible = options.ShowShellItems,
 				}
-			}.Where(x => x.ShowItem).ToList();
+			}.Where(x => x.IsAvailable).ToList();
 		}
 
 		public async void HandleItemDragOverAsync(ItemDragOverEventArgs args)

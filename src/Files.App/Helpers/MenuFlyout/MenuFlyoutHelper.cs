@@ -130,7 +130,7 @@ namespace Files.App.Helpers
 				}
 				else if (item is MenuFlyoutFactoryItemViewModel fvm)
 				{
-					menu.Add(fvm.Build());
+					menu.Add(fvm);
 				}
 			}
 		}
