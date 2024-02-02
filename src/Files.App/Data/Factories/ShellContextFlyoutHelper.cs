@@ -334,7 +334,10 @@ namespace Files.App.Helpers
 				{
 					await openWithItem.LoadSubMenuAction();
 
-					openWithItem.OpacityIcon = new("ColorIconOpenWith");
+					openWithItem.OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith",
+					};
 					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
 					if (placeholder is not null)

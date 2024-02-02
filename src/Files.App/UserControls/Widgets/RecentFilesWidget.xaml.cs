@@ -158,7 +158,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconOpenWith"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith",
+					},
 					Tag = "OpenWithPlaceholder",
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -190,7 +193,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconProperties"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},

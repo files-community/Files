@@ -145,7 +145,10 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SortBy".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconSort"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconSort",
+					},
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
@@ -354,7 +357,10 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					OpacityIcon = new(Commands.AddItem.Glyph.OpacityStyle),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = Commands.AddItem.Glyph.OpacityStyle
+					},
 					Text = Commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
 					ShowItem = !itemsSelected,
@@ -381,7 +387,10 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconOpenWith"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith"
+					},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
@@ -505,7 +514,10 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new("ColorIconZip"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconZip",
+					},
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.CompressIntoArchive).Build(),
@@ -518,7 +530,10 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Extract".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new("ColorIconZip"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconZip",
+					},
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.DecompressArchive).Build(),

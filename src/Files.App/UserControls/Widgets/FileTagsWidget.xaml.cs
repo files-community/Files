@@ -155,7 +155,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconOpenWith"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith",
+					},
 					Tag = "OpenWithPlaceholder",
 					ShowItem = !isFolder
 				},
@@ -168,7 +171,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconOpenInNewTab"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
 					ShowItem = isFolder
@@ -176,7 +182,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconOpenInNewWindow"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
 					ShowItem = isFolder
@@ -199,7 +208,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconPinToFavorites"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned && isFolder
@@ -207,7 +219,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconUnpinFromFavorites"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = isPinned && isFolder
@@ -215,7 +230,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconProperties"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item,
 					ShowItem = isFolder
