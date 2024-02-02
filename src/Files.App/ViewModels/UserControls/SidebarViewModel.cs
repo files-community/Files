@@ -1058,9 +1058,8 @@ namespace Files.App.ViewModels.UserControls
 					CommandParameter = menu,
 					IsAvailable = options.ShowProperties
 				},
-				new()
+				new(ContextMenuFlyoutItemType.Separator)
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					IsVisible = options.ShowShellItems,
 				},
@@ -1068,7 +1067,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextFlyoutItemModel>(),
+					Items = new(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

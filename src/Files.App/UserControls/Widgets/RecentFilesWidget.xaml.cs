@@ -200,16 +200,15 @@ namespace Files.App.UserControls.Widgets
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
-				new()
+				new(ContextMenuFlyoutItemType.Separator)
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
 				new()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextFlyoutItemModel>(),
+					Items = new,
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

@@ -74,38 +74,14 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					Items = new()
 					{
-						new(Commands.LayoutDetails)
-						{
-							IsToggle = true
-						},
-						new(Commands.LayoutTiles)
-						{
-							IsToggle = true
-						},
-						new(Commands.LayoutList)
-						{
-							IsToggle = true
-						},
-						new(Commands.LayoutGridSmall)
-						{
-							IsToggle = true
-						},
-						new(Commands.LayoutGridMedium)
-						{
-							IsToggle = true
-						},
-						new(Commands.LayoutGridLarge)
-						{
-							IsToggle = true
-						},
-						new(Commands.LayoutColumns)
-						{
-							IsToggle = true
-						},
-						new(Commands.LayoutAdaptive)
-						{
-							IsToggle = true
-						},
+						new(ContextMenuFlyoutItemType.Toggle, Commands.LayoutDetails),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.LayoutTiles),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.LayoutList),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.LayoutGridSmall),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.LayoutGridMedium),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.LayoutGridLarge),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.LayoutColumns),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.LayoutAdaptive),
 					},
 				},
 				new()
@@ -122,62 +98,25 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					Items = new()
 					{
-						new(Commands.SortByName)
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortByName),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortByDateModified),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortByDateCreated),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortByType),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortBySize),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortBySyncStatus),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortByTag),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortByPath),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortByOriginalFolder),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortByDateDeleted),
+						new(ContextMenuFlyoutItemType.Separator)
 						{
-							IsToggle = true
-						},
-						new(Commands.SortByDateModified)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortByDateCreated)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortByType)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortBySize)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortBySyncStatus)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortByTag)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortByPath)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortByOriginalFolder)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortByDateDeleted)
-						{
-							IsToggle = true
-						},
-						new()
-						{
-							ItemType = ContextMenuFlyoutItemType.Separator,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new(Commands.SortAscending)
-						{
-							IsToggle = true
-						},
-						new(Commands.SortDescending)
-						{
-							IsToggle = true
-						},
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortAscending),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.SortDescending),
 					},
 				},
 				new()
@@ -191,14 +130,8 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					Items = new()
 					{
-						new(Commands.GroupByNone)
-						{
-							IsToggle = true
-						},
-						new(Commands.GroupByName)
-						{
-							IsToggle = true
-						},
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByNone),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByName),
 						new()
 						{
 							Text = "DateModifiedLowerCase".GetLocalizedResource(),
@@ -208,18 +141,9 @@ namespace Files.App.Data.Factories
 							ShowInZipPage = true,
 							Items = new()
 							{
-								new(Commands.GroupByDateModifiedYear)
-								{
-									IsToggle = true
-								},
-								new(Commands.GroupByDateModifiedMonth)
-								{
-									IsToggle = true
-								},
-								new(Commands.GroupByDateModifiedDay)
-								{
-									IsToggle = true
-								},
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateModifiedYear),
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateModifiedMonth),
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateModifiedDay),
 							},
 						},
 						new()
@@ -231,40 +155,16 @@ namespace Files.App.Data.Factories
 							ShowInZipPage = true,
 							Items = new()
 							{
-								new(Commands.GroupByDateCreatedYear)
-								{
-									IsToggle = true
-								},
-								new(Commands.GroupByDateCreatedMonth)
-								{
-									IsToggle = true
-								},
-								new(Commands.GroupByDateCreatedDay)
-								{
-									IsToggle = true
-								},
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateCreatedYear),
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateCreatedMonth),
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateCreatedDay),
 							},
 						},
-						new(Commands.GroupByType)
-						{
-							IsToggle = true
-						},
-						new(Commands.GroupBySize)
-						{
-							IsToggle = true
-						},
-						new(Commands.GroupBySyncStatus)
-						{
-							IsToggle = true
-						},
-						new(Commands.GroupByTag)
-						{
-							IsToggle = true
-						},
-						new(Commands.GroupByOriginalFolder)
-						{
-							IsToggle = true
-						},
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByType),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupBySize),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupBySyncStatus),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByTag),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByOriginalFolder),
 						new()
 						{
 							Text = "DateDeleted".GetLocalizedResource(),
@@ -272,51 +172,29 @@ namespace Files.App.Data.Factories
 							IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin,
 							Items = new()
 							{
-								new(Commands.GroupByDateDeletedYear)
-								{
-									IsToggle = true
-								},
-								new(Commands.GroupByDateDeletedMonth)
-								{
-									IsToggle = true
-								},
-								new(Commands.GroupByDateDeletedDay)
-								{
-									IsToggle = true
-								},
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateDeletedYear),
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateDeletedMonth),
+								new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByDateDeletedDay),
 							},
 						},
-						new(Commands.GroupByFolderPath)
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupByFolderPath),
+						new(ContextMenuFlyoutItemType.Separator)
 						{
-							IsToggle = true
-						},
-						new()
-						{
-							ItemType = ContextMenuFlyoutItemType.Separator,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new(Commands.GroupAscending)
-						{
-							IsToggle = true,
-							IsVisible = true
-						},
-						new(Commands.GroupDescending)
-						{
-							IsToggle = true,
-							IsVisible = true
-						},
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupAscending),
+						new(ContextMenuFlyoutItemType.Toggle, Commands.GroupDescending),
 					},
 				},
 				new(Commands.RefreshItems)
 				{
 					IsVisible = !itemsSelected,
 				},
-				new()
+				new(ContextMenuFlyoutItemType.Separator)
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					IsAvailable = !itemsSelected
@@ -401,9 +279,8 @@ namespace Files.App.Data.Factories
 				},
 				new(Commands.RunAsAdmin),
 				new(Commands.RunAsAnotherUser),
-				new()
+				new(ContextMenuFlyoutItemType.Separator)
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -554,9 +431,8 @@ namespace Files.App.Data.Factories
 				// Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
 				// unless there is at least one menu item with an icon that is not an OpacityIcon. (#12943)
-				new()
+				new(ContextMenuFlyoutItemType.Separator)
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					ShowInFtpPage = true,
 					ShowInZipPage = true,

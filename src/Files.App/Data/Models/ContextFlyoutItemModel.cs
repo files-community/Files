@@ -61,7 +61,7 @@ namespace Files.App.Data.Models
 
 			Command = richCommand;
 
-			ContextMenuFlyoutItemType type = IsToggle ? ContextMenuFlyoutItemType.Toggle : ContextMenuFlyoutItemType.Item;
+			ContextMenuFlyoutItemType type = ContextMenuFlyoutItemType.Item;
 
 			Text = richCommand.Label;
 			IsEnabled = richCommand.IsExecutable;
@@ -96,6 +96,16 @@ namespace Files.App.Data.Models
 
 				KeyboardAcceleratorTextOverride = richCommand.HotKeys[0].Label;
 			}
+		}
+
+		public ContextFlyoutItemModel(ContextMenuFlyoutItemType itemType)
+		{
+			ItemType = itemType;
+		}
+
+		public ContextFlyoutItemModel(ContextMenuFlyoutItemType itemType, IRichCommand richCommand) : this(richCommand)
+		{
+			ItemType = itemType;
 		}
 	}
 }
