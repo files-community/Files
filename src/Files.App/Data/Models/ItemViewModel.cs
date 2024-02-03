@@ -789,10 +789,6 @@ namespace Files.App.Data.Models
 
 		private Task OrderFilesAndFoldersAsync()
 		{
-			// Sorting group contents is handled elsewhere
-			if (folderSettings.DirectoryGroupOption != GroupOption.None)
-				return Task.CompletedTask;
-
 			void OrderEntries()
 			{
 				if (filesAndFolders.Count == 0)
@@ -869,7 +865,7 @@ namespace Files.App.Data.Models
 				var isSemaphoreReleased = false;
 				try
 				{
-					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						try
 						{
@@ -883,10 +879,6 @@ namespace Files.App.Data.Models
 									return;
 
 								OrderGroups();
-							}
-							else
-							{
-								await OrderFilesAndFoldersAsync();
 							}
 
 							if (token.IsCancellationRequested)
