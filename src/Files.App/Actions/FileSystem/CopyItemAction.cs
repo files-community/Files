@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class CopyItemAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Copy".GetLocalizedResource();
@@ -20,17 +20,19 @@ namespace Files.App.Actions
 			=> new(Keys.C, KeyModifiers.Ctrl);
 
 		public bool IsExecutable
-			=> ContentPageContext.HasSelection;
+			=> context.HasSelection;
 
 		public CopyItemAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			if (ContentPageContext.ShellPage is not null)
-				return UIFilesystemHelpers.CopyItemAsync(ContentPageContext.ShellPage);
+			if (context.ShellPage is not null)
+				return UIFilesystemHelpers.CopyItemAsync(context.ShellPage);
 
 			return Task.CompletedTask;
 		}

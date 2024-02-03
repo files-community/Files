@@ -1,14 +1,16 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Services;
 using Files.App.UserControls.Widgets;
 
 namespace Files.App.Actions
 {
 	internal class UnpinItemAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private readonly IContentPageContext context;
+
+		private readonly IQuickAccessService service;
 
 		public string Label
 			=> "UnpinFromFavorites".GetLocalizedResource();
@@ -24,20 +26,23 @@ namespace Files.App.Actions
 
 		public UnpinItemAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (ContentPageContext.HasSelection)
+			if (context.HasSelection)
 			{
-				var items = ContentPageContext.SelectedItems.Select(x => x.ItemPath).ToArray();
-				await QuickAccessService.UnpinFromSidebarAsync(items);
+				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
+				await service.UnpinFromSidebarAsync(items);
 			}
-			else if (ContentPageContext.Folder is not null)
+			else if (context.Folder is not null)
 			{
-				await QuickAccessService.UnpinFromSidebarAsync(ContentPageContext.Folder.ItemPath);
+				await service.UnpinFromSidebarAsync(context.Folder.ItemPath);
 			}
 		}
 
@@ -45,9 +50,9 @@ namespace Files.App.Actions
 		{
 			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
 
-			return ContentPageContext.HasSelection
-				? ContentPageContext.SelectedItems.All(IsPinned)
-				: ContentPageContext.Folder is not null && IsPinned(ContentPageContext.Folder);
+			return context.HasSelection
+				? context.SelectedItems.All(IsPinned)
+				: context.Folder is not null && IsPinned(context.Folder);
 
 			bool IsPinned(ListedItem item)
 			{

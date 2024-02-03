@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class CutItemAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Cut".GetLocalizedResource();
@@ -20,17 +20,19 @@ namespace Files.App.Actions
 			=> new(Keys.X, KeyModifiers.Ctrl);
 
 		public bool IsExecutable
-			=> ContentPageContext.HasSelection;
+			=> context.HasSelection;
 
 		public CutItemAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return ContentPageContext.ShellPage is not null
-				? UIFilesystemHelpers.CutItemAsync(ContentPageContext.ShellPage)
+			return context.ShellPage is not null
+				? UIFilesystemHelpers.CutItemAsync(context.ShellPage)
 				: Task.CompletedTask;
 		}
 

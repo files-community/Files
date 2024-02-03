@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class CreateFolderAction : BaseUIAction, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Folder".GetLocalizedResource();
@@ -20,18 +20,20 @@ namespace Files.App.Actions
 			=> new(baseGlyph: "\uE8B7");
 
 		public override bool IsExecutable =>
-			ContentPageContext.CanCreateItem &&
+			context.CanCreateItem &&
 			UIHelpers.CanShowDialog;
 
 		public CreateFolderAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			if (ContentPageContext.ShellPage is not null)
-				UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.Folder, null!, ContentPageContext.ShellPage);
+			if (context.ShellPage is not null)
+				UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.Folder, null!, context.ShellPage);
 
 			return Task.CompletedTask;
 		}

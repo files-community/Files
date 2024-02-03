@@ -137,8 +137,9 @@ namespace Files.App.Actions
 
 	internal abstract class SortByAction : ObservableObject, IToggleAction
 	{
-		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		protected IDisplayPageContext DisplayContext { get; } = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IContentPageContext contentContext;
+
+		private readonly IDisplayPageContext displayContext;
 
 		protected abstract SortOption SortOption { get; }
 
@@ -147,20 +148,23 @@ namespace Files.App.Actions
 		public abstract string Description { get; }
 
 		public bool IsOn
-			=> DisplayContext.SortOption == SortOption;
+			=> displayContext.SortOption == SortOption;
 
 		public bool IsExecutable
-			=> GetIsExecutable(ContentPageContext.PageType);
+			=> GetIsExecutable(contentContext.PageType);
 
 		public SortByAction()
 		{
-			ContentPageContext.PropertyChanged += ContentContext_PropertyChanged;
-			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
+			contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+			displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
+			contentContext.PropertyChanged += ContentContext_PropertyChanged;
+			displayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			DisplayContext.SortOption = SortOption;
+			displayContext.SortOption = SortOption;
 
 			return Task.CompletedTask;
 		}

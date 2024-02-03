@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class CopyPathWithQuotesAction : IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "CopyPathWithQuotes".GetLocalizedResource();
@@ -22,20 +22,21 @@ namespace Files.App.Actions
 			=> new(Keys.C, KeyModifiers.MenuCtrl);
 
 		public bool IsExecutable
-			=> ContentPageContext.HasSelection;
+			=> context.HasSelection;
 
 		public CopyPathWithQuotesAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync()
 		{
-			if (ContentPageContext.ShellPage?.SlimContentPage is not null)
+			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var selectedItems = ContentPageContext.ShellPage.SlimContentPage.SelectedItems;
+				var selectedItems = context.ShellPage.SlimContentPage.SelectedItems;
 				var path = selectedItems is not null
 					? string.Join("\n", selectedItems.Select(item => $"\"{item.ItemPath}\""))
-					: ContentPageContext.ShellPage.FilesystemViewModel.WorkingDirectory;
+					: context.ShellPage.FilesystemViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);

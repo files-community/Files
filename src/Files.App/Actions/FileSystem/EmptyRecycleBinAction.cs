@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class EmptyRecycleBinAction : BaseUIAction, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "EmptyRecycleBin".GetLocalizedResource();
@@ -18,12 +18,14 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			UIHelpers.CanShowDialog &&
-			((ContentPageContext.PageType == ContentPageTypes.RecycleBin && ContentPageContext.HasItem) ||
+			((context.PageType == ContentPageTypes.RecycleBin && context.HasItem) ||
 			RecycleBinHelpers.RecycleBinHasItems());
 
 		public EmptyRecycleBinAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()

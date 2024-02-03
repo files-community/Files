@@ -149,8 +149,9 @@ namespace Files.App.Actions
 
 	internal abstract class GroupByAction : ObservableObject, IToggleAction
 	{
-		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		protected IDisplayPageContext DisplayContext { get; } = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		protected IContentPageContext ContentContext;
+
+		protected IDisplayPageContext DisplayContext;
 
 		protected abstract GroupOption GroupOption { get; }
 
@@ -162,11 +163,14 @@ namespace Files.App.Actions
 			=> DisplayContext.GroupOption == GroupOption;
 
 		public bool IsExecutable
-			=> GetIsExecutable(ContentPageContext.PageType);
+			=> GetIsExecutable(ContentContext.PageType);
 
 		public GroupByAction()
 		{
-			ContentPageContext.PropertyChanged += ContentContext_PropertyChanged;
+			ContentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+			DisplayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
+			ContentContext.PropertyChanged += ContentContext_PropertyChanged;
 			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
 
@@ -341,8 +345,9 @@ namespace Files.App.Actions
 
 	internal abstract class GroupByDateAction : ObservableObject, IToggleAction
 	{
-		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		protected IDisplayPageContext DisplayContext { get; } = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		protected IContentPageContext ContentContext;
+
+		protected IDisplayPageContext DisplayContext;
 
 		protected abstract GroupOption GroupOption { get; }
 
@@ -357,11 +362,14 @@ namespace Files.App.Actions
 			DisplayContext.GroupByDateUnit == GroupByDateUnit;
 
 		public bool IsExecutable
-			=> GetIsExecutable(ContentPageContext.PageType);
+			=> GetIsExecutable(ContentContext.PageType);
 
 		public GroupByDateAction()
 		{
-			ContentPageContext.PropertyChanged += ContentContext_PropertyChanged;
+			ContentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+			DisplayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
+			ContentContext.PropertyChanged += ContentContext_PropertyChanged;
 			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
 

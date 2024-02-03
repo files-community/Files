@@ -1,12 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Shell;
+
 namespace Files.App.Actions
 {
 	internal class FormatDriveAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly IContentPageContext context;
+
+		private readonly DrivesViewModel drivesViewModel;
 
 		public string Label
 			=> "FormatDriveText".GetLocalizedResource();
@@ -15,19 +18,22 @@ namespace Files.App.Actions
 			=> "FormatDriveDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
-			ContentPageContext.HasItem &&
-			!ContentPageContext.HasSelection &&
-			(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-				string.Equals(x.Path, ContentPageContext.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+			context.HasItem &&
+			!context.HasSelection &&
+			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return Win32API.OpenFormatDriveDialog(ContentPageContext.Folder?.ItemPath ?? string.Empty);
+			return Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
 		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

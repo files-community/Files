@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class SortFilesAndFoldersTogetherAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext DisplayContext { get; } = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "SortFilesAndFoldersTogether".GetLocalizedResource();
@@ -14,21 +14,23 @@ namespace Files.App.Actions
 			=> "SortFilesAndFoldersTogetherDescription".GetLocalizedResource();
 
 		public bool IsOn
-			=> DisplayContext.SortDirectoriesAlongsideFiles;
+			=> context.SortDirectoriesAlongsideFiles;
 
 		public SortFilesAndFoldersTogetherAction()
 		{
-			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			DisplayContext.SortDirectoriesAlongsideFiles = true;
+			context.SortDirectoriesAlongsideFiles = true;
 
 			return Task.CompletedTask;
 		}
 
-		private void DisplayContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.SortDirectoriesAlongsideFiles))
 				OnPropertyChanged(nameof(IsOn));

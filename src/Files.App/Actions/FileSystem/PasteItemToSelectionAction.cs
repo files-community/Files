@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Paste".GetLocalizedResource();
@@ -24,20 +24,22 @@ namespace Files.App.Actions
 
 		public PasteItemToSelectionAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (ContentPageContext.ShellPage is null)
+			if (context.ShellPage is null)
 				return;
 
-			string path = ContentPageContext.SelectedItem is ListedItem selectedItem
+			string path = context.SelectedItem is ListedItem selectedItem
 				? selectedItem.ItemPath
-				: ContentPageContext.ShellPage.FilesystemViewModel.WorkingDirectory;
+				: context.ShellPage.FilesystemViewModel.WorkingDirectory;
 
-			await UIFilesystemHelpers.PasteItemAsync(path, ContentPageContext.ShellPage);
+			await UIFilesystemHelpers.PasteItemAsync(path, context.ShellPage);
 		}
 
 		public bool GetIsExecutable()
@@ -45,14 +47,14 @@ namespace Files.App.Actions
 			if (!App.AppModel.IsPasteEnabled)
 				return false;
 
-			if (ContentPageContext.PageType is ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.SearchResults)
+			if (context.PageType is ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.SearchResults)
 				return false;
 
-			if (!ContentPageContext.HasSelection)
+			if (!context.HasSelection)
 				return true;
 
 			return
-				ContentPageContext.SelectedItem?.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder &&
+				context.SelectedItem?.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder &&
 				UIHelpers.CanShowDialog;
 		}
 

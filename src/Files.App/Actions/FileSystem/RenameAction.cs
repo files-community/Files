@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class RenameAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Rename".GetLocalizedResource();
@@ -20,38 +20,40 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconRename");
 
 		public bool IsExecutable =>
-			ContentPageContext.ShellPage is not null &&
+			context.ShellPage is not null &&
 			IsPageTypeValid() &&
-			ContentPageContext.ShellPage.SlimContentPage is not null &&
+			context.ShellPage.SlimContentPage is not null &&
 			IsSelectionValid();
 
 		public RenameAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			ContentPageContext.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
+			context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
 
 			return Task.CompletedTask;
 		}
 
 		private bool IsSelectionValid()
 		{
-			return ContentPageContext.HasSelection && ContentPageContext.SelectedItems.Count == 1;
+			return context.HasSelection && context.SelectedItems.Count == 1;
 		}
 
 		private bool IsPageTypeValid()
 		{
 			return
-				ContentPageContext.PageType != ContentPageTypes.None &&
-				ContentPageContext.PageType != ContentPageTypes.Home &&
-				ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
-				ContentPageContext.PageType != ContentPageTypes.ZipFolder;
+				context.PageType != ContentPageTypes.None &&
+				context.PageType != ContentPageTypes.Home &&
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder;
 		}
 
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

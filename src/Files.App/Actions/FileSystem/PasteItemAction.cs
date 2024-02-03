@@ -1,11 +1,19 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Data.Models;
+using Files.App.Extensions;
+using Files.App.Helpers;
+using System.ComponentModel;
+using System.Threading.Tasks;
+
 namespace Files.App.Actions
 {
 	internal class PasteItemAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Paste".GetLocalizedResource();
@@ -24,26 +32,28 @@ namespace Files.App.Actions
 
 		public PasteItemAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (ContentPageContext.ShellPage is null)
+			if (context.ShellPage is null)
 				return;
 
-			string path = ContentPageContext.ShellPage.FilesystemViewModel.WorkingDirectory;
-			await UIFilesystemHelpers.PasteItemAsync(path, ContentPageContext.ShellPage);
+			string path = context.ShellPage.FilesystemViewModel.WorkingDirectory;
+			await UIFilesystemHelpers.PasteItemAsync(path, context.ShellPage);
 		}
 
 		public bool GetIsExecutable()
 		{
 			return
 				App.AppModel.IsPasteEnabled &&
-				ContentPageContext.PageType != ContentPageTypes.Home &&
-				ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
-				ContentPageContext.PageType != ContentPageTypes.SearchResults;
+				context.PageType != ContentPageTypes.Home &&
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.SearchResults;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

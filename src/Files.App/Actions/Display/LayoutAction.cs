@@ -141,7 +141,7 @@ namespace Files.App.Actions
 			=> "LayoutAdaptiveDescription".GetLocalizedResource();
 
 		public override bool IsExecutable
-			=> DisplayPageContext.IsLayoutAdaptiveEnabled;
+			=> Context.IsLayoutAdaptiveEnabled;
 
 		public override RichGlyph Glyph
 			=> new("\uF576");
@@ -158,7 +158,7 @@ namespace Files.App.Actions
 
 	internal abstract class ToggleLayoutAction : ObservableObject, IToggleAction
 	{
-		protected IDisplayPageContext DisplayPageContext { get; } = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		protected readonly IDisplayPageContext Context;
 
 		protected abstract LayoutTypes LayoutType { get; }
 
@@ -171,19 +171,21 @@ namespace Files.App.Actions
 		public abstract HotKey HotKey { get; }
 
 		public bool IsOn
-			=> DisplayPageContext.LayoutType == LayoutType;
+			=> Context.LayoutType == LayoutType;
 
 		public virtual bool IsExecutable
 			=> true;
 
 		public ToggleLayoutAction()
 		{
-			DisplayPageContext.PropertyChanged += Context_PropertyChanged;
+			Context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
+			Context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			DisplayPageContext.LayoutType = LayoutType;
+			Context.LayoutType = LayoutType;
 
 			return Task.CompletedTask;
 		}

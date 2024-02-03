@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class CopyPathAction : IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "CopyPath".GetLocalizedResource();
@@ -16,25 +16,26 @@ namespace Files.App.Actions
 			=> "CopyPathDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconCopyPath");
+			=> new RichGlyph(opacityStyle: "ColorIconCopyPath");
 
 		public HotKey HotKey
 			=> new(Keys.C, KeyModifiers.CtrlShift);
 
 		public bool IsExecutable
-			=> ContentPageContext.HasSelection;
+			=> context.HasSelection;
 
 		public CopyPathAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync()
 		{
-			if (ContentPageContext.ShellPage?.SlimContentPage is not null)
+			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var path = ContentPageContext.ShellPage.SlimContentPage.SelectedItems is not null
-					? ContentPageContext.ShellPage.SlimContentPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + current)
-					: ContentPageContext.ShellPage.FilesystemViewModel.WorkingDirectory;
+				var path = context.ShellPage.SlimContentPage.SelectedItems is not null
+					? context.ShellPage.SlimContentPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + current)
+					: context.ShellPage.FilesystemViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);
