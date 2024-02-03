@@ -698,51 +698,11 @@ namespace Files.App.Data.Models
 						{
 							FilesAndFolders.BeginBulkOperation();
 
-							var startIndex = -1;
-							var tempList = new List<ListedItem>();
+							if (addFilesCTS.IsCancellationRequested)
+								return;
 
-							void ApplyBulkInsertEntries()
-							{
-								if (startIndex != -1)
-								{
-									FilesAndFolders.ReplaceRange(startIndex, tempList);
-									startIndex = -1;
-									tempList.Clear();
-								}
-							}
-
-							for (var i = 0; i < filesAndFoldersLocal.Count; i++)
-							{
-								if (addFilesCTS.IsCancellationRequested)
-									return;
-
-								if (i < FilesAndFolders.Count)
-								{
-									if (FilesAndFolders[i] != filesAndFoldersLocal[i])
-									{
-										if (startIndex == -1)
-											startIndex = i;
-
-										tempList.Add(filesAndFoldersLocal[i]);
-									}
-									else
-									{
-										ApplyBulkInsertEntries();
-									}
-								}
-								else
-								{
-									ApplyBulkInsertEntries();
-									FilesAndFolders.InsertRange(i, filesAndFoldersLocal.Skip(i));
-
-									break;
-								}
-							}
-
-							ApplyBulkInsertEntries();
-
-							if (FilesAndFolders.Count > filesAndFoldersLocal.Count)
-								FilesAndFolders.RemoveRange(filesAndFoldersLocal.Count, FilesAndFolders.Count - filesAndFoldersLocal.Count);
+							FilesAndFolders.Clear();
+							FilesAndFolders.AddRange(filesAndFoldersLocal);
 
 							if (folderSettings.DirectoryGroupOption != GroupOption.None)
 								OrderGroups();
@@ -1015,7 +975,7 @@ namespace Files.App.Data.Models
 						// Add the file icon to the DefaultIcons list
 						if
 						(
-							!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) && 
+							!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) &&
 							!string.IsNullOrEmpty(item.FileExtension) &&
 							!item.IsShortcut &&
 							!item.IsExecutable
