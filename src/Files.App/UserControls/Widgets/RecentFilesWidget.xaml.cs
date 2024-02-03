@@ -134,7 +134,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Get items for the flyout
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout
 			secondaryElements
@@ -148,7 +148,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
 			// Load shell menu items
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -158,7 +158,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconOpenWith"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith",
+					},
 					Tag = "OpenWithPlaceholder",
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -190,7 +193,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new("ColorIconProperties"),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
@@ -238,6 +244,10 @@ namespace Files.App.UserControls.Widgets
 		private void OpenProperties(RecentItem item)
 		{
 			var flyout = HomePageContext.ItemContextFlyoutMenu;
+
+			if (item is null || flyout is null)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = async (s, e) =>
 			{

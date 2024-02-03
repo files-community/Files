@@ -85,7 +85,7 @@ namespace Files.App.Views.Shells
 
 			LayoutPreferencesManager.SetLayoutPreferencesForPath(ShellViewModel.WorkingDirectory, e.LayoutPreference);
 			if (e.IsAdaptiveLayoutUpdateRequired)
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(ShellInstanceViewModel.FolderSettings, ShellViewModel.WorkingDirectory, ShellViewModel.FilesAndFolders);
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(ShellInstanceViewModel.FolderSettings, ShellViewModel.WorkingDirectory, ShellViewModel.FilesAndFolders.ToList());
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)

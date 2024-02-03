@@ -69,7 +69,10 @@ namespace Files.App.Data.Models
 			var glyph = command.Glyph;
 			if (!string.IsNullOrEmpty(glyph.OpacityStyle))
 			{
-				viewModel.OpacityIcon = new(glyph.OpacityStyle);
+				viewModel.OpacityIcon = new OpacityIconModel
+				{
+					OpacityIconStyle = glyph.OpacityStyle,
+				};
 			}
 			else
 			{
