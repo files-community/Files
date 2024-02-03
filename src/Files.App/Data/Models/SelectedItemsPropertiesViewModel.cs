@@ -622,7 +622,7 @@ namespace Files.App.Data.Models
 		{
 			get
 			{
-				return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
+				return ContainsFilesOrFolders ? new Uri(Constants.NormalIconPaths.FolderIconSvg2) : new Uri(Constants.NormalIconPaths.FolderIconSvg);
 			}
 		}
 

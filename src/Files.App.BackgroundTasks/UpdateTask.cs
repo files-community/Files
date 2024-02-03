@@ -52,7 +52,7 @@ namespace Files.App.BackgroundTasks
 					var jumplistItem = JumpListItem.CreateWithArguments(temp.Arguments, temp.DisplayName);
 					jumplistItem.Description = jumplistItem.Arguments;
 					jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
-					jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
+					jumplistItem.Logo = new Uri("ms-appx:///Assets/Icons/FolderIcon.png");
 					instance.Items.Add(jumplistItem);
 				}
 

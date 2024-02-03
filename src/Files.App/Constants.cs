@@ -63,27 +63,44 @@ namespace Files.App
 
 		public static class FluentIconsPaths
 		{
-			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
-			public const string FavoritesIcon = "ms-appx:///Assets/FluentIcons/Favorites.png";
-			public const string FileTagsIcon = "ms-appx:///Assets/FluentIcons/FileTags.png";
-			public const string HomeIcon = "ms-appx:///Assets/FluentIcons/Home.png";
+			public const string CloudDriveIcon = "ms-appx:///Assets/Icons/FluentIcons/CloudDrive.png";
+			public const string FavoritesIcon = "ms-appx:///Assets/Icons/FluentIcons/Favorites.png";
+			public const string FileTagsIcon = "ms-appx:///Assets/Icons/FluentIcons/FileTags.png";
+			public const string HomeIcon = "ms-appx:///Assets/Icons/FluentIcons/Home.png";
 		}
 
 		public static class WslIconsPaths
 		{
-			public const string Alpine = "ms-appx:///Assets/WSL/alpinepng.png";
-			public const string DebianIcon = "ms-appx:///Assets/WSL/debianpng.png";
-			public const string GenericIcon = "ms-appx:///Assets/WSL/genericpng.png";
-			public const string KaliIcon = "ms-appx:///Assets/WSL/kalipng.png";
-			public const string OpenSuse = "ms-appx:///Assets/WSL/opensusepng.png";
-			public const string UbuntuIcon = "ms-appx:///Assets/WSL/ubuntupng.png";
+			public const string Alpine = "ms-appx:///Assets/Icons/WSLIcons/alpinepng.png";
+			public const string DebianIcon = "ms-appx:///Assets/Icons/WSLIcons/debianpng.png";
+			public const string GenericIcon = "ms-appx:///Assets/Icons/WSLIcons/genericpng.png";
+			public const string KaliIcon = "ms-appx:///Assets/Icons/WSLIcons/kalipng.png";
+			public const string OpenSuse = "ms-appx:///Assets/Icons/WSLIcons/opensusepng.png";
+			public const string UbuntuIcon = "ms-appx:///Assets/Icons/WSLIcons/ubuntupng.png";
 		}
 
-		public static class AssetPaths
+		public static class NormalIconPaths
+		{
+			public const string ErrorIcon = "ms-appx:///Assets/Icons/error.png";
+			public const string FolderIconPng = "ms-appx:///Assets/Icons/FolderIcon.png";
+			public const string FolderIconSvg = "ms-appx:///Assets/Icons/FolderIcon.svg";
+			public const string FolderIconSvg2 = "ms-appx:///Assets/Icons/FolderIcon2.svg";
+			public const string FolderTileIcon250 = "ms-appx:///Assets/Icons/tile-0-250x250.png";
+			public const string FolderTileIcon300 = "ms-appx:///Assets/Icons/tile-0-300x300.png";
+		}
+
+		public static class AppIconPaths
 		{
 			public const string DevLogo = "Assets/AppTiles/Dev/Logo.ico";
 			public const string PreviewLogo = "Assets/AppTiles/Preview/Logo.ico";
 			public const string StableLogo = "Assets/AppTiles/Release/Logo.ico";
+		}
+
+		public static class ExternalLibraryPaths
+		{
+			public const string CustomOpenDialog64 = "Assets/Libraries/CustomOpenDialog64.dll";
+			public const string FilesAppLauncherExe = "Assets/Libraries/Files.App.Launcher.exe";
+			public const string FilesAppLauncherSha256 = "Assets/Libraries/Files.App.Launcher.exe.sha256";
 		}
 
 		public static class UI

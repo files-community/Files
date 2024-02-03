@@ -53,9 +53,9 @@ namespace Files.App.Helpers
 		public static string AppIconPath { get; } =
 			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
 			{
-				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
-				_ => Constants.AssetPaths.StableLogo
+				AppEnvironment.Dev => Constants.AppIconPaths.DevLogo,
+				AppEnvironment.Preview => Constants.AppIconPaths.PreviewLogo,
+				_ => Constants.AppIconPaths.StableLogo
 			});
 
 		/// <summary>
@@ -307,7 +307,7 @@ namespace Files.App.Helpers
 						},
 						AppLogoOverride = new()
 						{
-							Source = "ms-appx:///Assets/error.png"
+							Source = Constants.NormalIconPaths.ErrorIcon,
 						}
 					}
 				},

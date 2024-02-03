@@ -61,10 +61,10 @@ namespace Files.App.ViewModels.Settings
 			if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
 				return;
 
-			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Resources");
 			Directory.CreateDirectory(destFolder);
 
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Assets", "FilesOpenDialog")))
+			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Assets", "Resources")))
 			{
 				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
 				{
@@ -122,9 +122,9 @@ namespace Files.App.ViewModels.Settings
 			if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
 				return;
 
-			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Resources");
 			Directory.CreateDirectory(destFolder);
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Assets", "FilesOpenDialog")))
+			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Assets", "Resources")))
 			{
 				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
 				{

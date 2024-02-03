@@ -30,8 +30,8 @@ namespace Files.App.Services
 
 			try
 			{
-				var path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
-				var path71x71 = new Uri("ms-appx:///Assets/tile-0-250x250.png");
+				var path150x150 = new Uri(Constants.NormalIconPaths.FolderTileIcon300);
+				var path71x71 = new Uri(Constants.NormalIconPaths.FolderTileIcon250);
 
 				var tile = new SecondaryTile(
 					tileId,

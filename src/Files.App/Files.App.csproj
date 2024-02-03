@@ -56,7 +56,7 @@
         <Content CopyToOutputDirectory="PreserveNewest" Include="Assets\Resources\PropertiesInformation.json" />
         <Content CopyToOutputDirectory="PreserveNewest" Update="Assets\Resources\SetFilesAsDefault.reg" />
         <Content CopyToOutputDirectory="PreserveNewest" Update="Assets\Resources\UnsetFilesAsDefault.reg" />
-        <Content CopyToOutputDirectory="PreserveNewest" Update="Assets\Resources\Files.App.Launcher.exe" />
+        <Content CopyToOutputDirectory="PreserveNewest" Update="Assets\Libraries\Files.App.Launcher.exe" />
     </ItemGroup>
 
     <ItemGroup>
