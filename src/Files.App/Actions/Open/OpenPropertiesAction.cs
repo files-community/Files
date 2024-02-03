@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class OpenPropertiesAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "OpenProperties".GetLocalizedResource();
@@ -20,47 +20,47 @@ namespace Files.App.Actions
 			=> new(Keys.Enter, KeyModifiers.Menu);
 
 		public bool IsExecutable =>
-			ContentPageContext.PageType is not ContentPageTypes.Home &&
-			!(ContentPageContext.PageType is ContentPageTypes.SearchResults && 
-			!ContentPageContext.HasSelection);
+			context.PageType is not ContentPageTypes.Home &&
+			!(context.PageType is ContentPageTypes.SearchResults && 
+			!context.HasSelection);
 
 		public OpenPropertiesAction()
 		{
-			ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			var page = ContentPageContext.ShellPage?.SlimContentPage;
+			var page = context.ShellPage?.SlimContentPage;
 
 			if (page?.ItemContextMenuFlyout.IsOpen ?? false)
 				page.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
 			else if (page?.BaseContextMenuFlyout.IsOpen ?? false)
 				page.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
 			else
-				FilePropertiesHelpers.OpenPropertiesWindow(ContentPageContext.ShellPage!);
+				FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
 
 			return Task.CompletedTask;
 		}
 
 		private void OpenPropertiesFromItemContextMenuFlyout(object? _, object e)
 		{
-			var page = ContentPageContext.ShellPage?.SlimContentPage;
+			var page = context.ShellPage?.SlimContentPage;
 			if (page is not null)
 				page.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
 			
-			FilePropertiesHelpers.OpenPropertiesWindow(ContentPageContext.ShellPage!);
+			FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
 		}
 
 		private void OpenPropertiesFromBaseContextMenuFlyout(object? _, object e)
 		{
-			var page = ContentPageContext.ShellPage?.SlimContentPage;
+			var page = context.ShellPage?.SlimContentPage;
 			if (page is not null)
 				page.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
 			
-			FilePropertiesHelpers.OpenPropertiesWindow(ContentPageContext.ShellPage!);
+			FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class GitFetchAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext _context;
 
 		public string Label
 			=> "GitFetch".GetLocalizedResource();
@@ -14,16 +14,18 @@ namespace Files.App.Actions
 			=> "GitFetchDescription".GetLocalizedResource();
 
 		public bool IsExecutable
-			=> ContentPageContext.CanExecuteGitAction;
+			=> _context.CanExecuteGitAction;
 
 		public GitFetchAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			
+			_context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			GitHelpers.FetchOrigin(ContentPageContext.ShellPage!.InstanceViewModel.GitRepositoryPath);
+			GitHelpers.FetchOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
 
 			return Task.CompletedTask;
 		}

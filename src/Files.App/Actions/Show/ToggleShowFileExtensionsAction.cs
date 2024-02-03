@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class ToggleShowFileExtensionsAction : ObservableObject, IToggleAction
 	{
-		private IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private readonly IFoldersSettingsService settings;
 
 		public string Label
 			=> "ShowFileExtensions".GetLocalizedResource();
@@ -14,16 +14,18 @@ namespace Files.App.Actions
 			=> "ToggleShowFileExtensionsDescription".GetLocalizedResource();
 
 		public bool IsOn
-			=> FoldersSettingsService.ShowFileExtensions;
+			=> settings.ShowFileExtensions;
 
 		public ToggleShowFileExtensionsAction()
 		{
-			FoldersSettingsService.PropertyChanged += Settings_PropertyChanged;
+			settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+
+			settings.PropertyChanged += Settings_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			FoldersSettingsService.ShowFileExtensions = !FoldersSettingsService.ShowFileExtensions;
+			settings.ShowFileExtensions = !settings.ShowFileExtensions;
 
 			return Task.CompletedTask;
 		}

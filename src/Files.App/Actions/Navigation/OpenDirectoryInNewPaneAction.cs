@@ -5,8 +5,9 @@ namespace Files.App.Actions
 {
 	internal class OpenDirectoryInNewPaneAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IContentPageContext context;
+
+		private readonly IUserSettingsService userSettingsService;
 
 		public string Label
 			=> "OpenInNewPane".GetLocalizedResource();
@@ -15,20 +16,23 @@ namespace Files.App.Actions
 			=> "OpenDirectoryInNewPaneDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
-			ContentPageContext.SelectedItem is not null &&
-			ContentPageContext.SelectedItem.IsFolder &&
-			UserSettingsService.GeneralSettingsService.ShowOpenInNewPane;
+			context.SelectedItem is not null &&
+			context.SelectedItem.IsFolder &&
+			userSettingsService.GeneralSettingsService.ShowOpenInNewPane;
 
 		public OpenDirectoryInNewPaneAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			NavigationHelpers.OpenInSecondaryPane(
-				ContentPageContext.ShellPage,
-				ContentPageContext.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault());
+				context.ShellPage,
+				context.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault());
 
 			return Task.CompletedTask;
 		}

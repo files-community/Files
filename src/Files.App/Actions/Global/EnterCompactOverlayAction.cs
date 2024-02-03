@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal class EnterCompactOverlayAction : ObservableObject, IAction
 	{
-		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+		private readonly IWindowContext windowContext;
 
 		public string Label
 			=> "EnterCompactOverlay".GetLocalizedResource();
@@ -23,11 +23,13 @@ namespace Files.App.Actions
 			=> "EnterCompactOverlayDescription".GetLocalizedResource();
 
 		public bool IsExecutable
-			=> !WindowContext.IsCompactOverlay;
+			=> !windowContext.IsCompactOverlay;
 
 		public EnterCompactOverlayAction()
 		{
-			WindowContext.PropertyChanged += WindowContext_PropertyChanged;
+			windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+
+			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()

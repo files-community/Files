@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class ToggleShowHiddenItemsAction : ObservableObject, IToggleAction
 	{
-		private IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private readonly IFoldersSettingsService settings;
 
 		public string Label
 			=> "ShowHiddenItems".GetLocalizedResource();
@@ -17,16 +17,18 @@ namespace Files.App.Actions
 			=> new(Keys.H, KeyModifiers.Ctrl);
 
 		public bool IsOn
-			=> FoldersSettingsService.ShowHiddenItems;
+			=> settings.ShowHiddenItems;
 
 		public ToggleShowHiddenItemsAction()
 		{
-			FoldersSettingsService.PropertyChanged += Settings_PropertyChanged;
+			settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+
+			settings.PropertyChanged += Settings_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			FoldersSettingsService.ShowHiddenItems = !FoldersSettingsService.ShowHiddenItems;
+			settings.ShowHiddenItems = !settings.ShowHiddenItems;
 
 			return Task.CompletedTask;
 		}

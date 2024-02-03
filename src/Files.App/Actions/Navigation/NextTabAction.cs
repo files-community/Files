@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class NextTabAction : ObservableObject, IAction
 	{
-		private IMultitaskingContext MultitaskingContext { get; } = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+		private readonly IMultitaskingContext multitaskingContext;
 
 		public string Label
 			=> "NextTab".GetLocalizedResource();
@@ -14,19 +14,21 @@ namespace Files.App.Actions
 			=> "NextTabDescription".GetLocalizedResource();
 
 		public bool IsExecutable
-			=> MultitaskingContext.TabCount > 1;
+			=> multitaskingContext.TabCount > 1;
 
 		public HotKey HotKey
 			=> new(Keys.Tab, KeyModifiers.Ctrl);
 
 		public NextTabAction()
 		{
-			MultitaskingContext.PropertyChanged += MultitaskingContext_PropertyChanged;
+			multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+
+			multitaskingContext.PropertyChanged += MultitaskingContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			App.AppModel.TabStripSelectedIndex = (App.AppModel.TabStripSelectedIndex + 1) % MultitaskingContext.TabCount;
+			App.AppModel.TabStripSelectedIndex = (App.AppModel.TabStripSelectedIndex + 1) % multitaskingContext.TabCount;
 
 			return Task.CompletedTask;
 		}

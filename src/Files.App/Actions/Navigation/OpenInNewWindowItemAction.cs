@@ -7,8 +7,9 @@ namespace Files.App.Actions
 {
 	internal class OpenInNewWindowItemAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IContentPageContext context;
+
+		private readonly IUserSettingsService userSettingsService;
 
 		public string Label
 			=> "OpenInNewWindow".GetLocalizedResource();
@@ -23,26 +24,26 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
 
 		public bool IsExecutable =>
-			ContentPageContext.ShellPage is not null &&
-			ContentPageContext.ShellPage.SlimContentPage is not null &&
-			ContentPageContext.SelectedItems.Count <= 5 &&
-			ContentPageContext.SelectedItems.Where(x => x.IsFolder == true).Count() == ContentPageContext.SelectedItems.Count &&
-			UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
+			context.ShellPage is not null &&
+			context.ShellPage.SlimContentPage is not null &&
+			context.SelectedItems.Count <= 5 &&
+			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
+			userSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
 
 		public OpenInNewWindowItemAction()
 		{
-			ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
-			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (ContentPageContext.ShellPage?.SlimContentPage?.SelectedItems is null)
+			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;
 
-			List<ListedItem> items = ContentPageContext.ShellPage.SlimContentPage.SelectedItems;
+			List<ListedItem> items = context.ShellPage.SlimContentPage.SelectedItems;
 
 			foreach (ListedItem listedItem in items)
 			{

@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal class ToggleCompactOverlayAction : ObservableObject, IToggleAction
 	{
-		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+		private readonly IWindowContext windowContext;
 
 		public string Label
 			=> "ToggleCompactOverlay".GetLocalizedResource();
@@ -20,18 +20,20 @@ namespace Files.App.Actions
 			=> "ToggleCompactOverlayDescription".GetLocalizedResource();
 
 		public bool IsOn
-			=> WindowContext.IsCompactOverlay;
+			=> windowContext.IsCompactOverlay;
 
 		public ToggleCompactOverlayAction()
 		{
-			WindowContext.PropertyChanged += WindowContext_PropertyChanged;
+			windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+
+			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			var appWindow = MainWindow.Instance.AppWindow;
 
-			if (WindowContext.IsCompactOverlay)
+			if (windowContext.IsCompactOverlay)
 			{
 				appWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
 			}

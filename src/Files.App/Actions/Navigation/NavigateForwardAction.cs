@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class NavigateForwardAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Forward".GetLocalizedResource();
@@ -26,16 +26,18 @@ namespace Files.App.Actions
 			=> new("\uE72A");
 
 		public bool IsExecutable
-			=> ContentPageContext.CanGoForward;
+			=> context.CanGoForward;
 
 		public NavigateForwardAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			ContentPageContext.ShellPage!.Forward_Click();
+			context.ShellPage!.Forward_Click();
 
 			return Task.CompletedTask;
 		}

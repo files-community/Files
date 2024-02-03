@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class DuplicateCurrentTabAction : IAction
 	{
-		private IMultitaskingContext MultitaskingContext { get; } = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+		private readonly IMultitaskingContext context;
 
 		public string Label
 			=> "DuplicateTab".GetLocalizedResource();
@@ -15,11 +15,12 @@ namespace Files.App.Actions
 
 		public DuplicateCurrentTabAction()
 		{
+			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 		}
 
 		public async Task ExecuteAsync()
 		{
-			var arguments = MultitaskingContext.CurrentTabItem.NavigationParameter;
+			var arguments = context.CurrentTabItem.NavigationParameter;
 
 			if (arguments is null)
 			{
@@ -30,7 +31,7 @@ namespace Files.App.Actions
 				await NavigationHelpers.AddNewTabByParamAsync(
 					arguments.InitialPageType,
 					arguments.NavigationParameter,
-					MultitaskingContext.CurrentTabIndex + 1);
+					context.CurrentTabIndex + 1);
 			}
 		}
 	}

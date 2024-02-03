@@ -3,9 +3,9 @@
 
 namespace Files.App.Actions
 {
-	sealed class GitInitAction : ObservableObject, IAction
-	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+    sealed class GitInitAction : ObservableObject, IAction
+    {
+		private readonly IContentPageContext _context;
 
 		public string Label
 			=> "InitRepo".GetLocalizedResource();
@@ -14,18 +14,20 @@ namespace Files.App.Actions
 			=> "InitRepoDescription".GetLocalizedResource();
 
 		public bool IsExecutable => 
-			ContentPageContext.Folder is not null &&
-			ContentPageContext.Folder.ItemPath != SystemIO.Path.GetPathRoot(ContentPageContext.Folder.ItemPath) &&
-			!ContentPageContext.IsGitRepository;
+			_context.Folder is not null &&
+			_context.Folder.ItemPath != SystemIO.Path.GetPathRoot(_context.Folder.ItemPath) &&
+			!_context.IsGitRepository;
 
 		public GitInitAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			_context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return GitHelpers.InitializeRepositoryAsync(ContentPageContext.Folder?.ItemPath);
+			return GitHelpers.InitializeRepositoryAsync(_context.Folder?.ItemPath);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class EditPathAction : IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "EditPath".GetLocalizedResource();
@@ -21,12 +21,13 @@ namespace Files.App.Actions
 
 		public EditPathAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync()
 		{
-			if (ContentPageContext.ShellPage is not null)
-				ContentPageContext.ShellPage.ToolbarViewModel.IsEditModeEnabled = true;
+			if (context.ShellPage is not null)
+				context.ShellPage.ToolbarViewModel.IsEditModeEnabled = true;
 
 			return Task.CompletedTask;
 		}

@@ -7,9 +7,11 @@ namespace Files.App.Actions
 {
 	internal class UnpinFromStartAction : IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
+
+		private IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
+
+		public IContentPageContext context;
 
 		public string Label
 			=> "UnpinItemFromStart/Text".GetLocalizedResource();
@@ -22,13 +24,14 @@ namespace Files.App.Actions
 
 		public UnpinFromStartAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (ContentPageContext.SelectedItems.Count > 0)
+			if (context.SelectedItems.Count > 0)
 			{
-				foreach (ListedItem listedItem in ContentPageContext.ShellPage?.SlimContentPage.SelectedItems)
+				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
 				{
 					IStorable storable = listedItem.IsFolder switch
 					{
@@ -40,7 +43,7 @@ namespace Files.App.Actions
 			}
 			else
 			{
-				var currentFolder = ContentPageContext.ShellPage.FilesystemViewModel.CurrentFolder;
+				var currentFolder = context.ShellPage.FilesystemViewModel.CurrentFolder;
 				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
 
 				await StartMenuService.UnpinAsync(folder);

@@ -1,11 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.UserControls.TabBar;
+
 namespace Files.App.Actions
 {
 	internal class ReopenClosedTabAction : ObservableObject, IAction
 	{
-		private IMultitaskingContext MultitaskingContext { get; } = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+		private readonly IMultitaskingContext context;
 
 		public string Label
 			=> "ReopenClosedTab".GetLocalizedResource();
@@ -17,19 +19,21 @@ namespace Files.App.Actions
 			=> new(Keys.T, KeyModifiers.CtrlShift);
 
 		public bool IsExecutable =>
-			MultitaskingContext.Control is not null &&
+			context.Control is not null &&
 			!BaseTabBar.IsRestoringClosedTab &&
 			BaseTabBar.RecentlyClosedTabs.Count > 0;
 
 		public ReopenClosedTabAction()
 		{
-			MultitaskingContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 			BaseTabBar.StaticPropertyChanged += BaseMultitaskingControl_StaticPropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			MultitaskingContext.Control!.ReopenClosedTabAsync();
+			context.Control!.ReopenClosedTabAsync();
 
 			return Task.CompletedTask;
 		}

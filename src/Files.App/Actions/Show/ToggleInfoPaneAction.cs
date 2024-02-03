@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class ToggleInfoPaneAction : ObservableObject, IToggleAction
 	{
-		private InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+		private readonly InfoPaneViewModel viewModel;
 
 		public string Label
 			=> "ToggleInfoPane".GetLocalizedResource();
@@ -20,16 +20,17 @@ namespace Files.App.Actions
 			=> new(Keys.I, KeyModifiers.MenuCtrl);
 
 		public bool IsOn
-			=> InfoPaneViewModel.IsEnabled;
+			=> viewModel.IsEnabled;
 
 		public ToggleInfoPaneAction()
 		{
-			InfoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+			viewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+			viewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			InfoPaneViewModel.IsEnabled = !IsOn;
+			viewModel.IsEnabled = !IsOn;
 
 			return Task.CompletedTask;
 		}

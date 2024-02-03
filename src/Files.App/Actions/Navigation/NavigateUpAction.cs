@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class NavigateUpAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Up".GetLocalizedResource();
@@ -20,16 +20,18 @@ namespace Files.App.Actions
 			=> new("\uE74A");
 
 		public bool IsExecutable
-			=> ContentPageContext.CanNavigateToParent;
+			=> context.CanNavigateToParent;
 
 		public NavigateUpAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			ContentPageContext.ShellPage!.Up_Click();
+			context.ShellPage!.Up_Click();
 
 			return Task.CompletedTask;
 		}

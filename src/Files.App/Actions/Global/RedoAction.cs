@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class RedoAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Redo".GetLocalizedResource();
@@ -17,17 +17,19 @@ namespace Files.App.Actions
 			=> new(Keys.Y, KeyModifiers.Ctrl);
 
 		public bool IsExecutable =>
-			ContentPageContext.ShellPage is not null &&
-			ContentPageContext.PageType is not ContentPageTypes.SearchResults;
+			context.ShellPage is not null &&
+			context.PageType is not ContentPageTypes.SearchResults;
 
 		public RedoAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return ContentPageContext.ShellPage!.StorageHistoryHelpers.TryRedo();
+			return context.ShellPage!.StorageHistoryHelpers.TryRedo();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

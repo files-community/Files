@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class NavigateBackAction : ObservableObject, IAction
 	{
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Back".GetLocalizedResource();
@@ -29,16 +29,18 @@ namespace Files.App.Actions
 			=> new("\uE72B");
 
 		public bool IsExecutable
-			=> ContentPageContext.CanGoBack;
+			=> context.CanGoBack;
 
 		public NavigateBackAction()
 		{
-			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			ContentPageContext.ShellPage!.Back_Click();
+			context.ShellPage!.Back_Click();
 
 			return Task.CompletedTask;
 		}
