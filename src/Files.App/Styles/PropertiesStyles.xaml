@@ -86,4 +86,5 @@
 		<Setter Property="Grid.Column" Value="0" />
 		<Setter Property="FontSize" Value="22" />
 	</Style>
+
 </ResourceDictionary>
