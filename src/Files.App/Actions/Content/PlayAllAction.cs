@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class PlayAllAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "PlayAll".GetLocalizedResource();
@@ -19,20 +19,18 @@ namespace Files.App.Actions
 			=> new("\uE768");
 
 		public bool IsExecutable =>
-			context.PageType != ContentPageTypes.RecycleBin &&
-			context.SelectedItems.Count > 1 &&
-			context.SelectedItems.All(item => FileExtensionHelpers.IsMediaFile(item.FileExtension));
+			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+			ContentPageContext.SelectedItems.Count > 1 &&
+			ContentPageContext.SelectedItems.All(item => FileExtensionHelpers.IsMediaFile(item.FileExtension));
 
 		public PlayAllAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage!);
+			return NavigationHelpers.OpenSelectedItemsAsync(ContentPageContext.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

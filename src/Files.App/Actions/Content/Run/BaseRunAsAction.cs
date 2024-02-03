@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal abstract class BaseRunAsAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext _context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private readonly string _verb;
 
@@ -18,22 +18,21 @@ namespace Files.App.Actions
 		public abstract RichGlyph Glyph { get; }
 
 		public bool IsExecutable =>
-			_context.SelectedItem is not null &&
-			(FileExtensionHelpers.IsExecutableFile(_context.SelectedItem.FileExtension) ||
-			(_context.SelectedItem is ShortcutItem shortcut &&
+			ContentPageContext.SelectedItem is not null &&
+			(FileExtensionHelpers.IsExecutableFile(ContentPageContext.SelectedItem.FileExtension) ||
+			(ContentPageContext.SelectedItem is ShortcutItem shortcut &&
 			shortcut.IsExecutable));
 
 		public BaseRunAsAction(string verb)
 		{
 			_verb = verb;
-			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			_context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			await ContextMenu.InvokeVerb(_verb, _context.SelectedItem!.ItemPath);
+			await ContextMenu.InvokeVerb(_verb, ContentPageContext.SelectedItem!.ItemPath);
 		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class OpenNewPaneAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "NavigationToolbarNewPane/Label".GetLocalizedResource();
@@ -23,19 +23,19 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconOpenNewPane");
 
 		public bool IsExecutable => 
-			context.IsMultiPaneEnabled &&
-			!context.IsMultiPaneActive;
+			ContentPageContext.IsMultiPaneEnabled &&
+			!ContentPageContext.IsMultiPaneActive;
 
 		public OpenNewPaneAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage!.PaneHolder.OpenPathInNewPane("Home");
+			ContentPageContext.ShellPage!.PaneHolder.OpenPathInNewPane("Home");
 
 			return Task.CompletedTask;
 		}

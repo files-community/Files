@@ -16,12 +16,12 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&
-			context.SelectedItem is not null;
+			ContentPageContext.SelectedItem is not null;
 
 		public override Task ExecuteAsync()
 		{
-			if (context.SelectedItem is not null)
-				return WallpaperHelpers.SetAsBackgroundAsync(WallpaperType.Desktop, context.SelectedItem.ItemPath);
+			if (ContentPageContext.SelectedItem is not null)
+				return WallpaperHelpers.SetAsBackgroundAsync(WallpaperType.Desktop, ContentPageContext.SelectedItem.ItemPath);
 
 			return Task.CompletedTask;
 		}

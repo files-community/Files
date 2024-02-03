@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal class OpenTerminalAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public virtual string Label
 			=> "OpenTerminal".GetLocalizedResource();
@@ -27,9 +27,7 @@ namespace Files.App.Actions
 
 		public OpenTerminalAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
@@ -76,16 +74,16 @@ namespace Files.App.Actions
 
 		protected string[] GetPaths()
 		{
-			if (context.HasSelection)
+			if (ContentPageContext.HasSelection)
 			{
-				return context.SelectedItems!
+				return ContentPageContext.SelectedItems!
 					.Where(item => item.PrimaryItemAttribute is StorageItemTypes.Folder)
 					.Select(item => item.ItemPath)
 					.ToArray();
 			}
-			else if (context.Folder is not null)
+			else if (ContentPageContext.Folder is not null)
 			{
-				return new string[1] { context.Folder.ItemPath };
+				return new string[1] { ContentPageContext.Folder.ItemPath };
 			}
 
 			return Array.Empty<string>();
@@ -93,18 +91,18 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			if (context.PageType is ContentPageTypes.None or ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.ZipFolder)
+			if (ContentPageContext.PageType is ContentPageTypes.None or ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.ZipFolder)
 				return false;
 
-			var isFolderNull = context.Folder is null;
+			var isFolderNull = ContentPageContext.Folder is null;
 
-			if (!context.HasSelection && isFolderNull)
+			if (!ContentPageContext.HasSelection && isFolderNull)
 				return false;
 
-			if (context.SelectedItems.Count > Constants.Actions.MaxSelectedItems)
+			if (ContentPageContext.SelectedItems.Count > Constants.Actions.MaxSelectedItems)
 				return false;
 
-			return context.SelectedItems.Any(item => item.PrimaryItemAttribute is StorageItemTypes.Folder) || !isFolderNull;
+			return ContentPageContext.SelectedItems.Any(item => item.PrimaryItemAttribute is StorageItemTypes.Folder) || !isFolderNull;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class OpenSettingsAction : BaseUIAction, IAction
 	{
-		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private readonly SettingsDialogViewModel viewModel = new();
 
@@ -20,7 +20,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			var dialog = dialogService.GetDialog(viewModel);
+			var dialog = DialogService.GetDialog(viewModel);
 			return dialog.TryShowAsync();
 		}
 	}

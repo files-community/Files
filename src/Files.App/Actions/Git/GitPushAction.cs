@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class GitPushAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext _context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Push".GetLocalizedResource();
 
@@ -14,20 +14,18 @@ namespace Files.App.Actions
 		public RichGlyph Glyph { get; } = new("\uE74A");
 
 		public bool IsExecutable =>
-			_context.CanExecuteGitAction;
+			ContentPageContext.CanExecuteGitAction;
 
 		public GitPushAction()
 		{
-			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			_context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			return GitHelpers.PushToOriginAsync(
-				_context.ShellPage?.InstanceViewModel.GitRepositoryPath,
-				_context.ShellPage?.InstanceViewModel.GitBranchName);
+				ContentPageContext.ShellPage?.InstanceViewModel.GitRepositoryPath,
+				ContentPageContext.ShellPage?.InstanceViewModel.GitBranchName);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

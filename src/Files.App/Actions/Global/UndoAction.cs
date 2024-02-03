@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class UndoAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Undo".GetLocalizedResource();
@@ -17,19 +17,17 @@ namespace Files.App.Actions
 			=> new(Keys.Z, KeyModifiers.Ctrl);
 
 		public bool IsExecutable =>
-			context.ShellPage is not null &&
-			context.PageType is not ContentPageTypes.SearchResults;
+			ContentPageContext.ShellPage is not null &&
+			ContentPageContext.PageType is not ContentPageTypes.SearchResults;
 
 		public UndoAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return context.ShellPage.StorageHistoryHelpers.TryUndo();
+			return ContentPageContext.ShellPage.StorageHistoryHelpers.TryUndo();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

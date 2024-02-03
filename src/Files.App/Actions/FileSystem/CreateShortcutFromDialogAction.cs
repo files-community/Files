@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class CreateShortcutFromDialogAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Shortcut".GetLocalizedResource();
@@ -17,19 +17,17 @@ namespace Files.App.Actions
 			=> new("\uE71B");
 
 		public override bool IsExecutable =>
-			context.CanCreateItem &&
+			ContentPageContext.CanCreateItem &&
 			UIHelpers.CanShowDialog;
 
 		public CreateShortcutFromDialogAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage!);
+			return UIFilesystemHelpers.CreateShortcutFromDialogAsync(ContentPageContext.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

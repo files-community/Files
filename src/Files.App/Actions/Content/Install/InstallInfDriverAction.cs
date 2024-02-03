@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class InstallInfDriverAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Install".GetLocalizedResource();
@@ -19,25 +19,23 @@ namespace Files.App.Actions
 			=> new("\uE9F5");
 
 		public bool IsExecutable =>
-			context.SelectedItems.Count == 1 &&
-			FileExtensionHelpers.IsInfFile(context.SelectedItems[0].FileExtension) &&
-			context.PageType != ContentPageTypes.RecycleBin &&
-			context.PageType != ContentPageTypes.ZipFolder;
+			ContentPageContext.SelectedItems.Count == 1 &&
+			FileExtensionHelpers.IsInfFile(ContentPageContext.SelectedItems[0].FileExtension) &&
+			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+			ContentPageContext.PageType != ContentPageTypes.ZipFolder;
 
 		public InstallInfDriverAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			foreach (ListedItem selectedItem in context.SelectedItems)
+			foreach (ListedItem selectedItem in ContentPageContext.SelectedItems)
 				await Win32API.InstallInf(selectedItem.ItemPath);
 		}
 
-		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

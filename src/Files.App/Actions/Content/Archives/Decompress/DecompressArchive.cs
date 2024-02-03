@@ -23,19 +23,19 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
-			if (context.ShellPage is null)
+			if (ContentPageContext.ShellPage is null)
 				return Task.CompletedTask;
 
-			return DecompressHelper.DecompressArchiveAsync(context.ShellPage);
+			return DecompressHelper.DecompressArchiveAsync(ContentPageContext.ShellPage);
 		}
 
 		protected override bool CanDecompressInsideArchive()
 		{
 			return
-				context.PageType == ContentPageTypes.ZipFolder &&
-				!context.HasSelection &&
-				context.Folder is not null &&
-				FileExtensionHelpers.IsZipFile(Path.GetExtension(context.Folder.ItemPath));
+				ContentPageContext.PageType == ContentPageTypes.ZipFolder &&
+				!ContentPageContext.HasSelection &&
+				ContentPageContext.Folder is not null &&
+				FileExtensionHelpers.IsZipFile(Path.GetExtension(ContentPageContext.Folder.ItemPath));
 		}
 	}
 }

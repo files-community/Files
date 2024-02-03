@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal abstract class BaseDecompressArchiveAction : BaseUIAction, IAction
 	{
-		protected readonly IContentPageContext context;
+		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public abstract string Label { get; }
 
@@ -16,15 +16,13 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			(IsContextPageTypeAdaptedToCommand() &&
-			CompressHelper.CanDecompress(context.SelectedItems) ||
+			CompressHelper.CanDecompress(ContentPageContext.SelectedItems) ||
 			CanDecompressInsideArchive()) &&
 			UIHelpers.CanShowDialog;
 
 		public BaseDecompressArchiveAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public abstract Task ExecuteAsync();
@@ -32,9 +30,9 @@ namespace Files.App.Actions
 		protected bool IsContextPageTypeAdaptedToCommand()
 		{
 			return
-				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.ZipFolder &&
-				context.PageType != ContentPageTypes.None;
+				ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+				ContentPageContext.PageType != ContentPageTypes.ZipFolder &&
+				ContentPageContext.PageType != ContentPageTypes.None;
 		}
 
 		protected virtual bool CanDecompressInsideArchive()

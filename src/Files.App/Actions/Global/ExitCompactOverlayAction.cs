@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class ExitCompactOverlayAction : ObservableObject, IAction
 	{
-		private readonly IWindowContext windowContext;
+		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		public string Label
 			=> "ExitCompactOverlay".GetLocalizedResource();
@@ -22,13 +22,11 @@ namespace Files.App.Actions
 			=> "ExitCompactOverlayDescription".GetLocalizedResource();
 
 		public bool IsExecutable
-			=> windowContext.IsCompactOverlay;
+			=> WindowContext.IsCompactOverlay;
 
 		public ExitCompactOverlayAction()
 		{
-			windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
-
-			windowContext.PropertyChanged += WindowContext_PropertyChanged;
+			WindowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()

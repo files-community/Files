@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Helpers;
-
 namespace Files.App.Actions
 {
 	internal sealed class RunAsAnotherUserAction : BaseRunAsAction
@@ -16,7 +14,7 @@ namespace Files.App.Actions
 		public override RichGlyph Glyph
 			=> new("\uE7EE");
 
-		public RunAsAnotherUserAction() : base("runasuser")
+		public RunAsAnotherUserAction() : base("RunAsUser")
 		{
 		}
 	}

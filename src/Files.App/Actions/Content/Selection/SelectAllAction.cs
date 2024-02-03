@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class SelectAllAction : IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "SelectAll".GetLocalizedResource();
@@ -23,15 +23,15 @@ namespace Files.App.Actions
 		{
 			get
 			{
-				if (context.PageType is ContentPageTypes.Home)
+				if (ContentPageContext.PageType is ContentPageTypes.Home)
 					return false;
 
-				var page = context.ShellPage;
+				var page = ContentPageContext.ShellPage;
 				if (page is null)
 					return false;
 
 				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
-				int selectedItemCount = context.SelectedItems.Count;
+				int selectedItemCount = ContentPageContext.SelectedItems.Count;
 				if (itemCount == selectedItemCount)
 					return false;
 
@@ -45,12 +45,11 @@ namespace Files.App.Actions
 
 		public SelectAllAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.SelectAllItems();
+			ContentPageContext.ShellPage?.SlimContentPage?.ItemManipulationModel?.SelectAllItems();
 
 			return Task.CompletedTask;
 		}

@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class InstallFontAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Install".GetLocalizedResource();
@@ -19,21 +19,19 @@ namespace Files.App.Actions
 			=> new("\uE8D2");
 
 		public bool IsExecutable =>
-			context.SelectedItems.Any() &&
-			context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) &&
-			context.PageType != ContentPageTypes.RecycleBin &&
-			context.PageType != ContentPageTypes.ZipFolder;
+			ContentPageContext.SelectedItems.Any() &&
+			ContentPageContext.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) &&
+			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+			ContentPageContext.PageType != ContentPageTypes.ZipFolder;
 
 		public InstallFontAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+			var paths = ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray();
 			return Win32API.InstallFontsAsync(paths, false);
 		}
 

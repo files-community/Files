@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class RunWithPowershellAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "RunWithPowerShell".GetLocalizedResource();
@@ -19,19 +19,17 @@ namespace Files.App.Actions
 			=> new("\uE756");
 
 		public bool IsExecutable =>
-			context.SelectedItem is not null &&
-			FileExtensionHelpers.IsPowerShellFile(context.SelectedItem.FileExtension);
+			ContentPageContext.SelectedItem is not null &&
+			FileExtensionHelpers.IsPowerShellFile(ContentPageContext.SelectedItem.FileExtension);
 
 		public RunWithPowershellAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return Win32API.RunPowershellCommandAsync($"{context.ShellPage?.SlimContentPage?.SelectedItem?.ItemPath}", false);
+			return Win32API.RunPowershellCommandAsync($"{ContentPageContext.ShellPage?.SlimContentPage?.SelectedItem?.ItemPath}", false);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

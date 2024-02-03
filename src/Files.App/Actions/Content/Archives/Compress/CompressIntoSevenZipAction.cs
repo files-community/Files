@@ -6,7 +6,7 @@ namespace Files.App.Actions
 	internal sealed class CompressIntoSevenZipAction : BaseCompressArchiveAction
 	{
 		public override string Label
-			=> string.Format("CreateNamedArchive".GetLocalizedResource(), $"{CompressHelper.DetermineArchiveNameFromSelection(context.SelectedItems)}.7z");
+			=> string.Format("CreateNamedArchive".GetLocalizedResource(), $"{CompressHelper.DetermineArchiveNameFromSelection(ContentPageContext.SelectedItems)}.7z");
 
 		public override string Description
 			=> "CompressIntoSevenZipDescription".GetLocalizedResource();
@@ -17,10 +17,10 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
-			if (context.ShellPage is null)
+			if (ContentPageContext.ShellPage is null)
 				return Task.CompletedTask;
 
-			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(context.ShellPage);
+			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(ContentPageContext.ShellPage);
 
 			ICompressArchiveModel creator = new CompressArchiveModel(
 				sources,

@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class CreateFolderWithSelectionAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "CreateFolderWithSelection".GetLocalizedResource();
@@ -17,19 +17,17 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconNewFolder");
 
 		public bool IsExecutable =>
-			context.ShellPage is not null &&
-			context.HasSelection;
+			ContentPageContext.ShellPage is not null &&
+			ContentPageContext.HasSelection;
 
 		public CreateFolderWithSelectionAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(context.ShellPage!);
+			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(ContentPageContext.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

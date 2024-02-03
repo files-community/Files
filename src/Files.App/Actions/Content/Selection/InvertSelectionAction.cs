@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class InvertSelectionAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "InvertSelection".GetLocalizedResource();
@@ -20,13 +20,13 @@ namespace Files.App.Actions
 		{
 			get
 			{
-				if (context.PageType is ContentPageTypes.Home)
+				if (ContentPageContext.PageType is ContentPageTypes.Home)
 					return false;
 
-				if (!context.HasItem)
+				if (!ContentPageContext.HasItem)
 					return false;
 
-				var page = context.ShellPage;
+				var page = ContentPageContext.ShellPage;
 				if (page is null)
 					return false;
 
@@ -40,14 +40,12 @@ namespace Files.App.Actions
 
 		public InvertSelectionAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			context?.ShellPage?.SlimContentPage?.ItemManipulationModel?.InvertSelection();
+			ContentPageContext?.ShellPage?.SlimContentPage?.ItemManipulationModel?.InvertSelection();
 
 			return Task.CompletedTask;
 		}

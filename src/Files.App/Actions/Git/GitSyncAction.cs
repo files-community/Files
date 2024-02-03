@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class GitSyncAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext _context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "GitSync".GetLocalizedResource();
 
@@ -14,18 +14,16 @@ namespace Files.App.Actions
 		public RichGlyph Glyph { get; } = new("\uEDAB");
 
 		public bool IsExecutable =>
-			_context.CanExecuteGitAction;
+			ContentPageContext.CanExecuteGitAction;
 
 		public GitSyncAction()
 		{
-			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			_context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			var instance = _context.ShellPage?.InstanceViewModel;
+			var instance = ContentPageContext.ShellPage?.InstanceViewModel;
 
 			return GitHelpers.PullOriginAsync(instance?.GitRepositoryPath)
 				.ContinueWith(t => GitHelpers.PushToOriginAsync(

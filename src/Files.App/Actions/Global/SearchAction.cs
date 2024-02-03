@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class SearchAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Search".GetLocalizedResource();
@@ -23,18 +23,16 @@ namespace Files.App.Actions
 			=> new();
 
 		public bool IsExecutable
-			=> !context.IsSearchBoxVisible;
+			=> !ContentPageContext.IsSearchBoxVisible;
 
 		public SearchAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage!.ToolbarViewModel.SwitchSearchBoxVisibility();
+			ContentPageContext.ShellPage!.ToolbarViewModel.SwitchSearchBoxVisibility();
 
 			return Task.CompletedTask;
 		}

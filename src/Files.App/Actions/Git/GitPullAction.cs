@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class GitPullAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext _context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "GitPull".GetLocalizedResource();
@@ -17,18 +17,18 @@ namespace Files.App.Actions
 			=> new("\uE74B");
 
 		public bool IsExecutable
-			=> _context.CanExecuteGitAction;
+			=> ContentPageContext.CanExecuteGitAction;
 
 		public GitPullAction()
 		{
-			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			_context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return GitHelpers.PullOriginAsync(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
+			return GitHelpers.PullOriginAsync(ContentPageContext.ShellPage!.InstanceViewModel.GitRepositoryPath);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

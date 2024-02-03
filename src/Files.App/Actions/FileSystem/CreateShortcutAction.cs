@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class CreateShortcutAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "CreateShortcut".GetLocalizedResource();
@@ -17,20 +17,18 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconShortcut");
 
 		public override bool IsExecutable =>
-			context.HasSelection &&
-			context.CanCreateItem &&
+			ContentPageContext.HasSelection &&
+			ContentPageContext.CanCreateItem &&
 			UIHelpers.CanShowDialog;
 
 		public CreateShortcutAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return UIFilesystemHelpers.CreateShortcutAsync(context.ShellPage, context.SelectedItems);
+			return UIFilesystemHelpers.CreateShortcutAsync(ContentPageContext.ShellPage, ContentPageContext.SelectedItems);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

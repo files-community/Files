@@ -5,9 +5,8 @@ namespace Files.App.Actions
 {
 	internal class AddItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
-
-		private readonly IDialogService dialogService;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private readonly AddItemDialogViewModel viewModel = new();
 
@@ -24,19 +23,16 @@ namespace Files.App.Actions
 			=> new(Keys.I, KeyModifiers.CtrlShift);
 
 		public bool IsExecutable
-			=> context.CanCreateItem;
+			=> ContentPageContext.CanCreateItem;
 
 		public AddItemAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			await dialogService.ShowDialogAsync(viewModel);
+			await DialogService.ShowDialogAsync(viewModel);
 
 			if (viewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
 			{
@@ -47,7 +43,7 @@ namespace Files.App.Actions
 				await UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(
 					viewModel.ResultType.ItemType,
 					viewModel.ResultType.ItemInfo,
-					context.ShellPage!);
+					ContentPageContext.ShellPage!);
 			}
 
 			viewModel.ResultType.ItemType = AddItemDialogItemType.Cancel;

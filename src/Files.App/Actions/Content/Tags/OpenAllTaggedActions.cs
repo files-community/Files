@@ -5,9 +5,8 @@ namespace Files.App.Actions
 {
     sealed class OpenAllTaggedActions: ObservableObject, IAction
     {
-		private readonly IContentPageContext _pageContext;
-
-		private readonly ITagsContext _tagsContext;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private ITagsContext TagsContext { get; } = Ioc.Default.GetRequiredService<ITagsContext>();
 
 		public string Label
 			=> "OpenAllTaggedItems".GetLocalizedResource();
@@ -18,26 +17,23 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new("\uE71D");
 
-		public bool IsExecutable => 
-			_pageContext.ShellPage is not null &&
-			_tagsContext.TaggedItems.Any();
+		public bool IsExecutable =>
+			ContentPageContext.ShellPage is not null &&
+			TagsContext.TaggedItems.Any();
 
 		public OpenAllTaggedActions()
 		{
-			_pageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
-			_tagsContext = Ioc.Default.GetRequiredService<ITagsContext>();
-
-			_pageContext.PropertyChanged += Context_PropertyChanged;
-			_tagsContext.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
+			TagsContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			var files = _tagsContext.TaggedItems.Where(item => !item.isFolder);
-			var folders = _tagsContext.TaggedItems.Where(item => item.isFolder);
+			var files = TagsContext.TaggedItems.Where(item => !item.isFolder);
+			var folders = TagsContext.TaggedItems.Where(item => item.isFolder);
 
 			await Task.WhenAll(files.Select(file 
-				=> NavigationHelpers.OpenPath(file.path, _pageContext.ShellPage!)));
+				=> NavigationHelpers.OpenPath(file.path, ContentPageContext.ShellPage!)));
 
 			folders.ForEach(async folder => await NavigationHelpers.OpenPathInNewTab(folder.path));
 		}

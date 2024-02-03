@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class RenameAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Rename".GetLocalizedResource();
@@ -20,40 +20,38 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconRename");
 
 		public bool IsExecutable =>
-			context.ShellPage is not null &&
+			ContentPageContext.ShellPage is not null &&
 			IsPageTypeValid() &&
-			context.ShellPage.SlimContentPage is not null &&
+			ContentPageContext.ShellPage.SlimContentPage is not null &&
 			IsSelectionValid();
 
 		public RenameAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
+			ContentPageContext.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
 
 			return Task.CompletedTask;
 		}
 
 		private bool IsSelectionValid()
 		{
-			return context.HasSelection && context.SelectedItems.Count == 1;
+			return ContentPageContext.HasSelection && ContentPageContext.SelectedItems.Count == 1;
 		}
 
 		private bool IsPageTypeValid()
 		{
 			return
-				context.PageType != ContentPageTypes.None &&
-				context.PageType != ContentPageTypes.Home &&
-				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.ZipFolder;
+				ContentPageContext.PageType != ContentPageTypes.None &&
+				ContentPageContext.PageType != ContentPageTypes.Home &&
+				ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+				ContentPageContext.PageType != ContentPageTypes.ZipFolder;
 		}
 
-		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

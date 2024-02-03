@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal abstract class BaseCompressArchiveAction : BaseUIAction, IAction
 	{
-		protected readonly IContentPageContext context;
+		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public abstract string Label { get; }
 
@@ -13,14 +13,12 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
-			CompressHelper.CanCompress(context.SelectedItems) &&
+			CompressHelper.CanCompress(ContentPageContext.SelectedItems) &&
 			UIHelpers.CanShowDialog;
 
 		public BaseCompressArchiveAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public abstract Task ExecuteAsync();
@@ -28,9 +26,9 @@ namespace Files.App.Actions
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
 			return
-				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.ZipFolder &&
-				context.PageType != ContentPageTypes.None;
+				ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+				ContentPageContext.PageType != ContentPageTypes.ZipFolder &&
+				ContentPageContext.PageType != ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

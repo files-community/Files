@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal class OpenItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Open".GetLocalizedResource();
@@ -25,22 +25,20 @@ namespace Files.App.Actions
 		private const int MaxOpenCount = 10;
 
 		public bool IsExecutable =>
-			context.HasSelection &&
-			context.SelectedItems.Count <= MaxOpenCount &&
-			!(context.ShellPage is ColumnShellPage &&
-			context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
+			ContentPageContext.HasSelection &&
+			ContentPageContext.SelectedItems.Count <= MaxOpenCount &&
+			!(ContentPageContext.ShellPage is ColumnShellPage &&
+			ContentPageContext.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
 
 		public OpenItemAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			if (context.ShellPage is not null)
-				return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage);
+			if (ContentPageContext.ShellPage is not null)
+				return NavigationHelpers.OpenSelectedItemsAsync(ContentPageContext.ShellPage);
 
 			return Task.CompletedTask;
 		}
@@ -54,7 +52,7 @@ namespace Files.App.Actions
 
 	internal class OpenItemWithApplicationPickerAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private readonly IContentPageContext ContentPageContext;
 
 		public string Label
 			=> "OpenWith".GetLocalizedResource();
@@ -66,24 +64,24 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconOpenWith");
 
 		public bool IsExecutable =>
-			context.HasSelection &&
-			context.SelectedItems.All(i =>
+			ContentPageContext.HasSelection &&
+			ContentPageContext.SelectedItems.All(i =>
 				(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) ||
 				(i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
 
 		public OpenItemWithApplicationPickerAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			if (context.ShellPage is null)
+			if (ContentPageContext.ShellPage is null)
 				return Task.CompletedTask;
 
-			return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage, true);
+			return NavigationHelpers.OpenSelectedItemsAsync(ContentPageContext.ShellPage, true);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -95,7 +93,7 @@ namespace Files.App.Actions
 
 	internal class OpenParentFolderAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private readonly IContentPageContext ContentPageContext;
 
 		public string Label
 			=> "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
@@ -107,33 +105,33 @@ namespace Files.App.Actions
 			=> new(baseGlyph: "\uE197");
 
 		public bool IsExecutable =>
-			context.HasSelection &&
-			context.ShellPage is not null &&
-			context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
+			ContentPageContext.HasSelection &&
+			ContentPageContext.ShellPage is not null &&
+			ContentPageContext.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
 
 		public OpenParentFolderAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage is null)
+			if (ContentPageContext.ShellPage is null)
 				return;
 
-			var item = context.SelectedItem;
+			var item = ContentPageContext.SelectedItem;
 			var folderPath = Path.GetDirectoryName(item?.ItemPath.TrimEnd('\\'));
 
 			if (folderPath is null || item is null)
 				return;
 
-			context.ShellPage.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+			ContentPageContext.ShellPage.NavigateWithArguments(ContentPageContext.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 			{
 				NavPathParam = folderPath,
 				SelectItems = new[] { item.ItemNameRaw },
-				AssociatedTabInstance = context.ShellPage
+				AssociatedTabInstance = ContentPageContext.ShellPage
 			});
 		}
 

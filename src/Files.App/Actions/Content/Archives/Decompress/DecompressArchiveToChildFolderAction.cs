@@ -17,7 +17,7 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
-			return DecompressHelper.DecompressArchiveToChildFolderAsync(context.ShellPage);
+			return DecompressHelper.DecompressArchiveToChildFolderAsync(ContentPageContext.ShellPage);
 		}
 
 		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -39,12 +39,12 @@ namespace Files.App.Actions
 
 		private string ComputeLabel()
 		{
-			if (context.SelectedItems == null || context.SelectedItems.Count == 0)
+			if (ContentPageContext.SelectedItems == null || ContentPageContext.SelectedItems.Count == 0)
 				return string.Empty;
 
-			return context.SelectedItems.Count > 1
+			return ContentPageContext.SelectedItems.Count > 1
 				? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
-				: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), SystemIO.Path.GetFileNameWithoutExtension(context.SelectedItems.First().Name));
+				: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), SystemIO.Path.GetFileNameWithoutExtension(ContentPageContext.SelectedItems.First().Name));
 		}
 	}
 }

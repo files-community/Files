@@ -5,9 +5,8 @@ namespace Files.App.Actions
 {
 	internal class LaunchPreviewPopupAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
-
-		private readonly IPreviewPopupService previewPopupService;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IPreviewPopupService PreviewPopupService { get; } = Ioc.Default.GetRequiredService<IPreviewPopupService>();
 
 		public string Label
 			=> "LaunchPreviewPopup".GetLocalizedResource();
@@ -19,25 +18,22 @@ namespace Files.App.Actions
 			=> new(Keys.Space);
 
 		public bool IsExecutable =>
-			context.SelectedItems.Count == 1 &&
-			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
-			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
+			ContentPageContext.SelectedItems.Count == 1 &&
+			(!ContentPageContext.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
+			(!ContentPageContext.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
 		public LaunchPreviewPopupAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			previewPopupService = Ioc.Default.GetRequiredService<IPreviewPopupService>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			var provider = await previewPopupService.GetProviderAsync();
+			var provider = await PreviewPopupService.GetProviderAsync();
 			if (provider is null)
 				return;
 
-			var itemPath = context.SelectedItem?.ItemPath;
+			var itemPath = ContentPageContext.SelectedItem?.ItemPath;
 			if (itemPath is not null)
 				await provider.TogglePreviewPopupAsync(itemPath);
 		}
@@ -46,11 +42,11 @@ namespace Files.App.Actions
 		{
 			if (IsExecutable)
 			{
-				var provider = await previewPopupService.GetProviderAsync();
+				var provider = await PreviewPopupService.GetProviderAsync();
 				if (provider is null)
 					return;
 
-				var itemPath = context.SelectedItem?.ItemPath;
+				var itemPath = ContentPageContext.SelectedItem?.ItemPath;
 				if (itemPath is not null)
 					await provider.SwitchPreviewAsync(itemPath);
 			}

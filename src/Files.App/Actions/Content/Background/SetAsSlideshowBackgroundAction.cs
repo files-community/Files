@@ -16,11 +16,11 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&
-			context.SelectedItems.Count > 1;
+			ContentPageContext.SelectedItems.Count > 1;
 
 		public override Task ExecuteAsync()
 		{
-			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+			var paths = ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray();
 			WallpaperHelpers.SetSlideshow(paths);
 
 			return Task.CompletedTask;

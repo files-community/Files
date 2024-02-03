@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class ShareItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Share".GetLocalizedResource();
@@ -21,29 +21,27 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
 			DataTransferManager.IsSupported() &&
-			context.SelectedItems.Any() &&
-			context.SelectedItems.All(ShareItemHelpers.IsItemShareable);
+			ContentPageContext.SelectedItems.Any() &&
+			ContentPageContext.SelectedItems.All(ShareItemHelpers.IsItemShareable);
 
 		public ShareItemAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return ShareItemHelpers.ShareItemsAsync(context.SelectedItems);
+			return ShareItemHelpers.ShareItemsAsync(ContentPageContext.SelectedItems);
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
 			return
-				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.Home &&
-				context.PageType != ContentPageTypes.Ftp &&
-				context.PageType != ContentPageTypes.ZipFolder &&
-				context.PageType != ContentPageTypes.None;
+				ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+				ContentPageContext.PageType != ContentPageTypes.Home &&
+				ContentPageContext.PageType != ContentPageTypes.Ftp &&
+				ContentPageContext.PageType != ContentPageTypes.ZipFolder &&
+				ContentPageContext.PageType != ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class ClosePaneAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "NavigationToolbarClosePane/Label".GetLocalizedResource();
@@ -20,18 +20,18 @@ namespace Files.App.Actions
 			=> new("\uE89F");
 
 		public bool IsExecutable
-			=> context.IsMultiPaneActive;
+			=> ContentPageContext.IsMultiPaneActive;
 
 		public ClosePaneAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage!.PaneHolder.CloseActivePane();
+			ContentPageContext.ShellPage!.PaneHolder.CloseActivePane();
 
 			return Task.CompletedTask;
 		}

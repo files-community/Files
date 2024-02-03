@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class InstallCertificateAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Install".GetLocalizedResource();
@@ -19,21 +19,19 @@ namespace Files.App.Actions
 			=> new("\uEB95");
 
 		public bool IsExecutable =>
-			context.SelectedItems.Any() &&
-			context.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&
-			context.PageType != ContentPageTypes.RecycleBin &&
-			context.PageType != ContentPageTypes.ZipFolder;
+			ContentPageContext.SelectedItems.Any() &&
+			ContentPageContext.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&
+			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+			ContentPageContext.PageType != ContentPageTypes.ZipFolder;
 
 		public InstallCertificateAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			await ContextMenu.InvokeVerb("add", context.SelectedItems.Select(x => x.ItemPath).ToArray());
+			await ContextMenu.InvokeVerb("add", ContentPageContext.SelectedItems.Select(x => x.ItemPath).ToArray());
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

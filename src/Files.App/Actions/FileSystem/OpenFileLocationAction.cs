@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class OpenFileLocationAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "OpenFileLocation".GetLocalizedResource();
@@ -19,38 +19,36 @@ namespace Files.App.Actions
 			=> new(baseGlyph: "\uE8DA");
 
 		public bool IsExecutable =>
-			context.ShellPage is not null &&
-			context.HasSelection &&
-			context.SelectedItem is ShortcutItem;
+			ContentPageContext.ShellPage is not null &&
+			ContentPageContext.HasSelection &&
+			ContentPageContext.SelectedItem is ShortcutItem;
 
 		public OpenFileLocationAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage?.FilesystemViewModel is null)
+			if (ContentPageContext.ShellPage?.FilesystemViewModel is null)
 				return;
 
-			var item = context.SelectedItem as ShortcutItem;
+			var item = ContentPageContext.SelectedItem as ShortcutItem;
 
 			if (string.IsNullOrWhiteSpace(item?.TargetPath))
 				return;
 
 			// Check if destination path exists
 			var folderPath = Path.GetDirectoryName(item.TargetPath);
-			var destFolder = await context.ShellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+			var destFolder = await ContentPageContext.ShellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 			if (destFolder)
 			{
-				context.ShellPage?.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+				ContentPageContext.ShellPage?.NavigateWithArguments(ContentPageContext.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 				{
 					NavPathParam = folderPath,
 					SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
-					AssociatedTabInstance = context.ShellPage
+					AssociatedTabInstance = ContentPageContext.ShellPage
 				});
 			}
 			else if (destFolder == FileSystemStatusCode.NotFound)

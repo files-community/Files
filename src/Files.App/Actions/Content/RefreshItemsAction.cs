@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class RefreshItemsAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "Refresh".GetLocalizedResource();
@@ -23,21 +23,19 @@ namespace Files.App.Actions
 			=> new(Keys.F5);
 
 		public bool IsExecutable
-			=> context.CanRefresh;
+			=> ContentPageContext.CanRefresh;
 
 		public RefreshItemsAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage is null)
+			if (ContentPageContext.ShellPage is null)
 				return;
 
-			await context.ShellPage.Refresh_Click();
+			await ContentPageContext.ShellPage.Refresh_Click();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

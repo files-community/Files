@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class ClearSelectionAction : IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "ClearSelection".GetLocalizedResource();
@@ -20,13 +20,13 @@ namespace Files.App.Actions
 		{
 			get
 			{
-				if (context.PageType is ContentPageTypes.Home)
+				if (ContentPageContext.PageType is ContentPageTypes.Home)
 					return false;
 
-				if (!context.HasSelection)
+				if (!ContentPageContext.HasSelection)
 					return false;
 
-				var page = context.ShellPage;
+				var page = ContentPageContext.ShellPage;
 				if (page is null)
 					return false;
 
@@ -40,12 +40,11 @@ namespace Files.App.Actions
 
 		public ClearSelectionAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.ClearSelection();
+			ContentPageContext.ShellPage?.SlimContentPage?.ItemManipulationModel?.ClearSelection();
 
 			return Task.CompletedTask;
 		}
