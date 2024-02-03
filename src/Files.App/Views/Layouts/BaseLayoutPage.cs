@@ -586,7 +586,7 @@ namespace Files.App.Views.Layouts
 					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 
 					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
+					var items = ContentPageContextFlyoutFactory.GenerateWithoutShellExtensions(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
 
 					ItemContextMenuFlyout.PrimaryCommands.Clear();
 					ItemContextMenuFlyout.SecondaryCommands.Clear();
@@ -602,7 +602,14 @@ namespace Files.App.Views.Layouts
 
 					if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 					{
-						var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+						var shellMenuItems =
+							await ShellContextFlyoutFactory.GetShellContextmenuAsync(
+								shiftPressed,
+								false,
+								ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
+								SelectedItems!,
+								shellContextMenuItemCancellationToken.Token);
+
 						if (shellMenuItems.Any())
 							await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
 						else
@@ -644,7 +651,7 @@ namespace Files.App.Views.Layouts
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<ListedItem> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
+				var items = ContentPageContextFlyoutFactory.GenerateWithoutShellExtensions(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<ListedItem> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
 
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
@@ -661,7 +668,14 @@ namespace Files.App.Views.Layouts
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 				{
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					var shellMenuItems =
+						await ShellContextFlyoutFactory.GetShellContextmenuAsync(
+							false,
+							shiftPressed,
+							ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
+							new(),
+							shellContextMenuItemCancellationToken.Token);
+
 					if (shellMenuItems.Any())
 						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
@@ -788,13 +802,13 @@ namespace Files.App.Views.Layouts
 				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
 			}
 
-			ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
+			ContentPageContextFlyoutFactory.ReplacePlaceholderWithShellExtensions(
 				contextMenuFlyout,
 				"TurnOnBitLockerPlaceholder",
 				turnOnBitLockerMenuItem,
 				contextMenuFlyout.SecondaryCommands.Count - 2
 			);
-			ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
+			ContentPageContextFlyoutFactory.ReplacePlaceholderWithShellExtensions(
 				contextMenuFlyout,
 				"ManageBitLockerPlaceholder",
 				manageBitLockerMenuItem,

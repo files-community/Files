@@ -100,7 +100,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public ContextFlyoutItemModel(ContextMenuFlyoutItemType itemType)
+		public ContextFlyoutItemModel(ContextMenuFlyoutItemType itemType) : this()
 		{
 			ItemType = itemType;
 		}

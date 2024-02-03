@@ -4,6 +4,7 @@
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.Layouts;
 using Files.Shared.Helpers;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -12,20 +13,79 @@ using Windows.Storage;
 namespace Files.App.Data.Factories
 {
 	/// <summary>
-	/// Represents a factory to generate a list for layout pages.
+	/// Represents a factory to generate a list for the layout pages.
 	/// </summary>
 	public static class ContentPageContextFlyoutFactory
 	{
 		// Dependency injections
 
-		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private static readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
-		private static readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private static IModifiableCommandManager ModifiableCommands { get; } = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
+		private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static IAddItemService AddItemService { get; } = Ioc.Default.GetRequiredService<IAddItemService>();
+		private static ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		// Static Methods
 
-		public static List<ContextFlyoutItemModel> GenerateContextFlyout(
+		/// <summary>
+		/// Generates a list of context flyout model for layout pages when right clicked on a page or on a selected item(s) without shell extension item models.
+		/// </summary>
+		/// <returns>A list of generated flyout model.</returns>
+		public static List<ContextFlyoutItemModel> GenerateWithoutShellExtensions(
+			CurrentInstanceViewModel currentInstanceViewModel,
+			List<ListedItem> selectedItems,
+			BaseLayoutViewModel commandsViewModel,
+			bool shiftPressed,
+			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
+			ItemViewModel? itemViewModel = null)
+		{
+			var menuItemsList =
+				GenerateContextFlyoutItemModels(
+					commandsViewModel,
+					selectedItemsPropertiesViewModel,
+					selectedItems,
+					currentInstanceViewModel,
+					itemViewModel);
+
+			menuItemsList =
+				GatherShowOnShiftItems(
+					menuItemsList,
+					selectedItems,
+					shiftPressed,
+					currentInstanceViewModel,
+					false);
+
+			return menuItemsList;
+		}
+
+		/// <summary>
+		/// Replaces placeholder with shell extension items.
+		/// </summary>
+		public static void ReplacePlaceholderWithShellExtensions(
+			CommandBarFlyout contextMenu,
+			string placeholderName,
+			ContextFlyoutItemModel? replacingItem,
+			int position)
+		{
+			var placeholder = contextMenu.SecondaryCommands
+				.Where(x => Equals((x as AppBarButton)?.Tag, placeholderName))
+				.FirstOrDefault() as AppBarButton;
+
+			if (placeholder is not null)
+				placeholder.Visibility = Visibility.Collapsed;
+
+			if (replacingItem is not null)
+			{
+				var (_, bitLockerCommands) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(new() { replacingItem });
+
+				contextMenu.SecondaryCommands.Insert(position, bitLockerCommands.FirstOrDefault());
+			}
+		}
+
+		/// <summary>
+		/// Generates a list of context flyout model for layout pages when right clicked on a page or on a selected item(s).
+		/// </summary>
+		/// <returns>A list of generated flyout model.</returns>
+		private static List<ContextFlyoutItemModel> GenerateContextFlyoutItemModels(
 			BaseLayoutViewModel commandsViewModel,
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
@@ -206,7 +266,7 @@ namespace Files.App.Data.Factories
 						OpacityIconStyle = Commands.AddItem.Glyph.OpacityStyle
 					},
 					Text = Commands.AddItem.Label,
-					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
+					Items = GenerateNewFlyoutItemModels(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
 					IsAvailable = !itemsSelected,
 					ShowInFtpPage = true
 				},
@@ -455,7 +515,13 @@ namespace Files.App.Data.Factories
 			}.Where(x => x.IsAvailable).ToList();
 		}
 
-		public static List<ContextFlyoutItemModel> GetNewItemItems(BaseLayoutViewModel commandsViewModel, bool canCreateFileInPage)
+		/// <summary>
+		/// Generates a list of context flyout model for New dropdown flyout in the <see cref="InnerNavigationToolbar"/>.
+		/// </summary>
+		/// <returns>A list of generated flyout model.</returns>
+		private static List<ContextFlyoutItemModel> GenerateNewFlyoutItemModels(
+			BaseLayoutViewModel commandsViewModel,
+			bool canCreateFileInPage)
 		{
 			var list = new List<ContextFlyoutItemModel>()
 			{
@@ -512,61 +578,69 @@ namespace Files.App.Data.Factories
 			return list;
 		}
 
-		public static List<ContextFlyoutItemModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		/// <summary>
+		/// Gathers ShowOnShift items into ItemOverflow sub items.
+		/// </summary>
+		/// <returns>A list of generated flyout model.</returns>
+		private static List<ContextFlyoutItemModel> GatherShowOnShiftItems(
+			List<ContextFlyoutItemModel> items,
+			List<ListedItem> selectedItems,
+			bool shiftPressed,
+			CurrentInstanceViewModel currentInstanceViewModel,
+			bool removeOverflowMenu = true)
 		{
-			var menuItemsList =
-				GenerateContextFlyout(
-					commandsViewModel,
-					selectedItemsPropertiesViewModel,
-					selectedItems,
-					currentInstanceViewModel,
-					itemViewModel);
+			// Remain only visible items
+			items =
+				items.Where(item =>
+					GetItemVisibility(
+						item,
+						currentInstanceViewModel,
+						selectedItems))
+				.ToList();
 
-			menuItemsList =
-				FillContextFlyout(
-					menuItemsList,
-					selectedItems,
-					shiftPressed,
-					currentInstanceViewModel,
-					false);
+			// Remain only visible sub items
+			items.ForEach(x =>
+				x.Items = x.Items?.Where(item =>
+					GetItemVisibility(
+						item,
+						currentInstanceViewModel,
+						selectedItems))
+				.ToList());
 
-			return menuItemsList;
-		}
-
-		public static Task<List<ContextFlyoutItemModel>> GetItemContextShellCommandsAsync(string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
-		{
-			return ShellContextFlyoutFactory.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
-		}
-
-		public static List<ContextFlyoutItemModel> FillContextFlyout(List<ContextFlyoutItemModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
-		{
-			items = items.Where(x => CheckVisibility(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList();
-			items.ForEach(x => x.Items = x.Items?.Where(y => CheckVisibility(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList());
-
+			// Get the item overflow
 			var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
-			if (overflow is not null)
+			if (overflow is null || overflow.Items is null)
+				return items;
+
+			// Items with ShowOnShift to overflow menu
+			if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 			{
-				if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
-				{
-					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
+				// Get ShowOnShift items
+				var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
-					// Adds a separator between items already there and the new ones
-					if (overflow.Items.Count != 0 && overflowItems.Count > 0 && overflow.Items.Last().ItemType != ContextMenuFlyoutItemType.Separator)
-						overflow.Items.Add(new() { ItemType = ContextMenuFlyoutItemType.Separator });
+				// Add a separator between the items already there and the new ones
+				if (overflow.Items.Count != 0 && overflowItems.Count > 0 && overflow.Items.Last().ItemType != ContextMenuFlyoutItemType.Separator)
+					overflow.Items.Add(new(ContextMenuFlyoutItemType.Separator));
 
-					items = items.Except(overflowItems).ToList();
-					overflow.Items.AddRange(overflowItems);
-				}
-
-				// remove the overflow if it has no child items
-				if (overflow.Items.Count == 0 && removeOverflowMenu)
-					items.Remove(overflow);
+				items = items.Except(overflowItems).ToList();
+				overflow.Items.AddRange(overflowItems);
 			}
+
+			// Remove the overflow if it has no child items
+			if (overflow.Items.Count == 0 && removeOverflowMenu)
+				items.Remove(overflow);
 
 			return items;
 		}
 
-		private static bool CheckVisibility(ContextFlyoutItemModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
+		/// <summary>
+		/// Gets the value if the item can be visible in the generated flyout.
+		/// </summary>
+		/// <returns>True if the item can be visible; otherwise, false.</returns>
+		private static bool GetItemVisibility(
+			ContextFlyoutItemModel item,
+			CurrentInstanceViewModel currentInstanceViewModel,
+			List<ListedItem> selectedItems)
 		{
 			return
 				(item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) &&
@@ -575,25 +649,6 @@ namespace Files.App.Data.Factories
 				(item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder) &&
 				(!item.SingleItemOnly || selectedItems.Count == 1) &&
 				item.IsAvailable;
-		}
-
-		public static void SwapPlaceholderWithShellOption(CommandBarFlyout contextMenu, string placeholderName, ContextFlyoutItemModel? replacingItem, int position)
-		{
-			var placeholder = contextMenu.SecondaryCommands
-				.Where(x => Equals((x as AppBarButton)?.Tag, placeholderName))
-				.FirstOrDefault() as AppBarButton;
-
-			if (placeholder is not null)
-				placeholder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-
-			if (replacingItem is not null)
-			{
-				var (_, bitLockerCommands) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(new List<ContextFlyoutItemModel>() { replacingItem });
-				contextMenu.SecondaryCommands.Insert(
-					position,
-					bitLockerCommands.FirstOrDefault()
-				);
-			}
 		}
 	}
 }

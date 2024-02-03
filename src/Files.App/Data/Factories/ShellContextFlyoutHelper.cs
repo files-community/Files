@@ -245,12 +245,14 @@ namespace Files.App.Helpers
 					return;
 
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
-					workingDir: null,
-					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } },
-					shiftPressed: shiftPressed,
-					showOpenMenu: false,
-					default);
+
+				var shellMenuItems =
+					await ShellContextFlyoutFactory.GetShellContextmenuAsync(
+						false,
+						shiftPressed,
+						null,
+						new() { new(null) { ItemPath = path } },
+						default);
 
 				var openWithItem = showOpenWithMenu ? shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault() : null;
 				if (openWithItem is not null)
@@ -268,7 +270,7 @@ namespace Files.App.Helpers
 				if (turnOnBitLocker is not null)
 					shellMenuItems.Remove(turnOnBitLocker);
 
-				ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
+				ContentPageContextFlyoutFactory.ReplacePlaceholderWithShellExtensions(
 					itemContextMenuFlyout,
 					"TurnOnBitLockerPlaceholder",
 					turnOnBitLocker,
@@ -279,7 +281,7 @@ namespace Files.App.Helpers
 				if (manageBitLocker is not null)
 					shellMenuItems.Remove(manageBitLocker);
 
-				ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
+				ContentPageContextFlyoutFactory.ReplacePlaceholderWithShellExtensions(
 					itemContextMenuFlyout,
 					"ManageBitLockerPlaceholder",
 					manageBitLocker,
