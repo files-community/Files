@@ -15,11 +15,19 @@ using Windows.UI.Core;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Represents a factory to generate a list of shell extensions for the layout pages.
+	/// </summary>
 	public static class ShellContextFlyoutFactory
 	{
 		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public static async Task<List<ContextFlyoutItemModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+		public static async Task<List<ContextFlyoutItemModel>> GenerateAsync(
+			bool showOpenMenu,
+			bool shiftPressed,
+			string workingDirectory,
+			List<ListedItem>? selectedItems,
+			CancellationToken cancellationToken)
 		{
 			bool IsItemSelected = selectedItems?.Count > 0;
 
@@ -65,7 +73,7 @@ namespace Files.App.Helpers
 		}
 
 		private static void LoadMenuFlyoutItem(
-			IList<ContextFlyoutItemModel> menuItemsListLocal,
+			List<ContextFlyoutItemModel> menuItemsListLocal,
 			ContextMenu contextMenu,
 			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
 			CancellationToken cancellationToken,
@@ -214,7 +222,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static List<ContextFlyoutItemModel>? GetOpenWithItems(List<ContextFlyoutItemModel> flyout)
+		public static List<ContextFlyoutItemModel>? GenerateOpenWithItems(List<ContextFlyoutItemModel> flyout)
 		{
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			if (item is not null)
@@ -223,7 +231,7 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
-		public static List<ContextFlyoutItemModel>? GetSendToItems(List<ContextFlyoutItemModel> flyout)
+		public static List<ContextFlyoutItemModel>? GenerateSendToItems(List<ContextFlyoutItemModel> flyout)
 		{
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 			if (item is not null)
@@ -247,7 +255,7 @@ namespace Files.App.Helpers
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
 				var shellMenuItems =
-					await ShellContextFlyoutFactory.GetShellContextmenuAsync(
+					await GenerateAsync(
 						false,
 						shiftPressed,
 						null,

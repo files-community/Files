@@ -13,7 +13,7 @@ using Windows.Storage;
 namespace Files.App.Data.Factories
 {
 	/// <summary>
-	/// Represents a factory to generate a list for the layout pages.
+	/// Represents a factory to generate a list of base items for the layout pages.
 	/// </summary>
 	public static class ContentPageContextFlyoutFactory
 	{

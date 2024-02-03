@@ -603,7 +603,7 @@ namespace Files.App.Views.Layouts
 					if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 					{
 						var shellMenuItems =
-							await ShellContextFlyoutFactory.GetShellContextmenuAsync(
+							await ShellContextFlyoutFactory.GenerateAsync(
 								shiftPressed,
 								false,
 								ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
@@ -669,7 +669,7 @@ namespace Files.App.Views.Layouts
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 				{
 					var shellMenuItems =
-						await ShellContextFlyoutFactory.GetShellContextmenuAsync(
+						await ShellContextFlyoutFactory.GenerateAsync(
 							false,
 							shiftPressed,
 							ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
@@ -865,7 +865,7 @@ namespace Files.App.Views.Layouts
 			if (openWithMenuItem?.LoadSubMenuAction is not null && openWithOverflow is not null && openWith is not null)
 			{
 				await openWithMenuItem.LoadSubMenuAction();
-				var openWithSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GetOpenWithItems(shellMenuItems));
+				var openWithSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GenerateOpenWithItems(shellMenuItems));
 
 				if (openWithSubItems is not null)
 				{
@@ -891,7 +891,7 @@ namespace Files.App.Views.Layouts
 				if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
 				{
 					await sendToMenuItem.LoadSubMenuAction();
-					var sendToSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GetSendToItems(shellMenuItems));
+					var sendToSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GenerateSendToItems(shellMenuItems));
 
 					if (sendToSubItems is not null)
 					{
