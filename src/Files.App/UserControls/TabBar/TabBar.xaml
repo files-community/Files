@@ -13,7 +13,7 @@
 	<local:BaseTabBar.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/TabBarStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/TabBarStyles.xaml" />
 				<ResourceDictionary>
 					<MenuFlyout
 						x:Key="TabFlyout"

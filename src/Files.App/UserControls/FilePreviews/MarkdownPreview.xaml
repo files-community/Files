@@ -12,7 +12,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/TransparentMarkdownTextBlock.xaml" />
+				<ResourceDictionary Source="/Styles/TransparentMarkdownTextBlock.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
