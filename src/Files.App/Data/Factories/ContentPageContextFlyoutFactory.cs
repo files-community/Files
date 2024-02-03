@@ -536,10 +536,7 @@ namespace Files.App.Data.Factories
 					IsEnabled = canCreateFileInPage
 				},
 				new(Commands.CreateShortcutFromDialog),
-				new()
-				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
-				}
+				new(ContextMenuFlyoutItemType.Separator),
 			};
 
 			if (canCreateFileInPage)

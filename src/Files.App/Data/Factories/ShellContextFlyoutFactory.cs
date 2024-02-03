@@ -129,11 +129,11 @@ namespace Files.App.Helpers
 
 				if (menuFlyoutItem.Type is MenuItemType.MFT_SEPARATOR)
 				{
-					var menuLayoutItem = new ContextFlyoutItemModel()
+					var menuLayoutItem = new ContextFlyoutItemModel(ContextMenuFlyoutItemType.Separator)
 					{
-						ItemType = ContextMenuFlyoutItemType.Separator,
 						Tag = menuFlyoutItem
 					};
+
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label) && menuFlyoutItem.SubItems is not null)
