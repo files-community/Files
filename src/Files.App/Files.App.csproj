@@ -52,21 +52,11 @@
             <Link>NOTICE.md</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Update="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="Assets\FilesOpenDialog\Files.App.Launcher.exe">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="Assets\Resources\PreviewPanePropertiesInformation.json">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="Assets\Resources\PropertiesInformation.json">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <Content CopyToOutputDirectory="PreserveNewest" Include="Assets\Resources\PreviewPanePropertiesInformation.json" />
+        <Content CopyToOutputDirectory="PreserveNewest" Include="Assets\Resources\PropertiesInformation.json" />
+        <Content CopyToOutputDirectory="PreserveNewest" Update="Assets\Resources\SetFilesAsDefault.reg" />
+        <Content CopyToOutputDirectory="PreserveNewest" Update="Assets\Resources\UnsetFilesAsDefault.reg" />
+        <Content CopyToOutputDirectory="PreserveNewest" Update="Assets\Resources\Files.App.Launcher.exe" />
     </ItemGroup>
 
     <ItemGroup>
