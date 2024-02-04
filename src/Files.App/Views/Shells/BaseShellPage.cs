@@ -679,7 +679,7 @@ namespace Files.App.Views.Shells
 						if (folderToSelect.EndsWith('\\'))
 							folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
 
-						var itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+						var itemToSelect = FilesystemViewModel.FilesAndFolders.ToList().Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
 						if (itemToSelect is not null && ContentPage is not null)
 						{

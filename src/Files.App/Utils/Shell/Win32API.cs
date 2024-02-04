@@ -280,7 +280,7 @@ namespace Files.App.Utils.Shell
 
 					if (getIconOnly)
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-					else
+					else if (!isFolder)
 						flags |= Shell32.SIIGBF.SIIGBF_THUMBNAILONLY;
 
 					var hres = shellFactory.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
