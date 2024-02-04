@@ -692,67 +692,21 @@ namespace Files.App.Data.Models
 				var isSemaphoreReleased = false;
 				try
 				{
-					FilesAndFolders.BeginBulkOperation();
-
-					// After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
-					// so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
-					// run safely without needs of dispatching to UI thread
-					void ApplyChanges()
-					{
-						var startIndex = -1;
-						var tempList = new List<ListedItem>();
-
-						void ApplyBulkInsertEntries()
-						{
-							if (startIndex != -1)
-							{
-								FilesAndFolders.ReplaceRange(startIndex, tempList);
-								startIndex = -1;
-								tempList.Clear();
-							}
-						}
-
-						for (var i = 0; i < filesAndFoldersLocal.Count; i++)
-						{
-							if (addFilesCTS.IsCancellationRequested)
-								return;
-
-							if (i < FilesAndFolders.Count)
-							{
-								if (FilesAndFolders[i] != filesAndFoldersLocal[i])
-								{
-									if (startIndex == -1)
-										startIndex = i;
-
-									tempList.Add(filesAndFoldersLocal[i]);
-								}
-								else
-								{
-									ApplyBulkInsertEntries();
-								}
-							}
-							else
-							{
-								ApplyBulkInsertEntries();
-								FilesAndFolders.InsertRange(i, filesAndFoldersLocal.Skip(i));
-
-								break;
-							}
-						}
-
-						ApplyBulkInsertEntries();
-
-						if (FilesAndFolders.Count > filesAndFoldersLocal.Count)
-							FilesAndFolders.RemoveRange(filesAndFoldersLocal.Count, FilesAndFolders.Count - filesAndFoldersLocal.Count);
-
-						if (folderSettings.DirectoryGroupOption != GroupOption.None)
-							OrderGroups();
-					}
-
-					void UpdateUI()
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						try
 						{
+							FilesAndFolders.BeginBulkOperation();
+
+							if (addFilesCTS.IsCancellationRequested)
+								return;
+
+							FilesAndFolders.Clear();
+							FilesAndFolders.AddRange(filesAndFoldersLocal);
+
+							if (folderSettings.DirectoryGroupOption != GroupOption.None)
+								OrderGroups();
+
 							// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
 							// once loading is completed so that UI can be updated
 							FilesAndFolders.EndBulkOperation();
@@ -764,21 +718,10 @@ namespace Files.App.Data.Models
 							isSemaphoreReleased = true;
 							bulkOperationSemaphore.Release();
 						}
-					}
+					});
 
-					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
-					{
-						await Task.Run(ApplyChanges);
-						UpdateUI();
-					}
-					else
-					{
-						ApplyChanges();
-						await dispatcherQueue.EnqueueOrInvokeAsync(UpdateUI);
-
-						// The semaphore will be released in UI thread
-						isSemaphoreReleased = true;
-					}
+					// The semaphore will be released in UI thread
+					isSemaphoreReleased = true;
 				}
 				finally
 				{
@@ -806,10 +749,6 @@ namespace Files.App.Data.Models
 
 		private Task OrderFilesAndFoldersAsync()
 		{
-			// Sorting group contents is handled elsewhere
-			if (folderSettings.DirectoryGroupOption != GroupOption.None)
-				return Task.CompletedTask;
-
 			void OrderEntries()
 			{
 				if (filesAndFolders.Count == 0)
@@ -886,32 +825,25 @@ namespace Files.App.Data.Models
 				var isSemaphoreReleased = false;
 				try
 				{
-					FilesAndFolders.BeginBulkOperation();
-					UpdateGroupOptions();
-
-					if (FilesAndFolders.IsGrouped)
-					{
-						await Task.Run(() =>
-						{
-							FilesAndFolders.ResetGroups(token);
-							if (token.IsCancellationRequested)
-								return;
-
-							OrderGroups();
-						});
-					}
-					else
-					{
-						await OrderFilesAndFoldersAsync();
-					}
-
-					if (token.IsCancellationRequested)
-						return;
-
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						try
 						{
+							FilesAndFolders.BeginBulkOperation();
+							UpdateGroupOptions();
+
+							if (FilesAndFolders.IsGrouped)
+							{
+								FilesAndFolders.ResetGroups(token);
+								if (token.IsCancellationRequested)
+									return;
+
+								OrderGroups();
+							}
+
+							if (token.IsCancellationRequested)
+								return;
+
 							FilesAndFolders.EndBulkOperation();
 						}
 						finally
@@ -1043,7 +975,7 @@ namespace Files.App.Data.Models
 						// Add the file icon to the DefaultIcons list
 						if
 						(
-							!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) && 
+							!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) &&
 							!string.IsNullOrEmpty(item.FileExtension) &&
 							!item.IsShortcut &&
 							!item.IsExecutable
