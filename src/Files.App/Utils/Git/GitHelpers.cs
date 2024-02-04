@@ -8,6 +8,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -95,7 +96,7 @@ namespace Files.App.Utils.Git
 						? path
 						: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
 			}
-			catch (LibGit2SharpException ex)
+			catch (Exception ex) when (ex is LibGit2SharpException or EncoderFallbackException)
 			{
 				_logger.LogWarning(ex.Message);
 
