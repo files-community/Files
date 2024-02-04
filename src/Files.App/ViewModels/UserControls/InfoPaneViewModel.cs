@@ -303,7 +303,8 @@ namespace Files.App.ViewModels.UserControls
 			if
 			(
 				ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
-				!FileExtensionHelpers.IsFontFile(item.FileExtension)
+				!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
+				!FileExtensionHelpers.IsExecutableFile(item.FileExtension)
 			)
 			{
 				var model = new ShellPreviewViewModel(item);
