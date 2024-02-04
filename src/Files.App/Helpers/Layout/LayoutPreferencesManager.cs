@@ -42,11 +42,11 @@ namespace Files.App.Data.Models
 
 		public int GridViewSize
 		{
-			get => LayoutPreferencesItem.GridViewSize;
+			get => LayoutPreferencesItem.IconSizeGridView;
 			set
 			{
 				// Size down
-				if (value < LayoutPreferencesItem.GridViewSize)
+				if (value < LayoutPreferencesItem.IconSizeGridView)
 				{
 					// Size down from List to Details
 					if (LayoutMode == FolderLayoutModes.ListView)
@@ -74,7 +74,7 @@ namespace Files.App.Data.Models
 					{
 						// Set grid size to allow immediate UI update
 						var newValue = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall;
-						SetProperty(ref LayoutPreferencesItem.GridViewSize, newValue, nameof(GridViewSize));
+						SetProperty(ref LayoutPreferencesItem.IconSizeGridView, newValue, nameof(GridViewSize));
 
 						// Only update layout mode if it isn't already in grid view
 						if (LayoutMode != FolderLayoutModes.GridView)
@@ -92,7 +92,7 @@ namespace Files.App.Data.Models
 					}
 				}
 				// Size up
-				else if (value > LayoutPreferencesItem.GridViewSize)
+				else if (value > LayoutPreferencesItem.IconSizeGridView)
 				{
 					// Size up from Details to List
 					if (LayoutMode == FolderLayoutModes.DetailsView)
@@ -112,7 +112,7 @@ namespace Files.App.Data.Models
 					{
 						// Set grid size to allow immediate UI update
 						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeLarge) ? value : Constants.Browser.GridViewBrowser.GridViewSizeLarge;
-						SetProperty(ref LayoutPreferencesItem.GridViewSize, newValue, nameof(GridViewSize));
+						SetProperty(ref LayoutPreferencesItem.IconSizeGridView, newValue, nameof(GridViewSize));
 
 						// Only update layout mode if it isn't already in grid view
 						if (LayoutMode != FolderLayoutModes.GridView)
@@ -329,13 +329,17 @@ namespace Files.App.Data.Models
 					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.TilesView
 					=> Constants.Browser.GridViewBrowser.TilesView,
-				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
-					=> Constants.Browser.GridViewBrowser.GridViewSizeSmall,
-				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
-					=> Constants.Browser.GridViewBrowser.GridViewSizeMedium,
-				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge
-					=> Constants.Browser.GridViewBrowser.GridViewSizeLarge,
-				_ => Constants.Browser.GridViewBrowser.GridViewSizeLarge,
+				_ when GridViewSize <= 64
+					=> 64,
+				_ when GridViewSize <= 72
+					=> 72,
+				_ when GridViewSize <= 96
+					=> 96,
+				_ when GridViewSize <= 128
+					=> 128,
+				_ when GridViewSize <= 180
+					=> 180,
+				_ => 256,
 			};
 		}
 
@@ -431,7 +435,7 @@ namespace Files.App.Data.Models
 
 			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.TilesView, GridViewSize));
 		}
-		
+
 		public void ToggleLayoutModeList(bool manuallySet)
 		{
 			IsAdaptiveLayoutEnabled &= !manuallySet;
@@ -534,7 +538,11 @@ namespace Files.App.Data.Models
 			else
 			{
 				UserSettingsService.FoldersSettingsService.DefaultLayoutMode = preferencesItem.LayoutMode;
-				UserSettingsService.LayoutSettingsService.DefaultGridViewSize = preferencesItem.GridViewSize;
+				UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView = preferencesItem.IconSizeDetailsView;
+				UserSettingsService.LayoutSettingsService.DefaultIconSizeListView = preferencesItem.IconSizeListView;
+				UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView = preferencesItem.IconSizeTilesView;
+				UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView = preferencesItem.IconSizeGridView;
+				UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView = preferencesItem.IconSizeColumnsView;
 
 				// Do not save options which only work in recycle bin or cloud folders or search results as global
 				if (preferencesItem.DirectorySortOption != SortOption.Path &&

@@ -19,7 +19,13 @@ namespace Files.App.Helpers
 		public bool SortDirectoriesAlongsideFiles;
 		public bool SortFilesFirst;
 		public bool IsAdaptiveLayoutOverridden;
-		public int GridViewSize;
+
+		// Icon sizes
+		public int IconSizeDetailsView;
+		public int IconSizeListView;
+		public int IconSizeTilesView;
+		public int IconSizeGridView;
+		public int IconSizeColumnsView;
 
 		public FolderLayoutModes LayoutMode;
 
@@ -37,7 +43,11 @@ namespace Files.App.Helpers
 			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
 
 			LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
-			GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
+			IconSizeDetailsView = UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView;
+			IconSizeListView = UserSettingsService.LayoutSettingsService.DefaultIconSizeListView;
+			IconSizeTilesView = UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView;
+			IconSizeGridView = UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView;
+			IconSizeColumnsView = UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView;
 			DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 			DirectorySortDirection = UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
@@ -68,11 +78,11 @@ namespace Files.App.Helpers
 			ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
 			ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TypeColumnWidth;
 			ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SizeColumnWidth;
-			ColumnsViewModel.GitStatusColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitStatusColumnWidth;
-			ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth;
-			ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth;
-			ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth;
-			ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth;
+			ColumnsViewModel.GitStatusColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitStatusColumnWidth;
+			ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth;
+			ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth;
+			ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth;
+			ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth;
 			ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TagColumnWidth;
 			ColumnsViewModel.DateDeletedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
 			ColumnsViewModel.PathColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.PathColumnWidth;
@@ -94,7 +104,11 @@ namespace Files.App.Helpers
 			{
 				return (
 					item.LayoutMode == LayoutMode &&
-					item.GridViewSize == GridViewSize &&
+					item.IconSizeDetailsView == IconSizeDetailsView &&
+					item.IconSizeListView == IconSizeListView &&
+					item.IconSizeTilesView == IconSizeTilesView &&
+					item.IconSizeGridView == IconSizeGridView &&
+					item.IconSizeColumnsView == IconSizeColumnsView &&
 					item.DirectoryGroupOption == DirectoryGroupOption &&
 					item.DirectorySortOption == DirectorySortOption &&
 					item.DirectorySortDirection == DirectorySortDirection &&
@@ -113,7 +127,11 @@ namespace Files.App.Helpers
 			HashCode hash = new();
 
 			hash.Add(LayoutMode);
-			hash.Add(GridViewSize);
+			hash.Add(IconSizeDetailsView);
+			hash.Add(IconSizeListView);
+			hash.Add(IconSizeTilesView);
+			hash.Add(IconSizeGridView);
+			hash.Add(IconSizeColumnsView);
 			hash.Add(DirectoryGroupOption);
 			hash.Add(DirectorySortOption);
 			hash.Add(DirectorySortDirection);
