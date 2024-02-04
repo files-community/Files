@@ -85,81 +85,84 @@ namespace Files.App.ViewModels.Layouts
 
 		public async Task DragOverAsync(DragEventArgs e)
 		{
-			var deferral = e.GetDeferral();
+			DragOperationDeferral? deferral = null;
 
-			if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
+			try
 			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				deferral.Complete();
+				deferral = e.GetDeferral();
 
-				return;
-			}
-
-			_itemManipulationModel.ClearSelection();
-
-			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
-				e.Handled = true;
-
-				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-
-				var pwd = _associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
-				var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
-
-				// As long as one file doesn't already belong to this folder
-				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.FilesystemViewModel.WorkingDirectory))
+				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
+					deferral.Complete();
+
+					return;
 				}
-				else if (!draggedItems.Any())
+
+				_itemManipulationModel.ClearSelection();
+
+				if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 				{
-					e.AcceptedOperation = DataPackageOperation.None;
-				}
-				else
-				{
-					e.DragUIOverride.IsCaptionVisible = true;
-					if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
-					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Move;
-					}
-					else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
-					{
-						e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Link;
-					}
-					else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
-					{
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Copy;
-					}
-					else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
-					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Move;
-					}
-					else if (draggedItems.Any(x =>
-						x.Item is ZipStorageFile ||
-						x.Item is ZipStorageFolder) ||
-						ZipStorageFolder.IsZipPath(pwd))
-					{
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Copy;
-					}
-					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.FilesystemViewModel.WorkingDirectory))
-					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Move;
-					}
+					e.Handled = true;
+
+					var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+
+					var pwd = _associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
+					var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
+
+					// As long as one file doesn't already belong to this folder
+					if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.FilesystemViewModel.WorkingDirectory))
+						e.AcceptedOperation = DataPackageOperation.None;
+					else if (!draggedItems.Any())
+						e.AcceptedOperation = DataPackageOperation.None;
 					else
 					{
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Copy;
+						e.DragUIOverride.IsCaptionVisible = true;
+						if (pwd is not null && pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+						{
+							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Move;
+						}
+						else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+						{
+							e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Link;
+						}
+						else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
+						{
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Copy;
+						}
+						else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
+						{
+							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Move;
+						}
+						else if (draggedItems.Any(x =>
+							x.Item is ZipStorageFile ||
+							x.Item is ZipStorageFolder) ||
+							ZipStorageFolder.IsZipPath(pwd))
+						{
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Copy;
+						}
+						else if (draggedItems.AreItemsInSameDrive(_associatedInstance.FilesystemViewModel.WorkingDirectory))
+						{
+							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Move;
+						}
+						else
+						{
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Copy;
+						}
 					}
 				}
 			}
-
-			deferral.Complete();
+			finally
+			{
+				deferral?.Complete();
+			}
 		}
 
 		public async Task DropAsync(DragEventArgs e)
