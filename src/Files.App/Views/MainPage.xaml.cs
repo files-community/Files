@@ -169,7 +169,7 @@ namespace Files.App.Views
 			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
-		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
+		public async void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
@@ -188,7 +188,8 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
-			NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
+			UpdateLayoutIfRequired(e.CurrentInstance);
+			await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
@@ -418,6 +419,56 @@ namespace Files.App.Views
 						PaneRow.Height = new GridLength(UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
 						break;
 				}
+			}
+		}
+
+		private void UpdateLayoutIfRequired(ITabBarItemContent item)
+		{
+			if (!UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
+				return;
+
+			var layoutManager = (item as PaneHolderPage)?.ActivePaneOrColumn.InstanceViewModel.FolderSettings;
+
+			if (layoutManager is null || 
+				(layoutManager.LayoutMode == UserSettingsService.FoldersSettingsService.DefaultLayoutMode && 
+					!(layoutManager.LayoutMode is FolderLayoutModes.GridView &&
+					layoutManager.GridViewSize != UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView)
+				))
+			{
+				return;
+			}
+
+			switch (UserSettingsService.FoldersSettingsService.DefaultLayoutMode)
+			{
+				case FolderLayoutModes.DetailsView:
+					layoutManager.ToggleLayoutModeDetailsView(true);
+					break;
+				case FolderLayoutModes.ListView:
+					layoutManager.ToggleLayoutModeList(true);
+					break;
+				case FolderLayoutModes.TilesView:
+					layoutManager.ToggleLayoutModeTiles(true);
+					break;
+				case FolderLayoutModes.GridView:
+					switch (UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView)
+					{
+						case Constants.Browser.GridViewBrowser.GridViewSizeSmall:
+							layoutManager.ToggleLayoutModeGridViewSmall(true);
+							break;
+						case Constants.Browser.GridViewBrowser.GridViewSizeMedium:
+							layoutManager.ToggleLayoutModeGridViewMedium(true);
+							break;
+						case Constants.Browser.GridViewBrowser.GridViewSizeLarge:
+							layoutManager.ToggleLayoutModeGridViewLarge(true);
+							break;
+					}
+					break;
+				case FolderLayoutModes.ColumnView:
+					layoutManager.ToggleLayoutModeColumnView(true);
+					break;
+				case FolderLayoutModes.Adaptive:
+					layoutManager.ToggleLayoutModeAdaptive();
+					break;
 			}
 		}
 
