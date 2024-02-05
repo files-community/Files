@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using static Files.App.Helpers.NativeFileOperationsHelper;
 
-namespace Files.App.Utils.Serialization.Implementation
+namespace Files.App.Utils.Serialization
 {
 	internal sealed class DefaultSettingsSerializer : ISettingsSerializer
 	{
@@ -28,11 +28,6 @@ namespace Files.App.Utils.Serialization.Implementation
 			return true;
 		}
 
-		/// <summary>
-		/// Reads a file to a string
-		/// </summary>
-		/// <returns>A string value or string.Empty if nothing is present in the file</returns>
-		/// <exception cref="ArgumentNullException"></exception>
 		public string ReadFromFile()
 		{
 			_ = _filePath ?? throw new ArgumentNullException(nameof(_filePath));

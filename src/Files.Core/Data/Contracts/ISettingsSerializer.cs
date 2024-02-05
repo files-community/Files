@@ -1,9 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Serialization
+namespace Files.Core.Data.Contracts
 {
-	internal interface ISettingsSerializer
+	public interface ISettingsSerializer
 	{
 		bool CreateFile(string path);
 

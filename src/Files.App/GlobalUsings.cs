@@ -56,6 +56,7 @@ global using global::Files.App.Views.Layouts;
 global using global::Files.App.Views.Shells;
 
 // Files.Core
+global using global::Files.Core.Data.Contracts;
 global using global::Files.Core.Data.Enums;
 global using global::Files.Core.Data.EventArguments;
 global using global::Files.Core.Data.Items;
@@ -75,6 +76,7 @@ global using global::Files.Core.ViewModels.Widgets;
 global using global::Files.Core.Utils;
 global using global::Files.Core.Utils.Cloud;
 global using global::Files.Core.Utils.CommandLine;
+global using global::Files.Core.Utils.Serialization;
 
 // Files.Shared
 global using global::Files.Shared;

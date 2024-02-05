@@ -4,9 +4,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Utils.Serialization
+namespace Files.Core.Utils.Serialization
 {
-	internal abstract class BaseObservableJsonSettings : BaseJsonSettings, INotifyPropertyChanged
+	public abstract class BaseObservableJsonSettings : BaseJsonSettings, INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;
 

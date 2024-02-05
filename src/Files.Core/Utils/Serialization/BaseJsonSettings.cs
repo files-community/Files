@@ -4,12 +4,12 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Utils.Serialization
+namespace Files.Core.Utils.Serialization
 {
 	/// <summary>
 	/// A base class to easily manage all application's settings.
 	/// </summary>
-	internal abstract class BaseJsonSettings : ISettingsSharingContext
+	public abstract class BaseJsonSettings : ISettingsSharingContext
 	{
 		private ISettingsSharingContext? _settingsSharingContext;
 
