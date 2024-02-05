@@ -89,6 +89,15 @@ namespace Files.App
 				var host = AppLifecycleHelper.ConfigureHost();
 				Ioc.Default.ConfigureServices(host.Services);
 
+				// TODO: Replace with DI
+				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
+				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
+				RecentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
+				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+				AppModel = Ioc.Default.GetRequiredService<AppModel>();
+
 #if STORE || STABLE || PREVIEW
 				// Configure AppCenter
 				AppLifecycleHelper.ConfigureAppCenter();
@@ -108,15 +117,6 @@ namespace Files.App
 					SplashScreenLoadingTCS = new TaskCompletionSource();
 					MainWindow.Instance.ShowSplashScreen();
 				}
-
-				// TODO: Replace with DI
-				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
-				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
-				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
-				RecentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
-				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
-				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-				AppModel = Ioc.Default.GetRequiredService<AppModel>();
 
 				// Hook events for the window
 				MainWindow.Instance.Closed += Window_Closed;

@@ -23,9 +23,7 @@ namespace Files.App.Utils.Serialization
 			string data = SettingsSerializer.ReadFromFile();
 
 			if (string.IsNullOrWhiteSpace(data))
-			{
 				data = "null";
-			}
 
 			try
 			{
@@ -33,8 +31,11 @@ namespace Files.App.Utils.Serialization
 			}
 			catch (Exception)
 			{
-				// Occurs if the settings file has invalid json
-				// TODO Display prompt to notify user #710
+				// Show a dialog to notify
+				if (App.AppModel.IsMainWindowActivated)
+				{
+				}
+
 				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
 			}
 		}

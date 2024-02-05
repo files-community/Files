@@ -58,6 +58,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isPasteEnabled, value);
 		}
 
+		private bool _IsMainWindowActivated = false;
+		public bool IsMainWindowActivated
+		{
+			get => _IsMainWindowActivated;
+			set => SetProperty(ref _IsMainWindowActivated, value);
+		}
+
 		private bool isMainWindowClosed = false;
 		public bool IsMainWindowClosed
 		{

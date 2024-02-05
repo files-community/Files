@@ -1,0 +1,16 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ContentDialog
+	x:Class="Files.App.Dialogs.ReloadJsonParseErrorDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<Grid>
+		<TextBlock Style="{StaticResource TitleLargeTextBlockStyle}" Text="Failed To Reload settings" />
+	</Grid>
+</ContentDialog>
