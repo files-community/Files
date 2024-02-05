@@ -1,10 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
-using System;
-using System.IO;
-using static Files.App.Helpers.NativeFileOperationsHelper;
+using Win32PInvoke = Files.App.Helpers.NativeFileOperationsHelper;
 
 namespace Files.App.Utils.Serialization
 {
@@ -14,15 +11,25 @@ namespace Files.App.Utils.Serialization
 
 		public bool CreateFile(string path)
 		{
-			CreateDirectoryFromApp(Path.GetDirectoryName(path), IntPtr.Zero);
-
-			var hFile = CreateFileFromApp(path, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
-			if (hFile.IsHandleInvalid())
-			{
+			var parentDir = SystemIO.Path.GetDirectoryName(path);
+			if (string.IsNullOrEmpty(parentDir))
 				return false;
-			}
 
-			CloseHandle(hFile);
+			Win32PInvoke.CreateDirectoryFromApp(parentDir, IntPtr.Zero);
+
+			var hFile = Win32PInvoke.CreateFileFromApp(
+				path,
+				Win32PInvoke.GENERIC_READ,
+				Win32PInvoke.FILE_SHARE_READ,
+				IntPtr.Zero,
+				Win32PInvoke.OPEN_ALWAYS,
+				(uint)Win32PInvoke.File_Attributes.BackupSemantics,
+				IntPtr.Zero);
+
+			if (hFile.IsHandleInvalid())
+				return false;
+
+			Win32PInvoke.CloseHandle(hFile);
 
 			_filePath = path;
 			return true;
@@ -30,16 +37,18 @@ namespace Files.App.Utils.Serialization
 
 		public string ReadFromFile()
 		{
-			_ = _filePath ?? throw new ArgumentNullException(nameof(_filePath));
+			if (string.IsNullOrEmpty(_filePath))
+				throw new ArgumentNullException(nameof(_filePath));
 
-			return ReadStringFromFile(_filePath);
+			return Win32PInvoke.ReadStringFromFile(_filePath);
 		}
 
 		public bool WriteToFile(string? text)
 		{
-			_ = _filePath ?? throw new ArgumentNullException(nameof(_filePath));
+			if (string.IsNullOrEmpty(_filePath))
+				throw new ArgumentNullException(nameof(_filePath));
 
-			return WriteStringToFile(_filePath, text);
+			return Win32PInvoke.WriteStringToFile(_filePath, text);
 		}
 	}
 }
