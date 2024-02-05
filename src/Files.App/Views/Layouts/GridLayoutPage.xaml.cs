@@ -39,7 +39,7 @@ namespace Files.App.Views.Layouts
 			FolderSettings.LayoutMode == FolderLayoutModes.ListView ||
 			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
 				? 260
-				: FolderSettings.GridViewSize;
+				: FolderSettings.LayoutPreferencesItem.IconSizeGridView;
 
 		public bool IsPointerOver
 		{
