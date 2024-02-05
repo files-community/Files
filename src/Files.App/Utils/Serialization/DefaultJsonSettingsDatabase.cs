@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Dialogs;
 using System.Collections.Concurrent;
 using System.Text.Json;
 
@@ -18,7 +19,7 @@ namespace Files.App.Utils.Serialization
 			JsonSettingsSerializer = jsonSettingsSerializer;
 		}
 
-		protected IDictionary<string, object?> GetFreshSettings()
+		protected IDictionary<string, object?>? GetFreshSettings()
 		{
 			string data = SettingsSerializer.ReadFromFile();
 
@@ -34,9 +35,12 @@ namespace Files.App.Utils.Serialization
 				// Show a dialog to notify
 				if (App.AppModel.IsMainWindowActivated)
 				{
+					return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
 				}
-
-				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
+				else
+				{
+					return null;
+				}
 			}
 		}
 
@@ -50,6 +54,8 @@ namespace Files.App.Utils.Serialization
 		public virtual TValue? GetValue<TValue>(string key, TValue? defaultValue = default)
 		{
 			var data = GetFreshSettings();
+			if (data is null)
+				return defaultValue;
 
 			if (data.TryGetValue(key, out var objVal))
 			{
@@ -65,6 +71,8 @@ namespace Files.App.Utils.Serialization
 		public virtual bool SetValue<TValue>(string key, TValue? newValue)
 		{
 			var data = GetFreshSettings();
+			if (data is null)
+				return false;
 
 			if (!data.TryAdd(key, newValue))
 				data[key] = newValue;

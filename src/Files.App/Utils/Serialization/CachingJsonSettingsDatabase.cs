@@ -16,12 +16,15 @@ namespace Files.App.Utils.Serialization
 		{
 			_settingsCache ??= GetFreshSettings();
 
-			if (_settingsCache.TryGetValue(key, out var objVal))
+			if (_settingsCache is not null && _settingsCache.TryGetValue(key, out var objVal))
 			{
 				return GetValueFromObject<TValue>(objVal) ?? defaultValue;
 			}
 			else
 			{
+				if (_settingsCache is null)
+					return defaultValue;
+
 				if (base.SetValue(key, defaultValue))
 					_settingsCache.TryAdd(key, defaultValue);
 
@@ -32,6 +35,9 @@ namespace Files.App.Utils.Serialization
 		public override bool SetValue<TValue>(string key, TValue? newValue) where TValue : default
 		{
 			_settingsCache ??= GetFreshSettings();
+
+			if (_settingsCache is null)
+				return false;
 
 			if (_settingsCache.TryAdd(key, newValue))
 				return SaveSettings(_settingsCache);
@@ -70,7 +76,7 @@ namespace Files.App.Utils.Serialization
 		{
 			_settingsCache ??= GetFreshSettings();
 
-			return _settingsCache.Remove(key) && SaveSettings(_settingsCache);
+			return _settingsCache is null ? false : _settingsCache.Remove(key) && SaveSettings(_settingsCache);
 		}
 
 		public override bool ImportSettings(object? import)

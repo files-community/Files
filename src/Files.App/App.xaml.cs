@@ -118,6 +118,8 @@ namespace Files.App
 					MainWindow.Instance.ShowSplashScreen();
 				}
 
+				AppModel.IsMainWindowActivated = true;
+
 				// Hook events for the window
 				MainWindow.Instance.Closed += Window_Closed;
 				MainWindow.Instance.Activated += Window_Activated;
@@ -164,6 +166,8 @@ namespace Files.App
 		{
 			var activatedEventArgsData = activatedEventArgs.Data;
 			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData.GetType().Name}");
+
+			AppModel.IsMainWindowActivated = true;
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
@@ -221,6 +225,8 @@ namespace Files.App
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
+
+				AppModel.IsMainWindowActivated = false;
 
 				// Close all tabs
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
