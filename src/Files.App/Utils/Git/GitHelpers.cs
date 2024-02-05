@@ -633,7 +633,8 @@ namespace Files.App.Utils.Git
 				catch (SocketException ex)
 				{
 					_logger.LogWarning(ex.Message);
-					return;
+					dialog.Hide();
+					break;
 				}
 			}
 
