@@ -317,6 +317,24 @@ namespace Files.App.Data.Models
 
 		// Methods
 
+		/// <summary>
+		/// This will return the best icon size for the current layout
+		/// 
+		/// Details View:
+		///		Always uses the Large icon size (32).
+		///		
+		/// List View:
+		///		Always uses the Large icon size (32).
+		///		
+		/// Columns View:
+		///		Always uses the Large icon size (32).
+		///		
+		/// Tiles View:
+		///		Uses a range of icon sizes (64, 72, 96, 128, 180, 256) depending on the selected icon size.
+		///		
+		/// Grid View:
+		///		Uses a range of icon sizes (64, 72, 96, 128, 180, 256) depending on the selected icon size.
+		/// </summary>
 		public uint GetIconSize()
 		{
 			return LayoutMode switch
@@ -327,17 +345,20 @@ namespace Files.App.Data.Models
 					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.ColumnView
 					=> Constants.DefaultIconSizes.Large,
-				FolderLayoutModes.TilesView
-					=> Constants.Browser.GridViewBrowser.TilesView,
-				_ when GridViewSize <= 64
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 64 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 64
 					=> 64,
-				_ when GridViewSize <= 72
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 72 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 72
 					=> 72,
-				_ when GridViewSize <= 96
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 96 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 96
 					=> 96,
-				_ when GridViewSize <= 128
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 128 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 128
 					=> 128,
-				_ when GridViewSize <= 180
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 180 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 180
 					=> 180,
 				_ => 256,
 			};
