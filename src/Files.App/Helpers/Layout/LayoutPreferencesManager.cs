@@ -40,6 +40,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		[Obsolete("Don't add more references, we're working on removing this property")]
 		public int GridViewSize
 		{
 			get => LayoutPreferencesItem.IconSizeGridView;
