@@ -319,7 +319,7 @@ namespace Files.App.Data.Models
 		// Methods
 
 		/// <summary>
-		/// This will return the best icon size for the current layout
+		/// This will round the current icon size to get the best result from the File Explorer thumbnail system.
 		/// 
 		/// Details View:
 		///		Always uses the Large icon size (32).
@@ -336,7 +336,7 @@ namespace Files.App.Data.Models
 		/// Grid View:
 		///		Uses a range of icon sizes (64, 72, 96, 128, 180, 256) depending on the selected icon size.
 		/// </summary>
-		public uint GetIconSize()
+		public uint GetRoundedIconSize()
 		{
 			return LayoutMode switch
 			{

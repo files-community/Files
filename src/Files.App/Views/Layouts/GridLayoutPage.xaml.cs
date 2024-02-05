@@ -104,7 +104,7 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			currentIconSize = FolderSettings.GetIconSize();
+			currentIconSize = FolderSettings.GetRoundedIconSize();
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
@@ -148,7 +148,7 @@ namespace Files.App.Views.Layouts
 				// Set ItemTemplate
 				SetItemTemplate();
 
-				var requestedIconSize = FolderSettings.GetIconSize();
+				var requestedIconSize = FolderSettings.GetRoundedIconSize();
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
@@ -446,7 +446,7 @@ namespace Files.App.Views.Layouts
 			SetItemMinWidth();
 
 			// Get new icon size
-			var requestedIconSize = FolderSettings.GetIconSize();
+			var requestedIconSize = FolderSettings.GetRoundedIconSize();
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
