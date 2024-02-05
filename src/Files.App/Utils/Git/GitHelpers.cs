@@ -8,6 +8,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -583,50 +584,58 @@ namespace Files.App.Utils.Git
 
 			while (!loginCTS.Token.IsCancellationRequested && pending && expiresIn > 0)
 			{
-				var loginResponse = await client.PostAsync(
+				try
+				{
+					var loginResponse = await client.PostAsync(
 					$"https://github.com/login/oauth/access_token?client_id={_clientId}&device_code={deviceCode}&grant_type=urn:ietf:params:oauth:grant-type:device_code",
 					new StringContent(""));
 
-				expiresIn -= interval;
+					expiresIn -= interval;
 
-				if (!loginResponse.IsSuccessStatusCode)
-				{
-					dialog.Hide();
-					break;
-				}
-
-				var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
-				if (loginJsonContent is null)
-				{
-					dialog.Hide();
-					break;
-				}
-
-				if (loginJsonContent.RootElement.TryGetProperty("error", out var error))
-				{
-					if (error.GetString() == "authorization_pending")
+					if (!loginResponse.IsSuccessStatusCode)
 					{
-						await Task.Delay(TimeSpan.FromSeconds(interval));
-						continue;
+						dialog.Hide();
+						break;
 					}
 
-					dialog.Hide();
-					break;
+					var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
+					if (loginJsonContent is null)
+					{
+						dialog.Hide();
+						break;
+					}
+
+					if (loginJsonContent.RootElement.TryGetProperty("error", out var error))
+					{
+						if (error.GetString() == "authorization_pending")
+						{
+							await Task.Delay(TimeSpan.FromSeconds(interval));
+							continue;
+						}
+
+						dialog.Hide();
+						break;
+					}
+
+					var token = loginJsonContent.RootElement.GetProperty("access_token").GetString();
+					if (token is null)
+						continue;
+
+					pending = false;
+
+					CredentialsHelpers.SavePassword(
+						GIT_RESOURCE_NAME,
+						GIT_RESOURCE_USERNAME,
+						token);
+
+					viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
+					viewModel.LoginConfirmed = true;
 				}
-
-				var token = loginJsonContent.RootElement.GetProperty("access_token").GetString();
-				if (token is null)
-					continue;
-
-				pending = false;
-
-				CredentialsHelpers.SavePassword(
-					GIT_RESOURCE_NAME,
-					GIT_RESOURCE_USERNAME,
-					token);
-
-				viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
-				viewModel.LoginConfirmed = true;
+				catch (SocketException ex)
+				{
+					_logger.LogWarning(ex.Message);
+					return;
+				}
 			}
 
 			await loginDialogTask;
