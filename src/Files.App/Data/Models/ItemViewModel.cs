@@ -1328,6 +1328,7 @@ namespace Files.App.Data.Models
 		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
 		{
 			IsSearchResults = false;
+			HasNoWatcher = false;
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
 			CancelLoadAndClearFiles();
@@ -2392,6 +2393,7 @@ namespace Files.App.Data.Models
 			filesAndFolders.Clear();
 			IsLoadingItems = true;
 			IsSearchResults = true;
+			HasNoWatcher = true;
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
 
