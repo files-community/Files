@@ -431,12 +431,15 @@ namespace Files.App.Views.Layouts
 
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
-			foreach (ListedItem listedItem in filesAndFolders)
+
+			await Task.WhenAll(filesAndFolders.Select(listedItem =>
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
-			}
+					return ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
+				else
+					return Task.CompletedTask;
+			}));
 
 			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
 			{
