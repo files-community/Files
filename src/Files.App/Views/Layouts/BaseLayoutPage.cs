@@ -467,7 +467,7 @@ namespace Files.App.Views.Layouts
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
-						ThumbnailSize = InstanceViewModel!.FolderSettings.GetIconSize(),
+						ThumbnailSize = InstanceViewModel!.FolderSettings.GetRoundedIconSize(),
 					};
 
 					_ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);

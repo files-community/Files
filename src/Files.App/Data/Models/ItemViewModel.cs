@@ -1445,7 +1445,7 @@ namespace Files.App.Data.Models
 					break;
 			}
 
-			await GetDefaultItemIconsAsync(folderSettings.GetIconSize());
+			await GetDefaultItemIconsAsync(folderSettings.GetRoundedIconSize());
 
 			if (IsLoadingCancelled)
 			{

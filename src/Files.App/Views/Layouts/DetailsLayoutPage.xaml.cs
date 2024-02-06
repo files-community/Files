@@ -132,7 +132,7 @@ namespace Files.App.Views.Layouts
 
 			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
-			currentIconSize = FolderSettings.GetIconSize();
+			currentIconSize = FolderSettings.GetRoundedIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
@@ -414,7 +414,7 @@ namespace Files.App.Views.Layouts
 
 		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
+			var requestedIconSize = FolderSettings.GetRoundedIconSize(); // Get new icon size
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
