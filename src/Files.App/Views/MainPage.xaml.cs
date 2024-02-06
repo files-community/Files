@@ -429,12 +429,15 @@ namespace Files.App.Views
 				return;
 
 			var layoutManager = (item as PaneHolderPage)?.ActivePaneOrColumn.InstanceViewModel.FolderSettings;
+			if (layoutManager is null)
+				return;
 
-			if (layoutManager is null || 
-				(layoutManager.LayoutMode == UserSettingsService.FoldersSettingsService.DefaultLayoutMode && 
-					!(layoutManager.LayoutMode is FolderLayoutModes.GridView &&
-					layoutManager.GridViewSize != UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView)
-				))
+			var isUsingGridViewWithDifferentSize =
+				layoutManager.LayoutMode is FolderLayoutModes.GridView &&
+				layoutManager.GridViewSize != UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView;
+
+			if (layoutManager.LayoutMode == UserSettingsService.FoldersSettingsService.DefaultLayoutMode &&
+				!isUsingGridViewWithDifferentSize)
 			{
 				return;
 			}
@@ -451,18 +454,8 @@ namespace Files.App.Views
 					layoutManager.ToggleLayoutModeTiles(true);
 					break;
 				case FolderLayoutModes.GridView:
-					switch (UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView)
-					{
-						case Constants.Browser.GridViewBrowser.GridViewSizeSmall:
-							layoutManager.ToggleLayoutModeGridViewSmall(true);
-							break;
-						case Constants.Browser.GridViewBrowser.GridViewSizeMedium:
-							layoutManager.ToggleLayoutModeGridViewMedium(true);
-							break;
-						case Constants.Browser.GridViewBrowser.GridViewSizeLarge:
-							layoutManager.ToggleLayoutModeGridViewLarge(true);
-							break;
-					}
+					layoutManager.IsAdaptiveLayoutEnabled = false;
+					layoutManager.ToggleLayoutModeGridView(UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView);
 					break;
 				case FolderLayoutModes.ColumnView:
 					layoutManager.ToggleLayoutModeColumnView(true);
