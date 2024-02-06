@@ -103,6 +103,8 @@ namespace Files.App
 				AppLifecycleHelper.ConfigureAppCenter();
 #endif
 
+				AppModel.ReloadJsonSettingsFailed += AppLifecycleHelper.ShowReloadJsonSettingsFailedDialog;
+
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
 

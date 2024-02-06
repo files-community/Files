@@ -8,24 +8,7 @@ namespace Files.App.Data.Models
 {
 	public class AppModel : ObservableObject
 	{
-		public AppModel()
-		{
-			Clipboard.ContentChanged += Clipboard_ContentChanged;
-		}
-
-		// TODO: Refactor this method
-		public void Clipboard_ContentChanged(object sender, object e)
-		{
-			try
-			{
-				DataPackageView packageView = Clipboard.GetContent();
-				IsPasteEnabled = packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap);
-			}
-			catch
-			{
-				IsPasteEnabled = false;
-			}
-		}
+		// Properties
 
 		private int tabStripSelectedIndex = 0;
 		public int TabStripSelectedIndex
@@ -70,6 +53,20 @@ namespace Files.App.Data.Models
 		{
 			get => isMainWindowClosed;
 			set => SetProperty(ref isMainWindowClosed, value);
+		}
+
+		private bool _ShouldBrokenJsonBeRefreshed;
+		public bool ShouldBrokenJsonBeRefreshed
+		{
+			get => _ShouldBrokenJsonBeRefreshed;
+			set => SetProperty(ref _ShouldBrokenJsonBeRefreshed, value);
+		}
+
+		private bool _IsReloadJsonSettingsFailedDialogOpened;
+		public bool IsReloadJsonSettingsFailedDialogOpened
+		{
+			get => _IsReloadJsonSettingsFailedDialogOpened;
+			set => SetProperty(ref _IsReloadJsonSettingsFailedDialogOpened, value);
 		}
 
 		private int propertiesWindowCount = 0;
@@ -117,6 +114,36 @@ namespace Files.App.Data.Models
 		{
 			get => pCloudDrivePath;
 			set => SetProperty(ref pCloudDrivePath, value);
+		}
+
+		// Events
+
+		public event EventHandler<Exception>? ReloadJsonSettingsFailed;
+
+		// Constructor
+
+		public AppModel()
+		{
+			Clipboard.ContentChanged += Clipboard_ContentChanged;
+		}
+
+		public void RaiseReloadJsonSettingsFailedEvent(Exception ex)
+		{
+			ReloadJsonSettingsFailed?.Invoke(this, ex);
+		}
+
+		// TODO: Refactor this method
+		public void Clipboard_ContentChanged(object sender, object e)
+		{
+			try
+			{
+				DataPackageView packageView = Clipboard.GetContent();
+				IsPasteEnabled = packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap);
+			}
+			catch
+			{
+				IsPasteEnabled = false;
+			}
 		}
 	}
 }

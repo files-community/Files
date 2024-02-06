@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Notifications;
+using Files.App.Dialogs;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
@@ -368,6 +369,25 @@ namespace Files.App.Helpers
 
 			// The least significant bit of the 9th byte controls the auto-hide setting																		
 			return value != null && ((value[8] & 0x01) == 1);
+		}
+
+		public static async void ShowReloadJsonSettingsFailedDialog(object? sender, Exception e)
+		{
+			if (!App.AppModel.IsMainWindowActivated || App.AppModel.IsReloadJsonSettingsFailedDialogOpened)
+				return;
+
+			var dialog = new ReloadJsonParseErrorDialog();
+
+			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+			{
+				dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+			}
+
+			App.AppModel.IsReloadJsonSettingsFailedDialogOpened = true;
+
+			var result = await dialog.ShowAsync();
+
+			App.AppModel.IsReloadJsonSettingsFailedDialogOpened = false;
 		}
 	}
 }

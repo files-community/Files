@@ -30,15 +30,17 @@ namespace Files.App.Utils.Serialization
 			{
 				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>(data) ?? new();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
 				// Show a dialog to notify
-				if (App.AppModel.IsMainWindowActivated)
+				if (App.AppModel.ShouldBrokenJsonBeRefreshed)
 				{
 					return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
 				}
 				else
 				{
+					App.AppModel.RaiseReloadJsonSettingsFailedEvent(ex);
+
 					return null;
 				}
 			}
