@@ -189,10 +189,11 @@ namespace Files.App.Views
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 			UpdateLayoutIfRequired(e.CurrentInstance);
-			await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
+
+			await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
