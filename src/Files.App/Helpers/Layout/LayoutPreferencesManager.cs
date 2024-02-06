@@ -502,11 +502,11 @@ namespace Files.App.Data.Models
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					LayoutPreferencesItem = preferencesItem;
-					UpdateLayoutIfRequired();
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
 				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView):
-					UpdateLayoutIfRequired(true);
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
 					break;
 			}
 		}
@@ -665,39 +665,6 @@ namespace Files.App.Data.Models
 					UserSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !preferencesItem.ColumnsViewModel.StatusColumn.UserCollapsed;
 					UserSettingsService.FoldersSettingsService.SyncStatusColumnWidth = preferencesItem.ColumnsViewModel.StatusColumn.UserLengthPixels;
 				}
-			}
-		}
-
-		private void UpdateLayoutIfRequired(bool isChangingGridSize = false)
-		{
-			switch (UserSettingsService.FoldersSettingsService.DefaultLayoutMode)
-			{
-				case FolderLayoutModes.DetailsView:
-					if (LayoutMode is not FolderLayoutModes.DetailsView || GridViewSize != UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView)
-						ToggleLayoutModeDetailsView(true);
-					break;
-				case FolderLayoutModes.ListView:
-					if (LayoutMode is not FolderLayoutModes.ListView || GridViewSize != UserSettingsService.LayoutSettingsService.DefaultIconSizeListView)
-						ToggleLayoutModeList(true);
-					break;
-				case FolderLayoutModes.TilesView:
-					if (LayoutMode is not FolderLayoutModes.TilesView || GridViewSize != UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView)
-						ToggleLayoutModeTiles(true);
-					break;
-				case FolderLayoutModes.GridView:
-					IsAdaptiveLayoutEnabled = false;
-					if (LayoutMode is not FolderLayoutModes.GridView || GridViewSize != UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView)
-						ToggleLayoutModeGridView(isChangingGridSize
-							? GridViewSize
-							: UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView);
-					break;
-				case FolderLayoutModes.ColumnView:
-					if (LayoutMode is not FolderLayoutModes.ColumnView || GridViewSize != UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView)
-						ToggleLayoutModeColumnView(true);
-					break;
-				case FolderLayoutModes.Adaptive:
-					ToggleLayoutModeAdaptive();
-					break;
 			}
 		}
 
