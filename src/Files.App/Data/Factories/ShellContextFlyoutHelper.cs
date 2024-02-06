@@ -180,17 +180,11 @@ namespace Files.App.Helpers
 				switch (verb)
 				{
 					case "install" when isFont:
-						{
-							foreach (string path in contextMenu.ItemsPath)
-								await Win32API.InstallFont(path, false);
-						}
+							await Task.WhenAll(contextMenu.ItemsPath.Select(path => Win32API.InstallFont(path, false)));
 						break;
 
 					case "installAllUsers" when isFont:
-						{
-							foreach (string path in contextMenu.ItemsPath)
-								await Win32API.InstallFont(path, true);
-						}
+						await Task.WhenAll(contextMenu.ItemsPath.Select(path => Win32API.InstallFont(path, true)));
 						break;
 
 					case "mount":
