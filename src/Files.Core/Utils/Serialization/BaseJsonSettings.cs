@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
@@ -10,7 +9,7 @@ namespace Files.Core.Utils.Serialization
 	/// <summary>
 	/// A base class to easily manage all application's settings.
 	/// </summary>
-	public abstract class BaseJsonSettings : ISettingsSharingContext
+	public abstract class BaseJsonSettings : ISettingsSharingContext, INotifyPropertyChanged
 	{
 		public static JsonSerializerOptions JsonSerializerOptions { get; } = new()
 		{
@@ -20,13 +19,6 @@ namespace Files.Core.Utils.Serialization
 		private ISettingsSharingContext? _settingsSharingContext;
 
 		public bool IsAvailable { get; protected set; }
-
-		private ISettingsSerializer? _SettingsSerializer;
-		protected ISettingsSerializer? SettingsSerializer
-		{
-			get => _settingsSharingContext?.Instance?.SettingsSerializer ?? _SettingsSerializer;
-			set => _SettingsSerializer = value;
-		}
 
 		private IJsonSettingsDatabase? _JsonSettingsDatabase;
 		protected IJsonSettingsDatabase? JsonSettingsDatabase
@@ -38,6 +30,8 @@ namespace Files.Core.Utils.Serialization
 		BaseJsonSettings ISettingsSharingContext.Instance => this;
 
 		public event EventHandler<SettingChangedEventArgs>? OnSettingChangedEvent;
+
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public virtual bool FlushSettings()
 		{
@@ -74,7 +68,7 @@ namespace Files.Core.Utils.Serialization
 
 		protected virtual void Initialize(string filePath)
 		{
-			IsAvailable = SettingsSerializer?.CreateFile(filePath) ?? false;
+			IsAvailable = JsonSettingsDatabase?.CreateFile(filePath) ?? false;
 		}
 
 		protected virtual TValue? Get<TValue>(TValue? defaultValue, [CallerMemberName] string propertyName = "")
@@ -90,13 +84,14 @@ namespace Files.Core.Utils.Serialization
 		protected virtual bool Set<TValue>(TValue? value, [CallerMemberName] string propertyName = "")
 		{
 			if (string.IsNullOrEmpty(propertyName))
-			{
 				return false;
-			}
 
 			if (JsonSettingsDatabase?.SetValue(propertyName, value) ?? false)
 			{
 				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(propertyName, value));
+
+				OnPropertyChanged(propertyName);
+
 				return true;
 			}
 
@@ -107,6 +102,11 @@ namespace Files.Core.Utils.Serialization
 		{
 			OnSettingChangedEvent?.Invoke(sender, e);
 			_settingsSharingContext?.Instance.RaiseOnSettingChangedEvent(sender, e);
+		}
+
+		protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

@@ -8,7 +8,7 @@ using System;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class InfoPaneSettingsService : BaseObservableJsonSettings, IInfoPaneSettingsService
+	internal sealed class InfoPaneSettingsService : Utils.Serialization.BaseJsonSettings, IInfoPaneSettingsService
 	{
 		public bool IsEnabled
 		{

@@ -7,7 +7,7 @@ using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class AppSettingsService : BaseObservableJsonSettings, IAppSettingsService
+	internal sealed class AppSettingsService : Utils.Serialization.BaseJsonSettings, IAppSettingsService
 	{
 		public AppSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

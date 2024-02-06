@@ -16,5 +16,11 @@ namespace Files.Core.Data.Contracts
 		bool ImportSettings(object? import);
 
 		object? ExportSettings();
+
+		bool CreateFile(string path);
+
+		string ReadFromFile();
+
+		bool WriteToFile(string? text);
 	}
 }

@@ -6,7 +6,7 @@ using Files.Core.Services.Settings;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
+	internal sealed class LayoutSettingsService : Utils.Serialization.BaseJsonSettings, ILayoutSettingsService
 	{
 		public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

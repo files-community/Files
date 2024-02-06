@@ -9,7 +9,7 @@ using System;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class AppearanceSettingsService : BaseObservableJsonSettings, IAppearanceSettingsService
+	internal sealed class AppearanceSettingsService : Utils.Serialization.BaseJsonSettings, IAppearanceSettingsService
 	{
 		public AppearanceSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

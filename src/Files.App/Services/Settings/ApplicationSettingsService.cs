@@ -6,7 +6,7 @@ using Files.Core.Services.Settings;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class ApplicationSettingsService : BaseObservableJsonSettings, IApplicationSettingsService
+	internal sealed class ApplicationSettingsService : Utils.Serialization.BaseJsonSettings, IApplicationSettingsService
 	{
 		public bool ClickedToReviewApp
 		{

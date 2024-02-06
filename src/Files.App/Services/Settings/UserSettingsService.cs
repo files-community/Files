@@ -39,10 +39,12 @@ namespace Files.App.Services.Settings
 
 		public UserSettingsService()
 		{
-			SettingsSerializer = new DefaultSettingsSerializer();
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer);
-
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName));
+			JsonSettingsDatabase =
+				new DefaultJsonSettingsDatabase(
+					Path.Combine(
+						ApplicationData.Current.LocalFolder.Path,
+						Constants.LocalSettings.SettingsFolderName,
+						Constants.LocalSettings.UserSettingsFileName));
 		}
 
 		public override object ExportSettings()
