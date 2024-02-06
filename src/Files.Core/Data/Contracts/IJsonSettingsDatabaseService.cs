@@ -3,7 +3,10 @@
 
 namespace Files.Core.Data.Contracts
 {
-	public interface IJsonSettingsDatabase
+	/// <summary>
+	/// Represents contract class for json settings database.
+	/// </summary>
+	public interface IJsonSettingsDatabaseService
 	{
 		TValue? GetValue<TValue>(string key, TValue? defaultValue = default);
 

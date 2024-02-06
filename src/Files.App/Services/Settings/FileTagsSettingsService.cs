@@ -31,12 +31,13 @@ namespace Files.App.Services.Settings
 
 		public FileTagsSettingsService()
 		{
-			JsonSettingsDatabase =
-				new DefaultJsonSettingsDatabase(
-					Path.Combine(
-						ApplicationData.Current.LocalFolder.Path,
-						Constants.LocalSettings.SettingsFolderName,
-						Constants.LocalSettings.FileTagSettingsFileName));
+			JsonSettingsDatabase = Ioc.Default.GetRequiredService<IJsonSettingsDatabaseService>();
+
+			JsonSettingsDatabase.CreateFile(
+				Path.Combine(
+					ApplicationData.Current.LocalFolder.Path,
+					Constants.LocalSettings.SettingsFolderName,
+					Constants.LocalSettings.FileTagSettingsFileName)));
 		}
 
 		public IList<TagViewModel> FileTagList

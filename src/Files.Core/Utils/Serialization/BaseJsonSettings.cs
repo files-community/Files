@@ -7,31 +7,37 @@ using System.Text.Json;
 namespace Files.Core.Utils.Serialization
 {
 	/// <summary>
-	/// A base class to easily manage all application's settings.
+	/// Represents base class to manage json settings.
 	/// </summary>
 	public abstract class BaseJsonSettings : ISettingsSharingContext, INotifyPropertyChanged
 	{
+		// Fields & Properties
+
+		private ISettingsSharingContext? _settingsSharingContext;
+
 		public static JsonSerializerOptions JsonSerializerOptions { get; } = new()
 		{
 			WriteIndented = true
 		};
 
-		private ISettingsSharingContext? _settingsSharingContext;
-
 		public bool IsAvailable { get; protected set; }
 
-		private IJsonSettingsDatabase? _JsonSettingsDatabase;
-		protected IJsonSettingsDatabase? JsonSettingsDatabase
+		BaseJsonSettings ISettingsSharingContext.Instance
+			=> this;
+
+		private IJsonSettingsDatabaseService? _JsonSettingsDatabase;
+		protected IJsonSettingsDatabaseService? JsonSettingsDatabase
 		{
 			get => _settingsSharingContext?.Instance?.JsonSettingsDatabase ?? _JsonSettingsDatabase;
 			set => _JsonSettingsDatabase = value;
 		}
 
-		BaseJsonSettings ISettingsSharingContext.Instance => this;
+		// Events
 
 		public event EventHandler<SettingChangedEventArgs>? OnSettingChangedEvent;
-
 		public event PropertyChangedEventHandler? PropertyChanged;
+
+		// Methods
 
 		public virtual bool FlushSettings()
 		{
@@ -66,11 +72,6 @@ namespace Files.Core.Utils.Serialization
 			return _settingsSharingContext ?? this;
 		}
 
-		protected virtual void Initialize(string filePath)
-		{
-			IsAvailable = JsonSettingsDatabase?.CreateFile(filePath) ?? false;
-		}
-
 		protected virtual TValue? Get<TValue>(TValue? defaultValue, [CallerMemberName] string propertyName = "")
 		{
 			if (string.IsNullOrEmpty(propertyName))
@@ -97,6 +98,8 @@ namespace Files.Core.Utils.Serialization
 
 			return false;
 		}
+
+		// Event Methods
 
 		protected virtual void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{

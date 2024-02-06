@@ -39,12 +39,13 @@ namespace Files.App.Services.Settings
 
 		public UserSettingsService()
 		{
-			JsonSettingsDatabase =
-				new DefaultJsonSettingsDatabase(
-					Path.Combine(
-						ApplicationData.Current.LocalFolder.Path,
-						Constants.LocalSettings.SettingsFolderName,
-						Constants.LocalSettings.UserSettingsFileName));
+			JsonSettingsDatabase = Ioc.Default.GetRequiredService<IJsonSettingsDatabaseService>();
+
+			JsonSettingsDatabase.CreateFile(
+				Path.Combine(
+					ApplicationData.Current.LocalFolder.Path,
+					Constants.LocalSettings.SettingsFolderName,
+					Constants.LocalSettings.UserSettingsFileName)));
 		}
 
 		public override object ExportSettings()

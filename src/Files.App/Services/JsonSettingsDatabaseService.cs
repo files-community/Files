@@ -5,9 +5,9 @@ using System.Collections.Concurrent;
 using System.Text.Json;
 using Win32PInvoke = Files.App.Helpers.NativeFileOperationsHelper;
 
-namespace Files.App.Utils.Serialization
+namespace Files.App.Services
 {
-	internal class DefaultJsonSettingsDatabase : IJsonSettingsDatabase
+	internal class JsonSettingsDatabaseService : IJsonSettingsDatabaseService
 	{
 		// Fields & Properties
 
@@ -22,7 +22,7 @@ namespace Files.App.Utils.Serialization
 
 		// Constructor
 
-		public DefaultJsonSettingsDatabase(string jsonFilePath)
+		public JsonSettingsDatabaseService(string jsonFilePath)
 		{
 			CreateFile(jsonFilePath);
 		}
