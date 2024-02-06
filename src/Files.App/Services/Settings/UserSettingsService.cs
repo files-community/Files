@@ -1,12 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Utils.Serialization;
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
-using Files.Shared.Extensions;
-using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 
@@ -14,47 +8,33 @@ namespace Files.App.Services.Settings
 {
 	internal sealed class UserSettingsService : BaseJsonSettings, IUserSettingsService
 	{
-		private IGeneralSettingsService _GeneralSettingsService;
+		private IGeneralSettingsService? _GeneralSettingsService;
 		public IGeneralSettingsService GeneralSettingsService
-		{
-			get => GetSettingsService(ref _GeneralSettingsService);
-		}
+			=> GetSettingsService(ref _GeneralSettingsService!);
 
-		private IFoldersSettingsService _FoldersSettingsService;
+		private IFoldersSettingsService? _FoldersSettingsService;
 		public IFoldersSettingsService FoldersSettingsService
-		{
-			get => GetSettingsService(ref _FoldersSettingsService);
-		}
+			=> GetSettingsService(ref _FoldersSettingsService!);
 
-		private IAppearanceSettingsService _AppearanceSettingsService;
+		private IAppearanceSettingsService? _AppearanceSettingsService;
 		public IAppearanceSettingsService AppearanceSettingsService
-		{
-			get => GetSettingsService(ref _AppearanceSettingsService);
-		}
+			=> GetSettingsService(ref _AppearanceSettingsService!);
 
-		private IInfoPaneSettingsService _InfoPaneSettingsService;
+		private IInfoPaneSettingsService? _InfoPaneSettingsService;
 		public IInfoPaneSettingsService InfoPaneSettingsService
-		{
-			get => GetSettingsService(ref _InfoPaneSettingsService);
-		}
+			=> GetSettingsService(ref _InfoPaneSettingsService!);
 
-		private ILayoutSettingsService _LayoutSettingsService;
+		private ILayoutSettingsService? _LayoutSettingsService;
 		public ILayoutSettingsService LayoutSettingsService
-		{
-			get => GetSettingsService(ref _LayoutSettingsService);
-		}
+			=> GetSettingsService(ref _LayoutSettingsService!);
 
-		private IApplicationSettingsService _ApplicationSettingsService;
+		private IApplicationSettingsService? _ApplicationSettingsService;
 		public IApplicationSettingsService ApplicationSettingsService
-		{
-			get => GetSettingsService(ref _ApplicationSettingsService);
-		}
+			=> GetSettingsService(ref _ApplicationSettingsService!);
 
-		private IAppSettingsService _AppSettingsService;
+		private IAppSettingsService? _AppSettingsService;
 		public IAppSettingsService AppSettingsService
-		{
-			get => GetSettingsService(ref _AppSettingsService);
-		}
+			=> GetSettingsService(ref _AppSettingsService!);
 
 		public UserSettingsService()
 		{
@@ -74,7 +54,7 @@ namespace Files.App.Services.Settings
 			export.Remove(nameof(GeneralSettingsService.LastCrashedTabList));
 			export.Remove(nameof(GeneralSettingsService.PathHistoryList));
 
-			return JsonSettingsSerializer.SerializeToJson(export);
+			return JsonSettingsSerializer.SerializeToJson(export) ?? string.Empty;
 		}
 
 		public override bool ImportSettings(object import)
@@ -99,7 +79,7 @@ namespace Files.App.Services.Settings
 			return false;
 		}
 
-		private TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService settingsServiceMember)
+		private static TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService settingsServiceMember)
 			where TSettingsService : class, IBaseSettingsService
 		{
 			settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>()!;
