@@ -1,20 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class AppSettingsService : Utils.Serialization.BaseJsonSettings, IAppSettingsService
+	internal sealed class AppSettingsService : BaseJsonSettings, IAppSettingsService
 	{
-		public AppSettingsService(ISettingsSharingContext settingsSharingContext)
-		{
-			// Initialize settings
-			RegisterSettingsContext(settingsSharingContext);
-		}
-
 		public bool ShowStatusCenterTeachingTip
 		{
 			get => Get(true);
@@ -27,17 +19,15 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public AppSettingsService(ISettingsSharingContext settingsSharingContext)
+		{
+			// Initialize settings
+			RegisterSettingsContext(settingsSharingContext);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			switch (e.SettingName)
-			{
-				case nameof(ShowStatusCenterTeachingTip):
-					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
-					break;
-				case nameof(RestoreTabsOnStartup):
-					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
-					break;
-			}
+			Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 
 			base.RaiseOnSettingChangedEvent(sender, e);
 		}

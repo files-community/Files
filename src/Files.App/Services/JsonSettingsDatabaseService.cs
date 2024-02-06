@@ -22,48 +22,13 @@ namespace Files.App.Services
 
 		// Constructor
 
-		public JsonSettingsDatabaseService(string jsonFilePath)
+		public JsonSettingsDatabaseService()
 		{
-			CreateFile(jsonFilePath);
 		}
 
 		// Methods
 
-		protected IDictionary<string, object?>? GetFreshSettings()
-		{
-			string data = ReadFromFile();
-
-			if (string.IsNullOrWhiteSpace(data))
-				data = "null";
-
-			try
-			{
-				return JsonSerializer.Deserialize<ConcurrentDictionary<string, object?>?>(data) ?? new();
-			}
-			catch (Exception ex)
-			{
-				// Show a dialog to notify
-				if (App.AppModel.ShouldBrokenJsonBeRefreshed)
-				{
-					return JsonSerializer.Deserialize<ConcurrentDictionary<string, object?>?>("null") ?? new();
-				}
-				else
-				{
-					App.AppModel.RaiseReloadJsonSettingsFailedEvent(ex);
-
-					return null;
-				}
-			}
-		}
-
-		protected bool SaveSettings(IDictionary<string, object?> data)
-		{
-			var jsonData = JsonSerializer.Serialize(data, jsonSerializerOptions);
-
-			return WriteToFile(jsonData);
-		}
-
-		public virtual TValue? GetValue<TValue>(string key, TValue? defaultValue = default)
+		public TValue? GetValue<TValue>(string key, TValue? defaultValue = default)
 		{
 			_settingsCache ??= GetFreshSettings();
 
@@ -83,7 +48,7 @@ namespace Files.App.Services
 			}
 		}
 
-		public virtual bool SetValue<TValue>(string key, TValue? newValue)
+		public bool SetValue<TValue>(string key, TValue? newValue)
 		{
 			_settingsCache ??= GetFreshSettings();
 
@@ -123,7 +88,7 @@ namespace Files.App.Services
 			}
 		}
 
-		public virtual bool RemoveKey(string key)
+		public bool RemoveKey(string key)
 		{
 			_settingsCache ??= GetFreshSettings();
 
@@ -136,7 +101,7 @@ namespace Files.App.Services
 			return true;
 		}
 
-		public virtual bool ImportSettings(object? import)
+		public bool ImportSettings(object? import)
 		{
 			try
 			{
@@ -149,7 +114,7 @@ namespace Files.App.Services
 				var serialized = JsonSerializer.Serialize(data, jsonSerializerOptions);
 
 				// Write to file
-				if (!WriteToFile(serialized))
+				if (!WriteToJsonFile(serialized))
 					return false;
 
 				_settingsCache = GetFreshSettings();
@@ -170,17 +135,7 @@ namespace Files.App.Services
 			return GetFreshSettings();
 		}
 
-		protected static TValue? GetValueFromObject<TValue>(object? obj)
-		{
-			if (obj is JsonElement jElem)
-			{
-				return jElem.Deserialize<TValue>();
-			}
-
-			return (TValue?)obj;
-		}
-
-		public bool CreateFile(string path)
+		public bool CreateJsonFile(string path)
 		{
 			var parentDir = SystemIO.Path.GetDirectoryName(path);
 			if (string.IsNullOrEmpty(parentDir))
@@ -206,7 +161,7 @@ namespace Files.App.Services
 			return true;
 		}
 
-		public string ReadFromFile()
+		public string ReadJsonFile()
 		{
 			if (string.IsNullOrEmpty(_filePath))
 				throw new ArgumentNullException(nameof(_filePath));
@@ -214,12 +169,56 @@ namespace Files.App.Services
 			return Win32PInvoke.ReadStringFromFile(_filePath);
 		}
 
-		public bool WriteToFile(string? text)
+		public bool WriteToJsonFile(string? text)
 		{
 			if (string.IsNullOrEmpty(_filePath))
 				throw new ArgumentNullException(nameof(_filePath));
 
 			return Win32PInvoke.WriteStringToFile(_filePath, text);
+		}
+
+		private static TValue? GetValueFromObject<TValue>(object? obj)
+		{
+			if (obj is JsonElement jElem)
+			{
+				return jElem.Deserialize<TValue>();
+			}
+
+			return (TValue?)obj;
+		}
+
+		private ConcurrentDictionary<string, object?>? GetFreshSettings()
+		{
+			string data = ReadJsonFile();
+
+			if (string.IsNullOrWhiteSpace(data))
+				data = "null";
+
+			try
+			{
+				return JsonSerializer.Deserialize<ConcurrentDictionary<string, object?>?>(data) ?? new();
+			}
+			catch (Exception ex)
+			{
+				// Show a dialog to notify
+				if (App.AppModel.ShouldBrokenJsonBeRefreshed)
+				{
+					return JsonSerializer.Deserialize<ConcurrentDictionary<string, object?>?>("null") ?? new();
+				}
+				else
+				{
+					App.AppModel.RaiseReloadJsonSettingsFailedEvent(ex);
+
+					return null;
+				}
+			}
+		}
+
+		private bool SaveSettings(IDictionary<string, object?> data)
+		{
+			var jsonData = JsonSerializer.Serialize(data, jsonSerializerOptions);
+
+			return WriteToJsonFile(jsonData);
 		}
 	}
 }

@@ -1,22 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
 using Microsoft.AppCenter.Analytics;
-using Microsoft.UI.Composition.SystemBackdrops;
-using System;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class AppearanceSettingsService : Utils.Serialization.BaseJsonSettings, IAppearanceSettingsService
+	internal sealed class AppearanceSettingsService : BaseJsonSettings, IAppearanceSettingsService
 	{
-		public AppearanceSettingsService(ISettingsSharingContext settingsSharingContext)
-		{
-			// Register root
-			RegisterSettingsContext(settingsSharingContext);
-		}
-
 		public double SidebarWidth
 		{
 			get => Get(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d));
@@ -29,6 +19,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
 		public bool UseCompactStyles
 		{
 			get => Get(false);
@@ -36,35 +27,35 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
-		public String AppThemeBackgroundColor
+		public string AppThemeBackgroundColor
 		{
 			get => Get("#00000000");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public String AppThemeAddressBarBackgroundColor
+		public string AppThemeAddressBarBackgroundColor
 		{
 			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public String AppThemeSidebarBackgroundColor
+		public string AppThemeSidebarBackgroundColor
 		{
 			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public String AppThemeFileAreaBackgroundColor
+		public string AppThemeFileAreaBackgroundColor
 		{
 			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public String AppThemeFontFamily
+		public string AppThemeFontFamily
 		{
 			get => Get("Segoe UI Variable");
 			set => Set(value);
@@ -75,6 +66,12 @@ namespace Files.App.Services.Settings
 		{
 			get => Get(BackdropMaterialType.MicaAlt);
 			set => Set(value);
+		}
+
+		public AppearanceSettingsService(ISettingsSharingContext settingsSharingContext)
+		{
+			// Register root
+			RegisterSettingsContext(settingsSharingContext);
 		}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)

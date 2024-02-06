@@ -5,7 +5,7 @@ using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class GeneralSettingsService : Utils.Serialization.BaseJsonSettings, IGeneralSettingsService
+	internal sealed class GeneralSettingsService : BaseJsonSettings, IGeneralSettingsService
 	{
 		public GeneralSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

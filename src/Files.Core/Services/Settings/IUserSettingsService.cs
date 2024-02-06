@@ -3,6 +3,9 @@
 
 namespace Files.Core.Services.Settings
 {
+	/// <summary>
+	/// Represents contract class to provide all user settings services and the way to export/import its json settings.
+	/// </summary>
 	public interface IUserSettingsService : IBaseSettingsService
 	{
 		event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;

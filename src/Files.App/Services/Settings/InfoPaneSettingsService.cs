@@ -1,14 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
 using Microsoft.AppCenter.Analytics;
-using System;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class InfoPaneSettingsService : Utils.Serialization.BaseJsonSettings, IInfoPaneSettingsService
+	internal sealed class InfoPaneSettingsService : BaseJsonSettings, IInfoPaneSettingsService
 	{
 		public bool IsEnabled
 		{

@@ -20,10 +20,10 @@ namespace Files.Core.Data.Contracts
 
 		object? ExportSettings();
 
-		bool CreateFile(string path);
+		bool CreateJsonFile(string path);
 
-		string ReadFromFile();
+		string ReadJsonFile();
 
-		bool WriteToFile(string? text);
+		bool WriteToJsonFile(string? text);
 	}
 }

@@ -7,6 +7,7 @@ using Windows.Storage;
 
 namespace Files.App.Services.Settings
 {
+	/// <inheritdoc cref="IUserSettingsService"/>
 	internal sealed class UserSettingsService : BaseJsonSettings, IUserSettingsService
 	{
 		private IGeneralSettingsService? _GeneralSettingsService;
@@ -41,7 +42,7 @@ namespace Files.App.Services.Settings
 		{
 			JsonSettingsDatabase = Ioc.Default.GetRequiredService<IJsonSettingsDatabaseService>();
 
-			JsonSettingsDatabase.CreateFile(
+			JsonSettingsDatabase.CreateJsonFile(
 				Path.Combine(
 					ApplicationData.Current.LocalFolder.Path,
 					Constants.LocalSettings.SettingsFolderName,
@@ -64,17 +65,15 @@ namespace Files.App.Services.Settings
 		{
 			Dictionary<string, object> settingsImport = import switch
 			{
-				string s => JsonSerializer.Deserialize<Dictionary<string, object>>(s) ?? new(),
+				string s => JsonSerializer.Deserialize<Dictionary<string, object>>(s) ?? [],
 				Dictionary<string, object> d => d,
-				_ => new(),
+				_ => [],
 			};
 
 			if (!settingsImport.IsEmpty() && base.ImportSettings(settingsImport))
 			{
 				foreach (var item in settingsImport)
-				{
 					RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(item.Key, item.Value));
-				}
 
 				return true;
 			}

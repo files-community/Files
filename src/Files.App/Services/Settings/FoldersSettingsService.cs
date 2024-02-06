@@ -5,7 +5,7 @@ using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class FoldersSettingsService : Utils.Serialization.BaseJsonSettings, IFoldersSettingsService
+	internal sealed class FoldersSettingsService : BaseJsonSettings, IFoldersSettingsService
 	{
 		public FoldersSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

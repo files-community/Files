@@ -1,13 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Helpers;
-using Files.App.Utils.Serialization;
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
-using Files.Core.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
@@ -33,7 +26,7 @@ namespace Files.App.Services.Settings
 		{
 			JsonSettingsDatabase = Ioc.Default.GetRequiredService<IJsonSettingsDatabaseService>();
 
-			JsonSettingsDatabase.CreateFile(
+			JsonSettingsDatabase.CreateJsonFile(
 				Path.Combine(
 					ApplicationData.Current.LocalFolder.Path,
 					Constants.LocalSettings.SettingsFolderName,

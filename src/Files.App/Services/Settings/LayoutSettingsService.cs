@@ -1,12 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
-
 namespace Files.App.Services.Settings
 {
-	internal sealed class LayoutSettingsService : Utils.Serialization.BaseJsonSettings, ILayoutSettingsService
+	internal sealed class LayoutSettingsService : BaseJsonSettings, ILayoutSettingsService
 	{
 		public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
