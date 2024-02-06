@@ -7,10 +7,12 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="Failed to reload settings"
+	CloseButtonClick="ContentDialog_CloseButtonClick"
+	CloseButtonStyle="{ThemeResource AccentButtonStyle}"
+	CloseButtonText="Close the app"
+	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
 	PrimaryButtonText="Reset the settings"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
-	SecondaryButtonStyle="{StaticResource AccentButtonStyle}"
-	SecondaryButtonText="Close the app"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
@@ -19,7 +21,7 @@
 		<TextBlock Margin="0,0,0,20" Text="Settings could not be reloaded from file. Check for syntax errors, including trailing commas." />
 
 		<TextBlock Text="Syntax error:" />
-		<TextBlock Foreground="{ThemeResource SystemFillColorCaution}" Text="* Line 42, Column 3..." />
+		<TextBlock Foreground="{ThemeResource SystemFillColorCaution}" Text="{x:Bind JsonException.Message}" />
 
 	</StackPanel>
 </ContentDialog>

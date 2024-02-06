@@ -46,7 +46,7 @@ namespace Files.App.Services.Settings
 				Path.Combine(
 					ApplicationData.Current.LocalFolder.Path,
 					Constants.LocalSettings.SettingsFolderName,
-					Constants.LocalSettings.UserSettingsFileName)));
+					Constants.LocalSettings.UserSettingsFileName));
 		}
 
 		public override object ExportSettings()

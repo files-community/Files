@@ -200,7 +200,6 @@ namespace Files.App.Services
 			}
 			catch (Exception ex)
 			{
-				// Show a dialog to notify
 				if (App.AppModel.ShouldBrokenJsonBeRefreshed)
 				{
 					return JsonSerializer.Deserialize<ConcurrentDictionary<string, object?>?>("null") ?? new();

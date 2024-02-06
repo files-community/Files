@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text;
+using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
@@ -374,19 +375,17 @@ namespace Files.App.Helpers
 
 		public static async void ShowReloadJsonSettingsFailedDialog(object? sender, Exception e)
 		{
-			if (!App.AppModel.IsMainWindowActivated || App.AppModel.IsReloadJsonSettingsFailedDialogOpened)
+			if (!App.AppModel.IsMainWindowActivated || App.AppModel.IsReloadJsonSettingsFailedDialogOpened || e is not JsonException jsonException)
 				return;
 
-			var dialog = new ReloadJsonParseErrorDialog();
+			var dialog = new ReloadJsonParseErrorDialog() { JsonException = jsonException };
 
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
 				dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-			}
 
 			App.AppModel.IsReloadJsonSettingsFailedDialogOpened = true;
 
-			var result = await dialog.ShowAsync();
+			await dialog.ShowAsync();
 
 			App.AppModel.IsReloadJsonSettingsFailedDialogOpened = false;
 		}
