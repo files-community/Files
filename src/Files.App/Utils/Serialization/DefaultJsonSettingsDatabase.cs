@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Dialogs;
 using System.Collections.Concurrent;
 using System.Text.Json;
 
@@ -9,14 +8,16 @@ namespace Files.App.Utils.Serialization
 {
 	internal class DefaultJsonSettingsDatabase : IJsonSettingsDatabase
 	{
+		public static readonly JsonSerializerOptions jsonSerializerOptions = new()
+		{
+			WriteIndented = true
+		};
+
 		protected ISettingsSerializer SettingsSerializer { get; }
 
-		protected IJsonSettingsSerializer JsonSettingsSerializer { get; }
-
-		public DefaultJsonSettingsDatabase(ISettingsSerializer settingsSerializer, IJsonSettingsSerializer jsonSettingsSerializer)
+		public DefaultJsonSettingsDatabase(ISettingsSerializer settingsSerializer)
 		{
 			SettingsSerializer = settingsSerializer;
-			JsonSettingsSerializer = jsonSettingsSerializer;
 		}
 
 		protected IDictionary<string, object?>? GetFreshSettings()
@@ -28,14 +29,14 @@ namespace Files.App.Utils.Serialization
 
 			try
 			{
-				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>(data) ?? new();
+				return JsonSerializer.Deserialize<ConcurrentDictionary<string, object?>?>(data) ?? new();
 			}
 			catch (Exception ex)
 			{
 				// Show a dialog to notify
 				if (App.AppModel.ShouldBrokenJsonBeRefreshed)
 				{
-					return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
+					return JsonSerializer.Deserialize<ConcurrentDictionary<string, object?>?>("null") ?? new();
 				}
 				else
 				{
@@ -48,7 +49,7 @@ namespace Files.App.Utils.Serialization
 
 		protected bool SaveSettings(IDictionary<string, object?> data)
 		{
-			var jsonData = JsonSettingsSerializer.SerializeToJson(data);
+			var jsonData = JsonSerializer.Serialize(data, jsonSerializerOptions);
 
 			return SettingsSerializer.WriteToFile(jsonData);
 		}
@@ -107,7 +108,7 @@ namespace Files.App.Utils.Serialization
 				}
 
 				// Serialize
-				var serialized = JsonSettingsSerializer.SerializeToJson(data);
+				var serialized = JsonSerializer.Serialize(data, jsonSerializerOptions);
 
 				// Write to file
 				return SettingsSerializer.WriteToFile(serialized);

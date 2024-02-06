@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 
 namespace Files.Core.Utils.Serialization
 {
@@ -11,6 +12,11 @@ namespace Files.Core.Utils.Serialization
 	/// </summary>
 	public abstract class BaseJsonSettings : ISettingsSharingContext
 	{
+		public static JsonSerializerOptions JsonSerializerOptions { get; } = new()
+		{
+			WriteIndented = true
+		};
+
 		private ISettingsSharingContext? _settingsSharingContext;
 
 		public bool IsAvailable { get; protected set; }
@@ -20,13 +26,6 @@ namespace Files.Core.Utils.Serialization
 		{
 			get => _settingsSharingContext?.Instance?.SettingsSerializer ?? _SettingsSerializer;
 			set => _SettingsSerializer = value;
-		}
-
-		private IJsonSettingsSerializer? _JsonSettingsSerializer;
-		protected IJsonSettingsSerializer? JsonSettingsSerializer
-		{
-			get => _settingsSharingContext?.Instance?.JsonSettingsSerializer ?? _JsonSettingsSerializer;
-			set => _JsonSettingsSerializer = value;
 		}
 
 		private IJsonSettingsDatabase? _JsonSettingsDatabase;

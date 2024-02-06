@@ -7,8 +7,8 @@ namespace Files.App.Utils.Serialization
 	{
 		private IDictionary<string, object?>? _settingsCache;
 
-		public CachingJsonSettingsDatabase(ISettingsSerializer settingsSerializer, IJsonSettingsSerializer jsonSettingsSerializer)
-			: base(settingsSerializer, jsonSettingsSerializer)
+		public CachingJsonSettingsDatabase(ISettingsSerializer settingsSerializer)
+			: base(settingsSerializer)
 		{
 		}
 

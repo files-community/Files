@@ -11,6 +11,7 @@ using Files.Core.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
+using System.Text.Json;
 
 namespace Files.App.Services.Settings
 {
@@ -31,8 +32,7 @@ namespace Files.App.Services.Settings
 		public FileTagsSettingsService()
 		{
 			SettingsSerializer = new DefaultSettingsSerializer();
-			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
+			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer);
 
 			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
 				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
@@ -130,7 +130,7 @@ namespace Files.App.Services.Settings
 		{
 			if (import is string importString)
 			{
-				FileTagList = JsonSettingsSerializer.DeserializeFromJson<List<TagViewModel>>(importString);
+				FileTagList = JsonSerializer.Deserialize<List<TagViewModel>>(importString);
 			}
 			else if (import is List<TagViewModel> importList)
 			{
@@ -152,7 +152,7 @@ namespace Files.App.Services.Settings
 		public override object ExportSettings()
 		{
 			// Return string in Json format
-			return JsonSettingsSerializer.SerializeToJson(FileTagList);
+			return JsonSerializer.Serialize(FileTagList, JsonSerializerOptions);
 		}
 
 		private (TagViewModel?, int) GetTagAndIndex(string uid)

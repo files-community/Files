@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
+using System.Text.Json;
 using Windows.Storage;
 
 namespace Files.App.Services.Settings
@@ -39,8 +40,7 @@ namespace Files.App.Services.Settings
 		public UserSettingsService()
 		{
 			SettingsSerializer = new DefaultSettingsSerializer();
-			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
+			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer);
 
 			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName));
 		}
@@ -54,14 +54,14 @@ namespace Files.App.Services.Settings
 			export.Remove(nameof(GeneralSettingsService.LastCrashedTabList));
 			export.Remove(nameof(GeneralSettingsService.PathHistoryList));
 
-			return JsonSettingsSerializer.SerializeToJson(export) ?? string.Empty;
+			return JsonSerializer.Serialize(export, JsonSerializerOptions) ?? string.Empty;
 		}
 
 		public override bool ImportSettings(object import)
 		{
 			Dictionary<string, object> settingsImport = import switch
 			{
-				string s => JsonSettingsSerializer?.DeserializeFromJson<Dictionary<string, object>>(s) ?? new(),
+				string s => JsonSerializer.Deserialize<Dictionary<string, object>>(s) ?? new(),
 				Dictionary<string, object> d => d,
 				_ => new(),
 			};
