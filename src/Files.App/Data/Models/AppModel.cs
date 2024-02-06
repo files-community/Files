@@ -58,11 +58,16 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isPasteEnabled, value);
 		}
 
-		private bool isMainWindowClosed = false;
+		private volatile int isMainWindowClosed = 0;
 		public bool IsMainWindowClosed
 		{
-			get => isMainWindowClosed;
-			set => SetProperty(ref isMainWindowClosed, value);
+			get => isMainWindowClosed == 1;
+			set
+			{
+				int orig = Interlocked.Exchange(ref isMainWindowClosed, value ? 1 : 0);
+				if (isMainWindowClosed != orig)
+					OnPropertyChanged();
+			}
 		}
 
 		private int propertiesWindowCount = 0;
