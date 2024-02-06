@@ -480,7 +480,11 @@ namespace Files.App.Data.Models
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					LayoutPreferencesItem = preferencesItem;
-					// TODO: Update layout
+					UpdateLayoutIfRequired(force: true);
+					break;
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView):
+					UpdateLayoutIfRequired(true);
 					break;
 			}
 		}
@@ -639,6 +643,46 @@ namespace Files.App.Data.Models
 					UserSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !preferencesItem.ColumnsViewModel.StatusColumn.UserCollapsed;
 					UserSettingsService.FoldersSettingsService.SyncStatusColumnWidth = preferencesItem.ColumnsViewModel.StatusColumn.UserLengthPixels;
 				}
+			}
+		}
+
+		private void UpdateLayoutIfRequired(bool isChangingGridSize = false, bool force = false)
+		{
+			var isUsingGridViewWithDifferentSize =
+				LayoutMode is FolderLayoutModes.GridView &&
+				GridViewSize != UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView;
+
+			if (!force && 
+				LayoutMode == UserSettingsService.FoldersSettingsService.DefaultLayoutMode &&
+				!isUsingGridViewWithDifferentSize)
+			{
+				return;
+			}
+
+			switch (UserSettingsService.FoldersSettingsService.DefaultLayoutMode)
+			{
+				case FolderLayoutModes.DetailsView:
+					ToggleLayoutModeDetailsView(true);
+					break;
+				case FolderLayoutModes.ListView:
+					ToggleLayoutModeList(true);
+					break;
+				case FolderLayoutModes.TilesView:
+					ToggleLayoutModeTiles(true);
+					break;
+				case FolderLayoutModes.GridView:
+					IsAdaptiveLayoutEnabled = false;
+					ToggleLayoutModeGridView(isChangingGridSize
+						? GridViewSize
+						: UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView
+					);
+					break;
+				case FolderLayoutModes.ColumnView:
+					ToggleLayoutModeColumnView(true);
+					break;
+				case FolderLayoutModes.Adaptive:
+					ToggleLayoutModeAdaptive();
+					break;
 			}
 		}
 
