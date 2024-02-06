@@ -821,6 +821,8 @@
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
 					DragOver="ItemsLayout_DragOver"
+					DragLeave="ItemsLayout_DragLeave"
+					DragEnter="ItemsLayout_DragEnter"
 					Drop="ItemsLayout_Drop"
 					FocusVisualPrimaryThickness="0"
 					FocusVisualSecondaryThickness="0"
