@@ -612,6 +612,12 @@ namespace Files.App.Data.Models
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst):
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeListView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);

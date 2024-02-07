@@ -502,7 +502,15 @@ namespace Files.App.Data.Models
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					LayoutPreferencesItem = preferencesItem;
-					// TODO: Update layout
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+					break;
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeListView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView):
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
 					break;
 			}
 		}
