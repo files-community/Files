@@ -2341,7 +2341,7 @@
     <value>Se ha producido un error en el cálculo</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>No se pudo calcular el hash, por favor, cierre el archivo e inténtelo de nuevo.</value>
+    <value>No se ha podido calcular el hash, por favor cierre el archivo e inténtelo de nuevo.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Los códigos 'hash' no están disponibles para archivos en línea</value>
@@ -3443,7 +3443,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>No se pudo comprimir {0} elemento(s) desde "{1}" a "{2}"</value>
+    <value>No se ha(n) podido comprimir {0} elemento(s) desde "{1}" a "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
@@ -3475,7 +3475,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>No se pudo copiar {0} elemento(s) desde "{1}" a "{2}"</value>
+    <value>No se ha(n) podido copiar {0} elemento(s) desde "{1}" a "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
@@ -3507,7 +3507,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>No se pudo extraer "{0}" desde "{1}" a "{2}"</value>
+    <value>No se ha podido extraer {0} desde "{1}" a "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
@@ -3519,38 +3519,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Cancelada la eliminación permanente de {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Eliminado(s) permanentemente {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error al eliminar permanentemente {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>No se pudo eliminar permanentemente {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Eliminando permanentemente {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Cancelada la eliminación de {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Eliminado(s) {0} elemento(s) desde {1}"</value>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Eliminado(s) {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Error al eliminar {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>No se ha(n) podido eliminar {0} elemento(s) desde {1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Eliminando {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3583,7 +3567,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>No se pudo mover {0} elemento(s) desde "{1}"</value>
+    <value>No se ha(n) podido mover {0} elemento(s) desde "{1}" a "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3603,7 +3587,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>No se pudo vaciar la papelera de reciclaje</value>
+    <value>No se ha podido vaciar la papelera de reciclaje</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
@@ -3624,10 +3608,10 @@
     <value>La opción de abrir Files al iniciar Windows no está disponible debido a la configuración del sistema o política de grupo. Para volver a activarla, abra la página de inicio en el Administrador de tareas.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>No se pudo restaurar los elementos desde la papelera de reciclaje</value>
+    <value>No se han podido restaurar los elementos desde la papelera de reciclaje</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
-    <value>No se pudo establecer como fondo de escritorio</value>
+    <value>No se ha podido establecer el fondo de escritorio</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Eliminar rama de Git</value>
@@ -3681,7 +3665,7 @@
     <value>Prioridad de clasificación</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
-    <value>No se pudo girar la imagen</value>
+    <value>No se ha podido girar la imagen</value>
   </data>
   <data name="Restart" xml:space="preserve">
     <value>Reiniciar</value>
@@ -3690,7 +3674,7 @@
     <value>Salir</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
-    <value>No se pudo compartir elementos</value>
+    <value>No se han podido compartir los elementos</value>
   </data>
   <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
     <value>Desplazarse a la carpeta anterior al navegar hacia arriba</value>
