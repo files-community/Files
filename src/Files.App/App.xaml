@@ -26,6 +26,11 @@
 			<CornerRadius x:Key="GridViewThumbnailCornerRadius">2</CornerRadius>
 			<CornerRadius x:Key="DetailsLayoutThumbnailCornerRadius">2</CornerRadius>
 
+			<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+			<Style TargetType="FlyoutPresenter">
+				<Setter Target="HighContrastAdjustment" Value="None" />
+			</Style>
+
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
