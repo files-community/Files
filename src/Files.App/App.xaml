@@ -31,6 +31,10 @@
 				<Setter Target="HighContrastAdjustment" Value="None" />
 			</Style>
 
+			<Style TargetType="MenuFlyoutPresenter">
+				<Setter Target="HighContrastAdjustment" Value="None" />
+			</Style>
+
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
