@@ -24,5 +24,13 @@ namespace Files.Core.ViewModels.FileTags
 			Color = color;
 			Uid = uid;
 		}
+
+		public override bool Equals(object? obj)
+		{
+			if (obj is not TagViewModel vm)
+				return false;
+
+			return Uid == vm.Uid && Name == vm.Color && Color == vm.Color;
+		}
 	}
 }
