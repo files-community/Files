@@ -870,7 +870,7 @@ namespace Files.App.Utils.Shell
 				if (psCommand.Length + appendCommand.Length > 32766)
 				{
 					// The command is too long to run at once, so run the command once up to this point.
-					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
 					psCommand.Clear().Append("-command \"");
 				}
 
