@@ -10,6 +10,7 @@
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	x:Name="PageRoot"
+	HighContrastAdjustment="None"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>

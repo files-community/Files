@@ -892,7 +892,7 @@ namespace Files.App.Utils.Shell
 				psCommand.Append(appendCommand);
 			}
 
-			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
 		}
 
 		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
