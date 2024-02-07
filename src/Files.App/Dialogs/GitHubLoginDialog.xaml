@@ -12,6 +12,7 @@
 	CloseButtonStyle="{StaticResource AccentButtonStyle}"
 	CloseButtonText="{helpers:ResourceString Name=Close}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	HighContrastAdjustment="None"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
 	PrimaryButtonText="{helpers:ResourceString Name=OK}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"

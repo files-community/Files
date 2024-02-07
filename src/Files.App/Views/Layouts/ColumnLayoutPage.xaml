@@ -15,6 +15,7 @@
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
+	HighContrastAdjustment="None"
 	mc:Ignorable="d">
 
 	<local:BaseGroupableLayoutPage.Resources>

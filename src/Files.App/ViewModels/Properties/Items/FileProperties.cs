@@ -266,7 +266,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			switch (e.PropertyName)
 			{
-				case "IsReadOnly":
+				case nameof(ViewModel.IsReadOnly):
 					if (ViewModel.IsReadOnly)
 					{
 						NativeFileOperationsHelper.SetFileAttribute(
@@ -284,7 +284,7 @@ namespace Files.App.ViewModels.Properties
 
 					break;
 
-				case "IsHidden":
+				case nameof(ViewModel.IsHidden):
 					if (ViewModel.IsHidden)
 					{
 						NativeFileOperationsHelper.SetFileAttribute(
@@ -302,10 +302,10 @@ namespace Files.App.ViewModels.Properties
 
 					break;
 
-				case "RunAsAdmin":
-				case "ShortcutItemPath":
-				case "ShortcutItemWorkingDir":
-				case "ShortcutItemArguments":
+				case nameof(ViewModel.RunAsAdmin):
+				case nameof(ViewModel.ShortcutItemPath):
+				case nameof(ViewModel.ShortcutItemWorkingDir):
+				case nameof(ViewModel.ShortcutItemArguments):
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 

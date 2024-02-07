@@ -574,7 +574,7 @@ namespace Files.App.Views.Shells
 				{
 					Query = ShellInstanceViewModel.CurrentSearchQuery ?? (string)TabItemParameter.NavigationParameter,
 					Folder = ShellViewModel.WorkingDirectory,
-					ThumbnailSize = ShellInstanceViewModel.FolderSettings.GetIconSize(),
+					ThumbnailSize = ShellInstanceViewModel.FolderSettings.GetRoundedIconSize(),
 				};
 
 				await ShellViewModel.SearchAsync(searchInstance);

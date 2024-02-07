@@ -8,6 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Closing="ContentDialog_Closing"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	HighContrastAdjustment="None"
 	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">

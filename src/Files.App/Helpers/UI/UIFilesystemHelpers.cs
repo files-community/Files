@@ -380,7 +380,7 @@ namespace Files.App.Helpers
 
 			foreach (ListedItem selectedItem in selectedItems)
 			{
-				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
+				var fileName = FilesystemHelpers.GetShortcutNamingPreference(selectedItem.Name);
 				var filePath = Path.Combine(currentPath ?? string.Empty, fileName);
 
 				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))

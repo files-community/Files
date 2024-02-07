@@ -39,7 +39,7 @@ namespace Files.App.Views.Layouts
 			FolderSettings.LayoutMode == FolderLayoutModes.ListView ||
 			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
 				? 260
-				: FolderSettings.GridViewSize;
+				: FolderSettings.LayoutPreferencesItem.IconSizeGridView;
 
 		public bool IsPointerOver
 		{
@@ -104,7 +104,7 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			currentIconSize = FolderSettings.GetIconSize();
+			currentIconSize = FolderSettings.GetRoundedIconSize();
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
@@ -148,7 +148,7 @@ namespace Files.App.Views.Layouts
 				// Set ItemTemplate
 				SetItemTemplate();
 
-				var requestedIconSize = FolderSettings.GetIconSize();
+				var requestedIconSize = FolderSettings.GetRoundedIconSize();
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
@@ -446,7 +446,7 @@ namespace Files.App.Views.Layouts
 			SetItemMinWidth();
 
 			// Get new icon size
-			var requestedIconSize = FolderSettings.GetIconSize();
+			var requestedIconSize = FolderSettings.GetRoundedIconSize();
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
@@ -637,6 +637,47 @@ namespace Files.App.Views.Layouts
 		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
+		}
+
+		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
+		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+		{
+			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Disabled);
+
+			base.FileList_DragItemsStarting(sender, e);
+
+			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false &&
+				e.Cancel)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
+		}
+
+		private void ItemsLayout_DragEnter(object sender, DragEventArgs e)
+		{
+			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Disabled);
+		}
+
+		private void ItemsLayout_DragLeave(object sender, DragEventArgs e)
+		{
+			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
+		}
+
+		protected override void ItemsLayout_Drop(object sender, DragEventArgs e)
+		{
+			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
+
+			base.ItemsLayout_Drop(sender, e);
+		}
+
+		protected override void Item_Drop(object sender, DragEventArgs e)
+		{
+			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
+
+			base.Item_Drop(sender, e);
 		}
 
 		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
