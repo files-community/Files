@@ -642,31 +642,31 @@ namespace Files.App.Views.Layouts
 		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
 		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+			if (ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false)
 				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Disabled);
 
 			base.FileList_DragItemsStarting(sender, e);
 
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false &&
+			if (ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false &&
 				e.Cancel)
 				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
 		}
 
 		private void ItemsLayout_DragEnter(object sender, DragEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+			if (ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false)
 				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Disabled);
 		}
 
 		private void ItemsLayout_DragLeave(object sender, DragEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+			if (ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false)
 				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
 		}
 
 		protected override void ItemsLayout_Drop(object sender, DragEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+			if (ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false)
 				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
 
 			base.ItemsLayout_Drop(sender, e);
@@ -674,7 +674,7 @@ namespace Files.App.Views.Layouts
 
 		protected override void Item_Drop(object sender, DragEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+			if (ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false)
 				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
 
 			base.Item_Drop(sender, e);
