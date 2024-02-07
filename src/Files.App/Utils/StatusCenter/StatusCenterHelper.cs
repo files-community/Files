@@ -160,7 +160,7 @@ namespace Files.App.Utils.StatusCenter
 			if (returnStatus == ReturnResult.Cancelled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_RecycleCanceled_Header",
+					"StatusCenter_DeleteCanceled_Header",
 					string.Empty,
 					ReturnResult.Cancelled,
 					FileOperationType.Recycle,
@@ -173,7 +173,7 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_RecycleInProgress_Header",
+					"StatusCenter_DeleteInProgress_Header",
 					string.Empty,
 					ReturnResult.InProgress,
 					FileOperationType.Recycle,
@@ -187,7 +187,7 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_RecycleComplete_Header",
+					"StatusCenter_DeleteComplete_Header",
 					string.Empty,
 					ReturnResult.Success,
 					FileOperationType.Recycle,
@@ -200,7 +200,7 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_RecycleFailed_Header",
+					"StatusCenter_DeleteFailed_Header",
 					string.Empty,
 					ReturnResult.Failed,
 					FileOperationType.Recycle,

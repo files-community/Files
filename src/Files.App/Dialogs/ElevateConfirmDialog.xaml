@@ -12,6 +12,7 @@
 	Content="{helpers:ResourceString Name=ElevateConfirmDialog/Content}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="None"
+	HighContrastAdjustment="None"
 	PrimaryButtonText="{helpers:ResourceString Name=Yes}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"

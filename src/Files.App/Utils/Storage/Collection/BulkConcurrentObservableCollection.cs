@@ -480,9 +480,9 @@ namespace Files.App.Utils.Storage
 			lock (syncRoot)
 			{
 				result = func.Invoke(collection);
-			}
 
-			ReplaceRange(0, result);
+				ReplaceRange(0, result);
+			}
 		}
 
 		public void OrderOne(Func<List<T>, IEnumerable<T>> func, T item)
@@ -491,12 +491,12 @@ namespace Files.App.Utils.Storage
 			lock (syncRoot)
 			{
 				result = func.Invoke(collection).ToList();
-			}
 
-			Remove(item);
-			var index = result.IndexOf(item);
-			if (index != -1)
-				Insert(index, item);
+				Remove(item);
+				var index = result.IndexOf(item);
+				if (index != -1)
+					Insert(index, item);
+			}
 		}
 
 		int IList.Add(object? value)

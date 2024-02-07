@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Jendela baru</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>Window baru</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Salin jalur</value>
@@ -349,6 +349,12 @@
     <value>Penyimpanan dilepas</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Tidak dapat membuka propeti file ini</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Tampilkan file sistem yang dilindungi</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Sertakan item yang tidak diindeks dalam hasil pencarian</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sinkronkan tata letak dan preferensi penyortiran di seluruh direktori</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Tampilkan opsi untuk membuka folder di panel baru</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Tampilkan opsi menyalin path</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Tampilkan opsi membuat folder dengan pilihan</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Tampilkan opsi membuat shortcut</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Panel baru</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Kecepatan ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Tidak menemukan apa yang Anda cari?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Cari item yang tidak terindeks</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Ganti yang ada</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Beranda</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2233,7 +2236,7 @@
     <value>Tampilkan pilihan kompresi</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Tampilkan menu Kirim ke</value>
+    <value>Tampilkan menu kirim ke</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Tampilkan opsi untuk membuka folder di tab baru</value>
@@ -2570,6 +2573,12 @@
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Beralih ke tampilan tiles</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Switch to list view</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Beralih ke tampilan grid dengan icon kecil</value>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Tampilkan kotak centang saat memilih item</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Mencari item yang tidak terindeks</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Jalur bar fokus</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Kelompok kan items berdasarkan tahun dan tanggal saat dibuat</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Kelompokkan berdasarkan hari dari tanggal saat dihapus</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Gagal membagi item</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Gulir ke folder sebelumnya saat navigasi ke atas</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Buka window baru</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Ganti sampul album</value>
   </data>
 </root>
