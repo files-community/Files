@@ -64,7 +64,7 @@
 									<VisualState x:Name="PointerOver">
 										<Storyboard>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlAltFillColorTertiary}" />
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlAltFillColorTertiaryBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />

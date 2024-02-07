@@ -98,8 +98,10 @@
 								ScrollViewer.VerticalScrollBarVisibility="Auto"
 								ScrollViewer.VerticalScrollMode="Auto">
 								<MenuFlyout.MenuFlyoutPresenterStyle>
-									<Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
+									<Style TargetType="MenuFlyoutPresenter">
 										<Setter Property="MaxHeight" Value="400" />
+										<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+										<Setter Target="HighContrastAdjustment" Value="None" />
 									</Style>
 								</MenuFlyout.MenuFlyoutPresenterStyle>
 							</MenuFlyout>
