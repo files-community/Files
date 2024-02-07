@@ -349,19 +349,19 @@
     <value>Unidade desconectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>O ficheiro a que está a tentar aceder pode ter sido movido ou apagado.</value>
+    <value>O ficheiro a que está a tentar aceder pode ter sido movido ou eliminado.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Não foi possível abrir as propriedades do ficheiro</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
-    <value>O ficheiro a que está a tentar aceder pode ter sido movido ou apagado.</value>
+    <value>O ficheiro a que está a tentar aceder pode ter sido movido ou eliminado.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Ficheiro não encontrado</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>A pasta a que está a tentar aceder pode ter sido movida ou apagada.</value>
+    <value>A pasta a que está a tentar aceder pode ter sido movida ou eliminada.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Será que eliminou esta pasta?</value>
@@ -3519,38 +3519,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Cancelou a eliminação permanente de {0} itens em "{1}"</value>
+    <value>Cancelou a eliminação de {0} itens de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Eliminou permanentemente {0} itens de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Erro ao eliminar permanentemente {0} itens de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Falha ao eliminar permanentemente {0} itens de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Eliminou permanentemente {0} itens de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Cancelou a eliminação de {0} itens em "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
     <value>Eliminou {0} itens de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Erro ao eliminar {0} itens de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Falha ao eliminar {0} itens de "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>A eliminar {0} itens de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>

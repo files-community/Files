@@ -467,7 +467,7 @@ namespace Files.App.Views.Layouts
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
-						ThumbnailSize = InstanceViewModel!.FolderSettings.GetIconSize(),
+						ThumbnailSize = InstanceViewModel!.FolderSettings.GetRoundedIconSize(),
 					};
 
 					_ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);
@@ -958,7 +958,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+		protected virtual void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
 			try
 			{
@@ -1094,7 +1094,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private async void Item_Drop(object sender, DragEventArgs e)
+		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
 			var deferral = e.GetDeferral();
 
@@ -1282,7 +1282,7 @@ namespace Files.App.Views.Layouts
 			CommandsViewModel?.DragOverCommand?.Execute(e);
 		}
 
-		protected void ItemsLayout_Drop(object sender, DragEventArgs e)
+		protected virtual void ItemsLayout_Drop(object sender, DragEventArgs e)
 		{
 			CommandsViewModel?.DropCommand?.Execute(e);
 		}

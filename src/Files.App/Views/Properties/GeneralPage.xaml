@@ -704,7 +704,7 @@
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							AutomationProperties.Name="{helpers:ResourceString Name=ReadOnly}"
-							IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"
+							IsChecked="{x:Bind ViewModel.IsReadOnlyEditedValue, Mode=TwoWay}"
 							IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}" />
 
 						<!--  (Divider)  -->
@@ -731,7 +731,7 @@
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							AutomationProperties.Name="{helpers:ResourceString Name=Hidden}"
-							IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
+							IsChecked="{x:Bind ViewModel.IsHiddenEditedValue, Mode=TwoWay}" />
 
 					</Grid>
 				</Expander.Content>

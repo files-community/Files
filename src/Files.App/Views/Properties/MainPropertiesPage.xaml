@@ -13,6 +13,7 @@
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind MainPropertiesViewModel, Mode=OneWay}"
+	HighContrastAdjustment="None"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
 	SizeChanged="Page_SizeChanged"
