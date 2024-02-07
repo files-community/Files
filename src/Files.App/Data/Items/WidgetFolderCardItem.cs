@@ -50,15 +50,10 @@ namespace Files.App.Data.Items
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			if (_thumbnailData is null || _thumbnailData.Length == 0)
-			{
-				_thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.DefaultIconSizes.Jumbo), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-			}
+			_thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, Constants.DefaultIconSizes.Jumbo, true, true);
 
 			if (_thumbnailData is not null && _thumbnailData.Length > 0)
-			{
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(Constants.DefaultIconSizes.Jumbo));
-			}
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 	}
 }
