@@ -75,7 +75,7 @@
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					IsReadOnly="{x:Bind ViewModel.IsShortcutItemPathReadOnly, Mode=OneWay}"
-					Text="{x:Bind ViewModel.ShortcutItemPathUserEditableValue, Mode=TwoWay}"
+					Text="{x:Bind ViewModel.ShortcutItemPathEditedValue, Mode=TwoWay}"
 					Visibility="Visible" />
 			</Grid>
 
@@ -117,7 +117,7 @@
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					x:Load="{x:Bind ViewModel.ShortcutItemArgumentsVisibility, Mode=OneWay}"
-					Text="{x:Bind ViewModel.ShortcutItemArgumentsUserEditableValue, Mode=TwoWay}" />
+					Text="{x:Bind ViewModel.ShortcutItemArgumentsEditedValue, Mode=TwoWay}" />
 
 				<TextBlock
 					x:Name="PropertiesShortcutItemWorkingDir"
@@ -134,7 +134,7 @@
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					x:Load="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}"
-					Text="{x:Bind ViewModel.ShortcutItemWorkingDirUserEditableValue, Mode=TwoWay}" />
+					Text="{x:Bind ViewModel.ShortcutItemWorkingDirEditedValue, Mode=TwoWay}" />
 			</Grid>
 
 			<settingsuc:SettingsBlockControl
@@ -144,7 +144,7 @@
 				x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
-					IsOn="{x:Bind ViewModel.RunAsAdminUserEditableValue, Mode=TwoWay}"
+					IsOn="{x:Bind ViewModel.RunAsAdminEditedValue, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</settingsuc:SettingsBlockControl>
 

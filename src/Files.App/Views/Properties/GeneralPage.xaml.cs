@@ -173,8 +173,8 @@ namespace Files.App.Views.Properties
 					});
 				}
 
-				ViewModel.IsReadOnly = ViewModel.IsReadOnlyUserEditableValue;
-				ViewModel.IsHidden = ViewModel.IsHiddenUserEditableValue;
+				ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
+				ViewModel.IsHidden = ViewModel.IsHiddenEditedValue;
 
 				if (!GetNewName(out var newName))
 					return true;

@@ -561,15 +561,15 @@ namespace Files.App.Data.Models
 			set
 			{
 				SetProperty(ref shortcutItemPath, value);
-				ShortcutItemPathUserEditableValue = value;
+				ShortcutItemPathEditedValue = value;
 			}
 		}
 
-		private string shortcutItemPathUserEditableValue;
-		public string ShortcutItemPathUserEditableValue
+		private string shortcutItemPathEditedValue;
+		public string ShortcutItemPathEditedValue
 		{
-			get => shortcutItemPathUserEditableValue;
-			set => SetProperty(ref shortcutItemPathUserEditableValue, value);
+			get => shortcutItemPathEditedValue;
+			set => SetProperty(ref shortcutItemPathEditedValue, value);
 		}
 
 		private bool isShortcutItemPathReadOnly;
@@ -586,15 +586,15 @@ namespace Files.App.Data.Models
 			set
 			{
 				SetProperty(ref shortcutItemWorkingDir, value);
-				ShortcutItemWorkingDirUserEditableValue = value;
+				ShortcutItemWorkingDirEditedValue = value;
 			}
 		}
 
-		private string shortcutItemWorkingDirUserEditableValue;
-		public string ShortcutItemWorkingDirUserEditableValue
+		private string shortcutItemWorkingDirEditedValue;
+		public string ShortcutItemWorkingDirEditedValue
 		{
-			get => shortcutItemWorkingDirUserEditableValue;
-			set => SetProperty(ref shortcutItemWorkingDirUserEditableValue, value);
+			get => shortcutItemWorkingDirEditedValue;
+			set => SetProperty(ref shortcutItemWorkingDirEditedValue, value);
 		}
 
 		private bool shortcutItemWorkingDirVisibility = false;
@@ -611,17 +611,17 @@ namespace Files.App.Data.Models
 			set
 			{
 				SetProperty(ref shortcutItemArguments, value);
-				ShortcutItemArgumentsUserEditableValue = value;
+				ShortcutItemArgumentsEditedValue = value;
 			}
 		}
 
-		private string shortcutItemArgumentsUserEditableValue;
-		public string ShortcutItemArgumentsUserEditableValue
+		private string shortcutItemArgumentsEditedValue;
+		public string ShortcutItemArgumentsEditedValue
 		{
-			get => shortcutItemArgumentsUserEditableValue;
+			get => shortcutItemArgumentsEditedValue;
 			set
 			{
-				SetProperty(ref shortcutItemArgumentsUserEditableValue, value);
+				SetProperty(ref shortcutItemArgumentsEditedValue, value);
 			}
 		}
 
@@ -681,18 +681,18 @@ namespace Files.App.Data.Models
 			{
 				IsReadOnlyEnabled = true;
 				SetProperty(ref isReadOnly, value);
-				IsReadOnlyUserEditableValue = value;
+				IsReadOnlyEditedValue = value;
 			}
 		}
 
-		private bool isReadOnlyUserEditableValue;
-		public bool IsReadOnlyUserEditableValue
+		private bool isReadOnlyEditedValue;
+		public bool IsReadOnlyEditedValue
 		{
-			get => isReadOnlyUserEditableValue;
+			get => isReadOnlyEditedValue;
 			set
 			{
 				IsReadOnlyEnabled = true;
-				SetProperty(ref isReadOnlyUserEditableValue, value);
+				SetProperty(ref isReadOnlyEditedValue, value);
 			}
 		}
 
@@ -710,15 +710,15 @@ namespace Files.App.Data.Models
 			set
 			{
 				SetProperty(ref isHidden, value);
-				IsHiddenUserEditableValue = value;
+				IsHiddenEditedValue = value;
 			}
 		}
 
-		private bool isHiddenUserEditableValue;
-		public bool IsHiddenUserEditableValue
+		private bool isHiddenEditedValue;
+		public bool IsHiddenEditedValue
 		{
-			get => isHiddenUserEditableValue;
-			set => SetProperty(ref isHiddenUserEditableValue, value);
+			get => isHiddenEditedValue;
+			set => SetProperty(ref isHiddenEditedValue, value);
 		}
 
 		private bool runAsAdmin;
@@ -729,18 +729,18 @@ namespace Files.App.Data.Models
 			{
 				RunAsAdminEnabled = true;
 				SetProperty(ref runAsAdmin, value);
-				RunAsAdminUserEditableValue = value;
+				RunAsAdminEditedValue = value;
 			}
 		}
 
-		private bool runAsAdminUserEditableValue;
-		public bool RunAsAdminUserEditableValue
+		private bool runAsAdminEditedValue;
+		public bool RunAsAdminEditedValue
 		{
-			get => runAsAdminUserEditableValue;
+			get => runAsAdminEditedValue;
 			set
 			{
 				RunAsAdminEnabled = true;
-				SetProperty(ref runAsAdminUserEditableValue, value);
+				SetProperty(ref runAsAdminEditedValue, value);
 			}
 		}
 

@@ -24,10 +24,10 @@ namespace Files.App.Views.Properties
 			if (shortcutItem is null)
 				return true;
 
-			ViewModel.RunAsAdmin = ViewModel.RunAsAdminUserEditableValue;
-			ViewModel.ShortcutItemPath = ViewModel.ShortcutItemPathUserEditableValue;
-			ViewModel.ShortcutItemWorkingDir = ViewModel.ShortcutItemWorkingDirUserEditableValue;
-			ViewModel.ShortcutItemArguments = ViewModel.ShortcutItemArgumentsUserEditableValue;
+			ViewModel.RunAsAdmin = ViewModel.RunAsAdminEditedValue;
+			ViewModel.ShortcutItemPath = ViewModel.ShortcutItemPathEditedValue;
+			ViewModel.ShortcutItemWorkingDir = ViewModel.ShortcutItemWorkingDirEditedValue;
+			ViewModel.ShortcutItemArguments = ViewModel.ShortcutItemArgumentsEditedValue;
 
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				UIFilesystemHelpers.UpdateShortcutItemProperties(shortcutItem,
