@@ -18,9 +18,6 @@
 
 	<ContentDialog.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -35,7 +32,7 @@
 	<Grid Margin="0,0,0,-24" RowSpacing="24">
 
 		<ScrollViewer
-			Height="365"
+			Height="360"
 			MinWidth="360"
 			VerticalScrollBarVisibility="Hidden">
 			<StackPanel Margin="0,8,0,24" Spacing="16">

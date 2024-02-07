@@ -85,14 +85,11 @@
       <Platform>x86</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
     <PathToXAMLWinRTImplementations>Files.App\</PathToXAMLWinRTImplementations>
   </PropertyGroup>
-
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
-
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
@@ -100,7 +97,6 @@
     <Content Include="Assets\AppTiles\Dev\**" />
     <Content Include="Package.appinstaller" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Files.App.Server\Files.App.Server.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
@@ -111,7 +107,6 @@
       <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
     </ProjectReference>
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" IncludeAssets="build" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" IncludeAssets="build" />
