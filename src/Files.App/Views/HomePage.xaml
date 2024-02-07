@@ -231,7 +231,7 @@
 										Height="12"
 										AnimatedIcon.State="NormalOff"
 										AutomationProperties.AccessibilityView="Raw"
-										Foreground="{ThemeResource TextFillColorSecondary}"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 										RenderTransformOrigin="0.5, 0.5">
 										<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
 										<AnimatedIcon.FallbackIconSource>
@@ -271,7 +271,7 @@
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderChevronBackground}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpandCollapseChevron" Storyboard.TargetProperty="Foreground">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorSecondary}" />
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorSecondaryBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualState>
@@ -341,7 +341,7 @@
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderChevronBackground}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpandCollapseChevron" Storyboard.TargetProperty="Foreground">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorSecondary}" />
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorSecondaryBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
