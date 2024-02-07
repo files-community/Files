@@ -24,7 +24,7 @@ namespace Files.Core.Services.SizeProvider
 			foreach (var oldDriveName in oldDriveNames)
 				providers.TryRemove(oldDriveName, out _);
 
-			await Task.WhenAll(providers.Values.Select(provider => provider.ClearAsync()));
+			await Task.WhenAll(providers.Values.Select(provider => provider.CleanAsync()));
 		}
 
 		public async Task ClearAsync()
