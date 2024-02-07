@@ -30,7 +30,7 @@ namespace Files.Core.ViewModels.FileTags
 			if (obj is not TagViewModel vm)
 				return false;
 
-			return Uid == vm.Uid && Name == vm.Color && Color == vm.Color;
+			return Uid == vm.Uid && Name == vm.Name && Color == vm.Color;
 		}
 	}
 }
