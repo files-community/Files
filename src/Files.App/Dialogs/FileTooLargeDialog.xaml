@@ -9,6 +9,7 @@
 	Title="{helpers:ResourceString Name=CopyFailureFileToLarge}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
+	HighContrastAdjustment="None"
 	PrimaryButtonText="{helpers:ResourceString Name=OK}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"

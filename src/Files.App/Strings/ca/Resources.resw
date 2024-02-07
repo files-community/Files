@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Nova finestra</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>Finestra nova</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Copia la ruta</value>
@@ -349,6 +349,12 @@
     <value>Unitat desconnectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>És possible que el fitxer al qual intenteu accedir s'hagi mogut o suprimit.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>No es poden obrir les propietats d'aquest fitxer</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>És possible que el fitxer al qual intenteu accedir s'hagi mogut o suprimit.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Mostra els fitxers protegits del sistema</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Inclou elements no indexats als resultats de la cerca</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sincronitza el disseny i les preferències de classificació entre directoris</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Mostra l'opció per obrir carpetes en un nou panell</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Mostra l'opció per copiar la ruta</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Mostra l'opció per crear una carpeta amb selecció</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Mostra l'opció per crear una drecera</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nou panell</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocitat ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>No heu trobat el que cercàveu?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Cerca elements no indexats</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Substitueix els existents</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Inici</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maj+1</value>
@@ -2233,7 +2236,7 @@
     <value>Mostra les opcions de compressió</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Mostra el menú Envia a</value>
+    <value>Mostra el menú «Envia a»</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Mostra l'opció per obrir carpetes en una pestanya nova</value>
@@ -2570,6 +2573,12 @@
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Canvia a la vista de mosaics</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Canvia a la vista de llista</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Llista</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Canvia a la vista de quadrícula amb icones petites</value>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostra les caselles de selecció en seleccionar elements</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Cerca elements no indexats</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Enfoca la barra del camí</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Agrupa els elements per any de data de creació</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Agrupa els elements per dia de data de supressió</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3685,5 +3691,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>No s'han pogut compartir els elements</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Desplaceu-vos a la carpeta anterior quan navegueu cap amunt</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Obre una finestra nova</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Canvia la portada de l'àlbum</value>
   </data>
 </root>

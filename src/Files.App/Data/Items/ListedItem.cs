@@ -377,7 +377,7 @@ namespace Files.App.Utils
 		public virtual bool IsPythonFile => FileExtensionHelpers.IsPythonFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
-		public bool IsElevated => CheckElevationRights();
+		public bool IsElevationRequired { get; set; }
 
 		private BaseStorageFile itemFile;
 		public BaseStorageFile ItemFile
@@ -400,17 +400,6 @@ namespace Files.App.Utils
 		public void UpdateContainsFilesFolders()
 		{
 			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
-		}
-
-		private bool CheckElevationRights()
-		{
-			// Avoid downloading file to check elevation
-			if (SyncStatusUI.LoadSyncStatus)
-				return false;
-
-			return IsShortcut
-				? ElevationHelpers.IsElevationRequired(((ShortcutItem)this).TargetPath)
-				: ElevationHelpers.IsElevationRequired(this.ItemPath);
 		}
 	}
 

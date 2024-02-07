@@ -26,7 +26,6 @@ namespace Files.App.Views
 	public sealed partial class MainPage : Page
 	{
 		public IUserSettingsService UserSettingsService { get; }
-		public IApplicationService ApplicationService { get; }
 
 		public ICommandManager Commands { get; }
 
@@ -53,7 +52,6 @@ namespace Files.App.Views
 
 			// Dependency Injection
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			ApplicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
@@ -171,7 +169,7 @@ namespace Files.App.Views
 			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
-		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
+		public async void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
@@ -190,10 +188,11 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
-			NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
+
+			await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -302,7 +301,7 @@ namespace Files.App.Views
 			// ToDo put this in a StartupPromptService
 			if
 			(
-				ApplicationService.Environment is not AppEnvironment.Dev &&
+				AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev &&
 				isAppRunningAsAdmin &&
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
@@ -442,7 +441,8 @@ namespace Files.App.Views
 		{
 			var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 			var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-			var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
+			var isBigEnough = !App.AppModel.IsMainWindowClosed &&
+				(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
 			ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
 			ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;

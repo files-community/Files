@@ -4,6 +4,7 @@
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -612,9 +613,8 @@ namespace Files.App.Utils.Storage
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			source = source.Where(x => !string.IsNullOrEmpty(x.Path));
-			var dest = source.Select(x => Path.Combine(destination,
-				string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), x.Name) + ".lnk"));
 
+			var dest = source.Select(x => Path.Combine(destination, FilesystemHelpers.GetShortcutNamingPreference(x.Name)));
 			source = await source.ToListAsync();
 			dest = await dest.ToListAsync();
 
@@ -671,8 +671,8 @@ namespace Files.App.Utils.Storage
 				if (string.IsNullOrEmpty(item.src.Path) || item.src.Path != item.dest)
 				{
 					// Same item names in both directories
-					if (StorageHelpers.Exists(item.dest) || 
-						(FtpHelpers.IsFtpPath(item.dest) && 
+					if (StorageHelpers.Exists(item.dest) ||
+						(FtpHelpers.IsFtpPath(item.dest) &&
 						await Ioc.Default.GetRequiredService<IFtpStorageService>().TryGetFileAsync(item.dest) is not null))
 					{
 						(incomingItems[item.index] as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
@@ -797,7 +797,7 @@ namespace Files.App.Utils.Storage
 					catch (COMException)
 					{
 					}
-					
+
 					if (bytesRead > 0)
 					{
 						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes!.Length);
@@ -867,12 +867,34 @@ namespace Files.App.Utils.Storage
 			return false;
 		}
 
+
+		/// <summary>
+		/// Gets the shortcut naming template from File Explorer
+		/// </summary>
+		public static string GetShortcutNamingPreference(string itemName)
+		{
+			var keyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates";
+			var value = Registry.GetValue(keyName, "ShortcutNameTemplate", null);
+
+			if (value is null)
+				return string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), itemName) + ".lnk";
+			else
+			{
+				// Trim the quotes and the "%s" from the string
+				value = value?.ToString()?.TrimStart(['"', '%', 's']);
+				value = value?.ToString()?.TrimEnd(['"']);
+
+				return itemName + value;
+			}
+		}
+
+
 		public void Dispose()
 		{
 			filesystemOperations?.Dispose();
 
 			// SUPPRESS: Cannot convert null literal to non-nullable reference type.
-	#pragma warning disable CS8625
+#pragma warning disable CS8625
 			associatedInstance = null;
 			filesystemOperations = null;
 		}
