@@ -3689,6 +3689,6 @@
     <value>Running in the background improves the startup performance.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Files is running in the background</value>
+    <value>Where did Files go?</value>
   </data>
 </root>
