@@ -327,7 +327,7 @@ namespace Files.App.Helpers
 					var item = context.ShellPage?.FilesystemViewModel.FilesAndFolders.FirstOrDefault(li => li.ItemPath.Equals(path));
 
 					if (context.ShellPage is not null && item is not null)
-						FilePropertiesHelpers.OpenPropertiesWindow(item, context.ShellPage);
+						FilePropertiesHelpers.OpenPropertiesWindow(item, context.ShellPage, PropertiesNavigationViewItemType.Security);
 				}
 			});
 
