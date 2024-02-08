@@ -134,7 +134,7 @@ namespace Files.App.Views.Layouts
 
 			currentIconSize = FolderSettings.GetRoundedIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+			FolderSettings.IconSizeChanged += FolderSettings_IconSizeChanged;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
@@ -174,7 +174,7 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
@@ -412,8 +412,11 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_IconSizeChanged(object? sender, EventArgs e)
 		{
+			if (FolderSettings is null)
+				return;
+
 			var requestedIconSize = FolderSettings.GetRoundedIconSize(); // Get new icon size
 
 			// Prevents reloading icons when the icon size hasn't changed

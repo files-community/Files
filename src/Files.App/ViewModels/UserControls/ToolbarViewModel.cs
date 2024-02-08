@@ -949,7 +949,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(LayoutPreferencesManager.GridViewSize):
+				case nameof(LayoutPreferencesManager.IconSize):
 				case nameof(LayoutPreferencesManager.LayoutMode):
 					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{

@@ -134,7 +134,7 @@ namespace Files.App.Views.Layouts
 			if (FolderSettings != null)
 			{
 				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+				FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
 			}
 			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
 		}
@@ -193,18 +193,18 @@ namespace Files.App.Views.Layouts
 			// Set GridViewSize event handlers
 			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
-				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-				FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+				FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
+				FolderSettings.IconSizeChanged += FolderSettings_IconSizeChanged;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
-				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-				FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+				FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
+				FolderSettings.IconSizeChanged += FolderSettings_IconSizeChanged;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
-				FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-				FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+				FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
+				FolderSettings.IconSizeChanged += FolderSettings_IconSizeChanged;
 			}
 		}
 
@@ -441,7 +441,7 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
-		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_IconSizeChanged(object? sender, EventArgs e)
 		{
 			SetItemMinWidth();
 
