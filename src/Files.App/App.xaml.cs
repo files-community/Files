@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,6 +10,7 @@ using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.UI.Notifications;
 
 namespace Files.App
 {
@@ -233,6 +235,40 @@ namespace Files.App
 				Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
 
 				Thread.Yield();
+
+				// Displays a notification the first time the app goes to the background
+				if (userSettingsService.AppSettingsService.ShowBackgroundRunningNotification)
+				{
+					userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
+
+					var toastContent = new ToastContent()
+					{
+						Visual = new()
+						{
+							BindingGeneric = new ToastBindingGeneric()
+							{
+								Children =
+								{
+									new AdaptiveText()
+									{
+										Text = "BackgroundRunningNotificationHeader".GetLocalizedResource()
+									},
+									new AdaptiveText()
+									{
+										Text = "BackgroundRunningNotificationBody".GetLocalizedResource()
+									}
+								},
+							}
+						},
+						ActivationType = ToastActivationType.Protocol
+					};
+
+					// Create the toast notification
+					var toastNotification = new ToastNotification(toastContent.GetXml());
+
+					// And send the notification
+					ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+				}
 
 				if (Program.Pool.WaitOne())
 				{

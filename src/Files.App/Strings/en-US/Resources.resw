@@ -3685,4 +3685,10 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Change album cover</value>
   </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Running in the background improves the startup performance.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Files is running in the background</value>
+  </data>
 </root>
