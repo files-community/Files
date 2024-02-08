@@ -312,13 +312,13 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_RenameRequiresTrustedInstaller(string path)
+		public static DynamicDialog GetFor_RenameRequiresHigherPermissions(string path)
 		{
 			DynamicDialog dialog = null!;
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = "ItemRenameFailed".GetLocalizedResource(),
-				SubtitleText = string.Format("RequiredTrustedInstaller".GetLocalizedResource(), path),
+				SubtitleText = string.Format("HigherPermissionsRequired".GetLocalizedResource(), path),
 				PrimaryButtonText = "OK".GetLocalizedResource(),
 				SecondaryButtonText = "EditPermissions".GetLocalizedResource(),
 				SecondaryButtonAction = (vm, e) =>

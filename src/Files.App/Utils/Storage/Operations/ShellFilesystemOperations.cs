@@ -662,7 +662,7 @@ namespace Files.App.Utils.Storage
 						if (res is null)
 						{
 							await DynamicDialogFactory
-								.GetFor_RenameRequiresTrustedInstaller(source.Path)
+								.GetFor_RenameRequiresHigherPermissions(source.Path)
 								.TryShowAsync();
 						}
 
