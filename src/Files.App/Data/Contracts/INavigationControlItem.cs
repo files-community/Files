@@ -2,11 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Sidebar;
-using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Data.Items
+namespace Files.App.Data.Contracts
 {
-
 	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
 	{
 		public new string Text { get; }

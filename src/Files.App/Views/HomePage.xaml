@@ -5,11 +5,11 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Widgets"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
@@ -426,7 +426,7 @@
 		<ListView ItemsSource="{x:Bind ViewModel.WidgetItems, Mode=OneWay}" SelectionMode="None">
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="vm:WidgetItem">
+				<DataTemplate x:DataType="dataitems:WidgetContainerItem">
 					<Grid>
 
 						<Expander
