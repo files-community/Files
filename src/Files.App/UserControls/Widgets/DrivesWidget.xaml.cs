@@ -83,6 +83,7 @@ namespace Files.App.UserControls.Widgets
 			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(DisconnectNetworkDrive);
+			GoToStorageSenseCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteOpenStorageSenseCommand);
 		}
 
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -178,6 +179,12 @@ namespace Files.App.UserControls.Widgets
 					Command = FormatDriveCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowFormatDrive ?? false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenStorageSense".GetLocalizedResource(),
+					Command = GoToStorageSenseCommand!,
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -315,10 +322,20 @@ namespace Files.App.UserControls.Widgets
 			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
 		}
 
-		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
+		private async Task ExecuteOpenStorageSenseCommand(WidgetDriveCardItem? item)
 		{
-			string clickedCard = (sender as Button).Tag.ToString();
-			StorageSenseHelper.OpenStorageSenseAsync(clickedCard);
+			if (item is null || string.IsNullOrEmpty(item.Path))
+				return;
+
+			await StorageSenseHelper.OpenStorageSenseAsync(item.Path);
+		}
+
+		private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not Button button || button.DataContext is not WidgetDriveCardItem item)
+				return;
+
+			await ExecuteOpenStorageSenseCommand(item);
 		}
 
 		public async Task RefreshWidgetAsync()

@@ -249,7 +249,8 @@ namespace Files.App.Data.Items
 				ShowEjectDevice = item.IsRemovable,
 				ShowShellItems = true,
 				ShowFormatDrive = !(item.Type == DriveType.Network || string.Equals(root.Path, "C:\\", StringComparison.OrdinalIgnoreCase)),
-				ShowProperties = true
+				ShowProperties = true,
+				ShowStorageSense = true
 			};
 			item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
 			item.DeviceID = deviceId;

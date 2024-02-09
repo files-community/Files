@@ -163,6 +163,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand NewWindow => commands[CommandCodes.NewWindow];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
+		public IRichCommand OpenStorageSense => commands[CommandCodes.OpenStorageSense];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
 		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
 		public IRichCommand NavigateUp => commands[CommandCodes.NavigateUp];

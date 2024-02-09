@@ -367,6 +367,7 @@ namespace Files.App.Data.Factories
 					ShowInFtpPage = true
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSense).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.EmptyRecycleBin)
 				{
 					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,

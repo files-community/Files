@@ -57,5 +57,7 @@ namespace Files.App.Data.Contracts
 		public bool ShowFormatDrive { get; set; }
 
 		public bool ShowShellItems { get; set; }
+
+		public bool ShowStorageSense { get; set; }
 	}
 }

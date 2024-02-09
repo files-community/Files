@@ -267,6 +267,7 @@ namespace Files.App.ViewModels.UserControls
 			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
+			GoToStorageSenseCommand = new AsyncRelayCommand(ExecuteOpenStorageSenseCommand);
 		}
 
 		private Task CreateItemHomeAsync()
@@ -819,6 +820,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private ICommand ReorderItemsCommand { get; }
 
+		private ICommand GoToStorageSenseCommand { get; }
+
 		private async Task OpenInNewPaneAsync()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
@@ -886,6 +889,11 @@ namespace Files.App.ViewModels.UserControls
 			var dialog = new ReorderSidebarItemsDialogViewModel();
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			var result = await dialogService.ShowDialogAsync(dialog);
+		}
+
+		private async Task ExecuteOpenStorageSenseCommand()
+		{
+			await StorageSenseHelper.OpenStorageSenseAsync(rightClickedItem.Path);
 		}
 
 		private void OpenProperties(CommandBarFlyout menu)
@@ -1046,6 +1054,12 @@ namespace Files.App.ViewModels.UserControls
 					Command = FormatDriveCommand,
 					CommandParameter = item,
 					ShowItem = options.ShowFormatDrive
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenStorageSense".GetLocalizedResource(),
+					Command = GoToStorageSenseCommand!,
+					ShowItem = options.ShowStorageSense
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
