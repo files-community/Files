@@ -1,17 +1,15 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:HomePageWidget
+<local:BaseWidgetViewModel
 	x:Class="Files.App.UserControls.Widgets.FileTagsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Widgets"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -35,7 +33,7 @@
 
 		<!--  Container template  -->
 		<ItemsRepeater.ItemTemplate>
-			<DataTemplate x:DataType="vm:FileTagsContainerViewModel">
+			<DataTemplate x:DataType="dataitems:WidgetFileTagsContainerItem">
 				<Grid
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
@@ -133,7 +131,7 @@
 						</controls:AdaptiveGridView.ItemContainerStyle>
 
 						<controls:AdaptiveGridView.ItemTemplate>
-							<DataTemplate x:DataType="vm:FileTagsItemViewModel">
+							<DataTemplate x:DataType="dataitems:WidgetFileTagCardItem">
 								<Grid
 									ColumnSpacing="8"
 									DataContext="{x:Bind}"
@@ -166,4 +164,4 @@
 		</ItemsRepeater.ItemTemplate>
 
 	</ItemsRepeater>
-</local:HomePageWidget>
+</local:BaseWidgetViewModel>

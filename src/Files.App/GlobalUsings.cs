@@ -50,6 +50,7 @@ global using global::Files.App.Data.TemplateSelectors;
 global using global::Files.App.Services;
 global using global::Files.App.UserControls;
 global using global::Files.App.UserControls.TabBar;
+global using global::Files.App.UserControls.ViewModels.Widgets;
 global using global::Files.App.ViewModels;
 global using global::Files.App.ViewModels.Shells;
 global using global::Files.App.ViewModels.UserControls;
@@ -77,6 +78,13 @@ global using global::Files.Core.ViewModels.Widgets;
 global using global::Files.Core.Utils;
 global using global::Files.Core.Utils.Cloud;
 global using global::Files.Core.Utils.CommandLine;
+
+// Files.Core.Storage
+
+global using global::Files.Core.Storage;
+global using global::Files.Core.Storage.Enums;
+global using global::Files.Core.Storage.LocatableStorage;
+global using global::Files.Core.Storage.NestedStorage;
 
 // Files.Shared
 global using global::Files.Shared;

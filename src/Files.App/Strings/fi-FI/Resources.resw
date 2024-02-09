@@ -3519,39 +3519,23 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>{0} kohteen pysyvä poisto kansiosta "{1}" peruutettu</value>
+    <value>Peruutettu {0} kohteen poisto kansiosta "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Poistettu pysyvästi {0} kohdetta kansiosta "{1}"</value>
+    <value>Poistettu {0} kohde(tta) kansiosta "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Virhe poistettaessa pysyvästi {0} kohde(tta) kansiosta "{1}"</value>
+    <value>Virhe poistettaessa {0} kohde(tta) kansiosta "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>{0} kohteen poistaminen pysyvästi kansiosta "{1}" epäonnistui</value>
+    <value>{0} kohteen poistaminen epäonnistui kansiosta "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Poistetaan pysyvästi {0} kohdetta kansiosta "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Peruutettiin {0} kohteen poistaminen kansiosta "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Poistettiin {0} kohdetta kansiosta "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Virhe poistettaessa {0} kohdetta kansiosta "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
-    <value>Poistetaan {0} kohdetta kansiosta "{1}"</value>
+    <value>Poistetaan {0} kohde(tta) kansiosta "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
