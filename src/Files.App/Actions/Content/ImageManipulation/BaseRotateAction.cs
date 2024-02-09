@@ -33,8 +33,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			foreach (var image in context.SelectedItems)
-				await BitmapHelper.RotateAsync(PathNormalization.NormalizePath(image.ItemPath), Rotation);
+			await Task.WhenAll(context.SelectedItems.Select(image => BitmapHelper.RotateAsync(PathNormalization.NormalizePath(image.ItemPath), Rotation)));
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
 

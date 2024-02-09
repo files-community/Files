@@ -182,7 +182,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public bool IsItemPinnedToStart => StartMenuService.IsPinned(ItemPath);
+		public bool IsItemPinnedToStart => StartMenuService.IsPinned((this as ShortcutItem)?.TargetPath ?? ItemPath);
 
 		private BitmapImage iconOverlay;
 		public BitmapImage IconOverlay

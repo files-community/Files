@@ -12,6 +12,7 @@ using System.IO;
 using Vanara.PInvoke;
 using Windows.System;
 using Windows.UI.Core;
+using static Vanara.PInvoke.Kernel32;
 
 namespace Files.App.Helpers
 {
@@ -180,17 +181,11 @@ namespace Files.App.Helpers
 				switch (verb)
 				{
 					case "install" when isFont:
-						{
-							foreach (string path in contextMenu.ItemsPath)
-								await Win32API.InstallFont(path, false);
-						}
+						await Win32API.InstallFontsAsync(contextMenu.ItemsPath.ToArray(), false);
 						break;
 
 					case "installAllUsers" when isFont:
-						{
-							foreach (string path in contextMenu.ItemsPath)
-								await Win32API.InstallFont(path, true);
-						}
+						await Win32API.InstallFontsAsync(contextMenu.ItemsPath.ToArray(), true);
 						break;
 
 					case "mount":

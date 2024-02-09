@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
-using Files.Core.Storage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -11,7 +10,10 @@ using System.Windows.Input;
 
 namespace Files.App.UserControls.Widgets
 {
-	public abstract class HomePageWidget : UserControl
+	/// <summary>
+	/// Represents base ViewModel for widget ViewModels.
+	/// </summary>
+	public abstract class BaseWidgetViewModel : UserControl
 	{
 		// Dependency injections
 
@@ -21,18 +23,18 @@ namespace Files.App.UserControls.Widgets
 
 		// Fields
 
-		protected string? FlyoutItemPath;
+		protected string? _flyoutItemPath;
 
 		// Commands
 
-		public ICommand? RemoveRecentItemCommand { get; protected set; }
-		public ICommand? ClearAllItemsCommand { get; protected set; }
-		public ICommand? OpenFileLocationCommand { get; protected set; }
-		public ICommand? OpenInNewTabCommand { get; protected set; }
-		public ICommand? OpenInNewWindowCommand { get; protected set; }
-		public ICommand? OpenPropertiesCommand { get; protected set; }
-		public ICommand? PinToFavoritesCommand { get; protected set; }
-		public ICommand? UnpinFromFavoritesCommand { get; protected set; }
+		protected ICommand? RemoveRecentItemCommand { get; set; }
+		protected ICommand? ClearAllItemsCommand { get; set; }
+		protected ICommand? OpenFileLocationCommand { get; set; }
+		protected ICommand? OpenInNewTabCommand { get; set; }
+		protected ICommand? OpenInNewWindowCommand { get; set; }
+		protected ICommand? OpenPropertiesCommand { get; set; }
+		protected ICommand? PinToFavoritesCommand { get; set; }
+		protected ICommand? UnpinFromFavoritesCommand { get; set; }
 
 		// Events
 
@@ -61,7 +63,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 
-			FlyoutItemPath = item.Path;
+			_flyoutItemPath = item.Path;
 
 			// Notify of the change on right clicked item
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
@@ -82,7 +84,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new() { Position = e.GetPosition(widgetCardItem) });
 
 			// Load shell menu items
-			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}

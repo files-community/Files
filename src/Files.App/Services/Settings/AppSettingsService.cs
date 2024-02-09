@@ -21,6 +21,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowBackgroundRunningNotification
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool RestoreTabsOnStartup
 		{
 			get => Get(false);
