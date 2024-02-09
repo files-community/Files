@@ -964,7 +964,6 @@
 											x:Name="SelectionCheckbox"
 											Width="20"
 											MinWidth="0"
-											MinHeight="0"
 											HorizontalAlignment="Center"
 											AutomationProperties.AccessibilityView="Raw"
 											Checked="ItemSelected_Checked"
