@@ -30,7 +30,7 @@
 	<Grid
 		x:Name="ContainerGrid"
 		MaxHeight="790"
-		Background="{ThemeResource SolidBackgroundFillColorBase}">
+		Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="44" />
 			<RowDefinition Height="*" />
