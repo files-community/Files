@@ -3,12 +3,31 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.Data.Items
 {
-	public class WidgetItem : ObservableObject, IDisposable
+	/// <summary>
+	/// Represents an item of Files widget container.
+	/// </summary>
+	public class WidgetContainerItem : ObservableObject, IDisposable
 	{
+		// Fields
+
 		private readonly Action<bool> _expanderValueChangedCallback;
 		private readonly Func<bool> _expanderValueRequestedCallback;
+
+		// Properties
+
+		public IWidgetViewModel WidgetItemModel
+			=> WidgetControl as IWidgetViewModel;
+
+		public string WidgetAutomationProperties
+			=> WidgetItemModel.AutomationProperties;
+
+		public bool ShowMenuFlyout
+			=> WidgetItemModel.ShowMenuFlyout;
+
+		public MenuFlyoutItem MenuFlyoutItem
+			=> WidgetItemModel.MenuFlyoutItem;
 
 		private object _WidgetControl;
 		public object WidgetControl
@@ -27,32 +46,17 @@ namespace Files.App.ViewModels.Widgets
 			}
 		}
 
-		public IWidgetItem WidgetItemModel
-		{
-			get => WidgetControl as IWidgetItem;
-		}
+		// Constructor
 
-		public string WidgetAutomationProperties
+		public WidgetContainerItem(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
 		{
-			get => WidgetItemModel.AutomationProperties;
-		}
-
-		public bool ShowMenuFlyout
-		{
-			get => WidgetItemModel.ShowMenuFlyout;
-		}
-		
-		public MenuFlyoutItem MenuFlyoutItem
-		{
-			get => WidgetItemModel.MenuFlyoutItem;
-		}
-
-		public WidgetItem(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
-		{
-			WidgetControl = widgetControl;
 			_expanderValueChangedCallback = expanderValueChangedCallback;
 			_expanderValueRequestedCallback = expanderValueRequestedCallback;
+
+			WidgetControl = widgetControl;
 		}
+
+		// Disposer
 
 		public void Dispose()
 		{

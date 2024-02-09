@@ -1,37 +1,53 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
-using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 using Files.Shared.Utils;
+using System.Windows.Input;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.Data.Items
 {
-	public sealed partial class FileTagsItemViewModel : WidgetCardItem
+	public sealed partial class WidgetFileTagCardItem : WidgetCardItem
 	{
+		// Fields
+
 		private readonly IStorable _associatedStorable;
 
 		// A workaround for lack of MVVM-compliant navigation support.
 		// This workaround must be kept until further refactor of navigation code is completed.
 		private readonly Func<string, Task> _openAction;
 
-		[ObservableProperty]
-		private IImage? _Icon;
+		// Properties
 
-		[ObservableProperty]
-		private string _Name;
+		public bool IsFolder
+			=> _associatedStorable is IFolder;
+
+		private IImage? _Icon;
+		public IImage? Icon
+		{
+			get => _Icon;
+			set => SetProperty(ref _Icon, value);
+		}
+
+		private string? _Name;
+		public string? Name
+		{
+			get => _Name;
+			set => SetProperty(ref _Name, value);
+		}
 
 		private string _Path;
 		public override string Path
 		{
 			get => _Path;
-			set => SetProperty(ref _Path, value); 
+			set => SetProperty(ref _Path, value);
 		}
 
-		public bool IsFolder => _associatedStorable is IFolder;
+		// Commands
 
-		public FileTagsItemViewModel(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
+		public ICommand ClickCommand { get; }
+
+		public WidgetFileTagCardItem(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
 		{
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;
@@ -39,9 +55,10 @@ namespace Files.App.ViewModels.Widgets
 			_Name = associatedStorable.Name;
 			_Path = associatedStorable.TryGetPath();
 			Item = this;
+
+			ClickCommand = new AsyncRelayCommand<CancellationToken>(ClickAsync);
 		}
 
-		[RelayCommand]
 		private Task ClickAsync(CancellationToken cancellationToken)
 		{
 			return _openAction(_associatedStorable.Id);
