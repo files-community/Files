@@ -31,13 +31,15 @@ namespace Files.App.UserControls.Sidebar
 		/// Gets invoked when an item drags over any item of the sidebar.
 		/// </summary>
 		/// <param name="args">The <see cref="ItemDragOverEventArgs"/> for this event.</param>
-		void HandleItemDragOverAsync(ItemDragOverEventArgs args);
+		/// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
+		Task HandleItemDragOverAsync(ItemDragOverEventArgs args);
 
 		/// <summary>
 		/// Gets invoked when an item is dropped on any item of the sidebar.
 		/// </summary>
 		/// <param name="args">The <see cref="ItemDroppedEventArgs"/> for this event.</param>
-		void HandleItemDroppedAsync(ItemDroppedEventArgs args);
+		/// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
+		Task HandleItemDroppedAsync(ItemDroppedEventArgs args);
 
 		/// <summary>
 		/// Gets invoked when an item is invoked (double clicked) on any item of the sidebar.
