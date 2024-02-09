@@ -22,7 +22,7 @@ namespace Files.App.Actions
 			context.HasItem &&
 			!context.HasSelection &&
 			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowStorageSense ?? false);
 
 		public OpenStorageSenseAction()
 		{
