@@ -317,9 +317,6 @@ namespace Files.App
 			},
 			Logger);
 
-			// Dispose git operations' thread
-			GitHelpers.TryDispose();
-
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
 			AppModel.IsMainWindowClosed = true;
