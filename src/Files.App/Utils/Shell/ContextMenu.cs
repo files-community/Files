@@ -265,6 +265,11 @@ namespace Files.App.Utils.Shell
 							{
 								cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)hSubMenu, new IntPtr(index));
 							}
+							catch (Exception ex) when (ex is InvalidCastException or ArgumentException)
+							{
+								// TODO: Investigate why this exception happen
+								Debug.WriteLine(ex);
+							}
 							catch (Exception ex) when (ex is COMException or NotImplementedException)
 							{
 								// Only for dynamic/owner drawn? (open with, etc)
@@ -295,7 +300,7 @@ namespace Files.App.Utils.Shell
 						loadSubMenuAction!();
 						return true;
 					}
-					catch (COMException)
+					catch
 					{
 						return false;
 					}
