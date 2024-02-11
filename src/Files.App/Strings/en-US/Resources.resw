@@ -3689,7 +3689,7 @@
     <value>Failed to rename item</value>
   </data>
   <data name="HigherPermissionsRequired" xml:space="preserve">
-    <value>Editing "{0}" requires higher permissions</value>
+    <value>Editing "{0}" requires additional permissions</value>
   </data>
   <data name="EditPermissions" xml:space="preserve">
     <value>Edit permissions</value>
