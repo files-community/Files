@@ -459,7 +459,7 @@ namespace Files.App.Views.Shells
 				await DisplayFilesystemConsentDialogAsync();
 		}
 
-		private CancellationTokenSource? cts;
+		private volatile CancellationTokenSource? cts;
 
 		// Ensure that the path bar gets updated for user interaction
 		// whenever the path changes.We will get the individual directories from
