@@ -56,10 +56,10 @@ namespace Files.App.ViewModels.Properties
 				}
 				else
 				{
-					ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80, false, false);
+					ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80, false, false, false);
 				}
 
-				ViewModel.IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.DeviceID, 80, false, false); // For network shortcuts
+				ViewModel.IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.DeviceID, 80, false, false, false); // For network shortcuts
 			}
 
 			if (diskRoot is null || diskRoot.Properties is null)
