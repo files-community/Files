@@ -35,6 +35,9 @@ namespace Files.App.Helpers
 		[DllImport("ole32.dll")]
 		public static extern uint CoWaitForMultipleObjects(uint dwFlags, uint dwMilliseconds, ulong nHandles, IntPtr[] pHandles, out uint dwIndex);
 
+		[DllImport("shell32.dll")]
+		public static extern void SHUpdateRecycleBinIcon();
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct POINT
 		{

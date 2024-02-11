@@ -71,7 +71,10 @@ namespace Files.App.Utils.RecycleBin
 				_statusCenterViewModel.RemoveItem(banner);
 
 				if (bResult)
+				{
 					StatusCenterHelper.AddCard_EmptyRecycleBin(ReturnResult.Success);
+					InteropHelpers.SHUpdateRecycleBinIcon();
+				}
 				else
 					StatusCenterHelper.AddCard_EmptyRecycleBin(ReturnResult.Failed);
 			}
@@ -98,6 +101,7 @@ namespace Files.App.Utils.RecycleBin
 				try
 				{
 					Vanara.Windows.Shell.RecycleBin.RestoreAll();
+					InteropHelpers.SHUpdateRecycleBinIcon();
 				}
 				catch (Exception)
 				{
@@ -118,12 +122,12 @@ namespace Files.App.Utils.RecycleBin
 		public static async Task RestoreSelectionRecycleBinAsync(IShellPage associatedInstance)
 		{
 			var items = associatedInstance.SlimContentPage.SelectedItems;
-			if (items == null) 
+			if (items == null)
 				return;
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
 				Title = "ConfirmRestoreSelectionBinDialogTitle".GetLocalizedResource(),
-				
+
 				Content = string.Format("ConfirmRestoreSelectionBinDialogContent".GetLocalizedResource(), items.Count),
 				PrimaryButtonText = "Yes".GetLocalizedResource(),
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
@@ -157,7 +161,7 @@ namespace Files.App.Utils.RecycleBin
 		public static async Task RestoreItemAsync(IShellPage associatedInstance)
 		{
 			var selected = associatedInstance.SlimContentPage.SelectedItems;
-			if (selected == null) 
+			if (selected == null)
 				return;
 			var items = selected.ToList().Where(x => x is RecycleBinItem).Select((item) => new
 			{
@@ -167,17 +171,19 @@ namespace Files.App.Utils.RecycleBin
 				Dest = ((RecycleBinItem)item).ItemOriginalPath
 			});
 			await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+			InteropHelpers.SHUpdateRecycleBinIcon();
 		}
 
 		public static async Task DeleteItemAsync(IShellPage associatedInstance)
 		{
 			var selected = associatedInstance.SlimContentPage.SelectedItems;
-			if (selected == null) 
+			if (selected == null)
 				return;
 			var items = selected.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
+			InteropHelpers.SHUpdateRecycleBinIcon();
 		}
 	}
 }
