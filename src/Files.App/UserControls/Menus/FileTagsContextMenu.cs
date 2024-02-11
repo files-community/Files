@@ -62,7 +62,7 @@ namespace Files.App.UserControls.Menus
 			}
 		}
 
-		private void Item_Opening(object sender, object e)
+		private void Item_Opening(object? sender, object e)
 		{
 			Opening -= Item_Opening;
 
