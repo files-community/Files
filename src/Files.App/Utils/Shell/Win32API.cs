@@ -246,6 +246,7 @@ namespace Files.App.Utils.Shell
 			string path,
 			int thumbnailSize,
 			bool isFolder,
+			bool getThumbnailOnly,
 			bool getIconOnly,
 			bool getOverlay = true,
 			bool onlyGetOverlay = false)
@@ -280,7 +281,7 @@ namespace Files.App.Utils.Shell
 
 					if (getIconOnly)
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-					else if (!isFolder)
+					else if (getThumbnailOnly)
 						flags |= Shell32.SIIGBF.SIIGBF_THUMBNAILONLY;
 
 					var hres = shellFactory.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
