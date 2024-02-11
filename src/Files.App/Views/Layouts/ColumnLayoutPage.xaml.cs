@@ -505,7 +505,7 @@ namespace Files.App.Views.Layouts
 					parent.FolderSettings.ToggleLayoutModeTiles(true);
 					break;
 				case FolderLayoutModes.GridView:
-					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize, true);
 					break;
 				case FolderLayoutModes.Adaptive:
 					parent.FolderSettings.ToggleLayoutModeAdaptive();
