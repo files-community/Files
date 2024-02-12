@@ -625,8 +625,7 @@ namespace Files.App.Views.Shells
 
 		public void RemoveLastPageFromBackStack()
 		{
-			if (ItemDisplay.BackStack.Count > 0)
-				ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
+			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.LastOrDefault());
 		}
 
 		public void RaiseContentChanged(IShellPage instance, CustomTabViewItemParameter args)
