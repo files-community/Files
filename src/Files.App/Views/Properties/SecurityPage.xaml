@@ -116,7 +116,7 @@
 				<Border
 					Grid.Row="1"
 					Height="1"
-					Background="{ThemeResource DividerStrokeColorDefault}" />
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 				<!--  Access Control Entries List  -->
 				<ScrollViewer
@@ -230,7 +230,7 @@
 					Grid.Row="1"
 					Height="1"
 					Margin="-12,0"
-					Background="{ThemeResource DividerStrokeColorDefault}" />
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 				<!--  Permission Allow/Deny CheckBoxes  -->
 				<Grid

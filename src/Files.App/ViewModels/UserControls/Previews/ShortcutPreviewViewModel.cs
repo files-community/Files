@@ -36,7 +36,7 @@ namespace Files.App.ViewModels.Previews
 
 		private async Task LoadItemThumbnailAsync()
 		{
-			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, Constants.DefaultIconSizes.Jumbo, false, false);
+			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, Constants.DefaultIconSizes.Jumbo, false, false, false);
 			if (iconData is not null)
 			{
 				FileImage = await iconData.ToBitmapAsync();

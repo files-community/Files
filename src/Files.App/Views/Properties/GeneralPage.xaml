@@ -333,7 +333,7 @@
 							Grid.ColumnSpan="2"
 							Height="1"
 							Margin="-16,0"
-							Background="{ThemeResource DividerStrokeColorDefault}" />
+							Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 						<!--  Date Created  -->
 						<TextBlock
@@ -714,7 +714,7 @@
 							Grid.ColumnSpan="3"
 							Height="1"
 							Margin="-16,0"
-							Background="{ThemeResource DividerStrokeColorDefault}" />
+							Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 						<!--  Hidden  -->
 						<TextBlock

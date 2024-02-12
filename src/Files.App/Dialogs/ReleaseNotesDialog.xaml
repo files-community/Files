@@ -78,7 +78,7 @@
 		<Border
 			Grid.Row="2"
 			Padding="12"
-			Background="{ThemeResource SolidBackgroundFillColorBase}"
+			Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 			BackgroundSizing="OuterBorderEdge"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="0,1,0,0">

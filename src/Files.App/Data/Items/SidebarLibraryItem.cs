@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Library
+namespace Files.App.Data.Items
 {
 	public class LibraryLocationItem : LocationItem
 	{
@@ -46,7 +46,7 @@ namespace Files.App.Utils.Library
 
 		public async Task LoadLibraryIconAsync()
 		{
-			IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, Constants.DefaultIconSizes.Large, false, true);
+			IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, Constants.DefaultIconSizes.Large, false, false, true);
 
 			if (IconData is not null)
 				Icon = await IconData.ToBitmapAsync();
