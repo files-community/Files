@@ -37,8 +37,7 @@ namespace Files.App.UserControls.Menus
 
 			SelectedItems = selectedItems;
 
-			if (SelectedItems is not null)
-				Opening += Item_Opening;
+			Opening += Item_Opening;
 		}
 
 		private void TagItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -58,11 +57,14 @@ namespace Files.App.UserControls.Menus
 		{
 			Opening -= Item_Opening;
 
+			if (SelectedItems is null)
+				return;
+
 			// go through each tag and find the common one for all files
 			var commonFileTags = SelectedItems
-				.Select(x => x.FileTags ?? Enumerable.Empty<string>())
-				.Aggregate((x, y) => x.Intersect(y))
-				.Select(x => Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
+			.Select(x => x.FileTags ?? Enumerable.Empty<string>())
+			.Aggregate((x, y) => x.Intersect(y))
+			.Select(x => Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
 
 			commonFileTags.OfType<ToggleMenuFlyoutItem>().ForEach(x => x.IsChecked = true);
 		}
