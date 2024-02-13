@@ -9,9 +9,7 @@ namespace Files.App.Data.Contexts
 		Details,
 		List,
 		Tiles,
-		GridSmall,
-		GridMedium,
-		GridLarge,
+		Grid,
 		Columns,
 		Adaptive,
 	}

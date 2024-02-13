@@ -113,8 +113,8 @@
 					<Grid
 						Grid.Row="0"
 						Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
-						Height="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
-						MaxWidth="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
+						Height="{Binding ItemSizeGridView, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding ItemSizeGridView, ElementName=PageRoot, Mode=OneWay}"
 						Opacity="{x:Bind Opacity, Mode=OneWay}"
 						Tag="ItemImage">
 
@@ -134,8 +134,8 @@
 
 						<Border
 							x:Name="TypeUnknownGlyph"
-							MaxWidth="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
-							MaxHeight="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
+							MaxWidth="{Binding ItemSizeGridView, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding ItemSizeGridView, ElementName=PageRoot, Mode=OneWay}"
 							Margin="12"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
@@ -157,8 +157,8 @@
 
 						<Viewbox
 							x:Name="WebShortcutGlyph"
-							MaxWidth="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
-							MaxHeight="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
+							MaxWidth="{Binding ItemSizeGridView, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding ItemSizeGridView, ElementName=PageRoot, Mode=OneWay}"
 							Margin="12"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
@@ -194,7 +194,7 @@
 
 					<Grid
 						Grid.Row="1"
-						MaxWidth="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding FolderSettings.ItemSize, ElementName=PageRoot, Mode=OneWay}"
 						Margin="4,0,4,8"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Stretch">
@@ -290,7 +290,7 @@
 				<Grid
 					x:Name="FilesRootGrid"
 					Width="{Binding ElementName=PageRoot, Path=GridViewItemWidth, Mode=OneWay}"
-					Height="Auto"
+					Height="{Binding ItemSizeListView, ElementName=PageRoot, Mode=OneWay}"
 					Padding="12,0,12,0"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Center"
@@ -771,8 +771,6 @@
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="1" />
 			<Setter Property="Margin" Value="0" />
-			<Setter Property="Padding" Value="0" />
-			<Setter Property="Height" Value="24" />
 		</Style>
 	</local:BaseGroupableLayoutPage.Resources>
 

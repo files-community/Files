@@ -44,11 +44,5 @@ namespace Files.Core.Services
 		/// </summary>
 		/// <param name="contentControlThemeFontFamily"></param>
 		void SetAppThemeFontFamily(string contentControlThemeFontFamily);
-
-		/// <summary>
-		/// Overrides the XAML resource for the list view item height
-		/// </summary>
-		/// <param name="useCompactSpacing"></param>
-		void SetCompactSpacing(bool useCompactSpacing);
 	}
 }

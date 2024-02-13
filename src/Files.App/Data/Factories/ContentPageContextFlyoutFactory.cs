@@ -120,15 +120,7 @@ namespace Files.App.Data.Factories
 						{
 							IsToggle = true
 						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutGridSmall)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutGridMedium)
-						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutGridLarge)
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutGrid)
 						{
 							IsToggle = true
 						}.Build(),

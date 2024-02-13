@@ -20,7 +20,7 @@ namespace Files.App.Actions
 		public override HotKey HotKey
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
-	
+
 	internal class LayoutListAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
@@ -57,58 +57,22 @@ namespace Files.App.Actions
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutGridSmallAction : ToggleLayoutAction
+	internal class LayoutGridAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
-			=> LayoutTypes.GridSmall;
+			=> LayoutTypes.Grid;
 
 		public override string Label
-			=> "SmallIcons".GetLocalizedResource();
+			=> "Grid".GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutGridSmallDescription".GetLocalizedResource();
+			=> "LayoutGridescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconGridSmallLayout");
+			=> new(opacityStyle: "ColorIconGridLayout");
 
 		public override HotKey HotKey
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
-	}
-
-	internal class LayoutGridMediumAction : ToggleLayoutAction
-	{
-		protected override LayoutTypes LayoutType
-			=> LayoutTypes.GridMedium;
-
-		public override string Label
-			=> "MediumIcons".GetLocalizedResource();
-
-		public override string Description
-			=> "LayoutGridMediumDescription".GetLocalizedResource();
-
-		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconGridMediumLayout");
-
-		public override HotKey HotKey
-			=> new(Keys.Number5, KeyModifiers.CtrlShift);
-	}
-
-	internal class LayoutGridLargeAction : ToggleLayoutAction
-	{
-		protected override LayoutTypes LayoutType
-			=> LayoutTypes.GridLarge;
-
-		public override string Label
-			=> "LargeIcons".GetLocalizedResource();
-
-		public override string Description
-			=> "LayoutGridLargeDescription".GetLocalizedResource();
-
-		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconGridLargeLayout");
-
-		public override HotKey HotKey
-			=> new(Keys.Number6, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutColumnsAction : ToggleLayoutAction
@@ -126,7 +90,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconColumnsLayout");
 
 		public override HotKey HotKey
-			=> new(Keys.Number7, KeyModifiers.CtrlShift);
+			=> new(Keys.Number5, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutAdaptiveAction : ToggleLayoutAction
@@ -204,9 +168,11 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class LayoutDecreaseSizeAction : IAction
+	internal class LayoutDecreaseSizeAction : ObservableObject, IAction
 	{
-		private readonly IDisplayPageContext context;
+		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IDisplayPageContext DisplayPageContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "DecreaseSize".GetLocalizedResource();
@@ -220,22 +186,86 @@ namespace Files.App.Actions
 		public HotKey MediaHotKey
 			=> new(Keys.OemMinus, KeyModifiers.Ctrl, false);
 
+		public bool IsExecutable =>
+			ContentPageContext.PageType is not ContentPageTypes.Home &&
+			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.ItemSizeDetailsView > Constants.IconHeights.DetailsView.Minimum) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ItemSizeListView > Constants.IconHeights.ListView.Minimum) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.ItemSizeGridView > Constants.IconHeights.GridView.Minimum) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ItemSizeColumnsView > Constants.IconHeights.ColumnsView.Minimum));
+
 		public LayoutDecreaseSizeAction()
 		{
-			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+			DisplayPageContext.PropertyChanged += DisplayPageContext_PropertyChanged;
+			UserSettingsService.LayoutSettingsService.PropertyChanged += UserSettingsService_PropertyChanged;
+		}
+
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void DisplayPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IDisplayPageContext.LayoutType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void UserSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(ILayoutSettingsService.ItemSizeDetailsView):
+				case nameof(ILayoutSettingsService.ItemSizeListView):
+				case nameof(ILayoutSettingsService.ItemSizeGridView):
+				case nameof(ILayoutSettingsService.ItemSizeColumnsView):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.DecreaseLayoutSize();
+			switch (DisplayPageContext.LayoutType)
+			{
+				case LayoutTypes.Details:
+					if (UserSettingsService.LayoutSettingsService.ItemSizeDetailsView > Constants.IconHeights.DetailsView.Minimum)
+						UserSettingsService.LayoutSettingsService.ItemSizeDetailsView -= Constants.IconHeights.DetailsView.Increment;
+					break;
+				case LayoutTypes.List:
+					if (UserSettingsService.LayoutSettingsService.ItemSizeListView > Constants.IconHeights.ListView.Minimum)
+						UserSettingsService.LayoutSettingsService.ItemSizeListView -= Constants.IconHeights.ListView.Increment;
+					break;
+				case LayoutTypes.Tiles:
+					break;
+				case LayoutTypes.Grid:
+					if (UserSettingsService.LayoutSettingsService.ItemSizeGridView > Constants.IconHeights.GridView.Minimum)
+						UserSettingsService.LayoutSettingsService.ItemSizeGridView -= Constants.IconHeights.GridView.Increment;
+					break;
+				case LayoutTypes.Columns:
+					if (UserSettingsService.LayoutSettingsService.ItemSizeColumnsView > Constants.IconHeights.ColumnsView.Minimum)
+						UserSettingsService.LayoutSettingsService.ItemSizeColumnsView -= Constants.IconHeights.ColumnsView.Increment;
+					break;
+			}
 
 			return Task.CompletedTask;
 		}
 	}
 
-	internal class LayoutIncreaseSizeAction : IAction
+	internal class LayoutIncreaseSizeAction : ObservableObject, IAction
 	{
-		private readonly IDisplayPageContext context;
+		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IDisplayPageContext DisplayPageContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "IncreaseSize".GetLocalizedResource();
@@ -249,14 +279,76 @@ namespace Files.App.Actions
 		public HotKey MediaHotKey
 			=> new(Keys.OemPlus, KeyModifiers.Ctrl, false);
 
+		public bool IsExecutable =>
+			ContentPageContext.PageType is not ContentPageTypes.Home &&
+			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.ItemSizeDetailsView < Constants.IconHeights.DetailsView.Maximum) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ItemSizeListView < Constants.IconHeights.ListView.Maximum) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.ItemSizeGridView < Constants.IconHeights.GridView.Maximum) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ItemSizeColumnsView < Constants.IconHeights.ColumnsView.Maximum));
+
 		public LayoutIncreaseSizeAction()
 		{
-			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+			DisplayPageContext.PropertyChanged += DisplayPageContext_PropertyChanged;
+			UserSettingsService.LayoutSettingsService.PropertyChanged += UserSettingsService_PropertyChanged;
+		}
+
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void DisplayPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IDisplayPageContext.LayoutType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void UserSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(ILayoutSettingsService.ItemSizeDetailsView):
+				case nameof(ILayoutSettingsService.ItemSizeListView):
+				case nameof(ILayoutSettingsService.ItemSizeGridView):
+				case nameof(ILayoutSettingsService.ItemSizeColumnsView):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.IncreaseLayoutSize();
+			switch (DisplayPageContext.LayoutType)
+			{
+				case LayoutTypes.Details:
+					if (UserSettingsService.LayoutSettingsService.ItemSizeDetailsView < Constants.IconHeights.DetailsView.Maximum)
+						UserSettingsService.LayoutSettingsService.ItemSizeDetailsView += Constants.IconHeights.DetailsView.Increment;
+					break;
+				case LayoutTypes.List:
+					if (UserSettingsService.LayoutSettingsService.ItemSizeListView < Constants.IconHeights.ListView.Maximum)
+						UserSettingsService.LayoutSettingsService.ItemSizeListView += Constants.IconHeights.ListView.Increment;
+					break;
+				case LayoutTypes.Tiles:
+					break;
+				case LayoutTypes.Grid:
+					if (UserSettingsService.LayoutSettingsService.ItemSizeGridView < Constants.IconHeights.GridView.Maximum)
+						UserSettingsService.LayoutSettingsService.ItemSizeGridView += Constants.IconHeights.GridView.Increment;
+					break;
+				case LayoutTypes.Columns:
+					if (UserSettingsService.LayoutSettingsService.ItemSizeColumnsView < Constants.IconHeights.ColumnsView.Maximum)
+						UserSettingsService.LayoutSettingsService.ItemSizeColumnsView += Constants.IconHeights.ColumnsView.Increment;
+					break;
+			}
 
 			return Task.CompletedTask;
 		}

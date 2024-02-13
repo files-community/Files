@@ -15,14 +15,12 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void LoadAppResources(this IResourcesService service, IAppearanceSettingsService appearance)
 		{
-			var useCompactStyles = appearance.UseCompactStyles;
 			var appThemeBackgroundColor = appearance.AppThemeBackgroundColor;
 			var appThemeAddressBarBackgroundColor = appearance.AppThemeAddressBarBackgroundColor;
 			var appThemeSidebarBackgroundColor = appearance.AppThemeSidebarBackgroundColor;
 			var appThemeFileAreaBackgroundColor = appearance.AppThemeFileAreaBackgroundColor;
 			var appThemeFontFamily = appearance.AppThemeFontFamily;
 
-			service.SetCompactSpacing(useCompactStyles);
 			try
 			{
 				service.SetAppThemeBackgroundColor(ColorHelper.ToColor(appThemeBackgroundColor).FromWindowsColor());

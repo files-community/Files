@@ -11,31 +11,31 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public int DefaultIconHeightDetailsView
+		public int ItemSizeDetailsView
 		{
 			get => (int)Get((long)Constants.IconHeights.DetailsView.Regular);
 			set => Set((long)value);
 		}
 
-		public int DefaultIconHeightListView
+		public int ItemSizeListView
 		{
 			get => (int)Get((long)Constants.IconHeights.ListView.Regular);
 			set => Set((long)value);
 		}
 
-		public int DefaulIconHeightTilesView
+		public int ItemSizeTilesView
 		{
 			get => (int)Get((long)Constants.IconHeights.TilesView.Regular);
 			set => Set((long)value);
 		}
 
-		public int DefaulIconHeightGridView
+		public int ItemSizeGridView
 		{
 			get => (int)Get((long)Constants.IconHeights.GridView.Medium);
 			set => Set((long)value);
 		}
 
-		public int DefaultIconHeightColumnsView
+		public int ItemSizeColumnsView
 		{
 			get => (int)Get((long)Constants.IconHeights.ColumnsView.Regular);
 			set => Set((long)value);

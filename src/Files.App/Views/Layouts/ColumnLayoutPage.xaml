@@ -124,6 +124,49 @@
 			</Setter>
 		</Style>
 
+		<Style
+			x:Name="MinimumItemContainerStyle"
+			BasedOn="{StaticResource DefaultListViewItemStyle}"
+			TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="-2" />
+			<Setter Property="Height" Value="28" />
+			<Setter Property="Padding" Value="4,0" />
+		</Style>
+
+		<Style
+			x:Name="SmallItemContainerStyle"
+			BasedOn="{StaticResource DefaultListViewItemStyle}"
+			TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Height" Value="32" />
+			<Setter Property="Padding" Value="4,0" />
+		</Style>
+
+		<Style
+			x:Name="RegularItemContainerStyle"
+			BasedOn="{StaticResource DefaultListViewItemStyle}"
+			TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Height" Value="36" />
+			<Setter Property="Padding" Value="4,0" />
+		</Style>
+
+		<Style
+			x:Name="MaximumItemContainerStyle"
+			BasedOn="{StaticResource DefaultListViewItemStyle}"
+			TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Height" Value="40" />
+		</Style>
+
 	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
@@ -383,16 +426,6 @@
 							</GroupStyle.HeaderTemplate>
 						</GroupStyle>
 					</ListView.GroupStyle>
-
-					<ListView.ItemContainerStyle>
-						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-							<Setter Property="MinHeight" Value="1" />
-							<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
-							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-							<Setter Property="Padding" Value="4,0" />
-						</Style>
-					</ListView.ItemContainerStyle>
 
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
