@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
+using Microsoft.UI;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 
@@ -14,7 +15,14 @@ namespace Files.App.Converters
 			if (value is not string strValue)
 				return null;
 
-			return new SolidColorBrush(strValue.ToColor());
+			try
+			{
+				return new SolidColorBrush(strValue.ToColor());
+			}
+			catch (FormatException)
+			{
+				return new SolidColorBrush(Colors.Transparent);
+			}
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
