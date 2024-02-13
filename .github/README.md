@@ -12,7 +12,7 @@
     <a href="https://crowdin.com/project/files-app">
         <img src="https://badges.crowdin.net/files-app/localized.svg" alt="Trannslate the app on Crowdin"></a>
     <a href="https://github.com/badges/shields/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/m/badges/shields" /></a>
+        <img src="https://img.shields.io/github/commit-activity/m/files-community/Files" /></a>
     <a href="https://discord.gg/files">
         <img src="https://discordapp.com/api/guilds/725513575971684472/widget.png" alt="Chat on Discord"></a>
 </p>
