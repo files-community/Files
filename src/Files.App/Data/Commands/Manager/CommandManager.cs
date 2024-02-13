@@ -44,7 +44,6 @@ namespace Files.App.Data.Commands
 		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
 		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand Search => commands[CommandCodes.Search];
-		public IRichCommand SearchUnindexedItems => commands[CommandCodes.SearchUnindexedItems];
 		public IRichCommand EditPath => commands[CommandCodes.EditPath];
 		public IRichCommand Redo => commands[CommandCodes.Redo];
 		public IRichCommand Undo => commands[CommandCodes.Undo];
@@ -112,6 +111,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
+		public IRichCommand LayoutList => commands[CommandCodes.LayoutList];
 		public IRichCommand LayoutTiles => commands[CommandCodes.LayoutTiles];
 		public IRichCommand LayoutGridSmall => commands[CommandCodes.LayoutGridSmall];
 		public IRichCommand LayoutGridMedium => commands[CommandCodes.LayoutGridMedium];
@@ -160,6 +160,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand GroupByYear => commands[CommandCodes.GroupByYear];
 		public IRichCommand GroupByMonth => commands[CommandCodes.GroupByMonth];
 		public IRichCommand ToggleGroupByDateUnit => commands[CommandCodes.ToggleGroupByDateUnit];
+		public IRichCommand NewWindow => commands[CommandCodes.NewWindow];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
@@ -214,7 +215,6 @@ namespace Files.App.Data.Commands
 			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
 			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.Search] = new SearchAction(),
-			[CommandCodes.SearchUnindexedItems] = new SearchUnindexedItemsAction(),
 			[CommandCodes.EditPath] = new EditPathAction(),
 			[CommandCodes.Redo] = new RedoAction(),
 			[CommandCodes.Undo] = new UndoAction(),
@@ -282,6 +282,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
+			[CommandCodes.LayoutList] = new LayoutListAction(),
 			[CommandCodes.LayoutTiles] = new LayoutTilesAction(),
 			[CommandCodes.LayoutGridSmall] = new LayoutGridSmallAction(),
 			[CommandCodes.LayoutGridMedium] = new LayoutGridMediumAction(),
@@ -330,6 +331,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.GroupByYear] = new GroupByYearAction(),
 			[CommandCodes.GroupByMonth] = new GroupByMonthAction(),
 			[CommandCodes.ToggleGroupByDateUnit] = new ToggleGroupByDateUnitAction(),
+			[CommandCodes.NewWindow] = new NewWindowAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),

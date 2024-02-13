@@ -45,6 +45,9 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
 			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
+			ViewModel.IsEditAlbumCoverVisible = 
+				FileExtensionHelpers.IsVideoFile(Item.FileExtension) ||
+				FileExtensionHelpers.IsAudioFile(Item.FileExtension);
 
 			if (!Item.IsShortcut)
 				return;
@@ -261,7 +264,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			switch (e.PropertyName)
 			{
-				case "IsReadOnly":
+				case nameof(ViewModel.IsReadOnly):
 					if (ViewModel.IsReadOnly)
 					{
 						Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly
@@ -275,7 +278,7 @@ namespace Files.App.ViewModels.Properties
 
 					break;
 
-				case "IsHidden":
+				case nameof(ViewModel.IsHidden):
 					if (ViewModel.IsHidden)
 					{
 						Win32Helper.SetFileAttribute(Item.ItemPath, SystemIO.FileAttributes.Hidden
@@ -289,10 +292,10 @@ namespace Files.App.ViewModels.Properties
 
 					break;
 
-				case "RunAsAdmin":
-				case "ShortcutItemPath":
-				case "ShortcutItemWorkingDir":
-				case "ShortcutItemArguments":
+				case nameof(ViewModel.RunAsAdmin):
+				case nameof(ViewModel.ShortcutItemPath):
+				case nameof(ViewModel.ShortcutItemWorkingDir):
+				case nameof(ViewModel.ShortcutItemArguments):
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 

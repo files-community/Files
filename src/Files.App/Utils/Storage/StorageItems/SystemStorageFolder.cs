@@ -1,7 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
@@ -27,7 +29,31 @@ namespace Files.App.Utils.Storage
 		public SystemStorageFolder(StorageFolder folder) => Folder = folder;
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
-			=> AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => new SystemStorageFolder(await StorageFolder.GetFolderFromPathAsync(path)));
+		{
+			if (path.EndsWith(ShellLibraryItem.EXTENSION))
+			{
+				try
+				{
+					using var shellItem = new ShellLibraryEx(Shell32.ShellUtil.GetShellItemForPath(path), true);
+					if (shellItem is ShellLibraryEx library)
+					{
+						var libraryItem = ShellFolderExtensions.GetShellLibraryItem(library, path);
+						var firstFolder = libraryItem?.Folders.FirstOrDefault();
+
+						if (firstFolder != null)
+						{
+							return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => new SystemStorageFolder(await StorageFolder.GetFolderFromPathAsync(firstFolder)));
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					App.Logger.LogWarning(e, null);
+				}
+			}
+
+			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => new SystemStorageFolder(await StorageFolder.GetFolderFromPathAsync(path)));
+		}
 
 		public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => Task.FromResult(Folder).AsAsyncOperation();
 

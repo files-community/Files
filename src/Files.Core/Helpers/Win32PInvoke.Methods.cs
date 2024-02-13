@@ -331,6 +331,32 @@ namespace Files.Core.Helpers
 		[DllImport("shell32.dll", SetLastError = false, CharSet = CharSet.Unicode)]
 		public static extern int SHQueryRecycleBin(
 			string pszRootPath,
-			ref SHQUERYRBINFO pSHQueryRBInfo);
+			ref SHQUERYRBINFO pSHQueryRBInfo
+		);
+
+		[DllImport("shell32.dll")]
+		public static extern IntPtr SHBrowseForFolder(
+			ref BROWSEINFO lpbi
+		);
+
+		[DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+		public static extern bool SHGetPathFromIDList(
+			IntPtr pidl,
+			[MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszPath
+		);
+
+		[DllImport("kernel32.dll", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
+		public static extern IntPtr FindFirstStreamW(
+			string lpFileName,
+			StreamInfoLevels InfoLevel,
+			[In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData,
+			uint dwFlags
+		);
+
+		[DllImport("kernel32.dll", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)] [return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool FindNextStreamW(
+			IntPtr hndFindFile,
+			[In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData
+		);
 	}
 }

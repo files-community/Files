@@ -17,7 +17,6 @@ namespace Files.App.Data.Commands
 		IRichCommand ExitCompactOverlay { get; }
 		IRichCommand ToggleCompactOverlay { get; }
 		IRichCommand Search { get; }
-		IRichCommand SearchUnindexedItems { get; }
 		IRichCommand EditPath { get; }
 		IRichCommand Redo { get; }
 		IRichCommand Undo { get; }
@@ -98,6 +97,7 @@ namespace Files.App.Data.Commands
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }
 		IRichCommand LayoutDetails { get; }
+		IRichCommand LayoutList { get; }
 		IRichCommand LayoutTiles { get; }
 		IRichCommand LayoutGridSmall { get; }
 		IRichCommand LayoutGridMedium { get; }
@@ -149,6 +149,7 @@ namespace Files.App.Data.Commands
 		IRichCommand GroupByMonth { get; }
 		IRichCommand ToggleGroupByDateUnit { get; }
 
+		IRichCommand NewWindow { get; }
 		IRichCommand NewTab { get; }
 		IRichCommand NavigateBack { get; }
 		IRichCommand NavigateForward { get; }

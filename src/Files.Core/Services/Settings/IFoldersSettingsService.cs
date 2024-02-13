@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Data.Enums;
-using System.ComponentModel;
-
 namespace Files.Core.Services.Settings
 {
 	public interface IFoldersSettingsService : IBaseSettingsService, INotifyPropertyChanged
@@ -202,6 +199,11 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating whether or not to show folder size.
 		/// </summary>
 		bool CalculateFolderSizes { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to scroll to the parent folder when navigating up.
+		/// </summary>
+		bool ScrollToPreviousFolderWhenNavigatingUp { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the default sorting option.

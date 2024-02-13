@@ -2,12 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Text.RegularExpressions;
 using Windows.Storage;
-using Microsoft.UI.Dispatching;
 
 namespace Files.App.Views.Properties
 {
@@ -16,7 +16,6 @@ namespace Files.App.Views.Properties
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
 		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
-
 		public GeneralPage()
 		{
 			InitializeComponent();
@@ -135,6 +134,16 @@ namespace Files.App.Views.Properties
 						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, itemMM)
 						);
+
+						if (ViewModel.IsAblumCoverModified)
+						{
+							MediaFileHelper.ChangeAlbumCover(fileOrFolder.ItemPath, ViewModel.ModifiedAlbumCover);
+
+							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+							{
+								AppInstance?.FilesystemViewModel?.RefreshItems(null);
+							});
+						}
 					}
 				}
 				return true;
@@ -153,6 +162,19 @@ namespace Files.App.Views.Properties
 
 				if (ViewModel.IsUnblockFileSelected)
 					Win32PInvoke.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+
+				if (ViewModel.IsAblumCoverModified)
+				{
+					MediaFileHelper.ChangeAlbumCover(item.ItemPath, ViewModel.ModifiedAlbumCover);
+
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						AppInstance?.FilesystemViewModel?.RefreshItems(null);
+					});
+				}
+
+				ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
+				ViewModel.IsHidden = ViewModel.IsHiddenEditedValue;
 
 				if (!GetNewName(out var newName))
 					return true;

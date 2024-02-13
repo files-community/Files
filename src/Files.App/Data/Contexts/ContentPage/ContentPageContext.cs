@@ -47,8 +47,6 @@ namespace Files.App.Data.Contexts
 
 		public bool IsMultiPaneActive => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneActive;
 
-		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
-
 		public bool IsGitRepository => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository;
 
 		public bool CanExecuteGitAction => IsGitRepository && !GitHelpers.IsExecutingGitAction;
@@ -151,9 +149,6 @@ namespace Files.App.Data.Contexts
 				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
 					UpdatePageType();
 					break;
-				case nameof(CurrentInstanceViewModel.ShowSearchUnindexedItemsMessage):
-					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-					break;
 				case nameof(CurrentInstanceViewModel.IsGitRepository):
 					OnPropertyChanged(nameof(IsGitRepository));
 					OnPropertyChanged(nameof(CanExecuteGitAction));
@@ -205,7 +200,6 @@ namespace Files.App.Data.Contexts
 			OnPropertyChanged(nameof(CanCreateItem));
 			OnPropertyChanged(nameof(IsMultiPaneEnabled));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
-			OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 			OnPropertyChanged(nameof(IsGitRepository));
 			OnPropertyChanged(nameof(CanExecuteGitAction));
 		}

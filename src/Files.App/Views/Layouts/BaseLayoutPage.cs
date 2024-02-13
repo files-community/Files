@@ -187,7 +187,7 @@ namespace Files.App.Views.Layouts
 					if (previouslySelectedItem is not null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders
+						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList()
 							.SkipWhile(x => x != previouslySelectedItem)
 							.Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
 							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
@@ -197,7 +197,7 @@ namespace Files.App.Views.Layouts
 					if (jumpedToItem is null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders
+						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList()
 							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
@@ -362,7 +362,6 @@ namespace Files.App.Views.Layouts
 						IsSearchResultPage = navigationArguments.IsSearchResultPage,
 						SearchPathParam = navigationArguments.SearchPathParam,
 						SearchQuery = navigationArguments.SearchQuery,
-						SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
 						IsLayoutSwitch = true,
 						AssociatedTabInstance = ParentShellPageInstance
 					});
@@ -463,13 +462,12 @@ namespace Files.App.Views.Layouts
 				if (!navigationArguments.IsLayoutSwitch)
 				{
 					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
+					await ParentShellPageInstance.UpdatePathUIToWorkingDirectoryAsync(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
 					var searchInstance = new Utils.Storage.FolderSearch
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
-						ThumbnailSize = InstanceViewModel!.FolderSettings.GetIconSize(),
-						SearchUnindexedItems = navigationArguments.SearchUnindexedItems
+						ThumbnailSize = InstanceViewModel!.FolderSettings.GetRoundedIconSize(),
 					};
 
 					_ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);
@@ -498,7 +496,7 @@ namespace Files.App.Views.Layouts
 					navigationArguments.SelectItems.Any())
 				{
 					List<ListedItem> listedItemsToSelect = new();
-					listedItemsToSelect.AddRange(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)));
+					listedItemsToSelect.AddRange(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList().Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)));
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
@@ -588,12 +586,12 @@ namespace Files.App.Views.Layouts
 					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 
 					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-					var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
+					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
 
 					ItemContextMenuFlyout.PrimaryCommands.Clear();
 					ItemContextMenuFlyout.SecondaryCommands.Clear();
 
-					var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+					var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(items);
 					AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
 					primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
 					secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
@@ -604,7 +602,7 @@ namespace Files.App.Views.Layouts
 
 					if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 					{
-						var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+						var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 						if (shellMenuItems.Any())
 							await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
 						else
@@ -646,12 +644,12 @@ namespace Files.App.Views.Layouts
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<ListedItem> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
+				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<ListedItem> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
 
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
 
-				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+				var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(items);
 
 				AddCloseHandler(BaseContextMenuFlyout, primaryElements, secondaryElements);
 
@@ -663,7 +661,7 @@ namespace Files.App.Views.Layouts
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 				{
-					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
@@ -682,7 +680,7 @@ namespace Files.App.Views.Layouts
 
 		public void UpdateSelectionSize()
 		{
-			var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
+			var items = (selectedItems?.Any() ?? false) ? selectedItems : SafetyExtensions.IgnoreExceptions(GetAllItems, App.Logger);
 			if (items is null)
 				return;
 
@@ -765,8 +763,8 @@ namespace Files.App.Views.Layouts
 				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ContextMenuFlyoutItemType.Separator)
 				|| x.ItemType != ContextMenuFlyoutItemType.Separator).ToList();
 
-			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
-			var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
+			var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
+			var mainItems = ContextFlyoutModelToElementHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
 			var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
 			var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
@@ -790,13 +788,13 @@ namespace Files.App.Views.Layouts
 				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
 			}
 
-			ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+			ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
 				contextMenuFlyout,
 				"TurnOnBitLockerPlaceholder",
 				turnOnBitLockerMenuItem,
 				contextMenuFlyout.SecondaryCommands.Count - 2
 			);
-			ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+			ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
 				contextMenuFlyout,
 				"ManageBitLockerPlaceholder",
 				manageBitLockerMenuItem,
@@ -853,7 +851,7 @@ namespace Files.App.Views.Layouts
 			if (openWithMenuItem?.LoadSubMenuAction is not null && openWithOverflow is not null && openWith is not null)
 			{
 				await openWithMenuItem.LoadSubMenuAction();
-				var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
+				var openWithSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GetOpenWithItems(shellMenuItems));
 
 				if (openWithSubItems is not null)
 				{
@@ -879,7 +877,7 @@ namespace Files.App.Views.Layouts
 				if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
 				{
 					await sendToMenuItem.LoadSubMenuAction();
-					var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
+					var sendToSubItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(ShellContextFlyoutFactory.GetSendToItems(shellMenuItems));
 
 					if (sendToSubItems is not null)
 					{
@@ -902,7 +900,7 @@ namespace Files.App.Views.Layouts
 			{
 				await x.LoadSubMenuAction();
 
-				ShellContextmenuHelper.AddItemsToMainMenu(mainItems, x);
+				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, x);
 			});
 
 			// Add items to overflow shell submenu
@@ -910,7 +908,7 @@ namespace Files.App.Views.Layouts
 			{
 				await x.LoadSubMenuAction();
 
-				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
+				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, x);
 			});
 
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
@@ -960,7 +958,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+		protected virtual void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
 			try
 			{
@@ -1096,7 +1094,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private async void Item_Drop(object sender, DragEventArgs e)
+		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
 			var deferral = e.GetDeferral();
 
@@ -1284,7 +1282,7 @@ namespace Files.App.Views.Layouts
 			CommandsViewModel?.DragOverCommand?.Execute(e);
 		}
 
-		protected void ItemsLayout_Drop(object sender, DragEventArgs e)
+		protected virtual void ItemsLayout_Drop(object sender, DragEventArgs e)
 		{
 			CommandsViewModel?.DropCommand?.Execute(e);
 		}
@@ -1296,19 +1294,21 @@ namespace Files.App.Views.Layouts
 
 			if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
 			{
-				CollectionViewSource = new()
+				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = true,
 					Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
 				};
+				CollectionViewSource = newSource;
 			}
 			else
 			{
-				CollectionViewSource = new()
+				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = false,
 					Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
 				};
+				CollectionViewSource = newSource;
 			}
 		}
 

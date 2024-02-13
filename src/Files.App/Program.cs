@@ -27,7 +27,7 @@ namespace Files.App
 
 		static Program()
 		{
-			var pool = new Semaphore(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
+			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
 
 			if (!isNew)
 			{

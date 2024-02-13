@@ -26,7 +26,6 @@ namespace Files.App.Utils.Storage
 
 		public uint MaxItemCount { get; set; } = 0; // 0: no limit
 		public uint ThumbnailSize { get; set; } = 24;
-		public bool SearchUnindexedItems { get; set; } = false;
 
 		private uint UsedMaxItemCount => MaxItemCount > 0 ? MaxItemCount : uint.MaxValue;
 
@@ -515,9 +514,7 @@ namespace Files.App.Utils.Storage
 				UserSearchFilter = AQSQuery ?? string.Empty,
 			};
 
-			query.IndexerOption = SearchUnindexedItems
-				? IndexerOption.DoNotUseIndexer
-				: IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
+			query.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
 
 			query.SortOrder.Clear();
 			query.SortOrder.Add(new SortEntry { PropertyName = "System.Search.Rank", AscendingOrder = false });

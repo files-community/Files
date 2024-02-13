@@ -954,7 +954,7 @@
 												Height="8"
 												HorizontalAlignment="Right"
 												VerticalAlignment="Bottom"
-												x:Load="{x:Bind IsElevated}"
+												x:Load="{x:Bind IsElevationRequired}"
 												Source="{x:Bind ShieldIcon, Mode=OneWay}"
 												Stretch="Uniform" />
 										</Grid>
@@ -1508,21 +1508,6 @@
 			</SemanticZoom.ZoomedOutView>
 
 		</SemanticZoom>
-
-		<!--  Search Unindexed Items  -->
-		<StackPanel
-			x:Name="SearchUnindexedItemsPanel"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Bottom"
-			x:Load="{x:Bind Commands.SearchUnindexedItems.IsExecutable, Mode=OneWay}"
-			Orientation="Vertical">
-			<TextBlock Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
-			<HyperlinkButton
-				x:Name="SearchUnindexedItemsButton"
-				HorizontalAlignment="Center"
-				Command="{x:Bind Commands.SearchUnindexedItems}"
-				Content="{x:Bind Commands.SearchUnindexedItems.Label}" />
-		</StackPanel>
 
 		<!--  Selector  -->
 		<Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

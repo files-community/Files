@@ -374,7 +374,7 @@ namespace Files.App.ViewModels.UserControls
 					if (!section.ChildItems.Any(x => x.Path == drive.Path))
 					{
 						section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
-						await drive.LoadThumbnailAsync(true);
+						await drive.LoadThumbnailAsync();
 					}
 				}
 				else
@@ -388,7 +388,7 @@ namespace Files.App.ViewModels.UserControls
 						int position = paths.IndexOf(drivePath);
 
 						section.ChildItems.Insert(position, drive);
-						await drive.LoadThumbnailAsync(true);
+						await drive.LoadThumbnailAsync();
 					}
 				}
 			}
@@ -702,7 +702,7 @@ namespace Files.App.ViewModels.UserControls
 			itemContextMenuFlyout.Closed += (sender, e) => RightClickedItemChanged?.Invoke(this, null);
 
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
 			secondaryElements
 				.OfType<FrameworkElement>()
@@ -722,7 +722,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
+			await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
 		}
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
@@ -891,7 +891,7 @@ namespace Files.App.ViewModels.UserControls
 		private void OpenProperties(CommandBarFlyout menu)
 		{
 			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = (s, e) =>
+			flyoutClosed = async (s, e) =>
 			{
 				menu.Closed -= flyoutClosed;
 				if (rightClickedItem is DriveItem)
@@ -900,13 +900,23 @@ namespace Files.App.ViewModels.UserControls
 					FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), PaneHolder.ActivePane);
 				else if (rightClickedItem is LocationItem locationItem)
 				{
-					ListedItem listedItem = new ListedItem(null!)
+					var listedItem = new ListedItem(null!)
 					{
 						ItemPath = locationItem.Path,
 						ItemNameRaw = locationItem.Text,
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemType = "Folder".GetLocalizedResource(),
 					};
+
+					if (!string.Equals(locationItem.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+					{
+						BaseStorageFolder matchingStorageFolder = await PaneHolder.ActivePane.FilesystemViewModel.GetFolderFromPathAsync(locationItem.Path);
+						if (matchingStorageFolder is not null)
+						{
+							var syncStatus = await PaneHolder.ActivePane.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+							listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+						}
+					}
 
 					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, PaneHolder.ActivePane);
 				}
@@ -1067,26 +1077,19 @@ namespace Files.App.ViewModels.UserControls
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		public async void HandleItemDragOverAsync(ItemDragOverEventArgs args)
+		public async Task HandleItemDragOverAsync(ItemDragOverEventArgs args)
 		{
 			if (args.DropTarget is LocationItem locationItem)
-			{
-				HandleLocationItemDragOverAsync(locationItem, args);
-			}
+				await HandleLocationItemDragOverAsync(locationItem, args);
 			else if (args.DropTarget is DriveItem driveItem)
-			{
-				HandleDriveItemDragOverAsync(driveItem, args);
-			}
+				await HandleDriveItemDragOverAsync(driveItem, args);
 			else if (args.DropTarget is FileTagItem fileTagItem)
-			{
-				HandleTagItemDragOverAsync(fileTagItem, args);
-			}
+				await HandleTagItemDragOverAsync(fileTagItem, args);
 		}
 
-		private async void HandleLocationItemDragOverAsync(LocationItem locationItem, ItemDragOverEventArgs args)
+		private async Task HandleLocationItemDragOverAsync(LocationItem locationItem, ItemDragOverEventArgs args)
 		{
 			var rawEvent = args.RawEvent;
-			var deferral = rawEvent.GetDeferral();
 
 			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 			{
@@ -1163,16 +1166,13 @@ namespace Files.App.ViewModels.UserControls
 					CompleteDragEventArgs(rawEvent, captionText, operationType);
 				}
 			}
-
-			deferral.Complete();
 		}
 
-		private async void HandleDriveItemDragOverAsync(DriveItem driveItem, ItemDragOverEventArgs args)
+		private async Task HandleDriveItemDragOverAsync(DriveItem driveItem, ItemDragOverEventArgs args)
 		{
 			if (!Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 				return;
 
-			var deferral = args.RawEvent.GetDeferral();
 			args.RawEvent.Handled = true;
 
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
@@ -1218,16 +1218,13 @@ namespace Files.App.ViewModels.UserControls
 				}
 				CompleteDragEventArgs(args.RawEvent, captionText, operationType);
 			}
-
-			deferral.Complete();
 		}
 
-		private async void HandleTagItemDragOverAsync(FileTagItem tagItem, ItemDragOverEventArgs args)
+		private async Task HandleTagItemDragOverAsync(FileTagItem tagItem, ItemDragOverEventArgs args)
 		{
 			if (!Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 				return;
 
-			var deferral = args.RawEvent.GetDeferral();
 			args.RawEvent.Handled = true;
 
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
@@ -1242,32 +1239,23 @@ namespace Files.App.ViewModels.UserControls
 				args.RawEvent.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), tagItem.Text);
 				args.RawEvent.AcceptedOperation = DataPackageOperation.Link;
 			}
-
-			deferral.Complete();
 		}
 
 
-		public async void HandleItemDroppedAsync(ItemDroppedEventArgs args)
+		public async Task HandleItemDroppedAsync(ItemDroppedEventArgs args)
 		{
 			if (args.DropTarget is LocationItem locationItem)
-			{
-				HandleLocationItemDroppedAsync(locationItem, args);
-			}
+				await HandleLocationItemDroppedAsync(locationItem, args);
 			else if (args.DropTarget is DriveItem driveItem)
-			{
-				HandleDriveItemDroppedAsync(driveItem, args);
-			}
+				await HandleDriveItemDroppedAsync(driveItem, args);
 			else if (args.DropTarget is FileTagItem fileTagItem)
-			{
-				HandleTagItemDroppedAsync(fileTagItem, args);
-			}
+				await HandleTagItemDroppedAsync(fileTagItem, args);
 		}
 
-		private async void HandleLocationItemDroppedAsync(LocationItem locationItem, ItemDroppedEventArgs args)
+		private async Task HandleLocationItemDroppedAsync(LocationItem locationItem, ItemDroppedEventArgs args)
 		{
 			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 			{
-				var deferral = args.RawEvent.GetDeferral();
 				if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section)) // Pin to Favorites section
 				{
 					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
@@ -1281,24 +1269,16 @@ namespace Files.App.ViewModels.UserControls
 				{
 					await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, locationItem.Path, false, true);
 				}
-				deferral.Complete();
 			}
 		}
 
-		private async void HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
+		private Task HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
 		{
-			var deferral = args.RawEvent.GetDeferral();
-
-			await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
-
-			deferral.Complete();
-			await Task.Yield();
+			return FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
 		}
 
-		private async void HandleTagItemDroppedAsync(FileTagItem fileTagItem, ItemDroppedEventArgs args)
+		private async Task HandleTagItemDroppedAsync(FileTagItem fileTagItem, ItemDroppedEventArgs args)
 		{
-			var deferral = args.RawEvent.GetDeferral();
-
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
@@ -1309,9 +1289,6 @@ namespace Files.App.ViewModels.UserControls
 					FileTags = new[] { fileTagItem.FileTag.Uid }
 				};
 			}
-
-			deferral.Complete();
-			await Task.Yield();
 		}
 
 		private static DragEventArgs CompleteDragEventArgs(DragEventArgs e, string captionText, DataPackageOperation operationType)

@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Nouvelle fenêtre</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Disque déconnecté</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Le fichier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Impossible d'ouvrir les propriétés pour ce fichier</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Le fichier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Afficher les fichiers système protégés</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Inclure les éléments non indexés dans les résultats de recherche</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Synchroniser les préférences de disposition et de tri entre les dossiers</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Afficher l'option pour ouvrir les dossiers dans un nouveau volet</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Afficher l'option pour copier le chemin</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Afficher l'option pour créer un dossier avec la sélection</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Afficher l'option pour créer un raccourci</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nouveau volet</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Vitesse ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Vous n'avez pas trouvé ce que vous cherchiez ?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Chercher les éléments non indexés</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Remplacer l'existant</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Accueil</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maj+1</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Basculer en vue tuiles</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Basculer à la vue en liste</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Liste</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Basculer en vue grille avec des petites icônes</value>
   </data>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Afficher les cases à cocher lors de la sélection des éléments</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Recherchez des éléments non indexés</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Se placer sur la barre de chemin</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Grouper les éléments par année de création</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Grouper les éléments par jour de suppression</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3513,38 +3519,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Annulation de la suppression définitive de {0} élément(s) depuis "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>{0} élément(s) supprimé(s) définitivement depuis "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Erreur lors de la suppression définitive de {0} élément(s) depuis "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Échec de la suppression définitive de {0} élément(s) depuis "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Suppression définitive de {0} élément(s) depuis "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Annulation de la suppression de {0} élément(s) depuis "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>{0} élément(s) supprimé(s) depuis "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Erreur lors de la suppression de {0} élément(s) depuis "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>La suppression de {0} élément(s) depuis {1} a échoué"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Suppression de {0} élément(s) depuis "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3669,7 +3659,7 @@
     <value>Trier les dossiers en premier</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Trier les dossiers en premier, puis les fichiers</value>
+    <value>Trier d'abord les dossiers puis les fichiers</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
     <value>Trier la priorité</value>
@@ -3685,5 +3675,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Échec du partage d'éléments</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Défiler vers le dossier précédent lors de la navigation vers le haut</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Ouvrir une nouvelle fenêtre</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Changer la pochette de l'album</value>
   </data>
 </root>

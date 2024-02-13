@@ -10,11 +10,6 @@ namespace Files.Core.Services.Settings
 	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to search unindexed items.
-		/// </summary>
-		bool SearchUnindexedItems { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
 		/// </summary>
 		bool OpenSpecificPageOnStartup { get; set; }
@@ -168,6 +163,21 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating whether or not to show the option to open folders in a new pane.
 		/// </summary>
 		bool ShowOpenInNewPane { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to copy an items path.
+		/// </summary>
+		bool ShowCopyPath { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to create a shortcut.
+		/// </summary>
+		bool ShowCreateShortcut { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to create folder with selection.
+		/// </summary>
+		bool ShowCreateFolderWithSelection { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the compression options e.g. create archive, extract files.

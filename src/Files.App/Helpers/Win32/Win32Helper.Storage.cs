@@ -396,29 +396,25 @@ namespace Files.App.Helpers
 			return null;
 		}
 
+		// https://stackoverflow.com/a/7988352
 		public static IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
 		{
-			using var handle = OpenFileForRead(path);
-			if (!handle.IsInvalid)
+			var findStreamData = new Win32PInvoke.WIN32_FIND_STREAM_DATA();
+			IntPtr hFile = FindFirstStreamW(path, StreamInfoLevels.FindStreamInfoStandard, findStreamData, 0);
+
+			if (hFile.ToInt64() != -1)
 			{
-				var bufferSize = Marshal.SizeOf(typeof(FILE_STREAM_INFO)) * 10;
-				var mem = Marshal.AllocHGlobal(bufferSize);
-				if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileStreamInfo, mem, (uint)bufferSize))
+				do
 				{
-					uint offset = 0;
-					FILE_STREAM_INFO fileStruct;
-					do
-					{
-						fileStruct = Marshal.PtrToStructure<FILE_STREAM_INFO>(new IntPtr(mem.ToInt64() + offset));
-						var name = fileStruct.StreamName.Substring(0, (int)fileStruct.StreamNameLength / 2);
-						if (name.EndsWith(":$DATA") && name != "::$DATA")
-						{
-							yield return (name, fileStruct.StreamSize);
-						}
-						offset += fileStruct.NextEntryOffset;
-					} while (fileStruct.NextEntryOffset != 0);
+					// The documentation for FindFirstStreamW says that it is always a ::$DATA
+					// stream type, but FindNextStreamW doesn't guarantee that for subsequent
+					// streams so we check to make sure
+					if (findStreamData.cStreamName.EndsWith(":$DATA") && findStreamData.cStreamName != "::$DATA")
+						yield return (findStreamData.cStreamName, findStreamData.StreamSize);
 				}
-				Marshal.FreeHGlobal(mem);
+				while (FindNextStreamW(hFile, findStreamData));
+
+				FindClose(hFile);
 			}
 		}
 

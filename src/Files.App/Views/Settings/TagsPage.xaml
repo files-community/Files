@@ -67,7 +67,7 @@
 							x:Name="AddTagGrid"
 							Padding="32,12"
 							x:Load="{x:Bind ViewModel.IsCreatingNewTag, Mode=OneWay}"
-							Background="{ThemeResource CardBackgroundFillColorDefault}"
+							Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
 							BorderThickness="0,0,0,1">
 							<Grid.ColumnDefinitions>

@@ -37,8 +37,12 @@ namespace Files.App.Actions
 			{
 				foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
 				{
-					var folder = await StorageService.GetFolderAsync(listedItem.ItemPath);
-					await StartMenuService.PinAsync(folder, listedItem.Name);
+					IStorable storable = listedItem.IsFolder switch
+					{
+						true => await StorageService.GetFolderAsync(listedItem.ItemPath),
+						_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
+					};
+					await StartMenuService.PinAsync(storable, listedItem.Name);
 				}
 			}
 			else if (context.ShellPage?.FilesystemViewModel?.CurrentFolder is not null)

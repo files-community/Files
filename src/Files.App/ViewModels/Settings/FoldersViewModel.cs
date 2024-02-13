@@ -338,6 +338,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ScrollToPreviousFolderWhenNavigatingUp
+		{
+			get => UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
+				{
+					UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private int selectedDefaultSortingIndex;
 		public int SelectedDefaultSortingIndex
 		{

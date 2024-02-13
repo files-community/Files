@@ -166,17 +166,34 @@ namespace Files.Core.Helpers
 			public bool bRestartable;
 		}
 
-		// There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
-		// The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
-		// The ones below are due to bugs in the current version of the library and can be removed once fixed
-		// Structure used by SHQueryRecycleBin.
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BROWSEINFO
+		{
+			public IntPtr hwndOwner;
+			public IntPtr pidlRoot;
+			public string pszDisplayName;
+			public string lpszTitle;
+			public uint ulFlags;
+			public IntPtr lpfn;
+			public int lParam;
+			public IntPtr iImage;
+		}
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+		private class WIN32_FIND_STREAM_DATA
+		{
+			public long StreamSize;
+
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 296)]
+			public string cStreamName;
+		}
+
+		// NOTE: There's a bug regarding this struct with Vanara.
 		[StructLayout(LayoutKind.Sequential, Pack = 0)]
 		public struct SHQUERYRBINFO
 		{
 			public int cbSize;
-
 			public long i64Size;
-
 			public long i64NumItems;
 		}
 	}

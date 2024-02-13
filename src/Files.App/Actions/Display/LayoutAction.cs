@@ -20,6 +20,24 @@ namespace Files.App.Actions
 		public override HotKey HotKey
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
+	
+	internal class LayoutListAction : ToggleLayoutAction
+	{
+		protected override LayoutTypes LayoutType
+			=> LayoutTypes.List;
+
+		public override string Label
+			=> "List".GetLocalizedResource();
+
+		public override string Description
+			=> "LayoutListDescription".GetLocalizedResource();
+
+		public override RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconListLayout");
+
+		public override HotKey HotKey
+			=> new(Keys.Number2, KeyModifiers.CtrlShift);
+	}
 
 	internal class LayoutTilesAction : ToggleLayoutAction
 	{
@@ -36,7 +54,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconTilesLayout");
 
 		public override HotKey HotKey
-			=> new(Keys.Number2, KeyModifiers.CtrlShift);
+			=> new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutGridSmallAction : ToggleLayoutAction
@@ -54,7 +72,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconGridSmallLayout");
 
 		public override HotKey HotKey
-			=> new(Keys.Number3, KeyModifiers.CtrlShift);
+			=> new(Keys.Number4, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutGridMediumAction : ToggleLayoutAction
@@ -72,7 +90,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconGridMediumLayout");
 
 		public override HotKey HotKey
-			=> new(Keys.Number4, KeyModifiers.CtrlShift);
+			=> new(Keys.Number5, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutGridLargeAction : ToggleLayoutAction
@@ -90,7 +108,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconGridLargeLayout");
 
 		public override HotKey HotKey
-			=> new(Keys.Number5, KeyModifiers.CtrlShift);
+			=> new(Keys.Number6, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutColumnsAction : ToggleLayoutAction
@@ -108,7 +126,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconColumnsLayout");
 
 		public override HotKey HotKey
-			=> new(Keys.Number6, KeyModifiers.CtrlShift);
+			=> new(Keys.Number7, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutAdaptiveAction : ToggleLayoutAction
@@ -129,7 +147,7 @@ namespace Files.App.Actions
 			=> new("\uF576");
 
 		public override HotKey HotKey
-			=> new(Keys.Number7, KeyModifiers.CtrlShift);
+			=> new(Keys.Number8, KeyModifiers.CtrlShift);
 
 		protected override void OnContextChanged(string propertyName)
 		{

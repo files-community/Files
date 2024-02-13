@@ -88,5 +88,10 @@ namespace Files.Core.Helpers
 			FileIdExtdDirectoryRestartInfo = 20, // 0x14
 			MaximumFileInfoByHandlesClass
 		}
+
+		public enum StreamInfoLevels
+		{
+			FindStreamInfoStandard = 0
+		}
 	}
 }

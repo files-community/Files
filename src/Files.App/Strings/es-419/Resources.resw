@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Nueva ventana</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Unidad no conectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>El archivo al que está intentando acceder puede haberse movido o eliminado.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>No se pueden abrir las propiedades de este archivo</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>El archivo al que está intentando acceder puede haberse movido o eliminado.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Mostrar archivos protegidos del sistema</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Incluir elementos no indexados en los resultados de búsqueda</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sincronizar preferencias de diseño y clasificación entre directorios</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Mostrar opción para abrir carpetas en un nuevo panel</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Mostrar opción para copiar ruta</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Mostrar opción para crear una carpeta con la selección</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Mostrar opción para crear acceso directo</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nuevo panel</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocidad ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>¿No encontró lo que buscaba?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Buscar elementos no indexados</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Remplazar existente</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Inicio</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+1</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Cambiar a vista de mosaicos</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Cambiar a vista de lista</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Lista</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Cambiar a vista de cuadrícula con iconos pequeños</value>
   </data>
@@ -2959,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Búsqueda de elementos no indexados</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Enfocar la barra de ruta</value>
   </data>
@@ -3025,7 +3031,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Agrupar elementos por año de fecha de creación</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Agrupar elementos por día de eliminación</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3513,38 +3519,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Cancelada la eliminación permanente de {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Eliminado(s) permanentemente {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error al eliminar permanentemente {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>No se pudo eliminar permanentemente {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Eliminando permanentemente {0} elemento(s) desde "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Cancelada la eliminación de {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Eliminado(s) {0} elemento(s) desde {1}"</value>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Eliminado(s) {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Error al eliminar {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>No se ha(n) podido eliminar {0} elemento(s) desde {1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Eliminando {0} elemento(s) desde "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3685,5 +3675,14 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>No se pudo compartir elementos</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Desplazarse a la carpeta anterior al navegar hacia arriba</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Abrir nueva ventana</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Cambiar la portada del álbum</value>
   </data>
 </root>

@@ -219,7 +219,7 @@ namespace Files.App.Data.Items
 				ToolTipService.SetToolTip(itemDecorator, "Eject".GetLocalizedResource());
 
 				itemDecorator.Click += ItemDecorator_Click;
-        
+
 				return itemDecorator;
 			}
 		}
@@ -314,29 +314,22 @@ namespace Files.App.Data.Items
 			return result == 0 ? Text.CompareTo(other.Text) : result;
 		}
 
-		public async Task LoadThumbnailAsync(bool isSidebar = false)
+		public async Task LoadThumbnailAsync()
 		{
-			if (!isSidebar)
+			if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
+				IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, Constants.DefaultIconSizes.Large, false, false, true);
+
+			if (Root is not null)
 			{
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
 				IconData ??= await thumbnail.ToByteArrayAsync();
 			}
-			else
-			{
-				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 16);
 
-				if (Root is not null)
-				{
-					using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
-					IconData ??= await thumbnail.ToByteArrayAsync();
-				}
+			if (string.Equals(DeviceID, "network-folder"))
+				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.NetworkDrives).IconData;
 
-				if (string.Equals(DeviceID, "network-folder"))
-					IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.NetworkDrives).IconData;
+			IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 
-				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
-			}
 			Icon ??= await IconData.ToBitmapAsync();
 		}
 

@@ -63,13 +63,17 @@ namespace Files.App.Utils.Storage
 			set
 			{
 				T item;
+				NotifyCollectionChangedEventArgs e;
 				lock (syncRoot)
 				{
 					item = collection[index];
 					collection[index] = value;
+
+					e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, item, index);
+					OnCollectionChanged(e, false);
 				}
 
-				OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, item, index), false);
+				UpdateGroups(e);
 			}
 		}
 
@@ -114,9 +118,12 @@ namespace Files.App.Utils.Storage
 
 		public virtual void BeginBulkOperation()
 		{
-			isBulkOperationStarted = true;
-			GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
-			GroupedCollection?.BeginBulkOperation();
+			lock (syncRoot)
+			{
+				isBulkOperationStarted = true;
+				GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
+				GroupedCollection?.BeginBulkOperation();
+			}
 		}
 
 		protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e, bool countChanged = true)
@@ -129,7 +136,10 @@ namespace Files.App.Utils.Storage
 				PropertyChanged?.Invoke(this, EventArgsCache.IndexerPropertyChanged);
 				CollectionChanged?.Invoke(this, e);
 			}
+		}
 
+		protected void UpdateGroups(NotifyCollectionChangedEventArgs e)
+		{
 			if (IsGrouped)
 			{
 				if (e.NewItems is not null)
@@ -216,16 +226,19 @@ namespace Files.App.Utils.Storage
 
 		public virtual void EndBulkOperation()
 		{
-			if (!isBulkOperationStarted)
-				return;
+			lock (syncRoot)
+			{
+				if (!isBulkOperationStarted)
+					return;
 
-			isBulkOperationStarted = false;
-			GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
-			GroupedCollection?.EndBulkOperation();
+				isBulkOperationStarted = false;
+				GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
+				GroupedCollection?.EndBulkOperation();
 
-			OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
-			PropertyChanged?.Invoke(this, EventArgsCache.CountPropertyChanged);
-			PropertyChanged?.Invoke(this, EventArgsCache.IndexerPropertyChanged);
+				OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+			}
+
+			UpdateGroups(EventArgsCache.ResetCollectionChanged);
 		}
 
 		public void Add(T? item)
@@ -233,12 +246,19 @@ namespace Files.App.Utils.Storage
 			if (item is null)
 				return;
 
+			int count;
+			NotifyCollectionChangedEventArgs e;
+
 			lock (syncRoot)
 			{
+				count = collection.Count;
 				collection.Add(item);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, count);
+				OnCollectionChanged(e);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, collection.Count - 1));
+			UpdateGroups(e);
 		}
 
 		public void Clear()
@@ -246,10 +266,12 @@ namespace Files.App.Utils.Storage
 			lock (syncRoot)
 			{
 				collection.Clear();
-			}
-			GroupedCollection?.Clear();
+				GroupedCollection?.Clear();
 
-			OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+				OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+			}
+
+			UpdateGroups(EventArgsCache.ResetCollectionChanged);
 		}
 
 		public bool Contains(T? item)
@@ -277,6 +299,7 @@ namespace Files.App.Utils.Storage
 				return false;
 
 			int index;
+			NotifyCollectionChangedEventArgs e;
 
 			lock (syncRoot)
 			{
@@ -286,9 +309,12 @@ namespace Files.App.Utils.Storage
 					return false;
 
 				collection.RemoveAt(index);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index);
+				OnCollectionChanged(e);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+			UpdateGroups(e);
 			return true;
 		}
 
@@ -318,25 +344,35 @@ namespace Files.App.Utils.Storage
 			if (item is null)
 				return;
 
+			NotifyCollectionChangedEventArgs e;
+
 			lock (syncRoot)
 			{
 				collection.Insert(index, item);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index);
+				OnCollectionChanged(e);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+			UpdateGroups(e);
 		}
 
 		public void RemoveAt(int index)
 		{
 			T item;
 
+			NotifyCollectionChangedEventArgs e;
+
 			lock (syncRoot)
 			{
 				item = collection[index];
 				collection.RemoveAt(index);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index);
+				OnCollectionChanged(e);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+			UpdateGroups(e);
 		}
 
 		public void AddRange(IEnumerable<T> items)
@@ -344,12 +380,19 @@ namespace Files.App.Utils.Storage
 			if (!items.Any())
 				return;
 
+			int count;
+			NotifyCollectionChangedEventArgs e;
+
 			lock (syncRoot)
 			{
+				count = collection.Count;
 				collection.AddRange(items);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), count);
+				OnCollectionChanged(e);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), collection.Count - items.Count()));
+			UpdateGroups(e);
 		}
 
 		public void InsertRange(int index, IEnumerable<T> items)
@@ -357,12 +400,17 @@ namespace Files.App.Utils.Storage
 			if (!items.Any())
 				return;
 
+			NotifyCollectionChangedEventArgs e;
+
 			lock (syncRoot)
 			{
 				collection.InsertRange(index, items);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), index);
+				OnCollectionChanged(e);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), index));
+			UpdateGroups(e);
 		}
 
 		public void RemoveRange(int index, int count)
@@ -371,14 +419,18 @@ namespace Files.App.Utils.Storage
 				return;
 
 			List<T> items;
+			NotifyCollectionChangedEventArgs e;
 
 			lock (syncRoot)
 			{
 				items = collection.Skip(index).Take(count).ToList();
 				collection.RemoveRange(index, count);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, items, index);
+				OnCollectionChanged(e);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, items, index));
+			UpdateGroups(e);
 		}
 
 		public void ReplaceRange(int index, IEnumerable<T> items)
@@ -390,6 +442,7 @@ namespace Files.App.Utils.Storage
 
 			List<T> oldItems;
 			List<T> newItems;
+			NotifyCollectionChangedEventArgs e;
 
 			lock (syncRoot)
 			{
@@ -397,9 +450,12 @@ namespace Files.App.Utils.Storage
 				newItems = items.ToList();
 				collection.RemoveRange(index, count);
 				collection.InsertRange(index, newItems);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index);
+				OnCollectionChanged(e, false);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index), false);
+			UpdateGroups(e);
 		}
 
 		public void Sort()
@@ -424,9 +480,9 @@ namespace Files.App.Utils.Storage
 			lock (syncRoot)
 			{
 				result = func.Invoke(collection);
-			}
 
-			ReplaceRange(0, result);
+				ReplaceRange(0, result);
+			}
 		}
 
 		public void OrderOne(Func<List<T>, IEnumerable<T>> func, T item)
@@ -435,12 +491,12 @@ namespace Files.App.Utils.Storage
 			lock (syncRoot)
 			{
 				result = func.Invoke(collection).ToList();
-			}
 
-			Remove(item);
-			var index = result.IndexOf(item);
-			if (index != -1)
-				Insert(index, item);
+				Remove(item);
+				var index = result.IndexOf(item);
+				if (index != -1)
+					Insert(index, item);
+			}
 		}
 
 		int IList.Add(object? value)
@@ -448,14 +504,20 @@ namespace Files.App.Utils.Storage
 			if (value is null)
 				return -1;
 
+			int count;
 			int index;
+			NotifyCollectionChangedEventArgs e;
 
 			lock (syncRoot)
 			{
+				count = collection.Count;
 				index = ((IList)collection).Add((T)value);
+
+				e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, count);
+				OnCollectionChanged(e);
 			}
 
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, collection.Count - 1));
+			UpdateGroups(e);
 			return index;
 		}
 

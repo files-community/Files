@@ -173,6 +173,7 @@
 
 				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutMode}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=List}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=IconGrid}" />
@@ -348,6 +349,18 @@
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}"
 					IsOn="{x:Bind ViewModel.DoubleClickToGoUp, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
+			<!--  Scroll to parent folder when navigating up  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ScrollToPreviousFolderWhenNavigatingUp}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xECE7;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ScrollToPreviousFolderWhenNavigatingUp}"
+					IsOn="{x:Bind ViewModel.ScrollToPreviousFolderWhenNavigatingUp, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 

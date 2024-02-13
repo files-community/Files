@@ -4,6 +4,10 @@
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using System.Windows.Input;
+using TagLib;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
+using Windows.Storage.Pickers;
 
 namespace Files.App.Data.Models
 {
@@ -480,6 +484,13 @@ namespace Files.App.Data.Models
 			get => formatDriveCommand;
 			set => SetProperty(ref formatDriveCommand, value);
 		}
+		
+		private ICommand editAlbumCoverCommand;
+		public ICommand EditAlbumCoverCommand
+		{
+			get => editAlbumCoverCommand;
+			set => SetProperty(ref editAlbumCoverCommand, value);
+		}
 
 		private bool itemAttributesVisibility = true;
 		public bool ItemAttributesVisibility
@@ -511,6 +522,7 @@ namespace Files.App.Data.Models
 
 		public SelectedItemsPropertiesViewModel()
 		{
+			
 		}
 
 		private bool isSelectedItemImage = false;
@@ -546,7 +558,18 @@ namespace Files.App.Data.Models
 		public string ShortcutItemPath
 		{
 			get => shortcutItemPath;
-			set => SetProperty(ref shortcutItemPath, value);
+			set
+			{
+				SetProperty(ref shortcutItemPath, value);
+				ShortcutItemPathEditedValue = value;
+			}
+		}
+
+		private string shortcutItemPathEditedValue;
+		public string ShortcutItemPathEditedValue
+		{
+			get => shortcutItemPathEditedValue;
+			set => SetProperty(ref shortcutItemPathEditedValue, value);
 		}
 
 		private bool isShortcutItemPathReadOnly;
@@ -560,7 +583,18 @@ namespace Files.App.Data.Models
 		public string ShortcutItemWorkingDir
 		{
 			get => shortcutItemWorkingDir;
-			set => SetProperty(ref shortcutItemWorkingDir, value);
+			set
+			{
+				SetProperty(ref shortcutItemWorkingDir, value);
+				ShortcutItemWorkingDirEditedValue = value;
+			}
+		}
+
+		private string shortcutItemWorkingDirEditedValue;
+		public string ShortcutItemWorkingDirEditedValue
+		{
+			get => shortcutItemWorkingDirEditedValue;
+			set => SetProperty(ref shortcutItemWorkingDirEditedValue, value);
 		}
 
 		private bool shortcutItemWorkingDirVisibility = false;
@@ -577,6 +611,17 @@ namespace Files.App.Data.Models
 			set
 			{
 				SetProperty(ref shortcutItemArguments, value);
+				ShortcutItemArgumentsEditedValue = value;
+			}
+		}
+
+		private string shortcutItemArgumentsEditedValue;
+		public string ShortcutItemArgumentsEditedValue
+		{
+			get => shortcutItemArgumentsEditedValue;
+			set
+			{
+				SetProperty(ref shortcutItemArgumentsEditedValue, value);
 			}
 		}
 
@@ -636,6 +681,18 @@ namespace Files.App.Data.Models
 			{
 				IsReadOnlyEnabled = true;
 				SetProperty(ref isReadOnly, value);
+				IsReadOnlyEditedValue = value;
+			}
+		}
+
+		private bool isReadOnlyEditedValue;
+		public bool IsReadOnlyEditedValue
+		{
+			get => isReadOnlyEditedValue;
+			set
+			{
+				IsReadOnlyEnabled = true;
+				SetProperty(ref isReadOnlyEditedValue, value);
 			}
 		}
 
@@ -650,7 +707,18 @@ namespace Files.App.Data.Models
 		public bool IsHidden
 		{
 			get => isHidden;
-			set => SetProperty(ref isHidden, value);
+			set
+			{
+				SetProperty(ref isHidden, value);
+				IsHiddenEditedValue = value;
+			}
+		}
+
+		private bool isHiddenEditedValue;
+		public bool IsHiddenEditedValue
+		{
+			get => isHiddenEditedValue;
+			set => SetProperty(ref isHiddenEditedValue, value);
 		}
 
 		private bool runAsAdmin;
@@ -661,6 +729,18 @@ namespace Files.App.Data.Models
 			{
 				RunAsAdminEnabled = true;
 				SetProperty(ref runAsAdmin, value);
+				RunAsAdminEditedValue = value;
+			}
+		}
+
+		private bool runAsAdminEditedValue;
+		public bool RunAsAdminEditedValue
+		{
+			get => runAsAdminEditedValue;
+			set
+			{
+				RunAsAdminEnabled = true;
+				SetProperty(ref runAsAdminEditedValue, value);
 			}
 		}
 
@@ -690,6 +770,27 @@ namespace Files.App.Data.Models
 		{
 			get => isUnblockFileSelected;
 			set => SetProperty(ref isUnblockFileSelected, value);
+		}
+		
+		private bool isAblumCoverModified;
+		public bool IsAblumCoverModified
+		{
+			get => isAblumCoverModified;
+			set => SetProperty(ref isAblumCoverModified, value);
+		}
+		
+		private bool isEditAlbumCoverVisible;
+		public bool IsEditAlbumCoverVisible
+		{
+			get => isEditAlbumCoverVisible;
+			set => SetProperty(ref isEditAlbumCoverVisible, value);
+		}
+		
+		private Picture modifiedAlbumCover;
+		public Picture ModifiedAlbumCover
+		{
+			get => modifiedAlbumCover;
+			set => SetProperty(ref modifiedAlbumCover, value);
 		}
 	}
 }

@@ -132,9 +132,9 @@ namespace Files.App.Views.Layouts
 
 			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
-			currentIconSize = FolderSettings.GetIconSize();
+			currentIconSize = FolderSettings.GetRoundedIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+			FolderSettings.IconSizeChanged += FolderSettings_IconSizeChanged;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
@@ -174,7 +174,7 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
@@ -412,9 +412,12 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_IconSizeChanged(object? sender, EventArgs e)
 		{
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
+			if (FolderSettings is null)
+				return;
+
+			var requestedIconSize = FolderSettings.GetRoundedIconSize(); // Get new icon size
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
@@ -431,12 +434,15 @@ namespace Files.App.Views.Layouts
 
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
-			foreach (ListedItem listedItem in filesAndFolders)
+
+			await Task.WhenAll(filesAndFolders.Select(listedItem =>
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
-			}
+					return ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
+				else
+					return Task.CompletedTask;
+			}));
 
 			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
 			{
@@ -843,7 +849,7 @@ namespace Files.App.Views.Layouts
 			if (tagName is null)
 				return;
 
-			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}", false);
+			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}");
 		}
 
 		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)

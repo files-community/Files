@@ -223,11 +223,12 @@ namespace Files.App.Services
 
 			IsUpdating = true;
 
-			PackageManager pm = new PackageManager();
 			DeploymentResult? result = null;
 
 			try
 			{
+				PackageManager packageManager = new PackageManager();
+
 				var restartStatus = RegisterApplicationRestart(null, 0);
 				App.AppModel.ForceProcessTermination = true;
 
@@ -237,11 +238,11 @@ namespace Files.App.Services
 				{
 					var bundlePath = new Uri(ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME);
 
-					var deployment = pm.RequestAddPackageAsync(
+					var deployment = packageManager.RequestAddPackageAsync(
 						bundlePath,
 						null,
 						DeploymentOptions.ForceApplicationShutdown,
-						pm.GetDefaultPackageVolume(),
+						packageManager.GetDefaultPackageVolume(),
 						null,
 						null);
 

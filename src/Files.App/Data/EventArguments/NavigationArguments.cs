@@ -17,8 +17,6 @@ namespace Files.App.Data.EventArguments
 
 		public string? SearchQuery { get; set; } = null;
 
-		public bool SearchUnindexedItems { get; set; } = false;
-
 		public bool IsLayoutSwitch { get; set; } = false;
 
 		public IEnumerable<string>? SelectItems { get; set; }

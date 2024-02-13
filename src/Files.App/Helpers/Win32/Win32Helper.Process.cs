@@ -227,9 +227,43 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
+		private class IconAndOverlayCacheEntry
+		{
+			public byte[]? Icon { get; set; }
+
+			public byte[]? Overlay { get; set; }
+		}
+
+		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
+
+		private static readonly object _lock = new object();
+
+		/// <summary>
+		/// Returns an icon when a thumbnail isn't available or if getIconOnly is true.
+		/// <br/>
+		/// Returns an icon overlay when getOverlay is true.
+		/// <br/>
+		/// Returns a boolean indicating if the icon/thumbnail is cached.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="thumbnailSize"></param>
+		/// <param name="isFolder"></param>
+		/// <param name="getIconOnly"></param>
+		/// <param name="getOverlay"></param>
+		/// <param name="onlyGetOverlay"></param>
+		/// <returns></returns>
+		public static (byte[]? icon, byte[]? overlay, bool isIconCached) GetFileIconAndOverlay(
+			string path,
+			int thumbnailSize,
+			bool isFolder,
+			bool getThumbnailOnly,
+			bool getIconOnly,
+			bool getOverlay = true,
+			bool onlyGetOverlay = false)
 		{
 			byte[]? iconData = null, overlayData = null;
+			bool isIconCached = false;
+
 			var entry = _iconAndOverlayCache.GetOrAdd(path, _ => new());
 
 			if (entry.TryGetValue(thumbnailSize, out var cacheEntry))
@@ -241,32 +275,36 @@ namespace Files.App.Helpers
 					(!getOverlay && iconData is not null) ||
 					(overlayData is not null && iconData is not null))
 				{
-					return (iconData, overlayData);
+					return (iconData, overlayData, true);
 				}
 			}
 
 			try
 			{
-				if (!onlyGetOverlay)
+				// Attempt to get file icon/thumbnail using IShellItemImageFactory GetImage
+				using var shellItem = SafetyExtensions.IgnoreExceptions(()
+					=> ShellFolderExtensions.GetShellItemFromPathOrPIDL(path));
+
+				if (shellItem is not null && shellItem.IShellItem is Shell32.IShellItemImageFactory shellFactory)
 				{
-					using var shellItem = SafetyExtensions.IgnoreExceptions(()
-						=> ShellFolderExtensions.GetShellItemFromPathOrPIDL(path));
+					var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
 
-					if (shellItem is not null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+					if (getIconOnly)
+						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+					else if (getThumbnailOnly)
+						flags |= Shell32.SIIGBF.SIIGBF_THUMBNAILONLY;
+
+					var hres = shellFactory.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
+					if (hres == HRESULT.S_OK)
 					{
-						var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
-						if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+						using var image = GetBitmapFromHBitmap(hbitmap);
+						if (image is not null)
+							iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 
-						var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
-						if (hres == HRESULT.S_OK)
-						{
-							using var image = GetBitmapFromHBitmap(hbitmap);
-							if (image is not null)
-								iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-						}
-
-						//Marshal.ReleaseComObject(fctry);
+						isIconCached = true;
 					}
+
+					Marshal.ReleaseComObject(shellFactory);
 				}
 
 				if (getOverlay || (!onlyGetOverlay && iconData is null))
@@ -281,7 +319,7 @@ namespace Files.App.Helpers
 						Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
 						Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
 					if (ret == IntPtr.Zero)
-						return (iconData, null);
+						return (iconData, null, isIconCached);
 
 					User32.DestroyIcon(shfi.hIcon);
 
@@ -296,7 +334,7 @@ namespace Files.App.Helpers
 					lock (_lock)
 					{
 						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
-							return (iconData, null);
+							return (iconData, null, isIconCached);
 
 						var imageList = (ComCtl32.IImageList)imageListOut;
 
@@ -349,11 +387,11 @@ namespace Files.App.Helpers
 						Marshal.ReleaseComObject(imageList);
 					}
 
-					return (iconData, overlayData);
+					return (iconData, overlayData, isIconCached);
 				}
 				else
 				{
-					return (iconData, null);
+					return (iconData, null, isIconCached);
 				}
 			}
 			finally
@@ -382,6 +420,11 @@ namespace Files.App.Helpers
 			}
 			catch (OperationCanceledException)
 			{
+				return false;
+			}
+			catch (InvalidOperationException ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
 				return false;
 			}
 			catch (Win32Exception)
@@ -790,21 +833,6 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static Task InstallFont(string fontFilePath, bool forAllUsers)
-		{
-			string fontDirectory = forAllUsers
-				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
-				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
-
-			string registryKey = forAllUsers
-				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
-				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
-
-			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
-
-			return RunPowerShellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
-		}
-
 		public static async Task InstallFontsAsync(string[] fontFilePaths, bool forAllUsers)
 		{
 			string fontDirectory = forAllUsers
@@ -825,14 +853,14 @@ namespace Files.App.Helpers
 				if (psCommand.Length + appendCommand.Length > 32766)
 				{
 					// The command is too long to run at once, so run the command once up to this point.
-					await RunPowerShellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
 					psCommand.Clear().Append("-command \"");
 				}
 
 				psCommand.Append(appendCommand);
 			}
 
-			await RunPowerShellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
 		}
 
 		public static Process CreatePowerShellProcess(string command, bool runAsAdmin)

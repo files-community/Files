@@ -25,7 +25,12 @@ namespace Files.App.Helpers
 			// UIElement.RasterizationScale is always 1
 			var source = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
 			var uiElement = window.Content;
-			var scaleFactor = uiElement.XamlRoot.RasterizationScale;
+			var xamlRoot = uiElement?.XamlRoot;
+
+			if (xamlRoot is null)
+				return;
+
+			var scaleFactor = xamlRoot.RasterizationScale;
 			var size = window.AppWindow.Size;
 			// If the number of regions is 0 or 1, AppWindow will automatically reset to the default region next time, but if it is >=2, it will not and need to be manually cleared
 			source.ClearRegionRects(NonClientRegionKind.Passthrough);

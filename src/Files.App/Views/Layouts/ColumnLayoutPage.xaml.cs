@@ -39,7 +39,7 @@ namespace Files.App.Views.Layouts
 
 		// Properties
 
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		protected override uint IconSize => Constants.DefaultIconSizes.Large;
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
@@ -248,7 +248,7 @@ namespace Files.App.Views.Layouts
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
-				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
 				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
 			{
 				CloseFolder();
@@ -498,11 +498,14 @@ namespace Files.App.Views.Layouts
 				case FolderLayoutModes.DetailsView:
 					parent.FolderSettings.ToggleLayoutModeDetailsView(true);
 					break;
+				case FolderLayoutModes.ListView:
+					parent.FolderSettings.ToggleLayoutModeList(true);
+					break;
 				case FolderLayoutModes.TilesView:
 					parent.FolderSettings.ToggleLayoutModeTiles(true);
 					break;
 				case FolderLayoutModes.GridView:
-					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize, true);
 					break;
 				case FolderLayoutModes.Adaptive:
 					parent.FolderSettings.ToggleLayoutModeAdaptive();

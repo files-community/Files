@@ -14,7 +14,6 @@ namespace Files.App.Data.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
-		SearchUnindexedItems,
 		EditPath,
 		Redo,
 		Undo,
@@ -112,6 +111,7 @@ namespace Files.App.Data.Commands
 		LayoutDecreaseSize,
 		LayoutIncreaseSize,
 		LayoutDetails,
+		LayoutList,
 		LayoutTiles,
 		LayoutGridSmall,
 		LayoutGridMedium,
@@ -166,6 +166,7 @@ namespace Files.App.Data.Commands
 		ToggleGroupByDateUnit,
 
 		// Navigation
+		NewWindow,
 		NewTab,
 		NavigateBack,
 		NavigateForward,
