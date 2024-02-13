@@ -44,9 +44,7 @@ namespace Files.App.Utils.Git
 				? CLIENT_ID_SECRET
 				: string.Empty;
 
-		private static ThreadWithMessageQueue? _owningThread;
-
-		private static int _activeOperationsCount = 0;
+		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
 
 		private static bool _IsExecutingGitAction;
 		public static bool IsExecutingGitAction
@@ -65,14 +63,6 @@ namespace Files.App.Utils.Git
 		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
 
 		public static event EventHandler? GitFetchCompleted;
-
-		public static void TryDispose()
-		{
-			var threadToDispose = _owningThread;
-			_owningThread = null;
-			Interlocked.Exchange(ref _activeOperationsCount, 0);
-			threadToDispose?.Dispose();
-		}
 
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
@@ -125,7 +115,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return Array.Empty<BranchItem>();
 
-			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<(GitOperationResult, BranchItem[])>(() =>
+			var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
 			{
 				var branches = Array.Empty<BranchItem>();
 				var result = GitOperationResult.Success;
@@ -157,7 +147,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return null;
 
-			var (_, returnValue) = await PostMethodToThreadWithMessageQueueAsync<(GitOperationResult, BranchItem?)>(() =>
+			var (_, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem?)>(() =>
 			{
 				BranchItem? head = null;
 				try
@@ -179,7 +169,7 @@ namespace Files.App.Utils.Git
 				}
 
 				return (GitOperationResult.Success, head);
-			});
+			}, true);
 
 			return returnValue;
 		}
@@ -228,7 +218,7 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			var result = await DoGitOperationAsync<GitOperationResult>(() =>
 			{
 				try
 				{
@@ -306,7 +296,7 @@ namespace Files.App.Utils.Git
 
 			IsExecutingGitAction = true;
 
-			await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			await DoGitOperationAsync<GitOperationResult>(() =>
 			{
 				try
 				{
@@ -363,7 +353,7 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
-			await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			await DoGitOperationAsync<GitOperationResult>(() =>
 			{
 				var result = GitOperationResult.Success;
 				try
@@ -422,7 +412,7 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
-			var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			var result = await DoGitOperationAsync<GitOperationResult>(() =>
 			{
 				try
 				{
@@ -508,7 +498,7 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+				var result = await DoGitOperationAsync<GitOperationResult>(() =>
 				{
 					try
 					{
@@ -830,29 +820,22 @@ namespace Files.App.Utils.Git
 				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
 		}
 
-		private static void DisposeIfFinished()
+		private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload, bool useSemaphore = false)
 		{
-			if (Interlocked.Decrement(ref _activeOperationsCount) == 0)
-				TryDispose();
-		}
-
-		private static async Task<T?> PostMethodToThreadWithMessageQueueAsync<T>(Func<object> payload)
-		{
-			T? returnValue = default;
-
-			Interlocked.Increment(ref _activeOperationsCount);
-			_owningThread ??= new ThreadWithMessageQueue();
+			if (useSemaphore)
+				await GitOperationSemaphore.WaitAsync();
+			else
+				await Task.Yield();
 
 			try
 			{
-				returnValue = await _owningThread.PostMethod<T>(payload);
+				return (T)payload();
 			}
 			finally
 			{
-				DisposeIfFinished();
+				if (useSemaphore)
+					GitOperationSemaphore.Release();
 			}
-
-			return returnValue;
 		}
 	}
 }

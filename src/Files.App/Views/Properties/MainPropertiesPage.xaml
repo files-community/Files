@@ -160,7 +160,7 @@
 					<!--  Save/Cancel buttons  -->
 					<Grid
 						Grid.Row="1"
-						Background="{ThemeResource CardBackgroundFillColorSecondary}"
+						Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
 						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 						BorderThickness="0,1,0,0">
 						<StackPanel
