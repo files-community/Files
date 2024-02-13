@@ -13,6 +13,11 @@ namespace Files.Core.Data.Enums
 		/// <summary>
 		/// Group items by month.
 		/// </summary>
-		Month = 1
+		Month = 1,
+
+		/// <summary>
+		/// Group items by day.
+		/// </summary>
+		Day = 2,
 	}
 }

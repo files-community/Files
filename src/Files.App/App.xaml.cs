@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,6 +10,7 @@ using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.UI.Notifications;
 
 namespace Files.App
 {
@@ -17,9 +19,22 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
+		private static SystemTrayIcon? SystemTrayIcon { get; set; }
+
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
-		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static string? OutputPath { get; set; }
+
+		private static CommandBarFlyout? _LastOpenedFlyout;
+		public static CommandBarFlyout? LastOpenedFlyout
+		{
+			set
+			{
+				_LastOpenedFlyout = value;
+
+				if (_LastOpenedFlyout is not null)
+					_LastOpenedFlyout.Closed += LastOpenedFlyout_Closed;
+			}
+		}
 
 		// TODO: Replace with DI
 		public static QuickAccessManager QuickAccessManager { get; private set; } = null!;
@@ -44,8 +59,7 @@ namespace Files.App
 		}
 
 		/// <summary>
-		/// Invoked when the application is launched normally by the end user.
-		/// Other entry points will be used such as when the application is launched to open a specific file.
+		/// Gets invoked when the application is launched normally by the end user.
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
@@ -53,17 +67,21 @@ namespace Files.App
 
 			async Task ActivateAsync()
 			{
-				// Initialize and activate MainWindow
-				MainWindow.Instance.Activate();
-
-				// Wait for the Window to initialize
-				await Task.Delay(10);
-
-				SplashScreenLoadingTCS = new TaskCompletionSource();
-				MainWindow.Instance.ShowSplashScreen();
-
 				// Get AppActivationArguments
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
+
+				if (!isStartupTask)
+				{
+					// Initialize and activate MainWindow
+					MainWindow.Instance.Activate();
+
+					// Wait for the Window to initialize
+					await Task.Delay(10);
+
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
 
 				// Start tracking app usage
 				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
@@ -77,6 +95,21 @@ namespace Files.App
 				// Configure AppCenter
 				AppLifecycleHelper.ConfigureAppCenter();
 #endif
+
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
+
+				if (isStartupTask && !isLeaveAppRunning)
+				{
+					// Initialize and activate MainWindow
+					MainWindow.Instance.Activate();
+
+					// Wait for the Window to initialize
+					await Task.Delay(10);
+
+					SplashScreenLoadingTCS = new TaskCompletionSource();
+					MainWindow.Instance.ShowSplashScreen();
+				}
 
 				// TODO: Replace with DI
 				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
@@ -93,43 +126,73 @@ namespace Files.App
 
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
-				// Wait for the UI to update
-				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
-				SplashScreenLoadingTCS = null;
+				if (!(isStartupTask && isLeaveAppRunning))
+				{
+					// Wait for the UI to update
+					await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
+					SplashScreenLoadingTCS = null;
 
-				_ = AppLifecycleHelper.InitializeAppComponentsAsync();
-				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+					// Create a system tray icon
+					SystemTrayIcon = new SystemTrayIcon().Show();
+
+					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
+				}
+				else
+				{
+					// Create a system tray icon
+					SystemTrayIcon = new SystemTrayIcon().Show();
+
+					// Sleep current instance
+					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
+
+					Thread.Yield();
+
+					if (Program.Pool.WaitOne())
+					{
+						// Resume the instance
+						Program.Pool.Dispose();
+						Program.Pool = null;
+					}
+				}
+
+				await AppLifecycleHelper.InitializeAppComponentsAsync();
 			}
 		}
 
 		/// <summary>
-		/// Invoked when the application is activated.
+		/// Gets invoked when the application is activated.
 		/// </summary>
-		public void OnActivated(AppActivationArguments activatedEventArgs)
+		public async Task OnActivatedAsync(AppActivationArguments activatedEventArgs)
 		{
-			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgs.Data.GetType().Name}");
+			var activatedEventArgsData = activatedEventArgs.Data;
+			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData.GetType().Name}");
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
-				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgs.Data));
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
+				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgsData));
 		}
 
 		/// <summary>
-		/// Invoked when the main window is activated.
+		/// Gets invoked when the main window is activated.
 		/// </summary>
 		private void Window_Activated(object sender, WindowActivatedEventArgs args)
 		{
+			AppModel.IsMainWindowClosed = false;
+
 			// TODO(s): Is this code still needed?
 			if (args.WindowActivationState != WindowActivationState.CodeActivated ||
 				args.WindowActivationState != WindowActivationState.PointerActivated)
 				return;
 
-			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
+			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 		}
 
 		/// <summary>
-		/// Invoked when application execution is being closed. Save application state.
+		/// Gets invoked when the application execution is closed.
 		/// </summary>
+		/// <remarks>
+		/// Saves the current state of the app such as opened tabs, and disposes all cached resources.
+		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
@@ -137,17 +200,20 @@ namespace Files.App
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			// A Workaround for the crash (#10110)
-			if (LastOpenedFlyout?.IsOpen ?? false)
+			if (_LastOpenedFlyout?.IsOpen ?? false)
 			{
 				args.Handled = true;
-				LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
-				LastOpenedFlyout.Hide();
+				_LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
+				_LastOpenedFlyout.Hide();
 				return;
 			}
 
+			AppLifecycleHelper.SaveSessionTabs();
+
+			// Continue running the app on the background
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
-				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
+				!Process.GetProcessesByName("Files").Any(x => x.Id != Environment.ProcessId))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
@@ -157,10 +223,8 @@ namespace Files.App
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
-				args.Handled = true;
 
-				// Save and close all tabs
-				AppLifecycleHelper.SaveSessionTabs();
+				// Close all tabs
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
 				MainPageViewModel.AppInstances.Clear();
 
@@ -168,23 +232,61 @@ namespace Files.App
 				await FilePropertiesHelpers.WaitClosingAll();
 
 				// Sleep current instance
-				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+				Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
+
 				Thread.Yield();
+
+				// Displays a notification the first time the app goes to the background
+				if (userSettingsService.AppSettingsService.ShowBackgroundRunningNotification)
+				{
+					userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
+
+					var toastContent = new ToastContent()
+					{
+						Visual = new()
+						{
+							BindingGeneric = new ToastBindingGeneric()
+							{
+								Children =
+								{
+									new AdaptiveText()
+									{
+										Text = "BackgroundRunningNotificationHeader".GetLocalizedResource()
+									},
+									new AdaptiveText()
+									{
+										Text = "BackgroundRunningNotificationBody".GetLocalizedResource()
+									}
+								},
+							}
+						},
+						ActivationType = ToastActivationType.Protocol
+					};
+
+					// Create the toast notification
+					var toastNotification = new ToastNotification(toastContent.GetXml());
+
+					// And send the notification
+					ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+				}
+
 				if (Program.Pool.WaitOne())
 				{
 					// Resume the instance
 					Program.Pool.Dispose();
+					Program.Pool = null;
 
-					_ = AppLifecycleHelper.CheckAppUpdate();
+					if (!AppModel.ForceProcessTermination)
+					{
+						args.Handled = true;
+						_ = AppLifecycleHelper.CheckAppUpdate();
+						return;
+					}
 				}
-
-				return;
 			}
 
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
-
-			AppLifecycleHelper.SaveSessionTabs();
 
 			if (OutputPath is not null)
 			{
@@ -215,15 +317,25 @@ namespace Files.App
 			},
 			Logger);
 
-			// Dispose git operations' thread
-			GitHelpers.TryDispose();
-
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
 			AppModel.IsMainWindowClosed = true;
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
+		}
+
+		/// <summary>
+		/// Gets invoked when the last opened flyout is closed.
+		/// </summary>
+		private static void LastOpenedFlyout_Closed(object? sender, object e)
+		{
+			if (sender is not CommandBarFlyout commandBarFlyout)
+				return;
+
+			commandBarFlyout.Closed -= LastOpenedFlyout_Closed;
+			if (_LastOpenedFlyout == commandBarFlyout)
+				_LastOpenedFlyout = null;
 		}
 	}
 }

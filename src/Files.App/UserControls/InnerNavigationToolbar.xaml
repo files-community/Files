@@ -4,11 +4,8 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -552,10 +549,12 @@
 							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateModified.Label}">
 								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedYear.Label}" />
 								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedMonth.Label}" />
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedDay.Label}" />
 							</MenuFlyoutSubItem>
 							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateCreated.Label}">
 								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedYear.Label}" />
 								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedMonth.Label}" />
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedDay.Label}" />
 							</MenuFlyoutSubItem>
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupBySize.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupBySize.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByType.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByType.Label}" />
@@ -571,6 +570,7 @@
 							<MenuFlyoutSubItem IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}" Text="{x:Bind Commands.GroupByDateDeleted.Label}">
 								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedYear.Label}" />
 								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedMonth.Label}" />
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedDay.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedDay.Label}" />
 							</MenuFlyoutSubItem>
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
@@ -625,6 +625,7 @@
 									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
+									<RowDefinition MinHeight="30" />
 								</Grid.RowDefinitions>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="40" />
@@ -634,7 +635,7 @@
 									<ColumnDefinition MaxWidth="100" />
 								</Grid.ColumnDefinitions>
 
-								<!--  Detailsl Layout  -->
+								<!--  Details Layout  -->
 								<RadioButton
 									Grid.Row="0"
 									Grid.Column="0"
@@ -730,6 +731,38 @@
 									Tapped="{x:Bind Commands.LayoutTiles.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutTiles.Label}" />
 
+								<!--  List Layout  -->
+								<RadioButton
+									Grid.Row="3"
+									Grid.Column="0"
+									Width="36"
+									Height="32"
+									MinWidth="0"
+									Padding="0"
+									HorizontalContentAlignment="Center"
+									VerticalContentAlignment="Center"
+									AutomationProperties.Name="{x:Bind Commands.LayoutList.AutomationName}"
+									Command="{x:Bind Commands.LayoutList}"
+									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
+									IsChecked="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
+									Style="{StaticResource DefaultToggleButtonStyle}"
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutList.LabelWithHotKey, Mode=OneWay}">
+									<local:OpacityIcon
+										Width="16"
+										Height="16"
+										IsSelected="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
+										Style="{x:Bind Commands.LayoutList.OpacityStyle}" />
+								</RadioButton>
+
+								<TextBlock
+									x:Name="NavToolbarListHeader"
+									Grid.Row="3"
+									Grid.Column="1"
+									VerticalAlignment="Center"
+									Tapped="{x:Bind Commands.LayoutList.ExecuteTapped}"
+									Text="{x:Bind Commands.LayoutList.Label}" />
+
 								<!--  Grid Small Layout  -->
 								<RadioButton
 									Grid.Row="0"
@@ -798,7 +831,7 @@
 								<Border
 									Grid.RowSpan="4"
 									Grid.Column="2"
-									Height="120"
+									Height="140"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
 									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
@@ -967,16 +1000,10 @@
 				<!--  New Window  -->
 				<AppBarButton
 					x:Name="NavToolbarNewWindow"
-					Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarNewWindow/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=NavigationToolbarNewWindow/Label}">
-					<local:OpacityIcon Style="{StaticResource ColorIconOpenNewWindow}" />
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="N"
-							IsEnabled="False"
-							Modifiers="Control" />
-					</AppBarButton.KeyboardAccelerators>
+					Command="{x:Bind Commands.NewWindow, Mode=OneWay}"
+					KeyboardAcceleratorTextOverride="{x:Bind Commands.NewWindow.HotKeyText, Mode=OneWay}"
+					Label="{x:Bind Commands.NewWindow.Label}">
+					<local:OpacityIcon Style="{x:Bind Commands.NewWindow.OpacityStyle}" />
 				</AppBarButton>
 
 				<!--  Exter Compact Overlay  -->

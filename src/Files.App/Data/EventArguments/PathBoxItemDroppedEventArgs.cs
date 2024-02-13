@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Views;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
 

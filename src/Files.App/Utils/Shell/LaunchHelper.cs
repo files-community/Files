@@ -98,9 +98,6 @@ namespace Files.App.Utils.Shell
 					process.StartInfo.Arguments = arguments;
 
 					// Refresh env variables for the child process
-					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine))
-						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
-
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
 
@@ -109,7 +106,7 @@ namespace Files.App.Utils.Shell
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User));
 				}
 
-				process.StartInfo.WorkingDirectory = workingDirectory;
+				process.StartInfo.WorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
 				process.Start();
 
 				Win32API.BringToForeground(currentWindows);
@@ -123,7 +120,7 @@ namespace Files.App.Utils.Shell
 				process.StartInfo.FileName = application;
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.Arguments = arguments;
-				process.StartInfo.WorkingDirectory = workingDirectory;
+				process.StartInfo.WorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
 
 				try
 				{

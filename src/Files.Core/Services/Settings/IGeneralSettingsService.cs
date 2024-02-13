@@ -10,11 +10,6 @@ namespace Files.Core.Services.Settings
 	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to search unindexed items.
-		/// </summary>
-		bool SearchUnindexedItems { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
 		/// </summary>
 		bool OpenSpecificPageOnStartup { get; set; }
@@ -53,6 +48,11 @@ namespace Files.Core.Services.Settings
 		/// A list containing paths of the tabs from the previous session that crashed.
 		/// </summary>
 		List<string> LastCrashedTabList { get; set; }
+
+		/// <summary>
+		/// A list containing paths previously entered in the path bar.
+		/// </summary>
+		List<string> PathHistoryList { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
@@ -163,6 +163,26 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating whether or not to show the option to open folders in a new pane.
 		/// </summary>
 		bool ShowOpenInNewPane { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to copy an items path.
+		/// </summary>
+		bool ShowCopyPath { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to create a shortcut.
+		/// </summary>
+		bool ShowCreateShortcut { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to create folder with selection.
+		/// </summary>
+		bool ShowCreateFolderWithSelection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the compression options e.g. create archive, extract files.
+		/// </summary>
+		bool ShowCompressionOptions { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the Send To menu.

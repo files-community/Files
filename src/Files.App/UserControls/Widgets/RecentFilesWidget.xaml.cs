@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.ViewModels.Widgets;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,20 +10,22 @@ using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Windows.Foundation.Metadata;
 using Windows.System;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
+	/// <summary>
+	/// Represents group of control displays a list of recent folders with <see cref="WidgetFolderCardItem"/>.
+	/// </summary>
+	public sealed partial class RecentFilesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
-
 		public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
-
 		public delegate void RecentFileInvokedEventHandler(object sender, PathNavigationEventArgs e);
-
 		public event RecentFileInvokedEventHandler RecentFileInvoked;
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
@@ -36,13 +37,9 @@ namespace Files.App.UserControls.Widgets
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public string WidgetName => nameof(RecentFilesWidget);
-
 		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
-
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
-
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
-
 		public bool ShowMenuFlyout => false;
 
 		public MenuFlyoutItem? MenuFlyoutItem => null;
@@ -109,27 +106,43 @@ namespace Files.App.UserControls.Widgets
 
 		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			ItemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			ItemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (e.OriginalSource is not FrameworkElement element || element.DataContext is not RecentItem item)
+			// Ensure values are not null
+			if (e.OriginalSource is not FrameworkElement element ||
+				element.DataContext is not RecentItem item)
 				return;
 
-			var menuItems = GetItemMenuItems(item, false);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			// Create a new Flyout
+			var itemContextMenuFlyout = new CommandBarFlyout()
+			{
+				Placement = FlyoutPlacementMode.Full
+			};
 
-			secondaryElements.OfType<FrameworkElement>()
-							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			// Hook events
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 
-			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
-			FlyouItemPath = item.Path;
-			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
-			ItemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
-		}
+			_flyoutItemPath = item.Path;
 
-		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
-		{
-			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			// Notify of the change on right clicked item
+			OnRightClickedItemChanged(item, itemContextMenuFlyout);
+
+			// Get items for the flyout
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
+			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+
+			// Set max width of the flyout
+			secondaryElements
+				.OfType<FrameworkElement>()
+				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+
+			// Add menu items to the secondary flyout
+			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
+
+			// Show the flyout
+			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
+
+			// Load shell menu items
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -224,14 +237,38 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(RecentItem item)
 		{
+			var flyout = HomePageContext.ItemContextFlyoutMenu;
+
+			if (item is null || flyout is null)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = async (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
-				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, associatedInstance);
+				flyout!.Closed -= flyoutClosed;
+
+				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path));
+				if (file is null)
+				{
+					ContentDialog dialog = new()
+					{
+						Title = "CannotAccessPropertiesTitle".GetLocalizedResource(),
+						Content = "CannotAccessPropertiesContent".GetLocalizedResource(),
+						PrimaryButtonText = "Ok".GetLocalizedResource()
+					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+					await dialog.TryShowAsync();
+				}
+				else
+				{
+					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null, default);
+					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, associatedInstance);
+				}
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+			flyout!.Closed += flyoutClosed;
 		}
 
 		private async Task UpdateRecentsListAsync(NotifyCollectionChangedEventArgs e)

@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
 using System.Windows.Input;
 
@@ -9,7 +8,7 @@ namespace Files.App.ViewModels
 {
 	public class HomeViewModel : ObservableObject, IDisposable
 	{
-		public ObservableCollection<WidgetItem> WidgetItems { get; } = new();
+		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = new();
 
 		public ICommand HomePageLoadedCommand { get; }
 
@@ -39,15 +38,15 @@ namespace Files.App.ViewModels
 			WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
-		public bool AddWidget(WidgetItem widgetModel)
+		public bool AddWidget(WidgetContainerItem widgetModel)
 		{
 			return InsertWidget(widgetModel, WidgetItems.Count + 1);
 		}
 
-		public bool InsertWidget(WidgetItem widgetModel, int atIndex)
+		public bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
 		{
 			// The widget must not be null and must implement IWidgetItemModel
-			if (widgetModel.WidgetItemModel is not IWidgetItem widgetItemModel)
+			if (widgetModel.WidgetItemModel is not IWidgetViewModel widgetItemModel)
 			{
 				return false;
 			}
@@ -86,7 +85,7 @@ namespace Files.App.ViewModels
 			WidgetItems.RemoveAt(index);
 		}
 
-		public void RemoveWidget<TWidget>() where TWidget : IWidgetItem
+		public void RemoveWidget<TWidget>() where TWidget : IWidgetViewModel
 		{
 			int indexToRemove = -1;
 
@@ -103,7 +102,7 @@ namespace Files.App.ViewModels
 			RemoveWidgetAt(indexToRemove);
 		}
 
-		public void ReorderWidget(WidgetItem widgetModel, int place)
+		public void ReorderWidget(WidgetContainerItem widgetModel, int place)
 		{
 			int widgetIndex = WidgetItems.IndexOf(widgetModel);
 			WidgetItems.Move(widgetIndex, place);

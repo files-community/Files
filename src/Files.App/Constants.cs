@@ -124,29 +124,26 @@ namespace Files.App
 			{
 				public const int GridViewIncrement = 20;
 
-				// Max achievable ctrl + scroll, not a default layout size
-				public const int GridViewSizeMax = 300;
-
 				public const int GridViewSizeLarge = 220;
 
 				public const int GridViewSizeMedium = 160;
 
 				public const int GridViewSizeSmall = 100;
 
-				public const int TilesView = 260;
+				public const int TilesView = 100;
 			}
+		}
 
-			public static class DetailsLayoutBrowser
-			{
-				public const int DetailsViewSize = 32;
-			}
+		// Default icon sizes that are available for files and folders
+		public static class DefaultIconSizes
+		{
+			public const int Small = 16;
 
-			public static class ColumnViewBrowser
-			{
-				public const int ColumnViewSize = 32;
+			public const int Large = 32;
 
-				public const int ColumnViewSizeSmall = 24;
-			}
+			public const int ExtraLarge = 48;
+
+			public const int Jumbo = 256;
 		}
 
 		public static class Widgets
@@ -155,8 +152,6 @@ namespace Files.App
 			{
 				public const float LowStorageSpacePercentageThreshold = 90.0f;
 			}
-
-			public const int WidgetIconSize = 256;
 		}
 
 		public static class LocalSettings
@@ -215,8 +210,13 @@ namespace Files.App
 			public const string DocumentationUrl = @"https://files.community/docs";
 			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?labels=feature+request&template=feature_request.yml";
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
-			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
+			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/.github/PRIVACY.md";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
+		}
+
+		public static class DocsPath
+		{
+			public const string ThirdPartyNoticePath = @"ms-appx:///NOTICE.md";
 		}
 
 		public static class Actions

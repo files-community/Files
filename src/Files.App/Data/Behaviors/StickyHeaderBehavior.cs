@@ -36,6 +36,19 @@ namespace Files.App.Data.Behaviors
 
 		private InsetClip? _contentClip;
 
+		private readonly DispatcherTimer _assignAnimationTimer;
+
+		public StickyHeaderBehavior()
+		{
+			_assignAnimationTimer = new();
+			_assignAnimationTimer.Interval = TimeSpan.FromMilliseconds(200);
+			_assignAnimationTimer.Tick += (sender, e) =>
+			{
+				AssignAnimation();
+				_assignAnimationTimer.Stop();
+			};
+		}
+
 		/// <summary>
 		/// The UIElement that will be faded.
 		/// </summary>
@@ -92,7 +105,9 @@ namespace Files.App.Data.Behaviors
 		private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var b = d as StickyHeaderBehavior;
-			b?.AssignAnimation();
+
+			// For some reason, the assignment needs to be delayed. (#14237)
+			b?._assignAnimationTimer.Start();
 		}
 
 		/// <summary>
@@ -142,9 +157,6 @@ namespace Files.App.Data.Behaviors
 			headerElement.SizeChanged -= ScrollHeader_SizeChanged;
 			headerElement.SizeChanged += ScrollHeader_SizeChanged;
 
-			_scrollViewer.GotFocus -= ScrollViewer_GotFocus;
-			_scrollViewer.GotFocus += ScrollViewer_GotFocus;
-
 			var compositor = _scrollProperties.Compositor;
 
 			if (_animationProperties is null)
@@ -187,9 +199,6 @@ namespace Files.App.Data.Behaviors
 			if (HeaderElement is FrameworkElement element)
 				element.SizeChanged -= ScrollHeader_SizeChanged;
 
-			if (_scrollViewer is not null)
-				_scrollViewer.GotFocus -= ScrollViewer_GotFocus;
-
 			StopAnimation();
 		}
 
@@ -215,39 +224,6 @@ namespace Files.App.Data.Behaviors
 		private void ScrollHeader_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			AssignAnimation();
-		}
-
-		private void ScrollViewer_GotFocus(object sender, RoutedEventArgs e)
-		{
-			var scroller = (ScrollViewer)sender;
-
-			object focusedElement;
-
-			if (IsXamlRootAvailable && scroller.XamlRoot is not null)
-			{
-				focusedElement = FocusManager.GetFocusedElement(scroller.XamlRoot);
-			}
-			else
-			{
-				focusedElement = FocusManager.GetFocusedElement();
-			}
-
-			// To prevent Popups (Flyouts...) from triggering the autoscroll, we check if the focused element has a valid parent.
-			// Popups have no parents, whereas a normal Item would have the ListView as a parent.
-			if (focusedElement is UIElement element && VisualTreeHelper.GetParent(element) is not null)
-			{
-				// NOTE: Ignore if element is child of header
-				if (!element.FindAscendants().Any(x => x == HeaderElement))
-				{
-					FrameworkElement header = (FrameworkElement)HeaderElement;
-
-					var point = element.TransformToVisual(scroller).TransformPoint(new Point(0, 0));
-
-					// NOTE: Do not change scroller horizontal offset
-					if (point.Y < header.ActualHeight)
-						scroller.ChangeView(scroller.HorizontalOffset, scroller.VerticalOffset - (header.ActualHeight - point.Y), 1, false);
-				}
-			}
 		}
 	}
 }

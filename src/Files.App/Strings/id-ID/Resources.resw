@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Jendela baru</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>Window baru</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Salin jalur</value>
+  </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Salin path dengan kutipan</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Jelajahi</value>
@@ -346,6 +349,12 @@
     <value>Penyimpanan dilepas</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Tidak dapat membuka propeti file ini</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -592,7 +601,7 @@
     <value>Nama item terlalu panjang</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Tampilkan lebih banyak pilihan</value>
+    <value>Tampilkan pilihan lainnya</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Aplikasi perlu dimulai ulang untuk menerapkan pengaturan ini, apakah Anda ingin memulai ulang aplikasi?</value>
@@ -975,9 +984,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Hasil pencarian di {1} untuk {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Daftar dan urutkan direktori berdampingan dengan file</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Rincian</value>
   </data>
@@ -986,9 +992,6 @@
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Tampilkan file sistem yang dilindungi</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Sertakan item yang tidak diindeks dalam hasil pencarian</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sinkronkan tata letak dan preferensi penyortiran di seluruh direktori</value>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Tampilkan opsi untuk membuka folder di panel baru</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Tampilkan opsi menyalin path</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Tampilkan opsi membuat folder dengan pilihan</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Tampilkan opsi membuat shortcut</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Panel baru</value>
@@ -1054,16 +1066,16 @@
     <value>Alihkan panel pratinjau</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Aktifkan panel detail</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>Aktifkan panel detail untuk melihat file properti dasar</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Aktifkan panel info</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail\preview panes</value>
+    <value>Aktifkan panel info untuk melihat detail/pratinjau panel</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pratinjau tidak tersedia</value>
@@ -1272,12 +1284,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Kecepatan ISO</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Tidak menemukan apa yang Anda cari?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Cari item yang tidak terindeks</value>
-  </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Ganti yang ada</value>
   </data>
@@ -1320,17 +1326,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Urutkan</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Kelompokkan Berdasarkan</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Tanggal diubah</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Folder asli</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Urutkan Berdasarkan</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Urut turun</value>
@@ -1656,9 +1656,6 @@
   <data name="Home" xml:space="preserve">
     <value>Beranda</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1819,10 +1816,10 @@
     <value>Pulihkan ke bawaan</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Open tab in existing instance when opening Files from another app</value>
+    <value>Buka tab di instance yang sama ketika membuka Files dari app lain</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>Pengaturan pengaktifan</value>
+    <value>Pengaturan startup</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Kompatibilitas</value>
@@ -2020,7 +2017,7 @@
     <value>Atur semua ukuran kolom ke pas</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Menyesuaikan</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptif (Ctrl+Shift+7)</value>
@@ -2230,13 +2227,16 @@
     <value>Klik dua kali pada area kosong, untuk naik satu tingkat pada direktori</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>Lihat lebih banyak</value>
+    <value>Lihat lainnya</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Tampilkan tag edit flyout</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Tampilkan pilihan kompresi</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Tampilkan menu Kirim ke</value>
+    <value>Tampilkan menu kirim ke</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Tampilkan opsi untuk membuka folder di tab baru</value>
@@ -2341,10 +2341,10 @@
     <value>Kesalahan terjadi pada saat perhitungan</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Failed to calculate the hash, please close the file and try again.</value>
+    <value>Gagal untuk mengkalkulasi hash, tutup file dan coba lagi.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Hashes aren't available for online files</value>
+    <value>Hash tidak tersedia untuk file online</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritma</value>
@@ -2410,7 +2410,7 @@
     <value>Pilih untuk menunjukkan ekstensi berkas</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle the preview pane to view file previews</value>
+    <value>Aktifkan paratinjau panel untuk melihat paratinjau file</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Pilih untuk menujukkan sidebar</value>
@@ -2419,7 +2419,10 @@
     <value>salin item(s) ke clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Salin jalur sebuah file ke salinan</value>
+    <value>Salin path dari item yang dipilih ke clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Salin path dari item yang dipilih dengan kutipan ke clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Salin item(s) ke clipboard</value>
@@ -2479,7 +2482,7 @@
     <value>Hapus item yang dipilih</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Aktifkan item pilihan</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Bagikan item(s) yang terpilih dengan orang lain</value>
@@ -2494,13 +2497,13 @@
     <value>Sematkan folder ke Favorit</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>Lepas sematan folder(s) dari Favorit</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Gunakan gambar yang diilih sebagai desktop background</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>Set gambar terpilih sebagai desktop slideshow</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Gunakan gambar yang dipilih sebagai lockscreen background</value>
@@ -2509,16 +2512,16 @@
     <value>Instal font yang dipilih</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>Pasang driver(s) menggunakan file(s) inf terpilih</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected certificate(s)</value>
+    <value>Pasang sertifikat(s) terpilih</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Jalankan aplikasi terpilih sebagai admin</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Jalankan aplikasi terpilih sebagai user lain</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Jalankan skrip PowerShell yang dipilih</value>
@@ -2527,28 +2530,28 @@
     <value>Luncurkan pratinjau di jendela popup</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Buat arsip dari file(s) terpilih</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Buat 7z arsip dari item(s) yang dipilih</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Buat arsip zip dari item(s) yang dipilih</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Ekstrak item dari arsip(s) yang dipilih ke folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>Ekstrak item dari arsip(s) yang dipilih ke folder sekarang</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>Ekstrak item dari arsip(s) yang dipilih ke folder baru</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>Putar gambar(s) terpilih ke kiri</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Putar gambar(s) terpilih ke kanan</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Buka halaman pengaturan</value>
@@ -2557,34 +2560,40 @@
     <value>Buka folder di terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Buka folder di terminal sebagai admin</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Kurangi ukuran icon di tampilan grid</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Naikkan ukuran icon di tampilan grid</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>Beralih ke tampilan detail</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Beralih ke tampilan tiles</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Beralih ke tampilan daftar</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Daftar</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Beralih ke tampilan grid dengan icon kecil</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Beralih ke tampilan grid dengan icon sedang</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Beralih ke tampilan grid dengan icon besar</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Beralih ke tampilan kolom</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Beralih tampilan secara adaptif</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Urutkan item berdasarkan nama</value>
@@ -2620,10 +2629,7 @@
     <value>Urutkan item dalam urutan Z-A</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Daftar dan urutkan direktori berdampingan dengan file</value>
+    <value>Aktifkan arah urutan item</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Buat daftar item tanpa kelompok</value>
@@ -2665,43 +2671,43 @@
     <value>Urutkan grup dalam urutan Z-A</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>Aktifkan arah urutan grup</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Buka tab baru</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Navigasi mundur dalam riwayat navigasi</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Navigasi kedepan dalam riwayat navigasi</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Navigasi keatas satu folder</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>Duplikasi tab sekarang</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>Duplikasi tab terpilih</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Tutup tab di sebelah kiri tab saat ini</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>Tutup tab di sebelah kiri tab yang dipilih</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>Tutup tab di sebelah kanan dari tab saat ini</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>Tutup tab di sebelah kanan tab yang dipilih</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>Tutup tab selain tab saat ini</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>Tutup tab selain tab yang dipilih</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Buka kembali halaman yang terakhir ditutup</value>
@@ -2722,7 +2728,7 @@
     <value>Tutup panel kanan</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>Aktifkan sidebar</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2912,10 +2918,10 @@
     <value>Ubah</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle selection</value>
+    <value>Aktifkan pemilih</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>Tampilkan peringatan ketika menganti ekstensi file</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
     <value>PC ini</value>
@@ -2962,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Tampilkan kotak centang saat memilih item</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Mencari item yang tidak terindeks</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Jalur bar fokus</value>
   </data>
@@ -3004,6 +3007,9 @@
   <data name="Month" xml:space="preserve">
     <value>Bulan</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Hari</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Pilih unit untuk dikelompokkan berdasarkan tanggal</value>
   </data>
@@ -3013,8 +3019,11 @@
   <data name="Year" xml:space="preserve">
     <value>Tahun</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Kelompokan berdasarkan bulan, bukan tahun</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Kelompokkan berdasarkan tanggal</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Kelompokkan berdasarkan hari dari tanggal pembuatan</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Kelompokan item berdasarkan saat bulan dan tanggal saat item dibuat</value>
@@ -3022,11 +3031,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Kelompok kan items berdasarkan tahun dan tanggal saat dibuat</value>
   </data>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Kelompokkan berdasarkan hari dari tanggal saat dihapus</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Kelompokan items berdasarkan bulan dan tanggal saat dihapus</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Kelompokan items berdasarkan tahun dan tanggal saat dihapus</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Kelompokkan item berdasarkan hari dari tanggal saat dirubah</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Kelompokkan item berdasarkan bulan dan tanggal saat di rubah</value>
@@ -3177,7 +3192,7 @@
     <value>Jalankan git pull dan git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} keluar / {1} commits masuk</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
     <value>Hubungkan ke GitHub</value>
@@ -3189,16 +3204,16 @@
     <value>Saat ini, Files tidak dapat mengakses GitHub.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open folder in VS Code</value>
+    <value>Buka folder di VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Buka direktori ini pada Visual Studio Code</value>
   </data>
   <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Open repo in VS Code</value>
+    <value>Buka repo di VS Code</value>
   </data>
   <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in Visual Studio Code</value>
+    <value>Buka root repo Git di Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Salin kode</value>
@@ -3222,13 +3237,13 @@
     <value>Bagus! Anda sekarang sudah diotorisasi.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>Inisialisasi repo</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
     <value>Inisialisasi Repositori Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>Nama Remote Repository</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
     <value>Cabang Saat ini</value>
@@ -3286,53 +3301,53 @@
     <value>Atur BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>The following items are too large to be copied to this drive</value>
+    <value>Items berikut ini terlalu besar untuk di salin ke drive ini</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
     <value>Format drive</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
-    <value>Don't show again</value>
+    <value>Jangan tampilkan lagi</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>Files is running as administrator</value>
+    <value>Files sedang berjalan sebagai admin</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+    <value>Karena keterbatasan platform, drag and drop tidak tersedia saat menjalankan File sebagai admin.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>Leave app running in the background when the window is closed</value>
+    <value>Biarkan app berjalan di latar belakang ketika window di tutup</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>Blue</value>
+    <value>Biru</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
-    <value>Blue Gray</value>
+    <value>Biru Abu-abu</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>Brick Red</value>
+    <value>Merah Bata</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
-    <value>Camouflage</value>
+    <value>Kamuflase</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>Cool Blue Bright</value>
+    <value>Biru Cerah</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>Gray</value>
+    <value>Abu-abu</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>Gray Dark</value>
+    <value>Abu-abu gelap</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>Green</value>
+    <value>Hijau</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
@@ -3340,296 +3355,334 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>Mint Light</value>
+    <value>Mint Cerah</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Mod Red</value>
+    <value>Merah Mod</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Orange Bright</value>
+    <value>Oranye Cerah</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>Overcast</value>
+    <value>Mendung</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>Red</value>
+    <value>Merah</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Rose Bright</value>
+    <value>Mawar Cerah</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Seafoam</value>
+    <value>Busa laut</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>Storm</value>
+    <value>Badai</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Violet Red Light</value>
+    <value>Ungu Merah Cerah</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Yellow Gold</value>
+    <value>Kuning Emas</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>Penghapusan selesai</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>Nama:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>{0} of {1} processed</value>
+    <value>{0} dari {1} terproses</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
     <value>item</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
-    <value>Files can't initialize this directory as a Git repository.</value>
+    <value>File tidak dapat menginisialisasi direktori ini sebagai Git repository.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
-    <value>Contributing Artist</value>
+    <value>Artis yang Berkontribusi</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>Add page</value>
+    <value>Tambah halaman</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>Processing items...</value>
+    <value>Item sedang di proses...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Kecepatan:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Canceled compressing {0} items to "{1}"</value>
+    <value>Batalkan kompresi {0} item ke {1}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <value>Batalkan kompresi {0} item dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0} item(s) to "{1}"</value>
+    <value>Kompres {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <value>Kompres {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0} item(s) to "{1}"</value>
+    <value>Gagal mengkompresi {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <value>Gagal mengkompres {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0} item(s) to "{1}"</value>
+    <value>Kompres {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <value>Mengompres {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <value>Membatalkan penyalinan {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <value>Membatalkan penyalinan {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0} item(s) to "{1}"</value>
+    <value>Disalin {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <value>Disalin {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error copying {0} item(s) to "{1}"</value>
+    <value>Error menyalin {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <value>Gagal untuk menyalin {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0} item(s) to "{1}"</value>
+    <value>Menyalin {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <value>Menyalin {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>Canceled extracting "{0}" to "{1}"</value>
+    <value>Dibatalkan ekstrasi "{0}" ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <value>Dibatalkan ekstrasi "{0}" dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Extracted "{0}" to "{1}"</value>
+    <value>Diekstraksi "{0}" ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <value>Diekstraksi "{0}" dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>Error extracting "{0}" to "{1}"</value>
+    <value>Error Mengekstrak "{0}" ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <value>Gagal mengekstrak "{0}" dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>Extracting "{0}" to "{1}"</value>
+    <value>Mengekstraksi "{0}" ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <value>Mengekstraksi "{0}" dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <value>Membatalkan penghapusan {0} item(s) dari "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <value>Dihapus {0} item(s) dari "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <value>Error menghapus {0} item(s) dari "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <value>Gagal menghapus {0} item(s) dari {1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Deleted {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Error deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
-    <value>Deleting {0} item(s) from "{1}"</value>
+    <value>Menghapus {0} item(s) dari "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <value>Dibatalkan pemindahan {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>Dibatalkan pemindahan {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0} item(s) to "{1}"</value>
+    <value>Terpindah {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <value>Terpindah {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0} item(s) to "{1}"</value>
+    <value>Memindah {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>Memindah {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0} item(s) to "{1}"</value>
+    <value>Error memindah {0} item(s) ke "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <value>Gagal untuk memindah {0} item(s) dari "{1}" ke "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled emptying Recycle Bin</value>
+    <value>Batal mengosongkan Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Emptied Recycle Bin</value>
+    <value>Recycle Bin Kosong</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying Recycle Bin</value>
+    <value>Mengosongkan Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Error emptying Recycle Bin</value>
+    <value>Error mengosongkan Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>Failed to empty Recycle Bin</value>
+    <value>Gagal mengkosongkan Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing the operation...</value>
+    <value>Mempersiapkan operasi...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} item(s) processed</value>
+    <value>{0}/{1} item(s) diproses</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Unblock downloaded file</value>
+    <value>Buka blokiran file yang diunduh</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
-    <value>No ongoing file operations</value>
+    <value>Tidak ada operasi file yang berlangsung</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+    <value>Opsi untuk membuka File di Windows Startup tidak tersedia karena pengaturan sistem atau kebijakan grup Anda. Untuk mengaktifkan kembali, buka halaman startup di Task Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Gagal untuk mengembalikan item dari Recycle Bin</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
-    <value>Failed to set the background wallpaper</value>
+    <value>Gagal untuk set wallpaper latar belakang</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Delete Git branch</value>
+    <value>Hapus Git branch</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+    <value>Yakin ingin menghapus "{0}" branch ini secara permanen?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
-    <value>Connected to GitHub</value>
+    <value>Hubungkan ke GitHub</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>Keluar</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
     <value>Hubungkan ke GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Masuk</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tag hanya kompatibel pada drive yang diformat sebagai NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Terjadi kesalahan saat menerapkan tag ini</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Ekstrak item dari arsip(s) yang dipilih ke folder saat ini untuk arsip satu-item, atau ke folder baru untuk arsip multi-item</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Ekstrak disini (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Urutkan file dan folder bersama</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Urutkan file dan folder bersama</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Urutkan file dahulu</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Urutkan file pertama lalu folder</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Urutkan folder dahulu</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Urutkan folder pertama lalu file</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Urutkan prioritas</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Gagal memutar gambar</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Memulai Ulang</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Keluar</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Gagal membagi item</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Gulir ke folder sebelumnya saat navigasi ke atas</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Buka window baru</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Ganti sampul album</value>
   </data>
 </root>

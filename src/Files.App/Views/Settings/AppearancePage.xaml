@@ -54,7 +54,7 @@
 							Width="32"
 							Height="12"
 							VerticalAlignment="Bottom"
-							Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+							Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
 							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
 							BorderThickness="1,1,1,0"
 							CornerRadius="4,4,0,0" />
@@ -70,7 +70,7 @@
 						Grid.Row="1"
 						Height="50"
 						VerticalAlignment="Bottom"
-						Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+						Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
 						BorderBrush="{ThemeResource ControlElevationBorderBrush}"
 						BorderThickness="0,0,0,.5" />
 

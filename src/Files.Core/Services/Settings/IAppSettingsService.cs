@@ -11,6 +11,11 @@ namespace Files.Core.Services.Settings
 		bool ShowStatusCenterTeachingTip { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the notification to inform background running.
+		/// </summary>
+		bool ShowBackgroundRunningNotification { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to restore tabs on startup.
 		/// This is used when prompting users to restart after changing the app language.
 		/// </summary>

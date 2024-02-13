@@ -132,6 +132,26 @@ namespace Files.App.Utils.Storage
 			return pathBoxItems;
 		}
 
+		public static async Task<List<PathBoxItem>> GetDirectoryPathComponentsWithDisplayNameAsync(string value)
+		{
+			var pathBoxItems = GetDirectoryPathComponents(value);
+
+			foreach (var item in pathBoxItems)
+			{
+				if (item.Path == "Home")
+					item.Title = "Home".GetLocalizedResource();
+				else
+				{
+					BaseStorageFolder folder = await FilesystemTasks.Wrap(() => DangerousGetFolderFromPathAsync(item.Path));
+
+					if (folder is not null)
+						item.Title = folder.DisplayName;
+				}
+			}
+
+			return pathBoxItems;
+		}
+
 		public static string GetResolvedPath(string path, bool isFtp)
 		{
 			var withoutEnvirnment = GetPathWithoutEnvironmentVariable(path);

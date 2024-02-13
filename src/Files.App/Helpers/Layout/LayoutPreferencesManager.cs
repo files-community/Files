@@ -40,83 +40,105 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public int GridViewSize
+		/// <summary>
+		/// Gets or sets the saved icon size for the current layout
+		/// </summary>
+		public int IconSize
 		{
-			get => LayoutPreferencesItem.GridViewSize;
+			get
+			{
+				return LayoutMode switch
+				{
+					FolderLayoutModes.DetailsView => LayoutPreferencesItem.IconSizeDetailsView,
+					FolderLayoutModes.ListView => LayoutPreferencesItem.IconSizeListView,
+					FolderLayoutModes.TilesView => LayoutPreferencesItem.IconSizeTilesView,
+					FolderLayoutModes.GridView => LayoutPreferencesItem.IconSizeGridView,
+					FolderLayoutModes.ColumnView => LayoutPreferencesItem.IconSizeColumnsView,
+					_ => Constants.Browser.GridViewBrowser.GridViewSizeMedium,
+				};
+			}
 			set
 			{
-				// Size down
-				if (value < LayoutPreferencesItem.GridViewSize)
+				switch (LayoutMode)
 				{
-					// Size down from tiles to list
-					if (LayoutMode == FolderLayoutModes.TilesView)
-					{
-						LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
-						LayoutMode = FolderLayoutModes.DetailsView;
-						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
-					}
-					// Size down from grid to tiles
-					else if (LayoutMode == FolderLayoutModes.GridView && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall)
+					case FolderLayoutModes.DetailsView:
+						SetProperty(ref LayoutPreferencesItem.IconSizeDetailsView, value, nameof(IconSize));
+						break;
+					case FolderLayoutModes.ListView:
+						SetProperty(ref LayoutPreferencesItem.IconSizeListView, value, nameof(IconSize));
+						break;
+					case FolderLayoutModes.TilesView:
+						SetProperty(ref LayoutPreferencesItem.IconSizeTilesView, value, nameof(IconSize));
+						break;
+					case FolderLayoutModes.GridView:
+						SetProperty(ref LayoutPreferencesItem.IconSizeGridView, value, nameof(IconSize));
+						break;
+					case FolderLayoutModes.ColumnView:
+						SetProperty(ref LayoutPreferencesItem.IconSizeColumnsView, value, nameof(IconSize));
+						break;
+				}
+
+				IconSizeChanged?.Invoke(this, EventArgs.Empty);
+				LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
+			}
+		}
+
+		public void DecreaseLayoutSize()
+		{
+			switch (LayoutMode)
+			{
+				case FolderLayoutModes.GridView:
+					if (IconSize > Constants.Browser.GridViewBrowser.GridViewSizeSmall)
+						IconSize -= Constants.Browser.GridViewBrowser.GridViewIncrement;
+					else
 					{
 						LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
 						LayoutMode = FolderLayoutModes.TilesView;
-						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+						IconSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, IconSize));
 					}
-					// Resize grid view
-					else if (LayoutMode != FolderLayoutModes.DetailsView)
-					{
-						// Set grid size to allow immediate UI update
-						var newValue = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall;
-						SetProperty(ref LayoutPreferencesItem.GridViewSize, newValue, nameof(GridViewSize));
+					break;
+				case FolderLayoutModes.TilesView:
+					LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+					LayoutMode = FolderLayoutModes.ListView;
+					IconSize = Constants.DefaultIconSizes.Large;
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, IconSize));
+					break;
+				case FolderLayoutModes.ListView:
+					LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+					LayoutMode = FolderLayoutModes.DetailsView;
+					IconSize = Constants.DefaultIconSizes.Large;
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, IconSize));
+					break;
+			}
+		}
 
-						// Only update layout mode if it isn't already in grid view
-						if (LayoutMode != FolderLayoutModes.GridView)
-						{
-							LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
-							LayoutMode = FolderLayoutModes.GridView;
-							LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
-						}
-						else
-						{
-							LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
-						}
-
-						GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
-					}
-				}
-				// Size up
-				else if (value > LayoutPreferencesItem.GridViewSize)
-				{
-					// Size up from list to tiles
-					if (LayoutMode == FolderLayoutModes.DetailsView)
-					{
-						LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
-						LayoutMode = FolderLayoutModes.TilesView;
-						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
-					}
-					else // Size up from tiles to grid
-					{
-						// Set grid size to allow immediate UI update
-						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax;
-						SetProperty(ref LayoutPreferencesItem.GridViewSize, newValue, nameof(GridViewSize));
-
-						// Only update layout mode if it isn't already in grid view
-						if (LayoutMode != FolderLayoutModes.GridView)
-						{
-							LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
-							LayoutMode = FolderLayoutModes.GridView;
-							LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
-						}
-						else
-						{
-							LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
-						}
-
-						// Don't request a grid resize if it is already at the max size
-						if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax)
-							GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
-					}
-				}
+		public void IncreaseLayoutSize()
+		{
+			switch (LayoutMode)
+			{
+				case FolderLayoutModes.DetailsView:
+					LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+					LayoutMode = FolderLayoutModes.ListView;
+					IconSize = Constants.DefaultIconSizes.Large;
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, IconSize));
+					break;
+				case FolderLayoutModes.ListView:
+					LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+					LayoutMode = FolderLayoutModes.TilesView;
+					IconSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, IconSize));
+					break;
+				case FolderLayoutModes.TilesView:
+					LayoutPreferencesItem.IsAdaptiveLayoutOverridden = true;
+					LayoutMode = FolderLayoutModes.GridView;
+					IconSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, IconSize));
+					break;
+				case FolderLayoutModes.GridView:
+					if (IconSize < Constants.Browser.GridViewBrowser.GridViewSizeLarge)
+						IconSize += Constants.Browser.GridViewBrowser.GridViewIncrement;
+					break;
 			}
 		}
 
@@ -127,19 +149,6 @@ namespace Files.App.Data.Models
 			{
 				if (SetProperty(ref LayoutPreferencesItem.LayoutMode, value, nameof(LayoutMode)))
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
-			}
-		}
-
-		public GridViewSizeKind GridViewSizeKind
-		{
-			get
-			{
-				if (GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium)
-					return GridViewSizeKind.Small;
-				else if (GridViewSize >= Constants.Browser.GridViewBrowser.GridViewSizeMedium && GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeLarge)
-					return GridViewSizeKind.Medium;
-				else
-					return GridViewSizeKind.Large;
 			}
 		}
 
@@ -260,8 +269,7 @@ namespace Files.App.Data.Models
 				if (SetProperty(ref _LayoutPreferencesItem, value))
 				{
 					OnPropertyChanged(nameof(LayoutMode));
-					OnPropertyChanged(nameof(GridViewSize));
-					OnPropertyChanged(nameof(GridViewSizeKind));
+					OnPropertyChanged(nameof(IconSize));
 					OnPropertyChanged(nameof(IsAdaptiveLayoutEnabled));
 					OnPropertyChanged(nameof(DirectoryGroupOption));
 					OnPropertyChanged(nameof(DirectorySortOption));
@@ -286,7 +294,7 @@ namespace Files.App.Data.Models
 		public event EventHandler<bool>? SortDirectoriesAlongsideFilesPreferenceUpdated;
 		public event EventHandler<bool>? SortFilesFirstPreferenceUpdated;
 		public event EventHandler<LayoutModeEventArgs>? LayoutModeChangeRequested;
-		public event EventHandler? GridViewSizeChangeRequested;
+		public event EventHandler? IconSizeChanged;
 
 		// Constructors
 
@@ -303,23 +311,50 @@ namespace Files.App.Data.Models
 
 		// Methods
 
-		public uint GetIconSize()
+		/// <summary>
+		/// This will round the current icon size to get the best result from the File Explorer thumbnail system.
+		/// 
+		/// Details View:
+		///		Always uses the Large icon size (32).
+		///		
+		/// List View:
+		///		Always uses the Large icon size (32).
+		///		
+		/// Columns View:
+		///		Always uses the Large icon size (32).
+		///		
+		/// Tiles View:
+		///		Uses a range of icon sizes (64, 72, 96, 128, 180, 256) depending on the selected icon size.
+		///		
+		/// Grid View:
+		///		Uses a range of icon sizes (64, 72, 96, 128, 180, 256) depending on the selected icon size.
+		/// </summary>
+		public uint GetRoundedIconSize()
 		{
 			return LayoutMode switch
 			{
 				FolderLayoutModes.DetailsView
-					=> Constants.Browser.DetailsLayoutBrowser.DetailsViewSize,
+					=> Constants.DefaultIconSizes.Large,
+				FolderLayoutModes.ListView
+					=> Constants.DefaultIconSizes.Large,
 				FolderLayoutModes.ColumnView
-					=> Constants.Browser.ColumnViewBrowser.ColumnViewSize,
-				FolderLayoutModes.TilesView
-					=> Constants.Browser.GridViewBrowser.GridViewSizeSmall,
-				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
-					=> Constants.Browser.GridViewBrowser.GridViewSizeSmall,
-				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
-					=> Constants.Browser.GridViewBrowser.GridViewSizeMedium,
-				_ when GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge
-					=> Constants.Browser.GridViewBrowser.GridViewSizeLarge,
-				_ => Constants.Browser.GridViewBrowser.GridViewSizeMax,
+					=> Constants.DefaultIconSizes.Large,
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 64 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 64
+					=> 64,
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 72 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 72
+					=> 72,
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 96 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 96
+					=> 96,
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 128 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 128
+					=> 128,
+				_ when LayoutMode == FolderLayoutModes.TilesView && LayoutPreferencesItem.IconSizeTilesView <= 180 ||
+					   LayoutMode == FolderLayoutModes.GridView && LayoutPreferencesItem.IconSizeGridView <= 180
+					=> 180,
+				_ => 256,
 			};
 		}
 
@@ -338,24 +373,12 @@ namespace Files.App.Data.Models
 			return (preferencesItem.LayoutMode) switch
 			{
 				FolderLayoutModes.DetailsView => typeof(DetailsLayoutPage),
+				FolderLayoutModes.ListView => typeof(GridLayoutPage),
 				FolderLayoutModes.TilesView => typeof(GridLayoutPage),
 				FolderLayoutModes.GridView => typeof(GridLayoutPage),
 				FolderLayoutModes.ColumnView => typeof(ColumnsLayoutPage),
 				_ => typeof(DetailsLayoutPage)
 			};
-		}
-
-		public void ToggleLayoutModeGridViewLarge(bool manuallySet)
-		{
-			IsAdaptiveLayoutEnabled &= !manuallySet;
-
-			// Grid View
-			LayoutMode = FolderLayoutModes.GridView;
-
-			// Size
-			GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
 		}
 
 		public void ToggleLayoutModeColumnView(bool manuallySet)
@@ -365,10 +388,10 @@ namespace Files.App.Data.Models
 			// Column View
 			LayoutMode = FolderLayoutModes.ColumnView;
 
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.ColumnView, GridViewSize));
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.ColumnView, IconSize));
 		}
 
-		public void ToggleLayoutModeGridViewMedium(bool manuallySet)
+		public void ToggleLayoutModeGridView(int size, bool manuallySet)
 		{
 			IsAdaptiveLayoutEnabled &= !manuallySet;
 
@@ -376,33 +399,9 @@ namespace Files.App.Data.Models
 			LayoutMode = FolderLayoutModes.GridView;
 
 			// Size
-			GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+			IconSize = size;
 
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
-		}
-
-		public void ToggleLayoutModeGridViewSmall(bool manuallySet)
-		{
-			IsAdaptiveLayoutEnabled &= !manuallySet;
-
-			// Grid View
-			LayoutMode = FolderLayoutModes.GridView;
-
-			// Size
-			GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
-		}
-
-		public void ToggleLayoutModeGridView(int size)
-		{
-			// Grid View
-			LayoutMode = FolderLayoutModes.GridView;
-
-			// Size
-			GridViewSize = size;
-
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, IconSize));
 		}
 
 		public void ToggleLayoutModeTiles(bool manuallySet)
@@ -412,7 +411,17 @@ namespace Files.App.Data.Models
 			// Tiles View
 			LayoutMode = FolderLayoutModes.TilesView;
 
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.TilesView, GridViewSize));
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.TilesView, IconSize));
+		}
+
+		public void ToggleLayoutModeList(bool manuallySet)
+		{
+			IsAdaptiveLayoutEnabled &= !manuallySet;
+
+			// List View
+			LayoutMode = FolderLayoutModes.ListView;
+
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.ListView, IconSize));
 		}
 
 		public void ToggleLayoutModeDetailsView(bool manuallySet)
@@ -422,7 +431,7 @@ namespace Files.App.Data.Models
 			// Details View
 			LayoutMode = FolderLayoutModes.DetailsView;
 
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.DetailsView, GridViewSize));
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.DetailsView, IconSize));
 		}
 
 		public void ToggleLayoutModeAdaptive()
@@ -430,7 +439,7 @@ namespace Files.App.Data.Models
 			// Adaptive
 			IsAdaptiveLayoutEnabled = true;
 
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive, GridViewSize));
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive, IconSize));
 		}
 
 		public void OnDefaultPreferencesChanged(string path, string settingsName)
@@ -449,7 +458,15 @@ namespace Files.App.Data.Models
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					LayoutPreferencesItem = preferencesItem;
-					// TODO: Update layout
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, IconSize));
+					break;
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeListView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView):
+					LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, IconSize));
 					break;
 			}
 		}
@@ -507,7 +524,11 @@ namespace Files.App.Data.Models
 			else
 			{
 				UserSettingsService.FoldersSettingsService.DefaultLayoutMode = preferencesItem.LayoutMode;
-				UserSettingsService.LayoutSettingsService.DefaultGridViewSize = preferencesItem.GridViewSize;
+				UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView = preferencesItem.IconSizeDetailsView;
+				UserSettingsService.LayoutSettingsService.DefaultIconSizeListView = preferencesItem.IconSizeListView;
+				UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView = preferencesItem.IconSizeTilesView;
+				UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView = preferencesItem.IconSizeGridView;
+				UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView = preferencesItem.IconSizeColumnsView;
 
 				// Do not save options which only work in recycle bin or cloud folders or search results as global
 				if (preferencesItem.DirectorySortOption != SortOption.Path &&

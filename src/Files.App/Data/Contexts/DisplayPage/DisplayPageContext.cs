@@ -27,17 +27,20 @@ namespace Files.App.Data.Contexts
 					case LayoutTypes.Details:
 						viewModel.ToggleLayoutModeDetailsView(true);
 						break;
+					case LayoutTypes.List:
+						viewModel.ToggleLayoutModeList(true);
+						break;
 					case LayoutTypes.Tiles:
 						viewModel.ToggleLayoutModeTiles(true);
 						break;
 					case LayoutTypes.GridSmall:
-						viewModel.ToggleLayoutModeGridViewSmall(true);
+						viewModel.ToggleLayoutModeGridView(GridViewSizeSmall, true);
 						break;
 					case LayoutTypes.GridMedium:
-						viewModel.ToggleLayoutModeGridViewMedium(true);
+						viewModel.ToggleLayoutModeGridView(GridViewSizeMedium, true);
 						break;
 					case LayoutTypes.GridLarge:
-						viewModel.ToggleLayoutModeGridViewLarge(true);
+						viewModel.ToggleLayoutModeGridView(GridViewSizeLarge, true);
 						break;
 					case LayoutTypes.Columns:
 						viewModel.ToggleLayoutModeColumnView(true);
@@ -138,12 +141,13 @@ namespace Files.App.Data.Contexts
 		public void DecreaseLayoutSize()
 		{
 			if (FolderSettings is LayoutPreferencesManager viewModel)
-				viewModel.GridViewSize -= GridViewIncrement;
+				viewModel.DecreaseLayoutSize();
 		}
+
 		public void IncreaseLayoutSize()
 		{
 			if (FolderSettings is LayoutPreferencesManager viewModel)
-				viewModel.GridViewSize += GridViewIncrement;
+				viewModel.IncreaseLayoutSize();
 		}
 
 		private void Context_Changing(object? sender, EventArgs e)
@@ -170,7 +174,7 @@ namespace Files.App.Data.Contexts
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-				case nameof(LayoutPreferencesManager.GridViewSize):
+				case nameof(LayoutPreferencesManager.IconSize):
 				case nameof(LayoutPreferencesManager.IsAdaptiveLayoutEnabled):
 					SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
 					break;
@@ -245,13 +249,13 @@ namespace Files.App.Data.Contexts
 			return viewModel.LayoutMode switch
 			{
 				FolderLayoutModes.DetailsView => LayoutTypes.Details,
+				FolderLayoutModes.ListView => LayoutTypes.List,
 				FolderLayoutModes.TilesView => LayoutTypes.Tiles,
-				FolderLayoutModes.GridView => viewModel.GridViewSizeKind switch
+				FolderLayoutModes.GridView => viewModel.IconSize switch
 				{
-					GridViewSizeKind.Small => LayoutTypes.GridSmall,
-					GridViewSizeKind.Medium => LayoutTypes.GridMedium,
-					GridViewSizeKind.Large => LayoutTypes.GridLarge,
-					_ => throw new InvalidEnumArgumentException(),
+					< GridViewSizeMedium => LayoutTypes.GridSmall,
+					< GridViewSizeLarge => LayoutTypes.GridMedium,
+					_ => LayoutTypes.GridLarge,
 				},
 				FolderLayoutModes.ColumnView => LayoutTypes.Columns,
 				_ => throw new InvalidEnumArgumentException(),

@@ -19,10 +19,6 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
-		private readonly IApplicationService ApplicationService;
-
-		private MainPageViewModel mainPageViewModel;
-
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 
@@ -30,8 +26,6 @@ namespace Files.App
 
 		private MainWindow()
 		{
-			ApplicationService = new ApplicationService();
-
 			WindowHandle = this.GetWindowHandle();
 
 			InitializeComponent();
@@ -49,14 +43,18 @@ namespace Files.App
 			MinWidth = 516;
 
 			AppWindow.Title = "Files";
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, ApplicationService.AppIcoPath));
+			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
 			// Workaround for full screen window messing up the taskbar
 			// https://github.com/microsoft/microsoft-ui-xaml/issues/8431
-			InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+			// This property should only be set if the "Automatically hide the taskbar" in Windows 11,
+			// or "Automatically hide the taskbar in desktop mode" in Windows 10 is enabled.
+			// Setting this property when the setting is disabled will result in the taskbar overlapping the application
+			if (AppLifecycleHelper.IsAutoHideTaskbarEnabled()) 
+				InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()

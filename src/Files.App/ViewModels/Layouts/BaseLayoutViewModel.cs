@@ -74,10 +74,10 @@ namespace Files.App.ViewModels.Layouts
 
 				// Mouse wheel down
 				if (delta < 0)
-					_associatedInstance.InstanceViewModel.FolderSettings.GridViewSize -= Constants.Browser.GridViewBrowser.GridViewIncrement;
+					_associatedInstance.InstanceViewModel.FolderSettings.IncreaseLayoutSize();
 				// Mouse wheel up
 				else if (delta > 0)
-					_associatedInstance.InstanceViewModel.FolderSettings.GridViewSize += Constants.Browser.GridViewBrowser.GridViewIncrement;
+					_associatedInstance.InstanceViewModel.FolderSettings.DecreaseLayoutSize();
 
 				e.Handled = true;
 			}

@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Fereastra Noua</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>Fereastră Nouă</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Copiere cale</value>
+  </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Copiați calea cu ghilimele</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Răsfoiește</value>
@@ -178,7 +181,7 @@
     <value>Introduceți o cale pentru a naviga sau tastați "&gt;" pentru a deschide paleta de comenzi</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Căutaţi</value>
+    <value>Căutare</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Fișierele accesate anterior vor apărea aici</value>
@@ -223,7 +226,7 @@
     <value>Continuă de unde ai rămas</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Deschide un Tab Nou</value>
+    <value>Deschideți o filă nouă</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Deschideți o anumită pagină sau pagini</value>
@@ -346,6 +349,12 @@
     <value>Unitate deconectată</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Fișierul pe care încercați să-l accesați a fost mutat sau șters.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Nu se pot deschide proprietățile pentru acest fișier</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Fișierul pe care încercați să-l accesați a fost mutat sau șters.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -975,9 +984,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Rezultatele căutării în {1} pentru {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Listează și sortează directoarele alături de fișiere</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalii</value>
   </data>
@@ -987,14 +993,11 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Arată fișierele protejate de sistem</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include elementele neindexate în rezultatele căutării</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sincronizați aspectul și preferințele de sortare între directoare</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Personalizați meniul contextual click dreapta</value>
+    <value>Personalizați meniul contextual clic dreapta</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
     <value>Calea originală</value>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Arată opțiunea pentru a deschide foldere într-un panou nou</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Afișați opțiunea pentru a copia calea</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Afișați opțiunea pentru a crea un folder cu selecție</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Afișați opțiunea pentru a crea o comandă rapidă</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Panou nou</value>
@@ -1063,7 +1075,7 @@
     <value>Comută panoul de informații</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail\preview panes</value>
+    <value>Comutați panoul de informații pentru a vizualiza panourile de detalii/previzualizare</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nicio previzualizare disponibilă</value>
@@ -1272,12 +1284,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Viteză ISO</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Nu găsești ceea ce cauți?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Căutare elemente neindexate</value>
-  </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Înlocuiește existent</value>
   </data>
@@ -1320,17 +1326,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Sortare</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Grupare după</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Data modificării</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Folder original</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sortare după</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descendentă</value>
@@ -1655,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Pornire</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2235,8 +2232,11 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Afișează editarea etichetelor</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Afișați opțiunile de compresie</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Arată meniul Trimitere La</value>
+    <value>Afișați trimitere la meniu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Arată opțiunea pentru a deschide foldere într-o filă nouă</value>
@@ -2419,7 +2419,10 @@
     <value>Copiază elementul/le în clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copiază calea elementului în clipboard</value>
+    <value>Copiați calea elementelor selectate în clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copiați calea elementelor selectate cu ghilimele în clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Decupează elementul/le în clipboard</value>
@@ -2524,202 +2527,205 @@
     <value>Executați scriptul PowerShell selectat</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Lansați previzualizarea în fereastra pop-up</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Creare arhivă cu elementele selectate</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Creare arhivă 7z instant cu elementele selectate</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Creare arhivă zip instant cu elementele selectate</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Extragere elemente din arhivele selectate în orice folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>Extragere elemente din arhivele selectate în folderul curent</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>Extragere elemente din arhivele selectate într-un folder nou</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>Rotiți imaginile selectate la stânga</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Rotiți imaginile selectate la dreapta</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Deschideți pagina de setări</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Deschidere folder în terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Deschidere folder în terminal ca administrator</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Reduceți dimensiunea pictogramelor în vizualizare grilă</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Măriți dimensiunea pictogramelor în vizualizare grilă</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>Comutare la vizualizare detalii</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Comutare la vizualizare dale</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Comutare la vizualizare listă</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Listă</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Comutare la vizualizare grilă cu pictograme mici</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Comutare la vizualizare grilă cu pictograme medii</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Comutare la vizualizare grilă cu pictograme mari</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Comutare la vizualizare coloane</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Comutare vizualizări în mod adaptiv</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Sortați elementele după nume</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Sortare elemente după data modificării</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Sortare elemente după data creării</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>Sortare elemente după dimensiune</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>Sortare elemente după tip</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>Sortare elemente după starea de sincronizare</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sort items by tags</value>
+    <value>Sortare elemente după etichete</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>Sortare elemente după folderul original</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>Sortare elemente după data ștergerii</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Sort items in ascending order</value>
+    <value>Sortare elemente în ordine crescătoare</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Sort items in descending order</value>
+    <value>Sortare elemente în ordine descrescătoare</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Comutare direcție sortare</value>
   </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Listează și sortează directoarele alături de fișiere</value>
-  </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Listare elemente fără grupare</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>Grupați elementele după nume</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>Grupați elementele după data modificării</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>Grupați elementele după data creării</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>Grupați elementele după dimensiune</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>Grupați elementele după tip</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>Grupați elementele după starea de sincronizare</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>Grupați elementele după etichete</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>Grupați elementele după folderul original</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>Group items by date deleted</value>
+    <value>Grupați elementele după data ștergerii</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Group items by folder path</value>
+    <value>Grupați elementele după calea folderului</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>Sortare grupuri în ordine crescătoare</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>Sortare grupuri în ordine descrescătoare</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
     <value>Comutare direcție sortare grup</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>Deschidere filă nouă</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Navigați înapoi în istoricul navigației</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Navigați înainte în istoricul navigației</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Navigați în sus într-un director</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>Duplicați fila curentă</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>Duplicați fila selectată</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Închideți filele din stânga filei curente</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>Închideți filele din stânga filei selectate</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>Închideți filele din dreapta filei curente</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>Închideți filele din dreapta filei selectate</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>Închideți alte file decât fila curentă</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>Închideți alte file decât fila selectată</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Redeschideți ultima filă închisă</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Treceți la fila anterioară</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Treceți la fila următoare</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>Închideți fila curentă</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>Deschideți un nou panou</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+    <value>Închideți panoul din dreapta</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Comutare bară laterală</value>
@@ -2861,7 +2867,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>BrowserReîmprospătare</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
@@ -2869,7 +2875,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Căutaţi</value>
+    <value>Căutare</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -2877,7 +2883,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>PlayPause</value>
+    <value>RedarePauză</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
@@ -2885,15 +2891,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>PrevTrack</value>
+    <value>MelodiaPrecedentă</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>NextTrack</value>
+    <value>MelodiaUrmătoare</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>MediaSelect</value>
+    <value>MediaSelectare</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
@@ -2901,21 +2907,21 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
-    <value>VolDown</value>
+    <value>VolumJos</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>VolUp</value>
+    <value>VolumSus</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Change</value>
+    <value>Modificare</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
     <value>Comutare selecție</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>Afișați un avertisment la modificarea extensiilor de fișiere</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
     <value>Acest PC</value>
@@ -2933,76 +2939,76 @@
     <value>Mută la fila următoare</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>Închideți fila curentă</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Editare cale</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Refacere</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Anulare</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>Locație nevalidă</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to copy these files without their properties?</value>
+    <value>Sunteţi sigur că doriţi să copiaţi aceste fişiere fără proprietăţile lor?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
-    <value>These files have properties that can't be copied to the new location</value>
+    <value>Aceste fișiere au proprietăți care nu pot fi copiate la noua locație</value>
   </data>
   <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
-    <value>These files have properties that can't be moved to the new location</value>
+    <value>Aceste fișiere au proprietăți care nu pot fi mutate la noua locație</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to move these files without their properties?</value>
+    <value>Sunteți sigur că doriți să mutați aceste fișiere fără proprietățile lor?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
-  </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>Afișați casete de selectare când selectați elemente</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Focusare pe bara de cale</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Creare element nou</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Niciun grup sau utilizatori nu au permisiunea de a accesa acest obiect. Cu toate acestea, proprietarul acestui obiect poate atribui permisiuni.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>Open the item's location</value>
+    <value>Deschideți locația elementului</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Ștergeți definitiv</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Ștergeți elementele definitiv</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>Play the selected media files</value>
+    <value>Redați fișierele media selectate</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Undo the last file operation</value>
+    <value>Anulați ultima operație de fișier</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Redo the last file operation</value>
+    <value>Refaceți ultima operație de fișier</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Locație:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>Grupați elementele după lună</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>Grupați elementele după an</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>Lună</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Zi</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Comută unitatea pentru grupare după dată</value>
@@ -3013,89 +3019,98 @@
   <data name="Year" xml:space="preserve">
     <value>An</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Grupați după unitatea de dată</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Grupați elementele după ziua datei create</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>Grupați elementele după luna datei creării</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>Grupați elementele după anul datei creării</value>
+  </data>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Grupați elementele după ziua datei ștergerii</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>Grupați elementele după luna datei ștergerii</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>Grupați elementele după anul datei ștergerii</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Grupați elementele după ziua datei modificării</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>Grupați elementele după luna datei modificării</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>Grupați elementele după anul datei modificării</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>Faceți clic pe „Permisiuni avansate” pentru a continua.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>Trebuie să aveți Permisiuni de citire pentru a vizualiza proprietățile acestui element.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Pentru a încerca să preluați proprietatea asupra elementului, care include permisiunea de a-i vedea proprietățile, faceți clic pe Modificare mai sus.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>Nu se pot afișa permisiunile.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>Lăsați modificările mele pe '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>Renunțați la modificările mele</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Aduceți modificările mele la „{0}”</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Aveți modificări neconfirmate în această ramură. Ce doriți să faceți cu ele?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch branch</value>
+    <value>Comutare ramură</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Ramuri</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Comutare</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Ramură nouă</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Nume ramură nevalid</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Creare ramură</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Creare ramură</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>Bazat pe</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>Comutați la o ramură nouă</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Creați un folder cu elementele selectate curent</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>Deschidere proprietăți</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>Deschideți fereastra proprietăți</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>Locale</value>
   </data>
   <data name="Remotes" xml:space="preserve">
     <value>Remotes</value>
@@ -3104,44 +3119,44 @@
     <value>Traduceți pe Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Preluare</value>
   </data>
   <data name="GitPull" xml:space="preserve">
     <value>Pull</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>Rulare preluarea git</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>Rulare git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Previzualizare</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>Git status</value>
+    <value>Status Git</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>Eroare Git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull failed due to a timeout error</value>
+    <value>git pull eșuat datorită unei erori timeout</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>(valori multiple)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>Author</value>
+    <value>Autor</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Date committed</value>
+    <value>Data comiterii</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>Mesajul comiterii</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>Commit SHA</value>
+    <value>Comitere SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
@@ -3162,265 +3177,265 @@
     <value>Solid</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Gestionare ramuri</value>
   </data>
   <data name="Push" xml:space="preserve">
     <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>Run git push</value>
+    <value>Rulare git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>Sincronizare</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>Run git pull and then git push</value>
+    <value>Rulați git pull și apoi git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} ieșiri / {1} comiteri de intrare</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
     <value>Conectați-vă la GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+    <value>Introduceți următorul cod la link-ul de mai jos pentru a începe să lucrați cu repozitoriile GitHub.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files nu poate accesa GitHub momentan.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open folder in VS Code</value>
+    <value>Deschideți folderul în VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Deschideți directorul curent în Visual Studio Code</value>
   </data>
   <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Open repo in VS Code</value>
+    <value>Deschideți repozitoriul în VS Code</value>
   </data>
   <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in Visual Studio Code</value>
+    <value>Deschideți rădăcina repozitoriului Git în Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
-    <value>Copy code</value>
+    <value>Copiere cod</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Adaugat</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Șters</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Modificat</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>Neurmărit</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Unable to display current owner.</value>
+    <value>Imposibil de afișat proprietarul curent.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Great! You are now authorized.</value>
+    <value>Minunat! Acum ești autorizat.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>Inițializați repozitoriul</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Inițializați un repozitoriu Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>Nume Repozitoriu la Distanță</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Ramura Curentă</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>Coloană cale</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Sortare elemente după cale</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>Deschideți directorul într-un panou nou</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>Deschideți directorul într-o filă nouă</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>Deschideți directorul într-o fereastră nouă</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Deschideți toate</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Deschideți toate elementele etichetate</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>Unitate ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command</value>
+    <value>Comandă invalidă</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>'{0}' nu este recunoscut ca o comandă.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Comanda nu este executabilă</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>Comanda '{0}' nu este gata pentru a fi executată.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Paletă de comenzi</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Deschidere paletă de comenzi</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Start in:</value>
+    <value>Pornire în:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Turn on BitLocker</value>
+    <value>Activați BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Manage BitLocker</value>
+    <value>Gestionați BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>The following items are too large to be copied to this drive</value>
+    <value>Următoarele elemente sunt prea mari pentru a fi copiate la această unitate</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
     <value>Formatare unitate</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
-    <value>Don't show again</value>
+    <value>Nu mai afișa</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>Files is running as administrator</value>
+    <value>Files rulează ca administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+    <value>Din cauza limitărilor platformei, tragerea și lăsarea fișierelor nu este disponibilă atunci când rulați Files ca administrator.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>Leave app running in the background when the window is closed</value>
+    <value>Lăsați aplicația să ruleze în fundal atunci când fereastra este închisă</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>Blue</value>
+    <value>Albastru</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
-    <value>Blue Gray</value>
+    <value>Gri Albăstrui</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>Brick Red</value>
+    <value>Cărămiziu</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
-    <value>Camouflage</value>
+    <value>Camuflaj</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>Cool Blue Bright</value>
+    <value>Albastru Deschis</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>Gray</value>
+    <value>Gri</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>Gray Dark</value>
+    <value>Gri Închis</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>Green</value>
+    <value>Verde</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Iris Pastel</value>
+    <value>Iris Pastelat</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>Mint Light</value>
+    <value>Mentă Deschisă</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Mod Red</value>
+    <value>Roșu Aprins</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Orange Bright</value>
+    <value>Portocaliu Strălucitor</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>Overcast</value>
+    <value>Înnorat</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>Red</value>
+    <value>Roșu</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Rose Bright</value>
+    <value>Roz Deschis</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Seafoam</value>
+    <value>Spuma Mării</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>Storm</value>
+    <value>Furtună</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Violet Red Light</value>
+    <value>Roșu-violet Deschis</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Yellow Gold</value>
+    <value>Auriu</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>Finalizat</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>Nume:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>{0} of {1} processed</value>
+    <value>{0} din {1} procesat</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
     <value>elemente</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
-    <value>Files can't initialize this directory as a Git repository.</value>
+    <value>Files nu poate inițializa acest director ca un repozitoriu Git.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
-    <value>Contributing Artist</value>
+    <value>Artiști Contribuitori</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>Add page</value>
+    <value>Adăugare pagină</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>Processing items...</value>
+    <value>Se procesează elementele...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Viteză:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Canceled compressing {0} items to "{1}"</value>
+    <value>S-a anulat comprimarea a {0} elemente în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <value>S-a anulat comprimarea a {0} elemente din "{1}" în "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0} item(s) to "{1}"</value>
+    <value>S-au comprimat {0} element(e) în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <value>S-au comprimat {0} element(e) din "{1}" în {2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
@@ -3476,160 +3491,198 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <value>S-a anulat extragerea "{0}" din "{1}" în "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Extracted "{0}" to "{1}"</value>
+    <value>S-a extras "{0}" în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <value>S-a extras "{0}" din "{1}" în "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>Error extracting "{0}" to "{1}"</value>
+    <value>Eroare la extragerea "{0}" în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <value>Nu s-a putut extrage "{0}" din "{1}" în "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>Extracting "{0}" to "{1}"</value>
+    <value>Se extrage "{0}" în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <value>Se extrage "{0}" din "{1}" în "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <value>S-a anulat ștergerea a {0} element(e) din "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <value>S-au șters {0} element(e) din "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <value>Eroare la ștergerea a {0} element(e) din "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <value>Ștergerea a {0} elemente din {1} a eșuat</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Deleted {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Error deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
-    <value>Deleting {0} item(s) from "{1}"</value>
+    <value>Se șterg {0} element(e) din "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <value>S-a anulat mutarea a {0} element(e) în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>S-a anulat mutarea a {0} element(e) din "{1}" în "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0} item(s) to "{1}"</value>
+    <value>S-au mutat {0} element(e) în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <value>S-au mutat {0} element(e) din "{1}" în "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0} item(s) to "{1}"</value>
+    <value>Se mută {0} element(e) în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>Se mută {0} element(e) din "{1}" în "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0} item(s) to "{1}"</value>
+    <value>Eroare la mutarea a {0} element(e) în "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <value>Mutarea a {0} element(e) din "{1}" la "{2}" a eșuat</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled emptying Recycle Bin</value>
+    <value>S-a anulat golirea Coșului de Reciclare</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Emptied Recycle Bin</value>
+    <value>Coș de Reciclare Golit</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying Recycle Bin</value>
+    <value>Se Golește Coșul de Reciclare</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Error emptying Recycle Bin</value>
+    <value>Eroare la golirea Coșului de Reciclare</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>Failed to empty Recycle Bin</value>
+    <value>Golirea Coșului de Reciclare a eșuat</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing the operation...</value>
+    <value>Se pregătește operațiunea...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} item(s) processed</value>
+    <value>{0}/{1} element(e) procesate</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Unblock downloaded file</value>
+    <value>Deblochează fișierul descărcat</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
-    <value>No ongoing file operations</value>
+    <value>Fără operațiuni de fișiere în curs</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+    <value>Opțiunea de a deschide Files la pornirea Windows nu este disponibilă din cauza setărilor de sistem sau a politicii de grup. Pentru a reîncerca, deschideți pagina de pornire în Managerul de Activități.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Nu s-au putut restaura elementele din Coșul de Reciclare</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
-    <value>Failed to set the background wallpaper</value>
+    <value>Nu s-a putut seta imaginea de fundal</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Delete Git branch</value>
+    <value>Ștergere Ramură Git</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+    <value>Sigur doriți să ștergeți definitiv ramura "{0}"?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
-    <value>Connected to GitHub</value>
+    <value>Conectat la GitHub</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>Deconectare</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
     <value>Conectați-vă la GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Conectare</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Etichetele sunt în prezent compatibile doar pe unitățile formatate ca NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>A apărut o eroare la aplicarea acestei etichete</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extrage elementele din arhivele selectate în folderul curent pentru arhivele cu un singur element, sau într-un folder nou pentru arhivele cu mai multe elemente</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extrageți aici (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Sortați fișierele și folderele împreună</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Sortați fișierele și folderele împreună</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Sortați mai întâi fișierele</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Sortați mai întâi fișierele apoi folderele</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Sortați mai întâi folderele</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Sortați mai întâi folderele apoi fișierele</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Prioritate de sortare</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Rotirea imaginii a eșuat</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Repornire</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Ieșire</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Partajarea elementelor a eșuat</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Derulează la folderul anterior când navighezi în sus</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Deschideți o fereastră nouă</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Schimbați coperta albumului</value>
   </data>
 </root>

@@ -1,8 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Extensions;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
 
@@ -84,18 +85,27 @@ namespace Files.App.ViewModels.Dialogs
 			WorkingDirectory = workingDirectory;
 			_destinationItemPath = string.Empty;
 
-			SelectDestinationCommand = new AsyncRelayCommand(SelectDestinationAsync);
+			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
 			PrimaryButtonCommand = new AsyncRelayCommand(CreateShortcutAsync);
 		}
 
-		private async Task SelectDestinationAsync()
+		private Task SelectDestination()
 		{
-			var folderPicker = InitializeWithWindow(new FolderPicker());
-			folderPicker.FileTypeFilter.Add("*");
+			InteropHelpers.BROWSEINFO bi = new InteropHelpers.BROWSEINFO();
+			bi.ulFlags = 0x00004000;
+			bi.lpszTitle = "Select a folder";
+			nint pidl = InteropHelpers.SHBrowseForFolder(ref bi);
+			if (pidl != nint.Zero)
+			{
+				StringBuilder path = new StringBuilder(260);
+				if (InteropHelpers.SHGetPathFromIDList(pidl, path))
+				{
+					DestinationItemPath = path.ToString();
+				}
+				Marshal.FreeCoTaskMem(pidl);
+			}
 
-			var selectedFolder = await folderPicker.PickSingleFolderAsync();
-			if (selectedFolder is not null)
-				DestinationItemPath = selectedFolder.Path;
+			return Task.CompletedTask;
 		}
 
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
@@ -128,7 +138,7 @@ namespace Files.App.ViewModels.Dialogs
 				destinationName = uri.Host;
 			}
 
-			var shortcutName = string.Format("ShortcutCreateNewSuffix".ToLocalized(), destinationName);
+			var shortcutName = FilesystemHelpers.GetShortcutNamingPreference(destinationName);
 			ShortcutCompleteName = shortcutName + extension;
 			var filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 

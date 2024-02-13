@@ -142,7 +142,7 @@
 								VerticalAlignment="Center"
 								AnimatedIcon.State="NormalOff"
 								AutomationProperties.AccessibilityView="Raw"
-								Foreground="{ThemeResource TextFillColorSecondary}"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 								RenderTransformOrigin="0.5, 0.5"
 								Visibility="Collapsed">
 								<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />

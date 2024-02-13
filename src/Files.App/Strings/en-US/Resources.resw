@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>New window</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Drive unplugged</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access may have been moved or deleted.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Cannot open properties for this file</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -987,9 +993,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Show protected system files</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sync layout and sorting preferences across directories</value>
   </data>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Show option to open folders in a new pane</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Show option to copy path</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Show option to create folder with selection</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Show option to create shortcut</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>New pane</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Didn't find what you're looking for?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Replace existing</value>
@@ -1649,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2229,8 +2232,11 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Show edit tags flyout</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Show compression options</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Show send to menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Show option to open folders in a new tab</value>
@@ -2567,6 +2573,12 @@
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Switch to tiles view</value>
+  </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Switch to list view</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Switch to grid view with small icons</value>
@@ -2956,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus path bar</value>
   </data>
@@ -2998,6 +3007,9 @@
   <data name="Month" xml:space="preserve">
     <value>Month</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Toggle unit for grouping by date</value>
   </data>
@@ -3007,8 +3019,11 @@
   <data name="Year" xml:space="preserve">
     <value>Year</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Group by date unit</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Group items by day of date created</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Group items by month of date created</value>
@@ -3016,11 +3031,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Group items by year of date created</value>
   </data>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Group items by day of date deleted</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Group items by month of date deleted</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Group items by year of date deleted</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Group items by day of date modified</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Group items by month of date modified</value>
@@ -3498,38 +3519,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Canceled deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>Deleted {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Error deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3661,5 +3666,29 @@
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Failed to rotate the image</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Failed to share items</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Open new window</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Change album cover</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files is still running in the background to improve startup performance.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Where did Files go?</value>
   </data>
 </root>

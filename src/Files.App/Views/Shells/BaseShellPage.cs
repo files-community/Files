@@ -354,7 +354,7 @@ namespace Files.App.Views.Shells
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
 				await NavigationHelpers.OpenPath(item.ItemPath, this);
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
-				SubmitSearch(sender.Query, userSettingsService.GeneralSettingsService.SearchUnindexedItems);
+				SubmitSearch(sender.Query);
 		}
 
 		protected async void ShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
@@ -369,7 +369,6 @@ namespace Files.App.Views.Shells
 					Query = sender.Query,
 					Folder = FilesystemViewModel.WorkingDirectory,
 					MaxItemCount = 10,
-					SearchUnindexedItems = userSettingsService.GeneralSettingsService.SearchUnindexedItems
 				};
 
 				sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
@@ -460,26 +459,35 @@ namespace Files.App.Views.Shells
 				await DisplayFilesystemConsentDialogAsync();
 		}
 
+		private volatile CancellationTokenSource? cts;
+
 		// Ensure that the path bar gets updated for user interaction
 		// whenever the path changes.We will get the individual directories from
 		// the updated, most-current path and add them to the UI.
-		public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
+		public async Task UpdatePathUIToWorkingDirectoryAsync(string newWorkingDir, string singleItemOverride = null)
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
-				var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
-				var lastCommonItemIndex = ToolbarViewModel.PathComponents
-					.Select((value, index) => new { value, index })
-					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
+				cts = new CancellationTokenSource();
 
-				while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
-					ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
+				var components = await StorageFileExtensions.GetDirectoryPathComponentsWithDisplayNameAsync(newWorkingDir);
 
-				foreach (var component in components.Skip(lastCommonItemIndex))
+				// Cancel if overrided by single item
+				if (cts.IsCancellationRequested)
+				{
+					cts = null;
+					return;
+				}
+				cts = null;
+
+				ToolbarViewModel.PathComponents.Clear();
+				foreach (var component in components)
 					ToolbarViewModel.PathComponents.Add(component);
 			}
 			else
 			{
+				cts?.Cancel();
+
 				// Clear the path UI
 				ToolbarViewModel.PathComponents.Clear();
 				ToolbarViewModel.IsSingleItemOverride = true;
@@ -487,11 +495,10 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		public void SubmitSearch(string query, bool searchUnindexedItems)
+		public void SubmitSearch(string query)
 		{
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
-			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
 
 			var args = new NavigationArguments()
 			{
@@ -499,13 +506,14 @@ namespace Files.App.Views.Shells
 				IsSearchResultPage = true,
 				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
-				SearchUnindexedItems = searchUnindexedItems,
 			};
 
-			if (this is ColumnShellPage)
+			var layout = InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory);
+
+			if (layout == typeof(ColumnsLayoutPage))
 				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
 			else
-				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, layout, args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -515,9 +523,11 @@ namespace Files.App.Views.Shells
 
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
-			var layout = navigationPath.StartsWith("tag:")
-				? typeof(DetailsLayoutPage)
-				: FolderSettings.GetLayoutType(navigationPath);
+			var layout = FolderSettings.GetLayoutType(navigationPath);
+
+			// Don't use Columns Layout for displaying tags
+			if (navigationPath.StartsWith("tag:") && layout == typeof(ColumnsLayoutPage))
+				layout = typeof(DetailsLayoutPage);
 
 			NavigateToPath(navigationPath, layout, navArgs);
 		}
@@ -547,8 +557,7 @@ namespace Files.App.Views.Shells
 				{
 					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemParameter.NavigationParameter,
 					Folder = FilesystemViewModel.WorkingDirectory,
-					ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-					SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
+					ThumbnailSize = InstanceViewModel.FolderSettings.GetRoundedIconSize(),
 				};
 
 				await FilesystemViewModel.SearchAsync(searchInstance);
@@ -616,7 +625,7 @@ namespace Files.App.Views.Shells
 
 		public void RemoveLastPageFromBackStack()
 		{
-			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
+			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.LastOrDefault());
 		}
 
 		public void RaiseContentChanged(IShellPage instance, CustomTabViewItemParameter args)
@@ -670,12 +679,15 @@ namespace Files.App.Views.Shells
 						if (folderToSelect.EndsWith('\\'))
 							folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
 
-						var itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+						var itemToSelect = FilesystemViewModel.FilesAndFolders.ToList().Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
 						if (itemToSelect is not null && ContentPage is not null)
 						{
-							ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
-							ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
+							if (userSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
+							{
+								ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+								ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
+							}
 						}
 					}
 					break;

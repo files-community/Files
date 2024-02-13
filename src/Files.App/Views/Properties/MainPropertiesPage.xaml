@@ -13,6 +13,7 @@
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind MainPropertiesViewModel, Mode=OneWay}"
+	HighContrastAdjustment="None"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
 	SizeChanged="Page_SizeChanged"
@@ -159,7 +160,7 @@
 					<!--  Save/Cancel buttons  -->
 					<Grid
 						Grid.Row="1"
-						Background="{ThemeResource CardBackgroundFillColorSecondary}"
+						Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
 						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 						BorderThickness="0,1,0,0">
 						<StackPanel

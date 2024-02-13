@@ -122,7 +122,7 @@
 				<icore:ChangePropertyAction
 					PropertyName="CurrentInstanceBorderBrush"
 					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="{ThemeResource DividerStrokeColorDefault}" />
+					Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
 				<icore:ChangePropertyAction
 					PropertyName="CurrentInstanceBorderThickness"
 					TargetObject="{Binding ElementName=PaneLeft}"
@@ -142,7 +142,7 @@
 				<icore:ChangePropertyAction
 					PropertyName="CurrentInstanceBorderBrush"
 					TargetObject="{Binding ElementName=PaneRight}"
-					Value="{ThemeResource DividerStrokeColorDefault}" />
+					Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
 				<icore:ChangePropertyAction
 					PropertyName="CurrentInstanceBorderThickness"
 					TargetObject="{Binding ElementName=PaneRight}"

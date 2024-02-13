@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -76,12 +75,8 @@ namespace Files.App.Utils.RecentItem
 
 		public async Task LoadRecentItemIconAsync()
 		{
-			var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(RecentPath, 96u, ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail);
-			if (iconData is null)
-			{
-				EmptyImgVis = true;
-			}
-			else
+			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(RecentPath, Constants.DefaultIconSizes.Large, false, false, false);
+			if (iconData is not null)
 			{
 				EmptyImgVis = false;
 				FileImg = await iconData.ToBitmapAsync();

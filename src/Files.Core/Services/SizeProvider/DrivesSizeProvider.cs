@@ -24,14 +24,12 @@ namespace Files.Core.Services.SizeProvider
 			foreach (var oldDriveName in oldDriveNames)
 				providers.TryRemove(oldDriveName, out _);
 
-			foreach (var provider in providers.Values)
-				await provider.CleanAsync();
+			await Task.WhenAll(providers.Values.Select(provider => provider.CleanAsync()));
 		}
 
 		public async Task ClearAsync()
 		{
-			foreach (var provider in providers.Values)
-				await provider.ClearAsync();
+			await Task.WhenAll(providers.Values.Select(provider => provider.ClearAsync()));
 
 			providers.Clear();
 		}

@@ -15,6 +15,7 @@
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
+	HighContrastAdjustment="None"
 	mc:Ignorable="d">
 
 	<local:BaseGroupableLayoutPage.Resources>
@@ -264,7 +265,7 @@
 										Margin="2"
 										HorizontalAlignment="Right"
 										VerticalAlignment="Bottom"
-										x:Load="{x:Bind IsElevated}"
+										x:Load="{x:Bind IsElevationRequired}"
 										Source="{x:Bind ShieldIcon, Mode=OneWay}"
 										Stretch="Uniform" />
 								</Grid>
@@ -299,16 +300,16 @@
 
 								<Grid Grid.Column="2">
 									<StackPanel Orientation="Horizontal" Spacing="4">
-
 										<!--  Cloud Status  -->
-										<FontIcon
+										<uc:OpacityIcon
 											x:Name="CloudDriveSyncStatusGlyph"
+											Width="16"
+											Height="16"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
+											x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
 											x:Phase="2"
-											FontSize="12"
-											Glyph="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-											Visibility="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
+											Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
 
 										<!--  Tag  -->
 										<Ellipse

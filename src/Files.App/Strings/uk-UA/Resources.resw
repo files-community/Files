@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Створити вікно</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Копіювати шлях</value>
+  </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Копіювати шлях у лапках</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Вибрати</value>
@@ -346,6 +349,12 @@
     <value>Диск відключено</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Файл, до якого ви намагаєтеся отримати доступ, можливо було переміщено або видалено.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Cannot open properties for this file</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Файл, до якого ви намагаєтеся отримати доступ, можливо було переміщено або видалено.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -975,9 +984,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Результати пошуку в</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Сортувати файли та папки разом</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Подробиці</value>
   </data>
@@ -986,9 +992,6 @@
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Показати захищені системні файли</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Включати не індексовані елементи в результатах пошуку</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Синхронізація макету і впорядкування параметрів між каталогами</value>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Відображати опцію відкриття папок у новій панелі</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Відображати опцію копіювання шляху</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Відображати опцію створення папки з обраними елементами</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Відображати опцію створення ярлика</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Нова панель</value>
@@ -1063,7 +1075,7 @@
     <value>Перемкнути інформаційну панель</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Перемкнути інформаційну панель для перегляду деталей та попереднього перегляду</value>
+    <value>Toggle the info pane to view the detail/preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
@@ -1272,12 +1284,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Швидкість ISO</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Не знайшли те, що шукаєте?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Пошук неіндексованих елементів</value>
-  </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Замінити наявний</value>
   </data>
@@ -1320,17 +1326,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Сортувати</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Групувати за</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата змінення</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Початкова папка</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Сортувати за</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>За спаданням</value>
@@ -1655,9 +1655,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Основне</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Т</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2235,8 +2232,11 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Показати віджет редагування міток</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Показати параметри стиснення</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Показати меню "Надіслати"</value>
+    <value>Відображати меню "Надіслати"</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Показати опцію відкриття директорії в новій вкладці</value>
@@ -2419,7 +2419,10 @@
     <value>Копіювати елемент(и) до буфера обміну</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Скопіювати шлях елемента до буфера обміну</value>
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Вирізати елемент(и) до буфера обміну</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Перемкнути на вигляд плиток</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Switch to list view</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Перемкнути в режим перегляду сітки з маленькими піктограмами</value>
   </data>
@@ -2621,9 +2630,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Перемкнути напрямок сортування елементів</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Сортувати каталоги разом з файлами</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Показати елементи без групування</value>
@@ -2921,7 +2927,7 @@
     <value>Цей ПК</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Смітник</value>
+    <value>Кошик</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Без міток</value>
@@ -2962,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показувати прапорці під час вибору елементів</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Пошук не індексованих елементів</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Фокус на панелі шляху</value>
   </data>
@@ -3004,6 +3007,9 @@
   <data name="Month" xml:space="preserve">
     <value>Місяць</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>День</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Увімкнути або вимкнути групування за датою</value>
   </data>
@@ -3013,8 +3019,11 @@
   <data name="Year" xml:space="preserve">
     <value>Рік</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Згрупувати за місяцем замість року</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Групувати за датою</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Групувати елементи за датою створення</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Згрупувати елементи за місяцем дати створення</value>
@@ -3022,11 +3031,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Згрупувати елементи за роком дати створення</value>
   </data>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Групувати елементи за датою видалення</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Згрупувати елементи за місяцем дати видалення</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Згрупувати елементи за роком дати видалення</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Групувати елементи за датою змінення</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Згрупувати елементи за місяцем дати змінення</value>
@@ -3504,39 +3519,23 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Скасовано остаточне видалення {0} елемент(ів) з "{1}"</value>
+    <value>Canceled deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Остаточно видалено {0} елемент(ів) з "{1}"</value>
+    <value>Deleted {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Помилка при остаточному видаленні {0} елемент(ів) "{1}"</value>
+    <value>Error deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Не вдалось остаточно видалити {0} елемент(ів) з "{1}"</value>
+    <value>Failed to delete {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Остаточне видалення {0} елемент(ів) з "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Скасовано видалення {0} елемент(ів) з "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Видалено {0} елемент(ів) з "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Помилка при видаленні {0} елемент(ів) з "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
-    <value>Видалення {0} елемент(ів) з "{1}"</value>
+    <value>Deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
@@ -3615,10 +3614,10 @@
     <value>Не вдалося встановити шпалери</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Delete Git branch</value>
+    <value>Видалити гілку Git</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+    <value>Ви дійсно бажаєте назавжди видалити гілку «{0}»?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
     <value>Під'єднано до GitHub</value>
@@ -3631,5 +3630,59 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Вхід</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>There was an error applying this tag</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Видобути тут (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Сортувати папки та файли разом</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Сортувати папки та файли разом</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Спершу сортувати файли</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Спершу сортувати файли, потім папки</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Спершу сортувати папки</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Спершу сортувати папки, потім файли</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Пріоритет сортування</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Не вдалося повернути зображення</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Перезавантажити</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Вийти</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Не вдалося поділитися елементами</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Відкрити нове вікно</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Change album cover</value>
   </data>
 </root>

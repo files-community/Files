@@ -105,10 +105,10 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.1.1
 
-    - name: Setup .NET 7
+    - name: Setup .NET 8
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '7.0.x'
+        dotnet-version: '8.0.x'
 
     - name: Restore NuGet
       shell: pwsh

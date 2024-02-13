@@ -85,7 +85,7 @@ namespace Files.App.Views.Shells
 
 			LayoutPreferencesManager.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
 			if (e.IsAdaptiveLayoutUpdateRequired)
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders.ToList());
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -137,15 +137,15 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected override void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
+		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
 		{
 			if (string.IsNullOrWhiteSpace(e.Path))
 				return;
 
 			if (e.IsLibrary)
-				UpdatePathUIToWorkingDirectory(null, e.Name);
+				await UpdatePathUIToWorkingDirectoryAsync(null, e.Name);
 			else
-				UpdatePathUIToWorkingDirectory(e.Path);
+				await UpdatePathUIToWorkingDirectoryAsync(e.Path);
 		}
 
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)

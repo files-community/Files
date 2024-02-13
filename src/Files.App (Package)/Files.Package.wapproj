@@ -5,7 +5,7 @@
     <ProjectGuid>8f60fd8e-1921-47d6-97b0-d26d7b3a4999</ProjectGuid>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <AssetTargetFallback>net7.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
+    <AssetTargetFallback>net8.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>en-US</DefaultLanguage>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
@@ -98,14 +98,23 @@
     <Content Include="Package.appinstaller" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Files.App.Server\Files.App.Server.csproj">
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+      <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
+    </ProjectReference>
     <ProjectReference Include="..\Files.App\Files.App.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
-      <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+      <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" IncludeAssets="build" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" IncludeAssets="build" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" IncludeAssets="build" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
+  <Target Name="RemoveOutOfProcWinMD" BeforeTargets="_GenerateCurrentProjectAppxManifest">
+    <ItemGroup>
+      <_AppxWinmdFilesToHarvest Condition="'%(FileName)' == 'Files.App.Server'" Remove="@(_AppxWinmdFilesToHarvest)" />
+    </ItemGroup>
+  </Target>
 </Project>

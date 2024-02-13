@@ -166,7 +166,7 @@ namespace Files.App.Data.Factories
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.Modify,
-						AccessMaskName = "SecurityModifyLabel/Text".GetLocalizedResource(),
+						AccessMaskName = "Modify".GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)

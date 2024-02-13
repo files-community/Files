@@ -16,6 +16,7 @@ namespace Files.App.ViewModels.Settings
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
+			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit;
 			SelectedDefaultSortPriorityIndex = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles ? 2 : UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst ? 1 : 0;
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 		}
@@ -276,15 +277,16 @@ namespace Files.App.ViewModels.Settings
 		public bool IsDefaultGrouped
 			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption != GroupOption.None;
 
-		public bool GroupByMonth
+		private int defaultGroupByDateUnitIndex;
+		public int SelectedDefaultGroupByDateUnitIndex
 		{
-			get => UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit == GroupByDateUnit.Month;
+			get => defaultGroupByDateUnitIndex;
 			set
 			{
-				if (value != (UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit == GroupByDateUnit.Month))
+				if (SetProperty(ref defaultGroupByDateUnitIndex, value))
 				{
-					UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = value ? GroupByDateUnit.Month : GroupByDateUnit.Year;
-					OnPropertyChanged();
+					OnPropertyChanged(nameof(SelectedDefaultGroupByDateUnitIndex));
+					UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = (GroupByDateUnit)value;
 				}
 			}
 		}
@@ -330,6 +332,20 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.FoldersSettingsService.CalculateFolderSizes)
 				{
 					UserSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ScrollToPreviousFolderWhenNavigatingUp
+		{
+			get => UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
+				{
+					UserSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp = value;
 
 					OnPropertyChanged();
 				}

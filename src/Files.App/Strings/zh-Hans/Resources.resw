@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>打开新窗口</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>新建窗口</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>复制路径</value>
+  </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>复制带引号的路径</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
@@ -130,7 +133,7 @@
     <value>大小</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>新建:</value>
+    <value>创建日期:</value>
   </data>
   <data name="Path" xml:space="preserve">
     <value>路径</value>
@@ -160,7 +163,7 @@
     <value>全选</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>反向选择</value>
+    <value>反选</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>清除选择</value>
@@ -187,7 +190,7 @@
     <value>移除此项</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub 存储库</value>
+    <value>GitHub 仓库</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>关于</value>
@@ -208,7 +211,7 @@
     <value>显示隐藏的文件和文件夹</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>显示以英文句点 (.) 开头的项</value>
+    <value>显示仅有扩展名的项</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
@@ -223,7 +226,7 @@
     <value>从离开的位置继续</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>打开新的选项卡</value>
+    <value>打开新标签页</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>打开指定页面</value>
@@ -241,7 +244,7 @@
     <value>名称</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>递增</value>
+    <value>升序</value>
   </data>
   <data name="Paste" xml:space="preserve">
     <value>粘贴</value>
@@ -274,19 +277,19 @@
     <value>固定到收藏夹</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>欢迎使用 Files!</value>
+    <value>欢迎使用 Files！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>授予权限</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>要开始使用，请授予我们访问文件系统的权限。你可以在稍后打开的设置窗口中授权。完成设置后，需要重新打开应用程序。 </value>
+    <value>使用此应用需授予我们访问文件系统的权限。你可在稍后打开的设置页面中授权。完成设置后，需重启应用程序。 </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>显示</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>键入名称</value>
+    <value>输入项目名称</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>命名</value>
@@ -298,10 +301,10 @@
     <value>深色</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>应用</value>
+    <value>应用的时间格式</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>系统</value>
+    <value>系统的时间格式</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>新建文件夹</value>
@@ -310,7 +313,7 @@
     <value>新建文件</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>该文件夹为空。</value>
+    <value>此文件夹为空。</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>后退 (Alt+左方向键)</value>
@@ -340,7 +343,7 @@
     <value>该项目无法删除</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>要打开此项，请插入驱动器。</value>
+    <value>要打开此项，请插入所需的驱动器。</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>驱动器已弹出</value>
@@ -348,8 +351,14 @@
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>要访问的文件可能已被移动或删除。</value>
   </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>无法打开此文件的属性</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
+    <value>要访问的文件可能已被移动或删除。</value>
+  </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>无法找到该文件</value>
+    <value>找不到文件</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>要访问的文件夹可能已被移动或删除。</value>
@@ -409,7 +418,7 @@
     <value>发送到</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>文件名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
+    <value>项目名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>指定的项目名称无效</value>
@@ -487,7 +496,7 @@
     <value>文件系统:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
-    <value>最近</value>
+    <value>近期访问</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>移动标签页到此处</value>
@@ -595,7 +604,7 @@
     <value>显示更多选项</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>要应用这些设置，需要重新启动应用程序。要重启应用吗？</value>
+    <value>若要应用这些设置，需要重新启动应用程序。是否立即重启？</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>在 GitHub 上赞助我们</value>
@@ -613,7 +622,7 @@
     <value>取消</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>创建新条目</value>
+    <value>创建新项目</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>从下面选择新项目的类型</value>
@@ -640,7 +649,7 @@
     <value>语言</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>将 shell 扩展（shell extensions）形式的菜单移入子菜单中</value>
+    <value>将 Shell 扩展菜单移入子菜单中</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>删除项目时显示确认对话框</value>
@@ -736,7 +745,7 @@
     <value>人员姓名</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>频道计数</value>
+    <value>声道数</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>格式</value>
@@ -832,7 +841,7 @@
     <value>年</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
-    <value>参与者</value>
+    <value>贡献者</value>
   </data>
   <data name="PropertyLastAuthor" xml:space="preserve">
     <value>上一作者</value>
@@ -889,7 +898,7 @@
     <value>方向</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>核心</value>
+    <value>基本</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>图像</value>
@@ -975,9 +984,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>在“{1}”中搜索“{0}”的结果</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>将文件夹与文件一同分类和排序</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>详细信息</value>
   </data>
@@ -986,9 +992,6 @@
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>显示受保护的系统文件</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>在搜索结果中包含未建立索引的项</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>在不同目录之间使用相同的布局和排序设置</value>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>显示“在新面板中打开”</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>显示“复制路径”选项</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>显示“用选中项创建文件夹”选项</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>显示“创建快捷方式”选项</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新面板</value>
@@ -1126,7 +1138,7 @@
     <value>云端驱动器</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>硬盘驱动器</value>
+    <value>固定磁盘驱动器</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>软盘驱动器</value>
@@ -1177,7 +1189,7 @@
     <value>默认</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>项数</value>
+    <value>包含的项目数</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>此操作需要管理员权限</value>
@@ -1210,7 +1222,7 @@
     <value>输入框不能为空。</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>文件名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
+    <value>名称不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
     <value>不允许使用此名称。</value>
@@ -1261,7 +1273,7 @@
     <value>将复制一项</value>
   </data>
   <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将删除一项</value>
+    <value>将删除 1 个项目</value>
   </data>
   <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
     <value>将移动一项</value>
@@ -1271,12 +1283,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO 感光度</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>没有找到你想要的内容?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>搜索未编入索引的项</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>替换已有的项目</value>
@@ -1297,7 +1303,7 @@
     <value>类型:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>修改日期：</value>
+    <value>修改日期:</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>打开方式</value>
@@ -1320,17 +1326,11 @@
   <data name="Sort" xml:space="preserve">
     <value>排序</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>分组依据</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>修改日期</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>原始文件夹</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>排序方式</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>递减</value>
@@ -1656,9 +1656,6 @@
   <data name="Home" xml:space="preserve">
     <value>主页</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1795,7 +1792,7 @@
     <value>导出设置</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>导入配置</value>
+    <value>导入设置</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>无法导入设置。此设置文件已损坏。</value>
@@ -2029,7 +2026,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>显示交换数据流 (ADS)</value>
+    <value>显示备用数据流(Alternate Data Streams)</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
     <value>行为</value>
@@ -2053,7 +2050,7 @@
     <value>“日期”列</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>创建日期列</value>
+    <value>“创建日期”列</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>“大小”列</value>
@@ -2080,7 +2077,7 @@
     <value>压缩</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>鼠标指向项目时自动选定</value>
+    <value>鼠标在项目上悬停时自动选择</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>是否确实要还原回收站中的所有项目？</value>
@@ -2234,6 +2231,9 @@
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>显示“编辑文件标签”</value>
+  </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>显示压缩选项</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>显示“发送到”菜单</value>
@@ -2419,7 +2419,10 @@
     <value>复制项目到剪贴板</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>复制项目路径到剪贴板</value>
+    <value>复制选中项的路径到剪贴板</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>复制选中项的路径（带引号）到剪贴板</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>剪切项目到剪贴板</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>切换至平铺视图</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>切换到列表视图</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>列表</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>切换至小图标网格视图</value>
   </data>
@@ -2621,9 +2630,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>切换排序方向</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>将文件夹与文件一同分类和排序</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>不分组而直接列出</value>
@@ -2962,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>选择项目时显示复选框</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>搜索未编入索引的项</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>移动焦点到路径栏</value>
   </data>
@@ -3004,6 +3007,9 @@
   <data name="Month" xml:space="preserve">
     <value>月</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>日</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>切换按日期分组时所用的日期单位</value>
   </data>
@@ -3013,8 +3019,11 @@
   <data name="Year" xml:space="preserve">
     <value>年</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>按月而非按年分组</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>按日期单位分组</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>按创建日期分组</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>按创建日期的月份分组</value>
@@ -3022,11 +3031,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>按创建日期的年份分组</value>
   </data>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>按删除日期分组</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>按删除日期的月份分组</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>按删除日期的年份分组</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>按修改日期分组</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>按修改日期的月份分组</value>
@@ -3380,7 +3395,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>清除完成</value>
+    <value>清除已完成的条目</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
     <value>名称:</value>
@@ -3472,70 +3487,54 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>已取消将 {0} 提取到“{1}”</value>
+    <value>已取消将 {0} 解压缩到“{1}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>已取消将 {0} 从“{1}”提取到“{2}”</value>
+    <value>已取消将 {0} 从“{1}”解压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>已将“{0}”提取到“{1}”</value>
+    <value>已将“{0}”解压缩到“{1}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>已将“{0}”从“{1}”提取到“{2}”</value>
+    <value>已将“{0}”从“{1}”解压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>将“{0}”提取到“{1}”时出错</value>
+    <value>将“{0}”解压缩到“{1}”时出错</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>无法将“{0}”从“{1}”提取到“{2}”</value>
+    <value>无法将“{0}”从“{1}”解压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>正在将“{0}”提取到“{1}”</value>
+    <value>正在将“{0}”解压缩到“{1}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>正在将“{0}”从“{1}”提取到“{2}”</value>
+    <value>正在将“{0}”从“{1}”解压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>已取消从“{1}”中永久删除 {0} 个项目</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>已从“{1}”中永久删除了 {0} 个项目</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>从“{1}”中永久删除 {0} 个项目时出错</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>无法从“{1}”中永久删除 {0} 个项目</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>正在从“{1}”中永久删除 {0} 个项目</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>已取消从“{1}”中删除 {0} 个项目</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>已从“{1}”中删除 {0} 个项目</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>从“{1}”中删除 {0} 个项目时出错</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>无法从“{1}”中删除 {0} 个项目</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>正在从 "{1}" 中删除 {0} 个项目</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3631,5 +3630,59 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>登录</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>标签目前只兼容 NTFS 格式的驱动器。</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>应用此标签时发生错误</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>解压缩选中的压缩文件：若其中仅有一个项目，则解压缩到当前目录下；否则，解压缩到当前目录下的新文件夹</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>智能解压</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>将文件和文件夹一同排序</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>将文件和文件夹一同排序</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>先排序文件</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>先排序文件，再排序文件夹</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>先排序文件夹</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>先排序文件夹，再排序文件</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>排序优先级</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>旋转图像失败</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>重新开始</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>共享项目失败</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>向上导航时滚动至前一个文件夹</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>打开新窗口</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>更改专辑封面</value>
   </data>
 </root>

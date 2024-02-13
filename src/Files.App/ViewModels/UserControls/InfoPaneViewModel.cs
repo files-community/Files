@@ -129,9 +129,12 @@ namespace Files.App.ViewModels.UserControls
 					else
 						SelectedItem = null;
 
-					var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
-					if (shouldUpdatePreview == true)
-						_ = UpdateSelectedItemPreviewAsync();
+					if (!App.AppModel.IsMainWindowClosed)
+					{
+						var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
+						if (shouldUpdatePreview == true)
+							_ = UpdateSelectedItemPreviewAsync();
+					}
 					break;
 			}
 		}
@@ -300,7 +303,8 @@ namespace Files.App.ViewModels.UserControls
 			if
 			(
 				ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
-				!FileExtensionHelpers.IsFontFile(item.FileExtension)
+				!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
+				!FileExtensionHelpers.IsExecutableFile(item.FileExtension)
 			)
 			{
 				var model = new ShellPreviewViewModel(item);

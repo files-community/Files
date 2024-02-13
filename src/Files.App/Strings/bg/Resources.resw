@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Нов прозорец</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Копирай път</value>
+  </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Копиране на пътя с кавички</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Преглед</value>
@@ -139,7 +142,7 @@
     <value>Размер:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Големина на диска:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Некомпресиран размер:</value>
@@ -289,7 +292,7 @@
     <value>Въведете име на елемент</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Задай име</value>
+    <value>Задаване на име</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Светъл</value>
@@ -343,9 +346,15 @@
     <value>Моля, включете необходимото устройство за достъп до този елемент.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Устройството е изключено</value>
+    <value>Дискът е изключен от контакта</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Файлът, до който се опитвате да осъществите достъп, може да е преместен или изтрит.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Не можаха да се отворят свойствата за този файл</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Файлът, до който се опитвате да осъществите достъп, може да е преместен или изтрит.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -975,9 +984,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Резултати от търсенето в {1} за {0}</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Подреди и сортирай директориите заедно с файловете</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Детайли</value>
   </data>
@@ -986,9 +992,6 @@
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Показване на защитените системни файлове</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Включва елементи без указател в резултатите от търсене</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Синхро на оформлението и подреждане на предпочитанията през директориите</value>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Показване на възможност за отваряне на папки в нов панел</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Показване на възможност за копиране на пътя</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Показване на възможност за сътворяване на папка с избрани елементи</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Показване на възможност за сътворяване на пряк път</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Нов панел</value>
@@ -1063,7 +1075,7 @@
     <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail\preview panes</value>
+    <value>Toggle the info pane to view the detail/preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Няма налична визуализация</value>
@@ -1272,12 +1284,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO скорост</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Не намери това, което търсеше?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Търсене на неиндексирани елементи</value>
-  </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Замяна на съществуващото</value>
   </data>
@@ -1291,7 +1297,7 @@
     <value>Има едно конфликтно име на файл.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Създай папка с избраното</value>
+    <value>Сътворение на папка с избраното</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Тип:</value>
@@ -1320,17 +1326,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Подредба</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Групирай по</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Модифициран</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Оригинална папка</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Сортиране по</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Низходящо</value>
@@ -1656,9 +1656,6 @@
   <data name="Home" xml:space="preserve">
     <value>Начало</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1723,10 +1720,10 @@
     <value>Потребителско име</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives widget</value>
+    <value>Джаджа за дискове</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Recent Files widget</value>
+    <value>Джаджа за скорошни файлове</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Няма намерени елементи</value>
@@ -2212,7 +2209,7 @@
     <value>Редактиране на файла с настройки</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>What's new</value>
+    <value>Какво е новото</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Създаването на пряк път в това местоположение изисква привилегии на администратор</value>
@@ -2235,8 +2232,11 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Show edit tags flyout</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Показване на възможности за компресиране</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Показване на изпращане в менюто</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Показване на възможност за отваряне на папки в нов раздел</value>
@@ -2341,10 +2341,10 @@
     <value>Възникна грешка, изчислявайки</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Failed to calculate the hash, please close the file and try again.</value>
+    <value>Неуспешно изчисление на хеша. Затворете файла и опитайте пак.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Hashes aren't available for online files</value>
+    <value>Хешовете не са налични за файлове в мрежата</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Алгоритъм</value>
@@ -2380,7 +2380,7 @@
     <value>Видеоклипове</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>Пускане на изскачащ онагледителен прозорец</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Toggle compact overlay</value>
@@ -2419,7 +2419,10 @@
     <value>Копиране на елемент(ите) в буферната памет</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Копиране на пътя на елемента в буферната памет</value>
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Изрязване на елемент(и) към буферната памет</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Превключване в изглед на плочки</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Switch to list view</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Списък</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Превключване в решетъчен изглед с малки икони</value>
   </data>
@@ -2621,9 +2630,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Toggle item sort direction</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Подреди и сортирай директориите заедно с файловете</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Списък на елементите без групиране</value>
@@ -2801,7 +2807,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
-    <value>Sep</value>
+    <value>Разделител (|)</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
@@ -2962,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показване на поле за отметки при избор на елементи</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Търсене на неиндексирани елементи</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Фокус на лентата за път</value>
   </data>
@@ -3004,6 +3007,9 @@
   <data name="Month" xml:space="preserve">
     <value>Месец</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Ден</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Toggle unit for grouping by date</value>
   </data>
@@ -3013,8 +3019,11 @@
   <data name="Year" xml:space="preserve">
     <value>Година</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Group by date unit</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Group items by day of date created</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Group items by month of date created</value>
@@ -3022,11 +3031,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Group items by year of date created</value>
   </data>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Group items by day of date deleted</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Group items by month of date deleted</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Group items by year of date deleted</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Group items by day of date modified</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Group items by month of date modified</value>
@@ -3122,7 +3137,7 @@
     <value>Състояние на Git</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>Грешка с Git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
@@ -3147,7 +3162,7 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>Акрил</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
@@ -3189,16 +3204,16 @@
     <value>Files в момента няма достъп до GitHub.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open folder in VS Code</value>
+    <value>Отваряне на папката във VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Отваряне на текущата директория във Visual Studio Code</value>
   </data>
   <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Open repo in VS Code</value>
+    <value>Отваряне на репозиторий във VS Code</value>
   </data>
   <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in Visual Studio Code</value>
+    <value>Отваряне на корена на репозиторий на Git в Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Копиране на кода</value>
@@ -3222,16 +3237,16 @@
     <value>Страхотно! Сега сте упълномощени.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>Инициализиране на репозиторий</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Инициализиране на репозиторий на Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>Име на отдалечен репозиторий</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Текущ клон</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
     <value>Колона с пътя</value>
@@ -3249,53 +3264,53 @@
     <value>Отваряне на директорията в нов прозорец</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Отваряне на всички</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>Диск ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command</value>
+    <value>Невалидна команда</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>'{0}' не се разпознава като команда.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Командата не е изпълнима</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>Командата '{0}' не е готова да се изпълни.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Палитра команди</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Отваряне на палитрата команди</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Start in:</value>
+    <value>Започва в:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Turn on BitLocker</value>
+    <value>Включване на BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Manage BitLocker</value>
+    <value>Управление на BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>The following items are too large to be copied to this drive</value>
+    <value>Следните елементи са преголеми за копиране в този диск</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
-    <value>Format drive</value>
+    <value>Форматиране на диска</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
-    <value>Don't show again</value>
+    <value>Без ново показване</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>Files is running as administrator</value>
+    <value>Files се изпълнява като администратор</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
@@ -3304,86 +3319,86 @@
     <value>Leave app running in the background when the window is closed</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>Blue</value>
+    <value>Синьо</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
-    <value>Blue Gray</value>
+    <value>Синьо-сиво</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>Brick Red</value>
+    <value>Тухлено-червено</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
-    <value>Camouflage</value>
+    <value>Камуфлаж</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>Cool Blue Bright</value>
+    <value>Студено ярко синьо</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>Gray</value>
+    <value>Сиво</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>Gray Dark</value>
+    <value>Тъмно сиво</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>Green</value>
+    <value>Зелено</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Iris Pastel</value>
+    <value>Пастелно ирисово</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>Mint Light</value>
+    <value>Светло ментово</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Mod Red</value>
+    <value>Тъмночервено</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Orange Bright</value>
+    <value>Светлооранжево</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>Overcast</value>
+    <value>Облачно</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>Red</value>
+    <value>Червено</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Rose Bright</value>
+    <value>Светлорозово</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Seafoam</value>
+    <value>Морска пяна</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>Storm</value>
+    <value>Буря</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Violet Red Light</value>
+    <value>Светло червеникаво-виолетово</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Yellow Gold</value>
+    <value>Златно жълто</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>Изчистване на завършените</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>Име:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
     <value>{0} of {1} processed</value>
@@ -3399,13 +3414,13 @@
     <value>Contributing Artist</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>Add page</value>
+    <value>Добавяне на страница</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>Processing items...</value>
+    <value>Обработване на елементите...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Бързина:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3504,38 +3519,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Canceled deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>Deleted {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Error deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3572,27 +3571,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled emptying Recycle Bin</value>
+    <value>Отменено изпразване на кошчето</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Emptied Recycle Bin</value>
+    <value>Изпразнено кошче</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying Recycle Bin</value>
+    <value>Изпразване на кошчето</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Error emptying Recycle Bin</value>
+    <value>Грешка, изпразвайки кошчето</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>Failed to empty Recycle Bin</value>
+    <value>Неуспешно изпразване на кошчето</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing the operation...</value>
+    <value>Подготовка на операцията...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
@@ -3600,7 +3599,7 @@
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Unblock downloaded file</value>
+    <value>Разблокиране на изтегления файл</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
     <value>No ongoing file operations</value>
@@ -3609,27 +3608,81 @@
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Неуспешно възстановяване на елементи от кошчето</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Delete Git branch</value>
+    <value>Изтриване на клона на Git</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
     <value>Are you sure you want to permanently delete "{0}" branch?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
-    <value>Connected to GitHub</value>
+    <value>Свързвани към GitHub</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>Изход</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
     <value>Свързване към GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Вход</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>There was an error applying this tag</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Extract here (Smart)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Sort files and folders together</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Sort files first</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Sort files first then folders</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Sort folders first</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Sort folders first then files</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sort priority</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Failed to rotate the image</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Рестартиране</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Напускане</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Failed to share items</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Отваряне в нов прозорец</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Смяна на корицата на албума</value>
   </data>
 </root>

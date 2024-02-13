@@ -46,7 +46,7 @@ namespace Files.App.Views.Shells
 
 		void Up_Click();
 
-		void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
+		Task UpdatePathUIToWorkingDirectoryAsync(string newWorkingDir, string singleItemOverride = null);
 
 		void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
 
@@ -71,7 +71,7 @@ namespace Files.App.Views.Shells
 		/// </summary>
 		void ResetNavigationStackLayoutMode();
 
-		void SubmitSearch(string query, bool searchUnindexedItems);
+		void SubmitSearch(string query);
 
 		/// <summary>
 		/// Used to make commands in the column view work properly

@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Nieuw venster</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>New window</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Pad kopiëren</value>
+  </data>
+  <data name="CopyPathWithQuotes" xml:space="preserve">
+    <value>Pad kopiëren inclusief aanhalingstekens</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Bladeren</value>
@@ -151,7 +154,7 @@
     <value>De doelmap</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>is een submap van de bronmap</value>
+    <value>is een submap van de hoofdmap</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Overslaan</value>
@@ -175,16 +178,16 @@
     <value>Alle items wissen</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Voer een pad in om naar te navigeren of type "&gt;" om het commandopaneel te openen</value>
+    <value>Voer een pad in om te navigeren naar of type "&gt;" om het commandopaneel te openen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Zoeken</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Bestanden en mappen die u eerder heeft gebruikt worden hier weergeven</value>
+    <value>Bestanden die u eerder heeft geopend zullen hier worden weergegeven</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Verwijder dit item</value>
+    <value>Dit item verwijderen</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub Repository</value>
@@ -346,6 +349,12 @@
     <value>Schijf ontkoppeld</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Het bestand dat u probeert te openen, is mogelijk verplaatst of verwijderd.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Cannot open properties for this file</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Het bestand dat u probeert te openen, is mogelijk verplaatst of verwijderd.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -975,9 +984,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Zoekresultaten in</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Som op en sorteer mappen naast bestanden</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
@@ -986,9 +992,6 @@
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Beveiligde systeembestanden weergeven</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Niet-geïndexeerde items opnemen in zoekresultaten</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Synchroniseer lay-out en sorteer voorkeuren tussen mappen</value>
@@ -1013,6 +1016,15 @@
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Toon optie om mappen in een nieuw deelvenster te openen</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Show option to copy path</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Show option to create folder with selection</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Show option to create shortcut</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nieuw paneel</value>
@@ -1272,12 +1284,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO-snelheid</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Niet gevonden wat u zoekt?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Niet-geïndexeerde items doorzoeken</value>
-  </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Bestaande item vervangen</value>
   </data>
@@ -1320,17 +1326,11 @@
   <data name="Sort" xml:space="preserve">
     <value>Sorteren</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Groeperen op</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum gewijzigd</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Oorspronkelijke map</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sorteren op</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Aflopend</value>
@@ -1656,9 +1656,6 @@
   <data name="Home" xml:space="preserve">
     <value>Start</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1777,7 +1774,7 @@
     <value>Foutrapport indienen</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Stel Files in als standaard verkenner</value>
+    <value>Gebruik Files als standaard verkenner</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Gebruik Files als Open Bestand Dialoog</value>
@@ -2235,8 +2232,11 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Toon Bewerk Labels menu</value>
   </data>
+  <data name="ShowCompressionOptions" xml:space="preserve">
+    <value>Toon compressie opties</value>
+  </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Toon Versturen naar menu</value>
+    <value>Show send to menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Toon optie om mappen in een nieuw tabblad te openen</value>
@@ -2419,7 +2419,10 @@
     <value>Kopieer item(s) naar klembord</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Kopieer pad van item naar klembord</value>
+    <value>Het pad van de geselecteerde items naar het klembord kopiëren</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Het pad van de geselecteerde items inclusief aanhalingstekens naar het klembord kopiëren</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Knip item(s) naar klembord</value>
@@ -2571,6 +2574,12 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Overschakelen naar tegelweergave</value>
   </data>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Overschakelen naar lijstweergave</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Lijst</value>
+  </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
     <value>Overschakelen naar rasterweergave met kleine iconen</value>
   </data>
@@ -2621,9 +2630,6 @@
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Wijzig sorteerrichting</value>
-  </data>
-  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Som op en sorteer mappen naast bestanden</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Items tonen zonder groepering</value>
@@ -2962,9 +2968,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Selectievakjes weergeven bij het selecteren van items</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Niet-geïndexeerde items doorzoeken</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus padenbalk</value>
   </data>
@@ -3004,6 +3007,9 @@
   <data name="Month" xml:space="preserve">
     <value>Maand</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Dag</value>
+  </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Wissel eenheid voor groeperen op datum</value>
   </data>
@@ -3013,8 +3019,11 @@
   <data name="Year" xml:space="preserve">
     <value>Jaar</value>
   </data>
-  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Groeperen per week in plaats van dag</value>
+  <data name="GroupByDateUnit" xml:space="preserve">
+    <value>Groeperen op datum eenheid</value>
+  </data>
+  <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
+    <value>Items groeperen op aanmaakdatum</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum aangemaakt</value>
@@ -3022,11 +3031,17 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Items groeperen op jaar van datum aangemaakt</value>
   </data>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Items groeperen op datum verwijderd</value>
+  </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum verwijderd</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
     <value>Items groeperen op jaar van datum verwijderd</value>
+  </data>
+  <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
+    <value>Items groeperen op datum gewijzigd</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Items groeperen op maand van datum gewijzigd</value>
@@ -3504,39 +3519,23 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Geannuleerd permanent verwijderen van {0} item(s) van "{1}"</value>
+    <value>Canceled deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>{0} item(s) permanent verwijderd van "{1}"</value>
+    <value>Deleted {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Fout bij permanent verwijderen van {0} item(s) van "{1}"</value>
+    <value>Error deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Permanent verwijderen van {0} item(s) van "{1}" mislukt</value>
+    <value>Failed to delete {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>{0} item(s) worden permanent verwijderd uit "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Verwijderen van {0} item(s) van "{1}" geannuleerd</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>{0} item(s) verwijderd van "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Fout bij verwijderen van {0} item(s) van "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
-    <value>{0} item(s) verwijderen van "{1}"</value>
+    <value>Deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
@@ -3631,5 +3630,59 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Inloggen</value>
+  </data>
+  <data name="ErrorApplyingTagContent" xml:space="preserve">
+    <value>Labels zijn momenteel alleen compatibel met schijven die geformatteerd zijn als NTFS.</value>
+  </data>
+  <data name="ErrorApplyingTagTitle" xml:space="preserve">
+    <value>Er is een fout opgetreden tijdens het toewijzen van dit label</value>
+  </data>
+  <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
+    <value>Bestanden uitpakken voor geselecteerde archieven naar de huidige map, voor een archief met één item, of naar een nieuwe map voor een archief met meerdere items</value>
+  </data>
+  <data name="ExtractHereSmart" xml:space="preserve">
+    <value>Hier uitpakken (slim)</value>
+  </data>
+  <data name="SortFilesAndFoldersTogether" xml:space="preserve">
+    <value>Bestanden en mappen samen sorteren</value>
+  </data>
+  <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
+    <value>Bestanden en mappen samen sorteren</value>
+  </data>
+  <data name="SortFilesFirst" xml:space="preserve">
+    <value>Bestanden eerst sorteren</value>
+  </data>
+  <data name="SortFilesFirstDescription" xml:space="preserve">
+    <value>Bestanden eerst sorteren en daarna mappen</value>
+  </data>
+  <data name="SortFoldersFirst" xml:space="preserve">
+    <value>Mappen eerst sorteren</value>
+  </data>
+  <data name="SortFoldersFirstDescription" xml:space="preserve">
+    <value>Mappen eerst sorteren en daarna bestanden</value>
+  </data>
+  <data name="SortPriority" xml:space="preserve">
+    <value>Sorteer prioriteiten</value>
+  </data>
+  <data name="FailedToRotateImage" xml:space="preserve">
+    <value>Het roteren van de afbeelding is mislukt</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Herstarten</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Stoppen</value>
+  </data>
+  <data name="FaildToShareItems" xml:space="preserve">
+    <value>Delen van items mislukt</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Open new window</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Change album cover</value>
   </data>
 </root>

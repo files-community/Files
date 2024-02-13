@@ -1,169 +1,64 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Graphics;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
-using WinRT.Interop;
 
 namespace Files.App.Helpers
 {
 	public static class DragZoneHelper
 	{
+		public delegate int SetTitleBarDragRegionDelegate(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect);
+
 		/// <summary>
-		/// Get Scale Adjustment
+		/// Informs the bearer to refresh the drag region.
+		/// will not set<see cref="NonClientRegionKind.LeftBorder"/>, <see cref="NonClientRegionKind.RightBorder"/>, <see cref="NonClientRegionKind.Caption"/>when titleBarHeight less than 0
 		/// </summary>
+		/// <param name="element"></param>
 		/// <param name="window"></param>
-		/// <returns>scale factor percent</returns>
-		public static double GetScaleAdjustment(Window window) => window.Content.XamlRoot.RasterizationScale;
-
-		/// <summary>
-		/// Calculate dragging-zones of title bar<br/>
-		/// <strong>You MUST transform the rectangles with <see cref="GetScaleAdjustment"/> before calling <see cref="AppWindowTitleBar.SetDragRectangles"/></strong>
-		/// </summary>
-		/// <param name="viewportWidth"></param>
-		/// <param name="dragZoneHeight"></param>
-		/// <param name="dragZoneLeftIndent"></param>
-		/// <param name="nonDraggingZones"></param>
-		/// <returns></returns>
-		public static IEnumerable<RectInt32> GetDragZones(int viewportWidth, int dragZoneHeight, int dragZoneLeftIndent, IEnumerable<RectInt32> nonDraggingZones)
+		/// <param name="setTitleBarDragRegion"></param>
+		public static void RaiseSetTitleBarDragRegion(this Window window, SetTitleBarDragRegionDelegate setTitleBarDragRegion)
 		{
-			var draggingZonesX = new List<Range> { new(dragZoneLeftIndent, viewportWidth) };
-			var draggingZonesY = new List<IEnumerable<Range>> { new[] { new Range(0, dragZoneHeight) } };
+			if (!window.AppWindow.IsVisible)
+				return;
+			// UIElement.RasterizationScale is always 1
+			var source = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
+			var uiElement = window.Content;
+			var xamlRoot = uiElement?.XamlRoot;
 
-			foreach (var nonDraggingZone in nonDraggingZones)
+			if (xamlRoot is null)
+				return;
+
+			var scaleFactor = xamlRoot.RasterizationScale;
+			var size = window.AppWindow.Size;
+			// If the number of regions is 0 or 1, AppWindow will automatically reset to the default region next time, but if it is >=2, it will not and need to be manually cleared
+			source.ClearRegionRects(NonClientRegionKind.Passthrough);
+			var titleBarHeight = setTitleBarDragRegion(source, size, scaleFactor, GetScaledRect);
+			if (titleBarHeight >= 0)
 			{
-				for (var i = 0; i < draggingZonesX.Count; ++i)
-				{
-					var x = draggingZonesX[i];
-					var y = draggingZonesY[i].ToArray();
-					var xSubtrahend = new Range(nonDraggingZone.X, nonDraggingZone.X + nonDraggingZone.Width);
-					var ySubtrahend = new Range(nonDraggingZone.Y, nonDraggingZone.Y + nonDraggingZone.Height);
-					var xResult = (x - xSubtrahend).ToArray();
-					if (xResult.Length is 1 && xResult[0] == x)
-						continue;
-					var yResult = (y - ySubtrahend).ToArray();
-					switch (xResult.Length)
-					{
-						case 0:
-							draggingZonesY[i] = yResult;
-							break;
-						case 1:
-							draggingZonesX.RemoveAt(i);
-							draggingZonesY.RemoveAt(i);
-							if (xResult[0].Lower == x.Lower)
-							{
-								draggingZonesY.InsertRange(i, new[] { y, yResult });
-								draggingZonesX.InsertRange(i, new[]
-								{
-									x with { Upper = xResult[0].Upper },
-									x with { Lower = xSubtrahend.Lower }
-								});
-							}
-							else // xResult[0].Upper == x.Upper
-							{
-								draggingZonesY.InsertRange(i, new[] { yResult, y });
-								draggingZonesX.InsertRange(i, new[]
-								{
-									x with { Upper = xSubtrahend.Upper },
-									x with { Lower = xResult[0].Lower }
-								});
-							}
-							++i;
-							break;
-						case 2:
-							draggingZonesX.RemoveAt(i);
-							draggingZonesY.RemoveAt(i);
-							draggingZonesY.InsertRange(i, new[] { y, yResult, y });
-							draggingZonesX.InsertRange(i, new[]
-							{
-								x with { Upper = xResult[0].Upper },
-								xSubtrahend,
-								x with { Lower = xResult[1].Lower }
-							});
-							++i;
-							++i;
-							break;
-					}
-				}
+				// region under the buttons
+				const int borderThickness = 5;
+				source.SetRegionRects(NonClientRegionKind.LeftBorder, [GetScaledRect(uiElement, new(0, 0, borderThickness, titleBarHeight))]);
+				source.SetRegionRects(NonClientRegionKind.RightBorder, [GetScaledRect(uiElement, new(size.Width, 0, borderThickness, titleBarHeight))]);
+				source.SetRegionRects(NonClientRegionKind.Caption, [GetScaledRect(uiElement, new(0, 0, size.Width, titleBarHeight))]);
 			}
-
-			var rects = draggingZonesX
-				.SelectMany((rangeX, i) => draggingZonesY[i]
-					.Select(rangeY => new RectInt32(rangeX.Lower, rangeY.Lower, rangeX.Distance, rangeY.Distance)))
-				.OrderBy(t => t.Y)
-				.ThenBy(t => t.X).ToList();
-			for (var i = 0; i < rects.Count - 1; ++i)
-			{
-				var now = rects[i];
-				var next = rects[i + 1];
-				if (now.Height == next.Height && now.X + now.Width == next.X)
-				{
-					rects.RemoveRange(i, 2);
-					rects.Insert(i, now with { Width = now.Width + next.Width });
-				}
-			}
-
-			return rects;
 		}
 
-		/// <summary>
-		/// Set dragging-zones of title bar
-		/// </summary>
-		/// <param name="window"></param>
-		/// <param name="dragZoneHeight"></param>
-		/// <param name="dragZoneLeftIndent"></param>
-		/// <param name="nonDraggingZones"></param>
-		public static void SetDragZones(Window window, int dragZoneHeight = 40, int dragZoneLeftIndent = 0, IEnumerable<RectInt32>? nonDraggingZones = null)
+		private static RectInt32 GetScaledRect(this UIElement uiElement, RectInt32? r = null)
 		{
-			var hWnd = WindowNative.GetWindowHandle(window);
-			var windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
-			var appWindow = AppWindow.GetFromWindowId(windowId);
-			var scaleAdjustment = GetScaleAdjustment(window);
-			var windowWidth = (int)(appWindow.Size.Width / scaleAdjustment);
-			nonDraggingZones ??= Array.Empty<RectInt32>();
-#if DEBUG
-			// Subtract the toolbar area (center-top in window), only in DEBUG mode.
-			nonDraggingZones = nonDraggingZones.Concat(new RectInt32[] { new((windowWidth - DebugToolbarWidth) / 2, 0, DebugToolbarWidth, DebugToolbarHeight) });
-#endif
-			appWindow.TitleBar.SetDragRectangles(
-				GetDragZones(windowWidth, dragZoneHeight, dragZoneLeftIndent, nonDraggingZones)
-					.Select(rect => new RectInt32(
-						(int)(rect.X * scaleAdjustment),
-						(int)(rect.Y * scaleAdjustment),
-						(int)(rect.Width * scaleAdjustment),
-						(int)(rect.Height * scaleAdjustment)))
-					.ToArray());
-		}
-
-		private const int DebugToolbarWidth = 217;
-		private const int DebugToolbarHeight = 25;
-	}
-
-	file record Range(int Lower, int Upper)
-	{
-		public int Distance => Upper - Lower;
-
-		private bool Intersects(Range other) => other.Lower <= Upper && other.Upper >= Lower;
-
-		public static IEnumerable<Range> operator -(Range minuend, Range subtrahend)
-		{
-			if (!minuend.Intersects(subtrahend))
+			if (r is { } rect)
 			{
-				yield return minuend;
-				yield break;
+				var scaleFactor = uiElement.XamlRoot.RasterizationScale;
+				return new((int)(rect.X * scaleFactor), (int)(rect.Y * scaleFactor), (int)(rect.Width * scaleFactor),
+					(int)(rect.Height * scaleFactor));
 			}
-			if (minuend.Lower < subtrahend.Lower)
-				yield return minuend with { Upper = subtrahend.Lower };
-			if (minuend.Upper > subtrahend.Upper)
-				yield return minuend with { Lower = subtrahend.Upper };
+			else
+			{
+				var pos = uiElement.TransformToVisual(null).TransformPoint(new(0, 0));
+				rect = new RectInt32((int)pos.X, (int)pos.Y, (int)uiElement.ActualSize.X, (int)uiElement.ActualSize.Y);
+				return GetScaledRect(uiElement, rect);
+			}
 		}
-
-		public static IEnumerable<Range> operator -(IEnumerable<Range> minuends, Range subtrahend)
-			=> minuends.SelectMany(minuend => minuend - subtrahend);
 	}
 }
