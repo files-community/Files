@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
@@ -22,7 +21,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public ObservableCollection<RecentItem> Items { get; } = [];
 
-		public string WidgetName => nameof(RecentFilesWidget);
+		public string WidgetName => nameof(RecentFilesWidgetViewModel);
 		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;

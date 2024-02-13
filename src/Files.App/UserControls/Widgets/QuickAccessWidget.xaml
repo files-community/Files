@@ -5,12 +5,11 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
-	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
-	<ItemsRepeater ItemsSource="{x:Bind local:QuickAccessWidget.ItemsAdded, Mode=OneWay}">
+	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
 		<ItemsRepeater.ItemTemplate>
 			<DataTemplate x:DataType="dataitems:WidgetFolderCardItem">

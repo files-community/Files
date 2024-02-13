@@ -18,13 +18,6 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		// Fields
-
-		private QuickAccessWidgetViewModel? quickAccessWidget;
-		private DrivesWidgetViewModel? drivesWidget;
-		private FileTagsWidgetViewModel? fileTagsWidget;
-		private RecentFilesWidgetViewModel? recentFilesWidget;
-
 		// Properties
 
 		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = [];
@@ -51,53 +44,77 @@ namespace Files.App.ViewModels
 
 		public void ReloadWidgets()
 		{
-			quickAccessWidget = WidgetsHelpers.TryGetWidget(this, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
-			drivesWidget = WidgetsHelpers.TryGetWidget(this, out bool shouldReloadDrivesWidget, drivesWidget);
-			fileTagsWidget = WidgetsHelpers.TryGetWidget(this, out bool shouldReloadFileTags, fileTagsWidget);
-			recentFilesWidget = WidgetsHelpers.TryGetWidget(this, out bool shouldReloadRecentFiles, recentFilesWidget);
+			var reloadQuickAccessWidget = CheckWidgetVisibility<QuickAccessWidgetViewModel>();
+			var reloadDrivesWidget = CheckWidgetVisibility<DrivesWidgetViewModel>();
+			var reloadFileTags = CheckWidgetVisibility<FileTagsWidgetViewModel>();
+			var reloadRecentFiles = CheckWidgetVisibility<RecentFilesWidgetViewModel>();
 
 			// Reload QuickAccess widget
-			if (shouldReloadQuickAccessWidget && quickAccessWidget is not null)
+			if (reloadQuickAccessWidget)
 			{
+				var quickAccessWidget = new QuickAccessWidget();
+
 				InsertWidget(
 					new(
 						quickAccessWidget,
+						quickAccessWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded),
 					0);
 			}
 
 			// Reload DrivesWidget widget
-			if (shouldReloadDrivesWidget && drivesWidget is not null)
+			if (reloadDrivesWidget)
 			{
+				var drivesWidget = new DrivesWidget();
+
 				InsertWidget(
 					new(
 						drivesWidget,
+						drivesWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded),
 					1);
 			}
 
 			// Reload FileTags widget
-			if (shouldReloadFileTags && fileTagsWidget is not null)
+			if (reloadFileTags)
 			{
+				var fileTagsWidget = new FileTagsWidget();
+
 				InsertWidget(
 					new(
 						fileTagsWidget,
+						fileTagsWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded),
 					2);
 			}
 
 			// Reload RecentFiles widget
-			if (shouldReloadRecentFiles && recentFilesWidget is not null)
+			if (reloadRecentFiles)
 			{
+				var recentFilesWidget = new RecentFilesWidget();
+
 				InsertWidget(
 					new(
 						recentFilesWidget,
+						recentFilesWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded),
 					3);
+			}
+
+			bool CheckWidgetVisibility<TWidget>()
+			{
+				return typeof(TWidget).Name switch
+				{
+					nameof(QuickAccessWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget,
+					nameof(DrivesWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowDrivesWidget,
+					nameof(FileTagsWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget,
+					nameof(RecentFilesWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget,
+					_ => false,
+				};
 			}
 		}
 

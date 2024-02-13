@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.UserControls.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 
@@ -12,7 +11,7 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class RecentFilesWidget : UserControl
 	{
-		private RecentFilesWidgetViewModel ViewModel { get; } = new();
+		public RecentFilesWidgetViewModel ViewModel { get; } = new();
 
 		public RecentFilesWidget()
 		{

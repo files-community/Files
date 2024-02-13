@@ -17,17 +17,21 @@ namespace Files.App.Data.Items
 
 		// Properties
 
-		public IWidgetViewModel WidgetItemModel
-			=> WidgetControl as IWidgetViewModel;
-
 		public string WidgetAutomationProperties
 			=> WidgetItemModel.AutomationProperties;
 
 		public bool ShowMenuFlyout
 			=> WidgetItemModel.ShowMenuFlyout;
 
-		public MenuFlyoutItem MenuFlyoutItem
+		public MenuFlyoutItem? MenuFlyoutItem
 			=> WidgetItemModel.MenuFlyoutItem;
+
+		private IWidgetViewModel _WidgetItemModel;
+		public IWidgetViewModel WidgetItemModel
+		{
+			get => _WidgetItemModel;
+			set => SetProperty(ref _WidgetItemModel, value);
+		}
 
 		private object _WidgetControl;
 		public object WidgetControl
@@ -48,12 +52,17 @@ namespace Files.App.Data.Items
 
 		// Constructor
 
-		public WidgetContainerItem(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
+		public WidgetContainerItem(
+			UserControl widget,
+			IWidgetViewModel widgetViewModel,
+			Action<bool> expanderValueChangedCallback,
+			Func<bool> expanderValueRequestedCallback)
 		{
+			WidgetItemModel = widgetViewModel;
+			WidgetControl = widget;
+
 			_expanderValueChangedCallback = expanderValueChangedCallback;
 			_expanderValueRequestedCallback = expanderValueRequestedCallback;
-
-			WidgetControl = widgetControl;
 		}
 
 		// Disposer

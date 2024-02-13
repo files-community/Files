@@ -10,12 +10,12 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	DataContext="{x:Bind HomeViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="Loaded">
-			<icore:InvokeCommandAction Command="{x:Bind ViewModel.HomePageLoadedCommand, Mode=OneWay}" />
+			<icore:InvokeCommandAction Command="{x:Bind HomeViewModel.HomePageLoadedCommand, Mode=OneWay}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
@@ -423,7 +423,7 @@
 
 	<!--  Widget List  -->
 	<ScrollViewer>
-		<ListView ItemsSource="{x:Bind ViewModel.WidgetItems, Mode=OneWay}" SelectionMode="None">
+		<ListView ItemsSource="{x:Bind HomeViewModel.WidgetItems, Mode=OneWay}" SelectionMode="None">
 
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="dataitems:WidgetContainerItem">

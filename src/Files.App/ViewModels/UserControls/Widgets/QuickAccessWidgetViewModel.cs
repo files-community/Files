@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -18,9 +17,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	{
 		// Properties
 
-		public ObservableCollection<WidgetFolderCardItem> ItemsAdded = [];
+		public ObservableCollection<WidgetFolderCardItem> Items = [];
 
-		public string WidgetName => nameof(QuickAccessWidget);
+		public string WidgetName => nameof(QuickAccessWidgetViewModel);
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
@@ -35,7 +34,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public QuickAccessWidgetViewModel()
 		{
-			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
+			_ = InitializeWidget();
+
+			Items.CollectionChanged += ItemsAdded_CollectionChanged;
 
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetFolderCardItem>(OpenInNewTabAsync);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetFolderCardItem>(OpenInNewWindowAsync);
@@ -66,6 +67,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new() { NavPathParam = path });
 		}
 
+		private async Task InitializeWidget()
+		{
+			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
+
+			ModifyItemAsync(this, new(itemsToAdd.ToArray(), false) { Reset = true });
+
+			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
+		}
+
 		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)
 		{
 			if (e is null || e.Paths is null || e.Items is null)
@@ -76,29 +86,29 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				if (e.Reset)
 				{
 					// Find the intersection between the two lists and determine whether to remove or add
-					var originalItemsAdded = ItemsAdded.ToList();
+					var originalItemsAdded = Items.ToList();
 					var itemsToRemove = originalItemsAdded.Where(x => !e.Paths.Contains(x.Path));
 					var itemsToAdd = e.Paths.Where(x => !originalItemsAdded.Any(y => y.Path == x));
 
 					// Remove items
 					foreach (var itemToRemove in itemsToRemove)
-						ItemsAdded.Remove(itemToRemove);
+						Items.Remove(itemToRemove);
 
 					// Add items
 					foreach (var itemToAdd in itemsToAdd)
 					{
-						var interimItemsAdded = ItemsAdded.ToList();
+						var interimItemsAdded = Items.ToList();
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 
 						if (interimItemsAdded.FirstOrDefault(x => !x.IsPinned) is not WidgetFolderCardItem cardItem)
 							continue;
 
-						var lastIndex = ItemsAdded.IndexOf(cardItem);
+						var lastIndex = Items.IndexOf(cardItem);
 						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
 
-						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						Items.Insert(isPinned && lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
 							Path = item.Path,
 						});
@@ -109,23 +119,23 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				if (e.Reorder)
 				{
 					// Remove pinned items
-					foreach (var itemToRemove in ItemsAdded.ToList().Where(x => x.IsPinned))
-						ItemsAdded.Remove(itemToRemove);
+					foreach (var itemToRemove in Items.ToList().Where(x => x.IsPinned))
+						Items.Remove(itemToRemove);
 
 					// Add pinned items in the new order
 					foreach (var itemToAdd in e.Paths)
 					{
-						var interimItemsAdded = ItemsAdded.ToList();
+						var interimItemsAdded = Items.ToList();
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 
 						if (interimItemsAdded.FirstOrDefault(x => !x.IsPinned) is not WidgetFolderCardItem cardItem)
 							continue;
 
-						var lastIndex = ItemsAdded.IndexOf(cardItem);
+						var lastIndex = Items.IndexOf(cardItem);
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
 
-						ItemsAdded.Insert(lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), true)
+						Items.Insert(lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), true)
 						{
 							Path = item.Path,
 						});
@@ -137,36 +147,25 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					foreach (var itemToAdd in e.Paths)
 					{
-						var interimItemsAdded = ItemsAdded.ToList();
+						var interimItemsAdded = Items.ToList();
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 
 						if (interimItemsAdded.FirstOrDefault(x => !x.IsPinned) is not WidgetFolderCardItem cardItem)
 							continue;
 
-						var lastIndex = ItemsAdded.IndexOf(cardItem);
+						var lastIndex = Items.IndexOf(cardItem);
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
-						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? Math.Min(lastIndex, ItemsAdded.Count) : ItemsAdded.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						Items.Insert(e.Pin && lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
 						});
 					}
 				}
 				else
-					foreach (var itemToRemove in ItemsAdded.ToList().Where(x => e.Paths.Contains(x.Path)))
-						ItemsAdded.Remove(itemToRemove);
+					foreach (var itemToRemove in Items.ToList().Where(x => e.Paths.Contains(x.Path)))
+						Items.Remove(itemToRemove);
 			});
-		}
-
-		private async void InitializeWidget(object sender, RoutedEventArgs e)
-		{
-			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
-			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false)
-			{
-				Reset = true
-			});
-
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -321,7 +320,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
 
-			var recentItem = items.Where(x => !ItemsAdded.ToList().Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
+			var recentItem = items.Where(x => !Items.ToList().Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
 			if (recentItem is not null)
 			{
 				ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)

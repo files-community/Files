@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public void BuildContextFlyout(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
-			if (e.OriginalSource is not FrameworkElement element ||
+			if (sender is not FrameworkElement element ||
 				element.DataContext is not WidgetCardItem item)
 				return;
 

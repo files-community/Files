@@ -39,7 +39,7 @@
 			VerticalAlignment="Stretch"
 			IsItemClickEnabled="True"
 			IsRightTapEnabled="True"
-			ItemClick="RecentsView_ItemClick"
+			ItemClick="RecentItemsView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
 			RightTapped="ListView_RightTapped"

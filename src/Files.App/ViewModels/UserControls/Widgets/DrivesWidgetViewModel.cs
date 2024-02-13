@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
@@ -11,7 +10,7 @@ using Windows.UI.Core;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
-	internal class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Dependency injections
 
@@ -22,7 +21,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public ObservableCollection<WidgetDriveCardItem> Items = [];
 
-		public string WidgetName => nameof(DrivesWidget);
+		public string WidgetName => nameof(DrivesWidgetViewModel);
 		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;

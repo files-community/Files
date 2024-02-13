@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Windows.Input;
@@ -19,7 +18,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = [];
 
-		public string WidgetName => nameof(FileTagsWidget);
+		public string WidgetName => nameof(FileTagsWidgetViewModel);
 		public string WidgetHeader => "FileTags".GetLocalizedResource();
 		public string AutomationProperties => "FileTags".GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;

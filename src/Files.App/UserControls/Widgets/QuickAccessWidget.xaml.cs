@@ -1,13 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.UserControls.Widgets;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -16,7 +12,7 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class QuickAccessWidget : UserControl
 	{
-		private QuickAccessWidgetViewModel ViewModel { get; } = new();
+		public QuickAccessWidgetViewModel ViewModel { get; } = new();
 
 		public QuickAccessWidget()
 		{
