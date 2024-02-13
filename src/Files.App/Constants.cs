@@ -118,24 +118,48 @@ namespace Files.App
 			public const string StandardFont = "Segoe UI Variable";
 		}
 
-		public static class Browser
+		// Default icon heights used in the differents layouts
+		public static class IconHeights
 		{
-			public static class GridViewBrowser
+			public static class GridView
 			{
-				public const int GridViewIncrement = 20;
+				public const int Increment = 20;
 
-				public const int GridViewSizeLarge = 220;
+				public const int Minimum = 80;
 
-				public const int GridViewSizeMedium = 160;
+				public const int Small = 100;
 
-				public const int GridViewSizeSmall = 100;
+				public const int Medium = 160;
 
-				public const int TilesView = 100;
+				public const int Large = 220;
+
+				public const int Maximum = 300;
+			}
+
+			public static class TilesView
+			{ 
+				public const int Regular = 100;
+			}
+
+			public static class ListView
+			{
+				public const int Regular = 32;
+			}
+
+			public static class DetailsView
+			{
+				public const int Regular = 32;
+			}
+
+			public static class ColumnsView
+			{
+				public const int Regular = 32;
 			}
 		}
 
+
 		// Default icon sizes that are available for files and folders
-		public static class DefaultIconSizes
+		public static class ShellIconSizes
 		{
 			public const int Small = 16;
 

@@ -613,11 +613,11 @@ namespace Files.App.Data.Models
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeListView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightDetailsView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightListView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconHeightTilesView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconHeightGridView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightColumnsView):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
@@ -1288,7 +1288,7 @@ namespace Files.App.Data.Models
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, Constants.DefaultIconSizes.ExtraLarge, false, false, true);
+				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, Constants.ShellIconSizes.ExtraLarge, false, false, true);
 
 				if (headerIconInfo is not null && !item.IsShortcut)
 					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
