@@ -18,16 +18,16 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class DrivesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
 		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
+		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
 		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
+
 		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = new();
 
 		private IShellPage associatedInstance;
@@ -71,7 +71,7 @@ namespace Files.App.UserControls.Widgets
 
 			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
 			FormatDriveCommand = new RelayCommand<WidgetDriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<WidgetDriveCardItem>(EjectDeviceAsync);
@@ -89,7 +89,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
+				foreach (DriveItem drive in DrivesViewModel.Drives.ToList())
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
@@ -101,7 +101,7 @@ namespace Files.App.UserControls.Widgets
 
 				foreach (WidgetDriveCardItem driveCard in ItemsAdded.ToList())
 				{
-					if (!drivesViewModel.Drives.Contains(driveCard.Item))
+					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
 						ItemsAdded.Remove(driveCard);
 				}
 			});
@@ -123,7 +123,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -134,14 +134,14 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -220,7 +220,7 @@ namespace Files.App.UserControls.Widgets
 
 		private Task DoNetworkMapDriveAsync()
 		{
-			return networkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
+			return NetworkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -312,7 +312,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void DisconnectNetworkDrive(WidgetDriveCardItem item)
 		{
-			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
+			NetworkDrivesViewModel.DisconnectNetworkDrive(item.Item);
 		}
 
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)

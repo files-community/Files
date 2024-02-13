@@ -18,7 +18,6 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidget : BaseWidgetViewModel, IWidgetViewModel
 	{
-		private readonly IUserSettingsService userSettingsService;
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public FileTagsWidgetViewModel ViewModel
@@ -48,8 +47,6 @@ namespace Files.App.UserControls.Widgets
 
 		public FileTagsWidget()
 		{
-			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 			InitializeComponent();
 
 			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
@@ -163,7 +160,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					ShowItem = !isFolder && userSettingsService.GeneralSettingsService.ShowSendToMenu
+					ShowItem = !isFolder && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -200,7 +197,7 @@ namespace Files.App.UserControls.Widgets
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
