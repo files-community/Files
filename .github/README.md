@@ -1,51 +1,59 @@
 <p align="center">
-  <img alt="Files Logo" src="../src/Files.App%20(Package)/Assets/AppTiles/Release/StoreLogo.scale-400.png" width="100px" />
+  <a href="https://files.community">
+    <img src="../assets/branding-logo.svg" alt="Files logo" width="100px"></a>
   <h1 align="center">Files</h1>
 </p>
 
-[![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
-[![Crowdin](https://badges.crowdin.net/files-app/localized.svg)](https://crowdin.com/project/files-app)
-[![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
-[![Download](https://img.shields.io/badge/Download%20Installer-blue.svg?style=flat-round)](https://files.community/download)
-[![Documentation](https://img.shields.io/badge/View%20Documentation-purple.svg?style=flat-round)](https://files.community/docs)
+<p align="center">
+    <a href="https://files.community">
+        <img src="https://img.shields.io/badge/website-files--comunity-yellow.svg" alt="Our website"></a>
+    <a href="https://github.com/files-community/Files/actions/workflows/ci.yml">
+        <img src="https://github.com/files-community/Files/actions/workflows/ci.yml/badge.svg" alt="Files CI build status"></a>
+    <a href="https://crowdin.com/project/files-app">
+        <img src="https://badges.crowdin.net/files-app/localized.svg" alt="Trannslate the app on Crowdin"></a>
+    <a href="https://github.com/badges/shields/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/badges/shields" /></a>
+    <a href="https://discord.gg/files">
+        <img src="https://discordapp.com/api/guilds/725513575971684472/widget.png" alt="Chat on Discord"></a>
+</p>
 
 Introducing Files, the ultimate file manager app for Windows. With its sleek and intuitive design, navigating through your files has never been easier. Files features tabs for easy switching between different folders, a column view for quick file browsing, and dual pane support for efficient file management. In addition, you can easily create and extract archives with just a few clicks, making file compression and decompression a breeze.
 
 Files also offers advanced features such as file tagging for easy organization, support for QuickLook for previewing files without opening them, and the ability to customize the background color to match your personal style. Whether you're a power user or just looking for a better way to manage your files, Files has everything you need to keep your files organized and easily accessible. With its combination of powerful features and ease of use, Files is the ultimate file management solution for Windows.
 
-## Building from source
+## Installing Files
 
-### 1. Prerequisites
+### Via Microsoft Store
 
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the following individual components:
-    - Windows 11 SDK (10.0.22621.0)
-    - .NET 8 SDK
-    - MSVC v143 - VS 2022 C++ x64/x86 or ARM64 build tools (latest)
-    - C++ ATL for latest v143 build tools (x86 & x64 or ARM64)
-    - Git for Windows
-- [Windows App SDK 1.4](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#current-releases)
-    
-### 2. Clone the repository
+This way enables you to always use the latest stable version of the app and recieve updates when we release a stable update
 
-```ps
-git clone https://github.com/files-community/Files
-```
+<a title="Microsoft Store" target="_blank" href="https://apps.microsoft.com/store/detail/9NGHP3DX8HDX">
+  <img width="128" align="center" src="https://get.microsoft.com/images/en-us%20dark.svg" />
+</a>
 
-This will create a local copy of the repository.
+### Via our website
 
-### 3. Build the project
+If you have an installation issue with the Store, you can download the app through [our website](https://files.community/download).
 
-To build Files for development, open the `Files.sln` item in Visual Studio. Right-click on the `Files.Package` packaging project in solution explorer and select ‘Set as Startup item’.
+### Running from the source
 
-In the top pane, select the items which correspond to your desired build mode and the processor architecture of your device like below:
-![image](https://user-images.githubusercontent.com/39923744/148721296-2bd132d0-4a4d-4555-8f58-16b00b18ade3.png)
+Visit [our documentation](https://files.community/docs/contributing/building-from-source) to meet the requirements.
 
-## Contributors
+## Contributing
 
-Want to contribute to this project? Let us know with an [issue](https://github.com/files-community/Files/issues) that communicates your intent to create a [pull request](https://github.com/files-community/Files/pulls). Also, view our [contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
+This project is a community-driven and built on all your contributions.
+We're excited work together to boost Files, the best file manager for Windows.
 
-Looking for a place to start? Check out the [task board](https://github.com/orgs/files-community/projects/3/views/2), where you can sort tasks by size and priority.
+Before working on [a feature or bug fix](https://github.com/files-community/Files/issues), please read [our contribution guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to avoid any chance of your work being wasted. If you're looking for a place to start, check out [our task board](https://github.com/orgs/files-community/projects/3/views/2), where you can sort tasks by priority, status and size.
+
+## Translating
+
+We also welcome your contribution of translating the app on [Crowdin](https://crowdin.com/project/files-app), where you can discuss translation issues and focus on your favorite languages as well.
+
+<a href="https://crowdin.com/project/files-app" rel="nofollow">
+  <img style="width:140;height:40" src="https://badges.crowdin.net/badge/dark/crowdin-on-light.png" />
+</a>
 
 ## Screenshots
 
-![Files](../assets/FilesScreenshot.png)
+![Files](../assets/screenshot-home.png)
