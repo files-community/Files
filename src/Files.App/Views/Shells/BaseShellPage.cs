@@ -248,34 +248,37 @@ namespace Files.App.Views.Shells
 					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
 					: null;
 
-			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
+			if (FilesystemViewModel.GitDirectory is not null)
 			{
-				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
-
-				InstanceViewModel.GitBranchName = headBranch is not null
-					? headBranch.Name
-					: string.Empty;
-
-				if (!_gitFetch.IsCompleted)
+				if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
 				{
-					_gitFetchToken.Cancel();
-					await _gitFetch;
-					_gitFetchToken.TryReset();
-				}
-				if (InstanceViewModel.IsGitRepository && !GitHelpers.IsExecutingGitAction)
-				{
-					_gitFetch = Task.Run(
-						() => GitHelpers.FetchOrigin(InstanceViewModel.GitRepositoryPath),
-						_gitFetchToken.Token);
-				}
-			}
+					InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
 
-			if (!GitHelpers.IsExecutingGitAction)
-			{
-				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
-					InstanceViewModel.IsGitRepository,
-					InstanceViewModel.GitRepositoryPath,
-					headBranch);
+					InstanceViewModel.GitBranchName = headBranch is not null
+						? headBranch.Name
+						: string.Empty;
+
+					if (!_gitFetch.IsCompleted)
+					{
+						_gitFetchToken.Cancel();
+						await _gitFetch;
+						_gitFetchToken.TryReset();
+					}
+					if (InstanceViewModel.IsGitRepository && !GitHelpers.IsExecutingGitAction)
+					{
+						_gitFetch = Task.Run(
+							() => GitHelpers.FetchOrigin(InstanceViewModel.GitRepositoryPath),
+							_gitFetchToken.Token);
+					}
+				}
+
+				if (!GitHelpers.IsExecutingGitAction)
+				{
+					ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+						InstanceViewModel.IsGitRepository,
+						InstanceViewModel.GitRepositoryPath,
+						headBranch);
+				}
 			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
