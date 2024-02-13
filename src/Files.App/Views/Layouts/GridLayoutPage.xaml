@@ -113,8 +113,8 @@
 					<Grid
 						Grid.Row="0"
 						Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
-						Height="{Binding FolderSettings.IconSize, ElementName=PageRoot, Mode=OneWay}"
-						MaxWidth="{Binding FolderSettings.IconSize, ElementName=PageRoot, Mode=OneWay}"
+						Height="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
 						Opacity="{x:Bind Opacity, Mode=OneWay}"
 						Tag="ItemImage">
 
@@ -134,8 +134,8 @@
 
 						<Border
 							x:Name="TypeUnknownGlyph"
-							MaxWidth="{Binding FolderSettings.IconSize, ElementName=PageRoot, Mode=OneWay}"
-							MaxHeight="{Binding FolderSettings.IconSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxWidth="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
 							Margin="12"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
@@ -157,8 +157,8 @@
 
 						<Viewbox
 							x:Name="WebShortcutGlyph"
-							MaxWidth="{Binding FolderSettings.IconSize, ElementName=PageRoot, Mode=OneWay}"
-							MaxHeight="{Binding FolderSettings.IconSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxWidth="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
 							Margin="12"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
@@ -194,7 +194,7 @@
 
 					<Grid
 						Grid.Row="1"
-						MaxWidth="{Binding FolderSettings.IconSize, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding FolderSettings.IconHeight, ElementName=PageRoot, Mode=OneWay}"
 						Margin="4,0,4,8"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Stretch">

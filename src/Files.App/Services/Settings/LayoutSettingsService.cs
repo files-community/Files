@@ -11,33 +11,33 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public int DefaultIconSizeDetailsView
+		public int DefaultIconHeightDetailsView
 		{
-			get => (int)Get((long)Constants.DefaultIconSizes.Large);
+			get => (int)Get((long)Constants.IconHeights.DetailsView.Regular);
 			set => Set((long)value);
 		}
 
-		public int DefaultIconSizeListView
+		public int DefaultIconHeightListView
 		{
-			get => (int)Get((long)Constants.DefaultIconSizes.Large);
+			get => (int)Get((long)Constants.IconHeights.ListView.Regular);
 			set => Set((long)value);
 		}
 
-		public int DefaulIconSizeTilesView
+		public int DefaulIconHeightTilesView
 		{
-			get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeMedium);
+			get => (int)Get((long)Constants.IconHeights.TilesView.Regular);
 			set => Set((long)value);
 		}
 
-		public int DefaulIconSizeGridView
+		public int DefaulIconHeightGridView
 		{
-			get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeMedium);
+			get => (int)Get((long)Constants.IconHeights.GridView.Medium);
 			set => Set((long)value);
 		}
 
-		public int DefaultIconSizeColumnsView
+		public int DefaultIconHeightColumnsView
 		{
-			get => (int)Get((long)Constants.DefaultIconSizes.Large);
+			get => (int)Get((long)Constants.IconHeights.ColumnsView.Regular);
 			set => Set((long)value);
 		}
 	}
