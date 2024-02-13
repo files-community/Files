@@ -1,5 +1,5 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:BaseWidgetViewModel
+<UserControl
 	x:Class="Files.App.UserControls.Widgets.FileTagsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,8 +8,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -17,35 +17,17 @@
 		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 	</UserControl.Resources>
 
-	<!--  Collection of containers  -->
-	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers}">
+	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers, Mode=OneWay}">
 
-		<ItemsRepeater.Layout>
-			<UniformGridLayout
-				ItemsStretch="Fill"
-				MaximumRowsOrColumns="6"
-				MinColumnSpacing="8"
-				MinItemHeight="260"
-				MinItemWidth="220"
-				MinRowSpacing="8"
-				Orientation="Horizontal" />
-		</ItemsRepeater.Layout>
-
-		<!--  Container template  -->
 		<ItemsRepeater.ItemTemplate>
 			<DataTemplate x:DataType="dataitems:WidgetFileTagsContainerItem">
 				<Grid
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
 					AllowDrop="True"
 					Background="{ThemeResource ControlFillColorDefaultBrush}"
 					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-					BorderThickness="1"
-					CornerRadius="{StaticResource ControlCornerRadius}">
+					BorderThickness="1">
 					<Grid.RowDefinitions>
-						<!--  Title  -->
 						<RowDefinition Height="Auto" />
-						<!--  Contents  -->
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 
@@ -109,8 +91,7 @@
 						</Button>
 					</Grid>
 
-					<!--  Contents  -->
-					<!--  The vertical scroll bar must be hidden because it may cause a crash inside the ScrollViewer (#12370)  -->
+					<!--  NOTE: The vertical scroll bar must be hidden because it may cause a crash inside the ScrollViewer (#12370)  -->
 					<controls:AdaptiveGridView
 						Grid.Row="1"
 						Padding="4"
@@ -159,9 +140,21 @@
 							</DataTemplate>
 						</controls:AdaptiveGridView.ItemTemplate>
 					</controls:AdaptiveGridView>
+
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>
 
+		<ItemsRepeater.Layout>
+			<UniformGridLayout
+				ItemsStretch="Fill"
+				MaximumRowsOrColumns="6"
+				MinColumnSpacing="8"
+				MinItemHeight="260"
+				MinItemWidth="220"
+				MinRowSpacing="8"
+				Orientation="Horizontal" />
+		</ItemsRepeater.Layout>
+
 	</ItemsRepeater>
-</local:BaseWidgetViewModel>
+</UserControl>

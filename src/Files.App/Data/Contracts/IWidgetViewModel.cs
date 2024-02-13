@@ -7,18 +7,18 @@ namespace Files.App.Data.Contracts
 {
 	public interface IWidgetViewModel : IDisposable
 	{
-		string WidgetName { get; }
+		public string WidgetName { get; }
 
-		string WidgetHeader { get; }
+		public string WidgetHeader { get; }
 
-		string AutomationProperties { get; }
+		public string AutomationProperties { get; }
 
-		bool IsWidgetSettingEnabled { get; }
+		public bool IsWidgetSettingEnabled { get; }
 
-		bool ShowMenuFlyout { get; }
+		public bool ShowMenuFlyout { get; }
 
-		MenuFlyoutItem MenuFlyoutItem { get; }
+		public MenuFlyoutItem? MenuFlyoutItem { get; }
 
-		Task RefreshWidgetAsync();
+		public Task RefreshWidgetAsync();
 	}
 }

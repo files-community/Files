@@ -11,12 +11,11 @@ namespace Files.App.Data.Items
 		// Fields
 
 		private readonly IFileTagsService FileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
+		public IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IImageService ImageService = Ioc.Default.GetRequiredService<IImageService>();
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly string _tagUid;
-
-		private readonly Func<string, Task> _openAction;
 
 		// Properties
 
@@ -46,10 +45,9 @@ namespace Files.App.Data.Items
 		public ICommand ViewMoreCommand { get; }
 		public ICommand OpenAllCommand { get; }
 
-		public WidgetFileTagsContainerItem(string tagUid, Func<string, Task> openAction)
+		public WidgetFileTagsContainerItem(string tagUid)
 		{
 			_tagUid = tagUid;
-			_openAction = openAction;
 			Tags = new();
 
 			ViewMoreCommand = new AsyncRelayCommand<CancellationToken>(ViewMore);
@@ -62,13 +60,13 @@ namespace Files.App.Data.Items
 			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
 			{
 				var icon = await ImageService.GetIconAsync(item.Storable, cancellationToken);
-				Tags.Add(new(item.Storable, _openAction, icon));
+				Tags.Add(new(item.Storable, icon));
 			}
 		}
 
 		private Task ViewMore(CancellationToken cancellationToken)
 		{
-			return _openAction($"tag:{Name}");
+			return NavigationHelpers.OpenPath($"tag:{Name}", ContentPageContext.ShellPage!);
 		}
 
 		private Task OpenAll(CancellationToken cancellationToken)

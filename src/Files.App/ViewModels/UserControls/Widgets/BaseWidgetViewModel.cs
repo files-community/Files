@@ -13,12 +13,14 @@ namespace Files.App.UserControls.Widgets
 	/// <summary>
 	/// Represents base ViewModel for widget ViewModels.
 	/// </summary>
-	public abstract class BaseWidgetViewModel : UserControl
+	public abstract class BaseWidgetViewModel
 	{
 		// Dependency injections
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		public IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
 		// Fields
@@ -27,14 +29,14 @@ namespace Files.App.UserControls.Widgets
 
 		// Commands
 
-		protected ICommand? RemoveRecentItemCommand { get; set; }
-		protected ICommand? ClearAllItemsCommand { get; set; }
-		protected ICommand? OpenFileLocationCommand { get; set; }
-		protected ICommand? OpenInNewTabCommand { get; set; }
-		protected ICommand? OpenInNewWindowCommand { get; set; }
-		protected ICommand? OpenPropertiesCommand { get; set; }
-		protected ICommand? PinToFavoritesCommand { get; set; }
-		protected ICommand? UnpinFromFavoritesCommand { get; set; }
+		protected ICommand RemoveRecentItemCommand { get; set; } = null!;
+		protected ICommand ClearAllItemsCommand { get; set; } = null!;
+		protected ICommand OpenFileLocationCommand { get; set; } = null!;
+		protected ICommand OpenInNewTabCommand { get; set; } = null!;
+		protected ICommand OpenInNewWindowCommand { get; set; } = null!;
+		protected ICommand OpenPropertiesCommand { get; set; } = null!;
+		protected ICommand PinToFavoritesCommand { get; set; } = null!;
+		protected ICommand UnpinFromFavoritesCommand { get; set; } = null!;
 
 		// Events
 
@@ -44,13 +46,11 @@ namespace Files.App.UserControls.Widgets
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
-		// Event methods
-
-		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		public void BuildContextFlyout(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
-			if (sender is not Button widgetCardItem ||
-				widgetCardItem.DataContext is not WidgetCardItem item)
+			if (e.OriginalSource is not FrameworkElement element ||
+				element.DataContext is not WidgetCardItem item)
 				return;
 
 			// Create a new Flyout
@@ -69,7 +69,7 @@ namespace Files.App.UserControls.Widgets
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path ?? string.Empty));
 			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout
@@ -81,39 +81,51 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
 
 			// Show the flyout
-			itemContextMenuFlyout.ShowAt(widgetCardItem, new() { Position = e.GetPosition(widgetCardItem) });
+			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
 			// Load shell menu items
-			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath ?? string.Empty, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
 
 		// Command methods
 
-		public async Task OpenInNewTabAsync(WidgetCardItem item)
+		public async Task OpenInNewTabAsync(WidgetCardItem? item)
 		{
+			if (item is null)
+				return;
+
 			await NavigationHelpers.OpenPathInNewTab(item.Path);
 		}
 
-		public async Task OpenInNewWindowAsync(WidgetCardItem item)
+		public async Task OpenInNewWindowAsync(WidgetCardItem? item)
 		{
+			if (item is null)
+				return;
+
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
-		public virtual async Task PinToFavoritesAsync(WidgetCardItem item)
+		public virtual async Task PinToFavoritesAsync(WidgetCardItem? item)
 		{
+			if (item is null || string.IsNullOrEmpty(item.Path))
+				return;
+
 			await QuickAccessService.PinToSidebarAsync(item.Path);
 		}
 
-		public virtual async Task UnpinFromFavoritesAsync(WidgetCardItem item)
+		public virtual async Task UnpinFromFavoritesAsync(WidgetCardItem? item)
 		{
+			if (item is null || string.IsNullOrEmpty(item.Path))
+				return;
+
 			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
 		}
 
 		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
 		{
-			RightClickedItemChanged?.Invoke(this, new WidgetsRightClickedItemChangedEventArgs(item, flyout));
+			RightClickedItemChanged?.Invoke(this, new(item, flyout));
 		}
 	}
 }

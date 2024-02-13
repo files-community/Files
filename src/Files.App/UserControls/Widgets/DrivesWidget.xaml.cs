@@ -1,13 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Dispatching;
+using Files.App.ViewModels.UserControls.Widgets;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -16,320 +14,75 @@ namespace Files.App.UserControls.Widgets
 	/// <summary>
 	/// Represents group of control displays a list of <see cref="WidgetDriveCardItem"/>.
 	/// </summary>
-	public sealed partial class DrivesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
+	public sealed partial class DrivesWidget : UserControl
 	{
-		private NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
-		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
-		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
-		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = new();
-
-		private IShellPage associatedInstance;
-
-		public ICommand FormatDriveCommand;
-		public ICommand EjectDeviceCommand;
-		public ICommand DisconnectNetworkDriveCommand;
-		public ICommand GoToStorageSenseCommand;
-		public ICommand OpenInNewPaneCommand;
-
-		public IShellPage AppInstance
-		{
-			get => associatedInstance;
-			set
-			{
-				if (value != associatedInstance)
-				{
-					associatedInstance = value;
-					NotifyPropertyChanged(nameof(AppInstance));
-				}
-			}
-		}
-
-		public string WidgetName => nameof(DrivesWidget);
-		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
-		public string WidgetHeader => "Drives".GetLocalizedResource();
-		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
-		public bool ShowMenuFlyout => true;
-		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
-		{
-			Icon = new FontIcon() { Glyph = "\uE710" },
-			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
-			Command = MapNetworkDriveCommand
-		};
-
-		public AsyncRelayCommand MapNetworkDriveCommand { get; }
+		private DrivesWidgetViewModel ViewModel = new();
 
 		public DrivesWidget()
 		{
 			InitializeComponent();
-
-			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-
-			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
-
-			FormatDriveCommand = new RelayCommand<WidgetDriveCardItem>(FormatDrive);
-			EjectDeviceCommand = new AsyncRelayCommand<WidgetDriveCardItem>(EjectDeviceAsync);
-			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTabAsync);
-			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
-			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(OpenInNewPaneAsync);
-			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
-			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
-			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(DisconnectNetworkDrive);
 		}
 
-		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-			{
-				foreach (DriveItem drive in DrivesViewModel.Drives.ToList())
-				{
-					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
-					{
-						var cardItem = new WidgetDriveCardItem(drive);
-						ItemsAdded.AddSorted(cardItem);
-						await cardItem.LoadCardThumbnailAsync(); // After add
-					}
-				}
-
-				foreach (WidgetDriveCardItem driveCard in ItemsAdded.ToList())
-				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
-						ItemsAdded.Remove(driveCard);
-				}
-			});
-		}
-
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
-		{
-			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-			var options = drive?.Item.MenuOptions;
-
-			return new List<ContextMenuFlyoutItemViewModel>()
-			{
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab",
-					},
-					Command = OpenInNewTabCommand,
-					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow",
-					},
-					Command = OpenInNewWindowCommand,
-					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewPane".GetLocalizedResource(),
-					Command = OpenInNewPaneCommand,
-					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "PinToFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
-					},
-					Command = PinToFavoritesCommand,
-					CommandParameter = item,
-					ShowItem = !isPinned
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
-					},
-					Command = UnpinFromFavoritesCommand,
-					CommandParameter = item,
-					ShowItem = isPinned
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "Eject".GetLocalizedResource(),
-					Command = EjectDeviceCommand,
-					CommandParameter = item,
-					ShowItem = options?.ShowEjectDevice ?? false
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "FormatDriveText".GetLocalizedResource(),
-					Command = FormatDriveCommand,
-					CommandParameter = item,
-					ShowItem = options?.ShowFormatDrive ?? false
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
-					Command = OpenPropertiesCommand,
-					CommandParameter = item
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "TurnOnBitLocker".GetLocalizedResource(),
-					Tag = "TurnOnBitLockerPlaceholder",
-					IsEnabled = false
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "ManageBitLocker".GetLocalizedResource(),
-					Tag = "ManageBitLockerPlaceholder",
-					IsEnabled = false
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
-					Tag = "OverflowSeparator",
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "Loading".GetLocalizedResource(),
-					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
-					ID = "ItemOverflow",
-					Tag = "ItemOverflow",
-					IsEnabled = false,
-				}
-			}.Where(x => x.ShowItem).ToList();
-		}
-
-		private Task DoNetworkMapDriveAsync()
-		{
-			return NetworkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
-		}
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		private async Task EjectDeviceAsync(WidgetDriveCardItem item)
-		{
-			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
-		}
-
-		private void FormatDrive(WidgetDriveCardItem? item)
-		{
-			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
-		}
-
-		private void OpenProperties(WidgetDriveCardItem item)
-		{
-			if (!HomePageContext.IsAnyItemRightClicked)
-				return;
-
-			var flyout = HomePageContext.ItemContextFlyoutMenu;
-			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = (s, e) =>
-			{
-				flyout!.Closed -= flyoutClosed;
-				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, associatedInstance);
-			};
-
-			flyout!.Closed += flyoutClosed;
+			ViewModel.BuildContextFlyout(sender, e);
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
-			string ClickedCard = (sender as Button).Tag.ToString();
-			string NavigationPath = ClickedCard; // path to navigate
-
-			if (await DriveHelpers.CheckEmptyDrive(NavigationPath))
+			if (sender is not Button button || button.Tag.ToString() is not string path || string.IsNullOrEmpty(path))
 				return;
 
-			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			if (await DriveHelpers.CheckEmptyDrive(path))
+				return;
+
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
-				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
+				await NavigationHelpers.OpenPathInNewTab(path);
 				return;
 			}
 
-			DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
-			{
-				Path = NavigationPath
-			});
+			DrivesWidgetInvoked?.Invoke(this, new() { Path = path });
 		}
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 				return;
-			string navigationPath = (sender as Button).Tag.ToString();
-			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
+
+			if (sender is not Button button || button.Tag.ToString() is not string path || string.IsNullOrEmpty(path))
 				return;
-			await NavigationHelpers.OpenPathInNewTab(navigationPath);
+
+			if (await DriveHelpers.CheckEmptyDrive(path))
+				return;
+
+			await NavigationHelpers.OpenPathInNewTab(path);
 		}
 
-		public class DrivesWidgetInvokedEventArgs : EventArgs
+		private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
 		{
-			public string Path { get; set; }
-		}
-
-		private async Task OpenInNewPaneAsync(WidgetDriveCardItem item)
-		{
-			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
+			if (sender is not Button button || button.Tag.ToString() is not string path || string.IsNullOrEmpty(path))
 				return;
-			DrivesWidgetNewPaneInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
-			{
-				Path = item.Item.Path
-			});
+
+			await StorageSenseHelper.OpenStorageSenseAsync(path);
 		}
 
+		// TODO: This is used?
 		private void MenuFlyout_Opening(object sender, object e)
 		{
-			var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
-			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+			if (sender is not MenuFlyout menuFlyout ||
+				menuFlyout.Items.SingleOrDefault(x => x.Name == "PinFromFavorites") is not MenuFlyoutItemBase pinToFavoritesItem ||
+				pinToFavoritesItem.DataContext is not DriveItem driveItemToPin)
+				return;
 
-			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
-			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
-		}
+			pinToFavoritesItem.Visibility = driveItemToPin.IsPinned ? Visibility.Collapsed : Visibility.Visible;
 
-		private void DisconnectNetworkDrive(WidgetDriveCardItem item)
-		{
-			NetworkDrivesViewModel.DisconnectNetworkDrive(item.Item);
-		}
+			if (menuFlyout.Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites") is not MenuFlyoutItemBase unpinFromFavoritesItem ||
+				pinToFavoritesItem.DataContext is not DriveItem driveItemToUnpin)
+				return;
 
-		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
-		{
-			string clickedCard = (sender as Button).Tag.ToString();
-			StorageSenseHelper.OpenStorageSenseAsync(clickedCard);
-		}
-
-		public async Task RefreshWidgetAsync()
-		{
-			var updateTasks = ItemsAdded.Select(item => item.Item.UpdatePropertiesAsync());
-			await Task.WhenAll(updateTasks);
-		}
-
-		public void Dispose()
-		{
-
+			unpinFromFavoritesItem.Visibility = driveItemToUnpin.IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 	}
 }
