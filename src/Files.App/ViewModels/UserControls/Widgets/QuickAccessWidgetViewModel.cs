@@ -2,11 +2,15 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Input;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -22,17 +26,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
 		public bool ShowMenuFlyout => false;
 		public MenuFlyoutItem? MenuFlyoutItem { get; } = null;
-
-		// Events
-
-		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
-		public delegate void QuickAccessCardNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
-		public delegate void QuickAccessCardPropertiesInvokedEventHandler(object sender, QuickAccessCardEventArgs e);
-		public event QuickAccessCardPropertiesInvokedEventHandler? CardPropertiesInvoked;
-		public event QuickAccessCardNewPaneInvokedEventHandler? CardNewPaneInvoked;
-		public event EventHandler? QuickAccessWidgetShowMultiPaneControlsInvoked;
-		public event QuickAccessCardInvokedEventHandler? CardInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Commands
 
@@ -57,6 +50,20 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public Task RefreshWidgetAsync()
 		{
 			return Task.CompletedTask;
+		}
+
+		public async Task OpenFileLocation(string path)
+		{
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			if (ctrlPressed)
+			{
+				await NavigationHelpers.OpenPathInNewTab(path);
+				return;
+			}
+
+			ContentPageContext.ShellPage!.NavigateWithArguments(
+				ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.GetLayoutType(path)!,
+				new() { NavPathParam = path });
 		}
 
 		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)
@@ -259,24 +266,44 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void OpenInNewPane(WidgetFolderCardItem? item)
 		{
-			if (item is null)
+			if (item is null || string.IsNullOrEmpty(item.Path))
 				return;
 
-			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
+			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Path);
 		}
 
 		private void OpenProperties(WidgetFolderCardItem? item)
 		{
-			if (!HomePageContext.IsAnyItemRightClicked || item is null)
+			if (!HomePageContext.IsAnyItemRightClicked || item is null || item.Item is null)
 				return;
 
 			var flyout = HomePageContext.ItemContextFlyoutMenu;
 			EventHandler<object> flyoutClosed = null!;
 
-			flyoutClosed = (s, e) =>
+			flyoutClosed = async (s, e) =>
 			{
 				flyout!.Closed -= flyoutClosed;
-				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
+
+				ListedItem listedItem = new(null!)
+				{
+					ItemPath = item.Item.Path,
+					ItemNameRaw = item.Item.Text,
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemType = "Folder".GetLocalizedResource(),
+				};
+
+				if (!string.Equals(item.Item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+				{
+					BaseStorageFolder matchingStorageFolder = await ContentPageContext.ShellPage!.FilesystemViewModel.GetFolderFromPathAsync(item.Item.Path);
+
+					if (matchingStorageFolder is not null)
+					{
+						var syncStatus = await ContentPageContext.ShellPage!.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+						listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+					}
+				}
+
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
 			};
 
 			flyout!.Closed += flyoutClosed;

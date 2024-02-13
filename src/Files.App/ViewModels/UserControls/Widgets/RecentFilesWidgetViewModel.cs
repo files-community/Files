@@ -5,8 +5,8 @@ using Files.App.UserControls.Widgets;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
-using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.ViewModels.UserControls.Widgets
@@ -59,10 +59,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Events
 
-		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
-		public delegate void RecentFileInvokedEventHandler(object sender, PathNavigationEventArgs e);
-		public event RecentFilesOpenLocationInvokedEventHandler? RecentFilesOpenLocationInvoked;
-		public event RecentFileInvokedEventHandler? RecentFileInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Constructor
@@ -78,7 +74,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(RemoveRecentItemAsync);
 			ClearAllItemsCommand = new AsyncRelayCommand(ClearRecentItemsAsync);
-			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
+			OpenFileLocationCommand = new AsyncRelayCommand<RecentItem>(OpenFileLocation);
 			OpenPropertiesCommand = new RelayCommand<RecentItem>(OpenProperties);
 		}
 
@@ -88,6 +84,42 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
+		}
+
+		public async Task OpenFileLocation(RecentItem? item)
+		{
+			if (item is null)
+				return;
+
+			try
+			{
+				if (item.IsFile)
+				{
+					var directoryName = SystemIO.Path.GetDirectoryName(item.RecentPath);
+
+					await Win32Helpers.InvokeWin32ComponentAsync(
+						item.RecentPath,
+						ContentPageContext.ShellPage!,
+						workingDirectory: directoryName ?? string.Empty);
+				}
+				else
+				{
+					ContentPageContext.ShellPage!.NavigateWithArguments(
+						ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.GetLayoutType(item.RecentPath)!,
+						new() { NavPathParam = item.RecentPath });
+				}
+			}
+			catch (UnauthorizedAccessException)
+			{
+				var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+
+				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+					dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+				await dialog.TryShowAsync();
+			}
+			catch (COMException) { }
+			catch (ArgumentException) { }
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -296,18 +328,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				_refreshRecentItemsSemaphore.Release();
 			}
-		}
-
-		private void OpenFileLocation(RecentItem? item)
-		{
-			if (item is null)
-				return;
-
-			RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
-			{
-				ItemPath = Directory.GetParent(item.RecentPath)?.FullName ?? string.Empty,
-				ItemName = Path.GetFileName(item.RecentPath),
-			});
 		}
 
 		private void OpenProperties(RecentItem? item)

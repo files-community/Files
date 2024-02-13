@@ -7,9 +7,9 @@ using System.IO;
 using System.Windows.Input;
 using Windows.Storage;
 
-namespace Files.App.UserControls.ViewModels.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
-	public sealed class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
+	public sealed class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Dependency injections
 
@@ -28,12 +28,7 @@ namespace Files.App.UserControls.ViewModels.Widgets
 
 		// Events
 
-		public delegate void FileTagsOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
-		public delegate void FileTagsNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 		public static event EventHandler<IEnumerable<WidgetFileTagCardItem>>? SelectedTaggedItemsChanged;
-		public event FileTagsOpenLocationInvokedEventHandler? FileTagsOpenLocationInvoked;
-		public event FileTagsNewPaneInvokedEventHandler? FileTagsNewPaneInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Commands
 
@@ -198,16 +193,21 @@ namespace Files.App.UserControls.ViewModels.Widgets
 
 		private void OpenInNewPane(WidgetCardItem? item)
 		{
-			FileTagsNewPaneInvoked?.Invoke(this, new() { Path = item?.Path ?? string.Empty });
+			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item?.Path ?? string.Empty);
 		}
 
 		private void OpenFileLocation(WidgetCardItem? item)
 		{
-			FileTagsOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
-			{
-				ItemPath = Directory.GetParent(item?.Path ?? string.Empty)?.FullName ?? string.Empty,
-				ItemName = Path.GetFileName(item?.Path ?? string.Empty),
-			});
+			var path = Directory.GetParent(item?.Path ?? string.Empty)?.FullName ?? string.Empty;
+
+			ContentPageContext.ShellPage!.NavigateWithArguments(
+				ContentPageContext.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(path),
+				new()
+				{
+					NavPathParam = path,
+					SelectItems = new[] { Path.GetFileName(item?.Path ?? string.Empty) },
+					AssociatedTabInstance = ContentPageContext.ShellPage!
+				});
 		}
 
 		// Disposer

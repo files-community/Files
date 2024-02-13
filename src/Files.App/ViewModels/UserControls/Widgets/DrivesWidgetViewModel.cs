@@ -2,14 +2,16 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
-	internal class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
+	internal class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Dependency injections
 
@@ -26,14 +28,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
 		public bool ShowMenuFlyout => true;
 		public MenuFlyoutItem? MenuFlyoutItem { get; }
-
-		// Events
-
-		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-		public event DrivesWidgetNewPaneInvokedEventHandler? DrivesWidgetNewPaneInvoked;
-		public event DrivesWidgetInvokedEventHandler? DrivesWidgetInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Commands
 
@@ -195,6 +189,23 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			await Task.WhenAll(updateTasks);
 		}
 
+		public async Task OpenFileLocation(string path)
+		{
+			if (await DriveHelpers.CheckEmptyDrive(path))
+				return;
+
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			if (ctrlPressed)
+			{
+				await NavigationHelpers.OpenPathInNewTab(path);
+				return;
+			}
+
+			ContentPageContext.ShellPage!.NavigateWithArguments(
+				ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.GetLayoutType(path)!,
+				new() { NavPathParam = path });
+		}
+
 		// Event methods
 
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -218,11 +229,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						Items.Remove(driveCard);
 				}
 			});
-		}
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		// Command methods
@@ -271,7 +277,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
 
-			DrivesWidgetNewPaneInvoked?.Invoke(this, new() { Path = item.Item.Path });
+			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Item.Path);
 		}
 
 		private async Task EjectDeviceAsync(WidgetDriveCardItem? item)

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.ViewModels.UserControls.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 
@@ -26,8 +27,8 @@ namespace Files.App.UserControls.Widgets
 
 		private void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			if (e.ClickedItem is WidgetFileTagCardItem itemViewModel)
-				itemViewModel.ClickCommand.Execute(null);
+			if (e.ClickedItem is WidgetFileTagCardItem item)
+				item.ClickCommand.Execute(null);
 		}
 	}
 }

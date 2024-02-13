@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Windows.Input;
 
-namespace Files.App.UserControls.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents base ViewModel for widget ViewModels.

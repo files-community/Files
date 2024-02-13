@@ -2,12 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.UserControls.Widgets;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -16,7 +13,7 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class DrivesWidget : UserControl
 	{
-		private DrivesWidgetViewModel ViewModel = new();
+		private DrivesWidgetViewModel ViewModel { get; } = new();
 
 		public DrivesWidget()
 		{
@@ -33,17 +30,7 @@ namespace Files.App.UserControls.Widgets
 			if (sender is not Button button || button.Tag.ToString() is not string path || string.IsNullOrEmpty(path))
 				return;
 
-			if (await DriveHelpers.CheckEmptyDrive(path))
-				return;
-
-			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			if (ctrlPressed)
-			{
-				await NavigationHelpers.OpenPathInNewTab(path);
-				return;
-			}
-
-			DrivesWidgetInvoked?.Invoke(this, new() { Path = path });
+			await ViewModel.OpenFileLocation(path);
 		}
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -68,7 +55,6 @@ namespace Files.App.UserControls.Widgets
 			await StorageSenseHelper.OpenStorageSenseAsync(path);
 		}
 
-		// TODO: This is used?
 		private void MenuFlyout_Opening(object sender, object e)
 		{
 			if (sender is not MenuFlyout menuFlyout ||

@@ -1,28 +1,104 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.UserControls.Widgets;
+using Files.App.ViewModels.UserControls.Widgets;
 using Microsoft.UI.Xaml;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
+using Windows.Foundation.Metadata;
+using Windows.Storage;
 
 namespace Files.App.ViewModels
 {
 	public class HomeViewModel : ObservableObject, IDisposable
 	{
-		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = new();
+		// Dependency injections
+
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+		// Fields
+
+		private QuickAccessWidgetViewModel? quickAccessWidget;
+		private DrivesWidgetViewModel? drivesWidget;
+		private FileTagsWidgetViewModel? fileTagsWidget;
+		private RecentFilesWidgetViewModel? recentFilesWidget;
+
+		// Properties
+
+		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = [];
+
+		public LayoutPreferencesManager LayoutPreferencesManager
+			=> ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings!;
+
+		// Commands
 
 		public ICommand HomePageLoadedCommand { get; }
 
+		// Events
 		public event EventHandler<RoutedEventArgs>? HomePageLoadedInvoked;
 		public event EventHandler? WidgetListRefreshRequestedInvoked;
+
+		// Constructor
 
 		public HomeViewModel()
 		{
 			HomePageLoadedCommand = new RelayCommand<RoutedEventArgs>(ExecuteHomePageLoadedCommand);
 		}
 
-		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
+		// Methods
+
+		public void ReloadWidgets()
 		{
-			HomePageLoadedInvoked?.Invoke(this, e!);
+			quickAccessWidget = WidgetsHelpers.TryGetWidget(this, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
+			drivesWidget = WidgetsHelpers.TryGetWidget(this, out bool shouldReloadDrivesWidget, drivesWidget);
+			fileTagsWidget = WidgetsHelpers.TryGetWidget(this, out bool shouldReloadFileTags, fileTagsWidget);
+			recentFilesWidget = WidgetsHelpers.TryGetWidget(this, out bool shouldReloadRecentFiles, recentFilesWidget);
+
+			// Reload QuickAccess widget
+			if (shouldReloadQuickAccessWidget && quickAccessWidget is not null)
+			{
+				InsertWidget(
+					new(
+						quickAccessWidget,
+						(value) => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded),
+					0);
+			}
+
+			// Reload DrivesWidget widget
+			if (shouldReloadDrivesWidget && drivesWidget is not null)
+			{
+				InsertWidget(
+					new(
+						drivesWidget,
+						(value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded),
+					1);
+			}
+
+			// Reload FileTags widget
+			if (shouldReloadFileTags && fileTagsWidget is not null)
+			{
+				InsertWidget(
+					new(
+						fileTagsWidget,
+						(value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded),
+					2);
+			}
+
+			// Reload RecentFiles widget
+			if (shouldReloadRecentFiles && recentFilesWidget is not null)
+			{
+				InsertWidget(
+					new(
+						recentFilesWidget,
+						(value) => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded),
+					3);
+			}
 		}
 
 		public void RefreshWidgetList()
@@ -107,6 +183,15 @@ namespace Files.App.ViewModels
 			int widgetIndex = WidgetItems.IndexOf(widgetModel);
 			WidgetItems.Move(widgetIndex, place);
 		}
+
+		// Command methods
+
+		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
+		{
+			HomePageLoadedInvoked?.Invoke(this, e!);
+		}
+
+		// Disposer
 
 		public void Dispose()
 		{

@@ -12,7 +12,7 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class RecentFilesWidget : UserControl
 	{
-		private RecentFilesWidgetViewModel ViewModel = new();
+		private RecentFilesWidgetViewModel ViewModel { get; } = new();
 
 		public RecentFilesWidget()
 		{
@@ -24,14 +24,12 @@ namespace Files.App.UserControls.Widgets
 			ViewModel.BuildContextFlyout(sender, e);
 		}
 
-		private void RecentItemsView_ItemClick(object sender, ItemClickEventArgs e)
+		private async void RecentItemsView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			var recentItem = e.ClickedItem as RecentItem;
-			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
-			{
-				ItemPath = recentItem.RecentPath,
-				IsFile = recentItem.IsFile
-			});
+			if (e.ClickedItem is not RecentItem item)
+				return;
+
+			await ViewModel.OpenFileLocation(item);
 		}
 	}
 }
