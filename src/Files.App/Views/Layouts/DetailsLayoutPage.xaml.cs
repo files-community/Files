@@ -22,6 +22,9 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
+		// Services
+		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+
 		// Constants
 
 		private const int TAG_TEXT_BLOCK = 1;
@@ -73,7 +76,7 @@ namespace Files.App.Views.Layouts
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
-			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
+			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * AppearanceSettingsService.DetailsViewItemHeight, null, true); // Scroll to index * item height
 		}
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
@@ -81,7 +84,7 @@ namespace Files.App.Views.Layouts
 			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
-				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, false);
+				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * AppearanceSettingsService.DetailsViewItemHeight, null, false);
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
 			}
 		}
@@ -139,6 +142,7 @@ namespace Files.App.Views.Layouts
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -167,6 +171,8 @@ namespace Files.App.Views.Layouts
 				IsTypeSearchResults = InstanceViewModel?.IsPageTypeSearchResults ?? false
 			});
 
+			SetItemContainerStyle();
+
 			RootGrid_SizeChanged(null, null);
 		}
 
@@ -179,6 +185,13 @@ namespace Files.App.Views.Layouts
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
+		}
+
+		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IAppearanceSettingsService.DetailsViewItemHeight))
+				SetItemContainerStyle();
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)
@@ -186,6 +199,14 @@ namespace Files.App.Views.Layouts
 			FileList.LayoutUpdated -= FileList_LayoutUpdated;
 			TryStartRenameNextItem(_nextItemToSelect!);
 			_nextItemToSelect = null;
+		}
+
+		private void SetItemContainerStyle()
+		{
+			if (AppearanceSettingsService.DetailsViewItemHeight < 32)
+				FileList.ItemContainerStyle = CompactListItemContainerStyle;
+			else
+				FileList.ItemContainerStyle = DefaultItemContainerStyle;
 		}
 
 		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)

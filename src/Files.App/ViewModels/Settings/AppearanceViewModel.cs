@@ -123,6 +123,20 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+		
+		public int DetailsViewItemHeight
+		{
+			get => UserSettingsService.AppearanceSettingsService.DetailsViewItemHeight;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.DetailsViewItemHeight)
+				{
+					UserSettingsService.AppearanceSettingsService.DetailsViewItemHeight = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
 
 		public string AppThemeBackgroundColor
 		{

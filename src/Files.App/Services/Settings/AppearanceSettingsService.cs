@@ -34,6 +34,12 @@ namespace Files.App.Services.Settings
 			get => Get(false);
 			set => Set(value);
 		}
+		
+		public int DetailsViewItemHeight
+		{
+			get => Get(32);
+			set => Set(value);
+		}
 
 		/// <inheritdoc/>
 		public String AppThemeBackgroundColor

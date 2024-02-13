@@ -24,6 +24,12 @@ namespace Files.Core.Services.Settings
 		/// </summary>
 		bool UseCompactStyles { get; set; }
 
+
+		/// <summary>
+		/// Gets or sets a value indicating the item height in the Details View.
+		/// </summary>
+		int DetailsViewItemHeight { get; set; }
+
 		/// <summary>
 		/// Gets or sets a value for the app theme background color.
 		/// </summary>

@@ -181,6 +181,19 @@
 					IsOn="{x:Bind ViewModel.UseCompactStyles, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
+
+			<!--  Details View density  -->
+			<local:SettingsBlockControl Title="Details View" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE62B;" />
+				</local:SettingsBlockControl.Icon>
+				<Slider
+					Width="160"
+					Maximum="40"
+					Minimum="28"
+					StepFrequency="4"
+					Value="{x:Bind ViewModel.DetailsViewItemHeight, Mode=TwoWay}" />
+			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
 </Page>
