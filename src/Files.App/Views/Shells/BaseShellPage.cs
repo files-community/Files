@@ -272,14 +272,14 @@ namespace Files.App.Views.Shells
 
 			if (!GitHelpers.IsExecutingGitAction)
 			{
-				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				ContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					headBranch);
 			}
 
-			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
-			ContentPage.UpdateSelectionSize();
+			ContentPage?.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			ContentPage?.UpdateSelectionSize();
 		}
 
 		protected async void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
