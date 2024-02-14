@@ -270,7 +270,7 @@ namespace Files.App.Views.Shells
 				}
 			}
 
-			var contentPage = ContentPage
+			var contentPage = ContentPage;
 			if (contentPage is null)
 				return;
 
