@@ -6,6 +6,9 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App.Views
 {
+	/// <summary>
+	/// Represents Files Home <see cref="Page"/>, shows widgets.
+	/// </summary>
 	public sealed partial class HomePage : Page, IDisposable
 	{
 		// Dependency injections
@@ -21,9 +24,6 @@ namespace Files.App.Views
 		public HomePage()
 		{
 			InitializeComponent();
-
-			HomeViewModel.HomePageLoadedInvoked += ViewModel_HomePageLoadedInvoked;
-			HomeViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
 		}
 
 		// Overridden methods
@@ -78,28 +78,16 @@ namespace Files.App.Views
 		{
 			CurrentShellPage.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 
-			Dispose();
-
 			base.OnNavigatedFrom(e);
 		}
 
 		// Event methods
 
-		private void ViewModel_HomePageLoadedInvoked(object? sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-		{
-			HomeViewModel.ReloadWidgets();
-		}
-
-		private void ViewModel_WidgetListRefreshRequestedInvoked(object? sender, EventArgs e)
-		{
-			HomeViewModel.ReloadWidgets();
-		}
-
 		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
 			CurrentShellPage.ToolbarViewModel.CanRefresh = false;
 
-			// Refresh all widgets
+			// Refresh inner content of all widgets
 			await Task.WhenAll(HomeViewModel.WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
 
 			CurrentShellPage.ToolbarViewModel.CanRefresh = true;
@@ -109,9 +97,6 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
-			HomeViewModel.HomePageLoadedInvoked -= ViewModel_HomePageLoadedInvoked;
-			HomeViewModel.WidgetListRefreshRequestedInvoked -= ViewModel_WidgetListRefreshRequestedInvoked;
-			CurrentShellPage.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 			HomeViewModel?.Dispose();
 		}
 	}

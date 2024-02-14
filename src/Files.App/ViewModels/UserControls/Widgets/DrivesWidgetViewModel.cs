@@ -81,10 +81,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewTab" },
 					Command = OpenInNewTabCommand!,
 					CommandParameter = item,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
@@ -92,10 +89,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewWindow" },
 					Command = OpenInNewWindowCommand!,
 					CommandParameter = item,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
@@ -110,10 +104,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconPinToFavorites" },
 					Command = PinToFavoritesCommand!,
 					CommandParameter = item,
 					ShowItem = !isPinned
@@ -121,10 +112,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconUnpinFromFavorites" },
 					Command = UnpinFromFavoritesCommand!,
 					CommandParameter = item,
 					ShowItem = isPinned
@@ -146,10 +134,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconProperties" },
 					Command = OpenPropertiesCommand!,
 					CommandParameter = item
 				},

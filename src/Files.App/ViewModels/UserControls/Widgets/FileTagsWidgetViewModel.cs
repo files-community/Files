@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
-using System.IO;
 using System.Windows.Input;
 using Windows.Storage;
 
@@ -197,14 +196,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void OpenFileLocation(WidgetCardItem? item)
 		{
-			var path = Directory.GetParent(item?.Path ?? string.Empty)?.FullName ?? string.Empty;
+			var path = SystemIO.Directory.GetParent(item?.Path ?? string.Empty)?.FullName ?? string.Empty;
 
 			ContentPageContext.ShellPage!.NavigateWithArguments(
 				ContentPageContext.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(path),
 				new()
 				{
 					NavPathParam = path,
-					SelectItems = new[] { Path.GetFileName(item?.Path ?? string.Empty) },
+					SelectItems = new[] { SystemIO.Path.GetFileName(item?.Path ?? string.Empty) },
 					AssociatedTabInstance = ContentPageContext.ShellPage!
 				});
 		}

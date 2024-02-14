@@ -1,16 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.UserControls.Widgets;
-using Microsoft.UI.Xaml;
-using System.Runtime.InteropServices;
 using System.Windows.Input;
-using Windows.Foundation.Metadata;
-using Windows.Storage;
 
 namespace Files.App.ViewModels
 {
+	/// <summary>
+	/// Represents view model of <see cref="HomePage"/>.
+	/// </summary>
 	public class HomeViewModel : ObservableObject, IDisposable
 	{
 		// Dependency injections
@@ -27,17 +24,13 @@ namespace Files.App.ViewModels
 
 		// Commands
 
-		public ICommand HomePageLoadedCommand { get; }
-
-		// Events
-		public event EventHandler<RoutedEventArgs>? HomePageLoadedInvoked;
-		public event EventHandler? WidgetListRefreshRequestedInvoked;
+		public ICommand LoadWidgetsCommand { get; }
 
 		// Constructor
 
 		public HomeViewModel()
 		{
-			HomePageLoadedCommand = new RelayCommand<RoutedEventArgs>(ExecuteHomePageLoadedCommand);
+			LoadWidgetsCommand = new RelayCommand(ReloadWidgets);
 		}
 
 		// Methods
@@ -128,12 +121,7 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
-		}
-
-		public bool AddWidget(WidgetContainerItem widgetModel)
-		{
-			return InsertWidget(widgetModel, WidgetItems.Count + 1);
+			ReloadWidgets();
 		}
 
 		public bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
@@ -170,9 +158,7 @@ namespace Files.App.ViewModels
 		public void RemoveWidgetAt(int index)
 		{
 			if (index < 0)
-			{
 				return;
-			}
 
 			WidgetItems[index].Dispose();
 			WidgetItems.RemoveAt(index);
@@ -193,19 +179,6 @@ namespace Files.App.ViewModels
 			}
 
 			RemoveWidgetAt(indexToRemove);
-		}
-
-		public void ReorderWidget(WidgetContainerItem widgetModel, int place)
-		{
-			int widgetIndex = WidgetItems.IndexOf(widgetModel);
-			WidgetItems.Move(widgetIndex, place);
-		}
-
-		// Command methods
-
-		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
-		{
-			HomePageLoadedInvoked?.Invoke(this, e!);
 		}
 
 		// Disposer

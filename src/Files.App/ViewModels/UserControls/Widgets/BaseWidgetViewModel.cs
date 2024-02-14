@@ -23,7 +23,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
-		// Fields
+		// Fields & Properties
 
 		protected string? _flyoutItemPath;
 
@@ -54,10 +54,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			// Create a new Flyout
-			var itemContextMenuFlyout = new CommandBarFlyout()
-			{
-				Placement = FlyoutPlacementMode.Full
-			};
+			var itemContextMenuFlyout = new CommandBarFlyout() { Placement = FlyoutPlacementMode.Full };
 
 			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;

@@ -2,10 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
-using System.IO;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
@@ -107,7 +105,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
 
-						Items.Insert(isPinned && lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						Items.Insert(isPinned && lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, SystemIO.Path.GetFileName(item.Text), isPinned)
 						{
 							Path = item.Path,
 						});
@@ -134,7 +132,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
 
-						Items.Insert(lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), true)
+						Items.Insert(lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, SystemIO.Path.GetFileName(item.Text), true)
 						{
 							Path = item.Path,
 						});
@@ -155,15 +153,17 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						var lastIndex = Items.IndexOf(cardItem);
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
-						Items.Insert(e.Pin && lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						Items.Insert(e.Pin && lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, SystemIO.Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
 						});
 					}
 				}
 				else
+				{
 					foreach (var itemToRemove in Items.ToList().Where(x => e.Paths.Contains(x.Path)))
 						Items.Remove(itemToRemove);
+				}
 			});
 		}
 
@@ -174,10 +174,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewTab" },
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
@@ -185,10 +182,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewWindow" },
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
@@ -203,10 +197,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconPinToFavorites" },
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
@@ -214,10 +205,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconUnpinFromFavorites" },
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
@@ -225,10 +213,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconProperties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
@@ -338,6 +323,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			ModifyItemAsync(this, new(new[] { item.Path ?? string.Empty }, false));
 		}
+
+		// Disposer
 
 		public void Dispose()
 		{

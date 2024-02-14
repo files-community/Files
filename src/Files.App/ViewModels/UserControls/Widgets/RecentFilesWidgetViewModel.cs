@@ -128,10 +128,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenWith",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenWith" },
 					Tag = "OpenWithPlaceholder",
 				},
 				new()
@@ -163,10 +160,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
+					OpacityIcon = new() { OpacityIconStyle = "ColorIconProperties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
