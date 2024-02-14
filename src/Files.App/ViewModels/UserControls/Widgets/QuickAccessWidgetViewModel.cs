@@ -36,6 +36,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			_ = InitializeWidget();
 
+			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 			Items.CollectionChanged += ItemsAdded_CollectionChanged;
 
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetFolderCardItem>(OpenInNewTabAsync);
@@ -72,8 +73,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
 
 			ModifyItemAsync(this, new(itemsToAdd.ToArray(), false) { Reset = true });
-
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 		}
 
 		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)
@@ -87,6 +86,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					// Find the intersection between the two lists and determine whether to remove or add
 					var originalItemsAdded = Items.ToList();
+
 					var itemsToRemove = originalItemsAdded.Where(x => !e.Paths.Contains(x.Path));
 					var itemsToAdd = e.Paths.Where(x => !originalItemsAdded.Any(y => y.Path == x));
 
@@ -100,10 +100,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						var interimItemsAdded = Items.ToList();
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 
-						if (interimItemsAdded.FirstOrDefault(x => !x.IsPinned) is not WidgetFolderCardItem cardItem)
-							continue;
+						var occurrence = interimItemsAdded.FirstOrDefault(x => !x.IsPinned);
+						var lastIndex = occurrence is null ? -1 : Items.IndexOf(occurrence);
 
-						var lastIndex = Items.IndexOf(cardItem);
 						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
@@ -315,7 +314,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			await QuickAccessService.PinToSidebarAsync(item.Path ?? string.Empty);
 
-			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path ?? string.Empty }, false));
+			ModifyItemAsync(this, new(new[] { item.Path ?? string.Empty }, false));
 
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
@@ -323,7 +322,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var recentItem = items.Where(x => !Items.ToList().Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
 			if (recentItem is not null)
 			{
-				ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
+				ModifyItemAsync(this, new(new[] { recentItem.FilePath }, true)
 				{
 					Pin = false
 				});
@@ -337,7 +336,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			await QuickAccessService.UnpinFromSidebarAsync(item.Path ?? string.Empty);
 
-			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path ?? string.Empty }, false));
+			ModifyItemAsync(this, new(new[] { item.Path ?? string.Empty }, false));
 		}
 
 		public void Dispose()
