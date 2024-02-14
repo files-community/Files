@@ -22,6 +22,7 @@
 					VerticalContentAlignment="Stretch"
 					AutomationProperties.Name="{x:Bind Item.Text, Mode=OneWay}"
 					Click="Button_Click"
+					DataContext="{x:Bind Mode=OneWay}"
 					PointerPressed="Button_PointerPressed"
 					RightTapped="Button_RightTapped"
 					Tag="{x:Bind Item.Path}"

@@ -23,10 +23,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
-		// Fields & Properties
-
-		protected string? _flyoutItemPath;
-
 		// Commands
 
 		protected ICommand RemoveRecentItemCommand { get; set; } = null!;
@@ -46,7 +42,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
-		public void BuildContextFlyout(object sender, RightTappedRoutedEventArgs e)
+		public void ShowContextFlyout(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
 			if (sender is not FrameworkElement element ||
@@ -58,9 +54,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
-
-			_flyoutItemPath = item.Path;
 
 			// Notify of the change on right clicked item
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
@@ -81,7 +74,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
 			// Load shell menu items
-			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath ?? string.Empty, itemContextMenuFlyout);
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.Path ?? string.Empty, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
