@@ -56,8 +56,9 @@
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="recent:RecentItem">
 					<Grid
+						Padding="2.5"
 						AutomationProperties.Name="{x:Bind Name}"
-						ColumnSpacing="16"
+						ColumnSpacing="14"
 						ToolTipService.ToolTip="{x:Bind RecentPath}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
