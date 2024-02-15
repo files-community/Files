@@ -35,7 +35,7 @@ namespace Files.App.Actions
 				HomePageContext.IsAnyItemRightClicked &&
 				HomePageContext.RightClickedItem?.Item is WidgetDriveCardItem &&
 				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					string.Equals(x.Path, ContentPageContext.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowFormatDrive ?? false);
 
 			return executableInHomePage;
 		}

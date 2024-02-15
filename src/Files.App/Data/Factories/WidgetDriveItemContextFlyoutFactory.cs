@@ -16,7 +16,7 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenDirectoryInNewPaneAction).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.PinItemToFavorites).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.UnpinItemFromFavorites).Build(),
-				//new ContextMenuFlyoutItemViewModelBuilder(CommandManager.EjectDriveAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.EjectDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenProperties).Build(),
 				new()

@@ -27,36 +27,18 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return ExecutableType switch
-			{
-				ActionExecutableType.DisplayPageContext
-					=> Win32API.OpenFormatDriveDialog(ContentPageContext.Folder?.ItemPath ?? string.Empty),
-				ActionExecutableType.HomePageContext
-					=> Win32API.OpenFormatDriveDialog(HomePageContext.RightClickedItem?.Path ?? string.Empty),
-				_ => Task.CompletedTask,
-			};
+			return Win32API.OpenFormatDriveDialog(HomePageContext.RightClickedItem?.Path ?? string.Empty);
 		}
 
 		private bool GetIsExecutable()
 		{
-			var executableInDisplayPage =
-				ContentPageContext.HasItem &&
-				!ContentPageContext.HasSelection &&
-				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					string.Equals(x.Path, ContentPageContext.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
-
-			if (executableInDisplayPage)
-				ExecutableType = ActionExecutableType.DisplayPageContext;
-
 			var executableInHomePage =
 				HomePageContext.IsAnyItemRightClicked &&
+				HomePageContext.RightClickedItem?.Item is WidgetDriveCardItem &&
 				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					string.Equals(x.Path, ContentPageContext.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowFormatDrive ?? false);
 
-			if (executableInHomePage)
-				ExecutableType = ActionExecutableType.HomePageContext;
-
-			return executableInDisplayPage || executableInHomePage;
+			return executableInHomePage;
 		}
 
 		public void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
