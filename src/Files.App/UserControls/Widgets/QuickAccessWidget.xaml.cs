@@ -21,7 +21,7 @@ namespace Files.App.UserControls.Widgets
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			ViewModel.ShowContextFlyout(e.OriginalSource, e);
+			ViewModel.ShowContextFlyout(e, WidgetSectionType.QuickAccess);
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)

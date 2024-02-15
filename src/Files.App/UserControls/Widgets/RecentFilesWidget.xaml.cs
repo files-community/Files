@@ -20,7 +20,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			ViewModel.ShowContextFlyout(e.OriginalSource, e);
+			ViewModel.ShowContextFlyout(e, WidgetSectionType.RecentItems);
 		}
 
 		private async void RecentItemsView_ItemClick(object sender, ItemClickEventArgs e)
