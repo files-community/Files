@@ -270,16 +270,20 @@ namespace Files.App.Views.Shells
 				}
 			}
 
+			var contentPage = ContentPage;
+			if (contentPage is null)
+				return;
+
 			if (!GitHelpers.IsExecutingGitAction)
 			{
-				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				contentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					headBranch);
 			}
 
-			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
-			ContentPage.UpdateSelectionSize();
+			contentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			contentPage.UpdateSelectionSize();
 		}
 
 		protected async void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
@@ -459,7 +463,7 @@ namespace Files.App.Views.Shells
 				await DisplayFilesystemConsentDialogAsync();
 		}
 
-		private TaskCompletionSource? _getDisplayNameTCS;
+		private volatile CancellationTokenSource? cts;
 
 		// Ensure that the path bar gets updated for user interaction
 		// whenever the path changes.We will get the individual directories from
@@ -468,25 +472,25 @@ namespace Files.App.Views.Shells
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
-				// We need override the path bar when searching, so we use TaskCompletionSource
-				// to ensure that the override occurs after GetDirectoryPathComponentsWithDisplayNameAsync.
-				var tcs = new TaskCompletionSource();
-				_getDisplayNameTCS = tcs;
+				cts = new CancellationTokenSource();
 
 				var components = await StorageFileExtensions.GetDirectoryPathComponentsWithDisplayNameAsync(newWorkingDir);
+
+				// Cancel if overrided by single item
+				if (cts.IsCancellationRequested)
+				{
+					cts = null;
+					return;
+				}
+				cts = null;
+
 				ToolbarViewModel.PathComponents.Clear();
 				foreach (var component in components)
 					ToolbarViewModel.PathComponents.Add(component);
-
-				tcs.TrySetResult();
-				_getDisplayNameTCS = null;
 			}
 			else
 			{
-				// Wait if awaiting GetDirectoryPathComponentsWithDisplayNameAsync
-				var tcs = _getDisplayNameTCS;
-				if (tcs is not null)
-					await tcs.Task;
+				cts?.Cancel();
 
 				// Clear the path UI
 				ToolbarViewModel.PathComponents.Clear();
@@ -625,7 +629,7 @@ namespace Files.App.Views.Shells
 
 		public void RemoveLastPageFromBackStack()
 		{
-			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
+			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.LastOrDefault());
 		}
 
 		public void RaiseContentChanged(IShellPage instance, CustomTabViewItemParameter args)

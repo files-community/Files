@@ -39,7 +39,7 @@ namespace Files.App.Views.Layouts
 
 		// Properties
 
-		protected override uint IconSize => Constants.DefaultIconSizes.Large;
+		protected override uint IconSize => Constants.ShellIconSizes.Large;
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
@@ -505,7 +505,7 @@ namespace Files.App.Views.Layouts
 					parent.FolderSettings.ToggleLayoutModeTiles(true);
 					break;
 				case FolderLayoutModes.GridView:
-					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize, true);
 					break;
 				case FolderLayoutModes.Adaptive:
 					parent.FolderSettings.ToggleLayoutModeAdaptive();

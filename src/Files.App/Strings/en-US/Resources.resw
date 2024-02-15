@@ -3523,7 +3523,21 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Change album cover</value>
   </data>
-  <data name="SecurityAppliesTo" xml:space="preserve">
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Failed to rename item</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Editing "{0}" requires additional permissions</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edit permissions</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files is still running in the background to improve startup performance.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Where did Files go?</value>
+  </data>  <data name="SecurityAppliesTo" xml:space="preserve">
     <value>Applies to</value>
   </data>
   <data name="SecurityPrincipal" xml:space="preserve">
@@ -3678,11 +3692,5 @@
   </data>
   <data name="SecurityWriteExtendedAttributes" xml:space="preserve">
     <value>Write extended attributes</value>
-  </data>
-  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
-    <value>Files is still running in the background to improve startup performance.</value>
-  </data>
-  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Where did Files go?</value>
-  </data>
+ </data>
 </root>

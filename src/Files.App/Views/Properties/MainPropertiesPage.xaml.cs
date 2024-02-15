@@ -33,6 +33,18 @@ namespace Files.App.Views.Properties
 				FlowDirection = FlowDirection.RightToLeft;
 		}
 
+		
+		// Navigates to specified properties page
+		public bool TryNavigateToPage(PropertiesNavigationViewItemType pageType)
+		{
+			var page = MainPropertiesViewModel.NavigationViewItems.FirstOrDefault(item => item.ItemType == pageType);
+			if (page is null)
+				return false;
+
+			MainPropertiesViewModel.SelectedNavigationViewItem = page;
+			return true;
+		}
+
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var parameter = (PropertiesPageNavigationParameter)e.Parameter;

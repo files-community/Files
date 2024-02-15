@@ -613,11 +613,11 @@ namespace Files.App.Data.Models
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeListView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightDetailsView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightListView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconHeightTilesView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconHeightGridView):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightColumnsView):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
@@ -948,7 +948,8 @@ namespace Files.App.Data.Models
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
-				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getIconOnly);
+				var getThumbnailOnly = !item.IsExecutable && !getIconOnly;
+				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getThumbnailOnly, getIconOnly);
 
 				if (!iconInfo.isIconCached)
 				{
@@ -965,7 +966,7 @@ namespace Files.App.Data.Models
 					var cancellationTokenSource = new CancellationTokenSource(3000);
 					while (!iconInfo.isIconCached)
 					{
-						iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getIconOnly);
+						iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getThumbnailOnly, getIconOnly);
 						cancellationTokenSource.Token.ThrowIfCancellationRequested();
 						await Task.Delay(500);
 					}
@@ -987,7 +988,7 @@ namespace Files.App.Data.Models
 							!item.IsExecutable
 						)
 						{
-							var fileIcon = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, true);
+							var fileIcon = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, false, true);
 							var bitmapImage = await fileIcon.IconData.ToBitmapAsync();
 							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), bitmapImage);
 						}
@@ -1008,7 +1009,7 @@ namespace Files.App.Data.Models
 			else
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 80;
-				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, getIconOnly);
+				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, false, getIconOnly);
 
 				if (iconInfo.IconData is not null)
 				{
@@ -1287,7 +1288,7 @@ namespace Files.App.Data.Models
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, Constants.DefaultIconSizes.ExtraLarge, false, true);
+				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, Constants.ShellIconSizes.ExtraLarge, false, false, true);
 
 				if (headerIconInfo is not null && !item.IsShortcut)
 					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
