@@ -70,11 +70,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			_ = RefreshWidgetAsync();
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
-
-			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(RemoveRecentItemAsync);
-			ClearAllItemsCommand = new AsyncRelayCommand(ClearRecentItemsAsync);
-			OpenFileLocationCommand = new AsyncRelayCommand<RecentItem>(OpenFileLocation);
-			OpenPropertiesCommand = new RelayCommand<RecentItem>(OpenProperties);
 		}
 
 		// Methods
@@ -228,80 +223,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		// Command methods
-
-		private async Task ClearRecentItemsAsync()
-		{
-			await _refreshRecentItemsSemaphore.WaitAsync();
-			try
-			{
-				Items.Clear();
-				bool success = App.RecentItemsManager.ClearRecentItems();
-
-				if (success)
-				{
-					IsEmptyRecentItemsTextVisible = true;
-				}
-			}
-			finally
-			{
-				_refreshRecentItemsSemaphore.Release();
-			}
-		}
-
-		private async Task RemoveRecentItemAsync(RecentItem? item)
-		{
-			if (item is null)
-				return;
-
-			await _refreshRecentItemsSemaphore.WaitAsync();
-
-			try
-			{
-				await App.RecentItemsManager.UnpinFromRecentFiles(item);
-			}
-			finally
-			{
-				_refreshRecentItemsSemaphore.Release();
-			}
-		}
-
-		private void OpenProperties(RecentItem? item)
-		{
-			var flyout = HomePageContext.ItemContextFlyoutMenu;
-
-			if (item is null || flyout is null)
-				return;
-
-			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = async (s, e) =>
-			{
-				flyout!.Closed -= flyoutClosed;
-
-				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path));
-				if (file is null)
-				{
-					ContentDialog dialog = new()
-					{
-						Title = "CannotAccessPropertiesTitle".GetLocalizedResource(),
-						Content = "CannotAccessPropertiesContent".GetLocalizedResource(),
-						PrimaryButtonText = "Ok".GetLocalizedResource()
-					};
-
-					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-					await dialog.TryShowAsync();
-				}
-				else
-				{
-					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null!, default);
-					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
-				}
-			};
-			flyout!.Closed += flyoutClosed;
 		}
 
 		// Disposer

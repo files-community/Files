@@ -24,10 +24,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool ShowMenuFlyout => false;
 		public MenuFlyoutItem? MenuFlyoutItem { get; } = null;
 
-		// Commands
-
-		public ICommand OpenInNewPaneCommand;
-
 		// Constructor
 
 		public QuickAccessWidgetViewModel()
@@ -36,13 +32,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 			Items.CollectionChanged += ItemsAdded_CollectionChanged;
-
-			OpenInNewTabCommand = new AsyncRelayCommand<WidgetFolderCardItem>(OpenInNewTabAsync);
-			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetFolderCardItem>(OpenInNewWindowAsync);
-			OpenInNewPaneCommand = new RelayCommand<WidgetFolderCardItem>(OpenInNewPane);
-			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetFolderCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetFolderCardItem>(UnpinFromFavoritesAsync);
 		}
 
 		// Methods
@@ -181,85 +170,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				foreach (WidgetFolderCardItem cardItem in e.NewItems!)
 					await cardItem.LoadCardThumbnailAsync();
 			}
-		}
-
-		// Command methods
-
-		private void OpenInNewPane(WidgetFolderCardItem? item)
-		{
-			if (item is null || string.IsNullOrEmpty(item.Path))
-				return;
-
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Path);
-		}
-
-		private void OpenProperties(WidgetFolderCardItem? item)
-		{
-			if (!HomePageContext.IsAnyItemRightClicked || item is null || item.Item is null)
-				return;
-
-			var flyout = HomePageContext.ItemContextFlyoutMenu;
-			EventHandler<object> flyoutClosed = null!;
-
-			flyoutClosed = async (s, e) =>
-			{
-				flyout!.Closed -= flyoutClosed;
-
-				ListedItem listedItem = new(null!)
-				{
-					ItemPath = item.Item.Path,
-					ItemNameRaw = item.Item.Text,
-					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemType = "Folder".GetLocalizedResource(),
-				};
-
-				if (!string.Equals(item.Item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-				{
-					BaseStorageFolder matchingStorageFolder = await ContentPageContext.ShellPage!.FilesystemViewModel.GetFolderFromPathAsync(item.Item.Path);
-
-					if (matchingStorageFolder is not null)
-					{
-						var syncStatus = await ContentPageContext.ShellPage!.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
-						listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-					}
-				}
-
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
-			};
-
-			flyout!.Closed += flyoutClosed;
-		}
-
-		public override async Task PinToFavoritesAsync(WidgetCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			await QuickAccessService.PinToSidebarAsync(item.Path ?? string.Empty);
-
-			ModifyItemAsync(this, new(new[] { item.Path ?? string.Empty }, false));
-
-			var items = (await QuickAccessService.GetPinnedFoldersAsync())
-				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
-
-			var recentItem = items.Where(x => !Items.ToList().Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
-			if (recentItem is not null)
-			{
-				ModifyItemAsync(this, new(new[] { recentItem.FilePath }, true)
-				{
-					Pin = false
-				});
-			}
-		}
-
-		public override async Task UnpinFromFavoritesAsync(WidgetCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			await QuickAccessService.UnpinFromSidebarAsync(item.Path ?? string.Empty);
-
-			ModifyItemAsync(this, new(new[] { item.Path ?? string.Empty }, false));
 		}
 
 		// Disposer

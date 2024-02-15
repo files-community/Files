@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System.Windows.Input;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -23,22 +22,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
-		// Commands
-
-		protected ICommand RemoveRecentItemCommand { get; set; } = null!;
-		protected ICommand ClearAllItemsCommand { get; set; } = null!;
-		protected ICommand OpenFileLocationCommand { get; set; } = null!;
-		protected ICommand OpenInNewTabCommand { get; set; } = null!;
-		protected ICommand OpenInNewWindowCommand { get; set; } = null!;
-		protected ICommand OpenPropertiesCommand { get; set; } = null!;
-		protected ICommand PinToFavoritesCommand { get; set; } = null!;
-		protected ICommand UnpinFromFavoritesCommand { get; set; } = null!;
-
 		// Events
 
 		public static event EventHandler<WidgetsRightClickedItemChangedEventArgs>? RightClickedItemChanged;
 
-		// Abstract methods
+		// Methods
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false);
 
@@ -79,39 +67,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			e.Handled = true;
 		}
 
-		// Command methods
-
-		public async Task OpenInNewTabAsync(WidgetCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
-		}
-
-		public async Task OpenInNewWindowAsync(WidgetCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
-		}
-
-		public virtual async Task PinToFavoritesAsync(WidgetCardItem? item)
-		{
-			if (item is null || string.IsNullOrEmpty(item.Path))
-				return;
-
-			await QuickAccessService.PinToSidebarAsync(item.Path);
-		}
-
-		public virtual async Task UnpinFromFavoritesAsync(WidgetCardItem? item)
-		{
-			if (item is null || string.IsNullOrEmpty(item.Path))
-				return;
-
-			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
-		}
+		// Event methods
 
 		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
 		{
