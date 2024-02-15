@@ -127,63 +127,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			});
 		}
 
-		// Command methods
-
-		private void FormatDrive(WidgetDriveCardItem? item)
-		{
-			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
-		}
-
-		private void OpenProperties(WidgetDriveCardItem? item)
-		{
-			if (item is null || !HomePageContext.IsAnyItemRightClicked)
-				return;
-
-			var flyout = HomePageContext.ItemContextFlyoutMenu;
-
-			EventHandler<object> flyoutClosed = null!;
-
-			flyoutClosed = (s, e) =>
-			{
-				flyout!.Closed -= flyoutClosed;
-				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, ContentPageContext.ShellPage!);
-			};
-
-			flyout!.Closed += flyoutClosed;
-		}
-
-		private void DisconnectNetworkDrive(WidgetDriveCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			NetworkDrivesViewModel.DisconnectNetworkDrive(item.Item);
-		}
-
-		private Task DoNetworkMapDriveAsync()
-		{
-			return NetworkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
-		}
-
-		private async Task OpenInNewPaneAsync(WidgetDriveCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
-				return;
-
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Item.Path);
-		}
-
-		private async Task EjectDeviceAsync(WidgetDriveCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
-		}
+		// Disposer
 
 		public void Dispose()
 		{
