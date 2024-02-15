@@ -311,5 +311,27 @@ namespace Files.App.Helpers
 
 			return dialog;
 		}
+
+		public static DynamicDialog GetFor_RenameRequiresHigherPermissions(string path)
+		{
+			DynamicDialog dialog = null!;
+			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "ItemRenameFailed".GetLocalizedResource(),
+				SubtitleText = string.Format("HigherPermissionsRequired".GetLocalizedResource(), path),
+				PrimaryButtonText = "OK".GetLocalizedResource(),
+				SecondaryButtonText = "EditPermissions".GetLocalizedResource(),
+				SecondaryButtonAction = (vm, e) =>
+				{
+					var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+					var item = context.ShellPage?.FilesystemViewModel.FilesAndFolders.FirstOrDefault(li => li.ItemPath.Equals(path));
+
+					if (context.ShellPage is not null && item is not null)
+						FilePropertiesHelpers.OpenPropertiesWindow(item, context.ShellPage, PropertiesNavigationViewItemType.Security);
+				}
+			});
+
+			return dialog;
+		}
 	}
 }

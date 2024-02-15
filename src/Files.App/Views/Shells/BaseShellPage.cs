@@ -270,16 +270,20 @@ namespace Files.App.Views.Shells
 				}
 			}
 
+			var contentPage = ContentPage;
+			if (contentPage is null)
+				return;
+
 			if (!GitHelpers.IsExecutingGitAction)
 			{
-				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				contentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					headBranch);
 			}
 
-			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
-			ContentPage.UpdateSelectionSize();
+			contentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			contentPage.UpdateSelectionSize();
 		}
 
 		protected async void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)

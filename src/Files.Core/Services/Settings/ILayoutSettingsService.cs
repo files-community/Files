@@ -8,26 +8,26 @@ namespace Files.Core.Services.Settings
 		/// <summary>
 		/// Default icon size in the Details View
 		/// </summary>
-		int DefaultIconSizeDetailsView { get; set; }
+		int DefaultIconHeightDetailsView { get; set; }
 
 		/// <summary>
 		/// Default icon size in the List View
 		/// </summary>
-		int DefaultIconSizeListView { get; set; }
+		int DefaultIconHeightListView { get; set; }
 
 		/// <summary>
 		/// Default icon size in the Tiles View
 		/// </summary>
-		int DefaulIconSizeTilesView { get; set; }
+		int DefaulIconHeightTilesView { get; set; }
 
 		/// <summary>
 		/// Default icon size in the Grid View
 		/// </summary>
-		int DefaulIconSizeGridView { get; set; }
+		int DefaulIconHeightGridView { get; set; }
 
 		/// <summary>
 		/// Default icon size in the Columns View
 		/// </summary>
-		int DefaultIconSizeColumnsView { get; set; }
+		int DefaultIconHeightColumnsView { get; set; }
 	}
 }

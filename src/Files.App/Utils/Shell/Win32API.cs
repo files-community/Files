@@ -217,14 +217,6 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private class IconAndOverlayCacheEntry
-		{
-			public byte[]? Icon { get; set; }
-
-			public byte[]? Overlay { get; set; }
-		}
-
-		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
 
 		private static readonly object _lock = new object();
 
@@ -254,20 +246,6 @@ namespace Files.App.Utils.Shell
 			byte[]? iconData = null, overlayData = null;
 			bool isIconCached = false;
 
-			var entry = _iconAndOverlayCache.GetOrAdd(path, _ => new());
-
-			if (entry.TryGetValue(thumbnailSize, out var cacheEntry))
-			{
-				iconData = cacheEntry.Icon;
-				overlayData = cacheEntry.Overlay;
-
-				if ((onlyGetOverlay && overlayData is not null) ||
-					(!getOverlay && iconData is not null) ||
-					(overlayData is not null && iconData is not null))
-				{
-					return (iconData, overlayData, true);
-				}
-			}
 
 			try
 			{
@@ -386,14 +364,7 @@ namespace Files.App.Utils.Shell
 			}
 			finally
 			{
-				cacheEntry = new IconAndOverlayCacheEntry();
-				if (iconData is not null)
-					cacheEntry.Icon = iconData;
 
-				if (overlayData is not null)
-					cacheEntry.Overlay = overlayData;
-
-				entry[thumbnailSize] = cacheEntry;
 			}
 		}
 
@@ -525,8 +496,6 @@ namespace Files.App.Utils.Shell
 			fcs.dwSize = (uint)Marshal.SizeOf(fcs);
 
 			var success = Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
-			if (success)
-				_iconAndOverlayCache[folderPath] = new();
 
 			return success;
 		}
@@ -537,8 +506,6 @@ namespace Files.App.Utils.Shell
 				return false;
 
 			var success = FileOperationsHelpers.SetLinkIcon(filePath, iconFile, iconIndex);
-			if (success)
-				_iconAndOverlayCache[filePath] = new();
 
 			return success;
 		}

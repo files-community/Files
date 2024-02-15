@@ -39,7 +39,7 @@ namespace Files.App.Views.Layouts
 			FolderSettings.LayoutMode == FolderLayoutModes.ListView ||
 			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
 				? 260
-				: FolderSettings.LayoutPreferencesItem.IconSizeGridView;
+				: FolderSettings.LayoutPreferencesItem.IconHeightGridView;
 
 		public bool IsPointerOver
 		{
@@ -134,7 +134,7 @@ namespace Files.App.Views.Layouts
 			if (FolderSettings != null)
 			{
 				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-				FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
+				FolderSettings.IconHeightChanged -= FolderSettings_IconHeightChanged;
 			}
 			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
 		}
@@ -193,18 +193,18 @@ namespace Files.App.Views.Layouts
 			// Set GridViewSize event handlers
 			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
-				FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
-				FolderSettings.IconSizeChanged += FolderSettings_IconSizeChanged;
+				FolderSettings.IconHeightChanged -= FolderSettings_IconHeightChanged;
+				FolderSettings.IconHeightChanged += FolderSettings_IconHeightChanged;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
-				FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
-				FolderSettings.IconSizeChanged += FolderSettings_IconSizeChanged;
+				FolderSettings.IconHeightChanged -= FolderSettings_IconHeightChanged;
+				FolderSettings.IconHeightChanged += FolderSettings_IconHeightChanged;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
-				FolderSettings.IconSizeChanged -= FolderSettings_IconSizeChanged;
-				FolderSettings.IconSizeChanged += FolderSettings_IconSizeChanged;
+				FolderSettings.IconHeightChanged -= FolderSettings_IconHeightChanged;
+				FolderSettings.IconHeightChanged += FolderSettings_IconHeightChanged;
 			}
 		}
 
@@ -441,7 +441,7 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
-		private async void FolderSettings_IconSizeChanged(object? sender, EventArgs e)
+		private async void FolderSettings_IconHeightChanged(object? sender, EventArgs e)
 		{
 			SetItemMinWidth();
 

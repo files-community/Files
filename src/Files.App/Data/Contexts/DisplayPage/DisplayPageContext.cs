@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using static Files.App.Constants.Browser.GridViewBrowser;
+using static Files.App.Constants;
 
 namespace Files.App.Data.Contexts
 {
@@ -34,13 +34,13 @@ namespace Files.App.Data.Contexts
 						viewModel.ToggleLayoutModeTiles(true);
 						break;
 					case LayoutTypes.GridSmall:
-						viewModel.ToggleLayoutModeGridView(GridViewSizeSmall, true);
+						viewModel.ToggleLayoutModeGridView(IconHeights.GridView.Small, true);
 						break;
 					case LayoutTypes.GridMedium:
-						viewModel.ToggleLayoutModeGridView(GridViewSizeMedium, true);
+						viewModel.ToggleLayoutModeGridView(IconHeights.GridView.Medium, true);
 						break;
 					case LayoutTypes.GridLarge:
-						viewModel.ToggleLayoutModeGridView(GridViewSizeLarge, true);
+						viewModel.ToggleLayoutModeGridView(IconHeights.GridView.Large, true);
 						break;
 					case LayoutTypes.Columns:
 						viewModel.ToggleLayoutModeColumnView(true);
@@ -174,7 +174,7 @@ namespace Files.App.Data.Contexts
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-				case nameof(LayoutPreferencesManager.IconSize):
+				case nameof(LayoutPreferencesManager.IconHeight):
 				case nameof(LayoutPreferencesManager.IsAdaptiveLayoutEnabled):
 					SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
 					break;
@@ -251,10 +251,10 @@ namespace Files.App.Data.Contexts
 				FolderLayoutModes.DetailsView => LayoutTypes.Details,
 				FolderLayoutModes.ListView => LayoutTypes.List,
 				FolderLayoutModes.TilesView => LayoutTypes.Tiles,
-				FolderLayoutModes.GridView => viewModel.IconSize switch
+				FolderLayoutModes.GridView => viewModel.IconHeight switch
 				{
-					< GridViewSizeMedium => LayoutTypes.GridSmall,
-					< GridViewSizeLarge => LayoutTypes.GridMedium,
+					< IconHeights.GridView.Medium => LayoutTypes.GridSmall,
+					< IconHeights.GridView.Large => LayoutTypes.GridMedium,
 					_ => LayoutTypes.GridLarge,
 				},
 				FolderLayoutModes.ColumnView => LayoutTypes.Columns,

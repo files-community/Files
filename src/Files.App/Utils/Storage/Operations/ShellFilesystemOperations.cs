@@ -657,7 +657,17 @@ namespace Files.App.Utils.Storage
 				if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (!asAdmin && await RequestAdminOperation())
-						return await RenameAsync(source, newName, collision, progress, cancellationToken, true);
+					{
+						var res = await RenameAsync(source, newName, collision, progress, cancellationToken, true);
+						if (res is null)
+						{
+							await DynamicDialogFactory
+								.GetFor_RenameRequiresHigherPermissions(source.Path)
+								.TryShowAsync();
+						}
+
+						return res;
+					}
 				}
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
