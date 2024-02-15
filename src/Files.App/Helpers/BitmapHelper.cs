@@ -28,8 +28,8 @@ namespace Files.App.Helpers
 				{
 					image.DecodePixelWidth = decodeSize;
 					image.DecodePixelHeight = decodeSize;
-					image.DecodePixelType = DecodePixelType.Logical;
 				}
+				image.DecodePixelType = DecodePixelType.Logical;
 				await image.SetSourceAsync(ms.AsRandomAccessStream());
 				return image;
 			}
