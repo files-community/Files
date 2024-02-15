@@ -30,17 +30,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public FileTagsWidgetViewModel()
 		{
-			_ = InitializeWidget();
+			_ = RefreshWidgetAsync();
 		}
 
 		// Methods
 
-		public Task RefreshWidgetAsync()
-		{
-			return Task.CompletedTask;
-		}
-
-		public async Task InitializeWidget()
+		public async Task RefreshWidgetAsync()
 		{
 			Containers.Clear();
 

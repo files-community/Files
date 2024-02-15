@@ -76,7 +76,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task RefreshWidgetAsync()
 		{
-			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
+			IsRecentFilesDisabledInWindows = !App.RecentItemsManager.CheckIsRecentFilesEnabled();
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 

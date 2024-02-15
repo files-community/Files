@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
 			// Notify of the change on right clicked item
-			OnRightClickedItemChanged(item, itemContextMenuFlyout);
+			RightClickedItemChanged?.Invoke(this, new(item, itemContextMenuFlyout));
 
 			// Get items for the flyout
 			var menuItems = sectionType switch
@@ -71,13 +71,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(item.Path ?? string.Empty, itemContextMenuFlyout);
 
 			e.Handled = true;
-		}
-
-		// Event methods
-
-		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
-		{
-			RightClickedItemChanged?.Invoke(this, new(item, flyout));
 		}
 	}
 }

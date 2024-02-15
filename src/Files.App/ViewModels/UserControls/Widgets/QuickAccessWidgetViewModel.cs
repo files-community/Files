@@ -4,8 +4,6 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
-using System.Windows.Input;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -28,17 +26,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public QuickAccessWidgetViewModel()
 		{
-			_ = InitializeWidget();
+			_ = RefreshWidgetAsync();
 
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
+			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_UpdateQuickAccessWidget;
 			Items.CollectionChanged += ItemsAdded_CollectionChanged;
 		}
 
 		// Methods
 
-		public Task RefreshWidgetAsync()
+		public async Task RefreshWidgetAsync()
 		{
-			return Task.CompletedTask;
+			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
+
+			QuickAccessManager_UpdateQuickAccessWidget(this, new(itemsToAdd.ToArray(), false) { Reset = true });
 		}
 
 		public async Task OpenFileLocation(string path)
@@ -55,14 +55,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new() { NavPathParam = path });
 		}
 
-		private async Task InitializeWidget()
-		{
-			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
+		// Event methods
 
-			ModifyItemAsync(this, new(itemsToAdd.ToArray(), false) { Reset = true });
-		}
-
-		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)
+		private async void QuickAccessManager_UpdateQuickAccessWidget(object? sender, ModifyQuickAccessEventArgs? e)
 		{
 			if (e is null || e.Paths is null || e.Items is null)
 				return;
@@ -156,9 +151,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			});
 		}
 
-		// Event methods
-
-		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (e.Action is NotifyCollectionChangedAction.Add)
 			{
@@ -171,7 +164,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public void Dispose()
 		{
-			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItemAsync;
+			App.QuickAccessManager.UpdateQuickAccessWidget -= QuickAccessManager_UpdateQuickAccessWidget;
 		}
 	}
 }
