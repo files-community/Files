@@ -1,17 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services;
-using Files.App.UserControls.Widgets;
-using Windows.Storage;
-
 namespace Files.App.Actions
 {
 	internal class PinItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
-		private readonly IQuickAccessService service;
+		private ActionExecutableType ExecutableType { get; set; }
 
 		public string Label
 			=> "PinToFavorites".GetLocalizedResource();
@@ -27,24 +25,32 @@ namespace Files.App.Actions
 
 		public PinItemAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (context.HasSelection)
+			switch (ExecutableType)
 			{
-				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
-
-				await service.PinToSidebarAsync(items);
-			}
-			else if (context.Folder is not null)
-			{
-				await service.PinToSidebarAsync(context.Folder.ItemPath);
+				case ActionExecutableType.DisplayPageContext:
+					{
+						if (ContentPageContext.HasSelection)
+						{
+							var items = ContentPageContext.SelectedItems.Select(x => x.ItemPath).ToArray();
+							await QuickAccessService.PinToSidebarAsync(items);
+						}
+						else if (ContentPageContext.Folder is not null)
+						{
+							await QuickAccessService.PinToSidebarAsync(ContentPageContext.Folder.ItemPath);
+						}
+						break;
+					}
+				case ActionExecutableType.HomePageContext:
+					{
+						await QuickAccessService.PinToSidebarAsync(HomePageContext.RightClickedItem!.Path ?? string.Empty);
+						break;
+					}
 			}
 		}
 
@@ -52,19 +58,26 @@ namespace Files.App.Actions
 		{
 			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
 
-			return context.HasSelection
-				? context.SelectedItems.All(IsPinnable)
-				: context.Folder is not null && IsPinnable(context.Folder);
+			var executableInDisplayPage =
+				ContentPageContext.HasSelection
+					? ContentPageContext.SelectedItems.All(x => !favorites.Contains(x.ItemPath)) && ContentPageContext.SelectedItems.All(x => x.IsFolder)
+					: ContentPageContext.Folder is not null && !favorites.Contains(ContentPageContext.Folder.ItemPath);
 
-			bool IsPinnable(ListedItem item)
-			{
-				return
-					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
-					!favorites.Contains(item.ItemPath);
-			}
+			if (executableInDisplayPage)
+				ExecutableType = ActionExecutableType.DisplayPageContext;
+
+			// TODO: Check if the item is folder
+			var executableInHomePage =
+				HomePageContext.IsAnyItemRightClicked &&
+				!favorites.Contains(HomePageContext.RightClickedItem!.Path ?? string.Empty);
+
+			if (executableInHomePage)
+				ExecutableType = ActionExecutableType.HomePageContext;
+
+			return executableInDisplayPage || executableInHomePage;
 		}
 
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

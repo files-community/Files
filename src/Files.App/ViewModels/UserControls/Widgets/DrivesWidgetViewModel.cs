@@ -72,6 +72,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
+				Items.Clear();
+
 				// Add newly added items
 				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
 				{
@@ -83,13 +85,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 						await cardItem.LoadCardThumbnailAsync();
 					}
-				}
-
-				// Duplications will be removed
-				foreach (WidgetDriveCardItem driveCard in Items.ToList())
-				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
-						Items.Remove(driveCard);
 				}
 
 				// Upload properties information
