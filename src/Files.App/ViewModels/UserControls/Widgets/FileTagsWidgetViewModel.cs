@@ -73,93 +73,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false)
 		{
-			return new List<ContextMenuFlyoutItemViewModel>()
-			{
-				new()
-				{
-					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenWith" },
-					Tag = "OpenWithPlaceholder",
-					ShowItem = !isFolder
-				},
-				new()
-				{
-					Text = "SendTo".GetLocalizedResource(),
-					Tag = "SendToPlaceholder",
-					ShowItem = !isFolder && UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},
-				new()
-				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewTab", },
-					Command = OpenInNewTabCommand,
-					CommandParameter = item,
-					ShowItem = isFolder
-				},
-				new()
-				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewWindow" },
-					Command = OpenInNewWindowCommand,
-					CommandParameter = item,
-					ShowItem = isFolder
-				},
-				new()
-				{
-					Text = "OpenFileLocation".GetLocalizedResource(),
-					Glyph = "\uED25",
-					Command = OpenFileLocationCommand,
-					CommandParameter = item,
-					ShowItem = !isFolder
-				},
-				new()
-				{
-					Text = "OpenInNewPane".GetLocalizedResource(),
-					Command = OpenInNewPaneCommand,
-					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
-				},
-				new()
-				{
-					Text = "PinToFavorites".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconPinToFavorites" },
-					Command = PinToFavoritesCommand,
-					CommandParameter = item,
-					ShowItem = !isPinned && isFolder
-				},
-				new()
-				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconUnpinFromFavorites" },
-					Command = UnpinFromFavoritesCommand,
-					CommandParameter = item,
-					ShowItem = isPinned && isFolder
-				},
-				new()
-				{
-					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconProperties" },
-					Command = OpenPropertiesCommand,
-					CommandParameter = item,
-					ShowItem = isFolder
-				},
-				new()
-				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
-					Tag = "OverflowSeparator",
-				},
-				new()
-				{
-					Text = "Loading".GetLocalizedResource(),
-					Glyph = "\xE712",
-					Items = [],
-					ID = "ItemOverflow",
-					Tag = "ItemOverflow",
-					IsEnabled = false,
-				}
-			}.Where(x => x.ShowItem).ToList();
+			return WidgetFileTagsItemContextFlyoutFactory.Generate(isFolder);
 		}
 
 		// Command methods

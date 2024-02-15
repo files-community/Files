@@ -40,7 +40,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Abstract methods
 
-		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
+		public abstract List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false);
 
 		public void ShowContextFlyout(object sender, RightTappedRoutedEventArgs e)
 		{
@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path ?? string.Empty));
+			var menuItems = GenerateContextFlyoutModel(QuickAccessService.IsItemPinned(item.Path ?? string.Empty));
 			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout

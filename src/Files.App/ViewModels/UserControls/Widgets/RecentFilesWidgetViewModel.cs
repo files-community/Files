@@ -121,64 +121,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			catch (ArgumentException) { }
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false)
 		{
-			return new List<ContextMenuFlyoutItemViewModel>()
-			{
-				new()
-				{
-					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenWith" },
-					Tag = "OpenWithPlaceholder",
-				},
-				new()
-				{
-					Text = "SendTo".GetLocalizedResource(),
-					Tag = "SendToPlaceholder",
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},
-				new()
-				{
-					Text = "RecentItemRemove/Text".GetLocalizedResource(),
-					Glyph = "\uE738",
-					Command = RemoveRecentItemCommand,
-					CommandParameter = item
-				},
-				new()
-				{
-					Text = "RecentItemClearAll/Text".GetLocalizedResource(),
-					Glyph = "\uE74D",
-					Command = ClearAllItemsCommand
-				},
-				new()
-				{
-					Text = "OpenFileLocation".GetLocalizedResource(),
-					Glyph = "\uED25",
-					Command = OpenFileLocationCommand,
-					CommandParameter = item
-				},
-				new()
-				{
-					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconProperties" },
-					Command = OpenPropertiesCommand,
-					CommandParameter = item
-				},
-				new()
-				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
-					Tag = "OverflowSeparator",
-				},
-				new()
-				{
-					Text = "Loading".GetLocalizedResource(),
-					Glyph = "\xE712",
-					Items = [],
-					ID = "ItemOverflow",
-					Tag = "ItemOverflow",
-					IsEnabled = false,
-				}
-			}.Where(x => x.ShowItem).ToList();
+			return WidgetRecentItemContextFlyoutFactory.Generate();
 		}
 
 		private async Task UpdateRecentItemsListAsync(NotifyCollectionChangedEventArgs e)

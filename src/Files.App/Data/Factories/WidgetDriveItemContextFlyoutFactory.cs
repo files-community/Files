@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Factories
 {
-	public static class WidgetDriveCardItemContextFlyoutFactory
+	public static class WidgetDriveItemContextFlyoutFactory
 	{
 		private static ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 

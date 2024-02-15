@@ -52,9 +52,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Methods
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false)
 		{
-			return WidgetDriveCardItemContextFlyoutFactory.Generate();
+			return WidgetDriveItemContextFlyoutFactory.Generate();
 		}
 
 		public async Task RefreshWidgetAsync()
