@@ -46,8 +46,6 @@ namespace Files.App.UserControls
 
 		public event EventHandler RefreshRequested;
 
-		public event EventHandler RefreshWidgetsRequested;
-
 		public void SwitchSearchBoxVisibility();
 
 		public ISearchBox SearchBox { get; }

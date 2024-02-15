@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Navigation;
 namespace Files.App.Views
 {
 	/// <summary>
-	/// Represents Files Home <see cref="Page"/>, shows widgets.
+	/// Represents Files home <see cref="Page"/>, shows widgets.
 	/// </summary>
 	public sealed partial class HomePage : Page, IDisposable
 	{

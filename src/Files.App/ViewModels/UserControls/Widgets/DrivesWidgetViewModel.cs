@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
-using System.Collections.Specialized;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
@@ -36,9 +35,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public DrivesWidgetViewModel()
 		{
-			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			_ = RefreshWidgetAsync();
 
-			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			DrivesViewModel.Drives.CollectionChanged += async (s, e) => await RefreshWidgetAsync();
 
 			MenuFlyoutItem = new()
 			{
@@ -51,12 +50,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		}
 
 		// Methods
-
-		public async Task RefreshWidgetAsync()
-		{
-			var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
-			await Task.WhenAll(updateTasks);
-		}
 
 		public async Task OpenFileLocation(string path)
 		{
@@ -75,16 +68,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new() { NavPathParam = path });
 		}
 
-		// Event methods
-
-		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		public async Task RefreshWidgetAsync()
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
+				// Add newly added items
 				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
 				{
 					if (!Items.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
+						// Add item
 						var cardItem = new WidgetDriveCardItem(drive);
 						Items.AddSorted(cardItem);
 
@@ -92,11 +85,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					}
 				}
 
+				// Duplications will be removed
 				foreach (WidgetDriveCardItem driveCard in Items.ToList())
 				{
 					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
 						Items.Remove(driveCard);
 				}
+
+				// Upload properties information
+				var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
+				await Task.WhenAll(updateTasks);
 			});
 		}
 

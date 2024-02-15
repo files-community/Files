@@ -57,8 +57,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public event EventHandler? RefreshRequested;
 
-		public event EventHandler? RefreshWidgetsRequested;
-
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
 
 		private bool _isCommandPaletteOpen;
@@ -203,14 +201,12 @@ namespace Files.App.ViewModels.UserControls
 
 		public ToolbarViewModel()
 		{
-			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			dragOverTimer = dispatcherQueue.CreateTimer();
 
 			SearchBox.Escaped += SearchRegion_Escaped;
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 		}
 
@@ -243,26 +239,6 @@ namespace Files.App.ViewModels.UserControls
 
 			ReleaseNotes = result;
 			IsReleaseNotesVisible = true;
-		}
-
-		public void RefreshWidgets()
-		{
-			RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
-		}
-
-		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
-		{
-			switch (e.SettingName)
-			{
-				// TODO: Move this to the widget page, it doesn't belong here.
-				case nameof(UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget):
-				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsWidget):
-				case nameof(UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget):
-					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
-					OnPropertyChanged(e.SettingName);
-					break;
-			}
 		}
 
 		private DispatcherQueue dispatcherQueue;
@@ -451,7 +427,6 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref pathControlDisplayText, value);
 		}
 
-		public ICommand RefreshClickCommand { get; }
 		public ICommand ViewReleaseNotesAsyncCommand { get; }
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
@@ -1033,7 +1008,6 @@ namespace Files.App.ViewModels.UserControls
 		public void Dispose()
 		{
 			SearchBox.Escaped -= SearchRegion_Escaped;
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 		}
 	}
 }

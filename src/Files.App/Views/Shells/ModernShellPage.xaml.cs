@@ -66,16 +66,9 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
-			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
-		}
-
-		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
-		{
-			if (ItemDisplayFrame?.Content is HomePage currentPage)
-				currentPage.HomeViewModel.RefreshWidgetList();
 		}
 
 		protected override void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
@@ -279,7 +272,6 @@ namespace Files.App.Views.Shells
 
 		public override void Dispose()
 		{
-			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
 			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
 			_navigationInteractionTracker.Dispose();
 

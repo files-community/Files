@@ -30,6 +30,8 @@ namespace Files.App.ViewModels
 
 		public HomeViewModel()
 		{
+			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
 			LoadWidgetsCommand = new RelayCommand(ReloadWidgets);
 		}
 
@@ -179,6 +181,21 @@ namespace Files.App.ViewModels
 			}
 
 			RemoveWidgetAt(indexToRemove);
+		}
+
+		// Event methods
+
+		private async void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
+		{
+			switch (e.SettingName)
+			{
+				case nameof(UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget):
+					await Task.WhenAll(WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
+					break;
+			}
 		}
 
 		// Disposer
