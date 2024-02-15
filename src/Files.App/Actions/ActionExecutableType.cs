@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Defines constants that specifies what context the action can be executed through.
+	/// </summary>
 	public enum ActionExecutableType
 	{
 		/// <summary>

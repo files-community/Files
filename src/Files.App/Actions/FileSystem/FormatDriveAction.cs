@@ -1,15 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
-
 namespace Files.App.Actions
 {
 	internal class FormatDriveAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-		private readonly DrivesViewModel drivesViewModel;
+		private ActionExecutableType ExecutableType { get; set; }
 
 		public string Label
 			=> "FormatDriveText".GetLocalizedResource();
@@ -17,26 +17,49 @@ namespace Files.App.Actions
 		public string Description
 			=> "FormatDriveDescription".GetLocalizedResource();
 
-		public bool IsExecutable =>
-			context.HasItem &&
-			!context.HasSelection &&
-			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+		public bool IsExecutable
+			=> GetIsExecutable();
 
 		public FormatDriveAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			return Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
+			return ExecutableType switch
+			{
+				ActionExecutableType.DisplayPageContext
+					=> Win32API.OpenFormatDriveDialog(ContentPageContext.Folder?.ItemPath ?? string.Empty),
+				ActionExecutableType.HomePageContext
+					=> Win32API.OpenFormatDriveDialog(HomePageContext.RightClickedItem?.Path ?? string.Empty),
+				_ => Task.CompletedTask,
+			};
 		}
 
-		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private bool GetIsExecutable()
+		{
+			var executableInDisplayPage =
+				ContentPageContext.HasItem &&
+				!ContentPageContext.HasSelection &&
+				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+					string.Equals(x.Path, ContentPageContext.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+
+			if (executableInDisplayPage)
+				ExecutableType = ActionExecutableType.DisplayPageContext;
+
+			var executableInHomePage =
+				HomePageContext.IsAnyItemRightClicked &&
+				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+					string.Equals(x.Path, ContentPageContext.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+
+			if (executableInHomePage)
+				ExecutableType = ActionExecutableType.HomePageContext;
+
+			return executableInDisplayPage || executableInHomePage;
+		}
+
+		public void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasItem))
 				OnPropertyChanged(nameof(IsExecutable));
