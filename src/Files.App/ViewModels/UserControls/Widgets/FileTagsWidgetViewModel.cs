@@ -59,11 +59,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false)
-		{
-			return WidgetFileTagsItemContextFlyoutFactory.Generate(isFolder);
-		}
-
 		// Disposer
 
 		public void Dispose()

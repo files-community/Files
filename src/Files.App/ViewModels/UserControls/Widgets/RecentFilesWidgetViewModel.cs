@@ -116,11 +116,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			catch (ArgumentException) { }
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false)
-		{
-			return WidgetRecentItemContextFlyoutFactory.Generate();
-		}
-
 		private async Task UpdateRecentItemsListAsync(NotifyCollectionChangedEventArgs e)
 		{
 			try

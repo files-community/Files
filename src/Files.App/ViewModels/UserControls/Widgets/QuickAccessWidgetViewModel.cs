@@ -156,11 +156,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			});
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false)
-		{
-			return WidgetQuickAccessItemContextFlyoutFactory.Generate();
-		}
-
 		// Event methods
 
 		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

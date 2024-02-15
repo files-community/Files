@@ -52,11 +52,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Methods
 
-		public override List<ContextMenuFlyoutItemViewModel> GenerateContextFlyoutModel(bool isFolder = false)
-		{
-			return WidgetDriveItemContextFlyoutFactory.Generate();
-		}
-
 		public async Task RefreshWidgetAsync()
 		{
 			var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
