@@ -30,11 +30,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Commands
 
-		public ICommand FormatDriveCommand;
-		public ICommand EjectDeviceCommand;
-		public ICommand DisconnectNetworkDriveCommand;
-		public ICommand OpenInNewPaneCommand;
-		public ICommand MapNetworkDriveCommand;
+		public ICommand OpenMapNetworkDriveDialogCommand;
 
 		// Constructor
 
@@ -48,34 +44,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				Icon = new FontIcon() { Glyph = "\uE710" },
 				Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
-				Command = MapNetworkDriveCommand
+				Command = OpenMapNetworkDriveDialogCommand
 			};
 
-			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTabAsync);
-			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
-			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(OpenProperties);
-			FormatDriveCommand = new RelayCommand<WidgetDriveCardItem>(FormatDrive);
-			EjectDeviceCommand = new AsyncRelayCommand<WidgetDriveCardItem>(EjectDeviceAsync);
-			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(OpenInNewPaneAsync);
-			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync);
-			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(DisconnectNetworkDrive);
+			OpenMapNetworkDriveDialogCommand = new AsyncRelayCommand(ExecuteOpenMapNetworkDriveDialogCommand);
 		}
 
 		// Methods
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			var drive =
-				Items.Where(x =>
-					string.Equals(
-						PathNormalization.NormalizePath(x.Path ?? string.Empty),
-						PathNormalization.NormalizePath(item.Path ?? string.Empty),
-						StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-
-			var options = drive?.Item.MenuOptions;
-
 			return WidgetDriveCardItemContextFlyoutFactory.Generate();
 		}
 
@@ -125,6 +103,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						Items.Remove(driveCard);
 				}
 			});
+		}
+
+		// Command methods
+
+		private Task ExecuteOpenMapNetworkDriveDialogCommand()
+		{
+			return NetworkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
 		}
 
 		// Disposer
