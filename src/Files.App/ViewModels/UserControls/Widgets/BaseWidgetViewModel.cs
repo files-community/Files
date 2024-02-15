@@ -40,6 +40,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Closed += (sender, e) => RightClickedItemChanged?.Invoke(this, new(null, null));
 
 			// Notify of the change on right clicked item
 			RightClickedItemChanged?.Invoke(this, new(item, itemContextMenuFlyout));
@@ -51,7 +52,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				WidgetSectionType.Drive => WidgetDriveItemContextFlyoutFactory.Generate(),
 				WidgetSectionType.FileTags => WidgetFileTagsItemContextFlyoutFactory.Generate(),
 				WidgetSectionType.RecentItems => WidgetRecentItemContextFlyoutFactory.Generate(),
-				_ => Array.Empty<ContextMenuFlyoutItemViewModel>().ToList(),
+				_ => Enumerable.Empty<ContextMenuFlyoutItemViewModel>().ToList(),
 			};
 
 			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);

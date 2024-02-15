@@ -10,10 +10,14 @@ namespace Files.App.Data.Contexts
 	{
 		private static readonly IImmutableList<WidgetFileTagCardItem> emptyTaggedItems = Enumerable.Empty<WidgetFileTagCardItem>().ToImmutableList();
 
-		public bool IsAnyItemRightClicked => rightClickedItem is not null;
+		public bool IsAnyItemRightClicked => RightClickedItem is not null;
 
 		private WidgetCardItem? rightClickedItem = null;
-		public WidgetCardItem? RightClickedItem => rightClickedItem;
+		public WidgetCardItem? RightClickedItem
+		{
+			get => rightClickedItem;
+			set => SetProperty(ref rightClickedItem, value);
+		}
 
 		private CommandBarFlyout? itemContextFlyoutMenu = null;
 		public CommandBarFlyout? ItemContextFlyoutMenu => itemContextFlyoutMenu;
@@ -38,8 +42,8 @@ namespace Files.App.Data.Contexts
 
 		private void HomePageWidget_RightClickedItemChanged(object? sender, WidgetsRightClickedItemChangedEventArgs e)
 		{
-			if (SetProperty(ref rightClickedItem, e.Item, nameof(RightClickedItem)))
-				OnPropertyChanged(nameof(IsAnyItemRightClicked));
+			RightClickedItem = e.Item;
+			OnPropertyChanged(nameof(IsAnyItemRightClicked));
 
 			SetProperty(ref itemContextFlyoutMenu, e.Flyout, nameof(ItemContextFlyoutMenu));
 		}
