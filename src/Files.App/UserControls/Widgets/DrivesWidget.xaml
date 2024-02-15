@@ -10,116 +10,118 @@
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
-	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+	<Grid>
+		<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
-		<ItemsRepeater.ItemTemplate>
-			<DataTemplate x:DataType="dataitems:WidgetDriveCardItem">
-				<Button
-					Padding="8"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					AutomationProperties.Name="{x:Bind Item.Text, Mode=OneWay}"
-					Click="Button_Click"
-					DataContext="{x:Bind Mode=OneWay}"
-					PointerPressed="Button_PointerPressed"
-					RightTapped="Button_RightTapped"
-					Tag="{x:Bind Item.Path}"
-					ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
-					<Grid ColumnSpacing="8">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="32" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="*" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="*" />
-						</Grid.RowDefinitions>
+			<ItemsRepeater.ItemTemplate>
+				<DataTemplate x:DataType="dataitems:WidgetDriveCardItem">
+					<Button
+						Padding="8"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						HorizontalContentAlignment="Stretch"
+						VerticalContentAlignment="Stretch"
+						AutomationProperties.Name="{x:Bind Item.Text, Mode=OneWay}"
+						Click="Button_Click"
+						DataContext="{x:Bind Mode=OneWay}"
+						PointerPressed="Button_PointerPressed"
+						RightTapped="Button_RightTapped"
+						Tag="{x:Bind Item.Path}"
+						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
+						<Grid ColumnSpacing="8">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="32" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
 
-						<Image
-							Grid.RowSpan="3"
-							Grid.Column="0"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							x:Phase="1"
-							Source="{x:Bind Thumbnail, Mode=OneWay}"
-							Stretch="Uniform" />
-
-						<TextBlock
-							x:Name="ItemLocationName"
-							Grid.Row="0"
-							Grid.Column="1"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyStrongTextBlockStyle}"
-							Text="{x:Bind Item.Text, Mode=OneWay}"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<ProgressBar
-							x:Name="DriveSpaceProgressBar"
-							Grid.Row="1"
-							Grid.Column="1"
-							VerticalAlignment="Stretch"
-							VerticalContentAlignment="Stretch"
-							x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
-							AutomationProperties.AccessibilityView="Raw"
-							Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
-							Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
-
-						<Button
-							x:Name="GoToStorageSense"
-							Grid.RowSpan="3"
-							Grid.Column="2"
-							Width="28"
-							Height="28"
-							Margin="4,0,0,0"
-							Padding="0"
-							HorizontalContentAlignment="Center"
-							VerticalContentAlignment="Center"
-							x:Load="{x:Bind Item.ShowStorageSense, Mode=OneWay}"
-							AutomationProperties.Name="{helpers:ResourceString Name=OpenStorageSense}"
-							Background="Transparent"
-							BorderBrush="Transparent"
-							Click="GoToStorageSense_Click"
-							Tag="{x:Bind Item.Path}"
-							ToolTipService.ToolTip="{helpers:ResourceString Name=OpenStorageSense}">
-							<FontIcon
+							<Image
+								Grid.RowSpan="3"
+								Grid.Column="0"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
-								FontSize="14"
-								Glyph="&#xE946;" />
-						</Button>
+								x:Phase="1"
+								Source="{x:Bind Thumbnail, Mode=OneWay}"
+								Stretch="Uniform" />
 
-						<TextBlock
-							x:Name="DriveSpaceTextBlock"
-							Grid.Row="2"
-							Grid.Column="1"
-							VerticalAlignment="Center"
-							x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
-							x:Phase="1"
-							Style="{StaticResource CaptionTextBlockStyle}"
-							Text="{x:Bind Item.SpaceText, Mode=OneWay}"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap"
-							ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}" />
-					</Grid>
-				</Button>
-			</DataTemplate>
-		</ItemsRepeater.ItemTemplate>
+							<TextBlock
+								x:Name="ItemLocationName"
+								Grid.Row="0"
+								Grid.Column="1"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
+								Style="{StaticResource BodyStrongTextBlockStyle}"
+								Text="{x:Bind Item.Text, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
 
-		<ItemsRepeater.Layout>
-			<UniformGridLayout
-				ItemsStretch="None"
-				MinColumnSpacing="8"
-				MinItemHeight="72"
-				MinItemWidth="240"
-				MinRowSpacing="8"
-				Orientation="Horizontal" />
-		</ItemsRepeater.Layout>
+							<ProgressBar
+								x:Name="DriveSpaceProgressBar"
+								Grid.Row="1"
+								Grid.Column="1"
+								VerticalAlignment="Stretch"
+								VerticalContentAlignment="Stretch"
+								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
+								AutomationProperties.AccessibilityView="Raw"
+								Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
+								Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
 
-	</ItemsRepeater>
+							<Button
+								x:Name="GoToStorageSense"
+								Grid.RowSpan="3"
+								Grid.Column="2"
+								Width="28"
+								Height="28"
+								Margin="4,0,0,0"
+								Padding="0"
+								HorizontalContentAlignment="Center"
+								VerticalContentAlignment="Center"
+								x:Load="{x:Bind Item.ShowStorageSense, Mode=OneWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=OpenStorageSense}"
+								Background="Transparent"
+								BorderBrush="Transparent"
+								Click="GoToStorageSense_Click"
+								Tag="{x:Bind Item.Path}"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=OpenStorageSense}">
+								<FontIcon
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									FontSize="14"
+									Glyph="&#xE946;" />
+							</Button>
+
+							<TextBlock
+								x:Name="DriveSpaceTextBlock"
+								Grid.Row="2"
+								Grid.Column="1"
+								VerticalAlignment="Center"
+								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
+								x:Phase="1"
+								Style="{StaticResource CaptionTextBlockStyle}"
+								Text="{x:Bind Item.SpaceText, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap"
+								ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}" />
+						</Grid>
+					</Button>
+				</DataTemplate>
+			</ItemsRepeater.ItemTemplate>
+
+			<ItemsRepeater.Layout>
+				<UniformGridLayout
+					ItemsStretch="None"
+					MinColumnSpacing="8"
+					MinItemHeight="72"
+					MinItemWidth="240"
+					MinRowSpacing="8"
+					Orientation="Horizontal" />
+			</ItemsRepeater.Layout>
+
+		</ItemsRepeater>
+	</Grid>
 </UserControl>

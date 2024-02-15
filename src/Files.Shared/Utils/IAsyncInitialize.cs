@@ -16,6 +16,6 @@ namespace Files.Shared.Utils
         /// </summary>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        Task InitAsync(CancellationToken cancellationToken = default);
+        Task InitializeAsync(CancellationToken cancellationToken = default);
     }
 }

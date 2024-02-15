@@ -42,7 +42,7 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 		}
 
 		/// <inheritdoc/>
-		public async Task InitAsync(CancellationToken cancellationToken = default)
+		public async Task InitializeAsync(CancellationToken cancellationToken = default)
 		{
 			await foreach (var item in _fileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
 			{

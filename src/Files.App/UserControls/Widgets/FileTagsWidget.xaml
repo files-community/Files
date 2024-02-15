@@ -64,7 +64,6 @@
 						<!--  Additional Actions  -->
 						<Button
 							Grid.Column="2"
-							Margin="4"
 							Background="Transparent"
 							BorderBrush="Transparent"
 							ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
@@ -96,14 +95,17 @@
 						Grid.Row="1"
 						Padding="4"
 						HorizontalAlignment="Stretch"
+						HorizontalContentAlignment="Stretch"
 						DesiredWidth="180"
 						IsItemClickEnabled="True"
 						ItemClick="FileTagItem_ItemClick"
 						ItemsSource="{x:Bind Tags}"
 						RightTapped="AdaptiveGridView_RightTapped"
 						ScrollViewer.VerticalScrollBarVisibility="Hidden"
+						ScrollViewer.VerticalScrollMode="Disabled"
 						SelectionMode="None"
 						StretchContentForSingleRow="False">
+
 						<controls:AdaptiveGridView.ItemContainerStyle>
 							<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 								<Setter Property="Padding" Value="8,0" />
@@ -113,10 +115,7 @@
 
 						<controls:AdaptiveGridView.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:WidgetFileTagCardItem">
-								<Grid
-									ColumnSpacing="8"
-									DataContext="{x:Bind}"
-									ToolTipService.ToolTip="{x:Bind Path}">
+								<Grid ColumnSpacing="8" ToolTipService.ToolTip="{x:Bind Path}">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
 										<ColumnDefinition Width="*" />
@@ -136,9 +135,11 @@
 										VerticalAlignment="Center"
 										Text="{x:Bind Name, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis" />
+
 								</Grid>
 							</DataTemplate>
 						</controls:AdaptiveGridView.ItemTemplate>
+
 					</controls:AdaptiveGridView>
 
 				</Grid>

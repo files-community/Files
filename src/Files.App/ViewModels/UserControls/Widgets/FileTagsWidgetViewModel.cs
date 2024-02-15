@@ -60,15 +60,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			await foreach (var item in FileTagsService.GetTagsAsync())
 			{
-				var container = new WidgetFileTagsContainerItem(item.Uid)
+				var container = new WidgetFileTagsContainerItem()
 				{
+					TagId = item.Uid,
 					Name = item.Name,
 					Color = item.Color
 				};
 
 				Containers.Add(container);
 
-				_ = container.InitAsync();
+				_ = container.InitializeAsync();
 			}
 		}
 

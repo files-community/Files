@@ -31,11 +31,11 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 		{
 			Containers.Clear();
 
-			await InitAsync();
+			await InitializeAsync();
 		}
 
 		/// <inheritdoc/>
-		public async Task InitAsync(CancellationToken cancellationToken = default)
+		public async Task InitializeAsync(CancellationToken cancellationToken = default)
 		{
 			await foreach (var item in _fileTagsService.GetTagsAsync(cancellationToken))
 			{
@@ -47,7 +47,7 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 
 				Containers.Add(container);
 
-				_ = container.InitAsync(cancellationToken);
+				_ = container.InitializeAsync(cancellationToken);
 			}
 		}
 	}

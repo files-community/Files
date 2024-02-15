@@ -17,10 +17,6 @@ namespace Files.App.Data.Items
 
 		private readonly IStorable _associatedStorable;
 
-		// A workaround for lack of MVVM-compliant navigation support.
-		// This workaround must be kept until further refactor of navigation code is completed.
-		private readonly Func<string, Task> _openAction;
-
 		// Properties
 
 		public bool IsFolder
@@ -59,10 +55,10 @@ namespace Files.App.Data.Items
 			_Path = associatedStorable.TryGetPath();
 			Item = this;
 
-			ClickCommand = new AsyncRelayCommand<CancellationToken>(ClickAsync);
+			ClickCommand = new AsyncRelayCommand(ClickAsync);
 		}
 
-		private Task ClickAsync(CancellationToken cancellationToken)
+		private Task ClickAsync()
 		{
 			return NavigationHelpers.OpenPath(_associatedStorable.Id, ContentPageContext.ShellPage!);
 		}

@@ -9,72 +9,74 @@
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
-	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+	<Grid>
+		<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
-		<ItemsRepeater.ItemTemplate>
-			<DataTemplate x:DataType="dataitems:WidgetFolderCardItem">
-				<Button
-					Padding="8"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					AutomationProperties.Name="{x:Bind AutomationProperties}"
-					Click="Button_Click"
-					CornerRadius="{StaticResource ControlCornerRadius}"
-					DataContext="{x:Bind}"
-					PointerPressed="Button_PointerPressed"
-					RightTapped="Button_RightTapped"
-					Tag="{x:Bind Path}">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
+			<ItemsRepeater.ItemTemplate>
+				<DataTemplate x:DataType="dataitems:WidgetFolderCardItem">
+					<Button
+						Padding="8"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						HorizontalContentAlignment="Stretch"
+						VerticalContentAlignment="Stretch"
+						AutomationProperties.Name="{x:Bind AutomationProperties}"
+						Click="Button_Click"
+						CornerRadius="{StaticResource ControlCornerRadius}"
+						DataContext="{x:Bind}"
+						PointerPressed="Button_PointerPressed"
+						RightTapped="Button_RightTapped"
+						Tag="{x:Bind Path}">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
 
-						<FontIcon
-							x:Name="PinIcon"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Top"
-							x:Load="{x:Bind IsPinned, Mode=OneWay}"
-							FontSize="12"
-							Glyph="&#xE840;" />
+							<FontIcon
+								x:Name="PinIcon"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Top"
+								x:Load="{x:Bind IsPinned, Mode=OneWay}"
+								FontSize="12"
+								Glyph="&#xE840;" />
 
-						<Image
-							Grid.Row="0"
-							Width="32"
-							Height="32"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Source="{x:Bind Thumbnail, Mode=OneWay}"
-							Stretch="Uniform" />
+							<Image
+								Grid.Row="0"
+								Width="32"
+								Height="32"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Source="{x:Bind Thumbnail, Mode=OneWay}"
+								Stretch="Uniform" />
 
-						<TextBlock
-							x:Name="ItemLocationName"
-							Grid.Row="1"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							FontSize="14"
-							HorizontalTextAlignment="Center"
-							Text="{x:Bind Text}"
-							TextTrimming="WordEllipsis"
-							TextWrapping="NoWrap" />
+							<TextBlock
+								x:Name="ItemLocationName"
+								Grid.Row="1"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								FontSize="14"
+								HorizontalTextAlignment="Center"
+								Text="{x:Bind Text}"
+								TextTrimming="WordEllipsis"
+								TextWrapping="NoWrap" />
 
-					</Grid>
-				</Button>
-			</DataTemplate>
-		</ItemsRepeater.ItemTemplate>
+						</Grid>
+					</Button>
+				</DataTemplate>
+			</ItemsRepeater.ItemTemplate>
 
-		<ItemsRepeater.Layout>
-			<UniformGridLayout
-				ItemsStretch="Fill"
-				MaximumRowsOrColumns="6"
-				MinColumnSpacing="8"
-				MinItemHeight="72"
-				MinItemWidth="100"
-				MinRowSpacing="8"
-				Orientation="Horizontal" />
-		</ItemsRepeater.Layout>
+			<ItemsRepeater.Layout>
+				<UniformGridLayout
+					ItemsStretch="Fill"
+					MaximumRowsOrColumns="6"
+					MinColumnSpacing="8"
+					MinItemHeight="72"
+					MinItemWidth="100"
+					MinRowSpacing="8"
+					Orientation="Horizontal" />
+			</ItemsRepeater.Layout>
 
-	</ItemsRepeater>
+		</ItemsRepeater>
+	</Grid>
 </UserControl>

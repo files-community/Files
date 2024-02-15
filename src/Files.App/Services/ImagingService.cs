@@ -11,7 +11,7 @@ namespace Files.App.Services
 	internal sealed class ImagingService : IImageService
 	{
 		/// <inheritdoc/>
-		public async Task<IImage?> GetIconAsync(IStorable storable, CancellationToken cancellationToken)
+		public async Task<IImage?> GetIconAsync(IStorable storable, CancellationToken cancellationToken = default)
 		{
 			if (storable is not ILocatableStorable locatableStorable)
 				return null;

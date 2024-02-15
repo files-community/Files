@@ -21,7 +21,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			ViewModel.ShowContextFlyout(sender, e);
+			ViewModel.ShowContextFlyout(e.OriginalSource, e);
 		}
 
 		private void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)

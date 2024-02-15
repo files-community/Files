@@ -17,7 +17,7 @@ namespace Files.Core.Services
 		/// <param name="storable">The storable object of which to get the icon.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
 		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. If successful, value is <see cref="IImage"/> representation of the icon, otherwise null.</returns>
-		Task<IImage?> GetIconAsync(IStorable storable, CancellationToken cancellationToken);
+		Task<IImage?> GetIconAsync(IStorable storable, CancellationToken cancellationToken = default);
 
 		[Obsolete("Use GetIconAsync() instead.")]
 		Task<IImage?> GetImageModelFromDataAsync(byte[]? rawData);

@@ -21,7 +21,7 @@ namespace Files.App.UserControls.Widgets
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			ViewModel.ShowContextFlyout(sender, e);
+			ViewModel.ShowContextFlyout(e.OriginalSource, e);
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
@@ -39,22 +39,6 @@ namespace Files.App.UserControls.Widgets
 				string path = ((Button)sender).Tag.ToString()!;
 				await NavigationHelpers.OpenPathInNewTab(path);
 			}
-		}
-
-		private void MenuFlyout_Opening(object sender)
-		{
-			if (sender is not MenuFlyout menuFlyout ||
-				menuFlyout.Items.SingleOrDefault(x => x.Name == "PinFromFavorites") is not MenuFlyoutItemBase pinToFavoritesItem ||
-				pinToFavoritesItem.DataContext is not DriveItem driveItemToPin)
-				return;
-
-			pinToFavoritesItem.Visibility = driveItemToPin.IsPinned ? Visibility.Collapsed : Visibility.Visible;
-
-			if (menuFlyout.Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites") is not MenuFlyoutItemBase unpinFromFavoritesItem ||
-				pinToFavoritesItem.DataContext is not DriveItem driveItemToUnpin)
-				return;
-
-			unpinFromFavoritesItem.Visibility = driveItemToUnpin.IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 	}
 }
