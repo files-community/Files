@@ -162,6 +162,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand ToggleGroupByDateUnit => commands[CommandCodes.ToggleGroupByDateUnit];
 		public IRichCommand NewWindow => commands[CommandCodes.NewWindow];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
+		public IRichCommand EjectDrive => commands[CommandCodes.EjectDrive];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
 		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
@@ -333,6 +334,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.ToggleGroupByDateUnit] = new ToggleGroupByDateUnitAction(),
 			[CommandCodes.NewWindow] = new NewWindowAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
+			[CommandCodes.EjectDrive] = new EjectDriveAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
 			[CommandCodes.NavigateForward] = new NavigateForwardAction(),

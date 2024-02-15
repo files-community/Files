@@ -3,10 +3,13 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specifies the section type of widgets.
+	/// </summary>
 	public enum WidgetSectionType
 	{
 		QuickAccess,
-		Drive,
+		Drives,
 		FileTags,
 		RecentItems,
 	}

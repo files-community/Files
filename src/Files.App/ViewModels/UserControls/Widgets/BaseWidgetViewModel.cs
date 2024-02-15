@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var menuItems = sectionType switch
 			{
 				WidgetSectionType.QuickAccess => WidgetQuickAccessItemContextFlyoutFactory.Generate(),
-				WidgetSectionType.Drive => WidgetDriveItemContextFlyoutFactory.Generate(),
+				WidgetSectionType.Drives => WidgetDriveItemContextFlyoutFactory.Generate(),
 				WidgetSectionType.FileTags => WidgetFileTagsItemContextFlyoutFactory.Generate(),
 				WidgetSectionType.RecentItems => WidgetRecentItemContextFlyoutFactory.Generate(),
 				_ => Enumerable.Empty<ContextMenuFlyoutItemViewModel>().ToList(),

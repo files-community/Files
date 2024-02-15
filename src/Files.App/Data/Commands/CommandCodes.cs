@@ -40,6 +40,7 @@ namespace Files.App.Data.Commands
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,
+		EjectDrive,
 		FormatDrive,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
