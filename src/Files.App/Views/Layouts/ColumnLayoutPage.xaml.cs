@@ -14,7 +14,6 @@ using System.IO;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using static Files.App.Constants;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.Layouts
