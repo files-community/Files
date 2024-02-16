@@ -478,11 +478,7 @@ namespace Files.App.Views.Shells
 
 				// Cancel if overrided by single item
 				if (cts.IsCancellationRequested)
-				{
-					cts = null;
 					return;
-				}
-				cts = null;
 
 				ToolbarViewModel.PathComponents.Clear();
 				foreach (var component in components)
