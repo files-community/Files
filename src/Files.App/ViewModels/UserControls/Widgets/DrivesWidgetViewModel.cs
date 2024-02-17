@@ -58,6 +58,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				try
 				{
+					if (Items.Count != 0)
+						Items.Clear();
 
 					// Add newly added items
 					foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
@@ -78,7 +80,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogInformation(ex, "Could not populate recent files");
+					App.Logger.LogInformation(ex, "The app could not populate drive items");
 				}
 			});
 		}

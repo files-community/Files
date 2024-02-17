@@ -56,7 +56,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
+			var favorites = App.QuickAccessManager.Model.FavoriteItems;
 
 			var executableInDisplayPage =
 				ContentPageContext.HasSelection

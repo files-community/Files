@@ -52,6 +52,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				try
 				{
+					if (Items.Count != 0)
+						Items.Clear();
+
 					IsEmptyRecentItemsTextVisible = false;
 
 					// Already sorted, add all in order
@@ -73,7 +76,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogInformation(ex, "Could not populate recent files");
+					App.Logger.LogInformation(ex, "The app could not populate recent files");
 				}
 			});
 		}

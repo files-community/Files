@@ -39,6 +39,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				try
 				{
+					if (Items.Count != 0)
+						Items.Clear();
 
 					var quickAccessPinnedItems = await QuickAccessService.GetPinnedFoldersAsync();
 
@@ -55,7 +57,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogInformation(ex, "Could not populate recent files");
+					App.Logger.LogInformation(ex, "The app could not populate quick access items");
 				}
 			});
 		}

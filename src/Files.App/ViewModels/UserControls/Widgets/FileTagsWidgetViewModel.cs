@@ -42,6 +42,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				try
 				{
+					if (Containers.Count != 0)
+						Containers.Clear();
 
 					await foreach (var item in FileTagsService.GetTagsAsync())
 					{
@@ -60,7 +62,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogInformation(ex, "Could not populate recent files");
+					App.Logger.LogInformation(ex, "The app could not populate file tags containers");
 				}
 			});
 		}
