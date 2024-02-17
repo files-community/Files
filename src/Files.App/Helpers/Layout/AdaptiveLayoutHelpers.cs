@@ -32,6 +32,9 @@ namespace Files.App.Helpers
 				case Layouts.Grid:
 					folderSettings.ToggleLayoutModeGridView(Constants.IconHeights.GridView.Medium, false);
 					break;
+				case Layouts.Tiles:
+					folderSettings.ToggleLayoutModeTiles(false);
+					break;
 			}
 		}
 
@@ -93,8 +96,10 @@ namespace Files.App.Helpers
 
 			if (folderPercentage + miscPercentage > LargeThreshold)
 				return Layouts.Detail;
-			if (imagePercentage > ExtraLargeThreshold)
+			if (imagePercentage >= ExtraLargeThreshold)
 				return Layouts.Grid;
+			if (mediaPercentage >= MediumThreshold)
+				return Layouts.Tiles;
 			if (imagePercentage <= MediumThreshold)
 				return Layouts.Detail;
 			if (100f - imagePercentage <= SmallThreshold)
@@ -121,6 +126,7 @@ namespace Files.App.Helpers
 			None, // Don't decide. Another function to decide can be called afterwards if available.
 			Detail, // Apply the layout Detail.
 			Grid, // Apply the layout Grid.
+			Tiles, // Apply the layout Tiles.
 		}
 	}
 }
