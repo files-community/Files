@@ -35,7 +35,7 @@ namespace Files.App.Actions
 			{
 				case ActionExecutableType.DisplayPageContext:
 					{
-						OpenShortcutLocation();
+						await OpenShortcutLocation();
 						break;
 					}
 				case ActionExecutableType.HomePageContext:
@@ -46,7 +46,7 @@ namespace Files.App.Actions
 			}
 		}
 
-		private void OpenShortcutLocation()
+		private async Task OpenShortcutLocation()
 		{
 			if (ContentPageContext.ShellPage?.FilesystemViewModel is null)
 				return;
