@@ -49,8 +49,8 @@ namespace Files.App.Views
 			CurrentShellPage.ToolbarViewModel.CanGoForward = CurrentShellPage.CanNavigateForward;
 			CurrentShellPage.ToolbarViewModel.CanNavigateToParent = false;
 
-			CurrentShellPage.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
-			CurrentShellPage.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
+			CurrentShellPage.ToolbarViewModel.RefreshRequested -= AddressToolbarViewModel_RefreshRequested;
+			CurrentShellPage.ToolbarViewModel.RefreshRequested += AddressToolbarViewModel_RefreshRequested;
 
 			// Set path of working directory empty
 			await CurrentShellPage.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
@@ -76,14 +76,14 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
-			CurrentShellPage.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+			CurrentShellPage.ToolbarViewModel.RefreshRequested -= AddressToolbarViewModel_RefreshRequested;
 
 			base.OnNavigatedFrom(e);
 		}
 
 		// Event methods
 
-		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
+		private async void AddressToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
 			CurrentShellPage.ToolbarViewModel.CanRefresh = false;
 

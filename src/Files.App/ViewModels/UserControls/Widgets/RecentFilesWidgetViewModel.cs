@@ -4,13 +4,12 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
-	public class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
+	public class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Fields
 
@@ -37,7 +36,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				if (_IsEmptyRecentItemsTextVisible != value)
 				{
 					_IsEmptyRecentItemsTextVisible = value;
-					NotifyPropertyChanged(nameof(IsEmptyRecentItemsTextVisible));
+					OnPropertyChanged(nameof(IsEmptyRecentItemsTextVisible));
 				}
 			}
 		}
@@ -51,33 +50,74 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				if (_IsRecentFilesDisabledInWindows != value)
 				{
 					_IsRecentFilesDisabledInWindows = value;
-					NotifyPropertyChanged(nameof(IsRecentFilesDisabledInWindows));
+					OnPropertyChanged(nameof(IsRecentFilesDisabledInWindows));
 				}
 			}
 		}
-
-		// Events
-
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Constructor
 
 		public RecentFilesWidgetViewModel()
 		{
-			_refreshRecentItemsSemaphore = new SemaphoreSlim(1, 1);
-			_refreshRecentItemsCTS = new CancellationTokenSource();
+			_refreshRecentItemsSemaphore = new(1, 1);
+			_refreshRecentItemsCTS = new();
 
 			_ = RefreshWidgetAsync();
 
-			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
+			App.RecentItemsManager.RecentFilesChanged += async (s, e) => await RefreshWidgetAsync();
 		}
 
 		// Methods
 
 		public async Task RefreshWidgetAsync()
 		{
-			IsRecentFilesDisabledInWindows = !App.RecentItemsManager.CheckIsRecentFilesEnabled();
-			await App.RecentItemsManager.UpdateRecentFilesAsync();
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				try
+				{
+					await _refreshRecentItemsSemaphore.WaitAsync(_refreshRecentItemsCTS.Token);
+				}
+				catch (OperationCanceledException)
+				{
+					return;
+				}
+
+				IsRecentFilesDisabledInWindows = !App.RecentItemsManager.CheckIsRecentFilesEnabled();
+
+				try
+				{
+					// drop other waiting instances
+					_refreshRecentItemsCTS.Cancel();
+					_refreshRecentItemsCTS = new();
+
+					IsEmptyRecentItemsTextVisible = false;
+
+					// Already sorted, add all in order
+					var recentFiles = App.RecentItemsManager.RecentFiles;
+					if (!recentFiles.SequenceEqual(Items))
+					{
+						Items.Clear();
+						foreach (var item in recentFiles)
+						{
+							Items.Insert(0, item);
+
+							_ = item.LoadRecentItemIconAsync()
+								.ContinueWith(t => App.Logger.LogWarning(t.Exception, null), TaskContinuationOptions.OnlyOnFaulted);
+						}
+					}
+
+					if (Items.Count == 0 && !IsRecentFilesDisabledInWindows)
+						IsEmptyRecentItemsTextVisible = true;
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogInformation(ex, "Could not populate recent files");
+				}
+				finally
+				{
+					_refreshRecentItemsSemaphore.Release();
+				}
+			});
 		}
 
 		public async Task OpenFileLocation(WidgetRecentItem? item)
@@ -116,115 +156,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			catch (ArgumentException) { }
 		}
 
-		private async Task UpdateRecentItemsListAsync(NotifyCollectionChangedEventArgs e)
-		{
-			try
-			{
-				await _refreshRecentItemsSemaphore.WaitAsync(_refreshRecentItemsCTS.Token);
-			}
-			catch (OperationCanceledException)
-			{
-				return;
-			}
-
-			try
-			{
-				// drop other waiting instances
-				_refreshRecentItemsCTS.Cancel();
-				_refreshRecentItemsCTS = new();
-
-				IsEmptyRecentItemsTextVisible = false;
-
-				switch (e.Action)
-				{
-					case NotifyCollectionChangedAction.Add:
-						if (e.NewItems is not null)
-						{
-							var addedItem = e.NewItems.Cast<WidgetRecentItem>().Single();
-							AddItemToRecentList(addedItem, 0);
-						}
-						break;
-
-					case NotifyCollectionChangedAction.Move:
-						if (e.OldItems is not null)
-						{
-							var movedItem = e.OldItems.Cast<WidgetRecentItem>().Single();
-							Items.RemoveAt(e.OldStartingIndex);
-							AddItemToRecentList(movedItem, 0);
-						}
-						break;
-
-					case NotifyCollectionChangedAction.Remove:
-						if (e.OldItems is not null)
-						{
-							var removedItem = e.OldItems.Cast<WidgetRecentItem>().Single();
-							Items.RemoveAt(e.OldStartingIndex);
-						}
-						break;
-
-					// case NotifyCollectionChangedAction.Reset:
-					default:
-						var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
-						if (!recentFiles.SequenceEqual(Items))
-						{
-							Items.Clear();
-							foreach (var item in recentFiles)
-							{
-								AddItemToRecentList(item);
-							}
-						}
-						break;
-				}
-
-				// update chevron if there aren't any items
-				if (Items.Count == 0 && !IsRecentFilesDisabledInWindows)
-				{
-					IsEmptyRecentItemsTextVisible = true;
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogInformation(ex, "Could not populate recent files");
-			}
-			finally
-			{
-				_refreshRecentItemsSemaphore.Release();
-			}
-		}
-
-		private bool AddItemToRecentList(WidgetRecentItem recentItem, int index = -1)
-		{
-			if (!Items.Any(x => x.Equals(recentItem)))
-			{
-				Items.Insert(index < 0 ? Items.Count : Math.Min(index, Items.Count), recentItem);
-				_ = recentItem.LoadRecentItemIconAsync()
-					.ContinueWith(t => App.Logger.LogWarning(t.Exception, null), TaskContinuationOptions.OnlyOnFaulted);
-				return true;
-			}
-			return false;
-		}
-
-		// Event methods
-
-		private async void Manager_RecentFilesChanged(object? sender, NotifyCollectionChangedEventArgs e)
-		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-			{
-				// e.Action can only be Reset right now; naively refresh everything for simplicity
-				await UpdateRecentItemsListAsync(e);
-			});
-		}
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
 		// Disposer
 
 		public void Dispose()
 		{
-			App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
+			App.RecentItemsManager.RecentFilesChanged -= async (s, e) => await RefreshWidgetAsync();
 		}
 	}
 }

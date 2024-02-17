@@ -58,7 +58,6 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task UpdateRecentFilesAsync()
 		{
-			// enumerate with fulltrust process
 			List<WidgetRecentItem> enumeratedFiles = await ListRecentFilesAsync();
 			if (enumeratedFiles is not null)
 			{
