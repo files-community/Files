@@ -12,11 +12,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-		// Fields
-
-		private readonly SemaphoreSlim _refreshItemsSemaphore;
-		private CancellationTokenSource _refreshItemsCTS;
-
 		// Properties
 
 		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = [];
@@ -36,9 +31,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public FileTagsWidgetViewModel()
 		{
-			_refreshItemsSemaphore = new(1, 1);
-			_refreshItemsCTS = new();
-
 			_ = RefreshWidgetAsync();
 		}
 
@@ -50,18 +42,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				try
 				{
-					await _refreshItemsSemaphore.WaitAsync(_refreshItemsCTS.Token);
-				}
-				catch (OperationCanceledException)
-				{
-					return;
-				}
-
-				try
-				{
-					// Drop other waiting instances
-					_refreshItemsCTS.Cancel();
-					_refreshItemsCTS.TryReset();
 
 					await foreach (var item in FileTagsService.GetTagsAsync())
 					{
@@ -80,11 +60,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogInformation(ex, "Could not populate file tags containers.");
-				}
-				finally
-				{
-					_refreshItemsSemaphore.Release();
+					App.Logger.LogInformation(ex, "Could not populate recent files");
 				}
 			});
 		}

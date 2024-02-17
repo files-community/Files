@@ -3,19 +3,11 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
-using System.Collections.Specialized;
-using System.Runtime.InteropServices;
-using Windows.Foundation.Metadata;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
-		// Fields
-
-		private readonly SemaphoreSlim _refreshItemsSemaphore;
-		private CancellationTokenSource _refreshItemsCTS;
-
 		// Properties
 
 		public ObservableCollection<WidgetRecentItem> Items { get; } = [];
@@ -31,37 +23,20 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool IsEmptyRecentItemsTextVisible
 		{
 			get => _IsEmptyRecentItemsTextVisible;
-			set
-			{
-				if (_IsEmptyRecentItemsTextVisible != value)
-				{
-					_IsEmptyRecentItemsTextVisible = value;
-					OnPropertyChanged(nameof(IsEmptyRecentItemsTextVisible));
-				}
-			}
+			set => SetProperty(ref _IsEmptyRecentItemsTextVisible, value);
 		}
 
 		private bool _IsRecentFilesDisabledInWindows;
 		public bool IsRecentFilesDisabledInWindows
 		{
 			get => _IsRecentFilesDisabledInWindows;
-			internal set
-			{
-				if (_IsRecentFilesDisabledInWindows != value)
-				{
-					_IsRecentFilesDisabledInWindows = value;
-					OnPropertyChanged(nameof(IsRecentFilesDisabledInWindows));
-				}
-			}
+			set => SetProperty(ref _IsRecentFilesDisabledInWindows, value);
 		}
 
 		// Constructor
 
 		public RecentFilesWidgetViewModel()
 		{
-			_refreshItemsSemaphore = new(1, 1);
-			_refreshItemsCTS = new();
-
 			_ = RefreshWidgetAsync();
 
 			App.RecentItemsManager.RecentFilesChanged += async (s, e) => await RefreshWidgetAsync();
@@ -73,23 +48,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				try
-				{
-					await _refreshItemsSemaphore.WaitAsync(_refreshItemsCTS.Token);
-				}
-				catch (OperationCanceledException)
-				{
-					return;
-				}
-
 				IsRecentFilesDisabledInWindows = !App.RecentItemsManager.CheckIsRecentFilesEnabled();
 
 				try
 				{
-					// Drop other waiting instances
-					_refreshItemsCTS.Cancel();
-					_refreshItemsCTS.TryReset();
-
 					IsEmptyRecentItemsTextVisible = false;
 
 					// Already sorted, add all in order
@@ -112,10 +74,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				catch (Exception ex)
 				{
 					App.Logger.LogInformation(ex, "Could not populate recent files");
-				}
-				finally
-				{
-					_refreshItemsSemaphore.Release();
 				}
 			});
 		}
@@ -143,17 +101,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 						new() { NavPathParam = item.RecentPath });
 				}
 			}
-			catch (UnauthorizedAccessException)
-			{
-				var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-
-				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-					dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-				await dialog.TryShowAsync();
-			}
-			catch (COMException) { }
-			catch (ArgumentException) { }
+			catch (Exception) { }
 		}
 
 		// Disposer

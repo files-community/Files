@@ -11,11 +11,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
-		// Fields
-
-		private readonly SemaphoreSlim _refreshItemsSemaphore;
-		private CancellationTokenSource _refreshItemsCTS;
-
 		// Properties
 
 		public ObservableCollection<WidgetFolderCardItem> Items { get; } = [];
@@ -31,9 +26,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public QuickAccessWidgetViewModel()
 		{
-			_refreshItemsSemaphore = new(1, 1);
-			_refreshItemsCTS = new();
-
 			_ = RefreshWidgetAsync();
 
 			App.QuickAccessManager.UpdateQuickAccessWidget += async (s, e) => await RefreshWidgetAsync();
@@ -47,18 +39,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				try
 				{
-					await _refreshItemsSemaphore.WaitAsync(_refreshItemsCTS.Token);
-				}
-				catch (OperationCanceledException)
-				{
-					return;
-				}
-
-				try
-				{
-					// Drop other waiting instances
-					_refreshItemsCTS.Cancel();
-					_refreshItemsCTS.TryReset();
 
 					var quickAccessPinnedItems = await QuickAccessService.GetPinnedFoldersAsync();
 
@@ -75,11 +55,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogInformation(ex, "Could not populate file tags containers.");
-				}
-				finally
-				{
-					_refreshItemsSemaphore.Release();
+					App.Logger.LogInformation(ex, "Could not populate recent files");
 				}
 			});
 		}

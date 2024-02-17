@@ -17,11 +17,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-		// Fields
-
-		private readonly SemaphoreSlim _refreshItemsSemaphore;
-		private CancellationTokenSource _refreshItemsCTS;
-
 		// Properties
 
 		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
@@ -41,9 +36,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public DrivesWidgetViewModel()
 		{
-			_refreshItemsSemaphore = new(1, 1);
-			_refreshItemsCTS = new();
-
 			_ = RefreshWidgetAsync();
 
 			DrivesViewModel.Drives.CollectionChanged += async (s, e) => await RefreshWidgetAsync();
@@ -66,18 +58,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				try
 				{
-					await _refreshItemsSemaphore.WaitAsync(_refreshItemsCTS.Token);
-				}
-				catch (OperationCanceledException)
-				{
-					return;
-				}
-
-				try
-				{
-					// Drop other waiting instances
-					_refreshItemsCTS.Cancel();
-					_refreshItemsCTS.TryReset();
 
 					// Add newly added items
 					foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
@@ -98,11 +78,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogInformation(ex, "Could not populate drive items.");
-				}
-				finally
-				{
-					_refreshItemsSemaphore.Release();
+					App.Logger.LogInformation(ex, "Could not populate recent files");
 				}
 			});
 		}
@@ -112,7 +88,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (await DriveHelpers.CheckEmptyDrive(path))
 				return;
 
-			// TODO: Check if can be removed
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
