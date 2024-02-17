@@ -25,8 +25,8 @@ namespace Files.App.Data.Factories
 					Tag = "SendToPlaceholder",
 					ShowItem = !isFolder && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
-				//new ContextMenuFlyoutItemViewModelBuilder(CommandManager.RemoveRecentItem).Build(),
-				//new ContextMenuFlyoutItemViewModelBuilder(CommandManager.ClearRecentItem).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.RemoveRecentItem).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.ClearRecentItem).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenFileLocation).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenProperties).Build(),
 				new()

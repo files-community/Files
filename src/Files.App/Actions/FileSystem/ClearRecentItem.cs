@@ -1,33 +1,32 @@
-// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
 {
-	internal class FormatDriveAction : ObservableObject, IAction
+	internal class ClearRecentItemAction : ObservableObject, IAction
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-		private ActionExecutableType ExecutableType { get; set; }
-
 		public string Label
-			=> "FormatDriveText".GetLocalizedResource();
+			=> "ClearRecentItemText".GetLocalizedResource();
 
 		public string Description
-			=> "FormatDriveDescription".GetLocalizedResource();
+			=> "ClearRecentItemDescription".GetLocalizedResource();
 
 		public bool IsExecutable
 			=> GetIsExecutable();
 
-		public FormatDriveAction()
+		public ClearRecentItemAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
-			return Win32API.OpenFormatDriveDialog(HomePageContext.RightClickedItem?.Path ?? string.Empty);
+			var result = await DriveHelpers.EjectDeviceAsync(HomePageContext.RightClickedItem?.Path ?? string.Empty);
+			await UIHelpers.ShowDeviceEjectResultAsync((HomePageContext.RightClickedItem?.Item as WidgetDriveCardItem)!.Item.Type, result);
 		}
 
 		private bool GetIsExecutable()
@@ -36,7 +35,7 @@ namespace Files.App.Actions
 				HomePageContext.IsAnyItemRightClicked &&
 				HomePageContext.RightClickedItem?.Item is DriveItem &&
 				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowFormatDrive ?? false);
+					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowEjectDevice ?? false);
 
 			return executableInHomePage;
 		}

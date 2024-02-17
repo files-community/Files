@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		public string Label
-			=> "FormatDriveText".GetLocalizedResource();
+			=> "EjectDriveText".GetLocalizedResource();
 
 		public string Description
-			=> "FormatDriveDescription".GetLocalizedResource();
+			=> "EjectDriveDescription".GetLocalizedResource();
 
 		public bool IsExecutable
 			=> GetIsExecutable();
@@ -33,9 +33,9 @@ namespace Files.App.Actions
 		{
 			var executableInHomePage =
 				HomePageContext.IsAnyItemRightClicked &&
-				HomePageContext.RightClickedItem?.Item is WidgetDriveCardItem &&
+				HomePageContext.RightClickedItem?.Item is DriveItem &&
 				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowFormatDrive ?? false);
+					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowEjectDevice ?? false);
 
 			return executableInHomePage;
 		}

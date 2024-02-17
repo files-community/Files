@@ -50,6 +50,8 @@ namespace Files.App.Data.Commands
 		OpenFileLocation,
 		RefreshItems,
 		Rename,
+		RemoveRecentItem,
+		ClearRecentItem,
 
 		// Selection
 		SelectAll,

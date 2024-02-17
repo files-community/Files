@@ -56,6 +56,8 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenFileLocation { get; }
 		IRichCommand RefreshItems { get; }
 		IRichCommand Rename { get; }
+		IRichCommand RemoveRecentItem { get; }
+		IRichCommand ClearRecentItem { get; }
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }

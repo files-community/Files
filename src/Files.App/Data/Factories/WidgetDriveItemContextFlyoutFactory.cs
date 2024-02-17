@@ -18,7 +18,6 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.UnpinItemFromFavorites).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.EjectDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.FormatDrive).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenProperties).Build(),
 				new()
 				{
 					Text = "TurnOnBitLocker".GetLocalizedResource(),
@@ -33,6 +32,7 @@ namespace Files.App.Data.Factories
 					CollapseLabel = true,
 					IsEnabled = false
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenProperties).Build(),
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
