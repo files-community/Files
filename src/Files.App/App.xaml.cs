@@ -239,15 +239,15 @@ namespace Files.App
 				// Displays a notification the first time the app goes to the background
 				if (userSettingsService.AppSettingsService.ShowBackgroundRunningNotification)
 				{
-					userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
-
-					var toastContent = new ToastContent()
+					SafetyExtensions.IgnoreExceptions(() =>
 					{
-						Visual = new()
+						var toastContent = new ToastContent()
 						{
-							BindingGeneric = new ToastBindingGeneric()
+							Visual = new()
 							{
-								Children =
+								BindingGeneric = new ToastBindingGeneric()
+								{
+									Children =
 								{
 									new AdaptiveText()
 									{
@@ -258,16 +258,19 @@ namespace Files.App
 										Text = "BackgroundRunningNotificationBody".GetLocalizedResource()
 									}
 								},
-							}
-						},
-						ActivationType = ToastActivationType.Protocol
-					};
+								}
+							},
+							ActivationType = ToastActivationType.Protocol
+						};
 
-					// Create the toast notification
-					var toastNotification = new ToastNotification(toastContent.GetXml());
+						// Create the toast notification
+						var toastNotification = new ToastNotification(toastContent.GetXml());
 
-					// And send the notification
-					ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+						// And send the notification
+						ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+
+						userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
+					});
 				}
 
 				if (Program.Pool.WaitOne())
