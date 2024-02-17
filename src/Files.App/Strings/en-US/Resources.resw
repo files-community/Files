@@ -3691,7 +3691,10 @@
   <data name="BackgroundRunningNotificationBody" xml:space="preserve">
     <value>Files is still running in the background to improve startup performance.</value>
   </data>
-  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Where did Files go?</value>
+  </data>
+  <data name="EjectDrive" xml:space="preserve">
+    <value>Eject drive</value>
   </data>
 </root>

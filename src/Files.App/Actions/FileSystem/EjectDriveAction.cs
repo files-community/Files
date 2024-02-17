@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		public string Label
-			=> "EjectDriveText".GetLocalizedResource();
+			=> "EjectDrive".GetLocalizedResource();
 
 		public string Description
-			=> "EjectDriveDescription".GetLocalizedResource();
+			=> "EjectDrive".GetLocalizedResource();
 
 		public bool IsExecutable
 			=> GetIsExecutable();
