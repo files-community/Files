@@ -25,7 +25,7 @@ namespace Files.App.UserControls.Widgets
 
 		private async void RecentItemsView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			if (e.ClickedItem is not RecentItem item)
+			if (e.ClickedItem is not WidgetRecentItem item)
 				return;
 
 			await ViewModel.OpenFileLocation(item);

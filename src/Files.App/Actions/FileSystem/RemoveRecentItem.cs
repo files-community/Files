@@ -26,7 +26,7 @@ namespace Files.App.Actions
 		{
 			try
 			{
-				if (HomePageContext.RightClickedItem?.Item is RecentItem item)
+				if (HomePageContext.RightClickedItem?.Item is WidgetRecentItem item)
 					await App.RecentItemsManager.UnpinFromRecentFiles(item);
 			}
 			catch (Exception) { }
@@ -36,7 +36,7 @@ namespace Files.App.Actions
 		{
 			var executableInHomePage =
 				HomePageContext.IsAnyItemRightClicked &&
-				HomePageContext.RightClickedItem is RecentItem;
+				HomePageContext.RightClickedItem is WidgetRecentItem;
 
 			return executableInHomePage;
 		}

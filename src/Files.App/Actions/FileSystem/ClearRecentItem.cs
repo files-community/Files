@@ -37,7 +37,7 @@ namespace Files.App.Actions
 		{
 			var executableInHomePage =
 				HomePageContext.IsAnyItemRightClicked &&
-				HomePageContext.RightClickedItem is RecentItem;
+				HomePageContext.RightClickedItem is WidgetRecentItem;
 
 			return executableInHomePage;
 		}

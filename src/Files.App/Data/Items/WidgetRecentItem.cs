@@ -5,9 +5,9 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Utils.RecentItem
+namespace Files.App.Data.Items
 {
-	public class RecentItem : WidgetCardItem, IEquatable<RecentItem>
+	public class WidgetRecentItem : WidgetCardItem, IEquatable<WidgetRecentItem>
 	{
 		private BitmapImage _fileImg;
 		public BitmapImage FileImg
@@ -27,7 +27,7 @@ namespace Files.App.Utils.RecentItem
 		public byte[] PIDL { get; set; }
 		public string Path { get => RecentPath; }
 
-		public RecentItem()
+		public WidgetRecentItem()
 		{
 			EmptyImgVis = true; // defer icon load to LoadRecentItemIcon()
 		}
@@ -37,7 +37,7 @@ namespace Files.App.Utils.RecentItem
 		/// This is usually needed if a shortcut is deleted -- the metadata is lost (i.e. the target item).
 		/// </summary>
 		/// <param name="linkPath">The location that shortcut lives/lived in</param>
-		public RecentItem(string linkPath) : base()
+		public WidgetRecentItem(string linkPath) : base()
 		{
 			LinkPath = linkPath;
 		}
@@ -45,7 +45,7 @@ namespace Files.App.Utils.RecentItem
 		/// <summary>
 		/// Create a RecentItem from a ShellLinkItem (usually from shortcuts in `Windows\Recent`)
 		/// </summary>
-		public RecentItem(ShellLinkItem linkItem) : base()
+		public WidgetRecentItem(ShellLinkItem linkItem) : base()
 		{
 			LinkPath = linkItem.FilePath;
 			RecentPath = linkItem.TargetPath;
@@ -61,7 +61,7 @@ namespace Files.App.Utils.RecentItem
 		/// Create a RecentItem from a ShellFileItem (usually from enumerating Quick Access directly).
 		/// </summary>
 		/// <param name="fileItem">The shell file item</param>
-		public RecentItem(ShellFileItem fileItem) : base()
+		public WidgetRecentItem(ShellFileItem fileItem) : base()
 		{
 			LinkPath = ShellStorageFolder.IsShellPath(fileItem.FilePath) ? fileItem.RecyclePath : fileItem.FilePath; // use true path on disk for shell items
 			RecentPath = LinkPath; // intentionally the same
@@ -86,7 +86,7 @@ namespace Files.App.Utils.RecentItem
 		/// <summary>
 		/// Test equality for generic collection methods such as Remove(...)
 		/// </summary>
-		public bool Equals(RecentItem other)
+		public bool Equals(WidgetRecentItem other)
 		{
 			if (other is null)
 			{
@@ -100,7 +100,7 @@ namespace Files.App.Utils.RecentItem
 		}
 
 		public override int GetHashCode() => (LinkPath, RecentPath).GetHashCode();
-		public override bool Equals(object? o) => o is RecentItem other && Equals(other);
+		public override bool Equals(object? o) => o is WidgetRecentItem other && Equals(other);
 
 		/**
 		 * Strips a name from an extension while aware of some edge cases.
@@ -111,8 +111,8 @@ namespace Files.App.Utils.RecentItem
 		 */
 		private static string NameOrPathWithoutExtension(string nameOrPath)
 		{
-			string strippedExtension = System.IO.Path.GetFileNameWithoutExtension(nameOrPath);
-			return string.IsNullOrEmpty(strippedExtension) ? System.IO.Path.GetFileName(nameOrPath) : strippedExtension;
+			string strippedExtension = SystemIO.Path.GetFileNameWithoutExtension(nameOrPath);
+			return string.IsNullOrEmpty(strippedExtension) ? SystemIO.Path.GetFileName(nameOrPath) : strippedExtension;
 		}
 	}
 }

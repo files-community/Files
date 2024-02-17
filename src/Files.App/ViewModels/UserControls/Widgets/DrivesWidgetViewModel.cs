@@ -18,7 +18,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Properties
 
-		public ObservableCollection<WidgetDriveCardItem> Items = [];
+		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
 
 		public string WidgetName => nameof(DrivesWidgetViewModel);
 		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -51,28 +51,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Methods
 
-		public async Task OpenFileLocation(string path)
-		{
-			if (await DriveHelpers.CheckEmptyDrive(path))
-				return;
-
-			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			if (ctrlPressed)
-			{
-				await NavigationHelpers.OpenPathInNewTab(path);
-				return;
-			}
-
-			ContentPageContext.ShellPage!.NavigateWithArguments(
-				ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.GetLayoutType(path)!,
-				new() { NavPathParam = path });
-		}
-
 		public async Task RefreshWidgetAsync()
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				Items.Clear();
+				if (Items.Count != 0)
+					Items.Clear();
 
 				// Add newly added items
 				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
@@ -91,6 +75,24 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
 				await Task.WhenAll(updateTasks);
 			});
+		}
+
+		public async Task OpenFileLocation(string path)
+		{
+			if (await DriveHelpers.CheckEmptyDrive(path))
+				return;
+
+			// TODO: Check if can be removed
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			if (ctrlPressed)
+			{
+				await NavigationHelpers.OpenPathInNewTab(path);
+				return;
+			}
+
+			ContentPageContext.ShellPage!.NavigateWithArguments(
+				ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.GetLayoutType(path)!,
+				new() { NavPathParam = path });
 		}
 
 		// Command methods

@@ -210,6 +210,11 @@ namespace Files.App.ViewModels.UserControls
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 		}
 
+		public void InvokeRefreshRequested()
+		{
+			RefreshRequested?.Invoke(this, null);
+		}
+
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;

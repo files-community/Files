@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Properties
 
-		public ObservableCollection<RecentItem> Items { get; } = [];
+		public ObservableCollection<WidgetRecentItem> Items { get; } = [];
 
 		public string WidgetName => nameof(RecentFilesWidgetViewModel);
 		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -80,7 +80,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 
-		public async Task OpenFileLocation(RecentItem? item)
+		public async Task OpenFileLocation(WidgetRecentItem? item)
 		{
 			if (item is null)
 				return;
@@ -140,7 +140,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					case NotifyCollectionChangedAction.Add:
 						if (e.NewItems is not null)
 						{
-							var addedItem = e.NewItems.Cast<RecentItem>().Single();
+							var addedItem = e.NewItems.Cast<WidgetRecentItem>().Single();
 							AddItemToRecentList(addedItem, 0);
 						}
 						break;
@@ -148,7 +148,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					case NotifyCollectionChangedAction.Move:
 						if (e.OldItems is not null)
 						{
-							var movedItem = e.OldItems.Cast<RecentItem>().Single();
+							var movedItem = e.OldItems.Cast<WidgetRecentItem>().Single();
 							Items.RemoveAt(e.OldStartingIndex);
 							AddItemToRecentList(movedItem, 0);
 						}
@@ -157,7 +157,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					case NotifyCollectionChangedAction.Remove:
 						if (e.OldItems is not null)
 						{
-							var removedItem = e.OldItems.Cast<RecentItem>().Single();
+							var removedItem = e.OldItems.Cast<WidgetRecentItem>().Single();
 							Items.RemoveAt(e.OldStartingIndex);
 						}
 						break;
@@ -192,7 +192,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 		}
 
-		private bool AddItemToRecentList(RecentItem recentItem, int index = -1)
+		private bool AddItemToRecentList(WidgetRecentItem recentItem, int index = -1)
 		{
 			if (!Items.Any(x => x.Equals(recentItem)))
 			{

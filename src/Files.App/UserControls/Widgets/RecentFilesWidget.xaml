@@ -4,9 +4,9 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:recent="using:Files.App.Utils.RecentItem"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
@@ -54,7 +54,7 @@
 			</ListView.ItemContainerStyle>
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="recent:RecentItem">
+				<DataTemplate x:DataType="dataitems:WidgetRecentItem">
 					<Grid
 						Padding="2.5"
 						AutomationProperties.Name="{x:Bind Name}"

@@ -37,21 +37,26 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task RefreshWidgetAsync()
 		{
-			Containers.Clear();
-
-			await foreach (var item in FileTagsService.GetTagsAsync())
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				var container = new WidgetFileTagsContainerItem()
+				if (Containers.Count != 0)
+					Containers.Clear();
+
+				await foreach (var item in FileTagsService.GetTagsAsync())
 				{
-					TagId = item.Uid,
-					Name = item.Name,
-					Color = item.Color
-				};
+					var container = new WidgetFileTagsContainerItem()
+					{
+						TagId = item.Uid,
+						Name = item.Name,
+						Color = item.Color
+					};
 
-				Containers.Add(container);
+					Containers.Add(container);
 
-				_ = container.InitializeAsync();
-			}
+					// Initialize inner tag items
+					_ = container.InitializeAsync();
+				}
+			});
 		}
 
 		// Disposer

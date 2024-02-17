@@ -32,12 +32,14 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is null)
-				return;
+				return Task.CompletedTask;
 
-			await context.ShellPage.Refresh_Click();
+			context.ShellPage.ToolbarViewModel.InvokeRefreshRequested();
+
+			return Task.CompletedTask;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
