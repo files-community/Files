@@ -59,7 +59,7 @@ namespace Files.App.Data.Items
 			ClickCommand = new AsyncRelayCommand<object?>(ClickAsync);
 		}
 
-		private Task ClickAsync(object? cancellationToken)
+		private Task ClickAsync(object? param)
 		{
 			return _openAction(_associatedStorable.Id);
 		}
