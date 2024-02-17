@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
@@ -16,12 +17,17 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
+		// Fields
+
+		private readonly SemaphoreSlim _refreshItemsSemaphore;
+		private CancellationTokenSource _refreshItemsCTS;
+
 		// Properties
 
 		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
 
 		public string WidgetName => nameof(DrivesWidgetViewModel);
-		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties => "Drives".GetLocalizedResource();
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
 		public bool ShowMenuFlyout => true;
@@ -35,6 +41,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public DrivesWidgetViewModel()
 		{
+			_refreshItemsSemaphore = new(1, 1);
+			_refreshItemsCTS = new();
+
 			_ = RefreshWidgetAsync();
 
 			DrivesViewModel.Drives.CollectionChanged += async (s, e) => await RefreshWidgetAsync();
@@ -55,25 +64,46 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				if (Items.Count != 0)
-					Items.Clear();
-
-				// Add newly added items
-				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
+				try
 				{
-					if (!Items.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
-					{
-						// Add item
-						var cardItem = new WidgetDriveCardItem(drive);
-						Items.AddSorted(cardItem);
-
-						await cardItem.LoadCardThumbnailAsync();
-					}
+					await _refreshItemsSemaphore.WaitAsync(_refreshItemsCTS.Token);
+				}
+				catch (OperationCanceledException)
+				{
+					return;
 				}
 
-				// Upload properties information
-				var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
-				await Task.WhenAll(updateTasks);
+				try
+				{
+					// Drop other waiting instances
+					_refreshItemsCTS.Cancel();
+					_refreshItemsCTS.TryReset();
+
+					// Add newly added items
+					foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
+					{
+						if (!Items.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
+						{
+							// Add item
+							var cardItem = new WidgetDriveCardItem(drive);
+							Items.AddSorted(cardItem);
+
+							await cardItem.LoadCardThumbnailAsync();
+						}
+					}
+
+					// Upload properties information
+					var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
+					await Task.WhenAll(updateTasks);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogInformation(ex, "Could not populate drive items.");
+				}
+				finally
+				{
+					_refreshItemsSemaphore.Release();
+				}
 			});
 		}
 

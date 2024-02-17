@@ -13,15 +13,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	{
 		// Fields
 
-		private readonly SemaphoreSlim _refreshRecentItemsSemaphore;
-		private CancellationTokenSource _refreshRecentItemsCTS;
+		private readonly SemaphoreSlim _refreshItemsSemaphore;
+		private CancellationTokenSource _refreshItemsCTS;
 
 		// Properties
 
 		public ObservableCollection<WidgetRecentItem> Items { get; } = [];
 
 		public string WidgetName => nameof(RecentFilesWidgetViewModel);
-		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties => "RecentFiles".GetLocalizedResource();
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
 		public bool ShowMenuFlyout => false;
@@ -59,8 +59,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public RecentFilesWidgetViewModel()
 		{
-			_refreshRecentItemsSemaphore = new(1, 1);
-			_refreshRecentItemsCTS = new();
+			_refreshItemsSemaphore = new(1, 1);
+			_refreshItemsCTS = new();
 
 			_ = RefreshWidgetAsync();
 
@@ -75,7 +75,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				try
 				{
-					await _refreshRecentItemsSemaphore.WaitAsync(_refreshRecentItemsCTS.Token);
+					await _refreshItemsSemaphore.WaitAsync(_refreshItemsCTS.Token);
 				}
 				catch (OperationCanceledException)
 				{
@@ -86,9 +86,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				try
 				{
-					// drop other waiting instances
-					_refreshRecentItemsCTS.Cancel();
-					_refreshRecentItemsCTS = new();
+					// Drop other waiting instances
+					_refreshItemsCTS.Cancel();
+					_refreshItemsCTS.TryReset();
 
 					IsEmptyRecentItemsTextVisible = false;
 
@@ -115,7 +115,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				finally
 				{
-					_refreshRecentItemsSemaphore.Release();
+					_refreshItemsSemaphore.Release();
 				}
 			});
 		}
