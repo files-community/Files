@@ -7,7 +7,10 @@ namespace Files.App.Actions
 {
 	internal class OpenFileLocationAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+
+		private ActionExecutableType ExecutableType { get; set; }
 
 		public string Label
 			=> "OpenFileLocation".GetLocalizedResource();
@@ -18,39 +21,52 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE8DA");
 
-		public bool IsExecutable =>
-			context.ShellPage is not null &&
-			context.HasSelection &&
-			context.SelectedItem is ShortcutItem;
+		public bool IsExecutable
+			=> GetIsExecutable();
 
 		public OpenFileLocationAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage?.FilesystemViewModel is null)
+			switch (ExecutableType)
+			{
+				case ActionExecutableType.DisplayPageContext:
+					{
+						OpenShortcutLocation();
+						break;
+					}
+				case ActionExecutableType.HomePageContext:
+					{
+						await OpenRecentItemLocation(HomePageContext.RightClickedItem?.Path ?? string.Empty);
+						break;
+					}
+			}
+		}
+
+		private void OpenShortcutLocation()
+		{
+			if (ContentPageContext.ShellPage?.FilesystemViewModel is null)
 				return;
 
-			var item = context.SelectedItem as ShortcutItem;
+			var item = ContentPageContext.SelectedItem as ShortcutItem;
 
 			if (string.IsNullOrWhiteSpace(item?.TargetPath))
 				return;
 
 			// Check if destination path exists
 			var folderPath = Path.GetDirectoryName(item.TargetPath);
-			var destFolder = await context.ShellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+			var destFolder = await ContentPageContext.ShellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 			if (destFolder)
 			{
-				context.ShellPage?.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+				ContentPageContext.ShellPage?.NavigateWithArguments(ContentPageContext.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 				{
 					NavPathParam = folderPath,
 					SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
-					AssociatedTabInstance = context.ShellPage
+					AssociatedTabInstance = ContentPageContext.ShellPage
 				});
 			}
 			else if (destFolder == FileSystemStatusCode.NotFound)
@@ -64,7 +80,52 @@ namespace Files.App.Actions
 			}
 		}
 
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private async Task OpenRecentItemLocation(string path, bool isFolder = false)
+		{
+			try
+			{
+				if (!isFolder)
+				{
+					var directoryName = Path.GetDirectoryName(path);
+					await Win32Helpers.InvokeWin32ComponentAsync(
+						path,
+						ContentPageContext.ShellPage!,
+						workingDirectory: directoryName ?? string.Empty);
+				}
+				else
+				{
+					ContentPageContext.ShellPage!.NavigateWithArguments(
+						ContentPageContext.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(path),
+						new()
+						{
+							NavPathParam = path
+						});
+				}
+			}
+			catch (Exception) { }
+		}
+
+		private bool GetIsExecutable()
+		{
+			var executableInDisplayPage =
+				ContentPageContext.ShellPage is not null &&
+				ContentPageContext.HasSelection &&
+				ContentPageContext.SelectedItem is ShortcutItem;
+
+			if (executableInDisplayPage)
+				ExecutableType = ActionExecutableType.DisplayPageContext;
+
+			var executableInHomePage =
+				HomePageContext.IsAnyItemRightClicked &&
+				HomePageContext.RightClickedItem is WidgetFileTagCardItem or WidgetFolderCardItem;
+
+			if (executableInHomePage)
+				ExecutableType = ActionExecutableType.HomePageContext;
+
+			return executableInDisplayPage || executableInHomePage;
+		}
+
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
 				OnPropertyChanged(nameof(IsExecutable));

@@ -27,6 +27,7 @@ namespace Files.App
 		private static CommandBarFlyout? _LastOpenedFlyout;
 		public static CommandBarFlyout? LastOpenedFlyout
 		{
+			get => _LastOpenedFlyout;
 			set
 			{
 				_LastOpenedFlyout = value;

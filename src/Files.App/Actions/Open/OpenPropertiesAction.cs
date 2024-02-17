@@ -8,6 +8,8 @@ namespace Files.App.Actions
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
+		private ActionExecutableType ExecutableType { get; set; }
+
 		public string Label
 			=> "OpenProperties".GetLocalizedResource();
 
@@ -30,7 +32,36 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			FilePropertiesHelpers.OpenPropertiesWindow(ContentPageContext.ShellPage!);
+			switch (ExecutableType)
+			{
+				case ActionExecutableType.DisplayPageContext:
+					{
+						EventHandler<object> flyoutClosed = null!;
+						App.LastOpenedFlyout!.Closed += flyoutClosed;
+
+						flyoutClosed = (s, e) =>
+						{
+							App.LastOpenedFlyout!.Closed -= flyoutClosed;
+							FilePropertiesHelpers.OpenPropertiesWindow(ContentPageContext.ShellPage!);
+						};
+
+						break;
+					}
+				case ActionExecutableType.HomePageContext:
+					{
+						var flyout = HomePageContext.ItemContextFlyoutMenu;
+						EventHandler<object> flyoutClosed = null!;
+						flyout!.Closed += flyoutClosed;
+
+						flyoutClosed = (s, e) =>
+						{
+							flyout!.Closed -= flyoutClosed;
+							FilePropertiesHelpers.OpenPropertiesWindow(HomePageContext.RightClickedItem!.Item!, ContentPageContext.ShellPage!);
+						};
+
+						break;
+					}
+			}
 
 			return Task.CompletedTask;
 		}
@@ -42,8 +73,14 @@ namespace Files.App.Actions
 				!(ContentPageContext.PageType is ContentPageTypes.SearchResults &&
 				!ContentPageContext.HasSelection);
 
+			if (executableInDisplayPage)
+				ExecutableType = ActionExecutableType.DisplayPageContext;
+
 			var executableInHomePage =
 				HomePageContext.IsAnyItemRightClicked;
+
+			if (executableInHomePage)
+				ExecutableType = ActionExecutableType.HomePageContext;
 
 			return executableInDisplayPage || executableInHomePage;
 		}

@@ -7,7 +7,6 @@ namespace Files.App.Actions
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		public string Label
 			=> "ClearRecentItemText".GetLocalizedResource();
@@ -23,19 +22,22 @@ namespace Files.App.Actions
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			var result = await DriveHelpers.EjectDeviceAsync(HomePageContext.RightClickedItem?.Path ?? string.Empty);
-			await UIHelpers.ShowDeviceEjectResultAsync((HomePageContext.RightClickedItem?.Item as WidgetDriveCardItem)!.Item.Type, result);
+			try
+			{
+				App.RecentItemsManager.ClearRecentItems();
+			}
+			catch (Exception) { }
+
+			return Task.CompletedTask;
 		}
 
 		private bool GetIsExecutable()
 		{
 			var executableInHomePage =
 				HomePageContext.IsAnyItemRightClicked &&
-				HomePageContext.RightClickedItem?.Item is DriveItem &&
-				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowEjectDevice ?? false);
+				HomePageContext.RightClickedItem is RecentItem;
 
 			return executableInHomePage;
 		}
