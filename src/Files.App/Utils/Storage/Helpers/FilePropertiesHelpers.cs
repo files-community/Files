@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Views.Properties;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -87,7 +88,8 @@ namespace Files.App.Utils.Storage
 		/// </summary>
 		/// <param name="item">An item to view properties</param>
 		/// <param name="associatedInstance">Associated main window instance</param>
-		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance)
+		/// <param name="defaultPage">The page to show when opening the window</param>
+		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance, PropertiesNavigationViewItemType defaultPage = PropertiesNavigationViewItemType.General)
 		{
 			if (item is null)
 				return;
@@ -147,6 +149,8 @@ namespace Files.App.Utils.Storage
 
 			appWindow.Move(appWindowPos);
 			appWindow.Show();
+
+			(frame.Content as MainPropertiesPage)?.TryNavigateToPage(defaultPage);
 		}
 
 		// Destruction of Window objects seems to cause access violation. (#12057)

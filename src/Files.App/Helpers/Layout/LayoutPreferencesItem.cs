@@ -20,12 +20,12 @@ namespace Files.App.Helpers
 		public bool SortFilesFirst;
 		public bool IsAdaptiveLayoutOverridden;
 
-		// Icon sizes
-		public int IconSizeDetailsView;
-		public int IconSizeListView;
-		public int IconSizeTilesView;
-		public int IconSizeGridView;
-		public int IconSizeColumnsView;
+		// Icon heights
+		public int IconHeightDetailsView;
+		public int IconHeightListView;
+		public int IconHeightTilesView;
+		public int IconHeightGridView;
+		public int IconHeightColumnsView;
 
 		public FolderLayoutModes LayoutMode;
 
@@ -43,11 +43,11 @@ namespace Files.App.Helpers
 			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
 
 			LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
-			IconSizeDetailsView = UserSettingsService.LayoutSettingsService.DefaultIconSizeDetailsView;
-			IconSizeListView = UserSettingsService.LayoutSettingsService.DefaultIconSizeListView;
-			IconSizeTilesView = UserSettingsService.LayoutSettingsService.DefaulIconSizeTilesView;
-			IconSizeGridView = UserSettingsService.LayoutSettingsService.DefaulIconSizeGridView;
-			IconSizeColumnsView = UserSettingsService.LayoutSettingsService.DefaultIconSizeColumnsView;
+			IconHeightDetailsView = UserSettingsService.LayoutSettingsService.DefaultIconHeightDetailsView;
+			IconHeightListView = UserSettingsService.LayoutSettingsService.DefaultIconHeightListView;
+			IconHeightTilesView = UserSettingsService.LayoutSettingsService.DefaulIconHeightTilesView;
+			IconHeightGridView = UserSettingsService.LayoutSettingsService.DefaulIconHeightGridView;
+			IconHeightColumnsView = UserSettingsService.LayoutSettingsService.DefaultIconHeightColumnsView;
 			DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 			DirectorySortDirection = UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
@@ -104,11 +104,11 @@ namespace Files.App.Helpers
 			{
 				return (
 					item.LayoutMode == LayoutMode &&
-					item.IconSizeDetailsView == IconSizeDetailsView &&
-					item.IconSizeListView == IconSizeListView &&
-					item.IconSizeTilesView == IconSizeTilesView &&
-					item.IconSizeGridView == IconSizeGridView &&
-					item.IconSizeColumnsView == IconSizeColumnsView &&
+					item.IconHeightDetailsView == IconHeightDetailsView &&
+					item.IconHeightListView == IconHeightListView &&
+					item.IconHeightTilesView == IconHeightTilesView &&
+					item.IconHeightGridView == IconHeightGridView &&
+					item.IconHeightColumnsView == IconHeightColumnsView &&
 					item.DirectoryGroupOption == DirectoryGroupOption &&
 					item.DirectorySortOption == DirectorySortOption &&
 					item.DirectorySortDirection == DirectorySortDirection &&
@@ -127,11 +127,11 @@ namespace Files.App.Helpers
 			HashCode hash = new();
 
 			hash.Add(LayoutMode);
-			hash.Add(IconSizeDetailsView);
-			hash.Add(IconSizeListView);
-			hash.Add(IconSizeTilesView);
-			hash.Add(IconSizeGridView);
-			hash.Add(IconSizeColumnsView);
+			hash.Add(IconHeightDetailsView);
+			hash.Add(IconHeightListView);
+			hash.Add(IconHeightTilesView);
+			hash.Add(IconHeightGridView);
+			hash.Add(IconHeightColumnsView);
 			hash.Add(DirectoryGroupOption);
 			hash.Add(DirectorySortOption);
 			hash.Add(DirectorySortDirection);
