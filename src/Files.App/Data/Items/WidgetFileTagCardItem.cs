@@ -56,10 +56,10 @@ namespace Files.App.Data.Items
 			_Path = associatedStorable.TryGetPath();
 			Item = this;
 
-			ClickCommand = new AsyncRelayCommand<CancellationToken?>(ClickAsync);
+			ClickCommand = new AsyncRelayCommand<object?>(ClickAsync);
 		}
 
-		private Task ClickAsync(CancellationToken? cancellationToken)
+		private Task ClickAsync(object? cancellationToken)
 		{
 			return _openAction(_associatedStorable.Id);
 		}
