@@ -134,7 +134,14 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value;
 
 					// Apply the updated background resource
-					ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor(value).FromWindowsColor());
+					try
+					{
+						ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor(value).FromWindowsColor());
+					}
+					catch
+					{
+						ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor("#00000000").FromWindowsColor());
+					}
 					ResourcesService.ApplyResources();
 
 					OnPropertyChanged();
