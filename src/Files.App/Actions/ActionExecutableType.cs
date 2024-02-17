@@ -9,17 +9,17 @@ namespace Files.App.Actions
 	public enum ActionExecutableType
 	{
 		/// <summary>
-		/// The action is executable in <see cref="IDisplayPageContext"/>.
+		/// The action is executable through <see cref="IDisplayPageContext"/>.
 		/// </summary>
 		DisplayPageContext,
 
 		/// <summary>
-		/// The action is executable in <see cref="IHomePageContext"/>.
+		/// The action is executable through <see cref="IHomePageContext"/>.
 		/// </summary>
 		HomePageContext,
 
 		/// <summary>
-		/// The action is executable in <see cref="ISidebarContext"/>.
+		/// The action is executable through <see cref="ISidebarContext"/>.
 		/// </summary>
 		SidebarContext
 	}

@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			// Ensure values are not null
 			if (e.OriginalSource is not FrameworkElement element ||
-				element.DataContext is not WidgetCardItem item)
+				element.DataContext is not IWidgetCardItem item)
 				return;
 
 			// Create a new Flyout

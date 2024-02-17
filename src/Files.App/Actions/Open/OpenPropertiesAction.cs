@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Windows.Storage;
+
 namespace Files.App.Actions
 {
 	internal class OpenPropertiesAction : ObservableObject, IAction
@@ -36,12 +38,32 @@ namespace Files.App.Actions
 			{
 				case ActionExecutableType.DisplayPageContext:
 					{
+						var layoutPage = ContentPageContext.ShellPage?.SlimContentPage!;
+						var isFromBaseContextFlyout = false;
+
 						EventHandler<object> flyoutClosed = null!;
-						App.LastOpenedFlyout!.Closed += flyoutClosed;
+
+						if (layoutPage?.BaseContextMenuFlyout.IsOpen ?? false)
+						{
+							isFromBaseContextFlyout = true;
+							layoutPage.BaseContextMenuFlyout.Closed += flyoutClosed;
+						}
+						else if (layoutPage?.ItemContextMenuFlyout.IsOpen ?? false)
+						{
+							layoutPage.ItemContextMenuFlyout.Closed += flyoutClosed;
+						}
+						else
+						{
+							FilePropertiesHelpers.OpenPropertiesWindow(ContentPageContext.ShellPage!);
+						}
 
 						flyoutClosed = (s, e) =>
 						{
-							App.LastOpenedFlyout!.Closed -= flyoutClosed;
+							if (isFromBaseContextFlyout)
+								layoutPage.BaseContextMenuFlyout.Closed -= flyoutClosed;
+							else
+								layoutPage.ItemContextMenuFlyout.Closed -= flyoutClosed;
+
 							FilePropertiesHelpers.OpenPropertiesWindow(ContentPageContext.ShellPage!);
 						};
 
@@ -49,14 +71,43 @@ namespace Files.App.Actions
 					}
 				case ActionExecutableType.HomePageContext:
 					{
-						var flyout = HomePageContext.ItemContextFlyoutMenu;
 						EventHandler<object> flyoutClosed = null!;
-						flyout!.Closed += flyoutClosed;
+						HomePageContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 
-						flyoutClosed = (s, e) =>
+						flyoutClosed = async (s, e) =>
 						{
-							flyout!.Closed -= flyoutClosed;
-							FilePropertiesHelpers.OpenPropertiesWindow(HomePageContext.RightClickedItem!.Item!, ContentPageContext.ShellPage!);
+							HomePageContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
+
+							if (HomePageContext.RightClickedItem is WidgetDriveCardItem driveCardItem)
+							{
+								FilePropertiesHelpers.OpenPropertiesWindow(driveCardItem.Item, ContentPageContext.ShellPage!);
+							}
+							else if (HomePageContext.RightClickedItem is WidgetFileTagCardItem fileTagCardItem)
+							{
+								ListedItem listedItem = new(null!)
+								{
+									ItemPath = fileTagCardItem?.Path ?? string.Empty,
+									ItemNameRaw = fileTagCardItem?.Name ?? string.Empty,
+									PrimaryItemAttribute = StorageItemTypes.Folder,
+									ItemType = "Folder".GetLocalizedResource(),
+								};
+								FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
+							}
+							else if (HomePageContext.RightClickedItem is WidgetFolderCardItem folderCardItem)
+							{
+								FilePropertiesHelpers.OpenPropertiesWindow(folderCardItem.Item!, ContentPageContext.ShellPage!);
+
+							}
+							else if (HomePageContext.RightClickedItem is WidgetRecentItem recentCardItem)
+							{
+								BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(recentCardItem.Path));
+								if (file is null)
+									return;
+
+								var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null, default);
+								FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
+
+							}
 						};
 
 						break;

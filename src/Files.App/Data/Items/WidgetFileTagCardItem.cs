@@ -3,24 +3,23 @@
 
 using Files.Core.Storage.Extensions;
 using Files.Shared.Utils;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;
 
 namespace Files.App.Data.Items
 {
-	public sealed partial class WidgetFileTagCardItem : WidgetCardItem
+	public sealed partial class WidgetFileTagCardItem : ObservableObject, IWidgetCardItem
 	{
 		// Dependency injections
 
 		public IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		// Fields
-
-		private readonly IStorable _associatedStorable;
-
 		// Properties
 
+		public IStorable Item { get; set; }
+
 		public bool IsFolder
-			=> _associatedStorable is IFolder;
+			=> Item is IFolder;
 
 		private IImage? _Icon;
 		public IImage? Icon
@@ -37,11 +36,14 @@ namespace Files.App.Data.Items
 		}
 
 		private string _Path;
-		public override string Path
+		public string Path
 		{
 			get => _Path;
 			set => SetProperty(ref _Path, value);
 		}
+
+		public BitmapImage Thumbnail
+			=> throw new NotImplementedException();
 
 		// Commands
 
@@ -49,18 +51,22 @@ namespace Files.App.Data.Items
 
 		public WidgetFileTagCardItem(IStorable associatedStorable, IImage? icon)
 		{
-			_associatedStorable = associatedStorable;
+			Item = associatedStorable;
 			_Icon = icon;
 			_Name = associatedStorable.Name;
 			_Path = associatedStorable.TryGetPath();
-			Item = this;
 
 			ClickCommand = new AsyncRelayCommand(ClickAsync);
 		}
 
+		public Task LoadCardThumbnailAsync()
+		{
+			throw new NotImplementedException();
+		}
+
 		private Task ClickAsync()
 		{
-			return NavigationHelpers.OpenPath(_associatedStorable.Id, ContentPageContext.ShellPage!);
+			return NavigationHelpers.OpenPath(Item.Id, ContentPageContext.ShellPage!);
 		}
 	}
 }

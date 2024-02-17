@@ -3,18 +3,18 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 
 namespace Files.App.Data.Items
 {
-	public class WidgetRecentItem : WidgetCardItem, IEquatable<WidgetRecentItem>
+	public class WidgetRecentItem : ObservableObject, IWidgetCardItem, IEquatable<WidgetRecentItem>
 	{
 		private BitmapImage _fileImg;
-		public BitmapImage FileImg
+		public BitmapImage Thumbnail
 		{
 			get => _fileImg;
 			set => SetProperty(ref _fileImg, value);
 		}
+
 		public string LinkPath { get; set; }    // path of shortcut item (this is unique)
 		public string RecentPath { get; set; }  // path to target item
 		public string Name { get; set; }
@@ -26,6 +26,8 @@ namespace Files.App.Data.Items
 		public DateTime LastModified { get; set; }
 		public byte[] PIDL { get; set; }
 		public string Path { get => RecentPath; }
+
+		public object Item => this;
 
 		public WidgetRecentItem()
 		{
@@ -73,19 +75,16 @@ namespace Files.App.Data.Items
 			PIDL = fileItem.PIDL;
 		}
 
-		public async Task LoadRecentItemIconAsync()
+		public async Task LoadCardThumbnailAsync()
 		{
 			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(RecentPath, Constants.ShellIconSizes.Large, false, false, false);
 			if (iconData is not null)
 			{
 				EmptyImgVis = false;
-				FileImg = await iconData.ToBitmapAsync();
+				Thumbnail = await iconData.ToBitmapAsync();
 			}
 		}
 
-		/// <summary>
-		/// Test equality for generic collection methods such as Remove(...)
-		/// </summary>
 		public bool Equals(WidgetRecentItem other)
 		{
 			if (other is null)
@@ -102,13 +101,6 @@ namespace Files.App.Data.Items
 		public override int GetHashCode() => (LinkPath, RecentPath).GetHashCode();
 		public override bool Equals(object? o) => o is WidgetRecentItem other && Equals(other);
 
-		/**
-		 * Strips a name from an extension while aware of some edge cases.
-		 *
-		 *   example.min.js => example.min
-		 *   example.js     => example
-		 *   .gitignore     => .gitignore
-		 */
 		private static string NameOrPathWithoutExtension(string nameOrPath)
 		{
 			string strippedExtension = SystemIO.Path.GetFileNameWithoutExtension(nameOrPath);

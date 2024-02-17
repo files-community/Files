@@ -9,10 +9,10 @@ namespace Files.App.Actions
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public string Label
-			=> "RemoveRecentItemText".GetLocalizedResource();
+			=> "RecentItemRemove/Text".GetLocalizedResource();
 
 		public string Description
-			=> "RemoveRecentItemDescription".GetLocalizedResource();
+			=> "RecentItemRemove/Text".GetLocalizedResource();
 
 		public bool IsExecutable
 			=> GetIsExecutable();
@@ -26,7 +26,7 @@ namespace Files.App.Actions
 		{
 			try
 			{
-				if (HomePageContext.RightClickedItem?.Item is WidgetRecentItem item)
+				if (HomePageContext.RightClickedItem is WidgetRecentItem item)
 					await App.RecentItemsManager.UnpinFromRecentFiles(item);
 			}
 			catch (Exception) { }

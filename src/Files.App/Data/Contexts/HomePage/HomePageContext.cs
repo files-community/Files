@@ -10,17 +10,17 @@ namespace Files.App.Data.Contexts
 	{
 		private static readonly IImmutableList<WidgetFileTagCardItem> emptyTaggedItems = Enumerable.Empty<WidgetFileTagCardItem>().ToImmutableList();
 
-		public bool IsAnyItemRightClicked => RightClickedItem is not null;
+		public bool IsAnyItemRightClicked
+			=> RightClickedItem is not null;
 
-		private WidgetCardItem? rightClickedItem = null;
-		public WidgetCardItem? RightClickedItem
+		private IWidgetCardItem? rightClickedItem = null;
+		public IWidgetCardItem? RightClickedItem
 		{
 			get => rightClickedItem;
 			set => SetProperty(ref rightClickedItem, value);
 		}
 
-		private CommandBarFlyout? itemContextFlyoutMenu = null;
-		public CommandBarFlyout? ItemContextFlyoutMenu => itemContextFlyoutMenu;
+		public CommandBarFlyout? ItemContextFlyoutMenu { get; private set; }
 
 		private IReadOnlyList<WidgetFileTagCardItem> selectedTaggedItems = emptyTaggedItems;
 		public IReadOnlyList<WidgetFileTagCardItem> SelectedTaggedItems
@@ -45,7 +45,7 @@ namespace Files.App.Data.Contexts
 			RightClickedItem = e.Item;
 			OnPropertyChanged(nameof(IsAnyItemRightClicked));
 
-			SetProperty(ref itemContextFlyoutMenu, e.Flyout, nameof(ItemContextFlyoutMenu));
+			ItemContextFlyoutMenu = e.Flyout;
 		}
 	}
 }

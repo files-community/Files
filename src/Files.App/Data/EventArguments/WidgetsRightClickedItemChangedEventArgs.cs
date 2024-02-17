@@ -7,11 +7,11 @@ namespace Files.App.Data.EventArguments
 {
 	public class WidgetsRightClickedItemChangedEventArgs
 	{
-		public WidgetCardItem? Item { get; set; }
+		public IWidgetCardItem? Item { get; set; }
 
 		public CommandBarFlyout? Flyout { get; set; }
 
-		public WidgetsRightClickedItemChangedEventArgs(WidgetCardItem? item = null, CommandBarFlyout? flyout = null)
+		public WidgetsRightClickedItemChangedEventArgs(IWidgetCardItem? item = null, CommandBarFlyout? flyout = null)
 		{
 			Item = item;
 			Flyout = flyout;

@@ -46,7 +46,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task RefreshWidgetAsync()
 		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync((Func<Task>)(async () =>
 			{
 				IsRecentFilesDisabledInWindows = !App.RecentItemsManager.CheckIsRecentFilesEnabled();
 
@@ -59,14 +59,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 					// Already sorted, add all in order
 					var recentFiles = App.RecentItemsManager.RecentFiles;
-					if (!recentFiles.SequenceEqual(Items))
+					if (!recentFiles.SequenceEqual<WidgetRecentItem>(Items))
 					{
 						Items.Clear();
 						foreach (var item in recentFiles)
 						{
 							Items.Insert(0, item);
 
-							_ = item.LoadRecentItemIconAsync()
+							_ = item.LoadCardThumbnailAsync()
 								.ContinueWith(t => App.Logger.LogWarning(t.Exception, null), TaskContinuationOptions.OnlyOnFaulted);
 						}
 					}
@@ -78,7 +78,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					App.Logger.LogInformation(ex, "The app could not populate recent files");
 				}
-			});
+			}));
 		}
 
 		public async Task OpenFileLocation(WidgetRecentItem? item)

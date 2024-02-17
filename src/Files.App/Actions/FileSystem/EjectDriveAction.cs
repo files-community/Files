@@ -26,16 +26,19 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(HomePageContext.RightClickedItem?.Path ?? string.Empty);
-			await UIHelpers.ShowDeviceEjectResultAsync((HomePageContext.RightClickedItem?.Item as WidgetDriveCardItem)!.Item.Type, result);
+
+			if (HomePageContext.RightClickedItem is WidgetDriveCardItem driveCardItem &&
+				driveCardItem.Item is DriveItem driveItem)
+				await UIHelpers.ShowDeviceEjectResultAsync(driveItem.Type, result);
 		}
 
 		private bool GetIsExecutable()
 		{
 			var executableInHomePage =
 				HomePageContext.IsAnyItemRightClicked &&
-				HomePageContext.RightClickedItem?.Item is DriveItem &&
-				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowEjectDevice ?? false);
+				HomePageContext.RightClickedItem is WidgetDriveCardItem driveCardItem &&
+				driveCardItem.Item is DriveItem driveItem &&
+				driveItem.MenuOptions.ShowEjectDevice;
 
 			return executableInHomePage;
 		}

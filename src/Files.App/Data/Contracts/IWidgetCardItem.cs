@@ -5,11 +5,14 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Contracts
 {
-	public interface IWidgetCardItem<T>
+	/// <summary>
+	/// Represents widget card item.
+	/// </summary>
+	public interface IWidgetCardItem
 	{
-		T Item { get; }
+		string? Path { get; }
 
-		BitmapImage Thumbnail { get; }
+		BitmapImage? Thumbnail { get; }
 
 		Task LoadCardThumbnailAsync();
 	}

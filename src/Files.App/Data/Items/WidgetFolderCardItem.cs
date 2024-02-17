@@ -5,13 +5,15 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Items
 {
-	public class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	public class WidgetFolderCardItem : ObservableObject, IWidgetCardItem
 	{
 		// Fields
 
 		private byte[] _thumbnailData;
 
 		// Properties
+
+		public string? Path { get; set; }
 
 		public string? AutomationProperties { get; set; }
 

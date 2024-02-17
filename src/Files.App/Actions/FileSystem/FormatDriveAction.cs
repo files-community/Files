@@ -7,9 +7,6 @@ namespace Files.App.Actions
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
-		private ActionExecutableType ExecutableType { get; set; }
 
 		public string Label
 			=> "FormatDriveText".GetLocalizedResource();
@@ -34,9 +31,9 @@ namespace Files.App.Actions
 		{
 			var executableInHomePage =
 				HomePageContext.IsAnyItemRightClicked &&
-				HomePageContext.RightClickedItem?.Item is DriveItem &&
-				(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					string.Equals(x.Path, HomePageContext.RightClickedItem?.Path))?.MenuOptions.ShowFormatDrive ?? false);
+				HomePageContext.RightClickedItem is WidgetDriveCardItem driveCardItem &&
+				driveCardItem.Item is DriveItem driveItem &&
+				driveItem.MenuOptions.ShowFormatDrive;
 
 			return executableInHomePage;
 		}

@@ -10,7 +10,7 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// The last right clicked item
 		/// </summary>
-		WidgetCardItem? RightClickedItem { get; }
+		IWidgetCardItem? RightClickedItem { get; }
 
 		/// <summary>
 		/// The last opened widget's context menu instance

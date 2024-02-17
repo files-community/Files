@@ -9,10 +9,10 @@ namespace Files.App.Actions
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public string Label
-			=> "ClearRecentItemText".GetLocalizedResource();
+			=> "RecentItemClearAll/Text".GetLocalizedResource();
 
 		public string Description
-			=> "ClearRecentItemDescription".GetLocalizedResource();
+			=> "RecentItemClearAll/Text".GetLocalizedResource();
 
 		public bool IsExecutable
 			=> GetIsExecutable();

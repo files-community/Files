@@ -93,7 +93,7 @@
 							VerticalAlignment="Center"
 							x:Load="{x:Bind FileIconVis}"
 							x:Phase="1"
-							Source="{x:Bind FileImg, Mode=OneWay}"
+							Source="{x:Bind Thumbnail, Mode=OneWay}"
 							Stretch="Uniform" />
 
 						<TextBlock
