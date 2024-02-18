@@ -52,6 +52,7 @@ namespace Files.App.Views.Layouts
 		private readonly DispatcherQueueTimer jumpTimer;
 		private readonly DispatcherQueueTimer dragOverTimer;
 		private readonly DispatcherQueueTimer tapDebounceTimer;
+		private readonly DispatcherQueueTimer renameDebounceTimer;
 		private readonly DispatcherQueueTimer hoverTimer;
 
 		private readonly DragEventHandler Item_DragOverEventHandler;
@@ -249,12 +250,13 @@ namespace Files.App.Views.Layouts
 						if (selectedItems.Count == 1)
 						{
 							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
+							/* Didn't see a reason for this
 							DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								// Tapped event must be executed first
 								await Task.Delay(50);
 								preRenamingItem = SelectedItem;
-							});
+							}); */
 						}
 						else
 						{
@@ -290,6 +292,7 @@ namespace Files.App.Views.Layouts
 
 			dragOverTimer = DispatcherQueue.CreateTimer();
 			tapDebounceTimer = DispatcherQueue.CreateTimer();
+			renameDebounceTimer = DispatcherQueue.CreateTimer();
 			hoverTimer = DispatcherQueue.CreateTimer();
 		}
 
@@ -1381,6 +1384,8 @@ namespace Files.App.Views.Layouts
 						{
 							StartRenameItem();
 							tapDebounceTimer.Stop();
+							renameDebounceTimer.Stop();
+							ResetRenameDoubleClick();
 						}
 					},
 					TimeSpan.FromMilliseconds(500));
@@ -1388,8 +1393,15 @@ namespace Files.App.Views.Layouts
 				else
 				{
 					tapDebounceTimer.Stop();
+					renameDebounceTimer.Stop();
 					preRenamingItem = item;
 				}
+				// This ignores the next click on an item if debounced since last click. This feels more like a double click instead of a single click.
+				renameDebounceTimer.Debounce(() =>
+				{
+					renameDebounceTimer.Stop();
+					ResetRenameDoubleClick();
+				}, TimeSpan.FromMilliseconds(1250));
 			}
 			else
 			{
