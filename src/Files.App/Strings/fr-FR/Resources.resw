@@ -3531,7 +3531,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>La suppression de {0} élément(s) depuis {1} a échoué"</value>
+    <value>Échec de la suppression de {0} élément(s) depuis "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
@@ -3684,5 +3684,20 @@
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Changer la pochette de l'album</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Échec du renommage de l'élément</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>La modification de "{0}" nécessite des autorisations supplémentaires</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Modifier les autorisations</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files est toujours en cours d'exécution en arrière-plan pour améliorer les performances de démarrage.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Où est allé Files ?</value>
   </data>
 </root>
