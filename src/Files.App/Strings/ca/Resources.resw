@@ -3685,4 +3685,19 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Canvia la portada de l'àlbum</value>
   </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>No s'ha pogut canviar el nom de l'element</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>L'edició de "{0}" requereix permisos addicionals</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edita els permisos</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files encara s'està executant en segon pla per millorar el rendiment d'inici.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>On va anar el Files?</value>
+  </data>
 </root>
