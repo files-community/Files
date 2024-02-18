@@ -96,7 +96,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
+		private void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (e.ClickedItem is WidgetFileTagCardItem itemViewModel)
 				itemViewModel.ClickCommand.Execute(null);
