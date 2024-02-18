@@ -3685,4 +3685,19 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Cambia copertina dell'album</value>
   </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Impossibile rinominare l'elemento</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Modificare "{0}" richiede ulteriori autorizzazioni</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Modifica autorizzazioni</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files è ancora in esecuzione in background per migliorare le prestazioni di avvio.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Dove è finito Files?</value>
+  </data>
 </root>

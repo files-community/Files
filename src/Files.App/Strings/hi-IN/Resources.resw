@@ -145,7 +145,7 @@
     <value>डिस्क पर माप</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>असम्पीडित परिमाण:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>यह कार्रवाई नहीं की जा सकती</value>
@@ -352,7 +352,7 @@
     <value>आप जिस फ़ाइल तक पहुंचने का प्रयास कर रहे हैं, उसे स्थानांतरित या हटा दिया गया हो सकता है।</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Cannot open properties for this file</value>
+    <value>इस फ़ाइल के लिए गुण नहीं खोले जा सकते</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>आप जिस फ़ाइल तक पहुंचने का प्रयास कर रहे हैं, उसे स्थानांतरित या हटा दिया गया हो सकता है।</value>
@@ -421,7 +421,7 @@
     <value>आइटम नाम में निम्नलिखित वर्ण नहीं होने चाहिए: \/:*? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>निर्दिष्ट नाम अमान्य है</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>चयनित वस्तु</value>
@@ -445,7 +445,7 @@
     <value>रीसायकल बिन खाली करें</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>bytes</value>
+    <value>बाइट्स</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>केबी</value>
@@ -469,7 +469,7 @@
     <value>{0:#,##0} फ़ाइलें, {1:#,##0} फ़ोल्डर्स</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
+    <value>{0:#,##0} फ़ाइलें, {1:#,##0} फ़ोल्डर्स {2:#,##0} स्थानों से</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>किसी अन्य उपयोगकर्ता के रूप में भागो</value>
@@ -481,7 +481,7 @@
     <value>विभिन्न प्रकार</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>सभी {0} में</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>प्रयुक्त जगह:</value>
@@ -520,7 +520,7 @@
     <value>{0} की प्रतिलिपि बनाएँ</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>शॉर्टकट बनाएं</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>फाइल स्थान खोलें</value>
@@ -532,7 +532,7 @@
     <value>मंजिल:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>Shortcut type:</value>
+    <value>शॉर्टकट प्रकार</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>वेब लिंक</value>
@@ -544,13 +544,13 @@
     <value>शॉर्टकट</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Internet shortcut</value>
+    <value>इंटरनेट शॉर्टकट</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
-    <value>{0} - shortcut</value>
+    <value>{0} - शॉर्टकट</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+    <value>फ़ाइलें एक ऐसी समस्या में फंस गईं जिसके लिए डेवलपररों ने अभी तक तैयारी नहीं की थी</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>कुछ गलत हुआ.</value>
@@ -559,7 +559,7 @@
     <value>इस समस्या की रिपोर्ट करें</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
+    <value>संदर्भित वस्तु या तो अमान्य है या पहुंच योग्य नहीं है।{0}त्रुटि संदेश:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>अमान्य आइटम</value>
@@ -571,7 +571,7 @@
     <value>अभी साझा करने के लिए कुछ भी नहीं है.</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>The items you've selected will be shared</value>
+    <value>आपके द्वारा चुने गए वस्तुओं साझा किए जाएंगे</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
     <value>The selected item will be shared</value>
@@ -3684,5 +3684,20 @@
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Change album cover</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Failed to rename item</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Editing "{0}" requires additional permissions</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edit permissions</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files is still running in the background to improve startup performance.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Where did Files go?</value>
   </data>
 </root>

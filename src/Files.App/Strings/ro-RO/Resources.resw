@@ -133,7 +133,7 @@
     <value>Mărime</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Creat în:</value>
+    <value>Creat:</value>
   </data>
   <data name="Path" xml:space="preserve">
     <value>Cale</value>
@@ -169,10 +169,10 @@
     <value>Deselectare totală</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modificat în:</value>
+    <value>Modificat:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Accesat în:</value>
+    <value>Accesat:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Curăță toate elementele</value>
@@ -3684,5 +3684,20 @@
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Schimbați coperta albumului</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Nu s-a putut redenumi elementul</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Editarea „{0}” necesită permisiuni suplimentare</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Editare permisiuni</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files încă rulează în fundal pentru a îmbunătăți performanța la pornire.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Unde s-a dus Files?</value>
   </data>
 </root>

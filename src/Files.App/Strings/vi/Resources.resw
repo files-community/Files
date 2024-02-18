@@ -1078,7 +1078,7 @@
     <value>Chuyển đổi ẩn/hiện ngăn thông tin để hiện ngăn chi tiết hoặc ngăn xem trước</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Xem trước không sẵn dùng</value>
+    <value>Xem trước không khả dụng</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Tên khoản mục</value>
@@ -1180,7 +1180,7 @@
     <value>Chưa chọn khoản mục nào</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Mục tiêu</value>
+    <value>Đích</value>
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Đối số</value>
@@ -1600,10 +1600,10 @@
     <value>Đóng ngăn</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>Mở cửa sổ dạng thu gọn</value>
+    <value>Bật chế độ thu gọn</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>Thoát cửa sổ dạng thu gọn</value>
+    <value>Tắt chế độ thu gọn</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Mô tả tệp</value>
@@ -1816,7 +1816,7 @@
     <value>Khôi phục mặc định</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Mở một thẻ trong cửa sổ hiện hoạt khi chạy Files từ ứng dụng khác</value>
+    <value>Mở thẻ mới trong cửa sổ hiện hoạt khi chạy Files từ ứng dụng khác</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Cài đặt khởi động</value>
@@ -2014,7 +2014,7 @@
     <value>Trình chiếu trên màn hình chính</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Điều chỉnh chiều rộng cột cho vừa với nội dung</value>
+    <value>Căn chỉnh lại chiều rộng cột</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Chuyển bố cục tự động</value>
@@ -2086,10 +2086,10 @@
     <value>Khôi phục tất cả khoản mục</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Bạn có muốn khôi phục {0} khoản mục được chọn không?</value>
+    <value>Bạn có muốn khôi phục {0} khoản mục đã chọn không?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Khôi phục các khoản mục được chọn</value>
+    <value>Khôi phục các khoản mục đã chọn</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Khôi phục tất cả khoản mục</value>
@@ -2383,7 +2383,7 @@
     <value>Khởi chạy cửa sổ xem trước</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Chuyển đổi dạng xem thu gọn</value>
+    <value>Chuyển đổi chế độ thu gọn</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
     <value>Mở trang trợ giúp trực tuyến trong trình duyệt</value>
@@ -2398,10 +2398,10 @@
     <value>Thoát cửa sổ dạng thu gọn</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Chuyển đổi bật/tắt dạng xem thu gọn</value>
+    <value>Chuyển đổi bật/tắt cửa sổ dạng thu gọn</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Chuyển đến hộp tìm kiếm</value>
+    <value>Đặt tiêu điểm vào hộp tìm kiếm</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện khoản mục bị ẩn</value>
@@ -3101,7 +3101,7 @@
     <value>Chuyển sang nhánh mới</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Tạo thư mục với khoản mục được chọn</value>
+    <value>Tạo thư mục với khoản mục đã chọn</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Thuộc tính</value>
@@ -3351,7 +3351,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Tím biếc</value>
+    <value>Tím pastel</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
@@ -3379,7 +3379,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Bọt biển</value>
+    <value>Xanh pastel</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
@@ -3387,7 +3387,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Đỏ thẩm sáng</value>
+    <value>Đỏ tím sáng</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
@@ -3684,5 +3684,20 @@
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Thay đổi bìa album</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Không thể đổi tên khoản mục</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Chỉnh sửa "{0}" yêu cầu quyền truy cập bổ sung</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Chỉnh sửa quyền</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files vẫn đang chạy trong nền để cải thiện tốc độ khởi động ứng dụng.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Files đang ở đâu?</value>
   </data>
 </root>
