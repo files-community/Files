@@ -2236,7 +2236,7 @@
     <value>Zobrazit možnosti komprese</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show send to menu</value>
+    <value>Zobrazit odeslání do menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Zobrazit možnost otevřít složky v nové záložce</value>
@@ -2575,7 +2575,7 @@
     <value>Přepnout na zobrazení dlaždic</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
-    <value>Switch to list view</value>
+    <value>Přepnout na seznamové zobrazení</value>
   </data>
   <data name="List" xml:space="preserve">
     <value>Seznam</value>
@@ -3684,5 +3684,20 @@
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Change album cover</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Přejmenování položky se nezdařilo</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Úprava "{0}" vyžaduje další oprávnění</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Upravit oprávnění</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files stále běží na pozadí za účelem zlepšení rychlosti spouštění.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Kde odešel Files?</value>
   </data>
 </root>
