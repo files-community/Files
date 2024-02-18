@@ -3685,4 +3685,19 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Ganti sampul album</value>
   </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Gagal mengganti nama item</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Mengedit "{0}" memerlukan akses tambahan</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edit akses</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files sedang berjalan di latar belakang untuk meningkatkan performa startup.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Kemana Files pergi?</value>
+  </data>
 </root>
