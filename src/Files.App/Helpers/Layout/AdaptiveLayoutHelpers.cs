@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Services.Settings;
 using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
 using IniParser.Model;
@@ -13,6 +14,7 @@ namespace Files.App.Helpers
 	public static class AdaptiveLayoutHelpers
 	{
 		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public static void ApplyAdaptativeLayout(LayoutPreferencesManager folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
@@ -98,7 +100,8 @@ namespace Files.App.Helpers
 				return Layouts.Detail;
 			if (imagePercentage >= ExtraLargeThreshold)
 				return Layouts.Grid;
-			if (mediaPercentage >= MediumThreshold)
+			// Tiles has a better experience for media than details when thumbnails are on
+			if (UserSettingsService.FoldersSettingsService.ShowThumbnails && mediaPercentage >= MediumThreshold)
 				return Layouts.Tiles;
 			if (imagePercentage <= MediumThreshold)
 				return Layouts.Detail;
