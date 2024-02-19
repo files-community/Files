@@ -104,7 +104,7 @@
         </ProjectConfiguration>
     </ItemGroup>
 
-    <ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
         <ClCompile>
             <WarningLevel>Level3</WarningLevel>
             <SDLCheck>true</SDLCheck>
