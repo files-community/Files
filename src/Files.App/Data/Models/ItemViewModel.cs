@@ -1288,7 +1288,7 @@ namespace Files.App.Data.Models
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, Constants.ShellIconSizes.ExtraLarge, false, false, true, false);
+				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, Constants.ShellIconSizes.Large, false, false, true, true);
 
 				if (headerIconInfo is not null && !item.IsShortcut)
 					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
