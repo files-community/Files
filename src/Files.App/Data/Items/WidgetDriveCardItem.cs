@@ -26,7 +26,7 @@ namespace Files.App.Data.Items
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.Path, Constants.ShellIconSizes.ExtraLarge, true, false, true, true);
+			thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.Path, Constants.ShellIconSizes.Large, true, false, true, true);
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)

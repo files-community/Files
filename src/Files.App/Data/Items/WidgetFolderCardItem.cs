@@ -50,7 +50,7 @@ namespace Files.App.Data.Items
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			_thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, Constants.ShellIconSizes.ExtraLarge, true, false, true, true);
+			_thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, Constants.ShellIconSizes.Large, true, false, true, true);
 
 			if (_thumbnailData is not null && _thumbnailData.Length > 0)
 				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
