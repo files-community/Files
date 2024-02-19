@@ -50,16 +50,8 @@ namespace Files.App.ViewModels.Properties
 
 			if (ViewModel.LoadFileIcon)
 			{
-				if (diskRoot is not null)
-				{
-					ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail);
-				}
-				else
-				{
-					ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80, false, false, false, false);
-				}
-
-				ViewModel.IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.DeviceID, 80, false, false, false, false); // For network shortcuts
+				ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, Constants.ShellIconSizes.ExtraLarge, true, false, true, true);
+				ViewModel.IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.DeviceID, Constants.ShellIconSizes.ExtraLarge, true, false, true, true); // For network shortcuts
 			}
 
 			if (diskRoot is null || diskRoot.Properties is null)
