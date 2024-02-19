@@ -75,7 +75,7 @@ namespace Files.App.Utils.RecentItem
 
 		public async Task LoadRecentItemIconAsync()
 		{
-			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(RecentPath, Constants.ShellIconSizes.Small, false, false, false, true);
+			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(RecentPath, Constants.ShellIconSizes.Large, false, false, false, false);
 			if (iconData is not null)
 			{
 				EmptyImgVis = false;
