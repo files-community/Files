@@ -90,8 +90,8 @@
 						<Image
 							x:Name="RecentFileImg"
 							Grid.Column="0"
-							Width="24"
-							Height="24"
+							Width="16"
+							Height="16"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							x:Load="{x:Bind FileIconVis}"

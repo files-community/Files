@@ -9,12 +9,16 @@ namespace Files.App.Utils.Storage
 {
 	public static class FileThumbnailHelper
 	{
-		public static Task<(byte[] IconData, byte[] OverlayData, bool isIconCached)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false, bool getThumbnailOnly = false, bool getIconOnly = false)
-			=> Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, getThumbnailOnly, getIconOnly));
-
-		public static async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize, bool isFolder, bool getThumbnailOnly, bool getIconOnly)
+		public static Task<(byte[] IconData, byte[] OverlayData, bool isIconCached)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false, bool getThumbnailOnly = false, bool getIconOnly = false, bool useCurrentScale = false)
 		{
-			return (await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, getThumbnailOnly, getIconOnly))).icon;
+			var size = useCurrentScale ? thumbnailSize * App.AppModel.AppWindowDpi : thumbnailSize;
+			return Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)size, isFolder, getThumbnailOnly, getIconOnly));
+		}
+
+		public static async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize, bool isFolder, bool getThumbnailOnly, bool getIconOnly, bool useCurrentScale)
+		{
+			var size = useCurrentScale ? thumbnailSize * App.AppModel.AppWindowDpi : thumbnailSize;
+			return (await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)size, isFolder, getThumbnailOnly, getIconOnly))).icon;
 		}
 
 		public static async Task<byte[]> LoadIconFromStorageItemAsync(IStorageItem item, uint thumbnailSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions)
@@ -54,7 +58,7 @@ namespace Files.App.Utils.Storage
 					}
 				}
 			}
-			return await LoadIconWithoutOverlayAsync(filePath, thumbnailSize, isFolder, false, false);
+			return await LoadIconWithoutOverlayAsync(filePath, thumbnailSize, isFolder, false, false, false);
 		}
 	}
 }

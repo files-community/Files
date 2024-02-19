@@ -116,5 +116,16 @@ namespace Files.App.Data.Models
 			get => pCloudDrivePath;
 			set => SetProperty(ref pCloudDrivePath, value);
 		}
+
+
+		private float appWindowDpi = InteropHelpers.GetDpiForWindow(MainWindow.Instance.WindowHandle) / 100.0f;
+		/// <summary>
+		/// Gets or sets a value indicating the AppWindow DPI.
+		/// </summary>
+		public float AppWindowDpi
+		{
+			get => appWindowDpi;
+			set => SetProperty(ref appWindowDpi, value);
+		}
 	}
 }
