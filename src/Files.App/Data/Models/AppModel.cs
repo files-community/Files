@@ -122,7 +122,7 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public float AppWindowDpi
 		{
-			get => InteropHelpers.GetDpiForWindow(MainWindow.Instance.WindowHandle) / 96;
+			get => InteropHelpers.GetDpiForWindow(MainWindow.Instance.WindowHandle) / 96f;
 		}
 	}
 }
