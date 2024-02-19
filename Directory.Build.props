@@ -1,0 +1,24 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Project>
+
+    <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+        <Nullable>enable</Nullable>
+        <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
+        <Company>Files Community</Company>
+        <Copyright>Copyright (c) 2024 Files Community.</Copyright>
+        <AssemblyCompany>Files Community</AssemblyCompany>
+        <AssemblyCopyright>Copyright (c) 2024 Files Community</AssemblyCopyright>
+        <AssemblyProduct>Files</AssemblyProduct>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <Platforms>x86;x64;arm64</Platforms>
+        <LangVersion>latest</LangVersion>
+        <DefaultLanguage>en-US</DefaultLanguage>
+        <ApplicationIcon>src/Files.App (Package)/Assets/AppTiles/Release/Logo.ico</ApplicationIcon>
+        <RepositoryUrl>https://github.com/files-community/Files</RepositoryUrl>
+        <RepositoryType>GitHub</RepositoryType>
+        <DefineConstants Condition="'$(Configuration)' == 'Debug'">TRACE;DEBUG;NETFX_CORE</DefineConstants>
+        <DefineConstants Condition="'$(Configuration)' != 'Debug'">TRACE;RELEASE;NETFX_CORE</DefineConstants>
+        <Optimize Condition="'$(Configuration)' != 'Debug'">true</Optimize>
+    </PropertyGroup>
+
+</Project>
