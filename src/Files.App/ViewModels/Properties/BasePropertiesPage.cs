@@ -97,7 +97,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					ViewModel.IsAblumCoverModified = true;
 					ViewModel.ModifiedAlbumCover = new Picture(file.Path);
-					ViewModel.IconData = await FileThumbnailHelper.LoadIconFromPathAsync(file.Path, 80, ThumbnailMode.DocumentsView, ThumbnailOptions.ResizeThumbnail, false);
+					ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(file.Path, Constants.ShellIconSizes.ExtraLarge, false, false, false, true);
 				}
 			});
 
