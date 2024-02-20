@@ -27,7 +27,6 @@ namespace Files.App.Views.Layouts
 
 		// Properties
 
-		protected override uint IconSize => currentIconSize;
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
@@ -39,15 +38,62 @@ namespace Files.App.Views.Layouts
 			FolderSettings.LayoutMode == FolderLayoutModes.ListView ||
 			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
 				? 260
-				: FolderSettings.LayoutPreferencesItem.IconHeightGridView;
+				: UserSettingsService.LayoutSettingsService.ItemSizeGridView;
+
+
+		/// <summary>
+		/// Item size for the List View
+		/// </summary>
+		public int ItemSizeListView
+		{
+			get => UserSettingsService.LayoutSettingsService.ItemSizeListView;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ItemSizeListView)
+				{
+					NotifyPropertyChanged(nameof(ItemSizeListView));
+					NotifyPropertyChanged(nameof(GridViewItemWidth));
+				}
+			}
+		}
+
+		/// <summary>
+		/// Item size for the Tiles View
+		/// </summary>
+		public int ItemSizeTilesView
+		{
+			get => UserSettingsService.LayoutSettingsService.ItemSizeTilesView;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ItemSizeTilesView)
+				{
+					NotifyPropertyChanged(nameof(ItemSizeTilesView));
+					NotifyPropertyChanged(nameof(GridViewItemWidth));
+				}
+			}
+		}
+
+		/// <summary>
+		/// Item size for the Grid View
+		/// </summary>
+		public int ItemSizeGridView
+		{
+			get => UserSettingsService.LayoutSettingsService.ItemSizeGridView;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ItemSizeGridView)
+				{
+					NotifyPropertyChanged(nameof(ItemSizeGridView));
+					NotifyPropertyChanged(nameof(GridViewItemWidth));
+				}
+			}
+		}
 
 		public bool IsPointerOver
 		{
 			get => (bool)GetValue(IsPointerOverProperty);
 			set => SetValue(IsPointerOverProperty, value);
 		}
-
-		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		public static readonly DependencyProperty IsPointerOverProperty =
 			DependencyProperty.Register(
@@ -105,15 +151,16 @@ namespace Files.App.Views.Layouts
 			base.OnNavigatedTo(eventArgs);
 
 			currentIconSize = FolderSettings.GetRoundedIconSize();
+
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
-			AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
+			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			// Set ItemTemplate
 			SetItemTemplate();
+			SetItemContainerStyle();
 			FileList.ItemsSource ??= ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -121,22 +168,38 @@ namespace Files.App.Views.Layouts
 				ReloadItemIconsAsync();
 		}
 
-		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(IAppearanceSettingsService.UseCompactStyles))
-				SetItemContainerStyle();
-		}
-
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
 
 			if (FolderSettings != null)
-			{
 				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-				FolderSettings.IconHeightChanged -= FolderSettings_IconHeightChanged;
+
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+		}
+
+		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			// TODO keep scroll position when changing styles (see details view)
+
+			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeListView))
+			{
+				ItemSizeListView = UserSettingsService.LayoutSettingsService.ItemSizeListView;
+				SetItemContainerStyle();
+				FolderSettings_IconHeightChanged();
 			}
-			AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
+			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeTilesView))
+			{
+				ItemSizeTilesView = UserSettingsService.LayoutSettingsService.ItemSizeTilesView;
+				SetItemContainerStyle();
+				FolderSettings_IconHeightChanged();
+			}
+			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeGridView))
+			{
+				ItemSizeGridView = UserSettingsService.LayoutSettingsService.ItemSizeGridView;
+				SetItemContainerStyle();
+				FolderSettings_IconHeightChanged();
+			}
 		}
 
 		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -147,6 +210,7 @@ namespace Files.App.Views.Layouts
 			{
 				// Set ItemTemplate
 				SetItemTemplate();
+				SetItemContainerStyle();
 
 				var requestedIconSize = FolderSettings.GetRoundedIconSize();
 				if (requestedIconSize != currentIconSize)
@@ -186,39 +250,26 @@ namespace Files.App.Views.Layouts
 					FileList.ItemTemplate = GridViewBrowserTemplate;
 					break;
 			}
-
-			SetItemContainerStyle();
-			SetItemMinWidth();
-
-			// Set GridViewSize event handlers
-			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
-			{
-				FolderSettings.IconHeightChanged -= FolderSettings_IconHeightChanged;
-				FolderSettings.IconHeightChanged += FolderSettings_IconHeightChanged;
-			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
-			{
-				FolderSettings.IconHeightChanged -= FolderSettings_IconHeightChanged;
-				FolderSettings.IconHeightChanged += FolderSettings_IconHeightChanged;
-			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
-			{
-				FolderSettings.IconHeightChanged -= FolderSettings_IconHeightChanged;
-				FolderSettings.IconHeightChanged += FolderSettings_IconHeightChanged;
-			}
 		}
 
 		private void SetItemContainerStyle()
 		{
-			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && AppearanceSettingsService.UseCompactStyles)
-				FileList.ItemContainerStyle = CompactListItemContainerStyle;
-			else
+			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && ItemSizeListView < Constants.IconHeights.ListView.Small)
+			{
+				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = DefaultItemContainerStyle;
-		}
 
-		private void SetItemMinWidth()
-		{
-			NotifyPropertyChanged(nameof(GridViewItemWidth));
+				// Set correct style
+				FileList.ItemContainerStyle = CompactListItemContainerStyle;
+			}
+			else
+			{
+				// Toggle style to force item size to update
+				FileList.ItemContainerStyle = CompactListItemContainerStyle;
+
+				// Set correct style
+				FileList.ItemContainerStyle = DefaultItemContainerStyle;
+			}
 		}
 
 		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -441,10 +492,8 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
-		private async void FolderSettings_IconHeightChanged(object? sender, EventArgs e)
+		private async void FolderSettings_IconHeightChanged()
 		{
-			SetItemMinWidth();
-
 			// Get new icon size
 			var requestedIconSize = FolderSettings.GetRoundedIconSize();
 
@@ -468,7 +517,7 @@ namespace Files.App.Views.Layouts
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 			}
 
 			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)

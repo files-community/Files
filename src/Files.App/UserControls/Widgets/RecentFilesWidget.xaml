@@ -46,14 +46,6 @@
 			RightTapped="ListView_RightTapped"
 			SelectionMode="None">
 
-			<ListView.ItemContainerStyle>
-				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-					<Setter Property="MinHeight" Value="1" />
-					<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-					<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
-				</Style>
-			</ListView.ItemContainerStyle>
-
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="recent:RecentItem">
 					<Grid

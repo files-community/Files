@@ -19,7 +19,6 @@ namespace Files.App.Views.Layouts
 	{
 		// Properties
 
-		protected override uint IconSize => Constants.ShellIconSizes.Large;
 		protected override ItemsControl ItemsControl => ColumnHost;
 
 		public string? OwnerPath { get; private set; }

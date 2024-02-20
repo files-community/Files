@@ -143,17 +143,41 @@ namespace Files.App
 
 			public static class ListView
 			{
+				public const int Increment = 4;
+
+				public const int Minimum = 24;
+
+				public const int Small = 28;
+
 				public const int Regular = 32;
+
+				public const int Maximum = 36;
 			}
 
 			public static class DetailsView
 			{
-				public const int Regular = 32;
+				public const int Increment = 4;
+
+				public const int Minimum = 28;
+
+				public const int Small = 32;
+
+				public const int Regular = 36;
+
+				public const int Maximum = 40;
 			}
 
 			public static class ColumnsView
 			{
-				public const int Regular = 32;
+				public const int Increment = 4;
+
+				public const int Minimum = 28;
+
+				public const int Small = 32;
+
+				public const int Regular = 36;
+
+				public const int Maximum = 40;
 			}
 		}
 

@@ -613,11 +613,6 @@ namespace Files.App.Data.Models
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightDetailsView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightListView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconHeightTilesView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconHeightGridView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightColumnsView):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
@@ -942,12 +937,13 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
-		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
-		private async Task LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96)
+		private async Task LoadItemThumbnailAsync(ListedItem item)
 		{
+			var thumbnailSize = folderSettings.GetRoundedIconSize();
+
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
+				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 				var getThumbnailOnly = !item.IsExecutable && !getIconOnly;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getThumbnailOnly, getIconOnly);
 
@@ -1008,7 +1004,7 @@ namespace Files.App.Data.Models
 			}
 			else
 			{
-				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 80;
+				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, false, getIconOnly);
 
 				if (iconInfo.IconData is not null)
@@ -1038,7 +1034,7 @@ namespace Files.App.Data.Models
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
-		public async Task LoadExtendedItemPropertiesAsync(ListedItem item, uint thumbnailSize = 20)
+		public async Task LoadExtendedItemPropertiesAsync(ListedItem item)
 		{
 			if (item is null)
 				return;
@@ -1071,7 +1067,7 @@ namespace Files.App.Data.Models
 						}
 
 						cts.Token.ThrowIfCancellationRequested();
-						await LoadItemThumbnailAsync(item, thumbnailSize);
+						await LoadItemThumbnailAsync(item);
 
 						if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 						{

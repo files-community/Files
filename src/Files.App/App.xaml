@@ -7,12 +7,6 @@
 	<Application.Resources>
 		<ResourceDictionary>
 
-			<!--  Default list view item height  -->
-			<x:Double x:Key="ListItemHeight">36</x:Double>
-
-			<!--  Default list view item margin  -->
-			<x:Double x:Key="ListItemMargin">0</x:Double>
-
 			<!--  Fix caption buttons background  -->
 			<SolidColorBrush x:Key="WindowCaptionBackground" Color="Transparent" />
 			<SolidColorBrush x:Key="WindowCaptionBackgroundDisabled" Color="Transparent" />
@@ -29,6 +23,7 @@
 			<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
 			<Style TargetType="FlyoutPresenter">
 				<Setter Target="HighContrastAdjustment" Value="None" />
+				<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
 			</Style>
 
 			<Style TargetType="MenuFlyoutPresenter">

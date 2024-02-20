@@ -101,7 +101,6 @@ namespace Files.App.Views.Layouts
 			Placement = FlyoutPlacementMode.Right,
 		};
 
-		protected abstract uint IconSize { get; }
 		protected abstract ItemsControl ItemsControl { get; }
 
 		public IShellPage? ParentShellPageInstance { get; private set; }
@@ -1157,7 +1156,7 @@ namespace Files.App.Views.Layouts
 					uint callbackPhase = 3;
 					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
 					{
-						await ParentShellPageInstance!.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, IconSize);
+						await ParentShellPageInstance!.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 						if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None && listedItem is GitItem gitItem)
 							await ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
 					});

@@ -17,6 +17,8 @@ namespace Files.App.ViewModels.Layouts
 	/// </summary>
 	public class BaseLayoutViewModel : IDisposable
 	{
+		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		private readonly IShellPage _associatedInstance;
 
 		private readonly ItemManipulationModel _itemManipulationModel;
@@ -74,10 +76,10 @@ namespace Files.App.ViewModels.Layouts
 
 				// Mouse wheel down
 				if (delta < 0)
-					_associatedInstance.InstanceViewModel.FolderSettings.IncreaseLayoutSize();
+					Commands.LayoutIncreaseSize.ExecuteAsync();
 				// Mouse wheel up
 				else if (delta > 0)
-					_associatedInstance.InstanceViewModel.FolderSettings.DecreaseLayoutSize();
+					Commands.LayoutDecreaseSize.ExecuteAsync();
 
 				e.Handled = true;
 			}

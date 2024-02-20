@@ -38,9 +38,24 @@ namespace Files.App.Views.Layouts
 
 		// Properties
 
-		protected override uint IconSize => Constants.ShellIconSizes.Large;
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
+
+
+		/// <summary>
+		/// Item size for the Columns View
+		/// </summary>
+		public int ItemSize
+		{
+			get => UserSettingsService.LayoutSettingsService.ItemSizeColumnsView;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ItemSizeColumnsView)
+				{
+					NotifyPropertyChanged(nameof(ItemSize));
+				}
+			}
+		}
 
 		// Constructor
 
@@ -134,6 +149,9 @@ namespace Files.App.Views.Layouts
 
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
+			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
+
+			SetItemContainerStyle();
 		}
 
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -151,6 +169,18 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+		}
+
+		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			// TODO keep scroll position when changing styles (see details view)
+
+			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeColumnsView))
+			{
+				ItemSize = UserSettingsService.LayoutSettingsService.ItemSizeColumnsView;
+				SetItemContainerStyle();
+			}
 		}
 
 		override public void StartRenameItem()
@@ -204,6 +234,18 @@ namespace Files.App.Views.Layouts
 
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
+
+		private void SetItemContainerStyle()
+		{
+			if (ItemSize <= Constants.IconHeights.ColumnsView.Minimum)
+				FileList.ItemContainerStyle = MinimumItemContainerStyle;
+			else if (ItemSize <= Constants.IconHeights.ColumnsView.Small)
+				FileList.ItemContainerStyle = SmallItemContainerStyle;
+			else if (ItemSize <= Constants.IconHeights.ColumnsView.Regular)
+				FileList.ItemContainerStyle = RegularItemContainerStyle;
+			else
+				FileList.ItemContainerStyle = MaximumItemContainerStyle;
+		}
 
 		public override void Dispose()
 		{
@@ -504,7 +546,7 @@ namespace Files.App.Views.Layouts
 					parent.FolderSettings.ToggleLayoutModeTiles(true);
 					break;
 				case FolderLayoutModes.GridView:
-					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize, true);
+					parent.FolderSettings.ToggleLayoutModeGridView(true);
 					break;
 				case FolderLayoutModes.Adaptive:
 					parent.FolderSettings.ToggleLayoutModeAdaptive();
