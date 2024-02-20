@@ -317,7 +317,10 @@ namespace Files.App.Data.Items
 		public async Task LoadThumbnailAsync()
 		{
 			if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-				IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, Constants.ShellIconSizes.Small, false, false, true, true);
+			{
+				var result = await FileThumbnailHelper.GetIconAsync(DeviceID, Constants.ShellIconSizes.Small, false, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+				IconData ??= result.IconData;
+			}
 
 			if (Root is not null)
 			{

@@ -85,9 +85,9 @@ namespace Files.App.ViewModels.Previews
 		public async virtual Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			// Requesting sizes larger than 220 may result in a small thumbnail
-			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, Constants.ShellIconSizes.Jumbo, false, false, false, false);
-			if (iconData is not null)
-				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await iconData.ToBitmapAsync());
+			var result = await FileThumbnailHelper.GetIconAsync(Item.ItemPath, Constants.ShellIconSizes.Jumbo, false, false, IconOptions.None);
+			if (result.IconData is not null)
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await result.IconData.ToBitmapAsync());
 			else
 				FileImage ??= await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => new BitmapImage());
 

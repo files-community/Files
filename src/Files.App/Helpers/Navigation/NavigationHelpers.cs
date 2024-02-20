@@ -188,7 +188,9 @@ namespace Files.App.Helpers
 
 			if (iconSource.ImageSource is null)
 			{
-				var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(currentPath, Constants.ShellIconSizes.Small, true, false, true, true);
+				var result = await FileThumbnailHelper.GetIconAsync(currentPath, Constants.ShellIconSizes.Small, true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+				var iconData = result.IconData;
+				
 				if (iconData is not null)
 					iconSource.ImageSource = await iconData.ToBitmapAsync();
 			}

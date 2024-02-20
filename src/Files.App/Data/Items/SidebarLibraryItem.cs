@@ -46,7 +46,8 @@ namespace Files.App.Data.Items
 
 		public async Task LoadLibraryIconAsync()
 		{
-			IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, Constants.ShellIconSizes.Small, false, false, true, true);
+			var result = await FileThumbnailHelper.GetIconAsync(Path, Constants.ShellIconSizes.Small, false, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+			IconData = result.IconData;
 
 			if (IconData is not null)
 				Icon = await IconData.ToBitmapAsync();

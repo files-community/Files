@@ -36,10 +36,10 @@ namespace Files.App.ViewModels.Previews
 
 		private async Task LoadItemThumbnailAsync()
 		{
-			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, Constants.ShellIconSizes.Jumbo, false, false, false, false);
-			if (iconData is not null)
+			var result = await FileThumbnailHelper.GetIconAsync(Item.ItemPath, Constants.ShellIconSizes.Jumbo, false, false, IconOptions.None);
+			if (result.IconData is not null)
 			{
-				FileImage = await iconData.ToBitmapAsync();
+				FileImage = await result.IconData.ToBitmapAsync();
 			}
 		}
 	}

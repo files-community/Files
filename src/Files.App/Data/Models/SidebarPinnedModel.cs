@@ -102,8 +102,8 @@ namespace Files.App.Data.Models
 				locationItem.IsInvalid = false;
 				if (res && res.Result is not null)
 				{
-					var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(res.Result.Path, Constants.ShellIconSizes.Small, true, false, true, true);
-					locationItem.IconData = iconData;
+					var result = await FileThumbnailHelper.GetIconAsync(res.Result.Path, Constants.ShellIconSizes.Small, true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					locationItem.IconData = result.IconData;
 
 					if (locationItem.IconData is not null)
 						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());

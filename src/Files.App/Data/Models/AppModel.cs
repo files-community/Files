@@ -119,10 +119,13 @@ namespace Files.App.Data.Models
 
 		/// <summary>
 		/// Gets or sets a value indicating the AppWindow DPI.
+		/// TODO update value if the DPI changes
 		/// </summary>
-		public float AppWindowDpi
+		private float appWindowDPI = InteropHelpers.GetDpiForWindow(MainWindow.Instance.WindowHandle) / 96f;
+		public float AppWindowDPI
 		{
-			get => InteropHelpers.GetDpiForWindow(MainWindow.Instance.WindowHandle) / 96f;
+			get => appWindowDPI;
+			set => SetProperty(ref appWindowDPI, value);
 		}
 	}
 }
