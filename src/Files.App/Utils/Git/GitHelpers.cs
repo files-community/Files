@@ -535,27 +535,27 @@ namespace Files.App.Utils.Git
 			client.DefaultRequestHeaders.Add("Accept", "application/json");
 			client.DefaultRequestHeaders.Add("User-Agent", "Files App");
 
-			HttpResponseMessage codeResponse;
+			JsonDocument? codeJsonContent;
 			try
 			{
-				codeResponse = await client.PostAsync(
+				var codeResponse = await client.PostAsync(
 					$"https://github.com/login/device/code?client_id={_clientId}&scope=repo",
 					new StringContent(""));
+
+				if (!codeResponse.IsSuccessStatusCode)
+				{
+					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+					return;
+				}
+
+				codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
+				if (codeJsonContent is null)
+				{
+					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+					return;
+				}
 			}
 			catch
-			{
-				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-				return;
-			}
-
-			if (!codeResponse.IsSuccessStatusCode)
-			{
-				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-				return;
-			}
-
-			var codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
-			if (codeJsonContent is null)
 			{
 				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
 				return;
