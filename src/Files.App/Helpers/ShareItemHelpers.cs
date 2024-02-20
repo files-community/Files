@@ -23,6 +23,9 @@ namespace Files.App.Helpers
 
 		public static async Task ShareItemsAsync(IEnumerable<ListedItem> itemsToShare)
 		{
+			if (itemsToShare is null)
+				return;
+
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
 			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
 
