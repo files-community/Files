@@ -194,7 +194,7 @@
 
 					<Grid
 						Grid.Row="1"
-						MaxWidth="{Binding FolderSettings.ItemSize, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding ItemSizeGridView, ElementName=PageRoot, Mode=OneWay}"
 						Margin="4,0,4,8"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Stretch">
