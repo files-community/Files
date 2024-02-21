@@ -6,6 +6,7 @@ namespace Files.Core.Data.Enums
 	/// <summary>
 	/// Behavior used to retrieve and adjust icons
 	/// </summary>
+	[Flags]
 	public enum IconOptions
 	{
 		/// <summary>
