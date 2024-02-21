@@ -493,7 +493,13 @@ namespace Files.App.Utils.Storage
 			}
 			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
 			{
-				var iconResult = await FileThumbnailHelper.GetIconAsync(item.Path, Constants.ShellIconSizes.Small, item.IsOfType(StorageItemTypes.Folder), false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+				var iconResult = await FileThumbnailHelper.GetIconAsync(
+					item.Path,
+					Constants.ShellIconSizes.Small,
+					item.IsOfType(StorageItemTypes.Folder),
+					false,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
 				if (iconResult.IconData is not null)
 					listedItem.FileImage = await iconResult.IconData.ToBitmapAsync();
 				else
