@@ -220,8 +220,7 @@ namespace Files.App.ViewModels.UserControls
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 
-			if (AppLifecycleHelper.AppEnvironment is AppEnvironment.Stable &&
-				DateTime.Today >= new DateTime(2024, 3, 21))
+			if (DateTime.Today >= new DateTime(2024, 3, 21))
 				ShowReinstallationPrompt = true;
 		}
 
