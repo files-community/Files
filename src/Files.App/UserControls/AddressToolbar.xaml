@@ -27,6 +27,23 @@
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<LinearGradientBrush x:Key="WarningGradientBrush" StartPoint="0,0" EndPoint="1,1">
+						<GradientStop Offset="0" Color="#FFA500" />
+						<GradientStop Offset="0.5" Color="#FF8C00" />
+						<GradientStop Offset="1" Color="#FF4500" />
+					</LinearGradientBrush>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<LinearGradientBrush x:Key="WarningGradientBrush" StartPoint="0,0" EndPoint="1,1">
+						<GradientStop Offset="0" Color="#ffd153" />
+						<GradientStop Offset="0.5" Color="#f9ae41" />
+						<GradientStop Offset="1" Color="#f69e38" />
+					</LinearGradientBrush>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
@@ -506,6 +523,24 @@
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
 						Glyph="&#xF133;" />
+				</Button>
+
+				<!--  (TEMP) Re-install Prompt (Limited Time Only)  -->
+				<Button
+					x:Name="ReInstallPromptButton"
+					Width="36"
+					Height="32"
+					Padding="0"
+					x:Load="{x:Bind ViewModel.ShowReinstallationPrompt, Mode=OneWay}"
+					Click="ReInstallPromptButton_Click"
+					Style="{StaticResource AddressToolbarButtonStyle}">
+					<Grid>
+						<Viewbox Width="16">
+							<Image Source="ms-appx:///Assets/AppTiles/Dev/Logo.ico" />
+						</Viewbox>
+						<FontIcon Foreground="{ThemeResource WarningGradientBrush}" Glyph="&#xea82;" />
+						<FontIcon Foreground="Black" Glyph="&#xea84;" />
+					</Grid>
 				</Button>
 
 				<!--  Show The Files App Settings Dialog  -->
