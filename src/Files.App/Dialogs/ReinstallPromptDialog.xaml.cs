@@ -7,7 +7,7 @@ using Windows.System;
 namespace Files.App.Dialogs
 {
 	/// <summary>
-	/// Shows a dialog to notify user the importance of re-install temporarily.
+	/// Displays a dialog temporarily informing the user of the importance of reinstalling the app.
 	/// </summary>
 	public sealed partial class ReinstallPromptDialog : ContentDialog
 	{

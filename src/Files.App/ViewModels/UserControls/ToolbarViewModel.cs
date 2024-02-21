@@ -220,10 +220,9 @@ namespace Files.App.ViewModels.UserControls
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 
-			ShowReinstallationPrompt = true;
-			//if (AppLifecycleHelper.AppEnvironment is AppEnvironment.Stable &&
-			//	DateTime.Today >= new DateTime(2024, 3, 21))
-			//	ShowReinstallationPrompt = true;
+			if (AppLifecycleHelper.AppEnvironment is AppEnvironment.Stable &&
+				DateTime.Today >= new DateTime(2024, 3, 21))
+				ShowReinstallationPrompt = true;
 		}
 
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
