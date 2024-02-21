@@ -73,9 +73,10 @@ namespace Files.App.Utils.Cloud
 						false,
 						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
 					iconData = result.IconData;
 				}
-				
+
 				if (iconData is not null)
 				{
 					cloudProviderItem.IconData = iconData;
