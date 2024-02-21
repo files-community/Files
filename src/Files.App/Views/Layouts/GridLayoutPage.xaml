@@ -41,7 +41,8 @@
 						</ItemsPanelTemplate>
 					</Setter.Value>
 				</Setter>
-				<Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+				<!--  VerticalScrollMode is enabled because disabling it here causes an issue. (#14785)  -->
+				<Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
 				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
 				<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
 				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
