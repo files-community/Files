@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Dialogs;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -134,6 +135,14 @@ namespace Files.App.UserControls
 				StatusCenterTeachingTip.IsOpen = true;
 				userSettingsService.AppSettingsService.ShowStatusCenterTeachingTip = false;
 			}
+		}
+
+		private async void ReInstallPromptButton_Click(object sender, RoutedEventArgs e)
+		{
+			ReinstallPromptDialog dialog = new();
+			dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+			await dialog.ShowAsync();
 		}
 	}
 }
