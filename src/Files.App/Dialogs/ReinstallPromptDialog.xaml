@@ -7,6 +7,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="Re-installation is required"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+	PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
 	PrimaryButtonText="More info"
 	SecondaryButtonText="OK"
 	Style="{StaticResource DefaultContentDialogStyle}"
