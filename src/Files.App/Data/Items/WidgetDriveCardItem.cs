@@ -34,8 +34,10 @@ namespace Files.App.Data.Items
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
 			thumbnailData = result.IconData;
-			if (thumbnailData is not null)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+			var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			if (bitmapImage is not null)
+				Thumbnail = bitmapImage;
 		}
 
 		public int CompareTo(WidgetDriveCardItem? other)
