@@ -43,11 +43,11 @@
 					</LinearGradientBrush>
 				</ResourceDictionary>
 			</ResourceDictionary.ThemeDictionaries>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-
 
 					<Style
 						x:Key="AddressToolbarButtonStyle"
@@ -562,6 +562,7 @@
 						</AnimatedIcon.FallbackIconSource>
 					</AnimatedIcon>
 				</Button>
+
 			</StackPanel>
 
 			<!--  Status Center TeachingTip  -->
