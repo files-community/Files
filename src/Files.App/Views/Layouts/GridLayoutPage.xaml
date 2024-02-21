@@ -13,7 +13,6 @@
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wctanimations="using:CommunityToolkit.WinUI.UI.Animations"
@@ -41,8 +40,8 @@
 						</ItemsPanelTemplate>
 					</Setter.Value>
 				</Setter>
-				<!--  VerticalScrollMode is enabled because disabling it here causes an issue. (#14785)  -->
-				<Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+				<!--  VerticalScrollMode is set to Auto because setting it to Disabled here causes an issue. (#14785)  -->
+				<Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
 				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
 				<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
 				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
