@@ -24,6 +24,7 @@ namespace Files.App.Views.Layouts
 		// Fields
 
 		private uint currentIconSize;
+		private volatile bool shouldSetVerticalScrollMode;
 
 		// Properties
 
@@ -237,6 +238,8 @@ namespace Files.App.Views.Layouts
 				FileList.Style = newFileListStyle;
 				FileList.ItemsSource = oldSource;
 			}
+
+			shouldSetVerticalScrollMode = true;
 
 			switch (FolderSettings.LayoutMode)
 			{
@@ -664,6 +667,17 @@ namespace Files.App.Views.Layouts
 
 			if (item is GridViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
+
+			// Set VerticalScrollMode after an item has been loaded (#14785)
+			if (shouldSetVerticalScrollMode)
+			{
+				shouldSetVerticalScrollMode = false;
+
+				if (FolderSettings?.LayoutMode is FolderLayoutModes.ListView)
+					ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Disabled);
+				else
+					ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Enabled);
+			}
 		}
 
 		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -689,42 +703,45 @@ namespace Files.App.Views.Layouts
 		}
 
 		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
+		private bool ShouldDisableScrollingWhenDragAndDrop =>
+			FolderSettings?.LayoutMode is FolderLayoutModes.GridView or FolderLayoutModes.TilesView &&
+			(ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false);
+
 		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+			if (ShouldDisableScrollingWhenDragAndDrop)
 				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Disabled);
 
 			base.FileList_DragItemsStarting(sender, e);
 
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false &&
-				e.Cancel)
-				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
+			if (ShouldDisableScrollingWhenDragAndDrop && e.Cancel)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Enabled);
 		}
 
 		private void ItemsLayout_DragEnter(object sender, DragEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
+			if (ShouldDisableScrollingWhenDragAndDrop)
 				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Disabled);
 		}
 
 		private void ItemsLayout_DragLeave(object sender, DragEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
-				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
+			if (ShouldDisableScrollingWhenDragAndDrop)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Enabled);
 		}
 
 		protected override void ItemsLayout_Drop(object sender, DragEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
-				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
+			if (ShouldDisableScrollingWhenDragAndDrop)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Enabled);
 
 			base.ItemsLayout_Drop(sender, e);
 		}
 
 		protected override void Item_Drop(object sender, DragEventArgs e)
 		{
-			if (ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false)
-				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Auto);
+			if (ShouldDisableScrollingWhenDragAndDrop)
+				ScrollViewer.SetVerticalScrollMode(FileList, ScrollMode.Enabled);
 
 			base.Item_Drop(sender, e);
 		}
