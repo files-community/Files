@@ -826,6 +826,7 @@
 					FocusVisualSecondaryThickness="0"
 					IsDoubleTapEnabled="True"
 					IsTabStop="True"
+					ItemContainerTransitions="{x:Null}"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.IsHorizontalScrollChainingEnabled="False"
