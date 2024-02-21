@@ -7,4 +7,8 @@
               Version="{Version}"
               Publisher="{Publisher}"
               Uri="{MainPackageUri}"/>
+
+	<UpdateSettings>
+		<OnLaunch HoursBetweenUpdateChecks="12" ShowPrompt="false"/>
+	</UpdateSettings>
 </AppInstaller>
