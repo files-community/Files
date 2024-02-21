@@ -98,7 +98,12 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.IsAblumCoverModified = true;
 					ViewModel.ModifiedAlbumCover = new Picture(file.Path);
 
-					var result = await FileThumbnailHelper.GetIconAsync(file.Path, Constants.ShellIconSizes.ExtraLarge, false, false, IconOptions.UseCurrentScale);
+					var result = await FileThumbnailHelper.GetIconAsync(
+						file.Path,
+						Constants.ShellIconSizes.ExtraLarge,
+						false,
+						false,
+						IconOptions.UseCurrentScale);
 					ViewModel.IconData = result.IconData;
 				}
 			});

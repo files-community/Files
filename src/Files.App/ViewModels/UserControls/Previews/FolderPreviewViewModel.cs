@@ -31,7 +31,13 @@ namespace Files.App.ViewModels.Previews
 			var items = await Folder.GetItemsAsync();
 
 			// Requesting sizes larger than 220 may result in a thumbnail with a small folder
-			var result = await FileThumbnailHelper.GetIconAsync(Item.ItemPath, Constants.ShellIconSizes.Jumbo, true, false, IconOptions.None);
+			var result = await FileThumbnailHelper.GetIconAsync(
+				Item.ItemPath,
+				Constants.ShellIconSizes.Jumbo,
+				true,
+				false,
+				IconOptions.None);
+			
 			if (result.IconData is not null)
 				Thumbnail = await result.IconData.ToBitmapAsync();
 

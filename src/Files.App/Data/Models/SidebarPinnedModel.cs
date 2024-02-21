@@ -102,7 +102,12 @@ namespace Files.App.Data.Models
 				locationItem.IsInvalid = false;
 				if (res && res.Result is not null)
 				{
-					var result = await FileThumbnailHelper.GetIconAsync(res.Result.Path, Constants.ShellIconSizes.Small, true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					var result = await FileThumbnailHelper.GetIconAsync(
+						res.Result.Path,
+						Constants.ShellIconSizes.Small,
+						true,
+						false,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 					locationItem.IconData = result.IconData;
 
 					if (locationItem.IconData is not null)

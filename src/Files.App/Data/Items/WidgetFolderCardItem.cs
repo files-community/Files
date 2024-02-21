@@ -50,7 +50,12 @@ namespace Files.App.Data.Items
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(Path, Constants.ShellIconSizes.Large, true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+			var result = await FileThumbnailHelper.GetIconAsync(
+				Path,
+				Constants.ShellIconSizes.Large,
+				true,
+				false,
+				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 			_thumbnailData = result.IconData;
 
 			if (_thumbnailData is not null && _thumbnailData.Length > 0)

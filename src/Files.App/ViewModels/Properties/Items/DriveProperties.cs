@@ -50,12 +50,22 @@ namespace Files.App.ViewModels.Properties
 
 			if (ViewModel.LoadFileIcon)
 			{
-				var result = await FileThumbnailHelper.GetIconAsync(Drive.Path, Constants.ShellIconSizes.ExtraLarge, true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+				var result = await FileThumbnailHelper.GetIconAsync(
+					Drive.Path,
+					Constants.ShellIconSizes.ExtraLarge,
+					true,
+					false,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
 				if (result.IconData is not null)
 					ViewModel.IconData = result.IconData;
 				else
 				{
-					result = await FileThumbnailHelper.GetIconAsync(Drive.DeviceID, Constants.ShellIconSizes.ExtraLarge, true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts
+					result = await FileThumbnailHelper.GetIconAsync(
+						Drive.DeviceID,
+						Constants.ShellIconSizes.ExtraLarge,
+						true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts
+
 					ViewModel.IconData = result.IconData;
 				}
 			}

@@ -945,7 +945,12 @@ namespace Files.App.Data.Models
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 				var getThumbnailOnly = !item.IsExecutable && !getIconOnly;
-				var iconInfo = await FileThumbnailHelper.GetIconAsync(item.ItemPath, thumbnailSize, false, getThumbnailOnly, getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+				var iconInfo = await FileThumbnailHelper.GetIconAsync(
+					item.ItemPath,
+					thumbnailSize,
+					false,
+					getThumbnailOnly,
+					getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
 				if (!iconInfo.isIconCached)
 				{
@@ -962,7 +967,12 @@ namespace Files.App.Data.Models
 					var cancellationTokenSource = new CancellationTokenSource(3000);
 					while (!iconInfo.isIconCached)
 					{
-						iconInfo = await FileThumbnailHelper.GetIconAsync(item.ItemPath, thumbnailSize, false, getThumbnailOnly, getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+						iconInfo = await FileThumbnailHelper.GetIconAsync(
+							item.ItemPath,
+							thumbnailSize,
+							false,
+							getThumbnailOnly,
+							getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 						cancellationTokenSource.Token.ThrowIfCancellationRequested();
 						await Task.Delay(500);
 					}
@@ -984,7 +994,12 @@ namespace Files.App.Data.Models
 							!item.IsExecutable
 						)
 						{
-							var fileIcon = await FileThumbnailHelper.GetIconAsync(item.ItemPath, thumbnailSize, false, false, IconOptions.ReturnIconOnly);
+							var fileIcon = await FileThumbnailHelper.GetIconAsync(
+								item.ItemPath,
+								thumbnailSize,
+								false,
+								false,
+								IconOptions.ReturnIconOnly);
 							var bitmapImage = await fileIcon.IconData.ToBitmapAsync();
 							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), bitmapImage);
 						}
@@ -1006,7 +1021,11 @@ namespace Files.App.Data.Models
 			else
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
-				var iconInfo = await FileThumbnailHelper.GetIconAsync(item.ItemPath, thumbnailSize, true, false, getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+				var iconInfo = await FileThumbnailHelper.GetIconAsync(
+					item.ItemPath,
+					thumbnailSize,
+					true,
+					false, getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
 				if (iconInfo.IconData is not null)
 				{
@@ -1286,7 +1305,12 @@ namespace Files.App.Data.Models
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.GetIconAsync(item.ItemPath, Constants.ShellIconSizes.Large, false, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+				var headerIconInfo = await FileThumbnailHelper.GetIconAsync(
+					item.ItemPath,
+					Constants.ShellIconSizes.Large,
+					false,
+					false,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
 				if (headerIconInfo.IconData is not null && !item.IsShortcut)
 					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);

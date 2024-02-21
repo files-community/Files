@@ -188,7 +188,12 @@ namespace Files.App.Helpers
 
 			if (iconSource.ImageSource is null)
 			{
-				var result = await FileThumbnailHelper.GetIconAsync(currentPath, Constants.ShellIconSizes.Small, true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+				var result = await FileThumbnailHelper.GetIconAsync(
+					currentPath,
+					Constants.ShellIconSizes.Small,
+					true,
+					false,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 				var iconData = result.IconData;
 				
 				if (iconData is not null)

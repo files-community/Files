@@ -67,7 +67,12 @@ namespace Files.App.Utils.Cloud
 
 				if (iconData is null)
 				{
-					var result = await FileThumbnailHelper.GetIconAsync(provider.SyncFolder, Constants.ShellIconSizes.Small, false, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+					var result = await FileThumbnailHelper.GetIconAsync(
+						provider.SyncFolder,
+						Constants.ShellIconSizes.Small,
+						false,
+						false,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 					iconData = result.IconData;
 				}
 				
