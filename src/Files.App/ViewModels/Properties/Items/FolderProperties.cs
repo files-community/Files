@@ -74,10 +74,16 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-			var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, Constants.ShellIconSizes.ExtraLarge, true, false, false, true);
-			if (fileIconData is not null)
+			var result = await FileThumbnailHelper.GetIconAsync(
+				Item.ItemPath,
+				Constants.ShellIconSizes.ExtraLarge,
+				true,
+				false,
+				IconOptions.UseCurrentScale);
+			
+			if (result.IconData is not null)
 			{
-				ViewModel.IconData = fileIconData;
+				ViewModel.IconData = result.IconData;
 				ViewModel.LoadFolderGlyph = false;
 				ViewModel.LoadFileIcon = true;
 			}
