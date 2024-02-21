@@ -1,11 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text.Json.Serialization;
-using Windows.Storage.FileProperties;
 
 namespace Files.App.Data.Models
 {
@@ -110,8 +108,10 @@ namespace Files.App.Data.Models
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
 					locationItem.IconData = result.IconData;
-					if (locationItem.IconData is not null)
-						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
+
+					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					if (bitmapImage is not null)
+						locationItem.Icon = bitmapImage;
 				}
 			}
 			else
