@@ -236,8 +236,6 @@ namespace Files.App
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/.github/PRIVACY.md";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
-
-			// NOTE: This is a temporary constant variable
 			public const string ReinstallationNoticeDocsUrl = @"https://files.community/docs/install#:~:text=Steps%20required%20for%20the%20\“classic%20installer\”%20version%20after%203/21/2024";
 		}
 

@@ -531,6 +531,7 @@
 					Width="36"
 					Height="32"
 					Padding="0"
+					x:Load="{x:Bind ViewModel.ShowReinstallationPrompt, Mode=OneWay}"
 					Click="ReInstallPromptButton_Click"
 					Style="{StaticResource AddressToolbarButtonStyle}">
 					<Grid>

@@ -201,6 +201,13 @@ namespace Files.App.ViewModels.UserControls
 
 		private PointerRoutedEventArgs? pointerRoutedEventArgs;
 
+		private bool _ShowReinstallationPrompt;
+		public bool ShowReinstallationPrompt
+		{
+			get => _ShowReinstallationPrompt;
+			set => SetProperty(ref _ShowReinstallationPrompt, value);
+		}
+
 		public ToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
@@ -212,6 +219,10 @@ namespace Files.App.ViewModels.UserControls
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+
+			if (AppLifecycleHelper.AppEnvironment is AppEnvironment.Stable &&
+				DateTime.Today >= new DateTime(2024, 3, 21))
+				ShowReinstallationPrompt = true;
 		}
 
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
