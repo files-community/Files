@@ -53,9 +53,9 @@ namespace Files.App.Data.Items
 				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			IconData = result.IconData;
-			if (IconData is not null)
-				Icon = await IconData.ToBitmapAsync();
+			var bitmapImage = await result.IconData.ToBitmapAsync();
+			if (bitmapImage is not null)
+				Icon = bitmapImage;
 		}
 
 		public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
