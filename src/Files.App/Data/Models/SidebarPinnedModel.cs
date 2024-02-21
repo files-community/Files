@@ -108,8 +108,8 @@ namespace Files.App.Data.Models
 						true,
 						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
-					locationItem.IconData = result.IconData;
 
+					locationItem.IconData = result.IconData;
 					if (locationItem.IconData is not null)
 						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}

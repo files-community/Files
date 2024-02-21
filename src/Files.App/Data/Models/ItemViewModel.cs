@@ -973,6 +973,7 @@ namespace Files.App.Data.Models
 							false,
 							getThumbnailOnly,
 							getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+
 						cancellationTokenSource.Token.ThrowIfCancellationRequested();
 						await Task.Delay(500);
 					}
@@ -1000,6 +1001,7 @@ namespace Files.App.Data.Models
 								false,
 								false,
 								IconOptions.ReturnIconOnly);
+
 							var bitmapImage = await fileIcon.IconData.ToBitmapAsync();
 							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), bitmapImage);
 						}

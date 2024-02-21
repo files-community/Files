@@ -52,8 +52,8 @@ namespace Files.App.Data.Items
 				false,
 				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
-			IconData = result.IconData;
 
+			IconData = result.IconData;
 			if (IconData is not null)
 				Icon = await IconData.ToBitmapAsync();
 		}

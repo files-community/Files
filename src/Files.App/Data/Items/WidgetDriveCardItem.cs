@@ -32,10 +32,9 @@ namespace Files.App.Data.Items
 				true,
 				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
-			thumbnailData = result.IconData;
 
-			// Thumbnail data is valid, set the item icon
-			if (thumbnailData is not null && thumbnailData.Length > 0)
+			thumbnailData = result.IconData;
+			if (thumbnailData is not null)
 				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
