@@ -118,18 +118,6 @@ namespace Files.App
 			public const string StandardFont = "Segoe UI Variable";
 		}
 
-		// Default icon sizes that are available for files and folders
-		public static class ShellIconSizes
-		{
-			public const int Small = 16;
-
-			public const int Large = 32;
-
-			public const int ExtraLarge = 48;
-
-			public const int Jumbo = 256;
-		}
-
 		public static class Widgets
 		{
 			public static class Drives

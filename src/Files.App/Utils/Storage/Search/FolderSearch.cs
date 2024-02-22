@@ -495,7 +495,7 @@ namespace Files.App.Utils.Storage
 			{
 				var iconResult = await FileThumbnailHelper.GetIconAsync(
 					item.Path,
-					Constants.ShellIconSizes.Small,
+					(int)LayoutItemIconSizeKind.Small,
 					item.IsOfType(StorageItemTypes.Folder),
 					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);

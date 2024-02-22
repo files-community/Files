@@ -28,7 +28,7 @@ namespace Files.App.Data.Items
 		{
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.Path,
-				Constants.ShellIconSizes.Large,
+				(int)LayoutItemIconSizeKind.Large,
 				true,
 				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);

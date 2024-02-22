@@ -52,7 +52,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
 					Drive.Path,
-					Constants.ShellIconSizes.ExtraLarge,
+					(int)LayoutItemIconSizeKind.ExtraLarge,
 					true,
 					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
@@ -63,7 +63,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					result = await FileThumbnailHelper.GetIconAsync(
 						Drive.DeviceID,
-						Constants.ShellIconSizes.ExtraLarge,
+						(int)LayoutItemIconSizeKind.ExtraLarge,
 						true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts
 
 					ViewModel.IconData = result.IconData;

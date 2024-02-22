@@ -66,7 +66,7 @@ namespace Files.App.Utils.RecentItem
 		{
 			var result = await FileThumbnailHelper.GetIconAsync(
 				RecentPath,
-				Constants.ShellIconSizes.Small,
+				(int)LayoutItemIconSizeKind.Small,
 				false,
 				false,
 				IconOptions.UseCurrentScale);
