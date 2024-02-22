@@ -257,7 +257,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemContainerStyle()
 		{
-			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && ItemSizeListView < Constants.IconHeights.ListView.Small)
+			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && ItemSizeListView < (int)LayoutListViewIconHeightKind.Small)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = DefaultItemContainerStyle;

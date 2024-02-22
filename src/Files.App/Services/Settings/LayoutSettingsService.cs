@@ -13,32 +13,32 @@ namespace Files.App.Services.Settings
 
 		public int ItemSizeDetailsView
 		{
-			get => (int)Get((long)Constants.IconHeights.DetailsView.Regular);
-			set => Set((long)value);
+			get => Get((int)LayoutDetailsViewIconHeightKind.Regular);
+			set => Set(value);
 		}
 
 		public int ItemSizeListView
 		{
-			get => (int)Get((long)Constants.IconHeights.ListView.Regular);
-			set => Set((long)value);
+			get => Get((int)LayoutListViewIconHeightKind.Regular);
+			set => Set(value);
 		}
 
 		public int ItemSizeTilesView
 		{
-			get => (int)Get((long)Constants.IconHeights.TilesView.Regular);
-			set => Set((long)value);
+			get => Get((int)LayoutTilesViewIconHeightKind.Regular);
+			set => Set(value);
 		}
 
 		public int ItemSizeGridView
 		{
-			get => (int)Get((long)Constants.IconHeights.GridView.Medium);
-			set => Set((long)value);
+			get => Get((int)LayoutGridViewIconHeightKind.Medium);
+			set => Set(value);
 		}
 
 		public int ItemSizeColumnsView
 		{
-			get => (int)Get((long)Constants.IconHeights.ColumnsView.Regular);
-			set => Set((long)value);
+			get => Get((int)LayoutColumnsViewIconHeightKind.Regular);
+			set => Set(value);
 		}
 	}
 }

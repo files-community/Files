@@ -215,7 +215,7 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (ItemSize <= Constants.IconHeights.DetailsView.Small)
+			if (ItemSize <= (int)LayoutDetailsViewIconHeightKind.Small)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = RegularItemContainerStyle;

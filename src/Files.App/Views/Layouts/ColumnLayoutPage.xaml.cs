@@ -237,11 +237,11 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemContainerStyle()
 		{
-			if (ItemSize <= Constants.IconHeights.ColumnsView.Minimum)
+			if (ItemSize <= (int)LayoutColumnsViewIconHeightKind.Minimum)
 				FileList.ItemContainerStyle = MinimumItemContainerStyle;
-			else if (ItemSize <= Constants.IconHeights.ColumnsView.Small)
+			else if (ItemSize <= (int)LayoutColumnsViewIconHeightKind.Small)
 				FileList.ItemContainerStyle = SmallItemContainerStyle;
-			else if (ItemSize <= Constants.IconHeights.ColumnsView.Regular)
+			else if (ItemSize <= (int)LayoutColumnsViewIconHeightKind.Regular)
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
 			else
 				FileList.ItemContainerStyle = MaximumItemContainerStyle;
