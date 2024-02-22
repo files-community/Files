@@ -38,7 +38,7 @@ namespace Files.App.Utils
 						Text = folder.DisplayName,
 						Path = folder.Path,
 						Icon = logoURI,
-						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
+						MenuOptions = new SidebarContextFlyoutOptions { IsLocationItem = true },
 					};
 
 					lock (distros)
@@ -49,7 +49,7 @@ namespace Files.App.Utils
 						}
 						distros.Add(distro);
 					}
-					DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
+					DataChanged?.Invoke(SidebarSectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
 				}
 			}
 			catch (Exception)

@@ -50,9 +50,9 @@ namespace Files.App.Services
 					Path = item.TargetPath,
 					DeviceID = item.FilePath,
 					Type = DriveType.Network,
-					ItemType = NavigationControlItemType.Drive,
+					ItemType = SidebarItemType.Drive,
 				};
-				networkItem.MenuOptions = new ContextMenuOptions
+				networkItem.MenuOptions = new SidebarContextFlyoutOptions
 				{
 					IsLocationItem = true,
 					ShowEjectDevice = networkItem.IsRemovable,

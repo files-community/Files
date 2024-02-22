@@ -11,14 +11,14 @@ namespace Files.App.Data.Contracts
 
 		public string Path { get; }
 
-		public SectionType Section { get; }
+		public SidebarSectionType Section { get; }
 
-		public NavigationControlItemType ItemType { get; }
+		public SidebarItemType ItemType { get; }
 
-		public ContextMenuOptions MenuOptions { get; }
+		public SidebarContextFlyoutOptions MenuOptions { get; }
 	}
 
-	public enum NavigationControlItemType
+	public enum SidebarItemType
 	{
 		Drive,
 		LinuxDistro,
@@ -26,7 +26,7 @@ namespace Files.App.Data.Contracts
 		FileTag
 	}
 
-	public enum SectionType
+	public enum SidebarSectionType
 	{
 		Home,
 		Favorites,
@@ -38,7 +38,8 @@ namespace Files.App.Data.Contracts
 		FileTag
 	}
 
-	public class ContextMenuOptions
+	// TODO: Replace with an enum
+	public class SidebarContextFlyoutOptions
 	{
 		public bool IsLibrariesHeader { get; set; }
 

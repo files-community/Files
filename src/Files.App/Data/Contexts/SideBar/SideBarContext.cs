@@ -21,7 +21,7 @@ namespace Files.App.Data.Contexts
 
 		public bool IsFavoriteItem =>
 			IsItemRightClicked &&
-			_RightClickedItem!.Section is SectionType.Favorites &&
+			_RightClickedItem!.Section is SidebarSectionType.Favorites &&
 			FavoriteIndex is not -1;
 
 		public SidebarDriveItem? OpenDriveItem

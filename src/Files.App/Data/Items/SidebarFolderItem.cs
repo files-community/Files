@@ -53,12 +53,12 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public NavigationControlItemType ItemType
-			=> NavigationControlItemType.Location;
+		public SidebarItemType ItemType
+			=> SidebarItemType.Location;
 
 		public bool IsDefaultLocation { get; set; }
 
-		public object? Children => Section == SectionType.Home ? null : ChildItems;
+		public object? Children => Section == SidebarSectionType.Home ? null : ChildItems;
 		public BulkConcurrentObservableCollection<ISidebarItem>? ChildItems { get; set; }
 		public IconSource? IconSource
 		{
@@ -81,9 +81,9 @@ namespace Files.App.Data.Items
 
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(path);
 
-		public SectionType Section { get; set; }
+		public SidebarSectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public SidebarContextFlyoutOptions MenuOptions { get; set; }
 
 		public bool IsHeader { get; set; }
 
@@ -101,7 +101,7 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
-				if (Section == SectionType.Favorites)
+				if (Section == SidebarSectionType.Favorites)
 				{
 					return new OpacityIcon()
 					{
