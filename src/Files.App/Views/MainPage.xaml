@@ -268,7 +268,7 @@
 					Unloaded="PreviewPane_Unloaded" />
 
 				<!--  Status Bar  -->
-				<uc:StatusBarControl
+				<uc:StatusBar
 					x:Name="StatusBarControl"
 					Grid.Row="4"
 					Grid.ColumnSpan="3"
