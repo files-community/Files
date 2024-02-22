@@ -190,7 +190,7 @@ namespace Files.App.Helpers
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
 					currentPath,
-					(int)LayoutItemIconSizeKind.Small,
+					Constants.ShellIconSizes.Small,
 					true,
 					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);

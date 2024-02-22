@@ -38,7 +38,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
-				(int)LayoutItemIconSizeKind.Jumbo,
+				Constants.ShellIconSizes.Jumbo,
 				false,
 				false,
 				IconOptions.None);

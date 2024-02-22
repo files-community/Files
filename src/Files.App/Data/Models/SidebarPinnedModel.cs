@@ -102,7 +102,7 @@ namespace Files.App.Data.Models
 				{
 					var result = await FileThumbnailHelper.GetIconAsync(
 						res.Result.Path,
-						(int)LayoutItemIconSizeKind.Small,
+						Constants.ShellIconSizes.Small,
 						true,
 						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);

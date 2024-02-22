@@ -316,7 +316,7 @@ namespace Files.App.Data.Items
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
 					DeviceID,
-					(int)LayoutItemIconSizeKind.Small,
+					Constants.ShellIconSizes.Small,
 					false,
 					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);

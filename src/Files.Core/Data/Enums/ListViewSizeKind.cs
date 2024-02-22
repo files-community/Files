@@ -3,11 +3,12 @@
 
 namespace Files.Core.Data.Enums
 {
-	public enum LayoutIconHeightIncrementKind
+	public enum ListViewSizeKind
 	{
-		ColumnsView = 4,
-		DetailsView = 4,
-		GridView = 20,
-		ListView = 4,
+		Compact = 0,
+		Small = 1,
+		Medium = 2,
+		Large = 3,
+		ExtraLarge = 4,
 	}
 }

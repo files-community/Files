@@ -33,7 +33,7 @@ namespace Files.App.ViewModels.Previews
 			// Requesting sizes larger than 220 may result in a thumbnail with a small folder
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
-				(int)LayoutItemIconSizeKind.Jumbo,
+				Constants.ShellIconSizes.Jumbo,
 				true,
 				false,
 				IconOptions.None);

@@ -3,8 +3,12 @@
 
 namespace Files.Core.Data.Enums
 {
-	public enum LayoutTilesViewIconHeightKind
+	public enum ColumnsViewSizeKind
 	{
-		Regular = 100,
+		Compact = 0,
+		Small = 1,
+		Medium = 2,
+		Large = 3,
+		ExtraLarge = 4,
 	}
 }

@@ -100,7 +100,7 @@ namespace Files.App.ViewModels.Properties
 
 					var result = await FileThumbnailHelper.GetIconAsync(
 						file.Path,
-						(int)LayoutItemIconSizeKind.ExtraLarge,
+						Constants.ShellIconSizes.ExtraLarge,
 						false,
 						false,
 						IconOptions.UseCurrentScale);

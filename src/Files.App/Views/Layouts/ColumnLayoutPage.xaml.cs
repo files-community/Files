@@ -43,16 +43,16 @@ namespace Files.App.Views.Layouts
 
 
 		/// <summary>
-		/// Item size for the Columns View
+		/// Row height in the Columns View
 		/// </summary>
-		public int ItemSize
+		public int RowHeight
 		{
-			get => UserSettingsService.LayoutSettingsService.ItemSizeColumnsView;
+			get => LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeColumnsView);
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ItemSizeColumnsView)
+				if (value != LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeColumnsView))
 				{
-					NotifyPropertyChanged(nameof(ItemSize));
+					NotifyPropertyChanged(nameof(RowHeight));
 				}
 			}
 		}
@@ -178,7 +178,7 @@ namespace Files.App.Views.Layouts
 
 			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeColumnsView))
 			{
-				ItemSize = UserSettingsService.LayoutSettingsService.ItemSizeColumnsView;
+				RowHeight = LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeColumnsView);
 				SetItemContainerStyle();
 			}
 		}
@@ -235,16 +235,27 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
+		/// <summary>
+		/// Sets the item size and spacing
+		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (ItemSize <= (int)LayoutColumnsViewIconHeightKind.Minimum)
-				FileList.ItemContainerStyle = MinimumItemContainerStyle;
-			else if (ItemSize <= (int)LayoutColumnsViewIconHeightKind.Small)
-				FileList.ItemContainerStyle = SmallItemContainerStyle;
-			else if (ItemSize <= (int)LayoutColumnsViewIconHeightKind.Regular)
+			if (UserSettingsService.LayoutSettingsService.ItemSizeColumnsView == ColumnsViewSizeKind.Compact)
+			{
+				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
+
+				// Set correct style
+				FileList.ItemContainerStyle = CompactItemContainerStyle;
+			}
 			else
-				FileList.ItemContainerStyle = MaximumItemContainerStyle;
+			{
+				// Toggle style to force item size to update
+				FileList.ItemContainerStyle = CompactItemContainerStyle;
+
+				// Set correct style
+				FileList.ItemContainerStyle = RegularItemContainerStyle;
+			}
 		}
 
 		public override void Dispose()

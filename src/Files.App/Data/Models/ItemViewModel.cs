@@ -1309,7 +1309,7 @@ namespace Files.App.Data.Models
 			{
 				var headerIconInfo = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
-					(int)LayoutItemIconSizeKind.Large,
+					Constants.ShellIconSizes.Large,
 					false,
 					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);

@@ -11,33 +11,33 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public int ItemSizeDetailsView
+		public DetailsViewSizeKind ItemSizeDetailsView
 		{
-			get => Get((int)LayoutDetailsViewIconHeightKind.Regular);
+			get => Get(DetailsViewSizeKind.Small);
 			set => Set(value);
 		}
 
-		public int ItemSizeListView
+		public ListViewSizeKind ItemSizeListView
 		{
-			get => Get((int)LayoutListViewIconHeightKind.Regular);
+			get => Get(ListViewSizeKind.Small);
 			set => Set(value);
 		}
 
-		public int ItemSizeTilesView
+		public TilesViewSizeKind ItemSizeTilesView
 		{
-			get => Get((int)LayoutTilesViewIconHeightKind.Regular);
+			get => Get(TilesViewSizeKind.Small);
 			set => Set(value);
 		}
 
-		public int ItemSizeGridView
+		public GridViewSizeKind ItemSizeGridView
 		{
-			get => Get((int)LayoutGridViewIconHeightKind.Medium);
+			get => Get(GridViewSizeKind.ExtraLarge);
 			set => Set(value);
 		}
 
-		public int ItemSizeColumnsView
+		public ColumnsViewSizeKind ItemSizeColumnsView
 		{
-			get => Get((int)LayoutColumnsViewIconHeightKind.Regular);
+			get => Get(ColumnsViewSizeKind.Small);
 			set => Set(value);
 		}
 	}

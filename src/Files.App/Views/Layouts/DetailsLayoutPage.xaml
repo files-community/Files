@@ -900,7 +900,7 @@
 						<DataTemplate x:DataType="filesystem:ListedItem">
 							<UserControl>
 								<StackPanel
-									Height="{Binding ItemSize, ElementName=PageRoot, Mode=OneWay}"
+									Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
 									HorizontalAlignment="Stretch"
 									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 									IsRightTapEnabled="True"

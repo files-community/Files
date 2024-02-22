@@ -69,7 +69,7 @@ namespace Files.App.Utils.Cloud
 				{
 					var result = await FileThumbnailHelper.GetIconAsync(
 						provider.SyncFolder,
-						(int)LayoutItemIconSizeKind.Small,
+						Constants.ShellIconSizes.Small,
 						false,
 						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);

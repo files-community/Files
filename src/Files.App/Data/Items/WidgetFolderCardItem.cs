@@ -52,7 +52,7 @@ namespace Files.App.Data.Items
 		{
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Path,
-				(int)LayoutItemIconSizeKind.Large,
+				Constants.ShellIconSizes.Large,
 				true,
 				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);

@@ -230,16 +230,15 @@ namespace Files.App.Data.Models
 			return LayoutMode switch
 			{
 				FolderLayoutModes.DetailsView
-					=> (int)LayoutItemIconSizeKind.Large,
+					=> Constants.ShellIconSizes.Large,
 				FolderLayoutModes.ListView
-					=> (int)LayoutItemIconSizeKind.Large,
+					=> Constants.ShellIconSizes.Large,
 				FolderLayoutModes.ColumnView
-					=> (int)LayoutItemIconSizeKind.Large,
-				_ when LayoutMode == FolderLayoutModes.TilesView && UserSettingsService.LayoutSettingsService.ItemSizeTilesView <= 96 ||
-					   LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.ItemSizeGridView <= 96
+					=> Constants.ShellIconSizes.Large,
+				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.ItemSizeGridView <= GridViewSizeKind.Small ||
+					   LayoutMode == FolderLayoutModes.TilesView
 					=> 96,
-				_ when LayoutMode == FolderLayoutModes.TilesView && UserSettingsService.LayoutSettingsService.ItemSizeTilesView <= 128 ||
-					   LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.ItemSizeGridView <= 128
+				_ when  LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.ItemSizeGridView <= GridViewSizeKind.Large
 					=> 128,
 				_ => 256,
 			};
