@@ -3,9 +3,6 @@
 
 namespace Files.App.Data.Contracts
 {
-	/// <summary>
-	/// Represents contract of AddressToolbar view model.
-	/// </summary>
 	public interface IAddressToolbarViewModel
 	{
 		public bool IsSearchBoxVisible { get; set; }

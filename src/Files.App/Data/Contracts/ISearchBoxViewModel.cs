@@ -5,9 +5,6 @@ using Windows.Foundation;
 
 namespace Files.App.Data.Contracts
 {
-	/// <summary>
-	/// Represents contract of AddressToolbar view model.
-	/// </summary>
 	public interface ISearchBoxViewModel
 	{
 		event TypedEventHandler<ISearchBoxViewModel, SearchBoxTextChangedEventArgs> TextChanged;

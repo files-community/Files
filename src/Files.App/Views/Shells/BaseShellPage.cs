@@ -48,7 +48,7 @@ namespace Files.App.Views.Shells
 
 		protected readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
+		public AddressToolbarViewModel ToolbarViewModel { get; } = new AddressToolbarViewModel();
 
 		public IBaseLayoutPage SlimContentPage => ContentPage;
 

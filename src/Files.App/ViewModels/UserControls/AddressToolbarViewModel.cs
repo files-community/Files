@@ -15,7 +15,7 @@ using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class ToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
+	public class AddressToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
 	{
 		private const int MAX_SUGGESTIONS = 10;
 
@@ -201,7 +201,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private PointerRoutedEventArgs? pointerRoutedEventArgs;
 
-		public ToolbarViewModel()
+		public AddressToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);

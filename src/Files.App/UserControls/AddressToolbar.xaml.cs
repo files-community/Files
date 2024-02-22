@@ -45,10 +45,10 @@ namespace Files.App.UserControls
 
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
-		public ToolbarViewModel? ViewModel
+			DependencyProperty.Register(nameof(ViewModel), typeof(AddressToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
+		public AddressToolbarViewModel? ViewModel
 		{
-			get => (ToolbarViewModel)GetValue(ViewModelProperty);
+			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 
