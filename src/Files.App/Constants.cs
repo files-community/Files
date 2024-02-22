@@ -118,7 +118,7 @@ namespace Files.App
 			public const string StandardFont = "Segoe UI Variable";
 		}
 
-		// Default icon heights used in the differents layouts
+		// Default icon heights used in the different layouts
 		public static class IconHeights
 		{
 			public static class GridView
