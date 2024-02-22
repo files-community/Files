@@ -124,7 +124,7 @@ namespace Files.App.Data.Factories
 				if (!compatibilityItemEnabled)
 					PropertiesNavigationViewItems.Remove(compatibilityItem);
 			}
-			else if (item is DriveItem)
+			else if (item is SidebarDriveItem)
 			{
 				PropertiesNavigationViewItems.Remove(hashesItem);
 				PropertiesNavigationViewItems.Remove(shortcutItem);

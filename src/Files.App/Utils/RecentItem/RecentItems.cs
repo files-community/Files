@@ -18,8 +18,8 @@ namespace Files.App.Utils.RecentItem
 		public EventHandler<NotifyCollectionChangedEventArgs>? RecentFoldersChanged;
 
 		// recent files
-		private readonly List<RecentItem> recentFiles = new();
-		public IReadOnlyList<RecentItem> RecentFiles    // already sorted
+		private readonly List<WidgetRecentItem> recentFiles = new();
+		public IReadOnlyList<WidgetRecentItem> RecentFiles    // already sorted
 		{
 			get
 			{
@@ -31,8 +31,8 @@ namespace Files.App.Utils.RecentItem
 		}
 
 		// recent folders
-		private readonly List<RecentItem> recentFolders = new();
-		public IReadOnlyList<RecentItem> RecentFolders  // already sorted
+		private readonly List<WidgetRecentItem> recentFolders = new();
+		public IReadOnlyList<WidgetRecentItem> RecentFolders  // already sorted
 		{
 			get
 			{
@@ -59,7 +59,7 @@ namespace Files.App.Utils.RecentItem
 		public async Task UpdateRecentFilesAsync()
 		{
 			// enumerate with fulltrust process
-			List<RecentItem> enumeratedFiles = await ListRecentFilesAsync();
+			List<WidgetRecentItem> enumeratedFiles = await ListRecentFilesAsync();
 			if (enumeratedFiles is not null)
 			{
 				var recentFilesSnapshot = RecentFiles;
@@ -101,22 +101,22 @@ namespace Files.App.Utils.RecentItem
 		/// <summary>
 		/// Enumerate recently accessed files via `Quick Access`.
 		/// </summary>
-		public async Task<List<RecentItem>> ListRecentFilesAsync()
+		public async Task<List<WidgetRecentItem>> ListRecentFilesAsync()
 		{
 			return (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
 				.Where(link => !link.IsFolder)
-				.Select(link => new RecentItem(link)).ToList();
+				.Select(link => new WidgetRecentItem(link)).ToList();
 		}
 
 		/// <summary>
 		/// Enumerate recently accessed folders via `Windows\Recent`.
 		/// </summary>
-		public async Task<List<RecentItem>> ListRecentFoldersAsync()
+		public async Task<List<WidgetRecentItem>> ListRecentFoldersAsync()
 		{
 			var excludeMask = FileAttributes.Hidden;
 			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
-			Task<RecentItem?> GetRecentItemFromLink(string linkPath)
+			Task<WidgetRecentItem?> GetRecentItemFromLink(string linkPath)
 			{
 				return Task.Run(() =>
 				{
@@ -127,7 +127,7 @@ namespace Files.App.Utils.RecentItem
 						if (!string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder)
 						{
 							var shellLinkItem = ShellFolderExtensions.GetShellLinkItem(link);
-							return new RecentItem(shellLinkItem);
+							return new WidgetRecentItem(shellLinkItem);
 						}
 					}
 					catch (FileNotFoundException)
@@ -145,7 +145,7 @@ namespace Files.App.Utils.RecentItem
 			}
 
 			var recentItems = await Task.WhenAll(linkFilePaths.Select(GetRecentItemFromLink));
-			return recentItems.OfType<RecentItem>().ToList();
+			return recentItems.OfType<WidgetRecentItem>().ToList();
 		}
 
 		/// <summary>
@@ -192,7 +192,7 @@ namespace Files.App.Utils.RecentItem
 		/// This will also unpin the item from the Recent Files in File Explorer.
 		/// </summary>
 		/// <returns>Whether the action was successfully handled or not</returns>
-		public Task<bool> UnpinFromRecentFiles(RecentItem item)
+		public Task<bool> UnpinFromRecentFiles(WidgetRecentItem item)
 		{
 			return SafetyExtensions.IgnoreExceptions(() => Task.Run(async () =>
 			{
@@ -205,7 +205,7 @@ namespace Files.App.Utils.RecentItem
 			}));
 		}
 
-		private NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<RecentItem> oldItems, IList<RecentItem> newItems)
+		private NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<WidgetRecentItem> oldItems, IList<WidgetRecentItem> newItems)
 		{
 			// a single item was added
 			if (newItems.Count == oldItems.Count + 1)

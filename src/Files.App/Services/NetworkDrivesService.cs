@@ -44,7 +44,7 @@ namespace Files.App.Services
 
 			foreach (var item in networkLocations ?? Enumerable.Empty<ShellLinkItem>())
 			{
-				var networkItem = new DriveItem
+				var networkItem = new SidebarDriveItem
 				{
 					Text = System.IO.Path.GetFileNameWithoutExtension(item.FileName),
 					Path = item.TargetPath,

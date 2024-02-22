@@ -22,13 +22,13 @@ namespace Files.App.Utils.Library
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private FileSystemWatcher librariesWatcher;
-		private readonly List<LibraryLocationItem> libraries = new();
+		private readonly List<SidebarLibraryItem> libraries = new();
 		private static readonly Lazy<LibraryManager> lazy = new(() => new LibraryManager());
 
 		public static LibraryManager Default
 			=> lazy.Value;
 
-		public IReadOnlyList<LibraryLocationItem> Libraries
+		public IReadOnlyList<SidebarLibraryItem> Libraries
 		{
 			get
 			{
@@ -87,7 +87,7 @@ namespace Files.App.Utils.Library
 		/// Get libraries of the current user with the help of the FullTrust process.
 		/// </summary>
 		/// <returns>List of library items</returns>
-		public static async Task<List<LibraryLocationItem>> ListUserLibraries()
+		public static async Task<List<SidebarLibraryItem>> ListUserLibraries()
 		{
 			var libraries = await Win32API.StartSTATask(() =>
 			{
@@ -114,7 +114,7 @@ namespace Files.App.Utils.Library
 				return new();
 			});
 
-			return libraries.Select(lib => new LibraryLocationItem(lib)).ToList();
+			return libraries.Select(lib => new SidebarLibraryItem(lib)).ToList();
 		}
 
 		public async Task UpdateLibrariesAsync()
@@ -135,7 +135,7 @@ namespace Files.App.Utils.Library
 			DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
-		public bool TryGetLibrary(string path, out LibraryLocationItem library)
+		public bool TryGetLibrary(string path, out SidebarLibraryItem library)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase))
 			{
@@ -156,7 +156,7 @@ namespace Files.App.Utils.Library
 			if (string.IsNullOrWhiteSpace(name) || !CanCreateLibrary(name).result)
 				return false;
 
-			var newLib = new LibraryLocationItem(await Win32API.StartSTATask(() =>
+			var newLib = new SidebarLibraryItem(await Win32API.StartSTATask(() =>
 			{
 				try
 				{
@@ -194,7 +194,7 @@ namespace Files.App.Utils.Library
 		/// <param name="folders">Update the library folders or null to keep current</param>
 		/// <param name="isPinned">Update the library pinned status or null to keep current</param>
 		/// <returns>The new library if successfully updated</returns>
-		public async Task<LibraryLocationItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
+		public async Task<SidebarLibraryItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
 		{
 			if (string.IsNullOrWhiteSpace(libraryPath) || (defaultSaveFolder is null && folders is null && isPinned is null))
 				// Nothing to update
@@ -255,7 +255,7 @@ namespace Files.App.Utils.Library
 				return Task.FromResult<ShellLibraryItem>(null);
 			});
 
-			var newLib = item is not null ? new LibraryLocationItem(item) : null;
+			var newLib = item is not null ? new SidebarLibraryItem(item) : null;
 			if (newLib is not null)
 			{
 				var libItem = Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase));
@@ -423,7 +423,7 @@ namespace Files.App.Utils.Library
 				// library is null in case it was deleted
 				if (library is not null && !Libraries.Any(x => x.Path == library1?.FullPath))
 				{
-					var libItem = new LibraryLocationItem(library1);
+					var libItem = new SidebarLibraryItem(library1);
 					lock (libraries)
 					{
 						libraries.Add(libItem);

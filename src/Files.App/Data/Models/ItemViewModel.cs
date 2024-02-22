@@ -137,7 +137,7 @@ namespace Files.App.Data.Models
 
 			var isLibrary = false;
 			string? name = null;
-			if (App.LibraryManager.TryGetLibrary(value, out LibraryLocationItem library))
+			if (App.LibraryManager.TryGetLibrary(value, out SidebarLibraryItem library))
 			{
 				isLibrary = true;
 				name = library.Text;
@@ -1394,7 +1394,7 @@ namespace Files.App.Data.Models
 
 				if (path.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal))
 				{
-					if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library) && !library.IsEmpty)
+					if (App.LibraryManager.TryGetLibrary(path, out SidebarLibraryItem library) && !library.IsEmpty)
 					{
 						var libItem = new LibraryItem(library);
 						foreach (var folder in library.Folders)

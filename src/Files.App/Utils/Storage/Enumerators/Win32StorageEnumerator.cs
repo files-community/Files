@@ -351,7 +351,7 @@ namespace Files.App.Utils.Storage
 					IsUrl = isUrl,
 				};
 			}
-			else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
+			else if (App.LibraryManager.TryGetLibrary(itemPath, out SidebarLibraryItem library))
 			{
 				return new LibraryItem(library)
 				{

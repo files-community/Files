@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Items
 {
-	public class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	public class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<SidebarFolderItem>
 	{
 		// Fields
 
@@ -15,7 +15,7 @@ namespace Files.App.Data.Items
 
 		public string? AutomationProperties { get; set; }
 
-		public LocationItem? Item { get; private set; }
+		public SidebarFolderItem? Item { get; private set; }
 
 		public string? Text { get; set; }
 
@@ -33,7 +33,7 @@ namespace Files.App.Data.Items
 
 		// Constructor
 
-		public WidgetFolderCardItem(LocationItem item, string text, bool isPinned)
+		public WidgetFolderCardItem(SidebarFolderItem item, string text, bool isPinned)
 		{
 			if (!string.IsNullOrWhiteSpace(text))
 			{

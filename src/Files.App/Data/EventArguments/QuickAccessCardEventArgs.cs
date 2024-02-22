@@ -5,7 +5,7 @@ namespace Files.App.Data.EventArguments
 {
 	public class QuickAccessCardEventArgs : EventArgs
 	{
-		public LocationItem? Item { get; set; }
+		public SidebarFolderItem? Item { get; set; }
 	}
 
 	public class QuickAccessCardInvokedEventArgs : EventArgs

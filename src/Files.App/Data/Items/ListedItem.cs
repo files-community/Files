@@ -518,7 +518,7 @@ namespace Files.App.Utils
 
 	public class LibraryItem : ListedItem
 	{
-		public LibraryItem(LibraryLocationItem library) : base(null)
+		public LibraryItem(SidebarLibraryItem library) : base(null)
 		{
 			ItemPath = library.Path;
 			ItemNameRaw = library.Text;

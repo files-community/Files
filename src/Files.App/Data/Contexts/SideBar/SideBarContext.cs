@@ -13,8 +13,8 @@ namespace Files.App.Data.Contexts
 				? favoriteModel.IndexOfItem(_RightClickedItem!)
 				: -1;
 
-		private INavigationControlItem? _RightClickedItem = null;
-		public INavigationControlItem? RightClickedItem => _RightClickedItem;
+		private ISidebarItem? _RightClickedItem = null;
+		public ISidebarItem? RightClickedItem => _RightClickedItem;
 
 		public bool IsItemRightClicked =>
 			_RightClickedItem is not null;
@@ -24,15 +24,15 @@ namespace Files.App.Data.Contexts
 			_RightClickedItem!.Section is SectionType.Favorites &&
 			FavoriteIndex is not -1;
 
-		public DriveItem? OpenDriveItem
-			=> _RightClickedItem as DriveItem;
+		public SidebarDriveItem? OpenDriveItem
+			=> _RightClickedItem as SidebarDriveItem;
 
 		public SidebarContext()
 		{
 			SidebarViewModel.RightClickedItemChanged += SidebarControl_RightClickedItemChanged;
 		}
 
-		public void SidebarControl_RightClickedItemChanged(object? sender, INavigationControlItem? e)
+		public void SidebarControl_RightClickedItemChanged(object? sender, ISidebarItem? e)
 		{
 			if (SetProperty(ref _RightClickedItem, e, nameof(RightClickedItem)))
 			{

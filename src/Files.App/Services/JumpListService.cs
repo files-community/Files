@@ -117,7 +117,7 @@ namespace Files.App.Services
 					if (drive is null)
 						return;
 
-					displayName = (drive as DriveItem)?.Text;
+					displayName = (drive as SidebarDriveItem)?.Text;
 					path += '?';
 				}
 
@@ -136,7 +136,7 @@ namespace Files.App.Services
 						displayName = "ThisPC".GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "SidebarNetworkDrives".GetLocalizedResource();
-					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+					else if (App.LibraryManager.TryGetLibrary(path, out SidebarLibraryItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);
 						displayName = libName switch

@@ -28,7 +28,7 @@ namespace Files.App.UserControls.Widgets
 		public event RecentFileInvokedEventHandler RecentFileInvoked;
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
+		private ObservableCollection<WidgetRecentItem> recentItemsCollection = new ObservableCollection<WidgetRecentItem>();
 
 		private SemaphoreSlim refreshRecentsSemaphore;
 
@@ -98,17 +98,17 @@ namespace Files.App.UserControls.Widgets
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
 
-			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(RemoveRecentItemAsync);
+			RemoveRecentItemCommand = new AsyncRelayCommand<WidgetRecentItem>(RemoveRecentItemAsync);
 			ClearAllItemsCommand = new AsyncRelayCommand(ClearRecentItemsAsync);
-			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
-			OpenPropertiesCommand = new RelayCommand<RecentItem>(OpenProperties);
+			OpenFileLocationCommand = new RelayCommand<WidgetRecentItem>(OpenFileLocation);
+			OpenPropertiesCommand = new RelayCommand<WidgetRecentItem>(OpenProperties);
 		}
 
 		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
 			if (e.OriginalSource is not FrameworkElement element ||
-				element.DataContext is not RecentItem item)
+				element.DataContext is not WidgetRecentItem item)
 				return;
 
 			// Create a new Flyout
@@ -226,7 +226,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private void OpenFileLocation(RecentItem item)
+		private void OpenFileLocation(WidgetRecentItem item)
 		{
 			RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
@@ -235,7 +235,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private void OpenProperties(RecentItem item)
+		private void OpenProperties(WidgetRecentItem item)
 		{
 			var flyout = HomePageContext.ItemContextFlyoutMenu;
 
@@ -295,7 +295,7 @@ namespace Files.App.UserControls.Widgets
 					case NotifyCollectionChangedAction.Add:
 						if (e.NewItems is not null)
 						{
-							var addedItem = e.NewItems.Cast<RecentItem>().Single();
+							var addedItem = e.NewItems.Cast<WidgetRecentItem>().Single();
 							AddItemToRecentList(addedItem, 0);
 						}
 						break;
@@ -303,7 +303,7 @@ namespace Files.App.UserControls.Widgets
 					case NotifyCollectionChangedAction.Move:
 						if (e.OldItems is not null)
 						{
-							var movedItem = e.OldItems.Cast<RecentItem>().Single();
+							var movedItem = e.OldItems.Cast<WidgetRecentItem>().Single();
 							recentItemsCollection.RemoveAt(e.OldStartingIndex);
 							AddItemToRecentList(movedItem, 0);
 						}
@@ -312,7 +312,7 @@ namespace Files.App.UserControls.Widgets
 					case NotifyCollectionChangedAction.Remove:
 						if (e.OldItems is not null)
 						{
-							var removedItem = e.OldItems.Cast<RecentItem>().Single();
+							var removedItem = e.OldItems.Cast<WidgetRecentItem>().Single();
 							recentItemsCollection.RemoveAt(e.OldStartingIndex);
 						}
 						break;
@@ -351,7 +351,7 @@ namespace Files.App.UserControls.Widgets
 		/// Add the RecentItem to the ObservableCollection for the UI to render.
 		/// </summary>
 		/// <param name="recentItem">The recent item to be added</param>
-		private bool AddItemToRecentList(RecentItem recentItem, int index = -1)
+		private bool AddItemToRecentList(WidgetRecentItem recentItem, int index = -1)
 		{
 			if (!recentItemsCollection.Any(x => x.Equals(recentItem)))
 			{
@@ -365,14 +365,14 @@ namespace Files.App.UserControls.Widgets
 
 		private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			var recentItem = e.ClickedItem as RecentItem;
+			var recentItem = e.ClickedItem as WidgetRecentItem;
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
 				ItemPath = recentItem.RecentPath,
 			});
 		}
 
-		private async Task RemoveRecentItemAsync(RecentItem item)
+		private async Task RemoveRecentItemAsync(WidgetRecentItem item)
 		{
 			await refreshRecentsSemaphore.WaitAsync();
 

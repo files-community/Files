@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Items
 {
-	public class LibraryLocationItem : LocationItem
+	public class SidebarLibraryItem : SidebarFolderItem
 	{
 		public string DefaultSaveFolder { get; }
 
@@ -11,7 +11,7 @@ namespace Files.App.Data.Items
 
 		public bool IsEmpty => DefaultSaveFolder is null || Folders is null || Folders.Count is 0;
 
-		public LibraryLocationItem(ShellLibraryItem shellLibrary)
+		public SidebarLibraryItem(ShellLibraryItem shellLibrary)
 		{
 			Section = SectionType.Library;
 			MenuOptions = new ContextMenuOptions
@@ -61,6 +61,6 @@ namespace Files.App.Data.Items
 		public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
 
 		public override bool Equals(object obj)
-			=> obj is LibraryLocationItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
+			=> obj is SidebarLibraryItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
 	}
 }

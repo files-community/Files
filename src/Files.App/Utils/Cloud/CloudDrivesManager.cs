@@ -15,8 +15,8 @@ namespace Files.App.Utils.Cloud
 
 		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private static readonly List<DriveItem> _Drives = new();
-		public static IReadOnlyList<DriveItem> Drives
+		private static readonly List<SidebarDriveItem> _Drives = new();
+		public static IReadOnlyList<SidebarDriveItem> Drives
 		{
 			get
 			{
@@ -37,7 +37,7 @@ namespace Files.App.Utils.Cloud
 			{
 				_logger?.LogInformation($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
 
-				var cloudProviderItem = new DriveItem()
+				var cloudProviderItem = new SidebarDriveItem()
 				{
 					Text = provider.Name,
 					Path = provider.SyncFolder,

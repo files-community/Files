@@ -101,7 +101,7 @@ namespace Files.App.Utils.Storage
 			}
 			else
 			{
-				foreach (var drive in drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
+				foreach (var drive in drivesViewModel.Drives.Cast<SidebarDriveItem>().Where(x => !x.IsNetwork))
 				{
 					await AddItemsAsync(drive.Path, results, token);
 				}
@@ -176,7 +176,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private async Task AddItemsForLibraryAsync(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsForLibraryAsync(SidebarLibraryItem library, IList<ListedItem> results, CancellationToken token)
 		{
 			foreach (var folder in library.Folders)
 			{
