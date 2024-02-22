@@ -1,21 +1,17 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Views;
-using Microsoft.UI.Xaml.Controls;
-using Windows.ApplicationModel.DataTransfer;
-
-namespace Files.App.UserControls
+namespace Files.App.Data.Contracts
 {
-	public interface IAddressToolbar
+	/// <summary>
+	/// Represents contract of AddressToolbar view model.
+	/// </summary>
+	public interface IAddressToolbarViewModel
 	{
 		public bool IsSearchBoxVisible { get; set; }
 
 		public bool IsEditModeEnabled { get; set; }
 
-		/// <summary>
-		/// Boolean to determine if the command palette is open
-		/// </summary>
 		public bool IsCommandPaletteOpen { get; set; }
 
 		public bool CanRefresh { get; set; }
@@ -50,6 +46,6 @@ namespace Files.App.UserControls
 
 		public void SwitchSearchBoxVisibility();
 
-		public ISearchBox SearchBox { get; }
+		public ISearchBoxViewModel SearchBox { get; }
 	}
 }

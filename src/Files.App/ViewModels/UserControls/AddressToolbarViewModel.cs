@@ -15,7 +15,7 @@ using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
+	public class ToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
 	{
 		private const int MAX_SUGGESTIONS = 10;
 
@@ -45,11 +45,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 
-		public event IAddressToolbar.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
+		public event IAddressToolbarViewModel.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
 
 		public event EventHandler? EditModeEnabled;
 
-		public event IAddressToolbar.ToolbarQuerySubmittedEventHandler? PathBoxQuerySubmitted;
+		public event IAddressToolbarViewModel.ToolbarQuerySubmittedEventHandler? PathBoxQuerySubmitted;
 
 		public event AddressBarTextEnteredEventHandler? AddressBarTextEntered;
 
@@ -268,8 +268,8 @@ namespace Files.App.ViewModels.UserControls
 		private DispatcherQueue dispatcherQueue;
 		private DispatcherQueueTimer dragOverTimer;
 
-		private ISearchBox searchBox = new SearchBoxViewModel();
-		public ISearchBox SearchBox
+		private ISearchBoxViewModel searchBox = new SearchBoxViewModel();
+		public ISearchBoxViewModel SearchBox
 		{
 			get => searchBox;
 			set => SetProperty(ref searchBox, value);
@@ -347,7 +347,7 @@ namespace Files.App.ViewModels.UserControls
 				dragOverPath = pathBoxItem.Path;
 				dragOverTimer.Stop();
 
-				if (dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
+				if (dragOverPath != (this as IAddressToolbarViewModel).PathComponents.LastOrDefault()?.Path)
 				{
 					dragOverTimer.Debounce(() =>
 					{
@@ -482,7 +482,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
 
-			(this as IAddressToolbar).IsEditModeEnabled = false;
+			(this as IAddressToolbarViewModel).IsEditModeEnabled = false;
 		}
 
 		public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -594,7 +594,7 @@ namespace Files.App.ViewModels.UserControls
 			CloseSearchBox();
 		}
 
-		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
+		private void SearchRegion_Escaped(object? sender, ISearchBoxViewModel searchBox)
 			=> CloseSearchBox(true);
 
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
