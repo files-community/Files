@@ -3667,4 +3667,7 @@
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Where did Files go?</value>
   </data>
+  <data name="QuestionAndDiscussion" xml:space="preserve">
+    <value>Question &amp; Discussion</value>
+  </data>
 </root>

@@ -18,7 +18,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			var url = new Uri(Constants.GitHub.DocumentationUrl);
+			var url = new Uri(Constants.ExternalUrl.DocumentationUrl);
 			return Launcher.LaunchUriAsync(url).AsTask();
 		}
 	}

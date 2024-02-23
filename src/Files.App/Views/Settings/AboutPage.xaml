@@ -90,6 +90,22 @@
 					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
+			<!--  Question & Discussion  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=QuestionAndDiscussion}"
+				HorizontalAlignment="Stretch"
+				ButtonCommand="{x:Bind ViewModel.OpenDiscordCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8F2;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+			</local:SettingsBlockControl>
+
 			<!--  Feedback  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Feedback}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>

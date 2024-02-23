@@ -272,7 +272,7 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnDocumentationClicked()
 		{
-			Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl)).AsTask();
+			Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.DocumentationUrl)).AsTask();
 		}
 
 		private void OnRestartClicked()
