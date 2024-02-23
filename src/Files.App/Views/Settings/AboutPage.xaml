@@ -90,7 +90,7 @@
 					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
-			<!--  Questions & Discussions  -->
+			<!--  Questions & discussions  -->
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=QuestionsAndDiscussions}"
 				HorizontalAlignment="Stretch"
