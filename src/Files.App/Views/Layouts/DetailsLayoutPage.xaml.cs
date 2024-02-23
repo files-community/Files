@@ -60,10 +60,10 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int RowHeight
 		{
-			get => LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.ItemSizeDetailsView);
+			get => LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize);
 			set
 			{
-				if (value != LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.ItemSizeDetailsView))
+				if (value != LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize))
 					NotifyPropertyChanged(nameof(RowHeight));
 			}
 		}
@@ -195,12 +195,12 @@ namespace Files.App.Views.Layouts
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeDetailsView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.DetailsViewSize))
 			{
 				// Get current scroll position
 				var previousOffset = ContentScroller?.VerticalOffset;
 
-				RowHeight = LayoutSizeKindHelper.GetDetailsViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeDetailsView);
+				RowHeight = LayoutSizeKindHelper.GetDetailsViewRowHeight(UserSettingsService.LayoutSettingsService.DetailsViewSize);
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
@@ -215,7 +215,7 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.ItemSizeDetailsView == DetailsViewSizeKind.Compact)
+			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = RegularItemContainerStyle;

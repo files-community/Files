@@ -11,31 +11,31 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public DetailsViewSizeKind ItemSizeDetailsView
+		public DetailsViewSizeKind DetailsViewSize
 		{
 			get => Get(DetailsViewSizeKind.Small);
 			set => Set(value);
 		}
 
-		public ListViewSizeKind ItemSizeListView
+		public ListViewSizeKind ListViewSize
 		{
 			get => Get(ListViewSizeKind.Small);
 			set => Set(value);
 		}
 
-		public TilesViewSizeKind ItemSizeTilesView
+		public TilesViewSizeKind TilesViewSize
 		{
 			get => Get(TilesViewSizeKind.Small);
 			set => Set(value);
 		}
 
-		public GridViewSizeKind ItemSizeGridView
+		public GridViewSizeKind GridViewSize
 		{
 			get => Get(GridViewSizeKind.ExtraLarge);
 			set => Set(value);
 		}
 
-		public ColumnsViewSizeKind ItemSizeColumnsView
+		public ColumnsViewSizeKind ColumnsViewSize
 		{
 			get => Get(ColumnsViewSizeKind.Small);
 			set => Set(value);

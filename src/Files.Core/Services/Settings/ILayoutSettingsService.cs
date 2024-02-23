@@ -10,26 +10,26 @@ namespace Files.Core.Services.Settings
 		/// <summary>
 		/// Item size in the Details View
 		/// </summary>
-		DetailsViewSizeKind ItemSizeDetailsView { get; set; }
+		DetailsViewSizeKind DetailsViewSize { get; set; }
 
 		/// <summary>
 		/// Item size in the List View
 		/// </summary>
-		ListViewSizeKind ItemSizeListView { get; set; }
+		ListViewSizeKind ListViewSize { get; set; }
 
 		/// <summary>
 		/// Item size in the Tiles View
 		/// </summary>
-		TilesViewSizeKind ItemSizeTilesView { get; set; }
+		TilesViewSizeKind TilesViewSize { get; set; }
 
 		/// <summary>
 		/// Item size in the Grid View
 		/// </summary>
-		GridViewSizeKind ItemSizeGridView { get; set; }
+		GridViewSizeKind GridViewSize { get; set; }
 
 		/// <summary>
 		/// Item size in the Columns View
 		/// </summary>
-		ColumnsViewSizeKind ItemSizeColumnsView { get; set; }
+		ColumnsViewSizeKind ColumnsViewSize { get; set; }
 	}
 }

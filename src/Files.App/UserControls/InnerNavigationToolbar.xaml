@@ -780,7 +780,7 @@
 									SnapsTo="Ticks"
 									TickFrequency="1"
 									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ItemSizeDetailsView, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+									Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
 
 								<!--  Tiles  -->
 								<Slider
@@ -799,7 +799,7 @@
 									SnapsTo="Ticks"
 									TickFrequency="1"
 									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ItemSizeListView, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+									Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
 
 								<!--  Grid  -->
 								<Slider
@@ -811,7 +811,7 @@
 									TickFrequency="1"
 									TickPlacement="BottomRight"
 									Visibility="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ItemSizeGridView, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11'}" />
+									Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11'}" />
 
 								<!--  Columns  -->
 								<Slider
@@ -823,7 +823,7 @@
 									SnapsTo="Ticks"
 									TickFrequency="1"
 									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ItemSizeColumnsView, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+									Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
 							</Grid>
 
 							<!--  (Divider)  -->

@@ -235,10 +235,10 @@ namespace Files.App.Data.Models
 					=> Constants.ShellIconSizes.Large,
 				FolderLayoutModes.ColumnView
 					=> Constants.ShellIconSizes.Large,
-				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.ItemSizeGridView <= GridViewSizeKind.Small ||
+				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Small ||
 					   LayoutMode == FolderLayoutModes.TilesView
 					=> 96,
-				_ when  LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.ItemSizeGridView <= GridViewSizeKind.Large
+				_ when  LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Large
 					=> 128,
 				_ => 256,
 			};

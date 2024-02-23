@@ -37,10 +37,10 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int RowHeightListView
 		{
-			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeListView);
+			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
 			set
 			{
-				if (value != LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeListView))
+				if (value != LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize))
 					NotifyPropertyChanged(nameof(RowHeightListView));
 			}
 		}
@@ -50,10 +50,10 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int ItemWidthTilesView
 		{
-			get => LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.ItemSizeTilesView);
+			get => LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
 			set
 			{
-				if (value != LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.ItemSizeTilesView))
+				if (value != LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize))
 					NotifyPropertyChanged(nameof(ItemWidthTilesView));
 			}
 		}
@@ -63,10 +63,10 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int ItemWidthGridView
 		{
-			get => LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.ItemSizeGridView);
+			get => LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
 			set
 			{
-				if (value != LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.ItemSizeGridView))
+				if (value != LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize))
 					NotifyPropertyChanged(nameof(ItemWidthGridView));
 			}
 		}
@@ -164,21 +164,21 @@ namespace Files.App.Views.Layouts
 		{
 			// TODO keep scroll position when changing styles (see details view)
 
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeListView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.ListViewSize))
 			{
-				RowHeightListView = LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeListView);
+				RowHeightListView = LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
 				SetItemContainerStyle();
 				FolderSettings_IconHeightChanged();
 			}
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeTilesView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.TilesViewSize))
 			{
-				ItemWidthTilesView = LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.ItemSizeTilesView);
+				ItemWidthTilesView = LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
 				SetItemContainerStyle();
 				FolderSettings_IconHeightChanged();
 			}
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeGridView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
-				ItemWidthGridView = LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.ItemSizeGridView);
+				ItemWidthGridView = LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
 				SetItemContainerStyle();
 				FolderSettings_IconHeightChanged();
 			}
@@ -238,7 +238,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemContainerStyle()
 		{
-			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ItemSizeListView == ListViewSizeKind.Compact)
+			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = DefaultItemContainerStyle;

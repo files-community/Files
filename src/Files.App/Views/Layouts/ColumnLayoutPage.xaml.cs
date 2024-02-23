@@ -47,10 +47,10 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		public int RowHeight
 		{
-			get => LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeColumnsView);
+			get => LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
 			set
 			{
-				if (value != LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeColumnsView))
+				if (value != LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize))
 				{
 					NotifyPropertyChanged(nameof(RowHeight));
 				}
@@ -176,9 +176,9 @@ namespace Files.App.Views.Layouts
 		{
 			// TODO keep scroll position when changing styles (see details view)
 
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeColumnsView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.ColumnsViewSize))
 			{
-				RowHeight = LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ItemSizeColumnsView);
+				RowHeight = LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
 				SetItemContainerStyle();
 			}
 		}
@@ -240,7 +240,7 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.ItemSizeColumnsView == ColumnsViewSizeKind.Compact)
+			if (UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
