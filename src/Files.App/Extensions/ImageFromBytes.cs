@@ -1,11 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls
+namespace Files.App.Extensions
 {
 	public class ImageFromBytes : DependencyObject
 	{
@@ -20,7 +19,11 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty SourceBytesProperty =
-			DependencyProperty.RegisterAttached("SourceBytes", typeof(byte[]), typeof(ImageFromBytes), new PropertyMetadata(null, OnSourceBytesChangedAsync));
+			DependencyProperty.RegisterAttached(
+				"SourceBytes",
+				typeof(byte[]),
+				typeof(ImageFromBytes),
+				new PropertyMetadata(null, OnSourceBytesChangedAsync));
 
 		private static async void OnSourceBytesChangedAsync(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{

@@ -27,15 +27,15 @@ namespace Files.App.UserControls
 
 		public AppModel AppModel => App.AppModel;
 
-		public ToolbarViewModel? ViewModel
+		public AddressToolbarViewModel? ViewModel
 		{
-			get => (ToolbarViewModel)GetValue(ViewModelProperty);
+			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ViewModel), typeof(AddressToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
 		public bool ShowViewControlButton
 		{
