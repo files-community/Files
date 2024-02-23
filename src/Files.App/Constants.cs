@@ -118,70 +118,6 @@ namespace Files.App
 			public const string StandardFont = "Segoe UI Variable";
 		}
 
-		// Default icon heights used in the differents layouts
-		public static class IconHeights
-		{
-			public static class GridView
-			{
-				public const int Increment = 20;
-
-				public const int Minimum = 80;
-
-				public const int Small = 100;
-
-				public const int Medium = 160;
-
-				public const int Large = 220;
-
-				public const int Maximum = 300;
-			}
-
-			public static class TilesView
-			{ 
-				public const int Regular = 100;
-			}
-
-			public static class ListView
-			{
-				public const int Increment = 4;
-
-				public const int Minimum = 24;
-
-				public const int Small = 28;
-
-				public const int Regular = 32;
-
-				public const int Maximum = 36;
-			}
-
-			public static class DetailsView
-			{
-				public const int Increment = 4;
-
-				public const int Minimum = 28;
-
-				public const int Small = 32;
-
-				public const int Regular = 36;
-
-				public const int Maximum = 40;
-			}
-
-			public static class ColumnsView
-			{
-				public const int Increment = 4;
-
-				public const int Minimum = 28;
-
-				public const int Small = 32;
-
-				public const int Regular = 36;
-
-				public const int Maximum = 40;
-			}
-		}
-
-
 		// Default icon sizes that are available for files and folders
 		public static class ShellIconSizes
 		{
@@ -252,14 +188,16 @@ namespace Files.App
 			public const string CachedEmptyItemName = "fileicon_cache";
 		}
 
-		public static class GitHub
+		public static class ExternalUrl
 		{
 			public const string GitHubRepoUrl = @"https://github.com/files-community/Files";
 			public const string DocumentationUrl = @"https://files.community/docs";
+			public const string DiscordUrl = @"https://discord.gg/files";
 			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?labels=feature+request&template=feature_request.yml";
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/.github/PRIVACY.md";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
+			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
 		}
 
 		public static class DocsPath

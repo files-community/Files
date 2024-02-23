@@ -56,16 +56,11 @@ namespace Files.App.Views.Layouts
 		}
 
 		/// <summary>
-		/// Item size for the Details View
+		/// Row height for items in the Details View
 		/// </summary>
-		public int ItemSize
+		public int RowHeight
 		{
-			get => UserSettingsService.LayoutSettingsService.ItemSizeDetailsView;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ItemSizeDetailsView)
-					NotifyPropertyChanged(nameof(ItemSize));
-			}
+			get => LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize);
 		}
 
 
@@ -84,7 +79,7 @@ namespace Files.App.Views.Layouts
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
-			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * ItemSize, null, true); // Scroll to index * item height
+			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * RowHeight, null, true); // Scroll to index * item height
 		}
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
@@ -92,7 +87,7 @@ namespace Files.App.Views.Layouts
 			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
-				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * ItemSize, null, false);
+				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * RowHeight, null, false);
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
 			}
 		}
@@ -195,12 +190,12 @@ namespace Files.App.Views.Layouts
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeDetailsView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.DetailsViewSize))
 			{
 				// Get current scroll position
 				var previousOffset = ContentScroller?.VerticalOffset;
 
-				ItemSize = UserSettingsService.LayoutSettingsService.ItemSizeDetailsView;
+				NotifyPropertyChanged(nameof(RowHeight));
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
@@ -215,7 +210,7 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (ItemSize <= Constants.IconHeights.DetailsView.Small)
+			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = RegularItemContainerStyle;

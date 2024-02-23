@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Core.Data.Enums;
+
 namespace Files.Core.Services.Settings
 {
 	public interface ILayoutSettingsService : IBaseSettingsService, INotifyPropertyChanged
@@ -8,26 +10,26 @@ namespace Files.Core.Services.Settings
 		/// <summary>
 		/// Item size in the Details View
 		/// </summary>
-		int ItemSizeDetailsView { get; set; }
+		DetailsViewSizeKind DetailsViewSize { get; set; }
 
 		/// <summary>
 		/// Item size in the List View
 		/// </summary>
-		int ItemSizeListView { get; set; }
+		ListViewSizeKind ListViewSize { get; set; }
 
 		/// <summary>
 		/// Item size in the Tiles View
 		/// </summary>
-		int ItemSizeTilesView { get; set; }
+		TilesViewSizeKind TilesViewSize { get; set; }
 
 		/// <summary>
 		/// Item size in the Grid View
 		/// </summary>
-		int ItemSizeGridView { get; set; }
+		GridViewSizeKind GridViewSize { get; set; }
 
 		/// <summary>
 		/// Item size in the Columns View
 		/// </summary>
-		int ItemSizeColumnsView { get; set; }
+		ColumnsViewSizeKind ColumnsViewSize { get; set; }
 	}
 }

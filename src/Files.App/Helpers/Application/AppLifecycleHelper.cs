@@ -317,7 +317,7 @@ namespace Files.App.Helpers
 					{
 						Buttons =
 					{
-						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.GitHub.BugReportUrl)
+						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.ExternalUrl.BugReportUrl)
 						{
 							ActivationType = ToastActivationType.Protocol
 						}

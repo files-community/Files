@@ -5,12 +5,12 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:behaviors="using:Files.App.Data.Behaviors"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:extensions="using:Files.App.Extensions"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:security="using:Files.App.Utils.Storage"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
@@ -130,7 +130,7 @@
 						<Image
 							Width="16"
 							Height="16"
-							uc:ImageFromBytes.SourceBytes="{x:Bind SecurityAdvancedViewModel.ShieldIconFileInfo.IconData, Mode=OneWay}" />
+							extensions:ImageFromBytes.SourceBytes="{x:Bind SecurityAdvancedViewModel.ShieldIconFileInfo.IconData, Mode=OneWay}" />
 						<TextBlock Text="{helpers:ResourceString Name=Change}" />
 					</StackPanel>
 				</HyperlinkButton>

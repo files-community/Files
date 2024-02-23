@@ -188,10 +188,10 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
-			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.ItemSizeDetailsView > Constants.IconHeights.DetailsView.Minimum) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ItemSizeListView > Constants.IconHeights.ListView.Minimum) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.ItemSizeGridView > Constants.IconHeights.GridView.Minimum) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ItemSizeColumnsView > Constants.IconHeights.ColumnsView.Minimum));
+			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Compact) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact));
 
 		public LayoutDecreaseSizeAction()
 		{
@@ -224,10 +224,10 @@ namespace Files.App.Actions
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(ILayoutSettingsService.ItemSizeDetailsView):
-				case nameof(ILayoutSettingsService.ItemSizeListView):
-				case nameof(ILayoutSettingsService.ItemSizeGridView):
-				case nameof(ILayoutSettingsService.ItemSizeColumnsView):
+				case nameof(ILayoutSettingsService.DetailsViewSize):
+				case nameof(ILayoutSettingsService.ListViewSize):
+				case nameof(ILayoutSettingsService.GridViewSize):
+				case nameof(ILayoutSettingsService.ColumnsViewSize):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
@@ -238,22 +238,22 @@ namespace Files.App.Actions
 			switch (DisplayPageContext.LayoutType)
 			{
 				case LayoutTypes.Details:
-					if (UserSettingsService.LayoutSettingsService.ItemSizeDetailsView > Constants.IconHeights.DetailsView.Minimum)
-						UserSettingsService.LayoutSettingsService.ItemSizeDetailsView -= Constants.IconHeights.DetailsView.Increment;
+					if (UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact)
+						UserSettingsService.LayoutSettingsService.DetailsViewSize -= 1;
 					break;
 				case LayoutTypes.List:
-					if (UserSettingsService.LayoutSettingsService.ItemSizeListView > Constants.IconHeights.ListView.Minimum)
-						UserSettingsService.LayoutSettingsService.ItemSizeListView -= Constants.IconHeights.ListView.Increment;
+					if (UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact)
+						UserSettingsService.LayoutSettingsService.ListViewSize -= 1;
 					break;
 				case LayoutTypes.Tiles:
 					break;
 				case LayoutTypes.Grid:
-					if (UserSettingsService.LayoutSettingsService.ItemSizeGridView > Constants.IconHeights.GridView.Minimum)
-						UserSettingsService.LayoutSettingsService.ItemSizeGridView -= Constants.IconHeights.GridView.Increment;
+					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Compact)
+						UserSettingsService.LayoutSettingsService.GridViewSize -= 1;
 					break;
 				case LayoutTypes.Columns:
-					if (UserSettingsService.LayoutSettingsService.ItemSizeColumnsView > Constants.IconHeights.ColumnsView.Minimum)
-						UserSettingsService.LayoutSettingsService.ItemSizeColumnsView -= Constants.IconHeights.ColumnsView.Increment;
+					if (UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact)
+						UserSettingsService.LayoutSettingsService.ColumnsViewSize -= 1;
 					break;
 			}
 
@@ -281,10 +281,10 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
-			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.ItemSizeDetailsView < Constants.IconHeights.DetailsView.Maximum) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ItemSizeListView < Constants.IconHeights.ListView.Maximum) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.ItemSizeGridView < Constants.IconHeights.GridView.Maximum) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ItemSizeColumnsView < Constants.IconHeights.ColumnsView.Maximum));
+			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.Eleven) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge));
 
 		public LayoutIncreaseSizeAction()
 		{
@@ -317,10 +317,10 @@ namespace Files.App.Actions
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(ILayoutSettingsService.ItemSizeDetailsView):
-				case nameof(ILayoutSettingsService.ItemSizeListView):
-				case nameof(ILayoutSettingsService.ItemSizeGridView):
-				case nameof(ILayoutSettingsService.ItemSizeColumnsView):
+				case nameof(ILayoutSettingsService.DetailsViewSize):
+				case nameof(ILayoutSettingsService.ListViewSize):
+				case nameof(ILayoutSettingsService.GridViewSize):
+				case nameof(ILayoutSettingsService.ColumnsViewSize):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
@@ -331,22 +331,22 @@ namespace Files.App.Actions
 			switch (DisplayPageContext.LayoutType)
 			{
 				case LayoutTypes.Details:
-					if (UserSettingsService.LayoutSettingsService.ItemSizeDetailsView < Constants.IconHeights.DetailsView.Maximum)
-						UserSettingsService.LayoutSettingsService.ItemSizeDetailsView += Constants.IconHeights.DetailsView.Increment;
+					if (UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge)
+						UserSettingsService.LayoutSettingsService.DetailsViewSize += 1;
 					break;
 				case LayoutTypes.List:
-					if (UserSettingsService.LayoutSettingsService.ItemSizeListView < Constants.IconHeights.ListView.Maximum)
-						UserSettingsService.LayoutSettingsService.ItemSizeListView += Constants.IconHeights.ListView.Increment;
+					if (UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge)
+						UserSettingsService.LayoutSettingsService.ListViewSize += 1;
 					break;
 				case LayoutTypes.Tiles:
 					break;
 				case LayoutTypes.Grid:
-					if (UserSettingsService.LayoutSettingsService.ItemSizeGridView < Constants.IconHeights.GridView.Maximum)
-						UserSettingsService.LayoutSettingsService.ItemSizeGridView += Constants.IconHeights.GridView.Increment;
+					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.Eleven)
+						UserSettingsService.LayoutSettingsService.GridViewSize += 1;
 					break;
 				case LayoutTypes.Columns:
-					if (UserSettingsService.LayoutSettingsService.ItemSizeColumnsView < Constants.IconHeights.ColumnsView.Maximum)
-						UserSettingsService.LayoutSettingsService.ItemSizeColumnsView += Constants.IconHeights.ColumnsView.Increment;
+					if (UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge)
+						UserSettingsService.LayoutSettingsService.ColumnsViewSize += 1;
 					break;
 			}
 
