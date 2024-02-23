@@ -43,16 +43,6 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public void SetCompactSpacing(bool useCompactSpacing)
-		{
-			var listItemHeight = useCompactSpacing ? 28 : 36;
-			var listItemMargin = useCompactSpacing ? "-2" : "0";
-
-			Application.Current.Resources["ListItemHeight"] = listItemHeight;
-			Application.Current.Resources["ListItemMargin"] = listItemMargin;
-		}
-
-		/// <inheritdoc/>
 		public void ApplyResources()
 		{
 			ThemeHelper.ApplyResources();

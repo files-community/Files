@@ -217,8 +217,63 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
+		private static readonly object _iconOverlayLock = new object();
 
-		private static readonly object _lock = new object();
+		/// <summary>
+		/// Returns overlay for given file or folder
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="isDirectory"></param>
+		/// <returns></returns>
+		public static byte[]? GetIconOverlay(string path, bool isDirectory)
+		{
+			var shFileInfo = new Shell32.SHFILEINFO();
+			var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
+			byte[]? overlayData = null;
+
+			try
+			{
+				IntPtr result = Shell32.SHGetFileInfo(path, isDirectory ? FileAttributes.Directory : 0, ref shFileInfo, Shell32.SHFILEINFO.Size, flags);
+				if (result == IntPtr.Zero)
+					return null;
+
+				User32.DestroyIcon(shFileInfo.hIcon);
+
+				lock (_iconOverlayLock)
+				{
+					if (!Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
+						return null;
+
+					var imageList = (ComCtl32.IImageList)imageListOut;
+
+					var overlayIdx = shFileInfo.iIcon >> 24;
+					if (overlayIdx != 0)
+					{
+						var overlayImage = imageList.GetOverlayImage(overlayIdx);
+
+						using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+
+						if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+						{
+							using var icon = hOverlay.ToIcon();
+							using var image = icon.ToBitmap();
+
+							overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+						}
+					}
+
+					Marshal.ReleaseComObject(imageList);
+				}
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+
+			return overlayData;
+		}
+
+		private static readonly object _iconLock = new object();
 
 		/// <summary>
 		/// Returns an icon when a thumbnail isn't available or if getIconOnly is true.
@@ -231,21 +286,16 @@ namespace Files.App.Utils.Shell
 		/// <param name="thumbnailSize"></param>
 		/// <param name="isFolder"></param>
 		/// <param name="getIconOnly"></param>
-		/// <param name="getOverlay"></param>
-		/// <param name="onlyGetOverlay"></param>
 		/// <returns></returns>
-		public static (byte[]? icon, byte[]? overlay, bool isIconCached) GetFileIconAndOverlay(
+		public static (byte[]? icon, bool isIconCached) GetIcon(
 			string path,
 			int thumbnailSize,
 			bool isFolder,
 			bool getThumbnailOnly,
-			bool getIconOnly,
-			bool getOverlay = true,
-			bool onlyGetOverlay = false)
+			bool getIconOnly)
 		{
-			byte[]? iconData = null, overlayData = null;
+			byte[]? iconData = null;
 			bool isIconCached = false;
-
 
 			try
 			{
@@ -275,19 +325,19 @@ namespace Files.App.Utils.Shell
 					Marshal.ReleaseComObject(shellFactory);
 				}
 
-				if (getOverlay || (!onlyGetOverlay && iconData is null))
+				if (iconData is not null)
+					return (iconData, isIconCached);			
+				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
-					var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
+					var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION | Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES;
 
 					// Cannot access file, use file attributes
-					var useFileAttibutes = !onlyGetOverlay && iconData is null;
+					var useFileAttibutes = iconData is null;
 
-					var ret = ShellFolderExtensions.GetStringAsPIDL(path, out var pidl) ?
-						Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
-						Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
+					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
 					if (ret == IntPtr.Zero)
-						return (iconData, null, isIconCached);
+						return (iconData, isIconCached);
 
 					User32.DestroyIcon(shfi.hIcon);
 
@@ -299,14 +349,14 @@ namespace Files.App.Utils.Shell
 						_ => Shell32.SHIL.SHIL_JUMBO,
 					};
 
-					lock (_lock)
+					lock (_iconLock)
 					{
 						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
-							return (iconData, null, isIconCached);
+							return (iconData, isIconCached);
 
 						var imageList = (ComCtl32.IImageList)imageListOut;
 
-						if (!onlyGetOverlay && iconData is null)
+						if (iconData is null)
 						{
 							var iconIdx = shfi.iIcon & 0xFFFFFF;
 							if (iconIdx != 0)
@@ -338,28 +388,10 @@ namespace Files.App.Utils.Shell
 							}
 						}
 
-						var overlayIdx = shfi.iIcon >> 24;
-						if (overlayIdx != 0 && getOverlay)
-						{
-							var overlayImage = imageList.GetOverlayImage(overlayIdx);
-							using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-							if (!hOverlay.IsNull && !hOverlay.IsInvalid)
-							{
-								using var icon = hOverlay.ToIcon();
-								using var image = icon.ToBitmap();
-
-								overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-							}
-						}
-
 						Marshal.ReleaseComObject(imageList);
 					}
 
-					return (iconData, overlayData, isIconCached);
-				}
-				else
-				{
-					return (iconData, null, isIconCached);
+					return (iconData, isIconCached);
 				}
 			}
 			finally

@@ -33,14 +33,8 @@ namespace Files.App.Data.Contexts
 					case LayoutTypes.Tiles:
 						viewModel.ToggleLayoutModeTiles(true);
 						break;
-					case LayoutTypes.GridSmall:
-						viewModel.ToggleLayoutModeGridView(IconHeights.GridView.Small, true);
-						break;
-					case LayoutTypes.GridMedium:
-						viewModel.ToggleLayoutModeGridView(IconHeights.GridView.Medium, true);
-						break;
-					case LayoutTypes.GridLarge:
-						viewModel.ToggleLayoutModeGridView(IconHeights.GridView.Large, true);
+					case LayoutTypes.Grid:
+						viewModel.ToggleLayoutModeGridView(true);
 						break;
 					case LayoutTypes.Columns:
 						viewModel.ToggleLayoutModeColumnView(true);
@@ -138,18 +132,6 @@ namespace Files.App.Data.Contexts
 			settings.PropertyChanged += Settings_PropertyChanged;
 		}
 
-		public void DecreaseLayoutSize()
-		{
-			if (FolderSettings is LayoutPreferencesManager viewModel)
-				viewModel.DecreaseLayoutSize();
-		}
-
-		public void IncreaseLayoutSize()
-		{
-			if (FolderSettings is LayoutPreferencesManager viewModel)
-				viewModel.IncreaseLayoutSize();
-		}
-
 		private void Context_Changing(object? sender, EventArgs e)
 		{
 			var viewModel = FolderSettings;
@@ -174,7 +156,6 @@ namespace Files.App.Data.Contexts
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-				case nameof(LayoutPreferencesManager.IconHeight):
 				case nameof(LayoutPreferencesManager.IsAdaptiveLayoutEnabled):
 					SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
 					break;
@@ -251,12 +232,7 @@ namespace Files.App.Data.Contexts
 				FolderLayoutModes.DetailsView => LayoutTypes.Details,
 				FolderLayoutModes.ListView => LayoutTypes.List,
 				FolderLayoutModes.TilesView => LayoutTypes.Tiles,
-				FolderLayoutModes.GridView => viewModel.IconHeight switch
-				{
-					< IconHeights.GridView.Medium => LayoutTypes.GridSmall,
-					< IconHeights.GridView.Large => LayoutTypes.GridMedium,
-					_ => LayoutTypes.GridLarge,
-				},
+				FolderLayoutModes.GridView => LayoutTypes.Grid,
 				FolderLayoutModes.ColumnView => LayoutTypes.Columns,
 				_ => throw new InvalidEnumArgumentException(),
 			};

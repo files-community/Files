@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class DuplicateSelectedTabAction : IAction
+	internal class DuplicateSelectedTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context;
 
@@ -16,9 +16,13 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.K, KeyModifiers.CtrlShift);
 
+		public bool IsExecutable
+			=> context.SelectedTabItem is not null;
+
 		public DuplicateSelectedTabAction()
 		{
 			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+			context.PropertyChanged += MultitaskingContext_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -33,6 +37,12 @@ namespace Files.App.Actions
 			{
 				await NavigationHelpers.AddNewTabByParamAsync(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
 			}
+		}
+
+		private void MultitaskingContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IMultitaskingContext.SelectedTabItem))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }

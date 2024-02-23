@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using Files.Core.Services;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.Settings
@@ -106,24 +104,6 @@ namespace Files.App.ViewModels.Settings
 			get => (ElementTheme)selectedThemeIndex;
 		}
 
-		public bool UseCompactStyles
-		{
-			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
-				{
-					UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
-
-					// Apply the updated compact spacing resource
-					ResourcesService.SetCompactSpacing(UseCompactStyles);
-					ResourcesService.ApplyResources();
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public string AppThemeBackgroundColor
 		{
 			get => UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor;
@@ -155,12 +135,12 @@ namespace Files.App.ViewModels.Settings
 			get => selectedBackdropMaterial;
 			set
 			{
-				if(SetProperty(ref selectedBackdropMaterial, value))
+				if (SetProperty(ref selectedBackdropMaterial, value))
 				{
 					UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial = BackdropMaterialTypes.First(e => e.Value == value).Key;
 				}
 			}
 		}
-		
+
 	}
 }
