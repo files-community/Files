@@ -131,6 +131,7 @@
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="1" />
 			<Setter Property="Margin" Value="-2" />
+			<Setter Property="Padding" Value="4,0" />
 		</Style>
 
 		<Style
@@ -140,6 +141,7 @@
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="1" />
 			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="4,0" />
 		</Style>
 
 	</local:BaseGroupableLayoutPage.Resources>

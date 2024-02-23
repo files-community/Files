@@ -48,13 +48,6 @@ namespace Files.App.Views.Layouts
 		public int RowHeight
 		{
 			get => LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
-			set
-			{
-				if (value != LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize))
-				{
-					NotifyPropertyChanged(nameof(RowHeight));
-				}
-			}
 		}
 
 		// Constructor
@@ -178,7 +171,9 @@ namespace Files.App.Views.Layouts
 
 			if (e.PropertyName == nameof(ILayoutSettingsService.ColumnsViewSize))
 			{
-				RowHeight = LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
+				NotifyPropertyChanged(nameof(RowHeight));
+
+				// Update the container style to match the item size
 				SetItemContainerStyle();
 			}
 		}

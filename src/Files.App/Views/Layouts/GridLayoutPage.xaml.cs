@@ -38,11 +38,6 @@ namespace Files.App.Views.Layouts
 		public int RowHeightListView
 		{
 			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
-			set
-			{
-				if (value != LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize))
-					NotifyPropertyChanged(nameof(RowHeightListView));
-			}
 		}
 
 		/// <summary>
@@ -51,11 +46,6 @@ namespace Files.App.Views.Layouts
 		public int ItemWidthTilesView
 		{
 			get => LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
-			set
-			{
-				if (value != LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize))
-					NotifyPropertyChanged(nameof(ItemWidthTilesView));
-			}
 		}
 
 		/// <summary>
@@ -64,11 +54,6 @@ namespace Files.App.Views.Layouts
 		public int ItemWidthGridView
 		{
 			get => LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
-			set
-			{
-				if (value != LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize))
-					NotifyPropertyChanged(nameof(ItemWidthGridView));
-			}
 		}
 
 		public bool IsPointerOver
@@ -166,20 +151,28 @@ namespace Files.App.Views.Layouts
 
 			if (e.PropertyName == nameof(ILayoutSettingsService.ListViewSize))
 			{
-				RowHeightListView = LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
+				NotifyPropertyChanged(nameof(RowHeightListView));
+
+				// Update the container style to match the item size
 				SetItemContainerStyle();
+
 				FolderSettings_IconHeightChanged();
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.TilesViewSize))
 			{
-				ItemWidthTilesView = LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
+				NotifyPropertyChanged(nameof(ItemWidthTilesView));
+
+				// Update the container style to match the item size
 				SetItemContainerStyle();
 				FolderSettings_IconHeightChanged();
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
-				ItemWidthGridView = LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
+				NotifyPropertyChanged(nameof(ItemWidthGridView));
+
+				// Update the container style to match the item size
 				SetItemContainerStyle();
+
 				FolderSettings_IconHeightChanged();
 			}
 		}
