@@ -90,9 +90,9 @@
 					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
-			<!--  Question & Discussion  -->
+			<!--  Questions & Discussions  -->
 			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=QuestionAndDiscussion}"
+				Title="{helpers:ResourceString Name=QuestionsAndDiscussions}"
 				HorizontalAlignment="Stretch"
 				ButtonCommand="{x:Bind ViewModel.OpenDiscordCommand}"
 				IsClickable="True">
