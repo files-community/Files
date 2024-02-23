@@ -61,11 +61,6 @@ namespace Files.App.Views.Layouts
 		public int RowHeight
 		{
 			get => LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize);
-			set
-			{
-				if (value != LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize))
-					NotifyPropertyChanged(nameof(RowHeight));
-			}
 		}
 
 
@@ -200,7 +195,7 @@ namespace Files.App.Views.Layouts
 				// Get current scroll position
 				var previousOffset = ContentScroller?.VerticalOffset;
 
-				RowHeight = LayoutSizeKindHelper.GetDetailsViewRowHeight(UserSettingsService.LayoutSettingsService.DetailsViewSize);
+				NotifyPropertyChanged(nameof(RowHeight));
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
