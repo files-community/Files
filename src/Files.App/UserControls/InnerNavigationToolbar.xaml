@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls"
@@ -24,6 +25,7 @@
 			<SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
 			<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
 
+			<converters:GenericEnumConverter x:Key="GenericEnumConverter" />
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="NegatedBoolToVisibilityConverter"
@@ -773,12 +775,12 @@
 									x:Name="DetailsViewSlider"
 									x:Load="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
 									IsThumbToolTipEnabled="False"
-									Maximum="40"
-									Minimum="28"
+									Maximum="4"
+									Minimum="0"
 									SnapsTo="Ticks"
-									TickFrequency="4"
+									TickFrequency="1"
 									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ItemSizeDetailsView, Mode=TwoWay}" />
+									Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
 
 								<!--  Tiles  -->
 								<Slider
@@ -792,36 +794,36 @@
 									x:Name="ListViewSlider"
 									x:Load="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
 									IsThumbToolTipEnabled="False"
-									Maximum="36"
-									Minimum="24"
+									Maximum="4"
+									Minimum="0"
 									SnapsTo="Ticks"
-									TickFrequency="4"
+									TickFrequency="1"
 									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ItemSizeListView, Mode=TwoWay}" />
+									Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
 
 								<!--  Grid  -->
 								<Slider
 									x:Name="GridViewSlider"
 									IsThumbToolTipEnabled="False"
-									Maximum="300"
-									Minimum="80"
+									Maximum="11"
+									Minimum="0"
 									SnapsTo="Ticks"
-									TickFrequency="20"
+									TickFrequency="1"
 									TickPlacement="BottomRight"
 									Visibility="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ItemSizeGridView, Mode=TwoWay}" />
+									Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11'}" />
 
 								<!--  Columns  -->
 								<Slider
 									x:Name="ColumnViewSlider"
 									x:Load="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
 									IsThumbToolTipEnabled="False"
-									Maximum="40"
-									Minimum="28"
+									Maximum="4"
+									Minimum="0"
 									SnapsTo="Ticks"
-									TickFrequency="4"
+									TickFrequency="1"
 									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ItemSizeColumnsView, Mode=TwoWay}" />
+									Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
 							</Grid>
 
 							<!--  (Divider)  -->

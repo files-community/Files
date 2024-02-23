@@ -33,60 +33,41 @@ namespace Files.App.Views.Layouts
 
 
 		/// <summary>
-		/// Width of the GridItem in the selected layout.
+		/// Row height in the List View layout
 		/// </summary>
-		public int GridViewItemWidth =>
-			FolderSettings.LayoutMode == FolderLayoutModes.ListView ||
-			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
-				? 260
-				: UserSettingsService.LayoutSettingsService.ItemSizeGridView;
-
-
-		/// <summary>
-		/// Item size for the List View
-		/// </summary>
-		public int ItemSizeListView
+		public int RowHeightListView
 		{
-			get => UserSettingsService.LayoutSettingsService.ItemSizeListView;
+			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ItemSizeListView)
-				{
-					NotifyPropertyChanged(nameof(ItemSizeListView));
-					NotifyPropertyChanged(nameof(GridViewItemWidth));
-				}
+				if (value != LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize))
+					NotifyPropertyChanged(nameof(RowHeightListView));
 			}
 		}
 
 		/// <summary>
-		/// Item size for the Tiles View
+		/// Item width in the Tiles View layout
 		/// </summary>
-		public int ItemSizeTilesView
+		public int ItemWidthTilesView
 		{
-			get => UserSettingsService.LayoutSettingsService.ItemSizeTilesView;
+			get => LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ItemSizeTilesView)
-				{
-					NotifyPropertyChanged(nameof(ItemSizeTilesView));
-					NotifyPropertyChanged(nameof(GridViewItemWidth));
-				}
+				if (value != LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize))
+					NotifyPropertyChanged(nameof(ItemWidthTilesView));
 			}
 		}
 
 		/// <summary>
-		/// Item size for the Grid View
+		/// Item width in the Grid View layout
 		/// </summary>
-		public int ItemSizeGridView
+		public int ItemWidthGridView
 		{
-			get => UserSettingsService.LayoutSettingsService.ItemSizeGridView;
+			get => LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ItemSizeGridView)
-				{
-					NotifyPropertyChanged(nameof(ItemSizeGridView));
-					NotifyPropertyChanged(nameof(GridViewItemWidth));
-				}
+				if (value != LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize))
+					NotifyPropertyChanged(nameof(ItemWidthGridView));
 			}
 		}
 
@@ -183,21 +164,21 @@ namespace Files.App.Views.Layouts
 		{
 			// TODO keep scroll position when changing styles (see details view)
 
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeListView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.ListViewSize))
 			{
-				ItemSizeListView = UserSettingsService.LayoutSettingsService.ItemSizeListView;
+				RowHeightListView = LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
 				SetItemContainerStyle();
 				FolderSettings_IconHeightChanged();
 			}
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeTilesView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.TilesViewSize))
 			{
-				ItemSizeTilesView = UserSettingsService.LayoutSettingsService.ItemSizeTilesView;
+				ItemWidthTilesView = LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
 				SetItemContainerStyle();
 				FolderSettings_IconHeightChanged();
 			}
-			if (e.PropertyName == nameof(ILayoutSettingsService.ItemSizeGridView))
+			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
-				ItemSizeGridView = UserSettingsService.LayoutSettingsService.ItemSizeGridView;
+				ItemWidthGridView = LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
 				SetItemContainerStyle();
 				FolderSettings_IconHeightChanged();
 			}
@@ -257,7 +238,7 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemContainerStyle()
 		{
-			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && ItemSizeListView < Constants.IconHeights.ListView.Small)
+			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = DefaultItemContainerStyle;
