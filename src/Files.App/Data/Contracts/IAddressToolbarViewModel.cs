@@ -9,6 +9,9 @@ namespace Files.App.Data.Contracts
 
 		public bool IsEditModeEnabled { get; set; }
 
+		/// <summary>
+		/// Gets or sets the value that indicates whether the command palette is open.
+		/// </summary>
 		public bool IsCommandPaletteOpen { get; set; }
 
 		public bool CanRefresh { get; set; }
