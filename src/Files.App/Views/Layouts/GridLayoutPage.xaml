@@ -299,22 +299,22 @@
 					PointerEntered="Grid_PointerEntered"
 					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="24" />
+						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
 					<!--  Item Thumbnail  -->
 					<Grid
-						Width="24"
+						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Stretch">
 
 						<!--  Thumbnail  -->
 						<Grid
 							x:Name="IconBox"
-							Width="20"
-							Height="Auto"
+							Width="24"
+							Height="24"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
@@ -338,8 +338,8 @@
 								x:Name="TypeUnknownGlyph"
 								Width="20"
 								Height="20"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Stretch"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
 								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 								Background="{ThemeResource SystemChromeHighColor}"
 								CornerRadius="4" />
@@ -386,7 +386,6 @@
 							DoubleTapped="SelectionCheckbox_DoubleTapped"
 							Opacity="0"
 							Unchecked="ItemSelected_Unchecked" />
-
 					</Grid>
 
 					<!--  Item Name  -->
@@ -417,30 +416,18 @@
 						</TextBox.Resources>
 					</TextBox>
 
-					<Grid Grid.Column="2">
-						<StackPanel Orientation="Horizontal" Spacing="4">
-							<!--  Cloud Status  -->
-							<uc:OpacityIcon
-								x:Name="CloudDriveSyncStatusGlyph"
-								Width="16"
-								Height="16"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
-								x:Phase="2"
-								Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
+					<!--  Cloud Status  -->
+					<uc:OpacityIcon
+						x:Name="CloudDriveSyncStatusGlyph"
+						Grid.Column="2"
+						Width="16"
+						Height="16"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+						x:Phase="2"
+						Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
 
-							<!--  Tag  -->
-							<Ellipse
-								Width="12"
-								Height="12"
-								Margin="8,0,4,0"
-								x:Phase="2"
-								Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-								ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-								Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-						</StackPanel>
-					</Grid>
 					<!--  Visual Status Managing  -->
 					<VisualStateManager.VisualStateGroups>
 						<VisualStateGroup x:Name="CheckboxVisibilityStates">
@@ -448,7 +435,7 @@
 							<VisualState x:Name="ShowCheckbox">
 								<VisualState.Setters>
 									<Setter Target="SelectionCheckbox.Opacity" Value="1" />
-									<Setter Target="IconBox.Visibility" Value="Collapsed" />
+									<Setter Target="IconBox.Opacity" Value="0" />
 								</VisualState.Setters>
 							</VisualState>
 						</VisualStateGroup>

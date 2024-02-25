@@ -907,16 +907,13 @@
 									Loaded="StackPanel_Loaded"
 									Orientation="Horizontal">
 									<!--  Item Thumbnail  -->
-									<Grid
-										Width="24"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Stretch">
+									<Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
 
 										<!--  Thumbnail  -->
 										<Grid
 											x:Name="IconBox"
-											Width="20"
-											Height="Auto"
+											Width="24"
+											Height="24"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
 											AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
@@ -1285,7 +1282,7 @@
 											<VisualState x:Name="ShowCheckbox">
 												<VisualState.Setters>
 													<Setter Target="SelectionCheckbox.Opacity" Value="1" />
-													<Setter Target="IconBox.Visibility" Value="Collapsed" />
+													<Setter Target="IconBox.Opacity" Value="0" />
 												</VisualState.Setters>
 											</VisualState>
 										</VisualStateGroup>
