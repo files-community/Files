@@ -228,7 +228,7 @@ namespace Files.App.Helpers
 		public static async Task LoadShellMenuItemsAsync(
 			string path,
 			CommandBarFlyout itemContextMenuFlyout,
-			ContextMenuOptions? options = null,
+			SidebarContextFlyoutOptions? options = null,
 			bool showOpenWithMenu = false,
 			bool showSendToMenu = false)
 		{

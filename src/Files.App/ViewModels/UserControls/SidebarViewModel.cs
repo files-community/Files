@@ -433,7 +433,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				case SectionType.Home:
 					{
-						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
+						section = BuildSection("Home".GetLocalizedResource(), sectionType, new SidebarContextFlyoutOptions { IsLocationItem = true }, true);
 						section.Path = "Home";
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 						section.IsHeader = true;
@@ -448,7 +448,7 @@ namespace Files.App.ViewModels.UserControls
 							break;
 						}
 
-						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new SidebarContextFlyoutOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
 						section.IsHeader = true;
 
@@ -461,7 +461,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
+						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new SidebarContextFlyoutOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Libraries;
 						section.IsHeader = true;
 
@@ -474,7 +474,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new SidebarContextFlyoutOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.ThisPC;
 						section.IsHeader = true;
 
@@ -487,7 +487,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new SidebarContextFlyoutOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
 						section.IsHeader = true;
 
@@ -500,7 +500,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new SidebarContextFlyoutOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.NetworkDrives;
 						section.IsHeader = true;
 
@@ -513,7 +513,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new SidebarContextFlyoutOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
 						section.IsHeader = true;
 
@@ -526,7 +526,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new SidebarContextFlyoutOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
 						section.IsHeader = true;
 
@@ -552,7 +552,7 @@ namespace Files.App.ViewModels.UserControls
 			return section;
 		}
 
-		private LocationItem BuildSection(string sectionName, SectionType sectionType, ContextMenuOptions options, bool selectsOnInvoked)
+		private LocationItem BuildSection(string sectionName, SectionType sectionType, SidebarContextFlyoutOptions options, bool selectsOnInvoked)
 		{
 			return new LocationItem()
 			{

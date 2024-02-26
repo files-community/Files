@@ -52,7 +52,7 @@ namespace Files.App.Services
 					Type = DriveType.Network,
 					ItemType = SidebarItemType.Drive,
 				};
-				networkItem.MenuOptions = new ContextMenuOptions
+				networkItem.MenuOptions = new SidebarContextFlyoutOptions
 				{
 					IsLocationItem = true,
 					ShowEjectDevice = networkItem.IsRemovable,

@@ -5,6 +5,9 @@ using Files.App.UserControls.Sidebar;
 
 namespace Files.App.Data.Contracts
 {
+	/// <summary>
+	/// Represents contract for sidebar item.
+	/// </summary>
 	public interface ISidebarItem : IComparable<ISidebarItem>, INotifyPropertyChanged, ISidebarItemModel
 	{
 		public new string Text { get; }
@@ -15,9 +18,12 @@ namespace Files.App.Data.Contracts
 
 		public SidebarItemType ItemType { get; }
 
-		public ContextMenuOptions MenuOptions { get; }
+		public SidebarContextFlyoutOptions MenuOptions { get; }
 	}
 
+	/// <summary>
+	/// Defines constants to specify sidebar item type.
+	/// </summary>
 	public enum SidebarItemType
 	{
 		Drive,
@@ -26,6 +32,9 @@ namespace Files.App.Data.Contracts
 		FileTag
 	}
 
+	/// <summary>
+	/// Defines constants to specify sidebar section type.
+	/// </summary>
 	public enum SectionType
 	{
 		Home,
@@ -38,7 +47,7 @@ namespace Files.App.Data.Contracts
 		FileTag
 	}
 
-	public class ContextMenuOptions
+	public class SidebarContextFlyoutOptions
 	{
 		public bool IsLibrariesHeader { get; set; }
 

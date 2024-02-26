@@ -31,7 +31,7 @@ namespace Files.App.Data.Models
 				Type = DriveType.Network,
 				ItemType = SidebarItemType.Drive,
 			};
-			networkItem.MenuOptions = new ContextMenuOptions
+			networkItem.MenuOptions = new SidebarContextFlyoutOptions
 			{
 				IsLocationItem = true,
 				ShowShellItems = true,

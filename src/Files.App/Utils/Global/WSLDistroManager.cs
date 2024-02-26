@@ -38,7 +38,7 @@ namespace Files.App.Utils
 						Text = folder.DisplayName,
 						Path = folder.Path,
 						Icon = logoURI,
-						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
+						MenuOptions = new SidebarContextFlyoutOptions { IsLocationItem = true },
 					};
 
 					lock (distros)

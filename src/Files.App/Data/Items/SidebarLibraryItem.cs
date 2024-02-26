@@ -14,7 +14,7 @@ namespace Files.App.Data.Items
 		public LibraryLocationItem(ShellLibraryItem shellLibrary)
 		{
 			Section = SectionType.Library;
-			MenuOptions = new ContextMenuOptions
+			MenuOptions = new SidebarContextFlyoutOptions
 			{
 				IsLocationItem = true,
 				ShowProperties = true,

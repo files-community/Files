@@ -84,7 +84,7 @@ namespace Files.App.Data.Models
 
 			locationItem.Path = path;
 			locationItem.Section = SectionType.Favorites;
-			locationItem.MenuOptions = new ContextMenuOptions
+			locationItem.MenuOptions = new SidebarContextFlyoutOptions
 			{
 				IsLocationItem = true,
 				ShowProperties = true,

@@ -145,7 +145,7 @@ namespace Files.App.Data.Items
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public SidebarContextFlyoutOptions MenuOptions { get; set; }
 
 		private float percentageUsed = 0.0f;
 		public float PercentageUsed
@@ -239,7 +239,7 @@ namespace Files.App.Data.Items
 				_ => root.DisplayName
 			};
 			item.Type = type;
-			item.MenuOptions = new ContextMenuOptions
+			item.MenuOptions = new SidebarContextFlyoutOptions
 			{
 				IsLocationItem = true,
 				ShowEjectDevice = item.IsRemovable,

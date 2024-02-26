@@ -50,7 +50,7 @@ namespace Files.App.Utils.FileTags
 						Text = tag.Name,
 						Path = $"tag:{tag.Name}",
 						FileTag = tag,
-						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
+						MenuOptions = new SidebarContextFlyoutOptions { IsLocationItem = true },
 					};
 
 					lock (fileTags)

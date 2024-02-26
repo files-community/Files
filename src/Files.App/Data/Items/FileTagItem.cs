@@ -29,7 +29,7 @@ namespace Files.App.Data.Items
 
 		public SectionType Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public SidebarContextFlyoutOptions MenuOptions { get; set; }
 
 		public SidebarItemType ItemType
 			=> SidebarItemType.FileTag;
