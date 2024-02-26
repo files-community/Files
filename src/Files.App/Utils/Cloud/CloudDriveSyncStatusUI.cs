@@ -20,6 +20,7 @@ namespace Files.App.Utils.Cloud
 
 		public CloudDriveSyncStatusUI()
 		{
+			SyncStatus = CloudDriveSyncStatus.Unknown;
 		}
 
 		private CloudDriveSyncStatusUI(CloudDriveSyncStatus syncStatus)

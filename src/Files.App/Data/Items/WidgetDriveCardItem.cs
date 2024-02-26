@@ -26,11 +26,18 @@ namespace Files.App.Data.Items
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.Path, Constants.ShellIconSizes.Jumbo, true, false, true);
+			var result = await FileThumbnailHelper.GetIconAsync(
+				Item.Path,
+				Constants.ShellIconSizes.Large,
+				true,
+				false,
+				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			// Thumbnail data is valid, set the item icon
-			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			thumbnailData = result.IconData;
+
+			var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			if (bitmapImage is not null)
+				Thumbnail = bitmapImage;
 		}
 
 		public int CompareTo(WidgetDriveCardItem? other)

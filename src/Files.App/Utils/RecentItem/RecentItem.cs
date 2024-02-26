@@ -18,18 +18,13 @@ namespace Files.App.Utils.RecentItem
 		public string LinkPath { get; set; }    // path of shortcut item (this is unique)
 		public string RecentPath { get; set; }  // path to target item
 		public string Name { get; set; }
-		public StorageItemTypes Type { get; set; }
-		public bool FolderImg { get; set; }
-		public bool EmptyImgVis { get; set; }
-		public bool FileIconVis { get; set; }
-		public bool IsFile { get => Type == StorageItemTypes.File; }
 		public DateTime LastModified { get; set; }
 		public byte[] PIDL { get; set; }
 		public string Path { get => RecentPath; }
 
 		public RecentItem()
 		{
-			EmptyImgVis = true; // defer icon load to LoadRecentItemIcon()
+
 		}
 
 		/// <summary>
@@ -50,9 +45,6 @@ namespace Files.App.Utils.RecentItem
 			LinkPath = linkItem.FilePath;
 			RecentPath = linkItem.TargetPath;
 			Name = NameOrPathWithoutExtension(linkItem.FileName);
-			Type = linkItem.IsFolder ? StorageItemTypes.Folder : ZipStorageFolder.IsZipPath(LinkPath) ? StorageItemTypes.Folder : StorageItemTypes.File;
-			FolderImg = linkItem.IsFolder;
-			FileIconVis = !linkItem.IsFolder;
 			LastModified = linkItem.ModifiedDate;
 			PIDL = linkItem.PIDL;
 		}
@@ -66,21 +58,22 @@ namespace Files.App.Utils.RecentItem
 			LinkPath = ShellStorageFolder.IsShellPath(fileItem.FilePath) ? fileItem.RecyclePath : fileItem.FilePath; // use true path on disk for shell items
 			RecentPath = LinkPath; // intentionally the same
 			Name = NameOrPathWithoutExtension(fileItem.FileName);
-			Type = fileItem.IsFolder ? StorageItemTypes.Folder : ZipStorageFolder.IsZipPath(LinkPath) ? StorageItemTypes.Folder : StorageItemTypes.File;
-			FolderImg = fileItem.IsFolder;
-			FileIconVis = !fileItem.IsFolder;
 			LastModified = fileItem.ModifiedDate;
 			PIDL = fileItem.PIDL;
 		}
 
 		public async Task LoadRecentItemIconAsync()
 		{
-			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(RecentPath, Constants.ShellIconSizes.Large, false, false, false);
-			if (iconData is not null)
-			{
-				EmptyImgVis = false;
-				FileImg = await iconData.ToBitmapAsync();
-			}
+			var result = await FileThumbnailHelper.GetIconAsync(
+				RecentPath,
+				Constants.ShellIconSizes.Small,
+				false,
+				false,
+				IconOptions.UseCurrentScale);
+
+			var bitmapImage = await result.IconData.ToBitmapAsync();
+			if (bitmapImage is not null)
+				FileImg = bitmapImage;
 		}
 
 		/// <summary>

@@ -15,7 +15,7 @@ using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
+	public class AddressToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
 	{
 		private const int MAX_SUGGESTIONS = 10;
 
@@ -45,11 +45,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 
-		public event IAddressToolbar.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
+		public event IAddressToolbarViewModel.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
 
 		public event EventHandler? EditModeEnabled;
 
-		public event IAddressToolbar.ToolbarQuerySubmittedEventHandler? PathBoxQuerySubmitted;
+		public event IAddressToolbarViewModel.ToolbarQuerySubmittedEventHandler? PathBoxQuerySubmitted;
 
 		public event AddressBarTextEnteredEventHandler? AddressBarTextEntered;
 
@@ -201,7 +201,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private PointerRoutedEventArgs? pointerRoutedEventArgs;
 
-		public ToolbarViewModel()
+		public AddressToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);
@@ -268,8 +268,8 @@ namespace Files.App.ViewModels.UserControls
 		private DispatcherQueue dispatcherQueue;
 		private DispatcherQueueTimer dragOverTimer;
 
-		private ISearchBox searchBox = new SearchBoxViewModel();
-		public ISearchBox SearchBox
+		private ISearchBoxViewModel searchBox = new SearchBoxViewModel();
+		public ISearchBoxViewModel SearchBox
 		{
 			get => searchBox;
 			set => SetProperty(ref searchBox, value);
@@ -347,7 +347,7 @@ namespace Files.App.ViewModels.UserControls
 				dragOverPath = pathBoxItem.Path;
 				dragOverTimer.Stop();
 
-				if (dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
+				if (dragOverPath != (this as IAddressToolbarViewModel).PathComponents.LastOrDefault()?.Path)
 				{
 					dragOverTimer.Debounce(() =>
 					{
@@ -482,7 +482,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
 
-			(this as IAddressToolbar).IsEditModeEnabled = false;
+			(this as IAddressToolbarViewModel).IsEditModeEnabled = false;
 		}
 
 		public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -594,7 +594,7 @@ namespace Files.App.ViewModels.UserControls
 			CloseSearchBox();
 		}
 
-		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
+		private void SearchRegion_Escaped(object? sender, ISearchBoxViewModel searchBox)
 			=> CloseSearchBox(true);
 
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
@@ -949,27 +949,19 @@ namespace Files.App.ViewModels.UserControls
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(LayoutPreferencesManager.IconHeight):
 				case nameof(LayoutPreferencesManager.LayoutMode):
 					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{
 						FolderLayoutModes.ListView => Commands.LayoutList.OpacityStyle!,
 						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
 						FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
-						FolderLayoutModes.GridView =>
-							instanceViewModel.FolderSettings.LayoutPreferencesItem.IconHeightGridView <= Constants.IconHeights.GridView.Small
-								? Commands.LayoutGridSmall.OpacityStyle!
-								: instanceViewModel.FolderSettings.LayoutPreferencesItem.IconHeightGridView <= Constants.IconHeights.GridView.Medium
-									? Commands.LayoutGridMedium.OpacityStyle!
-									: Commands.LayoutGridLarge.OpacityStyle!,
+						FolderLayoutModes.GridView => Commands.LayoutGrid.OpacityStyle!,
 						_ => Commands.LayoutDetails.OpacityStyle!
 					};
 					OnPropertyChanged(nameof(IsTilesLayout));
 					OnPropertyChanged(nameof(IsListLayout));
 					OnPropertyChanged(nameof(IsColumnLayout));
-					OnPropertyChanged(nameof(IsGridSmallLayout));
-					OnPropertyChanged(nameof(IsGridMediumLayout));
-					OnPropertyChanged(nameof(IsGridLargeLayout));
+					OnPropertyChanged(nameof(IsGridLayout));
 					OnPropertyChanged(nameof(IsDetailsLayout));
 					break;
 			}
@@ -1021,10 +1013,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
 		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
-		public bool IsGridSmallLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && instanceViewModel.FolderSettings.LayoutPreferencesItem.IconHeightGridView <= Constants.IconHeights.GridView.Small;
-		public bool IsGridMediumLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && instanceViewModel.FolderSettings.LayoutPreferencesItem.IconHeightGridView <= Constants.IconHeights.GridView.Medium;
-		public bool IsGridLargeLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
-		public bool IsDetailsLayout => !IsListLayout && !IsTilesLayout && !IsColumnLayout && !IsGridSmallLayout && !IsGridMediumLayout && !IsGridLargeLayout;
+		public bool IsGridLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
+		public bool IsDetailsLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
 		public bool IsListLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
 
 		public string ExtractToText

@@ -3685,4 +3685,19 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Alterar imagem do álbum</value>
   </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Falha ao tentar renomear {0}.</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>A edição de "{0}" requer permissões adicionais</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Editar permissões</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>A aplicação está a ser executada em segundo plano para melhorar o desempenho.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Para onde foi a aplicação?</value>
+  </data>
 </root>

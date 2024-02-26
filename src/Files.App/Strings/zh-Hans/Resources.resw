@@ -3685,4 +3685,19 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>更改专辑封面</value>
   </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>重命名项目失败</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>编辑“{0}”需要额外的权限</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>编辑权限</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files 仍在后台运行，这可以使其更快启动。</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Files 到哪里去了？</value>
+  </data>
 </root>

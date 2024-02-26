@@ -1513,7 +1513,7 @@
     <value>Berechtigungen</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Du bist nicht berechtigt, die Sicherheitseigenschaften dieses Objektes anzuschauen. Du kannst versuchen, Besitzer dieses Objektes zu werden.</value>
+    <value>Du bist nicht berechtigt, die Sicherheitseigenschaften dieses Objektes zu sehen. Du kannst versuchen, Besitzer dieses Objektes zu werden.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Diesen Ordner und Dateien</value>
@@ -3684,5 +3684,20 @@
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Album-Cover ändern</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Fehler beim Umbenennen des Elements</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Das Bearbeiten von "{0}" benötigt erweiterte Berechtigungen</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Berechtigungen bearbeiten</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files wird noch im Hintergrund ausgeführt, um die Start-Leistung zu verbessern.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Wohin ist Files verschwunden?</value>
   </data>
 </root>

@@ -7,12 +7,9 @@ namespace Files.App.Data.EventArguments
 	{
 		public readonly FolderLayoutModes LayoutMode;
 
-		public readonly int GridViewSize;
-
-		internal LayoutModeEventArgs(FolderLayoutModes layoutMode, int gridViewSize)
+		internal LayoutModeEventArgs(FolderLayoutModes layoutMode)
 		{
 			LayoutMode = layoutMode;
-			GridViewSize = gridViewSize;
 		}
 	}
 }

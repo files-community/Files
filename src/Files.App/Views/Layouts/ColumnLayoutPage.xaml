@@ -124,6 +124,26 @@
 			</Setter>
 		</Style>
 
+		<Style
+			x:Name="CompactItemContainerStyle"
+			BasedOn="{StaticResource DefaultListViewItemStyle}"
+			TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="-2" />
+			<Setter Property="Padding" Value="4,0" />
+		</Style>
+
+		<Style
+			x:Name="RegularItemContainerStyle"
+			BasedOn="{StaticResource DefaultListViewItemStyle}"
+			TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="4,0" />
+		</Style>
+
 	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
@@ -188,7 +208,7 @@
 						<DataTemplate x:DataType="filesystem:ListedItem">
 							<Grid
 								x:Name="FilesRootGrid"
-								Height="30"
+								Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
 								Padding="12,0,12,0"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
@@ -383,16 +403,6 @@
 							</GroupStyle.HeaderTemplate>
 						</GroupStyle>
 					</ListView.GroupStyle>
-
-					<ListView.ItemContainerStyle>
-						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-							<Setter Property="MinHeight" Value="1" />
-							<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
-							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-							<Setter Property="Padding" Value="4,0" />
-						</Style>
-					</ListView.ItemContainerStyle>
 
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>

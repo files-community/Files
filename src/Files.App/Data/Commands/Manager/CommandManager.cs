@@ -113,9 +113,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
 		public IRichCommand LayoutList => commands[CommandCodes.LayoutList];
 		public IRichCommand LayoutTiles => commands[CommandCodes.LayoutTiles];
-		public IRichCommand LayoutGridSmall => commands[CommandCodes.LayoutGridSmall];
-		public IRichCommand LayoutGridMedium => commands[CommandCodes.LayoutGridMedium];
-		public IRichCommand LayoutGridLarge => commands[CommandCodes.LayoutGridLarge];
+		public IRichCommand LayoutGrid => commands[CommandCodes.LayoutGrid];
 		public IRichCommand LayoutColumns => commands[CommandCodes.LayoutColumns];
 		public IRichCommand LayoutAdaptive => commands[CommandCodes.LayoutAdaptive];
 		public IRichCommand SortByName => commands[CommandCodes.SortByName];
@@ -284,9 +282,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
 			[CommandCodes.LayoutList] = new LayoutListAction(),
 			[CommandCodes.LayoutTiles] = new LayoutTilesAction(),
-			[CommandCodes.LayoutGridSmall] = new LayoutGridSmallAction(),
-			[CommandCodes.LayoutGridMedium] = new LayoutGridMediumAction(),
-			[CommandCodes.LayoutGridLarge] = new LayoutGridLargeAction(),
+			[CommandCodes.LayoutGrid] = new LayoutGridAction(),
 			[CommandCodes.LayoutColumns] = new LayoutColumnsAction(),
 			[CommandCodes.LayoutAdaptive] = new LayoutAdaptiveAction(),
 			[CommandCodes.SortByName] = new SortByNameAction(),

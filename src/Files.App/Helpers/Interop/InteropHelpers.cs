@@ -32,6 +32,9 @@ namespace Files.App.Helpers
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern void SwitchToThisWindow(IntPtr hWnd, bool altTab);
 
+		[DllImport("User32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern int GetDpiForWindow(IntPtr hwnd);
+
 		[DllImport("ole32.dll")]
 		public static extern uint CoWaitForMultipleObjects(uint dwFlags, uint dwMilliseconds, ulong nHandles, IntPtr[] pHandles, out uint dwIndex);
 

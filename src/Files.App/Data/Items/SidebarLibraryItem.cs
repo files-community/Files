@@ -46,10 +46,16 @@ namespace Files.App.Data.Items
 
 		public async Task LoadLibraryIconAsync()
 		{
-			IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, Constants.ShellIconSizes.Large, false, false, true);
+			var result = await FileThumbnailHelper.GetIconAsync(
+				Path,
+				Constants.ShellIconSizes.Small,
+				false,
+				false,
+				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			if (IconData is not null)
-				Icon = await IconData.ToBitmapAsync();
+			var bitmapImage = await result.IconData.ToBitmapAsync();
+			if (bitmapImage is not null)
+				Icon = bitmapImage;
 		}
 
 		public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);

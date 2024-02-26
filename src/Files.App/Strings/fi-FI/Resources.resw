@@ -3685,4 +3685,19 @@
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Vaihda albumin kansikuvaa</value>
   </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Failed to rename item</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Editing "{0}" requires additional permissions</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edit permissions</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files on edelleen käynnissä taustalla suorituskyvyn parantamiseksi käynnistettäessä.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Mihin Files katosi?</value>
+  </data>
 </root>

@@ -113,9 +113,7 @@ namespace Files.App.Data.Commands
 		LayoutDetails,
 		LayoutList,
 		LayoutTiles,
-		LayoutGridSmall,
-		LayoutGridMedium,
-		LayoutGridLarge,
+		LayoutGrid,
 		LayoutColumns,
 		LayoutAdaptive,
 

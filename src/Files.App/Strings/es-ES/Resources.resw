@@ -2185,7 +2185,7 @@
     <value>Ordenar por</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Agrupar en orden descendente</value>
+    <value>Agrupar en sentido descendente</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
     <value>Ordenar en sentido descendente</value>
@@ -3684,5 +3684,20 @@
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Cambiar la portada del álbum</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>No se ha podido cambiar el nombre del elemento</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Editar "{0}" requiere permisos adicionales</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Editar permisos</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files sigue ejecutándose en segundo plano para mejorar el rendimiento del arranque.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>¿Dónde ha ido Files?</value>
   </data>
 </root>

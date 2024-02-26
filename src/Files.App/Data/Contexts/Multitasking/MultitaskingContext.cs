@@ -39,6 +39,7 @@ namespace Files.App.Data.Contexts
 		private void AppInstances_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			UpdateTabCount();
+			AppLifecycleHelper.SaveSessionTabs();
 		}
 		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{

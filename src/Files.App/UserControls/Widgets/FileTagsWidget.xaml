@@ -126,7 +126,6 @@
 						<controls:AdaptiveGridView.ItemContainerStyle>
 							<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 								<Setter Property="Padding" Value="8,0" />
-								<Setter Property="MinHeight" Value="{ThemeResource ListItemHeight}" />
 							</Style>
 						</controls:AdaptiveGridView.ItemContainerStyle>
 

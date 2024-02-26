@@ -151,7 +151,7 @@
     <value>Bu işlem yapılamaz</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Hedef dizin</value>
+    <value>Hedef klasör</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>kaynak klasörün bir alt klasörüdür</value>
@@ -208,7 +208,7 @@
     <value>Bilinen dosya türleri için uzantıları göster</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Gizli dosya ve dizinleri göster</value>
+    <value>Gizli dosya ve klasörleri göster</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>dot dosyalarını göster</value>
@@ -313,7 +313,7 @@
     <value>Yeni dosya</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>Bu dizin boş.</value>
+    <value>Bu klasör boş.</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Geri</value>
@@ -346,7 +346,7 @@
     <value>Lütfen bu ögeye erişmek için gerekli sürücüyü takın.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Sürücü Çıkarıldı</value>
+    <value>Sürücü çıkarıldı</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya taşınmış ya da silinmiş olabilir.</value>
@@ -361,10 +361,10 @@
     <value>Dosya Bulunamadı</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Erişmeye çalıştığınız dizin taşınmış ya da silinmiş olabilir.</value>
+    <value>Erişmeye çalıştığınız klasör taşınmış ya da silinmiş olabilir.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Bu dizini sildiniz mi?</value>
+    <value>Bu klasörü sildiniz mi?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya şu anda {0} tarafından kullanılıyor</value>
@@ -466,10 +466,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} dosya, {1:#,##0} dizin</value>
+    <value>{0:#,##0} dosya, {1:#,##0} klasör</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{2:#,##0} konumundan {0:#,##0} dosya, {1:#,##0} dizin</value>
+    <value>{2:#,##0} konumdan {0:#,##0} dosya, {1:#,##0} klasör</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Farklı kullanıcı olarak çalıştır</value>
@@ -634,10 +634,10 @@
     <value>Boş bir dosya oluşturur</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>Dizin</value>
+    <value>Klasör</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>Yeni bir dizin oluşturur</value>
+    <value>Boş bir klasör oluşturur</value>
   </data>
   <data name="LayoutMode" xml:space="preserve">
     <value>Düzen modu</value>
@@ -1015,7 +1015,7 @@
     <value>Sekmeleri çift bölme modunda aç</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Dizinleri yeni bir bölmede açma seçeneğini göster</value>
+    <value>Klasörleri yeni bir bölmede açma seçeneğini göster</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
     <value>Yolu kopyalama seçeneğini göster</value>
@@ -1087,7 +1087,7 @@
     <value>Favorilerden kaldır</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Ağ sürücüleri</value>
+    <value>Ağ Sürücüleri</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Ağ</value>
@@ -1297,7 +1297,7 @@
     <value>Çakışan bir dosya adı var.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Seçimli klasör oluştur</value>
+    <value>Seçimle klasör oluştur</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Tip:</value>
@@ -1330,7 +1330,7 @@
     <value>Değiştirilme tarihi</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Orijinal dizin</value>
+    <value>Orjinal klasör</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Azalan</value>
@@ -1408,7 +1408,7 @@
     <value>Temizle</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widget'lar</value>
+    <value>Araçlar</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Senkronizasyon durumu</value>
@@ -1465,7 +1465,7 @@
     <value>Arşivi çıkart</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Tamamlandığında hedef dizini aç</value>
+    <value>Tamamlandığında hedef klasörü aç</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>{0}\ dizinine çıkar</value>
@@ -1501,10 +1501,10 @@
     <value>dosyalar</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>bu dizin</value>
+    <value>bu klasör</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
-    <value>alt dizinler</value>
+    <value>alt klasörler</value>
   </data>
   <data name="Inherited" xml:space="preserve">
     <value>Devralınmış</value>
@@ -1516,25 +1516,25 @@
     <value>Bu nesnenin güvenlik özelliklerini görüntüleme izniniz yok. Bu nesnenin sahipliğini almayı deneyebilirsiniz.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
-    <value>Bu dizin ve dosyalar</value>
+    <value>Bu klasör ve dosyalar</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>Bu dizin, alt dizinler ve dosyalar</value>
+    <value>Bu klasör, alt klasörler ve dosyalar</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
     <value>Yalnızca dosyalar</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>Yalnızca alt dizinler</value>
+    <value>Yalnızca alt klasörler</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Yalnızca alt dizinler ve dosyalar</value>
+    <value>Yalnızca alt klasörler ve dosyalar</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Sadece bu dizin</value>
+    <value>Yalnızca bu dizin</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>Bu dizin ve alt dizinler</value>
+    <value>Bu klasör ve alt klasörler</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
     <value>Veriyi sona ekle</value>
@@ -1543,7 +1543,7 @@
     <value>İzni değiştir</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Dizin oluştur</value>
+    <value>Klasör oluştur</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Dosya oluştur</value>
@@ -1570,7 +1570,7 @@
     <value>Sahipliğini al</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Dizini ziyaret et</value>
+    <value>Klasörü ziyaret et</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Nitelikleri yaz</value>
@@ -1627,7 +1627,7 @@
     <value>Öğeyi buluttan indirir ve önizlemeyi yükler</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} öğe ({1} dosya, {2} dizin)</value>
+    <value>{0} öğe ({1} dosya, {2} klasör)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Sıkıştırılmamış boyut</value>
@@ -1651,7 +1651,7 @@
     <value>Kapat</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Güncelleme</value>
+    <value>Güncelle</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Ev</value>
@@ -1684,7 +1684,7 @@
     <value>Çıkarma tamamlandı!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Ana dizini aç</value>
+    <value>Ana klasörü aç</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Bilinmeyen</value>
@@ -1696,7 +1696,7 @@
     <value>Setin parçası</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Disk'i aç</value>
+    <value>Sürücüyü aç</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Lütfen {0} sürücüsüne bir disk yerleştirin</value>
@@ -1720,10 +1720,10 @@
     <value>Kullanıcı adı</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Sürücüler widget'ı</value>
+    <value>Sürücüler aracı</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Son Dosyalar widget'ı</value>
+    <value>Son Dosyalar aracı</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Hiç bir öğe bulunamadı</value>
@@ -1750,7 +1750,7 @@
     <value>Sıralar</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Dizinleri yeni sekmede aç</value>
+    <value>Klasörleri yeni sekmede aç</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
     <value>Durum Merkezi</value>
@@ -1807,7 +1807,7 @@
     <value>Kenar Çubuğu</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>Özel bir dizin simgesi seçin</value>
+    <value>Özel bir klasör simgesi seçin</value>
   </data>
   <data name="Customization" xml:space="preserve">
     <value>Kişiselleştirme</value>
@@ -1900,7 +1900,7 @@
     <value>Kütüphane ismi girin</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Dosya boyutunu hesapla</value>
+    <value>Klasör boyutlarını hesapla</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Son Dosyalar</value>
@@ -1954,7 +1954,7 @@
     <value>PowerShell'le Çalıştır</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Dizin boyutlarını hesaplamak yoğun kaynak kullanılır ve CPU kullanımınızın artmasına neden olabilir.</value>
+    <value>Klasör boyutlarını hesaplamak için yoğun kaynak kullanılır ve CPU kullanımınızın artmasına neden olabilir.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Sola Döndür</value>
@@ -1981,7 +1981,7 @@
     <value>Resimler</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Files güncelle</value>
+    <value>Files'ı güncelle</value>
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Etiketler</value>
@@ -2068,7 +2068,7 @@
     <value>Kilit Ekranı</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Sütunlar Düzeninde tek bir tıklama ile dizinleri aç</value>
+    <value>Sütunlar Düzeninde tek bir tıklama ile klasörleri aç</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Açılış öğeleri</value>
@@ -2077,7 +2077,7 @@
     <value>Sıkıştır</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Üzerine getirildiğinde dosyaları ve dizinleri seçin</value>
+    <value>Üzerine getirildiğinde dosyaları ve dizinleri seç</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Geri dönüşüm kutusundaki tüm öğeleri geri yüklemek istediğinizden emin misiniz?</value>
@@ -2104,7 +2104,7 @@
     <value>Hedef yol {0} bulunamadı. Bu kısayolu silmek ister misiniz?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>Bu dosyaya erişim izniniz yok.</value>
+    <value>Bu klasöre erişim izniniz yok.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Arşiv şifresi</value>
@@ -2194,7 +2194,7 @@
     <value>Yeni kısayol oluştur</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Yerel veya ağ programlarına, dosyalara, dizinlere, bilgisayarlara veya İnternet adreslerine kısayollar oluşturun.</value>
+    <value>Yerel veya ağ programlarına, dosyalara, klasörlere, bilgisayarlara veya İnternet adreslerine kısayollar oluşturun.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Öğenin konumunu girin:</value>
@@ -2239,10 +2239,10 @@
     <value>Menüye gönder'i göster</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Dizinleri yeni bir sekmede açma seçeneğini göster</value>
+    <value>Klasörleri yeni bir sekmede açma seçeneğini göster</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Dizinleri yeni bir pencerede açma seçeneğini göster</value>
+    <value>Klasörleri yeni bir pencerede açma seçeneğini göster</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Hızlı erişim</value>
@@ -2257,7 +2257,7 @@
     <value>Kimlik bilgilerimi hatırla</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Ağ dizini hatası</value>
+    <value>Ağ klasörü hatası</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>Uygulama sürümü</value>
@@ -2296,7 +2296,7 @@
     <value>Gizli dosyaları göster</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Biçim...</value>
+    <value>Biçimlendir...</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Yardım</value>
@@ -2449,7 +2449,7 @@
     <value>Geri dönüşüm kutusunu boşalt</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Seçili öge için "Diski Biçimlendir" menüsünü aç</value>
+    <value>Seçili öge için "Sürücüyü Biçimlendir" menüsünü aç</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Seçili öge(ler)i Geri Dönüşüm Kutusu'ndan geri yükle</value>
@@ -2539,13 +2539,13 @@
     <value>Seçilen öge(ler)le anında zip arşivi oluştur</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Seçili arşiv(lerdeki) öğeleri herhangi bir klasöre çıkarın</value>
+    <value>Seçili arşiv(ler)deki öğeleri herhangi bir klasöre çıkart</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Seçili arşiv(lerdeki) öğeleri geçerli klasöre çıkart</value>
+    <value>Seçili arşiv(ler)deki öğeleri geçerli klasöre çıkart</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Seçili arşiv(lerdeki) öğeleri yeni klasöre çıkarın</value>
+    <value>Seçili arşiv(ler)deki öğeleri yeni klasöre çıkart</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Seçili resim(leri) sola döndür</value>
@@ -3304,7 +3304,7 @@
     <value>Aşağıdaki öğeler bu sürücüye kopyalanamayacak kadar büyük</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
-    <value>Disk'i formatla</value>
+    <value>Sürücüyü biçimlendir</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
     <value>Bir daha gösterme</value>
@@ -3519,23 +3519,23 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <value>"{1}" kaynağından {0} öğenin silinmesi iptal edildi</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0} item(s) from "{1}"</value>
+    <value>"{1}" kaynağından {0} öğe silindi</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0} item(s) from "{1}"</value>
+    <value>"{1}" kaynağından {0} öğe silinirken hata oluştu</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0} item(s) from "{1}"</value>
+    <value>"{1}" kaynağından {0} öğe silinemedi</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0} item(s) from "{1}"</value>
+    <value>"{1}" kaynağından {0} öğe siliniyor</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
@@ -3684,5 +3684,20 @@
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>Albüm kapağını değiştir</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Öğenin adı değiştirilemedi</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>"{0}" öğesini düzenlemek için ek izinler gerekir</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>İzinleri düzenle</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files başlangıç performansını iyileştirmek için hâlâ arka planda çalışıyor.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Files nereye gitti?</value>
   </data>
 </root>

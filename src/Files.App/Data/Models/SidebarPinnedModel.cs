@@ -1,11 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text.Json.Serialization;
-using Windows.Storage.FileProperties;
 
 namespace Files.App.Data.Models
 {
@@ -102,11 +100,18 @@ namespace Files.App.Data.Models
 				locationItem.IsInvalid = false;
 				if (res && res.Result is not null)
 				{
-					var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(res.Result.Path, 28u, true, false, true);
-					locationItem.IconData = iconData;
+					var result = await FileThumbnailHelper.GetIconAsync(
+						res.Result.Path,
+						Constants.ShellIconSizes.Small,
+						true,
+						false,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-					if (locationItem.IconData is not null)
-						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
+					locationItem.IconData = result.IconData;
+
+					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					if (bitmapImage is not null)
+						locationItem.Icon = bitmapImage;
 				}
 			}
 			else

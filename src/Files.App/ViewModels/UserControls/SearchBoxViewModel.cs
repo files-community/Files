@@ -9,7 +9,7 @@ using Windows.System;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class SearchBoxViewModel : ObservableObject, ISearchBox
+	public class SearchBoxViewModel : ObservableObject, ISearchBoxViewModel
 	{
 		private string query;
 		public string Query
@@ -20,11 +20,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool WasQuerySubmitted { get; set; } = false;
 
-		public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs>? TextChanged;
+		public event TypedEventHandler<ISearchBoxViewModel, SearchBoxTextChangedEventArgs>? TextChanged;
 
-		public event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs>? QuerySubmitted;
+		public event TypedEventHandler<ISearchBoxViewModel, SearchBoxQuerySubmittedEventArgs>? QuerySubmitted;
 
-		public event EventHandler<ISearchBox>? Escaped;
+		public event EventHandler<ISearchBoxViewModel>? Escaped;
 
 		private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
 

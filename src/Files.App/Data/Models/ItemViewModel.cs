@@ -613,11 +613,6 @@ namespace Files.App.Data.Models
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightDetailsView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightListView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconHeightTilesView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaulIconHeightGridView):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultIconHeightColumnsView):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
@@ -942,14 +937,20 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
-		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
-		private async Task LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96)
+		private async Task LoadItemThumbnailAsync(ListedItem item)
 		{
+			var thumbnailSize = folderSettings.GetRoundedIconSize();
+
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false;
+				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 				var getThumbnailOnly = !item.IsExecutable && !getIconOnly;
-				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getThumbnailOnly, getIconOnly);
+				var iconInfo = await FileThumbnailHelper.GetIconAsync(
+					item.ItemPath,
+					thumbnailSize,
+					false,
+					getThumbnailOnly,
+					getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
 				if (!iconInfo.isIconCached)
 				{
@@ -966,7 +967,13 @@ namespace Files.App.Data.Models
 					var cancellationTokenSource = new CancellationTokenSource(3000);
 					while (!iconInfo.isIconCached)
 					{
-						iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, getThumbnailOnly, getIconOnly);
+						iconInfo = await FileThumbnailHelper.GetIconAsync(
+							item.ItemPath,
+							thumbnailSize,
+							false,
+							getThumbnailOnly,
+							getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+
 						cancellationTokenSource.Token.ThrowIfCancellationRequested();
 						await Task.Delay(500);
 					}
@@ -988,7 +995,13 @@ namespace Files.App.Data.Models
 							!item.IsExecutable
 						)
 						{
-							var fileIcon = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false, false, true);
+							var fileIcon = await FileThumbnailHelper.GetIconAsync(
+								item.ItemPath,
+								thumbnailSize,
+								false,
+								false,
+								IconOptions.ReturnIconOnly);
+
 							var bitmapImage = await fileIcon.IconData.ToBitmapAsync();
 							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), bitmapImage);
 						}
@@ -996,20 +1009,25 @@ namespace Files.App.Data.Models
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 
-				if (iconInfo.OverlayData is not null)
+				var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, false);
+				if (iconOverlay is not null)
 				{
 					// Assign the icon overlay to the listed item
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+						item.IconOverlay = await iconOverlay.ToBitmapAsync();
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 			}
 			else
 			{
-				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 80;
-				var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true, false, getIconOnly);
+				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
+				var iconInfo = await FileThumbnailHelper.GetIconAsync(
+					item.ItemPath,
+					thumbnailSize,
+					true,
+					false, getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
 				if (iconInfo.IconData is not null)
 				{
@@ -1019,11 +1037,12 @@ namespace Files.App.Data.Models
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 
-				if (iconInfo.OverlayData is not null)
+				var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
+				if (iconOverlay is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+						item.IconOverlay = await iconOverlay.ToBitmapAsync();
 						item.ShieldIcon = await GetShieldIcon();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
@@ -1038,7 +1057,7 @@ namespace Files.App.Data.Models
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
-		public async Task LoadExtendedItemPropertiesAsync(ListedItem item, uint thumbnailSize = 20)
+		public async Task LoadExtendedItemPropertiesAsync(ListedItem item)
 		{
 			if (item is null)
 				return;
@@ -1071,7 +1090,7 @@ namespace Files.App.Data.Models
 						}
 
 						cts.Token.ThrowIfCancellationRequested();
-						await LoadItemThumbnailAsync(item, thumbnailSize);
+						await LoadItemThumbnailAsync(item);
 
 						if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 						{
@@ -1288,10 +1307,15 @@ namespace Files.App.Data.Models
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, Constants.ShellIconSizes.ExtraLarge, false, false, true);
+				var headerIconInfo = await FileThumbnailHelper.GetIconAsync(
+					item.ItemPath,
+					Constants.ShellIconSizes.Large,
+					false,
+					false,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				if (headerIconInfo is not null && !item.IsShortcut)
-					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				if (headerIconInfo.IconData is not null && !item.IsShortcut)
+					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				// The groupImage is null if loading icon from fulltrust process failed
 				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath) && groupImage is null)
