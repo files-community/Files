@@ -779,12 +779,12 @@
 										x:Name="DetailsViewSlider"
 										Padding="4,0,4,0"
 										IsThumbToolTipEnabled="False"
-										Maximum="4"
-										Minimum="0"
+										Maximum="5"
+										Minimum="1"
 										SnapsTo="Ticks"
 										TickFrequency="1"
 										TickPlacement="BottomRight"
-										Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
 
 									<Grid HorizontalAlignment="Stretch">
 										<Grid.ColumnDefinitions>
@@ -803,30 +803,35 @@
 											Grid.Column="0"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesCompact}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesSmall}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesMedium}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesLarge}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
 									</Grid>
 								</StackPanel>
@@ -840,12 +845,12 @@
 										x:Name="ListViewSlider"
 										Padding="4,0,4,0"
 										IsThumbToolTipEnabled="False"
-										Maximum="4"
-										Minimum="0"
+										Maximum="5"
+										Minimum="1"
 										SnapsTo="Ticks"
 										TickFrequency="1"
 										TickPlacement="BottomRight"
-										Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
 
 									<!--  List  -->
 									<Grid HorizontalAlignment="Stretch">
@@ -865,30 +870,35 @@
 											Grid.Column="0"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesCompact}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesSmall}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesMedium}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesLarge}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
 									</Grid>
 								</StackPanel>
@@ -918,12 +928,12 @@
 										x:Name="GridViewSlider"
 										Padding="4,0,4,0"
 										IsThumbToolTipEnabled="False"
-										Maximum="11"
-										Minimum="0"
+										Maximum="12"
+										Minimum="1"
 										SnapsTo="Ticks"
 										TickFrequency="1"
 										TickPlacement="BottomRight"
-										Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11'}" />
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11,12-12'}" />
 
 									<Grid HorizontalAlignment="Stretch">
 										<Grid.ColumnDefinitions>
@@ -956,24 +966,28 @@
 											Grid.Column="0"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesSmall}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesMedium}" />
 
 										<local:OpacityIcon
 											Grid.Column="14"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesLarge}" />
 
 										<local:OpacityIcon
 											Grid.Column="22"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
 									</Grid>
 								</StackPanel>
@@ -987,12 +1001,12 @@
 										x:Name="ColumnViewSlider"
 										Padding="4,0,4,0"
 										IsThumbToolTipEnabled="False"
-										Maximum="4"
-										Minimum="0"
+										Maximum="5"
+										Minimum="1"
 										SnapsTo="Ticks"
 										TickFrequency="1"
 										TickPlacement="BottomRight"
-										Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
 
 									<Grid HorizontalAlignment="Stretch">
 										<Grid.ColumnDefinitions>
@@ -1011,30 +1025,35 @@
 											Grid.Column="0"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesCompact}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesSmall}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesMedium}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesLarge}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
 									</Grid>
 								</StackPanel>

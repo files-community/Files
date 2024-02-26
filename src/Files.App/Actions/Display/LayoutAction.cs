@@ -190,7 +190,7 @@ namespace Files.App.Actions
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
 			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact) ||
 			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Compact) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small) ||
 			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact));
 
 		public LayoutDecreaseSizeAction()
@@ -248,7 +248,7 @@ namespace Files.App.Actions
 				case LayoutTypes.Tiles:
 					break;
 				case LayoutTypes.Grid:
-					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Compact)
+					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small)
 						UserSettingsService.LayoutSettingsService.GridViewSize -= 1;
 					break;
 				case LayoutTypes.Columns:
@@ -283,7 +283,7 @@ namespace Files.App.Actions
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
 			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
 			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.Eleven) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge) ||
 			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge));
 
 		public LayoutIncreaseSizeAction()
@@ -341,7 +341,7 @@ namespace Files.App.Actions
 				case LayoutTypes.Tiles:
 					break;
 				case LayoutTypes.Grid:
-					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.Eleven)
+					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge)
 						UserSettingsService.LayoutSettingsService.GridViewSize += 1;
 					break;
 				case LayoutTypes.Columns:

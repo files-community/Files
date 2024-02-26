@@ -5,10 +5,10 @@ namespace Files.Core.Data.Enums
 {
 	public enum DetailsViewSizeKind
 	{
-		Compact = 0,
-		Small = 1,
-		Medium = 2,
-		Large = 3,
-		ExtraLarge = 4,
+		Compact = 1,
+		Small = 2,
+		Medium = 3,
+		Large = 4,
+		ExtraLarge = 5,
 	}
 }

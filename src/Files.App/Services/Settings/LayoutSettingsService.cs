@@ -31,7 +31,7 @@ namespace Files.App.Services.Settings
 
 		public GridViewSizeKind GridViewSize
 		{
-			get => Get(GridViewSizeKind.ExtraLarge);
+			get => Get(GridViewSizeKind.Large);
 			set => Set(value);
 		}
 
