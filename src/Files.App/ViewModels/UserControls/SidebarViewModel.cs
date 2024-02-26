@@ -44,10 +44,10 @@ namespace Files.App.ViewModels.UserControls
 			=> PaneHolder?.FilesystemHelpers;
 
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
-		private INavigationControlItem rightClickedItem;
+		private ISidebarItem rightClickedItem;
 
 		public object SidebarItems => sidebarItems;
-		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
+		public BulkConcurrentObservableCollection<ISidebarItem> sidebarItems { get; init; }
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
@@ -71,7 +71,7 @@ namespace Files.App.ViewModels.UserControls
 		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
 
 		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
-		public static event EventHandler<INavigationControlItem?>? RightClickedItemChanged;
+		public static event EventHandler<ISidebarItem?>? RightClickedItemChanged;
 
 		private readonly SectionType[] SectionOrder =
 			new SectionType[]
@@ -100,7 +100,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var value = arg;
 
-			INavigationControlItem? item = null;
+			ISidebarItem? item = null;
 			var filteredItems = sidebarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
 				.Concat(sidebarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
@@ -223,9 +223,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private INavigationControlItem selectedSidebarItem;
+		private ISidebarItem selectedSidebarItem;
 
-		public INavigationControlItem SidebarSelectedItem
+		public ISidebarItem SidebarSelectedItem
 		{
 			get => selectedSidebarItem;
 			set => SetProperty(ref selectedSidebarItem, value);
@@ -236,7 +236,7 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-			sidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
+			sidebarItems = new BulkConcurrentObservableCollection<ISidebarItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
 
@@ -280,7 +280,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				var sectionType = (SectionType)sender;
 				var section = await GetOrCreateSectionAsync(sectionType);
-				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
+				Func<IReadOnlyList<ISidebarItem>> getElements = () => sectionType switch
 				{
 					SectionType.Favorites => App.QuickAccessManager.Model.Favorites,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
@@ -295,7 +295,7 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		private async Task SyncSidebarItemsAsync(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
+		private async Task SyncSidebarItemsAsync(LocationItem section, Func<IReadOnlyList<ISidebarItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
 			if (section is null)
 			{
@@ -309,7 +309,7 @@ namespace Files.App.ViewModels.UserControls
 						for (int i = 0; i < e.NewItems.Count; i++)
 						{
 							var index = e.NewStartingIndex < 0 ? -1 : i + e.NewStartingIndex;
-							await AddElementToSectionAsync((INavigationControlItem)e.NewItems[i], section, index);
+							await AddElementToSectionAsync((ISidebarItem)e.NewItems[i], section, index);
 						}
 
 						break;
@@ -319,7 +319,7 @@ namespace Files.App.ViewModels.UserControls
 				case NotifyCollectionChangedAction.Remove:
 				case NotifyCollectionChangedAction.Replace:
 					{
-						foreach (INavigationControlItem elem in e.OldItems)
+						foreach (ISidebarItem elem in e.OldItems)
 						{
 							var match = section.ChildItems.FirstOrDefault(x => x.Path == elem.Path);
 							section.ChildItems.Remove(match);
@@ -334,11 +334,11 @@ namespace Files.App.ViewModels.UserControls
 
 				case NotifyCollectionChangedAction.Reset:
 					{
-						foreach (INavigationControlItem elem in getElements())
+						foreach (ISidebarItem elem in getElements())
 						{
 							await AddElementToSectionAsync(elem, section);
 						}
-						foreach (INavigationControlItem elem in section.ChildItems.ToList())
+						foreach (ISidebarItem elem in section.ChildItems.ToList())
 						{
 							if (!getElements().Any(x => x.Path == elem.Path))
 							{
@@ -354,7 +354,7 @@ namespace Files.App.ViewModels.UserControls
 		private bool IsLibraryOnSidebar(LibraryLocationItem item)
 			=> item is not null && !item.IsEmpty && item.IsDefaultLocation;
 
-		private async Task AddElementToSectionAsync(INavigationControlItem elem, LocationItem section, int index = -1)
+		private async Task AddElementToSectionAsync(ISidebarItem elem, LocationItem section, int index = -1)
 		{
 			if (elem is LibraryLocationItem lib)
 			{
@@ -560,7 +560,7 @@ namespace Files.App.ViewModels.UserControls
 				Section = sectionType,
 				MenuOptions = options,
 				SelectsOnInvoked = selectsOnInvoked,
-				ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+				ChildItems = new BulkConcurrentObservableCollection<ISidebarItem>()
 			};
 		}
 
@@ -667,7 +667,7 @@ namespace Files.App.ViewModels.UserControls
 			if (sender is not FrameworkElement sidebarItem)
 				return;
 
-			if (args.Item is not INavigationControlItem item)
+			if (args.Item is not ISidebarItem item)
 			{
 				// We are in the pane context requested path
 				PaneFlyout.ShowAt(sender as FrameworkElement, args.Position);
@@ -727,7 +727,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
 		{
-			if (item is not INavigationControlItem navigationControlItem) return;
+			if (item is not ISidebarItem navigationControlItem) return;
 			var navigationPath = item as string;
 
 			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
@@ -748,7 +748,7 @@ namespace Files.App.ViewModels.UserControls
 
 			switch (navigationControlItem.ItemType)
 			{
-				case NavigationControlItemType.Location:
+				case SidebarItemType.Location:
 					{
 						// Get the path of the invoked item
 						var ItemPath = navigationControlItem.Path;
@@ -769,7 +769,7 @@ namespace Files.App.ViewModels.UserControls
 						break;
 					}
 
-				case NavigationControlItemType.FileTag:
+				case SidebarItemType.FileTag:
 					var tagPath = navigationControlItem.Path; // Get the path of the invoked item
 					if (PaneHolder?.ActivePane is IShellPage shp)
 					{
@@ -935,7 +935,7 @@ namespace Files.App.ViewModels.UserControls
 			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
 		}
 
-		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(ISidebarItem item, CommandBarFlyout menu)
 		{
 			var options = item.MenuOptions;
 

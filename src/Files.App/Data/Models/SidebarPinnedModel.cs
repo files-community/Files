@@ -18,10 +18,10 @@ namespace Files.App.Data.Models
 
 		public List<string> FavoriteItems { get; set; } = new List<string>();
 
-		public readonly List<INavigationControlItem> favoriteList = new();
+		public readonly List<ISidebarItem> favoriteList = new();
 
 		[JsonIgnore]
-		public IReadOnlyList<INavigationControlItem> Favorites
+		public IReadOnlyList<ISidebarItem> Favorites
 		{
 			get
 			{
@@ -56,7 +56,7 @@ namespace Files.App.Data.Models
 		/// </summary>
 		/// <param name="locationItem">The location item</param>
 		/// <returns>Index of the item</returns>
-		public int IndexOfItem(INavigationControlItem locationItem)
+		public int IndexOfItem(ISidebarItem locationItem)
 		{
 			lock (favoriteList)
 			{
@@ -148,7 +148,7 @@ namespace Files.App.Data.Models
 				if (favoriteList.Any(x => x.Path == locationItem.Path))
 					return;
 
-				var lastItem = favoriteList.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
+				var lastItem = favoriteList.LastOrDefault(x => x.ItemType is SidebarItemType.Location);
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
 				favoriteList.Insert(insertIndex, locationItem);
 			}

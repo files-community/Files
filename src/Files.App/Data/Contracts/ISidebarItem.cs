@@ -5,7 +5,7 @@ using Files.App.UserControls.Sidebar;
 
 namespace Files.App.Data.Contracts
 {
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface ISidebarItem : IComparable<ISidebarItem>, INotifyPropertyChanged, ISidebarItemModel
 	{
 		public new string Text { get; }
 
@@ -13,12 +13,12 @@ namespace Files.App.Data.Contracts
 
 		public SectionType Section { get; }
 
-		public NavigationControlItemType ItemType { get; }
+		public SidebarItemType ItemType { get; }
 
 		public ContextMenuOptions MenuOptions { get; }
 	}
 
-	public enum NavigationControlItemType
+	public enum SidebarItemType
 	{
 		Drive,
 		LinuxDistro,

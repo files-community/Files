@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Files.App.Data.Items
 {
-	public class LocationItem : ObservableObject, INavigationControlItem
+	public class LocationItem : ObservableObject, ISidebarItem
 	{
 		public BitmapImage icon;
 		public BitmapImage Icon
@@ -53,13 +53,13 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public NavigationControlItemType ItemType
-			=> NavigationControlItemType.Location;
+		public SidebarItemType ItemType
+			=> SidebarItemType.Location;
 
 		public bool IsDefaultLocation { get; set; }
 
 		public object? Children => Section == SectionType.Home ? null : ChildItems;
-		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
+		public BulkConcurrentObservableCollection<ISidebarItem>? ChildItems { get; set; }
 		public IconSource? IconSource
 		{
 			get => new ImageIconSource()
@@ -112,7 +112,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public int CompareTo(INavigationControlItem other)
+		public int CompareTo(ISidebarItem other)
 			=> Text.CompareTo(other.Text);
 
 		public static T Create<T>() where T : LocationItem, new()

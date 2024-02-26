@@ -13,8 +13,8 @@ namespace Files.App.Data.Contexts
 				? favoriteModel.IndexOfItem(_RightClickedItem!)
 				: -1;
 
-		private INavigationControlItem? _RightClickedItem = null;
-		public INavigationControlItem? RightClickedItem => _RightClickedItem;
+		private ISidebarItem? _RightClickedItem = null;
+		public ISidebarItem? RightClickedItem => _RightClickedItem;
 
 		public bool IsItemRightClicked =>
 			_RightClickedItem is not null;
@@ -32,7 +32,7 @@ namespace Files.App.Data.Contexts
 			SidebarViewModel.RightClickedItemChanged += SidebarControl_RightClickedItemChanged;
 		}
 
-		public void SidebarControl_RightClickedItemChanged(object? sender, INavigationControlItem? e)
+		public void SidebarControl_RightClickedItemChanged(object? sender, ISidebarItem? e)
 		{
 			if (SetProperty(ref _RightClickedItem, e, nameof(RightClickedItem)))
 			{
