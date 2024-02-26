@@ -40,29 +40,29 @@ namespace Files.App.Helpers
 		{
 			switch (gridViewSizeKind)
 			{
-				case GridViewSizeKind.Compact:
-					return 80;
 				case GridViewSizeKind.Small:
-					return 100;
+					return 80;
 				case GridViewSizeKind.Medium:
+					return 100;
+				case GridViewSizeKind.Three:
 					return 120;
-				case GridViewSizeKind.Large:
+				case GridViewSizeKind.Four:
 					return 140;
-				case GridViewSizeKind.ExtraLarge:
-					return 160;
 				case GridViewSizeKind.Five:
-					return 180;
+					return 160;
 				case GridViewSizeKind.Six:
-					return 200;
+					return 180;
 				case GridViewSizeKind.Seven:
+					return 200;
+				case GridViewSizeKind.Large:
 					return 220;
-				case GridViewSizeKind.Eight:
-					return 240;
 				case GridViewSizeKind.Nine:
-					return 260;
+					return 240;
 				case GridViewSizeKind.Ten:
-					return 280;
+					return 260;
 				case GridViewSizeKind.Eleven:
+					return 280;
+				case GridViewSizeKind.ExtraLarge:
 					return 300;
 				default:
 					return 100;
