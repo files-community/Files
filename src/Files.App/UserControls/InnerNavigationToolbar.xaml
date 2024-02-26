@@ -771,59 +771,266 @@
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Size}" />
 							<Grid>
 								<!--  Details  -->
-								<Slider
-									x:Name="DetailsViewSlider"
+								<StackPanel
+									x:Name="DetailsView"
 									x:Load="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
-									IsThumbToolTipEnabled="False"
-									Maximum="4"
-									Minimum="0"
-									SnapsTo="Ticks"
-									TickFrequency="1"
-									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+									Spacing="4">
+									<Slider
+										x:Name="DetailsViewSlider"
+										Padding="4,0,4,0"
+										IsThumbToolTipEnabled="False"
+										Maximum="4"
+										Minimum="0"
+										SnapsTo="Ticks"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+
+										<local:OpacityIcon
+											Grid.Column="0"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesCompact}" />
+
+										<local:OpacityIcon
+											Grid.Column="2"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesSmall}" />
+
+										<local:OpacityIcon
+											Grid.Column="4"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesMedium}" />
+
+										<local:OpacityIcon
+											Grid.Column="6"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesLarge}" />
+
+										<local:OpacityIcon
+											Grid.Column="8"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
+									</Grid>
+								</StackPanel>
+
+								<!--  List  -->
+								<StackPanel
+									x:Name="ListView"
+									x:Load="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
+									Spacing="4">
+									<Slider
+										x:Name="ListViewSlider"
+										Padding="4,0,4,0"
+										IsThumbToolTipEnabled="False"
+										Maximum="4"
+										Minimum="0"
+										SnapsTo="Ticks"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+
+									<!--  List  -->
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+
+										<local:OpacityIcon
+											Grid.Column="0"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesCompact}" />
+
+										<local:OpacityIcon
+											Grid.Column="2"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesSmall}" />
+
+										<local:OpacityIcon
+											Grid.Column="4"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesMedium}" />
+
+										<local:OpacityIcon
+											Grid.Column="6"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesLarge}" />
+
+										<local:OpacityIcon
+											Grid.Column="8"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
+									</Grid>
+								</StackPanel>
 
 								<!--  Tiles  -->
 								<Slider
 									x:Name="TilesViewSlider"
+									Padding="4,0,4,0"
 									x:Load="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
 									IsEnabled="False"
 									IsThumbToolTipEnabled="False" />
 
-								<!--  List  -->
-								<Slider
-									x:Name="ListViewSlider"
-									x:Load="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
-									IsThumbToolTipEnabled="False"
-									Maximum="4"
-									Minimum="0"
-									SnapsTo="Ticks"
-									TickFrequency="1"
-									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
-
 								<!--  Grid  -->
-								<Slider
-									x:Name="GridViewSlider"
-									IsThumbToolTipEnabled="False"
-									Maximum="11"
-									Minimum="0"
-									SnapsTo="Ticks"
-									TickFrequency="1"
-									TickPlacement="BottomRight"
-									Visibility="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11'}" />
+								<StackPanel
+									x:Name="GridView"
+									Spacing="4"
+									Visibility="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}">
+									<Slider
+										x:Name="GridViewSlider"
+										Padding="4,0,4,0"
+										IsThumbToolTipEnabled="False"
+										Maximum="11"
+										Minimum="0"
+										SnapsTo="Ticks"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11'}" />
+
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+										</Grid.ColumnDefinitions>
+
+										<local:OpacityIcon
+											Grid.Column="0"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesSmall}" />
+
+										<local:OpacityIcon
+											Grid.Column="2"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesMedium}" />
+
+										<local:OpacityIcon
+											Grid.Column="14"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesLarge}" />
+
+										<local:OpacityIcon
+											Grid.Column="22"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
+									</Grid>
+								</StackPanel>
 
 								<!--  Columns  -->
-								<Slider
-									x:Name="ColumnViewSlider"
+								<StackPanel
+									x:Name="ColumnsView"
 									x:Load="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
-									IsThumbToolTipEnabled="False"
-									Maximum="4"
-									Minimum="0"
-									SnapsTo="Ticks"
-									TickFrequency="1"
-									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+									Spacing="4">
+									<Slider
+										x:Name="ColumnViewSlider"
+										Padding="4,0,4,0"
+										IsThumbToolTipEnabled="False"
+										Maximum="4"
+										Minimum="0"
+										SnapsTo="Ticks"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+
+										<local:OpacityIcon
+											Grid.Column="0"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesCompact}" />
+
+										<local:OpacityIcon
+											Grid.Column="2"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesSmall}" />
+
+										<local:OpacityIcon
+											Grid.Column="4"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesMedium}" />
+
+										<local:OpacityIcon
+											Grid.Column="6"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesLarge}" />
+
+										<local:OpacityIcon
+											Grid.Column="8"
+											Width="28"
+											Height="28"
+											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
+									</Grid>
+								</StackPanel>
+
 							</Grid>
 
 							<!--  (Divider)  -->
