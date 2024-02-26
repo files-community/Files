@@ -1713,7 +1713,40 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconColumnsLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.16x16.ColumnsLayout" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Grid>
+								<Canvas
+									Width="16"
+									Height="16"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
+									<Path
+										x:Name="Path1"
+										Data="M3 2.5C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5H3Z"
+										Fill="{ThemeResource Local.IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M1 4C1 2.89543 1.89543 2 3 2H13C14.1046 2 15 2.89543 15 4V12C15 13.1046 14.1046 14 13 14H3C1.89543 14 1 13.1046 1 12V4ZM3 3C2.44772 3 2 3.44772 2 4V12C2 12.5523 2.44772 13 3 13H13C13.5523 13 14 12.5523 14 12V4C14 3.44772 13.5523 3 13 3H3ZM5.5 4C5.77614 4 6 4.22386 6 4.5V11.5C6 11.7761 5.77614 12 5.5 12C5.22386 12 5 11.7761 5 11.5V4.5C5 4.22386 5.22386 4 5.5 4ZM11 4.5C11 4.22386 10.7761 4 10.5 4C10.2239 4 10 4.22386 10 4.5V11.5C10 11.7761 10.2239 12 10.5 12C10.7761 12 11 11.7761 11 11.5V4.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+								</Canvas>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIcon.28x28.ColumnsLayout" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1761,7 +1794,66 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconListLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.16x16.ListLayout" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Grid>
+								<Canvas
+									Width="16"
+									Height="16"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
+									<Path
+										x:Name="Path1"
+										Data="M4.33141 3.79527C4.14197 3.62688 3.85649 3.62688 3.66705 3.79527L1.94907 5.32236C1.84715 5.41296 1.78665 5.54126 1.78159 5.67754C1.77654 5.81381 1.82737 5.94624 1.9223 6.04414C2.19433 6.32468 2.57674 6.5 2.99922 6.5H4.99922C5.42171 6.5 5.80412 6.32468 6.07616 6.04413C6.17109 5.94623 6.22191 5.8138 6.21686 5.67753C6.2118 5.54125 6.15131 5.41296 6.04939 5.32236L4.33141 3.79527Z"
+										Fill="{ThemeResource Local.IconBaseBrush}"
+										Opacity=".30" />
+									<Path
+										x:Name="Path2"
+										Data="M4.33141 11.7953C4.14197 11.6269 3.85649 11.6269 3.66705 11.7953L1.94907 13.3224C1.84715 13.413 1.78665 13.5413 1.78159 13.6775C1.77654 13.8138 1.82737 13.9462 1.9223 14.0441C2.19433 14.3247 2.57674 14.5 2.99923 14.5H4.99923C5.42171 14.5 5.80413 14.3247 6.07616 14.0441C6.17109 13.9462 6.22192 13.8138 6.21686 13.6775C6.21181 13.5413 6.15131 13.413 6.04939 13.3224L4.33141 11.7953Z"
+										Fill="{ThemeResource Local.IconBaseBrush}"
+										Opacity=".30" />
+									<Path
+										x:Name="Path3"
+										Data="M3 1.5C2.17157 1.5 1.5 2.17157 1.5 3V4.6088C1.5 4.8057 1.61556 4.98427 1.79517 5.06492C1.97479 5.14558 2.18502 5.11332 2.33218 4.98251L4.00001 3.5L5.66782 4.9825C5.81498 5.11331 6.02521 5.14558 6.20483 5.06492C6.38444 4.98426 6.5 4.80569 6.5 4.6088V3C6.5 2.17157 5.82843 1.5 5 1.5H3Z"
+										Fill="{ThemeResource Local.IconAltBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M3 9.5C2.17157 9.5 1.5 10.1716 1.5 11V12.6088C1.5 12.8057 1.61556 12.9843 1.79517 13.0649C1.97479 13.1456 2.18502 13.1133 2.33218 12.9825L4.00001 11.5L5.66782 12.9825C5.81498 13.1133 6.02521 13.1456 6.20483 13.0649C6.38444 12.9843 6.5 12.8057 6.5 12.6088V11C6.5 10.1716 5.82843 9.5 5 9.5H3Z"
+										Fill="{ThemeResource Local.IconAltBrush}" />
+									<Path
+										x:Name="Path5"
+										Data="M1 3C1 1.89543 1.89543 1 3 1H5C6.10457 1 7 1.89543 7 3V5C7 6.10457 6.10457 7 5 7H3C1.89543 7 1 6.10457 1 5V3ZM3 2C2.44772 2 2 2.44772 2 3V4.6088L3.66782 3.1263C3.85727 2.9579 4.14274 2.9579 4.33219 3.1263L6 4.6088V3C6 2.44772 5.55228 2 5 2H3ZM3 6C2.71829 6 2.46378 5.88351 2.28203 5.69607L4.00001 4.16898L5.71798 5.69607C5.53622 5.88351 5.28172 6 5 6H3Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path6"
+										Data="M1 11C1 9.89543 1.89543 9 3 9H5C6.10457 9 7 9.89543 7 11V13C7 14.1046 6.10457 15 5 15H3C1.89543 15 1 14.1046 1 13V11ZM3 10C2.44772 10 2 10.4477 2 11V12.6088L3.66782 11.1263C3.85727 10.9579 4.14274 10.9579 4.33219 11.1263L6 12.6088V11C6 10.4477 5.55228 10 5 10H3ZM5.71798 13.6961L4.00001 12.169L2.28203 13.6961C2.46378 13.8835 2.71829 14 3 14H5C5.28172 14 5.53622 13.8835 5.71798 13.6961Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path7"
+										Data="M9.5 4C9.22386 4 9 4.22386 9 4.5C9 4.77614 9.22386 5 9.5 5H14.5C14.7761 5 15 4.77614 15 4.5C15 4.22386 14.7761 4 14.5 4H9.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path8"
+										Data="M9 11.5C9 11.2239 9.22386 11 9.5 11H14.5C14.7761 11 15 11.2239 15 11.5C15 11.7761 14.7761 12 14.5 12H9.5C9.22386 12 9 11.7761 9 11.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+								</Canvas>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIcon.28x28.ListLayout" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1819,7 +1911,57 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconTilesLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.16x16.TilesLayout" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Grid>
+								<Canvas
+									Width="16"
+									Height="16"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
+									<Path
+										x:Name="Path1"
+										Data="M4.88315 8.88388C4.395 8.39572 3.60354 8.39572 3.11538 8.88388L1.38669 10.6126C1.26035 10.7389 1.21103 10.9231 1.25731 11.0957C1.3036 11.2682 1.43846 11.403 1.61107 11.4491C1.73544 11.4824 1.86568 11.5 1.99927 11.5H5.99927C6.13285 11.5 6.26309 11.4824 6.38746 11.4491C6.56007 11.403 6.69493 11.2682 6.74122 11.0957C6.78751 10.9231 6.73818 10.7389 6.61184 10.6126L4.88315 8.88388Z"
+										Fill="{ThemeResource Local.IconBaseBrush}"
+										Opacity=".30" />
+									<Path
+										x:Name="Path2"
+										Data="M2 4.5C1.17157 4.5 0.5 5.17157 0.5 6V10C0.5 10.1336 0.517586 10.2638 0.550846 10.3882C0.597006 10.5608 0.731767 10.6957 0.904344 10.742C1.07692 10.7882 1.26108 10.7389 1.38743 10.6126L3.11612 8.88388C3.60427 8.39573 4.39573 8.39573 4.88388 8.88388L6.61258 10.6126C6.73892 10.7389 6.92308 10.7882 7.09566 10.742C7.26823 10.6957 7.40299 10.5608 7.44915 10.3882C7.48241 10.2638 7.5 10.1336 7.5 10V6C7.5 5.17157 6.82843 4.5 6 4.5H2Z"
+										Fill="{ThemeResource Local.IconAltBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M6.25 6.5C6.25 6.91421 5.91421 7.25 5.5 7.25C5.08579 7.25 4.75 6.91421 4.75 6.5C4.75 6.08579 5.08579 5.75 5.5 5.75C5.91421 5.75 6.25 6.08579 6.25 6.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M2 4C0.895431 4 0 4.89543 0 6V10C0 11.1046 0.895431 12 2 12H6C7.10457 12 8 11.1046 8 10V6C8 4.89543 7.10457 4 6 4H2ZM1 6C1 5.44772 1.44772 5 2 5H6C6.55228 5 7 5.44772 7 6V10C7 10.0896 6.98822 10.1764 6.96613 10.259L5.23744 8.53033C4.55402 7.84691 3.44598 7.84691 2.76256 8.53033L1.03387 10.259C1.01178 10.1764 1 10.0896 1 10V6ZM1.74098 10.9661L3.46967 9.23744C3.76256 8.94454 4.23744 8.94454 4.53033 9.23744L6.25902 10.9661C6.17641 10.9882 6.08958 11 6 11H2C1.91042 11 1.82359 10.9882 1.74098 10.9661Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path5"
+										Data="M10 6.5C10 6.22386 10.2239 6 10.5 6H15.5C15.7761 6 16 6.22386 16 6.5C16 6.77614 15.7761 7 15.5 7H10.5C10.2239 7 10 6.77614 10 6.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path6"
+										Data="M10 9.5C10 9.22386 10.2239 9 10.5 9H15.5C15.7761 9 16 9.22386 16 9.5C16 9.77614 15.7761 10 15.5 10H10.5C10.2239 10 10 9.77614 10 9.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+								</Canvas>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIcon.28x28.TilesLayout" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1867,7 +2009,66 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconGridLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.16x16.GridLayout" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Grid>
+								<Canvas
+									Width="16"
+									Height="16"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
+									<Path
+										x:Name="Path1"
+										Data="M4.33141 5.79527C4.14197 5.62688 3.85649 5.62688 3.66705 5.79527L1.94907 7.32236C1.84715 7.41296 1.78665 7.54126 1.78159 7.67754C1.77654 7.81381 1.82737 7.94624 1.9223 8.04414C2.19433 8.32468 2.57674 8.5 2.99922 8.5H4.99922C5.42171 8.5 5.80412 8.32468 6.07616 8.04413C6.17109 7.94623 6.22191 7.8138 6.21686 7.67753C6.2118 7.54125 6.15131 7.41296 6.04939 7.32236L4.33141 5.79527Z"
+										Fill="{ThemeResource Local.IconBaseBrush}"
+										Opacity=".30" />
+									<Path
+										x:Name="Path2"
+										Data="M12.3314 5.79527C12.142 5.62688 11.8565 5.62688 11.667 5.79527L9.94907 7.32236C9.84715 7.41296 9.78665 7.54126 9.7816 7.67754C9.77654 7.81381 9.82737 7.94624 9.9223 8.04414C10.1943 8.32468 10.5767 8.5 10.9992 8.5H12.9992C13.4217 8.5 13.8041 8.32468 14.0762 8.04413C14.1711 7.94623 14.2219 7.8138 14.2169 7.67753C14.2118 7.54125 14.1513 7.41296 14.0494 7.32236L12.3314 5.79527Z"
+										Fill="{ThemeResource Local.IconBaseBrush}"
+										Opacity=".30" />
+									<Path
+										x:Name="Path3"
+										Data="M3 3.5C2.17157 3.5 1.5 4.17157 1.5 5V6.6088C1.5 6.8057 1.61556 6.98427 1.79517 7.06492C1.97479 7.14558 2.18502 7.11332 2.33218 6.98251L4.00001 5.5L5.66782 6.9825C5.81498 7.11331 6.02521 7.14558 6.20483 7.06492C6.38444 6.98426 6.5 6.80569 6.5 6.6088V5C6.5 4.17157 5.82843 3.5 5 3.5H3Z"
+										Fill="{ThemeResource Local.IconAltBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M11 3.5C10.1716 3.5 9.5 4.17157 9.5 5V6.60881C9.5 6.8057 9.61555 6.98427 9.79517 7.06493C9.97479 7.14558 10.185 7.11332 10.3322 6.98251L12 5.5L13.6678 6.9825C13.815 7.11331 14.0252 7.14557 14.2048 7.06491C14.3844 6.98426 14.5 6.80569 14.5 6.60879V5C14.5 4.17157 13.8284 3.5 13 3.5H11Z"
+										Fill="{ThemeResource Local.IconAltBrush}" />
+									<Path
+										x:Name="Path5"
+										Data="M1 5C1 3.89543 1.89543 3 3 3H5C6.10457 3 7 3.89543 7 5V7C7 8.10457 6.10457 9 5 9H3C1.89543 9 1 8.10457 1 7V5ZM3 4C2.44772 4 2 4.44772 2 5V6.6088L3.66782 5.1263C3.85727 4.9579 4.14274 4.9579 4.33219 5.1263L6 6.6088V5C6 4.44772 5.55228 4 5 4H3ZM3 8C2.71829 8 2.46378 7.88351 2.28203 7.69607L4.00001 6.16898L5.71798 7.69607C5.53622 7.88351 5.28172 8 5 8H3Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path6"
+										Data="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7C15 8.10457 14.1046 9 13 9H11C9.89543 9 9 8.10457 9 7V5ZM11 4C10.4477 4 10 4.44772 10 5V6.60881L11.6678 5.1263C11.8573 4.9579 12.1427 4.9579 12.3322 5.1263L14 6.60879V5C14 4.44772 13.5523 4 13 4H11ZM13.718 7.69607L12 6.16898L10.282 7.69607C10.4638 7.88351 10.7183 8 11 8H13C13.2817 8 13.5362 7.88351 13.718 7.69607Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path7"
+										Data="M1.5 12C1.22386 12 1 12.2239 1 12.5C1 12.7761 1.22386 13 1.5 13H6.5C6.77614 13 7 12.7761 7 12.5C7 12.2239 6.77614 12 6.5 12H1.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path8"
+										Data="M9 12.5C9 12.2239 9.22386 12 9.5 12H14.5C14.7761 12 15 12.2239 15 12.5C15 12.7761 14.7761 13 14.5 13H9.5C9.22386 13 9 12.7761 9 12.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+								</Canvas>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIcon.28x28.GridLayout" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1905,7 +2106,36 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconDetailsLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.16x16.DetailsLayout" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Grid>
+								<Canvas
+									Width="16"
+									Height="16"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
+									<Path
+										Name="Path1"
+										Data="M6.5 3H1.5C1.22386 3 1 3.22386 1 3.5C1 3.77614 1.22386 4 1.5 4H6.5C6.77614 4 7 3.77614 7 3.5C7 3.22386 6.77614 3 6.5 3ZM9.5 3H14.5C14.7761 3 15 3.22386 15 3.5C15 3.77614 14.7761 4 14.5 4H9.5C9.22386 4 9 3.77614 9 3.5C9 3.22386 9.22386 3 9.5 3ZM1.5 6H6.5C6.77614 6 7 6.22386 7 6.5C7 6.77614 6.77614 7 6.5 7H1.5C1.22386 7 1 6.77614 1 6.5C1 6.22386 1.22386 6 1.5 6ZM14.5 6H9.5C9.22386 6 9 6.22386 9 6.5C9 6.77614 9.22386 7 9.5 7H14.5C14.7761 7 15 6.77614 15 6.5C15 6.22386 14.7761 6 14.5 6ZM9.5 9H14.5C14.7761 9 15 9.22386 15 9.5C15 9.77614 14.7761 10 14.5 10H9.5C9.22386 10 9 9.77614 9 9.5C9 9.22386 9.22386 9 9.5 9ZM6.5 9H1.5C1.22386 9 1 9.22386 1 9.5C1 9.77614 1.22386 10 1.5 10H6.5C6.77614 10 7 9.77614 7 9.5C7 9.22386 6.77614 9 6.5 9ZM1.5 12H6.5C6.77614 12 7 12.2239 7 12.5C7 12.7761 6.77614 13 6.5 13H1.5C1.22386 13 1 12.7761 1 12.5C1 12.2239 1.22386 12 1.5 12ZM14.5 12H9.5C9.22386 12 9 12.2239 9 12.5C9 12.7761 9.22386 13 9.5 13H14.5C14.7761 13 15 12.7761 15 12.5C15 12.2239 14.7761 12 14.5 12Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+								</Canvas>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIcon.28x28.DetailsLayout" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1938,7 +2168,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconLayoutSizesCompact" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.28x28.LayoutSizesCompact" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2022,7 +2252,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconLayoutSizesSmall" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.28x28.LayoutSizesSmall" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2087,7 +2317,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconLayoutSizesMedium" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.28x28.LayoutSizesMedium" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2153,7 +2383,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconLayoutSizesLarge" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.28x28.LayoutSizesLarge" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2213,7 +2443,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconLayoutSizesExtraLarge" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIcon.28x28.LayoutSizesExtraLarge" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
