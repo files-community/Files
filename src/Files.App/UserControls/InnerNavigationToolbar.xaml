@@ -803,35 +803,35 @@
 											Grid.Column="0"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeCompact, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesCompact}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeSmall, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesSmall}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeMedium, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesMedium}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeLarge, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesLarge}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeExtraLarge, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
 									</Grid>
 								</StackPanel>
@@ -870,35 +870,35 @@
 											Grid.Column="0"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeCompact, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesCompact}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeSmall, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesSmall}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeMedium, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesMedium}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeLarge, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesLarge}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeExtraLarge, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
 									</Grid>
 								</StackPanel>
@@ -966,28 +966,28 @@
 											Grid.Column="0"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeSmall, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesSmall}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeMedium, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesMedium}" />
 
 										<local:OpacityIcon
 											Grid.Column="14"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeLarge, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesLarge}" />
 
 										<local:OpacityIcon
 											Grid.Column="22"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeExtraLarge, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
 									</Grid>
 								</StackPanel>
@@ -1025,35 +1025,35 @@
 											Grid.Column="0"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeCompact, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesCompact}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeSmall, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesSmall}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeMedium, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesMedium}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeLarge, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesLarge}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
-											IsSelected="{x:Bind ViewModel.IsSizeExtraLarge, Mode=OneWay}"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
 											Style="{StaticResource ColorIconLayoutSizesExtraLarge}" />
 									</Grid>
 								</StackPanel>
