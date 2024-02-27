@@ -208,6 +208,7 @@ namespace Files.App
 				return;
 			}
 
+			// Save the current tab list in case it was overwriten by another instance
 			AppLifecycleHelper.SaveSessionTabs();
 
 			// Continue running the app on the background

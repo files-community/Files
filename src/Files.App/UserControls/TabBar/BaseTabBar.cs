@@ -147,7 +147,7 @@ namespace Files.App.UserControls.TabBar
 				tabItem.NavigationParameter,
 			});
 
-
+			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();
 
 			if (Items.Count == 0)

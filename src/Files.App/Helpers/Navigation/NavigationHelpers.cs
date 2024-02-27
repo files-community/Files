@@ -62,6 +62,7 @@ namespace Files.App.Helpers
 
 			App.AppModel.TabStripSelectedIndex = index;
 
+			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();
 		}
 
@@ -89,6 +90,7 @@ namespace Files.App.Helpers
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;
 
+			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();
 		}
 

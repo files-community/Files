@@ -109,8 +109,11 @@ namespace Files.App.Services
 
 		private async Task DownloadAndInstallAsync()
 		{
+			// Save the updated tab list before installing the update
 			AppLifecycleHelper.SaveSessionTabs();
+
 			App.AppModel.ForceProcessTermination = true;
+
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 			var result = await downloadOperation.AsTask();
 
