@@ -26,11 +26,11 @@
 			<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
 
 			<converters:GenericEnumConverter x:Key="GenericEnumConverter" />
-			<converters:EnumToHumanizedConverter x:Key="EnumDetailsViewSizeKindToHumanizedConverter" EnumTypeName="DetailsViewSizeKind" />
-			<converters:EnumToHumanizedConverter x:Key="EnumListViewSizeKindToHumanizedConverter" EnumTypeName="ListViewSizeKind" />
-			<converters:EnumToHumanizedConverter x:Key="EnumTilesViewSizeKindToHumanizedConverter" EnumTypeName="TilesViewSizeKind" />
-			<converters:EnumToHumanizedConverter x:Key="EnumGridViewSizeKindToHumanizedConverter" EnumTypeName="GridViewSizeKind" />
-			<converters:EnumToHumanizedConverter x:Key="EnumColumnsViewSizeKindToHumanizedConverter" EnumTypeName="ColumnsViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="DetailsViewSizeKindEnumToHumanizedConverter" EnumTypeName="DetailsViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="ListViewSizeKindEnumToHumanizedConverter" EnumTypeName="ListViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="TilesViewSizeKindEnumToHumanizedConverter" EnumTypeName="TilesViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="GridViewSizeKindEnumToHumanizedConverter" EnumTypeName="GridViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="ColumnsViewSizeKindEnumToHumanizedConverter" EnumTypeName="ColumnsViewSizeKind" />
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="NegatedBoolToVisibilityConverter"
@@ -787,7 +787,7 @@
 										Maximum="5"
 										Minimum="1"
 										SnapsTo="Ticks"
-										ThumbToolTipValueConverter="{StaticResource EnumDetailsViewSizeKindToHumanizedConverter}"
+										ThumbToolTipValueConverter="{StaticResource DetailsViewSizeKindEnumToHumanizedConverter}"
 										TickFrequency="1"
 										TickPlacement="BottomRight"
 										Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
@@ -853,7 +853,7 @@
 										Maximum="5"
 										Minimum="1"
 										SnapsTo="Ticks"
-										ThumbToolTipValueConverter="{StaticResource EnumListViewSizeKindToHumanizedConverter}"
+										ThumbToolTipValueConverter="{StaticResource ListViewSizeKindEnumToHumanizedConverter}"
 										TickFrequency="1"
 										TickPlacement="BottomRight"
 										Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
@@ -936,7 +936,7 @@
 										Maximum="12"
 										Minimum="1"
 										SnapsTo="Ticks"
-										ThumbToolTipValueConverter="{StaticResource EnumGridViewSizeKindToHumanizedConverter}"
+										ThumbToolTipValueConverter="{StaticResource GridViewSizeKindEnumToHumanizedConverter}"
 										TickFrequency="1"
 										TickPlacement="BottomRight"
 										Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11,12-12'}" />
@@ -1009,7 +1009,7 @@
 										Maximum="5"
 										Minimum="1"
 										SnapsTo="Ticks"
-										ThumbToolTipValueConverter="{StaticResource EnumColumnsViewSizeKindToHumanizedConverter}"
+										ThumbToolTipValueConverter="{StaticResource ColumnsViewSizeKindEnumToHumanizedConverter}"
 										TickFrequency="1"
 										TickPlacement="BottomRight"
 										Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
