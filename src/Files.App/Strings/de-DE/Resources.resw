@@ -1038,15 +1038,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detailansicht (Strg+Shift+1)</value>
   </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rasteransicht (Groß) (Strg+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rasteransicht (Mittel) (Strg+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rasteransicht (Klein) (Strg+Shift+3)</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Kachelansicht (Strg+Shift+2)</value>
   </data>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Strg+Umschalt+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+Umschalt+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+Umschalt+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+Umschalt+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Strg+Umschalt+6</value>
   </data>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Spalten</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Große Icons</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Mittelgroße Icons</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Kleine Icons</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Kacheln</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Tags</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Kompakte Ansicht im Detail-Layout verwenden</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universell</value>
@@ -2563,10 +2533,10 @@
     <value>Ordner im Terminal als Administrator öffnen</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Symbolgröße in Rasteransicht verringern</value>
+    <value>Decrease item size in the current view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Symbolgröße in Rasteransicht vergrößern</value>
+    <value>Increase item size in the current view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Zum Detail-Layout wechseln</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>Liste</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Zur Rasteransicht mit kleinen Symbolen wechseln</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Zur Rasteransicht mit mittelgroßen Symbolen wechseln</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Zur Rasteransicht mit großen Symbolen wechseln</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Zur Spaltenansicht wechseln</value>
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Wohin ist Files verschwunden?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Fragen &amp; Diskussionen</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
 </root>
