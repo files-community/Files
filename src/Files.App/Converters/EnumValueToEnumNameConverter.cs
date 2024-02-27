@@ -15,11 +15,16 @@ namespace Files.App.Converters
 
 			return EnumTypeName switch
 			{
-				"DetailsViewSizeKind" => Enum.Parse<DetailsViewSizeKind>(stringValue).GetDescription()/*.GetLocalizedResource()*/,
-				"ListViewSizeKind" => Enum.Parse<ListViewSizeKind>(stringValue).GetDescription()/*.GetLocalizedResource()*/,
-				"TilesViewSizeKind" => Enum.Parse<TilesViewSizeKind>(stringValue).GetDescription()/*.GetLocalizedResource()*/,
-				"GridViewSizeKind" => Enum.Parse<GridViewSizeKind>(stringValue).GetDescription()/*.GetLocalizedResource()*/,
-				"ColumnsViewSizeKind" => Enum.Parse<ColumnsViewSizeKind>(stringValue).GetDescription()/*.GetLocalizedResource()*/,
+				"DetailsViewSizeKind"
+					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<DetailsViewSizeKind>(stringValue)),
+				"ListViewSizeKind"
+					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<ListViewSizeKind>(stringValue)),
+				"TilesViewSizeKind"
+					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<TilesViewSizeKind>(stringValue)),
+				"GridViewSizeKind"
+					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<GridViewSizeKind>(stringValue)),
+				"ColumnsViewSizeKind"
+					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<ColumnsViewSizeKind>(stringValue)),
 				_ => string.Empty,
 			};
 		}
