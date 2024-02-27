@@ -1092,13 +1092,12 @@ namespace Files.App.Data.Models
 						}
 
 						cts.Token.ThrowIfCancellationRequested();
-						await LoadItemThumbnailAsync(item);
+						_ = LoadItemThumbnailAsync(item);
 
 						if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 						{
 							if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 							{
-								cts.Token.ThrowIfCancellationRequested();
 								matchingStorageFile = await GetFileFromPathAsync(item.ItemPath, cts.Token);
 								if (matchingStorageFile is not null)
 								{
@@ -1131,7 +1130,6 @@ namespace Files.App.Data.Models
 						{
 							if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 							{
-								cts.Token.ThrowIfCancellationRequested();
 								BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath, cts.Token);
 								if (matchingStorageFolder is not null)
 								{
@@ -1174,10 +1172,7 @@ namespace Files.App.Data.Models
 						}
 
 						if (loadGroupHeaderInfo && isFileTypeGroupMode)
-						{
-							cts.Token.ThrowIfCancellationRequested();
 							groupImage = await GetItemTypeGroupIcon(item, matchingStorageFile);
-						}
 					}
 					catch (Exception)
 					{
