@@ -61,6 +61,8 @@ namespace Files.App.Helpers
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
 			App.AppModel.TabStripSelectedIndex = index;
+
+			AppLifecycleHelper.SaveSessionTabs();
 		}
 
 		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
@@ -86,6 +88,8 @@ namespace Files.App.Helpers
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;
+
+			AppLifecycleHelper.SaveSessionTabs();
 		}
 
 		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)

@@ -147,6 +147,9 @@ namespace Files.App.UserControls.TabBar
 				tabItem.NavigationParameter,
 			});
 
+
+			AppLifecycleHelper.SaveSessionTabs();
+
 			if (Items.Count == 0)
 				MainWindow.Instance.Close();
 		}
