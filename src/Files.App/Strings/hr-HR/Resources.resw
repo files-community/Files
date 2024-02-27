@@ -145,7 +145,7 @@
     <value>Veličina na disku:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Nekomprimirana veličina:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ova akcija se ne može napraviti</value>
@@ -352,7 +352,7 @@
     <value>Datoteka kojoj pokušavate pristupiti je možda premještena ili izbrisana.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Cannot open properties for this file</value>
+    <value>Nije moguće otvoriti svojstva za ovu datoteku</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Datoteka kojoj pokušavate pristupiti je možda premještena ili izbrisana.</value>
@@ -367,10 +367,10 @@
     <value>Jeste li izbrisali ovu mapu?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Dadoteku koju pokušavate pristupiti trenutno koristi {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Datoteku kojoj pokušavate pristupiti trenutno koristi druga aplikacija</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Datoteka je u upotrebi</value>
@@ -421,7 +421,7 @@
     <value>Naziv stavke ne smije sadržavati sljedeće znakove: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Navedeni naziv stavke nije valjan</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>stavka odabrana</value>
@@ -1000,7 +1000,7 @@
     <value>Prilagodi kontekstni izbornik desnog klika</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Izvorna putanja</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Dodaj</value>
@@ -1037,15 +1037,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalji (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Velike ikone (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Srednje ikone (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Male ikone (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pločice (Ctrl+Shift+2)</value>
@@ -1285,7 +1276,7 @@
     <value>ISO brzina</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Zamijeni postojeće</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generirajte novi naziv</value>
@@ -1297,7 +1288,7 @@
     <value>Postoji jedan konfliktni naziv datoteke.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Napravi mapu s odabirom</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Vrsta:</value>
@@ -1324,13 +1315,13 @@
     <value>Stupac datuma brisanja</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sortiraj</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum promjene</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Originalna mapa</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Silazno</value>
@@ -1354,7 +1345,7 @@
     <value>Vrlo malo</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Budućnost</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Danas</value>
@@ -1369,19 +1360,19 @@
     <value>Prošli tjedan</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Ranije ovog mjeseca</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Prošli mjesec</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Ranije ove godine</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Prošla godina</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Godina {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} stavka</value>
@@ -1393,10 +1384,10 @@
     <value>Ponovno otvori zatvorenu karticu</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Preimenuj</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Privatnost</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Koš za smeće</value>
@@ -1456,7 +1447,7 @@
     <value>Nemate dopuštenja za pregled sigurnosnih svojstava ovog objekta. Kliknite "Napredna dopuštenja" za nastavak.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Vlasnik:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nepoznati vlasnik</value>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1687,7 +1669,7 @@
     <value>Otvori nadređenu mapu</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Nepoznato</value>
   </data>
   <data name="EditTags" xml:space="preserve">
     <value>Uredi oznake datoteke</value>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Stupci</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Velike ikone</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Srednje ikone</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Male Ikone</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Pločice</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Oznake</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Koristi kompaktni razmaka u detaljnom prikazu</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Univerzalno</value>
@@ -2563,10 +2533,10 @@
     <value>Open folder in terminal as administrator</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Decrease item size in the current view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Increase item size in the current view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Switch to details view</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>List</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Switch to columns view</value>
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Where did Files go?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Questions &amp; discussions</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
 </root>
