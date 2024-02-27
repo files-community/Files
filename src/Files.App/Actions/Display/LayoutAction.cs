@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "LayoutDetailsDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIcon.16x16.DetailsLayout");
+			=> new(opacityStyle: "Icons.DetailsLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 			=> "LayoutListDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIcon.16x16.ListLayout");
+			=> new(opacityStyle: "Icons.ListLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
@@ -51,7 +51,7 @@ namespace Files.App.Actions
 			=> "LayoutTilesDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIcon.16x16.TilesLayout");
+			=> new(opacityStyle: "Icons.TilesLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
@@ -69,7 +69,7 @@ namespace Files.App.Actions
 			=> "LayoutGridescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIcon.16x16.GridLayout");
+			=> new(opacityStyle: "Icons.GridLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
@@ -87,7 +87,7 @@ namespace Files.App.Actions
 			=> "LayoutColumnsDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIcon.16x16.ColumnsLayout");
+			=> new(opacityStyle: "Icons.ColumnsLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);

@@ -1713,7 +1713,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.16x16.ColumnsLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.ColumnsLayout.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1746,7 +1746,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.ColumnsLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.ColumnsLayout.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1794,7 +1794,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.16x16.ListLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.ListLayout.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1853,7 +1853,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.ListLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.ListLayout.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1911,7 +1911,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.16x16.TilesLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.TilesLayout.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1961,7 +1961,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.TilesLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.TilesLayout.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2009,7 +2009,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.16x16.GridLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.GridLayout.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2068,7 +2068,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.GridLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.GridLayout.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2106,7 +2106,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.16x16.DetailsLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.DetailsLayout.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2135,7 +2135,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.DetailsLayout" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.DetailsLayout.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2168,7 +2168,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.LayoutSizesCompact" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.LayoutSizesCompact.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2252,7 +2252,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.LayoutSizesSmall" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.LayoutSizesSmall.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2317,7 +2317,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.LayoutSizesMedium" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.LayoutSizesMedium.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2383,7 +2383,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.LayoutSizesLarge" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.LayoutSizesLarge.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -2443,7 +2443,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.28x28.LayoutSizesExtraLarge" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.LayoutSizesExtraLarge.28x28" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>

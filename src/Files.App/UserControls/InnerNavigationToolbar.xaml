@@ -648,7 +648,7 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.DetailsLayout}" />
+											Style="{StaticResource Icons.DetailsLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
@@ -673,7 +673,7 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.ListLayout}" />
+											Style="{StaticResource Icons.ListLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
@@ -698,7 +698,7 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.TilesLayout}" />
+											Style="{StaticResource Icons.TilesLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
@@ -723,7 +723,7 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.GridLayout}" />
+											Style="{StaticResource Icons.GridLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
@@ -748,7 +748,7 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.ColumnsLayout}" />
+											Style="{StaticResource Icons.ColumnsLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
@@ -804,35 +804,35 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesCompact}" />
+											Style="{StaticResource Icons.LayoutSizesCompact.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesSmall}" />
+											Style="{StaticResource Icons.LayoutSizesSmall.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesMedium}" />
+											Style="{StaticResource Icons.LayoutSizesMedium.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesLarge}" />
+											Style="{StaticResource Icons.LayoutSizesLarge.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesExtraLarge}" />
+											Style="{StaticResource Icons.LayoutSizesExtraLarge.28x28}" />
 									</Grid>
 								</StackPanel>
 
@@ -871,35 +871,35 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesCompact}" />
+											Style="{StaticResource Icons.LayoutSizesCompact.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesSmall}" />
+											Style="{StaticResource Icons.LayoutSizesSmall.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesMedium}" />
+											Style="{StaticResource Icons.LayoutSizesMedium.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesLarge}" />
+											Style="{StaticResource Icons.LayoutSizesLarge.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesExtraLarge}" />
+											Style="{StaticResource Icons.LayoutSizesExtraLarge.28x28}" />
 									</Grid>
 								</StackPanel>
 
@@ -967,28 +967,28 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesSmall}" />
+											Style="{StaticResource Icons.LayoutSizesSmall.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesMedium}" />
+											Style="{StaticResource Icons.LayoutSizesMedium.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="14"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesLarge}" />
+											Style="{StaticResource Icons.LayoutSizesLarge.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="22"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesExtraLarge}" />
+											Style="{StaticResource Icons.LayoutSizesExtraLarge.28x28}" />
 									</Grid>
 								</StackPanel>
 
@@ -1026,35 +1026,35 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesCompact}" />
+											Style="{StaticResource Icons.LayoutSizesCompact.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="2"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesSmall}" />
+											Style="{StaticResource Icons.LayoutSizesSmall.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="4"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesMedium}" />
+											Style="{StaticResource Icons.LayoutSizesMedium.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="6"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesLarge}" />
+											Style="{StaticResource Icons.LayoutSizesLarge.28x28}" />
 
 										<local:OpacityIcon
 											Grid.Column="8"
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
-											Style="{StaticResource ColorIcon.28x28.LayoutSizesExtraLarge}" />
+											Style="{StaticResource Icons.LayoutSizesExtraLarge.28x28}" />
 									</Grid>
 								</StackPanel>
 
