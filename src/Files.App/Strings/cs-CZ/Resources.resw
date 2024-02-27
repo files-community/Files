@@ -352,7 +352,7 @@
     <value>Soubor, ke kterému se snažíte přistoupit, mohl být přesunut nebo odstraněn.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Cannot open properties for this file</value>
+    <value>Nelze otevřít vlastnosti tohoto souboru</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Soubor, ke kterému se snažíte přistoupit, mohl být přesunut nebo odstraněn.</value>
@@ -1021,7 +1021,7 @@
     <value>Zobrazit mošnost pro zkopírování cesty</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Show option to create folder with selection</value>
+    <value>Zobrazit možnost pro vytvoření složky s výberem</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
     <value>Zobrazit možnost pro vytvoření zástupce</value>
@@ -1037,15 +1037,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Podrobnosti (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Velké ikony (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Střední ikony (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Malé ikony (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dlaždice (Ctrl+Shift+2)</value>
@@ -1063,7 +1054,7 @@
     <value>Požadovaný název</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Pqanel náhledu</value>
+    <value>Přepnout panel náhledu</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Panel vlastností</value>
@@ -1078,7 +1069,7 @@
     <value>Přepnout informační podokno pro zobrazení detailů/náhled podoken</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Náhled není dostupný</value>
+    <value>Není dostupný žádný náhled</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Název položky</value>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Sloupce</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Velké ikony</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Střední ikony</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Malé ikony</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Dlaždice</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Štítky</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Použít kompaktní zobrazení v detailním rozložení</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Univerzální</value>
@@ -2563,10 +2533,10 @@
     <value>Otevřít složku v terminálu jako administrátor</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Zmenšit ikonu v zobrazení mřížky</value>
+    <value>Změnšit velikost položky v aktuálním zobrazení</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Zvětšit ikonu v zobrazení mřížky</value>
+    <value>Zvětšit velikost položky v aktuálním zobrazení</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Přepnout na detailní zobrazení</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>Seznam</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Přepnout na zobrazení mřížky s malými ikonami</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Mřížka</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Přepnout na zobrazení mřížky se střednými ikonami</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Přepnout na zobrazení mřížky s velkými ikonami</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Přepnout na mřížkové zobrazení</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Přepnout na sloupce</value>
@@ -3519,15 +3486,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <value>Zrušeno mazání {0} položek z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0} item(s) from "{1}"</value>
+    <value>Smazáno {0} položek z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0} item(s) from "{1}"</value>
+    <value>Chyba při mazání {0} položek z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
@@ -3535,7 +3502,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0} item(s) from "{1}"</value>
+    <value>Mazání {0} položek z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Kde odešel Files?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Otázky a diskuse</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
 </root>

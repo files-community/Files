@@ -1038,15 +1038,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細 (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>大アイコン (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>中アイコン (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>小アイコン (Ctrl+Shift+3)</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>タイル (Ctrl+Shift+2)</value>
   </data>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>カラム</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>大アイコン</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>中アイコン</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>小アイコン</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>タイル</value>
@@ -1927,7 +1900,7 @@
     <value>種類</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>アイコン グリッド</value>
+    <value>アイコン</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>バイト</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>タグ</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>詳細レイアウトで項目の間隔を狭くする</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>ユニバーサル</value>
@@ -2563,10 +2533,10 @@
     <value>ターミナルでフォルダーを管理者として開く</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>グリッド ビューのアイコンのサイズを小さくする</value>
+    <value>現在のビューの項目のサイズを小さくする</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>グリッド ビューのアイコンのサイズを大きくする</value>
+    <value>現在のビューの項目のサイズを大きくする</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>詳細ビューに切り替える</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>一覧</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>小アイコンのグリッド ビューに切り替える</value>
+  <data name="Grid" xml:space="preserve">
+    <value>アイコン</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>中アイコンのグリッド ビューに切り替える</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>大アイコンのグリッド ビューに切り替える</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>アイコン ビューに切り替える</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>カラム ビューに切り替える</value>
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Files はどこに行きましたか?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>質問と議論</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
 </root>

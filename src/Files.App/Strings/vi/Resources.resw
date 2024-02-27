@@ -1038,15 +1038,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Chi tiết (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Biểu tượng lớn (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Biểu tượng vừa (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Biểu tượng nhỏ (Ctrl+Shift+3)</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lát (Ctrl+Shift+2)</value>
   </data>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Cột</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Biểu tượng lớn</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Biểu tượng vừa</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Biểu tượng nhỏ</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Lát</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Nhãn</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Giảm khoảng cách giữa các mục ở bố cục chi tiết</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Phổ thông</value>
@@ -2563,10 +2533,10 @@
     <value>Mở thư mục trong cửa sổ lệnh với quyền quản trị viên</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Giảm kích thước biểu tượng trong bố cục lưới</value>
+    <value>Giảm kích thước khoản mục trong bố cục hiện tại</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Tăng kích thước biểu tượng trong bố cục lưới</value>
+    <value>Tăng kích thước khoản mục trong bố cục hiện tại</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Chuyển sang bố cục chi tiết</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>Danh sách</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Chuyển sang bố cục lưới với biểu tượng nhỏ</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Lưới</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Chuyển sang bố cục lưới với biểu tượng vừa</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Chuyển sang bố cục lưới với biểu tượng lớn</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Chuyển sang bố cục lưới</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Chuyển sang bố cục dạng cột</value>
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Files đang ở đâu?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Câu hỏi &amp; thảo luận</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Các lựa chọn kích thước bổ sung hiện chưa khả dụng trong bố cục lát.</value>
   </data>
 </root>

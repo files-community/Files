@@ -1038,15 +1038,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalles (Ctrl+Mayús+1)</value>
   </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Iconos grandes (Ctrl+Mayús+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Iconos medianos (Ctrl+Mayús+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Iconos pequeños (Ctrl+Mayús+3)</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mosaicos (Ctrl+Mayús+2)</value>
   </data>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+6</value>
   </data>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Columnas</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Iconos grandes</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Iconos medianos</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Iconos pequeños</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Mosaicos</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Etiquetas</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Utilizar espaciado compacto en el diseño de detalles</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2563,10 +2533,10 @@
     <value>Abrir carpeta en Terminal como administrador</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Reducir tamaño de icono en la vista de cuadrícula</value>
+    <value>Reducir el tamaño del elemento en la vista actual</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Aumentar tamaño de icono en la vista de cuadrícula</value>
+    <value>Aumenta el tamaño del elemento en la vista actual</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Cambiar a vista de detalles</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Cambiar a vista de cuadrícula con iconos pequeños</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Cuadrícula</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Cambiar a vista de cuadrícula con iconos medianos</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Cambiar a vista de cuadrícula con iconos grandes</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Cambiar a vista de cuadrícula</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Cambiar a vista de columnas</value>
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>¿Dónde ha ido Files?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Preguntas y discusiones</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
 </root>
