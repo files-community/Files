@@ -163,7 +163,7 @@
     <value>Vybrať všetko</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Invertovať výber</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>Zrušiť výber</value>
@@ -178,7 +178,7 @@
     <value>Vymazať všetky položky</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Zadajte cestu, na ktorú chcete prejsť alebo napíšte „&gt;" pre otvorenie palety príkazov</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Vyhľadávanie</value>
@@ -639,9 +639,6 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Vytvorí prázdny priečinok</value>
   </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Rozloženie</value>
-  </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Obnoviť priečinok</value>
   </data>
@@ -979,7 +976,7 @@
     <value>Tu skontrolujete stav operácií so súbormi</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>Stavové centrum</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Výsledky hladania v {1} pre {0}
@@ -1023,7 +1020,7 @@
     <value>Zobraziť možnosti pre kopírovanie cesty</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Show option to create folder with selection</value>
+    <value>Zobraziť možnosť vytvorenia priečinka s výberom</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
     <value>Zobraziť možnosť vytvorenia odkazu</value>
@@ -1059,13 +1056,13 @@
     <value>Prepnite panel náhľadu</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Prepnite panel detailov</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>Prepnite panel detailov, aby zobrazoval základné vlastnosti súborov</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Prepnite info panel</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Toggle the info pane to view the detail/preview panes</value>
@@ -1728,7 +1725,7 @@
     <value>Otvoriť priečinky na novej karte</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>Stavové centrum</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Stĺpec dátumu vytvorenia</value>
@@ -3674,5 +3671,57 @@
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
     <value>Additional sizes are not yet available for the Tiles View.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Malý</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Stredný</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Veľký</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>
