@@ -3,6 +3,9 @@
 
 namespace Files.App.Data.Factories
 {
+	/// <summary>
+	/// Generates localization description for an enum value.
+	/// </summary>
 	internal static class LocalizedEnumDescriptionFactory
 	{
 		private static Dictionary<DetailsViewSizeKind, string> DetailsViewSizeKinds { get; } = [];
@@ -58,15 +61,15 @@ namespace Files.App.Data.Factories
 			{
 				GridViewSizeKinds.Add(GridViewSizeKind.Small, "Small".GetLocalizedResource());
 				GridViewSizeKinds.Add(GridViewSizeKind.Medium, "Medium".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Three, "Three".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Four, "Four".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Five, "Five".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Six, "Six".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Seven, "Seven".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Three, "Medium+".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Four, "Medium++".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Five, "Medium+++".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Six, "Medium++++".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Seven, "Medium+++++".GetLocalizedResource());
 				GridViewSizeKinds.Add(GridViewSizeKind.Large, "Large".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Nine, "Nine".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Ten, "Ten".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Eleven, "Eleven".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Nine, "Large+".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Ten, "Large++".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Eleven, "Large+++".GetLocalizedResource());
 				GridViewSizeKinds.Add(GridViewSizeKind.ExtraLarge, "ExtraLarge".GetLocalizedResource());
 			}
 

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal sealed class EnumValueToEnumNameConverter : IValueConverter
+	internal sealed class EnumToHumanizedConverter : IValueConverter
 	{
 		public string EnumTypeName { get; set; } = string.Empty;
 
