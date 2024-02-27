@@ -639,9 +639,6 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Creates an empty folder</value>
   </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Layout mode</value>
-  </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Refresh the directory</value>
   </data>
