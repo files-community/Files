@@ -99,7 +99,7 @@ namespace Files.App.Data.Factories
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LayoutMode".GetLocalizedResource(),
+					Text = "Layout".GetLocalizedResource(),
 					Glyph = "\uE152",
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
