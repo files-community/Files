@@ -784,7 +784,6 @@
 									<Slider
 										x:Name="DetailsViewSlider"
 										Padding="4,0,4,0"
-										IsThumbToolTipEnabled="True"
 										Maximum="5"
 										Minimum="1"
 										SnapsTo="Ticks"
@@ -851,7 +850,6 @@
 									<Slider
 										x:Name="ListViewSlider"
 										Padding="4,0,4,0"
-										IsThumbToolTipEnabled="True"
 										Maximum="5"
 										Minimum="1"
 										SnapsTo="Ticks"
@@ -935,7 +933,6 @@
 									<Slider
 										x:Name="GridViewSlider"
 										Padding="4,0,4,0"
-										IsThumbToolTipEnabled="True"
 										Maximum="12"
 										Minimum="1"
 										SnapsTo="Ticks"
@@ -1009,7 +1006,6 @@
 									<Slider
 										x:Name="ColumnViewSlider"
 										Padding="4,0,4,0"
-										IsThumbToolTipEnabled="True"
 										Maximum="5"
 										Minimum="1"
 										SnapsTo="Ticks"
