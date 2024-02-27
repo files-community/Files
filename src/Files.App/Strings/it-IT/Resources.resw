@@ -639,9 +639,6 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crea una cartella vuota</value>
   </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Modalità di visualizzazione</value>
-  </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Aggiorna la cartella</value>
   </data>
@@ -3671,6 +3668,58 @@
     <value>Domande e discussioni</value>
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Additional sizes are not yet available for the Tiles View.</value>
+    <value>Le dimensioni aggiuntive non sono ancora disponibili per la visualizzazione Riquadri.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Piccolo</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medio</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Grande</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>
