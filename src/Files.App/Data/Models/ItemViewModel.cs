@@ -974,7 +974,9 @@ namespace Files.App.Data.Models
 							getThumbnailOnly,
 							getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
-						cancellationTokenSource.Token.ThrowIfCancellationRequested();
+						if (cancellationTokenSource.Token.IsCancellationRequested)
+							break;
+
 						await Task.Delay(500);
 					}
 				}
