@@ -11,7 +11,6 @@ namespace Files.Core.Data.Enums
 		/// <summary>
 		/// The icon/heigh is small.
 		/// </summary>
-		[Description("Small")]
 		Small = 1,
 	}
 }
