@@ -1038,15 +1038,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dettagli (Ctrl + Shift + 1)</value>
   </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Icone (Grandi) (Ctrl + Shift + 5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Icone (Medie) (Ctrl + Shift + 4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Icone (Piccole) (Ctrl + Shift + 3)</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Riquadri (Ctrl + Shift + 2)</value>
   </data>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maiusc+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maiusc+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maiusc+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+6</value>
   </data>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Colonne</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Icone grandi</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Icone medie</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Icone piccole</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Riquadri</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Etichette</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Usa lo stile compatto per il layout Dettagli</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universale</value>
@@ -2563,10 +2533,10 @@
     <value>Apri la cartella nel terminale come amministratore</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Riduci la dimensione delle icone nella visualizzazione griglia</value>
+    <value>Riduci la dimensione degli elementi nella vista corrente</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Aumenta la dimensione delle icone nella visualizzazione griglia</value>
+    <value>Aumenta la dimensione degli elementi nella vista corrente</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Passa alla visualizzazione dettagli</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>Elenco</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Passa alla visualizzazione griglia con icone piccole</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Griglia</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Passa alla visualizzazione griglia con icone medie</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Passa alla visualizzazione griglia con icone grandi</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Passa alla visualizzazione a griglia</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Passa alla visualizzazione colonne</value>
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Dove è finito Files?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Domande e discussioni</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
 </root>
