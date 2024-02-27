@@ -1038,15 +1038,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ayrıntılar Görünümü (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Izgara Görünümü (Büyük) (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Izgara Görünümü (Orta) (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Izgara Görünümü (Küçük) (Ctrl+Shift+3)</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Döşeme Görünümü (Ctrl+Shift+2)</value>
   </data>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Sütunlar</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Büyük simgeler</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Orta Boy Simgeler</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Küçük simgeler</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Sıralar</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Etiketler</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Ayrıntılar düzeninde küçük boşluklar kullanın</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Evrensel</value>
@@ -2563,10 +2533,10 @@
     <value>Klasörü terminalde yönetici olarak aç</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Izgara görünümünde simge boyutunu küçült</value>
+    <value>Geçerli görünümdeki öğe boyutunu küçült</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Izgara görünümünde simge boyutunu artırın</value>
+    <value>Geçerli görünümdeki öğe boyutunu artır</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Detaylar görünümüne geç</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>Liste</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Küçük simgeli tablo görünümüne geç</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Izgara</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Orta simgeli tablo görünümüne geç</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Büyük simgeli tablo görünümüne geç</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Izgara görünümüne geç</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Sütun görünümüne geç</value>
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Files nereye gitti?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Sorular ve tartışmalar</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
 </root>
