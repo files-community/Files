@@ -3675,54 +3675,54 @@
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compact</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
     <value>Small</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium" xml:space="preserve">
     <value>Medium</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
     <value>Medium+</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
     <value>Medium++</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
     <value>Medium+++</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
     <value>Medium++++</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
     <value>Medium+++++</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
     <value>Large</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
     <value>Large+</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
     <value>Large++</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+++" xml:space="preserve">
     <value>Large+++</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
   <data name="ExtraLarge" xml:space="preserve">
     <value>Extra large</value>
-    <comment>Used in EnumValueToEnumNameConverter.cs</comment>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>
