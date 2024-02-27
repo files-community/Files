@@ -4,67 +4,67 @@
 namespace Files.Core.Data.Enums
 {
 	/// <summary>
-	/// Defines constant that specifies the icon/height size in Grid layout.
+	/// Defines constants that specify the size in the Grid View layout.
 	/// </summary>
 	public enum GridViewSizeKind
 	{
 		/// <summary>
-		/// The icon/heigh is small.
+		/// The size is small.
 		/// </summary>
 		Small = 1,
 
 		/// <summary>
-		/// The icon/heigh is medium.
+		/// The size is medium.
 		/// </summary>
 		Medium = 2,
 
 		/// <summary>
-		/// The icon/heigh is medium+.
+		/// The size is medium+.
 		/// </summary>
 		Three = 3,
 
 		/// <summary>
-		/// The icon/heigh is medium++.
+		/// The size is medium++.
 		/// </summary>
 		Four = 4,
 
 		/// <summary>
-		/// The icon/heigh is medium+++.
+		/// The size is medium+++.
 		/// </summary>
 		Five = 5,
 
 		/// <summary>
-		/// The icon/heigh is medium++++.
+		/// The size is medium++++.
 		/// </summary>
 		Six = 6,
 
 		/// <summary>
-		/// The icon/heigh is medium+++++.
+		/// The size is medium+++++.
 		/// </summary>
 		Seven = 7,
 
 		/// <summary>
-		/// The icon/heigh is large.
+		/// The size is large.
 		/// </summary>
 		Large = 8,
 
 		/// <summary>
-		/// The icon/heigh is large+.
+		/// The size is large+.
 		/// </summary>
 		Nine = 9,
 
 		/// <summary>
-		/// The icon/heigh is large++.
+		/// The size is large++.
 		/// </summary>
 		Ten = 10,
 
 		/// <summary>
-		/// The icon/heigh is large+++.
+		/// The size is large+++.
 		/// </summary>
 		Eleven = 11,
 
 		/// <summary>
-		/// The icon/heigh is extra large.
+		/// The size is extra large.
 		/// </summary>
 		ExtraLarge = 12,
 	}

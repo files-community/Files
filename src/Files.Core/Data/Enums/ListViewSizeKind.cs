@@ -4,32 +4,32 @@
 namespace Files.Core.Data.Enums
 {
 	/// <summary>
-	/// Defines constant that specifies the icon/height size in List layout.
+	/// Defines constants that specify the size in the List View layout.
 	/// </summary>
 	public enum ListViewSizeKind
 	{
 		/// <summary>
-		/// The icon/heigh is compact.
+		/// The size is compact.
 		/// </summary>
 		Compact = 1,
 
 		/// <summary>
-		/// The icon/heigh is small.
+		/// The size is small.
 		/// </summary>
 		Small = 2,
 
 		/// <summary>
-		/// The icon/heigh is medium.
+		/// The size is medium.
 		/// </summary>
 		Medium = 3,
 
 		/// <summary>
-		/// The icon/heigh is large.
+		/// The size is large.
 		/// </summary>
 		Large = 4,
 
 		/// <summary>
-		/// The icon/heigh is extra large.
+		/// The size is extra large.
 		/// </summary>
 		ExtraLarge = 5,
 	}
