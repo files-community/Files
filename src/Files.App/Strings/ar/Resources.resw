@@ -1038,15 +1038,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>طريقة عرض التفاصيل</value>
   </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>عرض الشبكة (كبير)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>عرض الشبكة (متوسط)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>عرض الشبكة (صغير)</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>عرض البلاط</value>
   </data>
@@ -1662,15 +1653,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1736,15 +1718,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>الأعمدة</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>أيقونات كبيرة</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>أيقونات متوسطة</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>أيقونات صغيرة</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>لوحات</value>
@@ -1985,9 +1958,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>العلامات</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>استخدام المسافات المدمجة في تخطيط التفاصيل</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>عام</value>
@@ -2563,10 +2533,10 @@
     <value>فتح المجلد في منفذ الأوامر كمسؤول</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>تقليل حجم الأيقونة في عرض الشبكة</value>
+    <value>Decrease item size in the current view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>زيادة حجم الأيقونة في عرض الشبكة</value>
+    <value>Increase item size in the current view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>التبديل إلى عرض التفاصيل</value>
@@ -2580,14 +2550,11 @@
   <data name="List" xml:space="preserve">
     <value>List</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>التبديل إلى عرض الشبكة مع أيقونات صغيرة</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>التبديل إلى عرض الشبكة مع أيقونات متوسطة الحجم</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>التبديل إلى عرض الشبكة مع أيقونات كبيرة</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>التبديل إلى عرض الأعمدة</value>
@@ -3699,5 +3666,11 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Where did Files go?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Questions &amp; discussions</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
 </root>
