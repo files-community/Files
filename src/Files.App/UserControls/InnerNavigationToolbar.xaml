@@ -71,7 +71,7 @@
 			VerticalAlignment="Center"
 			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 			Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
-			Text="Home" />
+			Text="{helpers:ResourceString Name=Home}" />
 
 		<!--  Context Commands  -->
 		<CommandBar
