@@ -70,7 +70,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 		public IRichCommand PinFolderToSidebar => commands[CommandCodes.PinFolderToSidebar];
-		public IRichCommand UnpinFolderToSidebar => commands[CommandCodes.UnpinFolderToSidebar];
+		public IRichCommand UnpinFolderFromSidebar => commands[CommandCodes.UnpinFolderFromSidebar];
 		public IRichCommand SetAsWallpaperBackground => commands[CommandCodes.SetAsWallpaperBackground];
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
@@ -239,7 +239,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.PinToStart] = new PinToStartAction(),
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
 			[CommandCodes.PinFolderToSidebar] = new PinFolderToSidebarAction(),
-			[CommandCodes.UnpinFolderToSidebar] = new UnpinFolderToSidebarAction(),
+			[CommandCodes.UnpinFolderFromSidebar] = new UnpinFolderFromSidebarAction(),
 			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),

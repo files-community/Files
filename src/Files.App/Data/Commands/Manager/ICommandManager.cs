@@ -59,7 +59,7 @@ namespace Files.App.Data.Commands
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }
 		IRichCommand PinFolderToSidebar { get; }
-		IRichCommand UnpinFolderToSidebar { get; }
+		IRichCommand UnpinFolderFromSidebar { get; }
 
 		IRichCommand SetAsWallpaperBackground { get; }
 		IRichCommand SetAsSlideshowBackground { get; }

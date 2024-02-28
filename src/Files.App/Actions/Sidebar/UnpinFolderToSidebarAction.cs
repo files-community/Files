@@ -3,17 +3,16 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class UnpinFolderToSidebarAction : ObservableObject, IAction
+	internal sealed class UnpinFolderFromSidebarAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
-
 		private readonly IQuickAccessService service;
 
 		public string Label
-			=> "UnpinFromSidebar".GetLocalizedResource();
+			=> "UnpinFolderFromSidebar".GetLocalizedResource();
 
 		public string Description
-			=> "UnpinFolderToSidebarDescription".GetLocalizedResource();
+			=> "UnpinFolderFromSidebarDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconUnpinFromSidebar");
@@ -21,7 +20,7 @@ namespace Files.App.Actions
 		public bool IsExecutable
 			=> GetIsExecutable();
 
-		public UnpinFolderToSidebarAction()
+		public UnpinFolderFromSidebarAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			service = Ioc.Default.GetRequiredService<IQuickAccessService>();

@@ -488,9 +488,9 @@ namespace Files.App.Data.Factories
 				{
 					IsVisible = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinFolderToSidebar)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinFolderFromSidebar)
 				{
-					IsVisible = Commands.UnpinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
+					IsVisible = Commands.UnpinFolderFromSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinToStart)
 				{

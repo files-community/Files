@@ -51,8 +51,8 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 | Share              | ShareItem                           | Share                                     | Share selected file(s) with others                       |                     |
 | Start              | PinToStart                          | Pin to the Start Menu                     | Pin item(s) to the Start Menu                            |                     |
 |                    | UnpinFromStart                      | Unpin from the Start Menu                 | Unpin item(s) from the Start Menu                        |                     |
-| Favorites          | PinItemToFavorites                  | Pin to Favorites                          | Pin folder(s) to Favorites                               |                     |
-|                    | UnpinItemFromFavorites              | Unpin from Favorites                      | Unpin folder(s) from Favorites                           |                     |
+| Sidebar          | PinItemToSidebar                  | Pin to Sidebar                          | Pin folder(s) to Sidebar                               |                     |
+|                    | UnpinItemFromSidebar              | Unpin from Sidebar                      | Unpin folder(s) from Sidebar                           |                     |
 | Backgrounds        | SetAsWallpaperBackground            | Set as desktop background                 | Set selected picture as desktop background               |                     |
 |                    | SetAsSlideshowBackground            | Set as desktop slideshow                  | Set selected pictures as desktop slideshow               |                     |
 |                    | SetAsLockscreenBackground           | Set as lockscreen background              | Set selected picture as lockscreen background            |                     |
