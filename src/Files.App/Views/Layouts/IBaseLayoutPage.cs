@@ -23,7 +23,7 @@ namespace Files.App.Views.Layouts
 
 		ListedItem? SelectedItem { get; }
 
-		ItemManipulationModel ItemManipulationModel { get; }
+		ShellManipulationViewModel ItemManipulationModel { get; }
 
 		InfoPaneViewModel InfoPaneViewModel { get; }
 

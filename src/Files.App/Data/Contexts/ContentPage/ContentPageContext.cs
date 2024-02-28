@@ -12,7 +12,7 @@ namespace Files.App.Data.Contexts
 
 		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 
-		private ItemViewModel? filesystemViewModel;
+		private ShellViewModel? filesystemViewModel;
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
@@ -178,10 +178,10 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(ItemViewModel.CurrentFolder):
+				case nameof(ShellViewModel.CurrentFolder):
 					OnPropertyChanged(nameof(Folder));
 					break;
-				case nameof(ItemViewModel.SolutionFilePath):
+				case nameof(ShellViewModel.SolutionFilePath):
 					OnPropertyChanged(nameof(SolutionFilePath));
 					break;
 			}

@@ -3,7 +3,8 @@
 
 namespace Files.App.Data.Models
 {
-	public class ItemManipulationModel
+	// TODO: Remove this class
+	public class ShellManipulationViewModel
 	{
 		public event EventHandler FocusFileListInvoked;
 

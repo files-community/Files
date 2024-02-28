@@ -76,7 +76,7 @@ namespace Files.App.Views.Shells
 
 		protected override void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
+			FilesystemViewModel = new ShellViewModel(InstanceViewModel?.FolderSettings);
 			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
 			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
 			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;

@@ -7,7 +7,7 @@ namespace Files.App.Views.Shells
 {
 	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
-		ItemViewModel FilesystemViewModel { get; }
+		ShellViewModel FilesystemViewModel { get; }
 
 		CurrentInstanceViewModel InstanceViewModel { get; }
 

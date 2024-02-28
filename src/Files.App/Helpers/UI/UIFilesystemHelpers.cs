@@ -365,7 +365,7 @@ namespace Files.App.Helpers
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="isHidden"></param>
-		public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, ItemManipulationModel itemManipulationModel)
+		public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, ShellManipulationViewModel itemManipulationModel)
 		{
 			item.IsHiddenItem = isHidden;
 			itemManipulationModel.RefreshItemsOpacity();

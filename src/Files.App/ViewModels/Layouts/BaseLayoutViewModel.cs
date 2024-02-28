@@ -21,7 +21,7 @@ namespace Files.App.ViewModels.Layouts
 
 		private readonly IShellPage _associatedInstance;
 
-		private readonly ItemManipulationModel _itemManipulationModel;
+		private readonly ShellManipulationViewModel _itemManipulationModel;
 
 		public ICommand CreateNewFileCommand { get; private set; }
 
@@ -33,7 +33,7 @@ namespace Files.App.ViewModels.Layouts
 
 		public ICommand DropCommand { get; private set; }
 
-		public BaseLayoutViewModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
+		public BaseLayoutViewModel(IShellPage associatedInstance, ShellManipulationViewModel itemManipulationModel)
 		{
 			_associatedInstance = associatedInstance;
 			_itemManipulationModel = itemManipulationModel;

@@ -5,12 +5,10 @@ using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using System.Windows.Input;
 using TagLib;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.Storage.Pickers;
 
 namespace Files.App.Data.Models
 {
+	// Remove this class
 	public class SelectedItemsPropertiesViewModel : ObservableObject
 	{
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();

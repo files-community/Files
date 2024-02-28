@@ -57,7 +57,7 @@ namespace Files.App.Views.Shells
 		{
 			InitializeComponent();
 
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel.FolderSettings);
+			FilesystemViewModel = new ShellViewModel(InstanceViewModel.FolderSettings);
 			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
 			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
 			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;

@@ -68,7 +68,7 @@ namespace Files.App.Views.Shells
 
 		public bool IsColumnView => SlimContentPage is ColumnsLayoutPage;
 
-		public ItemViewModel FilesystemViewModel { get; protected set; }
+		public ShellViewModel FilesystemViewModel { get; protected set; }
 
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 

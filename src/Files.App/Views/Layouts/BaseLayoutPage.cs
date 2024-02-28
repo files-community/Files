@@ -44,7 +44,7 @@ namespace Files.App.Views.Layouts
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
-		public ItemManipulationModel ItemManipulationModel { get; private set; }
+		public ShellManipulationViewModel ItemManipulationModel { get; private set; }
 		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
 
 		// Fields
@@ -273,7 +273,7 @@ namespace Files.App.Views.Layouts
 
 		public BaseLayoutPage()
 		{
-			ItemManipulationModel = new ItemManipulationModel();
+			ItemManipulationModel = new ShellManipulationViewModel();
 
 			HookBaseEvents();
 			HookEvents();

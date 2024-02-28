@@ -5,6 +5,7 @@ using System.Windows.Input;
 
 namespace Files.App.Data.Models
 {
+	// TODO: Remove this class
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();

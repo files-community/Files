@@ -26,7 +26,7 @@ namespace Files.App.Utils.Storage
 		private readonly IJumpListService jumpListService;
 		private IFilesystemOperations filesystemOperations;
 
-		private ItemManipulationModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
+		private ShellManipulationViewModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
 		private readonly CancellationToken cancellationToken;
 		private static char[] RestrictedCharacters

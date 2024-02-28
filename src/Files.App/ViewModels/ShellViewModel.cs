@@ -23,9 +23,9 @@ using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Data.Models
+namespace Files.App.ViewModels
 {
-	public sealed class ItemViewModel : ObservableObject, IDisposable
+	public sealed class ShellViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
@@ -468,7 +468,7 @@ namespace Files.App.Data.Models
 
 		public bool HasNoWatcher { get; private set; }
 
-		public ItemViewModel(LayoutPreferencesManager folderSettingsViewModel)
+		public ShellViewModel(LayoutPreferencesManager folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
 			filesAndFolders = new ConcurrentCollection<ListedItem>();

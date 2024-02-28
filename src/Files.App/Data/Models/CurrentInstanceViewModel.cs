@@ -3,13 +3,10 @@
 
 namespace Files.App.Data.Models
 {
+	// TODO: Remove this class
+	// TODO: Convert into an enum
 	public class CurrentInstanceViewModel : ObservableObject
 	{
-		// TODO:
-		//  In the future, we should consolidate these public variables into
-		//  a single enum property providing simplified customization of the
-		//  values being manipulated inside the setter blocks
-
 		public LayoutPreferencesManager FolderSettings { get; }
 
 		public CurrentInstanceViewModel()

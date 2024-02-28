@@ -23,7 +23,7 @@ namespace Files.App.Data.Factories
 		private static readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ShellViewModel? itemViewModel = null)
 		{
 			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
 			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
@@ -79,7 +79,7 @@ namespace Files.App.Data.Factories
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
 			CurrentInstanceViewModel currentInstanceViewModel,
-			ItemViewModel? itemViewModel = null)
+			ShellViewModel? itemViewModel = null)
 		{
 			bool itemsSelected = itemViewModel is null;
 			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
