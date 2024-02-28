@@ -1,30 +1,28 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services;
-using Files.App.UserControls.Widgets;
+using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class UnpinItemAction : ObservableObject, IAction
+	internal sealed class PinFolderToSidebarAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
-
 		private readonly IQuickAccessService service;
 
 		public string Label
-			=> "UnpinFromFavorites".GetLocalizedResource();
+			=> "PinToFavorites".GetLocalizedResource();
 
 		public string Description
-			=> "UnpinItemFromFavoritesDescription".GetLocalizedResource();
+			=> "PinItemToFavoritesDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconUnpinFromFavorites");
+			=> new(opacityStyle: "ColorIconPinToFavorites");
 
 		public bool IsExecutable
 			=> GetIsExecutable();
 
-		public UnpinItemAction()
+		public PinFolderToSidebarAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -38,11 +36,12 @@ namespace Files.App.Actions
 			if (context.HasSelection)
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
-				await service.UnpinFromSidebarAsync(items);
+
+				await service.PinToSidebarAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await service.UnpinFromSidebarAsync(context.Folder.ItemPath);
+				await service.PinToSidebarAsync(context.Folder.ItemPath);
 			}
 		}
 
@@ -51,12 +50,14 @@ namespace Files.App.Actions
 			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
 
 			return context.HasSelection
-				? context.SelectedItems.All(IsPinned)
-				: context.Folder is not null && IsPinned(context.Folder);
+				? context.SelectedItems.All(IsPinnable)
+				: context.Folder is not null && IsPinnable(context.Folder);
 
-			bool IsPinned(ListedItem item)
+			bool IsPinnable(ListedItem item)
 			{
-				return favorites.Contains(item.ItemPath);
+				return
+					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
+					!favorites.Contains(item.ItemPath);
 			}
 		}
 
