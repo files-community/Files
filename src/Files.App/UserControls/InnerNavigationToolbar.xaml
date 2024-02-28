@@ -63,10 +63,11 @@
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
+		<!--  Home page header  -->
 		<TextBlock
 			x:Name="HomePageHeaderTextBlock"
 			Grid.Column="0"
-			Margin="18,0"
+			Margin="18,0,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
