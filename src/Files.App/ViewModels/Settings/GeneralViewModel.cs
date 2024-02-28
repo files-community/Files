@@ -114,10 +114,17 @@ namespace Files.App.ViewModels.Settings
 
 		private async void DoRestartAsync()
 		{
-			UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true; // Tells the app to restore tabs when it's next launched
-			AppLifecycleHelper.SaveSessionTabs(); // Saves the open tabs
-			await Launcher.LaunchUriAsync(new Uri("files-uwp:")); // Launches a new instance of Files
-			Process.GetCurrentProcess().Kill(); // Closes the current instance
+			// Tells the app to restore tabs when it's next launched
+			UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+
+			// Save the updated tab list before restarting
+			AppLifecycleHelper.SaveSessionTabs();
+
+			// Launches a new instance of Files
+			await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+
+			// Closes the current instance
+			Process.GetCurrentProcess().Kill();
 		}
 
 		private void DoCancelRestart()

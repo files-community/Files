@@ -282,6 +282,7 @@ namespace Files.App.Helpers
 			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 			Debugger.Break();
 
+			// Save the current tab list in case it was overwriten by another instance
 			SaveSessionTabs();
 			App.Logger.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
 
