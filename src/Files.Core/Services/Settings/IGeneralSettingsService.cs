@@ -107,7 +107,7 @@ namespace Files.Core.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating if the favorites section should be visible.
 		/// </summary>
-		bool ShowFavoritesSection { get; set; }
+		bool ShowPinnedSection { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the library section should be visible.

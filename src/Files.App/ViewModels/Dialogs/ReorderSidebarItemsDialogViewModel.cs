@@ -14,8 +14,8 @@ namespace Files.App.ViewModels.Dialogs
 		public string HeaderText = "ReorderSidebarItemsDialogText".GetLocalizedResource();
 		public ICommand PrimaryButtonCommand { get; private set; }
 
-		public ObservableCollection<LocationItem> SidebarFavoriteItems = new(App.QuickAccessManager.Model.favoriteList
-			.Where(x => x is LocationItem loc && loc.Section is SectionType.Favorites && !loc.IsHeader)
+		public ObservableCollection<LocationItem> SidebarFavoriteItems = new(App.QuickAccessManager.Model._PinnedFolders
+			.Where(x => x is LocationItem loc && loc.Section is SectionType.Pinned && !loc.IsHeader)
 			.Cast<LocationItem>());
 
 		public ReorderSidebarItemsDialogViewModel() 

@@ -17,7 +17,7 @@ namespace Files.App.Utils
 
 		public IQuickAccessService QuickAccessService;
 
-		public SidebarPinnedModel Model;
+		public PinnedFoldersManager Model;
 		public QuickAccessManager()
 		{
 			QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();

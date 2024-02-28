@@ -486,11 +486,11 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenParentFolder).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinFolderToSidebar)
 				{
-					IsVisible = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
+					IsVisible = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinFolderFromSidebar)
 				{
-					IsVisible = Commands.UnpinFolderFromSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
+					IsVisible = Commands.UnpinFolderFromSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinToStart)
 				{

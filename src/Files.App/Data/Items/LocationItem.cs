@@ -101,7 +101,7 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
-				if (Section == SectionType.Favorites)
+				if (Section == SectionType.Pinned)
 				{
 					return new OpacityIcon()
 					{

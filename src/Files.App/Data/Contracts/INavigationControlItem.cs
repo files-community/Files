@@ -29,7 +29,7 @@ namespace Files.App.Data.Contracts
 	public enum SectionType
 	{
 		Home,
-		Favorites,
+		Pinned,
 		Library,
 		Drives,
 		CloudDrives,

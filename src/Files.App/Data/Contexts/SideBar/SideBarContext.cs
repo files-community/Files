@@ -6,7 +6,7 @@ namespace Files.App.Data.Contexts
 	/// <inheritdoc cref="ISidebarContext"/>
 	internal class SidebarContext : ObservableObject, ISidebarContext
 	{
-		private readonly SidebarPinnedModel favoriteModel = App.QuickAccessManager.Model;
+		private readonly PinnedFoldersManager favoriteModel = App.QuickAccessManager.Model;
 
 		private int FavoriteIndex =>
 			IsItemRightClicked
@@ -21,7 +21,7 @@ namespace Files.App.Data.Contexts
 
 		public bool IsFavoriteItem =>
 			IsItemRightClicked &&
-			_RightClickedItem!.Section is SectionType.Favorites &&
+			_RightClickedItem!.Section is SectionType.Pinned &&
 			FavoriteIndex is not -1;
 
 		public DriveItem? OpenDriveItem

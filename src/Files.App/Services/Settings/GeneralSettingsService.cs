@@ -127,7 +127,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ShowFavoritesSection
+		public bool ShowPinnedSection
 		{
 			get => Get(true);
 			set => Set(value);
@@ -272,7 +272,7 @@ namespace Files.App.Services.Settings
 				case nameof(FoldersWidgetExpanded):
 				case nameof(RecentFilesWidgetExpanded):
 				case nameof(DrivesWidgetExpanded):
-				case nameof(ShowFavoritesSection):
+				case nameof(ShowPinnedSection):
 				case nameof(ShowLibrarySection):
 				case nameof(ShowCloudDrivesSection):
 				case nameof(ShowNetworkDrivesSection):
