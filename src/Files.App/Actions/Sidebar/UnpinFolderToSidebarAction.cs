@@ -44,7 +44,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
+			string[] pinnedFolders = App.QuickAccessManager.Model.PinnedFolders.ToArray();
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinned)
@@ -52,7 +52,7 @@ namespace Files.App.Actions
 
 			bool IsPinned(ListedItem item)
 			{
-				return favorites.Contains(item.ItemPath);
+				return pinnedFolders.Contains(item.ItemPath);
 			}
 		}
 

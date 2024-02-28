@@ -21,7 +21,7 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// Gets the value that indicates whether right clicked item is a favorite item
 		/// </summary>
-		bool IsFavoriteItem { get; }
+		bool IsPinnedFolderItem { get; }
 
 		/// <summary>
 		/// Gets the drive item to open if any

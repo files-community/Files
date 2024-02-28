@@ -80,12 +80,12 @@ namespace Files.App.Services
 
 		public bool IsItemPinned(string folderPath)
 		{
-			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
+			return App.QuickAccessManager.Model.PinnedFolders.Contains(folderPath);
 		}
 
 		public async Task SaveAsync(string[] items)
 		{
-			if (Equals(items, App.QuickAccessManager.Model.FavoriteItems.ToArray()))
+			if (Equals(items, App.QuickAccessManager.Model.PinnedFolders.ToArray()))
 				return;
 
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;

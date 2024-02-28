@@ -45,7 +45,7 @@ namespace Files.App.Utils
 		{
 			PinnedItemsModified += Model.LoadAsync;
 
-			//if (!Model.FavoriteItems.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
+			//if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
 			//	await QuickAccessService.PinToSidebar(Constants.UserEnvironmentPaths.RecycleBinPath);
 
 			await Model.LoadAsync();

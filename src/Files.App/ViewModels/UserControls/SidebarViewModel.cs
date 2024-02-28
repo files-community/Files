@@ -282,7 +282,7 @@ namespace Files.App.ViewModels.UserControls
 				var section = await GetOrCreateSectionAsync(sectionType);
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
-					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolders,
+					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
@@ -939,13 +939,13 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var options = item.MenuOptions;
 
-			var favoriteModel = App.QuickAccessManager.Model;
-			var favoriteIndex = favoriteModel.IndexOfItem(item);
-			var favoriteCount = favoriteModel.FavoriteItems.Count;
+			var pinnedFolderModel = App.QuickAccessManager.Model;
+			var pinnedFolderIndex = pinnedFolderModel.IndexOfItem(item);
+			var pinnedFolderCount = pinnedFolderModel.PinnedFolders.Count;
 
-			var isFavoriteItem = item.Section is SectionType.Pinned && favoriteIndex is not -1;
-			var showMoveItemUp = isFavoriteItem && favoriteIndex > 0;
-			var showMoveItemDown = isFavoriteItem && favoriteIndex < favoriteCount - 1;
+			var isPinnedItem = item.Section is SectionType.Pinned && pinnedFolderIndex is not -1;
+			var showMoveItemUp = isPinnedItem && pinnedFolderIndex > 0;
+			var showMoveItemDown = isPinnedItem && pinnedFolderIndex < pinnedFolderCount - 1;
 
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
@@ -1025,7 +1025,7 @@ namespace Files.App.ViewModels.UserControls
 					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
 					Glyph = "\uE8D8",
 					Command = ReorderItemsCommand,
-					ShowItem = isFavoriteItem || item.Section is SectionType.Pinned
+					ShowItem = isPinnedItem || item.Section is SectionType.Pinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -1101,7 +1101,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section))
 				{
-					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path));
+					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path));
 
 					if (!haveFoldersToPin)
 					{
@@ -1261,7 +1261,7 @@ namespace Files.App.ViewModels.UserControls
 					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 					foreach (var item in storageItems)
 					{
-						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
+						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path))
 							await QuickAccessService.PinToSidebarAsync(item.Path);
 					}
 				}
