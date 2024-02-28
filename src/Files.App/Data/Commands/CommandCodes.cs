@@ -64,8 +64,8 @@ namespace Files.App.Data.Commands
 		UnpinFromStart,
 
 		// Favorites
-		PinFolderToSidebar,
-		UnpinFolderToSidebar,
+		PinItemToFavorites,
+		UnpinItemFromFavorites,
 
 		// Backgrounds
 		SetAsWallpaperBackground,

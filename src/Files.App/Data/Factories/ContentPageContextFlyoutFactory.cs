@@ -484,13 +484,13 @@ namespace Files.App.Data.Factories
 					IsVisible = Commands.OpenProperties.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenParentFolder).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinFolderToSidebar)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinItemToFavorites)
 				{
-					IsVisible = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
+					IsVisible = Commands.PinItemToFavorites.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinFolderToSidebar)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinItemFromFavorites)
 				{
-					IsVisible = Commands.UnpinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
+					IsVisible = Commands.UnpinItemFromFavorites.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinToStart)
 				{

@@ -58,8 +58,8 @@ namespace Files.App.Data.Commands
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }
-		IRichCommand PinFolderToSidebar { get; }
-		IRichCommand UnpinFolderToSidebar { get; }
+		IRichCommand PinItemToFavorites { get; }
+		IRichCommand UnpinItemFromFavorites { get; }
 
 		IRichCommand SetAsWallpaperBackground { get; }
 		IRichCommand SetAsSlideshowBackground { get; }
