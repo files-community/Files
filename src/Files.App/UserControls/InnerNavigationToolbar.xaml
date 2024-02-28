@@ -63,6 +63,12 @@
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
+		<TextBlock
+			x:Name="HomePageHeaderTextBlock"
+			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+			Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
+			Text="Home" />
+
 		<!--  Context Commands  -->
 		<CommandBar
 			x:Name="ContextCommandBar"
@@ -126,7 +132,7 @@
 				</AppBarButton>
 
 				<!--  (Divider)  -->
-				<AppBarSeparator x:Name="PrimaryActionSeparator" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}" />
+				<AppBarSeparator x:Name="PrimaryActionSeparator" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
 
 				<!--  Cut  -->
 				<AppBarButton
