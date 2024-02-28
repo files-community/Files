@@ -63,7 +63,7 @@ namespace Files.App.Data.Commands
 		PinToStart,
 		UnpinFromStart,
 
-		// Pinned
+		// Sidebar
 		PinFolderToSidebar,
 		UnpinFolderFromSidebar,
 

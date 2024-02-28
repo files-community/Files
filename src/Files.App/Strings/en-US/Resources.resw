@@ -1158,7 +1158,7 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Map network drive</value>
   </data>
-  <data name="Pinned" xml:space="preserve">
+  <data name="SidebarPinned" xml:space="preserve">
     <value>Pinned</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
