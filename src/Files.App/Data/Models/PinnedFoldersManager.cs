@@ -171,7 +171,7 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public void RemoveStaleSidebarItems()
 		{
-			// Remove unpinned items from favoriteList
+			// Remove unpinned items from PinnedFolderItems
 			foreach (var childItem in PinnedFolderItems)
 			{
 				if (childItem is LocationItem item && !item.IsDefaultLocation && !PinnedFolders.Contains(item.Path))
