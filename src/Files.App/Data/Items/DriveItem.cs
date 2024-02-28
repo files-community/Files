@@ -48,7 +48,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+			=> App.QuickAccessManager.Model.PinnedFolders.Contains(path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();

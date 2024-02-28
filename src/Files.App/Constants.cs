@@ -64,7 +64,7 @@ namespace Files.App
 		public static class FluentIconsPaths
 		{
 			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
-			public const string FavoritesIcon = "ms-appx:///Assets/FluentIcons/Favorites.png";
+			public const string StarIcon = "ms-appx:///Assets/FluentIcons/Star.png";
 			public const string FileTagsIcon = "ms-appx:///Assets/FluentIcons/FileTags.png";
 			public const string HomeIcon = "ms-appx:///Assets/FluentIcons/Home.png";
 		}

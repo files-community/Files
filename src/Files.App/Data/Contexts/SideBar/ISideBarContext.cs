@@ -19,9 +19,9 @@ namespace Files.App.Data.Contexts
 		bool IsItemRightClicked { get; }
 
 		/// <summary>
-		/// Gets the value that indicates whether right clicked item is a favorite item
+		/// Gets the value that indicates whether right clicked item is a pinned folder item
 		/// </summary>
-		bool IsFavoriteItem { get; }
+		bool IsPinnedFolderItem { get; }
 
 		/// <summary>
 		/// Gets the drive item to open if any

@@ -71,7 +71,6 @@ namespace Files.App.Views
 
 			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, null);
 
-			// Clear the path UI and replace with Favorites
 			AppInstance.ToolbarViewModel.PathComponents.Clear();
 
 			string componentLabel =

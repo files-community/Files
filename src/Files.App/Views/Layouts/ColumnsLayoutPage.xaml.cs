@@ -96,7 +96,7 @@ namespace Files.App.Views.Layouts
 
 			if (!string.IsNullOrEmpty(pathRoot))
 			{
-				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
+				var rootPathList = App.QuickAccessManager.Model.PinnedFolders.Select(NormalizePath)
 					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList()
 					.Concat(App.LibraryManager.Libraries.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));

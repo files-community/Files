@@ -39,8 +39,8 @@ namespace Files.App.UserControls.Widgets
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetFolderCardItem>(OpenInNewWindowAsync);
 			OpenInNewPaneCommand = new RelayCommand<WidgetFolderCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetFolderCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetFolderCardItem>(UnpinFromFavoritesAsync);
+			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(PinToSidebarAsync);
+			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(UnpinFromSidebarAsync);
 		}
 
 		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -98,23 +98,23 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "PinToFavorites".GetLocalizedResource(),
+					Text = "PinToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
+						OpacityIconStyle = "Icons.Pin.16x16",
 					},
-					Command = PinToFavoritesCommand,
+					Command = PinToSidebarCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					Text = "UnpinFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+						OpacityIconStyle = "Icons.Unpin.16x16",
 					},
-					Command = UnpinFromFavoritesCommand,
+					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
 				},
@@ -255,13 +255,13 @@ namespace Files.App.UserControls.Widgets
 
 		private void MenuFlyout_Opening(object sender)
 		{
-			var pinToFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToFavorites");
-			if (pinToFavoritesItem is not null)
-				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
+			var pinToSidebarItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToSidebar");
+			if (pinToSidebarItem is not null)
+				pinToSidebarItem.Visibility = (pinToSidebarItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
 
-			var unpinFromFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
-			if (unpinFromFavoritesItem is not null)
-				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
+			var unpinFromSidebarItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "UnpinFromSidebar");
+			if (unpinFromSidebarItem is not null)
+				unpinFromSidebarItem.Visibility = (unpinFromSidebarItem.DataContext as WidgetFolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -300,7 +300,7 @@ namespace Files.App.UserControls.Widgets
 			flyout!.Closed += flyoutClosed;
 		}
 
-		public override async Task PinToFavoritesAsync(WidgetCardItem item)
+		public override async Task PinToSidebarAsync(WidgetCardItem item)
 		{
 			await QuickAccessService.PinToSidebarAsync(item.Path);
 
@@ -319,7 +319,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public override async Task UnpinFromFavoritesAsync(WidgetCardItem item)
+		public override async Task UnpinFromSidebarAsync(WidgetCardItem item)
 		{
 			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
 

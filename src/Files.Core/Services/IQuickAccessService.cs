@@ -47,7 +47,7 @@ namespace Files.App.Services
 		bool IsItemPinned(string folderPath);
 
 		/// <summary>
-		/// Saves a state of favorite items in the sidebar
+		/// Saves a state of pinned folder items in the sidebar
 		/// </summary>
 		/// <param name="items">The array of items to save</param>
 		/// <returns></returns>

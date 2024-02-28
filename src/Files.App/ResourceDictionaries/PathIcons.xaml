@@ -1448,15 +1448,16 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconPinToFavorites" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.Pin.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox
-								Width="12"
-								Height="12"
-								Stretch="Fill">
-								<Grid Width="16" Height="16">
+							<Grid>
+								<Canvas
+									Width="16"
+									Height="16"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
 									<Path
 										x:Name="Path1"
 										Data="M7.99984 2.00989L6.01984 6.02389L1.58984 6.66789L4.79484 9.79189L4.03784 14.2039L7.07081 12.6098C6.94389 11.7115 7.43745 10.7652 8.39895 10.433L9.50068 10.0524L10.303 8.40545C10.9478 7.08155 12.5464 6.64041 13.7545 7.30728L14.4108 6.66789L10.5008 6.09889L9.98084 6.02389L7.99984 2.00989Z"
@@ -1469,7 +1470,7 @@
 										x:Name="Path3"
 										Data="M15.5382 10.3666L13.6111 8.4396C12.8825 7.71102 11.6532 7.91706 11.202 8.84338L10.3997 10.4904C10.2836 10.7286 10.0777 10.9111 9.8272 10.9976L8.72547 11.3782C8.02732 11.6194 7.82259 12.5082 8.34489 13.0305L9.29256 13.9782L8 15.2709V15.9778H8.70729L9.99966 14.6853L10.9473 15.6329C11.4695 16.1552 12.3584 15.9505 12.5995 15.2523L12.9801 14.1506C13.0667 13.9001 13.2491 13.6942 13.4874 13.5781L15.1344 12.7758C16.0608 12.3246 16.2668 11.0952 15.5382 10.3666Z"
 										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
-								</Grid>
+								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
@@ -1483,21 +1484,22 @@
 										</VisualState>
 									</VisualStateGroup>
 								</VisualStateManager.VisualStateGroups>
-							</Viewbox>
+							</Grid>
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconUnpinFromFavorites" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.Unpin.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox
-								Width="12"
-								Height="12"
-								Stretch="Fill">
-								<Grid Width="16" Height="16">
+							<Grid>
+								<Canvas
+									Width="16"
+									Height="16"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
 									<Path
 										x:Name="Path1"
 										Data="M5.40613 6.1131L1.58984 6.66789L4.79484 9.79189L4.03784 14.2039L7.07081 12.6098C6.94389 11.7115 7.43745 10.7652 8.39895 10.433L9.38532 10.0923L5.40613 6.1131Z"
@@ -1528,7 +1530,7 @@
 										x:Name="Path7"
 										Data="M0.146447 0.146447C0.341709 -0.0488155 0.658291 -0.0488155 0.853553 0.146447L15.8536 15.1464C16.0488 15.3417 16.0488 15.6583 15.8536 15.8536C15.6583 16.0488 15.3417 16.0488 15.1464 15.8536C7.11629 7.8234 3.97578 4.68289 0.146447 0.853553C-0.0488155 0.658291 -0.0488155 0.341709 0.146447 0.146447Z"
 										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
-								</Grid>
+								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
@@ -1546,7 +1548,7 @@
 										</VisualState>
 									</VisualStateGroup>
 								</VisualStateManager.VisualStateGroups>
-							</Viewbox>
+							</Grid>
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
