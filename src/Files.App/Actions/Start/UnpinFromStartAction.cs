@@ -20,7 +20,7 @@ namespace Files.App.Actions
 			=> "UnpinFromStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconUnpinFromSidebar");
+			=> new(opacityStyle: "ColorIcon.UnpinFromSidebar.16x16");
 
 		public UnpinFromStartAction()
 		{

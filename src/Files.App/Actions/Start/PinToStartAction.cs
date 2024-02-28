@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			=> "PinToStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconPinToSidebar");
+			=> new(opacityStyle: "ColorIcon.PinToSidebar.16x16");
 
 		public bool IsExecutable =>
 			context.ShellPage is not null;

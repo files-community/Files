@@ -148,7 +148,7 @@ namespace Files.App.UserControls.Widgets
 					Text = "PinToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconPinToSidebar",
+						OpacityIconStyle = "ColorIcon.PinToSidebar.16x16",
 					},
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
@@ -159,7 +159,7 @@ namespace Files.App.UserControls.Widgets
 					Text = "UnpinFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconUnpinFromSidebar",
+						OpacityIconStyle = "ColorIcon.UnpinFromSidebar.16x16",
 					},
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,

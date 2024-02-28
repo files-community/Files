@@ -400,7 +400,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarPinned".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+			section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "Pinned".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
 			section.PropertyChanged += Section_PropertyChanged;
 		}
 
@@ -448,7 +448,7 @@ namespace Files.App.ViewModels.UserControls
 							break;
 						}
 
-						section = BuildSection("SidebarPinned".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("Pinned".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.StarIcon));
 						section.IsHeader = true;
 
@@ -1005,7 +1005,7 @@ namespace Files.App.ViewModels.UserControls
 					Text = "PinToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconPinToSidebar",
+						OpacityIconStyle = "ColorIcon.PinToSidebar.16x16",
 					},
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
@@ -1015,7 +1015,7 @@ namespace Files.App.ViewModels.UserControls
 					Text = "UnpinFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconUnpinFromSidebar",
+						OpacityIconStyle = "ColorIcon.UnpinFromSidebar.16x16",
 					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
