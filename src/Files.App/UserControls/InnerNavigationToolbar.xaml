@@ -74,6 +74,7 @@
 				<!--  New Item  -->
 				<AppBarButton
 					x:Name="NewEmptySpaceAppBarButton"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}"
 					AccessKey="W"
 					AutomationProperties.AutomationId="InnerNavigationToolbarNewButton"
 					IsEnabled="{x:Bind Commands.AddItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
@@ -125,13 +126,14 @@
 				</AppBarButton>
 
 				<!--  (Divider)  -->
-				<AppBarSeparator />
+				<AppBarSeparator x:Name="PrimaryActionSeparator" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}" />
 
 				<!--  Cut  -->
 				<AppBarButton
 					x:Name="CutButton"
 					Width="Auto"
 					MinWidth="40"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}"
 					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind Commands.CutItem}"
@@ -146,6 +148,7 @@
 					x:Name="CopyButton"
 					Width="Auto"
 					MinWidth="40"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}"
 					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind Commands.CopyItem}"
@@ -160,6 +163,7 @@
 					x:Name="PasteButton"
 					Width="Auto"
 					MinWidth="40"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}"
 					AccessKey="V"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPasteButton"
 					Command="{x:Bind ModifiableCommands.PasteItem}"
@@ -174,6 +178,7 @@
 					x:Name="RenameButton"
 					Width="Auto"
 					MinWidth="40"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}"
 					AccessKey="M"
 					AutomationProperties.AutomationId="InnerNavigationToolbarRenameButton"
 					Command="{x:Bind Commands.Rename, Mode=OneWay}"
@@ -189,6 +194,7 @@
 					x:Name="ShareButton"
 					Width="Auto"
 					MinWidth="40"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}"
 					AccessKey="H"
 					Command="{x:Bind Commands.ShareItem, Mode=OneWay}"
 					IsEnabled="{x:Bind Commands.ShareItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
@@ -203,6 +209,7 @@
 					x:Name="DeleteButton"
 					Width="Auto"
 					MinWidth="40"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}"
 					AutomationProperties.AutomationId="InnerNavigationToolbarDeleteButton"
 					Command="{x:Bind ModifiableCommands.DeleteItem}"
 					Label="{x:Bind ModifiableCommands.DeleteItem.Label}"
@@ -216,6 +223,7 @@
 					x:Name="PropertiesButton"
 					Width="Auto"
 					MinWidth="40"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, FallbackValue=True}"
 					AccessKey="O"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPropertiesButton"
 					Command="{x:Bind Commands.OpenProperties, Mode=OneWay}"
