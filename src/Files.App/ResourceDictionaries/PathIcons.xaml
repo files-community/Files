@@ -1448,7 +1448,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.PinToSidebar.16x16" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.Pin.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1489,7 +1489,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIcon.UnpinFromSidebar.16x16" TargetType="local:OpacityIcon">
+			<Style x:Key="Icons.Unpin.16x16" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>

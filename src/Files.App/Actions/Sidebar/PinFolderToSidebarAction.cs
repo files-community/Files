@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> "PinFolderToSidebarDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIcon.PinToSidebar.16x16");
+			=> new(opacityStyle: "Icons.Pin.16x16");
 
 		public bool IsExecutable
 			=> GetIsExecutable();

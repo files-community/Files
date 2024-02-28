@@ -1005,7 +1005,7 @@ namespace Files.App.ViewModels.UserControls
 					Text = "PinToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIcon.PinToSidebar.16x16",
+						OpacityIconStyle = "Icons.Pin.16x16",
 					},
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
@@ -1015,7 +1015,7 @@ namespace Files.App.ViewModels.UserControls
 					Text = "UnpinFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIcon.UnpinFromSidebar.16x16",
+						OpacityIconStyle = "Icons.Unpin.16x16",
 					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
