@@ -1,22 +1,21 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System.IO;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using WinUIEx;
 using IO = System.IO;
 
-namespace Files.App
+namespace Files.App.Views
 {
+	/// <summary>
+	/// Represents window that is responsible every UI component in the app.
+	/// </summary>
 	public sealed partial class MainWindow : WindowEx
 	{
 		private static MainWindow? _Instance;
@@ -121,7 +120,7 @@ namespace Files.App
 						{
 							case "tab":
 								rootFrame.Navigate(typeof(MainPage),
-									new MainPageNavigationArguments() { Parameter = CustomTabViewItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
+									new MainPageNavigationArguments() { Parameter = TabBarItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
 									new SuppressNavigationTransitionInfo());
 								break;
 

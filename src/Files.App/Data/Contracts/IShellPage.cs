@@ -1,14 +1,19 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-
-namespace Files.App.Views.Shells
+namespace Files.App.Data.Contracts
 {
-	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
+	/// <summary>
+	/// Represents contract for the shell page.
+	/// </summary>
+	public interface IShellPage : ITabBarItemContent, IMultiPane, IDisposable, INotifyPropertyChanged
 	{
+		/// <summary>
+		/// Gets the view model for the shell page.
+		/// </summary>
 		ShellViewModel FilesystemViewModel { get; }
 
+		// TODO: Remove
 		CurrentInstanceViewModel InstanceViewModel { get; }
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }
@@ -26,7 +31,7 @@ namespace Files.App.Views.Shells
 		bool CanNavigateForward { get; }
 
 		/// <summary>
-		/// True if the pane that contains this page is current.
+		/// Gets the value that indicates whether the pane that contains this pane is selected.
 		/// </summary>
 		bool IsCurrentPane { get; }
 
@@ -77,36 +82,5 @@ namespace Files.App.Views.Shells
 		/// Used to make commands in the column view work properly
 		/// </summary>
 		public bool IsColumnView { get; }
-	}
-
-	public interface IPaneHolder : IDisposable, INotifyPropertyChanged
-	{
-		public IShellPage ActivePane { get; set; }
-
-		// If column view, returns the last column shell page, otherwise returns the active pane normally
-		public IShellPage ActivePaneOrColumn { get; }
-
-		public IFilesystemHelpers FilesystemHelpers { get; }
-
-		public CustomTabViewItemParameter TabItemParameter { get; set; }
-
-		public void OpenPathInNewPane(string path);
-
-		public void CloseActivePane();
-
-		public bool IsLeftPaneActive { get; }
-
-		public bool IsRightPaneActive { get; }
-
-		// Another pane is shown
-		public bool IsMultiPaneActive { get; }
-
-		// Multi pane is enabled
-		public bool IsMultiPaneEnabled { get; }
-	}
-
-	public interface IMultiPaneInfo
-	{
-		public IPaneHolder PaneHolder { get; }
 	}
 }

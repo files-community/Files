@@ -18,6 +18,6 @@ namespace Files.App.UserControls.TabBar
 
 		bool AllowStorageItemDrop { get; }
 
-		public CustomTabViewItemParameter NavigationParameter { get; }
+		public TabBarItemParameter NavigationParameter { get; }
 	}
 }

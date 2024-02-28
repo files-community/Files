@@ -4,7 +4,7 @@
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Views.Layouts
+namespace Files.App.Data.Contracts
 {
 	public interface IBaseLayoutPage : IDisposable
 	{

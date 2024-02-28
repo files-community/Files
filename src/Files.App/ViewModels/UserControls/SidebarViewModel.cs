@@ -31,8 +31,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
-		private IPaneHolder paneHolder;
-		public IPaneHolder PaneHolder
+		private IPaneHolderPage paneHolder;
+		public IPaneHolderPage PaneHolder
 		{
 			get => paneHolder;
 			set => SetProperty(ref paneHolder, value);

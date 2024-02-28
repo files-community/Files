@@ -38,14 +38,14 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void Page_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		private void Page_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			UpdateContent();
 		}
 
 		private void Page_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IPaneHolder.ActivePaneOrColumn))
+			if (e.PropertyName is nameof(IPaneHolderPage.ActivePaneOrColumn))
 			{
 				UpdateContent();
 			}

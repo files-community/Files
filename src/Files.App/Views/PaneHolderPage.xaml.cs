@@ -11,7 +11,7 @@ using Windows.System;
 
 namespace Files.App.Views
 {
-	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabBarItemContent
+	public sealed partial class PaneHolderPage : Page, IPaneHolderPage, ITabBarItemContent
 	{
 		public static readonly int DualPaneWidthThreshold = 750;
 
@@ -25,15 +25,15 @@ namespace Files.App.Views
 		public bool IsRightPaneActive
 			=> ActivePane == PaneRight;
 
-		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
+		public event EventHandler<TabBarItemParameter> ContentChanged;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public IFilesystemHelpers FilesystemHelpers
 			=> ActivePane?.FilesystemHelpers;
 
-		private CustomTabViewItemParameter tabItemArguments;
-		public CustomTabViewItemParameter TabItemParameter
+		private TabBarItemParameter tabItemArguments;
+		public TabBarItemParameter TabBarItemParameter
 		{
 			get => tabItemArguments;
 			set
@@ -245,7 +245,7 @@ namespace Files.App.Views
 				IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
 			}
 
-			TabItemParameter = new()
+			TabBarItemParameter = new()
 			{
 				InitialPageType = typeof(PaneHolderPage),
 				NavigationParameter = new PaneNavigationArguments()
@@ -266,15 +266,15 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
-		private void Pane_ContentChanged(object sender, CustomTabViewItemParameter e)
+		private void Pane_ContentChanged(object sender, TabBarItemParameter e)
 		{
-			TabItemParameter = new()
+			TabBarItemParameter = new()
 			{
 				InitialPageType = typeof(PaneHolderPage),
 				NavigationParameter = new PaneNavigationArguments()
 				{
-					LeftPaneNavPathParam = PaneLeft.TabItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,
-					RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemParameter?.NavigationParameter as string : null
+					LeftPaneNavPathParam = PaneLeft.TabBarItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,
+					RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabBarItemParameter?.NavigationParameter as string : null
 				}
 			};
 		}

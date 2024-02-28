@@ -122,14 +122,14 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void Page_ContentChanged(object? sender, CustomTabViewItemParameter e) => Update();
+		private void Page_ContentChanged(object? sender, TabBarItemParameter e) => Update();
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IPaneHolder.IsMultiPaneEnabled):
-				case nameof(IPaneHolder.IsMultiPaneActive):
+				case nameof(IPaneHolderPage.IsMultiPaneEnabled):
+				case nameof(IPaneHolderPage.IsMultiPaneActive):
 					OnPropertyChanged(e.PropertyName);
 					break;
 			}

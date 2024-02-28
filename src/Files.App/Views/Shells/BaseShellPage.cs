@@ -93,8 +93,8 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected IPaneHolder _PaneHolder;
-		public IPaneHolder PaneHolder
+		protected IPaneHolderPage _PaneHolder;
+		public IPaneHolderPage PaneHolder
 		{
 			get => _PaneHolder;
 			set
@@ -108,8 +108,8 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected CustomTabViewItemParameter _TabItemArguments;
-		public CustomTabViewItemParameter TabItemParameter
+		protected TabBarItemParameter _TabItemArguments;
+		public TabBarItemParameter TabBarItemParameter
 		{
 			get => _TabItemArguments;
 			set
@@ -166,7 +166,7 @@ namespace Files.App.Views.Shells
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
+		public event EventHandler<TabBarItemParameter> ContentChanged;
 
 		public BaseShellPage(CurrentInstanceViewModel instanceViewModel)
 		{
@@ -555,7 +555,7 @@ namespace Files.App.Views.Shells
 				ToolbarViewModel.CanRefresh = false;
 				var searchInstance = new FolderSearch
 				{
-					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemParameter.NavigationParameter,
+					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabBarItemParameter.NavigationParameter,
 					Folder = FilesystemViewModel.WorkingDirectory,
 					ThumbnailSize = InstanceViewModel.FolderSettings.GetRoundedIconSize(),
 				};
@@ -628,7 +628,7 @@ namespace Files.App.Views.Shells
 			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.LastOrDefault());
 		}
 
-		public void RaiseContentChanged(IShellPage instance, CustomTabViewItemParameter args)
+		public void RaiseContentChanged(IShellPage instance, TabBarItemParameter args)
 		{
 			ContentChanged?.Invoke(instance, args);
 		}
