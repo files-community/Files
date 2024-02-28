@@ -43,12 +43,10 @@ namespace Files.App.Views.Layouts
 
 
 		/// <summary>
-		/// Row height in the Columns View
+		/// Gets the row height in the Columns View
 		/// </summary>
 		public int RowHeight
-		{
-			get => LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
-		}
+			=> LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
 
 		// Constructor
 

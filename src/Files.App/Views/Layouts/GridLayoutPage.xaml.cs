@@ -31,30 +31,23 @@ namespace Files.App.Views.Layouts
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
-
 		/// <summary>
-		/// Row height in the List View layout
+		/// Gets the row height in the List View layout
 		/// </summary>
 		public int RowHeightListView
-		{
-			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
-		}
+			=> LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
 
 		/// <summary>
-		/// Item width in the Tiles View layout
+		/// Gets the item width in the Tiles View layout
 		/// </summary>
 		public int ItemWidthTilesView
-		{
-			get => LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
-		}
+			=> LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
 
 		/// <summary>
-		/// Item width in the Grid View layout
+		/// Gets the item width in the Grid View layout
 		/// </summary>
 		public int ItemWidthGridView
-		{
-			get => LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
-		}
+			=> LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
 
 		public bool IsPointerOver
 		{

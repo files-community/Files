@@ -82,8 +82,10 @@ namespace Files.App.Views.Layouts
 		public static AppModel AppModel
 			=> App.AppModel;
 
-		// NOTE: Dragging makes the app crash when run as admin. (#12390)
-		// For more information, visit https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		// WORK-AROUND:
+		//  Dragging out causes the app to crash when run as admin.
+		//  https://github.com/files-community/Files/issues/12390
+		//  https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
 		public bool AllowItemDrag
 			=> !ElevationHelpers.IsAppRunAsAdmin();
 

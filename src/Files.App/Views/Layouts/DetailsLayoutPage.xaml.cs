@@ -56,12 +56,10 @@ namespace Files.App.Views.Layouts
 		}
 
 		/// <summary>
-		/// Row height for items in the Details View
+		/// Gets the row height for items in the Details View
 		/// </summary>
 		public int RowHeight
-		{
-			get => LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize);
-		}
+			=> LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize);
 
 
 		// Constructor
