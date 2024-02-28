@@ -1002,20 +1002,20 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "PinToFavorites".GetLocalizedResource(),
+					Text = "PinToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
+						OpacityIconStyle = "ColorIconPinToSidebar",
 					},
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					Text = "UnpinFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+						OpacityIconStyle = "ColorIconUnpinFromSidebar",
 					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
@@ -1109,7 +1109,7 @@ namespace Files.App.ViewModels.UserControls
 					}
 					else
 					{
-						var captionText = "PinToFavorites".GetLocalizedResource();
+						var captionText = "PinToSidebar".GetLocalizedResource();
 						CompleteDragEventArgs(rawEvent, captionText, DataPackageOperation.Move);
 					}
 				}

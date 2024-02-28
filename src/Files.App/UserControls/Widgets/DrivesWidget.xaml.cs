@@ -79,8 +79,8 @@ namespace Files.App.UserControls.Widgets
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
 			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(OpenInNewPaneAsync);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
+			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(PinToSidebarAsync);
+			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromSidebarAsync);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(DisconnectNetworkDrive);
 		}
@@ -145,23 +145,23 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "PinToFavorites".GetLocalizedResource(),
+					Text = "PinToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
+						OpacityIconStyle = "ColorIconPinToSidebar",
 					},
-					Command = PinToFavoritesCommand,
+					Command = PinToSidebarCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					Text = "UnpinFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+						OpacityIconStyle = "ColorIconUnpinFromSidebar",
 					},
-					Command = UnpinFromFavoritesCommand,
+					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
 				},
@@ -303,11 +303,11 @@ namespace Files.App.UserControls.Widgets
 
 		private void MenuFlyout_Opening(object sender, object e)
 		{
-			var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
-			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+			var pinToSidebarItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToSidebar");
+			pinToSidebarItem.Visibility = (pinToSidebarItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 
-			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
-			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
+			var unpinFromSidebarItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromSidebar");
+			unpinFromSidebarItem.Visibility = (unpinFromSidebarItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void DisconnectNetworkDrive(WidgetDriveCardItem item)

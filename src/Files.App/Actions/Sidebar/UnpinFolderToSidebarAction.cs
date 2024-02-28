@@ -10,13 +10,13 @@ namespace Files.App.Actions
 		private readonly IQuickAccessService service;
 
 		public string Label
-			=> "UnpinFromFavorites".GetLocalizedResource();
+			=> "UnpinFromSidebar".GetLocalizedResource();
 
 		public string Description
 			=> "UnpinFolderToSidebarDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconUnpinFromFavorites");
+			=> new(opacityStyle: "ColorIconUnpinFromSidebar");
 
 		public bool IsExecutable
 			=> GetIsExecutable();

@@ -33,8 +33,8 @@ namespace Files.App.UserControls.Widgets
 		protected ICommand? OpenInNewTabCommand { get; set; }
 		protected ICommand? OpenInNewWindowCommand { get; set; }
 		protected ICommand? OpenPropertiesCommand { get; set; }
-		protected ICommand? PinToFavoritesCommand { get; set; }
-		protected ICommand? UnpinFromFavoritesCommand { get; set; }
+		protected ICommand? PinToSidebarCommand { get; set; }
+		protected ICommand? UnpinFromSidebarCommand { get; set; }
 
 		// Events
 
@@ -101,12 +101,12 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
-		public virtual async Task PinToFavoritesAsync(WidgetCardItem item)
+		public virtual async Task PinToSidebarAsync(WidgetCardItem item)
 		{
 			await QuickAccessService.PinToSidebarAsync(item.Path);
 		}
 
-		public virtual async Task UnpinFromFavoritesAsync(WidgetCardItem item)
+		public virtual async Task UnpinFromSidebarAsync(WidgetCardItem item)
 		{
 			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
 		}
