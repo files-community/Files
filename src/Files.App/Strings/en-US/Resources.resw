@@ -1890,9 +1890,6 @@
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="IconGrid" xml:space="preserve">
-    <value>Icon grid</value>
-  </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
