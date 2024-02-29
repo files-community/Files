@@ -314,14 +314,13 @@ namespace Files.App.Data.Items
 		{
 			if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
 			{
-				var result = await FileThumbnailHelper.GetIconAsync(
+				var iconData = await FileThumbnailHelper.GetIconAsync(
 					DeviceID,
 					Constants.ShellIconSizes.Small,
 					false,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				IconData ??= result.IconData;
+				IconData ??= iconData;
 			}
 
 			if (Root is not null)

@@ -49,16 +49,15 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 
-			var result = await FileThumbnailHelper.GetIconAsync(
+			var iconData = await FileThumbnailHelper.GetIconAsync(
 				Library.ItemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				true,
-				false,
 				IconOptions.UseCurrentScale);
 			
-			if (result.IconData is not null)
+			if (iconData is not null)
 			{
-				ViewModel.IconData = result.IconData;
+				ViewModel.IconData = iconData;
 				ViewModel.LoadCustomIcon = false;
 				ViewModel.LoadFileIcon = true;
 			}

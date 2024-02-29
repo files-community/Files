@@ -287,15 +287,14 @@ namespace Files.App.Utils.Shell
 		/// <param name="isFolder"></param>
 		/// <param name="getIconOnly"></param>
 		/// <returns></returns>
-		public static (byte[]? icon, bool isIconCached) GetIcon(
+		public static byte[]? GetIcon(
 			string path,
 			int thumbnailSize,
 			bool isFolder,
-			bool getThumbnailOnly,
-			bool getIconOnly)
+			bool returnIconOnly,
+			bool returnOnlyIfCached)
 		{
 			byte[]? iconData = null;
-			bool isIconCached = false;
 
 			try
 			{
@@ -307,37 +306,42 @@ namespace Files.App.Utils.Shell
 				{
 					var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
 
-					if (getIconOnly)
+					if (returnIconOnly)
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-					else if (getThumbnailOnly)
+					else if (returnOnlyIfCached)
 						flags |= Shell32.SIIGBF.SIIGBF_THUMBNAILONLY;
 
 					var hres = shellFactory.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
+
+					Marshal.ReleaseComObject(shellFactory);
+
 					if (hres == HRESULT.S_OK)
 					{
 						using var image = GetBitmapFromHBitmap(hbitmap);
 						if (image is not null)
 							iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-
-						isIconCached = true;
 					}
-
-					Marshal.ReleaseComObject(shellFactory);
+					else if (returnOnlyIfCached)
+					{
+						// Return null if returnOnlyIfCached is true
+						return null;
+					}
 				}
 
 				if (iconData is not null)
-					return (iconData, isIconCached);			
+				{
+					// Return icon if available
+					return iconData;
+				}
 				else
 				{
+					// Try getting icon using SHGetImageList
 					var shfi = new Shell32.SHFILEINFO();
 					var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION | Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES;
 
-					// Cannot access file, use file attributes
-					var useFileAttibutes = iconData is null;
-
-					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
+					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
 					if (ret == IntPtr.Zero)
-						return (iconData, isIconCached);
+						return iconData;
 
 					User32.DestroyIcon(shfi.hIcon);
 
@@ -352,7 +356,7 @@ namespace Files.App.Utils.Shell
 					lock (_iconLock)
 					{
 						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
-							return (iconData, isIconCached);
+							return iconData;
 
 						var imageList = (ComCtl32.IImageList)imageListOut;
 
@@ -391,7 +395,7 @@ namespace Files.App.Utils.Shell
 						Marshal.ReleaseComObject(imageList);
 					}
 
-					return (iconData, isIconCached);
+					return iconData;
 				}
 			}
 			finally

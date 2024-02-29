@@ -937,6 +937,52 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
+		private async Task LoadItemCachedThumbnailAsync(ListedItem item)
+		{
+			// Return if item isn't in cloud location
+			if (item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.NotSynced || item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.Unknown)
+				return;
+
+			// Get thumbnail size
+			var thumbnailSize = folderSettings.GetRoundedIconSize();
+
+			// Return if thumbnails aren't needed
+			if (UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48)
+				return;			
+
+			// Attempt to get cached thumbnail
+			var iconData = await FileThumbnailHelper.GetIconAsync(
+				item.ItemPath,
+				thumbnailSize,
+				false,
+				IconOptions.ReturnOnlyIfCached);
+
+			// Loop until cached thumbnail is returned or timeout is reached
+			var cancellationTokenSource = new CancellationTokenSource(3000);
+			while (iconData is null)
+			{
+				iconData = await FileThumbnailHelper.GetIconAsync(
+					item.ItemPath,
+					thumbnailSize,
+					false,
+					IconOptions.ReturnOnlyIfCached);
+
+				if (cancellationTokenSource.Token.IsCancellationRequested)
+					break;
+
+				await Task.Delay(500);
+			}
+
+			// Update file image
+			if (iconData is not null)
+			{
+				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					item.FileImage = await iconData.ToBitmapAsync();
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			}
+		}
+
 		private async Task LoadItemThumbnailAsync(ListedItem item)
 		{
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
@@ -944,49 +990,19 @@ namespace Files.App.Data.Models
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
-				var getThumbnailOnly = !item.IsExecutable && !getIconOnly;
-				var iconInfo = await FileThumbnailHelper.GetIconAsync(
+				var iconData = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
 					false,
-					getThumbnailOnly,
 					getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
-				if (!iconInfo.isIconCached)
-				{
-					// Assign a placeholder icon while trying to get a cached thumbnail
-					if (iconInfo.IconData is not null)
-					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-					}
 
-					// Loop until cached thumbnail is loaded or timeout is reached
-					var cancellationTokenSource = new CancellationTokenSource(3000);
-					while (!iconInfo.isIconCached)
-					{
-						iconInfo = await FileThumbnailHelper.GetIconAsync(
-							item.ItemPath,
-							thumbnailSize,
-							false,
-							getThumbnailOnly,
-							getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
-
-						if (cancellationTokenSource.Token.IsCancellationRequested)
-							break;
-
-						await Task.Delay(500);
-					}
-				}
-
-				if (iconInfo.IconData is not null)
+				if (iconData is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
 						// Assign the thumbnail/icon to the listed item
-						item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+						item.FileImage = await iconData.ToBitmapAsync();
 
 						// Add the file icon to the DefaultIcons list
 						if
@@ -1001,10 +1017,9 @@ namespace Files.App.Data.Models
 								item.ItemPath,
 								thumbnailSize,
 								false,
-								false,
 								IconOptions.ReturnIconOnly);
 
-							var bitmapImage = await fileIcon.IconData.ToBitmapAsync();
+							var bitmapImage = await iconData.ToBitmapAsync();
 							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), bitmapImage);
 						}
 
@@ -1025,17 +1040,17 @@ namespace Files.App.Data.Models
 			else
 			{
 				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
-				var iconInfo = await FileThumbnailHelper.GetIconAsync(
+				var iconData = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
 					true,
-					false, getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+					getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
-				if (iconInfo.IconData is not null)
+				if (iconData is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+						item.FileImage = await iconData.ToBitmapAsync();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 
@@ -1123,6 +1138,9 @@ namespace Files.App.Data.Models
 
 									SetFileTag(item);
 									wasSyncStatusLoaded = true;
+
+									// Load cached thumbnail for cloud locations
+									_ = LoadItemCachedThumbnailAsync(item);
 								}
 							}
 						}
@@ -1304,15 +1322,14 @@ namespace Files.App.Data.Models
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.GetIconAsync(
+				var iconData = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					Constants.ShellIconSizes.Large,
 					false,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				if (headerIconInfo.IconData is not null && !item.IsShortcut)
-					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				if (iconData is not null && !item.IsShortcut)
+					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => iconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				// The groupImage is null if loading icon from fulltrust process failed
 				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath) && groupImage is null)

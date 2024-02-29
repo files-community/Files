@@ -26,14 +26,13 @@ namespace Files.App.Data.Items
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(
+			var iconData = await FileThumbnailHelper.GetIconAsync(
 				Item.Path,
 				Constants.ShellIconSizes.Large,
 				true,
-				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			thumbnailData = result.IconData;
+			thumbnailData = iconData;
 
 			var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			if (bitmapImage is not null)

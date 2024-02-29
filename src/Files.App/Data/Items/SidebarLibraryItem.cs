@@ -46,14 +46,13 @@ namespace Files.App.Data.Items
 
 		public async Task LoadLibraryIconAsync()
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(
+			var iconData = await FileThumbnailHelper.GetIconAsync(
 				Path,
 				Constants.ShellIconSizes.Small,
 				false,
-				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			var bitmapImage = await result.IconData.ToBitmapAsync();
+			var bitmapImage = await iconData.ToBitmapAsync();
 			if (bitmapImage is not null)
 				Icon = bitmapImage;
 		}

@@ -106,16 +106,15 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				   string.Empty;
 
-			var result = await FileThumbnailHelper.GetIconAsync(
+			var iconData = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				false,
-				false,
 				IconOptions.UseCurrentScale);
 
-			if (result.IconData is not null)
+			if (iconData is not null)
 			{
-				ViewModel.IconData = result.IconData;
+				ViewModel.IconData = iconData;
 				ViewModel.LoadUnknownTypeGlyph = false;
 				ViewModel.LoadFileIcon = true;
 			}

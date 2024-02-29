@@ -84,15 +84,14 @@ namespace Files.App.ViewModels.Previews
 		/// <returns>A list of details</returns>
 		public async virtual Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(
+			var iconData = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
 				Constants.ShellIconSizes.Jumbo,
 				false,
-				false,
 				IconOptions.None);
 			
-			if (result.IconData is not null)
-				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await result.IconData.ToBitmapAsync());
+			if (iconData is not null)
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await iconData.ToBitmapAsync());
 			else
 				FileImage ??= await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => new BitmapImage());
 

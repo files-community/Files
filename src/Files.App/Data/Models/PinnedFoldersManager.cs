@@ -100,14 +100,13 @@ namespace Files.App.Data.Models
 				locationItem.IsInvalid = false;
 				if (res && res.Result is not null)
 				{
-					var result = await FileThumbnailHelper.GetIconAsync(
+					var iconData = await FileThumbnailHelper.GetIconAsync(
 						res.Result.Path,
 						Constants.ShellIconSizes.Small,
 						true,
-						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-					locationItem.IconData = result.IconData;
+					locationItem.IconData = iconData;
 
 					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					if (bitmapImage is not null)

@@ -194,15 +194,14 @@ namespace Files.App.Helpers
 
 			if (iconSource.ImageSource is null)
 			{
-				var result = await FileThumbnailHelper.GetIconAsync(
+				var iconData = await FileThumbnailHelper.GetIconAsync(
 					currentPath,
 					Constants.ShellIconSizes.Small,
 					true,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				if (result.IconData is not null)
-					iconSource.ImageSource = await result.IconData.ToBitmapAsync();
+				if (iconData is not null)
+					iconSource.ImageSource = await iconData.ToBitmapAsync();
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);

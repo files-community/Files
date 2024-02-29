@@ -64,14 +64,13 @@ namespace Files.App.Utils.RecentItem
 
 		public async Task LoadRecentItemIconAsync()
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(
+			var iconData = await FileThumbnailHelper.GetIconAsync(
 				RecentPath,
 				Constants.ShellIconSizes.Small,
 				false,
-				false,
 				IconOptions.UseCurrentScale);
 
-			var bitmapImage = await result.IconData.ToBitmapAsync();
+			var bitmapImage = await iconData.ToBitmapAsync();
 			if (bitmapImage is not null)
 				FileImg = bitmapImage;
 		}
