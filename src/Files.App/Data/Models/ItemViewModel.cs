@@ -940,10 +940,10 @@ namespace Files.App.Data.Models
 		private async Task LoadItemThumbnailAsync(ListedItem item)
 		{
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
+			var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 				var getThumbnailOnly = !item.IsExecutable && !getIconOnly;
 				var iconInfo = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
@@ -1024,7 +1024,6 @@ namespace Files.App.Data.Models
 			}
 			else
 			{
-				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 				var iconInfo = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
