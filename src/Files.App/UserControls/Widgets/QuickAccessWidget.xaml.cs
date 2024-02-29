@@ -98,7 +98,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "PinToSidebar".GetLocalizedResource(),
+					Text = "PinFolderToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "Icons.Pin.16x16",
@@ -109,7 +109,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFromSidebar".GetLocalizedResource(),
+					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "Icons.Unpin.16x16",
