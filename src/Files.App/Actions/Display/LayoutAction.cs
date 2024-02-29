@@ -66,7 +66,7 @@ namespace Files.App.Actions
 			=> "Grid".GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutGridescription".GetLocalizedResource();
+			=> "LayoutGridDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(opacityStyle: "Icons.GridLayout.16x16");
@@ -111,7 +111,7 @@ namespace Files.App.Actions
 			=> new("\uF576");
 
 		public override HotKey HotKey
-			=> new(Keys.Number8, KeyModifiers.CtrlShift);
+			=> new(Keys.Number6, KeyModifiers.CtrlShift);
 
 		protected override void OnContextChanged(string propertyName)
 		{
