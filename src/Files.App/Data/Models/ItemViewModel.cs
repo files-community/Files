@@ -937,72 +937,25 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
-		private async Task LoadItemCachedThumbnailAsync(ListedItem item)
-		{
-			// Return if item isn't in cloud location
-			if (item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.NotSynced || item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.Unknown)
-				return;
-
-			// Get thumbnail size
-			var thumbnailSize = folderSettings.GetRoundedIconSize();
-
-			// Return if thumbnails aren't needed
-			if (UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48)
-				return;			
-
-			// Attempt to get cached thumbnail
-			var iconData = await FileThumbnailHelper.GetIconAsync(
-				item.ItemPath,
-				thumbnailSize,
-				false,
-				IconOptions.ReturnOnlyIfCached);
-
-			// Loop until cached thumbnail is returned or timeout is reached
-			var cancellationTokenSource = new CancellationTokenSource(3000);
-			while (iconData is null)
-			{
-				iconData = await FileThumbnailHelper.GetIconAsync(
-					item.ItemPath,
-					thumbnailSize,
-					false,
-					IconOptions.ReturnOnlyIfCached);
-
-				if (cancellationTokenSource.Token.IsCancellationRequested)
-					break;
-
-				await Task.Delay(500);
-			}
-
-			// Update file image
-			if (iconData is not null)
-			{
-				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					item.FileImage = await iconData.ToBitmapAsync();
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-			}
-		}
-
 		private async Task LoadItemThumbnailAsync(ListedItem item)
 		{
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
+			var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
-				var iconData = await FileThumbnailHelper.GetIconAsync(
+
+				var iconInfo = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
 					false,
 					getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
-
-				if (iconData is not null)
+				if (iconInfo is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						// Assign the thumbnail/icon to the listed item
-						item.FileImage = await iconData.ToBitmapAsync();
+						item.FileImage = await iconInfo.ToBitmapAsync();
 
 						// Add the file icon to the DefaultIcons list
 						if
@@ -1019,11 +972,48 @@ namespace Files.App.Data.Models
 								false,
 								IconOptions.ReturnIconOnly);
 
-							var bitmapImage = await iconData.ToBitmapAsync();
+							var bitmapImage = await fileIcon.ToBitmapAsync();
 							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), bitmapImage);
 						}
 
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				}
+
+
+				// Try getting cached thumbnail for OneDrive
+				var hasSyncStatus = item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown;
+				var getThumbnailOnly = !item.IsExecutable && !getIconOnly && hasSyncStatus;
+				if (getThumbnailOnly)
+				{
+					iconInfo = await FileThumbnailHelper.GetIconAsync(
+						item.ItemPath,
+						thumbnailSize,
+						false,
+						IconOptions.ReturnOnlyIfCached);
+
+					// Loop until cached thumbnail is loaded or timeout is reached
+					var cancellationTokenSource = new CancellationTokenSource(3000);
+					while (iconInfo is null)
+					{
+						iconInfo = await FileThumbnailHelper.GetIconAsync(
+							item.ItemPath,
+							thumbnailSize,
+							false,
+							IconOptions.ReturnOnlyIfCached);
+
+						if (cancellationTokenSource.Token.IsCancellationRequested)
+							break;
+
+						await Task.Delay(500);
+					}
+
+					if (iconInfo is not null)
+					{
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							item.FileImage = await iconInfo.ToBitmapAsync();
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					}
 				}
 
 				var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, false);
@@ -1039,18 +1029,17 @@ namespace Files.App.Data.Models
 			}
 			else
 			{
-				var getIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
-				var iconData = await FileThumbnailHelper.GetIconAsync(
+				var iconInfo = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
 					true,
 					getIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
-				if (iconData is not null)
+				if (iconInfo is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						item.FileImage = await iconData.ToBitmapAsync();
+						item.FileImage = await iconInfo.ToBitmapAsync();
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				}
 
@@ -1138,9 +1127,6 @@ namespace Files.App.Data.Models
 
 									SetFileTag(item);
 									wasSyncStatusLoaded = true;
-
-									// Load cached thumbnail for cloud locations
-									_ = LoadItemCachedThumbnailAsync(item);
 								}
 							}
 						}
