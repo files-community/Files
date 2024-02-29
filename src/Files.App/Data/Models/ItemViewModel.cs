@@ -937,16 +937,18 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
+		/// <summary>
+		/// Loads basic icon using ReturnIconOnly flag
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
 		private async Task LoadBasicIconAsync(ListedItem item)
 		{
-			var thumbnailSize = folderSettings.GetRoundedIconSize();
-			var isFolder = item.IsFolder;
-
 			// Get icon
 			var icon = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
-					thumbnailSize,
-					isFolder,
+					folderSettings.GetRoundedIconSize(),
+					item.IsFolder,
 					false,
 					IconOptions.ReturnIconOnly);
 
@@ -954,23 +956,24 @@ namespace Files.App.Data.Models
 			{
 				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					// Assign FileImage property
 					var image = await icon.IconData.ToBitmapAsync();
 					if (image is not null)
+					{
+						// Assign FileImage property
 						item.FileImage = image;
 
-					// Add file icon to the DefaultIcons list
-					if
-					(
-						!isFolder &&
-						!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) &&
-						!string.IsNullOrEmpty(item.FileExtension) &&
-						!item.IsShortcut &&
-						!item.IsExecutable
-					)
-					{
-						var bitmapImage = await icon.IconData.ToBitmapAsync();
-						DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), bitmapImage);
+						// Add file icon to the DefaultIcons list
+						if
+						(
+							!item.IsFolder &&
+							!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) &&
+							!string.IsNullOrEmpty(item.FileExtension) &&
+							!item.IsShortcut &&
+							!item.IsExecutable
+						)
+						{
+							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), image);
+						}
 					}
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
@@ -987,20 +990,24 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private async Task LoadItemThumbnailAsync(ListedItem item)
+		/// <summary>
+		/// Loads thumbnail without any flags
+		/// Returns early if thumbnails aren't needed for this item (eg. if thumbnails are disabled or size is too small)
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		private async Task LoadThumbnailAsync(ListedItem item)
 		{
 			// Cancel if thumbnails aren't enabled
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
 			if (UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48)
 				return;
 
-			var isFolder = item.IsFolder;
-			
-			// Get icon
+			// Get thumbnail
 			var icon = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
-					isFolder,
+					item.IsFolder,
 					false,
 					IconOptions.None);
 
@@ -1016,7 +1023,12 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private async Task LoadCachedItemThumbnailAsync(ListedItem item)
+		/// <summary>
+		/// Tries getting a cached thumbnail from the system. This is usually only needed for cloud locations, otherwise LoadThumbnailAsync does the job.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		private async Task LoadCachedThumbnailAsync(ListedItem item)
 		{
 			// Cancel for exe files which don't need thumbnails
 			if (item.IsExecutable)
@@ -1027,13 +1039,11 @@ namespace Files.App.Data.Models
 			if (UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48)
 				return;
 
-			var isFolder = item.IsFolder;
-
 			// Get icon
 			var icon = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
-					isFolder,
+					item.IsFolder,
 					true,
 					IconOptions.None);
 
@@ -1044,7 +1054,7 @@ namespace Files.App.Data.Models
 				icon = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
-					isFolder,
+					item.IsFolder,
 					true,
 					IconOptions.None);
 
@@ -1217,9 +1227,9 @@ namespace Files.App.Data.Models
 						{
 							// Load cached thumbnail for cloud files
 							if (item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown)
-								_ = LoadCachedItemThumbnailAsync(item);
+								_ = LoadCachedThumbnailAsync(item);
 							else
-								_ = LoadItemThumbnailAsync(item);
+								_ = LoadThumbnailAsync(item);
 						}
 
 						if (loadGroupHeaderInfo)
