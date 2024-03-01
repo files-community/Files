@@ -273,6 +273,15 @@ namespace Files.App.Utils.Shell
 			return overlayData;
 		}
 
+		private class IconCacheEntry
+		{
+			public byte[]? Icon { get; set; }
+		}
+
+		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconCacheEntry>> _iconOnlyCache = new();
+
+		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconCacheEntry>> _thumbnailCache = new();
+
 		private static readonly object _iconLock = new object();
 
 		/// <summary>
@@ -296,6 +305,26 @@ namespace Files.App.Utils.Shell
 		{
 			byte[]? iconData = null;
 			bool isIconCached = false;
+
+
+
+			var iconOnlyEntry = _iconOnlyCache.GetOrAdd(path, _ => new());
+			if (iconOnlyEntry.TryGetValue(thumbnailSize, out var iconOnlyCacheEntry))
+			{
+				iconData = iconOnlyCacheEntry.Icon;
+
+				if (getIconOnly && iconOnlyCacheEntry is not null)
+					return (iconData, true);
+			}
+
+			var thumbnailEntry = _thumbnailCache.GetOrAdd(path, _ => new());
+			if (thumbnailEntry.TryGetValue(thumbnailSize, out var thumbnailCacheEntry))
+			{
+				iconData = thumbnailCacheEntry.Icon;
+
+				if (!getIconOnly && iconData is not null)
+					return (iconData, true);
+			}
 
 			try
 			{
@@ -326,7 +355,7 @@ namespace Files.App.Utils.Shell
 				}
 
 				if (iconData is not null)
-					return (iconData, isIconCached);			
+					return (iconData, isIconCached);
 				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
@@ -335,7 +364,7 @@ namespace Files.App.Utils.Shell
 					// Cannot access file, use file attributes
 					var useFileAttibutes = iconData is null;
 
-					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
+					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
 					if (ret == IntPtr.Zero)
 						return (iconData, isIconCached);
 
@@ -396,7 +425,22 @@ namespace Files.App.Utils.Shell
 			}
 			finally
 			{
+				if (getIconOnly)
+				{
+					iconOnlyCacheEntry = new IconCacheEntry();
+					if (iconData is not null)
+						iconOnlyCacheEntry.Icon = iconData;
 
+					iconOnlyEntry[thumbnailSize] = iconOnlyCacheEntry;
+				}
+				else
+				{
+					thumbnailCacheEntry = new IconCacheEntry();
+					if (iconData is not null)
+						thumbnailCacheEntry.Icon = iconData;
+
+					thumbnailEntry[thumbnailSize] = thumbnailCacheEntry;
+				}
 			}
 		}
 

@@ -900,41 +900,6 @@ namespace Files.App.Data.Models
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
 
-		public Dictionary<string, BitmapImage> DefaultIcons = new();
-
-		private uint currentDefaultIconSize = 0;
-
-		public async Task GetDefaultItemIconsAsync(uint size)
-		{
-			if (currentDefaultIconSize == size)
-				return;
-
-			DefaultIcons.Clear();
-
-			// Get icon for folders
-			using StorageItemThumbnail icon = await FilesystemTasks.Wrap(() => StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist));
-			if (icon is not null)
-			{
-				var img = new BitmapImage();
-				await img.SetSourceAsync(icon);
-				DefaultIcons.Add(string.Empty, img);
-			}
-
-			// Get icon for exe files
-			var executableIcon = await FileThumbnailHelper.GetIconAsync(
-				@"ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe",
-				size,
-				false,
-				true,
-				IconOptions.None);
-
-			var bitmapImage = await executableIcon.IconData.ToBitmapAsync();
-			if (bitmapImage is not null)
-				DefaultIcons.Add(".exe", bitmapImage);
-
-			currentDefaultIconSize = size;
-		}
-
 		private bool isLoadingItems = false;
 		public bool IsLoadingItems
 		{
@@ -949,71 +914,11 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
-		/// <summary>
-		/// Loads basic icon using ReturnIconOnly flag
-		/// </summary>
-		/// <param name="item"></param>
-		/// <returns></returns>
-		private async Task LoadBasicIconAsync(ListedItem item)
-		{
-			// Get icon
-			var icon = await FileThumbnailHelper.GetIconAsync(
-					item.ItemPath,
-					folderSettings.GetRoundedIconSize(),
-					item.IsFolder,
-					false,
-					IconOptions.ReturnIconOnly);
-
-			if (icon.IconData is not null)
-			{
-				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					var image = await icon.IconData.ToBitmapAsync();
-					if (image is not null)
-					{
-						// Assign FileImage property
-						item.FileImage = image;
-
-						// Add file icon to the DefaultIcons list
-						if
-						(
-							!item.IsFolder &&
-							!DefaultIcons.ContainsKey(item.FileExtension.ToLowerInvariant()) &&
-							!string.IsNullOrEmpty(item.FileExtension) &&
-							!item.IsShortcut &&
-							!item.IsExecutable
-						)
-						{
-							DefaultIcons.TryAdd(item.FileExtension.ToLowerInvariant(), image);
-						}
-					}
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-			}
-
-			// Get icon overlay
-			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
-			if (iconOverlay is not null)
-			{
-				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					item.IconOverlay = await iconOverlay.ToBitmapAsync();
-					item.ShieldIcon = await GetShieldIcon();
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-			}
-		}
-
-		/// <summary>
-		/// Loads thumbnail without any flags
-		/// Returns early if thumbnails aren't needed for this item (eg. if thumbnails are disabled or size is too small)
-		/// </summary>
-		/// <param name="item"></param>
-		/// <returns></returns>
 		private async Task LoadThumbnailAsync(ListedItem item)
 		{
 			// Cancel if thumbnails aren't enabled
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
-			if (UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48)
-				return;
+			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
 			// Get thumbnail
 			var icon = await FileThumbnailHelper.GetIconAsync(
@@ -1021,7 +926,7 @@ namespace Files.App.Data.Models
 					thumbnailSize,
 					item.IsFolder,
 					false,
-					IconOptions.None);
+					returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
 			if (icon.IconData is not null)
 			{
@@ -1033,57 +938,15 @@ namespace Files.App.Data.Models
 						item.FileImage = image;
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
-		}
 
-		/// <summary>
-		/// Tries getting a cached thumbnail from the system. This is usually only needed for cloud locations, otherwise LoadThumbnailAsync does the job.
-		/// </summary>
-		/// <param name="item"></param>
-		/// <returns></returns>
-		private async Task LoadCachedThumbnailAsync(ListedItem item)
-		{
-			// Cancel for exe files which don't need thumbnails
-			if (item.IsExecutable)
-				return;
-
-			// Cancel if thumbnails aren't enabled
-			var thumbnailSize = folderSettings.GetRoundedIconSize();
-			if (UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48)
-				return;
-
-			// Get icon
-			var icon = await FileThumbnailHelper.GetIconAsync(
-					item.ItemPath,
-					thumbnailSize,
-					item.IsFolder,
-					true,
-					IconOptions.None);
-
-			// Loop until cached thumbnail is loaded or timeout is reached
-			var cancellationTokenSource = new CancellationTokenSource(3000);
-			while (true)
-			{
-				icon = await FileThumbnailHelper.GetIconAsync(
-					item.ItemPath,
-					thumbnailSize,
-					item.IsFolder,
-					true,
-					IconOptions.None);
-
-				if (icon.isIconCached || cancellationTokenSource.Token.IsCancellationRequested)
-					break;
-
-				await Task.Delay(500);
-			}
-
-			// Update FileImage property if icon is cached
-			if (icon.isIconCached)
+			// Get icon overlay
+			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
+			if (iconOverlay is not null)
 			{
 				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					var image = await icon.IconData.ToBitmapAsync();
-					if (image is not null)
-						item.FileImage = image;
+					item.IconOverlay = await iconOverlay.ToBitmapAsync();
+					item.ShieldIcon = await GetShieldIcon();
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
 		}
@@ -1129,7 +992,7 @@ namespace Files.App.Data.Models
 						}
 
 						cts.Token.ThrowIfCancellationRequested();
-						await LoadBasicIconAsync(item);
+						await LoadThumbnailAsync(item);
 
 						if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 						{
@@ -1237,11 +1100,12 @@ namespace Files.App.Data.Models
 						}
 						else
 						{
-							// Load cached thumbnail for cloud files
+							// Try loading thumbnail for cloud files in case they weren't cached the first time
 							if (item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown)
-								_ = LoadCachedThumbnailAsync(item);
-							else
+							{
+								await Task.Delay(500);
 								_ = LoadThumbnailAsync(item);
+							}
 						}
 
 						if (loadGroupHeaderInfo)
@@ -1518,8 +1382,6 @@ namespace Files.App.Data.Models
 					break;
 			}
 
-			await GetDefaultItemIconsAsync(folderSettings.GetRoundedIconSize());
-
 			if (IsLoadingCancelled)
 			{
 				IsLoadingCancelled = false;
@@ -1738,7 +1600,7 @@ namespace Files.App.Data.Models
 							filesAndFolders.AddRange(intermediateList);
 							await OrderFilesAndFoldersAsync();
 							await ApplyFilesAndFoldersChangesAsync();
-						}, defaultIconPairs: DefaultIcons);
+						});
 
 						filesAndFolders.AddRange(fileList);
 
@@ -1786,8 +1648,7 @@ namespace Files.App.Data.Models
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
-					},
-					defaultIconPairs: DefaultIcons);
+					});
 
 				filesAndFolders.AddRange(finalList);
 
@@ -2526,7 +2387,6 @@ namespace Files.App.Data.Models
 			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
-			DefaultIcons.Clear();
 		}
 	}
 
