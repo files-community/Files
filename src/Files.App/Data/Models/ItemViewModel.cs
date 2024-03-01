@@ -911,7 +911,7 @@ namespace Files.App.Data.Models
 
 			DefaultIcons.Clear();
 
-			// TODO: Add more than just the folder icon
+			// Get icon for folders
 			using StorageItemThumbnail icon = await FilesystemTasks.Wrap(() => StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist));
 			if (icon is not null)
 			{
@@ -919,6 +919,18 @@ namespace Files.App.Data.Models
 				await img.SetSourceAsync(icon);
 				DefaultIcons.Add(string.Empty, img);
 			}
+
+			// Get icon for exe files
+			var executableIcon = await FileThumbnailHelper.GetIconAsync(
+				@"ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe",
+				size,
+				false,
+				true,
+				IconOptions.None);
+
+			var bitmapImage = await executableIcon.IconData.ToBitmapAsync();
+			if (bitmapImage is not null)
+				DefaultIcons.Add(".exe", bitmapImage);
 
 			currentDefaultIconSize = size;
 		}
