@@ -1049,7 +1049,7 @@ namespace Files.App.Data.Models
 
 			// Loop until cached thumbnail is loaded or timeout is reached
 			var cancellationTokenSource = new CancellationTokenSource(3000);
-			while (!icon.isIconCached)
+			while (true)
 			{
 				icon = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
