@@ -1058,7 +1058,7 @@ namespace Files.App.Data.Models
 					true,
 					IconOptions.None);
 
-				if (cancellationTokenSource.Token.IsCancellationRequested)
+				if (icon.isIconCached || cancellationTokenSource.Token.IsCancellationRequested)
 					break;
 
 				await Task.Delay(500);
