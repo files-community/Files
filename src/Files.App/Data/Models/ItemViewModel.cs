@@ -1117,7 +1117,7 @@ namespace Files.App.Data.Models
 						}
 
 						cts.Token.ThrowIfCancellationRequested();
-						_ = LoadBasicIconAsync(item);
+						await LoadBasicIconAsync(item);
 
 						if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 						{
