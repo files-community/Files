@@ -45,18 +45,21 @@ namespace Files.App.Data.Contexts
 			if (e.PropertyName is nameof(AppModel.TabStripSelectedIndex))
 				UpdateCurrentTabIndex();
 		}
+
 		private void BaseMultitaskingControl_OnLoaded(object? sender, ITabBar control)
 		{
 			SetProperty(ref this.control, control, nameof(Control));
 			UpdateTabCount();
 			UpdateCurrentTabIndex();
 		}
+
 		private void HorizontalMultitaskingControl_SelectedTabItemChanged(object? sender, TabBarItem? e)
 		{
 			isPopupOpen = e is not null;
 			int newSelectedIndex = e is null ? currentTabIndex : MainPageViewModel.AppInstances.IndexOf(e);
 			UpdateSelectedTabIndex(newSelectedIndex);
 		}
+
 		private void FocusManager_GotFocus(object? sender, FocusManagerGotFocusEventArgs e)
 		{
 			if (isPopupOpen)
@@ -68,6 +71,7 @@ namespace Files.App.Data.Contexts
 				UpdateSelectedTabIndex(newSelectedIndex);
 			}
 		}
+
 		private void FocusManager_LosingFocus(object? sender, LosingFocusEventArgs e)
 		{
 			if (isPopupOpen)
@@ -83,6 +87,7 @@ namespace Files.App.Data.Contexts
 		{
 			SetProperty(ref tabCount, (ushort)MainPageViewModel.AppInstances.Count, nameof(TabCount));
 		}
+
 		private void UpdateCurrentTabIndex()
 		{
 			if (SetProperty(ref currentTabIndex, (ushort)App.AppModel.TabStripSelectedIndex, nameof(CurrentTabIndex)))
@@ -90,6 +95,7 @@ namespace Files.App.Data.Contexts
 				OnPropertyChanged(nameof(CurrentTabItem));
 			}
 		}
+
 		private void UpdateSelectedTabIndex(int index)
 		{
 			if (SetProperty(ref selectedTabIndex, (ushort)index, nameof(SelectedTabIndex)))
