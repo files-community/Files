@@ -932,7 +932,8 @@
 									x:Name="TilesViewSizeInfo"
 									Orientation="Horizontal"
 									Spacing="8"
-									Visibility="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}">
+									Visibility="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
+									MaxWidth="300">
 									<FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE946;" />
 									<TextBlock Text="{helpers:ResourceString Name=TilesViewSizeInfo}" />
 								</StackPanel>
