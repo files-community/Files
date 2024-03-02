@@ -1,25 +1,34 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Commands;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
+	/// <summary>
+	/// Displays status bar content shown on the bottom of the shell page within the main app window.
+	/// </summary>
 	public sealed partial class StatusBar : UserControl
 	{
+		// Dependency injections
+
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public DirectoryPropertiesViewModel? DirectoryPropertiesViewModel
+		// Properties
+
+		public StatusBarViewModel? ViewModel
 		{
-			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
+			get => (StatusBarViewModel)GetValue(DirectoryPropertiesViewModelProperty);
 			set => SetValue(DirectoryPropertiesViewModelProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for DirectoryPropertiesViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ViewModel),
+				typeof(StatusBarViewModel),
+				typeof(StatusBar),
+				new PropertyMetadata(null));
 
 		public SelectedItemsPropertiesViewModel? SelectedItemsPropertiesViewModel
 		{
@@ -28,7 +37,11 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty SelectedItemsPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(SelectedItemsPropertiesViewModel), typeof(SelectedItemsPropertiesViewModel), typeof(StatusBar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(SelectedItemsPropertiesViewModel),
+				typeof(SelectedItemsPropertiesViewModel),
+				typeof(StatusBar),
+				new PropertyMetadata(null));
 
 		public bool ShowInfoText
 		{
@@ -36,24 +49,31 @@ namespace Files.App.UserControls
 			set => SetValue(ShowInfoTextProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for HideInfoText.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowInfoTextProperty =
-			DependencyProperty.Register(nameof(ShowInfoText), typeof(bool), typeof(StatusBar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ShowInfoText),
+				typeof(bool),
+				typeof(StatusBar),
+				new PropertyMetadata(null));
+
+		// Constructor
 
 		public StatusBar()
 		{
 			InitializeComponent();
 		}
 
+		// Event Methods
+
 		private async void BranchesFlyout_Opening(object _, object e)
 		{
-			if (DirectoryPropertiesViewModel is null)
+			if (ViewModel is null)
 				return;
 
-			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = true;
-			DirectoryPropertiesViewModel.ShowLocals = true;
-			await DirectoryPropertiesViewModel.LoadBranches();
-			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+			ViewModel.IsBranchesFlyoutExpanded = true;
+			ViewModel.ShowLocals = true;
+			await ViewModel.LoadBranches();
+			ViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
 		}
 
 		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
@@ -63,19 +83,19 @@ namespace Files.App.UserControls
 
 		private void BranchesFlyout_Closing(object _, object e)
 		{
-			if (DirectoryPropertiesViewModel is null)
+			if (ViewModel is null)
 				return;
 
-			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = false;
+			ViewModel.IsBranchesFlyoutExpanded = false;
 		}
 
 		private async void DeleteBranch_Click(object sender, RoutedEventArgs e)
 		{
-			if (DirectoryPropertiesViewModel is null)
+			if (ViewModel is null)
 				return;
 
 			BranchesFlyout.Hide();
-			await DirectoryPropertiesViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
+			await ViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
 		}
 	}
 }

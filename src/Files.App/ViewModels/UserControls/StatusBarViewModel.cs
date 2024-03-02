@@ -3,14 +3,23 @@
 
 using System.Windows.Input;
 
-namespace Files.App.Data.Models
+namespace Files.App.ViewModels.UserControls
 {
-	public sealed class DirectoryPropertiesViewModel : ObservableObject
+	/// <summary>
+	/// Represents view model of <see cref="StatusBar"/>.
+	/// </summary>
+	public sealed class StatusBarViewModel : ObservableObject
 	{
+		// Dependency injections
+
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		// The first branch will always be the active one.
+		// Constants
+
+		// NOTE: The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
+
+		// Fields
 
 		private string? _gitRepositoryPath;
 
@@ -18,7 +27,9 @@ namespace Files.App.Data.Models
 
 		private readonly ObservableCollection<BranchItem> _remoteBranches = [];
 
-		public bool IsBranchesFlyoutExpaned { get; set; } = false;
+		// Properties
+
+		public bool IsBranchesFlyoutExpanded { get; set; } = false;
 
 		private string? _DirectoryItemCount;
 		public string? DirectoryItemCount
@@ -84,28 +95,37 @@ namespace Files.App.Data.Models
 			? _localBranches 
 			: _remoteBranches;
 
+		// Events
+
 		public EventHandler<string>? CheckoutRequested;
+
+		// Commands
 
 		public ICommand NewBranchCommand { get; }
 
-		public DirectoryPropertiesViewModel()
+		// Constructor
+
+		public StatusBarViewModel()
 		{
 			NewBranchCommand = new AsyncRelayCommand(()
 				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX].Name));
 		}
 
+		// Methods
+
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
 		{
-			GitBranchDisplayName = isGitRepository &&
-								head is not null &&
-								!ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults
-				? head.Name
-				: null;
+			GitBranchDisplayName =
+				isGitRepository &&
+				head is not null &&
+				!ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults
+					? head.Name
+					: null;
 
 			_gitRepositoryPath = repositoryPath;
 			
 			// Change ShowLocals value only if branches flyout is closed
-			if (!IsBranchesFlyoutExpaned)
+			if (!IsBranchesFlyoutExpanded)
 				ShowLocals = true;
 
 			var behind = head is not null ? head.BehindBy ?? 0 : 0;
