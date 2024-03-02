@@ -7,8 +7,6 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
 	mc:Ignorable="d">
 
 	<Border>
@@ -39,7 +37,7 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="EmptyText.Visibility" Value="Visible" />
-						<Setter Target="EmptyText.Text" Value="{x:Bind GetTranslated('NoSearchResultsFound')}" />
+						<Setter Target="EmptyText.Text" Value="{helpers:ResourceString Name=NoSearchResultsFound}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

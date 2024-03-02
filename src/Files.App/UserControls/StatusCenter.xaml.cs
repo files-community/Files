@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -18,6 +17,7 @@ namespace Files.App.UserControls
 			ViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 		}
 
+		// TODO: Convert into a ICommand
 		private void CloseAllItemsButton_Click(object sender, RoutedEventArgs e)
 		{
 			ViewModel.RemoveAllCompletedItems();
@@ -27,19 +27,6 @@ namespace Files.App.UserControls
 		{
 			if (sender is Button button && button.DataContext is StatusCenterItem item)
 				ViewModel.RemoveItem(item);
-		}
-
-		private void ExpandCollapseChevronItemButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is Button button && button.DataContext is StatusCenterItem item)
-			{
-				var buttonAnimatedIcon = button.FindDescendant<AnimatedIcon>();
-
-				if (buttonAnimatedIcon is not null)
-					AnimatedIcon.SetState(buttonAnimatedIcon, item.IsExpanded ? "NormalOff" : "NormalOn");
-
-				item.IsExpanded = !item.IsExpanded;
-			}
 		}
 	}
 }

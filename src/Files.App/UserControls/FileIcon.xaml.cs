@@ -1,49 +1,40 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Storage.Streams;
 
 namespace Files.App.UserControls
 {
 	public sealed partial class FileIcon : UserControl
 	{
-		private SelectedItemsPropertiesViewModel viewModel;
-
+		private SelectedItemsPropertiesViewModel _ViewModel;
 		public SelectedItemsPropertiesViewModel ViewModel
 		{
-			get => viewModel;
+			get => _ViewModel;
 			set
 			{
-				viewModel = value;
+				_ViewModel = value;
 
 				if (value is null)
-				{
 					return;
-				}
 
 				if (ViewModel?.CustomIconSource is not null)
-				{
 					CustomIconImageSource = new SvgImageSource(ViewModel.CustomIconSource);
-				}
 			}
 		}
 
-		private double itemSize;
-
+		private double _ItemSize;
 		public double ItemSize
 		{
-			get => itemSize;
+			get => _ItemSize;
 			set
 			{
-				itemSize = value;
-				LargerItemSize = itemSize + 2.0;
+				_ItemSize = value;
+				LargerItemSize = _ItemSize + 2.0;
 			}
 		}
 
@@ -66,18 +57,20 @@ namespace Files.App.UserControls
 			{
 				SetValue(FileIconImageDataProperty, value);
 				if (value is not null)
-				{
 					UpdateImageSourceAsync();
-				}
 			}
 		}
 
 		private SvgImageSource CustomIconImageSource { get; set; }
 
+		// Constructor
+
 		public FileIcon()
 		{
 			InitializeComponent();
 		}
+
+		// Methods
 
 		public async Task UpdateImageSourceAsync()
 		{

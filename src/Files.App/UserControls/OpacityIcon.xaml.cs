@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
+	// TODO: Remove xaml and hold this class only
 	public sealed partial class OpacityIcon : Control
 	{
 		public OpacityIcon()
@@ -22,7 +23,11 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty IsSelectedProperty =
-			DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(OpacityIcon), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(IsSelected),
+				typeof(bool),
+				typeof(OpacityIcon),
+				new PropertyMetadata(null));
 
 		private void IsEnabledChange(DependencyObject sender, DependencyProperty dp)
 		{

@@ -3,81 +3,85 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace Files.App.UserControls
 {
+	// TODO: Rebase this class with ButtonBase instead of UserControl
 	public sealed partial class DataGridHeader : UserControl, INotifyPropertyChanged
 	{
+		// Properties
+
 		public ICommand Command { get; set; }
 		public object CommandParameter { get; set; }
 
-		private string header;
-
+		private string _Header = string.Empty;
 		public string Header
 		{
-			get { return header; }
+			get => _Header;
 			set
 			{
-				if (value != header)
+				if (value != _Header)
 				{
-					header = value;
+					_Header = value;
 					NotifyPropertyChanged(nameof(Header));
 				}
 			}
 		}
 
-		private bool canBeSorted = true;
-
+		private bool _CanBeSorted = true;
 		public bool CanBeSorted
 		{
-			get { return canBeSorted; }
+			get { return _CanBeSorted; }
 			set
 			{
-				if (value != canBeSorted)
+				if (value != _CanBeSorted)
 				{
-					canBeSorted = value;
+					_CanBeSorted = value;
 					NotifyPropertyChanged(nameof(CanBeSorted));
 				}
 			}
 		}
 
-		private SortDirection? columnSortOption;
-
+		private SortDirection? _ColumnSortOption;
 		public SortDirection? ColumnSortOption
 		{
-			get { return columnSortOption; }
+			get { return _ColumnSortOption; }
 			set
 			{
-				if (value != columnSortOption)
+				if (value != _ColumnSortOption)
 				{
 					switch (value)
 					{
 						case SortDirection.Ascending:
 							VisualStateManager.GoToState(this, "SortAscending", true);
 							break;
-
 						case SortDirection.Descending:
 							VisualStateManager.GoToState(this, "SortDescending", true);
 							break;
-
 						default:
 							VisualStateManager.GoToState(this, "Unsorted", true);
 							break;
 					}
-					columnSortOption = value;
+
+					_ColumnSortOption = value;
 				}
 			}
 		}
+
+		// Events
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		// Constructor
 
 		public DataGridHeader()
 		{
 			InitializeComponent();
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		// Event methods
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{

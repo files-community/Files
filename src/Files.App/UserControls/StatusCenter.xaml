@@ -9,6 +9,7 @@
 	xmlns:livecharts2="using:LiveChartsCore.SkiaSharpView.WinUI"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
