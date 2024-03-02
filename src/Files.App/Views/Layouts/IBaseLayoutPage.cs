@@ -29,7 +29,7 @@ namespace Files.App.Views.Layouts
 
 		SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
-		DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		StatusBarViewModel DirectoryPropertiesViewModel { get; }
 
 		BaseLayoutViewModel? CommandsViewModel { get; }
 

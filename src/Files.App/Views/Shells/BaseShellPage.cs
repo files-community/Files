@@ -310,7 +310,7 @@ namespace Files.App.Views.Shells
 			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
 			{
 				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
-				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
 			}
 			else
 			{
