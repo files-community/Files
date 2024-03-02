@@ -272,6 +272,13 @@ namespace Files.App.Helpers
 				if (manageBitLocker is not null)
 					shellMenuItems.Remove(manageBitLocker);
 
+				var lastItem = shellMenuItems.LastOrDefault();
+				while (lastItem?.ItemType is ContextMenuFlyoutItemType.Separator)
+				{
+					shellMenuItems.Remove(lastItem);
+					lastItem = shellMenuItems.LastOrDefault();
+				}
+
 				ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
 					itemContextMenuFlyout,
 					"ManageBitLockerPlaceholder",
