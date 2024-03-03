@@ -921,19 +921,18 @@ namespace Files.App.Data.Models
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
 			// Get thumbnail
-			var icon = await FileThumbnailHelper.GetIconAsync(
+			var result = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
 					item.IsFolder,
-					false,
 					returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
 
-			if (icon.IconData is not null)
+			if (result is not null)
 			{
 				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					// Assign FileImage property
-					var image = await icon.IconData.ToBitmapAsync();
+					var image = await result.ToBitmapAsync();
 					if (image is not null)
 						item.FileImage = image;
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
@@ -1215,15 +1214,14 @@ namespace Files.App.Data.Models
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.GetIconAsync(
+				var result = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					Constants.ShellIconSizes.Large,
 					false,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				if (headerIconInfo.IconData is not null && !item.IsShortcut)
-					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				if (result is not null && !item.IsShortcut)
+					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => result.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				// The groupImage is null if loading icon from fulltrust process failed
 				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath) && groupImage is null)

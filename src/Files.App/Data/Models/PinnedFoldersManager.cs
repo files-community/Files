@@ -104,10 +104,9 @@ namespace Files.App.Data.Models
 						res.Result.Path,
 						Constants.ShellIconSizes.Small,
 						true,
-						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-					locationItem.IconData = result.IconData;
+					locationItem.IconData = result;
 
 					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					if (bitmapImage is not null)

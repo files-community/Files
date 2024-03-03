@@ -54,19 +54,19 @@ namespace Files.App.ViewModels.Properties
 					Drive.Path,
 					Constants.ShellIconSizes.ExtraLarge,
 					true,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				if (result.IconData is not null)
-					ViewModel.IconData = result.IconData;
+				if (result is not null)
+					ViewModel.IconData = result;
 				else
 				{
 					result = await FileThumbnailHelper.GetIconAsync(
 						Drive.DeviceID,
 						Constants.ShellIconSizes.ExtraLarge,
-						true, false, IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts
+						true,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale); // For network shortcuts
 
-					ViewModel.IconData = result.IconData;
+					ViewModel.IconData = result;
 				}
 			}
 

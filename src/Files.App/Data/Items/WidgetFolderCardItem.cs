@@ -54,10 +54,9 @@ namespace Files.App.Data.Items
 				Path,
 				Constants.ShellIconSizes.Large,
 				true,
-				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			_thumbnailData = result.IconData;
+			_thumbnailData = result;
 			if (_thumbnailData is not null)
 				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}

@@ -192,11 +192,10 @@ namespace Files.App.Helpers
 					currentPath,
 					Constants.ShellIconSizes.Small,
 					true,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				if (result.IconData is not null)
-					iconSource.ImageSource = await result.IconData.ToBitmapAsync();
+				if (result is not null)
+					iconSource.ImageSource = await result.ToBitmapAsync();
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);

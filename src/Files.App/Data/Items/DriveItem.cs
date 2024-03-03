@@ -318,10 +318,9 @@ namespace Files.App.Data.Items
 					DeviceID,
 					Constants.ShellIconSizes.Small,
 					false,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				IconData ??= result.IconData;
+				IconData ??= result;
 			}
 
 			if (Root is not null)

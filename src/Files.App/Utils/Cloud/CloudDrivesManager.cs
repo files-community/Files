@@ -71,10 +71,9 @@ namespace Files.App.Utils.Cloud
 						provider.SyncFolder,
 						Constants.ShellIconSizes.Small,
 						false,
-						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-					iconData = result.IconData;
+					iconData = result;
 				}
 
 				if (iconData is not null)
