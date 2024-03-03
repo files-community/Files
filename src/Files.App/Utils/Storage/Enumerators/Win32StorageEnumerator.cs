@@ -26,8 +26,7 @@ namespace Files.App.Utils.Storage
 			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null
+			Func<List<ListedItem>, Task> intermediateAction
 		)
 		{
 			var sampler = new IntervalSampler(500);
@@ -54,18 +53,6 @@ namespace Files.App.Utils.Storage
 						var file = await GetFile(findData, path, isGitRepo, cancellationToken);
 						if (file is not null)
 						{
-							if (defaultIconPairs is not null)
-							{
-								if (!string.IsNullOrEmpty(file.FileExtension))
-								{
-									var lowercaseExtension = file.FileExtension.ToLowerInvariant();
-									if (defaultIconPairs.ContainsKey(lowercaseExtension))
-									{
-										file.FileImage = defaultIconPairs[lowercaseExtension];
-									}
-								}
-							}
-
 							tempList.Add(file);
 							++count;
 
@@ -82,12 +69,6 @@ namespace Files.App.Utils.Storage
 							var folder = await GetFolder(findData, path, isGitRepo, cancellationToken);
 							if (folder is not null)
 							{
-								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
-								{
-									// Set folder icon (found by empty extension string)
-									folder.FileImage = defaultIconPairs[string.Empty];
-								}
-
 								tempList.Add(folder);
 								++count;
 
