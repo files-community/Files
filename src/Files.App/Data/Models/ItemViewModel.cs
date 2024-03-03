@@ -1103,8 +1103,10 @@ namespace Files.App.Data.Models
 							// Try loading thumbnail for cloud files in case they weren't cached the first time
 							if (item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown)
 							{
-								await Task.Delay(500);
-								_ = LoadThumbnailAsync(item);
+								_ = Task.Run(async () => {
+									await Task.Delay(500);
+									await LoadThumbnailAsync(item);
+								});
 							}
 						}
 
