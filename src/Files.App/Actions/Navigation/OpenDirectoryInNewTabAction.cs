@@ -44,7 +44,8 @@ namespace Files.App.Actions
 				{
 					await NavigationHelpers.AddNewTabByPathAsync(
 						typeof(PaneHolderPage),
-						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath,
+						false);
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}

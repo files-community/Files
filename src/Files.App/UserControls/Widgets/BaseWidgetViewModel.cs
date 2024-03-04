@@ -93,7 +93,7 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task OpenInNewTabAsync(WidgetCardItem item)
 		{
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
+			await NavigationHelpers.OpenPathInNewTab(item.Path, false);
 		}
 
 		public async Task OpenInNewWindowAsync(WidgetCardItem item)

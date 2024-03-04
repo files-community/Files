@@ -739,7 +739,7 @@ namespace Files.App.ViewModels.UserControls
 				middleClickPressed) &&
 				navigationControlItem.Path is not null)
 			{
-				await NavigationHelpers.OpenPathInNewTab(navigationControlItem.Path);
+				await NavigationHelpers.OpenPathInNewTab(navigationControlItem.Path, false);
 				return;
 			}
 
@@ -831,7 +831,7 @@ namespace Files.App.ViewModels.UserControls
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
 
-			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path);
+			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path, false);
 		}
 
 		private async Task OpenInNewWindowAsync()
