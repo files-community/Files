@@ -11,21 +11,22 @@ namespace Files.App.UserControls
 		/// <summary>
 		/// Identifies the <see cref="Duration"/> dependency property.
 		/// </summary>
-		public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(
-			nameof(Duration),
-			typeof(object),
-			typeof(Shimmer),
-			new PropertyMetadata(defaultValue: TimeSpan.FromMilliseconds(1600), PropertyChanged));
+		public static readonly DependencyProperty DurationProperty =
+			DependencyProperty.Register(
+				nameof(Duration),
+				typeof(object),
+				typeof(Shimmer),
+				new PropertyMetadata(defaultValue: TimeSpan.FromMilliseconds(1600), PropertyChanged));
 
 		/// <summary>
 		/// Identifies the <see cref="IsActive"/> dependency property.
 		/// </summary>
-		public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(
-			nameof(IsActive),
-			typeof(bool),
-			typeof(Shimmer),
-			new PropertyMetadata(defaultValue: true, PropertyChanged));
-
+		public static readonly DependencyProperty IsActiveProperty =
+			DependencyProperty.Register(
+				nameof(IsActive),
+				typeof(bool),
+				typeof(Shimmer),
+				new PropertyMetadata(defaultValue: true, PropertyChanged));
 
 		/// <summary>
 		/// Gets or sets the animation duration
