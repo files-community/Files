@@ -2,7 +2,7 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:labs="using:CommunityToolkit.Labs.WinUI">
+	xmlns:uc="using:Files.App.UserControls">
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Dark">
@@ -23,7 +23,7 @@
 		<Setter Property="MinHeight" Value="8" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="labs:Shimmer">
+				<ControlTemplate TargetType="uc:Shimmer">
 					<Border
 						x:Name="Shape"
 						Background="{TemplateBinding Background}"
