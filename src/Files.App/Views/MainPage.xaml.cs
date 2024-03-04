@@ -500,7 +500,7 @@ namespace Files.App.Views
 			try
 			{
 				foreach (var item in items)
-					await NavigationHelpers.OpenPathInNewTab(item.Path);
+					await NavigationHelpers.OpenPathInNewTab(item.Path, true);
 
 				deferral.Complete();
 			}

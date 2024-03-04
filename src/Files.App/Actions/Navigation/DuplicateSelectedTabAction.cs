@@ -31,7 +31,7 @@ namespace Files.App.Actions
 
 			if (arguments is null)
 			{
-				await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+				await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
 			}
 			else
 			{
