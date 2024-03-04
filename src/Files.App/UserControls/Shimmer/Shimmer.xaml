@@ -16,7 +16,7 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<Style TargetType="labs:Shimmer">
+	<Style TargetType="uc:Shimmer">
 		<Setter Property="Background" Value="{ThemeResource ShimmerBackground}" />
 		<Setter Property="CornerRadius" Value="4" />
 		<Setter Property="MinWidth" Value="40" />
