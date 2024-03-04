@@ -374,7 +374,7 @@ namespace Files.App.Utils
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
-		public virtual bool IsPythonFile => FileExtensionHelpers.IsPythonFile(ItemPath);
+		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevationRequired { get; set; }
