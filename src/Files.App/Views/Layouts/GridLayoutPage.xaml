@@ -131,16 +131,11 @@
 								Stretch="Uniform" />
 						</ContentPresenter>
 
-						<Border
+						<!--  Loading indicator  -->
+						<uc:Shimmer
 							x:Name="TypeUnknownGlyph"
-							MaxWidth="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
-							MaxHeight="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
 							Margin="12"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-							Background="{ThemeResource SystemChromeHighColor}"
-							CornerRadius="4" />
+							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 						<Image
 							x:Name="IconOverlay"
@@ -334,15 +329,13 @@
 									Source="{x:Bind FileImage, Mode=OneWay}"
 									Stretch="Uniform" />
 							</ContentPresenter>
-							<Border
+
+							<!--  Loading indicator  -->
+							<uc:Shimmer
 								x:Name="TypeUnknownGlyph"
-								Width="20"
-								Height="20"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-								Background="{ThemeResource SystemChromeHighColor}"
-								CornerRadius="4" />
+								Margin="2"
+								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+
 							<FontIcon
 								x:Name="WebShortcutGlyph"
 								x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
@@ -526,15 +519,12 @@
 								Stretch="Uniform" />
 						</ContentPresenter>
 
-						<Border
+						<!--  Loading indicator  -->
+						<uc:Shimmer
 							x:Name="TypeUnknownGlyph"
 							Width="60"
 							Height="60"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-							Background="{ThemeResource SystemChromeHighColor}"
-							CornerRadius="4" />
+							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 						<Image
 							x:Name="IconOverlay"
