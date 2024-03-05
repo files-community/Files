@@ -331,7 +331,10 @@
 							</ContentPresenter>
 
 							<!--  Loading indicator  -->
-							<uc:Shimmer x:Name="TypeUnknownGlyph" x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+							<uc:Shimmer
+								x:Name="TypeUnknownGlyph"
+								Margin="2"
+								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 							<FontIcon
 								x:Name="WebShortcutGlyph"
