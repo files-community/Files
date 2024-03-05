@@ -1,0 +1,427 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters">
+
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+		<ResourceDictionary Source="ms-appx:///UserControls/Shimmer/Shimmer.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+
+	<!--  Override Borders On GridViewItem  -->
+	<Thickness x:Key="GridViewItemSelectedBorderThickness">0</Thickness>
+	<SolidColorBrush x:Key="GridViewItemSelectedInnerBorderBrush" Color="Transparent" />
+	<SolidColorBrush x:Key="GridViewItemPointerOverBorderBrush" Color="Transparent" />
+
+	<!--  Converters  -->
+
+	<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+	<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
+
+	<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+	<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+	<wctconverters:BoolToVisibilityConverter
+		x:Key="NegatedBoolToVisibilityConverter"
+		FalseValue="Visible"
+		TrueValue="Collapsed" />
+	<wctconverters:EmptyObjectToObjectConverter
+		x:Key="EmptyObjectToObjectConverter"
+		EmptyValue="Collapsed"
+		NotEmptyValue="Visible" />
+	<wctconverters:BoolToObjectConverter
+		x:Key="NegatedBoolToOpacityConverter"
+		FalseValue="1"
+		TrueValue="0" />
+
+	<!--  Details Layout  -->
+
+	<Style
+		x:Name="DetailsLayoutHeaderGridSplitterStyle"
+		BasedOn="{StaticResource DefaultGridSplitterStyle}"
+		TargetType="wctcontrols:GridSplitter">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Width" Value="12" />
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Opacity" Value="0.8" />
+		<Setter Property="Canvas.ZIndex" Value="1" />
+	</Style>
+
+	<Style TargetType="uc:DataGridHeader">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="Margin" Value="-4,0" />
+	</Style>
+
+	<Style
+		x:Key="DetailsLayoutContentTextBlock"
+		BasedOn="{StaticResource App.Theme.CaptionTextBlockStyle}"
+		TargetType="TextBlock">
+		<Setter Property="TextWrapping" Value="NoWrap" />
+		<Setter Property="TextTrimming" Value="CharacterEllipsis" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Opacity" Value="0.6" />
+	</Style>
+
+	<Style x:Key="DetailsLayoutListViewHeaderItemStyle" TargetType="ListViewHeaderItem">
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
+		<Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
+		<Setter Property="Margin" Value="0,0,0,4" />
+		<Setter Property="Padding" Value="12,8,12,0" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ListViewHeaderItem">
+					<Grid
+						x:Name="HeaderItemRootGrid"
+						Margin="0,0,4,0"
+						HorizontalAlignment="Stretch"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						PointerCanceled="StackPanel_PointerCanceled"
+						PointerEntered="StackPanel_PointerEntered"
+						PointerExited="StackPanel_PointerCanceled"
+						PointerPressed="RootPanel_PointerPressed"
+						PointerReleased="StackPanel_PointerCanceled">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<ContentPresenter
+							x:Name="ContentPresenter"
+							Grid.Column="0"
+							Margin="{TemplateBinding Padding}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							ContentTransitions="{TemplateBinding ContentTransitions}" />
+
+						<Rectangle
+							Grid.Column="1"
+							Height="1"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
+							StrokeThickness="0.5" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+									<VisualState.Setters>
+										<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="PointerOver" />-->
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+									<VisualState.Setters>
+										<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="Pressed" />-->
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="DetailsLayoutCompactItemContainerStyle"
+		BasedOn="{StaticResource DefaultListViewItemStyle}"
+		TargetType="ListViewItem">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="1" />
+		<Setter Property="Margin" Value="-2" />
+	</Style>
+
+	<Style
+		x:Key="DetailsLayoutRegularItemContainerStyle"
+		BasedOn="{StaticResource DefaultListViewItemStyle}"
+		TargetType="ListViewItem">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="1" />
+		<Setter Property="Margin" Value="0" />
+	</Style>
+
+	<!--  Grid / Tiles / List Layouts  -->
+
+	<Style x:Key="GridLayoutVerticalLayoutStyle" TargetType="GridView">
+		<Style.Setters>
+			<Setter Property="ItemsPanel">
+				<Setter.Value>
+					<ItemsPanelTemplate>
+						<ItemsWrapGrid Orientation="Vertical" />
+					</ItemsPanelTemplate>
+				</Setter.Value>
+			</Setter>
+			<!--  VerticalScrollMode is set to Auto because setting it to Disabled here causes an issue. (#14785)  -->
+			<Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+			<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+			<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+			<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+		</Style.Setters>
+	</Style>
+
+	<Style x:Key="GridLayoutHorizontalLayoutStyle" TargetType="GridView">
+		<Style.Setters>
+			<Setter Property="ItemsPanel">
+				<Setter.Value>
+					<ItemsPanelTemplate>
+						<ItemsWrapGrid Orientation="Horizontal" />
+					</ItemsPanelTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+			<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+			<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+			<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+		</Style.Setters>
+	</Style>
+
+	<Style x:Key="GridLayoutGridViewHeaderItemStyle" TargetType="GridViewHeaderItem">
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
+		<Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
+		<Setter Property="Margin" Value="0,0,0,4" />
+		<Setter Property="Padding" Value="12,8,12,0" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="GridViewHeaderItem">
+					<Grid
+						x:Name="HeaderItemRootGrid"
+						Margin="0,0,4,0"
+						HorizontalAlignment="Stretch"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						PointerCanceled="StackPanel_PointerCanceled"
+						PointerEntered="StackPanel_PointerEntered"
+						PointerExited="StackPanel_PointerCanceled"
+						PointerPressed="RootPanel_PointerPressed"
+						PointerReleased="StackPanel_PointerCanceled">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<ContentPresenter
+							x:Name="ContentPresenter"
+							Grid.Column="0"
+							Margin="{TemplateBinding Padding}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							ContentTransitions="{TemplateBinding ContentTransitions}" />
+
+						<Rectangle
+							Grid.Column="1"
+							Height="1"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
+							StrokeThickness="0.5" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+									<VisualState.Setters>
+										<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="PointerOver" />-->
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+									<VisualState.Setters>
+										<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="Pressed" />-->
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Name="GridLayoutDefaultItemContainerStyle"
+		BasedOn="{StaticResource DefaultGridViewItemStyle}"
+		TargetType="GridViewItem">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="1" />
+	</Style>
+
+	<Style
+		x:Name="GridLayoutCompactListItemContainerStyle"
+		BasedOn="{StaticResource DefaultGridViewItemStyle}"
+		TargetType="GridViewItem">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="1" />
+		<Setter Property="Margin" Value="0" />
+	</Style>
+
+	<!--  Column Layout  -->
+
+	<Style x:Key="ColumnLayoutListViewHeaderItemStyle" TargetType="ListViewHeaderItem">
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
+		<Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
+		<Setter Property="Margin" Value="0,0,0,4" />
+		<Setter Property="Padding" Value="12,8,12,0" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ListViewHeaderItem">
+					<Grid
+						x:Name="HeaderItemRootGrid"
+						Margin="0,0,4,0"
+						HorizontalAlignment="Stretch"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						PointerCanceled="StackPanel_PointerCanceled"
+						PointerEntered="StackPanel_PointerEntered"
+						PointerExited="StackPanel_PointerCanceled"
+						PointerPressed="RootPanel_PointerPressed"
+						PointerReleased="StackPanel_PointerCanceled">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<ContentPresenter
+							x:Name="ContentPresenter"
+							Grid.Column="0"
+							Margin="{TemplateBinding Padding}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							ContentTransitions="{TemplateBinding ContentTransitions}" />
+
+						<Rectangle
+							Grid.Column="1"
+							Height="1"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
+							StrokeThickness="0.5" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+									<VisualState.Setters>
+										<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="PointerOver" />-->
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+									<VisualState.Setters>
+										<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="Pressed" />-->
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Name="ColumnLayoutCompactItemContainerStyle"
+		BasedOn="{StaticResource DefaultListViewItemStyle}"
+		TargetType="ListViewItem">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="1" />
+		<Setter Property="Margin" Value="-2" />
+		<Setter Property="Padding" Value="4,0" />
+	</Style>
+
+	<Style
+		x:Name="ColumnLayoutRegularItemContainerStyle"
+		BasedOn="{StaticResource DefaultListViewItemStyle}"
+		TargetType="ListViewItem">
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="MinHeight" Value="1" />
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Padding" Value="4,0" />
+	</Style>
+
+</ResourceDictionary>

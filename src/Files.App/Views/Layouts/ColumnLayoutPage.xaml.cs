@@ -238,18 +238,18 @@ namespace Files.App.Views.Layouts
 			if (UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["ColumnLayoutRegularItemContainerStyle"];
 
 				// Set correct style
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["ColumnLayoutCompactItemContainerStyle"];
 			}
 			else
 			{
 				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["ColumnLayoutCompactItemContainerStyle"];
 
 				// Set correct style
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["ColumnLayoutRegularItemContainerStyle"];
 			}
 		}
 

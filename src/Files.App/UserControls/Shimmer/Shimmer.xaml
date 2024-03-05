@@ -16,10 +16,12 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<Style TargetType="uc:Shimmer">
+	<Style BasedOn="{StaticResource DefaultShimmerStyle}" TargetType="uc:Shimmer" />
+
+	<Style x:Key="DefaultShimmerStyle" TargetType="uc:Shimmer">
 		<Setter Property="Background" Value="{ThemeResource ShimmerBackground}" />
 		<Setter Property="CornerRadius" Value="4" />
-		<Setter Property="MinWidth" Value="40" />
+		<Setter Property="MinWidth" Value="8" />
 		<Setter Property="MinHeight" Value="8" />
 		<Setter Property="Template">
 			<Setter.Value>

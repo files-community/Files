@@ -213,18 +213,18 @@ namespace Files.App.Views.Layouts
 			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["DetailsLayoutRegularItemContainerStyle"];
 
 				// Set correct style
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["DetailsLayoutCompactItemContainerStyle"];
 			}
 			else
 			{
 				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["DetailsLayoutCompactItemContainerStyle"];
 
 				// Set correct style
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["DetailsLayoutRegularItemContainerStyle"];
 			}
 		}
 

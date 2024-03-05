@@ -200,9 +200,9 @@ namespace Files.App.Views.Layouts
 		{
 			var newFileListStyle = FolderSettings.LayoutMode switch
 			{
-				FolderLayoutModes.ListView => (Style)Resources["VerticalLayoutGridView"],
-				FolderLayoutModes.TilesView => (Style)Resources["HorizontalLayoutGridView"],
-				_ => (Style)Resources["HorizontalLayoutGridView"]
+				FolderLayoutModes.ListView => (Style)Resources["GridLayoutVerticalLayoutStyle"],
+				FolderLayoutModes.TilesView => (Style)Resources["GridLayoutHorizontalLayoutStyle"],
+				_ => (Style)Resources["GridLayoutHorizontalLayoutStyle"]
 			};
 
 			if (FileList.Style != newFileListStyle)
@@ -218,13 +218,13 @@ namespace Files.App.Views.Layouts
 			switch (FolderSettings.LayoutMode)
 			{
 				case FolderLayoutModes.ListView:
-					FileList.ItemTemplate = ListViewBrowserTemplate;
+					FileList.ItemTemplate = (DataTemplate)Resources["ListViewBrowserTemplate"];
 					break;
 				case FolderLayoutModes.TilesView:
-					FileList.ItemTemplate = TilesBrowserTemplate;
+					FileList.ItemTemplate = (DataTemplate)Resources["TilesBrowserTemplate"];
 					break;
 				default:
-					FileList.ItemTemplate = GridViewBrowserTemplate;
+					FileList.ItemTemplate = (DataTemplate)Resources["GridViewBrowserTemplate"];
 					break;
 			}
 		}
@@ -234,18 +234,18 @@ namespace Files.App.Views.Layouts
 			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = DefaultItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["GridLayoutDefaultItemContainerStyle"];
 
 				// Set correct style
-				FileList.ItemContainerStyle = CompactListItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["GridLayoutCompactListItemContainerStyle"];
 			}
 			else
 			{
 				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactListItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["GridLayoutCompactListItemContainerStyle"];
 
 				// Set correct style
-				FileList.ItemContainerStyle = DefaultItemContainerStyle;
+				FileList.ItemContainerStyle = (Style)Resources["GridLayoutDefaultItemContainerStyle"];
 			}
 		}
 

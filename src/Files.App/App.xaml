@@ -2,8 +2,7 @@
 <Application
 	x:Class="Files.App.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:uc="using:Files.App.UserControls">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<Application.Resources>
 		<ResourceDictionary>
@@ -31,23 +30,6 @@
 				<Setter Target="HighContrastAdjustment" Value="None" />
 			</Style>
 
-			<Style TargetType="uc:Shimmer">
-				<Setter Property="Background" Value="{ThemeResource ShimmerBackground}" />
-				<Setter Property="CornerRadius" Value="4" />
-				<Setter Property="MinWidth" Value="8" />
-				<Setter Property="MinHeight" Value="8" />
-				<Setter Property="Template">
-					<Setter.Value>
-						<ControlTemplate TargetType="uc:Shimmer">
-							<Border
-								x:Name="Shape"
-								Background="{TemplateBinding Background}"
-								CornerRadius="{TemplateBinding CornerRadius}" />
-						</ControlTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style>
-
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
@@ -71,8 +53,6 @@
 
 							<Color x:Key="App.Theme.FillColorAttention">#0070CB</Color>
 							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
-
-							<StaticResource x:Key="ShimmerBackground" ResourceKey="ControlAltFillColorTertiaryBrush" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="Dark">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
@@ -87,8 +67,6 @@
 
 							<Color x:Key="App.Theme.FillColorAttention">#50C0FF</Color>
 							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
-
-							<StaticResource x:Key="ShimmerBackground" ResourceKey="ControlAltFillColorTertiaryBrush" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="HighContrast">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
@@ -103,8 +81,6 @@
 
 							<Color x:Key="App.Theme.FillColorAttention">#50C0FF</Color>
 							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
-
-							<StaticResource x:Key="ShimmerBackground" ResourceKey="SystemColorWindowColor" />
 						</ResourceDictionary>
 					</ResourceDictionary.ThemeDictionaries>
 				</ResourceDictionary>
