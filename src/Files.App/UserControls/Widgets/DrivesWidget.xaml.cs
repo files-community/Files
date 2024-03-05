@@ -266,7 +266,7 @@ namespace Files.App.UserControls.Widgets
 			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
-				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
+				await NavigationHelpers.OpenPathInNewTab(NavigationPath, false);
 				return;
 			}
 
@@ -283,7 +283,7 @@ namespace Files.App.UserControls.Widgets
 			string navigationPath = (sender as Button).Tag.ToString();
 			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
 				return;
-			await NavigationHelpers.OpenPathInNewTab(navigationPath);
+			await NavigationHelpers.OpenPathInNewTab(navigationPath, false);
 		}
 
 		public class DrivesWidgetInvokedEventArgs : EventArgs
