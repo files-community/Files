@@ -13,6 +13,13 @@ namespace Files.Core.Services.Settings
 		bool SyncFolderPreferencesAcrossDirectories { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating the default layout mode.
+		/// </summary>
+		FolderLayoutModes DefaultLayoutMode { get; set; }
+
+
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not the date column should be visible by default.
 		/// </summary>
 		bool ShowDateColumn { get; set; }
@@ -81,11 +88,6 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating whether or not the sync status column should be visible by default.
 		/// </summary>
 		bool ShowSyncStatusColumn { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating the default layout mode.
-		/// </summary>
-		FolderLayoutModes DefaultLayoutMode { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the width of the git status column

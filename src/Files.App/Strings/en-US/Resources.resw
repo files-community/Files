@@ -1842,13 +1842,13 @@
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
     <value>Do not adjust DPI</value>
   </data>
-    <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
+  <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
     <value>Do not override DPI</value>
   </data>
-    <data name="CompatibilityMode" xml:space="preserve">
+  <data name="CompatibilityMode" xml:space="preserve">
     <value>Compatibility mode</value>
   </data>
-    <data name="CompatibilityNoReducedColor" xml:space="preserve">
+  <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>No reduced color</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
@@ -3712,5 +3712,8 @@
   <data name="ExtraLarge" xml:space="preserve">
     <value>Extra large</value>
     <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="LayoutType" xml:space="preserve">
+    <value>Layout type</value>
   </data>
 </root>

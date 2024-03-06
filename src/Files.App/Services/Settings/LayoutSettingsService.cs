@@ -19,6 +19,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public FolderLayoutModes DefaultLayoutMode
+		{
+			get => (FolderLayoutModes)Get((long)FolderLayoutModes.Adaptive);
+			set => Set((long)value);
+		}
+
 
 		public SortOption DefaultSortOption
 		{
@@ -60,13 +66,6 @@ namespace Files.App.Services.Settings
 		{
 			get => Get(false);
 			set => Set(value);
-		}
-
-
-		public FolderLayoutModes DefaultLayoutMode
-		{
-			get => (FolderLayoutModes)Get((long)FolderLayoutModes.Adaptive);
-			set => Set((long)value);
 		}
 
 		public double GitStatusColumnWidth
@@ -335,6 +334,7 @@ namespace Files.App.Services.Settings
 			{
 				case nameof(SyncFolderPreferencesAcrossDirectories):
 				case nameof(DefaultLayoutMode):
+
 				case nameof(GitStatusColumnWidth):
 				case nameof(GitLastCommitDateColumnWidth):
 				case nameof(GitLastCommitMessageColumnWidth):

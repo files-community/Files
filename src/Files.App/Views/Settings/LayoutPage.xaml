@@ -51,6 +51,23 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
+			<!--  Layout Type  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutType}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8BA;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
+					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=List}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=Grid}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" />
+				</ComboBox>
+			</local:SettingsBlockControl>
+
+
 			<!--  Details layout columns  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DetailsLayoutColumns}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
@@ -165,21 +182,7 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
-			<!--  Layout mode  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Layout}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE8BA;" />
-				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=Layout}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
-					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
-					<ComboBoxItem Content="{helpers:ResourceString Name=List}" />
-					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
-					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
-					<ComboBoxItem Content="{helpers:ResourceString Name=Grid}" />
-					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" />
-				</ComboBox>
-			</local:SettingsBlockControl>
 
 		</StackPanel>
 	</Grid>

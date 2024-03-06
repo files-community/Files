@@ -14,6 +14,7 @@ namespace Files.App.ViewModels.Settings
 		public LayoutViewModel()
 		{
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
+
 			SelectedDefaultSortingIndex = UserSettingsService.LayoutSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.LayoutSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultGroupOption;
 			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
@@ -36,6 +37,36 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		public FolderLayoutModes DefaultLayoutMode
+		{
+			get => UserSettingsService.LayoutSettingsService.DefaultLayoutMode;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.DefaultLayoutMode)
+				{
+					UserSettingsService.LayoutSettingsService.DefaultLayoutMode = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private int selectedDefaultLayoutModeIndex;
+		public int SelectedDefaultLayoutModeIndex
+		{
+			get => selectedDefaultLayoutModeIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultLayoutModeIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultLayoutModeIndex));
+					DefaultLayoutMode = (FolderLayoutModes)value;
+				}
+			}
+		}
+
+
 
 		public bool SortInDescendingOrder
 		{
@@ -146,19 +177,7 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
-		private int selectedDefaultLayoutModeIndex;
-		public int SelectedDefaultLayoutModeIndex
-		{
-			get => selectedDefaultLayoutModeIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultLayoutModeIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultLayoutModeIndex));
-					DefaultLayoutMode = (FolderLayoutModes)value;
-				}
-			}
-		}
+
 		public bool ShowFileTagColumn
 		{
 			get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
@@ -228,21 +247,6 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
-
-		public FolderLayoutModes DefaultLayoutMode
-		{
-			get => UserSettingsService.LayoutSettingsService.DefaultLayoutMode;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.DefaultLayoutMode)
-				{
-					UserSettingsService.LayoutSettingsService.DefaultLayoutMode = value;
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
 
 		public void ResetLayoutPreferences()
 		{
