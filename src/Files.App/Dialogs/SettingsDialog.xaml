@@ -104,21 +104,21 @@
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
-					AccessKey="F"
-					AutomationProperties.AutomationId="SettingsItemFolders"
-					Content="{helpers:ResourceString Name=Folders}"
-					Tag="2">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE8B7;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
 					AccessKey="L"
 					AutomationProperties.AutomationId="SettingsItemLayout"
 					Content="{helpers:ResourceString Name=Layout}"
+					Tag="2">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE8A9;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="F"
+					AutomationProperties.AutomationId="SettingsItemFolders"
+					Content="{helpers:ResourceString Name=FilesAndFolders}"
 					Tag="3">
 					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE8BA;" />
+						<FontIcon Glyph="&#xE8B7;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem

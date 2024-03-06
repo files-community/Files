@@ -1029,8 +1029,8 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Open in new pane</value>
   </data>
-  <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Files &amp; folders</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details (Ctrl+Shift+1)</value>

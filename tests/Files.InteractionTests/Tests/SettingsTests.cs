@@ -28,8 +28,8 @@ namespace Files.InteractionTests.Tests
 			{
 				"SettingsItemGeneral",
 				"SettingsItemAppearance",
-				"SettingsItemFolders",
 				"SettingsItemLayout",
+				"SettingsItemFolders",
 				"SettingsItemTags",
 				"SettingsItemGit",
 				"SettingsItemAdvanced",

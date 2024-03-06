@@ -34,7 +34,7 @@
 				Padding="0,0,0,12"
 				FontSize="24"
 				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=Folders}" />
+				Text="{helpers:ResourceString Name=FilesAndFolders}" />
 
 			<!--  Display  -->
 			<TextBlock

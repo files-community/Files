@@ -168,7 +168,7 @@
 			<!--  Layout mode  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Layout}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE8A9;" />
+					<FontIcon Glyph="&#xE8BA;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=Layout}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
