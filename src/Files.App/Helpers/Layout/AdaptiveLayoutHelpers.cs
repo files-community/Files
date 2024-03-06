@@ -30,7 +30,7 @@ namespace Files.App.Helpers
 					folderSettings.ToggleLayoutModeDetailsView(false);
 					break;
 				case Layouts.Grid:
-					folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
+					folderSettings.ToggleLayoutModeGridView(false);
 					break;
 			}
 		}

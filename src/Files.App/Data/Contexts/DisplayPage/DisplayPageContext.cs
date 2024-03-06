@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using static Files.App.Constants.Browser.GridViewBrowser;
+using static Files.App.Constants;
 
 namespace Files.App.Data.Contexts
 {
@@ -33,14 +33,8 @@ namespace Files.App.Data.Contexts
 					case LayoutTypes.Tiles:
 						viewModel.ToggleLayoutModeTiles(true);
 						break;
-					case LayoutTypes.GridSmall:
-						viewModel.ToggleLayoutModeGridViewSmall(true);
-						break;
-					case LayoutTypes.GridMedium:
-						viewModel.ToggleLayoutModeGridViewMedium(true);
-						break;
-					case LayoutTypes.GridLarge:
-						viewModel.ToggleLayoutModeGridViewLarge(true);
+					case LayoutTypes.Grid:
+						viewModel.ToggleLayoutModeGridView(true);
 						break;
 					case LayoutTypes.Columns:
 						viewModel.ToggleLayoutModeColumnView(true);
@@ -138,17 +132,6 @@ namespace Files.App.Data.Contexts
 			settings.PropertyChanged += Settings_PropertyChanged;
 		}
 
-		public void DecreaseLayoutSize()
-		{
-			if (FolderSettings is LayoutPreferencesManager viewModel)
-				viewModel.GridViewSize -= GridViewIncrement;
-		}
-		public void IncreaseLayoutSize()
-		{
-			if (FolderSettings is LayoutPreferencesManager viewModel)
-				viewModel.GridViewSize += GridViewIncrement;
-		}
-
 		private void Context_Changing(object? sender, EventArgs e)
 		{
 			var viewModel = FolderSettings;
@@ -173,7 +156,6 @@ namespace Files.App.Data.Contexts
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-				case nameof(LayoutPreferencesManager.GridViewSize):
 				case nameof(LayoutPreferencesManager.IsAdaptiveLayoutEnabled):
 					SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
 					break;
@@ -250,13 +232,7 @@ namespace Files.App.Data.Contexts
 				FolderLayoutModes.DetailsView => LayoutTypes.Details,
 				FolderLayoutModes.ListView => LayoutTypes.List,
 				FolderLayoutModes.TilesView => LayoutTypes.Tiles,
-				FolderLayoutModes.GridView => viewModel.GridViewSizeKind switch
-				{
-					GridViewSizeKind.Small => LayoutTypes.GridSmall,
-					GridViewSizeKind.Medium => LayoutTypes.GridMedium,
-					GridViewSizeKind.Large => LayoutTypes.GridLarge,
-					_ => throw new InvalidEnumArgumentException(),
-				},
+				FolderLayoutModes.GridView => LayoutTypes.Grid,
 				FolderLayoutModes.ColumnView => LayoutTypes.Columns,
 				_ => throw new InvalidEnumArgumentException(),
 			};

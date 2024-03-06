@@ -1,11 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
 using Microsoft.AppCenter.Analytics;
-using Microsoft.UI.Composition.SystemBackdrops;
-using System;
 
 namespace Files.App.Services.Settings
 {
@@ -26,12 +22,6 @@ namespace Files.App.Services.Settings
 		public bool IsSidebarOpen
 		{
 			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool UseCompactStyles
-		{
-			get => Get(false);
 			set => Set(value);
 		}
 
@@ -81,7 +71,6 @@ namespace Files.App.Services.Settings
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UseCompactStyles):
 				case nameof(AppThemeBackgroundColor):
 				case nameof(AppThemeAddressBarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):

@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 					{
 						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
-							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath))));
+							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath)), true));
 					},
 					() =>
 					{
@@ -74,10 +74,15 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale, true);
-			if (fileIconData is not null)
+			var result = await FileThumbnailHelper.GetIconAsync(
+				Item.ItemPath,
+				Constants.ShellIconSizes.ExtraLarge,
+				true,
+				IconOptions.UseCurrentScale);
+			
+			if (result is not null)
 			{
-				ViewModel.IconData = fileIconData;
+				ViewModel.IconData = result;
 				ViewModel.LoadFolderGlyph = false;
 				ViewModel.LoadFileIcon = true;
 			}

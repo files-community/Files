@@ -15,12 +15,12 @@ namespace Files.App.Actions
 			=> "LayoutDetailsDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconDetailsLayout");
+			=> new(opacityStyle: "Icons.DetailsLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
-	
+
 	internal class LayoutListAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 			=> "LayoutListDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconListLayout");
+			=> new(opacityStyle: "Icons.ListLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
@@ -51,64 +51,28 @@ namespace Files.App.Actions
 			=> "LayoutTilesDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconTilesLayout");
+			=> new(opacityStyle: "Icons.TilesLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutGridSmallAction : ToggleLayoutAction
+	internal class LayoutGridAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
-			=> LayoutTypes.GridSmall;
+			=> LayoutTypes.Grid;
 
 		public override string Label
-			=> "SmallIcons".GetLocalizedResource();
+			=> "Grid".GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutGridSmallDescription".GetLocalizedResource();
+			=> "LayoutGridDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconGridSmallLayout");
+			=> new(opacityStyle: "Icons.GridLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
-	}
-
-	internal class LayoutGridMediumAction : ToggleLayoutAction
-	{
-		protected override LayoutTypes LayoutType
-			=> LayoutTypes.GridMedium;
-
-		public override string Label
-			=> "MediumIcons".GetLocalizedResource();
-
-		public override string Description
-			=> "LayoutGridMediumDescription".GetLocalizedResource();
-
-		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconGridMediumLayout");
-
-		public override HotKey HotKey
-			=> new(Keys.Number5, KeyModifiers.CtrlShift);
-	}
-
-	internal class LayoutGridLargeAction : ToggleLayoutAction
-	{
-		protected override LayoutTypes LayoutType
-			=> LayoutTypes.GridLarge;
-
-		public override string Label
-			=> "LargeIcons".GetLocalizedResource();
-
-		public override string Description
-			=> "LayoutGridLargeDescription".GetLocalizedResource();
-
-		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconGridLargeLayout");
-
-		public override HotKey HotKey
-			=> new(Keys.Number6, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutColumnsAction : ToggleLayoutAction
@@ -123,10 +87,10 @@ namespace Files.App.Actions
 			=> "LayoutColumnsDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconColumnsLayout");
+			=> new(opacityStyle: "Icons.ColumnsLayout.16x16");
 
 		public override HotKey HotKey
-			=> new(Keys.Number7, KeyModifiers.CtrlShift);
+			=> new(Keys.Number5, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutAdaptiveAction : ToggleLayoutAction
@@ -147,7 +111,7 @@ namespace Files.App.Actions
 			=> new("\uF576");
 
 		public override HotKey HotKey
-			=> new(Keys.Number8, KeyModifiers.CtrlShift);
+			=> new(Keys.Number6, KeyModifiers.CtrlShift);
 
 		protected override void OnContextChanged(string propertyName)
 		{
@@ -204,9 +168,11 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class LayoutDecreaseSizeAction : IAction
+	internal class LayoutDecreaseSizeAction : ObservableObject, IAction
 	{
-		private readonly IDisplayPageContext context;
+		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IDisplayPageContext DisplayPageContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "DecreaseSize".GetLocalizedResource();
@@ -220,22 +186,86 @@ namespace Files.App.Actions
 		public HotKey MediaHotKey
 			=> new(Keys.OemMinus, KeyModifiers.Ctrl, false);
 
+		public bool IsExecutable =>
+			ContentPageContext.PageType is not ContentPageTypes.Home &&
+			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact));
+
 		public LayoutDecreaseSizeAction()
 		{
-			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+			DisplayPageContext.PropertyChanged += DisplayPageContext_PropertyChanged;
+			UserSettingsService.LayoutSettingsService.PropertyChanged += UserSettingsService_PropertyChanged;
+		}
+
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void DisplayPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IDisplayPageContext.LayoutType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void UserSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(ILayoutSettingsService.DetailsViewSize):
+				case nameof(ILayoutSettingsService.ListViewSize):
+				case nameof(ILayoutSettingsService.GridViewSize):
+				case nameof(ILayoutSettingsService.ColumnsViewSize):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.DecreaseLayoutSize();
+			switch (DisplayPageContext.LayoutType)
+			{
+				case LayoutTypes.Details:
+					if (UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact)
+						UserSettingsService.LayoutSettingsService.DetailsViewSize -= 1;
+					break;
+				case LayoutTypes.List:
+					if (UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact)
+						UserSettingsService.LayoutSettingsService.ListViewSize -= 1;
+					break;
+				case LayoutTypes.Tiles:
+					break;
+				case LayoutTypes.Grid:
+					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small)
+						UserSettingsService.LayoutSettingsService.GridViewSize -= 1;
+					break;
+				case LayoutTypes.Columns:
+					if (UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact)
+						UserSettingsService.LayoutSettingsService.ColumnsViewSize -= 1;
+					break;
+			}
 
 			return Task.CompletedTask;
 		}
 	}
 
-	internal class LayoutIncreaseSizeAction : IAction
+	internal class LayoutIncreaseSizeAction : ObservableObject, IAction
 	{
-		private readonly IDisplayPageContext context;
+		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IDisplayPageContext DisplayPageContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> "IncreaseSize".GetLocalizedResource();
@@ -249,14 +279,76 @@ namespace Files.App.Actions
 		public HotKey MediaHotKey
 			=> new(Keys.OemPlus, KeyModifiers.Ctrl, false);
 
+		public bool IsExecutable =>
+			ContentPageContext.PageType is not ContentPageTypes.Home &&
+			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge));
+
 		public LayoutIncreaseSizeAction()
 		{
-			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+			DisplayPageContext.PropertyChanged += DisplayPageContext_PropertyChanged;
+			UserSettingsService.LayoutSettingsService.PropertyChanged += UserSettingsService_PropertyChanged;
+		}
+
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void DisplayPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IDisplayPageContext.LayoutType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void UserSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(ILayoutSettingsService.DetailsViewSize):
+				case nameof(ILayoutSettingsService.ListViewSize):
+				case nameof(ILayoutSettingsService.GridViewSize):
+				case nameof(ILayoutSettingsService.ColumnsViewSize):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.IncreaseLayoutSize();
+			switch (DisplayPageContext.LayoutType)
+			{
+				case LayoutTypes.Details:
+					if (UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge)
+						UserSettingsService.LayoutSettingsService.DetailsViewSize += 1;
+					break;
+				case LayoutTypes.List:
+					if (UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge)
+						UserSettingsService.LayoutSettingsService.ListViewSize += 1;
+					break;
+				case LayoutTypes.Tiles:
+					break;
+				case LayoutTypes.Grid:
+					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge)
+						UserSettingsService.LayoutSettingsService.GridViewSize += 1;
+					break;
+				case LayoutTypes.Columns:
+					if (UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge)
+						UserSettingsService.LayoutSettingsService.ColumnsViewSize += 1;
+					break;
+			}
 
 			return Task.CompletedTask;
 		}

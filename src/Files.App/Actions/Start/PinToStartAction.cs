@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			=> "PinToStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconPinToFavorites");
+			=> new(opacityStyle: "Icons.Pin.16x16");
 
 		public bool IsExecutable =>
 			context.ShellPage is not null;
@@ -40,7 +40,7 @@ namespace Files.App.Actions
 					IStorable storable = listedItem.IsFolder switch
 					{
 						true => await StorageService.GetFolderAsync(listedItem.ItemPath),
-						_ => await StorageService.GetFileAsync(listedItem.ItemPath)
+						_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
 					};
 					await StartMenuService.PinAsync(storable, listedItem.Name);
 				}

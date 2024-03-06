@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>新視窗</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>新增視窗</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>複製路徑</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copy path with quotes</value>
+    <value>複製帶引號的路徑</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>瀏覽</value>
@@ -349,6 +349,12 @@
     <value>已斷開與裝置的連接</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>目標檔案可能已被移動或刪除。</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Cannot open properties for this file</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>目標檔案可能已被移動或刪除。</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -632,9 +638,6 @@
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>新增資料夾</value>
-  </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>檢視模式</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>重新整理資料夾</value>
@@ -987,9 +990,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>顯示受保護的系統檔案</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>搜尋結果裡包括未編製索引的項目</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>在不同路徑之間使用相同的布局和排序設定</value>
   </data>
@@ -1014,6 +1014,15 @@
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>顯示在新畫面開啟資料夾選項</value>
   </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>顯示“複製路徑”的選項</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Show option to create folder with selection</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Show option to create shortcut</value>
+  </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新增畫面</value>
   </data>
@@ -1025,15 +1034,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細資料（Ctrl + Shift + 1）</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>大圖示（Ctrl + Shift + 5）</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>中圖示（Ctrl + Shift + 4）</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>小圖示（Ctrl + Shift + 3）</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>並排（Ctrl + Shift + 2）</value>
@@ -1271,12 +1271,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO 速度</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>沒有找到您想找的嗎？</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>搜尋未被索引的檔案。</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>覆蓋</value>
@@ -1650,23 +1644,11 @@
   <data name="Home" xml:space="preserve">
     <value>首頁</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl + Shift + 1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl + Shift + 2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + Shift + 3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + Shift + 4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + Shift + 5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl + Shift + 6</value>
@@ -1717,7 +1699,7 @@
     <value>使用者名稱</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives widget</value>
+    <value>磁碟機小工具</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Recent Files widget</value>
@@ -1733,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>欄</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>大圖示</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>中圖示</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>小圖示</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>磁磚（並排）</value>
@@ -1786,10 +1759,10 @@
     <value>資料夾路徑</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export settings</value>
+    <value>匯出設定</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import settings</value>
+    <value>匯入設定</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>設定檔已損壞，無法將其匯入。</value>
@@ -1924,7 +1897,7 @@
     <value>類型</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon grid</value>
+    <value>圖示網格</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>位元組</value>
@@ -1982,9 +1955,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>標籤</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>在詳細檢視中使用緊湊模式</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>通用</value>
@@ -2233,7 +2203,7 @@
     <value>Show compression options</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>顯示「傳送到」選單</value>
+    <value>Show send to menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>顯示在新索引標籤開啟資料夾選項</value>
@@ -2560,10 +2530,10 @@
     <value>以系統管理員身分在終端機開啟資料夾</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Decrease item size in the current view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Increase item size in the current view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Switch to details view</value>
@@ -2571,14 +2541,17 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Switch to tiles view</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Switch to list view</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
   </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Switch to columns view</value>
@@ -2959,9 +2932,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>選擇項目時顯示核取方塊</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>搜尋未索引的項目</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>移動焦點至路徑欄</value>
   </data>
@@ -3025,7 +2995,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>按建立日期之年對項目分組</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Group items by day of date deleted</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3513,38 +3483,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Canceled deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>Deleted {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Error deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3685,5 +3639,87 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Failed to share items</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Open new window</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Change album cover</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Failed to rename item</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Editing "{0}" requires additional permissions</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edit permissions</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files is still running in the background to improve startup performance.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Where did Files go?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Questions &amp; discussions</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>小</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>中</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>大</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>

@@ -79,7 +79,7 @@ namespace Files.App.Data.Items
 
 		public bool IsInvalid { get; set; } = false;
 
-		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(path);
 
 		public SectionType Section { get; set; }
 
@@ -101,7 +101,7 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
-				if (Section == SectionType.Favorites)
+				if (Section == SectionType.Pinned)
 				{
 					return new OpacityIcon()
 					{

@@ -58,8 +58,8 @@ namespace Files.App.Data.Commands
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }
-		IRichCommand PinItemToFavorites { get; }
-		IRichCommand UnpinItemFromFavorites { get; }
+		IRichCommand PinFolderToSidebar { get; }
+		IRichCommand UnpinFolderFromSidebar { get; }
 
 		IRichCommand SetAsWallpaperBackground { get; }
 		IRichCommand SetAsSlideshowBackground { get; }
@@ -99,9 +99,7 @@ namespace Files.App.Data.Commands
 		IRichCommand LayoutDetails { get; }
 		IRichCommand LayoutList { get; }
 		IRichCommand LayoutTiles { get; }
-		IRichCommand LayoutGridSmall { get; }
-		IRichCommand LayoutGridMedium { get; }
-		IRichCommand LayoutGridLarge { get; }
+		IRichCommand LayoutGrid { get; }
 		IRichCommand LayoutColumns { get; }
 		IRichCommand LayoutAdaptive { get; }
 

@@ -39,7 +39,7 @@ namespace Files.App.Actions
 			await Task.WhenAll(files.Select(file 
 				=> NavigationHelpers.OpenPath(file.path, _pageContext.ShellPage!)));
 
-			folders.ForEach(async folder => await NavigationHelpers.OpenPathInNewTab(folder.path));
+			folders.ForEach(async folder => await NavigationHelpers.OpenPathInNewTab(folder.path, false));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

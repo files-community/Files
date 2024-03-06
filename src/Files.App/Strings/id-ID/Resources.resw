@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Jendela baru</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>Window baru</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Salin jalur</value>
@@ -349,6 +349,12 @@
     <value>Penyimpanan dilepas</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Tidak dapat membuka propeti file ini</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -632,9 +638,6 @@
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Buat folder kosong</value>
-  </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Mode tata letak</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Segarkan direktori</value>
@@ -987,9 +990,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Tampilkan file sistem yang dilindungi</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Sertakan item yang tidak diindeks dalam hasil pencarian</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sinkronkan tata letak dan preferensi penyortiran di seluruh direktori</value>
   </data>
@@ -1014,6 +1014,15 @@
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Tampilkan opsi untuk membuka folder di panel baru</value>
   </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Tampilkan opsi menyalin path</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Tampilkan opsi membuat folder dengan pilihan</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Tampilkan opsi membuat shortcut</value>
+  </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Panel baru</value>
   </data>
@@ -1025,15 +1034,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rincian (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ikon Besar (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ikon Sedang (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ikon Kecil (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ubin (Ctrl+Shift+2)</value>
@@ -1271,12 +1271,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Kecepatan ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Tidak menemukan apa yang Anda cari?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Cari item yang tidak terindeks</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Ganti yang ada</value>
@@ -1650,23 +1644,11 @@
   <data name="Home" xml:space="preserve">
     <value>Beranda</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
@@ -1733,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Kolom</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Ikon besar</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Ikon sedang</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Ikon kecil</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Ubin</value>
@@ -1982,9 +1955,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Tag</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Gunakan spasi ringkas dalam tata letak rincian</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2233,7 +2203,7 @@
     <value>Tampilkan pilihan kompresi</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Tampilkan menu Kirim ke</value>
+    <value>Tampilkan menu kirim ke</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Tampilkan opsi untuk membuka folder di tab baru</value>
@@ -2560,10 +2530,10 @@
     <value>Buka folder di terminal sebagai admin</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Kurangi ukuran icon di tampilan grid</value>
+    <value>Decrease item size in the current view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Naikkan ukuran icon di tampilan grid</value>
+    <value>Increase item size in the current view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Beralih ke tampilan detail</value>
@@ -2571,14 +2541,17 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Beralih ke tampilan tiles</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Beralih ke tampilan grid dengan icon kecil</value>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Beralih ke tampilan daftar</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Beralih ke tampilan grid dengan icon sedang</value>
+  <data name="List" xml:space="preserve">
+    <value>Daftar</value>
   </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Beralih ke tampilan grid dengan icon besar</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Beralih ke tampilan kolom</value>
@@ -2959,9 +2932,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Tampilkan kotak centang saat memilih item</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Mencari item yang tidak terindeks</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Jalur bar fokus</value>
   </data>
@@ -3025,7 +2995,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Kelompok kan items berdasarkan tahun dan tanggal saat dibuat</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Kelompokkan berdasarkan hari dari tanggal saat dihapus</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3513,38 +3483,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Dibatalkan penghapusan permanen {0} item(s) dari "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Menghapus permanen {0} item(s) dari "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error menghapus permanen {0} item(s) dari "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Gagal menghapus permanent {0} item(s) dari "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Menghapus permanen {0} item(s) dari "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Membatalkan penghapusan {0} item(s) dari "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>Dihapus {0} item(s) dari "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Error menghapus {0} item(s) dari "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Gagal menghapus {0} item(s) dari {1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Menghapus {0} item(s) dari "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3685,5 +3639,87 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Gagal membagi item</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Gulir ke folder sebelumnya saat navigasi ke atas</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Buka window baru</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Ganti sampul album</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Gagal mengganti nama item</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Mengedit "{0}" memerlukan akses tambahan</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edit akses</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files sedang berjalan di latar belakang untuk meningkatkan performa startup.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Kemana Files pergi?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Questions &amp; discussions</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Kecil</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Sedang</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Besar</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>

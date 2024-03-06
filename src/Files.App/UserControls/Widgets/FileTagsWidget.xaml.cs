@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -13,7 +12,11 @@ using Windows.Storage;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItem
+	/// <summary>
+	/// Represents group of control displays a list of <see cref="WidgetFileTagsContainerItem"/>
+	/// and its inner items with <see cref="WidgetFileTagCardItem"/>.
+	/// </summary>
+	public sealed partial class FileTagsWidget : BaseWidgetViewModel, IWidgetViewModel
 	{
 		private readonly IUserSettingsService userSettingsService;
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
@@ -30,21 +33,15 @@ namespace Files.App.UserControls.Widgets
 
 		public delegate void FileTagsOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public delegate void FileTagsNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
-
-		public static event EventHandler<IEnumerable<FileTagsItemViewModel>>? SelectedTaggedItemsChanged;
+		public static event EventHandler<IEnumerable<WidgetFileTagCardItem>>? SelectedTaggedItemsChanged;
 		public event FileTagsOpenLocationInvokedEventHandler FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler FileTagsNewPaneInvoked;
 
 		public string WidgetName => nameof(FileTagsWidget);
-
 		public string WidgetHeader => "FileTags".GetLocalizedResource();
-
 		public string AutomationProperties => "FileTags".GetLocalizedResource();
-
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
-
 		public bool ShowMenuFlyout => false;
-
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		private ICommand OpenInNewPaneCommand;
@@ -62,8 +59,8 @@ namespace Files.App.UserControls.Widgets
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(OpenFileLocation);
 			OpenInNewPaneCommand = new RelayCommand<WidgetCardItem>(OpenInNewPane);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
+			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(PinToSidebarAsync);
+			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromSidebarAsync);
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
 		}
 
@@ -80,8 +77,8 @@ namespace Files.App.UserControls.Widgets
 
 				ListedItem listedItem = new(null!)
 				{
-					ItemPath = (item.Item as FileTagsItemViewModel)?.Path ?? string.Empty,
-					ItemNameRaw = (item.Item as FileTagsItemViewModel)?.Name ?? string.Empty,
+					ItemPath = (item.Item as WidgetFileTagCardItem)?.Path ?? string.Empty,
+					ItemNameRaw = (item.Item as WidgetFileTagCardItem)?.Name ?? string.Empty,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
@@ -99,17 +96,17 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
+		private void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			if (e.ClickedItem is FileTagsItemViewModel itemViewModel)
-				await itemViewModel.ClickCommand.ExecuteAsync(null);
+			if (e.ClickedItem is WidgetFileTagCardItem itemViewModel)
+				itemViewModel.ClickCommand.Execute(null);
 		}
 
 		private void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
 			if (e.OriginalSource is not FrameworkElement element ||
-				element.DataContext is not FileTagsItemViewModel item)
+				element.DataContext is not WidgetFileTagCardItem item)
 				return;
 
 			// Create a new Flyout
@@ -122,14 +119,14 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 
-			FlyoutItemPath = item.Path;
+			_flyoutItemPath = item.Path;
 
 			// Notify of the change on right clicked item
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			// Get items for the flyout
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout
 			secondaryElements
@@ -143,7 +140,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
 			// Load shell menu items
-			_ = ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout, null, true, true);
 
 			e.Handled = true;
 		}
@@ -207,23 +204,23 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "PinToFavorites".GetLocalizedResource(),
+					Text = "PinFolderToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
+						OpacityIconStyle = "Icons.Pin.16x16",
 					},
-					Command = PinToFavoritesCommand,
+					Command = PinToSidebarCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned && isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+						OpacityIconStyle = "Icons.Unpin.16x16",
 					},
-					Command = UnpinFromFavoritesCommand,
+					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned && isFolder
 				},

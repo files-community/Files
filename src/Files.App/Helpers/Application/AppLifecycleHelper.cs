@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Notifications;
@@ -26,6 +27,37 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class AppLifecycleHelper
 	{
+		/// <summary>
+		/// Gets the value that provides application environment or branch name.
+		/// </summary>
+		public static AppEnvironment AppEnvironment { get; } =
+#if STORE
+			AppEnvironment.Store;
+#elif PREVIEW
+			AppEnvironment.Preview;
+#elif STABLE
+			AppEnvironment.Stable;
+#else
+			AppEnvironment.Dev;
+#endif
+
+		/// <summary>
+		/// Gets application package version.
+		/// </summary>
+		public static Version AppVersion { get; } =
+			new(Package.Current.Id.Version.Major, Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+
+		/// <summary>
+		/// Gets application icon path.
+		/// </summary>
+		public static string AppIconPath { get; } =
+			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
+			{
+				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
+				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
+				_ => Constants.AssetPaths.StableLogo
+			});
+
 		/// <summary>
 		/// Initializes the app components.
 		/// </summary>
@@ -103,7 +135,7 @@ namespace Files.App.Helpers
 		public static IHost ConfigureHost()
 		{
 			return Host.CreateDefaultBuilder()
-				.UseEnvironment(ApplicationService.AppEnvironment.ToString())
+				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
 				.ConfigureLogging(builder => builder
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
 					.SetMinimumLevel(LogLevel.Information))
@@ -135,7 +167,6 @@ namespace Files.App.Helpers
 					.AddSingleton<IFileTagsService, FileTagsService>()
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
-					.AddSingleton<IApplicationService, ApplicationService>()
 					.AddSingleton<IStorageService, NativeStorageService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
@@ -155,6 +186,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
+					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
@@ -251,19 +283,22 @@ namespace Files.App.Helpers
 			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 			Debugger.Break();
 
+			// Save the current tab list in case it was overwriten by another instance
 			SaveSessionTabs();
 			App.Logger.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
 
 			if (!showToastNotification)
 				return;
 
-			var toastContent = new ToastContent()
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				Visual = new()
+				var toastContent = new ToastContent()
 				{
-					BindingGeneric = new ToastBindingGeneric()
+					Visual = new()
 					{
-						Children =
+						BindingGeneric = new ToastBindingGeneric()
+						{
+							Children =
 						{
 							new AdaptiveText()
 							{
@@ -274,30 +309,31 @@ namespace Files.App.Helpers
 								Text = "ExceptionNotificationBody".GetLocalizedResource()
 							}
 						},
-						AppLogoOverride = new()
-						{
-							Source = "ms-appx:///Assets/error.png"
+							AppLogoOverride = new()
+							{
+								Source = "ms-appx:///Assets/error.png"
+							}
 						}
-					}
-				},
-				Actions = new ToastActionsCustom()
-				{
-					Buttons =
+					},
+					Actions = new ToastActionsCustom()
 					{
-						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.GitHub.BugReportUrl)
+						Buttons =
+					{
+						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.ExternalUrl.BugReportUrl)
 						{
 							ActivationType = ToastActivationType.Protocol
 						}
 					}
-				},
-				ActivationType = ToastActivationType.Protocol
-			};
+					},
+					ActivationType = ToastActivationType.Protocol
+				};
 
-			// Create the toast notification
-			var toastNotification = new ToastNotification(toastContent.GetXml());
+				// Create the toast notification
+				var toastNotification = new ToastNotification(toastContent.GetXml());
 
-			// And send the notification
-			ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+				// And send the notification
+				ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+			});
 
 			// Restart the app
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();

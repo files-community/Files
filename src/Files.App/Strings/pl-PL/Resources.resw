@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Nowe okno</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Kopiuj ścieżkę</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copy path with quotes</value>
+    <value>Kopiuj ścieżkę w cudzysłowie</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Przeglądaj</value>
@@ -283,7 +283,7 @@
     <value>Przyznaj uprawnienia</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Przed rozpoczęciem, będziesz musiał przyznać uprawnienia do odczytu plików. Otworzymy dla Ciebie kartę z ustawieniami, gdzie będziesz mógł przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian. </value>
+    <value>Przed rozpoczęciem należy przyznać aplikacji uprawnienia do odczytu plików. Otworzy się karta w Ustawieniach, gdzie można przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Widok</value>
@@ -351,6 +351,12 @@
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Plik, do którego próbujesz uzyskać dostęp, mógł zostać przeniesiony lub usunięty.</value>
   </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Nie można otworzyć właściwości dla tego pliku</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
+    <value>Plik, do którego próbujesz uzyskać dostęp, mógł zostać przeniesiony lub usunięty.</value>
+  </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Nie można odnaleźć pliku</value>
   </data>
@@ -382,7 +388,7 @@
     <value>{0} dzień temu</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} godz. temu</value>
+    <value>{0} godzin temu</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
     <value>{0} godzinę temu</value>
@@ -632,9 +638,6 @@
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Tworzy pusty folder</value>
-  </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Układ</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Odśwież katalog</value>
@@ -987,9 +990,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Pokaż chronione pliki systemu operacyjnego</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Dołącz nieindeksowane pliki w wynikach wyszukiwania</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Synchronizuj układ i preferencje sortowania pomiędzy katalogami</value>
   </data>
@@ -1014,6 +1014,15 @@
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Pokaż opcję otwierania folderów w nowym panelu</value>
   </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Pokaż opcję kopiowania ścieżki</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Pokaż opcję tworzenia folderu z zaznaczenia</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Pokaż opcję tworzenia skrótu</value>
+  </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nowy panel</value>
   </data>
@@ -1025,15 +1034,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Widok szczegółów (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Widok dużych ikon (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Widok średnich ikon (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Widok małych ikon (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Widok kafelków (Ctrl+Shift+2)</value>
@@ -1063,7 +1063,7 @@
     <value>Przełącz panel informacyjny</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail/preview panes</value>
+    <value>Przełącz panel informacji, aby wyświetlić szczegóły/podgląd</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Podgląd niedostępny</value>
@@ -1272,12 +1272,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Szybkość ISO</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Nie możesz znaleźć tego, czego szukasz?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Wyszukaj niezindeksowane elementy</value>
-  </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Zamień istniejące</value>
   </data>
@@ -1462,10 +1456,10 @@
     <value>Po zakończeniu otwórz folder docelowy</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Wypakuj do: {0}</value>
+    <value>Wypakuj do: {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>Utwórz nową bibliotekę.</value>
+    <value>Utwórz nową bibliotekę</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>Przywróć domyślne biblioteki</value>
@@ -1650,23 +1644,11 @@
   <data name="Home" xml:space="preserve">
     <value>Strona główna</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
@@ -1733,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Kolumny</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Duże ikony</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Średnie ikony</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Małe ikony</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Kafelki</value>
@@ -1982,9 +1955,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Tagi</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Użyj kompaktowych stylów w układzie szczegółów</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Uniwersalny</value>
@@ -2230,10 +2200,10 @@
     <value>Pokaż edycję tagów</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Show compression options</value>
+    <value>Pokaż opcje kompresji</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Pokaż Menu Wyślij do</value>
+    <value>Pokaż wysyłanie do menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Pokaż opcję otwierania folderów w nowym panelu</value>
@@ -2416,10 +2386,10 @@
     <value>Kopiuj element(y) do schowka</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of selected items to the clipboard</value>
+    <value>Skopiuj ścieżkę wybranych elementów do schowka</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes to the clipboard</value>
+    <value>Skopiuj ścieżkę wybranych elementów do schowka z cudzysłowami</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Wytnij element(y) do schowka</value>
@@ -2560,10 +2530,10 @@
     <value>Otwórz folder w terminalu jako administrator</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Zmniejsz rozmiar ikony w widoku siatki</value>
+    <value>Decrease item size in the current view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Zwiększ rozmiar ikon w widoku siatki</value>
+    <value>Increase item size in the current view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Przełącz na widok szczegółowy</value>
@@ -2571,14 +2541,17 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Przełącz na widok kafelek</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Przełącz na widok siatki z małymi ikonami</value>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Przełącz na widok listy</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Przełącz na widok siatki ze średnimi ikonami</value>
+  <data name="List" xml:space="preserve">
+    <value>Lista</value>
   </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Przełącz na widok siatki z dużymi ikonami</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Przełącz na widok kolumn</value>
@@ -2959,9 +2932,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Pokaż pola zaznaczenia podczas wybierania elementów</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Wyszukaj niezindeksowane elementy</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Przełącz pasek ścieżki</value>
   </data>
@@ -3002,7 +2972,7 @@
     <value>Miesiąc</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>Day</value>
+    <value>Dzień</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Przełącz jednostkę dla grupowania według daty</value>
@@ -3014,10 +2984,10 @@
     <value>Rok</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>Group by date unit</value>
+    <value>Grupuj po dacie</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
-    <value>Group items by day of date created</value>
+    <value>Grupuj elementy po dacie utworzenia</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Grupuj pozycje według miesiąca daty utworzenia</value>
@@ -3025,8 +2995,8 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Grupuj pozycje według roku daty utworzenia</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
-    <value>Group items by day of date deleted</value>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Grupuj elementy po dacie usunięcia</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Grupuj pozycje według miesiąca daty usunięcia</value>
@@ -3035,7 +3005,7 @@
     <value>Grupuj pozycje według roku daty usunięcia</value>
   </data>
   <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
-    <value>Group items by day of date modified</value>
+    <value>Grupuj elementy po dacie modyfikacji</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Grupuj pozycje według miesiąca daty modyfikacji</value>
@@ -3329,7 +3299,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>Jaskrawo Niebieski</value>
+    <value>Jaskrawy niebieski</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
@@ -3345,7 +3315,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Pastelowy Irys</value>
+    <value>Lawendowy</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
@@ -3353,15 +3323,15 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Mod Czerwony</value>
+    <value>Lekko czerwony</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Jaskrawo Pomarańczowy</value>
+    <value>Jasny Pomarańczowy</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>Zachmurzony</value>
+    <value>Pochmurne niebo</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
@@ -3369,11 +3339,11 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Jaskrawo Różowy</value>
+    <value>Jasny Różowy</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Piana morska</value>
+    <value>Morski błękit</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
@@ -3381,11 +3351,11 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Fioletowo Czerwone Światło</value>
+    <value>Jasny fioletowo-różowy</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Złoty żółty</value>
+    <value>Złoty</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
@@ -3513,39 +3483,23 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Anulowano trwałe usuwanie {0} plików z "{1}"</value>
+    <value>Anulowano usuwanie {0} elementów z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Trwale usunięto {0} element(ów) z "{1}"</value>
+    <value>Usunięto {0} elementów z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Błąd trwałego usuwania {0} plików z "{1}"</value>
+    <value>Błąd przy usuwaniu {0} elementów z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Nie udało się trwale usunąć {0} plików z "{1}"</value>
+    <value>Nie udało się usunąć {0} elementów z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Trwale usunięto {0} element(y/ów) z "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Anulowano usuwanie {0} plików z "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Usunięto {0} element(y/ów) z "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Błąd usuwania {0} plików z "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
-    <value>Usuwanie {0} elementu/ów z "{1}"</value>
+    <value>Usuwanie {0} elementów z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
@@ -3642,48 +3596,130 @@
     <value>Zaloguj się</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+    <value>Tagi są obecnie kompatybilne tylko z dyskami sformatowanymi jako NTFS.</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
-    <value>There was an error applying this tag</value>
+    <value>Wystąpił błąd podczas stosowania tego tagu</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+    <value>Wypakuj elementy z wybranych archiwów do bieżącego folderu dla jednoelementowych archiwów lub do nowego folderu dla wieloelementowych archiwów</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>Extract here (Smart)</value>
+    <value>Wypakuj tutaj (Smart)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Posortuj razem pliki i foldery</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Posortuj razem pliki i foldery</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Sort files first</value>
+    <value>Posortuj najpierw pliki</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>Sort files first then folders</value>
+    <value>Posortuj najpierw pliki, a następnie foldery</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Sort folders first</value>
+    <value>Posortuj najpierw foldery</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Sort folders first then files</value>
+    <value>Posortuj najpierw foldery, a następnie pliki</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Sort priority</value>
+    <value>Priorytet sortowania</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
-    <value>Failed to rotate the image</value>
+    <value>Nie udało się obrócić obrazu</value>
   </data>
   <data name="Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>Uruchom ponownie</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>Quit</value>
+    <value>Wyjście</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
-    <value>Failed to share items</value>
+    <value>Udostępnianie nie powiodło się</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Przewiń do poprzedniego folderu podczas nawigacji w górę</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Otwórz nowe okno</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Zmień okładkę albumu</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Nie udało się zmienić nazwy pliku</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Edytowanie "{0}" wymaga dodatkowych uprawnień</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edytuj uprawnienia</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files dalej działa w tle, aby poprawić wydajność uruchamiania.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Co się stało z Files?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Questions &amp; discussions</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Mały</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Średni</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Duży</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>

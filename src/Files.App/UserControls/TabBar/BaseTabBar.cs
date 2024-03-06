@@ -135,14 +135,20 @@ namespace Files.App.UserControls.TabBar
 
 		public void CloseTab(TabBarItem tabItem)
 		{
+			if (tabItem is null)
+				return;
+
 			Items.Remove(tabItem);
-			tabItem?.Unload();
+			tabItem.Unload();
 			
 			// Dispose and save tab arguments
 			PushRecentTab(new CustomTabViewItemParameter[]
 			{
 				tabItem.NavigationParameter,
 			});
+
+			// Save the updated tab list
+			AppLifecycleHelper.SaveSessionTabs();
 
 			if (Items.Count == 0)
 				MainWindow.Instance.Close();

@@ -8,6 +8,8 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net.Sockets;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -31,8 +33,6 @@ namespace Files.App.Utils.Git
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-		private static readonly IApplicationService _applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-
 		private static readonly FetchOptions _fetchOptions = new()
 		{
 			Prune = true
@@ -40,13 +40,11 @@ namespace Files.App.Utils.Git
 
 		private static readonly PullOptions _pullOptions = new();
 
-		private static readonly string _clientId = _applicationService.Environment is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
+		private static readonly string _clientId = AppLifecycleHelper.AppEnvironment is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
 				? CLIENT_ID_SECRET
 				: string.Empty;
 
-		private static ThreadWithMessageQueue? _owningThread;
-
-		private static int _activeOperationsCount = 0;
+		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
 
 		private static bool _IsExecutingGitAction;
 		public static bool IsExecutingGitAction
@@ -65,14 +63,6 @@ namespace Files.App.Utils.Git
 		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
 
 		public static event EventHandler? GitFetchCompleted;
-
-		public static void TryDispose()
-		{
-			var threadToDispose = _owningThread;
-			_owningThread = null;
-			Interlocked.Exchange(ref _activeOperationsCount, 0);
-			threadToDispose?.Dispose();
-		}
 
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
@@ -97,7 +87,7 @@ namespace Files.App.Utils.Git
 						? path
 						: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
 			}
-			catch (LibGit2SharpException ex)
+			catch (Exception ex) when (ex is LibGit2SharpException or EncoderFallbackException)
 			{
 				_logger.LogWarning(ex.Message);
 
@@ -125,7 +115,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return Array.Empty<BranchItem>();
 
-			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<(GitOperationResult, BranchItem[])>(() =>
+			var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
 			{
 				var branches = Array.Empty<BranchItem>();
 				var result = GitOperationResult.Success;
@@ -157,7 +147,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return null;
 
-			var (_, returnValue) = await PostMethodToThreadWithMessageQueueAsync<(GitOperationResult, BranchItem?)>(() =>
+			var (_, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem?)>(() =>
 			{
 				BranchItem? head = null;
 				try
@@ -179,7 +169,7 @@ namespace Files.App.Utils.Git
 				}
 
 				return (GitOperationResult.Success, head);
-			});
+			}, true);
 
 			return returnValue;
 		}
@@ -228,7 +218,7 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			var result = await DoGitOperationAsync<GitOperationResult>(() =>
 			{
 				try
 				{
@@ -306,7 +296,7 @@ namespace Files.App.Utils.Git
 
 			IsExecutingGitAction = true;
 
-			await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			await DoGitOperationAsync<GitOperationResult>(() =>
 			{
 				try
 				{
@@ -363,7 +353,7 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
-			await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			await DoGitOperationAsync<GitOperationResult>(() =>
 			{
 				var result = GitOperationResult.Success;
 				try
@@ -422,7 +412,7 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
-			var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			var result = await DoGitOperationAsync<GitOperationResult>(() =>
 			{
 				try
 				{
@@ -508,7 +498,7 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+				var result = await DoGitOperationAsync<GitOperationResult>(() =>
 				{
 					try
 					{
@@ -545,27 +535,27 @@ namespace Files.App.Utils.Git
 			client.DefaultRequestHeaders.Add("Accept", "application/json");
 			client.DefaultRequestHeaders.Add("User-Agent", "Files App");
 
-			HttpResponseMessage codeResponse;
+			JsonDocument? codeJsonContent;
 			try
 			{
-				codeResponse = await client.PostAsync(
+				var codeResponse = await client.PostAsync(
 					$"https://github.com/login/device/code?client_id={_clientId}&scope=repo",
 					new StringContent(""));
+
+				if (!codeResponse.IsSuccessStatusCode)
+				{
+					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+					return;
+				}
+
+				codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
+				if (codeJsonContent is null)
+				{
+					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+					return;
+				}
 			}
 			catch
-			{
-				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-				return;
-			}
-
-			if (!codeResponse.IsSuccessStatusCode)
-			{
-				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-				return;
-			}
-
-			var codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
-			if (codeJsonContent is null)
 			{
 				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
 				return;
@@ -584,50 +574,59 @@ namespace Files.App.Utils.Git
 
 			while (!loginCTS.Token.IsCancellationRequested && pending && expiresIn > 0)
 			{
-				var loginResponse = await client.PostAsync(
+				try
+				{
+					var loginResponse = await client.PostAsync(
 					$"https://github.com/login/oauth/access_token?client_id={_clientId}&device_code={deviceCode}&grant_type=urn:ietf:params:oauth:grant-type:device_code",
 					new StringContent(""));
 
-				expiresIn -= interval;
+					expiresIn -= interval;
 
-				if (!loginResponse.IsSuccessStatusCode)
-				{
-					dialog.Hide();
-					break;
-				}
-
-				var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
-				if (loginJsonContent is null)
-				{
-					dialog.Hide();
-					break;
-				}
-
-				if (loginJsonContent.RootElement.TryGetProperty("error", out var error))
-				{
-					if (error.GetString() == "authorization_pending")
+					if (!loginResponse.IsSuccessStatusCode)
 					{
-						await Task.Delay(TimeSpan.FromSeconds(interval));
-						continue;
+						dialog.Hide();
+						break;
 					}
 
+					var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
+					if (loginJsonContent is null)
+					{
+						dialog.Hide();
+						break;
+					}
+
+					if (loginJsonContent.RootElement.TryGetProperty("error", out var error))
+					{
+						if (error.GetString() == "authorization_pending")
+						{
+							await Task.Delay(TimeSpan.FromSeconds(interval));
+							continue;
+						}
+
+						dialog.Hide();
+						break;
+					}
+
+					var token = loginJsonContent.RootElement.GetProperty("access_token").GetString();
+					if (token is null)
+						continue;
+
+					pending = false;
+
+					CredentialsHelpers.SavePassword(
+						GIT_RESOURCE_NAME,
+						GIT_RESOURCE_USERNAME,
+						token);
+
+					viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
+					viewModel.LoginConfirmed = true;
+				}
+				catch (SocketException ex)
+				{
+					_logger.LogWarning(ex.Message);
 					dialog.Hide();
 					break;
 				}
-
-				var token = loginJsonContent.RootElement.GetProperty("access_token").GetString();
-				if (token is null)
-					continue;
-
-				pending = false;
-
-				CredentialsHelpers.SavePassword(
-					GIT_RESOURCE_NAME,
-					GIT_RESOURCE_USERNAME,
-					token);
-
-				viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
-				viewModel.LoginConfirmed = true;
 			}
 
 			await loginDialogTask;
@@ -821,29 +820,22 @@ namespace Files.App.Utils.Git
 				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
 		}
 
-		private static void DisposeIfFinished()
+		private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload, bool useSemaphore = false)
 		{
-			if (Interlocked.Decrement(ref _activeOperationsCount) == 0)
-				TryDispose();
-		}
-
-		private static async Task<T?> PostMethodToThreadWithMessageQueueAsync<T>(Func<object> payload)
-		{
-			T? returnValue = default;
-
-			Interlocked.Increment(ref _activeOperationsCount);
-			_owningThread ??= new ThreadWithMessageQueue();
+			if (useSemaphore)
+				await GitOperationSemaphore.WaitAsync();
+			else
+				await Task.Yield();
 
 			try
 			{
-				returnValue = await _owningThread.PostMethod<T>(payload);
+				return (T)payload();
 			}
 			finally
 			{
-				DisposeIfFinished();
+				if (useSemaphore)
+					GitOperationSemaphore.Release();
 			}
-
-			return returnValue;
 		}
 	}
 }

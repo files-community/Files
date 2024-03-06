@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -17,17 +16,17 @@ namespace Files.App.Helpers
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private static NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
-		public static Task OpenPathInNewTab(string? path)
+		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), path, focusNewTab);
 		}
 
 		public static Task AddNewTabAsync()
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
 		}
 
-		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
+		public static async Task AddNewTabByPathAsync(Type type, string? path, bool focusNewTab, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
 			{
@@ -60,7 +59,8 @@ namespace Files.App.Helpers
 
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
-			App.AppModel.TabStripSelectedIndex = index;
+			if (focusNewTab)
+				App.AppModel.TabStripSelectedIndex = index;
 		}
 
 		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
@@ -137,30 +137,15 @@ namespace Files.App.Helpers
 				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
-			{
 				tabLocationHeader = "Desktop".GetLocalizedResource();
-			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-			{
 				tabLocationHeader = "Downloads".GetLocalizedResource();
-			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-			{
 				tabLocationHeader = "RecycleBin".GetLocalizedResource();
-
-				// Use 48 for higher resolution, the other items look fine with 16.
-				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 48u, Windows.Storage.FileProperties.ThumbnailMode.ListView, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale, true);
-				if (iconData is not null)
-					iconSource.ImageSource = await iconData.ToBitmapAsync();
-			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-			{
 				tabLocationHeader = "ThisPC".GetLocalizedResource();
-			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-			{
 				tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
-			}
 			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
 			{
 				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
@@ -203,9 +188,14 @@ namespace Files.App.Helpers
 
 			if (iconSource.ImageSource is null)
 			{
-				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 16u, Windows.Storage.FileProperties.ThumbnailMode.ListView, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale, true);
-				if (iconData is not null)
-					iconSource.ImageSource = await iconData.ToBitmapAsync();
+				var result = await FileThumbnailHelper.GetIconAsync(
+					currentPath,
+					Constants.ShellIconSizes.Small,
+					true,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
+				if (result is not null)
+					iconSource.ImageSource = await result.ToBitmapAsync();
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);
@@ -368,7 +358,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					await NavigationHelpers.OpenPathInNewTab(path);
+					await NavigationHelpers.OpenPathInNewTab(path, true);
 				}
 
 				return true;
@@ -661,7 +651,7 @@ namespace Files.App.Helpers
 		{
 			if (forceOpenInNewTab || openFolderInNewTabSetting)
 			{
-				await OpenPathInNewTab(text);
+				await OpenPathInNewTab(text, true);
 			}
 			else
 			{

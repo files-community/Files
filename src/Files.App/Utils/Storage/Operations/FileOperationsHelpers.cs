@@ -816,27 +816,6 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static string? ReadCompatOptions(string filePath)
-			=> SafetyExtensions.IgnoreExceptions(() =>
-			{
-				using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers");
-				if (compatKey is null)
-				{
-					return null;
-				}
-				return (string?)compatKey.GetValue(filePath, null);
-			}, App.Logger);
-
-		public static bool SetCompatOptions(string filePath, string options)
-		{
-			if (string.IsNullOrEmpty(options) || options == "~")
-			{
-				return Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", true);
-			}
-
-			return Win32API.RunPowershellCommand(@$"New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null", true);
-		}
-
 		private static ShellItem? GetFirstFile(ShellItem shi)
 		{
 			if (!shi.IsFolder || shi.Attributes.HasFlag(ShellItemAttribute.Stream))

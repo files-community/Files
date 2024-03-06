@@ -15,6 +15,7 @@
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
+	HighContrastAdjustment="None"
 	mc:Ignorable="d">
 
 	<local:BaseGroupableLayoutPage.Resources>
@@ -123,6 +124,26 @@
 			</Setter>
 		</Style>
 
+		<Style
+			x:Name="CompactItemContainerStyle"
+			BasedOn="{StaticResource DefaultListViewItemStyle}"
+			TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="-2" />
+			<Setter Property="Padding" Value="4,0" />
+		</Style>
+
+		<Style
+			x:Name="RegularItemContainerStyle"
+			BasedOn="{StaticResource DefaultListViewItemStyle}"
+			TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="4,0" />
+		</Style>
+
 	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
@@ -187,7 +208,7 @@
 						<DataTemplate x:DataType="filesystem:ListedItem">
 							<Grid
 								x:Name="FilesRootGrid"
-								Height="30"
+								Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
 								Padding="12,0,12,0"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
@@ -222,15 +243,13 @@
 											Source="{x:Bind FileImage, Mode=OneWay}"
 											Stretch="Uniform" />
 									</ContentPresenter>
-									<Border
+
+									<!--  Loading indicator  -->
+									<uc:Shimmer
 										x:Name="TypeUnknownGlyph"
-										Width="20"
-										Height="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-										Background="{ThemeResource SystemChromeHighColor}"
-										CornerRadius="4" />
+										Margin="2"
+										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+
 									<Image
 										x:Name="IconOverlay"
 										Width="16"
@@ -264,7 +283,7 @@
 										Margin="2"
 										HorizontalAlignment="Right"
 										VerticalAlignment="Bottom"
-										x:Load="{x:Bind IsElevated}"
+										x:Load="{x:Bind IsElevationRequired}"
 										Source="{x:Bind ShieldIcon, Mode=OneWay}"
 										Stretch="Uniform" />
 								</Grid>
@@ -382,16 +401,6 @@
 							</GroupStyle.HeaderTemplate>
 						</GroupStyle>
 					</ListView.GroupStyle>
-
-					<ListView.ItemContainerStyle>
-						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-							<Setter Property="MinHeight" Value="1" />
-							<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
-							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-							<Setter Property="Padding" Value="4,0" />
-						</Style>
-					</ListView.ItemContainerStyle>
 
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>

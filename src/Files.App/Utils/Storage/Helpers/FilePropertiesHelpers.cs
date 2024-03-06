@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Views.Properties;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -8,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
+using Windows.ApplicationModel;
 using Windows.Graphics;
 
 namespace Files.App.Utils.Storage
@@ -86,10 +88,9 @@ namespace Files.App.Utils.Storage
 		/// </summary>
 		/// <param name="item">An item to view properties</param>
 		/// <param name="associatedInstance">Associated main window instance</param>
-		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance)
+		/// <param name="defaultPage">The page to show when opening the window</param>
+		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance, PropertiesNavigationViewItemType defaultPage = PropertiesNavigationViewItemType.General)
 		{
-			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-
 			if (item is null)
 				return;
 
@@ -120,7 +121,7 @@ namespace Files.App.Utils.Storage
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			appWindow.SetIcon(applicationService.AppIcoPath);
+			appWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 
 			frame.Navigate(
 				typeof(Views.Properties.MainPropertiesPage),
@@ -148,6 +149,8 @@ namespace Files.App.Utils.Storage
 
 			appWindow.Move(appWindowPos);
 			appWindow.Show();
+
+			(frame.Content as MainPropertiesPage)?.TryNavigateToPage(defaultPage);
 		}
 
 		// Destruction of Window objects seems to cause access violation. (#12057)

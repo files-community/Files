@@ -40,13 +40,15 @@ namespace Files.App.Helpers
 			{
 				Debug.WriteLine("Device successfully ejected");
 
-				var toastContent = new ToastContent()
+				SafetyExtensions.IgnoreExceptions(() =>
 				{
-					Visual = new ToastVisual()
+					var toastContent = new ToastContent()
 					{
-						BindingGeneric = new ToastBindingGeneric()
+						Visual = new ToastVisual()
 						{
-							Children =
+							BindingGeneric = new ToastBindingGeneric()
+							{
+								Children =
 							{
 								new AdaptiveText()
 								{
@@ -57,20 +59,21 @@ namespace Files.App.Helpers
 									Text = "EjectNotificationBody".GetLocalizedResource()
 								}
 							},
-							Attribution = new ToastGenericAttributionText()
-							{
-								Text = "SettingsAboutAppName".GetLocalizedResource()
+								Attribution = new ToastGenericAttributionText()
+								{
+									Text = "SettingsAboutAppName".GetLocalizedResource()
+								}
 							}
-						}
-					},
-					ActivationType = ToastActivationType.Protocol
-				};
+						},
+						ActivationType = ToastActivationType.Protocol
+					};
 
-				// Create the toast notification
-				var toastNotif = new ToastNotification(toastContent.GetXml());
+					// Create the toast notification
+					var toastNotif = new ToastNotification(toastContent.GetXml());
 
-				// And send the notification
-				ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+					// And send the notification
+					ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+				});
 			}
 			else if (!result)
 			{

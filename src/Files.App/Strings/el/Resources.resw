@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Νέο παράθυρο</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Αντιγραφή διαδρομής</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copy path with quotes</value>
+    <value>Αντιγραφή διαδρομής με εισαγωγικά</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Περιηγηθείτε στο</value>
@@ -349,6 +349,12 @@
     <value>Η μονάδα δίσκου αποσυνδέθηκε</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Το αρχείο που προσπαθείτε να προσπελάσετε ενδέχεται να έχει μετακινηθεί ή διαγραφεί.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Αδυναμία ανοίγματος ιδιοτήτων για αυτό το αρχείο</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Το αρχείο που προσπαθείτε να προσπελάσετε ενδέχεται να έχει μετακινηθεί ή διαγραφεί.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -632,9 +638,6 @@
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Δημιουργεί έναν κενό φάκελο</value>
-  </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Λειτουργία διάταξης</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Ανανέωση του καταλόγου</value>
@@ -987,9 +990,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Εμφάνιση προστατευόμενων αρχείων συστήματος</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Να περιληφθούν τα αντικείμενα που δε βρίσκονται στο ευρετήριο στα αποτελέσματα</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Συγχρονισμός προτιμήσεων διάταξης και ταξινόμησης μεταξύ καταλόγων</value>
   </data>
@@ -1014,6 +1014,15 @@
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Εμφάνιση επιλογής ανοίγματος φακέλων σε ένα νέο παράθυρο</value>
   </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Εμφάνιση επιλογής για αντιγραφή διαδρομής</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Εμφάνιση επιλογής για δημιουργία φακέλου με επιλογή</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Εμφάνιση επιλογής για δημιουργία συντόμευσης</value>
+  </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Νέο παράθυρο</value>
   </data>
@@ -1025,15 +1034,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Λεπτομέρειες (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Μεγάλα εικονίδια (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Μεσαία εικονίδια (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Μικρά εικονίδια (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Πλακίδια (Ctrl+Shift+2)</value>
@@ -1054,16 +1054,16 @@
     <value>Εναλλαγή του παραθύρου προεπισκόπησης</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Εναλλαγή παραθύρου λεπτομερειών</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>Εναλλαγή του πλαισίου λεπτομερειών για την προβολή βασικών ιδιοτήτων αρχείου</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Εναλλαγή του πλαισίου πληροφοριών</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail/preview panes</value>
+    <value>Εναλλαγή του πλαισίου πληροφοριών για προβολή των παραθύρων λεπτομερειών/προεπισκόπησης</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Δεν υπάρχει διαθέσιμη προεπισκόπηση</value>
@@ -1271,12 +1271,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Ταχύτητα ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Δεν βρήκατε αυτό που ψάχνατε;</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Αναζήτηση μη ευρετηριασμένων στοιχείων</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Αντικαταστήστε το υπάρχον</value>
@@ -1650,23 +1644,11 @@
   <data name="Home" xml:space="preserve">
     <value>Αρχική σελίδα</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
@@ -1733,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Στήλες</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Μεγάλα Εικονίδια</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Μεσαία Εικονίδια</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Μικρά Εικονίδια</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Πλακίδια</value>
@@ -1813,7 +1786,7 @@
     <value>Επαναφορά προεπιλογών</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Open tab in existing instance when opening Files from another app</value>
+    <value>Άνοιγμα καρτέλας στην υπάρχουσα περίπτωση κατά το άνοιγμα αρχείων από άλλη εφαρμογή</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Ρυθμίσεις εκκίνησης</value>
@@ -1982,9 +1955,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Ετικέτες</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Χρήση συμπαγούς διαστήματος στη διάταξη λεπτομερειών</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Διεθνής</value>
@@ -2230,7 +2200,7 @@
     <value>Εμφάνιση επεξεργασίας ετικετών</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Show compression options</value>
+    <value>Εμφάνιση επιλογών συμπίεσης</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Εμφάνιση μενού Αποστολή Σε</value>
@@ -2338,10 +2308,10 @@
     <value>Παρουσιάστηκε σφάλμα κατά τον υπολογισμό</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Failed to calculate the hash, please close the file and try again.</value>
+    <value>Απέτυχε ο υπολογισμός του χάσματος, κλείστε το αρχείο και προσπαθήστε ξανά.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Hashes aren't available for online files</value>
+    <value>Τα Hashes δεν είναι διαθέσιμα για online αρχεία</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Αλγόριθμος</value>
@@ -2407,7 +2377,7 @@
     <value>Εναλλαγή εμφάνισης επεκτάσεων αρχείων</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle the preview pane to view file previews</value>
+    <value>Εναλλαγή του παραθύρου προεπισκόπησης για προβολή προεπισκόπησης αρχείων</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Εναλλαγή εμφάνισης πλευρικής μπάρας</value>
@@ -2416,10 +2386,10 @@
     <value>Αντιγραφή στοιχείου(ων) στο πρόχειρο</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of selected items to the clipboard</value>
+    <value>Αντιγραφή διαδρομής των επιλεγμένων αντικειμένων στο πρόχειρο</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes to the clipboard</value>
+    <value>Αντιγραφή διαδρομής των επιλεγμένων αντικειμένων με εισαγωγικά στο πρόχειρο</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Αποκοπή στοιχείου(ων) στο πρόχειρο</value>
@@ -2560,10 +2530,10 @@
     <value>Άνοιγμα φακέλου στο τερματικό ως διαχειριστής</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Μείωση μεγέθους εικονιδίου στην προβολή πλέγματος</value>
+    <value>Decrease item size in the current view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Αύξηση μεγέθους εικονιδίου στην προβολή πλέγματος</value>
+    <value>Increase item size in the current view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Εναλλαγή σε προβολή λεπτομερειών</value>
@@ -2571,14 +2541,17 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Εναλλαγή σε προβολή πλακιδίων</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Εναλλαγή σε προβολή πλέγματος με μικρά εικονίδια</value>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Εναλλαγή στην προβολή λίστας</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Εναλλαγή σε προβολή πλέγματος με μεσαία εικονίδια</value>
+  <data name="List" xml:space="preserve">
+    <value>Λίστα</value>
   </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Εναλλαγή σε προβολή πλέγματος με μεγάλα εικονίδια</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Εναλλαγή στην προβολή στηλών</value>
@@ -2846,7 +2819,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>Μετάβαση</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
@@ -2854,11 +2827,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>Προώθηση</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>Ανανέωση</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
@@ -2874,7 +2847,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>PlayPause</value>
+    <value>Αναπαραγωγή</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
@@ -2890,7 +2863,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>MediaSelect</value>
+    <value>Επιλογή Μέσου</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
@@ -2959,9 +2932,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Εμφάνιση κουτιών ελέγχου κατά την επιλογή στοιχείων</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Αναζήτηση για στοιχεία χωρίς ευρετήριο</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Εστίαση γραμμής διαδρομής</value>
   </data>
@@ -2969,7 +2939,7 @@
     <value>Δημιουργία νέου στοιχείου</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Καμία ομάδα ή χρήστες δεν έχει δικαίωμα πρόσβασης σε αυτό το αντικείμενο. Ωστόσο, ο ιδιοκτήτης αυτού του αντικειμένου μπορεί να παραχωρήσει δικαιώματα.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Άνοιγμα της θέσης του στοιχείου</value>
@@ -3002,7 +2972,7 @@
     <value>Μήνας</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>Day</value>
+    <value>Ημέρα</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Εναλλαγή ομαδοποίησης ανά ημερομηνία</value>
@@ -3014,10 +2984,10 @@
     <value>Έτος</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>Group by date unit</value>
+    <value>Ομαδοποίηση κατά μονάδα ημερομηνίας</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
-    <value>Group items by day of date created</value>
+    <value>Ομαδοποίηση στοιχείων ανά ημερομηνία δημιουργίας</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Ομαδοποιήστε τα στοιχεία κατά ημερομηνία μήνα δημιουργίας</value>
@@ -3025,8 +2995,8 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Ομαδοποιήστε τα στοιχεία κατά ημερομηνία έτους δημιουργίας</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
-    <value>Group items by day of date deleted</value>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Ομαδοποίηση στοιχείων ανά ημερομηνία διαγραφής</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Ομαδοποιήστε τα στοιχεία κατά ημερομηνία μήνα που διαγράφηκαν</value>
@@ -3035,7 +3005,7 @@
     <value>Ομαδοποιήστε τα στοιχεία κατά ημερομηνία έτους διαγραφής</value>
   </data>
   <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
-    <value>Group items by day of date modified</value>
+    <value>Ομαδοποίηση στοιχείων ανά ημερομηνία τροποποίησης</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Ομαδοποίηση στοιχείων ανά ημερομηνία μήνα τροποποίησης</value>
@@ -3095,7 +3065,7 @@
     <value>Μετάβαση σε νέο κλάδο</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Δημιουργία φακέλου με το τρέχον επιλεγμένο αντικείμενο(α)</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Άνοιγμα ιδιοτήτων</value>
@@ -3107,19 +3077,19 @@
     <value>Τοπικά</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>Απομακρυσμένα</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Μεταφραση στο Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Ανάκτηση</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>Τραβήξτε</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>Εκτέλεση git ανάκτησης</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Run git pull</value>
@@ -3131,13 +3101,13 @@
     <value>Git status</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>Σφάλμα Git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>(πολλαπλές τιμές)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
@@ -3174,7 +3144,7 @@
     <value>Διαχείριση κλάδων</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Push</value>
+    <value>Προώθηση</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
     <value>Εκτέλεση git push</value>
@@ -3186,22 +3156,22 @@
     <value>Run git pull and then git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} εξερχόμενες / {1} εισερχόμενες υποβολές</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
     <value>Σύνδεση στο GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+    <value>Εισάγετε τον ακόλουθο κωδικό στον παρακάτω σύνδεσμο για να ξεκινήσετε να εργάζεστε με τα αποθετήρια του GitHub.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>
+    <value>Τα αρχεία δεν μπορούν να έχουν πρόσβαση στο GitHub αυτή τη στιγμή.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open folder in VS Code</value>
+    <value>Άνοιγμα φακέλου σε VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>Άνοιγμα του τρέχοντος καταλόγου στο Visual Studio Code</value>
   </data>
   <data name="OpenRepoInVSCode" xml:space="preserve">
     <value>Open repo in VS Code</value>
@@ -3222,7 +3192,7 @@
     <value>Τροποποιήθηκε</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>Χωρίς Ανίχνευση</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
     <value>Αδυναμία εμφάνισης του τρέχοντος ιδιοκτήτη.</value>
@@ -3310,7 +3280,7 @@
     <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>Leave app running in the background when the window is closed</value>
+    <value>Αφήστε την εφαρμογή να εκτελείται στο παρασκήνιο όταν το παράθυρο είναι κλειστό</value>
   </data>
   <data name="Blue" xml:space="preserve">
     <value>Μπλέ</value>
@@ -3377,22 +3347,22 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>Storm</value>
+    <value>Θύελλα</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Violet Red Light</value>
+    <value>Βιολετί Κόκκινο Φως</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Yellow Gold</value>
+    <value>Κίτρινο Χρυσό</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>Εκκαθάριση ολοκληρωμένων</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>Όνομα:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
     <value>{0} of {1} processed</value>
@@ -3411,10 +3381,10 @@
     <value>Προσθήκη σελίδας</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>Processing items...</value>
+    <value>Επεξεργασία αντικειμένων...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Ταχύτητα:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3513,38 +3483,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Permanently deleting {0} item(s) from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Canceled deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>Deleted {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Error deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Deleting {0} item(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3585,15 +3539,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Emptied Recycle Bin</value>
+    <value>Άδειασμα Κάδου Ανακύκλωσης</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying Recycle Bin</value>
+    <value>Άδειασμα του κάδου ανακύκλωσης</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Error emptying Recycle Bin</value>
+    <value>Σφάλμα κατά την εκκαθάριση του κάδου ανακύκλωσης</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
@@ -3618,10 +3572,10 @@
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Αποτυχία επαναφοράς στοιχείων από τον κάδο ανακύκλωσης</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
-    <value>Failed to set the background wallpaper</value>
+    <value>Αποτυχία ορισμού ταπετσαρίας φόντου</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Delete Git branch</value>
@@ -3685,5 +3639,87 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Failed to share items</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll to previous folder when navigating up</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Άνοιγμα νέου παραθύρου</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Change album cover</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Failed to rename item</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Editing "{0}" requires additional permissions</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edit permissions</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files is still running in the background to improve startup performance.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Where did Files go?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Questions &amp; discussions</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Μικρό</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Μεσαίο</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Μεγάλο</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>

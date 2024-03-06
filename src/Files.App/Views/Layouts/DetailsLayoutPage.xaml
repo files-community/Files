@@ -165,6 +165,23 @@
 				<Setter Property="Opacity" Value="0.6" />
 			</Style>
 
+			<Style
+				x:Name="CompactItemContainerStyle"
+				BasedOn="{StaticResource DefaultListViewItemStyle}"
+				TargetType="ListViewItem">
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="MinHeight" Value="1" />
+				<Setter Property="Margin" Value="-2" />
+			</Style>
+
+			<Style
+				x:Name="RegularItemContainerStyle"
+				BasedOn="{StaticResource DefaultListViewItemStyle}"
+				TargetType="ListViewItem">
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="MinHeight" Value="1" />
+				<Setter Property="Margin" Value="0" />
+			</Style>
 		</ResourceDictionary>
 	</local:BaseGroupableLayoutPage.Resources>
 
@@ -883,22 +900,20 @@
 						<DataTemplate x:DataType="filesystem:ListedItem">
 							<UserControl>
 								<StackPanel
+									Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
 									HorizontalAlignment="Stretch"
 									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 									IsRightTapEnabled="True"
 									Loaded="StackPanel_Loaded"
 									Orientation="Horizontal">
 									<!--  Item Thumbnail  -->
-									<Grid
-										Width="24"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Stretch">
+									<Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
 
 										<!--  Thumbnail  -->
 										<Grid
 											x:Name="IconBox"
-											Width="20"
-											Height="Auto"
+											Width="24"
+											Height="24"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
 											AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
@@ -918,15 +933,13 @@
 													Source="{x:Bind FileImage, Mode=OneWay}"
 													Stretch="Uniform" />
 											</ContentPresenter>
-											<Border
+
+											<!--  Loading indicator  -->
+											<uc:Shimmer
 												x:Name="TypeUnknownGlyph"
-												Width="20"
-												Height="20"
-												HorizontalAlignment="Stretch"
-												VerticalAlignment="Stretch"
-												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-												Background="{ThemeResource SystemChromeHighColor}"
-												CornerRadius="4" />
+												Margin="2"
+												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+
 											<FontIcon
 												x:Name="WebShortcutGlyph"
 												x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
@@ -954,7 +967,7 @@
 												Height="8"
 												HorizontalAlignment="Right"
 												VerticalAlignment="Bottom"
-												x:Load="{x:Bind IsElevated}"
+												x:Load="{x:Bind IsElevationRequired}"
 												Source="{x:Bind ShieldIcon, Mode=OneWay}"
 												Stretch="Uniform" />
 										</Grid>
@@ -1267,7 +1280,7 @@
 											<VisualState x:Name="ShowCheckbox">
 												<VisualState.Setters>
 													<Setter Target="SelectionCheckbox.Opacity" Value="1" />
-													<Setter Target="IconBox.Visibility" Value="Collapsed" />
+													<Setter Target="IconBox.Opacity" Value="0" />
 												</VisualState.Setters>
 											</VisualState>
 										</VisualStateGroup>
@@ -1414,16 +1427,6 @@
 							</GroupStyle.HeaderTemplate>
 						</GroupStyle>
 					</ListView.GroupStyle>
-
-					<!--  ListView Control Property Customizing  -->
-					<ListView.ItemContainerStyle>
-						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-							<Setter Property="MinHeight" Value="1" />
-							<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
-							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-						</Style>
-					</ListView.ItemContainerStyle>
 
 					<!--  ListView Item Displaying Style  -->
 					<ListView.ItemsPanel>

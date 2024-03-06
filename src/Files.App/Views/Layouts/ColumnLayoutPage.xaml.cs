@@ -14,7 +14,6 @@ using System.IO;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using static Files.App.Constants;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.Layouts
@@ -39,9 +38,17 @@ namespace Files.App.Views.Layouts
 
 		// Properties
 
-		protected override uint IconSize => Constants.DefaultIconSizes.Large;
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
+
+
+		/// <summary>
+		/// Row height in the Columns View
+		/// </summary>
+		public int RowHeight
+		{
+			get => LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
+		}
 
 		// Constructor
 
@@ -135,6 +142,9 @@ namespace Files.App.Views.Layouts
 
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
+			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
+
+			SetItemContainerStyle();
 		}
 
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -152,6 +162,20 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+		}
+
+		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			// TODO keep scroll position when changing styles (see details view)
+
+			if (e.PropertyName == nameof(ILayoutSettingsService.ColumnsViewSize))
+			{
+				NotifyPropertyChanged(nameof(RowHeight));
+
+				// Update the container style to match the item size
+				SetItemContainerStyle();
+			}
 		}
 
 		override public void StartRenameItem()
@@ -206,6 +230,29 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
+		/// <summary>
+		/// Sets the item size and spacing
+		/// </summary>
+		private void SetItemContainerStyle()
+		{
+			if (UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Compact)
+			{
+				// Toggle style to force item size to update
+				FileList.ItemContainerStyle = RegularItemContainerStyle;
+
+				// Set correct style
+				FileList.ItemContainerStyle = CompactItemContainerStyle;
+			}
+			else
+			{
+				// Toggle style to force item size to update
+				FileList.ItemContainerStyle = CompactItemContainerStyle;
+
+				// Set correct style
+				FileList.ItemContainerStyle = RegularItemContainerStyle;
+			}
+		}
+
 		public override void Dispose()
 		{
 			base.Dispose();
@@ -248,7 +295,7 @@ namespace Files.App.Views.Layouts
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
-				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
 				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
 			{
 				CloseFolder();
@@ -505,7 +552,7 @@ namespace Files.App.Views.Layouts
 					parent.FolderSettings.ToggleLayoutModeTiles(true);
 					break;
 				case FolderLayoutModes.GridView:
-					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+					parent.FolderSettings.ToggleLayoutModeGridView(true);
 					break;
 				case FolderLayoutModes.Adaptive:
 					parent.FolderSettings.ToggleLayoutModeAdaptive();

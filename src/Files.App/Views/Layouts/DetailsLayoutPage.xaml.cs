@@ -28,13 +28,10 @@ namespace Files.App.Views.Layouts
 
 		// Fields
 
-		private uint currentIconSize;
-
 		private ListedItem? _nextItemToSelect;
 
 		// Properties
 
-		protected override uint IconSize => currentIconSize;
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
@@ -58,6 +55,15 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		/// <summary>
+		/// Row height for items in the Details View
+		/// </summary>
+		public int RowHeight
+		{
+			get => LayoutSizeKindHelper.GetDetailsViewRowHeight((DetailsViewSizeKind)UserSettingsService.LayoutSettingsService.DetailsViewSize);
+		}
+
+
 		// Constructor
 
 		public DetailsLayoutPage() : base()
@@ -73,7 +79,7 @@ namespace Files.App.Views.Layouts
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
-			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
+			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * RowHeight, null, true); // Scroll to index * item height
 		}
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
@@ -81,7 +87,7 @@ namespace Files.App.Views.Layouts
 			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
-				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, false);
+				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * RowHeight, null, false);
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
 			}
 		}
@@ -132,13 +138,12 @@ namespace Files.App.Views.Layouts
 
 			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
-			currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -168,17 +173,59 @@ namespace Files.App.Views.Layouts
 			});
 
 			RootGrid_SizeChanged(null, null);
+
+			SetItemContainerStyle();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+		}
+
+		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(ILayoutSettingsService.DetailsViewSize))
+			{
+				// Get current scroll position
+				var previousOffset = ContentScroller?.VerticalOffset;
+
+				NotifyPropertyChanged(nameof(RowHeight));
+
+				// Update the container style to match the item size
+				SetItemContainerStyle();
+
+				// Restore correct scroll position
+				ContentScroller?.ChangeView(null, previousOffset, null);
+			}
+		}
+
+		/// <summary>
+		/// Sets the item size and spacing
+		/// </summary>
+		private void SetItemContainerStyle()
+		{
+			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
+			{
+				// Toggle style to force item size to update
+				FileList.ItemContainerStyle = RegularItemContainerStyle;
+
+				// Set correct style
+				FileList.ItemContainerStyle = CompactItemContainerStyle;
+			}
+			else
+			{
+				// Toggle style to force item size to update
+				FileList.ItemContainerStyle = CompactItemContainerStyle;
+
+				// Set correct style
+				FileList.ItemContainerStyle = RegularItemContainerStyle;
+			}
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)
@@ -362,7 +409,7 @@ namespace Files.App.Views.Layouts
 					if (folders is not null)
 					{
 						foreach (ListedItem folder in folders)
-							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath, false);
 					}
 				}
 				else if (ctrlPressed && shiftPressed)
@@ -412,18 +459,6 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
-		{
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
-
-			// Prevents reloading icons when the icon size hasn't changed
-			if (requestedIconSize != currentIconSize)
-			{
-				currentIconSize = requestedIconSize; // Update icon size before refreshing
-				await ReloadItemIconsAsync();
-			}
-		}
-
 		private async Task ReloadItemIconsAsync()
 		{
 			if (ParentShellPageInstance is null)
@@ -431,12 +466,15 @@ namespace Files.App.Views.Layouts
 
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
-			foreach (ListedItem listedItem in filesAndFolders)
+
+			await Task.WhenAll(filesAndFolders.Select(listedItem =>
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
-			}
+					return ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+				else
+					return Task.CompletedTask;
+			}));
 
 			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
 			{

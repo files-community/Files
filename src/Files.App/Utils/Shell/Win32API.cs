@@ -217,56 +217,79 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private class IconAndOverlayCacheEntry
-		{
-			public byte[]? Icon { get; set; }
-
-			public byte[]? Overlay { get; set; }
-		}
-
-		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
-
-		private static readonly object _lock = new object();
+		private static readonly object _iconOverlayLock = new object();
 
 		/// <summary>
-		/// Returns an icon when a thumbnail isn't available or if getIconOnly is true.
-		/// <br/>
-		/// Returns an icon overlay when getOverlay is true.
-		/// <br/>
-		/// Returns a boolean indicating if the icon/thumbnail is cached.
+		/// Returns overlay for given file or folder
 		/// </summary>
 		/// <param name="path"></param>
-		/// <param name="thumbnailSize"></param>
-		/// <param name="isFolder"></param>
-		/// <param name="getIconOnly"></param>
-		/// <param name="getOverlay"></param>
-		/// <param name="onlyGetOverlay"></param>
+		/// <param name="isDirectory"></param>
 		/// <returns></returns>
-		public static (byte[]? icon, byte[]? overlay, bool isIconCached) GetFileIconAndOverlay(
-			string path,
-			int thumbnailSize,
-			bool isFolder,
-			bool getIconOnly,
-			bool getOverlay = true,
-			bool onlyGetOverlay = false)
+		public static byte[]? GetIconOverlay(string path, bool isDirectory)
 		{
-			byte[]? iconData = null, overlayData = null;
-			bool isIconCached = false;
+			var shFileInfo = new Shell32.SHFILEINFO();
+			var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
+			byte[]? overlayData = null;
 
-			var entry = _iconAndOverlayCache.GetOrAdd(path, _ => new());
-
-			if (entry.TryGetValue(thumbnailSize, out var cacheEntry))
+			try
 			{
-				iconData = cacheEntry.Icon;
-				overlayData = cacheEntry.Overlay;
+				IntPtr result = Shell32.SHGetFileInfo(path, isDirectory ? FileAttributes.Directory : 0, ref shFileInfo, Shell32.SHFILEINFO.Size, flags);
+				if (result == IntPtr.Zero)
+					return null;
 
-				if ((onlyGetOverlay && overlayData is not null) ||
-					(!getOverlay && iconData is not null) ||
-					(overlayData is not null && iconData is not null))
+				User32.DestroyIcon(shFileInfo.hIcon);
+
+				lock (_iconOverlayLock)
 				{
-					return (iconData, overlayData, true);
+					if (!Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
+						return null;
+
+					var imageList = (ComCtl32.IImageList)imageListOut;
+
+					var overlayIdx = shFileInfo.iIcon >> 24;
+					if (overlayIdx != 0)
+					{
+						var overlayImage = imageList.GetOverlayImage(overlayIdx);
+
+						using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+
+						if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+						{
+							using var icon = hOverlay.ToIcon();
+							using var image = icon.ToBitmap();
+
+							overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+						}
+					}
+
+					Marshal.ReleaseComObject(imageList);
 				}
 			}
+			catch (Exception)
+			{
+				return null;
+			}
+
+			return overlayData;
+		}
+
+		private static readonly object _iconLock = new object();
+
+		/// <summary>
+		/// Returns an icon if returnIconOnly is true, otherwise a thumbnail will be returned if available.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="size"></param>
+		/// <param name="isFolder"></param>
+		/// <param name="returnIconOnly"></param>
+		/// <returns></returns>
+		public static byte[]? GetIcon(
+			string path,
+			int size,
+			bool isFolder,
+			bool returnIconOnly)
+		{
+			byte[]? iconData = null;
 
 			try
 			{
@@ -278,41 +301,37 @@ namespace Files.App.Utils.Shell
 				{
 					var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
 
-					if (getIconOnly)
+					if (returnIconOnly)
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-					else
-						flags |= Shell32.SIIGBF.SIIGBF_THUMBNAILONLY;
 
-					var hres = shellFactory.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
+					var hres = shellFactory.GetImage(new SIZE(size, size), flags, out var hbitmap);
 					if (hres == HRESULT.S_OK)
 					{
 						using var image = GetBitmapFromHBitmap(hbitmap);
 						if (image is not null)
 							iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-
-						isIconCached = true;
 					}
 
 					Marshal.ReleaseComObject(shellFactory);
 				}
 
-				if (getOverlay || (!onlyGetOverlay && iconData is null))
+				if (iconData is not null)
+					return iconData;			
+				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
-					var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
+					var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION | Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES;
 
 					// Cannot access file, use file attributes
-					var useFileAttibutes = !onlyGetOverlay && iconData is null;
+					var useFileAttibutes = iconData is null;
 
-					var ret = ShellFolderExtensions.GetStringAsPIDL(path, out var pidl) ?
-						Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
-						Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
+					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
 					if (ret == IntPtr.Zero)
-						return (iconData, null, isIconCached);
+						return iconData;
 
 					User32.DestroyIcon(shfi.hIcon);
 
-					var imageListSize = thumbnailSize switch
+					var imageListSize = size switch
 					{
 						<= 16 => Shell32.SHIL.SHIL_SMALL,
 						<= 32 => Shell32.SHIL.SHIL_LARGE,
@@ -320,14 +339,14 @@ namespace Files.App.Utils.Shell
 						_ => Shell32.SHIL.SHIL_JUMBO,
 					};
 
-					lock (_lock)
+					lock (_iconLock)
 					{
 						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
-							return (iconData, null, isIconCached);
+							return iconData;
 
 						var imageList = (ComCtl32.IImageList)imageListOut;
 
-						if (!onlyGetOverlay && iconData is null)
+						if (iconData is null)
 						{
 							var iconIdx = shfi.iIcon & 0xFFFFFF;
 							if (iconIdx != 0)
@@ -346,53 +365,28 @@ namespace Files.App.Utils.Shell
 							else if (isFolder)
 							{
 								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, size);
 								var generic = icons.SingleOrDefault(x => x.Index == 2);
 								iconData = generic?.IconData;
 							}
 							else
 							{
 								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, size);
 								var generic = icons.SingleOrDefault(x => x.Index == 1);
 								iconData = generic?.IconData;
-							}
-						}
-
-						var overlayIdx = shfi.iIcon >> 24;
-						if (overlayIdx != 0 && getOverlay)
-						{
-							var overlayImage = imageList.GetOverlayImage(overlayIdx);
-							using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-							if (!hOverlay.IsNull && !hOverlay.IsInvalid)
-							{
-								using var icon = hOverlay.ToIcon();
-								using var image = icon.ToBitmap();
-
-								overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 							}
 						}
 
 						Marshal.ReleaseComObject(imageList);
 					}
 
-					return (iconData, overlayData, isIconCached);
-				}
-				else
-				{
-					return (iconData, null, isIconCached);
+					return iconData;
 				}
 			}
 			finally
 			{
-				cacheEntry = new IconAndOverlayCacheEntry();
-				if (iconData is not null)
-					cacheEntry.Icon = iconData;
 
-				if (overlayData is not null)
-					cacheEntry.Overlay = overlayData;
-
-				entry[thumbnailSize] = cacheEntry;
 			}
 		}
 
@@ -524,8 +518,6 @@ namespace Files.App.Utils.Shell
 			fcs.dwSize = (uint)Marshal.SizeOf(fcs);
 
 			var success = Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
-			if (success)
-				_iconAndOverlayCache[folderPath] = new();
 
 			return success;
 		}
@@ -536,8 +528,6 @@ namespace Files.App.Utils.Shell
 				return false;
 
 			var success = FileOperationsHelpers.SetLinkIcon(filePath, iconFile, iconIndex);
-			if (success)
-				_iconAndOverlayCache[filePath] = new();
 
 			return success;
 		}
@@ -850,21 +840,6 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		public static Task InstallFont(string fontFilePath, bool forAllUsers)
-		{
-			string fontDirectory = forAllUsers
-				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
-				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
-
-			string registryKey = forAllUsers
-				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
-				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
-
-			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
-
-			return RunPowershellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
-		}
-
 		public static async Task InstallFontsAsync(string[] fontFilePaths, bool forAllUsers)
 		{
 			string fontDirectory = forAllUsers
@@ -885,14 +860,14 @@ namespace Files.App.Utils.Shell
 				if (psCommand.Length + appendCommand.Length > 32766)
 				{
 					// The command is too long to run at once, so run the command once up to this point.
-					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
 					psCommand.Clear().Append("-command \"");
 				}
 
 				psCommand.Append(appendCommand);
 			}
 
-			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), forAllUsers);
+			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
 		}
 
 		private static Process CreatePowershellProcess(string command, bool runAsAdmin)

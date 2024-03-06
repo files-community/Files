@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Nieuw venster</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -280,10 +280,10 @@
     <value>Welkom bij Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Toestemming verlenen</value>
+    <value>Verleen machtiging</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Om aan de slag te gaan, moet u toestemming geven om uw bestanden weer te geven. Hiermee wordt er een pagina in Instellingen geopend waar u toestemming kunt geven. U moet de app hierna opnieuw starten.</value>
+    <value>Om aan de slag te gaan, moet u ons machtigen geven om uw bestanden weer te geven. Hiermee wordt er een pagina in Instellingen geopend waar deze machtiging kunt geven. U moet de app hierna opnieuw starten. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Weergave</value>
@@ -351,6 +351,12 @@
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Het bestand dat u probeert te openen, is mogelijk verplaatst of verwijderd.</value>
   </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Kan eigenschappen van dit bestand niet openen</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
+    <value>Het bestand dat u probeert te openen, is mogelijk verplaatst of verwijderd.</value>
+  </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Bestand is niet gevonden</value>
   </data>
@@ -370,7 +376,7 @@
     <value>Bestand is in gebruik</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Schermindeling</value>
+    <value>Lay-out</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Alleen-lezen</value>
@@ -633,9 +639,6 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Maakt een lege map</value>
   </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Indelingsmodus</value>
-  </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Map vernieuwen</value>
   </data>
@@ -892,7 +895,7 @@
     <value>Afdrukstand</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Kern</value>
+    <value>Basis</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Afbeelding</value>
@@ -987,9 +990,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Beveiligde systeembestanden weergeven</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Niet-geïndexeerde items opnemen in zoekresultaten</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Synchroniseer lay-out en sorteer voorkeuren tussen mappen</value>
   </data>
@@ -1009,31 +1009,31 @@
     <value>Wissen</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabbladen in deelvensters</value>
+    <value>Tabbladen in dubbele paneelmodus openen</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Toon optie om mappen in een nieuw deelvenster te openen</value>
+    <value>Toon optie om mappen in een nieuw paneel te openen</value>
+  </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Toon optie om pad te kopiëren</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Toon optie om map aan te maken met selectie</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Toon optie om een snelkoppeling te maken</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nieuw paneel</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>In nieuw deelvenster openen</value>
+    <value>In nieuw paneel openen</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Mappen</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Raster (groot) (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Raster (normaal) (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Raster (klein) (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tegels (Ctrl+Shift+2)</value>
@@ -1051,19 +1051,19 @@
     <value>Gewenste naam</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Voorbeeldvenster in-/uitschakelen</value>
+    <value>Voorbeeldpaneel in-/uitschakelen</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Detailvenster in-/uitschakelen</value>
+    <value>Detailpaneel in-/uitschakelen</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Schakel het detailvenster in om standaard bestandseigenschappen te zien</value>
+    <value>Detailpaneel in- of uitschakelen om standaard bestandseigenschappen te zien</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Infovenster in-/uitschakelen</value>
+    <value>Infopaneel in-/uitschakelen</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Schakel het infovenster in om het detail-/voorbeeldvenster te kunnen zien</value>
+    <value>Infopaneel in- of uitschakelen om het detail-/voorbeeldvenster te kunnen zien</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
@@ -1272,12 +1272,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO-snelheid</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Niet gevonden wat u zoekt?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Niet-geïndexeerde items doorzoeken</value>
-  </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Bestaande item vervangen</value>
   </data>
@@ -1447,7 +1441,7 @@
     <value>Onbekend account</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>U heeft geen toestemming om de beveiligingseigenschappen van dit item te bekijken. Klik op "geavanceerde machtigingen" om door te gaan.</value>
+    <value>U heeft geen machtiging om de beveiligingseigenschappen van dit item te bekijken. Klik op "Geavanceerde machtigingen" om door te gaan.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Eigenaar:</value>
@@ -1471,7 +1465,7 @@
     <value>Herstel standaard bibliotheken</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Weet u zeker dat u de standaard bibliotheken wilt herstellen? Al uw bestanden blijven op uw opslag.</value>
+    <value>Weet u zeker dat u de standaard bibliotheken wilt herstellen? Al uw bestanden blijven op uw opslag staan.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Herstel bibliotheken</value>
@@ -1504,10 +1498,10 @@
     <value>Overgenomen</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Rechten</value>
+    <value>Machtigingen</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>U heeft geen toestemming om de beveiligingseigenschappen van dit item te bekijken. U kunt proberen eigenaar van dit object te worden.</value>
+    <value>U heeft geen machtigingen om de beveiligingseigenschappen van dit item te bekijken. U kunt proberen eigenaar van dit object te worden.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Deze map en bestanden</value>
@@ -1591,10 +1585,10 @@
     <value>Vervang alle onderliggende object machtigingen met erfbare machtigingsgegevens van dit object</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Deelvenster sluiten</value>
+    <value>Paneel sluiten</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>Ga naar compacte overlay</value>
+    <value>Open compacte overlay</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Sluit compacte overlay</value>
@@ -1615,7 +1609,7 @@
     <value>Bestandsversie</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Laad volledige voorbeeld</value>
+    <value>Volledige voorbeeld laden</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Downloadt het item van de cloud en laadt een voorbeeld</value>
@@ -1650,23 +1644,11 @@
   <data name="Home" xml:space="preserve">
     <value>Start</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
@@ -1733,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Kolommen</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Grote iconen</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Middelgrote iconen</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Kleine iconen</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Tegels</value>
@@ -1983,9 +1956,6 @@
   <data name="FileTags" xml:space="preserve">
     <value>Labels</value>
   </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Gebruik compacte afstand in de detail lay-out</value>
-  </data>
   <data name="Universal" xml:space="preserve">
     <value>Universeel</value>
   </data>
@@ -2014,7 +1984,7 @@
     <value>Grootte van alle kolommen naar passend maken</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Adaptieve lay-out</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Aanpasbaar (Ctrl+Shift+7)</value>
@@ -2059,13 +2029,13 @@
     <value>Type kolom</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout kolommen</value>
+    <value>Details lay-out kolommen</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Vergrendelingsscherm</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open mappen met één klik in de kolommen layout</value>
+    <value>Open mappen met één klik in de kolommen lay-out</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Items openen</value>
@@ -2101,7 +2071,7 @@
     <value>De bestemming kan niet worden gevonden {0}. Wilt u deze snelkoppeling verwijderen?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>U heeft geen rechten om in deze folder te zijn.</value>
+    <value>U heeft geen machtiging voor toegang tot deze map.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Archief wachtwoord</value>
@@ -2233,7 +2203,7 @@
     <value>Toon compressie opties</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Toon Versturen naar menu</value>
+    <value>Toon versturen naar menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Toon optie om mappen in een nieuw tabblad te openen</value>
@@ -2365,7 +2335,7 @@
     <value>Vergroten</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Wijzig sorteerrichting</value>
+    <value>Wissel sorteerrichting</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Ongeldige naam</value>
@@ -2380,7 +2350,7 @@
     <value>Open voorbeeld popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Compacte overlay aan/uit</value>
+    <value>Compacte overlay in-/uitschakelen</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
     <value>Open de online help pagina in de browser</value>
@@ -2389,28 +2359,28 @@
     <value>Volledig scherm in-/uitschakelen</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Ga naar compacte overlay</value>
+    <value>Open compacte overlay</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Sluit compacte overlay</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Ga naar compacte overlay</value>
+    <value>Schakel compacte overlay</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Ga naar zoekveld</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Schakel tussen verborgen items weergeven</value>
+    <value>In- of uitschakelen om verborgen items te tonen</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Schakel of bestandsextensies getoond worden</value>
+    <value>In- of uitschakelen om bestandsextensies te tonen</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Schakel het voorbeeldvenster in om bestandsvoorbeelden te zien</value>
+    <value>Voorbeeldpaneel in- of uitschakelen om bestandsvoorbeelden te zien</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Zet zijbalk aan/uit</value>
+    <value>In- of uitschakelen om de zijbalk te tonen</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Kopieer item(s) naar klembord</value>
@@ -2560,10 +2530,10 @@
     <value>Open de map in de terminal als beheerder</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Pictogramgrootte verkleinen in rasterweergave</value>
+    <value>Verlaag itemgrootte in de huidige weergave</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Pictogramgrootte verhogen in rasterweergave</value>
+    <value>Verhoog itemgrootte in de huidige weergave</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Overschakelen naar detailweergave</value>
@@ -2571,14 +2541,17 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Overschakelen naar tegelweergave</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Overschakelen naar rasterweergave met kleine iconen</value>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Overschakelen naar lijstweergave</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Overschakelen naar rasterweergave met medium pictogrammen</value>
+  <data name="List" xml:space="preserve">
+    <value>Lijst</value>
   </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Overschakelen naar rasterweergave met grote pictogrammen</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Raster</value>
+  </data>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Overschakelen naar rasterweergave</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Overschakelen naar kolomweergave</value>
@@ -2620,7 +2593,7 @@
     <value>Sorteer items in aflopende volgorde</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Wijzig sorteerrichting</value>
+    <value>Wissel sorteerrichting</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Items tonen zonder groepering</value>
@@ -2662,7 +2635,7 @@
     <value>Sorteer groepen in aflopende volgorde</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Wijzig sorteerrichting groep</value>
+    <value>Wissel groep sorteerrichting</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Open nieuw tabblad</value>
@@ -2713,13 +2686,13 @@
     <value>Huidig tabblad sluiten</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Nieuw deelvenster openen</value>
+    <value>Nieuw paneel openen</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Sluit rechterpaneel</value>
+    <value>Rechterpaneel sluiten</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Zijbalk tonen/verbergen</value>
+    <value>Zijbalk in-/uitschakelen</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2959,9 +2932,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Selectievakjes weergeven bij het selecteren van items</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Niet-geïndexeerde items doorzoeken</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus padenbalk</value>
   </data>
@@ -3005,7 +2975,7 @@
     <value>Dag</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Wissel eenheid voor groeperen op datum</value>
+    <value>Schakel eenheid voor groeperen op datum</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
     <value>Wissel groeperingseenheid</value>
@@ -3025,7 +2995,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Items groeperen op jaar van datum aangemaakt</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Items groeperen op datum verwijderd</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3047,10 +3017,10 @@
     <value>Klik op 'Geavanceerde machtigingen' om door te gaan.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>U moet leesrechten hebben om de eigenschappen van dit item te bekijken.</value>
+    <value>U moet leesmachtigingen hebben om de eigenschappen van dit item te bekijken.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>Om te proberen eigenaar te worden van het item, dat toestemming bevat om de eigenschappen ervan te bekijken, klikt u hierboven op Wijzigen.</value>
+    <value>Om te proberen eigenaar te worden van het item, dat machtigingen bevat om de eigenschappen ervan te bekijken, klikt u hierboven op Wijzigen.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Kan machtigingen niet weergeven.</value>
@@ -3249,7 +3219,7 @@
     <value>Sorteer items op pad</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open map in nieuw venster</value>
+    <value>Map in nieuw paneel openen</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Open map in nieuw tabblad</value>
@@ -3513,38 +3483,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Geannuleerd permanent verwijderen van {0} item(s) van "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>{0} item(s) permanent verwijderd van "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Fout bij permanent verwijderen van {0} item(s) van "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Permanent verwijderen van {0} item(s) van "{1}" mislukt</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>{0} item(s) worden permanent verwijderd uit "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Verwijderen van {0} item(s) van "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>{0} item(s) verwijderd van "{1}"</value>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>{0} Item(s) verwijderd van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Fout bij verwijderen van {0} item(s) van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Kan {0} item(s) niet verwijderen van "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>{0} item(s) verwijderen van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3685,5 +3639,87 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Delen van items mislukt</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Scroll naar vorige map bij navigeren omhoog</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Nieuw venster openen</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Wijzig albumhoes</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Hernoemen van item mislukt</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Bewerken van "{0}" vereist extra machtigingen</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Bewerk machtigingen</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files wordt nog steeds op de achtergrond uitgevoerd om opstartprestaties te verbeteren.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Waar is Files naartoe gegaan?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Vragen &amp; discussies</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Klein</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Gemiddeld</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Groot</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>

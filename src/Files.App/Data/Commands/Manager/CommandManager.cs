@@ -69,8 +69,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand AddItem => commands[CommandCodes.AddItem];
 		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
-		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
-		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
+		public IRichCommand PinFolderToSidebar => commands[CommandCodes.PinFolderToSidebar];
+		public IRichCommand UnpinFolderFromSidebar => commands[CommandCodes.UnpinFolderFromSidebar];
 		public IRichCommand SetAsWallpaperBackground => commands[CommandCodes.SetAsWallpaperBackground];
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
@@ -113,9 +113,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
 		public IRichCommand LayoutList => commands[CommandCodes.LayoutList];
 		public IRichCommand LayoutTiles => commands[CommandCodes.LayoutTiles];
-		public IRichCommand LayoutGridSmall => commands[CommandCodes.LayoutGridSmall];
-		public IRichCommand LayoutGridMedium => commands[CommandCodes.LayoutGridMedium];
-		public IRichCommand LayoutGridLarge => commands[CommandCodes.LayoutGridLarge];
+		public IRichCommand LayoutGrid => commands[CommandCodes.LayoutGrid];
 		public IRichCommand LayoutColumns => commands[CommandCodes.LayoutColumns];
 		public IRichCommand LayoutAdaptive => commands[CommandCodes.LayoutAdaptive];
 		public IRichCommand SortByName => commands[CommandCodes.SortByName];
@@ -240,8 +238,8 @@ namespace Files.App.Data.Commands
 			[CommandCodes.AddItem] = new AddItemAction(),
 			[CommandCodes.PinToStart] = new PinToStartAction(),
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
-			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
-			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
+			[CommandCodes.PinFolderToSidebar] = new PinFolderToSidebarAction(),
+			[CommandCodes.UnpinFolderFromSidebar] = new UnpinFolderFromSidebarAction(),
 			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
@@ -284,9 +282,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
 			[CommandCodes.LayoutList] = new LayoutListAction(),
 			[CommandCodes.LayoutTiles] = new LayoutTilesAction(),
-			[CommandCodes.LayoutGridSmall] = new LayoutGridSmallAction(),
-			[CommandCodes.LayoutGridMedium] = new LayoutGridMediumAction(),
-			[CommandCodes.LayoutGridLarge] = new LayoutGridLargeAction(),
+			[CommandCodes.LayoutGrid] = new LayoutGridAction(),
 			[CommandCodes.LayoutColumns] = new LayoutColumnsAction(),
 			[CommandCodes.LayoutAdaptive] = new LayoutAdaptiveAction(),
 			[CommandCodes.SortByName] = new SortByNameAction(),

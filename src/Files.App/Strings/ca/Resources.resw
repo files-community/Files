@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Nova finestra</value>
+  <data name="NewWindow" xml:space="preserve">
+    <value>Finestra nova</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Copia la ruta</value>
@@ -349,6 +349,12 @@
     <value>Unitat desconnectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>És possible que el fitxer al qual intenteu accedir s'hagi mogut o suprimit.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>No es poden obrir les propietats d'aquest fitxer</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>És possible que el fitxer al qual intenteu accedir s'hagi mogut o suprimit.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -632,9 +638,6 @@
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crea una carpeta buida</value>
-  </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Mode de disseny</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Actualitza el directori</value>
@@ -987,9 +990,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Mostra els fitxers protegits del sistema</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Inclou elements no indexats als resultats de la cerca</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sincronitza el disseny i les preferències de classificació entre directoris</value>
   </data>
@@ -1014,6 +1014,15 @@
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Mostra l'opció per obrir carpetes en un nou panell</value>
   </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Mostra l'opció per copiar la ruta</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Mostra l'opció per crear una carpeta amb selecció</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Mostra l'opció per crear una drecera</value>
+  </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nou panell</value>
   </data>
@@ -1025,15 +1034,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalls (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Icones grans (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Icones mitjanes (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Icones petites (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Teules (Ctrl+Shift+2)</value>
@@ -1271,12 +1271,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocitat ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>No heu trobat el que cercàveu?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Cerca elements no indexats</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Substitueix els existents</value>
@@ -1650,23 +1644,11 @@
   <data name="Home" xml:space="preserve">
     <value>Inici</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maj+1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maj+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maj+6</value>
@@ -1733,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Columnes</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Icones grans</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Icones mitjanes</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Icones petites</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Mosaic</value>
@@ -1982,9 +1955,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Etiquetes</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Utilitza un espai compacte en el disseny de detalls</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2233,7 +2203,7 @@
     <value>Mostra les opcions de compressió</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Mostra el menú Envia a</value>
+    <value>Mostra el menú «Envia a»</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Mostra l'opció per obrir carpetes en una pestanya nova</value>
@@ -2560,10 +2530,10 @@
     <value>Obre la carpeta al terminal com a administrador</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Disminueix la mida de la icona a la vista de quadrícula</value>
+    <value>Disminueix la mida de l'element a la vista actual</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Augmenta la mida de la icona a la vista de quadrícula</value>
+    <value>Augmenta la mida de l'element a la vista actual</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Canvia a la vista de detalls</value>
@@ -2571,14 +2541,17 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Canvia a la vista de mosaics</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Canvia a la vista de quadrícula amb icones petites</value>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Canvia a la vista de llista</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Canvia a la vista de quadrícula amb icones mitjanes</value>
+  <data name="List" xml:space="preserve">
+    <value>Llista</value>
   </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Canvia a la vista de quadrícula amb icones grans</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Graella</value>
+  </data>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Canvia a la vista de graella</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Canvia a la vista de columnes</value>
@@ -2959,9 +2932,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostra les caselles de selecció en seleccionar elements</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Cerca elements no indexats</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Enfoca la barra del camí</value>
   </data>
@@ -3025,7 +2995,7 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Agrupa els elements per any de data de creació</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Agrupa els elements per dia de data de supressió</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
@@ -3513,38 +3483,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>S'ha cancel·lat la supressió permanent de {0} elements de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>S'han suprimit permanentment {0} elements de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error en suprimir permanentment {0} elements de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>No s'han pogut suprimir permanentment {0} elements de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>S'estan suprimint permanentment {0} elements de "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>S'ha cancel·lat la supressió de {0} elements de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>S'han suprimit {0} elements de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>S'ha produït un error en suprimir {0} elements de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>No s'han pogut suprimir {0} elements de "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>S'estan suprimint {0} elements de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3685,5 +3639,87 @@
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>No s'han pogut compartir els elements</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Desplaceu-vos a la carpeta anterior quan navegueu cap amunt</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Obre una finestra nova</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Canvia la portada de l'àlbum</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>No s'ha pogut canviar el nom de l'element</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>L'edició de "{0}" requereix permisos addicionals</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Edita els permisos</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Files encara s'està executant en segon pla per millorar el rendiment d'inici.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>On ha anat el Files?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Preguntes i discussions</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Mides addicionals encara no estan disponibles per a la Vista de Mosaics.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Petit</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Mitjà</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Gran</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>

@@ -17,6 +17,7 @@
 	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	HighContrastAdjustment="None"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	NavigationCacheMode="Required"
@@ -36,7 +37,7 @@
 
 
 			<MenuFlyout x:Key="SidebarContextMenu">
-				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowPinnedFoldersSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Pinned}" />
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Drives}" />
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />
@@ -267,8 +268,8 @@
 					Unloaded="PreviewPane_Unloaded" />
 
 				<!--  Status Bar  -->
-				<uc:StatusBarControl
-					x:Name="StatusBarControl"
+				<uc:StatusBar
+					x:Name="StatusBar"
 					Grid.Row="4"
 					Grid.ColumnSpan="3"
 					x:Load="False"

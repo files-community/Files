@@ -13,7 +13,6 @@
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wctanimations="using:CommunityToolkit.WinUI.UI.Animations"
@@ -41,7 +40,8 @@
 						</ItemsPanelTemplate>
 					</Setter.Value>
 				</Setter>
-				<Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+				<!--  VerticalScrollMode is set to Auto because setting it to Disabled here causes an issue. (#14785)  -->
+				<Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
 				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
 				<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
 				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -95,7 +95,7 @@
 			<UserControl>
 				<Grid
 					x:Name="GridViewBrowserListedItem"
-					Width="{Binding ElementName=PageRoot, Path=GridViewItemWidth, Mode=OneWay}"
+					Width="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
 					Height="Auto"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
@@ -112,9 +112,8 @@
 
 					<Grid
 						Grid.Row="0"
-						Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
-						Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						Width="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
+						Height="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
 						Opacity="{x:Bind Opacity, Mode=OneWay}"
 						Tag="ItemImage">
 
@@ -132,16 +131,11 @@
 								Stretch="Uniform" />
 						</ContentPresenter>
 
-						<Border
+						<!--  Loading indicator  -->
+						<uc:Shimmer
 							x:Name="TypeUnknownGlyph"
-							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 							Margin="12"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-							Background="{ThemeResource SystemChromeHighColor}"
-							CornerRadius="4" />
+							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 						<Image
 							x:Name="IconOverlay"
@@ -157,8 +151,8 @@
 
 						<Viewbox
 							x:Name="WebShortcutGlyph"
-							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxWidth="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
+							MaxHeight="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
 							Margin="12"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
@@ -186,7 +180,7 @@
 							Margin="14"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"
-							x:Load="{x:Bind IsElevated}"
+							x:Load="{x:Bind IsElevationRequired}"
 							x:Phase="1"
 							Source="{x:Bind ShieldIcon, Mode=OneWay}"
 							Stretch="Uniform" />
@@ -194,7 +188,7 @@
 
 					<Grid
 						Grid.Row="1"
-						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
 						Margin="4,0,4,8"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Stretch">
@@ -289,8 +283,8 @@
 			<UserControl>
 				<Grid
 					x:Name="FilesRootGrid"
-					Width="{Binding ElementName=PageRoot, Path=GridViewItemWidth, Mode=OneWay}"
-					Height="Auto"
+					Width="260"
+					Height="{Binding RowHeightListView, ElementName=PageRoot, Mode=OneWay}"
 					Padding="12,0,12,0"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Center"
@@ -300,22 +294,22 @@
 					PointerEntered="Grid_PointerEntered"
 					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="24" />
+						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
 					<!--  Item Thumbnail  -->
 					<Grid
-						Width="24"
+						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Stretch">
 
 						<!--  Thumbnail  -->
 						<Grid
 							x:Name="IconBox"
-							Width="20"
-							Height="Auto"
+							Width="24"
+							Height="24"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
@@ -335,15 +329,13 @@
 									Source="{x:Bind FileImage, Mode=OneWay}"
 									Stretch="Uniform" />
 							</ContentPresenter>
-							<Border
+
+							<!--  Loading indicator  -->
+							<uc:Shimmer
 								x:Name="TypeUnknownGlyph"
-								Width="20"
-								Height="20"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Stretch"
-								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-								Background="{ThemeResource SystemChromeHighColor}"
-								CornerRadius="4" />
+								Margin="2"
+								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+
 							<FontIcon
 								x:Name="WebShortcutGlyph"
 								x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
@@ -371,7 +363,7 @@
 								Height="8"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Bottom"
-								x:Load="{x:Bind IsElevated}"
+								x:Load="{x:Bind IsElevationRequired}"
 								Source="{x:Bind ShieldIcon, Mode=OneWay}"
 								Stretch="Uniform" />
 						</Grid>
@@ -387,7 +379,6 @@
 							DoubleTapped="SelectionCheckbox_DoubleTapped"
 							Opacity="0"
 							Unchecked="ItemSelected_Unchecked" />
-
 					</Grid>
 
 					<!--  Item Name  -->
@@ -418,30 +409,18 @@
 						</TextBox.Resources>
 					</TextBox>
 
-					<Grid Grid.Column="2">
-						<StackPanel Orientation="Horizontal" Spacing="4">
-							<!--  Cloud Status  -->
-							<uc:OpacityIcon
-								x:Name="CloudDriveSyncStatusGlyph"
-								Width="16"
-								Height="16"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
-								x:Phase="2"
-								Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
+					<!--  Cloud Status  -->
+					<uc:OpacityIcon
+						x:Name="CloudDriveSyncStatusGlyph"
+						Grid.Column="2"
+						Width="16"
+						Height="16"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+						x:Phase="2"
+						Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
 
-							<!--  Tag  -->
-							<Ellipse
-								Width="12"
-								Height="12"
-								Margin="8,0,4,0"
-								x:Phase="2"
-								Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-								ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-								Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-						</StackPanel>
-					</Grid>
 					<!--  Visual Status Managing  -->
 					<VisualStateManager.VisualStateGroups>
 						<VisualStateGroup x:Name="CheckboxVisibilityStates">
@@ -449,7 +428,7 @@
 							<VisualState x:Name="ShowCheckbox">
 								<VisualState.Setters>
 									<Setter Target="SelectionCheckbox.Opacity" Value="1" />
-									<Setter Target="IconBox.Visibility" Value="Collapsed" />
+									<Setter Target="IconBox.Opacity" Value="0" />
 								</VisualState.Setters>
 							</VisualState>
 						</VisualStateGroup>
@@ -462,7 +441,7 @@
 		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
 				<Grid
-					Width="{Binding ElementName=PageRoot, Path=GridViewItemWidth, Mode=OneWay}"
+					Width="{Binding ElementName=PageRoot, Path=ItemWidthTilesView, Mode=OneWay}"
 					MaxHeight="68"
 					Padding="0"
 					HorizontalAlignment="Left"
@@ -540,15 +519,12 @@
 								Stretch="Uniform" />
 						</ContentPresenter>
 
-						<Border
+						<!--  Loading indicator  -->
+						<uc:Shimmer
 							x:Name="TypeUnknownGlyph"
 							Width="60"
 							Height="60"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-							Background="{ThemeResource SystemChromeHighColor}"
-							CornerRadius="4" />
+							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
 						<Image
 							x:Name="IconOverlay"
@@ -589,7 +565,7 @@
 							Height="16"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"
-							x:Load="{x:Bind IsElevated}"
+							x:Load="{x:Bind IsElevationRequired}"
 							x:Phase="1"
 							Source="{x:Bind ShieldIcon, Mode=OneWay}"
 							Stretch="Uniform" />
@@ -771,8 +747,6 @@
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="1" />
 			<Setter Property="Margin" Value="0" />
-			<Setter Property="Padding" Value="0" />
-			<Setter Property="Height" Value="24" />
 		</Style>
 	</local:BaseGroupableLayoutPage.Resources>
 
@@ -819,13 +793,16 @@
 					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
+					DragEnter="ItemsLayout_DragEnter"
 					DragItemsStarting="FileList_DragItemsStarting"
+					DragLeave="ItemsLayout_DragLeave"
 					DragOver="ItemsLayout_DragOver"
 					Drop="ItemsLayout_Drop"
 					FocusVisualPrimaryThickness="0"
 					FocusVisualSecondaryThickness="0"
 					IsDoubleTapEnabled="True"
 					IsTabStop="True"
+					ItemContainerTransitions="{x:Null}"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.IsHorizontalScrollChainingEnabled="False"

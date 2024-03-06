@@ -138,10 +138,15 @@ namespace Files.App.Utils.Storage
 
 			foreach (var item in pathBoxItems)
 			{
-				BaseStorageFolder folder = await FilesystemTasks.Wrap(() => DangerousGetFolderFromPathAsync(item.Path));
+				if (item.Path == "Home")
+					item.Title = "Home".GetLocalizedResource();
+				else
+				{
+					BaseStorageFolder folder = await FilesystemTasks.Wrap(() => DangerousGetFolderFromPathAsync(item.Path));
 
-				if (folder is not null)
-					item.Title = folder.DisplayName;
+					if (folder is not null)
+						item.Title = folder.DisplayName;
+				}
 			}
 
 			return pathBoxItems;

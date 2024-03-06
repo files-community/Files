@@ -166,17 +166,17 @@
 			</local:SettingsBlockControl>
 
 			<!--  Layout mode  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutMode}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Layout}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE8A9;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutMode}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
+				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=Layout}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=List}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
-					<ComboBoxItem Content="{helpers:ResourceString Name=IconGrid}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=Grid}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" />
 				</ComboBox>
 			</local:SettingsBlockControl>

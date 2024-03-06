@@ -82,7 +82,7 @@ namespace Files.App.ViewModels.Properties
 				else
 				{
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
-						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
+						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath), true));
 				}
 			},
 			() =>
@@ -106,10 +106,15 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				   string.Empty;
 
-			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail, false);
-			if (fileIconData is not null)
+			var result = await FileThumbnailHelper.GetIconAsync(
+				Item.ItemPath,
+				Constants.ShellIconSizes.ExtraLarge,
+				false,
+				IconOptions.UseCurrentScale);
+
+			if (result is not null)
 			{
-				ViewModel.IconData = fileIconData;
+				ViewModel.IconData = result;
 				ViewModel.LoadUnknownTypeGlyph = false;
 				ViewModel.LoadFileIcon = true;
 			}
@@ -266,7 +271,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			switch (e.PropertyName)
 			{
-				case "IsReadOnly":
+				case nameof(ViewModel.IsReadOnly):
 					if (ViewModel.IsReadOnly)
 					{
 						NativeFileOperationsHelper.SetFileAttribute(
@@ -284,7 +289,7 @@ namespace Files.App.ViewModels.Properties
 
 					break;
 
-				case "IsHidden":
+				case nameof(ViewModel.IsHidden):
 					if (ViewModel.IsHidden)
 					{
 						NativeFileOperationsHelper.SetFileAttribute(
@@ -302,10 +307,10 @@ namespace Files.App.ViewModels.Properties
 
 					break;
 
-				case "RunAsAdmin":
-				case "ShortcutItemPath":
-				case "ShortcutItemWorkingDir":
-				case "ShortcutItemArguments":
+				case nameof(ViewModel.RunAsAdmin):
+				case nameof(ViewModel.ShortcutItemPath):
+				case nameof(ViewModel.ShortcutItemWorkingDir):
+				case nameof(ViewModel.ShortcutItemArguments):
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 

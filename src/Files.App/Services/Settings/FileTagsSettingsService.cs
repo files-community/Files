@@ -101,22 +101,19 @@ namespace Files.App.Services.Settings
 
 		public void EditTag(string uid, string name, string color)
 		{
-			var (tag, index) = GetTagAndIndex(uid);
-			if (tag is null)
+			var index = GetTagIndex(uid);
+			if (index == -1)
 				return;
-
-			tag.Name = name;
-			tag.Color = color;
 
 			var oldTags = FileTagList.ToList();
 			oldTags.RemoveAt(index);
-			oldTags.Insert(index, tag);
+			oldTags.Insert(index, new TagViewModel(name, color, uid));
 			FileTagList = oldTags;
 		}
 
 		public void DeleteTag(string uid)
 		{
-			var (_, index) = GetTagAndIndex(uid);
+			var index = GetTagIndex(uid);
 			if (index == -1)
 				return;
 
@@ -155,22 +152,15 @@ namespace Files.App.Services.Settings
 			return JsonSettingsSerializer.SerializeToJson(FileTagList);
 		}
 
-		private (TagViewModel?, int) GetTagAndIndex(string uid)
+		private int GetTagIndex(string uid)
 		{
-			TagViewModel? tag = null;
-			int index = -1;
-
 			for (int i = 0; i < FileTagList.Count; i++)
 			{
 				if (FileTagList[i].Uid == uid)
-				{
-					tag = FileTagList[i];
-					index = i;
-					break;
-				}
+					return i;
 			}
 
-			return (tag, index);
+			return -1;
 		}
 
 		private void UntagAllFiles(string uid)

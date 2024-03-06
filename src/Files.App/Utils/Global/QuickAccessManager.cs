@@ -17,7 +17,7 @@ namespace Files.App.Utils
 
 		public IQuickAccessService QuickAccessService;
 
-		public SidebarPinnedModel Model;
+		public PinnedFoldersManager Model;
 		public QuickAccessManager()
 		{
 			QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -45,7 +45,7 @@ namespace Files.App.Utils
 		{
 			PinnedItemsModified += Model.LoadAsync;
 
-			//if (!Model.FavoriteItems.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
+			//if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
 			//	await QuickAccessService.PinToSidebar(Constants.UserEnvironmentPaths.RecycleBinPath);
 
 			await Model.LoadAsync();

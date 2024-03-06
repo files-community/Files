@@ -63,9 +63,9 @@ namespace Files.App.Data.Commands
 		PinToStart,
 		UnpinFromStart,
 
-		// Favorites
-		PinItemToFavorites,
-		UnpinItemFromFavorites,
+		// Sidebar
+		PinFolderToSidebar,
+		UnpinFolderFromSidebar,
 
 		// Backgrounds
 		SetAsWallpaperBackground,
@@ -113,9 +113,7 @@ namespace Files.App.Data.Commands
 		LayoutDetails,
 		LayoutList,
 		LayoutTiles,
-		LayoutGridSmall,
-		LayoutGridMedium,
-		LayoutGridLarge,
+		LayoutGrid,
 		LayoutColumns,
 		LayoutAdaptive,
 

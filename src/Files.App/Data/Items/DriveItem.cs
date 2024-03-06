@@ -2,10 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Storage.WindowsStorage;
-using Files.Core.Storage;
-using Files.Core.Storage.Enums;
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.NestedStorage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -52,7 +48,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+			=> App.QuickAccessManager.Model.PinnedFolders.Contains(path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();
@@ -317,7 +313,15 @@ namespace Files.App.Data.Items
 		public async Task LoadThumbnailAsync()
 		{
 			if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-				IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, Constants.DefaultIconSizes.Large, false, true);
+			{
+				var result = await FileThumbnailHelper.GetIconAsync(
+					DeviceID,
+					Constants.ShellIconSizes.Small,
+					false,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
+				IconData ??= result;
+			}
 
 			if (Root is not null)
 			{

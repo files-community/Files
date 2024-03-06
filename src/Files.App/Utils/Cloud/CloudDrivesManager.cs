@@ -63,7 +63,19 @@ namespace Files.App.Utils.Cloud
 					ShowProperties = true,
 				};
 
-				var iconData = provider.IconData ?? await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, Constants.DefaultIconSizes.Large, false, true);
+				var iconData = provider.IconData;
+
+				if (iconData is null)
+				{
+					var result = await FileThumbnailHelper.GetIconAsync(
+						provider.SyncFolder,
+						Constants.ShellIconSizes.Small,
+						false,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
+					iconData = result;
+				}
+
 				if (iconData is not null)
 				{
 					cloudProviderItem.IconData = iconData;

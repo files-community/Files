@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,6 +10,7 @@ using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.UI.Notifications;
 
 namespace Files.App
 {
@@ -141,7 +143,7 @@ namespace Files.App
 					SystemTrayIcon = new SystemTrayIcon().Show();
 
 					// Sleep current instance
-					Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
 
 					Thread.Yield();
 
@@ -206,6 +208,7 @@ namespace Files.App
 				return;
 			}
 
+			// Save the current tab list in case it was overwriten by another instance
 			AppLifecycleHelper.SaveSessionTabs();
 
 			// Continue running the app on the background
@@ -230,9 +233,46 @@ namespace Files.App
 				await FilePropertiesHelpers.WaitClosingAll();
 
 				// Sleep current instance
-				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+				Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
 
 				Thread.Yield();
+
+				// Displays a notification the first time the app goes to the background
+				if (userSettingsService.AppSettingsService.ShowBackgroundRunningNotification)
+				{
+					SafetyExtensions.IgnoreExceptions(() =>
+					{
+						var toastContent = new ToastContent()
+						{
+							Visual = new()
+							{
+								BindingGeneric = new ToastBindingGeneric()
+								{
+									Children =
+								{
+									new AdaptiveText()
+									{
+										Text = "BackgroundRunningNotificationHeader".GetLocalizedResource()
+									},
+									new AdaptiveText()
+									{
+										Text = "BackgroundRunningNotificationBody".GetLocalizedResource()
+									}
+								},
+								}
+							},
+							ActivationType = ToastActivationType.Protocol
+						};
+
+						// Create the toast notification
+						var toastNotification = new ToastNotification(toastContent.GetXml());
+
+						// And send the notification
+						ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+
+						userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
+					});
+				}
 
 				if (Program.Pool.WaitOne())
 				{
@@ -280,9 +320,6 @@ namespace Files.App
 				}
 			},
 			Logger);
-
-			// Dispose git operations' thread
-			GitHelpers.TryDispose();
 
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();

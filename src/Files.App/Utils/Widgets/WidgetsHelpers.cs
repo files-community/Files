@@ -2,13 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.Widgets;
 
 namespace Files.App.Helpers
 {
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, HomeViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItem, new()
+		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, HomeViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetViewModel, new()
 		{
 			bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
 			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(generalSettingsService);
@@ -36,7 +35,7 @@ namespace Files.App.Helpers
 			return (defaultValue);
 		}
 
-		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IGeneralSettingsService generalSettingsService) where TWidget : IWidgetItem
+		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IGeneralSettingsService generalSettingsService) where TWidget : IWidgetViewModel
 		{
 			if (typeof(TWidget) == typeof(QuickAccessWidget))
 			{

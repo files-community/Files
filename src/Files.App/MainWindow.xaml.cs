@@ -19,10 +19,6 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
-		private readonly IApplicationService ApplicationService;
-
-		private MainPageViewModel mainPageViewModel;
-
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 
@@ -30,8 +26,6 @@ namespace Files.App
 
 		private MainWindow()
 		{
-			ApplicationService = new ApplicationService();
-
 			WindowHandle = this.GetWindowHandle();
 
 			InitializeComponent();
@@ -49,7 +43,7 @@ namespace Files.App
 			MinWidth = 516;
 
 			AppWindow.Title = "Files";
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, ApplicationService.AppIcoPath));
+			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -100,7 +94,7 @@ namespace Files.App
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
 						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
-						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments, true);
 					}
 					else
 					{
@@ -180,7 +174,7 @@ namespace Files.App
 						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path, true);
 					}
 					break;
 

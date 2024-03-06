@@ -386,7 +386,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void ItemGrid_DragOver(object sender, DragEventArgs e)
+		private async void ItemGrid_DragOver(object sender, DragEventArgs e)
 		{
 			if (HasChildren)
 			{
@@ -407,7 +407,12 @@ namespace Files.App.UserControls.Sidebar
 				VisualStateManager.GoToState(this, "DragInsertBelow", true);
 			}
 
-			Owner?.RaiseItemDragOver(this, insertsAbove, e);
+			if (Owner is not null)
+			{
+				var deferral = e.GetDeferral();
+				await Owner.RaiseItemDragOver(this, insertsAbove, e);
+				deferral.Complete();
+			}
 		}
 
 		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -421,10 +426,15 @@ namespace Files.App.UserControls.Sidebar
 			UpdatePointerState();
 		}
 
-		private void ItemGrid_Drop(object sender, DragEventArgs e)
+		private async void ItemGrid_Drop(object sender, DragEventArgs e)
 		{
 			UpdatePointerState();
-			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
+			if (Owner is not null)
+			{
+				var deferral = e.GetDeferral();
+				await Owner.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
+				deferral.Complete();
+			}
 		}
 
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)

@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
-
 namespace Files.App.Services.Settings
 {
 	internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
@@ -14,10 +11,34 @@ namespace Files.App.Services.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public int DefaultGridViewSize
+		public DetailsViewSizeKind DetailsViewSize
 		{
-			get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeMedium);
-			set => Set((long)value);
+			get => Get(DetailsViewSizeKind.Small);
+			set => Set(value);
+		}
+
+		public ListViewSizeKind ListViewSize
+		{
+			get => Get(ListViewSizeKind.Small);
+			set => Set(value);
+		}
+
+		public TilesViewSizeKind TilesViewSize
+		{
+			get => Get(TilesViewSizeKind.Small);
+			set => Set(value);
+		}
+
+		public GridViewSizeKind GridViewSize
+		{
+			get => Get(GridViewSizeKind.Large);
+			set => Set(value);
+		}
+
+		public ColumnsViewSizeKind ColumnsViewSize
+		{
+			get => Get(ColumnsViewSizeKind.Small);
+			set => Set(value);
 		}
 	}
 }

@@ -2,10 +2,10 @@
 # Licensed under the MIT License. See the LICENSE.
 
 # Abstract:
-#  - This CI is executed when a new commit is created on the main branch or
-#    on a PR whose head branch is the main branch.
-#  - However, the CI will not be executed if files not directly related to
-#    source code maintenance are updated.
+#   This CI is executed when a new commit is created on the main branch or
+#   on a PR whose head branch is the main branch.
+#   However, the CI will not be executed if files not directly related to
+#   source code maintenance are updated.
 
 name: Files CI
 
@@ -14,11 +14,15 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'specs/**'
+      - 'assets/**'
+      - 'builds/**'
+      - 'docs/**'
       - '*.md'
   pull_request:
     paths-ignore:
-      - 'specs/**'
+      - 'assets/**'
+      - 'builds/**'
+      - 'docs/**'
       - '*.md'
 
 run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'Files CI Validation' }}
@@ -42,6 +46,9 @@ env:
 jobs:
 
   check-formatting:
+
+    if: github.repository_owner == 'files-community'
+
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -50,7 +57,7 @@ jobs:
     steps:
 
     - name: Checkout the repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 2
     
@@ -76,6 +83,9 @@ jobs:
       run: exit 1
 
   build:
+
+    if: github.repository_owner == 'files-community'
+
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -174,7 +184,9 @@ jobs:
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
   test:
-    if: always()
+
+    if: github.repository_owner == 'files-community' && always()
+
     needs: [build]
     runs-on: windows-latest
     strategy:

@@ -1,12 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -15,57 +13,22 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class DriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
-	{
-		private BitmapImage thumbnail;
-		private byte[] thumbnailData;
-
-		public new DriveItem Item { get; private set; }
-
-		public BitmapImage Thumbnail
-		{
-			get => thumbnail;
-			set => SetProperty(ref thumbnail, value);
-		}
-
-		public DriveCardItem(DriveItem item)
-		{
-			Item = item;
-			Path = item.Path;
-		}
-
-		public async Task LoadCardThumbnailAsync()
-		{
-			thumbnailData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.Path, Constants.DefaultIconSizes.Jumbo, true, true);
-
-			// Thumbnail data is valid, set the item icon
-			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-		}
-
-		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
-	}
-
-	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
+	/// <summary>
+	/// Represents group of control displays a list of <see cref="WidgetDriveCardItem"/>.
+	/// </summary>
+	public sealed partial class DrivesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
 		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
-
 		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-
 		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
-
 		public event PropertyChangedEventHandler? PropertyChanged;
-
-		public static ObservableCollection<DriveCardItem> ItemsAdded = new();
+		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = new();
 
 		private IShellPage associatedInstance;
 
@@ -89,15 +52,10 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		public string WidgetName => nameof(DrivesWidget);
-
 		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
-
 		public string WidgetHeader => "Drives".GetLocalizedResource();
-
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
-
 		public bool ShowMenuFlyout => true;
-
 		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
 		{
 			Icon = new FontIcon() { Glyph = "\uE710" },
@@ -115,16 +73,16 @@ namespace Files.App.UserControls.Widgets
 
 			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
-			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
-			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDeviceAsync);
+			FormatDriveCommand = new RelayCommand<WidgetDriveCardItem>(FormatDrive);
+			EjectDeviceCommand = new AsyncRelayCommand<WidgetDriveCardItem>(EjectDeviceAsync);
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTabAsync);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
-			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPaneAsync);
-			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
-			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync);
-			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
+			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(OpenInNewPaneAsync);
+			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(OpenProperties);
+			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(PinToSidebarAsync);
+			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromSidebarAsync);
+			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
+			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(DisconnectNetworkDrive);
 		}
 
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -135,13 +93,13 @@ namespace Files.App.UserControls.Widgets
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
-						var cardItem = new DriveCardItem(drive);
+						var cardItem = new WidgetDriveCardItem(drive);
 						ItemsAdded.AddSorted(cardItem);
 						await cardItem.LoadCardThumbnailAsync(); // After add
 					}
 				}
 
-				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
+				foreach (WidgetDriveCardItem driveCard in ItemsAdded.ToList())
 				{
 					if (!drivesViewModel.Drives.Contains(driveCard.Item))
 						ItemsAdded.Remove(driveCard);
@@ -187,23 +145,23 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "PinToFavorites".GetLocalizedResource(),
+					Text = "PinFolderToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
+						OpacityIconStyle = "Icons.Pin.16x16",
 					},
-					Command = PinToFavoritesCommand,
+					Command = PinToSidebarCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+						OpacityIconStyle = "Icons.Unpin.16x16",
 					},
-					Command = UnpinFromFavoritesCommand,
+					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
 				},
@@ -270,18 +228,18 @@ namespace Files.App.UserControls.Widgets
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private async Task EjectDeviceAsync(DriveCardItem item)
+		private async Task EjectDeviceAsync(WidgetDriveCardItem item)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
 		}
 
-		private void FormatDrive(DriveCardItem? item)
+		private void FormatDrive(WidgetDriveCardItem? item)
 		{
 			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
 		}
 
-		private void OpenProperties(DriveCardItem item)
+		private void OpenProperties(WidgetDriveCardItem item)
 		{
 			if (!HomePageContext.IsAnyItemRightClicked)
 				return;
@@ -308,7 +266,7 @@ namespace Files.App.UserControls.Widgets
 			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
-				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
+				await NavigationHelpers.OpenPathInNewTab(NavigationPath, false);
 				return;
 			}
 
@@ -325,7 +283,7 @@ namespace Files.App.UserControls.Widgets
 			string navigationPath = (sender as Button).Tag.ToString();
 			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
 				return;
-			await NavigationHelpers.OpenPathInNewTab(navigationPath);
+			await NavigationHelpers.OpenPathInNewTab(navigationPath, false);
 		}
 
 		public class DrivesWidgetInvokedEventArgs : EventArgs
@@ -333,7 +291,7 @@ namespace Files.App.UserControls.Widgets
 			public string Path { get; set; }
 		}
 
-		private async Task OpenInNewPaneAsync(DriveCardItem item)
+		private async Task OpenInNewPaneAsync(WidgetDriveCardItem item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
@@ -345,14 +303,14 @@ namespace Files.App.UserControls.Widgets
 
 		private void MenuFlyout_Opening(object sender, object e)
 		{
-			var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
-			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+			var pinToSidebarItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToSidebar");
+			pinToSidebarItem.Visibility = (pinToSidebarItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 
-			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
-			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
+			var unpinFromSidebarItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromSidebar");
+			unpinFromSidebarItem.Visibility = (unpinFromSidebarItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 
-		private void DisconnectNetworkDrive(DriveCardItem item)
+		private void DisconnectNetworkDrive(WidgetDriveCardItem item)
 		{
 			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
 		}

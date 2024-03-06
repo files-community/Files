@@ -131,16 +131,7 @@ namespace Files.App.Utils.Taskbar
 		/// </remarks>
 		public SystemTrayIcon()
 		{
-			string appIcoPath = ApplicationService.AppEnvironment switch
-			{
-				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
-				_ => Constants.AssetPaths.StableLogo
-			};
-
-			var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, appIcoPath);
-
-			_Icon = new(iconPath);
+			_Icon = new(AppLifecycleHelper.AppIconPath);
 			_Tooltip = Package.Current.DisplayName;
 			_taskbarRestartMessageId = PInvoke.RegisterWindowMessage("TaskbarCreated");
 
@@ -281,7 +272,7 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnDocumentationClicked()
 		{
-			Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl)).AsTask();
+			Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.DocumentationUrl)).AsTask();
 		}
 
 		private void OnRestartClicked()

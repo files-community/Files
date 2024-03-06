@@ -87,7 +87,7 @@ namespace Files.App.Dialogs
 				return;
 
 			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
-				ViewModel.SidebarFavoriteItems.Move(ViewModel.SidebarFavoriteItems.IndexOf(sourceLocationItem), ViewModel.SidebarFavoriteItems.IndexOf(locationItem));
+				ViewModel.SidebarPinnedFolderItems.Move(ViewModel.SidebarPinnedFolderItems.IndexOf(sourceLocationItem), ViewModel.SidebarPinnedFolderItems.IndexOf(locationItem));
 		}
 
 		public new async Task<DialogResult> ShowAsync()

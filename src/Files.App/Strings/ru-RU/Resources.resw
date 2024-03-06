@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+  <data name="NewWindow" xml:space="preserve">
     <value>Новое окно</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
@@ -349,6 +349,12 @@
     <value>Диск отключен</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Файл, к которому Вы пытаетесь получить доступ, возможно, был перемещен или удален.</value>
+  </data>
+  <data name="CannotAccessPropertiesTitle" xml:space="preserve">
+    <value>Не удается открыть свойства этого файла</value>
+  </data>
+  <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Файл, к которому Вы пытаетесь получить доступ, возможно, был перемещен или удален.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
@@ -632,9 +638,6 @@
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Создает пустую папку</value>
-  </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Режим разметки</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Обновить каталог</value>
@@ -987,9 +990,6 @@
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Показать защищённые системные файлы</value>
   </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Включение неиндексированных элементов в результаты поиска</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Синхронизировать настройки макета и сортировки между каталогами</value>
   </data>
@@ -1014,6 +1014,15 @@
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Показывать опцию открытия папок в новой панели</value>
   </data>
+  <data name="ShowCopyPath" xml:space="preserve">
+    <value>Показать опцию копирования пути</value>
+  </data>
+  <data name="ShowCreateFolderWithSelection" xml:space="preserve">
+    <value>Показать опцию создания папки с выделением</value>
+  </data>
+  <data name="ShowCreateShortcut" xml:space="preserve">
+    <value>Показать опцию создания ярлыка</value>
+  </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Новая панель</value>
   </data>
@@ -1025,15 +1034,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Таблица (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Огромные значки (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Крупные значки (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Обычные значки (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Плитка (Ctrl+Shift+2)</value>
@@ -1271,12 +1271,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>скорость ISO</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Не нашли то, что искали?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Искать неиндексированные элементы</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>Заменить имеющиеся</value>
@@ -1650,23 +1644,11 @@
   <data name="Home" xml:space="preserve">
     <value>Главная</value>
   </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
@@ -1733,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Столбцы</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Большие значки</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Средние значки</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Мелкие значки</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Плитки</value>
@@ -1983,9 +1956,6 @@
   <data name="FileTags" xml:space="preserve">
     <value>Метки</value>
   </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Использовать компактный стиль подробного макета</value>
-  </data>
   <data name="Universal" xml:space="preserve">
     <value>Универсальная</value>
   </data>
@@ -2200,7 +2170,7 @@
     <value>Создать ярлык</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Недавно использованные файлы в данный момент отключены в Проводнике Windows.</value>
+    <value>В настоящее время в Проводнике Windows отключена функция Недавно использованные файлы.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Редактировать файл настроек</value>
@@ -2230,10 +2200,10 @@
     <value>Показывать опцию редактирования Меток</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Show compression options</value>
+    <value>Показать опции сжатия</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Показать меню "Отправить"</value>
+    <value>Показать отправить в меню</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Показывать опцию открытия папок в новой вкладке</value>
@@ -2560,10 +2530,10 @@
     <value>Открыть папку в терминале от имени администратора</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Уменьшение размера иконок в режиме просмотра сетки</value>
+    <value>Decrease item size in the current view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Увеличение размера иконок в режиме просмотра сетки</value>
+    <value>Increase item size in the current view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Переключить на подробный вид</value>
@@ -2571,14 +2541,17 @@
   <data name="LayoutTilesDescription" xml:space="preserve">
     <value>Режим плиток</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Режим сетки с маленькими иконками</value>
+  <data name="LayoutListDescription" xml:space="preserve">
+    <value>Переключиться на вид списка</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Режим сетки со средними иконками</value>
+  <data name="List" xml:space="preserve">
+    <value>Список</value>
   </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Режим сетки с большими иконками</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Режим столбцов</value>
@@ -2959,9 +2932,6 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Отображать чекбоксы при выборе элементов</value>
   </data>
-  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Искать неиндексированные элементы</value>
-  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Сфокусироваться на строчке поиска</value>
   </data>
@@ -3002,7 +2972,7 @@
     <value>Месяц</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>Day</value>
+    <value>День</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Включить группировку по дате</value>
@@ -3014,10 +2984,10 @@
     <value>Год</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>Group by date unit</value>
+    <value>Группировать по дате</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
-    <value>Group items by day of date created</value>
+    <value>Группировать по дням создания</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>Группировать элементы по месяцам с даты создания</value>
@@ -3025,8 +2995,8 @@
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
     <value>Группировать элементы по годам с даты создания</value>
   </data>
-    <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
-    <value>Group items by day of date deleted</value>
+  <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
+    <value>Группировать по дням удаления</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>Группировать элементы по месяцам с даты удаления</value>
@@ -3035,7 +3005,7 @@
     <value>Группировать элементы по годам с даты удаления</value>
   </data>
   <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
-    <value>Group items by day of date modified</value>
+    <value>Группировать по дням изменения</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>Группировать элементы по месяцам с даты изменения</value>
@@ -3513,38 +3483,22 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Безвозвратное удаление {0} элементов из "{1}" отменено</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Безвозвратно удалено {0} элементов из "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Ошибка безвозвратного удаления {0} элементов из "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Не удалось безвозвратно удалить {0} элементов из "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Безвозвратное удаление {0} элементов из "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Удаление {0} элементов из "{1}" отменено</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>Удалено {0} элементов из "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Ошибка удаления {0} элементов из "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Не удалось удалить {0} элементов из {1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Удаление {0} элементов из "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
@@ -3642,10 +3596,10 @@
     <value>Вход</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+    <value>В настоящее время теги совместимы только с дисками, отформатированными в NTFS.</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
-    <value>There was an error applying this tag</value>
+    <value>Произошла ошибка при применении этого тега</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
     <value>Распаковать элементы из выбранных архивов в текущую папку для архива с одним элементом или в новую папку для архива с несколькими элементами</value>
@@ -3654,36 +3608,118 @@
     <value>Распаковать здесь (Smart)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Сортировать файлы и папки вместе</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Сортировать файлы и папки вместе</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Sort files first</value>
+    <value>Сортировать файлы сначала</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>Sort files first then folders</value>
+    <value>Сортировать файлы, затем папки</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Sort folders first</value>
+    <value>Сортировать папки сначала</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Sort folders first then files</value>
+    <value>Сортировать папки, а затем файлы</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Sort priority</value>
+    <value>Приоритет сортировки</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
-    <value>Failed to rotate the image</value>
+    <value>Не удалось повернуть изображение</value>
   </data>
   <data name="Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>Перезапустить</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>Quit</value>
+    <value>Выход</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Не удалось поделиться элементами</value>
+  </data>
+  <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
+    <value>Прокрутить до предыдущей папки при навигации вверх</value>
+  </data>
+  <data name="NewWindowDescription" xml:space="preserve">
+    <value>Открыть новое окно</value>
+  </data>
+  <data name="ChangeAlbumCover" xml:space="preserve">
+    <value>Изменить обложку альбома</value>
+  </data>
+  <data name="ItemRenameFailed" xml:space="preserve">
+    <value>Не удалось переименовать элемент</value>
+  </data>
+  <data name="HigherPermissionsRequired" xml:space="preserve">
+    <value>Редактирование "{0}" требует дополнительных прав доступа</value>
+  </data>
+  <data name="EditPermissions" xml:space="preserve">
+    <value>Изменить права доступа</value>
+  </data>
+  <data name="BackgroundRunningNotificationBody" xml:space="preserve">
+    <value>Файлы все еще работают в фоновом режиме для повышения производительности запуска.</value>
+  </data>
+  <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
+    <value>Где были файлы?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Questions &amp; discussions</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Additional sizes are not yet available for the Tiles View.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Маленький</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Средний</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Medium +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Medium ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Medium +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Medium ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Medium +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Большой</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Large +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Large ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Large +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Extra large</value>
+    <comment>Used to describe layout sizes</comment>
   </data>
 </root>

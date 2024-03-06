@@ -64,7 +64,7 @@ namespace Files.App
 		public static class FluentIconsPaths
 		{
 			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
-			public const string FavoritesIcon = "ms-appx:///Assets/FluentIcons/Favorites.png";
+			public const string StarIcon = "ms-appx:///Assets/FluentIcons/Star.png";
 			public const string FileTagsIcon = "ms-appx:///Assets/FluentIcons/FileTags.png";
 			public const string HomeIcon = "ms-appx:///Assets/FluentIcons/Home.png";
 		}
@@ -118,24 +118,8 @@ namespace Files.App
 			public const string StandardFont = "Segoe UI Variable";
 		}
 
-		public static class Browser
-		{
-			public static class GridViewBrowser
-			{
-				public const int GridViewIncrement = 20;
-
-				public const int GridViewSizeLarge = 220;
-
-				public const int GridViewSizeMedium = 160;
-
-				public const int GridViewSizeSmall = 100;
-
-				public const int TilesView = 100;
-			}
-		}
-
 		// Default icon sizes that are available for files and folders
-		public static class DefaultIconSizes
+		public static class ShellIconSizes
 		{
 			public const int Small = 16;
 
@@ -204,14 +188,16 @@ namespace Files.App
 			public const string CachedEmptyItemName = "fileicon_cache";
 		}
 
-		public static class GitHub
+		public static class ExternalUrl
 		{
 			public const string GitHubRepoUrl = @"https://github.com/files-community/Files";
 			public const string DocumentationUrl = @"https://files.community/docs";
+			public const string DiscordUrl = @"https://discord.gg/files";
 			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?labels=feature+request&template=feature_request.yml";
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
-			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
+			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/.github/PRIVACY.md";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
+			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
 		}
 
 		public static class DocsPath
