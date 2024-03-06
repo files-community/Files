@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Files.App.Server.Data.Enums;
 
 namespace Files.App.UserControls
 {

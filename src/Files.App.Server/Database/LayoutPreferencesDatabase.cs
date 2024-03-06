@@ -1,4 +1,7 @@
-﻿using Files.App.Server.Data;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Server.Data;
 using LiteDB;
 using Windows.Storage;
 
@@ -12,7 +15,7 @@ namespace Files.App.Server.Database
 		private const string LayoutPreferences = "layoutprefs";
 
 		public static string LayoutSettingsDbPath
-			=> Path.Combine(ApplicationData.Current.LocalFolder.Path, "layout_settings.db");
+			=> Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 
 		public LayoutPreferencesDatabase()
 		{

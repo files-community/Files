@@ -1,4 +1,9 @@
-﻿namespace Files.App.Server.Data
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Server.Data.Enums;
+
+namespace Files.App.Server.Data
 {
 	public sealed class LayoutPreferencesItem
 	{
@@ -9,13 +14,13 @@
 		public bool IsAdaptiveLayoutOverridden { get; set; }
 		public int GridViewSize { get; set; }
 
-		public byte LayoutMode { get; set; }
+		public FolderLayoutModes LayoutMode { get; set; }
 
-		public byte DirectorySortOption { get; set; }
-		public byte DirectorySortDirection { get; set; }
-		public byte DirectoryGroupDirection { get; set; }
+		public SortOption DirectorySortOption { get; set; }
+		public SortDirection DirectorySortDirection { get; set; }
+		public SortDirection DirectoryGroupDirection { get; set; }
 
-		public byte DirectoryGroupOption { get; set; }
-		public byte DirectoryGroupByDateUnit { get; set; }
+		public GroupOption DirectoryGroupOption { get; set; }
+		public GroupByDateUnit DirectoryGroupByDateUnit { get; set; }
 	}
 }
