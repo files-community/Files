@@ -118,7 +118,7 @@
 					Content="{helpers:ResourceString Name=Layout}"
 					Tag="3">
 					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE8B7;" />
+						<FontIcon Glyph="&#xE8BA;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
