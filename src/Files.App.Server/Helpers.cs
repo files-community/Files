@@ -1,4 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using WinRT;
 

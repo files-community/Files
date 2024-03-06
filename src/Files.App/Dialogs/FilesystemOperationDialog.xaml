@@ -9,7 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:templateselectors="using:Files.App.Data.TemplateSelectors"
 	xmlns:tvc="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:vm="using:Files.Core.ViewModels.Dialogs.FileSystemDialog"
+	xmlns:vm="using:Files.App.ViewModels.Dialogs.FileSystemDialog"
 	x:Name="RootDialog"
 	Title="{x:Bind ViewModel.Title, Mode=OneWay}"
 	Closing="RootDialog_Closing"

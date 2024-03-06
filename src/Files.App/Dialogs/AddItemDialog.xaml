@@ -7,7 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.Core.ViewModels.Dialogs.AddItemDialog"
+	xmlns:vm="using:Files.App.ViewModels.Dialogs.AddItemDialog"
 	x:Name="AddDialog"
 	Title="{helpers:ResourceString Name=AddDialog/Title}"
 	Grid.RowSpan="4"
