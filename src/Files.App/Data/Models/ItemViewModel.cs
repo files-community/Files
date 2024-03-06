@@ -606,13 +606,13 @@ namespace Files.App.Data.Models
 							RefreshItems(null);
 					});
 					break;
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortOption):
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupOption):
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst):
-				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultLayoutMode):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortOption):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultGroupOption):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst):
+				case nameof(UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit):
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultLayoutMode):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
