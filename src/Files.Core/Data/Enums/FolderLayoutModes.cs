@@ -3,7 +3,7 @@
 
 namespace Files.Core.Data.Enums
 {
-	public enum FolderLayoutModes
+	public enum FolderLayoutModes : byte
 	{
 		/// <summary>
 		/// Details view 

@@ -1,37 +1,47 @@
-﻿// Copyright (c) 2023 Files Community
-// Licensed under the MIT License. See the LICENSE.
-
+﻿using Files.App.Server.Data;
 using Files.Shared.Extensions;
 using LiteDB;
 using System.Text;
-using IO = System.IO;
+using Windows.Foundation.Metadata;
+using Windows.Storage;
 
-namespace Files.Core.Data.Items
+namespace Files.App.Server.Database
 {
-	public class FileTagsDb : IDisposable
+	public sealed class FileTagsDatabase
 	{
-		private readonly LiteDatabase db;
+		private static LiteDatabase _database = default!;
+		private static readonly object _lockObject = new();
 
 		private const string TaggedFiles = "taggedfiles";
 
-		public FileTagsDb(string connection, bool shared = false)
+		public static string FileTagsDbPath 
+			=> Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+
+		public FileTagsDatabase()
 		{
-			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(connection));
-
-			db = new LiteDatabase(new ConnectionString(connection)
+			lock (_lockObject)
 			{
-				Mode = shared ? LiteDB.FileMode.Shared : LiteDB.FileMode.Exclusive
-			});
+				if (_database is null)
+				{
+					SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(FileTagsDbPath));
 
-			UpdateDb();
+					_database = new LiteDatabase(new ConnectionString(FileTagsDbPath)
+					{
+						Connection = ConnectionType.Direct,
+						Upgrade = true
+					});
+
+					UpdateDb();
+				}
+			}
 		}
 
 		public void SetTags(string filePath, ulong? frn, string[]? tags)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = db.GetCollection<TaggedFile>(TaggedFiles);
+			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
 
-			var tmp = _FindTag(filePath, frn);
+			var tmp = FindTag(filePath, frn);
 			if (tmp is null)
 			{
 				if (tags is not null && tags.Any())
@@ -64,10 +74,10 @@ namespace Files.Core.Data.Items
 			}
 		}
 
-		private TaggedFile? _FindTag(string? filePath = null, ulong? frn = null)
+		private TaggedFile? FindTag(string? filePath, ulong? frn)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = db.GetCollection<TaggedFile>(TaggedFiles);
+			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
 
 			if (filePath is not null)
 			{
@@ -104,10 +114,11 @@ namespace Files.Core.Data.Items
 			return null;
 		}
 
-		public void UpdateTag(string oldFilePath, ulong? frn = null, string? newFilePath = null)
+		[DefaultOverload]
+		public void UpdateTag(string oldFilePath, ulong? frn, string? newFilePath)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = db.GetCollection<TaggedFile>(TaggedFiles);
+			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
 			var tmp = col.FindOne(x => x.FilePath == oldFilePath);
 			if (tmp is not null)
 			{
@@ -125,10 +136,11 @@ namespace Files.Core.Data.Items
 			}
 		}
 
-		public void UpdateTag(ulong oldFrn, ulong? frn = null, string? newFilePath = null)
+		[Overload("UpdateTagByFrn")]
+		public void UpdateTag(ulong oldFrn, ulong? frn, string? newFilePath)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = db.GetCollection<TaggedFile>(TaggedFiles);
+			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
 			var tmp = col.FindOne(x => x.Frn == oldFrn);
 			if (tmp is not null)
 			{
@@ -146,60 +158,50 @@ namespace Files.Core.Data.Items
 			}
 		}
 
-		public string[]? GetTags(string? filePath = null, ulong? frn = null)
+		public string[]? GetTags(string? filePath, ulong? frn)
 		{
-			return _FindTag(filePath, frn)?.Tags;
+			return FindTag(filePath, frn)?.Tags;
 		}
 
 		public IEnumerable<TaggedFile> GetAll()
 		{
-			var col = db.GetCollection<TaggedFile>(TaggedFiles);
+			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
 			return col.FindAll();
 		}
 
 		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
 		{
-			var col = db.GetCollection<TaggedFile>(TaggedFiles);
+			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
 			if (string.IsNullOrEmpty(folderPath))
 				return col.FindAll();
 			return col.Find(x => x.FilePath.StartsWith(folderPath, StringComparison.OrdinalIgnoreCase));
 		}
 
-		~FileTagsDb()
-		{
-			Dispose();
-		}
-
-		public void Dispose()
-		{
-			db.Dispose();
-		}
-
 		public void Import(string json)
 		{
 			var dataValues = JsonSerializer.DeserializeArray(json);
-			var col = db.GetCollection(TaggedFiles);
-			col.Delete(Query.All());
+			var col = _database.GetCollection(TaggedFiles);
+			col.DeleteAll();
 			col.InsertBulk(dataValues.Select(x => x.AsDocument));
 		}
 
 		public string Export()
 		{
-			return JsonSerializer.Serialize(new BsonArray(db.GetCollection(TaggedFiles).FindAll()));
+			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection(TaggedFiles).FindAll()));
 		}
 
 		private void UpdateDb()
 		{
-			if (db.Engine.UserVersion == 0)
+			if (_database.UserVersion == 0)
 			{
-				var col = db.GetCollection(TaggedFiles);
+				var col = _database.GetCollection(TaggedFiles);
 				foreach (var doc in col.FindAll())
 				{
 					doc["Tags"] = new BsonValue(new[] { doc["Tag"].AsString });
 					doc.Remove("Tags");
 					col.Update(doc);
 				}
-				db.Engine.UserVersion = 1;
+				_database.UserVersion = 1;
 			}
 		}
 
@@ -207,7 +209,7 @@ namespace Files.Core.Data.Items
 		private void CheckDbVersion(string filename)
 		{
 			var buffer = new byte[8192 * 2];
-			using (var stream = new IO.FileStream(filename, IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.ReadWrite))
+			using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 			{
 				// read first 16k
 				stream.Read(buffer, 0, buffer.Length);
@@ -219,15 +221,7 @@ namespace Files.Core.Data.Items
 					return; // version 4.1.4
 				}
 			}
-			IO.File.Delete(filename); // recreate DB with correct version
-		}
-
-		public class TaggedFile
-		{
-			[BsonId] public int Id { get; set; }
-			public ulong? Frn { get; set; }
-			public string FilePath { get; set; } = string.Empty;
-			public string[] Tags { get; set; } = Array.Empty<string>();
+			File.Delete(filename); // recreate DB with correct version
 		}
 	}
 }

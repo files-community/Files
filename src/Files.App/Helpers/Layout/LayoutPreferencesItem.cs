@@ -14,21 +14,21 @@ namespace Files.App.Helpers
 
 		// Fields
 
-		public ColumnsViewModel ColumnsViewModel;
+		public ColumnsViewModel ColumnsViewModel { get; set; }
 
-		public bool SortDirectoriesAlongsideFiles;
-		public bool SortFilesFirst;
-		public bool IsAdaptiveLayoutOverridden;
-		public int GridViewSize;
+		public bool SortDirectoriesAlongsideFiles { get; set; }
+		public bool SortFilesFirst { get; set; }
+		public bool IsAdaptiveLayoutOverridden { get; set; }
+		public int GridViewSize { get; set; }
 
-		public FolderLayoutModes LayoutMode;
+		public FolderLayoutModes LayoutMode { get; set; }
 
-		public SortOption DirectorySortOption;
-		public SortDirection DirectorySortDirection;
-		public SortDirection DirectoryGroupDirection;
+		public SortOption DirectorySortOption { get; set; }
+		public SortDirection DirectorySortDirection { get; set; }
+		public SortDirection DirectoryGroupDirection { get; set; }
 
-		public GroupOption DirectoryGroupOption;
-		public GroupByDateUnit DirectoryGroupByDateUnit;
+		public GroupOption DirectoryGroupOption { get; set; }
+		public GroupByDateUnit DirectoryGroupByDateUnit { get; set; }
 
 		// Constructor
 
