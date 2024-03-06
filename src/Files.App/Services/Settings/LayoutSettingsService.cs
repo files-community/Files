@@ -25,34 +25,15 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
-
 		public SortOption DefaultSortOption
 		{
 			get => (SortOption)Get((long)SortOption.Name);
 			set => Set((long)value);
 		}
 
-		public GroupOption DefaultGroupOption
-		{
-			get => (GroupOption)Get((long)GroupOption.None);
-			set => Set((long)value);
-		}
-
 		public SortDirection DefaultDirectorySortDirection
 		{
 			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
-		public SortDirection DefaultDirectoryGroupDirection
-		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
-		public GroupByDateUnit DefaultGroupByDateUnit
-		{
-			get => (GroupByDateUnit)Get((long)GroupByDateUnit.Year);
 			set => Set((long)value);
 		}
 
@@ -66,6 +47,24 @@ namespace Files.App.Services.Settings
 		{
 			get => Get(false);
 			set => Set(value);
+		}
+
+		public GroupOption DefaultGroupOption
+		{
+			get => (GroupOption)Get((long)GroupOption.None);
+			set => Set((long)value);
+		}
+
+		public SortDirection DefaultDirectoryGroupDirection
+		{
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
+
+		public GroupByDateUnit DefaultGroupByDateUnit
+		{
+			get => (GroupByDateUnit)Get((long)GroupByDateUnit.Year);
+			set => Set((long)value);
 		}
 
 		public double GitStatusColumnWidth
@@ -334,7 +333,13 @@ namespace Files.App.Services.Settings
 			{
 				case nameof(SyncFolderPreferencesAcrossDirectories):
 				case nameof(DefaultLayoutMode):
-
+				case nameof(DefaultSortOption):
+				case nameof(DefaultDirectorySortDirection):
+				case nameof(DefaultSortDirectoriesAlongsideFiles):
+				case nameof(DefaultSortFilesFirst):
+				case nameof(DefaultGroupOption):
+				case nameof(DefaultDirectoryGroupDirection):
+				case nameof(DefaultGroupByDateUnit):
 				case nameof(GitStatusColumnWidth):
 				case nameof(GitLastCommitDateColumnWidth):
 				case nameof(GitLastCommitMessageColumnWidth):

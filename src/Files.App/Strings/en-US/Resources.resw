@@ -2019,9 +2019,6 @@
   <data name="TypeColumn" xml:space="preserve">
     <value>Type column</value>
   </data>
-  <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
-  </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
@@ -3712,6 +3709,9 @@
   <data name="ExtraLarge" xml:space="preserve">
     <value>Extra large</value>
     <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="DetailsView" xml:space="preserve">
+    <value>Details view</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Layout type</value>

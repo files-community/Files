@@ -17,7 +17,40 @@ namespace Files.Core.Services.Settings
 		/// </summary>
 		FolderLayoutModes DefaultLayoutMode { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating the default sorting option.
+		/// </summary>
+		SortOption DefaultSortOption { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating the default sorting direction.
+		/// </summary>
+		SortDirection DefaultDirectorySortDirection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if directories should be sorted alongside files by.
+		/// </summary>
+		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if files should be sorted first.
+		/// </summary>
+		bool DefaultSortFilesFirst { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default grouping option.
+		/// </summary>
+		GroupOption DefaultGroupOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default grouping direction.
+		/// </summary>
+		SortDirection DefaultDirectoryGroupDirection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the unit for grouping by date.
+		/// </summary>
+		GroupByDateUnit DefaultGroupByDateUnit { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the date column should be visible by default.
@@ -188,40 +221,5 @@ namespace Files.Core.Services.Settings
 		/// Item size in the Columns View
 		/// </summary>
 		ColumnsViewSizeKind ColumnsViewSize { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating the default sorting option.
-		/// </summary>
-		SortOption DefaultSortOption { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating the default grouping option.
-		/// </summary>
-		GroupOption DefaultGroupOption { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating the default sorting direction.
-		/// </summary>
-		SortDirection DefaultDirectorySortDirection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating the default grouping direction.
-		/// </summary>
-		SortDirection DefaultDirectoryGroupDirection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating the unit for grouping by date.
-		/// </summary>
-		GroupByDateUnit DefaultGroupByDateUnit { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating if directories should be sorted alongside files by.
-		/// </summary>
-		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating if files should be sorted first.
-		/// </summary>
-		bool DefaultSortFilesFirst { get; set; }
 	}
 }

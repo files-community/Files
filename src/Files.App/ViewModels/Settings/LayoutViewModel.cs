@@ -13,12 +13,16 @@ namespace Files.App.ViewModels.Settings
 
 		public LayoutViewModel()
 		{
+			// Layout mode
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 
+			// Sorting options
 			SelectedDefaultSortingIndex = UserSettingsService.LayoutSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultSortOption;
+			SelectedDefaultSortPriorityIndex = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles ? 2 : UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst ? 1 : 0;
+			
+			// Grouping options
 			SelectedDefaultGroupingIndex = UserSettingsService.LayoutSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultGroupOption;
 			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
-			SelectedDefaultSortPriorityIndex = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles ? 2 : UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst ? 1 : 0;
 		}
 
 		// Properties
@@ -37,6 +41,8 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		// Layout mode
 
 		public FolderLayoutModes DefaultLayoutMode
 		{
@@ -67,6 +73,22 @@ namespace Files.App.ViewModels.Settings
 		}
 
 
+		// Sorting options
+
+		private int selectedDefaultSortingIndex;
+		public int SelectedDefaultSortingIndex
+		{
+			get => selectedDefaultSortingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultSortingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
+
+					UserSettingsService.LayoutSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
+				}
+			}
+		}
 
 		public bool SortInDescendingOrder
 		{
@@ -81,39 +103,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool GroupInDescendingOrder
-		{
-			get => UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending;
-			set
-			{
-				if (value != (UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending))
-				{
-					UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection = value ? SortDirection.Descending : SortDirection.Ascending;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool IsDefaultGrouped
-			=> UserSettingsService.LayoutSettingsService.DefaultGroupOption != GroupOption.None;
-
-		private int defaultGroupByDateUnitIndex;
-		public int SelectedDefaultGroupByDateUnitIndex
-		{
-			get => defaultGroupByDateUnitIndex;
-			set
-			{
-				if (SetProperty(ref defaultGroupByDateUnitIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultGroupByDateUnitIndex));
-					UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit = (GroupByDateUnit)value;
-				}
-			}
-		}
-
-		public bool IsGroupByDate
-			=> UserSettingsService.LayoutSettingsService.DefaultGroupOption.IsGroupByDate();
-
+	
 		private int selectedDefaultSortPriorityIndex;
 		public int SelectedDefaultSortPriorityIndex
 		{
@@ -144,20 +134,8 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private int selectedDefaultSortingIndex;
-		public int SelectedDefaultSortingIndex
-		{
-			get => selectedDefaultSortingIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultSortingIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
 
-					UserSettingsService.LayoutSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
-				}
-			}
-		}
+		// Grouping options
 
 		private int selectedDefaultGroupingIndex;
 		public int SelectedDefaultGroupingIndex
@@ -177,6 +155,43 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		public bool GroupInDescendingOrder
+		{
+			get => UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending;
+			set
+			{
+				if (value != (UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending))
+				{
+					UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private int defaultGroupByDateUnitIndex;
+
+		public int SelectedDefaultGroupByDateUnitIndex
+		{
+			get => defaultGroupByDateUnitIndex;
+			set
+			{
+				if (SetProperty(ref defaultGroupByDateUnitIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultGroupByDateUnitIndex));
+					UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit = (GroupByDateUnit)value;
+				}
+			}
+		}
+
+		public bool IsGroupByDate
+			=> UserSettingsService.LayoutSettingsService.DefaultGroupOption.IsGroupByDate();
+
+		public bool IsDefaultGrouped
+			=> UserSettingsService.LayoutSettingsService.DefaultGroupOption != GroupOption.None;
+
+
+		// Details view
 
 		public bool ShowFileTagColumn
 		{
@@ -247,6 +262,9 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		
+		// Methods
 
 		public void ResetLayoutPreferences()
 		{
