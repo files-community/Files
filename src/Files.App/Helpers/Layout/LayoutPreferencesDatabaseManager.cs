@@ -13,58 +13,137 @@ namespace Files.App.Helpers
 		// Fields
 		private readonly Server.Database.LayoutPreferencesDatabase _database = new();
 
+		private DetailsLayoutColumnItem FromDatabaseEntity(Server.Data.ColumnPreferencesItem entry)
+		{
+			return new()
+			{
+				NormalMaxLength = entry.NormalMaxLength,
+				UserCollapsed = entry.UserCollapsed,
+				UserLengthPixels = entry.UserLengthPixels,
+			};
+		}
+
 		[return: NotNullIfNotNull(nameof(entry))]
-		private object? CopyValues(Type fromType, Type toType, object? entry)
+		private LayoutPreferencesItem? FromDatabaseEntity(Server.Data.LayoutPreferencesItem? entry)
 		{
 			if (entry is null)
 			{
 				return null;
 			}
 
-			var result = Activator.CreateInstance(toType)!;
-
-			foreach (var prop in fromType.GetProperties())
+			return new()
 			{
-				var toProp = toType.GetProperty(prop.Name);
+				ColumnsViewModel =
+				{
+					DateCreatedColumn = FromDatabaseEntity(entry.ColumnsViewModel.DateCreatedColumn),
+					DateDeletedColumn = FromDatabaseEntity(entry.ColumnsViewModel.DateDeletedColumn),
+					DateModifiedColumn = FromDatabaseEntity(entry.ColumnsViewModel.DateModifiedColumn),
+					GitCommitAuthorColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitCommitAuthorColumn),
+					GitLastCommitDateColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitLastCommitDateColumn),
+					GitLastCommitMessageColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitLastCommitMessageColumn),
+					GitLastCommitShaColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitLastCommitShaColumn),
+					GitStatusColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitStatusColumn),
+					ItemTypeColumn = FromDatabaseEntity(entry.ColumnsViewModel.ItemTypeColumn),
+					NameColumn = FromDatabaseEntity(entry.ColumnsViewModel.NameColumn),
+					OriginalPathColumn = FromDatabaseEntity(entry.ColumnsViewModel.OriginalPathColumn),
+					PathColumn = FromDatabaseEntity(entry.ColumnsViewModel.PathColumn),
+					SizeColumn = FromDatabaseEntity(entry.ColumnsViewModel.SizeColumn),
+					StatusColumn = FromDatabaseEntity(entry.ColumnsViewModel.StatusColumn),
+					TagColumn = FromDatabaseEntity(entry.ColumnsViewModel.TagColumn),
+				},
+				DirectoryGroupByDateUnit = entry.DirectoryGroupByDateUnit,
+				DirectoryGroupDirection = entry.DirectoryGroupDirection,
+				DirectoryGroupOption = entry.DirectoryGroupOption,
+				DirectorySortDirection = entry.DirectorySortDirection,
+				DirectorySortOption = entry.DirectorySortOption,
+				IsAdaptiveLayoutOverridden = entry.IsAdaptiveLayoutOverridden,
+				LayoutMode = entry.LayoutMode,
+				SortDirectoriesAlongsideFiles = entry.SortDirectoriesAlongsideFiles,
+				SortFilesFirst = entry.SortFilesFirst,
+			};
+		}
 
-				if (toProp is null)
-				{
-					continue;
-				}
+		private LayoutPreferencesDatabaseItem FromDatabaseEntity(Server.Data.LayoutPreferences entry)
+		{
+			return new()
+			{
+				FilePath = entry.FilePath,
+				Frn = entry.Frn,
+				Id = entry.Id,
+				LayoutPreferencesManager = FromDatabaseEntity(entry.LayoutPreferencesManager),
+			};
+		}
 
-				if (!prop.PropertyType.IsPrimitive && !prop.PropertyType.IsEnum)
-				{
-					toProp.SetValue(result, CopyValues(prop.PropertyType, toProp.PropertyType, prop.GetValue(entry)));
-				}
-				else
-				{
-					toProp.SetValue(result, prop.GetValue(entry));
-				}
+		private Server.Data.ColumnPreferencesItem ToDatabaseEntity(DetailsLayoutColumnItem entry)
+		{
+			return new()
+			{
+				NormalMaxLength = entry.NormalMaxLength,
+				UserCollapsed = entry.UserCollapsed,
+				UserLengthPixels = entry.UserLengthPixels,
+			};
+		}
+
+		[return: NotNullIfNotNull(nameof(entry))]
+		private Server.Data.LayoutPreferencesItem? ToDatabaseEntity(LayoutPreferencesItem? entry)
+		{
+			if (entry is null)
+			{
+				return null;
 			}
 
-			return result;
+			return new()
+			{
+				ColumnsViewModel =
+				{
+					DateCreatedColumn = ToDatabaseEntity(entry.ColumnsViewModel.DateCreatedColumn),
+					DateDeletedColumn = ToDatabaseEntity(entry.ColumnsViewModel.DateDeletedColumn),
+					DateModifiedColumn = ToDatabaseEntity(entry.ColumnsViewModel.DateModifiedColumn),
+					GitCommitAuthorColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitCommitAuthorColumn),
+					GitLastCommitDateColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitLastCommitDateColumn),
+					GitLastCommitMessageColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitLastCommitMessageColumn),
+					GitLastCommitShaColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitLastCommitShaColumn),
+					GitStatusColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitStatusColumn),
+					ItemTypeColumn = ToDatabaseEntity(entry.ColumnsViewModel.ItemTypeColumn),
+					NameColumn = ToDatabaseEntity(entry.ColumnsViewModel.NameColumn),
+					OriginalPathColumn = ToDatabaseEntity(entry.ColumnsViewModel.OriginalPathColumn),
+					PathColumn = ToDatabaseEntity(entry.ColumnsViewModel.PathColumn),
+					SizeColumn = ToDatabaseEntity(entry.ColumnsViewModel.SizeColumn),
+					StatusColumn = ToDatabaseEntity(entry.ColumnsViewModel.StatusColumn),
+					TagColumn = ToDatabaseEntity(entry.ColumnsViewModel.TagColumn),
+				},
+				DirectoryGroupByDateUnit = entry.DirectoryGroupByDateUnit,
+				DirectoryGroupDirection = entry.DirectoryGroupDirection,
+				DirectoryGroupOption = entry.DirectoryGroupOption,
+				DirectorySortDirection = entry.DirectorySortDirection,
+				DirectorySortOption = entry.DirectorySortOption,
+				IsAdaptiveLayoutOverridden = entry.IsAdaptiveLayoutOverridden,
+				LayoutMode = entry.LayoutMode,
+				SortDirectoriesAlongsideFiles = entry.SortDirectoriesAlongsideFiles,
+				SortFilesFirst = entry.SortFilesFirst,
+			};
 		}
 
 		// Methods
 		public LayoutPreferencesItem? GetPreferences(string? filePath = null, ulong? frn = null)
 		{
-			return (LayoutPreferencesItem?)CopyValues(typeof(Server.Data.LayoutPreferencesItem), typeof(LayoutPreferencesItem), _database.GetPreferences(filePath, frn));
+			return FromDatabaseEntity(_database.GetPreferences(filePath, frn));
 		}
 
 		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
 		{
-			_database.SetPreferences(filePath, frn, (Server.Data.LayoutPreferencesItem?)CopyValues(typeof(LayoutPreferencesItem), typeof(Server.Data.LayoutPreferencesItem), preferencesItem));
+			_database.SetPreferences(filePath, frn, ToDatabaseEntity(preferencesItem));
 		}
 
 		public void ResetAll(Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
-			_database.ResetAll(item => predicate?.Invoke((LayoutPreferencesDatabaseItem)CopyValues(typeof(Server.Data.LayoutPreferences), typeof(LayoutPreferencesDatabaseItem), item)) ?? true);
+			_database.ResetAll(item => predicate?.Invoke(FromDatabaseEntity(item)) ?? true);
 		}
 
 		public void ApplyToAll(Action<LayoutPreferencesDatabaseItem> updateAction, Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
-			_database.ApplyToAll(item => updateAction.Invoke((LayoutPreferencesDatabaseItem)CopyValues(typeof(Server.Data.LayoutPreferences), typeof(LayoutPreferencesDatabaseItem), item)),
-				item => predicate?.Invoke((LayoutPreferencesDatabaseItem)CopyValues(typeof(Server.Data.LayoutPreferences), typeof(LayoutPreferencesDatabaseItem), item)) ?? true);
+			_database.ApplyToAll(item => updateAction.Invoke(FromDatabaseEntity(item)),
+				item => predicate?.Invoke(FromDatabaseEntity(item)) ?? true);
 		}
 
 		public void Import(string json)

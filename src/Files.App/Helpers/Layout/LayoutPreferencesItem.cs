@@ -14,7 +14,7 @@ namespace Files.App.Helpers
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		// Fields
+		// Properties
 
 		public ColumnsViewModel ColumnsViewModel { get; set; }
 

@@ -12,7 +12,6 @@ namespace Files.App.Server.Data
 		public bool SortDirectoriesAlongsideFiles { get; set; }
 		public bool SortFilesFirst { get; set; }
 		public bool IsAdaptiveLayoutOverridden { get; set; }
-		public int GridViewSize { get; set; }
 
 		public FolderLayoutModes LayoutMode { get; set; }
 
