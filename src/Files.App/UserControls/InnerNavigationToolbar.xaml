@@ -930,11 +930,12 @@
 									IsThumbToolTipEnabled="False" />-->
 								<StackPanel
 									x:Name="TilesViewSizeInfo"
+									HorizontalAlignment="Left"
 									Orientation="Horizontal"
 									Spacing="8"
 									Visibility="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}">
 									<FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE946;" />
-									<TextBlock Text="{helpers:ResourceString Name=TilesViewSizeInfo}" />
+									<TextBlock MaxWidth="360" Text="{helpers:ResourceString Name=TilesViewSizeInfo}" />
 								</StackPanel>
 
 								<!--  Grid  -->
