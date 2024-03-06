@@ -14,10 +14,10 @@ namespace Files.App.ViewModels.Settings
 		public LayoutViewModel()
 		{
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
-			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
-			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
-			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit;
-			SelectedDefaultSortPriorityIndex = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles ? 2 : UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst ? 1 : 0;
+			SelectedDefaultSortingIndex = UserSettingsService.LayoutSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultSortOption;
+			SelectedDefaultGroupingIndex = UserSettingsService.LayoutSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultGroupOption;
+			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
+			SelectedDefaultSortPriorityIndex = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles ? 2 : UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst ? 1 : 0;
 		}
 
 		// Properties
@@ -39,12 +39,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool SortInDescendingOrder
 		{
-			get => UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection == SortDirection.Descending;
+			get => UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection == SortDirection.Descending;
 			set
 			{
-				if (value != (UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection == SortDirection.Descending))
+				if (value != (UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection == SortDirection.Descending))
 				{
-					UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
 					OnPropertyChanged();
 				}
 			}
@@ -52,19 +52,19 @@ namespace Files.App.ViewModels.Settings
 
 		public bool GroupInDescendingOrder
 		{
-			get => UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending;
+			get => UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending;
 			set
 			{
-				if (value != (UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending))
+				if (value != (UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending))
 				{
-					UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection = value ? SortDirection.Descending : SortDirection.Ascending;
 					OnPropertyChanged();
 				}
 			}
 		}
 
 		public bool IsDefaultGrouped
-			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption != GroupOption.None;
+			=> UserSettingsService.LayoutSettingsService.DefaultGroupOption != GroupOption.None;
 
 		private int defaultGroupByDateUnitIndex;
 		public int SelectedDefaultGroupByDateUnitIndex
@@ -75,13 +75,13 @@ namespace Files.App.ViewModels.Settings
 				if (SetProperty(ref defaultGroupByDateUnitIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultGroupByDateUnitIndex));
-					UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = (GroupByDateUnit)value;
+					UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit = (GroupByDateUnit)value;
 				}
 			}
 		}
 
 		public bool IsGroupByDate
-			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption.IsGroupByDate();
+			=> UserSettingsService.LayoutSettingsService.DefaultGroupOption.IsGroupByDate();
 
 		private int selectedDefaultSortPriorityIndex;
 		public int SelectedDefaultSortPriorityIndex
@@ -96,15 +96,15 @@ namespace Files.App.ViewModels.Settings
 					switch (value)
 					{
 						case 0:
-							UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = false;
-							UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst = false;
+							UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = false;
+							UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst = false;
 							break;
 						case 1:
-							UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = false;
-							UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst = true;
+							UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = false;
+							UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst = true;
 							break;
 						case 2:
-							UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = true;
+							UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = true;
 							break;
 						default:
 							break;
@@ -123,7 +123,7 @@ namespace Files.App.ViewModels.Settings
 				{
 					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
 
-					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
+					UserSettingsService.LayoutSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
 				}
 			}
 		}
@@ -138,7 +138,7 @@ namespace Files.App.ViewModels.Settings
 				{
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
 
-					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
+					UserSettingsService.LayoutSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
 
 					// Raise an event for the grouping option toggle switches availability
 					OnPropertyChanged(nameof(IsDefaultGrouped));
