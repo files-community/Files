@@ -167,6 +167,9 @@ namespace Files.App.Views
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
 			await NavigationHelpers.UpdateInstancePropertiesAsync(paneArgs);
+
+			// Save the updated tab list
+			AppLifecycleHelper.SaveSessionTabs();
 		}
 
 		public async void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
@@ -497,7 +500,7 @@ namespace Files.App.Views
 			try
 			{
 				foreach (var item in items)
-					await NavigationHelpers.OpenPathInNewTab(item.Path);
+					await NavigationHelpers.OpenPathInNewTab(item.Path, true);
 
 				deferral.Complete();
 			}

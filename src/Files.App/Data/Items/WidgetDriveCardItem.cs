@@ -30,10 +30,9 @@ namespace Files.App.Data.Items
 				Item.Path,
 				Constants.ShellIconSizes.Large,
 				true,
-				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			thumbnailData = result.IconData;
+			thumbnailData = result;
 
 			var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			if (bitmapImage is not null)

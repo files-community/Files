@@ -135,7 +135,7 @@ namespace Files.App.Utils
 
 			Win32Error connectionError = WNetAddConnection3(HWND.NULL, nr, null, null, 0);  // if creds are saved, this will return NO_ERROR
 
-			if (connectionError == Win32Error.ERROR_LOGON_FAILURE)
+			if (connectionError == Win32Error.ERROR_LOGON_FAILURE || connectionError == Win32Error.ERROR_ACCESS_DENIED)
 			{
 				var dialog = DynamicDialogFactory.GetFor_CredentialEntryDialog(path);
 				await dialog.ShowAsync();

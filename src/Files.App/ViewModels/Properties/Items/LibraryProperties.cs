@@ -53,12 +53,11 @@ namespace Files.App.ViewModels.Properties
 				Library.ItemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				true,
-				false,
 				IconOptions.UseCurrentScale);
 			
-			if (result.IconData is not null)
+			if (result is not null)
 			{
-				ViewModel.IconData = result.IconData;
+				ViewModel.IconData = result;
 				ViewModel.LoadCustomIcon = false;
 				ViewModel.LoadFileIcon = true;
 			}

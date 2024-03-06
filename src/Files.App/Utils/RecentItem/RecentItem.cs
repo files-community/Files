@@ -68,10 +68,9 @@ namespace Files.App.Utils.RecentItem
 				RecentPath,
 				Constants.ShellIconSizes.Small,
 				false,
-				false,
 				IconOptions.UseCurrentScale);
 
-			var bitmapImage = await result.IconData.ToBitmapAsync();
+			var bitmapImage = await result.ToBitmapAsync();
 			if (bitmapImage is not null)
 				FileImg = bitmapImage;
 		}

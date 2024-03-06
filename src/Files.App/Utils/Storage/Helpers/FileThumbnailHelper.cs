@@ -10,12 +10,12 @@ namespace Files.App.Utils.Storage
 		/// <summary>
 		/// Returns icon or thumbnail for given file or folder
 		/// </summary>
-		public static async Task<(byte[] IconData, bool isIconCached)> GetIconAsync(string path, uint requestedSize, bool isFolder, bool getThumbnailOnly, IconOptions iconOptions)
+		public static async Task<byte[]?> GetIconAsync(string path, uint requestedSize, bool isFolder, IconOptions iconOptions)
 		{
 			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
-			var getIconOnly = iconOptions.HasFlag(IconOptions.ReturnIconOnly);
+			var returnIconOnly = iconOptions.HasFlag(IconOptions.ReturnIconOnly);
 
-			return await Win32API.StartSTATask(() => Win32API.GetIcon(path, (int)size, isFolder, getThumbnailOnly, getIconOnly));
+			return await Win32API.StartSTATask(() => Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly));
 		}
 
 		/// <summary>
@@ -28,10 +28,10 @@ namespace Files.App.Utils.Storage
 			=> await Win32API.StartSTATask(() => Win32API.GetIconOverlay(path, isFolder));
 
 		[Obsolete]
-		public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions, bool isFolder = false)
+		public static async Task<byte[]?> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions, bool isFolder = false)
 		{
-			var result = await GetIconAsync(filePath, thumbnailSize, isFolder, false, IconOptions.None);
-			return result.IconData;
+			var result = await GetIconAsync(filePath, thumbnailSize, isFolder, IconOptions.None);
+			return result;
 		}
 	}
 }

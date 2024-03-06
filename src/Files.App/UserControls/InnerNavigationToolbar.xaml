@@ -791,8 +791,8 @@
 								<!--  Details  -->
 								<StackPanel
 									x:Name="DetailsView"
-									x:Load="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
-									Spacing="4">
+									Spacing="4"
+									Visibility="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}">
 									<Slider
 										x:Name="DetailsViewSlider"
 										Padding="4,0,4,0"
@@ -857,8 +857,8 @@
 								<!--  List  -->
 								<StackPanel
 									x:Name="ListView"
-									x:Load="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
-									Spacing="4">
+									Spacing="4"
+									Visibility="{x:Bind ViewModel.IsListLayout, Mode=OneWay}">
 									<Slider
 										x:Name="ListViewSlider"
 										Padding="4,0,4,0"
@@ -925,16 +925,17 @@
 								<!--<Slider
 									x:Name="TilesViewSlider"
 									Padding="4,0,4,0"
-									x:Load="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
+									Visibility="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
 									IsEnabled="False"
 									IsThumbToolTipEnabled="False" />-->
 								<StackPanel
 									x:Name="TilesViewSizeInfo"
-									x:Load="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
+									HorizontalAlignment="Left"
 									Orientation="Horizontal"
-									Spacing="8">
+									Spacing="8"
+									Visibility="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}">
 									<FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE946;" />
-									<TextBlock Text="{helpers:ResourceString Name=TilesViewSizeInfo}" />
+									<TextBlock MaxWidth="360" Text="{helpers:ResourceString Name=TilesViewSizeInfo}" />
 								</StackPanel>
 
 								<!--  Grid  -->
@@ -1013,8 +1014,8 @@
 								<!--  Columns  -->
 								<StackPanel
 									x:Name="ColumnsView"
-									x:Load="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
-									Spacing="4">
+									Spacing="4"
+									Visibility="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}">
 									<Slider
 										x:Name="ColumnViewSlider"
 										Padding="4,0,4,0"

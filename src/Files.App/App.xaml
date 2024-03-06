@@ -37,6 +37,7 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PathIcons.xaml" />
 				<ResourceDictionary Source="ms-appx:///UserControls/SideBar/SideBarControls.xaml" />
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/App.Theme.TextBlockStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/ShimmerStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/MenuFlyoutSubItemWithImageStyle.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>

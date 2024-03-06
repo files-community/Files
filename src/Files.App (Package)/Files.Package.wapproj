@@ -16,6 +16,7 @@
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
     <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lt;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
+    <HoursBetweenUpdateChecks>255</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Files.App\Files.App.csproj</EntryPointProjectUniqueName>
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
@@ -94,7 +95,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\AppTiles\Dev\**" />
-    <Content Include="Package.appinstaller" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Files.App.Server\Files.App.Server.csproj">
@@ -107,8 +107,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" IncludeAssets="build" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" IncludeAssets="build" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" IncludeAssets="build" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" IncludeAssets="build" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <Target Name="RemoveOutOfProcWinMD" BeforeTargets="_GenerateCurrentProjectAppxManifest">

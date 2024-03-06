@@ -61,9 +61,9 @@ namespace Files.App.ViewModels.Layouts
 				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
 				if (Item.IsShortcut)
-					await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+					await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath, false);
 				else
-					await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+					await NavigationHelpers.OpenPathInNewTab(Item.ItemPath, false);
 			}
 		}
 

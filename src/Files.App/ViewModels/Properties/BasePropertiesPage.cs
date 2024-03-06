@@ -102,9 +102,8 @@ namespace Files.App.ViewModels.Properties
 						file.Path,
 						Constants.ShellIconSizes.ExtraLarge,
 						false,
-						false,
 						IconOptions.UseCurrentScale);
-					ViewModel.IconData = result.IconData;
+					ViewModel.IconData = result;
 				}
 			});
 

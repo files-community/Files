@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -17,17 +16,17 @@ namespace Files.App.Helpers
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private static NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
-		public static Task OpenPathInNewTab(string? path)
+		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), path, focusNewTab);
 		}
 
 		public static Task AddNewTabAsync()
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
 		}
 
-		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
+		public static async Task AddNewTabByPathAsync(Type type, string? path, bool focusNewTab, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
 			{
@@ -60,10 +59,8 @@ namespace Files.App.Helpers
 
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
-			App.AppModel.TabStripSelectedIndex = index;
-
-			// Save the updated tab list
-			AppLifecycleHelper.SaveSessionTabs();
+			if (focusNewTab)
+				App.AppModel.TabStripSelectedIndex = index;
 		}
 
 		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
@@ -89,9 +86,6 @@ namespace Files.App.Helpers
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;
-
-			// Save the updated tab list
-			AppLifecycleHelper.SaveSessionTabs();
 		}
 
 		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)
@@ -198,11 +192,10 @@ namespace Files.App.Helpers
 					currentPath,
 					Constants.ShellIconSizes.Small,
 					true,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				if (result.IconData is not null)
-					iconSource.ImageSource = await result.IconData.ToBitmapAsync();
+				if (result is not null)
+					iconSource.ImageSource = await result.ToBitmapAsync();
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);
@@ -365,7 +358,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					await NavigationHelpers.OpenPathInNewTab(path);
+					await NavigationHelpers.OpenPathInNewTab(path, true);
 				}
 
 				return true;
@@ -658,7 +651,7 @@ namespace Files.App.Helpers
 		{
 			if (forceOpenInNewTab || openFolderInNewTabSetting)
 			{
-				await OpenPathInNewTab(text);
+				await OpenPathInNewTab(text, true);
 			}
 			else
 			{

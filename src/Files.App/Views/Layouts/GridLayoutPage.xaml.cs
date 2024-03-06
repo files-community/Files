@@ -427,7 +427,7 @@ namespace Files.App.Views.Layouts
 					foreach (ListedItem? folder in folders)
 					{
 						if (folder is not null)
-							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath, false);
 					}
 				}
 				else if (ctrlPressed && shiftPressed)

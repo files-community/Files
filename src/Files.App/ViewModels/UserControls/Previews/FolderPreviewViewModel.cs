@@ -30,16 +30,14 @@ namespace Files.App.ViewModels.Previews
 			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
 			var items = await Folder.GetItemsAsync();
 
-			// Requesting sizes larger than 220 may result in a thumbnail with a small folder
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
 				Constants.ShellIconSizes.Jumbo,
 				true,
-				false,
 				IconOptions.None);
 			
-			if (result.IconData is not null)
-				Thumbnail = await result.IconData.ToBitmapAsync();
+			if (result is not null)
+				Thumbnail = await result.ToBitmapAsync();
 
 			var info = await Folder.GetBasicPropertiesAsync();
 

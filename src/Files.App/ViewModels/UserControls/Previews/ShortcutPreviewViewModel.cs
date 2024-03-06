@@ -40,11 +40,10 @@ namespace Files.App.ViewModels.Previews
 				Item.ItemPath,
 				Constants.ShellIconSizes.Jumbo,
 				false,
-				false,
 				IconOptions.None);
 
-			if (result.IconData is not null)
-				FileImage = await result.IconData.ToBitmapAsync();
+			if (result is not null)
+				FileImage = await result.ToBitmapAsync();
 		}
 	}
 }
