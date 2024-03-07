@@ -70,13 +70,6 @@ namespace Files.App.Utils
 			set => SetProperty(ref loadFileIcon, value);
 		}
 
-		private bool loadWebShortcutGlyph;
-		public bool LoadWebShortcutGlyph
-		{
-			get => loadWebShortcutGlyph;
-			set => SetProperty(ref loadWebShortcutGlyph, value);
-		}
-
 		private bool loadCustomIcon;
 		public bool LoadCustomIcon
 		{
@@ -176,7 +169,6 @@ namespace Files.App.Utils
 					{
 						LoadFileIcon = true;
 						NeedsPlaceholderGlyph = false;
-						LoadWebShortcutGlyph = false;
 					}
 				}
 			}

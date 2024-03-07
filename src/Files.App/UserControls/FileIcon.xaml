@@ -43,14 +43,6 @@
 			x:Load="{x:Bind ViewModel.LoadCustomIcon, Mode=OneWay}"
 			Source="{x:Bind CustomIconImageSource}" />
 
-		<FontIcon
-			x:Name="WebShortcutGlyph"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Stretch"
-			x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-			FontSize="{x:Bind ItemSize}"
-			Glyph="&#xE71B;" />
-
 		<Image
 			x:Name="ItemIcon"
 			Height="{x:Bind ItemSize}"

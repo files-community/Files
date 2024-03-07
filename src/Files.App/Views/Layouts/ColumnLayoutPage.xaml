@@ -260,15 +260,7 @@
 										x:Load="True"
 										Source="{x:Bind IconOverlay, Mode=OneWay}"
 										Stretch="Uniform" />
-									<Viewbox
-										x:Name="WebShortcutGlyph"
-										MaxWidth="20"
-										MaxHeight="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
-										<FontIcon FontSize="20" Glyph="&#xE71B;" />
-									</Viewbox>
+
 									<Border
 										x:Name="ShortcutGlyphElement"
 										HorizontalAlignment="Left"

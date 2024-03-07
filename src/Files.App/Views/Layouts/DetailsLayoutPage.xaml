@@ -940,10 +940,6 @@
 												Margin="2"
 												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
-											<FontIcon
-												x:Name="WebShortcutGlyph"
-												x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-												Glyph="&#xE71B;" />
 											<Image
 												x:Name="IconOverlay"
 												Width="16"
