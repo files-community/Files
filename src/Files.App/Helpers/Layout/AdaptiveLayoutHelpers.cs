@@ -13,10 +13,11 @@ namespace Files.App.Helpers
 	public static class AdaptiveLayoutHelpers
 	{
 		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private static ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 
 		public static void ApplyAdaptativeLayout(LayoutPreferencesManager folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
-			if (FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
+			if (LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 				return;
 			if (string.IsNullOrWhiteSpace(path))
 				return;
