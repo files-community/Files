@@ -2,10 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.Shell;
 using Files.App.ViewModels.Dialogs;
-using Files.Shared;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
@@ -63,24 +60,6 @@ namespace Files.App.Utils.Library
 			librariesWatcher.Renamed += OnLibraryRenamed;
 
 			librariesWatcher.EnableRaisingEvents = true;
-		}
-
-		public static bool IsDefaultLibrary(string libraryFilePath)
-		{
-			// TODO: try to find a better way for this
-			switch (Path.GetFileNameWithoutExtension(libraryFilePath))
-			{
-				case "CameraRoll":
-				case "Documents":
-				case "Music":
-				case "Pictures":
-				case "SavedPictures":
-				case "Videos":
-					return true;
-
-				default:
-					return false;
-			}
 		}
 
 		/// <summary>
