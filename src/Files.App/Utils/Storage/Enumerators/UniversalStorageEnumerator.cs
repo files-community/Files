@@ -282,7 +282,6 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileImage = null,
 						LoadFileIcon = itemThumbnailImgVis,
-						LoadWebShortcutGlyph = isUrl,
 						ItemNameRaw = itemName,
 						ItemDateModifiedReal = itemModifiedDate,
 						ItemDateCreatedReal = itemCreatedDate,

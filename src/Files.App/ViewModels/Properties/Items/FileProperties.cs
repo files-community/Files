@@ -123,7 +123,6 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
-				ViewModel.LoadLinkIcon = Item.LoadWebShortcutGlyph;
 				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
