@@ -208,13 +208,13 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is a Python file.
+		/// Check if the file extension is a Script file.
 		/// </summary>
 		/// <param name="filePathToCheck"></param>
-		/// <returns><c>true</c> if the filePathToCheck is a python file; otherwise, <c>false</c>.</returns>
-		public static bool IsPythonFile(string? filePathToCheck)
+		/// <returns><c>true</c> if the filePathToCheck is a script file; otherwise, <c>false</c>.</returns>
+		public static bool IsScriptFile(string? filePathToCheck)
 		{
-			return HasExtension(filePathToCheck, ".py");
+			return HasExtension(filePathToCheck, ".py", ".ahk");
 		}
 
 	}
