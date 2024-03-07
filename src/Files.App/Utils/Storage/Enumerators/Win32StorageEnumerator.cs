@@ -3,7 +3,6 @@
 
 using Files.Core.Services.SizeProvider;
 using Files.Shared.Helpers;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Storage;
@@ -287,7 +286,6 @@ namespace Files.App.Utils.Storage
 					Opacity = opacity,
 					FileImage = null,
 					LoadFileIcon = itemThumbnailImgVis,
-					LoadWebShortcutGlyph = false,
 					ItemNameRaw = itemName,
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateAccessedReal = itemLastAccessDate,
@@ -316,7 +314,6 @@ namespace Files.App.Utils.Storage
 					Opacity = opacity,
 					FileImage = null,
 					LoadFileIcon = !shInfo.IsFolder && itemThumbnailImgVis,
-					LoadWebShortcutGlyph = !shInfo.IsFolder && isUrl && itemEmptyImgVis,
 					ItemNameRaw = itemName,
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateAccessedReal = itemLastAccessDate,

@@ -150,18 +150,6 @@
 							Stretch="Uniform" />
 
 						<Viewbox
-							x:Name="WebShortcutGlyph"
-							MaxWidth="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
-							MaxHeight="{Binding ElementName=PageRoot, Path=ItemWidthGridView, Mode=OneWay}"
-							Margin="12"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-							x:Phase="1">
-							<FontIcon FontSize="28" Glyph="&#xE71B;" />
-						</Viewbox>
-
-						<Viewbox
 							x:Name="ShortcutGlyphElement"
 							Width="16"
 							Height="16"
@@ -336,10 +324,6 @@
 								Margin="2"
 								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
-							<FontIcon
-								x:Name="WebShortcutGlyph"
-								x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-								Glyph="&#xE71B;" />
 							<Image
 								x:Name="IconOverlay"
 								Width="16"
@@ -537,16 +521,6 @@
 							x:Phase="1"
 							Source="{x:Bind IconOverlay, Mode=OneWay}"
 							Stretch="Uniform" />
-
-						<Viewbox
-							x:Name="WebShortcutGlyph"
-							MaxWidth="60"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-							x:Phase="1">
-							<FontIcon FontSize="28" Glyph="&#xE71B;" />
-						</Viewbox>
 
 						<Viewbox
 							x:Name="ShortcutGlyphElement"
