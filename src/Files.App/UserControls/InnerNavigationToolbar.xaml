@@ -47,8 +47,8 @@
 				<Setter Target="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 				<Setter Target="VerticalContentAlignment" Value="Center" />
 				<Setter Target="HorizontalContentAlignment" Value="Center" />
-				<Setter Target="Width" Value="72" />
-				<Setter Target="Height" Value="68" />
+				<Setter Target="Width" Value="76" />
+				<Setter Target="Height" Value="72" />
 				<Setter Target="MinWidth" Value="0" />
 			</Style>
 		</ResourceDictionary>
@@ -670,9 +670,9 @@
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutDetails.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 
@@ -695,9 +695,9 @@
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutList.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 
@@ -720,9 +720,9 @@
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutTiles.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 
@@ -745,9 +745,9 @@
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutGrid.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 
@@ -770,9 +770,9 @@
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutColumns.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 							</StackPanel>
