@@ -32,3 +32,10 @@ WM_LBUTTONUP
 WM_RBUTTONUP
 WM_DESTROY
 SetForegroundWindow
+GetForegroundWindow
+GetCurrentThreadId
+GetWindowThreadProcessId
+AttachThreadInput
+SetWindowPos
+SetFocus
+SetActiveWindow

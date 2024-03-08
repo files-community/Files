@@ -18,6 +18,8 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Notifications;
+using Windows.Win32;
+using Windows.Win32.UI.WindowsAndMessaging;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App.Helpers
@@ -232,6 +234,24 @@ namespace Files.App.Helpers
 				}
 			})
 			.ToList();
+		}
+
+		public static unsafe void BringToForegroundEx(Windows.Win32.Foundation.HWND hWnd)
+		{
+			// https://stackoverflow.com/questions/1544179/what-are-the-differences-between-bringwindowtotop-setforegroundwindow-setwindo
+			// https://stackoverflow.com/questions/916259/win32-bring-a-window-to-top
+			var hCurWnd = PInvoke.GetForegroundWindow();
+			var dwMyID = PInvoke.GetCurrentThreadId();
+			var dwCurID = PInvoke.GetWindowThreadProcessId(hCurWnd);
+
+			PInvoke.AttachThreadInput(dwCurID, dwMyID, true);
+
+			PInvoke.SetWindowPos(hWnd, (Windows.Win32.Foundation.HWND)(-1), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
+			PInvoke.SetWindowPos(hWnd, (Windows.Win32.Foundation.HWND)(-2), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW | SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
+			PInvoke.SetForegroundWindow(hWnd);
+			PInvoke.SetFocus(hWnd);
+			PInvoke.SetActiveWindow(hWnd);
+			PInvoke.AttachThreadInput(dwCurID, dwMyID, false);
 		}
 
 		/// <summary>

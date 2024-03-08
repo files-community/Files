@@ -12,7 +12,6 @@ using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using Windows.Win32;
 using WinUIEx;
 using IO = System.IO;
 
@@ -94,7 +93,6 @@ namespace Files.App
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
-						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments, true);
 					}
 					else
@@ -171,8 +169,6 @@ namespace Files.App
 						rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
 						index = 1;
 					}
-					else
-						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					for (; index < fileArgs.Files.Count; index++)
 					{
 						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path, true);
@@ -191,7 +187,7 @@ namespace Files.App
 			}
 
 			// Bring to foreground (#14730)
-			PInvoke.SetForegroundWindow(new(WindowHandle));
+			AppLifecycleHelper.BringToForegroundEx(new(WindowHandle));
 
 			if (!AppWindow.IsVisible)
 			{
@@ -248,10 +244,7 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
-				{
-					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
-				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
