@@ -20,6 +20,8 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class RecentFilesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
+		private RecentFilesWidgetViewModel ViewModel { get; set; }
+
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
