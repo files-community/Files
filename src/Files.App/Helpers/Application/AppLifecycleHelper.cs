@@ -236,10 +236,19 @@ namespace Files.App.Helpers
 			.ToList();
 		}
 
+		/// <summary>
+		/// Brings the app window to foreground.
+		/// </summary>
+		/// <remarks>
+		/// For more information, visit
+		/// <br/>
+		/// - <a href="https://stackoverflow.com/questions/1544179/what-are-the-differences-between-bringwindowtotop-setforegroundwindow-setwindo" />
+		/// <br/>
+		/// - <a href="https://stackoverflow.com/questions/916259/win32-bring-a-window-to-top" />
+		/// </remarks>
+		/// <param name="hWnd">The window handle to bring.</param>
 		public static unsafe void BringToForegroundEx(Windows.Win32.Foundation.HWND hWnd)
 		{
-			// https://stackoverflow.com/questions/1544179/what-are-the-differences-between-bringwindowtotop-setforegroundwindow-setwindo
-			// https://stackoverflow.com/questions/916259/win32-bring-a-window-to-top
 			var hCurWnd = PInvoke.GetForegroundWindow();
 			var dwMyID = PInvoke.GetCurrentThreadId();
 			var dwCurID = PInvoke.GetWindowThreadProcessId(hCurWnd);
