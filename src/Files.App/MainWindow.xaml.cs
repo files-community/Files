@@ -12,6 +12,7 @@ using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using Windows.Win32;
 using WinUIEx;
 using IO = System.IO;
 
@@ -188,6 +189,9 @@ namespace Files.App
 					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 					break;
 			}
+
+			// Bring to foreground (#14730)
+			PInvoke.SetForegroundWindow(new(WindowHandle));
 
 			if (!AppWindow.IsVisible)
 			{
