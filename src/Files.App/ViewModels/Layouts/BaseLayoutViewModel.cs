@@ -170,8 +170,17 @@ namespace Files.App.ViewModels.Layouts
 
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
-				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
-				await _associatedInstance.RefreshIfNoWatcherExistsAsync();
+				var deferral = e.GetDeferral();
+
+				try
+				{
+					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
+				}
+				finally
+				{
+					deferral.Complete();
+				}
 			}
 		}
 
