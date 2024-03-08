@@ -13,13 +13,18 @@ namespace Files.App.UserControls.Widgets
 	/// <summary>
 	/// Represents base ViewModel for widget ViewModels.
 	/// </summary>
-	public abstract class BaseWidgetViewModel : UserControl
+	public abstract class BaseWidgetViewModel : ObservableObject
 	{
 		// Dependency injections
 
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
-		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
+		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		protected IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		protected IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
+		protected IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		protected IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
+		protected DrivesViewModel DrivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		protected NetworkDrivesViewModel NetworkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		// Fields
 
@@ -27,29 +32,27 @@ namespace Files.App.UserControls.Widgets
 
 		// Commands
 
-		protected ICommand? RemoveRecentItemCommand { get; set; }
-		protected ICommand? ClearAllItemsCommand { get; set; }
-		protected ICommand? OpenFileLocationCommand { get; set; }
-		protected ICommand? OpenInNewTabCommand { get; set; }
-		protected ICommand? OpenInNewWindowCommand { get; set; }
-		protected ICommand? OpenPropertiesCommand { get; set; }
-		protected ICommand? PinToSidebarCommand { get; set; }
-		protected ICommand? UnpinFromSidebarCommand { get; set; }
+		protected ICommand RemoveRecentItemCommand { get; set; } = null!;
+		protected ICommand ClearAllItemsCommand { get; set; } = null!;
+		protected ICommand OpenFileLocationCommand { get; set; } = null!;
+		protected ICommand OpenInNewTabCommand { get; set; } = null!;
+		protected ICommand OpenInNewWindowCommand { get; set; } = null!;
+		protected ICommand OpenPropertiesCommand { get; set; } = null!;
+		protected ICommand PinToSidebarCommand { get; set; } = null!;
+		protected ICommand UnpinFromSidebarCommand { get; set; } = null!;
 
 		// Events
 
 		public static event EventHandler<WidgetsRightClickedItemChangedEventArgs>? RightClickedItemChanged;
 
-		// Abstract methods
+		// Methods
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
-		// Event methods
-
-		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		public void BuildItemContextMenu(object sender, RightTappedRoutedEventArgs e)
 		{
 			// Ensure values are not null
-			if (sender is not Button widgetCardItem ||
+			if (sender is not FrameworkElement widgetCardItem ||
 				widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
 
@@ -91,24 +94,24 @@ namespace Files.App.UserControls.Widgets
 
 		// Command methods
 
-		public async Task OpenInNewTabAsync(WidgetCardItem item)
+		public async Task ExecuteOpenInNewTabCommand(WidgetCardItem? item)
 		{
-			await NavigationHelpers.OpenPathInNewTab(item.Path, false);
+			await NavigationHelpers.OpenPathInNewTab(item?.Path ?? string.Empty, false);
 		}
 
-		public async Task OpenInNewWindowAsync(WidgetCardItem item)
+		public async Task ExecuteOpenInNewWindowCommand(WidgetCardItem? item)
 		{
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
+			await NavigationHelpers.OpenPathInNewWindowAsync(item?.Path ?? string.Empty);
 		}
 
-		public virtual async Task PinToSidebarAsync(WidgetCardItem item)
+		public virtual async Task ExecutePinToSidebarCommand(WidgetCardItem? item)
 		{
-			await QuickAccessService.PinToSidebarAsync(item.Path);
+			await QuickAccessService.PinToSidebarAsync(item?.Path ?? string.Empty);
 		}
 
-		public virtual async Task UnpinFromSidebarAsync(WidgetCardItem item)
+		public virtual async Task ExecuteUnpinFromSidebarCommand(WidgetCardItem? item)
 		{
-			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
+			await QuickAccessService.UnpinFromSidebarAsync(item?.Path ?? string.Empty);
 		}
 
 		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)

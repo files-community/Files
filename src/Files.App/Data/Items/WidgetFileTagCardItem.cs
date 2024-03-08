@@ -9,13 +9,13 @@ namespace Files.App.Data.Items
 {
 	public sealed partial class WidgetFileTagCardItem : WidgetCardItem
 	{
+		// Dependency injections
+
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		// Fields
 
 		private readonly IStorable _associatedStorable;
-
-		// A workaround for lack of MVVM-compliant navigation support.
-		// This workaround must be kept until further refactor of navigation code is completed.
-		private readonly Func<string, Task> _openAction;
 
 		// Properties
 
@@ -47,10 +47,9 @@ namespace Files.App.Data.Items
 
 		public ICommand ClickCommand { get; }
 
-		public WidgetFileTagCardItem(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
+		public WidgetFileTagCardItem(IStorable associatedStorable, IImage? icon)
 		{
 			_associatedStorable = associatedStorable;
-			_openAction = openAction;
 			_Icon = icon;
 			_Name = associatedStorable.Name;
 			_Path = associatedStorable.TryGetPath();
@@ -61,7 +60,7 @@ namespace Files.App.Data.Items
 
 		private Task ClickAsync()
 		{
-			return _openAction(_associatedStorable.Id);
+			return NavigationHelpers.OpenPath(_associatedStorable.Id, ContentPageContext.ShellPage!);
 		}
 	}
 }

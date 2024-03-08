@@ -17,7 +17,7 @@ namespace Files.App.Data.Contracts
 
 		bool ShowMenuFlyout { get; }
 
-		MenuFlyoutItem MenuFlyoutItem { get; }
+		MenuFlyoutItem? MenuFlyoutItem { get; }
 
 		Task RefreshWidgetAsync();
 	}
