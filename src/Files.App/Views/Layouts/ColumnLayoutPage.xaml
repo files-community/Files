@@ -243,15 +243,13 @@
 											Source="{x:Bind FileImage, Mode=OneWay}"
 											Stretch="Uniform" />
 									</ContentPresenter>
-									<Border
+
+									<!--  Loading indicator  -->
+									<uc:Shimmer
 										x:Name="TypeUnknownGlyph"
-										Width="20"
-										Height="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-										Background="{ThemeResource SystemChromeHighColor}"
-										CornerRadius="4" />
+										Margin="2"
+										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+
 									<Image
 										x:Name="IconOverlay"
 										Width="16"
@@ -262,15 +260,7 @@
 										x:Load="True"
 										Source="{x:Bind IconOverlay, Mode=OneWay}"
 										Stretch="Uniform" />
-									<Viewbox
-										x:Name="WebShortcutGlyph"
-										MaxWidth="20"
-										MaxHeight="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
-										<FontIcon FontSize="20" Glyph="&#xE71B;" />
-									</Viewbox>
+
 									<Border
 										x:Name="ShortcutGlyphElement"
 										HorizontalAlignment="Left"

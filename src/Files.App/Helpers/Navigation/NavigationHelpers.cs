@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -17,17 +16,17 @@ namespace Files.App.Helpers
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private static NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
-		public static Task OpenPathInNewTab(string? path)
+		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), path, focusNewTab);
 		}
 
 		public static Task AddNewTabAsync()
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
 		}
 
-		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
+		public static async Task AddNewTabByPathAsync(Type type, string? path, bool focusNewTab, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
 			{
@@ -60,7 +59,8 @@ namespace Files.App.Helpers
 
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
-			App.AppModel.TabStripSelectedIndex = index;
+			if (focusNewTab)
+				App.AppModel.TabStripSelectedIndex = index;
 		}
 
 		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
@@ -358,7 +358,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					await NavigationHelpers.OpenPathInNewTab(path);
+					await NavigationHelpers.OpenPathInNewTab(path, true);
 				}
 
 				return true;
@@ -651,7 +651,7 @@ namespace Files.App.Helpers
 		{
 			if (forceOpenInNewTab || openFolderInNewTabSetting)
 			{
-				await OpenPathInNewTab(text);
+				await OpenPathInNewTab(text, true);
 			}
 			else
 			{

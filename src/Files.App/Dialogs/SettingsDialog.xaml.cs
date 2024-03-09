@@ -51,11 +51,12 @@ namespace Files.App.Dialogs
 			{
 				0 => SettingsContentFrame.Navigate(typeof(GeneralPage)),
 				1 => SettingsContentFrame.Navigate(typeof(AppearancePage)),
-				2 => SettingsContentFrame.Navigate(typeof(FoldersPage)),
-				3 => SettingsContentFrame.Navigate(typeof(TagsPage)),
-				4 => SettingsContentFrame.Navigate(typeof(GitPage)),
-				5 => SettingsContentFrame.Navigate(typeof(AdvancedPage)),
-				6 => SettingsContentFrame.Navigate(typeof(AboutPage)),
+				2 => SettingsContentFrame.Navigate(typeof(LayoutPage)),
+				3 => SettingsContentFrame.Navigate(typeof(FoldersPage)),
+				4 => SettingsContentFrame.Navigate(typeof(TagsPage)),
+				5 => SettingsContentFrame.Navigate(typeof(GitPage)),
+				6 => SettingsContentFrame.Navigate(typeof(AdvancedPage)),
+				7 => SettingsContentFrame.Navigate(typeof(AboutPage)),
 				_ => SettingsContentFrame.Navigate(typeof(AppearancePage))
 			};
 		}
