@@ -6,7 +6,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Helpers
 {
-	public static class Win32Helper
+	public static partial class Win32Helper
 	{
 		/// <summary>
 		/// Brings the app window to foreground.
