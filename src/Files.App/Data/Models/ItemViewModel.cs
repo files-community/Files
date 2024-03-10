@@ -914,11 +914,11 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item)
+		private async Task LoadThumbnailAsync(ListedItem item, bool loadBasicFolderIcon)
 		{
-			// Cancel if thumbnails aren't enabled
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
-			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
+			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48 ||
+				(item.IsFolder && loadBasicFolderIcon);
 
 			// Get thumbnail
 			var result = await FileThumbnailHelper.GetIconAsync(
@@ -990,7 +990,7 @@ namespace Files.App.Data.Models
 					}
 
 					cts.Token.ThrowIfCancellationRequested();
-					await LoadThumbnailAsync(item);
+					await LoadThumbnailAsync(item, true);
 
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
@@ -1097,16 +1097,16 @@ namespace Files.App.Data.Models
 							SetFileTag(item);
 						});
 					}
-					else
+					else if (UserSettingsService.FoldersSettingsService.ShowThumbnails &&
+						(item.IsFolder || item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown))
 					{
-						// Try loading thumbnail for cloud files in case they weren't cached the first time
-						if (item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown)
+						// Load thumbnail for folders (we initially load a basic folder icon to prevent a bug where thumbnails stop loading #14817)
+						// Also reload thumbnails cloud files in case they weren't cached the first time
+						_ = Task.Run(async () =>
 						{
-							_ = Task.Run(async () => {
-								await Task.Delay(500);
-								await LoadThumbnailAsync(item);
-							});
-						}
+							await Task.Delay(500);
+							await LoadThumbnailAsync(item, false);
+						});
 					}
 
 					if (loadGroupHeaderInfo)
