@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-<<<<<<< HEAD
-=======
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
@@ -12,17 +10,11 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
->>>>>>> 70e2ff662 (Initial  commit)
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents view model of <see cref="QuickAccessWidget"/>.
 	/// </summary>
-<<<<<<< HEAD
-	public class QuickAccessWidgetViewModel
-	{
-		public ObservableCollection<WidgetFolderCardItem> Items { get; } = [];
-=======
 	public class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
@@ -324,6 +316,5 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItemAsync;
 		}
->>>>>>> 70e2ff662 (Initial  commit)
 	}
 }

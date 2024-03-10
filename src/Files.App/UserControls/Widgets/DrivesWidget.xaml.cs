@@ -12,62 +12,7 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class DrivesWidget : UserControl
 	{
-<<<<<<< HEAD
-<<<<<<< HEAD
-		private DrivesWidgetViewModel ViewModel { get; set; }
-
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
-
-		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
-		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
-		public event PropertyChangedEventHandler? PropertyChanged;
-		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = new();
-
-		private IShellPage associatedInstance;
-
-		public ICommand FormatDriveCommand;
-		public ICommand EjectDeviceCommand;
-		public ICommand DisconnectNetworkDriveCommand;
-		public ICommand GoToStorageSenseCommand;
-		public ICommand OpenInNewPaneCommand;
-
-		public IShellPage AppInstance
-		{
-			get => associatedInstance;
-			set
-			{
-				if (value != associatedInstance)
-				{
-					associatedInstance = value;
-					NotifyPropertyChanged(nameof(AppInstance));
-				}
-			}
-		}
-
-		public string WidgetName => nameof(DrivesWidget);
-		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
-		public string WidgetHeader => "Drives".GetLocalizedResource();
-		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
-		public bool ShowMenuFlyout => true;
-		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
-		{
-			Icon = new FontIcon() { Glyph = "\uE710" },
-			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
-			Command = MapNetworkDriveCommand
-		};
-
-		public AsyncRelayCommand MapNetworkDriveCommand { get; }
-=======
-		private DrivesWidgetViewModel ViewModel { get; set; } = new();
->>>>>>> 70e2ff662 (Initial  commit)
-=======
 		public DrivesWidgetViewModel ViewModel { get; set; } = new();
->>>>>>> 145267b14 (Fix)
 
 		public DrivesWidget()
 		{

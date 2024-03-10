@@ -8,10 +8,7 @@
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-<<<<<<< HEAD
-=======
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
->>>>>>> 70e2ff662 (Initial  commit)
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 

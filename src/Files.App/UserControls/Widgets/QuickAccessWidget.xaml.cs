@@ -12,25 +12,7 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class QuickAccessWidget : UserControl
 	{
-<<<<<<< HEAD
-<<<<<<< HEAD
-		private QuickAccessWidgetViewModel ViewModel { get; set; }
-
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-
-		public static ObservableCollection<WidgetFolderCardItem> ItemsAdded = new();
-
-		static QuickAccessWidget()
-		{
-			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
-		}
-=======
-		private QuickAccessWidgetViewModel ViewModel { get; set; } = new();
->>>>>>> 70e2ff662 (Initial  commit)
-=======
 		public QuickAccessWidgetViewModel ViewModel { get; set; } = new();
->>>>>>> 145267b14 (Fix)
 
 		public QuickAccessWidget()
 		{

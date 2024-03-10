@@ -1,25 +1,17 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-<<<<<<< HEAD
-=======
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using System.IO;
 using Windows.Foundation.Metadata;
 
->>>>>>> 70e2ff662 (Initial  commit)
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents view model of <see cref="RecentFilesWidget"/>.
 	/// </summary>
-<<<<<<< HEAD
-	public class RecentFilesWidgetViewModel
-	{
-		public ObservableCollection<RecentItem> Items { get; } = [];
-=======
 	public class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Fields
@@ -348,6 +340,5 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
 		}
->>>>>>> 70e2ff662 (Initial  commit)
 	}
 }

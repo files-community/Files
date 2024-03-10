@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-<<<<<<< HEAD
-=======
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
@@ -10,17 +8,11 @@ using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
 
->>>>>>> 70e2ff662 (Initial  commit)
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents view model of <see cref="DrivesWidget"/>.
 	/// </summary>
-<<<<<<< HEAD
-	public class DrivesWidgetViewModel
-	{
-		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
-=======
 	public class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
@@ -279,6 +271,5 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public void Dispose()
 		{
 		}
->>>>>>> 70e2ff662 (Initial  commit)
 	}
 }

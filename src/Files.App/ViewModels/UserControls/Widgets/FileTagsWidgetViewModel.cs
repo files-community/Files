@@ -11,17 +11,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="FileTagsWidget"/>.
 	/// </summary>
-<<<<<<< HEAD
-	public sealed partial class FileTagsWidgetViewModel : ObservableObject, IAsyncInitialize
-=======
 	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
->>>>>>> 70e2ff662 (Initial  commit)
 	{
 		// Properties
 
 		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = [];
-<<<<<<< HEAD
-=======
 
 		public string WidgetName => nameof(FileTagsWidget);
 		public string WidgetHeader => "FileTags".GetLocalizedResource();
@@ -37,18 +31,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Commands
 
 		private ICommand OpenInNewPaneCommand { get; set; } = null!;
->>>>>>> 70e2ff662 (Initial  commit)
 
 		// Constructor
 
 		public FileTagsWidgetViewModel()
 		{
-<<<<<<< HEAD
-<<<<<<< HEAD
-			_openAction = openAction;
-=======
-=======
->>>>>>> 9de88d1c4 (Fix)
 			_ = InitializeWidget();
 
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
@@ -58,10 +45,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(ExecuteOpenFileLocationCommand);
 			OpenInNewPaneCommand = new RelayCommand<WidgetCardItem>(ExecuteOpenInNewPaneCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(ExecuteOpenPropertiesCommand);
-<<<<<<< HEAD
->>>>>>> 70e2ff662 (Initial  commit)
-=======
->>>>>>> 9de88d1c4 (Fix)
 		}
 
 		// Methods
