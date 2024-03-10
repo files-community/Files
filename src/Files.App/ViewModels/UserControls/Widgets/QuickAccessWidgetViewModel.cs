@@ -50,6 +50,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Methods
 
+		private async Task InitializeWidget()
+		{
+			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
+			ModifyItemAsync(this, new(itemsToAdd.ToArray(), false) { Reset = true });
+
+			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
+		}
+
+		public Task RefreshWidgetAsync()
+		{
+			return Task.CompletedTask;
+		}
+
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
@@ -197,11 +210,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			});
 		}
 
-		public Task RefreshWidgetAsync()
-		{
-			return Task.CompletedTask;
-		}
-
 		public async Task NavigateToPath(string path)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -217,14 +225,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		}
 
 		// Event methods
-
-		private async Task InitializeWidget()
-		{
-			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
-			ModifyItemAsync(this, new(itemsToAdd.ToArray(), false) { Reset = true });
-
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
-		}
 
 		private async void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{

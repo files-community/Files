@@ -53,7 +53,8 @@ namespace Files.App.UserControls.Widgets
 		{
 			// Ensure values are not null
 			if (sender is not FrameworkElement widgetCardItem ||
-				widgetCardItem.DataContext is not WidgetCardItem item)
+				widgetCardItem.DataContext is not WidgetCardItem item ||
+				item.Path is null)
 				return;
 
 			// Create a new Flyout

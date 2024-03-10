@@ -191,7 +191,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item?.Path ?? string.Empty);
 		}
 
-		public void ExecuteOpenFileLocationCommand(WidgetCardItem? item)
+		private void ExecuteOpenFileLocationCommand(WidgetCardItem? item)
 		{
 			var itemPath = Directory.GetParent(item?.Path ?? string.Empty)?.FullName ?? string.Empty;
 			var itemName = Path.GetFileName(item?.Path ?? string.Empty);

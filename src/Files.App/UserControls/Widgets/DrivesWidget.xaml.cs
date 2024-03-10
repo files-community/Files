@@ -21,20 +21,19 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
-			if (sender is not Button button)
+			if (sender is not Button button ||
+				button.Tag.ToString() is not string path)
 				return;
-
-			var path = button.Tag.ToString() ?? string.Empty;
 
 			await ViewModel.NavigateToPath(path);
 		}
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed || sender is not Button button)
+			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed ||
+				sender is not Button button ||
+				button.Tag.ToString() is not string path)
 				return;
-
-			var path = button.Tag.ToString() ?? string.Empty;
 
 			if (await DriveHelpers.CheckEmptyDrive(path))
 				return;
@@ -49,10 +48,10 @@ namespace Files.App.UserControls.Widgets
 
 		private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
 		{
-			if (sender is not Button button)
+			if (sender is not Button button ||
+				button.Tag.ToString() is not string path)
 				return;
 
-			string path = button.Tag.ToString() ?? string.Empty;
 			await StorageSenseHelper.OpenStorageSenseAsync(path);
 		}
 	}
