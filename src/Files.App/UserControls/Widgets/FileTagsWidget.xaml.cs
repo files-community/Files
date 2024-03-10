@@ -18,14 +18,10 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidget : BaseWidgetViewModel, IWidgetViewModel
 	{
+		public FileTagsWidgetViewModel ViewModel { get; set; }
+
 		private readonly IUserSettingsService userSettingsService;
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-
-		public FileTagsWidgetViewModel ViewModel
-		{
-			get => (FileTagsWidgetViewModel)DataContext;
-			set => DataContext = value;
-		}
 
 		public IShellPage AppInstance;
 

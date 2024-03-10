@@ -18,6 +18,8 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class QuickAccessWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
+		private QuickAccessWidgetViewModel ViewModel { get; set; }
+
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 

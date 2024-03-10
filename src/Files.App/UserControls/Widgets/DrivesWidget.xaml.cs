@@ -18,6 +18,8 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class DrivesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
+		private DrivesWidgetViewModel ViewModel { get; set; }
+
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();

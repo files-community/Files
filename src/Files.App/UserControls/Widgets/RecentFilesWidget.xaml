@@ -9,6 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	xmlns:recent="using:Files.App.Utils.RecentItem"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">

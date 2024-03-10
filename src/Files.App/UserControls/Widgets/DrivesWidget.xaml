@@ -8,6 +8,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<Grid>
