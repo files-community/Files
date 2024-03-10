@@ -40,7 +40,7 @@ namespace Files.App.Views.Layouts
 
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
-
+		public ScrollViewer? ContentScroller { get; private set; }
 
 		/// <summary>
 		/// Row height in the Columns View
@@ -65,6 +65,11 @@ namespace Files.App.Views.Layouts
 		}
 
 		// Methods
+
+		private void FileList_Loaded(object sender, RoutedEventArgs e)
+		{
+			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
 		{
@@ -167,14 +172,18 @@ namespace Files.App.Views.Layouts
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			// TODO keep scroll position when changing styles (see details view)
-
 			if (e.PropertyName == nameof(ILayoutSettingsService.ColumnsViewSize))
 			{
+				// Get current scroll position
+				var previousOffset = ContentScroller?.VerticalOffset;
+
 				NotifyPropertyChanged(nameof(RowHeight));
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
+
+				// Restore correct scroll position
+				ContentScroller?.ChangeView(null, previousOffset, null);
 			}
 		}
 
