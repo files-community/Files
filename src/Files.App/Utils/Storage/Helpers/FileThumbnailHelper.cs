@@ -14,8 +14,9 @@ namespace Files.App.Utils.Storage
 		{
 			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
 			var returnIconOnly = iconOptions.HasFlag(IconOptions.ReturnIconOnly);
+			var returnOnlyIfCached = iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached);
 
-			return await Win32API.StartSTATask(() => Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly));
+			return await Win32API.StartSTATask(() => Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly, returnOnlyIfCached));
 		}
 
 		/// <summary>

@@ -592,7 +592,8 @@ namespace Files.App.Data.Models
 			switch (e.SettingName)
 			{
 				case nameof(UserSettingsService.FoldersSettingsService.ShowFileExtensions):
-				case nameof(UserSettingsService.FoldersSettingsService.ShowThumbnails):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowFileThumbnails):
+				case nameof(UserSettingsService.FoldersSettingsService.FolderIconOption):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowHiddenItems):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible):
@@ -916,16 +917,28 @@ namespace Files.App.Data.Models
 
 		private async Task LoadThumbnailAsync(ListedItem item)
 		{
-			// Cancel if thumbnails aren't enabled
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
-			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
+			var flags = IconOptions.None;
+
+			// Use basic icons for smaller sizes or if the settings call for it
+			if (thumbnailSize < 48)
+				flags = IconOptions.ReturnIconOnly;
+			else if (!item.IsFolder && UserSettingsService.FoldersSettingsService.ShowFileThumbnails == false)
+				flags = IconOptions.ReturnIconOnly;
+			else if (item.IsFolder)
+			{
+				if (UserSettingsService.FoldersSettingsService.FolderIconOption == IconOptions.ReturnOnlyIfCached)
+					flags = IconOptions.ReturnOnlyIfCached;
+				else if (UserSettingsService.FoldersSettingsService.FolderIconOption == IconOptions.ReturnIconOnly)
+					flags = IconOptions.ReturnIconOnly;
+			}		
 
 			// Get thumbnail
 			var result = await FileThumbnailHelper.GetIconAsync(
 					item.ItemPath,
 					thumbnailSize,
 					item.IsFolder,
-					returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+					flags);
 
 			if (result is not null)
 			{

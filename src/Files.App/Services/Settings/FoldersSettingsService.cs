@@ -73,10 +73,16 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ShowThumbnails
+		public bool ShowFileThumbnails
 		{
 			get => Get(true);
 			set => Set(value);
+		}
+
+		public IconOptions FolderIconOption
+		{
+			get => (IconOptions)Get((long)IconOptions.ReturnOnlyIfCached);
+			set => Set((long)value);
 		}
 
 		public DeleteConfirmationPolicies DeleteConfirmationPolicy
@@ -123,7 +129,8 @@ namespace Files.App.Services.Settings
 				case nameof(ScrollToPreviousFolderWhenNavigatingUp):
 				case nameof(CalculateFolderSizes):
 				case nameof(ShowFileExtensions):
-				case nameof(ShowThumbnails):
+				case nameof(ShowFileThumbnails):
+				case nameof(FolderIconOption):
 				case nameof(DeleteConfirmationPolicy):
 				case nameof(SelectFilesOnHover):
 				case nameof(DoubleClickToGoUp):

@@ -12,6 +12,7 @@ namespace Files.App.ViewModels.Settings
 		public FoldersViewModel()
 		{
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
+			SelectedFolderIconOptionIndex = (int)FolderIconOption;
 		}
 
 		// Properties
@@ -172,14 +173,42 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowThumbnails
+		public bool ShowFileThumbnails
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowThumbnails;
+			get => UserSettingsService.FoldersSettingsService.ShowFileThumbnails;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowThumbnails)
+				if (value != UserSettingsService.FoldersSettingsService.ShowFileThumbnails)
 				{
-					UserSettingsService.FoldersSettingsService.ShowThumbnails = value;
+					UserSettingsService.FoldersSettingsService.ShowFileThumbnails = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private int selectedFolderIconOptionIndex;
+		public int SelectedFolderIconOptionIndex
+		{
+			get => selectedFolderIconOptionIndex;
+			set
+			{
+				if (SetProperty(ref selectedFolderIconOptionIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedFolderIconOptionIndex));
+					FolderIconOption = (IconOptions)value;
+				}
+			}
+		}
+
+		public IconOptions FolderIconOption
+		{
+			get => UserSettingsService.FoldersSettingsService.FolderIconOption;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.FolderIconOption)
+				{
+					UserSettingsService.FoldersSettingsService.FolderIconOption = value;
 
 					OnPropertyChanged();
 				}

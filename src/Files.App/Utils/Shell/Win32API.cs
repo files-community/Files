@@ -287,7 +287,8 @@ namespace Files.App.Utils.Shell
 			string path,
 			int size,
 			bool isFolder,
-			bool returnIconOnly)
+			bool returnIconOnly,
+			bool returnOnlyIfCached)
 		{
 			byte[]? iconData = null;
 
@@ -304,6 +305,9 @@ namespace Files.App.Utils.Shell
 					if (returnIconOnly)
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
 
+					if (returnOnlyIfCached)
+						flags |= Shell32.SIIGBF.SIIGBF_INCACHEONLY;
+
 					var hres = shellFactory.GetImage(new SIZE(size, size), flags, out var hbitmap);
 					if (hres == HRESULT.S_OK)
 					{
@@ -316,7 +320,7 @@ namespace Files.App.Utils.Shell
 				}
 
 				if (iconData is not null)
-					return iconData;			
+					return iconData;
 				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
@@ -325,7 +329,7 @@ namespace Files.App.Utils.Shell
 					// Cannot access file, use file attributes
 					var useFileAttibutes = iconData is null;
 
-					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
+					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
 					if (ret == IntPtr.Zero)
 						return iconData;
 

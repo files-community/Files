@@ -1953,8 +1953,26 @@
   <data name="DateFormatSample" xml:space="preserve">
     <value>ex: {0}, {1}</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+  <data name="FileThumbnails" xml:space="preserve">
+    <value>File thumbnails</value>
+  </data>
+  <data name="ShowThumbnails" xml:space="preserve">
     <value>Show thumbnails</value>
+  </data>
+  <data name="AlwaysShowIcons" xml:space="preserve">
+    <value>Always show icons</value>
+  </data>  
+  <data name="OnlyShowCachedThumbnails" xml:space="preserve">
+    <value>Only show cached thumbnails</value>
+  </data>
+  <data name="FolderThumbnails" xml:space="preserve">
+    <value>Folder thumbnails</value>
+  </data>
+  <data name="Thumbnails" xml:space="preserve">
+    <value>Thumbnails</value>
+  </data>
+  <data name="ShowThumbnailsWarning" xml:space="preserve">
+    <value>Enabling folder thumbnails is resource intensive and may take more time to generate.</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Retry</value>

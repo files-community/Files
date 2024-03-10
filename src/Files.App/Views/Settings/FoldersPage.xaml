@@ -97,14 +97,39 @@
 			</local:SettingsBlockControl>
 
 			<!--  Show Thumbnails  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Thumbnails}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE91B;" />
 				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
-					IsOn="{x:Bind ViewModel.ShowThumbnails, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<!--  File Thumbnails  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=FileThumbnails}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=FileThumbnails}"
+								IsOn="{x:Bind ViewModel.ShowFileThumbnails, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Folder Thumbnails  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=FolderThumbnails}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=FolderThumbnails}" SelectedIndex="{x:Bind ViewModel.SelectedFolderIconOptionIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=ShowThumbnails}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=AlwaysShowIcons}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=OnlyShowCachedThumbnails}" />
+							</ComboBox>
+						</local:SettingsBlockControl>
+
+						<!--  Performance Warning  -->
+						<InfoBar
+							CornerRadius="0,0,2,2"
+							IsClosable="False"
+							IsIconVisible="True"
+							IsOpen="True"
+							Message="{helpers:ResourceString Name=ShowThumbnailsWarning}"
+							Severity="Warning" />
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<!--  Show Checkboxes When Selecting Items  -->

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Core.Data.Enums;
+
 namespace Files.Core.Services.Settings
 {
 	public interface IFoldersSettingsService : IBaseSettingsService, INotifyPropertyChanged
@@ -56,10 +58,15 @@ namespace Files.Core.Services.Settings
 		bool ShowFileExtensions { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if media thumbnails should be displayed.
+		/// Gets or sets a value indicating if file thumbnails should be displayed.
 		/// </summary>
-		bool ShowThumbnails { get; set; }
+		bool ShowFileThumbnails { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether or not folder thumbnails should be displayed.
+		/// </summary>
+		IconOptions FolderIconOption { get; set; }
+		
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the delete confirmation dialog when deleting items.
 		/// </summary>

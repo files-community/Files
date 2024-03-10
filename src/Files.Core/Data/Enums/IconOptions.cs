@@ -15,11 +15,6 @@ namespace Files.Core.Data.Enums
 		None,
 
 		/// <summary>
-		/// Increase requested size based on the displays DPI setting.
-		/// </summary>
-		UseCurrentScale,
-
-		/// <summary>
 		/// Retrieve only the file icon, even a thumbnail is available. This has the best performance.
 		/// </summary>
 		ReturnIconOnly,
@@ -28,5 +23,10 @@ namespace Files.Core.Data.Enums
 		/// Retrieve a thumbnail only if it is cached or embedded in the file.
 		/// </summary>
 		ReturnOnlyIfCached,
+
+		/// <summary>
+		/// Increase requested size based on the displays DPI setting.
+		/// </summary>
+		UseCurrentScale,
 	}
 }
