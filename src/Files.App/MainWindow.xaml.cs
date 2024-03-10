@@ -263,9 +263,7 @@ namespace Files.App
 					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
 				}
 				else
-				{
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
-				}
 			}
 			foreach (var command in parsedCommands)
 			{

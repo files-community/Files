@@ -29,9 +29,6 @@ namespace Files.App.Helpers
 		[DllImport("kernel32.dll")]
 		public static extern bool SetEvent(IntPtr hEvent);
 
-		[DllImport("user32.dll", SetLastError = true)]
-		public static extern void SwitchToThisWindow(IntPtr hWnd, bool altTab);
-
 		[DllImport("User32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern int GetDpiForWindow(IntPtr hwnd);
 
