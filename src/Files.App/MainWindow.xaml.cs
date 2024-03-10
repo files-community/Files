@@ -93,6 +93,9 @@ namespace Files.App
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
+						// Bring to foreground (#14730)
+						AppLifecycleHelper.BringToForegroundEx(new(WindowHandle));
+
 						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments, true);
 					}
 					else
@@ -105,6 +108,12 @@ namespace Files.App
 					if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+
+						if (MainPageViewModel.AppInstances.Count > 0)
+						{
+							// Bring to foreground (#14730)
+							AppLifecycleHelper.BringToForegroundEx(new(WindowHandle));
+						}
 					}
 					else
 					{
@@ -169,6 +178,12 @@ namespace Files.App
 						rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
 						index = 1;
 					}
+					else
+					{
+						// Bring to foreground (#14730)
+						AppLifecycleHelper.BringToForegroundEx(new(WindowHandle));
+					}
+
 					for (; index < fileArgs.Files.Count; index++)
 					{
 						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path, true);
@@ -185,9 +200,6 @@ namespace Files.App
 					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 					break;
 			}
-
-			// Bring to foreground (#14730)
-			AppLifecycleHelper.BringToForegroundEx(new(WindowHandle));
 
 			if (!AppWindow.IsVisible)
 			{
@@ -244,9 +256,16 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
+				{
+					// Bring to foreground (#14730)
+					AppLifecycleHelper.BringToForegroundEx(new(WindowHandle));
+
 					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
+				}
 				else
+				{
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
+				}
 			}
 			foreach (var command in parsedCommands)
 			{
