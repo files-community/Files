@@ -172,6 +172,10 @@ namespace Files.App.ViewModels.Properties
 
 			// Find Encoding Bitrate property and convert it to kbps
 			var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
+
+			if (encodingBitrate?.Value is null)
+				encodingBitrate = list.Find(x => x.Property == "System.Video.EncodingBitrate");
+
 			if (encodingBitrate?.Value is not null)
 			{
 				var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
