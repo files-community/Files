@@ -916,7 +916,6 @@ namespace Files.App.Data.Models
 
 		private async Task LoadThumbnailAsync(ListedItem item)
 		{
-			// Cancel if thumbnails aren't enabled
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
@@ -989,8 +988,6 @@ namespace Files.App.Data.Models
 						loadGroupHeaderInfo = gp is not null && !gp.Model.Initialized && gp.GetExtendedGroupHeaderInfo is not null;
 					}
 
-					cts.Token.ThrowIfCancellationRequested();
-					await LoadThumbnailAsync(item);
 
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
@@ -1000,6 +997,9 @@ namespace Files.App.Data.Models
 							matchingStorageFile = await GetFileFromPathAsync(item.ItemPath, cts.Token);
 							if (matchingStorageFile is not null)
 							{
+								cts.Token.ThrowIfCancellationRequested();
+								await LoadThumbnailAsync(item);
+
 								cts.Token.ThrowIfCancellationRequested();
 
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
@@ -1032,6 +1032,11 @@ namespace Files.App.Data.Models
 							BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath, cts.Token);
 							if (matchingStorageFolder is not null)
 							{
+								cts.Token.ThrowIfCancellationRequested();
+								await LoadThumbnailAsync(item);
+
+								cts.Token.ThrowIfCancellationRequested();
+
 								if (matchingStorageFolder.DisplayName != item.Name && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
 								{
 									cts.Token.ThrowIfCancellationRequested();
@@ -1097,16 +1102,15 @@ namespace Files.App.Data.Models
 							SetFileTag(item);
 						});
 					}
-					else
+					else if (UserSettingsService.FoldersSettingsService.ShowThumbnails && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown)
 					{
-						// Try loading thumbnail for cloud files in case they weren't cached the first time
-						if (item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown)
+						// Load thumbnail for folders (we initially load a basic folder icon to prevent a bug where thumbnails stop loading #14817)
+						// Also reload thumbnails cloud files in case they weren't cached the first time
+						_ = Task.Run(async () =>
 						{
-							_ = Task.Run(async () => {
-								await Task.Delay(500);
-								await LoadThumbnailAsync(item);
-							});
-						}
+							await Task.Delay(500);
+							await LoadThumbnailAsync(item);
+						});
 					}
 
 					if (loadGroupHeaderInfo)
