@@ -21,7 +21,7 @@ namespace Files.App.Utils.Shell
 			public uint AcceleratorEntryCount;
 		}
 
-		[ComImport, Guid("fec87aaf-35f9-447a-adb7-20244491401a"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+		[ComImport, Guid("fec87aaf-35f9-447a-adb7-20234491401a"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 		public interface IPreviewHandlerFrame
 		{
 			[PreserveSig]
