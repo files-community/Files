@@ -371,6 +371,7 @@ namespace Files.App.UserControls.Widgets
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
 				ItemPath = recentItem.RecentPath,
+				IsFile = true
 			});
 		}
 
