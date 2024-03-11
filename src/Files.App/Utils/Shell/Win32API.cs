@@ -304,8 +304,7 @@ namespace Files.App.Utils.Shell
 
 					if (returnIconOnly)
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-
-					if (returnOnlyIfCached)
+					else if (returnOnlyIfCached)
 						flags |= Shell32.SIIGBF.SIIGBF_INCACHEONLY;
 
 					var hres = shellFactory.GetImage(new SIZE(size, size), flags, out var hbitmap);
