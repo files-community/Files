@@ -282,13 +282,18 @@ namespace Files.App.Utils.Shell
 		/// <param name="size"></param>
 		/// <param name="isFolder"></param>
 		/// <param name="returnIconOnly"></param>
+		/// <param name="inCacheOnly"></param>
 		/// <returns></returns>
-		public static byte[]? GetIcon(
+		public static async Task<byte[]?> GetIcon(
 			string path,
 			int size,
 			bool isFolder,
-			bool returnIconOnly)
+			bool returnIconOnly,
+			bool inCacheOnly)
 		{
+			// Asynchronize because execution may take long time
+			await Task.Yield();
+
 			byte[]? iconData = null;
 
 			try
@@ -303,6 +308,9 @@ namespace Files.App.Utils.Shell
 
 					if (returnIconOnly)
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+
+					if (inCacheOnly)
+						flags |= Shell32.SIIGBF.SIIGBF_INCACHEONLY;
 
 					var hres = shellFactory.GetImage(new SIZE(size, size), flags, out var hbitmap);
 					if (hres == HRESULT.S_OK)
