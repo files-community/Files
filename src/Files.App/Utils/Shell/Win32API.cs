@@ -284,7 +284,7 @@ namespace Files.App.Utils.Shell
 		/// <param name="returnIconOnly"></param>
 		/// <param name="inCacheOnly"></param>
 		/// <returns></returns>
-		public static async Task<byte[]?> GetIcon(
+		public static async Task<byte[]?> GetIconAsync(
 			string path,
 			int size,
 			bool isFolder,

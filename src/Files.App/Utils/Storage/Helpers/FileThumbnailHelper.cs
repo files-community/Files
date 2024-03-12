@@ -20,17 +20,17 @@ namespace Files.App.Utils.Storage
 			return await Win32API.StartSTATask(async () => {
 				if (longLoadingTask is not null && !longLoadingTask.IsCompleted)
 					// Return cached thumbnail if any non-cached thumbnail is loading
-					return await Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly, true);
+					return await Win32API.GetIconAsync(path, (int)size, isFolder, returnIconOnly, true);
 
 				longLoadingTask = null;
-				Task<byte[]?> getIconTask = Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly, false);
+				Task<byte[]?> getIconTask = Win32API.GetIconAsync(path, (int)size, isFolder, returnIconOnly, false);
 				await Task.WhenAny(getIconTask, Task.Delay(100));
 				if (getIconTask.IsCompleted)
 					return await getIconTask;
 				else
 				{
 					// Load cached thumbnail
-					var icon = await Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly, true);
+					var icon = await Win32API.GetIconAsync(path, (int)size, isFolder, returnIconOnly, true);
 
 					// Return non-cached thumbnail if it has been loaded
 					if (getIconTask.IsCompleted)
