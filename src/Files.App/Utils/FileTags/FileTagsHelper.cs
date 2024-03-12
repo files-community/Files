@@ -68,7 +68,7 @@ namespace Files.App.Utils.FileTags
 			var dbInstance = GetDbInstance();
 			foreach (var file in dbInstance.GetAll())
 			{
-				var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
+				var pathFromFrn = Win32Helper.PathFromFileId(file.Frn ?? 0, file.FilePath);
 				if (pathFromFrn is not null)
 				{
 					// Frn is valid, update file path

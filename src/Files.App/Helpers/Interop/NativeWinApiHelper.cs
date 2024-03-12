@@ -257,6 +257,6 @@ namespace Files.App.Helpers
 		}
 
 		public static Task<string> GetFileAssociationAsync(string filePath)
-			=> Win32API.GetFileAssociationAsync(filePath, true);
+			=> Win32Helper.GetFileAssociationAsync(filePath, true);
 	}
 }
