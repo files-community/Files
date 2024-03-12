@@ -22,17 +22,25 @@ namespace Files.App.Utils.Storage
 					// Return cached thumbnail if any non-cached thumbnail is loading
 					return await Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly, true);
 
+				longLoadingTask = null;
 				Task<byte[]?> getIconTask = Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly, false);
 				await Task.WhenAny(getIconTask, Task.Delay(100));
 				if (getIconTask.IsCompleted)
 					return await getIconTask;
 				else
 				{
+					// Load cached thumbnail
+					var icon = await Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly, true);
+
+					// Return non-cached thumbnail if it has been loaded
+					if (getIconTask.IsCompleted)
+						return await getIconTask;
+
 					// Save the loading task to be checked later
 					longLoadingTask = getIconTask;
 
 					// Return cached thumbnail
-					return await Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly, true);
+					return icon;
 				}
 			});
 		}
