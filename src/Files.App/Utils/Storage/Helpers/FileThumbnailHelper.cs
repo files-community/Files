@@ -23,7 +23,7 @@ namespace Files.App.Utils.Storage
 					return await Win32API.GetIconAsync(path, (int)size, isFolder, returnIconOnly, true);
 
 				longLoadingTask = null;
-				Task<byte[]?> getIconTask = Win32API.GetIconAsync(path, (int)size, isFolder, returnIconOnly, false);
+				var getIconTask = Win32API.GetIconAsync(path, (int)size, isFolder, returnIconOnly, false);
 				await getIconTask.WaitAsync(TimeSpan.FromMilliseconds(100));
 				if (getIconTask.IsCompletedSuccessfully)
 					return getIconTask.Result;
