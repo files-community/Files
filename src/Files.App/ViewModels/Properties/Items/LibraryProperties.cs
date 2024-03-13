@@ -46,8 +46,8 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.IsReadOnly = Win32PInvoke.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+			ViewModel.IsHidden = Win32PInvoke.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Library.ItemPath,
@@ -143,11 +143,11 @@ namespace Files.App.ViewModels.Properties
 				case "IsReadOnly":
 					if (ViewModel.IsReadOnly)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+						Win32PInvoke.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
 					}
 					else
 					{
-						NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+						Win32PInvoke.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
 					}
 
 					break;
@@ -155,11 +155,11 @@ namespace Files.App.ViewModels.Properties
 				case "IsHidden":
 					if (ViewModel.IsHidden)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+						Win32PInvoke.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 					else
 					{
-						NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+						Win32PInvoke.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 
 					break;

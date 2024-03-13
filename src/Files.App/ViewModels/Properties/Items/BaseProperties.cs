@@ -75,7 +75,7 @@ namespace Files.App.ViewModels.Properties
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
 						size += findData.GetSize();
-						var fileSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Path.Combine(path, findData.cFileName));
+						var fileSizeOnDisk = Win32PInvoke.GetFileSizeOnDisk(Path.Combine(path, findData.cFileName));
 						sizeOnDisk += fileSizeOnDisk ?? 0;
 						++count;
 						ViewModel.FilesCount++;

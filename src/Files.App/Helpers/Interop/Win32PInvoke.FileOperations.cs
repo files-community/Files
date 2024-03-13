@@ -11,7 +11,7 @@ using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Helpers
 {
-	public static partial class NativeFileOperationsHelper
+	public static partial class Win32PInvoke
 	{
 		public enum File_Attributes : uint
 		{
@@ -59,9 +59,6 @@ namespace Files.App.Helpers
 		public const uint OPEN_ALWAYS = 4;
 		public const uint OPEN_EXISTING = 3;
 		public const uint TRUNCATE_EXISTING = 5;
-
-		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
-		public static extern bool CloseHandle(IntPtr hObject);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,

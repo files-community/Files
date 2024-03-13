@@ -161,7 +161,7 @@ namespace Files.App.Views.Properties
 				}
 
 				if (ViewModel.IsUnblockFileSelected)
-					NativeFileOperationsHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+					Win32PInvoke.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
 
 				if (ViewModel.IsAblumCoverModified)
 				{

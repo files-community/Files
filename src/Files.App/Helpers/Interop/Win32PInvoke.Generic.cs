@@ -28,9 +28,6 @@ namespace Files.App.Helpers
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool GetTokenInformation(IntPtr hObject, TOKEN_INFORMATION_CLASS tokenInfoClass, IntPtr pTokenInfo, int tokenInfoLength, out int returnLength);
 
-		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
-		public static extern bool CloseHandle(IntPtr hObject);
-
 		[DllImport("api-ms-win-security-base-l1-1-0.dll", ExactSpelling = true, SetLastError = true)]
 		public static extern int GetLengthSid(IntPtr pSid);
 

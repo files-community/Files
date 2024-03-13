@@ -59,9 +59,9 @@ namespace Files.App.ViewModels.Properties
 		public override async Task GetSpecialPropertiesAsync()
 		{
 			if (List.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
-				ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
+				ViewModel.IsReadOnly = List.All(x => Win32PInvoke.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
 
-			ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
+			ViewModel.IsHidden = List.All(x => Win32PInvoke.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
 
 			ViewModel.LastSeparatorVisibility = false;
 			ViewModel.ItemSizeVisibility = true;
@@ -75,7 +75,7 @@ namespace Files.App.ViewModels.Properties
 			long totalSizeOnDisk = 0;
 			long filesSizeOnDisk = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File &&
 				x.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-					.Sum(x => NativeFileOperationsHelper.GetFileSizeOnDisk(x.ItemPath) ?? 0);
+					.Sum(x => Win32PInvoke.GetFileSizeOnDisk(x.ItemPath) ?? 0);
 			long foldersSizeOnDisk = 0;
 
 			ViewModel.ItemSizeProgressVisibility = true;
@@ -124,12 +124,12 @@ namespace Files.App.ViewModels.Properties
 					{
 						if (ViewModel.IsReadOnly)
 						{
-							List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
+							List.ForEach(x => Win32PInvoke.SetFileAttribute(
 								x.ItemPath, System.IO.FileAttributes.ReadOnly));
 						}
 						else
 						{
-							List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
+							List.ForEach(x => Win32PInvoke.UnsetFileAttribute(
 								x.ItemPath, System.IO.FileAttributes.ReadOnly));
 						}
 					}
@@ -139,12 +139,12 @@ namespace Files.App.ViewModels.Properties
 					{
 						if (ViewModel.IsHidden)
 						{
-							List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
+							List.ForEach(x => Win32PInvoke.SetFileAttribute(
 								x.ItemPath, System.IO.FileAttributes.Hidden));
 						}
 						else
 						{
-							List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
+							List.ForEach(x => Win32PInvoke.UnsetFileAttribute(
 								x.ItemPath, System.IO.FileAttributes.Hidden));
 						}
 

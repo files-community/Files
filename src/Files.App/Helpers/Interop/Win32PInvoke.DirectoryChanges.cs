@@ -23,9 +23,6 @@ namespace Files.App.Helpers
 		public static extern uint WaitForMultipleObjectsEx(uint nCount, IntPtr[] lpHandles, bool bWaitAll, uint dwMilliseconds, bool bAlertable);
 
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
-		public static extern IntPtr CreateEvent(IntPtr lpEventAttributes, bool bManualReset, bool bInitialState, string lpName);
-
-		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
 		public static extern bool ResetEvent(IntPtr hEvent);
 
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
