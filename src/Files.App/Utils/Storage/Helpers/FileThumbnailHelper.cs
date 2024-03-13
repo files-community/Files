@@ -13,9 +13,8 @@ namespace Files.App.Utils.Storage
 		public static async Task<byte[]?> GetIconAsync(string path, uint requestedSize, bool isFolder, IconOptions iconOptions)
 		{
 			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
-			var returnIconOnly = iconOptions.HasFlag(IconOptions.ReturnIconOnly);
 
-			return await Win32Helper.StartSTATask(() => Win32Helper.GetIcon(path, (int)size, isFolder, returnIconOnly));
+			return await Win32Helper.StartSTATask(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions));
 		}
 
 		/// <summary>
