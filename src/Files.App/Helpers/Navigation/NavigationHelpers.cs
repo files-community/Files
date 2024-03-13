@@ -391,7 +391,7 @@ namespace Files.App.Helpers
 				else if (isReparsePoint)
 				{
 					if (!isDirectory &&
-						NativeFindStorageItemHelper.GetWin32FindDataForPath(path, out var findData) &&
+						Win32PInvoke.GetWin32FindDataForPath(path, out var findData) &&
 						findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK)
 					{
 						shortcutInfo.TargetPath = NativeFileOperationsHelper.ParseSymLink(path);

@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -10,7 +9,7 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
-	public class NativeWinApiHelper
+	public static partial class Win32PInvoke
 	{
 		[DllImport("user32.dll")]
 		public static extern short GetKeyState(short code);

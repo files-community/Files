@@ -11,7 +11,7 @@ using static Vanara.PInvoke.User32;
 
 namespace Files.App.Helpers
 {
-	public static class InteropHelpers
+	public static partial class Win32PInvoke
 	{
 		public static readonly Guid DataTransferManagerInteropIID =
 			new(0xa5caee9b, 0x8708, 0x49d1, 0x8d, 0x36, 0x67, 0xd2, 0x5a, 0x8d, 0xa0, 0x0c);

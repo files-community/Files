@@ -9,7 +9,7 @@ namespace Files.App.Helpers
 	/// <summary>
 	/// Provides a bunch of Win32API for native find storage items.
 	/// </summary>
-	public class NativeFindStorageItemHelper
+	public static partial class Win32PInvoke
 	{
 		[StructLayout(LayoutKind.Sequential)]
 		public struct SYSTEMTIME

@@ -91,14 +91,14 @@ namespace Files.App.ViewModels.Dialogs
 
 		private Task SelectDestination()
 		{
-			InteropHelpers.BROWSEINFO bi = new InteropHelpers.BROWSEINFO();
+			Win32PInvoke.BROWSEINFO bi = new Win32PInvoke.BROWSEINFO();
 			bi.ulFlags = 0x00004000;
 			bi.lpszTitle = "Select a folder";
-			nint pidl = InteropHelpers.SHBrowseForFolder(ref bi);
+			nint pidl = Win32PInvoke.SHBrowseForFolder(ref bi);
 			if (pidl != nint.Zero)
 			{
 				StringBuilder path = new StringBuilder(260);
-				if (InteropHelpers.SHGetPathFromIDList(pidl, path))
+				if (Win32PInvoke.SHGetPathFromIDList(pidl, path))
 				{
 					DestinationItemPath = path.ToString();
 				}

@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using Vanara.PInvoke;
-using static Files.App.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Helpers
 {
-	public class NativeFileOperationsHelper
+	public static partial class NativeFileOperationsHelper
 	{
 		public enum File_Attributes : uint
 		{

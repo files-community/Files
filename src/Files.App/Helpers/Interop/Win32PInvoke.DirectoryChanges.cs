@@ -1,12 +1,11 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
 {
-	public class NativeDirectoryChangesHelper
+	public static partial class Win32PInvoke
 	{
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
 		public static extern bool CloseHandle(IntPtr hObject);
