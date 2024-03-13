@@ -30,6 +30,7 @@ namespace Files.App.Data.Models
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
+		private readonly SemaphoreSlim loadThumbnailSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -485,6 +486,7 @@ namespace Files.App.Data.Models
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			getFileOrFolderSemaphore = new SemaphoreSlim(50);
 			bulkOperationSemaphore = new SemaphoreSlim(1, 1);
+			loadThumbnailSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -916,16 +918,32 @@ namespace Files.App.Data.Models
 
 		private async Task LoadThumbnailAsync(ListedItem item)
 		{
-			// Cancel if thumbnails aren't enabled
+			var loadNonCachedThumbnail = false;
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
-			// Get thumbnail
-			var result = await FileThumbnailHelper.GetIconAsync(
-					item.ItemPath,
-					thumbnailSize,
-					item.IsFolder,
-					returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+			byte[]? result = null;
+			if (!returnIconOnly)
+			{
+				// Get cached thumbnail
+				result = await FileThumbnailHelper.GetIconAsync(
+						item.ItemPath,
+						thumbnailSize,
+						item.IsFolder,
+						IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached);
+
+				loadNonCachedThumbnail = result is null;
+			}
+			
+			if (result is null)
+			{
+				// Get icon
+				result = await FileThumbnailHelper.GetIconAsync(
+						item.ItemPath,
+						thumbnailSize,
+						item.IsFolder,
+						IconOptions.ReturnIconOnly);
+			}
 
 			if (result is not null)
 			{
@@ -947,6 +965,37 @@ namespace Files.App.Data.Models
 					item.IconOverlay = await iconOverlay.ToBitmapAsync();
 					item.ShieldIcon = await GetShieldIcon();
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			}
+
+			if (loadNonCachedThumbnail)
+			{
+				// Get non-cached thumbnail asynchronously
+				_ = Task.Run(async () => {
+					await loadThumbnailSemaphore.WaitAsync();
+					try
+					{
+						result = await FileThumbnailHelper.GetIconAsync(
+								item.ItemPath,
+								thumbnailSize,
+								item.IsFolder,
+								IconOptions.ReturnThumbnailOnly);
+					}
+					finally
+					{
+						loadThumbnailSemaphore.Release();
+					}
+
+					if (result is not null)
+					{
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							// Assign FileImage property
+							var image = await result.ToBitmapAsync();
+							if (image is not null)
+								item.FileImage = image;
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					}
+				});
 			}
 		}
 

@@ -281,13 +281,13 @@ namespace Files.App.Utils.Shell
 		/// <param name="path"></param>
 		/// <param name="size"></param>
 		/// <param name="isFolder"></param>
-		/// <param name="returnIconOnly"></param>
+		/// <param name="iconOptions"></param>
 		/// <returns></returns>
 		public static byte[]? GetIcon(
 			string path,
 			int size,
 			bool isFolder,
-			bool returnIconOnly)
+			IconOptions iconOptions)
 		{
 			byte[]? iconData = null;
 
@@ -301,8 +301,14 @@ namespace Files.App.Utils.Shell
 				{
 					var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
 
-					if (returnIconOnly)
+					if (iconOptions.HasFlag(IconOptions.ReturnIconOnly))
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+
+					if (iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
+						flags |= Shell32.SIIGBF.SIIGBF_THUMBNAILONLY;
+
+					if (iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
+						flags |= Shell32.SIIGBF.SIIGBF_INCACHEONLY;
 
 					var hres = shellFactory.GetImage(new SIZE(size, size), flags, out var hbitmap);
 					if (hres == HRESULT.S_OK)
@@ -315,7 +321,7 @@ namespace Files.App.Utils.Shell
 					Marshal.ReleaseComObject(shellFactory);
 				}
 
-				if (iconData is not null)
+				if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
 					return iconData;			
 				else
 				{
