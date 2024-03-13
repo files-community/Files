@@ -238,7 +238,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void FormatDrive(WidgetDriveCardItem? item)
 		{
-			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
+			Win32Helper.OpenFormatDriveDialog(item?.Path ?? string.Empty);
 		}
 
 		private void OpenProperties(WidgetDriveCardItem item)

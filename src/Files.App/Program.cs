@@ -209,7 +209,7 @@ namespace Files.App
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
 		{
-			Win32API.OpenFolderInExistingShellWindow(shellCommand);
+			Win32Helper.OpenFolderInExistingShellWindow(shellCommand);
 		}
 
 		public static void OpenFileFromTile(string filePath)

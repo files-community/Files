@@ -6,6 +6,9 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static helper for Win32.
+	/// </summary>
 	public static partial class Win32Helper
 	{
 		/// <summary>

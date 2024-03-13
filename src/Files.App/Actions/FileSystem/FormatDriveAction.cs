@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
+			return Win32Helper.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
 		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -25,7 +25,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
-			return Win32API.StartSTATask(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				System.Windows.Forms.Clipboard.Clear();
 				var fileList = new System.Collections.Specialized.StringCollection();
@@ -41,7 +41,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string template = "", byte[]? dataBytes = null)
 		{
-			return Win32API.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<(bool, ShellOperationResult)> TestRecycleAsync(string[] fileToDeletePath)
 		{
-			return Win32API.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -219,7 +219,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32API.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -337,7 +337,7 @@ namespace Files.App.Utils.Storage
 
 			progressHandler ??= new();
 
-			return Win32API.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -421,7 +421,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32API.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -549,7 +549,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return Win32API.StartSTATask(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -699,7 +699,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
-					targetPath = await Win32API.StartSTATask(() =>
+					targetPath = await Win32Helper.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
@@ -746,7 +746,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
 				{
-					return Win32API.StartSTATask(() =>
+					return Win32Helper.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
@@ -784,7 +784,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{
-			return Win32API.StartSTATask(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				var picker = new DirectoryObjectPickerDialog()
 				{
@@ -800,7 +800,7 @@ namespace Files.App.Utils.Storage
 
 				using (picker)
 				{
-					if (picker.ShowDialog(Win32API.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
+					if (picker.ShowDialog(Win32Helper.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
 					{
 						try
 						{
@@ -933,7 +933,7 @@ namespace Files.App.Utils.Storage
 
 			public ProgressHandler()
 			{
-				taskbar = Win32API.CreateTaskbarObject();
+				taskbar = Win32Helper.CreateTaskbarObject();
 				operations = new ConcurrentDictionary<string, OperationWithProgress>();
 				operationsCompletedEvent = new ManualResetEvent(true);
 			}

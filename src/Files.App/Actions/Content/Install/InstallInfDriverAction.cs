@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await Task.WhenAll(context.SelectedItems.Select(selectedItem => Win32API.InstallInf(selectedItem.ItemPath)));
+			await Task.WhenAll(context.SelectedItems.Select(selectedItem => Win32Helper.InstallInf(selectedItem.ItemPath)));
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
