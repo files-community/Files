@@ -916,33 +916,50 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item)
+		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
 		{
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
 			byte[]? result = null;
-			if (!returnIconOnly)
+			if (item.IsFolder)
 			{
-				// Get cached thumbnail
-				result = await FileThumbnailHelper.GetIconAsync(
-						item.ItemPath,
-						thumbnailSize,
-						item.IsFolder,
-						IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached);
+				if (!returnIconOnly)
+				{
+					// Get cached thumbnail
+					result = await FileThumbnailHelper.GetIconAsync(
+							item.ItemPath,
+							thumbnailSize,
+							item.IsFolder,
+							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached);
 
-				loadNonCachedThumbnail = result is null;
+					cancellationToken.ThrowIfCancellationRequested();
+					loadNonCachedThumbnail = true;
+				}
+
+				if (result is null)
+				{
+					// Get icon
+					result = await FileThumbnailHelper.GetIconAsync(
+							item.ItemPath,
+							thumbnailSize,
+							item.IsFolder,
+							IconOptions.ReturnIconOnly);
+
+					cancellationToken.ThrowIfCancellationRequested();
+				}
 			}
-			
-			if (result is null)
+			else
 			{
-				// Get icon
+				// Get icon or thumbnail
 				result = await FileThumbnailHelper.GetIconAsync(
 						item.ItemPath,
 						thumbnailSize,
 						item.IsFolder,
-						IconOptions.ReturnIconOnly);
+						returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+
+				cancellationToken.ThrowIfCancellationRequested();
 			}
 
 			if (result is not null)
@@ -954,10 +971,15 @@ namespace Files.App.Data.Models
 					if (image is not null)
 						item.FileImage = image;
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+				cancellationToken.ThrowIfCancellationRequested();
 			}
 
 			// Get icon overlay
 			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
+
+			cancellationToken.ThrowIfCancellationRequested();
+
 			if (iconOverlay is not null)
 			{
 				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -965,13 +987,15 @@ namespace Files.App.Data.Models
 					item.IconOverlay = await iconOverlay.ToBitmapAsync();
 					item.ShieldIcon = await GetShieldIcon();
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+				cancellationToken.ThrowIfCancellationRequested();
 			}
 
 			if (loadNonCachedThumbnail)
 			{
 				// Get non-cached thumbnail asynchronously
 				_ = Task.Run(async () => {
-					await loadThumbnailSemaphore.WaitAsync();
+					await loadThumbnailSemaphore.WaitAsync(cancellationToken);
 					try
 					{
 						result = await FileThumbnailHelper.GetIconAsync(
@@ -985,6 +1009,8 @@ namespace Files.App.Data.Models
 						loadThumbnailSemaphore.Release();
 					}
 
+					cancellationToken.ThrowIfCancellationRequested();
+
 					if (result is not null)
 					{
 						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -995,7 +1021,7 @@ namespace Files.App.Data.Models
 								item.FileImage = image;
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
-				});
+				}, cancellationToken);
 			}
 		}
 
@@ -1039,7 +1065,7 @@ namespace Files.App.Data.Models
 					}
 
 					cts.Token.ThrowIfCancellationRequested();
-					await LoadThumbnailAsync(item);
+					await LoadThumbnailAsync(item, cts.Token);
 
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
@@ -1153,7 +1179,8 @@ namespace Files.App.Data.Models
 						{
 							_ = Task.Run(async () => {
 								await Task.Delay(500);
-								await LoadThumbnailAsync(item);
+								cts.Token.ThrowIfCancellationRequested();
+								await LoadThumbnailAsync(item, cts.Token);
 							});
 						}
 					}
