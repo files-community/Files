@@ -54,12 +54,12 @@ namespace Files.App.Utils.Shell
 
 		private static async Task<bool> HandleApplicationLaunch(string application, string arguments, string workingDirectory)
 		{
-			var currentWindows = Win32API.GetDesktopWindows();
+			var currentWindows = Win32Helper.GetDesktopWindows();
 
 			if (FileExtensionHelpers.IsVhdFile(application))
 			{
 				// Use PowerShell to mount Vhd Disk as this requires admin rights
-				return await Win32API.MountVhdDisk(application);
+				return await Win32Helper.MountVhdDisk(application);
 			}
 
 			try
@@ -109,7 +109,7 @@ namespace Files.App.Utils.Shell
 				process.StartInfo.WorkingDirectory = string.IsNullOrEmpty(workingDirectory) ? PathNormalization.GetParentDir(application) : workingDirectory;
 				process.Start();
 
-				Win32API.BringToForeground(currentWindows);
+				Win32Helper.BringToForeground(currentWindows);
 
 				return true;
 			}
@@ -126,7 +126,7 @@ namespace Files.App.Utils.Shell
 				{
 					process.Start();
 
-					Win32API.BringToForeground(currentWindows);
+					Win32Helper.BringToForeground(currentWindows);
 
 					return true;
 				}
@@ -134,21 +134,21 @@ namespace Files.App.Utils.Shell
 				{
 					try
 					{
-						var opened = await Win32API.StartSTATask(async () =>
+						var opened = await Win32Helper.StartSTATask(async () =>
 						{
 							var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
 							if (split.Count() == 1)
 							{
 								Process.Start(split.First());
 
-								Win32API.BringToForeground(currentWindows);
+								Win32Helper.BringToForeground(currentWindows);
 							}
 							else
 							{
 								var groups = split.GroupBy(x => new
 								{
 									Dir = Path.GetDirectoryName(x),
-									Prog = Win32API.GetFileAssociationAsync(x).Result ?? Path.GetExtension(x)
+									Prog = Win32Helper.GetFileAssociationAsync(x).Result ?? Path.GetExtension(x)
 								});
 
 								foreach (var group in groups)
@@ -170,7 +170,7 @@ namespace Files.App.Utils.Shell
 						{
 							if (application.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
 							{
-								opened = await Win32API.StartSTATask(async () =>
+								opened = await Win32Helper.StartSTATask(async () =>
 								{
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, Shell32.CMF.CMF_DEFAULTONLY);
 

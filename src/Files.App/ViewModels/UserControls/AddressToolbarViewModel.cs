@@ -759,7 +759,7 @@ namespace Files.App.ViewModels.UserControls
 						if (resFile)
 						{
 							var pathToInvoke = resFile.Result.Path;
-							await Win32Helpers.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
+							await Win32Helper.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
 						}
 						else // Not a file or not accessible
 						{

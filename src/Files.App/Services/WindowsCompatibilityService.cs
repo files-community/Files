@@ -16,7 +16,7 @@ namespace Files.App.Services
 			try
 			{
 				// Get the key
-				using var compatKey = Registry.CurrentUser.OpenSubKey(RegistrySubPath);
+				using var compatKey = Registry.CurrentUser.OpenSubKey(_registrySubPath);
 				if (compatKey is null)
 					return new();
 
@@ -39,14 +39,14 @@ namespace Files.App.Services
 			// Remove old one if new one is valid
 			if (string.IsNullOrEmpty(stringOptions) || stringOptions == "~")
 			{
-				return Win32API.RunPowershellCommand(
-					@$"Remove-ItemProperty -Path 'HKCU:\{RegistrySubPath}' -Name '{filePath}' | Out-Null",
+				return Win32Helper.RunPowershellCommand(
+					@$"Remove-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' | Out-Null",
 					true);
 			}
 
 			// Set the new one
-			return Win32API.RunPowershellCommand(
-				@$"New-ItemProperty -Path 'HKCU:\{RegistrySubPath}' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null",
+			return Win32Helper.RunPowershellCommand(
+				@$"New-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null",
 				true);
 		}
 	}

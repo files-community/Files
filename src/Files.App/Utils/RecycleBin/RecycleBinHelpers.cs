@@ -19,12 +19,12 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
-			return (await Win32Shell.GetShellFolderAsync(Constants.UserEnvironmentPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
+			return (await Win32Helper.GetShellFolderAsync(Constants.UserEnvironmentPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
 
 		public static ulong GetSize()
 		{
-			return (ulong)Win32Shell.QueryRecycleBin().BinSize;
+			return (ulong)Win32Helper.QueryRecycleBin().BinSize;
 		}
 
 		public static async Task<bool> IsRecycleBinItem(IStorageItem item)
@@ -151,7 +151,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static bool RecycleBinHasItems()
 		{
-			return Win32Shell.QueryRecycleBin().NumItems > 0;
+			return Win32Helper.QueryRecycleBin().NumItems > 0;
 		}
 
 		public static async Task RestoreItemAsync(IShellPage associatedInstance)

@@ -3,7 +3,10 @@
 
 namespace Files.App.Helpers
 {
-	public static class Win32Helpers
+	/// <summary>
+	/// Provides static helper for Win32.
+	/// </summary>
+	public static partial class Win32Helper
 	{
 		public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
 		{

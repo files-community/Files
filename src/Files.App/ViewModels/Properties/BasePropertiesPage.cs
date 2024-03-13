@@ -45,7 +45,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					try
 					{
-						await Win32API.OpenFormatDriveDialog(props.Drive.Path);
+						await Win32Helper.OpenFormatDriveDialog(props.Drive.Path);
 					}
 					catch (Exception)
 					{
