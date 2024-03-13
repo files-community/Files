@@ -379,10 +379,11 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenWith"
-					},
+					// TODO add back icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+					//OpacityIcon = new OpacityIconModel()
+					//{
+					//	OpacityIconStyle = "ColorIconOpenWith"
+					//},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
