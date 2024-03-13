@@ -23,19 +23,19 @@ namespace Files.App.Helpers
 
 			try
 			{
-				service.SetAppThemeBackgroundColor(ColorHelper.ToColor(appThemeBackgroundColor).FromWindowsColor());
+				service.SetAppThemeBackgroundColor(appThemeBackgroundColor.ToColor().FromWindowsColor());
 			}
 			catch
 			{
 				appearance.AppThemeBackgroundColor = "#00000000"; //migrate to new default
-				service.SetAppThemeBackgroundColor(ColorHelper.ToColor("#00000000").FromWindowsColor());
+				service.SetAppThemeBackgroundColor("#00000000".ToColor().FromWindowsColor());
 			}
 
 			if (!string.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
 			{
 				try
 				{
-					service.SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor).FromWindowsColor());
+					service.SetAppThemeAddressBarBackgroundColor(appThemeAddressBarBackgroundColor.ToColor().FromWindowsColor());
 				}
 				catch
 				{
@@ -49,7 +49,7 @@ namespace Files.App.Helpers
 			{
 				try
 				{
-					service.SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor).FromWindowsColor());
+					service.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor.ToColor().FromWindowsColor());
 				}
 				catch
 				{
@@ -63,7 +63,7 @@ namespace Files.App.Helpers
 			{
 				try
 				{
-					service.SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor).FromWindowsColor());
+					service.SetAppThemeFileAreaBackgroundColor(appThemeFileAreaBackgroundColor.ToColor().FromWindowsColor());
 				}
 				catch
 				{

@@ -13,7 +13,7 @@ namespace Files.App.Utils
 		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
 		private static readonly List<WslDistroItem> distros = new();
-		public static IReadOnlyList<WslDistroItem> Distros
+		public static ReadOnlyCollection<WslDistroItem> Distros
 		{
 			get
 			{

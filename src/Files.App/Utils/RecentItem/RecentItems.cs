@@ -113,7 +113,7 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFoldersAsync()
 		{
-			var excludeMask = FileAttributes.Hidden;
+			const FileAttributes excludeMask = FileAttributes.Hidden;
 			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
 			Task<RecentItem?> GetRecentItemFromLink(string linkPath)
@@ -173,7 +173,7 @@ namespace Files.App.Utils.RecentItem
 		/// This will also clear the Recent Files (and its jumplist) in File Explorer.
 		/// </summary>
 		/// <returns>Whether the action was successfully handled or not</returns>
-		public bool ClearRecentItems()
+		public static bool ClearRecentItems()
 		{
 			try
 			{
@@ -192,7 +192,7 @@ namespace Files.App.Utils.RecentItem
 		/// This will also unpin the item from the Recent Files in File Explorer.
 		/// </summary>
 		/// <returns>Whether the action was successfully handled or not</returns>
-		public Task<bool> UnpinFromRecentFiles(RecentItem item)
+		public static Task<bool> UnpinFromRecentFiles(RecentItem item)
 		{
 			return SafetyExtensions.IgnoreExceptions(() => Task.Run(async () =>
 			{
@@ -205,7 +205,7 @@ namespace Files.App.Utils.RecentItem
 			}));
 		}
 
-		private NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<RecentItem> oldItems, IList<RecentItem> newItems)
+		private static NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<RecentItem> oldItems, IList<RecentItem> newItems)
 		{
 			// a single item was added
 			if (newItems.Count == oldItems.Count + 1)
@@ -254,7 +254,7 @@ namespace Files.App.Utils.RecentItem
 			return new(NotifyCollectionChangedAction.Reset);
 		}
 
-		public bool CheckIsRecentFilesEnabled()
+		public static bool CheckIsRecentFilesEnabled()
 		{
 			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer");
 			using var advSubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced");

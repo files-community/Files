@@ -1,13 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
-using Files.Shared.Extensions;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Files.App.Helpers
 {
 	public static class Win32Helpers

@@ -41,28 +41,25 @@ namespace Files.Core.Services.SizeProvider
 		public Task UpdateAsync(string path, CancellationToken cancellationToken)
 		{
 			string driveName = GetDriveName(path);
-			var provider = providers.GetOrAdd(driveName, (key) =>
-			{
-				return CreateProvider();
-			});
+			var provider = providers.GetOrAdd(driveName, (_) => CreateProvider());
 			return provider.UpdateAsync(path, cancellationToken);
 		}
 
 		public bool TryGetSize(string path, out ulong size)
 		{
 			string driveName = GetDriveName(path);
-			if (!providers.ContainsKey(driveName))
+			if (!providers.TryGetValue(driveName, out var provider))
 			{
 				size = 0;
 				return false;
 			}
-			var provider = providers[driveName];
+
 			return provider.TryGetSize(path, out size);
 		}
 
 		private static string GetDriveName(string path) => Directory.GetDirectoryRoot(path);
 
-		private ISizeProvider CreateProvider()
+		private CachedSizeProvider CreateProvider()
 		{
 			var provider = new CachedSizeProvider();
 			provider.SizeChanged += Provider_SizeChanged;

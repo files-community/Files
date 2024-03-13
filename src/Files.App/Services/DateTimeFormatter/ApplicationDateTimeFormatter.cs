@@ -43,7 +43,7 @@ namespace Files.App.Services.DateTimeFormatter
 			if (offset.Year is <= 1601 or >= 9999)
 				return " ";
 
-			if (elapsed.TotalDays < 7 && elapsed.TotalSeconds >= 0)
+			if (elapsed is { TotalDays: < 7, TotalSeconds: >= 0 })
 				return $"{ToString(offset, "D")} {ToString(offset, "t")} ({ToShortLabel(offset)})";
 
 			return $"{ToString(offset, "D")} {ToString(offset, "t")}";

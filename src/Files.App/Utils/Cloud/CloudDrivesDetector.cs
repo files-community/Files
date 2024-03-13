@@ -14,7 +14,7 @@ namespace Files.App.Utils.Cloud
 
 		public static async Task<IEnumerable<ICloudProvider>> DetectCloudDrives()
 		{
-			var tasks = new Task<IEnumerable<ICloudProvider>>[]
+			var tasks = new[]
 			{
 				SafetyExtensions.IgnoreExceptions(DetectOneDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectSharepoint, App.Logger),

@@ -215,7 +215,7 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task RefreshWidgetAsync()
 		{
-			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
+			IsRecentFilesDisabledInWindows = RecentItems.CheckIsRecentFilesEnabled() is false;
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 
@@ -381,7 +381,7 @@ namespace Files.App.UserControls.Widgets
 
 			try
 			{
-				await App.RecentItemsManager.UnpinFromRecentFiles(item);
+				await RecentItems.UnpinFromRecentFiles(item);
 			}
 			finally
 			{
@@ -395,7 +395,7 @@ namespace Files.App.UserControls.Widgets
 			try
 			{
 				recentItemsCollection.Clear();
-				bool success = App.RecentItemsManager.ClearRecentItems();
+				bool success = RecentItems.ClearRecentItems();
 
 				if (success)
 				{

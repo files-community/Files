@@ -8,7 +8,7 @@ namespace Files.App.Services
 {
 	internal class QuickAccessService : IQuickAccessService
 	{
-		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
+		private static readonly string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{

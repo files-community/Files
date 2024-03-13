@@ -35,7 +35,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task<bool> IsRecycleBinItem(string path)
 		{
-			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+			var recycleBinItems = await EnumerateRecycleBin();
 			return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
 		}
 

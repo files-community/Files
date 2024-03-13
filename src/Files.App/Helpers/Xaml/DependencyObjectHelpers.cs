@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 			for (int i = 0; i < count; i++)
 			{
 				DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
-				if (current.GetType().Equals(typeof(T)) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
+				if (current.GetType() == typeof(T) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
 				{
 					T asType = (T)current;
 					return asType;

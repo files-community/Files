@@ -106,7 +106,7 @@ namespace Files.Core.Helpers
 			string targetPath,
 			out WIN32_FIND_DATA findData)
 		{
-			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+			const FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 
 			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 

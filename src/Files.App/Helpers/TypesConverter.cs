@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -9,7 +8,7 @@ namespace Files.App.Helpers
 {
 	public class KnownTypesConverter
 	{
-		public JsonSerializerOptions Options { get; } = new JsonSerializerOptions();
+		public JsonSerializerOptions Options { get; } = new();
 
 		public KnownTypesConverter()
 		{

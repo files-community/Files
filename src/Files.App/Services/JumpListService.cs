@@ -162,7 +162,7 @@ namespace Files.App.Services
 				}
 				else
 				{
-					var pinnedItemsCount = instance.Items.Where(x => x.GroupName == JumpListPinnedGroupHeader).Count();
+					var pinnedItemsCount = instance.Items.Count(x => x.GroupName == JumpListPinnedGroupHeader);
 					instance.Items.Insert(pinnedItemsCount, jumplistItem);
 				}
 			}

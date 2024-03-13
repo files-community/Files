@@ -5,8 +5,6 @@ namespace Files.App.Helpers
 {
 	public static class LayoutSizeKindHelper
 	{
-		private static ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
-
 		/// <summary>
 		/// Gets the desired height for items in the Details View
 		/// </summary>

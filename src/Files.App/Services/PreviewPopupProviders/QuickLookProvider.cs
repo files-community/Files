@@ -27,7 +27,7 @@ namespace Files.App.Services.PreviewPopupProviders
 			await DoPreviewAsync(path, pipeMessageSwitch);
 		}
 
-		private async Task DoPreviewAsync(string path, string message)
+		private static async Task DoPreviewAsync(string path, string message)
 		{
 			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 

@@ -8,7 +8,7 @@ namespace Files.App.Services
 	/// <inheritdoc cref="IWindowsCompatibilityService"/>
 	public class WindowsCompatibilityService : IWindowsCompatibilityService
 	{
-		private readonly string _registrySubPath = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
+		private const string RegistrySubPath = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
 
 		/// <inheritdoc/>
 		public WindowsCompatibilityOptions GetCompatibilityOptionsForPath(string filePath)
@@ -16,7 +16,7 @@ namespace Files.App.Services
 			try
 			{
 				// Get the key
-				using var compatKey = Registry.CurrentUser.OpenSubKey(_registrySubPath);
+				using var compatKey = Registry.CurrentUser.OpenSubKey(RegistrySubPath);
 				if (compatKey is null)
 					return new();
 
@@ -40,13 +40,13 @@ namespace Files.App.Services
 			if (string.IsNullOrEmpty(stringOptions) || stringOptions == "~")
 			{
 				return Win32API.RunPowershellCommand(
-					@$"Remove-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' | Out-Null",
+					@$"Remove-ItemProperty -Path 'HKCU:\{RegistrySubPath}' -Name '{filePath}' | Out-Null",
 					true);
 			}
 
 			// Set the new one
 			return Win32API.RunPowershellCommand(
-				@$"New-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null",
+				@$"New-ItemProperty -Path 'HKCU:\{RegistrySubPath}' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null",
 				true);
 		}
 	}

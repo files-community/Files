@@ -171,7 +171,7 @@ namespace Files.App.Utils.Archives
 					_fileSystemProgress.ItemsCount = _sizeCalculator.ItemsCount;
 					_fileSystemProgress.EnumerationCompleted = true;
 					_fileSystemProgress.Report();
-				});
+				}, cts.Token);
 
 				foreach (string directory in directories)
 				{
@@ -180,7 +180,7 @@ namespace Files.App.Utils.Archives
 					compressor.CompressionMode = CompressionMode.Append;
 				}
 
-				if (files.Any())
+				if (files.Length != 0)
 				{
 					if (string.IsNullOrEmpty(Password))
 						await compressor.CompressFilesAsync(ArchivePath, files);
@@ -188,7 +188,7 @@ namespace Files.App.Utils.Archives
 						await compressor.CompressFilesEncryptedAsync(ArchivePath, Password, files);
 				}
 
-				cts.Cancel();
+				await cts.CancelAsync();
 
 				return true;
 			}

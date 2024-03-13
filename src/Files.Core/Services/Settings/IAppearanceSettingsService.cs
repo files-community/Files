@@ -22,27 +22,27 @@ namespace Files.Core.Services.Settings
 		/// <summary>
 		/// Gets or sets a value for the app theme background color.
 		/// </summary>
-		String AppThemeBackgroundColor { get; set; }
+		string AppThemeBackgroundColor { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app theme address bar background color.
 		/// </summary>
-		String AppThemeAddressBarBackgroundColor { get; set; }
+		string AppThemeAddressBarBackgroundColor { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app theme sidebar background color.
 		/// </summary>
-		String AppThemeSidebarBackgroundColor { get; set; }
+		string AppThemeSidebarBackgroundColor { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app theme file area background color.
 		/// </summary>
-		String AppThemeFileAreaBackgroundColor { get; set; }
+		string AppThemeFileAreaBackgroundColor { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app theme font family.
 		/// </summary>
-		String AppThemeFontFamily { get; set; }
+		string AppThemeFontFamily { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the theme system backdrop.

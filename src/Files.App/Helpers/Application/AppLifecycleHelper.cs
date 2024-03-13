@@ -216,7 +216,7 @@ namespace Files.App.Helpers
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab is not null && tab.NavigationParameter is not null)
+				if (tab?.NavigationParameter != null)
 				{
 					return tab.NavigationParameter.Serialize();
 				}

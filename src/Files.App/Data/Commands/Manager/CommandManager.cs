@@ -205,7 +205,7 @@ namespace Files.App.Data.Commands
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		public IEnumerator<IRichCommand> GetEnumerator() => commands.Values.GetEnumerator();
 
-		private static IDictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
+		private static Dictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),

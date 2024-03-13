@@ -41,7 +41,7 @@ namespace Files.App.Services
 		}
 
 		// WINUI3
-		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+		private static FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 			return obj;
@@ -61,7 +61,7 @@ namespace Files.App.Services
 		}
 
 		// WINUI3
-		private FolderPicker InitializeWithWindow(FolderPicker obj)
+		private static FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 

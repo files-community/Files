@@ -73,8 +73,7 @@ namespace Files.Shared.Extensions
 				if (!cDict.ContainsKey(key))
 				{
 					var defaultValue = defaultValueFunc();
-					if (defaultValue is Task<TValue?> value)
-						cDict.TryAdd(key, value);
+					cDict.TryAdd(key, defaultValue);
 
 					return defaultValue;
 				}

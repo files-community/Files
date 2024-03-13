@@ -22,7 +22,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			if (GetFocusedElement() is SelectorItem item)
+			if (GetFocusedElement() is { } item)
 				item.IsSelected = !item.IsSelected;
 
 			return Task.CompletedTask;

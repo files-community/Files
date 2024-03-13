@@ -31,7 +31,7 @@ namespace Files.App.Utils.FileTags
 			{
 				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
-			if (tag is null || !tag.Any())
+			if (tag is null || tag.Length == 0)
 			{
 				NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
 			}
@@ -86,7 +86,7 @@ namespace Files.App.Utils.FileTags
 				else
 				{
 					var tag = ReadFileTag(file.FilePath);
-					if (tag is not null && tag.Any())
+					if (tag is not null && tag.Length != 0)
 					{
 						if (!SafetyExtensions.IgnoreExceptions(() =>
 						{

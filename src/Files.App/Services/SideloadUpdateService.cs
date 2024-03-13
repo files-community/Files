@@ -101,7 +101,7 @@ namespace Files.App.Services
 			if (!IsAppUpdated)
 				return;
 
-			var result = await GetLatestReleaseNotesAsync();
+			var result = await GetLatestReleaseNotesAsync(cancellationToken);
 			if (result is not null)
 				IsReleaseNotesAvailable = true;
 		}

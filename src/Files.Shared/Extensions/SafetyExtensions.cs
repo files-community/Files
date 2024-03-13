@@ -18,7 +18,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				if (exceptionToIgnore is null || exceptionToIgnore.IsInstanceOfType(ex))
 				{
 					logger?.LogInformation(ex, ex.Message);
 
@@ -39,7 +39,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				if (exceptionToIgnore is null || exceptionToIgnore.IsInstanceOfType(ex))
 				{
 					logger?.LogInformation(ex, ex.Message);
 
@@ -58,7 +58,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				if (exceptionToIgnore is null || exceptionToIgnore.IsInstanceOfType(ex))
 				{
 					logger?.LogInformation(ex, ex.Message);
 
@@ -77,7 +77,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				if (exceptionToIgnore is null || exceptionToIgnore.IsInstanceOfType(ex))
 				{
 					logger?.LogInformation(ex, ex.Message);
 

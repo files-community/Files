@@ -10,9 +10,9 @@ namespace Files.App.Helpers
 	[Obsolete("Must not use this helper to generate menu flyout any longer.")]
 	public class MenuFlyoutHelper : DependencyObject
 	{
-		public interface IMenuFlyoutItemViewModel { }
+		public interface IMenuFlyoutItemViewModel;
 
-		public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItemViewModel { }
+		public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItemViewModel;
 
 		public class MenuFlyoutItemViewModel : IMenuFlyoutItemViewModel
 		{
@@ -123,7 +123,7 @@ namespace Files.App.Helpers
 					var mfsi = new MenuFlyoutSubItem
 					{
 						Text = svm.Text,
-						IsEnabled = svm.IsEnabled && svm.Items.Count > 0,
+						IsEnabled = svm is { IsEnabled: true, Items.Count: > 0 },
 					};
 					AddItems(mfsi.Items, svm.Items);
 					menu.Add(mfsi);

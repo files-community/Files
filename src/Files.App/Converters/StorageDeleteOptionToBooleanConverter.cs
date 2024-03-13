@@ -15,7 +15,7 @@ namespace Files.App.Converters
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return (value is bool bl && bl) ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
+			return value is true ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
 		}
 	}
 }

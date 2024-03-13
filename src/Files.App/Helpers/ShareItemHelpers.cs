@@ -71,14 +71,14 @@ namespace Files.App.Helpers
 							return;
 						}
 					}
-					else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
+					else if (item is { PrimaryItemAttribute: StorageItemTypes.Folder, IsArchive: false })
 					{
-						if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath) is BaseStorageFolder folder)
+						if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath) is { } folder)
 							items.Add(folder);
 					}
 					else
 					{
-						if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath) is BaseStorageFile file)
+						if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath) is { } file)
 							items.Add(file);
 					}
 				}

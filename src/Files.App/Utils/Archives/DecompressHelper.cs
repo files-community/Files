@@ -15,9 +15,9 @@ namespace Files.App.Utils.Archives
 {
 	public static class DecompressHelper
 	{
-		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private static readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
-		private static IThreadingService _threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
+		private static readonly IThreadingService _threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
 
 		public static async Task<bool> DecompressArchiveAsync(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
@@ -283,7 +283,7 @@ namespace Files.App.Utils.Archives
 
 		private static async Task<bool> IsMultipleItems(BaseStorageFile archive)
 		{
-			using SevenZipExtractor? zipFile = await GetZipFile(archive);
+			using var zipFile = await GetZipFile(archive);
 			if (zipFile is null)
 				return true;
 
@@ -293,7 +293,7 @@ namespace Files.App.Utils.Archives
 				if (pathCharIndex == -1)
 					return file.FileName;
 				else
-					return file.FileName.Substring(0, pathCharIndex);
+					return file.FileName[..pathCharIndex];
 			}).Distinct().Count() > 1;
 		}
 	}

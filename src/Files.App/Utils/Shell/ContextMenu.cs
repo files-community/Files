@@ -53,7 +53,7 @@ namespace Files.App.Utils.Shell
 			if (string.IsNullOrEmpty(verb))
 				return false;
 
-			var item = Items.Where(x => x.CommandString == verb).FirstOrDefault();
+			var item = Items.FirstOrDefault(x => x.CommandString == verb);
 			if (item is not null && item.ID >= 0)
 				// Prefer invocation by ID
 				return await InvokeItem(item.ID);
@@ -112,7 +112,7 @@ namespace Files.App.Utils.Shell
 			return false;
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
+		public static async Task<ContextMenu?> GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 
@@ -140,7 +140,7 @@ namespace Files.App.Utils.Shell
 			});
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
+		public static async Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 
@@ -174,7 +174,7 @@ namespace Files.App.Utils.Shell
 
 		public static async Task WarmUpQueryContextMenuAsync()
 		{
-			using var cMenu = await GetContextMenuForFiles(new string[] { "C:\\" }, Shell32.CMF.CMF_NORMAL);
+			using var cMenu = await GetContextMenuForFiles(["C:\\"], Shell32.CMF.CMF_NORMAL);
 		}
 
 		private void EnumMenuItems(HMENU hMenu, List<Win32ContextMenuItem> menuItemsResult, bool loadSubenus = false)
