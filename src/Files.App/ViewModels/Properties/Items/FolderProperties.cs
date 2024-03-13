@@ -123,7 +123,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var recycleBinQuery = Win32Shell.QueryRecycleBin();
+				var recycleBinQuery = Win32Helper.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)
 				{
 					ViewModel.ItemSizeBytes = binSize;

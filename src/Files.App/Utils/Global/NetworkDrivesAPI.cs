@@ -117,11 +117,11 @@ namespace Files.App.Utils
 
 		public static Task<bool> OpenMapNetworkDriveDialog(long hwnd)
 		{
-			return Win32API.StartSTATask(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
 				ncd.HideRestoreConnectionCheckBox = false;
-				return ncd.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == System.Windows.Forms.DialogResult.OK;
+				return ncd.ShowDialog(Win32Helper.Win32Window.FromLong(hwnd)) == System.Windows.Forms.DialogResult.OK;
 			});
 		}
 

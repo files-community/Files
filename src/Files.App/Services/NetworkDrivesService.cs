@@ -17,7 +17,7 @@ namespace Files.App.Services
 
 		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
 		{
-			var networkLocations = await Win32API.StartSTATask(() =>
+			var networkLocations = await Win32Helper.StartSTATask(() =>
 			{
 				var locations = new List<ShellLinkItem>();
 				using (var nethood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))

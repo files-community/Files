@@ -77,7 +77,7 @@ namespace Files.App.ViewModels.Properties
 				if (Item.IsLinkItem)
 				{
 					var tmpItem = (ShortcutItem)Item;
-					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await Win32Helper.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{

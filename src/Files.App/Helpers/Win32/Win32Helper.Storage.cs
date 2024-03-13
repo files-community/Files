@@ -12,12 +12,12 @@ using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
 
-namespace Files.App.Utils.Shell
+namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Provides static helper for general Win32API.
+	/// Provides static helper for Win32.
 	/// </summary>
-	internal class Win32API
+	public static partial class Win32Helper
 	{
 		public static Task StartSTATask(Func<Task> func)
 		{
