@@ -4,7 +4,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace Files.Core.Helpers
+namespace Files.App.Helpers
 {
 	/// <summary>
 	/// Provides a bunch of Win32API for native find storage items.
