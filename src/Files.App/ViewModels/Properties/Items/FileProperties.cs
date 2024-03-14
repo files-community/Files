@@ -1,4 +1,4 @@
-// Copyright(c) 2023 Files Community
+// Copyright(c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
@@ -77,12 +77,12 @@ namespace Files.App.ViewModels.Properties
 				if (Item.IsLinkItem)
 				{
 					var tmpItem = (ShortcutItem)Item;
-					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await Win32Helper.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
-						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
+						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath), true));
 				}
 			},
 			() =>
@@ -110,12 +110,11 @@ namespace Files.App.ViewModels.Properties
 				Item.ItemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				false,
-				false,
 				IconOptions.UseCurrentScale);
 
-			if (result.IconData is not null)
+			if (result is not null)
 			{
-				ViewModel.IconData = result.IconData;
+				ViewModel.IconData = result;
 				ViewModel.LoadUnknownTypeGlyph = false;
 				ViewModel.LoadFileIcon = true;
 			}
@@ -124,7 +123,6 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
-				ViewModel.LoadLinkIcon = Item.LoadWebShortcutGlyph;
 				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
@@ -174,6 +172,10 @@ namespace Files.App.ViewModels.Properties
 
 			// Find Encoding Bitrate property and convert it to kbps
 			var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
+
+			if (encodingBitrate?.Value is null)
+				encodingBitrate = list.Find(x => x.Property == "System.Video.EncodingBitrate");
+
 			if (encodingBitrate?.Value is not null)
 			{
 				var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };

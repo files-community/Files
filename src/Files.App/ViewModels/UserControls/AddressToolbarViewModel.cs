@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -262,6 +262,16 @@ namespace Files.App.ViewModels.UserControls
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
+				case nameof(UserSettingsService.LayoutSettingsService.DetailsViewSize):
+				case nameof(UserSettingsService.LayoutSettingsService.ListViewSize):
+				case nameof(UserSettingsService.LayoutSettingsService.ColumnsViewSize):
+				case nameof(UserSettingsService.LayoutSettingsService.GridViewSize):
+					OnPropertyChanged(nameof(IsLayoutSizeCompact));
+					OnPropertyChanged(nameof(IsLayoutSizeSmall));
+					OnPropertyChanged(nameof(IsLayoutSizeMedium));
+					OnPropertyChanged(nameof(IsLayoutSizeLarge));
+					OnPropertyChanged(nameof(IsLayoutSizeExtraLarge));
+					break;
 			}
 		}
 
@@ -504,7 +514,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath, true);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -749,7 +759,7 @@ namespace Files.App.ViewModels.UserControls
 						if (resFile)
 						{
 							var pathToInvoke = resFile.Result.Path;
-							await Win32Helpers.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
+							await Win32Helper.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
 						}
 						else // Not a file or not accessible
 						{
@@ -963,6 +973,11 @@ namespace Files.App.ViewModels.UserControls
 					OnPropertyChanged(nameof(IsColumnLayout));
 					OnPropertyChanged(nameof(IsGridLayout));
 					OnPropertyChanged(nameof(IsDetailsLayout));
+					OnPropertyChanged(nameof(IsLayoutSizeCompact));
+					OnPropertyChanged(nameof(IsLayoutSizeSmall));
+					OnPropertyChanged(nameof(IsLayoutSizeMedium));
+					OnPropertyChanged(nameof(IsLayoutSizeLarge));
+					OnPropertyChanged(nameof(IsLayoutSizeExtraLarge));
 					break;
 			}
 		}
@@ -1016,6 +1031,35 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsGridLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
 		public bool IsDetailsLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
 		public bool IsListLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
+
+		public bool IsLayoutSizeCompact =>
+			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact) ||
+			(IsListLayout && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact) ||
+			(IsColumnLayout && UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Compact);
+
+		public bool IsLayoutSizeSmall =>
+			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Small) ||
+			(IsListLayout && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Small) ||
+			(IsColumnLayout && UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Small) ||
+			(IsGridLayout && UserSettingsService.LayoutSettingsService.GridViewSize == GridViewSizeKind.Small);
+
+		public bool IsLayoutSizeMedium =>
+			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Medium) ||
+			(IsListLayout && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Medium) ||
+			(IsColumnLayout && UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Medium) ||
+			(IsGridLayout && UserSettingsService.LayoutSettingsService.GridViewSize == GridViewSizeKind.Medium);
+
+		public bool IsLayoutSizeLarge =>
+			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Large) ||
+			(IsListLayout && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Large) ||
+			(IsColumnLayout && UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Large) ||
+			(IsGridLayout && UserSettingsService.LayoutSettingsService.GridViewSize == GridViewSizeKind.Large);
+
+		public bool IsLayoutSizeExtraLarge =>
+			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.ExtraLarge) ||
+			(IsListLayout && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.ExtraLarge) ||
+			(IsColumnLayout && UserSettingsService.LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.ExtraLarge) ||
+			(IsGridLayout && UserSettingsService.LayoutSettingsService.GridViewSize == GridViewSizeKind.ExtraLarge);
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();

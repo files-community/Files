@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Shell;
@@ -12,7 +12,7 @@ namespace Files.App.Services
 
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{
-			var result = (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
+			var result = (await Win32Helper.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
 				.Where(link => link.IsFolder);
 			return result;
 		}
@@ -80,12 +80,12 @@ namespace Files.App.Services
 
 		public bool IsItemPinned(string folderPath)
 		{
-			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
+			return App.QuickAccessManager.Model.PinnedFolders.Contains(folderPath);
 		}
 
 		public async Task SaveAsync(string[] items)
 		{
-			if (Equals(items, App.QuickAccessManager.Model.FavoriteItems.ToArray()))
+			if (Equals(items, App.QuickAccessManager.Model.PinnedFolders.ToArray()))
 				return;
 
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;

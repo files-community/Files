@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -79,7 +79,7 @@ namespace Files.App.Data.Items
 
 		public bool IsInvalid { get; set; } = false;
 
-		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(path);
 
 		public SectionType Section { get; set; }
 
@@ -101,7 +101,7 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
-				if (Section == SectionType.Favorites)
+				if (Section == SectionType.Pinned)
 				{
 					return new OpacityIcon()
 					{

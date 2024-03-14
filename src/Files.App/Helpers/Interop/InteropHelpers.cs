@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Input;
@@ -28,9 +28,6 @@ namespace Files.App.Helpers
 
 		[DllImport("kernel32.dll")]
 		public static extern bool SetEvent(IntPtr hEvent);
-
-		[DllImport("user32.dll", SetLastError = true)]
-		public static extern void SwitchToThisWindow(IntPtr hWnd, bool altTab);
 
 		[DllImport("User32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern int GetDpiForWindow(IntPtr hwnd);

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -68,10 +68,9 @@ namespace Files.App.Utils.RecentItem
 				RecentPath,
 				Constants.ShellIconSizes.Small,
 				false,
-				false,
 				IconOptions.UseCurrentScale);
 
-			var bitmapImage = await result.IconData.ToBitmapAsync();
+			var bitmapImage = await result.ToBitmapAsync();
 			if (bitmapImage is not null)
 				FileImg = bitmapImage;
 		}

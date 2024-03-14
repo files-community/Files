@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
@@ -31,7 +31,7 @@ namespace Files.App.Actions
 
 			if (arguments is null)
 			{
-				await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+				await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
 			}
 			else
 			{

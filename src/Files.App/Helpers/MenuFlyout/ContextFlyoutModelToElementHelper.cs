@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Menus;
@@ -147,7 +147,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				};
 				if (!string.IsNullOrEmpty(i.Glyph))
 				{
-					flyoutItem.Icon = new FontIcon{ Glyph = i.Glyph };
+					flyoutItem.Icon = new FontIcon { Glyph = i.Glyph };
 				}
 			}
 			else
@@ -248,7 +248,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					CommandParameter = item.CommandParameter,
 					IsChecked = item.IsChecked,
 					Content = content,
-					LabelPosition = item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
+					LabelPosition = item.IsPrimary || item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
 					IsEnabled = item.IsEnabled,
 					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
 				};
@@ -277,7 +277,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Command = item.Command,
 					CommandParameter = item.CommandParameter,
 					Flyout = ctxFlyout,
-					LabelPosition = item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
+					LabelPosition = item.IsPrimary || item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
 					Content = content,
 					IsEnabled = item.IsEnabled,
 					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.AppCenter.Analytics;
@@ -127,7 +127,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ShowFavoritesSection
+		public bool ShowPinnedSection
 		{
 			get => Get(true);
 			set => Set(value);
@@ -272,7 +272,7 @@ namespace Files.App.Services.Settings
 				case nameof(FoldersWidgetExpanded):
 				case nameof(RecentFilesWidgetExpanded):
 				case nameof(DrivesWidgetExpanded):
-				case nameof(ShowFavoritesSection):
+				case nameof(ShowPinnedSection):
 				case nameof(ShowLibrarySection):
 				case nameof(ShowCloudDrivesSection):
 				case nameof(ShowNetworkDrivesSection):

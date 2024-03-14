@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Win32;
@@ -139,7 +139,7 @@ namespace Files.App.Utils.Cloud
 						SyncFolder = syncedFolder,
 						IconData = driveID switch
 						{
-							CloudProviders.ProtonDrive => Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault()?.IconData,
+							CloudProviders.ProtonDrive => Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault()?.IconData,
 							_ => null
 						}
 					});
@@ -243,7 +243,7 @@ namespace Files.App.Utils.Cloud
 			if (syncedFolder is not null)
 			{
 				string iconPath = Path.Combine(programFilesFolder, "pCloud Drive", "pCloud.exe");
-				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
 
 				App.AppModel.PCloudDrivePath = syncedFolder;
 
@@ -266,7 +266,7 @@ namespace Files.App.Utils.Cloud
 			if (NutstoreKey is not null)
 			{
 				string iconPath = Path.Combine(programFilesFolder, "Nutstore", "Nutstore.exe");
-				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
+				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
 
 				// get every folder under the Nutstore folder in %userprofile%
 				var mainFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Nutstore");
@@ -298,7 +298,7 @@ namespace Files.App.Utils.Cloud
 			if (SeadriveKey is not null)
 			{
 				string iconPath = Path.Combine(programFilesFolder, "SeaDrive", "bin", "seadrive.exe");
-				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
+				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
 
 				results.Add(new CloudProvider(CloudProviders.Seadrive)
 				{
@@ -319,7 +319,7 @@ namespace Files.App.Utils.Cloud
 			if (AutodeskKey is not null)
 			{
 				string iconPath = Path.Combine(programFilesFolder, "Autodesk", "Desktop Connector", "DesktopConnector.Applications.Tray.exe");
-				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault();
+				var iconFile = Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault();
 				var mainFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "DC");
 				var autodeskFolders = Directory.GetDirectories(mainFolder, "", SearchOption.AllDirectories);
 

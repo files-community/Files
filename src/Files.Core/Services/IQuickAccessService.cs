@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Services
@@ -47,7 +47,7 @@ namespace Files.App.Services
 		bool IsItemPinned(string folderPath);
 
 		/// <summary>
-		/// Saves a state of favorite items in the sidebar
+		/// Saves a state of pinned folder items in the sidebar
 		/// </summary>
 		/// <param name="items">The array of items to save</param>
 		/// <returns></returns>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
@@ -33,8 +33,8 @@ namespace Files.App.UserControls.Widgets
 		protected ICommand? OpenInNewTabCommand { get; set; }
 		protected ICommand? OpenInNewWindowCommand { get; set; }
 		protected ICommand? OpenPropertiesCommand { get; set; }
-		protected ICommand? PinToFavoritesCommand { get; set; }
-		protected ICommand? UnpinFromFavoritesCommand { get; set; }
+		protected ICommand? PinToSidebarCommand { get; set; }
+		protected ICommand? UnpinFromSidebarCommand { get; set; }
 
 		// Events
 
@@ -93,7 +93,7 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task OpenInNewTabAsync(WidgetCardItem item)
 		{
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
+			await NavigationHelpers.OpenPathInNewTab(item.Path, false);
 		}
 
 		public async Task OpenInNewWindowAsync(WidgetCardItem item)
@@ -101,12 +101,12 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
-		public virtual async Task PinToFavoritesAsync(WidgetCardItem item)
+		public virtual async Task PinToSidebarAsync(WidgetCardItem item)
 		{
 			await QuickAccessService.PinToSidebarAsync(item.Path);
 		}
 
-		public virtual async Task UnpinFromFavoritesAsync(WidgetCardItem item)
+		public virtual async Task UnpinFromSidebarAsync(WidgetCardItem item)
 		{
 			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
 		}

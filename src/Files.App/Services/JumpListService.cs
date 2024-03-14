@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -72,7 +72,7 @@ namespace Files.App.Services
 
 					var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
 					itemsToRemove.ForEach(x => instance.Items.Remove(x));
-					App.QuickAccessManager.Model.FavoriteItems.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
+					App.QuickAccessManager.Model.PinnedFolders.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
 					await instance.SaveAsync();
 				}
 			}

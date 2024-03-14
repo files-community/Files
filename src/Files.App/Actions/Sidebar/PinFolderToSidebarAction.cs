@@ -1,31 +1,28 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services;
-using Files.App.UserControls.Widgets;
 using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class PinItemAction : ObservableObject, IAction
+	internal sealed class PinFolderToSidebarAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
-
 		private readonly IQuickAccessService service;
 
 		public string Label
-			=> "PinToFavorites".GetLocalizedResource();
+			=> "PinFolderToSidebar".GetLocalizedResource();
 
 		public string Description
-			=> "PinItemToFavoritesDescription".GetLocalizedResource();
+			=> "PinFolderToSidebarDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconPinToFavorites");
+			=> new(opacityStyle: "Icons.Pin.16x16");
 
 		public bool IsExecutable
 			=> GetIsExecutable();
 
-		public PinItemAction()
+		public PinFolderToSidebarAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -50,7 +47,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
+			string[] pinnedFolders = App.QuickAccessManager.Model.PinnedFolders.ToArray();
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinnable)
@@ -60,7 +57,7 @@ namespace Files.App.Actions
 			{
 				return
 					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
-					!favorites.Contains(item.ItemPath);
+					!pinnedFolders.Contains(item.ItemPath);
 			}
 		}
 

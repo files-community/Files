@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -80,14 +80,14 @@
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1.2" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.2" />
+        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.3" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
         <PackageReference Include="SevenZipSharp" Version="1.0.2" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.1" />
         <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
@@ -97,7 +97,7 @@
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
         <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.17" />
         <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.17" />
-        <PackageReference Include="WinUIEx" Version="2.3.3" />
+        <PackageReference Include="WinUIEx" Version="2.3.4" />
         <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.17" />
         <PackageReference Include="Vanara.Windows.Shell" Version="3.4.17" />
         <PackageReference Include="Microsoft.Management.Infrastructure" Version="3.0.0" />

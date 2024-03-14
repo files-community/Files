@@ -1,8 +1,6 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.App.Services;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Dialogs
@@ -14,19 +12,19 @@ namespace Files.App.ViewModels.Dialogs
 		public string HeaderText = "ReorderSidebarItemsDialogText".GetLocalizedResource();
 		public ICommand PrimaryButtonCommand { get; private set; }
 
-		public ObservableCollection<LocationItem> SidebarFavoriteItems = new(App.QuickAccessManager.Model.favoriteList
-			.Where(x => x is LocationItem loc && loc.Section is SectionType.Favorites && !loc.IsHeader)
+		public ObservableCollection<LocationItem> SidebarPinnedFolderItems = new(App.QuickAccessManager.Model._PinnedFolderItems
+			.Where(x => x is LocationItem loc && loc.Section is SectionType.Pinned && !loc.IsHeader)
 			.Cast<LocationItem>());
 
 		public ReorderSidebarItemsDialogViewModel() 
 		{
-			//App.Logger.LogWarning(string.Join(", ", SidebarFavoriteItems.Select(x => x.Path)));
+			//App.Logger.LogWarning(string.Join(", ", SidebarPinnedFolderItems.Select(x => x.Path)));
 			PrimaryButtonCommand = new RelayCommand(SaveChanges);
 		}
 
 		public void SaveChanges()
 		{
-			quickAccessService.SaveAsync(SidebarFavoriteItems.Select(x => x.Path).ToArray());
+			quickAccessService.SaveAsync(SidebarPinnedFolderItems.Select(x => x.Path).ToArray());
 		}
 	}
 }

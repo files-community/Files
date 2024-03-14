@@ -131,6 +131,14 @@ jobs:
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
+    - name: Update appinstaller schema
+      run: |
+        $newSchema = "http://schemas.microsoft.com/appx/appinstaller/2018"
+        $localFilePath = "${{ env.APPX_PACKAGE_DIR }}/Files.Package.appinstaller"
+        $fileContent = Get-Content $localFilePath
+        $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
+        $fileContent | Set-Content $localFilePath
+
     - name: Sign files with Azure Code Signing
       uses: azure/azure-code-signing-action@v0.2.21
       with:

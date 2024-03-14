@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			=> "PinToStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconPinToFavorites");
+			=> new(opacityStyle: "Icons.Pin.16x16");
 
 		public bool IsExecutable =>
 			context.ShellPage is not null;

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -87,7 +87,7 @@ namespace Files.App.Dialogs
 				return;
 
 			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
-				ViewModel.SidebarFavoriteItems.Move(ViewModel.SidebarFavoriteItems.IndexOf(sourceLocationItem), ViewModel.SidebarFavoriteItems.IndexOf(locationItem));
+				ViewModel.SidebarPinnedFolderItems.Move(ViewModel.SidebarPinnedFolderItems.IndexOf(sourceLocationItem), ViewModel.SidebarPinnedFolderItems.IndexOf(locationItem));
 		}
 
 		public new async Task<DialogResult> ShowAsync()

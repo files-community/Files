@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 // System
@@ -50,9 +50,10 @@ global using global::Files.App.Data.TemplateSelectors;
 global using global::Files.App.Services;
 global using global::Files.App.UserControls;
 global using global::Files.App.UserControls.TabBar;
-global using global::Files.App.UserControls.ViewModels.Widgets;
+global using global::Files.App.UserControls.Widgets;
 global using global::Files.App.ViewModels;
 global using global::Files.App.ViewModels.UserControls;
+global using global::Files.App.ViewModels.UserControls.Widgets;
 global using global::Files.App.Views;
 global using global::Files.App.Views.Layouts;
 global using global::Files.App.Views.Shells;

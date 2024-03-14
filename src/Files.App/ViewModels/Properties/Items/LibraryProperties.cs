@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -53,12 +53,11 @@ namespace Files.App.ViewModels.Properties
 				Library.ItemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				true,
-				false,
 				IconOptions.UseCurrentScale);
 			
-			if (result.IconData is not null)
+			if (result is not null)
 			{
-				ViewModel.IconData = result.IconData;
+				ViewModel.IconData = result;
 				ViewModel.LoadCustomIcon = false;
 				ViewModel.LoadFileIcon = true;
 			}

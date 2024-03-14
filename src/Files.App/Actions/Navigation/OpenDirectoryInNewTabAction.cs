@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
@@ -44,7 +44,8 @@ namespace Files.App.Actions
 				{
 					await NavigationHelpers.AddNewTabByPathAsync(
 						typeof(PaneHolderPage),
-						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath,
+						false);
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}

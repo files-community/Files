@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -146,6 +146,9 @@ namespace Files.App.UserControls.TabBar
 			{
 				tabItem.NavigationParameter,
 			});
+
+			// Save the updated tab list
+			AppLifecycleHelper.SaveSessionTabs();
 
 			if (Items.Count == 0)
 				MainWindow.Instance.Close();

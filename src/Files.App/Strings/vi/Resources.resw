@@ -273,11 +273,11 @@
   <data name="Delete" xml:space="preserve">
     <value>Xóa bỏ</value>
   </data>
-  <data name="PinToFavorites" xml:space="preserve">
-    <value>Ghim vào Mục yêu thích</value>
+  <data name="PinFolderToSidebar" xml:space="preserve">
+    <value>Ghim vào thanh bên</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Chào mừng đến với Files!</value>
+    <value>Chào mừng bạn đến với Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Cấp quyền</value>
@@ -639,9 +639,6 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Tạo một thư mục trống</value>
   </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Bố cục</value>
-  </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Làm mới danh mục</value>
   </data>
@@ -994,7 +991,7 @@
     <value>Hiện tệp hệ thống được bảo vệ</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Áp dụng tùy chọn bố cục và sắp xếp ở mọi thư mục</value>
+    <value>Áp dụng lựa chọn bố cục và sắp xếp ở mọi thư mục</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Tùy chỉnh menu chuột phải</value>
@@ -1032,20 +1029,11 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Mở trong ngăn mới</value>
   </data>
-  <data name="Folders" xml:space="preserve">
-    <value>Thư mục</value>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Tệp &amp; thư mục</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Chi tiết (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Biểu tượng lớn (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Biểu tượng vừa (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Biểu tượng nhỏ (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lát (Ctrl+Shift+2)</value>
@@ -1075,16 +1063,16 @@
     <value>Chuyển đổi ngăn thông tin</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Chuyển đổi ẩn/hiện ngăn thông tin để hiện ngăn chi tiết hoặc ngăn xem trước</value>
+    <value>Chuyển đổi ẩn/hiện ngăn thông tin để xem chi tiết hoặc xem trước tệp</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Xem trước không khả dụng</value>
+    <value>Không có bản xem trước</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Tên khoản mục</value>
   </data>
-  <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Bỏ ghim khỏi Mục yêu thích</value>
+  <data name="UnpinFolderFromSidebar" xml:space="preserve">
+    <value>Bỏ ghim khỏi thanh bên</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Ổ lưu trữ mạng</value>
@@ -1170,8 +1158,8 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Ánh xạ ổ đĩa mạng</value>
   </data>
-  <data name="SidebarFavorites" xml:space="preserve">
-    <value>Mục yêu thích</value>
+  <data name="Pinned" xml:space="preserve">
+    <value>Đã ghim</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Thư viện</value>
@@ -1662,15 +1650,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1736,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Cột</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Biểu tượng lớn</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Biểu tượng vừa</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Biểu tượng nhỏ</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Lát</value>
@@ -1827,71 +1797,65 @@
   <data name="None" xml:space="preserve">
     <value>Không</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+  <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
     <value>Khi đăng nhập Windows</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>Khi bắt đầu chương trình</value>
+  <data name="CompatibilityOnProgramStart" xml:space="preserve">
+    <value>Khi chạy chương trình này</value>
   </data>
-  <data name="HighDpiOverride_System" xml:space="preserve">
+  <data name="System" xml:space="preserve">
     <value>Hệ thống</value>
   </data>
-  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+  <data name="CompatibilitySystemEnhanced" xml:space="preserve">
     <value>Hệ thống (nâng cao)</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
-    <value>Windows 7</value>
+  <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
+    <value>16-bit (65536) màu</value>
   </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
-    <value>Windows 8</value>
+  <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
+    <value>8-bit (256) màu</value>
   </data>
-  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
-  </data>
-  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 bit màu (65536)</value>
-  </data>
-  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 bit màu (256)</value>
-  </data>
-  <data name="CompatibilityMode" xml:space="preserve">
-    <value>Chế độ tương thích</value>
-  </data>
-  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+  <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
     <value>Tắt tối ưu hóa toàn màn hình</value>
   </data>
-  <data name="ExecuteAt640X480" xml:space="preserve">
+  <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
     <value>Chạy ở độ phân giải 640 x 480</value>
   </data>
-  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+  <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
     <value>Ghi đè hành vi chia tỷ lệ DPI cao</value>
   </data>
-  <data name="ReducedColorMode" xml:space="preserve">
+  <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>Chế độ giảm màu</value>
   </data>
-  <data name="RegisterForRestart" xml:space="preserve">
-    <value>Gửi yêu cầu khởi động lại</value>
+  <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
+    <value>Gửi yêu cầu khởi động lại chương trình</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Chạy với quyền quản trị viên</value>
   </data>
-  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+  <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
     <value>Chạy trình khắc phục sự cố tương thích</value>
   </data>
-  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+  <data name="CompatibilityUseDPISettings" xml:space="preserve">
     <value>Sử dụng cài đặt DPI của màn hình hiển thị chính</value>
+  </data>
+  <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
+    <value>Không điều chỉnh giá trị DPI</value>
+  </data>
+  <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
+    <value>Không ghi đè giá trị DPI</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Chế độ tương thích</value>
+  </data>
+  <data name="CompatibilityNoReducedColor" xml:space="preserve">
+    <value>Không sử dụng chế độ giảm màu</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Giấy phép bên thứ ba</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Tùy chọn này chỉnh sửa các khóa registry của hệ thống và có thể gây ra vấn đề trên thiết bị của bạn. Vui lòng cân nhắc trước khi bật tùy chọn.</value>
+    <value>Tùy chọn này sửa đổi các khóa registry của hệ thống và có thể gây ra vấn đề trên thiết bị của bạn. Vui lòng cân nhắc trước khi bật tùy chọn.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Tạo thư viện</value>
@@ -1925,9 +1889,6 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Loại</value>
-  </data>
-  <data name="IconGrid" xml:space="preserve">
-    <value>Lưới biểu tượng</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
@@ -1985,9 +1946,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Nhãn</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Giảm khoảng cách giữa các mục ở bố cục chi tiết</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Phổ thông</value>
@@ -2060,9 +2018,6 @@
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>Cột loại</value>
-  </data>
-  <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Các cột ở bố cục chi tiết</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Màn hình khóa</value>
@@ -2464,7 +2419,7 @@
     <value>Mở khoản mục bằng ứng dụng đã chọn</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Mở thư mục nguồn của khoản mục đã tìm kiếm</value>
+    <value>Mở thư mục nguồn của khoản mục đã tìm được</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
     <value>Làm mới nội dung trang</value>
@@ -2493,11 +2448,11 @@
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>Bỏ ghim mục khỏi menu Bắt đầu</value>
   </data>
-  <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Ghim thư mục vào Mục yêu thích</value>
+  <data name="PinFolderToSidebarDescription" xml:space="preserve">
+    <value>Ghim thư mục vào thanh bên</value>
   </data>
-  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Bỏ ghim thư mục khỏi Mục yêu thích</value>
+  <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
+    <value>Bỏ ghim thư mục khỏi thanh bên</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Đặt hình ảnh đã chọn làm hình nền màn hình chính</value>
@@ -2563,10 +2518,10 @@
     <value>Mở thư mục trong cửa sổ lệnh với quyền quản trị viên</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Giảm kích thước biểu tượng trong bố cục lưới</value>
+    <value>Giảm kích thước khoản mục trong bố cục hiện tại</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Tăng kích thước biểu tượng trong bố cục lưới</value>
+    <value>Tăng kích thước khoản mục trong bố cục hiện tại</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Chuyển sang bố cục chi tiết</value>
@@ -2580,14 +2535,11 @@
   <data name="List" xml:space="preserve">
     <value>Danh sách</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Chuyển sang bố cục lưới với biểu tượng nhỏ</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Lưới</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Chuyển sang bố cục lưới với biểu tượng vừa</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Chuyển sang bố cục lưới với biểu tượng lớn</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Chuyển sang bố cục lưới</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Chuyển sang bố cục dạng cột</value>
@@ -3695,9 +3647,73 @@
     <value>Chỉnh sửa quyền</value>
   </data>
   <data name="BackgroundRunningNotificationBody" xml:space="preserve">
-    <value>Files vẫn đang chạy trong nền để cải thiện tốc độ khởi động ứng dụng.</value>
+    <value>Files sẽ chạy trong nền để cải thiện tốc độ khởi động ứng dụng.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Files đang ở đâu?</value>
+    <value>Files đang chạy trong nền</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Câu hỏi &amp; thảo luận</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Các lựa chọn kích thước bổ sung hiện chưa khả dụng trong bố cục lát.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Thu gọn</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Nhỏ</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Vừa</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Vừa +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Vừa ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Vừa +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Vừa ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Vừa +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Lớn</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Lớn +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Lớn ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Lớn +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Rất lớn</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="DetailsView" xml:space="preserve">
+    <value>Bố cục chi tiết</value>
+  </data>
+  <data name="LayoutType" xml:space="preserve">
+    <value>Bố cục</value>
   </data>
 </root>

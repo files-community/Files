@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Items
@@ -50,10 +50,9 @@ namespace Files.App.Data.Items
 				Path,
 				Constants.ShellIconSizes.Small,
 				false,
-				false,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-			var bitmapImage = await result.IconData.ToBitmapAsync();
+			var bitmapImage = await result.ToBitmapAsync();
 			if (bitmapImage is not null)
 				Icon = bitmapImage;
 		}

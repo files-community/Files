@@ -1,11 +1,8 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.Shell;
 using Files.App.ViewModels.Dialogs;
-using Files.Shared;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
@@ -65,31 +62,13 @@ namespace Files.App.Utils.Library
 			librariesWatcher.EnableRaisingEvents = true;
 		}
 
-		public static bool IsDefaultLibrary(string libraryFilePath)
-		{
-			// TODO: try to find a better way for this
-			switch (Path.GetFileNameWithoutExtension(libraryFilePath))
-			{
-				case "CameraRoll":
-				case "Documents":
-				case "Music":
-				case "Pictures":
-				case "SavedPictures":
-				case "Videos":
-					return true;
-
-				default:
-					return false;
-			}
-		}
-
 		/// <summary>
 		/// Get libraries of the current user with the help of the FullTrust process.
 		/// </summary>
 		/// <returns>List of library items</returns>
 		public static async Task<List<LibraryLocationItem>> ListUserLibraries()
 		{
-			var libraries = await Win32API.StartSTATask(() =>
+			var libraries = await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{
@@ -156,7 +135,7 @@ namespace Files.App.Utils.Library
 			if (string.IsNullOrWhiteSpace(name) || !CanCreateLibrary(name).result)
 				return false;
 
-			var newLib = new LibraryLocationItem(await Win32API.StartSTATask(() =>
+			var newLib = new LibraryLocationItem(await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{
@@ -200,7 +179,7 @@ namespace Files.App.Utils.Library
 				// Nothing to update
 				return null;
 
-			var item = await Win32API.StartSTATask(() =>
+			var item = await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{

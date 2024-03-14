@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Input;
@@ -166,9 +166,11 @@ namespace Files.App.Views
 				{
 					_IsRightPaneVisible = value;
 					if (!_IsRightPaneVisible)
+					{
 						ActivePane = PaneLeft;
+						Pane_ContentChanged(null, null);
+					}
 
-					Pane_ContentChanged(null, null);
 					NotifyPropertyChanged(nameof(IsRightPaneVisible));
 					NotifyPropertyChanged(nameof(IsMultiPaneActive));
 				}

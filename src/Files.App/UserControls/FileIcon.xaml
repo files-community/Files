@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <UserControl
 	x:Class="Files.App.UserControls.FileIcon"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -42,14 +42,6 @@
 			VerticalAlignment="Stretch"
 			x:Load="{x:Bind ViewModel.LoadCustomIcon, Mode=OneWay}"
 			Source="{x:Bind CustomIconImageSource}" />
-
-		<FontIcon
-			x:Name="WebShortcutGlyph"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Stretch"
-			x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-			FontSize="{x:Bind ItemSize}"
-			Glyph="&#xE71B;" />
 
 		<Image
 			x:Name="ItemIcon"

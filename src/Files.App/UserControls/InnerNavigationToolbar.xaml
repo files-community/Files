@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <UserControl
 	x:Class="Files.App.UserControls.InnerNavigationToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -26,6 +26,11 @@
 			<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
 
 			<converters:GenericEnumConverter x:Key="GenericEnumConverter" />
+			<converters:EnumToHumanizedConverter x:Key="DetailsViewSizeKindEnumToHumanizedConverter" EnumTypeName="DetailsViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="ListViewSizeKindEnumToHumanizedConverter" EnumTypeName="ListViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="TilesViewSizeKindEnumToHumanizedConverter" EnumTypeName="TilesViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="GridViewSizeKindEnumToHumanizedConverter" EnumTypeName="GridViewSizeKind" />
+			<converters:EnumToHumanizedConverter x:Key="ColumnsViewSizeKindEnumToHumanizedConverter" EnumTypeName="ColumnsViewSizeKind" />
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="NegatedBoolToVisibilityConverter"
@@ -42,8 +47,8 @@
 				<Setter Target="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 				<Setter Target="VerticalContentAlignment" Value="Center" />
 				<Setter Target="HorizontalContentAlignment" Value="Center" />
-				<Setter Target="Width" Value="72" />
-				<Setter Target="Height" Value="68" />
+				<Setter Target="Width" Value="76" />
+				<Setter Target="Height" Value="72" />
 				<Setter Target="MinWidth" Value="0" />
 			</Style>
 		</ResourceDictionary>
@@ -58,11 +63,23 @@
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
+		<!--  Home page header  -->
+		<TextBlock
+			x:Name="HomePageHeaderTextBlock"
+			Grid.Column="0"
+			Margin="18,0,0,0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+			Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
+			Text="{helpers:ResourceString Name=Home}" />
+
 		<!--  Context Commands  -->
 		<CommandBar
 			x:Name="ContextCommandBar"
 			Grid.Column="0"
 			HorizontalAlignment="Left"
+			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
 			DefaultLabelPosition="Right">
 			<CommandBar.PrimaryCommands>
 
@@ -120,7 +137,7 @@
 				</AppBarButton>
 
 				<!--  (Divider)  -->
-				<AppBarSeparator />
+				<AppBarSeparator x:Name="PrimaryActionSeparator" />
 
 				<!--  Cut  -->
 				<AppBarButton
@@ -648,14 +665,14 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
-											Style="{x:Bind Commands.LayoutDetails.OpacityStyle}" />
+											Style="{StaticResource Icons.DetailsLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutDetails.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 
@@ -673,14 +690,14 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
-											Style="{x:Bind Commands.LayoutList.OpacityStyle}" />
+											Style="{StaticResource Icons.ListLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutList.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 
@@ -698,14 +715,14 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
-											Style="{x:Bind Commands.LayoutTiles.OpacityStyle}" />
+											Style="{StaticResource Icons.TilesLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutTiles.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 
@@ -723,14 +740,14 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
-											Style="{x:Bind Commands.LayoutGrid.OpacityStyle}" />
+											Style="{StaticResource Icons.GridLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutGrid.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 
@@ -748,14 +765,14 @@
 											Width="28"
 											Height="28"
 											IsSelected="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
-											Style="{x:Bind Commands.LayoutColumns.OpacityStyle}" />
+											Style="{StaticResource Icons.ColumnsLayout.28x28}" />
 
 										<TextBlock
 											HorizontalAlignment="Center"
 											FontSize="12"
-											MaxLines="2"
 											Text="{x:Bind Commands.LayoutColumns.Label}"
-											TextWrapping="Wrap" />
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 									</StackPanel>
 								</RadioButton>
 							</StackPanel>
@@ -770,60 +787,296 @@
 							<!--  Sizes  -->
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Size}" />
 							<Grid>
-								<!--  Details  -->
-								<Slider
-									x:Name="DetailsViewSlider"
-									x:Load="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
-									IsThumbToolTipEnabled="False"
-									Maximum="4"
-									Minimum="0"
-									SnapsTo="Ticks"
-									TickFrequency="1"
-									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
 
-								<!--  Tiles  -->
-								<Slider
-									x:Name="TilesViewSlider"
-									x:Load="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
-									IsEnabled="False"
-									IsThumbToolTipEnabled="False" />
+								<!--  Details  -->
+								<StackPanel
+									x:Name="DetailsView"
+									Spacing="4"
+									Visibility="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}">
+									<Slider
+										x:Name="DetailsViewSlider"
+										Padding="4,0,4,0"
+										Maximum="5"
+										Minimum="1"
+										SnapsTo="Ticks"
+										ThumbToolTipValueConverter="{StaticResource DetailsViewSizeKindEnumToHumanizedConverter}"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.DetailsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
+
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+
+										<local:OpacityIcon
+											Grid.Column="0"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesCompact.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="2"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesSmall.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="4"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesMedium.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="6"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesLarge.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="8"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesExtraLarge.28x28}" />
+									</Grid>
+								</StackPanel>
 
 								<!--  List  -->
-								<Slider
-									x:Name="ListViewSlider"
-									x:Load="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
-									IsThumbToolTipEnabled="False"
-									Maximum="4"
-									Minimum="0"
-									SnapsTo="Ticks"
-									TickFrequency="1"
-									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+								<StackPanel
+									x:Name="ListView"
+									Spacing="4"
+									Visibility="{x:Bind ViewModel.IsListLayout, Mode=OneWay}">
+									<Slider
+										x:Name="ListViewSlider"
+										Padding="4,0,4,0"
+										Maximum="5"
+										Minimum="1"
+										SnapsTo="Ticks"
+										ThumbToolTipValueConverter="{StaticResource ListViewSizeKindEnumToHumanizedConverter}"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.ListViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
+
+									<!--  List  -->
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+
+										<local:OpacityIcon
+											Grid.Column="0"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesCompact.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="2"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesSmall.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="4"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesMedium.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="6"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesLarge.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="8"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesExtraLarge.28x28}" />
+									</Grid>
+								</StackPanel>
+
+								<!--  Tiles  -->
+								<!--<Slider
+									x:Name="TilesViewSlider"
+									Padding="4,0,4,0"
+									Visibility="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
+									IsEnabled="False"
+									IsThumbToolTipEnabled="False" />-->
+								<StackPanel
+									x:Name="TilesViewSizeInfo"
+									HorizontalAlignment="Left"
+									Orientation="Horizontal"
+									Spacing="8"
+									Visibility="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}">
+									<FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE946;" />
+									<TextBlock MaxWidth="360" Text="{helpers:ResourceString Name=TilesViewSizeInfo}" />
+								</StackPanel>
 
 								<!--  Grid  -->
-								<Slider
-									x:Name="GridViewSlider"
-									IsThumbToolTipEnabled="False"
-									Maximum="11"
-									Minimum="0"
-									SnapsTo="Ticks"
-									TickFrequency="1"
-									TickPlacement="BottomRight"
-									Visibility="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11'}" />
+								<StackPanel
+									x:Name="GridView"
+									Spacing="4"
+									Visibility="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}">
+									<Slider
+										x:Name="GridViewSlider"
+										Padding="4,0,4,0"
+										Maximum="12"
+										Minimum="1"
+										SnapsTo="Ticks"
+										ThumbToolTipValueConverter="{StaticResource GridViewSizeKindEnumToHumanizedConverter}"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.GridViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11,12-12'}" />
+
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="28" />
+										</Grid.ColumnDefinitions>
+
+										<local:OpacityIcon
+											Grid.Column="0"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesSmall.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="2"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesMedium.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="14"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesLarge.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="22"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesExtraLarge.28x28}" />
+									</Grid>
+								</StackPanel>
 
 								<!--  Columns  -->
-								<Slider
-									x:Name="ColumnViewSlider"
-									x:Load="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
-									IsThumbToolTipEnabled="False"
-									Maximum="4"
-									Minimum="0"
-									SnapsTo="Ticks"
-									TickFrequency="1"
-									TickPlacement="BottomRight"
-									Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='0-0,1-1,2-2,3-3,4-4'}" />
+								<StackPanel
+									x:Name="ColumnsView"
+									Spacing="4"
+									Visibility="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}">
+									<Slider
+										x:Name="ColumnViewSlider"
+										Padding="4,0,4,0"
+										Maximum="5"
+										Minimum="1"
+										SnapsTo="Ticks"
+										ThumbToolTipValueConverter="{StaticResource ColumnsViewSizeKindEnumToHumanizedConverter}"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{x:Bind UserSettingsService.LayoutSettingsService.ColumnsViewSize, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='1-1,2-2,3-3,4-4,5-5'}" />
+
+									<Grid HorizontalAlignment="Stretch">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+
+										<local:OpacityIcon
+											Grid.Column="0"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeCompact, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesCompact.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="2"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeSmall, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesSmall.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="4"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeMedium, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesMedium.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="6"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeLarge, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesLarge.28x28}" />
+
+										<local:OpacityIcon
+											Grid.Column="8"
+											Width="28"
+											Height="28"
+											IsSelected="{x:Bind ViewModel.IsLayoutSizeExtraLarge, Mode=OneWay}"
+											Style="{StaticResource Icons.LayoutSizesExtraLarge.28x28}" />
+									</Grid>
+								</StackPanel>
+
 							</Grid>
 
 							<!--  (Divider)  -->

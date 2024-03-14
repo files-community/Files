@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
@@ -68,13 +68,6 @@ namespace Files.App.Utils
 		{
 			get => loadFileIcon;
 			set => SetProperty(ref loadFileIcon, value);
-		}
-
-		private bool loadWebShortcutGlyph;
-		public bool LoadWebShortcutGlyph
-		{
-			get => loadWebShortcutGlyph;
-			set => SetProperty(ref loadWebShortcutGlyph, value);
 		}
 
 		private bool loadCustomIcon;
@@ -176,7 +169,6 @@ namespace Files.App.Utils
 					{
 						LoadFileIcon = true;
 						NeedsPlaceholderGlyph = false;
-						LoadWebShortcutGlyph = false;
 					}
 				}
 			}
@@ -374,8 +366,8 @@ namespace Files.App.Utils
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
-		public virtual bool IsPythonFile => FileExtensionHelpers.IsPythonFile(ItemPath);
-		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
+		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
+		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevationRequired { get; set; }
 

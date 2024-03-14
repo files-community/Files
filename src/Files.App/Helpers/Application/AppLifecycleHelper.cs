@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Notifications;
@@ -186,6 +186,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
+					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
@@ -282,6 +283,7 @@ namespace Files.App.Helpers
 			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 			Debugger.Break();
 
+			// Save the current tab list in case it was overwriten by another instance
 			SaveSessionTabs();
 			App.Logger.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
 

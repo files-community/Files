@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Page
 	x:Class="Files.App.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -37,7 +37,7 @@
 
 
 			<MenuFlyout x:Key="SidebarContextMenu">
-				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowPinnedFoldersSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Pinned}" />
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Drives}" />
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />

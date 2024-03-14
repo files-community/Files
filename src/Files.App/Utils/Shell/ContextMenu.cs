@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Drawing;
@@ -60,7 +60,7 @@ namespace Files.App.Utils.Shell
 
 			try
 			{
-				var currentWindows = Win32API.GetDesktopWindows();
+				var currentWindows = Win32Helper.GetDesktopWindows();
 
 				var pici = new Shell32.CMINVOKECOMMANDINFOEX
 				{
@@ -71,7 +71,7 @@ namespace Files.App.Utils.Shell
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
 				await _owningThread.PostMethod(() => _cMenu.InvokeCommand(pici));
-				Win32API.BringToForeground(currentWindows);
+				Win32Helper.BringToForeground(currentWindows);
 
 				return true;
 			}
@@ -90,7 +90,7 @@ namespace Files.App.Utils.Shell
 
 			try
 			{
-				var currentWindows = Win32API.GetDesktopWindows();
+				var currentWindows = Win32Helper.GetDesktopWindows();
 				var pici = new Shell32.CMINVOKECOMMANDINFOEX
 				{
 					lpVerb = Macros.MAKEINTRESOURCE(itemID),
@@ -100,7 +100,7 @@ namespace Files.App.Utils.Shell
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
 				await _owningThread.PostMethod(() => _cMenu.InvokeCommand(pici));
-				Win32API.BringToForeground(currentWindows);
+				Win32Helper.BringToForeground(currentWindows);
 
 				return true;
 			}
@@ -232,7 +232,7 @@ namespace Files.App.Utils.Shell
 
 					if (menuItemInfo.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)menuItemInfo.hbmpItem).ToInt64()))
 					{
-						using var bitmap = Win32API.GetBitmapFromHBitmap(menuItemInfo.hbmpItem);
+						using var bitmap = Win32Helper.GetBitmapFromHBitmap(menuItemInfo.hbmpItem);
 
 						if (bitmap is not null)
 						{

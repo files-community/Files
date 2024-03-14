@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
@@ -18,14 +18,10 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidget : BaseWidgetViewModel, IWidgetViewModel
 	{
+		public FileTagsWidgetViewModel ViewModel { get; set; }
+
 		private readonly IUserSettingsService userSettingsService;
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-
-		public FileTagsWidgetViewModel ViewModel
-		{
-			get => (FileTagsWidgetViewModel)DataContext;
-			set => DataContext = value;
-		}
 
 		public IShellPage AppInstance;
 
@@ -59,8 +55,8 @@ namespace Files.App.UserControls.Widgets
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(OpenFileLocation);
 			OpenInNewPaneCommand = new RelayCommand<WidgetCardItem>(OpenInNewPane);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
+			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(PinToSidebarAsync);
+			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromSidebarAsync);
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
 		}
 
@@ -140,7 +136,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
 			// Load shell menu items
-			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout, null, true, true);
 
 			e.Handled = true;
 		}
@@ -204,23 +200,23 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "PinToFavorites".GetLocalizedResource(),
+					Text = "PinFolderToSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
+						OpacityIconStyle = "Icons.Pin.16x16",
 					},
-					Command = PinToFavoritesCommand,
+					Command = PinToSidebarCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned && isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+						OpacityIconStyle = "Icons.Unpin.16x16",
 					},
-					Command = UnpinFromFavoritesCommand,
+					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned && isFolder
 				},

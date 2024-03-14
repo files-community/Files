@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ContentDialog
 	x:Class="Files.App.Dialogs.ReorderSidebarItemsDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -19,7 +19,7 @@
 	mc:Ignorable="d">
 
 	<Grid x:Name="DestinationPathGrid">
-		<ListView x:Name="SidebarNavView" ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
+		<ListView x:Name="SidebarNavView" ItemsSource="{x:Bind ViewModel.SidebarPinnedFolderItems, Mode=OneWay}">
 
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="dataitems:LocationItem">

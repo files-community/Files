@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "LayoutDetailsDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconDetailsLayout");
+			=> new(opacityStyle: "Icons.DetailsLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 			=> "LayoutListDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconListLayout");
+			=> new(opacityStyle: "Icons.ListLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
@@ -51,7 +51,7 @@ namespace Files.App.Actions
 			=> "LayoutTilesDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconTilesLayout");
+			=> new(opacityStyle: "Icons.TilesLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
@@ -66,10 +66,10 @@ namespace Files.App.Actions
 			=> "Grid".GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutGridescription".GetLocalizedResource();
+			=> "LayoutGridDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconGridLayout");
+			=> new(opacityStyle: "Icons.GridLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
@@ -87,7 +87,7 @@ namespace Files.App.Actions
 			=> "LayoutColumnsDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconColumnsLayout");
+			=> new(opacityStyle: "Icons.ColumnsLayout.16x16");
 
 		public override HotKey HotKey
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);
@@ -111,7 +111,7 @@ namespace Files.App.Actions
 			=> new("\uF576");
 
 		public override HotKey HotKey
-			=> new(Keys.Number8, KeyModifiers.CtrlShift);
+			=> new(Keys.Number6, KeyModifiers.CtrlShift);
 
 		protected override void OnContextChanged(string propertyName)
 		{
@@ -190,7 +190,7 @@ namespace Files.App.Actions
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
 			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact) ||
 			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Compact) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small) ||
 			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact));
 
 		public LayoutDecreaseSizeAction()
@@ -248,7 +248,7 @@ namespace Files.App.Actions
 				case LayoutTypes.Tiles:
 					break;
 				case LayoutTypes.Grid:
-					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Compact)
+					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small)
 						UserSettingsService.LayoutSettingsService.GridViewSize -= 1;
 					break;
 				case LayoutTypes.Columns:
@@ -283,7 +283,7 @@ namespace Files.App.Actions
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
 			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
 			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.Eleven) ||
+			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge) ||
 			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge));
 
 		public LayoutIncreaseSizeAction()
@@ -341,7 +341,7 @@ namespace Files.App.Actions
 				case LayoutTypes.Tiles:
 					break;
 				case LayoutTypes.Grid:
-					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.Eleven)
+					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge)
 						UserSettingsService.LayoutSettingsService.GridViewSize += 1;
 					break;
 				case LayoutTypes.Columns:

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Commands
@@ -58,8 +58,8 @@ namespace Files.App.Data.Commands
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }
-		IRichCommand PinItemToFavorites { get; }
-		IRichCommand UnpinItemFromFavorites { get; }
+		IRichCommand PinFolderToSidebar { get; }
+		IRichCommand UnpinFolderFromSidebar { get; }
 
 		IRichCommand SetAsWallpaperBackground { get; }
 		IRichCommand SetAsSlideshowBackground { get; }

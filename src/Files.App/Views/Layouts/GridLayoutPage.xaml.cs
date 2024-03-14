@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -27,6 +27,8 @@ namespace Files.App.Views.Layouts
 		private volatile bool shouldSetVerticalScrollMode;
 
 		// Properties
+
+		public ScrollViewer? ContentScroller { get; private set; }
 
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
@@ -147,7 +149,9 @@ namespace Files.App.Views.Layouts
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			// TODO keep scroll position when changing styles (see details view)
+			// Get current scroll position
+			var previousHorizontalOffset = ContentScroller?.HorizontalOffset;
+			var previousVerticalOffset = ContentScroller?.VerticalOffset;
 
 			if (e.PropertyName == nameof(ILayoutSettingsService.ListViewSize))
 			{
@@ -175,6 +179,9 @@ namespace Files.App.Views.Layouts
 
 				FolderSettings_IconHeightChanged();
 			}
+
+			// Restore correct scroll position
+			ContentScroller?.ChangeView(previousHorizontalOffset, previousVerticalOffset, null);
 		}
 
 		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -247,6 +254,11 @@ namespace Files.App.Views.Layouts
 				// Set correct style
 				FileList.ItemContainerStyle = DefaultItemContainerStyle;
 			}
+		}
+
+		private void FileList_Loaded(object sender, RoutedEventArgs e)
+		{
+			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
 		}
 
 		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -427,7 +439,7 @@ namespace Files.App.Views.Layouts
 					foreach (ListedItem? folder in folders)
 					{
 						if (folder is not null)
-							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath, false);
 					}
 				}
 				else if (ctrlPressed && shiftPressed)

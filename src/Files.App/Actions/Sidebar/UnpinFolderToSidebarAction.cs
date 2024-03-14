@@ -1,30 +1,26 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
-
-using Files.App.Services;
-using Files.App.UserControls.Widgets;
 
 namespace Files.App.Actions
 {
-	internal class UnpinItemAction : ObservableObject, IAction
+	internal sealed class UnpinFolderFromSidebarAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
-
 		private readonly IQuickAccessService service;
 
 		public string Label
-			=> "UnpinFromFavorites".GetLocalizedResource();
+			=> "UnpinFolderFromSidebar".GetLocalizedResource();
 
 		public string Description
-			=> "UnpinItemFromFavoritesDescription".GetLocalizedResource();
+			=> "UnpinFolderFromSidebarDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconUnpinFromFavorites");
+			=> new(opacityStyle: "Icons.Unpin.16x16");
 
 		public bool IsExecutable
 			=> GetIsExecutable();
 
-		public UnpinItemAction()
+		public UnpinFolderFromSidebarAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -48,7 +44,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
+			string[] pinnedFolders = App.QuickAccessManager.Model.PinnedFolders.ToArray();
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinned)
@@ -56,7 +52,7 @@ namespace Files.App.Actions
 
 			bool IsPinned(ListedItem item)
 			{
-				return favorites.Contains(item.ItemPath);
+				return pinnedFolders.Contains(item.ItemPath);
 			}
 		}
 

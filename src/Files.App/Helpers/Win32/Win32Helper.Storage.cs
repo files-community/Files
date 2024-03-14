@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -12,12 +12,12 @@ using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
 
-namespace Files.App.Utils.Shell
+namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Provides static helper for general Win32API.
+	/// Provides static helper for Win32.
 	/// </summary>
-	internal class Win32API
+	public static partial class Win32Helper
 	{
 		public static Task StartSTATask(Func<Task> func)
 		{
@@ -276,26 +276,20 @@ namespace Files.App.Utils.Shell
 		private static readonly object _iconLock = new object();
 
 		/// <summary>
-		/// Returns an icon when a thumbnail isn't available or if getIconOnly is true.
-		/// <br/>
-		/// Returns an icon overlay when getOverlay is true.
-		/// <br/>
-		/// Returns a boolean indicating if the icon/thumbnail is cached.
+		/// Returns an icon if returnIconOnly is true, otherwise a thumbnail will be returned if available.
 		/// </summary>
 		/// <param name="path"></param>
-		/// <param name="thumbnailSize"></param>
+		/// <param name="size"></param>
 		/// <param name="isFolder"></param>
-		/// <param name="getIconOnly"></param>
+		/// <param name="iconOptions"></param>
 		/// <returns></returns>
-		public static (byte[]? icon, bool isIconCached) GetIcon(
+		public static byte[]? GetIcon(
 			string path,
-			int thumbnailSize,
+			int size,
 			bool isFolder,
-			bool getThumbnailOnly,
-			bool getIconOnly)
+			IconOptions iconOptions)
 		{
 			byte[]? iconData = null;
-			bool isIconCached = false;
 
 			try
 			{
@@ -307,26 +301,28 @@ namespace Files.App.Utils.Shell
 				{
 					var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
 
-					if (getIconOnly)
+					if (iconOptions.HasFlag(IconOptions.ReturnIconOnly))
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-					else if (getThumbnailOnly)
+
+					if (iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
 						flags |= Shell32.SIIGBF.SIIGBF_THUMBNAILONLY;
 
-					var hres = shellFactory.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
+					if (iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
+						flags |= Shell32.SIIGBF.SIIGBF_INCACHEONLY;
+
+					var hres = shellFactory.GetImage(new SIZE(size, size), flags, out var hbitmap);
 					if (hres == HRESULT.S_OK)
 					{
 						using var image = GetBitmapFromHBitmap(hbitmap);
 						if (image is not null)
 							iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-
-						isIconCached = true;
 					}
 
 					Marshal.ReleaseComObject(shellFactory);
 				}
 
-				if (iconData is not null)
-					return (iconData, isIconCached);			
+				if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
+					return iconData;			
 				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
@@ -337,11 +333,11 @@ namespace Files.App.Utils.Shell
 
 					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
 					if (ret == IntPtr.Zero)
-						return (iconData, isIconCached);
+						return iconData;
 
 					User32.DestroyIcon(shfi.hIcon);
 
-					var imageListSize = thumbnailSize switch
+					var imageListSize = size switch
 					{
 						<= 16 => Shell32.SHIL.SHIL_SMALL,
 						<= 32 => Shell32.SHIL.SHIL_LARGE,
@@ -352,7 +348,7 @@ namespace Files.App.Utils.Shell
 					lock (_iconLock)
 					{
 						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
-							return (iconData, isIconCached);
+							return iconData;
 
 						var imageList = (ComCtl32.IImageList)imageListOut;
 
@@ -375,14 +371,14 @@ namespace Files.App.Utils.Shell
 							else if (isFolder)
 							{
 								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, size);
 								var generic = icons.SingleOrDefault(x => x.Index == 2);
 								iconData = generic?.IconData;
 							}
 							else
 							{
 								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, size);
 								var generic = icons.SingleOrDefault(x => x.Index == 1);
 								iconData = generic?.IconData;
 							}
@@ -391,7 +387,7 @@ namespace Files.App.Utils.Shell
 						Marshal.ReleaseComObject(imageList);
 					}
 
-					return (iconData, isIconCached);
+					return iconData;
 				}
 			}
 			finally

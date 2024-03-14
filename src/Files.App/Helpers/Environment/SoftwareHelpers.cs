@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Win32;
@@ -29,32 +29,6 @@ namespace Files.App.Helpers
 			key.Close();
 
 			return true;
-		}
-
-		public static bool IsPythonInstalled()
-		{
-			try
-			{
-				ProcessStartInfo psi = new ProcessStartInfo();
-				psi.FileName = "python";
-				psi.Arguments = "--version";
-				psi.RedirectStandardOutput = true;
-				psi.UseShellExecute = false;
-				psi.CreateNoWindow = true;
-
-				using (Process process = Process.Start(psi))
-				{
-					using (StreamReader reader = process.StandardOutput)
-					{
-						string result = reader.ReadToEnd();
-						return result.Contains("Python");
-					}
-				}
-			}
-			catch
-			{
-				return false;
-			}
 		}
 
 		private static bool ContainsName(RegistryKey? key, string find)

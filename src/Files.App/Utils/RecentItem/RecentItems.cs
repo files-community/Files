@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -103,7 +103,7 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFilesAsync()
 		{
-			return (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
+			return (await Win32Helper.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
 				.Where(link => !link.IsFolder)
 				.Select(link => new RecentItem(link)).ToList();
 		}

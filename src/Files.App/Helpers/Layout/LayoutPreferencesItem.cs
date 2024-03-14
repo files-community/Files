@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Helpers
@@ -33,49 +33,49 @@ namespace Files.App.Helpers
 
 		public LayoutPreferencesItem()
 		{
-			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
+			var defaultLayout = UserSettingsService.LayoutSettingsService.DefaultLayoutMode;
 
 			LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
-			DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultSortOption;
-			DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
-			DirectorySortDirection = UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
-			DirectoryGroupDirection = UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection;
-			DirectoryGroupByDateUnit = UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit;
-			SortDirectoriesAlongsideFiles = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
-			SortFilesFirst = UserSettingsService.FoldersSettingsService.DefaultSortFilesFirst;
+			DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultSortOption;
+			DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultGroupOption;
+			DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
+			DirectoryGroupDirection = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection;
+			DirectoryGroupByDateUnit = UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
+			SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			SortFilesFirst = UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst;
 			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
 			ColumnsViewModel = new ColumnsViewModel();
-			ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
-			ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateColumn;
-			ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowTypeColumn;
-			ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowSizeColumn;
-			ColumnsViewModel.GitStatusColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitStatusColumn;
-			ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn;
-			ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn;
-			ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn;
-			ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn;
-			ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowFileTagColumn;
-			ColumnsViewModel.DateDeletedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateDeletedColumn;
-			ColumnsViewModel.PathColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowPathColumn;
-			ColumnsViewModel.OriginalPathColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowOriginalPathColumn;
-			ColumnsViewModel.StatusColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowSyncStatusColumn;
+			ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
+			ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateColumn;
+			ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowTypeColumn;
+			ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSizeColumn;
+			ColumnsViewModel.GitStatusColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitStatusColumn;
+			ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitLastCommitDateColumn;
+			ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitLastCommitMessageColumn;
+			ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitCommitAuthorColumn;
+			ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowGitLastCommitShaColumn;
+			ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
+			ColumnsViewModel.DateDeletedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateDeletedColumn;
+			ColumnsViewModel.PathColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowPathColumn;
+			ColumnsViewModel.OriginalPathColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowOriginalPathColumn;
+			ColumnsViewModel.StatusColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSyncStatusColumn;
 
-			ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.NameColumnWidth;
-			ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateModifiedColumnWidth;
-			ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
-			ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TypeColumnWidth;
-			ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SizeColumnWidth;
-			ColumnsViewModel.GitStatusColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitStatusColumnWidth;
-			ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth;
-			ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth;
-			ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth;
-			ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth;
-			ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TagColumnWidth;
-			ColumnsViewModel.DateDeletedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
-			ColumnsViewModel.PathColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.PathColumnWidth;
-			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.OriginalPathColumnWidth;
-			ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SyncStatusColumnWidth;
+			ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.NameColumnWidth;
+			ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateModifiedColumnWidth;
+			ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateCreatedColumnWidth;
+			ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.TypeColumnWidth;
+			ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SizeColumnWidth;
+			ColumnsViewModel.GitStatusColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitStatusColumnWidth;
+			ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitLastCommitDateColumnWidth;
+			ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitLastCommitMessageColumnWidth;
+			ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitCommitAuthorColumnWidth;
+			ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.GitLastCommitShaColumnWidth;
+			ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.TagColumnWidth;
+			ColumnsViewModel.DateDeletedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateDeletedColumnWidth;
+			ColumnsViewModel.PathColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.PathColumnWidth;
+			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth;
+			ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth;
 		}
 
 		// Overridden methods

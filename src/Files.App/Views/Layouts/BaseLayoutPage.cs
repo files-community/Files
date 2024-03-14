@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -1026,7 +1026,7 @@ namespace Files.App.Views.Layouts
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
 
-						if (item.IsExecutable || item.IsPythonFile)
+						if (item.IsExecutable || item.IsScriptFile)
 						{
 							e.DragUIOverride.Caption = $"{"OpenWith".GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
@@ -1104,7 +1104,7 @@ namespace Files.App.Views.Layouts
 
 			var item = GetItemFromElement(sender);
 			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsPythonFile);
+				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
 
 			deferral.Complete();
 		}
@@ -1253,7 +1253,7 @@ namespace Files.App.Views.Layouts
 			UninitializeDrag(container);
 			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath))
 				|| item.IsExecutable
-				|| item.IsPythonFile)
+				|| item.IsScriptFile)
 			{
 				container.AllowDrop = true;
 				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);

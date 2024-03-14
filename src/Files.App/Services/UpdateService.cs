@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
@@ -109,8 +109,11 @@ namespace Files.App.Services
 
 		private async Task DownloadAndInstallAsync()
 		{
+			// Save the updated tab list before installing the update
 			AppLifecycleHelper.SaveSessionTabs();
+
 			App.AppModel.ForceProcessTermination = true;
+
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 			var result = await downloadOperation.AsTask();
 

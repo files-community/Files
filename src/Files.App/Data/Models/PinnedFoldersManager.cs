@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Specialized;
@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Files.App.Data.Models
 {
-	public class SidebarPinnedModel
+	public class PinnedFoldersManager
 	{
 		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -16,17 +16,17 @@ namespace Files.App.Data.Models
 
 		private readonly SemaphoreSlim addSyncSemaphore = new(1, 1);
 
-		public List<string> FavoriteItems { get; set; } = new List<string>();
+		public List<string> PinnedFolders { get; set; } = [];
 
-		public readonly List<INavigationControlItem> favoriteList = new();
+		public readonly List<INavigationControlItem> _PinnedFolderItems = [];
 
 		[JsonIgnore]
-		public IReadOnlyList<INavigationControlItem> Favorites
+		public IReadOnlyList<INavigationControlItem> PinnedFolderItems
 		{
 			get
 			{
-				lock (favoriteList)
-					return favoriteList.ToList().AsReadOnly();
+				lock (_PinnedFolderItems)
+					return _PinnedFolderItems.ToList().AsReadOnly();
 			}
 		}
 
@@ -39,7 +39,7 @@ namespace Files.App.Data.Models
 
 			try
 			{
-				FavoriteItems = (await QuickAccessService.GetPinnedFoldersAsync())
+				PinnedFolders = (await QuickAccessService.GetPinnedFoldersAsync())
 					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
 					.Select(link => link.FilePath).ToList();
 				RemoveStaleSidebarItems();
@@ -58,9 +58,9 @@ namespace Files.App.Data.Models
 		/// <returns>Index of the item</returns>
 		public int IndexOfItem(INavigationControlItem locationItem)
 		{
-			lock (favoriteList)
+			lock (_PinnedFolderItems)
 			{
-				return favoriteList.FindIndex(x => x.Path == locationItem.Path);
+				return _PinnedFolderItems.FindIndex(x => x.Path == locationItem.Path);
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace Files.App.Data.Models
 			}
 
 			locationItem.Path = path;
-			locationItem.Section = SectionType.Favorites;
+			locationItem.Section = SectionType.Pinned;
 			locationItem.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
@@ -104,10 +104,9 @@ namespace Files.App.Data.Models
 						res.Result.Path,
 						Constants.ShellIconSizes.Small,
 						true,
-						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-					locationItem.IconData = result.IconData;
+					locationItem.IconData = result;
 
 					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					if (bitmapImage is not null)
@@ -143,17 +142,17 @@ namespace Files.App.Data.Models
 		private void AddLocationItemToSidebar(LocationItem locationItem)
 		{
 			int insertIndex = -1;
-			lock (favoriteList)
+			lock (_PinnedFolderItems)
 			{
-				if (favoriteList.Any(x => x.Path == locationItem.Path))
+				if (_PinnedFolderItems.Any(x => x.Path == locationItem.Path))
 					return;
 
-				var lastItem = favoriteList.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
-				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
-				favoriteList.Insert(insertIndex, locationItem);
+				var lastItem = _PinnedFolderItems.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
+				insertIndex = lastItem is not null ? _PinnedFolderItems.IndexOf(lastItem) + 1 : 0;
+				_PinnedFolderItems.Insert(insertIndex, locationItem);
 			}
 
-			DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
+			DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
 		/// <summary>
@@ -161,8 +160,8 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public async Task AddAllItemsToSidebarAsync()
 		{
-			if (userSettingsService.GeneralSettingsService.ShowFavoritesSection)
-				foreach (string path in FavoriteItems)
+			if (userSettingsService.GeneralSettingsService.ShowPinnedSection)
+				foreach (string path in PinnedFolders)
 					await AddItemToSidebarAsync(path);
 		}
 
@@ -171,21 +170,21 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public void RemoveStaleSidebarItems()
 		{
-			// Remove unpinned items from favoriteList
-			foreach (var childItem in Favorites)
+			// Remove unpinned items from PinnedFolderItems
+			foreach (var childItem in PinnedFolderItems)
 			{
-				if (childItem is LocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+				if (childItem is LocationItem item && !item.IsDefaultLocation && !PinnedFolders.Contains(item.Path))
 				{
-					lock (favoriteList)
+					lock (_PinnedFolderItems)
 					{
-						favoriteList.Remove(item);
+						_PinnedFolderItems.Remove(item);
 					}
-					DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+					DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 
 			// Remove unpinned items from sidebar
-			DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)

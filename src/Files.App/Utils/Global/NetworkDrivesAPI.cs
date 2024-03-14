@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Extensions;
@@ -117,11 +117,11 @@ namespace Files.App.Utils
 
 		public static Task<bool> OpenMapNetworkDriveDialog(long hwnd)
 		{
-			return Win32API.StartSTATask(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
 				ncd.HideRestoreConnectionCheckBox = false;
-				return ncd.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == System.Windows.Forms.DialogResult.OK;
+				return ncd.ShowDialog(Win32Helper.Win32Window.FromLong(hwnd)) == System.Windows.Forms.DialogResult.OK;
 			});
 		}
 
@@ -135,7 +135,7 @@ namespace Files.App.Utils
 
 			Win32Error connectionError = WNetAddConnection3(HWND.NULL, nr, null, null, 0);  // if creds are saved, this will return NO_ERROR
 
-			if (connectionError == Win32Error.ERROR_LOGON_FAILURE)
+			if (connectionError == Win32Error.ERROR_LOGON_FAILURE || connectionError == Win32Error.ERROR_ACCESS_DENIED)
 			{
 				var dialog = DynamicDialogFactory.GetFor_CredentialEntryDialog(path);
 				await dialog.ShowAsync();

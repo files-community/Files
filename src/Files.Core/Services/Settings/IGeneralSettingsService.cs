@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Data.Enums;
@@ -107,7 +107,7 @@ namespace Files.Core.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating if the favorites section should be visible.
 		/// </summary>
-		bool ShowFavoritesSection { get; set; }
+		bool ShowPinnedSection { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the library section should be visible.

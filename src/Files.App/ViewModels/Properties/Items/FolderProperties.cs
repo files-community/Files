@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 					{
 						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
-							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath))));
+							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath)), true));
 					},
 					() =>
 					{
@@ -78,12 +78,11 @@ namespace Files.App.ViewModels.Properties
 				Item.ItemPath,
 				Constants.ShellIconSizes.ExtraLarge,
 				true,
-				false,
 				IconOptions.UseCurrentScale);
 			
-			if (result.IconData is not null)
+			if (result is not null)
 			{
-				ViewModel.IconData = result.IconData;
+				ViewModel.IconData = result;
 				ViewModel.LoadFolderGlyph = false;
 				ViewModel.LoadFileIcon = true;
 			}
@@ -124,7 +123,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var recycleBinQuery = Win32Shell.QueryRecycleBin();
+				var recycleBinQuery = Win32Helper.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)
 				{
 					ViewModel.ItemSizeBytes = binSize;

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
@@ -208,6 +208,7 @@ namespace Files.App
 				return;
 			}
 
+			// Save the current tab list in case it was overwriten by another instance
 			AppLifecycleHelper.SaveSessionTabs();
 
 			// Continue running the app on the background

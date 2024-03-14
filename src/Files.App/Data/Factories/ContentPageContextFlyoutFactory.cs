@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
@@ -99,8 +99,8 @@ namespace Files.App.Data.Factories
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LayoutMode".GetLocalizedResource(),
-					Glyph = "\uE152",
+					Text = "Layout".GetLocalizedResource(),
+					Glyph = "\uE8A9",
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
@@ -379,10 +379,11 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenWith"
-					},
+					// TODO add back icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+					//OpacityIcon = new OpacityIconModel()
+					//{
+					//	OpacityIconStyle = "ColorIconOpenWith"
+					//},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
@@ -484,13 +485,13 @@ namespace Files.App.Data.Factories
 					IsVisible = Commands.OpenProperties.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenParentFolder).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinItemToFavorites)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinFolderToSidebar)
 				{
-					IsVisible = Commands.PinItemToFavorites.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
+					IsVisible = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinItemFromFavorites)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.UnpinFolderFromSidebar)
 				{
-					IsVisible = Commands.UnpinItemFromFavorites.IsExecutable && UserSettingsService.GeneralSettingsService.ShowFavoritesSection,
+					IsVisible = Commands.UnpinFolderFromSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinToStart)
 				{

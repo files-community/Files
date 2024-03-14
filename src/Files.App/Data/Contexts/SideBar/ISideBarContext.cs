@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Contexts
@@ -19,9 +19,9 @@ namespace Files.App.Data.Contexts
 		bool IsItemRightClicked { get; }
 
 		/// <summary>
-		/// Gets the value that indicates whether right clicked item is a favorite item
+		/// Gets the value that indicates whether right clicked item is a pinned folder item
 		/// </summary>
-		bool IsFavoriteItem { get; }
+		bool IsPinnedFolderItem { get; }
 
 		/// <summary>
 		/// Gets the drive item to open if any

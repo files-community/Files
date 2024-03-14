@@ -184,7 +184,7 @@
     <value>搜索</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>以前访问过的文件和文件夹将显示在此处</value>
+    <value>将在此显示访问过的文件(夹)</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>移除此项</value>
@@ -208,7 +208,7 @@
     <value>显示已知文件类型的扩展名</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>显示隐藏的文件和文件夹</value>
+    <value>显示隐藏的文件(夹)</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>显示仅有扩展名的项</value>
@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="PinToFavorites" xml:space="preserve">
-    <value>固定到收藏夹</value>
+  <data name="PinFolderToSidebar" xml:space="preserve">
+    <value>固定到侧边栏</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>欢迎使用 Files！</value>
@@ -638,9 +638,6 @@
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>创建空文件夹</value>
-  </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>布局模式</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>刷新目录</value>
@@ -1021,7 +1018,7 @@
     <value>显示“复制路径”选项</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>显示“用选中项创建文件夹”选项</value>
+    <value>显示“用选中的项目创建文件夹”选项</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
     <value>显示“创建快捷方式”选项</value>
@@ -1032,20 +1029,11 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>在新面板中打开</value>
   </data>
-  <data name="Folders" xml:space="preserve">
-    <value>文件夹</value>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Files &amp; folders</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>详细信息 (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>大图标 (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>中图标 (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>小图标 (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>平铺 (Ctrl+Shift+2)</value>
@@ -1083,8 +1071,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>项目名称</value>
   </data>
-  <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>从收藏夹取消固定</value>
+  <data name="UnpinFolderFromSidebar" xml:space="preserve">
+    <value>从侧边栏取消固定</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>网络驱动器</value>
@@ -1170,8 +1158,8 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>映射网络驱动器</value>
   </data>
-  <data name="SidebarFavorites" xml:space="preserve">
-    <value>收藏夹</value>
+  <data name="Pinned" xml:space="preserve">
+    <value>已固定</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>库</value>
@@ -1198,7 +1186,7 @@
     <value>要以管理员身份继续吗？</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>列视图 (Ctrl+Shift+6)</value>
+    <value>列 (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>固定到开始菜单</value>
@@ -1240,10 +1228,10 @@
     <value>{0} 项将被复制</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>复制项</value>
+    <value>复制项目</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>删除项</value>
+    <value>删除项目</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>移动</value>
@@ -1252,7 +1240,7 @@
     <value>将移动 {0} 个项目</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>移动项</value>
+    <value>移动项目</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>将删除 {0} 个项目</value>
@@ -1297,7 +1285,7 @@
     <value>有一个冲突的文件名。</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>用选中项创建文件夹</value>
+    <value>用选中的项目创建文件夹</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>类型:</value>
@@ -1662,15 +1650,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1736,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>列视图</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>大图标</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>中等图标</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>小图标</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>平铺</value>
@@ -1827,65 +1797,59 @@
   <data name="None" xml:space="preserve">
     <value>无</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+  <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
     <value>登录到 Windows 时</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+  <data name="CompatibilityOnProgramStart" xml:space="preserve">
     <value>打开此程序时</value>
   </data>
-  <data name="HighDpiOverride_System" xml:space="preserve">
+  <data name="System" xml:space="preserve">
     <value>系统</value>
   </data>
-  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+  <data name="CompatibilitySystemEnhanced" xml:space="preserve">
     <value>系统 (增强)</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
-    <value>Windows 7</value>
-  </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
-    <value>Windows 8</value>
-  </data>
-  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
-  </data>
-  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+  <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
     <value>16 位 (65536) 色</value>
   </data>
-  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+  <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
     <value>8 位 (256) 色</value>
   </data>
-  <data name="CompatibilityMode" xml:space="preserve">
-    <value>兼容模式</value>
-  </data>
-  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+  <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
     <value>禁用全屏优化</value>
   </data>
-  <data name="ExecuteAt640X480" xml:space="preserve">
+  <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
     <value>用 640 x 480 屏幕分辨率运行</value>
   </data>
-  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+  <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
     <value>替代高 DPI 缩放行为</value>
   </data>
-  <data name="ReducedColorMode" xml:space="preserve">
+  <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>简化的颜色模式</value>
   </data>
-  <data name="RegisterForRestart" xml:space="preserve">
-    <value>注册此程序以便重新启动它</value>
+  <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
+    <value>注册此程序以重新启动</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>以管理员身份运行</value>
   </data>
-  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+  <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
     <value>运行兼容性疑难解答</value>
   </data>
-  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+  <data name="CompatibilityUseDPISettings" xml:space="preserve">
     <value>使用主显示器的 DPI 设置</value>
+  </data>
+  <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
+    <value>不调整 DPI</value>
+  </data>
+  <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
+    <value>不覆盖 DPI</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>兼容模式</value>
+  </data>
+  <data name="CompatibilityNoReducedColor" xml:space="preserve">
+    <value>不使用简化的颜色</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>第三方许可</value>
@@ -1925,9 +1889,6 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>类型</value>
-  </data>
-  <data name="IconGrid" xml:space="preserve">
-    <value>图标网格</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>字节</value>
@@ -1985,9 +1946,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>标签</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>在详细信息布局中使用紧凑间距</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>通用</value>
@@ -2061,14 +2019,11 @@
   <data name="TypeColumn" xml:space="preserve">
     <value>“类型”列</value>
   </data>
-  <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>“详细信息”布局下要显示的列</value>
-  </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>锁屏界面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>在“列视图”布局下，通过单击打开文件夹</value>
+    <value>在“列”布局下，通过单击打开文件夹</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>打开项目</value>
@@ -2077,7 +2032,7 @@
     <value>压缩</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>鼠标在项目上悬停时自动选择</value>
+    <value>鼠标悬停时自动选择文件(夹)</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>是否确实要还原回收站中的所有项目？</value>
@@ -2434,7 +2389,7 @@
     <value>将剪贴板中的项目粘贴到所选文件夹</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>删除项</value>
+    <value>删除项目</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>创建新文件夹</value>
@@ -2493,11 +2448,11 @@
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>从开始菜单取消固定项目</value>
   </data>
-  <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>在收藏夹中置顶文件夹</value>
+  <data name="PinFolderToSidebarDescription" xml:space="preserve">
+    <value>固定文件夹至侧边栏</value>
   </data>
-  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>从收藏夹中取消置顶文件夹</value>
+  <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
+    <value>从侧边栏取消固定文件夹</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>设置所选图片为桌面背景</value>
@@ -2563,10 +2518,10 @@
     <value>以管理员身份在终端中打开文件夹</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>缩小网格视图图标</value>
+    <value>减小当前视图中项目的大小</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>增大网格视图的图标</value>
+    <value>增加当前视图中项目的大小</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>切换至详细信息视图</value>
@@ -2580,14 +2535,11 @@
   <data name="List" xml:space="preserve">
     <value>列表</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>切换至小图标网格视图</value>
+  <data name="Grid" xml:space="preserve">
+    <value>网格</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>切换至中等图标网格视图</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>切换至大图标网格视图</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>切换到网格视图</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>切换至列视图</value>
@@ -3699,5 +3651,69 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Files 到哪里去了？</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>问题和讨论</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>平铺视图尚未支持更多项目尺寸。</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>紧凑</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>小</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>中</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>中等 +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>中等 ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>中等 +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>中等 ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>中等 +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>大</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>大 +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>大 ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>大 +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>超大</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="DetailsView" xml:space="preserve">
+    <value>Details view</value>
+  </data>
+  <data name="LayoutType" xml:space="preserve">
+    <value>Layout type</value>
   </data>
 </root>

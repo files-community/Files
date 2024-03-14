@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Storage;
@@ -20,7 +20,7 @@ namespace Files.App.Actions
 			=> "UnpinFromStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconUnpinFromFavorites");
+			=> new(opacityStyle: "Icons.Unpin.16x16");
 
 		public UnpinFromStartAction()
 		{

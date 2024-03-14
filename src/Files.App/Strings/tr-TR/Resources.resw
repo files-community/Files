@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Sil</value>
   </data>
-  <data name="PinToFavorites" xml:space="preserve">
-    <value>Favorilere Sabitle</value>
+  <data name="PinFolderToSidebar" xml:space="preserve">
+    <value>Hızlı Erişime Sabitle</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files'a hoş geldiniz!</value>
@@ -638,9 +638,6 @@
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Boş bir klasör oluşturur</value>
-  </data>
-  <data name="LayoutMode" xml:space="preserve">
-    <value>Düzen modu</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Dizini yenile</value>
@@ -1032,20 +1029,11 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Yeni bölmede aç</value>
   </data>
-  <data name="Folders" xml:space="preserve">
-    <value>Klasörler</value>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Dosyalar &amp; klasörler</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ayrıntılar Görünümü (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Izgara Görünümü (Büyük) (Ctrl+Shift+5)</value>
-  </data>
-  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Izgara Görünümü (Orta) (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Izgara Görünümü (Küçük) (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Döşeme Görünümü (Ctrl+Shift+2)</value>
@@ -1083,8 +1071,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Öge Adı</value>
   </data>
-  <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Favorilerden kaldır</value>
+  <data name="UnpinFolderFromSidebar" xml:space="preserve">
+    <value>Kenar Çubuğundan Sabitlemeyi Kaldır</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Ağ Sürücüleri</value>
@@ -1170,8 +1158,8 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Ağ sürücüsüne bağlan</value>
   </data>
-  <data name="SidebarFavorites" xml:space="preserve">
-    <value>Sık kullanılanlar</value>
+  <data name="Pinned" xml:space="preserve">
+    <value>Sabitlendi</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Kitaplıklar</value>
@@ -1662,15 +1650,6 @@
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
-  </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
@@ -1736,15 +1715,6 @@
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Sütunlar</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Büyük simgeler</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Orta Boy Simgeler</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Küçük simgeler</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Sıralar</value>
@@ -1827,65 +1797,59 @@
   <data name="None" xml:space="preserve">
     <value>Hiçbiri</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+  <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
     <value>Windows'da oturum açıldığında</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+  <data name="CompatibilityOnProgramStart" xml:space="preserve">
     <value>Program başlatıldığında</value>
   </data>
-  <data name="HighDpiOverride_System" xml:space="preserve">
+  <data name="System" xml:space="preserve">
     <value>Sistem</value>
   </data>
-  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>Sistem (gelişmiş)</value>
+  <data name="CompatibilitySystemEnhanced" xml:space="preserve">
+    <value>Sistem (Gelişmiş)</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
-    <value>Windows 7</value>
+  <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
+    <value>16-bit (65536) renk</value>
   </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
-    <value>Windows 8</value>
+  <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
+    <value>8-bit (256) renk</value>
   </data>
-  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
-  </data>
-  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Renkler (65536)</value>
-  </data>
-  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Renkler (256)</value>
-  </data>
-  <data name="CompatibilityMode" xml:space="preserve">
-    <value>Uyumluluk modu</value>
-  </data>
-  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+  <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
     <value>Tam ekran iyileştirmelerini kapat</value>
   </data>
-  <data name="ExecuteAt640X480" xml:space="preserve">
+  <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
     <value>640 x 480 ekran çözünürlüğünde çalıştır</value>
   </data>
-  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Yüksek DPI ölçekleme davranışını geçersiz kılma</value>
+  <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
+    <value>Yüksek DPI ölçekleme davranışını geçersiz kıl</value>
   </data>
-  <data name="ReducedColorMode" xml:space="preserve">
+  <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>Azaltılmış renk modu</value>
   </data>
-  <data name="RegisterForRestart" xml:space="preserve">
-    <value>Yeniden başlatmak için kaydolun</value>
+  <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
+    <value>Yeniden başlatmak için bu programı kaydet</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Yönetici olarak çalıştır</value>
   </data>
-  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
-    <value>Uyumluluk sorun gidericisi'ni çalıştır</value>
+  <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
+    <value>Uyumluluk sorun gidericisini çalıştır</value>
   </data>
-  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+  <data name="CompatibilityUseDPISettings" xml:space="preserve">
     <value>Ana monitörün DPI ayarlarını kullan</value>
+  </data>
+  <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
+    <value>DPI ayarını ayarlamayın</value>
+  </data>
+  <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
+    <value>DPI ayarını geçersiz kılmayın</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Uyumluluk modu</value>
+  </data>
+  <data name="CompatibilityNoReducedColor" xml:space="preserve">
+    <value>Azaltılmış renk yok</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Üçüncü parti lisanslar</value>
@@ -1925,9 +1889,6 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tür</value>
-  </data>
-  <data name="IconGrid" xml:space="preserve">
-    <value>Simge kılavuzu</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bayt</value>
@@ -1985,9 +1946,6 @@
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Etiketler</value>
-  </data>
-  <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Ayrıntılar düzeninde küçük boşluklar kullanın</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Evrensel</value>
@@ -2060,9 +2018,6 @@
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>Tip sütunu</value>
-  </data>
-  <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Ayrıntılar düzeni sütunu</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Kilit Ekranı</value>
@@ -2493,11 +2448,11 @@
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>Öge(ler)i Başlat Menüsü'nden kaldır</value>
   </data>
-  <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Klasör(ler)i Favoriler'e sabitle</value>
+  <data name="PinFolderToSidebarDescription" xml:space="preserve">
+    <value>Klasör(ler)i Kenar Çubuğuna Sabitle</value>
   </data>
-  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Klasör(ler)i Favoriler'den kaldır</value>
+  <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
+    <value>Klasör(ler)i Kenar Çubuğundan Kaldır</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Seçilen resmi masaüstü arka planı olarak ayarla</value>
@@ -2563,10 +2518,10 @@
     <value>Klasörü terminalde yönetici olarak aç</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Izgara görünümünde simge boyutunu küçült</value>
+    <value>Geçerli görünümdeki öğe boyutunu küçült</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Izgara görünümünde simge boyutunu artırın</value>
+    <value>Geçerli görünümdeki öğe boyutunu artır</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Detaylar görünümüne geç</value>
@@ -2580,14 +2535,11 @@
   <data name="List" xml:space="preserve">
     <value>Liste</value>
   </data>
-  <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Küçük simgeli tablo görünümüne geç</value>
+  <data name="Grid" xml:space="preserve">
+    <value>Izgara</value>
   </data>
-  <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Orta simgeli tablo görünümüne geç</value>
-  </data>
-  <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Büyük simgeli tablo görünümüne geç</value>
+  <data name="LayoutGridDescription" xml:space="preserve">
+    <value>Izgara görünümüne geç</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Sütun görünümüne geç</value>
@@ -3699,5 +3651,69 @@
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>Files nereye gitti?</value>
+  </data>
+  <data name="QuestionsAndDiscussions" xml:space="preserve">
+    <value>Sorular ve tartışmalar</value>
+  </data>
+  <data name="TilesViewSizeInfo" xml:space="preserve">
+    <value>Döşeme Görünümü için henüz ek boyutlar mevcut değildir.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Ölçek</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Küçük</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Orta</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+" xml:space="preserve">
+    <value>Orta +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++" xml:space="preserve">
+    <value>Orta ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++" xml:space="preserve">
+    <value>Orta +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium++++" xml:space="preserve">
+    <value>Orta ++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Medium+++++" xml:space="preserve">
+    <value>Orta +++++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Büyük</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+" xml:space="preserve">
+    <value>Büyük +</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large++" xml:space="preserve">
+    <value>Büyük ++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="Large+++" xml:space="preserve">
+    <value>Büyük +++</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="ExtraLarge" xml:space="preserve">
+    <value>Ekstra büyük</value>
+    <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="DetailsView" xml:space="preserve">
+    <value>Ayrıntıları görüntüle</value>
+  </data>
+  <data name="LayoutType" xml:space="preserve">
+    <value>Düzen türü</value>
   </data>
 </root>

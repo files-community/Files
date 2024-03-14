@@ -1,4 +1,4 @@
-// Copyright(c) 2023 Files Community
+// Copyright(c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
@@ -45,7 +45,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					try
 					{
-						await Win32API.OpenFormatDriveDialog(props.Drive.Path);
+						await Win32Helper.OpenFormatDriveDialog(props.Drive.Path);
 					}
 					catch (Exception)
 					{
@@ -102,9 +102,8 @@ namespace Files.App.ViewModels.Properties
 						file.Path,
 						Constants.ShellIconSizes.ExtraLarge,
 						false,
-						false,
 						IconOptions.UseCurrentScale);
-					ViewModel.IconData = result.IconData;
+					ViewModel.IconData = result;
 				}
 			});
 

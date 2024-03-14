@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:BaseGroupableLayoutPage
 	x:Class="Files.App.Views.Layouts.ColumnLayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -191,6 +191,7 @@
 					IsRightTapEnabled="True"
 					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
+					Loaded="FileList_Loaded"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					RightTapped="FileList_RightTapped"
 					ScrollViewer.IsScrollInertiaEnabled="True"
@@ -243,15 +244,13 @@
 											Source="{x:Bind FileImage, Mode=OneWay}"
 											Stretch="Uniform" />
 									</ContentPresenter>
-									<Border
+
+									<!--  Loading indicator  -->
+									<uc:Shimmer
 										x:Name="TypeUnknownGlyph"
-										Width="20"
-										Height="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-										Background="{ThemeResource SystemChromeHighColor}"
-										CornerRadius="4" />
+										Margin="2"
+										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+
 									<Image
 										x:Name="IconOverlay"
 										Width="16"
@@ -262,15 +261,7 @@
 										x:Load="True"
 										Source="{x:Bind IconOverlay, Mode=OneWay}"
 										Stretch="Uniform" />
-									<Viewbox
-										x:Name="WebShortcutGlyph"
-										MaxWidth="20"
-										MaxHeight="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
-										<FontIcon FontSize="20" Glyph="&#xE71B;" />
-									</Viewbox>
+
 									<Border
 										x:Name="ShortcutGlyphElement"
 										HorizontalAlignment="Left"

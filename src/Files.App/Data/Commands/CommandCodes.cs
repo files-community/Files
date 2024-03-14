@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Commands
@@ -63,9 +63,9 @@ namespace Files.App.Data.Commands
 		PinToStart,
 		UnpinFromStart,
 
-		// Favorites
-		PinItemToFavorites,
-		UnpinItemFromFavorites,
+		// Sidebar
+		PinFolderToSidebar,
+		UnpinFolderFromSidebar,
 
 		// Backgrounds
 		SetAsWallpaperBackground,

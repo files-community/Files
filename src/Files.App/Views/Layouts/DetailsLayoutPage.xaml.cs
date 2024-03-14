@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -409,7 +409,7 @@ namespace Files.App.Views.Layouts
 					if (folders is not null)
 					{
 						foreach (ListedItem folder in folders)
-							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath, false);
 					}
 				}
 				else if (ctrlPressed && shiftPressed)

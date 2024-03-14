@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -61,9 +61,9 @@ namespace Files.App.ViewModels.Layouts
 				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
 				if (Item.IsShortcut)
-					await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+					await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath, false);
 				else
-					await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+					await NavigationHelpers.OpenPathInNewTab(Item.ItemPath, false);
 			}
 		}
 
@@ -170,8 +170,17 @@ namespace Files.App.ViewModels.Layouts
 
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
-				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
-				await _associatedInstance.RefreshIfNoWatcherExistsAsync();
+				var deferral = e.GetDeferral();
+
+				try
+				{
+					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
+				}
+				finally
+				{
+					deferral.Complete();
+				}
 			}
 		}
 

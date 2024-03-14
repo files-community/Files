@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -71,10 +71,9 @@ namespace Files.App.Utils.Cloud
 						provider.SyncFolder,
 						Constants.ShellIconSizes.Small,
 						false,
-						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-					iconData = result.IconData;
+					iconData = result;
 				}
 
 				if (iconData is not null)

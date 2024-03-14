@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
@@ -20,6 +20,8 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class RecentFilesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
+		private RecentFilesWidgetViewModel ViewModel { get; set; }
+
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
@@ -142,7 +144,7 @@ namespace Files.App.UserControls.Widgets
 			itemContextMenuFlyout.ShowAt(element, new() { Position = e.GetPosition(element) });
 
 			// Load shell menu items
-			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout);
+			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout, null, true, true);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -369,6 +371,7 @@ namespace Files.App.UserControls.Widgets
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
 				ItemPath = recentItem.RecentPath,
+				IsFile = true
 			});
 		}
 

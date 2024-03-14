@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Storage.WindowsStorage;
@@ -48,7 +48,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+			=> App.QuickAccessManager.Model.PinnedFolders.Contains(path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();
@@ -318,10 +318,9 @@ namespace Files.App.Data.Items
 					DeviceID,
 					Constants.ShellIconSizes.Small,
 					false,
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				IconData ??= result.IconData;
+				IconData ??= result;
 			}
 
 			if (Root is not null)

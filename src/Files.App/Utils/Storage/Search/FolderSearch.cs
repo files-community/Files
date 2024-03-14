@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -497,11 +497,10 @@ namespace Files.App.Utils.Storage
 					item.Path,
 					Constants.ShellIconSizes.Small,
 					item.IsOfType(StorageItemTypes.Folder),
-					false,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
-				if (iconResult.IconData is not null)
-					listedItem.FileImage = await iconResult.IconData.ToBitmapAsync();
+				if (iconResult is not null)
+					listedItem.FileImage = await iconResult.ToBitmapAsync();
 				else
 					listedItem.NeedsPlaceholderGlyph = true;
 			}

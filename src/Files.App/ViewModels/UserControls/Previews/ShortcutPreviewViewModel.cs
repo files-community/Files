@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
@@ -40,11 +40,10 @@ namespace Files.App.ViewModels.Previews
 				Item.ItemPath,
 				Constants.ShellIconSizes.Jumbo,
 				false,
-				false,
 				IconOptions.None);
 
-			if (result.IconData is not null)
-				FileImage = await result.IconData.ToBitmapAsync();
+			if (result is not null)
+				FileImage = await result.ToBitmapAsync();
 		}
 	}
 }

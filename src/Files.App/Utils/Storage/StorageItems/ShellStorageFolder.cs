@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -108,7 +108,7 @@ namespace Files.App.Utils.Storage
 
 		protected static async Task<(ShellFileItem Folder, List<ShellFileItem> Items)> GetFolderAndItems(string path, bool enumerate, int startIndex = 0, int maxItemsToRetrieve = int.MaxValue)
 		{
-			return await Win32Shell.GetShellFolderAsync(path, enumerate ? "Enumerate" : "Query", startIndex, maxItemsToRetrieve);
+			return await Win32Helper.GetShellFolderAsync(path, enumerate ? "Enumerate" : "Query", startIndex, maxItemsToRetrieve);
 		}
 
 		public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => throw new NotSupportedException();

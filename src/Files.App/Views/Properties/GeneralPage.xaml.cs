@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
@@ -88,9 +88,9 @@ namespace Files.App.Views.Properties
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
 				if (drive.Type == Data.Items.DriveType.Network)
-					Win32API.SetNetworkDriveLabel(drive.DeviceID, newName);
+					Win32Helper.SetNetworkDriveLabel(drive.DeviceID, newName);
 				else
-					Win32API.SetVolumeLabel(drive.Path, newName);
+					Win32Helper.SetVolumeLabel(drive.Path, newName);
 
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{

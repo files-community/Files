@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -40,11 +40,11 @@ namespace Files.App.Helpers
 					"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
 					"copyaspath", "undelete", "empty", "format", "rotate90", "rotate270",
-					Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
-					Win32API.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
-					Win32API.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
-					Win32API.ExtractStringFromDLL("shell32.dll", 5386), // Pin to taskbar
-					Win32API.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 5386), // Pin to taskbar
+					Win32Helper.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
 				};
 
 				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
@@ -130,7 +130,7 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label) && menuFlyoutItem.SubItems is not null)
 				{
-					if (string.Equals(menuFlyoutItem.Label, Win32API.ExtractStringFromDLL("shell32.dll", 30312)))
+					if (string.Equals(menuFlyoutItem.Label, Win32Helper.ExtractStringFromDLL("shell32.dll", 30312)))
 						menuFlyoutItem.CommandString = "sendto";
 
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
@@ -181,21 +181,21 @@ namespace Files.App.Helpers
 				switch (verb)
 				{
 					case "install" when isFont:
-						await Win32API.InstallFontsAsync(contextMenu.ItemsPath.ToArray(), false);
+						await Win32Helper.InstallFontsAsync(contextMenu.ItemsPath.ToArray(), false);
 						break;
 
 					case "installAllUsers" when isFont:
-						await Win32API.InstallFontsAsync(contextMenu.ItemsPath.ToArray(), true);
+						await Win32Helper.InstallFontsAsync(contextMenu.ItemsPath.ToArray(), true);
 						break;
 
 					case "mount":
 						var vhdPath = contextMenu.ItemsPath[0];
-						await Win32API.MountVhdDisk(vhdPath);
+						await Win32Helper.MountVhdDisk(vhdPath);
 						break;
 
 					case "format":
 						var drivePath = contextMenu.ItemsPath[0];
-						await Win32API.OpenFormatDriveDialog(drivePath);
+						await Win32Helper.OpenFormatDriveDialog(drivePath);
 						break;
 
 					default:
@@ -272,6 +272,13 @@ namespace Files.App.Helpers
 				if (manageBitLocker is not null)
 					shellMenuItems.Remove(manageBitLocker);
 
+				var lastItem = shellMenuItems.LastOrDefault();
+				while (lastItem?.ItemType is ContextMenuFlyoutItemType.Separator)
+				{
+					shellMenuItems.Remove(lastItem);
+					lastItem = shellMenuItems.LastOrDefault();
+				}
+
 				ContentPageContextFlyoutFactory.SwapPlaceholderWithShellOption(
 					itemContextMenuFlyout,
 					"ManageBitLockerPlaceholder",
@@ -329,10 +336,11 @@ namespace Files.App.Helpers
 				{
 					await openWithItem.LoadSubMenuAction();
 
-					openWithItem.OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenWith",
-					};
+					// TODO add back icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+					//openWithItem.OpacityIcon = new OpacityIconModel()
+					//{
+					//	OpacityIconStyle = "ColorIconOpenWith",
+					//};
 					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
 					if (placeholder is not null)
