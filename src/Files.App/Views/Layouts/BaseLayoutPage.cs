@@ -864,6 +864,13 @@ namespace Files.App.Views.Layouts
 					openWithOverflow.Flyout = flyout;
 					openWith.Visibility = Visibility.Collapsed;
 					openWithOverflow.Visibility = Visibility.Visible;
+
+					// TODO delete this when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+					openWithOverflow.Content = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith"
+					}.ToOpacityIcon();
+					openWithOverflow.Label = "OpenWith".GetLocalizedResource();
 				}
 			}
 
