@@ -17,7 +17,7 @@ namespace Files.App.Utils.Archives
 	{
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
-		private static IThreadingService _threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
+		private static readonly IThreadingService _threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
 
 		public static async Task<bool> DecompressArchiveAsync(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
