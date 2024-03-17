@@ -9,7 +9,7 @@ namespace Files.App.Data.Commands
 	{
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		private readonly IImmutableDictionary<CommandCodes, IRichCommand> ModifiableCommands;
+		private readonly ImmutableDictionary<CommandCodes, IRichCommand> ModifiableCommands;
 
 		public IRichCommand this[CommandCodes code] => ModifiableCommands.TryGetValue(code, out var command) ? command : None;
 
@@ -25,7 +25,7 @@ namespace Files.App.Data.Commands
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		public IEnumerator<IRichCommand> GetEnumerator() => ModifiableCommands.Values.GetEnumerator();
 
-		private static IDictionary<CommandCodes, IRichCommand> CreateModifiableCommands() => new Dictionary<CommandCodes, IRichCommand>
+		private static Dictionary<CommandCodes, IRichCommand> CreateModifiableCommands() => new Dictionary<CommandCodes, IRichCommand>
 		{
 			[CommandCodes.None] = new NoneCommand(),
 			[CommandCodes.PasteItem] = new ModifiableCommand(Commands.PasteItem, new() {

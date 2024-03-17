@@ -14,8 +14,8 @@ namespace Files.App.Data.Commands
 	{
 		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
-		private readonly IImmutableDictionary<CommandCodes, IRichCommand> commands;
-		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
+		private readonly ImmutableDictionary<CommandCodes, IRichCommand> commands;
+		private ImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[string code]
@@ -205,7 +205,7 @@ namespace Files.App.Data.Commands
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		public IEnumerator<IRichCommand> GetEnumerator() => commands.Values.GetEnumerator();
 
-		private static IDictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
+		private static Dictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
@@ -362,7 +362,7 @@ namespace Files.App.Data.Commands
 
 		private void UpdateHotKeys()
 		{
-			ISet<HotKey> useds = new HashSet<HotKey>();
+			var useds = new HashSet<HotKey>();
 
 			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
 			foreach (var custom in settings.Actions)

@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Collections.Frozen;
 using ColorCode;
 using Files.App.ViewModels.Properties;
 
@@ -8,7 +9,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public class CodePreviewViewModel : BasePreviewModel
 	{
-		private static readonly Lazy<IReadOnlyDictionary<string, ILanguage>> extensions = new(GetDictionary);
+		private static readonly Lazy<FrozenDictionary<string, ILanguage>> extensions = new(GetDictionary);
 
 		private string textValue;
 		public string TextValue
@@ -52,7 +53,7 @@ namespace Files.App.ViewModels.Previews
 			return details;
 		}
 
-		private static IReadOnlyDictionary<string, ILanguage> GetDictionary()
+		private static FrozenDictionary<string, ILanguage> GetDictionary()
 		{
 			var items = new Dictionary<ILanguage, string>
 			{
@@ -84,7 +85,7 @@ namespace Files.App.ViewModels.Previews
 				}
 			}
 
-			return new ReadOnlyDictionary<string, ILanguage>(dictionary);
+			return dictionary.ToFrozenDictionary();
 		}
 	}
 }

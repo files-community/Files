@@ -9,7 +9,7 @@ namespace Files.App.Data.Contexts
 {
 	internal class HomePageContext : ObservableObject, IHomePageContext
 	{
-		private static readonly IImmutableList<WidgetFileTagCardItem> emptyTaggedItems = Enumerable.Empty<WidgetFileTagCardItem>().ToImmutableList();
+		private static readonly ImmutableList<WidgetFileTagCardItem> emptyTaggedItems = Enumerable.Empty<WidgetFileTagCardItem>().ToImmutableList();
 
 		public bool IsAnyItemRightClicked => rightClickedItem is not null;
 

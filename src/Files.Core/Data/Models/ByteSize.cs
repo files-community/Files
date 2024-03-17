@@ -7,7 +7,7 @@ namespace Files.Core.Data.Models
 {
 	public struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
 	{
-		private static readonly IImmutableDictionary<string, string> units = new Dictionary<string, string>
+		private static readonly ImmutableDictionary<string, string> units = new Dictionary<string, string>
 		{
 			[ByteSizeLib.ByteSize.BitSymbol] = "ByteSymbol".ToLocalized(),
 			[ByteSizeLib.ByteSize.ByteSymbol] = "ByteSymbol".ToLocalized(),

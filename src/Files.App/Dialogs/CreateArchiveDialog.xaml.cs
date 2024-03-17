@@ -165,13 +165,13 @@ namespace Files.App.Dialogs
 				}
 			}
 
-			public IImmutableList<FileFormatItem> FileFormats { get; } = new List<FileFormatItem>
+			public ImmutableList<FileFormatItem> FileFormats { get; } = new List<FileFormatItem>
 			{
 				new(ArchiveFormats.Zip, ".zip"),
 				new(ArchiveFormats.SevenZip, ".7z"),
 			}.ToImmutableList();
 
-			public IImmutableList<CompressionLevelItem> CompressionLevels { get; } = new List<CompressionLevelItem>
+			public ImmutableList<CompressionLevelItem> CompressionLevels { get; } = new List<CompressionLevelItem>
 			{
 				new CompressionLevelItem(ArchiveCompressionLevels.Ultra, "CompressionLevelUltra".GetLocalizedResource()),
 				new CompressionLevelItem(ArchiveCompressionLevels.High, "CompressionLevelHigh".GetLocalizedResource()),
@@ -181,7 +181,7 @@ namespace Files.App.Dialogs
 				new CompressionLevelItem(ArchiveCompressionLevels.None, "CompressionLevelNone".GetLocalizedResource()),
 			}.ToImmutableList();
 
-			public IImmutableList<SplittingSizeItem> SplittingSizes { get; } = new List<SplittingSizeItem>
+			public ImmutableList<SplittingSizeItem> SplittingSizes { get; } = new List<SplittingSizeItem>
 			{
 				new(ArchiveSplittingSizes.None, "Do not split".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo10, ToSizeText(10)),

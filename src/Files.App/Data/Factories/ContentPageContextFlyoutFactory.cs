@@ -40,7 +40,7 @@ namespace Files.App.Data.Factories
 			items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList();
 			items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList());
 
-			var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
+			var overflow = items.FirstOrDefault(x => x.ID == "ItemOverflow");
 			if (overflow is not null)
 			{
 				if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
@@ -663,8 +663,7 @@ namespace Files.App.Data.Factories
 		public static void SwapPlaceholderWithShellOption(CommandBarFlyout contextMenu, string placeholderName, ContextMenuFlyoutItemViewModel? replacingItem, int position)
 		{
 			var placeholder = contextMenu.SecondaryCommands
-				.Where(x => Equals((x as AppBarButton)?.Tag, placeholderName))
-				.FirstOrDefault() as AppBarButton;
+.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, placeholderName)) as AppBarButton;
 
 			if (placeholder is not null)
 				placeholder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
