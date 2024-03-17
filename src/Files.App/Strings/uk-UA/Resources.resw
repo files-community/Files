@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
   </data>
-  <data name="PinToFavorites" xml:space="preserve">
-    <value>Закріпити в меню уподобань</value>
+  <data name="PinFolderToSidebar" xml:space="preserve">
+    <value>Pin to Sidebar</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Ласкаво просимо до Files!</value>
@@ -1029,8 +1029,8 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Відкрити в новій панелі</value>
   </data>
-  <data name="Folders" xml:space="preserve">
-    <value>Папки</value>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Files &amp; folders</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Подробиці (Ctrl+Shift+1)</value>
@@ -1071,8 +1071,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Ім'я елемента</value>
   </data>
-  <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Відкріпити з Уподобань</value>
+  <data name="UnpinFolderFromSidebar" xml:space="preserve">
+    <value>Unpin from Sidebar</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Мережеві диски</value>
@@ -1158,8 +1158,8 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Підключити диск</value>
   </data>
-  <data name="SidebarFavorites" xml:space="preserve">
-    <value>Уподобання</value>
+  <data name="Pinned" xml:space="preserve">
+    <value>Pinned</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Бібліотеки</value>
@@ -1797,65 +1797,59 @@
   <data name="None" xml:space="preserve">
     <value>Немає</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>При вході в Windows</value>
+  <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
+    <value>On Windows login</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>При запуску програми</value>
+  <data name="CompatibilityOnProgramStart" xml:space="preserve">
+    <value>On this program start</value>
   </data>
-  <data name="HighDpiOverride_System" xml:space="preserve">
+  <data name="System" xml:space="preserve">
     <value>Система</value>
   </data>
-  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>Система (розширено)</value>
+  <data name="CompatibilitySystemEnhanced" xml:space="preserve">
+    <value>System (Enhanced)</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
-    <value>Windows 7</value>
+  <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
+    <value>16-bit (65536) color</value>
   </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
-    <value>Windows 8</value>
+  <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
+    <value>8-bit (256) color</value>
   </data>
-  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
+  <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
+    <value>Disable full-screen optimizations</value>
   </data>
-  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
+  <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
+    <value>Run in 640 x 480 screen resolution</value>
   </data>
-  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
+  <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
+    <value>Override high DPI scaling behavior</value>
   </data>
-  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Біт кольори (65536)</value>
+  <data name="CompatibilityReducedColorMode" xml:space="preserve">
+    <value>Reduced color mode</value>
   </data>
-  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Біт кольори (256)</value>
-  </data>
-  <data name="CompatibilityMode" xml:space="preserve">
-    <value>Режим сумісності</value>
-  </data>
-  <data name="DisableFullscreenOptimizations" xml:space="preserve">
-    <value>Вимкнути оптимізацію повноекранного режиму</value>
-  </data>
-  <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Запуск при 640 х 480 роздільності екрану</value>
-  </data>
-  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Перевизначити поведінку масштабування з високим розширенням DPI</value>
-  </data>
-  <data name="ReducedColorMode" xml:space="preserve">
-    <value>Режим обмеження кольорів</value>
-  </data>
-  <data name="RegisterForRestart" xml:space="preserve">
-    <value>Зареєструватися для перезавантаження</value>
+  <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
+    <value>Register this program for restart</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Запуск від імені адміністратора</value>
   </data>
-  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
-    <value>Запустити засіб усунення неполадок, пов'язаних із сумісністю</value>
+  <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
+    <value>Run compatibility troubleshooter</value>
   </data>
-  <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Використовувати DPI налаштування головного монітора</value>
+  <data name="CompatibilityUseDPISettings" xml:space="preserve">
+    <value>Use DPI settings of the main monitor</value>
+  </data>
+  <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
+    <value>Do not adjust DPI</value>
+  </data>
+  <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
+    <value>Do not override DPI</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Режим сумісності</value>
+  </data>
+  <data name="CompatibilityNoReducedColor" xml:space="preserve">
+    <value>No reduced color</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Сторонні ліцензії</value>
@@ -1895,9 +1889,6 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
-  </data>
-  <data name="IconGrid" xml:space="preserve">
-    <value>Сітка піктограм</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>байт</value>
@@ -2027,9 +2018,6 @@
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>Стовпчик типів</value>
-  </data>
-  <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Стовпці макета подробиць</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Екран блокування</value>
@@ -2460,11 +2448,11 @@
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>Відкріпити елемент(и) з меню Пуск</value>
   </data>
-  <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Закріпити теку(и) в Уподобання</value>
+  <data name="PinFolderToSidebarDescription" xml:space="preserve">
+    <value>Pin folder(s) to Sidebar</value>
   </data>
-  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Відкріпити теку(и) з Уподобань</value>
+  <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
+    <value>Unpin folder(s) from Sidebar</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Встановити вибране зображення тлом робочого столу</value>
@@ -3671,7 +3659,7 @@
     <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>Compact</value>
+    <value>Компактний</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
@@ -3683,23 +3671,23 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>Medium +</value>
+    <value>Середній +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>Medium ++</value>
+    <value>Середній ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>Medium +++</value>
+    <value>Середній +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>Medium ++++</value>
+    <value>Середній ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>Medium +++++</value>
+    <value>Середній +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
@@ -3707,19 +3695,25 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
-    <value>Large +</value>
+    <value>Великий +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
-    <value>Large ++</value>
+    <value>Великий ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+++" xml:space="preserve">
-    <value>Large +++</value>
+    <value>Великий +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="ExtraLarge" xml:space="preserve">
-    <value>Extra large</value>
+    <value>Найбільший</value>
     <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="DetailsView" xml:space="preserve">
+    <value>Details view</value>
+  </data>
+  <data name="LayoutType" xml:space="preserve">
+    <value>Layout type</value>
   </data>
 </root>
