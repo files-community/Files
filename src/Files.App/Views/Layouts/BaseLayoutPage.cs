@@ -1045,7 +1045,8 @@ namespace Files.App.Views.Layouts
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
 						{
 							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
-							e.AcceptedOperation = DataPackageOperation.Move;
+							// Some applications such as Edge can't raise the drop event by the Move flag, so we set the Copy flag as well.
+							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 						}
 						else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 							|| ZipStorageFolder.IsZipPath(item.ItemPath))
@@ -1056,7 +1057,8 @@ namespace Files.App.Views.Layouts
 						else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
 						{
 							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
-							e.AcceptedOperation = DataPackageOperation.Move;
+							// Some applications such as Edge can't raise the drop event by the Move flag, so we set the Copy flag as well.
+							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 						}
 						else
 						{

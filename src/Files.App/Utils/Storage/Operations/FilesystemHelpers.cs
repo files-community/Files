@@ -245,13 +245,13 @@ namespace Files.App.Utils.Storage
 				{
 					return await RecycleItemsFromClipboard(packageView, destination, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, registerHistory);
 				}
-				else if (operation.HasFlag(DataPackageOperation.Copy))
-				{
-					return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
-				}
 				else if (operation.HasFlag(DataPackageOperation.Move))
 				{
 					return await MoveItemsFromClipboard(packageView, destination, showDialog, registerHistory);
+				}
+				else if (operation.HasFlag(DataPackageOperation.Copy))
+				{
+					return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
 				}
 				else if (operation.HasFlag(DataPackageOperation.Link))
 				{
