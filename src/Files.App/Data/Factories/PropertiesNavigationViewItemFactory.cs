@@ -74,7 +74,8 @@ namespace Files.App.Data.Factories
 
 			if (item is List<ListedItem> listedItems)
 			{
-				var commonFileExt = listedItems.Select(x => x.FileExtension).Distinct().Count() == 1 ? listedItems.First().FileExtension : null;
+				var firstFileExtension = listedItems.First().FileExtension;
+				var commonFileExt = listedItems.All(x => x.FileExtension == firstFileExtension) ? firstFileExtension: null;
 				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : commonFileExt, true));
 				var onlyFiles = listedItems.All(listedItem => listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsArchive);
 

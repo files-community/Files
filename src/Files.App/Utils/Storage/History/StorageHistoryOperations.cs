@@ -9,7 +9,7 @@ namespace Files.App.Utils.Storage
 	public class StorageHistoryOperations : IStorageHistoryOperations
 	{
 		private IFilesystemHelpers helpers;
-		private IFilesystemOperations operations;
+		private ShellFilesystemOperations operations;
 
 		private readonly CancellationToken cancellationToken;
 
@@ -46,8 +46,8 @@ namespace Files.App.Utils.Storage
 				case FileOperationType.Rename: // Opposite: Restore original item names
 					if (!IsHistoryNull(history))
 					{
-						NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
-						for (int i = 0; i < history.Destination.Count(); i++)
+						const NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
+						for (int i = 0; i < history.Destination.Count; i++)
 						{
 							string name = Path.GetFileName(history.Source[i].Path);
 							await operations.RenameAsync(history.Destination[i], name, collision, progress, cancellationToken);
@@ -194,9 +194,9 @@ namespace Files.App.Utils.Storage
 			operations = null;
 		}
 
-		private bool IsHistoryNull(IStorageHistory history) // history.Destination is null with CreateNew
+		private static bool IsHistoryNull(IStorageHistory history) // history.Destination is null with CreateNew
 			=> IsHistoryNull(history.Source) || (history.Destination is not null && IsHistoryNull(history.Destination));
-		private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) => !source.All(HasPath);
+		private static bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) => !source.All(HasPath);
 
 		private static bool HasPath(IStorageItemWithPath item) => item is not null && !string.IsNullOrWhiteSpace(item.Path);
 	}
