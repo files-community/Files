@@ -62,8 +62,9 @@ namespace Files.App.Actions
 		public string Description
 			=> "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenWith");
+		// TODO add back icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+		//public RichGlyph Glyph
+		//	=> new(opacityStyle: "ColorIconOpenWith");
 
 		public bool IsExecutable =>
 			context.HasSelection &&
