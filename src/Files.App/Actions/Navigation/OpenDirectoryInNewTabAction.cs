@@ -22,7 +22,7 @@ namespace Files.App.Actions
 			context.ShellPage is not null &&
 			context.ShellPage.SlimContentPage is not null &&
 			context.SelectedItems.Count <= 5 &&
-			context.SelectedItems.Count(x => x.IsFolder == true) == context.SelectedItems.Count &&
+			context.SelectedItems.Count(x => x.IsFolder) == context.SelectedItems.Count &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
 
 		public OpenDirectoryInNewTabAction()
