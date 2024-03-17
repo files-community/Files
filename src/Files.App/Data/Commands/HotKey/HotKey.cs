@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Immutable;
+using System.Collections.Frozen;
 using System.Runtime.InteropServices;
 using System.Text;
 using Forms = System.Windows.Forms;
@@ -11,15 +11,15 @@ namespace Files.App.Data.Commands
 	[DebuggerDisplay("{Code}")]
 	public readonly struct HotKey : IEquatable<HotKey>
 	{
-		private static readonly ImmutableDictionary<KeyModifiers, string> modifiers = new Dictionary<KeyModifiers, string>()
+		private static readonly FrozenDictionary<KeyModifiers, string> modifiers = new Dictionary<KeyModifiers, string>()
 		{
 			[KeyModifiers.Menu] = GetKeyString("Menu"),
 			[KeyModifiers.Ctrl] = GetKeyString("Control"),
 			[KeyModifiers.Shift] = GetKeyString("Shift"),
 			[KeyModifiers.Win] = GetKeyString("Windows"),
-		}.ToImmutableDictionary();
+		}.ToFrozenDictionary();
 
-		private static readonly ImmutableDictionary<Keys, string> keys = new Dictionary<Keys, string>()
+		private static readonly FrozenDictionary<Keys, string> keys = new Dictionary<Keys, string>()
 		{
 			[Keys.Enter] = GetKeyString("Enter"),
 			[Keys.Space] = GetKeyString("Space"),
@@ -151,7 +151,7 @@ namespace Files.App.Data.Commands
 			[Keys.Mute] = GetKeyString("MediaMute"),
 			[Keys.VolumeDown] = GetKeyString("MediaVolumeDown"),
 			[Keys.VolumeUp] = GetKeyString("MediaVolumeUp"),
-		}.ToImmutableDictionary();
+		}.ToFrozenDictionary();
 
 		public static HotKey None { get; } = new(Keys.None, KeyModifiers.None);
 
