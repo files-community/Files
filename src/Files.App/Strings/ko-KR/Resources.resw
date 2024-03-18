@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>New window</value>
+    <value>새 창</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>경로 복사</value>
@@ -274,7 +274,7 @@
     <value>삭제</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin to Sidebar</value>
+    <value>사이드 바에 고정</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files에 오신 걸 환영합니다!</value>
