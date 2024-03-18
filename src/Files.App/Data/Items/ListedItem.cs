@@ -45,6 +45,8 @@ namespace Files.App.Utils
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
+				if (IsImage)
+					tooltipBuilder.Append($"{Environment.NewLine}{"DimensionsLabel".GetLocalizedResource()} {DimensionsDisplay}");
 				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
 
@@ -268,6 +270,31 @@ namespace Files.App.Utils
 
 		public long FileSizeBytes { get; set; }
 
+		private int imageWidth;
+		public int ImageWidth
+		{
+			get => imageWidth;
+			set
+			{
+				SetProperty(ref imageWidth, value);
+				OnPropertyChanged(nameof(FileSizeDisplay));
+			}
+		}
+		
+		private int imageHeight;
+		
+		public int ImageHeight
+		{
+			get => imageHeight;
+			set
+			{
+				SetProperty(ref imageHeight, value);
+				OnPropertyChanged(nameof(DimensionsDisplay));
+			}
+		}
+
+		public string DimensionsDisplay => IsImage ? $"{ImageWidth} x {ImageHeight}" : string.Empty;
+		
 		public string ItemDateModified { get; private set; }
 
 		public string ItemDateCreated { get; private set; }
@@ -365,6 +392,7 @@ namespace Files.App.Utils
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
+		public virtual bool IsImage => FileExtensionHelpers.IsImageFile(ItemPath);
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
