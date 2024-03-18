@@ -124,7 +124,7 @@
     <value>Copiar caminho</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copiar caminho com cotas</value>
+    <value>Copiar caminho entre aspas</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegar</value>
