@@ -141,9 +141,6 @@
   <data name="SizeLabel" xml:space="preserve">
     <value>Size:</value>
   </data>
-  <data name="DimensionsLabel" xml:space="preserve">
-    <value>Dimensions:</value>
-  </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
     <value>Size on disk:</value>
   </data>
