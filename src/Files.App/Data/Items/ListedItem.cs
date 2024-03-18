@@ -277,7 +277,7 @@ namespace Files.App.Utils
 			set
 			{
 				SetProperty(ref imageWidth, value);
-				OnPropertyChanged(nameof(FileSizeDisplay));
+				OnPropertyChanged(nameof(DimensionsDisplay));
 			}
 		}
 		
