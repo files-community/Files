@@ -3056,10 +3056,10 @@
     <value>தற்போது தேர்ந்தெடுத்துள்ள உருப்படி(கள்)-உடன் ஒரு கோப்புறையை உருவாக்கு</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>பண்புகளைத் திற</value>
+    <value>பண்புகளை திற</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>பண்புகள் சாளரத்தைத் திற</value>
+    <value>பண்புகள் சாளரத்தை திற</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>உள்ளகங்கள்</value>
@@ -3189,10 +3189,10 @@
     <value>Great! You are now authorized.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>களஞ்சியத்தைத் துவங்கிவை</value>
+    <value>களஞ்சியத்தை துவங்கிவை</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>ஒரு Git களஞ்சியத்தைத் துவங்கு</value>
+    <value>ஒரு Git களஞ்சியத்தை துவங்கு</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>தொலைநிலை-களஞ்சியப் பேர்</value>
@@ -3210,13 +3210,13 @@
     <value>Open directory in new pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>கோப்புறையைப் புது தாவலில் திற</value>
+    <value>கோப்புறையை புது தாவலில் திற</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>கோப்புறையைப் புது சாளரத்தில் திற</value>
+    <value>கோப்புறையை புது சாளரத்தில் திற</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>அனைத்தையும் திற</value>
+    <value>எல்லாவற்றையும் திற</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
@@ -3229,7 +3229,7 @@
     <value>செல்லாத கட்டளை</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' கட்டளையாக அறியப்படவில்லை.</value>
+    <value>'{0}' கட்டளையாய் அறியப்படவில்லை.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
     <value>Command not executable</value>
@@ -3259,7 +3259,7 @@
     <value>Format drive</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
-    <value>மீண்டும் காட்டாதே</value>
+    <value>இனிமேல் காட்டாதே</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
     <value>நீர்வாகியாக Files இயங்குது</value>
@@ -3268,7 +3268,7 @@
     <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>சாளரத்தை மூடிய பிறகும் நிரலைப் பின்புலத்தில் இயங்க விடு</value>
+    <value>சாளரத்தை மூடிய பிறகும் நிரலை பின்புலத்தில் இயங்க விடு</value>
   </data>
   <data name="Blue" xml:space="preserve">
     <value>நீலம்</value>
@@ -3360,13 +3360,13 @@
     <value>உருப்படிகள்</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
-    <value>இந்த கோப்புறையை Git களஞ்சியமாக Files-ஆல் துவங்கிவைக்க முடியவில்லை.</value>
+    <value>இந்த கோப்புறையை Git களஞ்சியமாய் Files-ஆல் துவங்கிவைக்க முடியவில்லை.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
     <value>Contributing Artist</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>பக்கத்தைச் சேர்</value>
+    <value>பக்கத்தை சேர்</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processing items...</value>
@@ -3572,7 +3572,7 @@
     <value>Are you sure you want to permanently delete "{0}" branch?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
-    <value>GitHub-உடன் இணைக்கப்படுள்ளது</value>
+    <value>GitHub-உடன் இணைக்கப்பட்டிருக்கு</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>வெளியேறு</value>
@@ -3605,7 +3605,7 @@
     <value>கோப்புகளை முதலில் வரிசைப்படுத்து</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>கோப்புகளை முதலிலும் கோப்புறைகளைப் பிறகும் வரிசைப்படுத்து</value>
+    <value>கோப்புகளை முதலிலும் கோப்புறைகளை பிறகும் வரிசைப்படுத்து</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
     <value>கோப்புறைகளை முதலில் வரிசைப்படுத்து</value>
@@ -3632,7 +3632,7 @@
     <value>Scroll to previous folder when navigating up</value>
   </data>
   <data name="NewWindowDescription" xml:space="preserve">
-    <value>புது சாளரத்தைத் திற</value>
+    <value>புது சாளரத்தை திற</value>
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
     <value>ஆல்ப உறையை மாற்று</value>
