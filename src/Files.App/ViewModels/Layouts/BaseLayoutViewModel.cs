@@ -123,7 +123,7 @@ namespace Files.App.ViewModels.Layouts
 					if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						// Some applications such as Edge can't raise the drop event by the Move flag, so we set the Copy flag as well.
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
@@ -139,7 +139,7 @@ namespace Files.App.ViewModels.Layouts
 					else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						// Some applications such as Edge can't raise the drop event by the Move flag, so we set the Copy flag as well.
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (draggedItems.Any(x =>
@@ -153,7 +153,7 @@ namespace Files.App.ViewModels.Layouts
 					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.FilesystemViewModel.WorkingDirectory))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						// Some applications such as Edge can't raise the drop event by the Move flag, so we set the Copy flag as well.
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else
