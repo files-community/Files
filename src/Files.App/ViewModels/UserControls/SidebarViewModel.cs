@@ -1130,7 +1130,8 @@ namespace Files.App.ViewModels.UserControls
 					if (locationItem.Path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						operationType = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Alt) || rawEvent.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 					{
@@ -1145,7 +1146,8 @@ namespace Files.App.ViewModels.UserControls
 					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Shift))
 					{
 						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						operationType = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 						|| ZipStorageFolder.IsZipPath(locationItem.Path))
@@ -1156,7 +1158,8 @@ namespace Files.App.ViewModels.UserControls
 					else if (locationItem.IsDefaultLocation || storageItems.AreItemsInSameDrive(locationItem.Path))
 					{
 						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						operationType = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else
 					{
@@ -1204,12 +1207,14 @@ namespace Files.App.ViewModels.UserControls
 				else if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Shift))
 				{
 					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-					operationType = DataPackageOperation.Move;
+					// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+					operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 				}
 				else if (storageItems.AreItemsInSameDrive(driveItem.Path))
 				{
 					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-					operationType = DataPackageOperation.Move;
+					// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+					operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 				}
 				else
 				{
