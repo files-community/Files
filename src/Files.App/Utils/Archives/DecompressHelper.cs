@@ -30,7 +30,8 @@ namespace Files.App.Utils.Archives
 				return false;
 
 			// Fill files
-			
+
+			byte[] buffer = new byte[4096];
 			int entriesAmount = zipFile.ArchiveFileData.Count(x => !x.IsDirectory);
 
 			StatusCenterItemProgressModel fsProgress = new(
