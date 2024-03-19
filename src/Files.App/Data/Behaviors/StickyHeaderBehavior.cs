@@ -21,7 +21,7 @@ namespace Files.App.Data.Behaviors
 	/// <remarks>
 	/// See also, <see cref="Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}"/>
 	/// </remarks>
-	public class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
+	public sealed class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
 	{
 		private static readonly bool IsXamlRootAvailable =
 			ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "XamlRoot");

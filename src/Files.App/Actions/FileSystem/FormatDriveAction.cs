@@ -5,7 +5,7 @@ using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
-	internal class FormatDriveAction : ObservableObject, IAction
+	internal sealed class FormatDriveAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

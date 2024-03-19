@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class RestoreAllRecycleBinAction : BaseUIAction, IAction
+	internal sealed class RestoreAllRecycleBinAction : BaseUIAction, IAction
 	{
 		public string Label
 			=> "RestoreAllItems".GetLocalizedResource();

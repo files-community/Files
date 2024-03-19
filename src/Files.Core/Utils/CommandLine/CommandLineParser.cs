@@ -8,7 +8,7 @@ namespace Files.Core.Utils.CommandLine
 	/// <summary>
 	/// Provides static helper for parsing of command line arguments on Windows.
 	/// </summary>
-	public class CommandLineParser
+	public sealed class CommandLineParser
 	{
 		/// <summary>
 		/// Parses raw command line string.

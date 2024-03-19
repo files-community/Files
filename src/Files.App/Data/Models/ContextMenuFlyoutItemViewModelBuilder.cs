@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace Files.App.Data.Models
 {
-	public class ContextMenuFlyoutItemViewModelBuilder
+	public sealed class ContextMenuFlyoutItemViewModelBuilder
 	{
 		private static readonly ContextMenuFlyoutItemViewModel none = new()
 		{

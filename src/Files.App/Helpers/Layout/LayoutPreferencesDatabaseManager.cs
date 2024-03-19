@@ -9,7 +9,7 @@ namespace Files.App.Helpers
 	/// <summary>
 	/// Represents manager for the database of layout preferences.
 	/// </summary>
-	public class LayoutPreferencesDatabaseManager : IDisposable
+	public sealed class LayoutPreferencesDatabaseManager : IDisposable
 	{
 		// Fields
 

@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Files.App.Utils.Storage
 {
-	public class BaseBasicStorageItemExtraProperties : BaseStorageItemExtraProperties
+	public sealed class BaseBasicStorageItemExtraProperties : BaseStorageItemExtraProperties
 	{
 		private readonly IStorageItem _item;
 

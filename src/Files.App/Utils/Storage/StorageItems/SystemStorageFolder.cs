@@ -151,7 +151,7 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> Folder.GetThumbnailAsync(mode, requestedSize, options);
 
-		private class SystemFolderBasicProperties : BaseBasicProperties
+		private sealed class SystemFolderBasicProperties : BaseBasicProperties
 		{
 			private readonly IStorageItemExtraProperties basicProps;
 			private readonly DateTimeOffset? dateCreated;

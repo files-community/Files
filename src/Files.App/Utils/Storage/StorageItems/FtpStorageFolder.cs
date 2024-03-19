@@ -362,7 +362,7 @@ namespace Files.App.Utils.Storage
 			return new(host, credentials, port);
 		}
 
-		private class FtpFolderBasicProperties : BaseBasicProperties
+		private sealed class FtpFolderBasicProperties : BaseBasicProperties
 		{
 			public override ulong Size { get; }
 

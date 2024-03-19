@@ -5,7 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal class RunWithPowershellAction : ObservableObject, IAction
+	internal sealed class RunWithPowershellAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

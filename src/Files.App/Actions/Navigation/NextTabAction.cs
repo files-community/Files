@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class NextTabAction : ObservableObject, IAction
+	internal sealed class NextTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext multitaskingContext;
 

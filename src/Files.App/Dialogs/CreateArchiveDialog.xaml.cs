@@ -96,7 +96,7 @@ namespace Files.App.Dialogs
 				PasswordBox.Focus(FocusState.Programmatic);
 		}
 
-		private class DialogViewModel : ObservableObject
+		private sealed class DialogViewModel : ObservableObject
 		{
 			public bool IsNameValid => FilesystemHelpers.IsValidForFilename(fileName);
 

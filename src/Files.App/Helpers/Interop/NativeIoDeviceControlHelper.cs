@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
 {
-	public class NativeIoDeviceControlHelper
+	public sealed class NativeIoDeviceControlHelper
 	{
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		public static extern IntPtr CreateFileFromAppW(

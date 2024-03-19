@@ -588,7 +588,7 @@ public class ShellFileOperations2 : IDisposable
 
 	private ShellItemArray GetSHArray(IEnumerable<ShellItem> items) => items is ShellItemArray a ? a : new ShellItemArray(items);
 
-	private class OpSink : IFileOperationProgressSink
+	private sealed class OpSink : IFileOperationProgressSink
 	{
 		private readonly ShellFileOperations2 parent;
 
@@ -650,7 +650,7 @@ public class ShellFileOperations2 : IDisposable
 
 	/// <summary>Arguments supplied to the <see cref="PostNewItem"/> event.</summary>
 	/// <seealso cref="ShellFileOpEventArgs"/>
-	public class ShellFileNewOpEventArgs : ShellFileOpEventArgs
+	public sealed class ShellFileNewOpEventArgs : ShellFileOpEventArgs
 	{
 		internal ShellFileNewOpEventArgs(TRANSFER_SOURCE_FLAGS flags, IShellItem source, IShellItem folder, IShellItem dest, string name, HRESULT hr, string templ, uint attr) :
 			base(flags, source, folder, dest, name, hr)
@@ -716,7 +716,7 @@ public class ShellFileOperations2 : IDisposable
 	public delegate void ProgressChangedEventHandler(object? sender, ProgressChangedEventArgs e);
 
 	// From System.ComponentModel.ProgressChangedEventArgs but with double percentage
-	public class ProgressChangedEventArgs : EventArgs
+	public sealed class ProgressChangedEventArgs : EventArgs
 	{
 		private readonly double _progressPercentage;
 		private readonly object? _userState;

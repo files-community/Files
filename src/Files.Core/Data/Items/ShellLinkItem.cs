@@ -3,7 +3,7 @@
 
 namespace Files.Core.Data.Items
 {
-	public class ShellLinkItem : ShellFileItem
+	public sealed class ShellLinkItem : ShellFileItem
 	{
 		public string TargetPath { get; set; }
 

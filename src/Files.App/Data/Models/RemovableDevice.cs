@@ -8,7 +8,7 @@ using static Files.App.Helpers.NativeIoDeviceControlHelper;
 
 namespace Files.App.Data.Models
 {
-	public class RemovableDevice
+	public sealed class RemovableDevice
 	{
 		private nint handle;
 		private char driveLetter;

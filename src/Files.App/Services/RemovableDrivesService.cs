@@ -9,7 +9,7 @@ using Windows.Storage;
 
 namespace Files.App.Services
 {
-	public class RemovableDrivesService : IRemovableDrivesService
+	public sealed class RemovableDrivesService : IRemovableDrivesService
 	{
 		public IStorageDeviceWatcher CreateWatcher()
 		{

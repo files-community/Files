@@ -9,7 +9,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Provides group of shell file system operation for given page instance.
 	/// </summary>
-	public class ShellFilesystemOperations : IFilesystemOperations
+	public sealed class ShellFilesystemOperations : IFilesystemOperations
 	{
 		private IShellPage _associatedInstance;
 

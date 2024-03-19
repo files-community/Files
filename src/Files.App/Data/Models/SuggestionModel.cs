@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Models
 {
-	public class SuggestionModel : ObservableObject
+	public sealed class SuggestionModel : ObservableObject
 	{
 		public bool IsRecentSearch { get; set; } = false;
 
