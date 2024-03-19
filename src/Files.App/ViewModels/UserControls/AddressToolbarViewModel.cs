@@ -410,7 +410,8 @@ namespace Files.App.ViewModels.UserControls
 			{
 				e.DragUIOverride.IsCaptionVisible = true;
 				e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
-				e.AcceptedOperation = DataPackageOperation.Move;
+				// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+				e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 			}
 
 			deferral.Complete();

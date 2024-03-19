@@ -378,8 +378,8 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "OpenWith".GetLocalizedResource(),
-					// TODO add back icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+					// TODO add back text and icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+					//Text = "OpenWith".GetLocalizedResource(),
 					//OpacityIcon = new OpacityIconModel()
 					//{
 					//	OpacityIconStyle = "ColorIconOpenWith"
