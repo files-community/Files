@@ -11,7 +11,12 @@
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="/ResourceDictionaries/ComboBoxStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</Page.Resources>
 
 	<Page.DataContext>
@@ -163,7 +168,10 @@
 					<FontIcon Glyph="&#xE74D;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}">
+				<ComboBox
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}"
+					SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}"
+					Style="{StaticResource ComboBoxStyle}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Always}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=PermanentDeletionOnly}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />

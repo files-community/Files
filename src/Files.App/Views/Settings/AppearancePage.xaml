@@ -18,6 +18,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="/ResourceDictionaries/ComboBoxStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -112,7 +113,8 @@
 					x:Name="ThemeChooser"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
-					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
+					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}"
+					Style="{StaticResource ComboBoxStyle}" />
 			</local:SettingsBlockControl>
 
 			<!--  Backdrop Material  -->
@@ -123,7 +125,8 @@
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
 					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
-					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
+					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}"
+					Style="{StaticResource ComboBoxStyle}" />
 			</local:SettingsBlockControl>
 
 			<!--  App Background  -->
