@@ -194,9 +194,9 @@ namespace Files.App.Utils.Storage
 			operations = null;
 		}
 
-		private static bool IsHistoryNull(IStorageHistory history) // history.Destination is null with CreateNew
+		private bool IsHistoryNull(IStorageHistory history) // history.Destination is null with CreateNew
 			=> IsHistoryNull(history.Source) || (history.Destination is not null && IsHistoryNull(history.Destination));
-		private static bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) => !source.All(HasPath);
+		private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) => !source.All(HasPath);
 
 		private static bool HasPath(IStorageItemWithPath item) => item is not null && !string.IsNullOrWhiteSpace(item.Path);
 	}

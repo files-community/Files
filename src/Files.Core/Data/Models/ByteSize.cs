@@ -5,7 +5,7 @@ using System.Collections.Frozen;
 
 namespace Files.Core.Data.Models
 {
-	public readonly struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
+	public struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
 	{
 		private static readonly FrozenDictionary<string, string> units = new Dictionary<string, string>
 		{
