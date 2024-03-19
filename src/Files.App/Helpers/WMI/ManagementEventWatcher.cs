@@ -11,7 +11,7 @@ namespace Files.App.Helpers
 	public delegate void EventArrivedEventHandler(object sender, EventArrivedEventArgs e);
 
 	/// <summary>
-	/// A public sealed class used to start/stop the subscription to specific indication source,
+	/// A public class used to start/stop the subscription to specific indication source,
 	/// and listen to the incoming indications, event <see cref="EventArrived" />
 	/// will be raised for each cimindication.
 	/// Original Sourced from: https://codereview.stackexchange.com/questions/255055/trying-to-replace-managementeventwatcher-class-in-system-management-to-switch-to
