@@ -36,15 +36,20 @@ namespace Files.App.Actions
 			var files = _tagsContext.TaggedItems.Where(item => !item.isFolder);
 			var folders = _tagsContext.TaggedItems.Where(item => item.isFolder);
 
-			await Task.WhenAll(files.Select(file 
-				=> NavigationHelpers.OpenPath(file.path, _pageContext.ShellPage!)));
-			
-			var openTasks = folders.Select(async folder =>
+			foreach (var file in files)
+			{
+				await NavigationHelpers.OpenPath(file.path, _pageContext.ShellPage!);
+			}
+
+			var newTabsTasks = folders.Select(async folder =>
 			{
 				await NavigationHelpers.OpenPathInNewTab(folder.path, false);
 			});
 			
-			await Task.WhenAll(openTasks);
+			foreach (var task in newTabsTasks)
+			{
+				await task;
+			}
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

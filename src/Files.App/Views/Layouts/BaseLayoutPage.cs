@@ -902,25 +902,24 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
-			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
 
 			// Load main submenus asynchronously
-			await Task.WhenAll(mainItemsWithSubMenu.Select(async x =>
+			foreach (var item in mainItemsWithSubMenu)
 			{
-				await x.LoadSubMenuAction();
-				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, x);
-			}));
+				await item.LoadSubMenuAction();
+				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems,item);
+			}
 
 			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
-			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
 
-			// Load overflow submenus asynchronously
-			await Task.WhenAll(overflowItemsWithSubMenu.Select(async x =>
+			foreach (var item in overflowItemsWithSubMenu)
 			{
-				await x.LoadSubMenuAction();
-				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, x);
-			}));
-
+				await item.LoadSubMenuAction();
+				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
+			}
+			
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
 				// Enable CharacterEllipsis text trimming for menu items
