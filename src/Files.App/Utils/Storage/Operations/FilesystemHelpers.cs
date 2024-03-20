@@ -479,7 +479,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			// Create a list of tasks to remove items from the jump list asynchronously
-			var removeTasks = source.Select(x => jumpListService.RemoveFolderAsync(x.Path)).ToList();
+			var removeTasks = source.Select(x => jumpListService.RemoveFolderAsync(x.Path));
 
 			// Await all removal tasks to complete
 			await Task.WhenAll(removeTasks);

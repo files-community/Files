@@ -360,7 +360,7 @@ namespace Files.App.Helpers
 				}
 
 
-				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
 				
 				await Task.WhenAll(itemsWithSubMenu.Select(x => x.LoadSubMenuAction()));
 
