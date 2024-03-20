@@ -150,8 +150,9 @@ namespace Files.App.Services.Settings
 		{
 			var settings = new Dictionary<string, object>
 			{
-				{"FileTagList", FileTagList}
+				{ "FileTagList", FileTagList }
 			};
+
 			// Serialize settings to JSON format
 			return JsonSettingsSerializer.SerializeToJson(settings);
 		}
