@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace Files.App.Utils.Storage
 {
-	internal class StorageCacheController : IStorageCacheController
+	internal sealed class StorageCacheController : IStorageCacheController
 	{
 		private static StorageCacheController instance;
 

@@ -9,7 +9,7 @@ using Windows.System;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class SearchBoxViewModel : ObservableObject, ISearchBoxViewModel
+	public sealed class SearchBoxViewModel : ObservableObject, ISearchBoxViewModel
 	{
 		private string query;
 		public string Query
@@ -124,7 +124,7 @@ namespace Files.App.ViewModels.UserControls
 			oldQueries.ForEach(Suggestions.Add);
 		}
 
-		private class SuggestionComparer : IEqualityComparer<SuggestionModel>, IComparer<SuggestionModel>
+		private sealed class SuggestionComparer : IEqualityComparer<SuggestionModel>, IComparer<SuggestionModel>
 		{
 			public int Compare(SuggestionModel x, SuggestionModel y)
 				=> y.ItemPath.CompareTo(x.ItemPath);

@@ -33,7 +33,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
-		public override void GetBaseProperties()
+		public sealed override void GetBaseProperties()
 		{
 			if (List is not null)
 			{

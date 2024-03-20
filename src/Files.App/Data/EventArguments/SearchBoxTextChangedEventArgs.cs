@@ -7,7 +7,7 @@ using Windows.Foundation;
 
 namespace Files.App.Data.EventArguments
 {
-	public class SearchBoxTextChangedEventArgs
+	public sealed class SearchBoxTextChangedEventArgs
 	{
 		public SearchBoxTextChangeReason Reason { get; }
 

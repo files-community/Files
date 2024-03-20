@@ -3,7 +3,7 @@
 
 namespace Files.App.Utils.Storage
 {
-	public class StorageHistory : IStorageHistory
+	public sealed class StorageHistory : IStorageHistory
 	{
 		public FileOperationType OperationType { get; private set; }
 

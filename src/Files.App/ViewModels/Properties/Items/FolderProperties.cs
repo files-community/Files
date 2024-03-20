@@ -8,7 +8,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.ViewModels.Properties
 {
-	internal class FolderProperties : BaseProperties
+	internal sealed class FolderProperties : BaseProperties
 	{
 		public ListedItem Item { get; }
 

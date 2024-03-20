@@ -6,7 +6,7 @@ using Windows.System;
 
 namespace Files.App.Utils.Storage
 {
-	internal class StorageSenseHelper
+	internal sealed class StorageSenseHelper
 	{
 		public static async Task OpenStorageSenseAsync(string path)
 		{

@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Previews
 			return list.Where(i => i.ValueText is not null).ToList();
 		}
 
-		private class DetailsOnlyPreviewModel : BasePreviewModel
+		private sealed class DetailsOnlyPreviewModel : BasePreviewModel
 		{
 			public DetailsOnlyPreviewModel(ListedItem item) : base(item) { }
 

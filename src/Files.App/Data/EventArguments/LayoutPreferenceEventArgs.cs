@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.EventArguments
 {
-	public class LayoutPreferenceEventArgs
+	public sealed class LayoutPreferenceEventArgs
 	{
 		public readonly bool IsAdaptiveLayoutUpdateRequired;
 

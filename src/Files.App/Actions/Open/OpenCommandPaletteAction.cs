@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class OpenCommandPaletteAction : IAction
+	internal sealed class OpenCommandPaletteAction : IAction
 	{
 		private readonly IContentPageContext _context;
 

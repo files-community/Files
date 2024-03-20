@@ -645,7 +645,7 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
-		private class ZipFolderBasicProperties : BaseBasicProperties
+		private sealed class ZipFolderBasicProperties : BaseBasicProperties
 		{
 			private ArchiveFileInfo entry;
 
