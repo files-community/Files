@@ -368,9 +368,7 @@ namespace Files.App.Helpers
 					await item.LoadSubMenuAction();
 					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
-				
 						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
-				
 					}
 					else
 					{
