@@ -36,10 +36,8 @@ namespace Files.App.Actions
 			var files = _tagsContext.TaggedItems.Where(item => !item.isFolder);
 			var folders = _tagsContext.TaggedItems.Where(item => item.isFolder);
 
-			foreach (var file in files)
-			{
-				await NavigationHelpers.OpenPath(file.path, _pageContext.ShellPage!);
-			}
+			await Task.WhenAll(files.Select(file 
+				=> NavigationHelpers.OpenPath(file.path, _pageContext.ShellPage!)));
 
 			var newTabsTasks = folders.Select(async folder =>
 			{
