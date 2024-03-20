@@ -360,28 +360,23 @@ namespace Files.App.Helpers
 				}
 
 
-				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
 				
 				//The order here may be important
 				foreach (var item in itemsWithSubMenu)
 				{
 					await item.LoadSubMenuAction();
-				}
+					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+					{
 				
-				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
-				{
-					foreach (var item in itemsWithSubMenu)
-					{
 						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
+				
 					}
-				}
-				else
-				{
-					var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-
-					if (overflowItem != null)
+					else
 					{
-						foreach (var item in itemsWithSubMenu)
+						var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
+
+						if (overflowItem != null)
 						{
 							AddItemsToOverflowMenu(overflowItem, item);
 						}
