@@ -165,7 +165,7 @@ namespace Files.App.Utils.Storage
 		public virtual StorageFolderQueryResult ToStorageFolderQueryResult() => null;
 	}
 
-	public class SystemStorageItemQueryResult : BaseStorageItemQueryResult
+	public sealed class SystemStorageItemQueryResult : BaseStorageItemQueryResult
 	{
 		private StorageItemQueryResult StorageItemQueryResult { get; }
 
@@ -195,7 +195,7 @@ namespace Files.App.Utils.Storage
 		public override StorageItemQueryResult ToStorageItemQueryResult() => StorageItemQueryResult;
 	}
 
-	public class SystemStorageFileQueryResult : BaseStorageFileQueryResult
+	public sealed class SystemStorageFileQueryResult : BaseStorageFileQueryResult
 	{
 		private StorageFileQueryResult StorageFileQueryResult { get; }
 
@@ -225,7 +225,7 @@ namespace Files.App.Utils.Storage
 		public override StorageFileQueryResult ToStorageFileQueryResult() => StorageFileQueryResult;
 	}
 
-	public class SystemStorageFolderQueryResult : BaseStorageFolderQueryResult
+	public sealed class SystemStorageFolderQueryResult : BaseStorageFolderQueryResult
 	{
 		private StorageFolderQueryResult StorageFolderQueryResult { get; }
 

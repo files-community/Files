@@ -3,7 +3,7 @@
 
 namespace Files.Core.Data.Items
 {
-	public class Win32Process
+	public sealed class Win32Process
 	{
 		public string Name { get; set; }
 

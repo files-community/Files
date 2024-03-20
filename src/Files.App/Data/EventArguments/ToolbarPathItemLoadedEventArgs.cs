@@ -7,7 +7,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.EventArguments
 {
-	public class ToolbarPathItemLoadedEventArgs
+	public sealed class ToolbarPathItemLoadedEventArgs
 	{
 		public MenuFlyout OpenedFlyout { get; set; }
 

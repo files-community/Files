@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class LayoutDetailsAction : ToggleLayoutAction
+	internal sealed class LayoutDetailsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Details;
@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutListAction : ToggleLayoutAction
+	internal sealed class LayoutListAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.List;
@@ -39,7 +39,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutTilesAction : ToggleLayoutAction
+	internal sealed class LayoutTilesAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Tiles;
@@ -57,7 +57,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutGridAction : ToggleLayoutAction
+	internal sealed class LayoutGridAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Grid;
@@ -75,7 +75,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutColumnsAction : ToggleLayoutAction
+	internal sealed class LayoutColumnsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Columns;
@@ -93,7 +93,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);
 	}
 
-	internal class LayoutAdaptiveAction : ToggleLayoutAction
+	internal sealed class LayoutAdaptiveAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Adaptive;
@@ -168,7 +168,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class LayoutDecreaseSizeAction : ObservableObject, IAction
+	internal sealed class LayoutDecreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IDisplayPageContext DisplayPageContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
@@ -261,7 +261,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class LayoutIncreaseSizeAction : ObservableObject, IAction
+	internal sealed class LayoutIncreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IDisplayPageContext DisplayPageContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();

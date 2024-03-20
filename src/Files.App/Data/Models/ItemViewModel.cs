@@ -2465,7 +2465,7 @@ namespace Files.App.Data.Models
 		}
 	}
 
-	public class PageTypeUpdatedEventArgs
+	public sealed class PageTypeUpdatedEventArgs
 	{
 		public bool IsTypeCloudDrive { get; set; }
 
@@ -2476,7 +2476,7 @@ namespace Files.App.Data.Models
 		public bool IsTypeSearchResults { get; set; }
 	}
 
-	public class WorkingDirectoryModifiedEventArgs : EventArgs
+	public sealed class WorkingDirectoryModifiedEventArgs : EventArgs
 	{
 		public string? Path { get; set; }
 
@@ -2485,7 +2485,7 @@ namespace Files.App.Data.Models
 		public bool IsLibrary { get; set; }
 	}
 
-	public class ItemLoadStatusChangedEventArgs : EventArgs
+	public sealed class ItemLoadStatusChangedEventArgs : EventArgs
 	{
 		public enum ItemLoadStatus
 		{

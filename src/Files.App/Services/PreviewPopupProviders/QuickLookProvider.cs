@@ -8,7 +8,7 @@ using System.Security.Principal;
 
 namespace Files.App.Services.PreviewPopupProviders
 {
-	public class QuickLookProvider : IPreviewPopupProvider
+	public sealed class QuickLookProvider : IPreviewPopupProvider
 	{
 		public static QuickLookProvider Instance { get; } = new();
 

@@ -10,7 +10,7 @@ using Windows.System;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class AboutViewModel : ObservableObject
+	public sealed class AboutViewModel : ObservableObject
 	{
 		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 

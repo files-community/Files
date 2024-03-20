@@ -15,7 +15,7 @@ using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class AddressToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
+	public sealed class AddressToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
 	{
 		private const int MAX_SUGGESTIONS = 10;
 

@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class FileProperties : BaseProperties, IFileProperties
+	public sealed class FileProperties : BaseProperties, IFileProperties
 	{
 		public ListedItem Item { get; }
 

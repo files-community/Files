@@ -3,7 +3,7 @@
 
 namespace Files.App.Helpers
 {
-	public class WqlEventQuery
+	public sealed class WqlEventQuery
 	{
 		public string QueryExpression { get; }
 

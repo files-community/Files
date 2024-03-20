@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Items
 {
-	public class AppThemeResourceItem
+	public sealed class AppThemeResourceItem
 	{
 		public string? Name { get; set; }
 

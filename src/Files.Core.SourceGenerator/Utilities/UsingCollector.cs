@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Files.Core.SourceGenerator.Utilities
 {
-	internal class UsingCollector : CSharpSyntaxWalker
+	internal sealed class UsingCollector : CSharpSyntaxWalker
 	{
 		private readonly HashSet<string> _namespaces;
 

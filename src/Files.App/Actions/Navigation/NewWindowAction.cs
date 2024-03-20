@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class NewWindowAction : IAction
+	internal sealed class NewWindowAction : IAction
 	{
 		public string Label
 			=> "NewWindow".GetLocalizedResource();

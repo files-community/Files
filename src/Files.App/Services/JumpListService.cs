@@ -7,7 +7,7 @@ using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {
-	public class JumpListService : IJumpListService
+	public sealed class JumpListService : IJumpListService
 	{
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";

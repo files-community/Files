@@ -7,7 +7,7 @@ using System.Security;
 namespace Files.App.Utils.Storage
 {
 	// Code from System.Net.NetworkCredential
-	public class StorageCredential
+	public sealed class StorageCredential
 	{
 		private string _userName = string.Empty;
 		public string UserName

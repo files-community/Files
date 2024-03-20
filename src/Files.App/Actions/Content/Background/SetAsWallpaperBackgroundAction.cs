@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class SetAsWallpaperBackgroundAction : BaseSetAsAction
+	internal sealed class SetAsWallpaperBackgroundAction : BaseSetAsAction
 	{
 		public override string Label
 			=> "SetAsBackground".GetLocalizedResource();

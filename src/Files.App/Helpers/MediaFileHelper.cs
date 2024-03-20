@@ -2,7 +2,7 @@
 
 namespace Files.App.Helpers
 {
-	internal class MediaFileHelper
+	internal sealed class MediaFileHelper
 	{
 		/// <summary>
 		/// Changes the album cover for a given <paramref name="filePath"/>.

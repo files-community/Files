@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenHelpAction : IAction
+	internal sealed class OpenHelpAction : IAction
 	{
 		public string Label
 			=> "Help".GetLocalizedResource();

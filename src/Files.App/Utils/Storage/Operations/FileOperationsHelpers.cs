@@ -16,7 +16,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Utils.Storage
 {
-	public class FileOperationsHelpers
+	public sealed class FileOperationsHelpers
 	{
 		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
 		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
@@ -916,11 +916,11 @@ namespace Files.App.Utils.Storage
 		public static void WaitForCompletion()
 			=> progressHandler?.WaitForCompletion();
 
-		private class ProgressHandler : Disposable
+		private sealed class ProgressHandler : Disposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
 
-			public class OperationWithProgress
+			public sealed class OperationWithProgress
 			{
 				public double Progress { get; set; }
 				public bool Canceled { get; set; }

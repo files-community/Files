@@ -22,7 +22,7 @@ using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
+	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();

@@ -18,12 +18,12 @@ using static Vanara.PInvoke.Mpr;
 
 namespace Files.App.Utils
 {
-	public class NetworkDrivesAPI
+	public sealed class NetworkDrivesAPI
 	{
 		/// <summary>
 		/// A dialog box that allows the user to browse and connect to network resources.
 		/// </summary>
-		public class NetworkConnectionDialog : CommonDialog
+		public sealed class NetworkConnectionDialog : CommonDialog
 		{
 			private readonly NETRESOURCE nres = new NETRESOURCE();
 			private CONNECTDLGSTRUCT opts;

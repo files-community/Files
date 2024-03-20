@@ -3,7 +3,7 @@
 
 namespace Files.Core.Utils.Cloud
 {
-	public class CloudProvider : ICloudProvider
+	public sealed class CloudProvider : ICloudProvider
 	{
 		public CloudProviders ID { get; }
 

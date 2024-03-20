@@ -121,7 +121,7 @@ namespace Files.App.Data.Items
 		}
 	}
 
-	public class RecycleBinLocationItem : LocationItem
+	public sealed class RecycleBinLocationItem : LocationItem
 	{
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{

@@ -7,7 +7,7 @@ using System.Drawing;
 namespace Files.App.Services
 {
 	/// <inheritdoc cref="IResourcesService"/>
-	public class ResourcesService : IResourcesService
+	public sealed class ResourcesService : IResourcesService
 	{
 		/// <inheritdoc/>
 		public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)

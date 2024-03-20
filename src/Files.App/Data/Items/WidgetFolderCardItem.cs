@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Items
 {
-	public class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	public sealed class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
 	{
 		// Fields
 
