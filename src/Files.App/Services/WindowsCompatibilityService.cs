@@ -6,7 +6,7 @@ using Microsoft.Win32;
 namespace Files.App.Services
 {
 	/// <inheritdoc cref="IWindowsCompatibilityService"/>
-	public class WindowsCompatibilityService : IWindowsCompatibilityService
+	public sealed class WindowsCompatibilityService : IWindowsCompatibilityService
 	{
 		private readonly string _registrySubPath = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
 

@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class MainPropertiesViewModel : ObservableObject
+	public sealed class MainPropertiesViewModel : ObservableObject
 	{
 		public CancellationTokenSource ChangedPropertiesCancellationTokenSource { get; }
 

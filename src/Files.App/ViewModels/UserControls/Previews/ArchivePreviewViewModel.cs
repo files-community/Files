@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class ArchivePreviewViewModel : BasePreviewModel
+	public sealed class ArchivePreviewViewModel : BasePreviewModel
 	{
 		public ArchivePreviewViewModel(ListedItem item)
 			: base(item)

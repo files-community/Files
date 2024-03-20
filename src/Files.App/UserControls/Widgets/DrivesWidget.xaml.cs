@@ -288,7 +288,7 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewTab(navigationPath, false);
 		}
 
-		public class DrivesWidgetInvokedEventArgs : EventArgs
+		public sealed class DrivesWidgetInvokedEventArgs : EventArgs
 		{
 			public string Path { get; set; }
 		}

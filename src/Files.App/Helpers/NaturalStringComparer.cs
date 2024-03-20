@@ -38,14 +38,14 @@ namespace Files.App.Helpers
 		);
 	}
 
-	public class NaturalStringComparer
+	public sealed class NaturalStringComparer
 	{
 		public static IComparer<object> GetForProcessor()
 		{
 			return NativeWinApiHelper.IsRunningOnArm ? new StringComparerArm64() : new StringComparerDefault();
 		}
 
-		private class StringComparerArm64 : IComparer<object>
+		private sealed class StringComparerArm64 : IComparer<object>
 		{
 			public int Compare(object a, object b)
 			{
@@ -53,7 +53,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private class StringComparerDefault : IComparer<object>
+		private sealed class StringComparerDefault : IComparer<object>
 		{
 			public int Compare(object a, object b)
 			{

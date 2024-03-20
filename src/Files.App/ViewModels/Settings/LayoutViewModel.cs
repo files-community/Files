@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Settings
 {
-	public class LayoutViewModel : ObservableObject
+	public sealed class LayoutViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 

@@ -8,7 +8,7 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Services
 {
-	public class NetworkDrivesService : INetworkDrivesService
+	public sealed class NetworkDrivesService : INetworkDrivesService
 	{
 		public bool DisconnectNetworkDrive(ILocatableFolder drive)
 		{

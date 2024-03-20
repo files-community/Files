@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Files.App.Data.Models
 {
-	public class PinnedFoldersManager
+	public sealed class PinnedFoldersManager
 	{
 		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();

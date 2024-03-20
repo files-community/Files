@@ -292,7 +292,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private class FtpFileBasicProperties : BaseBasicProperties
+		private sealed class FtpFileBasicProperties : BaseBasicProperties
 		{
 			public override ulong Size { get; }
 

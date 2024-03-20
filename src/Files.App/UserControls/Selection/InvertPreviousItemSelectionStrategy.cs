@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Files.App.UserControls.Selection
 {
-	internal class InvertPreviousItemSelectionStrategy : ItemSelectionStrategy
+	internal sealed class InvertPreviousItemSelectionStrategy : ItemSelectionStrategy
 	{
 		private readonly List<object> prevSelectedItems;
 

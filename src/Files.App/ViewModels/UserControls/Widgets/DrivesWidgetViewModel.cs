@@ -6,7 +6,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="DrivesWidget"/>.
 	/// </summary>
-	public class DrivesWidgetViewModel
+	public sealed class DrivesWidgetViewModel
 	{
 		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
 	}

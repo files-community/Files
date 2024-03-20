@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
-	internal class CommandManager : ICommandManager
+	internal sealed class CommandManager : ICommandManager
 	{
 		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
@@ -409,7 +409,7 @@ namespace Files.App.Data.Commands
 		}
 
 		[DebuggerDisplay("Command {Code}")]
-		internal class ActionCommand : ObservableObject, IRichCommand
+		internal sealed class ActionCommand : ObservableObject, IRichCommand
 		{
 			public event EventHandler? CanExecuteChanged;
 
