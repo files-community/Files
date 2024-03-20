@@ -360,10 +360,14 @@ namespace Files.App.Helpers
 				}
 
 
-				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
 				
-				await Task.WhenAll(itemsWithSubMenu.Select(x => x.LoadSubMenuAction()));
-
+				//The order here may be important
+				foreach (var item in itemsWithSubMenu)
+				{
+					await item.LoadSubMenuAction();
+				}
+				
 				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					foreach (var item in itemsWithSubMenu)
