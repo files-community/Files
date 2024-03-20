@@ -1,8 +1,10 @@
 <!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<Style x:Key="FixedWidthComboBoxStyle" TargetType="ComboBox">
-		<Setter Property="CornerRadius" Value="4" />
+	<Style
+		x:Key="FixedWidthComboBoxStyle"
+		BasedOn="{StaticResource DefaultComboBoxStyle}"
+		TargetType="ComboBox">
 		<Setter Property="MinWidth" Value="240" />
 	</Style>
 

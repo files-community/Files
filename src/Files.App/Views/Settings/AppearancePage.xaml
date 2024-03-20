@@ -114,7 +114,7 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}"
-					Style="{StaticResource ComboBoxStyle}" />
+					Style="{StaticResource FixedWidthComboBoxStyle}" />
 			</local:SettingsBlockControl>
 
 			<!--  Backdrop Material  -->
@@ -126,7 +126,7 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
 					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}"
-					Style="{StaticResource ComboBoxStyle}" />
+					Style="{StaticResource FixedWidthComboBoxStyle}" />
 			</local:SettingsBlockControl>
 
 			<!--  App Background  -->

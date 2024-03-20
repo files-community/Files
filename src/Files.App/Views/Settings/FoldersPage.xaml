@@ -171,7 +171,7 @@
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}"
-					Style="{StaticResource ComboBoxStyle}">
+					Style="{StaticResource FixedWidthComboBoxStyle}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Always}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=PermanentDeletionOnly}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />

@@ -55,7 +55,7 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=Language}"
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}"
-					Style="{StaticResource ComboBoxStyle}">
+					Style="{StaticResource FixedWidthComboBoxStyle}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="vm:AppLanguageItem">
 							<TextBlock Text="{x:Bind LanguageName}" />
@@ -78,7 +78,7 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=DateFormat}"
 					ItemsSource="{x:Bind ViewModel.DateFormats}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDateTimeFormatIndex, Mode=TwoWay}"
-					Style="{StaticResource ComboBoxStyle}">
+					Style="{StaticResource FixedWidthComboBoxStyle}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="vm:DateTimeFormatItem">
 							<StackPanel Orientation="Vertical">
@@ -107,7 +107,7 @@
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=StartupSettings}"
 					SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}"
-					Style="{StaticResource ComboBoxStyle}">
+					Style="{StaticResource FixedWidthComboBoxStyle}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}" IsSelected="{x:Bind ViewModel.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}" IsSelected="{x:Bind ViewModel.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

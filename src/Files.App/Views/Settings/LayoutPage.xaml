@@ -65,7 +65,7 @@
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}"
-					Style="{StaticResource ComboBoxStyle}">
+					Style="{StaticResource FixedWidthComboBoxStyle}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=List}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
@@ -91,7 +91,7 @@
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=SortBy}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}"
-					Style="{StaticResource ComboBoxStyle}">
+					Style="{StaticResource FixedWidthComboBoxStyle}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
@@ -114,7 +114,7 @@
 							<ComboBox
 								AutomationProperties.Name="{helpers:ResourceString Name=SortPriority}"
 								SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortPriorityIndex, Mode=TwoWay}"
-								Style="{StaticResource ComboBoxStyle}">
+								Style="{StaticResource FixedWidthComboBoxStyle}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFoldersFirst}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesFirst}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesAndFoldersTogether}" />
@@ -133,7 +133,7 @@
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}"
-					Style="{StaticResource ComboBoxStyle}">
+					Style="{StaticResource FixedWidthComboBoxStyle}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
@@ -159,7 +159,7 @@
 								AutomationProperties.Name="{helpers:ResourceString Name=GroupByDateUnit}"
 								IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
 								SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupByDateUnitIndex, Mode=TwoWay}"
-								Style="{StaticResource ComboBoxStyle}">
+								Style="{StaticResource FixedWidthComboBoxStyle}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=Year}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Month}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Day}" />
