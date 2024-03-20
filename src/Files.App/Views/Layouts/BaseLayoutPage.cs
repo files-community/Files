@@ -901,21 +901,25 @@ namespace Files.App.Views.Layouts
 				}
 			}
 
-			// Add items to main shell submenu
-			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
+			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+
+			// Load main submenus asynchronously
+			await Task.WhenAll(mainItemsWithSubMenu.Select(async x =>
 			{
 				await x.LoadSubMenuAction();
-
 				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, x);
-			});
+			}));
 
-			// Add items to overflow shell submenu
-			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
+			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+
+			// Load overflow submenus asynchronously
+			await Task.WhenAll(overflowItemsWithSubMenu.Select(async x =>
 			{
 				await x.LoadSubMenuAction();
-
 				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, x);
-			});
+			}));
 
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{

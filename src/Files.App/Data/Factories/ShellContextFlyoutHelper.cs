@@ -359,20 +359,30 @@ namespace Files.App.Helpers
 					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
 				}
 
-				// Add items to shell submenu
-				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
-				{
-					await x.LoadSubMenuAction();
 
-					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+				
+				await Task.WhenAll(itemsWithSubMenu.Select(x => x.LoadSubMenuAction()));
+
+				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+				{
+					foreach (var item in itemsWithSubMenu)
 					{
-						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, x);
+						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
 					}
-					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is AppBarButton overflowItem)
+				}
+				else
+				{
+					var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
+
+					if (overflowItem != null)
 					{
-						AddItemsToOverflowMenu(overflowItem, x);
+						foreach (var item in itemsWithSubMenu)
+						{
+							AddItemsToOverflowMenu(overflowItem, item);
+						}
 					}
-				});
+				}
 			}
 			catch { }
 		}
