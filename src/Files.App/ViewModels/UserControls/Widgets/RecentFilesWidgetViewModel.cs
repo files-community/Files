@@ -6,7 +6,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="RecentFilesWidget"/>.
 	/// </summary>
-	public class RecentFilesWidgetViewModel
+	public sealed class RecentFilesWidgetViewModel
 	{
 		public ObservableCollection<RecentItem> Items { get; } = [];
 	}

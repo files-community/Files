@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class AppearanceViewModel : ObservableObject
+	public sealed class AppearanceViewModel : ObservableObject
 	{
 		private readonly IUserSettingsService UserSettingsService;
 		private readonly IResourcesService ResourcesService;

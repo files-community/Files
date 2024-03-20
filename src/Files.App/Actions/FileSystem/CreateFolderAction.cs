@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class CreateFolderAction : BaseUIAction, IAction
+	internal sealed class CreateFolderAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 

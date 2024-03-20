@@ -20,7 +20,7 @@ namespace Files.App.Data.Items
 			=> this as FlyoutItem;
 	}
 
-	public class TagItem : TagsListItem
+	public sealed class TagItem : TagsListItem
 	{
 		public TagViewModel Tag { get; set; }
 
@@ -30,7 +30,7 @@ namespace Files.App.Data.Items
 		}
 	}
 
-	public class FlyoutItem : TagsListItem
+	public sealed class FlyoutItem : TagsListItem
 	{
 		public MenuFlyout Flyout { get; set; }
 

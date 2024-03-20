@@ -13,7 +13,7 @@ using Windows.Storage;
 
 namespace Files.App.Utils
 {
-	public class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
+	public sealed class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{
 		public event EventHandler<ILocatableFolder> DeviceAdded;
 		public event EventHandler<string> DeviceRemoved;

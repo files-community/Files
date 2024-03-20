@@ -16,7 +16,7 @@ namespace Files.App.Utils.Storage
 		public static explicit operator FilesystemResult(bool res) => new(res ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
 	}
 
-	public class FilesystemResult<T> : FilesystemResult
+	public sealed class FilesystemResult<T> : FilesystemResult
 	{
 		public T Result { get; }
 

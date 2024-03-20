@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Files.InteractionTests.Helper
 {
-	public class AxeHelper
+	public sealed class AxeHelper
 	{
 		public static IScanner AccessibilityScanner;
 

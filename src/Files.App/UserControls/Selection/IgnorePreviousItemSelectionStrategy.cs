@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Files.App.UserControls.Selection
 {
-	public class IgnorePreviousItemSelectionStrategy : ItemSelectionStrategy
+	public sealed class IgnorePreviousItemSelectionStrategy : ItemSelectionStrategy
 	{
 		public IgnorePreviousItemSelectionStrategy(ICollection<object> selectedItems) : base(selectedItems)
 		{

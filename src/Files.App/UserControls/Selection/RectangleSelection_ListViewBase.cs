@@ -16,7 +16,7 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls.Selection
 {
-	public class RectangleSelection_ListViewBase : RectangleSelection
+	public sealed class RectangleSelection_ListViewBase : RectangleSelection
 	{
 		private ListViewBase uiElement;
 		private ScrollViewer scrollViewer;

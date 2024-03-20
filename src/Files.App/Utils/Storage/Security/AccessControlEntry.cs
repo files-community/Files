@@ -6,7 +6,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Represents an access control entry (ACE).
 	/// </summary>
-	public class AccessControlEntry : ObservableObject
+	public sealed class AccessControlEntry : ObservableObject
 	{
 		/// <summary>
 		/// Whether the path indicates folder or not

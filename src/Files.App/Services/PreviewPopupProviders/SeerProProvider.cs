@@ -14,7 +14,7 @@ namespace Files.App.Services.PreviewPopupProviders
 		public IntPtr lpData;
 	}
 
-	public class SeerProProvider : IPreviewPopupProvider
+	public sealed class SeerProProvider : IPreviewPopupProvider
 	{
 		public static SeerProProvider Instance { get; } = new();
 

@@ -10,7 +10,7 @@ namespace Files.App.Utils.Cloud
 	/// <summary>
 	/// Provides an utility for Box Cloud detection.
 	/// </summary>
-	public class BoxCloudDetector : AbstractCloudDetector
+	public sealed class BoxCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{

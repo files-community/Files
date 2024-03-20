@@ -38,7 +38,7 @@ namespace Files.App.Data.Contracts
 		FileTag
 	}
 
-	public class ContextMenuOptions
+	public sealed class ContextMenuOptions
 	{
 		public bool IsLibrariesHeader { get; set; }
 

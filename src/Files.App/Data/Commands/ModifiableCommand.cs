@@ -11,7 +11,7 @@ using static Files.App.Data.Commands.CommandManager;
 namespace Files.App.Data.Commands
 {
 	[DebuggerDisplay("Command {Code} (Modifiable)")]
-	internal class ModifiableCommand : ObservableObject, IRichCommand
+	internal sealed class ModifiableCommand : ObservableObject, IRichCommand
 	{
 		public event EventHandler? CanExecuteChanged;
 

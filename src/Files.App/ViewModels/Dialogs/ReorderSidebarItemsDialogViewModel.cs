@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public class ReorderSidebarItemsDialogViewModel : ObservableObject
+	public sealed class ReorderSidebarItemsDialogViewModel : ObservableObject
 	{
 		private readonly IQuickAccessService quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 

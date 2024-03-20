@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace Files.App.Utils.Shell
 {
-	public class ThreadWithMessageQueue : Disposable
+	public sealed class ThreadWithMessageQueue : Disposable
 	{
 		private readonly BlockingCollection<Internal> messageQueue;
 
@@ -58,7 +58,7 @@ namespace Files.App.Utils.Shell
 			thread.Start();
 		}
 
-		private class Internal
+		private sealed class Internal
 		{
 			public Func<object?> payload;
 

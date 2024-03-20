@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class SetAsLockscreenBackgroundAction : BaseSetAsAction
+	internal sealed class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
 		public override string Label
 			=> "SetAsLockscreen".GetLocalizedResource();

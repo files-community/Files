@@ -7,7 +7,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.RecentItem
 {
-	public class RecentItem : WidgetCardItem, IEquatable<RecentItem>
+	public sealed class RecentItem : WidgetCardItem, IEquatable<RecentItem>
 	{
 		private BitmapImage _fileImg;
 		public BitmapImage FileImg

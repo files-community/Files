@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenInNewWindowItemAction : ObservableObject, IAction
+	internal sealed class OpenInNewWindowItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

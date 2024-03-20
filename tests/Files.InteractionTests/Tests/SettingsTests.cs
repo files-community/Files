@@ -8,7 +8,7 @@ using System.Threading;
 namespace Files.InteractionTests.Tests
 {
 	[TestClass]
-	public class SettingsTests
+	public sealed class SettingsTests
 	{
 
 		[TestCleanup]

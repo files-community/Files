@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class HashesViewModel : ObservableObject, IDisposable
+	public sealed class HashesViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
