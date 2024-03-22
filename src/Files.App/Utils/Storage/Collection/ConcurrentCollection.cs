@@ -5,7 +5,7 @@ namespace Files.App.Helpers
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]
-	public class ConcurrentCollection<T> : ICollection<T>, IList<T>, ICollection, IList
+	public sealed class ConcurrentCollection<T> : ICollection<T>, IList<T>, ICollection, IList
 	{
 		private readonly object syncRoot = new object();
 		

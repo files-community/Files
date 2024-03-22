@@ -5,7 +5,7 @@ using Files.Core.Storage;
 
 namespace Files.App.Actions
 {
-	internal class UnpinFromStartAction : IAction
+	internal sealed class UnpinFromStartAction : IAction
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 

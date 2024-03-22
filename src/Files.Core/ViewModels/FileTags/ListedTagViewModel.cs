@@ -3,7 +3,7 @@
 
 namespace Files.Core.ViewModels.FileTags
 {
-	public class ListedTagViewModel : ObservableObject
+	public sealed class ListedTagViewModel : ObservableObject
 	{
 		private TagViewModel _Tag;
 		public TagViewModel Tag

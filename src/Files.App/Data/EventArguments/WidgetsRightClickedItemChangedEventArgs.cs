@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.EventArguments
 {
-	public class WidgetsRightClickedItemChangedEventArgs
+	public sealed class WidgetsRightClickedItemChangedEventArgs
 	{
 		public WidgetCardItem? Item { get; set; }
 

@@ -14,7 +14,7 @@ using static Files.Core.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.App.Helpers
 {
-	public class NativeFileOperationsHelper
+	public sealed class NativeFileOperationsHelper
 	{
 		public enum File_Attributes : uint
 		{
@@ -326,7 +326,7 @@ namespace Files.App.Helpers
 		private static extern bool FindNextStreamW(IntPtr hndFindFile, [In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData);
 
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-		private class WIN32_FIND_STREAM_DATA {
+		private sealed class WIN32_FIND_STREAM_DATA {
 			public long StreamSize;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 296)]
 			public string cStreamName;

@@ -518,7 +518,7 @@ namespace Files.App.Utils.Storage
 			};
 		}
 
-		private class ZipFileBasicProperties : BaseBasicProperties
+		private sealed class ZipFileBasicProperties : BaseBasicProperties
 		{
 			private ArchiveFileInfo entry;
 

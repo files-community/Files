@@ -9,7 +9,7 @@ using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public class CreateShortcutDialogViewModel : ObservableObject
+	public sealed class CreateShortcutDialogViewModel : ObservableObject
 	{
 		// User's working directory
 		public readonly string WorkingDirectory;

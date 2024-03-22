@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class OpenNewPaneAction : ObservableObject, IAction
+	internal sealed class OpenNewPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

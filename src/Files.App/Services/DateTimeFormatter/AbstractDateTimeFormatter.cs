@@ -69,7 +69,7 @@ namespace Files.App.Services.DateTimeFormatter
 			return cultureInfo.Calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstFullWeek, cultureInfo.DateTimeFormat.FirstDayOfWeek);
 		}
 
-		private class Label : ITimeSpanLabel
+		private sealed class Label : ITimeSpanLabel
 		{
 			public string Text { get; }
 

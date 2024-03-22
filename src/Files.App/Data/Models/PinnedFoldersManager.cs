@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Files.App.Data.Models
 {
-	public class PinnedFoldersManager
+	public sealed class PinnedFoldersManager
 	{
 		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -108,7 +108,7 @@ namespace Files.App.Data.Models
 
 					locationItem.IconData = result;
 
-					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 					if (bitmapImage is not null)
 						locationItem.Icon = bitmapImage;
 				}

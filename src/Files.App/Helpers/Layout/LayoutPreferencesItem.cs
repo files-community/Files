@@ -6,7 +6,7 @@ namespace Files.App.Helpers
 	/// <summary>
 	/// Represents item for a folder's layout preferences.
 	/// </summary>
-	public class LayoutPreferencesItem
+	public sealed class LayoutPreferencesItem
 	{
 		// Dependency injections
 

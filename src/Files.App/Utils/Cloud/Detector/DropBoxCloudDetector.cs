@@ -11,7 +11,7 @@ namespace Files.App.Utils.Cloud
 	/// <summary>
 	/// Provides an utility for Drop Box Cloud detection.
 	/// </summary>
-	public class DropBoxCloudDetector : AbstractCloudDetector
+	public sealed class DropBoxCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{

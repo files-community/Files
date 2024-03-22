@@ -173,7 +173,7 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> File.GetThumbnailAsync(mode, requestedSize, options);
 
-		private class SystemFileBasicProperties : BaseBasicProperties
+		private sealed class SystemFileBasicProperties : BaseBasicProperties
 		{
 			private readonly IStorageItemExtraProperties basicProps;
 			private readonly DateTimeOffset? dateCreated;

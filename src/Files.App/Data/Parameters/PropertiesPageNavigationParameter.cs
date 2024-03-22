@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Parameters
 {
-	public class PropertiesPageNavigationParameter
+	public sealed class PropertiesPageNavigationParameter
 	{
 		public CancellationTokenSource CancellationTokenSource;
 

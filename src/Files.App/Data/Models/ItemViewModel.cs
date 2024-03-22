@@ -970,7 +970,7 @@ namespace Files.App.Data.Models
 					var image = await result.ToBitmapAsync();
 					if (image is not null)
 						item.FileImage = image;
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
@@ -986,7 +986,7 @@ namespace Files.App.Data.Models
 				{
 					item.IconOverlay = await iconOverlay.ToBitmapAsync();
 					item.ShieldIcon = await GetShieldIcon();
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
@@ -1019,7 +1019,7 @@ namespace Files.App.Data.Models
 							var image = await result.ToBitmapAsync();
 							if (image is not null)
 								item.FileImage = image;
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 					}
 				}, cancellationToken);
 			}
@@ -2465,7 +2465,7 @@ namespace Files.App.Data.Models
 		}
 	}
 
-	public class PageTypeUpdatedEventArgs
+	public sealed class PageTypeUpdatedEventArgs
 	{
 		public bool IsTypeCloudDrive { get; set; }
 
@@ -2476,7 +2476,7 @@ namespace Files.App.Data.Models
 		public bool IsTypeSearchResults { get; set; }
 	}
 
-	public class WorkingDirectoryModifiedEventArgs : EventArgs
+	public sealed class WorkingDirectoryModifiedEventArgs : EventArgs
 	{
 		public string? Path { get; set; }
 
@@ -2485,7 +2485,7 @@ namespace Files.App.Data.Models
 		public bool IsLibrary { get; set; }
 	}
 
-	public class ItemLoadStatusChangedEventArgs : EventArgs
+	public sealed class ItemLoadStatusChangedEventArgs : EventArgs
 	{
 		public enum ItemLoadStatus
 		{
