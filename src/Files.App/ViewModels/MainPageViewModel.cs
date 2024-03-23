@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Input;
@@ -11,7 +11,7 @@ namespace Files.App.ViewModels
 	/// <summary>
 	/// Represents ViewModel of <see cref="MainPage"/>.
 	/// </summary>
-	public class MainPageViewModel : ObservableObject
+	public sealed class MainPageViewModel : ObservableObject
 	{
 		// Dependency injections
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Concurrent;
@@ -14,7 +14,7 @@ namespace Files.App.Utils.StatusCenter
 	/// <br/>
 	/// Therefore, the storage operation classes can portably instance this class and update progress from everywhere with the same <see cref="IProgress{T}"/> instance.
 	/// </remarks>
-	public class StatusCenterItemProgressModel : INotifyPropertyChanged
+	public sealed class StatusCenterItemProgressModel : INotifyPropertyChanged
 	{
 		private readonly IProgress<StatusCenterItemProgressModel>? _progress;
 

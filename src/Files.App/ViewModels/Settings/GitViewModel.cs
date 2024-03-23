@@ -1,11 +1,11 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class GitViewModel : ObservableObject
+	public sealed class GitViewModel : ObservableObject
 	{
 		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 

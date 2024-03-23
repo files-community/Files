@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class AppearanceViewModel : ObservableObject
+	public sealed class AppearanceViewModel : ObservableObject
 	{
 		private readonly IUserSettingsService UserSettingsService;
 		private readonly IResourcesService ResourcesService;

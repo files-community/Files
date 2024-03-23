@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -6,7 +6,7 @@ using Microsoft.UI.Dispatching;
 
 namespace Files.App.ViewModels.Properties
 {
-	internal class LibraryProperties : BaseProperties
+	internal sealed class LibraryProperties : BaseProperties
 	{
 		public LibraryItem Library { get; private set; }
 

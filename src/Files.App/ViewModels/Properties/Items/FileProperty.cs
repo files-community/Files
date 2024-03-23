@@ -1,4 +1,4 @@
-// Copyright(c) 2023 Files Community
+// Copyright(c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Converters;
@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.Properties
 	/// <summary>
 	/// This class is represents a system file property from the Windows.Storage API
 	/// </summary>
-	public class FileProperty : ObservableObject
+	public sealed class FileProperty : ObservableObject
 	{
 		/// <summary>
 		/// The name to display

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using ColorCode;
@@ -6,7 +6,7 @@ using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class CodePreviewViewModel : BasePreviewModel
+	public sealed class CodePreviewViewModel : BasePreviewModel
 	{
 		private static readonly Lazy<IReadOnlyDictionary<string, ILanguage>> extensions = new(GetDictionary);
 

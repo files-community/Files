@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Storage.Operations;
@@ -11,7 +11,7 @@ namespace Files.App.Utils.Archives
 	/// <summary>
 	/// Provides an archive creation support.
 	/// </summary>
-	public class CompressArchiveModel : ICompressArchiveModel
+	public sealed class CompressArchiveModel : ICompressArchiveModel
 	{
 		private StatusCenterItemProgressModel _fileSystemProgress;
 

@@ -1,9 +1,9 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Items
 {
-	public class LibraryLocationItem : LocationItem
+	public sealed class LibraryLocationItem : LocationItem
 	{
 		public string DefaultSaveFolder { get; }
 

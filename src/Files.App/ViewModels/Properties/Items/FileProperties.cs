@@ -1,4 +1,4 @@
-// Copyright(c) 2023 Files Community
+// Copyright(c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class FileProperties : BaseProperties, IFileProperties
+	public sealed class FileProperties : BaseProperties, IFileProperties
 	{
 		public ListedItem Item { get; }
 
@@ -77,7 +77,7 @@ namespace Files.App.ViewModels.Properties
 				if (Item.IsLinkItem)
 				{
 					var tmpItem = (ShortcutItem)Item;
-					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await Win32Helper.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{
@@ -172,6 +172,10 @@ namespace Files.App.ViewModels.Properties
 
 			// Find Encoding Bitrate property and convert it to kbps
 			var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
+
+			if (encodingBitrate?.Value is null)
+				encodingBitrate = list.Find(x => x.Property == "System.Video.EncodingBitrate");
+
 			if (encodingBitrate?.Value is not null)
 			{
 				var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };

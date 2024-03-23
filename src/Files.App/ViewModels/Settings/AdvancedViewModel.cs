@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -14,7 +14,7 @@ using Windows.System;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class AdvancedViewModel : ObservableObject
+	public sealed class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -77,7 +77,7 @@ namespace Files.App.ViewModels.Settings
 			var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
 			if (IsSetAsDefaultFileManager)
 			{
-				if (!await Win32API.RunPowershellCommandAsync($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
+				if (!await Win32Helper.RunPowershellCommandAsync($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
 				{
 					// Error copying files
 					await DetectResult();
@@ -86,7 +86,7 @@ namespace Files.App.ViewModels.Settings
 			}
 			else
 			{
-				await Win32API.RunPowershellCommandAsync($"-command \"Remove-Item -Path '{dataPath}' -Recurse -Force\"", false);
+				await Win32Helper.RunPowershellCommandAsync($"-command \"Remove-Item -Path '{dataPath}' -Recurse -Force\"", false);
 			}
 
 			try

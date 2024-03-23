@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -7,7 +7,7 @@ using System.Drawing;
 namespace Files.App.Services
 {
 	/// <inheritdoc cref="IResourcesService"/>
-	public class ResourcesService : IResourcesService
+	public sealed class ResourcesService : IResourcesService
 	{
 		/// <inheritdoc/>
 		public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -15,7 +15,7 @@ namespace Files.App.Utils.Storage
 	/// representing a standard filesystem item. As such, VirtualStorageItem does not support hidden,
 	/// shortcut, or link items.
 	/// </summary>
-	public class VirtualStorageItem : IStorageItem
+	public sealed class VirtualStorageItem : IStorageItem
 	{
 		private static BasicProperties props;
 

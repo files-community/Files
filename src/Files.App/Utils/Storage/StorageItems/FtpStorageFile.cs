@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Storage.FtpStorage;
@@ -292,7 +292,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private class FtpFileBasicProperties : BaseBasicProperties
+		private sealed class FtpFileBasicProperties : BaseBasicProperties
 		{
 			public override ulong Size { get; }
 

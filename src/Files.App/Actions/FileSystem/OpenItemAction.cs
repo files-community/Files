@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -6,7 +6,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class OpenItemAction : ObservableObject, IAction
+	internal sealed class OpenItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
@@ -52,7 +52,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class OpenItemWithApplicationPickerAction : ObservableObject, IAction
+	internal sealed class OpenItemWithApplicationPickerAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
@@ -93,7 +93,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class OpenParentFolderAction : ObservableObject, IAction
+	internal sealed class OpenParentFolderAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

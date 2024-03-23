@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
@@ -518,7 +518,7 @@ namespace Files.App.Utils.Storage
 			};
 		}
 
-		private class ZipFileBasicProperties : BaseBasicProperties
+		private sealed class ZipFileBasicProperties : BaseBasicProperties
 		{
 			private ArchiveFileInfo entry;
 

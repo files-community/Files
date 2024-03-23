@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="PinToFavorites" xml:space="preserve">
-    <value>お気に入りに固定</value>
+  <data name="PinFolderToSidebar" xml:space="preserve">
+    <value>サイドバーにピン留めする</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files へようこそ!</value>
@@ -1029,8 +1029,8 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>新しいペインで開く</value>
   </data>
-  <data name="Folders" xml:space="preserve">
-    <value>フォルダー</value>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>ファイルとフォルダー</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細 (Ctrl+Shift+1)</value>
@@ -1071,8 +1071,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>ファイル名</value>
   </data>
-  <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>お気に入りから固定解除</value>
+  <data name="UnpinFolderFromSidebar" xml:space="preserve">
+    <value>サイドバーからピン留めを外す</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>ネットワーク ドライブ</value>
@@ -1158,8 +1158,8 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>ネットワーク ドライブを割り当てる</value>
   </data>
-  <data name="SidebarFavorites" xml:space="preserve">
-    <value>お気に入り</value>
+  <data name="Pinned" xml:space="preserve">
+    <value>ピン留め</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>ライブラリ</value>
@@ -1330,7 +1330,7 @@
     <value>かなり大きい</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
-    <value>大</value>
+    <value>大きい</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
     <value>中程度</value>
@@ -1797,65 +1797,59 @@
   <data name="None" xml:space="preserve">
     <value>なし</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>Windows ログイン時</value>
+  <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
+    <value>Windows にサインインしたとき</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>プログラム開始時</value>
+  <data name="CompatibilityOnProgramStart" xml:space="preserve">
+    <value>このプログラムを開いたとき</value>
   </data>
-  <data name="HighDpiOverride_System" xml:space="preserve">
+  <data name="System" xml:space="preserve">
     <value>システム</value>
   </data>
-  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+  <data name="CompatibilitySystemEnhanced" xml:space="preserve">
     <value>システム (拡張)</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
-    <value>Windows 7</value>
-  </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
-    <value>Windows 8</value>
-  </data>
-  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
-  </data>
-  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+  <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
     <value>16 ビット (65536) カラー</value>
   </data>
-  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+  <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
     <value>8 ビット (256) カラー</value>
   </data>
-  <data name="CompatibilityMode" xml:space="preserve">
-    <value>互換モード</value>
-  </data>
-  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+  <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
     <value>全画面表示の最適化を無効にする</value>
   </data>
-  <data name="ExecuteAt640X480" xml:space="preserve">
+  <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
     <value>640 x 480 の解像度で実行する</value>
   </data>
-  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+  <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
     <value>高 DPI スケール設定の上書き</value>
   </data>
-  <data name="ReducedColorMode" xml:space="preserve">
+  <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>カラー モードを制限する</value>
   </data>
-  <data name="RegisterForRestart" xml:space="preserve">
+  <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>このプログラムを再起動するために登録する</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>管理者として実行</value>
   </data>
-  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+  <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
     <value>互換性のトラブルシューティング ツールの実行</value>
   </data>
-  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+  <data name="CompatibilityUseDPISettings" xml:space="preserve">
     <value>メイン ディスプレイに設定されている DPI を使用する</value>
+  </data>
+  <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
+    <value>DPI を調整しない</value>
+  </data>
+  <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
+    <value>DPI を上書きしない</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>互換モード</value>
+  </data>
+  <data name="CompatibilityNoReducedColor" xml:space="preserve">
+    <value>カラーを制限しない</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>サード パーティ ライセンス</value>
@@ -1895,9 +1889,6 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>種類</value>
-  </data>
-  <data name="IconGrid" xml:space="preserve">
-    <value>アイコン</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>バイト</value>
@@ -2027,9 +2018,6 @@
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>種類</value>
-  </data>
-  <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>詳細レイアウトに表示する列</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>ロック画面</value>
@@ -2455,16 +2443,16 @@
     <value>選択したファイルを他の人と共有する</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>スタートメニューに項目をピン留めする</value>
+    <value>スタート メニューに項目をピン留めする</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>スタートメニューから項目のピン留めを外す</value>
+    <value>スタート メニューから項目のピン留めを外す</value>
   </data>
-  <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>お気に入りにフォルダーをピン留めする</value>
+  <data name="PinFolderToSidebarDescription" xml:space="preserve">
+    <value>サイドバーにフォルダーをピン留めする</value>
   </data>
-  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>お気に入りからフォルダーのピン留めを外す</value>
+  <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
+    <value>サイドバーからフォルダーのピン留めを外す</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>選択した画像をデスクトップの背景に設定する</value>
@@ -3671,7 +3659,7 @@
     <value>タイル ビューではサイズの変更はまだ利用できません。</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>Compact</value>
+    <value>コンパクト</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
@@ -3679,27 +3667,27 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value>中程度</value>
+    <value>中</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>Medium +</value>
+    <value>中 +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>Medium ++</value>
+    <value>中 ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>Medium +++</value>
+    <value>中 +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>Medium ++++</value>
+    <value>中 ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>Medium +++++</value>
+    <value>中 +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
@@ -3707,19 +3695,25 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
-    <value>Large +</value>
+    <value>大 +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
-    <value>Large ++</value>
+    <value>大 ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+++" xml:space="preserve">
-    <value>Large +++</value>
+    <value>大 +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="ExtraLarge" xml:space="preserve">
-    <value>Extra large</value>
+    <value>特大</value>
     <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="DetailsView" xml:space="preserve">
+    <value>詳細ビュー</value>
+  </data>
+  <data name="LayoutType" xml:space="preserve">
+    <value>レイアウトの種類</value>
   </data>
 </root>

@@ -1,11 +1,11 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
-	internal class FormatDriveAction : ObservableObject, IAction
+	internal sealed class FormatDriveAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
+			return Win32Helper.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
 		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -7,7 +7,7 @@ using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {
-	public class JumpListService : IJumpListService
+	public sealed class JumpListService : IJumpListService
 	{
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";

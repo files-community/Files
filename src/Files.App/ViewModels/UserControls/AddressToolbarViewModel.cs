@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -15,7 +15,7 @@ using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class AddressToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
+	public sealed class AddressToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
 	{
 		private const int MAX_SUGGESTIONS = 10;
 
@@ -410,7 +410,8 @@ namespace Files.App.ViewModels.UserControls
 			{
 				e.DragUIOverride.IsCaptionVisible = true;
 				e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
-				e.AcceptedOperation = DataPackageOperation.Move;
+				// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+				e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 			}
 
 			deferral.Complete();
@@ -759,7 +760,7 @@ namespace Files.App.ViewModels.UserControls
 						if (resFile)
 						{
 							var pathToInvoke = resFile.Result.Path;
-							await Win32Helpers.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
+							await Win32Helper.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
 						}
 						else // Not a file or not accessible
 						{

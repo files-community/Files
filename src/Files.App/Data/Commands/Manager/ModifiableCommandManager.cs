@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
-	internal class ModifiableCommandManager : IModifiableCommandManager
+	internal sealed class ModifiableCommandManager : IModifiableCommandManager
 	{
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 

@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Items
 {
-	public class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	public sealed class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
 	{
 		// Fields
 
@@ -58,7 +58,7 @@ namespace Files.App.Data.Items
 
 			_thumbnailData = result;
 			if (_thumbnailData is not null)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 		}
 	}
 }

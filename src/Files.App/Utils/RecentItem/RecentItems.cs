@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -10,7 +10,7 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Utils.RecentItem
 {
-	public class RecentItems : IDisposable
+	public sealed class RecentItems : IDisposable
 	{
 		private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 
@@ -103,7 +103,7 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFilesAsync()
 		{
-			return (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
+			return (await Win32Helper.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
 				.Where(link => !link.IsFolder)
 				.Select(link => new RecentItem(link)).ToList();
 		}

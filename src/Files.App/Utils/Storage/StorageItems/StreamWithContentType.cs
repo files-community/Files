@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -10,7 +10,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.Utils.Storage
 {
-	public class InputStreamWithDisposeCallback : IInputStream
+	public sealed class InputStreamWithDisposeCallback : IInputStream
 	{
 		private Stream stream;
 		private IInputStream iStream;
@@ -35,7 +35,7 @@ namespace Files.App.Utils.Storage
 		}
 	}
 
-	public class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
+	public sealed class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
 	{
 		private Stream stream;
 		private IOutputStream oStream;
@@ -131,7 +131,7 @@ namespace Files.App.Utils.Storage
 		}
 	}
 
-	public class NonSeekableRandomAccessStreamForRead : IRandomAccessStream
+	public sealed class NonSeekableRandomAccessStreamForRead : IRandomAccessStream
 	{
 		private Stream stream;
 		private IRandomAccessStream imrac;
@@ -227,7 +227,7 @@ namespace Files.App.Utils.Storage
 		}
 	}
 
-	public class StreamWithContentType : IRandomAccessStreamWithContentType
+	public sealed class StreamWithContentType : IRandomAccessStreamWithContentType
 	{
 		private IRandomAccessStream baseStream;
 
@@ -269,7 +269,7 @@ namespace Files.App.Utils.Storage
 		public string ContentType { get; set; } = "application/octet-stream";
 	}
 
-	public class ComStreamWrapper : Stream
+	public sealed class ComStreamWrapper : Stream
 	{
 		private IStream iStream;
 		private STATSTG iStreamStat;

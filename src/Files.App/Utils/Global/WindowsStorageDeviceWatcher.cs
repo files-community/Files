@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Data.Items;
@@ -13,7 +13,7 @@ using Windows.Storage;
 
 namespace Files.App.Utils
 {
-	public class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
+	public sealed class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{
 		public event EventHandler<ILocatableFolder> DeviceAdded;
 		public event EventHandler<string> DeviceRemoved;

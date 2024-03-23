@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Win32;
@@ -6,7 +6,7 @@ using Microsoft.Win32;
 namespace Files.App.Services
 {
 	/// <inheritdoc cref="IWindowsCompatibilityService"/>
-	public class WindowsCompatibilityService : IWindowsCompatibilityService
+	public sealed class WindowsCompatibilityService : IWindowsCompatibilityService
 	{
 		private readonly string _registrySubPath = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
 
@@ -39,13 +39,13 @@ namespace Files.App.Services
 			// Remove old one if new one is valid
 			if (string.IsNullOrEmpty(stringOptions) || stringOptions == "~")
 			{
-				return Win32API.RunPowershellCommand(
+				return Win32Helper.RunPowershellCommand(
 					@$"Remove-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' | Out-Null",
 					true);
 			}
 
 			// Set the new one
-			return Win32API.RunPowershellCommand(
+			return Win32Helper.RunPowershellCommand(
 				@$"New-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null",
 				true);
 		}

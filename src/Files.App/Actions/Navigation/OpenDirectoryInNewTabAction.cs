@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
 {
-	internal class OpenDirectoryInNewTabAction : ObservableObject, IAction
+	internal sealed class OpenDirectoryInNewTabAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

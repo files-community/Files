@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -6,7 +6,7 @@ using Windows.Storage;
 
 namespace Files.App.Utils.Storage
 {
-	public class StorageHistoryOperations : IStorageHistoryOperations
+	public sealed class StorageHistoryOperations : IStorageHistoryOperations
 	{
 		private IFilesystemHelpers helpers;
 		private IFilesystemOperations operations;

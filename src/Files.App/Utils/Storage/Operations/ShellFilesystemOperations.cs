@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -9,7 +9,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Provides group of shell file system operation for given page instance.
 	/// </summary>
-	public class ShellFilesystemOperations : IFilesystemOperations
+	public sealed class ShellFilesystemOperations : IFilesystemOperations
 	{
 		private IShellPage _associatedInstance;
 

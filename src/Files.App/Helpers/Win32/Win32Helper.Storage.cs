@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -12,12 +12,12 @@ using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
 
-namespace Files.App.Utils.Shell
+namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Provides static helper for general Win32API.
+	/// Provides static helper for Win32.
 	/// </summary>
-	internal class Win32API
+	public static partial class Win32Helper
 	{
 		public static Task StartSTATask(Func<Task> func)
 		{
@@ -281,13 +281,13 @@ namespace Files.App.Utils.Shell
 		/// <param name="path"></param>
 		/// <param name="size"></param>
 		/// <param name="isFolder"></param>
-		/// <param name="returnIconOnly"></param>
+		/// <param name="iconOptions"></param>
 		/// <returns></returns>
 		public static byte[]? GetIcon(
 			string path,
 			int size,
 			bool isFolder,
-			bool returnIconOnly)
+			IconOptions iconOptions)
 		{
 			byte[]? iconData = null;
 
@@ -301,8 +301,14 @@ namespace Files.App.Utils.Shell
 				{
 					var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
 
-					if (returnIconOnly)
+					if (iconOptions.HasFlag(IconOptions.ReturnIconOnly))
 						flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+
+					if (iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
+						flags |= Shell32.SIIGBF.SIIGBF_THUMBNAILONLY;
+
+					if (iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
+						flags |= Shell32.SIIGBF.SIIGBF_INCACHEONLY;
 
 					var hres = shellFactory.GetImage(new SIZE(size, size), flags, out var hbitmap);
 					if (hres == HRESULT.S_OK)
@@ -315,7 +321,7 @@ namespace Files.App.Utils.Shell
 					Marshal.ReleaseComObject(shellFactory);
 				}
 
-				if (iconData is not null)
+				if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
 					return iconData;			
 				else
 				{
@@ -725,7 +731,7 @@ namespace Files.App.Utils.Shell
 			return (ret != 0) ? sb.ToString() : null;
 		}
 
-		public class Win32Window : IWin32Window
+		public sealed class Win32Window : IWin32Window
 		{
 			public IntPtr Handle { get; set; }
 

@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal class CopyPathAction : IAction
+	internal sealed class CopyPathAction : IAction
 	{
 		private readonly IContentPageContext context;
 

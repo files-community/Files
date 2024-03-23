@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Data.Items;
@@ -7,7 +7,7 @@ using Files.Core.Storage.LocatableStorage;
 
 namespace Files.App.Data.Models
 {
-	public class NetworkDrivesViewModel : ObservableObject
+	public sealed class NetworkDrivesViewModel : ObservableObject
 	{
 		public ObservableCollection<ILocatableFolder> Drives
 		{

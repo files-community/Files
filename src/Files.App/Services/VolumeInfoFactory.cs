@@ -1,9 +1,9 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Services
 {
-	internal class VolumeInfoFactory : IVolumeInfoFactory
+	internal sealed class VolumeInfoFactory : IVolumeInfoFactory
 	{
 		public VolumeInfo BuildVolumeInfo(string driveName)
 		{

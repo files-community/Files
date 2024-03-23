@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Extensions;
@@ -148,8 +148,13 @@ namespace Files.App.Services.Settings
 
 		public override object ExportSettings()
 		{
-			// Return string in Json format
-			return JsonSettingsSerializer.SerializeToJson(FileTagList);
+			var settings = new Dictionary<string, object>
+			{
+				{ "FileTagList", FileTagList }
+			};
+
+			// Serialize settings to JSON format
+			return JsonSettingsSerializer.SerializeToJson(settings);
 		}
 
 		private int GetTagIndex(string uid)

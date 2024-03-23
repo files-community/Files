@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Storage;
@@ -245,13 +245,13 @@ namespace Files.App.Utils.Storage
 				{
 					return await RecycleItemsFromClipboard(packageView, destination, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, registerHistory);
 				}
-				else if (operation.HasFlag(DataPackageOperation.Copy))
-				{
-					return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
-				}
 				else if (operation.HasFlag(DataPackageOperation.Move))
 				{
 					return await MoveItemsFromClipboard(packageView, destination, showDialog, registerHistory);
+				}
+				else if (operation.HasFlag(DataPackageOperation.Copy))
+				{
+					return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
 				}
 				else if (operation.HasFlag(DataPackageOperation.Link))
 				{

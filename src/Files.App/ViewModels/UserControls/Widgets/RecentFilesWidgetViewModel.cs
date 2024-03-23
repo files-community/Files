@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="RecentFilesWidget"/>.
 	/// </summary>
-	public class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Fields
 

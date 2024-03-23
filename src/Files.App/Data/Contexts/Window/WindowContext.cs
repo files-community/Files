@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,7 +6,7 @@ using Microsoft.UI.Windowing;
 
 namespace Files.App.Data.Contexts
 {
-	internal class WindowContext : ObservableObject, IWindowContext
+	internal sealed class WindowContext : ObservableObject, IWindowContext
 	{
 		private bool isCompactOverlay;
 		public bool IsCompactOverlay => isCompactOverlay;

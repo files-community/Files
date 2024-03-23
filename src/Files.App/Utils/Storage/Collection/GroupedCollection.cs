@@ -1,9 +1,9 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Utils.Storage
 {
-	public class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
+	public sealed class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
 	{
 		public GroupedHeaderViewModel Model { get; set; }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.FilePreviews;
@@ -10,7 +10,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class InfoPaneViewModel : ObservableObject, IDisposable
+	public sealed class InfoPaneViewModel : ObservableObject, IDisposable
 	{
 		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();

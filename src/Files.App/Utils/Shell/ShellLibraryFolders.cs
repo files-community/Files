@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Vanara.PInvoke;
@@ -11,7 +11,7 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	/// <seealso cref="ShellItemArray"/>
 	/// <seealso cref="ICollection{ShellItem}"/>
-	public class ShellLibraryFolders : ShellItemArray, ICollection<ShellItem>
+	public sealed class ShellLibraryFolders : ShellItemArray, ICollection<ShellItem>
 	{
 		private Shell32.IShellLibrary _lib;
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Files.Core.Services.SizeProvider
 {
-	public class NoSizeProvider : ISizeProvider
+	public sealed class NoSizeProvider : ISizeProvider
 	{
 		public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 

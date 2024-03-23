@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Shell;
@@ -6,13 +6,13 @@ using Files.App.UserControls.Widgets;
 
 namespace Files.App.Services
 {
-	internal class QuickAccessService : IQuickAccessService
+	internal sealed class QuickAccessService : IQuickAccessService
 	{
 		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{
-			var result = (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
+			var result = (await Win32Helper.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
 				.Where(link => link.IsFolder);
 			return result;
 		}

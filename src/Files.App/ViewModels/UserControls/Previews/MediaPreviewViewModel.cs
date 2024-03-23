@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
@@ -7,7 +7,7 @@ using Windows.Media.Core;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class MediaPreviewViewModel : BasePreviewModel
+	public sealed class MediaPreviewViewModel : BasePreviewModel
 	{
 		public event EventHandler TogglePlaybackRequested;
 

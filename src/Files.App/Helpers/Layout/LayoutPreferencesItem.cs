@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Helpers
@@ -6,7 +6,7 @@ namespace Files.App.Helpers
 	/// <summary>
 	/// Represents item for a folder's layout preferences.
 	/// </summary>
-	public class LayoutPreferencesItem
+	public sealed class LayoutPreferencesItem
 	{
 		// Dependency injections
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
@@ -100,7 +100,7 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Layout".GetLocalizedResource(),
-					Glyph = "\uE152",
+					Glyph = "\uE8A9",
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
@@ -378,11 +378,12 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "OpenWith".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenWith"
-					},
+					// TODO add back text and icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+					//Text = "OpenWith".GetLocalizedResource(),
+					//OpacityIcon = new OpacityIconModel()
+					//{
+					//	OpacityIconStyle = "ColorIconOpenWith"
+					//},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
 					CollapseLabel = true,

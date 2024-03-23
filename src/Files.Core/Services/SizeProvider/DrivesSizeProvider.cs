@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Files.Core.Services.SizeProvider
 {
-	public class DrivesSizeProvider : ISizeProvider
+	public sealed class DrivesSizeProvider : ISizeProvider
 	{
 		private readonly ConcurrentDictionary<string, ISizeProvider> providers = new();
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -8,7 +8,7 @@ using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public class DecompressArchiveDialogViewModel : ObservableObject
+	public sealed class DecompressArchiveDialogViewModel : ObservableObject
 	{
 		private readonly IStorageFile archive;
 

@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Törlés</value>
   </data>
-  <data name="PinToFavorites" xml:space="preserve">
-    <value>Kitűzés a kedvencekhez</value>
+  <data name="PinFolderToSidebar" xml:space="preserve">
+    <value>Kitűzés az oldalsávra</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Üdv a Files-ban!</value>
@@ -1029,8 +1029,8 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Megnyitás új panelen</value>
   </data>
-  <data name="Folders" xml:space="preserve">
-    <value>Mappák</value>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Fájlok és mappák</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Részletek (Ctrl+Shift+1)</value>
@@ -1071,8 +1071,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Név</value>
   </data>
-  <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Levétel a kedvencek közül</value>
+  <data name="UnpinFolderFromSidebar" xml:space="preserve">
+    <value>Levétel az oldalsávról</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Hálózati meghajtók</value>
@@ -1158,8 +1158,8 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Hálózati meghajtó csatlakoztatása</value>
   </data>
-  <data name="SidebarFavorites" xml:space="preserve">
-    <value>Kedvencek</value>
+  <data name="Pinned" xml:space="preserve">
+    <value>Kitűzve</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Könyvtárak</value>
@@ -1797,65 +1797,59 @@
   <data name="None" xml:space="preserve">
     <value>Egyik sem</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>Bejelentkezem a Windows-ba</value>
+  <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
+    <value>Windows belépéskor</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>Elindítom ezt a programot</value>
+  <data name="CompatibilityOnProgramStart" xml:space="preserve">
+    <value>Program indításakor</value>
   </data>
-  <data name="HighDpiOverride_System" xml:space="preserve">
+  <data name="System" xml:space="preserve">
     <value>Rendszer</value>
   </data>
-  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>Rendszer (kibővített)</value>
+  <data name="CompatibilitySystemEnhanced" xml:space="preserve">
+    <value>Rendszer (bővített)</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
-    <value>Windows 7</value>
-  </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
-    <value>Windows 8</value>
-  </data>
-  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
-  </data>
-  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+  <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
     <value>16 bites (65536) szín</value>
   </data>
-  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+  <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
     <value>8 bites (256) szín</value>
   </data>
-  <data name="CompatibilityMode" xml:space="preserve">
-    <value>Kompatibilis üzemmód</value>
+  <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
+    <value>Teljes képernyős optimalizálás letiltása</value>
   </data>
-  <data name="DisableFullscreenOptimizations" xml:space="preserve">
-    <value>Teljes képernyős optimalizálások letiltása</value>
+  <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
+    <value>Futtatás 640 x 480-as képernyőfelbontásban</value>
   </data>
-  <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Futtatás 640 x 480 képpontos képernyőfelbontással</value>
-  </data>
-  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+  <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
     <value>Nagy DIP-beállítások módosítása</value>
   </data>
-  <data name="ReducedColorMode" xml:space="preserve">
+  <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>Csökkentett színmód</value>
   </data>
-  <data name="RegisterForRestart" xml:space="preserve">
-    <value>Program újraindításának regisztrálása</value>
+  <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
+    <value>Regisztráld ezt a programot az újraindításhoz</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Futtatás rendszergazdaként</value>
   </data>
-  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+  <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
     <value>Kompatibilitási hibaelhárító futtatása</value>
   </data>
-  <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Használja az elsődleges kijelzőhöz beállított DPI-t, amikor</value>
+  <data name="CompatibilityUseDPISettings" xml:space="preserve">
+    <value>A főmonitor DPI-beállításainak használata</value>
+  </data>
+  <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
+    <value>Ne állítsa be a DPI-t</value>
+  </data>
+  <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
+    <value>Ne írja felül a DPI-t</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Kompatibilis üzemmód</value>
+  </data>
+  <data name="CompatibilityNoReducedColor" xml:space="preserve">
+    <value>Nincs csökkentett szín</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Harmadik fél licencei</value>
@@ -1895,9 +1889,6 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Típus</value>
-  </data>
-  <data name="IconGrid" xml:space="preserve">
-    <value>Ikonrács</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Méret bájtokban</value>
@@ -2027,9 +2018,6 @@
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>Típus</value>
-  </data>
-  <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Részletek nézet oszlopok</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Zárolási képernyő</value>
@@ -2460,11 +2448,11 @@
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>Elem(ek) levétele a Start menüből</value>
   </data>
-  <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Mappá(k) kitűzése a kedvencekbe</value>
+  <data name="PinFolderToSidebarDescription" xml:space="preserve">
+    <value>Mappa(k) az oldalsávra tűzése</value>
   </data>
-  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Mappá(k) levétele a kedvencekből</value>
+  <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
+    <value>Mappá(k) levétele az oldalsávról</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Kiválasztott kép beállítása háttérképként</value>
@@ -2530,10 +2518,10 @@
     <value>Mappa megnyitása terminálban rendszergazdaként</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease item size in the current view</value>
+    <value>Az elem méretének csökkentése az aktuális nézetben</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase item size in the current view</value>
+    <value>Az elem méretének növelése az aktuális nézetben</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Váltás a részletetes nézetre</value>
@@ -2548,10 +2536,10 @@
     <value>Lista</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>Grid</value>
+    <value>Rács</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>Switch to grid view</value>
+    <value>Váltás rács nézetre</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Váltás az oszlopos nézetre</value>
@@ -3665,13 +3653,13 @@
     <value>Hova tűnt a Files?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
-    <value>Questions &amp; discussions</value>
+    <value>Kérdések és beszélgetések</value>
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Additional sizes are not yet available for the Tiles View.</value>
+    <value>További méretek még nem állnak rendelkezésre a Csempe nézethez.</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>Compact</value>
+    <value>Kompakt</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
@@ -3683,23 +3671,23 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>Medium +</value>
+    <value>Közepes +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>Medium ++</value>
+    <value>Közepes ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>Medium +++</value>
+    <value>Közepes +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>Medium ++++</value>
+    <value>Közepes ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>Medium +++++</value>
+    <value>Közepes +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
@@ -3707,19 +3695,25 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
-    <value>Large +</value>
+    <value>Nagy +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
-    <value>Large ++</value>
+    <value>Nagy ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+++" xml:space="preserve">
-    <value>Large +++</value>
+    <value>Nagy +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="ExtraLarge" xml:space="preserve">
-    <value>Extra large</value>
+    <value>Nagyon nagy</value>
     <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="DetailsView" xml:space="preserve">
+    <value>Részletek nézet</value>
+  </data>
+  <data name="LayoutType" xml:space="preserve">
+    <value>Elrendezés tipusa</value>
   </data>
 </root>

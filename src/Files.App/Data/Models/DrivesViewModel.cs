@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Services.SizeProvider;
@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Files.App.Data.Models
 {
-	public class DrivesViewModel : ObservableObject, IDisposable
+	public sealed class DrivesViewModel : ObservableObject, IDisposable
 	{
 		public ObservableCollection<ILocatableFolder> Drives
 		{

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -121,7 +121,7 @@ namespace Files.App.Data.Items
 		}
 	}
 
-	public class RecycleBinLocationItem : LocationItem
+	public sealed class RecycleBinLocationItem : LocationItem
 	{
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{

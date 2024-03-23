@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
 {
-	internal class CreateFolderWithSelectionAction : ObservableObject, IAction
+	internal sealed class CreateFolderWithSelectionAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

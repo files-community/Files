@@ -1,11 +1,11 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Services.SizeProvider;
 
 namespace Files.App.Services
 {
-	public class UserSizeProvider : ISizeProvider
+	public sealed class UserSizeProvider : ISizeProvider
 	{
 		private readonly IFoldersSettingsService folderPreferences
 			= Ioc.Default.GetRequiredService<IFoldersSettingsService>();

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Utils.Storage
@@ -6,7 +6,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Represents an access control entry (ACE).
 	/// </summary>
-	public class AccessControlEntry : ObservableObject
+	public sealed class AccessControlEntry : ObservableObject
 	{
 		/// <summary>
 		/// Whether the path indicates folder or not

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices;
@@ -9,7 +9,7 @@ namespace Files.Core.Helpers
 	/// <summary>
 	/// Provides a bunch of Win32API for native find storage items.
 	/// </summary>
-	public class NativeFindStorageItemHelper
+	public sealed class NativeFindStorageItemHelper
 	{
 		[StructLayout(LayoutKind.Sequential)]
 		public struct SYSTEMTIME

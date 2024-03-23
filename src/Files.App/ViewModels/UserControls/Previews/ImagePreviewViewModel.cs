@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI;
@@ -10,7 +10,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class ImagePreviewViewModel : BasePreviewModel
+	public sealed class ImagePreviewViewModel : BasePreviewModel
 	{
 		private ImageSource imageSource;
 		public ImageSource ImageSource

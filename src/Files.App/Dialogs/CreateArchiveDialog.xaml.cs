@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -96,7 +96,7 @@ namespace Files.App.Dialogs
 				PasswordBox.Focus(FocusState.Programmatic);
 		}
 
-		private class DialogViewModel : ObservableObject
+		private sealed class DialogViewModel : ObservableObject
 		{
 			public bool IsNameValid => FilesystemHelpers.IsValidForFilename(fileName);
 

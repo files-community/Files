@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenInNewWindowItemAction : ObservableObject, IAction
+	internal sealed class OpenInNewWindowItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

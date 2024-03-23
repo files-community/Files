@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
 {
-	internal class ToggleDetailsPaneAction : ObservableObject, IToggleAction
+	internal sealed class ToggleDetailsPaneAction : ObservableObject, IToggleAction
 	{
 		private readonly InfoPaneViewModel viewModel;
 		private readonly IInfoPaneSettingsService infoPaneSettingsService = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();

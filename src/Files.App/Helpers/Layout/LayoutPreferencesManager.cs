@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Text.Json;
@@ -9,7 +9,7 @@ namespace Files.App.Data.Models
 	/// <summary>
 	/// Represents manager for layout preferences settings.
 	/// </summary>
-	public class LayoutPreferencesManager : ObservableObject
+	public sealed class LayoutPreferencesManager : ObservableObject
 	{
 		// Dependency injections
 

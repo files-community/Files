@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Input;
@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Files.App.Data.Models
 {
-	public class ContextMenuFlyoutItemViewModel
+	public sealed class ContextMenuFlyoutItemViewModel
 	{
 		public bool ShowItem { get; set; } = true;
 

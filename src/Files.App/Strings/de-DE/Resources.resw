@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Löschen</value>
   </data>
-  <data name="PinToFavorites" xml:space="preserve">
-    <value>Zu Favoriten hinzufügen</value>
+  <data name="PinFolderToSidebar" xml:space="preserve">
+    <value>An Seitenleiste anheften</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Willkommen bei Files!</value>
@@ -1029,8 +1029,8 @@
   <data name="OpenInNewPane" xml:space="preserve">
     <value>In neuem Panel öffnen</value>
   </data>
-  <data name="Folders" xml:space="preserve">
-    <value>Ordner</value>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Dateien &amp; Ordner</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detailansicht (Strg+Shift+1)</value>
@@ -1071,8 +1071,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Dateiname</value>
   </data>
-  <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Von Favoriten lösen</value>
+  <data name="UnpinFolderFromSidebar" xml:space="preserve">
+    <value>Von Seitenleiste lösen</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Netzlaufwerke</value>
@@ -1158,8 +1158,8 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Netzlaufwerk hinzufügen</value>
   </data>
-  <data name="SidebarFavorites" xml:space="preserve">
-    <value>Favoriten</value>
+  <data name="Pinned" xml:space="preserve">
+    <value>Angeheftet</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotheken</value>
@@ -1797,65 +1797,59 @@
   <data name="None" xml:space="preserve">
     <value>Keine</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+  <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
     <value>Beim Anmelden</value>
   </data>
-  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+  <data name="CompatibilityOnProgramStart" xml:space="preserve">
     <value>Beim Programmstart</value>
   </data>
-  <data name="HighDpiOverride_System" xml:space="preserve">
+  <data name="System" xml:space="preserve">
     <value>Systemmenü</value>
   </data>
-  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>System (erweitert)</value>
+  <data name="CompatibilitySystemEnhanced" xml:space="preserve">
+    <value>System (Erweitert)</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
-    <value>Windows 7</value>
+  <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
+    <value>16-Bit (65536) Farbe</value>
   </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
-    <value>Windows 8</value>
+  <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
+    <value>8-Bit (256) Farbe</value>
   </data>
-  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
-  </data>
-  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
-  </data>
-  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Farben (65536)</value>
-  </data>
-  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Farben (256)</value>
-  </data>
-  <data name="CompatibilityMode" xml:space="preserve">
-    <value>Kompatibilitätsmodus</value>
-  </data>
-  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+  <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
     <value>Vollbildoptimierungen deaktivieren</value>
   </data>
-  <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Mit einer Auflösung von 640 x 480 Pixeln ausführen</value>
+  <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
+    <value>In 640 x 480 Auflösung ausführen</value>
   </data>
-  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Einstellungen für hohe DPI-Skalierung überschreiben</value>
+  <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
+    <value>Hohe DPI-Skalierung überschreiben</value>
   </data>
-  <data name="ReducedColorMode" xml:space="preserve">
+  <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>Reduzierter Farbmodus</value>
   </data>
-  <data name="RegisterForRestart" xml:space="preserve">
-    <value>Für Neustart registrieren</value>
+  <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
+    <value>Dieses Programm zum Neustart festlegen</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Als Administrator ausführen</value>
   </data>
-  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
-    <value>Kompatibilitäts-Fehlerbehebung ausführen</value>
+  <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
+    <value>Kompatibilitäts-Problembehandlung ausführen</value>
   </data>
-  <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>DPI-Einstellungen auf Hauptmonitor anwenden</value>
+  <data name="CompatibilityUseDPISettings" xml:space="preserve">
+    <value>DPI-Einstellungen des Hauptmonitors verwenden</value>
+  </data>
+  <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
+    <value>DPI nicht anpassen</value>
+  </data>
+  <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
+    <value>DPI nicht überschreiben</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Kompatibilitätsmodus</value>
+  </data>
+  <data name="CompatibilityNoReducedColor" xml:space="preserve">
+    <value>Keine reduzierten Farben</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Lizenzen von Drittanbietern</value>
@@ -1895,9 +1889,6 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Typ</value>
-  </data>
-  <data name="IconGrid" xml:space="preserve">
-    <value>Icon-Raster</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
@@ -2027,9 +2018,6 @@
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>Typspalte</value>
-  </data>
-  <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Detail-Layout-Spalten</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Sperrbildschirm</value>
@@ -2460,11 +2448,11 @@
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>Element(e) vom Startmenü entfernen</value>
   </data>
-  <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Ordner zu Favoriten hinzufügen</value>
+  <data name="PinFolderToSidebarDescription" xml:space="preserve">
+    <value>Ordner an Seitenleiste anheften</value>
   </data>
-  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Ordner aus Favoriten entfernen</value>
+  <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
+    <value>Ordner von Seitenleiste lösen</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Ausgewähltes Bild als Desktop-Hintergrund festlegen</value>
@@ -2530,10 +2518,10 @@
     <value>Ordner im Terminal als Administrator öffnen</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease item size in the current view</value>
+    <value>Elementgröße in der aktuellen Ansicht verkleinern</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase item size in the current view</value>
+    <value>Elementgröße in der aktuellen Ansicht vergrößern</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Zum Detail-Layout wechseln</value>
@@ -2548,10 +2536,10 @@
     <value>Liste</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>Grid</value>
+    <value>Raster</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>Switch to grid view</value>
+    <value>Zur Rasteransicht wechseln</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Zur Spaltenansicht wechseln</value>
@@ -3668,10 +3656,10 @@
     <value>Fragen &amp; Diskussionen</value>
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Additional sizes are not yet available for the Tiles View.</value>
+    <value>Weitere Größen sind für die Kachelansicht noch nicht verfügbar.</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>Compact</value>
+    <value>Kompakt</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
@@ -3683,23 +3671,23 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>Medium +</value>
+    <value>Mittel +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>Medium ++</value>
+    <value>Mittel ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>Medium +++</value>
+    <value>Mittel +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>Medium ++++</value>
+    <value>Mittel ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>Medium +++++</value>
+    <value>Mittel +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
@@ -3707,19 +3695,25 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
-    <value>Large +</value>
+    <value>Groß +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
-    <value>Large ++</value>
+    <value>Groß ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+++" xml:space="preserve">
-    <value>Large +++</value>
+    <value>Groß +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="ExtraLarge" xml:space="preserve">
-    <value>Extra large</value>
+    <value>Sehr groß</value>
     <comment>Used to describe layout sizes</comment>
+  </data>
+  <data name="DetailsView" xml:space="preserve">
+    <value>Detailansicht</value>
+  </data>
+  <data name="LayoutType" xml:space="preserve">
+    <value>Layout-Typ</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Utils.Storage
@@ -16,7 +16,7 @@ namespace Files.App.Utils.Storage
 		public static explicit operator FilesystemResult(bool res) => new(res ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
 	}
 
-	public class FilesystemResult<T> : FilesystemResult
+	public sealed class FilesystemResult<T> : FilesystemResult
 	{
 		public T Result { get; }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -21,7 +21,7 @@ namespace Files.App.Data.Behaviors
 	/// <remarks>
 	/// See also, <see cref="Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}"/>
 	/// </remarks>
-	public class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
+	public sealed class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
 	{
 		private static readonly bool IsXamlRootAvailable =
 			ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "XamlRoot");

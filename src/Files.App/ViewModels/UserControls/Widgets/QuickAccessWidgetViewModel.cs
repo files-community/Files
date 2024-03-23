@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Input;
@@ -15,7 +15,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="QuickAccessWidget"/>.
 	/// </summary>
-	public class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 

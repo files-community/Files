@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Composition;
@@ -12,7 +12,7 @@ using System.Numerics;
 
 namespace Files.App.Helpers
 {
-	internal class NavigationInteractionTracker : IDisposable
+	internal sealed class NavigationInteractionTracker : IDisposable
 	{
 		public bool CanNavigateForward
 		{
@@ -175,7 +175,7 @@ namespace Files.App.Helpers
 			GC.SuppressFinalize(this);
 		}
 
-		private class InteractionTrackerOwner : IInteractionTrackerOwner
+		private sealed class InteractionTrackerOwner : IInteractionTrackerOwner
 		{
 			private NavigationInteractionTracker _parent;
 			private bool _shouldBounceBack;

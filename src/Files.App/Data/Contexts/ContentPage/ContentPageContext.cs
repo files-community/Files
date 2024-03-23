@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.TabBar;
@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
 {
-	internal class ContentPageContext : ObservableObject, IContentPageContext
+	internal sealed class ContentPageContext : ObservableObject, IContentPageContext
 	{
 		private static readonly IReadOnlyList<ListedItem> emptyItems = Enumerable.Empty<ListedItem>().ToImmutableList();
 

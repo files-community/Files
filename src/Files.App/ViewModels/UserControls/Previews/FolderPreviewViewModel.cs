@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
@@ -8,7 +8,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class FolderPreviewViewModel
+	public sealed class FolderPreviewViewModel
 	{
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 

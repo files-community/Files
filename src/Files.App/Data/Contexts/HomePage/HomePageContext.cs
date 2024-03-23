@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
 {
-	public class HomePageContext : ObservableObject, IHomePageContext
+	public sealed class HomePageContext : ObservableObject, IHomePageContext
 	{
 		private static readonly IImmutableList<WidgetFileTagCardItem> emptyTaggedItems = Enumerable.Empty<WidgetFileTagCardItem>().ToImmutableList();
 

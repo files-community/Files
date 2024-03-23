@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using LiteDB;
@@ -9,7 +9,7 @@ namespace Files.App.Helpers
 	/// <summary>
 	/// Represents manager for the database of layout preferences.
 	/// </summary>
-	public class LayoutPreferencesDatabaseManager : IDisposable
+	public sealed class LayoutPreferencesDatabaseManager : IDisposable
 	{
 		// Fields
 

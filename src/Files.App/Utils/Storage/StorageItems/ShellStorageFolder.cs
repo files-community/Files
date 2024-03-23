@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -9,7 +9,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
+	public sealed class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
 	{
 		public string TargetPath { get; }
 		public string Arguments { get; }
@@ -33,7 +33,7 @@ namespace Files.App.Utils.Storage
 		bool RunAsAdmin { get; }
 	}
 
-	public class BinStorageFolder : ShellStorageFolder, IBinStorageItem
+	public sealed class BinStorageFolder : ShellStorageFolder, IBinStorageItem
 	{
 		public string OriginalPath { get; }
 		public DateTimeOffset DateDeleted { get; }
@@ -108,7 +108,7 @@ namespace Files.App.Utils.Storage
 
 		protected static async Task<(ShellFileItem Folder, List<ShellFileItem> Items)> GetFolderAndItems(string path, bool enumerate, int startIndex = 0, int maxItemsToRetrieve = int.MaxValue)
 		{
-			return await Win32Shell.GetShellFolderAsync(path, enumerate ? "Enumerate" : "Query", startIndex, maxItemsToRetrieve);
+			return await Win32Helper.GetShellFolderAsync(path, enumerate ? "Enumerate" : "Query", startIndex, maxItemsToRetrieve);
 		}
 
 		public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => throw new NotSupportedException();
@@ -292,7 +292,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		private class ShellFolderBasicProperties : BaseBasicProperties
+		private sealed class ShellFolderBasicProperties : BaseBasicProperties
 		{
 			private readonly ShellFileItem folder;
 

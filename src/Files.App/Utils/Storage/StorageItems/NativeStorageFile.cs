@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
@@ -17,7 +17,7 @@ namespace Files.App.Utils.Storage
 	/// Shortcuts and alternate data stream.
 	/// Uses *FromApp methods for file operations
 	/// </summary>
-	public class NativeStorageFile : BaseStorageFile
+	public sealed class NativeStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
 		public override string Name { get; }

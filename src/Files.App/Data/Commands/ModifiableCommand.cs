@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Actions;
@@ -11,7 +11,7 @@ using static Files.App.Data.Commands.CommandManager;
 namespace Files.App.Data.Commands
 {
 	[DebuggerDisplay("Command {Code} (Modifiable)")]
-	internal class ModifiableCommand : ObservableObject, IRichCommand
+	internal sealed class ModifiableCommand : ObservableObject, IRichCommand
 	{
 		public event EventHandler? CanExecuteChanged;
 

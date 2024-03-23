@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Actions
 {
-	internal class ToggleSelectAction : IAction
+	internal sealed class ToggleSelectAction : IAction
 	{
 		public string Label
 			=> "ToggleSelect".GetLocalizedResource();

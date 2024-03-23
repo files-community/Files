@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -8,7 +8,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for a column shown in <see cref="DetailsLayoutPage"/>.
 	/// </summary>
-	public class DetailsLayoutColumnItem : ObservableObject
+	public sealed class DetailsLayoutColumnItem : ObservableObject
 	{
 		private const int GRID_SPLITTER_WIDTH = 12;
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Axe.Windows.Automation;
@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Files.InteractionTests.Helper
 {
-	public class AxeHelper
+	public sealed class AxeHelper
 	{
 		public static IScanner AccessibilityScanner;
 

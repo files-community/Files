@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using static Files.App.Constants;
 
 namespace Files.App.Data.Contexts
 {
-	internal class DisplayPageContext : ObservableObject, IDisplayPageContext
+	internal sealed class DisplayPageContext : ObservableObject, IDisplayPageContext
 	{
 		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
