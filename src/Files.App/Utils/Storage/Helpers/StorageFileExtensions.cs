@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using FluentFTP.Helpers;
 using System.Collections.Immutable;
 using System.IO;
 using System.Text;
@@ -297,7 +298,7 @@ namespace Files.App.Utils.Storage
 			{
 				title = "SidebarNetworkDrives".GetLocalizedResource();
 			}
-			else if (component[1] is ':')
+			else if (component.EndsWith(":", StringComparison.Ordinal))
 			{
 				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
