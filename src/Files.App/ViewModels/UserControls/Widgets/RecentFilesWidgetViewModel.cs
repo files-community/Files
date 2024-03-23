@@ -227,7 +227,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				var directoryName = Path.GetDirectoryName(path);
 
-				_ = Win32Helpers.InvokeWin32ComponentAsync(path, ContentPageContext.ShellPage!, workingDirectory: directoryName ?? string.Empty);
+				_ = Win32Helper.InvokeWin32ComponentAsync(path, ContentPageContext.ShellPage!, workingDirectory: directoryName ?? string.Empty);
 			}
 			catch (Exception) { }
 		}
