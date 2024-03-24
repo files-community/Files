@@ -124,7 +124,7 @@ jobs:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
-    - name: Configure Store Credentials
+    - name: Configure Partner Center credentials
       uses: microsoft/store-submission@v1
       with:
         command: configure
@@ -135,7 +135,7 @@ jobs:
         client-id: ${{ secrets.MSSTORE_CLIENT_ID }}
         client-secret: ${{ secrets.MSSTORE_CLIENT_SECRET }}
 
-    - name: Update draft submission
+    - name: Draft a submission
       uses: microsoft/store-submission@v1
       with:
         command: update
