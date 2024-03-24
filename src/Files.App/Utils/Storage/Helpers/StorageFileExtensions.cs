@@ -297,7 +297,7 @@ namespace Files.App.Utils.Storage
 			{
 				title = "SidebarNetworkDrives".GetLocalizedResource();
 			}
-			else if (component.EndsWith(":", StringComparison.Ordinal))
+			else if (component.EndsWith(':'))
 			{
 				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
