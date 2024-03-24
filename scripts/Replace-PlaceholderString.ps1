@@ -7,7 +7,7 @@ param(
     [string]$New = ""
 )
 
-Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process
+Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach -Process
 { `
     (Get-Content $_ -Raw | ForEach -Process { $_ -replace "$Target", "$New" }) |
     Set-Content $_ -NoNewline

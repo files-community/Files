@@ -1,7 +1,7 @@
 # Copyright (c) 2024 Files Community
 # Licensed under the MIT License. See the LICENSE.
 
-name: Deploy to the Microsoft Store
+name: Files Deploy (Store)
 
 on:
   workflow_dispatch:
@@ -42,58 +42,35 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    # TODO: Move the command to PowerShell script instead
-    - name: Update Package.appxmanifest
+    - name: Configure the package manifest & logo sets
       shell: pwsh
       run: |
-        [xml]$xmlDoc = Get-Content "$env:PACKAGE_PROJECT_DIR\Package.appxmanifest"
-        $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-        $xmlDoc.Package.Identity.Publisher="$env:SIDELOAD_PUBLISHER_SECRET"
-        $xmlDoc.Package.Properties.DisplayName="Files"
-        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-        $xmlDoc.Save("$env:PACKAGE_PROJECT_DIR\Package.appxmanifest")
-      env:
-        SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
-
-    # TODO: Move the command to PowerShell script instead
-    - name: Use the ${{ env.CONFIGURATION }} logo sets
-      shell: pwsh
-      run: |
-        Get-ChildItem "$env:WORKING_DIR\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
-        { `
-          (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
-          Set-Content $_ -NoNewline `
-        }
+        . './scripts/Configure-AppxManifest.ps1' `
+          -Branch "$env:CONFIGURATION" `
+          -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
+          -Publisher "CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" `
+          -WorkingDir "$env:WORKING_DIR"
 
     - name: Inject the Bing Maps API token
       shell: pwsh
       run: |
-        Get-ChildItem "$env:WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process `
-        { `
-          (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$env:BING_MAPS_SECRET" }) | `
-          Set-Content $_ -NoNewline `
-        }
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New "$env:BING_MAPS_SECRET"
       env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
 
     - name: Inject the AppCenter token
       shell: pwsh
       run: |
-        Get-ChildItem "$env:WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process `
-        { `
-          (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "appcenter.secret", "$env:APP_CENTER_SECRET" }) | `
-          Set-Content $_ -NoNewline `
-        }
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New "$env:APP_CENTER_SECRET"
       env:
         APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
 
     - name: Inject the GitHub OAuth client ID
       run: |
-        Get-ChildItem "$env:WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process `
-        { `
-          (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$env:GH_OAUTH_CLIENT_ID" }) | `
-          Set-Content $_ -NoNewline `
-        }
+        . './scripts/Replace-SpecialString.ps1' `
+          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New "$env:GH_OAUTH_CLIENT_ID"
       env:
         GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
@@ -122,13 +99,12 @@ jobs:
         -t:Build `
         -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
+        -p:Configuration=$env:CONFIGURATION
         -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
         -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
         -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=Sideload `
-        -p:GenerateAppInstallerFile=True `
-        -p:AppInstallerUri=https://cdn.files.community/files/stable/
+        -p:AppxBundle=Always `
+        -p:UapAppxPackageBuildMode=StoreUpload'
 
     - name: Remove empty files from the packages
       shell: bash
@@ -141,39 +117,6 @@ jobs:
         $fileContent = Get-Content $localFilePath
         $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
         $fileContent | Set-Content $localFilePath
-
-    - name: Sign files with Azure Code Signing
-      uses: azure/azure-code-signing-action@v0.2.21
-      with:
-        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        endpoint: https://wus2.codesigning.azure.net/
-        code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
-        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ env.APPX_PACKAGE_DIR }}
-        files-folder-filter: msixbundle
-        files-folder-recurse: true
-        files-folder-depth: 4
-        file-digest: SHA256
-        timestamp-rfc3161: http://timestamp.acs.microsoft.com
-        timestamp-digest: SHA256
-
-    - uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Upload to blob storage
-      uses: azure/powershell@v1
-      with:
-        inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
-        azPSVersion: "latest"
-
-    # Azure logout
-    - name: logout
-      run: |
-          az logout
           
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
