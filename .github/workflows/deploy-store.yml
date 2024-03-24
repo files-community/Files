@@ -50,6 +50,9 @@ jobs:
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
           -Publisher "CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" `
           -WorkingDir "$env:WORKING_DIR"
+          -BING_MAPS_SECRET "$env:BING_MAPS_SECRET"
+          -APP_CENTER_SECRET "$env:APP_CENTER_SECRET"
+          -GH_OAUTH_CLIENT_ID "$env:GH_OAUTH_CLIENT_ID"
       env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
         APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}

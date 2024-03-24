@@ -47,6 +47,9 @@ jobs:
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
           -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
           -WorkingDir "$env:WORKING_DIR"
+          -BING_MAPS_SECRET "$env:BING_MAPS_SECRET"
+          -APP_CENTER_SECRET "$env:APP_CENTER_SECRET"
+          -GH_OAUTH_CLIENT_ID "$env:GH_OAUTH_CLIENT_ID"
       env:
         SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
