@@ -63,19 +63,19 @@ elseif ($Branch -eq "Store")
 
 $xmlDoc.Save("$PackageProjectDir\Package.appxmanifest")
 
-Get-ChildItem "$WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process
+Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
 {
     (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$BING_MAPS_SECRET" }) |
     Set-Content $_ -NoNewline
 }
 
-Get-ChildItem "$WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process
+Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
 {
     (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "appcenter.secret", "$APP_CENTER_SECRET" }) |
     Set-Content $_ -NoNewline
 }
 
-Get-ChildItem "$WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process
+Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
 {
     (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$GH_OAUTH_CLIENT_ID" }) |
     Set-Content $_ -NoNewline
