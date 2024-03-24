@@ -129,11 +129,11 @@ jobs:
       with:
         command: configure
         type: win32
-        seller-id: ${{ secrets.SELLER_ID }}
-        product-id: ${{ secrets.PRODUCT_ID }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        client-id: ${{ secrets.CLIENT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
+        seller-id: ${{ secrets.MSSTORE_SELLER_ID }}
+        product-id: ${{ secrets.MSSTORE_PRODUCT_ID }}
+        tenant-id: ${{ secrets.MSSTORE_TENANT_ID }}
+        client-id: ${{ secrets.MSSTORE_CLIENT_ID }}
+        client-secret: ${{ secrets.MSSTORE_CLIENT_SECRET }}
 
     - name: Update draft submission
       uses: microsoft/store-submission@v1
