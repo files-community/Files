@@ -123,3 +123,42 @@ jobs:
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
+    - name: Configure Store Credentials
+      uses: microsoft/store-submission@v1
+      with:
+        command: configure
+        type: win32
+        seller-id: ${{ secrets.SELLER_ID }}
+        product-id: ${{ secrets.PRODUCT_ID }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        client-id: ${{ secrets.CLIENT_ID }}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+
+    - name: Update draft submission
+      uses: microsoft/store-submission@v1
+      with:
+        command: update
+        product-update: '{
+            "packages":[
+                {
+                  "packageUrl":"${{ steps.releaseVars.outputs.powerToysInstallerX64Url }}",
+                  "languages":["zh-hans", "zh-hant", "en", "cs", "nl", "fr", "pt", "pt-br", "de", "hu", "it", "ja", "ko", "pl", "ru", "es", "tr"],
+                  "architectures":["X64"],
+                  "installerParameters":"/quiet /norestart",
+                  "isSilentInstall":true
+                },
+                {
+                  "packageUrl":"${{ steps.releaseVars.outputs.powerToysInstallerArm64Url }}",
+                  "languages":["zh-hans", "zh-hant", "en", "cs", "nl", "fr", "pt", "pt-br", "de", "hu", "it", "ja", "ko", "pl", "ru", "es", "tr"],
+                  "architectures":["Arm64"],
+                  "installerParameters":"/quiet /norestart",
+                  "isSilentInstall":true
+                }
+            ]
+          }'
+
+    - name: Publish the submission
+      uses: microsoft/store-submission@v1
+      with:
+        command: publish
