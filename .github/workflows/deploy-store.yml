@@ -1,7 +1,7 @@
 # Copyright (c) 2024 Files Community
 # Licensed under the MIT License. See the LICENSE.
 
-name: Files Deploy (Store)
+name: Files Deployment (Store)
 
 on:
   workflow_dispatch:
@@ -42,7 +42,7 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Configure the package manifest & logo sets
+    - name: Configure the package manifest, logo sets, and secrets
       shell: pwsh
       run: |
         . './scripts/Configure-AppxManifest.ps1' `
@@ -50,28 +50,9 @@ jobs:
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
           -Publisher "CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" `
           -WorkingDir "$env:WORKING_DIR"
-
-    - name: Inject the Bing Maps API token
-      shell: pwsh
-      run: |
-        . './scripts/Replace-SpecialString.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New "$env:BING_MAPS_SECRET"
       env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
-
-    - name: Inject the AppCenter token
-      shell: pwsh
-      run: |
-        . './scripts/Replace-SpecialString.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New "$env:APP_CENTER_SECRET"
-      env:
         APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
-
-    - name: Inject the GitHub OAuth client ID
-      run: |
-        . './scripts/Replace-SpecialString.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New "$env:GH_OAUTH_CLIENT_ID"
-      env:
         GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
     - name: Use Windows SDK Preview

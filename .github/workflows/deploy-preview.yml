@@ -1,4 +1,7 @@
-name: Deploy Preview Pipeline
+# Copyright (c) 2024 Files Community
+# Licensed under the MIT License. See the LICENSE.
+
+name: Files Deployment (Preview)
 
 on:
   workflow_dispatch:
@@ -27,19 +30,16 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v4
-
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
-
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.1.1
-
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.0.x'
 
-    - name: Configure the package manifest & logo sets
+    - name: Configure the package manifest, logo sets, and secrets
       shell: pwsh
       run: |
         . './scripts/Configure-AppxManifest.ps1' `
@@ -49,28 +49,8 @@ jobs:
           -WorkingDir "$env:WORKING_DIR"
       env:
         SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
-
-    - name: Inject the Bing Maps API token
-      shell: pwsh
-      run: |
-        . './scripts/Replace-SpecialString.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "bingmapskey.secret" -New "$env:BING_MAPS_SECRET"
-      env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
-
-    - name: Inject the AppCenter token
-      shell: pwsh
-      run: |
-        . './scripts/Replace-SpecialString.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "appcenter.secret" -New "$env:APP_CENTER_SECRET"
-      env:
         APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
-
-    - name: Inject the GitHub OAuth client ID
-      run: |
-        . './scripts/Replace-SpecialString.ps1' `
-          -WorkingDir "$env:WORKING_DIR" -Target "githubclientid.secret" -New "$env:GH_OAUTH_CLIENT_ID"
-      env:
         GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
     - name: Use Windows SDK Preview
@@ -135,19 +115,19 @@ jobs:
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
 
-    - uses: azure/login@v1
+    - name: Login to Azure
+      uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to blob storage
+    - name: Upload to Azure blob storage
       uses: azure/powershell@v1
       with:
         inlineScript: |
          az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "preview" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
         azPSVersion: "latest"
 
-    # Azure logout
-    - name: logout
+    - name: Logout from Azure
       run: |
           az logout
 
