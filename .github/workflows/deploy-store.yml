@@ -1,3 +1,6 @@
+# Copyright (c) 2024 Files Community
+# Licensed under the MIT License. See the LICENSE.
+
 name: Deploy to the Microsoft Store
 
 on:
@@ -44,7 +47,7 @@ jobs:
       shell: pwsh
       run: |
         [xml]$xmlDoc = Get-Content "$env:PACKAGE_PROJECT_DIR\Package.appxmanifest"
-        $xmlDoc.Package.Identity.Name="Files"
+        $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
         $xmlDoc.Package.Identity.Publisher="$env:SIDELOAD_PUBLISHER_SECRET"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
