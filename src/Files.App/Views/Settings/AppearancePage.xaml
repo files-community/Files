@@ -6,6 +6,7 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitem="using:Files.App.Data.Items"
+	xmlns:extensions="using:Files.App.Extensions"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -110,6 +111,7 @@
 				</local:SettingsBlockControl.Icon>
 				<ComboBox
 					x:Name="ThemeChooser"
+					extensions:ComboBoxExtensions.IsKeepWidthEnabled="True"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
