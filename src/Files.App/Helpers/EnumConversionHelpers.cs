@@ -18,6 +18,17 @@ namespace Files.App.Helpers
 			};
 		}
 
+		public static NameCollisionOption ConvertBack(this CreationCollisionOption option)
+		{
+			return option switch
+			{
+				CreationCollisionOption.FailIfExists => NameCollisionOption.FailIfExists,
+				CreationCollisionOption.GenerateUniqueName => NameCollisionOption.GenerateUniqueName,
+				CreationCollisionOption.ReplaceExisting => NameCollisionOption.ReplaceExisting,
+				_ => NameCollisionOption.GenerateUniqueName,
+			};
+		}
+
 		public static NameCollisionOption Convert(this FileNameConflictResolveOptionType option)
 		{
 			return option switch
