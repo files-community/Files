@@ -1,22 +1,17 @@
 <!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:BaseWidgetViewModel
+<UserControl
 	x:Class="Files.App.UserControls.Widgets.DrivesWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<Grid>
-		<ItemsRepeater
-			x:Name="CardsList"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Top"
-			ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded, Mode=OneWay}">
+		<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
 			<ItemsRepeater.Layout>
 				<UniformGridLayout
@@ -138,4 +133,4 @@
 
 		</ItemsRepeater>
 	</Grid>
-</local:BaseWidgetViewModel>
+</UserControl>

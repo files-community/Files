@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Contexts
 {
-	internal interface IHomePageContext
+	public interface IHomePageContext
 	{
 		/// <summary>
 		/// The last right clicked item

@@ -75,7 +75,7 @@ namespace Files.App.Views.Shells
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
 		{
 			if (ItemDisplayFrame?.Content is HomePage currentPage)
-				currentPage.RefreshWidgetList();
+				currentPage.ViewModel.RefreshWidgetList();
 		}
 
 		protected override void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
