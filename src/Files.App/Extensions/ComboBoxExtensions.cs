@@ -29,15 +29,23 @@ namespace Files.App.Extensions
 		{
 			if (d is ComboBox comboBox)
 			{
-				comboBox.SelectionChanged -= ComboBox_SelectionChanged;
-				comboBox.SelectionChanged += ComboBox_SelectionChanged;
+				//comboBox.SelectionChanged -= ComboBox_SelectionChanged;
+				//comboBox.SelectionChanged += ComboBox_SelectionChanged;
+				comboBox.SizeChanged -= ComboBox_SizeChanged;
+				comboBox.SizeChanged += ComboBox_SizeChanged;
 			}
 		}
 
-		private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private static void ComboBox_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			if (sender is ComboBox comboBox)
 				comboBox.MinWidth = comboBox.ActualWidth;
 		}
+
+		//private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		//{
+		//	if (sender is ComboBox comboBox)
+		//		comboBox.MinWidth = comboBox.ActualWidth;
+		//}
 	}
 }
