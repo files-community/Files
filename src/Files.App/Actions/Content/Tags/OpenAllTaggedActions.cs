@@ -33,12 +33,14 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
+			var files = _tagsContext.TaggedItems.Where(item => !item.isFolder).Select(f => f.path);
 			var folders = _tagsContext.TaggedItems.Where(item => item.isFolder).Select(f => f.path);
 
-			foreach (var folder in folders)
-			{
-				await NavigationHelpers.OpenPathInNewTab(folder, false);
-			}
+			await Task.WhenAll(files.Select(file
+				=> NavigationHelpers.OpenPath(file, _pageContext.ShellPage!)));
+
+			await Task.WhenAll(folders.Select(folder
+				=> NavigationHelpers.OpenPath(folder, _pageContext.ShellPage!)));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
