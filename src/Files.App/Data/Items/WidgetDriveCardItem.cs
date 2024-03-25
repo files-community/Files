@@ -32,9 +32,15 @@ namespace Files.App.Data.Items
 				true,
 				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
+			if (result is null)
+			{
+				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Item.Root);
+				result ??= await thumbnail.ToByteArrayAsync();
+			}
+
 			thumbnailData = result;
 
-			var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+			var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 			if (bitmapImage is not null)
 				Thumbnail = bitmapImage;
 		}

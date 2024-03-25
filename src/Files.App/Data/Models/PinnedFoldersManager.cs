@@ -108,7 +108,7 @@ namespace Files.App.Data.Models
 
 					locationItem.IconData = result;
 
-					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 					if (bitmapImage is not null)
 						locationItem.Icon = bitmapImage;
 				}
