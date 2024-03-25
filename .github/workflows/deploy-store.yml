@@ -115,9 +115,9 @@ jobs:
         type: win32
         seller-id: ${{ secrets.MSSTORE_SELLER_ID }}
         product-id: ${{ secrets.MSSTORE_PRODUCT_ID }}
-        tenant-id: ${{ secrets.MSSTORE_TENANT_ID }}
-        client-id: ${{ secrets.MSSTORE_CLIENT_ID }}
-        client-secret: ${{ secrets.MSSTORE_CLIENT_SECRET }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
     - name: Draft a submission
       uses: microsoft/store-submission@v1
