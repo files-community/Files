@@ -6,14 +6,14 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Extensions
 {
-	internal class ComboBoxExtensions : DependencyObject
+	public sealed class ComboBoxExtensions : DependencyObject
 	{
 		public static readonly DependencyProperty IsKeepWidthEnabledProperty =
 			DependencyProperty.RegisterAttached(
 				"IsKeepWidthEnabled",
 				typeof(bool),
 				typeof(ComboBoxExtensions),
-				new PropertyMetadata(null, OnIsKeepWidthEnabledProperty));
+				new PropertyMetadata(false, OnIsKeepWidthEnabledProperty));
 
 		public static bool GetIsKeepWidthEnabled(DependencyObject obj)
 		{
@@ -29,8 +29,6 @@ namespace Files.App.Extensions
 		{
 			if (d is ComboBox comboBox)
 			{
-				comboBox.MinWidth = comboBox.ActualWidth;
-
 				comboBox.SelectionChanged -= ComboBox_SelectionChanged;
 				comboBox.SelectionChanged += ComboBox_SelectionChanged;
 			}
