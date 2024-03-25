@@ -119,30 +119,14 @@ jobs:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
-    - name: Draft a submission
-      uses: microsoft/store-submission@v1
-      with:
-        command: update
-        product-update: '{
-            "packages":[
-                {
-                  "packageUrl":"${{ steps.releaseVars.outputs.powerToysInstallerX64Url }}",
-                  "languages":["zh-hans", "zh-hant", "en", "cs", "nl", "fr", "pt", "pt-br", "de", "hu", "it", "ja", "ko", "pl", "ru", "es", "tr"],
-                  "architectures":["X64"],
-                  "installerParameters":"/quiet /norestart",
-                  "isSilentInstall":true
-                },
-                {
-                  "packageUrl":"${{ steps.releaseVars.outputs.powerToysInstallerArm64Url }}",
-                  "languages":["zh-hans", "zh-hant", "en", "cs", "nl", "fr", "pt", "pt-br", "de", "hu", "it", "ja", "ko", "pl", "ru", "es", "tr"],
-                  "architectures":["Arm64"],
-                  "installerParameters":"/quiet /norestart",
-                  "isSilentInstall":true
-                }
-            ]
-          }'
-
-    - name: Publish the submission
-      uses: microsoft/store-submission@v1
-      with:
-        command: publish
+    - name: Submit msixupload to Partner Center 
+      shell: pwsh
+      run: |
+        $bundlePlatformsSafe = "${{ env.AppxBundlePlatforms }}".Replace("|", "_")
+        $uploadBundlePath = "${{ env.AppxPackageDirectory }}PackageProject_${{ steps.version-creator.outputs.APP_VERSION }}_" + $bundlePlatformsSafe + "_bundle.msixupload"
+        ./.scripts/SubmitToMsftStore.ps1 $uploadBundlePath
+      env:
+        PartnerCenterClientId: ${{ secrets.AZURE_CLIENT_ID }}
+        PartnerCenterClientSecret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        PartnerCenterStoreId: ${{ secrets.MSSTORE_PRODUCT_ID }}
+        PartnerCenterTenantId: ${{ secrets.AZURE_TENANT_ID }}
