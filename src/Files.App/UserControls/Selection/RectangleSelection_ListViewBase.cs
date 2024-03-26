@@ -122,7 +122,7 @@ namespace Files.App.UserControls.Selection
 			originDragPoint.Y += verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
 			if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed && e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Touch)
 			{
-				// Trigger only on left click, do not trigger with touch
+				// Trigger only on left click or with a tap
 				return;
 			}
 
@@ -136,6 +136,7 @@ namespace Files.App.UserControls.Selection
 
 			selectionStrategy.HandleNoItemSelected();
 
+			// Don't hook events for touch
 			if (e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Touch)
 			{
 				uiElement.PointerMoved -= RectangleSelection_PointerMoved;
