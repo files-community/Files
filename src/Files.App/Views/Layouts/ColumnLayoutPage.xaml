@@ -175,6 +175,7 @@
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="FileList"
+					Padding="8,0,8,0"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -190,6 +191,7 @@
 					IsDoubleTapEnabled="True"
 					IsRightTapEnabled="True"
 					IsTabStop="True"
+					ItemContainerTransitions="{x:Null}"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
 					PreviewKeyDown="FileList_PreviewKeyDown"
@@ -198,12 +200,6 @@
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped">
-
-					<ListView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</ListView.ItemContainerTransitions>
 
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="filesystem:ListedItem">

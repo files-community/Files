@@ -235,6 +235,7 @@
 					FocusVisualSecondaryThickness="0"
 					IsDoubleTapEnabled="True"
 					IsTabStop="True"
+					ItemContainerTransitions="{x:Null}"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
 					LosingFocus="FileList_LosingFocus"
@@ -245,13 +246,6 @@
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
 					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
-
-					<!--  ListView Item Transitions  -->
-					<ListView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</ListView.ItemContainerTransitions>
 
 					<!--  ListView Header  -->
 					<ListView.Header>
