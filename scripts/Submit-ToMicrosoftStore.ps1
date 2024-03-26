@@ -4,7 +4,10 @@
 # Abstract:
 #  This uses official powershell module, microsoft/StoreBroker
 #  and is for submitting a package flight to the Microsoft Store.
- 
+
+# Credit:
+#  https://github.com/LanceMcCarthy/MediaFileManager/blob/main/.scripts/SubmitToMsftStore.ps1
+
 param(
     [string]$appxPathParam
 )
