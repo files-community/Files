@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.Properties
 
 		private void ToggleIsEnabled(string? algorithm)
 		{
-			var hashInfoItem = Hashes.Where(x => x.Algorithm == algorithm).First();
+			var hashInfoItem = Hashes.First(x => x.Algorithm == algorithm);
 			hashInfoItem.IsEnabled = !hashInfoItem.IsEnabled;
 
 			if (ShowHashes[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)

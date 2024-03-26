@@ -1,13 +1,13 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Immutable;
+using System.Collections.Frozen;
 
 namespace Files.Core.Data.Models
 {
 	public struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
 	{
-		private static readonly IImmutableDictionary<string, string> units = new Dictionary<string, string>
+		private static readonly FrozenDictionary<string, string> units = new Dictionary<string, string>
 		{
 			[ByteSizeLib.ByteSize.BitSymbol] = "ByteSymbol".ToLocalized(),
 			[ByteSizeLib.ByteSize.ByteSymbol] = "ByteSymbol".ToLocalized(),
@@ -16,7 +16,7 @@ namespace Files.Core.Data.Models
 			[ByteSizeLib.ByteSize.GibiByteSymbol] = "GigaByteSymbol".ToLocalized(),
 			[ByteSizeLib.ByteSize.TebiByteSymbol] = "TeraByteSymbol".ToLocalized(),
 			[ByteSizeLib.ByteSize.PebiByteSymbol] = "PetaByteSymbol".ToLocalized(),
-		}.ToImmutableDictionary();
+		}.ToFrozenDictionary();
 
 		private readonly ByteSizeLib.ByteSize size;
 
