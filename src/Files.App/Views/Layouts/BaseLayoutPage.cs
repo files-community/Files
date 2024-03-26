@@ -901,22 +901,25 @@ namespace Files.App.Views.Layouts
 				}
 			}
 
-			// Add items to main shell submenu
-			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
+			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+
+			// Load main submenus asynchronously
+			foreach (var item in mainItemsWithSubMenu)
 			{
-				await x.LoadSubMenuAction();
+				await item.LoadSubMenuAction();
+				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems,item);
+			}
 
-				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, x);
-			});
+			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
+			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
 
-			// Add items to overflow shell submenu
-			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			foreach (var item in overflowItemsWithSubMenu)
 			{
-				await x.LoadSubMenuAction();
-
-				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, x);
-			});
-
+				await item.LoadSubMenuAction();
+				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
+			}
+			
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
 				// Enable CharacterEllipsis text trimming for menu items

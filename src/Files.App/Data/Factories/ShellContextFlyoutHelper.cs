@@ -359,20 +359,27 @@ namespace Files.App.Helpers
 					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
 				}
 
-				// Add items to shell submenu
-				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
-				{
-					await x.LoadSubMenuAction();
 
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+				
+				//The order here may be important
+				foreach (var item in itemsWithSubMenu)
+				{
+					await item.LoadSubMenuAction();
 					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
-						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, x);
+						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
 					}
-					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is AppBarButton overflowItem)
+					else
 					{
-						AddItemsToOverflowMenu(overflowItem, x);
+						var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
+
+						if (overflowItem != null)
+						{
+							AddItemsToOverflowMenu(overflowItem, item);
+						}
 					}
-				});
+				}
 			}
 			catch { }
 		}
