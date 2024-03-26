@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using Files.App.Actions;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
@@ -15,7 +16,7 @@ namespace Files.App.Data.Commands
 		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		private readonly FrozenDictionary<CommandCodes, IRichCommand> commands;
-		private FrozenDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToFrozenDictionary();
+		private ImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[string code]
@@ -398,7 +399,7 @@ namespace Files.App.Data.Commands
 
 			hotKeys = commands.Values
 				.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
-				.ToFrozenDictionary(item => item.HotKey, item => item.Command);
+				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 		}
 
 		private static HotKeyCollection GetHotKeys(IAction action)
