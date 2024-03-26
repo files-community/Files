@@ -1,7 +1,7 @@
 # Copyright (c) 2024 Files Community
 # Licensed under the MIT License. See the LICENSE.
 
-name: Files Deployment (Stable)
+name: Files Deployment (Store)
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [Stable]
+        configuration: [Store]
         platform: [x64]
     env:
       SOLUTION_NAME: 'Files.sln'
@@ -30,10 +30,13 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v4
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
+
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.1.1
+
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v3
       with:
@@ -45,13 +48,12 @@ jobs:
         . './scripts/Configure-AppxManifest.ps1' `
           -Branch "$env:CONFIGURATION" `
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
-          -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
+          -Publisher "CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" `
           -WorkingDir "$env:WORKING_DIR"
           -BING_MAPS_SECRET "$env:BING_MAPS_SECRET"
           -APP_CENTER_SECRET "$env:APP_CENTER_SECRET"
           -GH_OAUTH_CLIENT_ID "$env:GH_OAUTH_CLIENT_ID"
       env:
-        SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
         APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
         GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
@@ -81,13 +83,12 @@ jobs:
         -t:Build `
         -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
+        -p:Configuration=$env:CONFIGURATION
         -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
         -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
         -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=Sideload `
-        -p:GenerateAppInstallerFile=True `
-        -p:AppInstallerUri=https://cdn.files.community/files/stable/
+        -p:AppxBundle=Always `
+        -p:UapAppxPackageBuildMode=StoreUpload'
 
     - name: Remove empty files from the packages
       shell: bash
@@ -100,42 +101,21 @@ jobs:
         $fileContent = Get-Content $localFilePath
         $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
         $fileContent | Set-Content $localFilePath
-
-    - name: Sign files with Azure Code Signing
-      uses: azure/azure-code-signing-action@v0.3.0
-      with:
-        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        endpoint: https://wus2.codesigning.azure.net/
-        code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
-        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ env.APPX_PACKAGE_DIR }}
-        files-folder-filter: msixbundle
-        files-folder-recurse: true
-        files-folder-depth: 4
-        file-digest: SHA256
-        timestamp-rfc3161: http://timestamp.acs.microsoft.com
-        timestamp-digest: SHA256
-
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Upload to Azure blob storage
-      uses: azure/powershell@v1
-      with:
-        inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
-        azPSVersion: "latest"
-
-    - name: Logout from Azure
-      run: |
-          az logout
           
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
+    - name: Submit msixupload to Partner Center 
+      shell: pwsh
+      run: |
+        $bundlePlatformsSafe = "${{ env.AppxBundlePlatforms }}".Replace("|", "_")
+        $uploadBundlePath = "${{ env.AppxPackageDirectory }}PackageProject_${{ steps.version-creator.outputs.APP_VERSION }}_" + $bundlePlatformsSafe + "_bundle.msixupload"
+        ./.scripts/SubmitToMsftStore.ps1 $uploadBundlePath
+      env:
+        PartnerCenterClientId: ${{ secrets.AZURE_CLIENT_ID }}
+        PartnerCenterClientSecret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        PartnerCenterStoreId: ${{ secrets.MSSTORE_PRODUCT_ID }}
+        PartnerCenterTenantId: ${{ secrets.AZURE_TENANT_ID }}
