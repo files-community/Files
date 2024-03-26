@@ -10,6 +10,8 @@ namespace Files.App.Data.Items
 	{
 		public virtual string? Path { get; set; }
 
+		public virtual string? RootPath { get; set; }
+
 		public virtual object? Item { get; set; }
 	}
 }

@@ -44,6 +44,12 @@ namespace Files.App.Data.Items
 			IsPinned = isPinned;
 			Item = item;
 			Path = item.Path;
+			RootPath =
+				item.Path.StartsWith("Shell:", StringComparison.OrdinalIgnoreCase) ||
+				item.Path.StartsWith("::{", StringComparison.Ordinal) ||
+				item.Path.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
+				 ? item.Text
+				 :  PathNormalization.GetPathRoot(item.Path);
 		}
 
 		// Methods
