@@ -76,7 +76,7 @@ namespace Files.Core.Helpers
 			public string cAlternateFileName;
 		}
 
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		[LibraryImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true)]
 		public static extern IntPtr FindFirstFileExFromApp(
 			string lpFileName,
 			FINDEX_INFO_LEVELS fInfoLevelId,
@@ -88,16 +88,16 @@ namespace Files.Core.Helpers
 		public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
 		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
 
-		[DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
+		[LibraryImport("api-ms-win-core-file-l1-1-0.dll")]
 		public static extern bool FindNextFile(
 			IntPtr hFindFile,
 			out WIN32_FIND_DATA lpFindFileData);
 
-		[DllImport("api-ms-win-core-file-l1-1-0.dll")]
+		[LibraryImport("api-ms-win-core-file-l1-1-0.dll")]
 		public static extern bool FindClose(
 			IntPtr hFindFile);
 
-		[DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
+		[LibraryImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
 		public static extern bool FileTimeToSystemTime(
 			ref FILETIME lpFileTime,
 			out SYSTEMTIME lpSystemTime);
