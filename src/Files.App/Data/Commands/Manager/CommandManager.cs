@@ -1,12 +1,12 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Collections.Frozen;
 using Files.App.Actions;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
@@ -14,8 +14,8 @@ namespace Files.App.Data.Commands
 	{
 		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
-		private readonly ImmutableDictionary<CommandCodes, IRichCommand> commands;
-		private ImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
+		private readonly FrozenDictionary<CommandCodes, IRichCommand> commands;
+		private FrozenDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToFrozenDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[string code]
@@ -196,14 +196,16 @@ namespace Files.App.Data.Commands
 				.Select(action => new ActionCommand(this, action.Key, action.Value))
 				.Cast<IRichCommand>()
 				.Append(new NoneCommand())
-				.ToImmutableDictionary(command => command.Code);
+				.ToFrozenDictionary(command => command.Code);
 
 			settings.PropertyChanged += Settings_PropertyChanged;
 			UpdateHotKeys();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-		public IEnumerator<IRichCommand> GetEnumerator() => commands.Values.GetEnumerator();
+
+		public IEnumerator<IRichCommand> GetEnumerator() =>
+			(commands.Values as IEnumerable<IRichCommand>).GetEnumerator();
 
 		private static Dictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
 		{
@@ -396,7 +398,7 @@ namespace Files.App.Data.Commands
 
 			hotKeys = commands.Values
 				.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
-				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+				.ToFrozenDictionary(item => item.HotKey, item => item.Command);
 		}
 
 		private static HotKeyCollection GetHotKeys(IAction action)
