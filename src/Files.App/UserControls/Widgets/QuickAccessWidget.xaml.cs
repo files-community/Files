@@ -311,7 +311,7 @@ namespace Files.App.UserControls.Widgets
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
 
-			var recentItem = items.Where(x => !ItemsAdded.ToList().Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
+			var recentItem = items.FirstOrDefault(x => !ItemsAdded.ToList().Select(y => y.Path).Contains(x.FilePath));
 			if (recentItem is not null)
 			{
 				ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
