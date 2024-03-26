@@ -123,6 +123,7 @@
 					<FontIcon Glyph="&#xEF1F;" />
 				</local:SettingsBlockControl.Icon>
 				<ComboBox
+					extensions:ComboBoxExtensions.IsKeepWidthEnabled="True"
 					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
 					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
