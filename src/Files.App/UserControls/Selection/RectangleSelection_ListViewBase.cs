@@ -6,9 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Foundation;
 using Windows.System;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
@@ -41,18 +38,14 @@ namespace Files.App.UserControls.Selection
 		private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
 		{
 			if (scrollViewer is null)
-			{
 				return;
-			}
 
 			var currentPoint = e.GetCurrentPoint(uiElement);
 			var verticalOffset = scrollViewer.VerticalOffset;
 			if (selectionState == SelectionState.Starting)
 			{
 				if (!HasMovedMinimalDelta(originDragPoint.X, originDragPoint.Y - verticalOffset, currentPoint.Position.X, currentPoint.Position.Y))
-				{
 					return;
-				}
 
 				// Clear selected items once if the pointer is pressed and moved
 				selectionStrategy.StartSelection();
@@ -73,13 +66,9 @@ namespace Files.App.UserControls.Selection
 					try
 					{
 						if (rect.IntersectsWith(item.Value))
-						{
 							selectionStrategy.HandleIntersectionWithItem(item.Key);
-						}
 						else
-						{
 							selectionStrategy.HandleNoIntersectionWithItem(item.Key);
-						}
 					}
 					catch (ArgumentException)
 					{
@@ -131,7 +120,7 @@ namespace Files.App.UserControls.Selection
 
 			var verticalOffset = scrollViewer.VerticalOffset;
 			originDragPoint.Y += verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
-			if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed || e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Touch)
+			if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed && e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Touch)
 			{
 				// Trigger only on left click, do not trigger with touch
 				return;
@@ -147,13 +136,16 @@ namespace Files.App.UserControls.Selection
 
 			selectionStrategy.HandleNoItemSelected();
 
-			uiElement.PointerMoved -= RectangleSelection_PointerMoved;
-			uiElement.PointerMoved += RectangleSelection_PointerMoved;
-			if (selectionChanged is not null)
+			if (e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Touch)
 			{
-				// Unsunscribe from SelectionChanged event for performance
-				uiElement.SelectionChanged -= selectionChanged;
+				uiElement.PointerMoved -= RectangleSelection_PointerMoved;
+				uiElement.PointerMoved += RectangleSelection_PointerMoved;
 			}
+
+			// Unsunscribe from SelectionChanged event for performance
+			if (selectionChanged is not null)
+				uiElement.SelectionChanged -= selectionChanged;
+
 			uiElement.CapturePointer(e.Pointer);
 			selectionState = SelectionState.Starting;
 		}
@@ -186,31 +178,34 @@ namespace Files.App.UserControls.Selection
 
 		private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
 		{
-			if (scrollViewer is null) return;
+			if (scrollViewer is null)
+				return;
+
+			// Reset selection rectangle
 			Canvas.SetLeft(selectionRectangle, 0);
 			Canvas.SetTop(selectionRectangle, 0);
 			selectionRectangle.Width = 0;
 			selectionRectangle.Height = 0;
-			uiElement.PointerMoved -= RectangleSelection_PointerMoved;
 
+			// Unhook events
+			uiElement.PointerMoved -= RectangleSelection_PointerMoved;
 			scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+
 			uiElement.ReleasePointerCapture(e.Pointer);
 			if (selectionChanged is not null)
 			{
 				// Restore and trigger SelectionChanged event
 				uiElement.SelectionChanged -= selectionChanged;
 				uiElement.SelectionChanged += selectionChanged;
+
+				// Trigger SelectionChanged event if the selection has changed
 				if (prevSelectedItems is null || !uiElement.SelectedItems.SequenceEqual(prevSelectedItems))
-				{
-					// Trigger SelectionChanged event if the selection has changed
 					selectionChanged(sender, null);
-				}
 			}
+
+			// Always trigger SelectionEnded to focus the file list when clicking on the empty space (#2977)
 			if (selectionState == SelectionState.Active || e.OriginalSource is ListViewBase)
-			{
-				// Always trigger SelectionEnded to focus the file list when clicking on the empty space (#2977)
 				OnSelectionEnded();
-			}
 
 			selectionStrategy = null;
 			selectionState = SelectionState.Inactive;
@@ -225,9 +220,7 @@ namespace Files.App.UserControls.Selection
 			scrollViewer ??= DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
 
 			if (scrollViewer is not null)
-			{
 				uiElement.SizeChanged -= RectangleSelection_SizeChanged;
-			}
 		}
 
 		private void InitEvents(object sender, RoutedEventArgs e)
@@ -246,9 +239,7 @@ namespace Files.App.UserControls.Selection
 
 				scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
 				if (scrollViewer is null)
-				{
 					uiElement.SizeChanged += RectangleSelection_SizeChanged;
-				}
 			}
 		}
 	}
