@@ -26,7 +26,6 @@ namespace Files.App.Data.Commands
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		public IEnumerator<IRichCommand> GetEnumerator() => (ModifiableCommands.Values as IEnumerable<IRichCommand>).GetEnumerator();
 
-
 		private static FrozenDictionary<CommandCodes, IRichCommand> CreateModifiableCommands() => new Dictionary<CommandCodes, IRichCommand>
 		{
 			[CommandCodes.None] = new NoneCommand(),
