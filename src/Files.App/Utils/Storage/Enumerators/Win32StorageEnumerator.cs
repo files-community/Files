@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Drawing;
 using Files.Core.Services.SizeProvider;
 using Files.Shared.Helpers;
 using System.IO;
@@ -261,6 +262,15 @@ namespace Files.App.Utils.Storage
 				itemType = itemFileExtension.Trim('.') + " " + itemType;
 			}
 
+			int imageHeight = 0, imageWidth = 0;
+			if (FileExtensionHelpers.IsImageFile(itemFileExtension))
+			{
+				await using FileStream fileStream = new FileStream(itemPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+				using Image image = Image.FromStream(fileStream, false, false);
+				imageHeight = image.Height;
+				imageWidth = image.Width;
+			}
+
 			bool itemThumbnailImgVis = false;
 			bool itemEmptyImgVis = true;
 
@@ -397,7 +407,9 @@ namespace Files.App.Utils.Storage
 						ItemType = itemType,
 						ItemPath = itemPath,
 						FileSize = itemSize,
-						FileSizeBytes = itemSizeBytes
+						FileSizeBytes = itemSizeBytes,
+						ImageHeight = imageHeight,
+						ImageWidth = imageWidth
 					};
 				}
 			}
