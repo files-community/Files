@@ -217,6 +217,15 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 
+			<!--  Listary Integration  -->
+			<Border Width="0" Height="0">
+				<!--  Contains the current path  -->
+				<TextBox AutomationProperties.AutomationId="CurrentPathGet" Text="{x:Bind ViewModel.PathControlDisplayText, Mode=OneWay}" />
+
+				<!--  Modifies the current path  -->
+				<TextBox AutomationProperties.AutomationId="CurrentPathSet" />
+			</Border>
+
 			<!--  Page Navigation Actions  -->
 			<StackPanel
 				Grid.Row="1"
