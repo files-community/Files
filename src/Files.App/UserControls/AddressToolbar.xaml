@@ -218,13 +218,13 @@
 			</Grid.ColumnDefinitions>
 
 			<!--  Listary Integration  -->
-			<Border Width="0" Height="0">
+			<Grid Width="0" Height="0">
 				<!--  Contains the current path  -->
 				<TextBox AutomationProperties.AutomationId="CurrentPathGet" Text="{x:Bind ViewModel.PathControlDisplayText, Mode=OneWay}" />
 
 				<!--  Modifies the current path  -->
 				<TextBox AutomationProperties.AutomationId="CurrentPathSet" />
-			</Border>
+			</Grid>
 
 			<!--  Page Navigation Actions  -->
 			<StackPanel
