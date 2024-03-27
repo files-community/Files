@@ -22,7 +22,7 @@ namespace Files.App.Utils.Storage
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
 			IntPtr hFile,
-			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Core.Helpers.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction
@@ -145,7 +145,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem> GetFolder(
-			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Core.Helpers.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
@@ -222,7 +222,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem> GetFile(
-			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Core.Helpers.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken

@@ -38,7 +38,7 @@ namespace Files.App.Utils.Storage.Operations
 						using var hFile = FindFirstFileEx(
 							directory + "\\*.*",
 							FINDEX_INFO_LEVELS.FindExInfoBasic,
-							out WIN32_FIND_DATA findData,
+							out Vanara.PInvoke.WIN32_FIND_DATA findData,
 							FINDEX_SEARCH_OPS.FindExSearchNameMatch,
 							IntPtr.Zero,
 							FIND_FIRST.FIND_FIRST_EX_LARGE_FETCH);

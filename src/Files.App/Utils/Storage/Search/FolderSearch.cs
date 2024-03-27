@@ -8,7 +8,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
-using WIN32_FIND_DATA = Files.Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
+using WIN32_FIND_DATA = Files.Core.Helpers.WIN32_FIND_DATA;
 
 namespace Files.App.Utils.Storage
 {

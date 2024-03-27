@@ -3,13 +3,14 @@
 
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace Files.Core.Helpers
 {
 	/// <summary>
 	/// Provides a bunch of Win32API for native find storage items.
 	/// </summary>
-	public sealed class NativeFindStorageItemHelper
+	public sealed partial class NativeFindStorageItemHelper
 	{
 		[StructLayout(LayoutKind.Sequential)]
 		public struct SYSTEMTIME
@@ -54,30 +55,9 @@ namespace Files.Core.Helpers
 			FindExSearchLimitToDirectories = 1,
 			FindExSearchLimitToDevices = 2
 		}
-
-		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-		public struct WIN32_FIND_DATA
-		{
-			public uint dwFileAttributes;
-			
-			public FILETIME ftCreationTime;
-			public FILETIME ftLastAccessTime;
-			public FILETIME ftLastWriteTime;
-
-			public uint nFileSizeHigh;
-			public uint nFileSizeLow;
-			public uint dwReserved0;
-			public uint dwReserved1;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-			public string cFileName;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
-			public string cAlternateFileName;
-		}
-
-		[LibraryImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true)]
-		public static extern IntPtr FindFirstFileExFromApp(
+		
+		[LibraryImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+		public static partial IntPtr FindFirstFileExFromApp(
 			string lpFileName,
 			FINDEX_INFO_LEVELS fInfoLevelId,
 			out WIN32_FIND_DATA lpFindFileData,
@@ -89,22 +69,25 @@ namespace Files.Core.Helpers
 		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
 
 		[LibraryImport("api-ms-win-core-file-l1-1-0.dll")]
-		public static extern bool FindNextFile(
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool FindNextFile(
 			IntPtr hFindFile,
 			out WIN32_FIND_DATA lpFindFileData);
 
 		[LibraryImport("api-ms-win-core-file-l1-1-0.dll")]
-		public static extern bool FindClose(
+		[return:MarshalAs(UnmanagedType.I1)] 
+		public static partial bool FindClose(
 			IntPtr hFindFile);
 
 		[LibraryImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
-		public static extern bool FileTimeToSystemTime(
+		[return:MarshalAs(UnmanagedType.I1)] 
+		public static partial bool FileTimeToSystemTime(
 			ref FILETIME lpFileTime,
 			out SYSTEMTIME lpSystemTime);
 
 		public static bool GetWin32FindDataForPath(
 			string targetPath,
-			out WIN32_FIND_DATA findData)
+			[MarshalUsing(typeof(Win32FindDataMarshaller))] out WIN32_FIND_DATA findData)
 		{
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 
