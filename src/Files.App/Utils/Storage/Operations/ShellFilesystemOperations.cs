@@ -49,7 +49,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count());
+				source.Count);
 
 			fsProgress.Report();
 
@@ -353,7 +353,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count());
+				source.Count);
 
 			fsProgress.Report();
 
@@ -472,7 +472,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count());
+				source.Count);
 
 			fsProgress.Report();
 
