@@ -125,7 +125,7 @@
 				<ComboBox
 					extensions:ComboBoxExtensions.IsKeepWidthEnabled="True"
 					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
-					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
+					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values, Mode=OneWay}"
 					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
 			</local:SettingsBlockControl>
 

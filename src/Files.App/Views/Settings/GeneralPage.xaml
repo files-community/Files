@@ -48,6 +48,7 @@
 				<ComboBox
 					x:Name="AppLanguagesComboBox"
 					HorizontalAlignment="Left"
+					extensions:ComboBoxExtensions.IsKeepWidthEnabled="True"
 					AutomationProperties.Name="{helpers:ResourceString Name=Language}"
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
@@ -70,6 +71,7 @@
 				<ComboBox
 					x:Name="DateFormatChooser"
 					Grid.Column="1"
+					extensions:ComboBoxExtensions.IsKeepWidthEnabled="True"
 					AutomationProperties.Name="{helpers:ResourceString Name=DateFormat}"
 					ItemsSource="{x:Bind ViewModel.DateFormats}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDateTimeFormatIndex, Mode=TwoWay}">
@@ -98,7 +100,10 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE7E8;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=StartupSettings}" SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}">
+				<ComboBox
+					extensions:ComboBoxExtensions.IsKeepWidthEnabled="True"
+					AutomationProperties.Name="{helpers:ResourceString Name=StartupSettings}"
+					SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}" IsSelected="{x:Bind ViewModel.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}" IsSelected="{x:Bind ViewModel.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
