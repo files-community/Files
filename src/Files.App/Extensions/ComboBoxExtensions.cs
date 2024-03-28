@@ -7,6 +7,12 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Extensions
 {
+	/// <summary>
+	/// Provides extension for ComboBox.
+	/// </summary>
+	/// <remarks>
+	/// - IsKeepWidthEnabled: Prevents from opening popup at wrong position.
+	/// </remarks>
 	public sealed class ComboBoxExtensions : DependencyObject
 	{
 		public static readonly DependencyProperty IsKeepWidthEnabledProperty =
@@ -30,14 +36,14 @@ namespace Files.App.Extensions
 		{
 			if (d is ComboBox comboBox)
 			{
-				comboBox.DropDownClosed -= ComboBox_DropDownClosed;
-				comboBox.DropDownClosed += ComboBox_DropDownClosed;
+				comboBox.SelectionChanged -= ComboBox_SelectionChanged;
+				comboBox.SelectionChanged += ComboBox_SelectionChanged;
 				comboBox.SizeChanged -= ComboBox_SizeChanged;
 				comboBox.SizeChanged += ComboBox_SizeChanged;
 			}
 		}
 
-		private static void ComboBox_DropDownClosed(object? sender, object e)
+		private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (sender is ComboBox comboBox &&
 				comboBox.FindDescendant<ContentPresenter>() is ContentPresenter contentPresenter)
