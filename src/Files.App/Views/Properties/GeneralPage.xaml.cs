@@ -156,7 +156,7 @@ namespace Files.App.Views.Properties
 				if (itemMM is not null) // null on homepage
 				{
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, itemMM)
+						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHiddenEditedValue, itemMM)
 					);
 				}
 
