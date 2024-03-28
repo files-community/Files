@@ -40,20 +40,18 @@ namespace Files.App.Extensions
 		private static void ComboBox_DropDownClosed(object? sender, object e)
 		{
 			if (sender is ComboBox comboBox &&
-				comboBox.FindDescendant<ContentPresenter>() is ContentPresenter contentPresenter &&
-				contentPresenter.FindDescendant<TextBlock>() is TextBlock textBlock)
+				comboBox.FindDescendant<ContentPresenter>() is ContentPresenter contentPresenter)
 			{
-				comboBox.MinWidth = 12 + textBlock.ActualWidth + 38;
+				comboBox.MinWidth = 12 + contentPresenter.ActualWidth + 38;
 			}
 		}
 
 		private static void ComboBox_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			if (sender is ComboBox comboBox &&
-				comboBox.FindDescendant<ContentPresenter>() is ContentPresenter contentPresenter &&
-				contentPresenter.FindDescendant<TextBlock>() is TextBlock textBlock)
+				comboBox.FindDescendant<ContentPresenter>() is ContentPresenter contentPresenter)
 			{
-				comboBox.MinWidth = 12 + textBlock.ActualWidth + 38;
+				comboBox.MinWidth = 12 + contentPresenter.ActualWidth + 38;
 			}
 		}
 	}
