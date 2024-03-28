@@ -923,7 +923,9 @@ namespace Files.App.Data.Models
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
 			byte[]? result = null;
-			if (item.IsFolder)
+
+			// Folders and svg thumbnails take longer to generate
+			if (item.IsFolder || FileExtensionHelpers.IsSvgFile(item.FileExtension))
 			{
 				if (!returnIconOnly)
 				{
