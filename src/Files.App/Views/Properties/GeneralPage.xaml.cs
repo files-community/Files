@@ -132,8 +132,11 @@ namespace Files.App.Views.Properties
 					foreach (var fileOrFolder in fileOrFolders)
 					{
 						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, itemMM)
+							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHiddenEditedValue, itemMM)
 						);
+						ViewModel.IsHidden = ViewModel.IsHiddenEditedValue;
+
+						ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
 
 						if (ViewModel.IsAblumCoverModified)
 						{
