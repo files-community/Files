@@ -223,7 +223,10 @@
 				<TextBox AutomationProperties.AutomationId="CurrentPathGet" Text="{x:Bind ViewModel.PathControlDisplayText, Mode=OneWay}" />
 
 				<!--  Modifies the current path  -->
-				<TextBox AutomationProperties.AutomationId="CurrentPathSet" />
+				<TextBox
+					x:Name="CurrentPathSetTextBox"
+					AutomationProperties.AutomationId="CurrentPathSet"
+					TextChanged="{x:Bind ViewModel.CurrentPathSetTextBox_TextChanged, Mode=OneWay}" />
 			</Grid>
 
 			<!--  Page Navigation Actions  -->
