@@ -42,7 +42,7 @@ namespace Files.App.Helpers
 		/// Gets process(es) that have a lock on the specified file.
 		/// </summary>
 		/// <param name="path">Path of the file.</param>
-		/// <returns>Processes locking the file</returns>
+		/// <returns>Processes locking the file.</returns>
 		/// <remarks>
 		/// For more info, visit
 		/// <br/>

@@ -10,6 +10,12 @@ namespace Files.App.Helpers
 {
 	public static partial class Win32PInvoke
 	{
+		public delegate void LpoverlappedCompletionRoutine(
+			uint dwErrorCode,
+			uint dwNumberOfBytesTransfered,
+			OVERLAPPED lpOverlapped
+		);
+
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
 		public static extern int RmRegisterResources(
 			uint pSessionHandle,
@@ -110,6 +116,99 @@ namespace Files.App.Helpers
 		public static extern bool SHGetPathFromIDList(
 			IntPtr pidl,
 			[MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszPath
+		);
+
+		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool CloseHandle(
+			IntPtr hObject
+		);
+
+		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
+		public static extern bool GetOverlappedResult(
+			IntPtr hFile,
+			OVERLAPPED lpOverlapped,
+			out int lpNumberOfBytesTransferred,
+			bool bWait
+		);
+
+		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
+		public static extern bool CancelIo(
+			IntPtr hFile
+		);
+
+		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
+		public static extern bool CancelIoEx(
+			IntPtr hFile,
+			IntPtr lpOverlapped
+		);
+
+		[DllImport("api-ms-win-core-synch-l1-2-0.dll")]
+		public static extern uint WaitForMultipleObjectsEx(
+			uint nCount,
+			IntPtr[] lpHandles,
+			bool bWaitAll,
+			uint dwMilliseconds,
+			bool bAlertable
+		);
+
+		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
+		public static extern bool ResetEvent(
+			IntPtr hEvent
+		);
+
+		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
+		public static extern uint WaitForSingleObjectEx(
+			IntPtr hHandle,
+			uint dwMilliseconds,
+			bool bAlertable
+		);
+
+		[DllImport("api-ms-win-core-file-l2-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public unsafe static extern bool ReadDirectoryChangesW(
+			IntPtr hDirectory,
+			byte* lpBuffer,
+			int nBufferLength,
+			bool bWatchSubtree,
+			int dwNotifyFilter,
+			int* lpBytesReturned,
+			ref OVERLAPPED lpOverlapped,
+			LpoverlappedCompletionRoutine lpCompletionRoutine
+		);
+
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern IntPtr CreateFileFromAppW(
+			string lpFileName,
+			uint dwDesiredAccess,
+			uint dwShareMode,
+			IntPtr SecurityAttributes,
+			uint dwCreationDisposition,
+			uint dwFlagsAndAttributes,
+			IntPtr hTemplateFile
+		);
+
+		[DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern bool DeviceIoControl(
+			IntPtr hDevice,
+			uint dwIoControlCode,
+			IntPtr lpInBuffer,
+			uint nInBufferSize,
+			IntPtr lpOutBuffer,
+			uint nOutBufferSize,
+			out uint lpBytesReturned,
+			IntPtr lpOverlapped
+		);
+
+		[DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern bool DeviceIoControl(
+			IntPtr hDevice,
+			uint dwIoControlCode,
+			byte[] lpInBuffer,
+			uint nInBufferSize,
+			IntPtr lpOutBuffer,
+			uint nOutBufferSize,
+			out uint lpBytesReturned,
+			IntPtr lpOverlapped
 		);
 	}
 }
