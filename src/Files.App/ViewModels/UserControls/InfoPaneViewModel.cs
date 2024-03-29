@@ -117,17 +117,24 @@ namespace Files.App.ViewModels.UserControls
 			IsEnabled = infoPaneSettingsService.IsEnabled;
 		}
 
-		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private async void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
 
+					ListedItem selectedItem = null;
 					if (contentPageContext.SelectedItems.Count == 1)
-						SelectedItem = contentPageContext.SelectedItems.First();
-					else
-						SelectedItem = null;
+						selectedItem = contentPageContext.SelectedItems.First();
+
+					// do not update preview pane if the item gets changed too frequently
+					const int delayBeforeUpdatingPreviewPane = 100;
+					await Task.Delay(delayBeforeUpdatingPreviewPane);
+					if (selectedItem is not null && !selectedItem.Equals(contentPageContext.SelectedItem))
+						return;
+
+					SelectedItem = selectedItem;
 
 					if (!App.AppModel.IsMainWindowClosed)
 					{
