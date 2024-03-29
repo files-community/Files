@@ -67,8 +67,7 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			SelectedAppThemeResources = AppThemeResources
-				.Where(p => p.BackgroundColor == themeBackgroundColor)
-				.FirstOrDefault() ?? AppThemeResources[0];
+				.FirstOrDefault(p => p.BackgroundColor == themeBackgroundColor) ?? AppThemeResources[0];
 		}
 
 		private AppThemeResourceItem selectedAppThemeResources;

@@ -80,9 +80,9 @@ namespace Files.App.Helpers
 			var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
 			var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
 
-			if (overflowItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
+			if (overflowItems.Any(x => x.Type != MenuItemType.MFT_SEPARATOR))
 			{
-				var moreItem = menuItemsListLocal.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
+				var moreItem = menuItemsListLocal.FirstOrDefault(x => x.ID == "ItemOverflow");
 				if (moreItem is null)
 				{
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
@@ -341,7 +341,7 @@ namespace Files.App.Helpers
 						OpacityIconStyle = "ColorIconOpenWith",
 					};
 					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
-					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
+					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")) as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
 					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
@@ -353,7 +353,7 @@ namespace Files.App.Helpers
 					await sendToItem.LoadSubMenuAction();
 
 					var (_, sendToItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
-					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
+					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")) as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
 					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());

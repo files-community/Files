@@ -776,7 +776,7 @@ namespace Files.App.Views.Layouts
 				var ttv = secondaryMenu.TransformToVisual(MainWindow.Instance.Content);
 				var cMenuPos = ttv.TransformPoint(new Point(0, 0));
 
-				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
+				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Count(x => x is not AppBarSeparator) * Constants.UI.ContextMenuSecondaryItemsHeight;
 				var availableHeight = MainWindow.Instance.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
 
 				// Set menu max height to current height (Avoid menu repositioning)
