@@ -924,8 +924,8 @@ namespace Files.App.Data.Models
 
 			byte[]? result = null;
 
-			// Folders and svg thumbnails take longer to generate
-			if (item.IsFolder || FileExtensionHelpers.IsSvgFile(item.FileExtension))
+			// Non-cached thumbnails take longer to generate
+			if (item.IsFolder || !FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
 				if (!returnIconOnly)
 				{
