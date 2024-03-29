@@ -46,9 +46,10 @@ namespace Files.App.Extensions
 		private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (sender is ComboBox comboBox &&
-				comboBox.FindDescendant<ContentPresenter>() is ContentPresenter contentPresenter)
+				comboBox.FindDescendant<ContentPresenter>() is ContentPresenter contentPresenter &&
+				contentPresenter.FindDescendant<FrameworkElement>() is FrameworkElement frameworkElement)
 			{
-				comboBox.MinWidth = 12 + contentPresenter.ActualWidth + 38;
+				comboBox.MinWidth = 12 + frameworkElement.ActualWidth + 38;
 			}
 		}
 
