@@ -54,7 +54,7 @@ namespace Files.App
 			// or "Automatically hide the taskbar in desktop mode" in Windows 10 is enabled.
 			// Setting this property when the setting is disabled will result in the taskbar overlapping the application
 			if (AppLifecycleHelper.IsAutoHideTaskbarEnabled()) 
-				InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+				Win32PInvoke.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()

@@ -27,7 +27,7 @@ namespace Files.App.Helpers
 				return;
 
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
+			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);

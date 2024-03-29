@@ -1,8 +1,15 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
+using Vanara.PInvoke;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
+using static Vanara.PInvoke.User32;
 
 namespace Files.App.Helpers
 {
@@ -36,6 +43,27 @@ namespace Files.App.Helpers
 			PInvoke.SetFocus(hWnd);
 			PInvoke.SetActiveWindow(hWnd);
 			PInvoke.AttachThreadInput(dwCurID, dwMyID, false);
+		}
+
+		public static void ChangeCursor(this UIElement uiElement, InputCursor cursor)
+		{
+			Type type = typeof(UIElement);
+
+			type.InvokeMember(
+				"ProtectedCursor",
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance,
+				null,
+				uiElement,
+				new object[] { cursor }
+			);
+		}
+
+		public static IntPtr SetWindowLong(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong)
+		{
+			if (IntPtr.Size == 4)
+				return SetWindowLongPtr32(hWnd, nIndex, dwNewLong);
+			else
+				return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
 		}
 	}
 }
