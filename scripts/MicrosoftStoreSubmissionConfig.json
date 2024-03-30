@@ -1,0 +1,62 @@
+{
+    "packageParameters": {
+        "PDPRootPath": "",
+        "Release": "",
+        "PDPInclude": [],
+        "PDPExclude": [],
+        "LanguageExclude": [
+            "default"
+        ],
+        "ImagesRootPath": "",
+        "MediaFallbackLanguage": "",
+        "AppxPath": [],
+        "OutPath": "",
+        "OutName": "",
+        "DisableAutoPackageNameFormatting": false
+    },
+    "appSubmission": {
+        "appId": "9PD3JFK7W5MB",
+        "targetPublishMode": "Immediate",
+        "targetPublishDate": "1601-01-01T00:00:00.0000000Z",
+        "visibility": "Public",
+        "pricing": {
+            "priceId": "Free",
+            "trialPeriod": "NoFreeTrial",
+            "marketSpecificPricings": {},
+            "sales": []
+        },
+        "allowTargetFutureDeviceFamilies": {
+            "Xbox": false,
+            "Team": false,
+            "Holographic": false,
+            "Desktop": true,
+            "Mobile": false
+        },
+        "allowMicrosoftDecideAppAvailabilityToFutureDeviceFamilies": true,
+        "enterpriseLicensing": "Online",
+        "applicationCategory": "UtilitiesAndTools_FileManager",
+        "hardwarePreferences": [],
+        "hasExternalInAppProducts": false,
+        "meetAccessibilityGuidelines": false,
+        "canInstallOnRemovableMedia": false,
+        "automaticBackupEnabled": true,
+        "isGameDvrEnabled": false,
+        "gamingOptions": [
+            {
+                "genres": "UtilitiesAndTools_FileManager",
+                "isLocalMultiplayer": false,
+                "isLocalCooperative": false,
+                "isOnlineMultiplayer": false,
+                "isOnlineCooperative": false,
+                "localMultiplayerMinPlayers": 0,
+                "localMultiplayerMaxPlayers": 0,
+                "localCooperativeMinPlayers": 0,
+                "localCooperativeMaxPlayers": 0,
+                "isBroadcastingPrivilegeGranted": true,
+                "isCrossPlayEnabled": false,
+                "kinectDataForExternal": "Disabled"
+            }
+        ],
+        "notesForCertification": "See bit.ly/MediaFileManagerReadMe for directions on app use."
+    }
+}

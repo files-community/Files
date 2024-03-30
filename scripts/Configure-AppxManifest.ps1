@@ -3,12 +3,12 @@
 
 param(
     [string]$Branch = "",
-    [string]$PackageProjectDir = ""
-    [string]$Publisher = ""
-    [string]$WorkingDir = ""
-    [string]$BING_MAPS_SECRET = ""
-    [string]$APP_CENTER_SECRET = ""
-    [string]$GH_OAUTH_CLIENT_ID = ""
+    [string]$PackageProjectDir = "",
+    [string]$Publisher = "",
+    [string]$WorkingDir = "",
+    [string]$SecretBingMapsKey = "",
+    [string]$SecretAppCenter = "",
+    [string]$SecretGitHubOAuthClientId = ""
 )
 
 [xml]$xmlDoc = Get-Content "$PackageProjectDir\Package.appxmanifest"
@@ -65,18 +65,18 @@ $xmlDoc.Save("$PackageProjectDir\Package.appxmanifest")
 
 Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
 {
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$BING_MAPS_SECRET" }) |
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$SecretBingMapsKey" }) |
     Set-Content $_ -NoNewline
 }
 
 Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
 {
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "appcenter.secret", "$APP_CENTER_SECRET" }) |
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "appcenter.secret", "$SecretAppCenter" }) |
     Set-Content $_ -NoNewline
 }
 
 Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
 {
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$GH_OAUTH_CLIENT_ID" }) |
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$SecretGitHubOAuthClientId" }) |
     Set-Content $_ -NoNewline
 }

@@ -30,13 +30,10 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v4
-
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
-
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.1.1
-
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v3
       with:
@@ -50,13 +47,13 @@ jobs:
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
           -Publisher "CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" `
           -WorkingDir "$env:WORKING_DIR"
-          -BING_MAPS_SECRET "$env:BING_MAPS_SECRET"
-          -APP_CENTER_SECRET "$env:APP_CENTER_SECRET"
-          -GH_OAUTH_CLIENT_ID "$env:GH_OAUTH_CLIENT_ID"
+          -SecretBingMapsKey "$env:SecretBingMapsKey" `
+          -SecretAppCenter "$env:SecretAppCenter" `
+          -SecretGitHubOAuthClientId "$env:SecretGitHubOAuthClientId"
       env:
-        BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
-        APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
-        GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+        SecretBingMapsKey: ${{ secrets.BING_MAPS_SECRET }}
+        SecretAppCenter: ${{ secrets.APP_CENTER_SECRET }}
+        SecretGitHubOAuthClientId: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
     - name: Use Windows SDK Preview
       shell: cmd
@@ -111,9 +108,13 @@ jobs:
     - name: Submit msixupload to Partner Center 
       shell: pwsh
       run: |
-        $bundlePlatformsSafe = "${{ env.AppxBundlePlatforms }}".Replace("|", "_")
-        $uploadBundlePath = "${{ env.AppxPackageDirectory }}PackageProject_${{ steps.version-creator.outputs.APP_VERSION }}_" + $bundlePlatformsSafe + "_bundle.msixupload"
-        ./.scripts/SubmitToMsftStore.ps1 $uploadBundlePath
+        . "./scripts/SubmitTo-MicrosoftStore.ps1" `
+          -WorkingDir "$env:WORKING_DIR" `
+          -AppPackageDir "$env:APPX_PACKAGE_DIR" `
+          -PartnerCenterClientId "$env:PartnerCenterClientId" `
+          -PartnerCenterClientSecret "$env:PartnerCenterClientSecret" `
+          -PartnerCenterStoreId "$env:PartnerCenterStoreId" `
+          -PartnerCenterTenantId "$env:PartnerCenterTenantId" 
       env:
         PartnerCenterClientId: ${{ secrets.AZURE_CLIENT_ID }}
         PartnerCenterClientSecret: ${{ secrets.AZURE_CLIENT_SECRET }}

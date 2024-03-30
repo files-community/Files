@@ -46,15 +46,15 @@ jobs:
           -Branch "$env:CONFIGURATION" `
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
           -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
-          -WorkingDir "$env:WORKING_DIR"
-          -BING_MAPS_SECRET "$env:BING_MAPS_SECRET"
-          -APP_CENTER_SECRET "$env:APP_CENTER_SECRET"
-          -GH_OAUTH_CLIENT_ID "$env:GH_OAUTH_CLIENT_ID"
+          -WorkingDir "$env:WORKING_DIR" `
+          -SecretBingMapsKey "$env:SecretBingMapsKey" `
+          -SecretAppCenter "$env:SecretAppCenter" `
+          -SecretGitHubOAuthClientId "$env:SecretGitHubOAuthClientId"
       env:
         SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
-        BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
-        APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
-        GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+        SecretBingMapsKey: ${{ secrets.BING_MAPS_SECRET }}
+        SecretAppCenter: ${{ secrets.APP_CENTER_SECRET }}
+        SecretGitHubOAuthClientId: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
     - name: Use Windows SDK Preview
       shell: cmd
@@ -121,18 +121,17 @@ jobs:
     - name: Login to Azure
       uses: azure/login@v1
       with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Upload to Azure blob storage
       uses: azure/powershell@v1
       with:
         inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "preview" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+          az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "preview" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
         azPSVersion: "latest"
 
     - name: Logout from Azure
-      run: |
-          az logout
+      run: 'az logout'
 
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
