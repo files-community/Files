@@ -108,7 +108,7 @@ jobs:
     - name: Submit msixupload to Partner Center 
       shell: pwsh
       run: |
-        . "./scripts/SubmitTo-MicrosoftStore.ps1" `
+        . './scripts/SubmitTo-MicrosoftStore.ps1' `
           -WorkingDir "$env:WORKING_DIR" `
           -AppPackageDir "$env:APPX_PACKAGE_DIR" `
           -PartnerCenterClientId "$env:PartnerCenterClientId" `

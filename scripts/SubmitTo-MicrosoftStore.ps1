@@ -17,19 +17,14 @@ param(
     [string]$PartnerCenterTenantId = ""
 )
 
-# Ensure that the appxupload exists
-if (-not (Test-Path -Path $PSBoundParameters["AppPackageDir"])) {
-    Write-Error "The appxupload file does not exist. Double check that you have passed the file path as a parameter and the file exists." -ErrorAction Stop
-}
-
 # Set exexution policy
 Set-ExecutionPolicy RemoteSigned -Force
 
 # Prepare credentials
-$appxUploadFilePath = $PSBoundParameters["AppPackageDir"]
+$msixuploadFilePath = Get-ChildItem -Path "$AppPackageDir" "*.msixupload" -File
 $username = $PartnerCenterClientId
 $password = ConvertTo-SecureString $PartnerCenterClientSecret -AsPlainText -Force
-$appStoreId = $PartnerCenterStoreId
+$appId = $PartnerCenterStoreId
 $tenantId = $PartnerCenterTenantId
 
 # Create temporary directory for submission data
@@ -45,11 +40,11 @@ Set-StoreBrokerAuthentication -TenantId $tenantId -Credential $cred
 
 # Prepare submission package
 $configFilePath = '$WorkingDir\scripts\MicrosoftStoreSubmissionConfig.json'
-New-SubmissionPackage -ConfigPath $configFilePath -AppxPath $appxUploadFilePath -OutPath $submissionPackageTempDir -OutName 'submission'
+New-SubmissionPackage -ConfigPath $configFilePath -AppxPath $msixuploadFilePath -OutPath $submissionPackageTempDir -OutName 'submission'
 
 # Prepare submission data
 $submissionDataPath = Join-Path -Path $submissionPackageTempDir -ChildPath 'submission.json'
 $submissionPackagePath = Join-Path -Path $submissionPackageTempDir -ChildPath 'submission.zip'
 
 # Update submission & submit to Microsoft Store
-Update-ApplicationSubmission -Verbose -ReplacePackages -AppId $appStoreId -SubmissionDataPath $submissionDataPath -PackagePath $submissionPackagePath -AutoCommit -Force -NoStatus
+Update-ApplicationSubmission -Verbose -ReplacePackages -AppId $appId -SubmissionDataPath $submissionDataPath -PackagePath $submissionPackagePath -AutoCommit -Force -NoStatus
