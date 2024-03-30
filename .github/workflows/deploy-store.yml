@@ -47,13 +47,13 @@ jobs:
           -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
           -Publisher "CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" `
           -WorkingDir "$env:WORKING_DIR"
-          -SecretBingMapsKey "$env:SecretBingMapsKey" `
-          -SecretAppCenter "$env:SecretAppCenter" `
-          -SecretGitHubOAuthClientId "$env:SecretGitHubOAuthClientId"
+          -SecretBingMapsKey "$env:SECRET_BINGMAPS_KEY" `
+          -SecretAppCenter "$env:SECRET_APPCENTER" `
+          -SecretGitHubOAuthClientId "$env:SECRET_GITHUB_OAUTH_CLIENT_ID"
       env:
-        SecretBingMapsKey: ${{ secrets.BING_MAPS_SECRET }}
-        SecretAppCenter: ${{ secrets.APP_CENTER_SECRET }}
-        SecretGitHubOAuthClientId: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+        SECRET_BINGMAPS_KEY: ${{ secrets.BING_MAPS_SECRET }}
+        SECRET_APPCENTER: ${{ secrets.APP_CENTER_SECRET }}
+        SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
     - name: Use Windows SDK Preview
       shell: cmd
@@ -64,7 +64,7 @@ jobs:
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
-    - name: Restore ${{ env.SOLUTION_NAME  }}
+    - name: Restore Files
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
@@ -73,7 +73,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - name: Build ${{ env.SOLUTION_NAME }}
+    - name: Build & package Files
       shell: pwsh
       run: |
         msbuild "$env:PACKAGE_PROJECT_PATH" `
@@ -85,7 +85,7 @@ jobs:
         -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
         -p:AppxBundle=Always `
         -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=StoreUpload'
+        -p:UapAppxPackageBuildMode=StoreUpload
 
     - name: Remove empty files from the packages
       shell: bash
@@ -98,7 +98,7 @@ jobs:
         $fileContent = Get-Content $localFilePath
         $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
         $fileContent | Set-Content $localFilePath
-          
+
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
       with:
