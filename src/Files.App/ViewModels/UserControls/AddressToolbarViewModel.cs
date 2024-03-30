@@ -12,6 +12,7 @@ using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Text;
+using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
 namespace Files.App.ViewModels.UserControls
 {
