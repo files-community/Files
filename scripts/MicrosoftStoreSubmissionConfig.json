@@ -15,7 +15,7 @@
         "DisableAutoPackageNameFormatting": false
     },
     "appSubmission": {
-        "appId": "9PD3JFK7W5MB",
+        "appId": "9nghp3dx8hdx",
         "targetPublishMode": "Immediate",
         "targetPublishDate": "1601-01-01T00:00:00.0000000Z",
         "visibility": "Public",
@@ -57,6 +57,6 @@
                 "kinectDataForExternal": "Disabled"
             }
         ],
-        "notesForCertification": "See bit.ly/MediaFileManagerReadMe for directions on app use."
+        "notesForCertification": ""
     }
 }
