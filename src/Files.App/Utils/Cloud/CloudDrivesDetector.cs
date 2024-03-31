@@ -192,9 +192,7 @@ namespace Files.App.Utils.Cloud
 			{
 				var accountKey = oneDriveAccountsKey.OpenSubKey(account);
 				if (accountKey is null)
-				{
 					continue;
-				}
 
 				var userFolderToExcludeFromResults = (string)accountKey.GetValue("UserFolder", "");
 
