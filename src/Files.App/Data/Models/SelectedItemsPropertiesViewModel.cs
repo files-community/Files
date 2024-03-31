@@ -663,8 +663,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref fileProperties, value);
 		}
 
-		private bool isReadOnly;
-		public bool IsReadOnly
+		private bool? isReadOnly;
+		public bool? IsReadOnly
 		{
 			get => isReadOnly;
 			set
@@ -675,8 +675,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool isReadOnlyEditedValue;
-		public bool IsReadOnlyEditedValue
+		private bool? isReadOnlyEditedValue;
+		public bool? IsReadOnlyEditedValue
 		{
 			get => isReadOnlyEditedValue;
 			set
@@ -693,8 +693,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isReadOnlyEnabled, value);
 		}
 
-		private bool isHidden;
-		public bool IsHidden
+		private bool? isHidden;
+		public bool? IsHidden
 		{
 			get => isHidden;
 			set
@@ -704,8 +704,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool isHiddenEditedValue;
-		public bool IsHiddenEditedValue
+		private bool? isHiddenEditedValue;
+		public bool? IsHiddenEditedValue
 		{
 			get => isHiddenEditedValue;
 			set => SetProperty(ref isHiddenEditedValue, value);
