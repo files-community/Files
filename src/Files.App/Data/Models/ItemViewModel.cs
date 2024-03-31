@@ -18,7 +18,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.App.Helpers.NativeDirectoryChangesHelper;
+using static Files.App.Helpers.Win32PInvoke;
 using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
