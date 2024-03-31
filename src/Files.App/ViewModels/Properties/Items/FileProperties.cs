@@ -278,19 +278,9 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsReadOnly is not null)
 					{
 						if ((bool)ViewModel.IsReadOnly)
-						{
-							NativeFileOperationsHelper.SetFileAttribute(
-								Item.ItemPath,
-								System.IO.FileAttributes.ReadOnly
-							);
-						}
+							NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
 						else
-						{
-							NativeFileOperationsHelper.UnsetFileAttribute(
-								Item.ItemPath,
-								System.IO.FileAttributes.ReadOnly
-							);
-						}
+							NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
 					}
 
 					break;
@@ -299,19 +289,9 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-						{
-							NativeFileOperationsHelper.SetFileAttribute(
-								Item.ItemPath,
-								System.IO.FileAttributes.Hidden
-							);
-						}
+							NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath,	System.IO.FileAttributes.Hidden);
 						else
-						{
-							NativeFileOperationsHelper.UnsetFileAttribute(
-								Item.ItemPath,
-								System.IO.FileAttributes.Hidden
-							);
-						}
+							NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 
 					break;

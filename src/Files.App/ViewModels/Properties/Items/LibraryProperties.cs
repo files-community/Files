@@ -144,13 +144,9 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsReadOnly is not null)
 					{
 						if ((bool)ViewModel.IsReadOnly)
-						{
 							NativeFileOperationsHelper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
-						}
 						else
-						{
 							NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
-						}
 					}
 
 					break;
@@ -159,13 +155,9 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-						{
 							NativeFileOperationsHelper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
-						}
 						else
-						{
 							NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
-						}
 					}
 
 					break;
