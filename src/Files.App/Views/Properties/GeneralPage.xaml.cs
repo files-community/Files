@@ -181,8 +181,7 @@ namespace Files.App.Views.Properties
 				}
 
 				ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
-				if (ViewModel.IsHiddenEditedValue is not null)
-					ViewModel.IsHidden = (bool)ViewModel.IsHiddenEditedValue;
+				ViewModel.IsHidden = ViewModel.IsHiddenEditedValue;
 
 				if (!GetNewName(out var newName))
 					return true;
