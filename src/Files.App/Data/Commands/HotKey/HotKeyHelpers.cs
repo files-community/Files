@@ -13,11 +13,11 @@ namespace Files.App.Data.Commands
 		{
 			var modifiers = VirtualKeyModifiers.None;
 
-			if (IsPressed(VirtualKey.Menu))
+			if (IsPressed(VirtualKey.Menu) || IsPressed(VirtualKey.LeftMenu) || IsPressed(VirtualKey.RightMenu))
 				modifiers |= VirtualKeyModifiers.Menu;
-			if (IsPressed(VirtualKey.Control))
+			if (IsPressed(VirtualKey.Control) || IsPressed(VirtualKey.LeftControl) || IsPressed(VirtualKey.RightControl))
 				modifiers |= VirtualKeyModifiers.Control;
-			if (IsPressed(VirtualKey.Shift))
+			if (IsPressed(VirtualKey.Shift) || IsPressed(VirtualKey.LeftShift) || IsPressed(VirtualKey.RightShift))
 				modifiers |= VirtualKeyModifiers.Shift;
 			if (IsPressed(VirtualKey.LeftWindows) || IsPressed(VirtualKey.RightWindows))
 				modifiers |= VirtualKeyModifiers.Windows;
@@ -25,7 +25,9 @@ namespace Files.App.Data.Commands
 			return (KeyModifiers)modifiers;
 
 			static bool IsPressed(VirtualKey key)
-				=> InputKeyboardSource.GetKeyStateForCurrentThread(key).HasFlag(CoreVirtualKeyStates.Down);
+			{
+				return InputKeyboardSource.GetKeyStateForCurrentThread(key).HasFlag(CoreVirtualKeyStates.Down);
+			}
 		}
 	}
 }

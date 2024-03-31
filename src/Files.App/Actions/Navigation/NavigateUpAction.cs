@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "NavigateUpDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.Up, KeyModifiers.Menu);
+			=> new(Keys.Up, KeyModifiers.Alt);
 
 		public RichGlyph Glyph
 			=> new("\uE74A");
