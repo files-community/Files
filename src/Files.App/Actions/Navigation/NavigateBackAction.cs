@@ -22,8 +22,8 @@ namespace Files.App.Actions
 		public HotKey ThirdHotKey
 			=> new(Keys.Mouse4);
 
-		public HotKey MediaHotKey
-			=> new(Keys.GoBack, false);
+		//public HotKey MediaHotKey
+		//	=> new(Keys.GoBack, false);
 
 		public RichGlyph Glyph
 			=> new("\uE72B");

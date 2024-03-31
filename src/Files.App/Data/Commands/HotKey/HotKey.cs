@@ -8,10 +8,13 @@ using Forms = System.Windows.Forms;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Represents hot key.
+	/// </summary>
 	[DebuggerDisplay("{Code}")]
 	public readonly struct HotKey : IEquatable<HotKey>
 	{
-		public static readonly FrozenDictionary<KeyModifiers, string> modifiers = new Dictionary<KeyModifiers, string>()
+		public static FrozenDictionary<KeyModifiers, string> LocalizedModifiers { get; } = new Dictionary<KeyModifiers, string>()
 		{
 			[KeyModifiers.Menu] = GetKeyString("Menu"),
 			[KeyModifiers.Ctrl] = GetKeyString("Control"),
@@ -19,7 +22,7 @@ namespace Files.App.Data.Commands
 			[KeyModifiers.Win] = GetKeyString("Windows"),
 		}.ToFrozenDictionary();
 
-		public static readonly FrozenDictionary<Keys, string> keys = new Dictionary<Keys, string>()
+		public static FrozenDictionary<Keys, string> LocalizedKeys { get; } = new Dictionary<Keys, string>()
 		{
 			[Keys.Enter] = GetKeyString("Enter"),
 			[Keys.Space] = GetKeyString("Space"),
@@ -153,15 +156,40 @@ namespace Files.App.Data.Commands
 			[Keys.VolumeUp] = GetKeyString("MediaVolumeUp"),
 		}.ToFrozenDictionary();
 
+		/// <summary>
+		/// Gets the none value.
+		/// </summary>
 		public static HotKey None { get; } = new(Keys.None, KeyModifiers.None);
 
+		/// <summary>
+		/// Gets the value that indicates whether the hotkey is none.
+		/// </summary>
 		public bool IsNone => Key is Keys.None && Modifier is KeyModifiers.None;
 
+		/// <summary>
+		/// Gets the value that indicates whether the key should be visible.
+		/// </summary>
+		/// <remarks>
+		/// This is always true for now.
+		/// </remarks>
 		public bool IsVisible { get; init; }
 
+		/// <summary>
+		/// Gets the key.
+		/// </summary>
 		public Keys Key { get; }
+
+		/// <summary>
+		/// Gets the modifier.
+		/// </summary>
 		public KeyModifiers Modifier { get; }
 
+		/// <summary>
+		/// Gets the raw humanized code of the hotkey.
+		/// </summary>
+		/// <remarks>
+		/// For example, this is "Ctrl+A" and "Ctrl+Menu+C"
+		/// </remarks>
 		public string Code
 		{
 			get
@@ -169,12 +197,10 @@ namespace Files.App.Data.Commands
 				return (Key, Modifier) switch
 				{
 					(Keys.None, KeyModifiers.None) => string.Empty,
-					(Keys.None, _) => $"{GetVisibleCode(IsVisible)}{GetModifierCode(Modifier)}",
-					(_, KeyModifiers.None) => $"{GetVisibleCode(IsVisible)}{Key}",
-					_ => $"{GetVisibleCode(IsVisible)}{GetModifierCode(Modifier)}+{Key}",
+					(Keys.None, _) => $"{GetModifierCode(Modifier)}",
+					(_, KeyModifiers.None) => $"{Key}",
+					_ => $"{GetModifierCode(Modifier)}+{Key}",
 				};
-
-				static string GetVisibleCode(bool isVisible) => isVisible ? string.Empty : "!";
 
 				static string GetModifierCode(KeyModifiers modifiers)
 				{
@@ -193,6 +219,12 @@ namespace Files.App.Data.Commands
 			}
 		}
 
+		/// <summary>
+		/// Gets the humanized and localized label of the hotkey to shown in the UI.
+		/// </summary>
+		/// <remarks>
+		/// For example, this is "Ctrl+A" and "Ctrl+Alt+C"
+		/// </remarks>
 		public string Label
 		{
 			get
@@ -201,29 +233,34 @@ namespace Files.App.Data.Commands
 				{
 					(Keys.None, KeyModifiers.None) => string.Empty,
 					(Keys.None, _) => GetModifierCode(Modifier),
-					(_, KeyModifiers.None) => keys[Key],
-					_ => $"{GetModifierCode(Modifier)}+{keys[Key]}",
+					(_, KeyModifiers.None) => LocalizedKeys[Key],
+					_ => $"{GetModifierCode(Modifier)}+{LocalizedKeys[Key]}",
 				};
 
 				static string GetModifierCode(KeyModifiers modifier)
 				{
 					StringBuilder builder = new();
 					if (modifier.HasFlag(KeyModifiers.Menu))
-						builder.Append($"+{modifiers[KeyModifiers.Menu]}");
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Menu]}");
 					if (modifier.HasFlag(KeyModifiers.Ctrl))
-						builder.Append($"+{modifiers[KeyModifiers.Ctrl]}");
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Ctrl]}");
 					if (modifier.HasFlag(KeyModifiers.Shift))
-						builder.Append($"+{modifiers[KeyModifiers.Shift]}");
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Shift]}");
 					if (modifier.HasFlag(KeyModifiers.Win))
-						builder.Append($"+{modifiers[KeyModifiers.Win]}");
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Win]}");
 					builder.Remove(0, 1);
 					return builder.ToString();
 				}
 			}
 		}
 
-		public HotKey(Keys key, bool isVisible = true) : this(key, KeyModifiers.None, isVisible) {}
-		public HotKey(Keys key, KeyModifiers modifier, bool isVisible = true)
+		/// <summary>
+		/// Initializes an instance of <see cref="HotKey"/>.
+		/// </summary>
+		/// <param name="key">A key</param>
+		/// <param name="modifier">A modifier</param>
+		/// <param name="isVisible">A value that indicates the hotkey should be available.</param>
+		public HotKey(Keys key, KeyModifiers modifier = KeyModifiers.None, bool isVisible = true)
 		{
 			if (!Enum.IsDefined(key) || !Enum.IsDefined(modifier))
 				return;
@@ -233,11 +270,11 @@ namespace Files.App.Data.Commands
 			Modifier = modifier;
 		}
 
-		public void Deconstruct(out Keys key, out KeyModifiers modifier)
-			=> (key, modifier) = (Key, Modifier);
-		public void Deconstruct(out Keys key, out KeyModifiers modifier, out bool isVisible)
-			=> (key, modifier, isVisible) = (Key, Modifier, IsVisible);
-
+		/// <summary>
+		/// Parses humanized hotkey code with separators.
+		/// </summary>
+		/// <param name="code">Humanized code to parse.</param>
+		/// <returns>Humanized code with a format <see cref="HotKey"/>.</returns>
 		public static HotKey Parse(string code)
 		{
 			var key = Keys.None;
@@ -245,55 +282,53 @@ namespace Files.App.Data.Commands
 			bool isVisible = true;
 
 			code = code.Trim();
-			if (code.StartsWith('!'))
-			{
-				isVisible = false;
-				code = code.Remove(0, 1);
-			}
-
 			var parts = code.Split('+').Select(part => part.Trim());
+
 			foreach (var part in parts)
 			{
-				if (Enum.TryParse(part, true, out Keys partKey))
-					key = partKey;
-				if (Enum.TryParse(part, true, out KeyModifiers partModifier))
-					modifier |= partModifier;
+				key |= LocalizedKeys.FirstOrDefault(x => x.Value == part).Key;
+				modifier |= LocalizedModifiers.FirstOrDefault(x => x.Value == part).Key;
 			}
+
 			return new(key, modifier, isVisible);
 		}
 
-		public HotKeyCollection AsCollection() => new(this);
+		/// <summary>
+		/// Converts this <see cref="HotKey"/> instance into a <see cref="HotKeyCollection"/> instance.
+		/// </summary>
+		/// <returns></returns>
+		public HotKeyCollection AsCollection()
+		{
+			return new(this);
+		}
+
+		// Operator overloads
 
 		public static implicit operator string(HotKey hotKey) => hotKey.Label;
-
 		public static bool operator ==(HotKey a, HotKey b) => a.Equals(b);
 		public static bool operator !=(HotKey a, HotKey b) => !a.Equals(b);
 
-		public override string ToString() => Label;
+		// Default methods
 
+		public override string ToString() => Label;
 		public override int GetHashCode() => (Key, Modifier, IsVisible).GetHashCode();
 		public override bool Equals(object? other) => other is HotKey hotKey && Equals(hotKey);
 		public bool Equals(HotKey other) => (other.Key, other.Modifier, other.IsVisible).Equals((Key, Modifier, IsVisible));
 
-		private static string GetKeyString(string key) => $"Key/{key}".GetLocalizedResource();
+		// Private methods
+
+		private static string GetKeyString(string key)
+		{
+			return $"Key/{key}".GetLocalizedResource();
+		}
 
 		private static string GetKeyCharacter(Forms.Keys key)
 		{
 			var buffer = new StringBuilder(256);
 			var state = new byte[256];
-			_ = ToUnicode((uint)key, 0, state, buffer, 256, 0);
+			_ = Win32PInvoke.ToUnicode((uint)key, 0, state, buffer, 256, 0);
+
 			return buffer.ToString();
 		}
-
-		[DllImport("user32.dll")]
-		private static extern int ToUnicode
-		(
-			uint virtualKeyCode,
-			uint scanCode,
-			byte[] keyboardState,
-			[Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder receivingBuffer,
-			int bufferSize,
-			uint flags
-		);
 	}
 }

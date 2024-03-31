@@ -13,7 +13,11 @@ namespace Files.App.Data.Commands
 {
 	internal sealed class CommandManager : ICommandManager
 	{
-		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		// Dependency injections
+
+		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
+		// Fields
 
 		private readonly FrozenDictionary<CommandCodes, IRichCommand> commands;
 		private ImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
@@ -199,7 +203,7 @@ namespace Files.App.Data.Commands
 				.Append(new NoneCommand())
 				.ToFrozenDictionary(command => command.Code);
 
-			settings.PropertyChanged += Settings_PropertyChanged;
+			GeneralSettingsService.PropertyChanged += Settings_PropertyChanged;
 			UpdateHotKeys();
 		}
 
@@ -363,18 +367,24 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedActions(),
 		};
 
+		/// <summary>
+		/// Replace default hotkey collection with customized one(s) if exists.
+		/// </summary>
 		private void UpdateHotKeys()
 		{
 			var useds = new HashSet<HotKey>();
 
 			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
-			foreach (var custom in settings.Actions)
+
+			// Get custom hotkeys from the user settings
+			foreach (var custom in GeneralSettingsService.Actions)
 			{
 				if (Enum.TryParse(custom.Key, true, out CommandCodes code))
 				{
 					if (code is CommandCodes.None)
 						continue;
 
+					// Parse and add the hotkeys
 					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.Value).Except(useds));
 					customs.Add(code, new(hotKeys));
 
@@ -394,6 +404,7 @@ namespace Files.App.Data.Commands
 					? customs[command.Code]
 					: new HotKeyCollection(GetHotKeys(command.Action).Except(useds));
 
+				// Replace with custom hotkeys
 				command.UpdateHotKeys(isCustom, hotkeys);
 			}
 
@@ -402,7 +413,7 @@ namespace Files.App.Data.Commands
 				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 		}
 
-		private static HotKeyCollection GetHotKeys(IAction action)
+		public static HotKeyCollection GetHotKeys(IAction action)
 			=> new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
 
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -411,9 +422,12 @@ namespace Files.App.Data.Commands
 				UpdateHotKeys();
 		}
 
+		// TODO: Move to a new file
 		[DebuggerDisplay("Command {Code}")]
 		internal sealed class ActionCommand : ObservableObject, IRichCommand
 		{
+			private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			public event EventHandler? CanExecuteChanged;
 
 			private readonly CommandManager manager;
@@ -456,7 +470,7 @@ namespace Files.App.Data.Commands
 						return;
 
 					string code = Code.ToString();
-					var customs = new Dictionary<string, string>(manager.settings.Actions);
+					var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
 
 					if (!customs.ContainsKey(code))
 						customs.Add(code, value.Code);
@@ -465,9 +479,11 @@ namespace Files.App.Data.Commands
 					else
 						customs.Remove(code);
 
-					manager.settings.Actions = customs;
+					GeneralSettingsService.Actions = customs;
 				}
 			}
+
+			public HotKeyCollection DefaultHotKeys { get; }
 
 			public bool IsToggle => Action is IToggleAction;
 
@@ -491,7 +507,8 @@ namespace Files.App.Data.Commands
 				Icon = action.Glyph.ToIcon();
 				FontIcon = action.Glyph.ToFontIcon();
 				OpacityStyle = action.Glyph.ToOpacityStyle();
-				hotKeys = GetHotKeys(action);
+				hotKeys = CommandManager.GetHotKeys(action);
+				DefaultHotKeys = CommandManager.GetHotKeys(action);
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -520,9 +537,9 @@ namespace Files.App.Data.Commands
 				if (!IsCustomHotKeys)
 					return;
 
-				var customs = new Dictionary<string, string>(manager.settings.Actions);
+				var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
 				customs.Remove(Code.ToString());
-				manager.settings.Actions = customs;
+				GeneralSettingsService.Actions = customs;
 			}
 
 			internal void UpdateHotKeys(bool isCustom, HotKeyCollection hotKeys)

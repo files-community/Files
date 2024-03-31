@@ -1,56 +1,123 @@
-﻿using Files.App.Actions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Represents immutable collection of <see cref="HotKey"/>.
+	/// </summary>
 	[DebuggerDisplay("{Code}")]
 	public readonly struct HotKeyCollection : IEnumerable<HotKey>, IEquatable<HotKeyCollection>
 	{
-		private static readonly char[] parseSeparators = new char[] { ',', ';', ' ', '\t' };
+		// Fields
+
+		private static readonly char[] parseSeparators = [' ', '\t'];
 
 		private readonly ImmutableArray<HotKey> hotKeys;
 
+		// Properties
+
+		/// <summary>
+		/// Gets empty instance of <see cref="HotKeyCollection"/>.
+		/// </summary>
 		public static HotKeyCollection Empty { get; } = new(ImmutableArray<HotKey>.Empty);
 
 		public HotKey this[int index] => index >= 0 && index < hotKeys.Length ? hotKeys[index] : HotKey.None;
 
-		public bool IsEmpty => hotKeys.IsDefaultOrEmpty;
-		public int Length => hotKeys.Length;
+		/// <summary>
+		/// Gets an value that indicates whether the hotkey collection is null.
+		/// </summary>
+		public bool IsEmpty
+			=> hotKeys.IsDefaultOrEmpty;
 
-		public string Code => string.Join(',', hotKeys.Select(hotKey => hotKey.Code));
-		public string Label => string.Join(",  ", hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.Label));
+		/// <inheritdoc cref="ImmutableArray{HotKey}.Length"/>
+		public int Length
+			=> hotKeys.Length;
 
-		public HotKeyCollection() => hotKeys = ImmutableArray<HotKey>.Empty;
-		public HotKeyCollection(params HotKey[] hotKeys) => this.hotKeys = Clean(hotKeys);
-		public HotKeyCollection(IEnumerable<HotKey> hotKeys) => this.hotKeys = Clean(hotKeys);
+		/// <summary>
+		/// Gets the raw humanized code of the hotkey, separated by a space.
+		/// </summary>
+		/// <remarks>
+		/// For example, this is "Ctrl+A Ctrl+Menu+C"
+		/// </remarks>
+		public string Code
+			=> string.Join(' ', hotKeys.Select(hotKey => hotKey.Code));
+
+		/// <summary>
+		/// Gets the humanized and localized label of the hotkey to shown in the UI, separated by a command and double space.
+		/// </summary>
+		/// <remarks>
+		/// For example, this is "Ctrl+A,  Ctrl+Alt+C"
+		/// </remarks>
+		public string Label
+			=> string.Join(",  ", hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.Label));
+
+		// Constructors
+
+		public HotKeyCollection()
+		{
+			hotKeys = ImmutableArray<HotKey>.Empty;
+		}
+
+		public HotKeyCollection(params HotKey[] hotKeys)
+		{
+			this.hotKeys = Clean(hotKeys);
+		}
+
+		public HotKeyCollection(IEnumerable<HotKey> hotKeys)
+		{
+			this.hotKeys = Clean(hotKeys);
+		}
+
+		// Operator overloads
 
 		public static bool operator ==(HotKeyCollection hotKeysA, HotKeyCollection hotKeysB) => hotKeysA.Equals(hotKeysB);
 		public static bool operator !=(HotKeyCollection hotKeysA, HotKeyCollection hotKeysB) => !hotKeysA.Equals(hotKeysB);
 
+		/// <summary>
+		/// Parses humanized hotkey code collection with separators.
+		/// </summary>
+		/// <param name="code">Humanized code to parse.</param>
+		/// <returns>Humanized code with a format <see cref="HotKeyCollection"/>.</returns>
 		public static HotKeyCollection Parse(string code)
 		{
 			var hotKeys = code
-				.Replace("!", " !")
 				.Split(parseSeparators)
 				.Select(part => part.Trim())
 				.Select(HotKey.Parse);
+
 			return new(hotKeys);
 		}
 
-		public void Contains(HotKey hotKey) => hotKeys.Contains(hotKey);
+		/// <inheritdoc cref="ImmutableArray{HotKey}.Contains"/>
+		public bool Contains(HotKey hotKey)
+			=> hotKeys.Contains(hotKey);
 
-		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-		public IEnumerator<HotKey> GetEnumerator() => (hotKeys as IEnumerable<HotKey>).GetEnumerator();
+		/// <inheritdoc cref="IEnumerator{HotKey}.GetEnumerator"/>
+		IEnumerator IEnumerable.GetEnumerator()
+			=> GetEnumerator();
 
-		public override string ToString() => Label;
-		public override int GetHashCode() => hotKeys.GetHashCode();
-		public override bool Equals(object? other) => other is HotKeyCollection hotKeys && Equals(hotKeys);
-		public bool Equals(HotKeyCollection other) => hotKeys.SequenceEqual(other.hotKeys);
+		/// <inheritdoc cref="IEnumerator{HotKey}.GetEnumerator"/>
+		public IEnumerator<HotKey> GetEnumerator()
+			=> (hotKeys as IEnumerable<HotKey>).GetEnumerator();
+
+		// Default methods
+
+		public override string ToString()
+			=> Label;
+
+		public override int GetHashCode()
+			=> hotKeys.GetHashCode();
+
+		public override bool Equals(object? other)
+			=> other is HotKeyCollection hotKeys && Equals(hotKeys);
+
+		public bool Equals(HotKeyCollection other)
+			=> hotKeys.SequenceEqual(other.hotKeys);
+
+		// Private methods
 
 		private static ImmutableArray<HotKey> Clean(IEnumerable<HotKey> hotKeys)
 		{
