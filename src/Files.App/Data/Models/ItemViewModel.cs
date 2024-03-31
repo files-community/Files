@@ -923,7 +923,9 @@ namespace Files.App.Data.Models
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
 
 			byte[]? result = null;
-			if (item.IsFolder)
+
+			// Non-cached thumbnails take longer to generate
+			if (item.IsFolder || !FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
 				if (!returnIconOnly)
 				{
