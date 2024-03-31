@@ -164,16 +164,6 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file path is an svg file.
-		/// </summary>
-		/// <param name="filePathToCheck">The file path to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is an svg file; otherwise, <c>false</c>.</returns>
-		public static bool IsSvgFile(string? filePathToCheck)
-		{
-			return HasExtension(filePathToCheck, ".svg");
-		}
-
-		/// <summary>
 		/// Check if the file extension is a vhd disk file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
