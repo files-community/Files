@@ -128,7 +128,7 @@ namespace Files.App.ViewModels.UserControls
 					if (contentPageContext.SelectedItems.Count == 1)
 						tempSelectedItem = contentPageContext.SelectedItems.First();
 
-					// do not update preview pane if the item gets changed too frequently
+					// Don't update preview pane when the selected item changes too frequently
 					const int delayBeforeUpdatingPreviewPane = 100;
 					await Task.Delay(delayBeforeUpdatingPreviewPane);
 					if (tempSelectedItem is not null && !tempSelectedItem.Equals(contentPageContext.SelectedItem))
