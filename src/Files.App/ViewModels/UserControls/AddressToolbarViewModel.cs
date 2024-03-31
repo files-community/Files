@@ -483,6 +483,12 @@ namespace Files.App.ViewModels.UserControls
 			ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = (MenuFlyout)sender });
 		}
 
+		public void CurrentPathSetTextBox_TextChanged(object sender, TextChangedEventArgs args)
+		{
+			if (sender is TextBox textBox)
+				PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = textBox.Text });
+		}
+
 		public void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
 		{
 			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
