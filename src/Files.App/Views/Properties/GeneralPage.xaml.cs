@@ -131,10 +131,14 @@ namespace Files.App.Views.Properties
 				{
 					foreach (var fileOrFolder in fileOrFolders)
 					{
-						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHiddenEditedValue, itemMM)
-						);
-						ViewModel.IsHidden = ViewModel.IsHiddenEditedValue;
+						if (ViewModel.IsHiddenEditedValue is not null)
+						{
+							var isHiddenEditedValue = (bool)ViewModel.IsHiddenEditedValue;
+							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+								UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, isHiddenEditedValue, itemMM)
+							);
+							ViewModel.IsHidden = isHiddenEditedValue;
+						}
 
 						ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
 
@@ -156,10 +160,10 @@ namespace Files.App.Views.Properties
 			{
 				// Handle the visibility attribute for a single file
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
-				if (itemMM is not null) // null on homepage
+				if (itemMM is not null && ViewModel.IsHiddenEditedValue is not null) // null on homepage
 				{
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHiddenEditedValue, itemMM)
+						UIFilesystemHelpers.SetHiddenAttributeItem(item, (bool)ViewModel.IsHiddenEditedValue, itemMM)
 					);
 				}
 
@@ -177,7 +181,8 @@ namespace Files.App.Views.Properties
 				}
 
 				ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
-				ViewModel.IsHidden = ViewModel.IsHiddenEditedValue;
+				if (ViewModel.IsHiddenEditedValue is not null)
+					ViewModel.IsHidden = (bool)ViewModel.IsHiddenEditedValue;
 
 				if (!GetNewName(out var newName))
 					return true;
