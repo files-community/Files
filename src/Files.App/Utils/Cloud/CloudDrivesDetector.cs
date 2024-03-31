@@ -212,9 +212,7 @@ namespace Files.App.Utils.Cloud
 						{
 							var parentFolder = Directory.GetParent(directory);
 							if (parentFolder != null)
-							{
 								sharePointParentFolders.Add(parentFolder);
-							}
 						}
 					}
 				}
