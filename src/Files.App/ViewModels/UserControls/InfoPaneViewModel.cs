@@ -36,8 +36,8 @@ namespace Files.App.ViewModels.UserControls
 		/// Current selected item in the file list.
 		/// TODO see about removing this and accessing it from the page context instead
 		/// </summary>
-		private ListedItem selectedItem;
-		public ListedItem SelectedItem
+		private ListedItem? selectedItem;
+		public ListedItem? SelectedItem
 		{
 			get => selectedItem;
 			set
@@ -124,17 +124,17 @@ namespace Files.App.ViewModels.UserControls
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
 
-					ListedItem selectedItem = null;
+					ListedItem? tempSelectedItem = null;
 					if (contentPageContext.SelectedItems.Count == 1)
-						selectedItem = contentPageContext.SelectedItems.First();
+						tempSelectedItem = contentPageContext.SelectedItems.First();
 
 					// do not update preview pane if the item gets changed too frequently
 					const int delayBeforeUpdatingPreviewPane = 100;
 					await Task.Delay(delayBeforeUpdatingPreviewPane);
-					if (selectedItem is not null && !selectedItem.Equals(contentPageContext.SelectedItem))
+					if (tempSelectedItem is not null && !tempSelectedItem.Equals(contentPageContext.SelectedItem))
 						return;
 
-					SelectedItem = selectedItem;
+					SelectedItem = tempSelectedItem;
 
 					if (!App.AppModel.IsMainWindowClosed)
 					{
