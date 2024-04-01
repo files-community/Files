@@ -27,7 +27,7 @@ namespace Files.App.Actions
 			context.ShellPage is not null &&
 			context.ShellPage.SlimContentPage is not null &&
 			context.SelectedItems.Count <= 5 &&
-			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
+			context.SelectedItems.Count(x => x.IsFolder) == context.SelectedItems.Count &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
 
 		public OpenInNewWindowItemAction()
