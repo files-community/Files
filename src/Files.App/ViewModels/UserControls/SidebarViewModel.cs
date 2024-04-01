@@ -268,7 +268,7 @@ namespace Files.App.ViewModels.UserControls
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
 
-		private Task CreateItemHomeAsync()
+		private Task<LocationItem> CreateItemHomeAsync()
 		{
 			return CreateSectionAsync(SectionType.Home);
 		}
@@ -379,7 +379,7 @@ namespace Files.App.ViewModels.UserControls
 				else
 				{
 					string drivePath = drive.Path;
-					IList<string> paths = section.ChildItems.Select(item => item.Path).ToList();
+					var paths = section.ChildItems.Select(item => item.Path).ToList();
 
 					if (!paths.Contains(drivePath))
 					{
@@ -1276,7 +1276,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private Task HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
+		private Task<ReturnResult> HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
 		{
 			return FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
 		}

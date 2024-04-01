@@ -17,7 +17,7 @@ namespace Files.App.Utils.Storage
 
 		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
-		private static readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
+		private static readonly StorageCacheController fileListCache = StorageCacheController.GetInstance();
 
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,

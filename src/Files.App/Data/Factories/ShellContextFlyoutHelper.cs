@@ -66,7 +66,7 @@ namespace Files.App.Helpers
 		}
 
 		private static void LoadMenuFlyoutItem(
-			IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+			List<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
 			ContextMenu contextMenu,
 			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
 			CancellationToken cancellationToken,

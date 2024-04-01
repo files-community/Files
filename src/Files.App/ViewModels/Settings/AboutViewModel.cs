@@ -48,7 +48,7 @@ namespace Files.App.ViewModels.Settings
 			OpenCrowdinCommand = new AsyncRelayCommand(DoOpenCrowdin);
 		}
 
-		private Task OpenLogLocation()
+		private Task<bool> OpenLogLocation()
 		{
 			return Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
 		}
