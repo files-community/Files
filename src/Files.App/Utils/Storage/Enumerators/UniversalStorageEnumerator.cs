@@ -254,7 +254,7 @@ namespace Files.App.Utils.Storage
 			var itemSizeBytes = basicProperties.Size;
 			var itemType = file.DisplayType;
 			var itemFileExtension = file.FileType;
-			var itemThumbnailImgVis = false;
+			const bool itemThumbnailImgVis = false;
 
 			if (cancellationToken.IsCancellationRequested)
 				return null;

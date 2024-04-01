@@ -113,7 +113,7 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFoldersAsync()
 		{
-			var excludeMask = FileAttributes.Hidden;
+			const FileAttributes excludeMask = FileAttributes.Hidden;
 			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
 			Task<RecentItem?> GetRecentItemFromLink(string linkPath)

@@ -261,7 +261,7 @@ namespace Files.App.Utils.Storage
 				itemType = itemFileExtension.Trim('.') + " " + itemType;
 			}
 
-			bool itemThumbnailImgVis = false;
+			const bool itemThumbnailImgVis = false;
 			bool itemEmptyImgVis = true;
 
 			if (cancellationToken.IsCancellationRequested)

@@ -871,7 +871,7 @@ namespace Files.App.Utils.Storage
 		/// </summary>
 		public static string GetShortcutNamingPreference(string itemName)
 		{
-			var keyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates";
+			const string keyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates";
 			var value = Registry.GetValue(keyName, "ShortcutNameTemplate", null);
 
 			if (value is null)

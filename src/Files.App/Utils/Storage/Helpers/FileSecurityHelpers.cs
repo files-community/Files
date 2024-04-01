@@ -42,7 +42,7 @@ namespace Files.App.Utils.Storage
 		/// <returns></returns>
 		public static bool SetOwner(string path, string sid)
 		{
-			SECURITY_INFORMATION secInfo = SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION;
+			const SECURITY_INFORMATION secInfo = SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION;
 
 			// Get PSID object from string sid
 			var pSid = ConvertStringSidToSid(sid);
