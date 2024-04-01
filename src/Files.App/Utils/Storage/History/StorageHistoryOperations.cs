@@ -9,7 +9,7 @@ namespace Files.App.Utils.Storage
 	public sealed class StorageHistoryOperations : IStorageHistoryOperations
 	{
 		private IFilesystemHelpers helpers;
-		private IFilesystemOperations operations;
+		private ShellFilesystemOperations operations;
 
 		private readonly CancellationToken cancellationToken;
 
@@ -47,7 +47,7 @@ namespace Files.App.Utils.Storage
 					if (!IsHistoryNull(history))
 					{
 						const NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
-						for (int i = 0; i < history.Destination.Count(); i++)
+						for (int i = 0; i < history.Destination.Count; i++)
 						{
 							string name = Path.GetFileName(history.Source[i].Path);
 							await operations.RenameAsync(history.Destination[i], name, collision, progress, cancellationToken);

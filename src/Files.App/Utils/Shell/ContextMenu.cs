@@ -53,7 +53,7 @@ namespace Files.App.Utils.Shell
 			if (string.IsNullOrEmpty(verb))
 				return false;
 
-			var item = Items.Where(x => x.CommandString == verb).FirstOrDefault();
+			var item = Items.FirstOrDefault(x => x.CommandString == verb);
 			if (item is not null && item.ID >= 0)
 				// Prefer invocation by ID
 				return await InvokeItem(item.ID);
