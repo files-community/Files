@@ -40,7 +40,7 @@ namespace Files.App.Utils.Storage
 
 			IOrderedEnumerable<ListedItem> ordered;
 
-			if (directorySortDirection == SortDirection.Ascending)
+			if ((directorySortDirection == SortDirection.Ascending && (directorySortOption != SortOption.DateModified && directorySortOption != SortOption.DateCreated)) ||	(directorySortDirection == SortDirection.Descending &&	(directorySortOption == SortOption.DateModified || directorySortOption == SortOption.DateCreated)))
 			{
 				ordered = directorySortOption switch
 				{
