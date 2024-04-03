@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
@@ -196,7 +196,7 @@ namespace Files.App.Views
 				if (e.IsFile)
 				{
 					var directoryName = Path.GetDirectoryName(e.ItemPath);
-					await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName ?? string.Empty);
+					await Win32Helper.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName ?? string.Empty);
 				}
 				else
 				{

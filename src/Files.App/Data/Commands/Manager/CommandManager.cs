@@ -1,21 +1,22 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Collections.Frozen;
+using System.Collections.Immutable;
 using Files.App.Actions;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
-	internal class CommandManager : ICommandManager
+	internal sealed class CommandManager : ICommandManager
 	{
 		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
-		private readonly IImmutableDictionary<CommandCodes, IRichCommand> commands;
-		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
+		private readonly FrozenDictionary<CommandCodes, IRichCommand> commands;
+		private ImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[string code]
@@ -196,16 +197,18 @@ namespace Files.App.Data.Commands
 				.Select(action => new ActionCommand(this, action.Key, action.Value))
 				.Cast<IRichCommand>()
 				.Append(new NoneCommand())
-				.ToImmutableDictionary(command => command.Code);
+				.ToFrozenDictionary(command => command.Code);
 
 			settings.PropertyChanged += Settings_PropertyChanged;
 			UpdateHotKeys();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-		public IEnumerator<IRichCommand> GetEnumerator() => commands.Values.GetEnumerator();
 
-		private static IDictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
+		public IEnumerator<IRichCommand> GetEnumerator() =>
+			(commands.Values as IEnumerable<IRichCommand>).GetEnumerator();
+
+		private static Dictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
@@ -362,7 +365,7 @@ namespace Files.App.Data.Commands
 
 		private void UpdateHotKeys()
 		{
-			ISet<HotKey> useds = new HashSet<HotKey>();
+			var useds = new HashSet<HotKey>();
 
 			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
 			foreach (var custom in settings.Actions)
@@ -409,7 +412,7 @@ namespace Files.App.Data.Commands
 		}
 
 		[DebuggerDisplay("Command {Code}")]
-		internal class ActionCommand : ObservableObject, IRichCommand
+		internal sealed class ActionCommand : ObservableObject, IRichCommand
 		{
 			public event EventHandler? CanExecuteChanged;
 

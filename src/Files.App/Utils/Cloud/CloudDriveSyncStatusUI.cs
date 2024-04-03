@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Cloud;
@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Utils.Cloud
 {
-	public class CloudDriveSyncStatusUI : ObservableObject
+	public sealed class CloudDriveSyncStatusUI : ObservableObject
 	{
 		public string Glyph { get; }
 

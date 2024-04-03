@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
@@ -88,9 +88,9 @@ namespace Files.App.Views.Properties
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
 				if (drive.Type == Data.Items.DriveType.Network)
-					Win32API.SetNetworkDriveLabel(drive.DeviceID, newName);
+					Win32Helper.SetNetworkDriveLabel(drive.DeviceID, newName);
 				else
-					Win32API.SetVolumeLabel(drive.Path, newName);
+					Win32Helper.SetVolumeLabel(drive.Path, newName);
 
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
@@ -131,9 +131,16 @@ namespace Files.App.Views.Properties
 				{
 					foreach (var fileOrFolder in fileOrFolders)
 					{
-						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, itemMM)
-						);
+						if (ViewModel.IsHiddenEditedValue is not null)
+						{
+							var isHiddenEditedValue = (bool)ViewModel.IsHiddenEditedValue;
+							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+								UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, isHiddenEditedValue, itemMM)
+							);
+							ViewModel.IsHidden = isHiddenEditedValue;
+						}
+
+						ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
 
 						if (ViewModel.IsAblumCoverModified)
 						{
@@ -153,10 +160,10 @@ namespace Files.App.Views.Properties
 			{
 				// Handle the visibility attribute for a single file
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
-				if (itemMM is not null) // null on homepage
+				if (itemMM is not null && ViewModel.IsHiddenEditedValue is not null) // null on homepage
 				{
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, itemMM)
+						UIFilesystemHelpers.SetHiddenAttributeItem(item, (bool)ViewModel.IsHiddenEditedValue, itemMM)
 					);
 				}
 

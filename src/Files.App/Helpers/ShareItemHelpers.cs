@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Extensions;
@@ -27,7 +27,7 @@ namespace Files.App.Helpers
 				return;
 
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
+			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);

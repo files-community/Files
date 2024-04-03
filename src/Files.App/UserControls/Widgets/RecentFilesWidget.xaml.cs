@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
@@ -20,6 +20,8 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class RecentFilesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
+		private RecentFilesWidgetViewModel ViewModel { get; set; }
+
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
@@ -369,6 +371,7 @@ namespace Files.App.UserControls.Widgets
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
 				ItemPath = recentItem.RecentPath,
+				IsFile = true
 			});
 		}
 

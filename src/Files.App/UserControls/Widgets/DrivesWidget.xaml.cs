@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Dispatching;
@@ -18,6 +18,8 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class DrivesWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
+		private DrivesWidgetViewModel ViewModel { get; set; }
+
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -109,7 +111,7 @@ namespace Files.App.UserControls.Widgets
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			var drive = ItemsAdded.FirstOrDefault(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase));
 			var options = drive?.Item.MenuOptions;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
@@ -236,7 +238,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void FormatDrive(WidgetDriveCardItem? item)
 		{
-			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
+			Win32Helper.OpenFormatDriveDialog(item?.Path ?? string.Empty);
 		}
 
 		private void OpenProperties(WidgetDriveCardItem item)
@@ -286,7 +288,7 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewTab(navigationPath, false);
 		}
 
-		public class DrivesWidgetInvokedEventArgs : EventArgs
+		public sealed class DrivesWidgetInvokedEventArgs : EventArgs
 		{
 			public string Path { get; set; }
 		}

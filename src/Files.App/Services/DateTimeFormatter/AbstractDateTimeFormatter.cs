@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Server.Data.Enums;
@@ -70,7 +70,7 @@ namespace Files.App.Services.DateTimeFormatter
 			return cultureInfo.Calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstFullWeek, cultureInfo.DateTimeFormat.FirstDayOfWeek);
 		}
 
-		private class Label : ITimeSpanLabel
+		private sealed class Label : ITimeSpanLabel
 		{
 			public string Text { get; }
 

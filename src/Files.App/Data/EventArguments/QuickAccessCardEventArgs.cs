@@ -1,19 +1,19 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.EventArguments
 {
-	public class QuickAccessCardEventArgs : EventArgs
+	public sealed class QuickAccessCardEventArgs : EventArgs
 	{
 		public LocationItem? Item { get; set; }
 	}
 
-	public class QuickAccessCardInvokedEventArgs : EventArgs
+	public sealed class QuickAccessCardInvokedEventArgs : EventArgs
 	{
 		public string? Path { get; set; }
 	}
 
-	public class ModifyQuickAccessEventArgs : EventArgs
+	public sealed class ModifyQuickAccessEventArgs : EventArgs
 	{
 		public string[]? Paths { get; set; }
 		public ShellFileItem[]? Items { get; set; }

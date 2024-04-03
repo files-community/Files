@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI;
@@ -8,7 +8,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class SecurityViewModel : ObservableObject
+	public sealed class SecurityViewModel : ObservableObject
 	{
 		private readonly PropertiesPageNavigationParameter _navigationParameter;
 

@@ -1,10 +1,10 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Contexts
 {
 	/// <inheritdoc cref="ISidebarContext"/>
-	internal class SidebarContext : ObservableObject, ISidebarContext
+	internal sealed class SidebarContext : ObservableObject, ISidebarContext
 	{
 		private readonly PinnedFoldersManager favoriteModel = App.QuickAccessManager.Model;
 

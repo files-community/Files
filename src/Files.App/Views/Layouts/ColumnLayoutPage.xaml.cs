@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -41,7 +41,7 @@ namespace Files.App.Views.Layouts
 
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
-
+		public ScrollViewer? ContentScroller { get; private set; }
 
 		/// <summary>
 		/// Row height in the Columns View
@@ -67,6 +67,11 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
+		private void FileList_Loaded(object sender, RoutedEventArgs e)
+		{
+			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+		}
+
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
 		{
 			if (FileList.SelectedItem == null && openedFolderPresenter != null)
@@ -88,8 +93,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-			var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-			presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			SetFolderBackground(openedFolderPresenter, new SolidColorBrush(Microsoft.UI.Colors.Transparent));
 			openedFolderPresenter = null;
 		}
 
@@ -153,8 +157,8 @@ namespace Files.App.Views.Layouts
 			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
 				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
 			{
-				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
-				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				SetFolderBackground(args.ItemContainer as ListViewItem, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
+
 				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
 				FileList.ContainerContentChanging -= HighlightPathDirectory;
 			}
@@ -168,14 +172,18 @@ namespace Files.App.Views.Layouts
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			// TODO keep scroll position when changing styles (see details view)
-
 			if (e.PropertyName == nameof(ILayoutSettingsService.ColumnsViewSize))
 			{
+				// Get current scroll position
+				var previousOffset = ContentScroller?.VerticalOffset;
+
 				NotifyPropertyChanged(nameof(RowHeight));
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
+
+				// Restore correct scroll position
+				ContentScroller?.ChangeView(null, previousOffset, null);
 			}
 		}
 
@@ -271,8 +279,7 @@ namespace Files.App.Views.Layouts
 
 			if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
 			{
-				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				SetFolderBackground(openedFolderPresenter, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
 			}
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
@@ -583,6 +590,17 @@ namespace Files.App.Views.Layouts
 			LockPreviewPaneContent = true;
 			FileList.SelectedItem = null;
 			LockPreviewPaneContent = false;
+		}
+
+		private static void SetFolderBackground(ListViewItem? lvi, SolidColorBrush? backgroundColor)
+		{
+			if (lvi == null || backgroundColor == null) return;
+
+
+			if (lvi.FindDescendant<Grid>() is Grid presenter)
+			{
+				presenter.Background = backgroundColor;
+			}
 		}
 	}
 }

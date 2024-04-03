@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -8,7 +8,7 @@ namespace Files.App.Utils.CommandLine
 	/// <summary>
 	/// Provides static helper for parsing of command line arguments on Windows.
 	/// </summary>
-	public class CommandLineParser
+	public sealed class CommandLineParser
 	{
 		/// <summary>
 		/// Parses raw command line string.

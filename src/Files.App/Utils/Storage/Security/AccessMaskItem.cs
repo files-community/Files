@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Utils.Storage
@@ -6,7 +6,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Represents an access mask details, such as its name and changeability.
 	/// </summary>
-	public class AccessMaskItem : ObservableObject
+	public sealed class AccessMaskItem : ObservableObject
 	{
 		public string AccessMaskName { get; set; }
 

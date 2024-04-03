@@ -1,11 +1,11 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Server.Data.Enums;
 
 namespace Files.App.Data.Models
 {
-	public class CurrentInstanceViewModel : ObservableObject
+	public sealed class CurrentInstanceViewModel : ObservableObject
 	{
 		// TODO:
 		//  In the future, we should consolidate these public variables into

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Shell;
@@ -32,7 +32,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return Win32API.RunPowershellCommandAsync($"code \'{_context.ShellPage?.FilesystemViewModel.WorkingDirectory}\'", false);
+			return Win32Helper.RunPowershellCommandAsync($"code \'{_context.ShellPage?.FilesystemViewModel.WorkingDirectory}\'", false);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

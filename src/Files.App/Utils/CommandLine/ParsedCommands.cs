@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Utils.CommandLine
@@ -6,7 +6,7 @@ namespace Files.App.Utils.CommandLine
 	/// <summary>
 	/// Represents a collection of parsed command.
 	/// </summary>
-	public class ParsedCommands : List<ParsedCommand>
+	public sealed class ParsedCommands : List<ParsedCommand>
 	{
 	}
 }

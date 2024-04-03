@@ -12,7 +12,7 @@ using static Vanara.PInvoke.User32;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class ShellPreviewViewModel : BasePreviewModel
+	public sealed class ShellPreviewViewModel : BasePreviewModel
 	{
 		public ShellPreviewViewModel(ListedItem item)
 			: base(item)
@@ -193,11 +193,11 @@ namespace Files.App.ViewModels.Previews
 			{
 				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, false);
 				if (isOfficePreview)
-					InteropHelpers.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
+					Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
 			}
 			else
 			{
-				InteropHelpers.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
+				Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
 					(nint)(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED));
 				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true);
 			}

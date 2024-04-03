@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Data.Sqlite;
@@ -10,7 +10,7 @@ namespace Files.App.Utils.Cloud
 	/// <summary>
 	/// Provides an utility for Google Drive Cloud detection.
 	/// </summary>
-	public class GoogleDriveCloudDetector : AbstractCloudDetector
+	public sealed class GoogleDriveCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{

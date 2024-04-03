@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Windows.Storage;
@@ -15,6 +15,17 @@ namespace Files.App.Helpers
 				NameCollisionOption.GenerateUniqueName => CreationCollisionOption.GenerateUniqueName,
 				NameCollisionOption.ReplaceExisting => CreationCollisionOption.ReplaceExisting,
 				_ => CreationCollisionOption.GenerateUniqueName,
+			};
+		}
+
+		public static NameCollisionOption ConvertBack(this CreationCollisionOption option)
+		{
+			return option switch
+			{
+				CreationCollisionOption.FailIfExists => NameCollisionOption.FailIfExists,
+				CreationCollisionOption.GenerateUniqueName => NameCollisionOption.GenerateUniqueName,
+				CreationCollisionOption.ReplaceExisting => NameCollisionOption.ReplaceExisting,
+				_ => NameCollisionOption.GenerateUniqueName,
 			};
 		}
 

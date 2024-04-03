@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Windows.Forms;
@@ -11,7 +11,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Represents an encapsulated item for shell library.
 	/// </summary>
-	public class ShellLibraryEx : ShellFolder
+	public sealed class ShellLibraryEx : ShellFolder
 	{
 		//private const string ext = ".library-ms";
 

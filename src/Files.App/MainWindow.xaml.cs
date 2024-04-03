@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.TabBar;
@@ -54,7 +54,7 @@ namespace Files.App
 			// or "Automatically hide the taskbar in desktop mode" in Windows 10 is enabled.
 			// Setting this property when the setting is disabled will result in the taskbar overlapping the application
 			if (AppLifecycleHelper.IsAutoHideTaskbarEnabled()) 
-				InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+				Win32PInvoke.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()
@@ -93,7 +93,9 @@ namespace Files.App
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
-						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+						// Bring to foreground (#14730)
+						Win32Helper.BringToForegroundEx(new(WindowHandle));
+
 						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments, true);
 					}
 					else
@@ -106,6 +108,12 @@ namespace Files.App
 					if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+
+						if (MainPageViewModel.AppInstances.Count > 0)
+						{
+							// Bring to foreground (#14730)
+							Win32Helper.BringToForegroundEx(new(WindowHandle));
+						}
 					}
 					else
 					{
@@ -171,7 +179,11 @@ namespace Files.App
 						index = 1;
 					}
 					else
-						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+					{
+						// Bring to foreground (#14730)
+						Win32Helper.BringToForegroundEx(new(WindowHandle));
+					}
+
 					for (; index < fileArgs.Files.Count; index++)
 					{
 						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path, true);
@@ -245,7 +257,9 @@ namespace Files.App
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
-					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
+					// Bring to foreground (#14730)
+					Win32Helper.BringToForegroundEx(new(WindowHandle));
+
 					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
 				}
 				else

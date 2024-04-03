@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System;
 
 namespace Files.App.Services.SizeProvider
 {
-	public class SizeChangedEventArgs : EventArgs
+	public sealed class SizeChangedEventArgs : EventArgs
 	{
 		public string Path { get; }
 		public ulong NewSize { get; }

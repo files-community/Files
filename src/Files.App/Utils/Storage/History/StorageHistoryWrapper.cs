@@ -1,9 +1,9 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Utils.Storage
 {
-	public class StorageHistoryWrapper : IDisposable
+	public sealed class StorageHistoryWrapper : IDisposable
 	{
 		private int index = -1;
 

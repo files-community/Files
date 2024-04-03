@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Extensions;
@@ -18,12 +18,12 @@ using static Vanara.PInvoke.Mpr;
 
 namespace Files.App.Utils
 {
-	public class NetworkDrivesAPI
+	public sealed class NetworkDrivesAPI
 	{
 		/// <summary>
 		/// A dialog box that allows the user to browse and connect to network resources.
 		/// </summary>
-		public class NetworkConnectionDialog : CommonDialog
+		public sealed class NetworkConnectionDialog : CommonDialog
 		{
 			private readonly NETRESOURCE nres = new NETRESOURCE();
 			private CONNECTDLGSTRUCT opts;
@@ -117,11 +117,11 @@ namespace Files.App.Utils
 
 		public static Task<bool> OpenMapNetworkDriveDialog(long hwnd)
 		{
-			return Win32API.StartSTATask(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
 				ncd.HideRestoreConnectionCheckBox = false;
-				return ncd.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == System.Windows.Forms.DialogResult.OK;
+				return ncd.ShowDialog(Win32Helper.Win32Window.FromLong(hwnd)) == System.Windows.Forms.DialogResult.OK;
 			});
 		}
 

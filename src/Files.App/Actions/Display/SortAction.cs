@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Server.Data.Enums;
 
 namespace Files.App.Actions
 {
-	internal class SortByNameAction : SortByAction
+	internal sealed class SortByNameAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.Name;
@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> "SortByNameDescription".GetLocalizedResource();
 	}
 
-	internal class SortByDateModifiedAction : SortByAction
+	internal sealed class SortByDateModifiedAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.DateModified;
@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			=> "SortByDateModifiedDescription".GetLocalizedResource();
 	}
 
-	internal class SortByDateCreatedAction : SortByAction
+	internal sealed class SortByDateCreatedAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.DateCreated;
@@ -41,7 +41,7 @@ namespace Files.App.Actions
 			=> "SortByDateCreatedDescription".GetLocalizedResource();
 	}
 
-	internal class SortBySizeAction : SortByAction
+	internal sealed class SortBySizeAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.Size;
@@ -53,7 +53,7 @@ namespace Files.App.Actions
 			=> "SortBySizeDescription".GetLocalizedResource();
 	}
 
-	internal class SortByTypeAction : SortByAction
+	internal sealed class SortByTypeAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.FileType;
@@ -65,7 +65,7 @@ namespace Files.App.Actions
 			=> "SortByTypeDescription".GetLocalizedResource();
 	}
 
-	internal class SortBySyncStatusAction : SortByAction
+	internal sealed class SortBySyncStatusAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.SyncStatus;
@@ -80,7 +80,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.CloudDrive;
 	}
 
-	internal class SortByTagAction : SortByAction
+	internal sealed class SortByTagAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.FileTag;
@@ -92,7 +92,7 @@ namespace Files.App.Actions
 			=> "SortByTagDescription".GetLocalizedResource();
 	}
 
-	internal class SortByPathAction : SortByAction
+	internal sealed class SortByPathAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.Path;
@@ -107,7 +107,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.SearchResults;
 	}
 
-	internal class SortByOriginalFolderAction : SortByAction
+	internal sealed class SortByOriginalFolderAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.OriginalFolder;
@@ -122,7 +122,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal class SortByDateDeletedAction : SortByAction
+	internal sealed class SortByDateDeletedAction : SortByAction
 	{
 		protected override SortOption SortOption
 			=> SortOption.DateDeleted;
@@ -186,7 +186,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class SortAscendingAction : ObservableObject, IToggleAction
+	internal sealed class SortAscendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -220,7 +220,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class SortDescendingAction : ObservableObject, IToggleAction
+	internal sealed class SortDescendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -254,7 +254,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class ToggleSortDirectionAction : IAction
+	internal sealed class ToggleSortDirectionAction : IAction
 	{
 		private readonly IDisplayPageContext context;
 

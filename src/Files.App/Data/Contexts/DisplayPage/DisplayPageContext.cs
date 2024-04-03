@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Server.Data.Enums;
@@ -6,12 +6,13 @@ using static Files.App.Constants;
 
 namespace Files.App.Data.Contexts
 {
-	internal class DisplayPageContext : ObservableObject, IDisplayPageContext
+	internal sealed class DisplayPageContext : ObservableObject, IDisplayPageContext
 	{
 		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private readonly ILayoutSettingsService layoutSettingsService = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 
-		public bool IsLayoutAdaptiveEnabled => !settings.SyncFolderPreferencesAcrossDirectories;
+		public bool IsLayoutAdaptiveEnabled => !layoutSettingsService.SyncFolderPreferencesAcrossDirectories;
 
 		private LayoutTypes _LayoutType = LayoutTypes.None;
 		public LayoutTypes LayoutType
@@ -186,7 +187,7 @@ namespace Files.App.Data.Contexts
 
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IFoldersSettingsService.SyncFolderPreferencesAcrossDirectories))
+			if (e.PropertyName is nameof(ILayoutSettingsService.SyncFolderPreferencesAcrossDirectories))
 			{
 				OnPropertyChanged(nameof(IsLayoutAdaptiveEnabled));
 				SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));

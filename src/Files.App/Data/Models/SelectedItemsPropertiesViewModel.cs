@@ -1,17 +1,14 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using System.Windows.Input;
 using TagLib;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.Storage.Pickers;
 
 namespace Files.App.Data.Models
 {
-	public class SelectedItemsPropertiesViewModel : ObservableObject
+	public sealed class SelectedItemsPropertiesViewModel : ObservableObject
 	{
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
@@ -484,7 +481,7 @@ namespace Files.App.Data.Models
 			get => formatDriveCommand;
 			set => SetProperty(ref formatDriveCommand, value);
 		}
-		
+
 		private ICommand editAlbumCoverCommand;
 		public ICommand EditAlbumCoverCommand
 		{
@@ -522,7 +519,7 @@ namespace Files.App.Data.Models
 
 		public SelectedItemsPropertiesViewModel()
 		{
-			
+
 		}
 
 		private bool isSelectedItemImage = false;
@@ -632,13 +629,6 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref shortcutItemArgumentsVisibility, value);
 		}
 
-		private bool loadLinkIcon;
-		public bool LoadLinkIcon
-		{
-			get => loadLinkIcon;
-			set => SetProperty(ref loadLinkIcon, value);
-		}
-
 		private RelayCommand shortcutItemOpenLinkCommand;
 		public RelayCommand ShortcutItemOpenLinkCommand
 		{
@@ -673,8 +663,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref fileProperties, value);
 		}
 
-		private bool isReadOnly;
-		public bool IsReadOnly
+		private bool? isReadOnly;
+		public bool? IsReadOnly
 		{
 			get => isReadOnly;
 			set
@@ -685,8 +675,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool isReadOnlyEditedValue;
-		public bool IsReadOnlyEditedValue
+		private bool? isReadOnlyEditedValue;
+		public bool? IsReadOnlyEditedValue
 		{
 			get => isReadOnlyEditedValue;
 			set
@@ -703,8 +693,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isReadOnlyEnabled, value);
 		}
 
-		private bool isHidden;
-		public bool IsHidden
+		private bool? isHidden;
+		public bool? IsHidden
 		{
 			get => isHidden;
 			set
@@ -714,8 +704,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool isHiddenEditedValue;
-		public bool IsHiddenEditedValue
+		private bool? isHiddenEditedValue;
+		public bool? IsHiddenEditedValue
 		{
 			get => isHiddenEditedValue;
 			set => SetProperty(ref isHiddenEditedValue, value);
@@ -771,21 +761,21 @@ namespace Files.App.Data.Models
 			get => isUnblockFileSelected;
 			set => SetProperty(ref isUnblockFileSelected, value);
 		}
-		
+
 		private bool isAblumCoverModified;
 		public bool IsAblumCoverModified
 		{
 			get => isAblumCoverModified;
 			set => SetProperty(ref isAblumCoverModified, value);
 		}
-		
+
 		private bool isEditAlbumCoverVisible;
 		public bool IsEditAlbumCoverVisible
 		{
 			get => isEditAlbumCoverVisible;
 			set => SetProperty(ref isEditAlbumCoverVisible, value);
 		}
-		
+
 		private Picture modifiedAlbumCover;
 		public Picture ModifiedAlbumCover
 		{

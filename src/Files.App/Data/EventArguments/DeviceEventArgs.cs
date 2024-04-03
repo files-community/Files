@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System;
 
 namespace Files.App.Data.EventArguments
 {
-	public class DeviceEventArgs : EventArgs
+	public sealed class DeviceEventArgs : EventArgs
 	{
 		public string DeviceName { get; }
 		public string DeviceId { get; }

@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Models
 {
-	public class HashInfoItem : ObservableObject
+	public sealed class HashInfoItem : ObservableObject
 	{
 		private string _Algorithm;
 		public string Algorithm

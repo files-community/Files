@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Cloud;
@@ -10,7 +10,7 @@ namespace Files.App.Utils.Cloud
 	/// <summary>
 	/// Provides an utility for Box Cloud detection.
 	/// </summary>
-	public class BoxCloudDetector : AbstractCloudDetector
+	public sealed class BoxCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{

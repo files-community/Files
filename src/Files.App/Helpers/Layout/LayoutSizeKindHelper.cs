@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Helpers
@@ -103,17 +103,17 @@ namespace Files.App.Helpers
 			switch (columnsViewSizeKind)
 			{
 				case ColumnsViewSizeKind.Compact:
-					return 28;
+					return 24;
 				case ColumnsViewSizeKind.Small:
-					return 36;
+					return 32;
 				case ColumnsViewSizeKind.Medium:
-					return 40;
-				case ColumnsViewSizeKind.Large:
-					return 44;
-				case ColumnsViewSizeKind.ExtraLarge:
-					return 48;
-				default:
 					return 36;
+				case ColumnsViewSizeKind.Large:
+					return 40;
+				case ColumnsViewSizeKind.ExtraLarge:
+					return 44;
+				default:
+					return 32;
 			}
 		}
 

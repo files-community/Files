@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class HashesViewModel : ObservableObject, IDisposable
+	public sealed class HashesViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.Properties
 
 		private void ToggleIsEnabled(string? algorithm)
 		{
-			var hashInfoItem = Hashes.Where(x => x.Algorithm == algorithm).First();
+			var hashInfoItem = Hashes.First(x => x.Algorithm == algorithm);
 			hashInfoItem.IsEnabled = !hashInfoItem.IsEnabled;
 
 			if (ShowHashes[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)

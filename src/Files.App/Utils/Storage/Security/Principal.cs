@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Text;
@@ -10,7 +10,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Represents a principal of an ACE or an owner of an ACL.
 	/// </summary>
-	public class Principal : ObservableObject
+	public sealed class Principal : ObservableObject
 	{
 		/// <summary>
 		/// Account type.

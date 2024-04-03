@@ -1,11 +1,11 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Windows.System;
 
 namespace Files.App.Data.Models
 {
-	public class ContextMenuFlyoutItemViewModelBuilder
+	public sealed class ContextMenuFlyoutItemViewModelBuilder
 	{
 		private static readonly ContextMenuFlyoutItemViewModel none = new()
 		{

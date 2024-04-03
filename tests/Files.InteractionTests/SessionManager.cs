@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using OpenQA.Selenium.Appium;
@@ -11,7 +11,7 @@ using System.Threading;
 namespace Files.InteractionTests
 {
 	[TestClass]
-	public class SessionManager
+	public sealed class SessionManager
 	{
 		private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
 		private static string[] FilesAppIDs = new string[]{

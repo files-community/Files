@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <UserControl
 	x:Class="Files.App.UserControls.AddressToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -216,6 +216,18 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
+
+			<!--  Listary Integration  -->
+			<Grid Width="0" Height="0">
+				<!--  Contains the current path  -->
+				<TextBox AutomationProperties.AutomationId="CurrentPathGet" Text="{x:Bind ViewModel.PathControlDisplayText, Mode=OneWay}" />
+
+				<!--  Modifies the current path  -->
+				<TextBox
+					x:Name="CurrentPathSetTextBox"
+					AutomationProperties.AutomationId="CurrentPathSet"
+					TextChanged="{x:Bind ViewModel.CurrentPathSetTextBox_TextChanged, Mode=OneWay}" />
+			</Grid>
 
 			<!--  Page Navigation Actions  -->
 			<StackPanel

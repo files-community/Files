@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Windows.Input;
@@ -8,7 +8,7 @@ namespace Files.App.ViewModels.Properties
 	/// <summary>
 	/// Represents view model of <see cref="Views.Properties.CompatibilityPage"/>.
 	/// </summary>
-	public class CompatibilityViewModel : ObservableObject
+	public sealed class CompatibilityViewModel : ObservableObject
 	{
 		// Dependency injections
 

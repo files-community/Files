@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -16,7 +16,7 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls.Selection
 {
-	public class RectangleSelection_ListViewBase : RectangleSelection
+	public sealed class RectangleSelection_ListViewBase : RectangleSelection
 	{
 		private ListViewBase uiElement;
 		private ScrollViewer scrollViewer;

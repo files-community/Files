@@ -1,11 +1,11 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Concurrent;
 
 namespace Files.App.Utils.Storage
 {
-	internal class StorageCacheController : IStorageCacheController
+	internal sealed class StorageCacheController : IStorageCacheController
 	{
 		private static StorageCacheController instance;
 

@@ -1,4 +1,4 @@
-<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:BaseGroupableLayoutPage
 	x:Class="Files.App.Views.Layouts.DetailsLayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -235,6 +235,7 @@
 					FocusVisualSecondaryThickness="0"
 					IsDoubleTapEnabled="True"
 					IsTabStop="True"
+					ItemContainerTransitions="{x:Null}"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
 					LosingFocus="FileList_LosingFocus"
@@ -245,13 +246,6 @@
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
 					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
-
-					<!--  ListView Item Transitions  -->
-					<ListView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</ListView.ItemContainerTransitions>
 
 					<!--  ListView Header  -->
 					<ListView.Header>
@@ -940,10 +934,6 @@
 												Margin="2"
 												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
 
-											<FontIcon
-												x:Name="WebShortcutGlyph"
-												x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-												Glyph="&#xE71B;" />
 											<Image
 												x:Name="IconOverlay"
 												Width="16"

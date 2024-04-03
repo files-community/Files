@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Items
 {
-	public class ShellOperationResult
+	public sealed class ShellOperationResult
 	{
 		public ShellOperationResult()
 		{
@@ -23,7 +23,7 @@ namespace Files.App.Data.Items
 			Items.GroupBy(x => x.Source).Select(x => x.Last()).ToList();
 	}
 
-	public class ShellOperationItemResult
+	public sealed class ShellOperationItemResult
 	{
 		public bool Succeeded { get; set; }
 		public int HResult { get; set; }

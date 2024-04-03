@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -58,7 +58,7 @@ namespace Files.App.UserControls.TabBar
 			=> DragAreaRectangle;
 
 		/// <summary> Starting position when dragging a tab.</summary>
-		private InteropHelpers.POINT dragStartPoint;
+		private Win32PInvoke.POINT dragStartPoint;
 
 		/// <summary> Starting time when dragging a tab. </summary>
 		private DateTimeOffset dragStartTime;
@@ -150,7 +150,7 @@ namespace Files.App.UserControls.TabBar
 			args.Data.RequestedOperation = DataPackageOperation.Move;
 
 			// Get cursor position & time to track how far the tab was dragged.
-			InteropHelpers.GetCursorPos(out dragStartPoint);
+			Win32PInvoke.GetCursorPos(out dragStartPoint);
 			dragStartTime = DateTimeOffset.UtcNow;
 
 			// Focus the UI Element, without this the focus sometimes changes
@@ -241,7 +241,7 @@ namespace Files.App.UserControls.TabBar
 			if (isCancelingDragOperation)
 				return;
 
-			InteropHelpers.GetCursorPos(out var droppedPoint);
+			Win32PInvoke.GetCursorPos(out var droppedPoint);
 			var droppedTime = DateTimeOffset.UtcNow;
 			var dragTime = droppedTime - dragStartTime;
 			var dragDistance = Math.Sqrt(Math.Pow((dragStartPoint.X - droppedPoint.X), 2) + Math.Pow((dragStartPoint.Y - droppedPoint.Y), 2));

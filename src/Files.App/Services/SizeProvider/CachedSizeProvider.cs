@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Extensions;
@@ -11,7 +11,7 @@ using static Files.App.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.App.Services.SizeProvider
 {
-	public class CachedSizeProvider : ISizeProvider
+	public sealed class CachedSizeProvider : ISizeProvider
 	{
 		private readonly ConcurrentDictionary<string, ulong> sizes = new();
 

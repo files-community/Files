@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Windows.Storage.FileProperties;
@@ -13,9 +13,8 @@ namespace Files.App.Utils.Storage
 		public static async Task<byte[]?> GetIconAsync(string path, uint requestedSize, bool isFolder, IconOptions iconOptions)
 		{
 			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
-			var returnIconOnly = iconOptions.HasFlag(IconOptions.ReturnIconOnly);
 
-			return await Win32API.StartSTATask(() => Win32API.GetIcon(path, (int)size, isFolder, returnIconOnly));
+			return await Win32Helper.StartSTATask(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions));
 		}
 
 		/// <summary>
@@ -25,7 +24,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="isFolder"></param>
 		/// <returns></returns>
 		public static async Task<byte[]?> GetIconOverlayAsync(string path, bool isFolder)
-			=> await Win32API.StartSTATask(() => Win32API.GetIconOverlay(path, isFolder));
+			=> await Win32Helper.StartSTATask(() => Win32Helper.GetIconOverlay(path, isFolder));
 
 		[Obsolete]
 		public static async Task<byte[]?> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions, bool isFolder = false)

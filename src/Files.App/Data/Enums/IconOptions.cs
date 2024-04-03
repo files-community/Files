@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.Enums
@@ -12,21 +12,26 @@ namespace Files.App.Data.Enums
 		/// <summary>
 		/// Default. No options.
 		/// </summary>
-		None,
+		None = 0,
 
 		/// <summary>
 		/// Increase requested size based on the displays DPI setting.
 		/// </summary>
-		UseCurrentScale,
+		UseCurrentScale = 1,
 
 		/// <summary>
 		/// Retrieve only the file icon, even a thumbnail is available. This has the best performance.
 		/// </summary>
-		ReturnIconOnly,
+		ReturnIconOnly = 2,
+
+		/// <summary>
+		/// Retrieve only the thumbnail.
+		/// </summary>
+		ReturnThumbnailOnly = 4,
 
 		/// <summary>
 		/// Retrieve a thumbnail only if it is cached or embedded in the file.
 		/// </summary>
-		ReturnOnlyIfCached,
+		ReturnOnlyIfCached = 8,
 	}
 }

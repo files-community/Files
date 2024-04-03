@@ -1,6 +1,7 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Collections.Frozen;
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
 using Files.App.Services;
@@ -16,7 +17,7 @@ namespace Files.App.Services
 	/// <inheritdoc cref="IDialogService"/>
 	internal sealed class DialogService : IDialogService
 	{
-		private readonly IReadOnlyDictionary<Type, Func<ContentDialog>> _dialogs;
+		private readonly FrozenDictionary<Type, Func<ContentDialog>> _dialogs;
 
 		public DialogService()
 		{
@@ -34,7 +35,7 @@ namespace Files.App.Services
 				{ typeof(GitHubLoginDialogViewModel), () => new GitHubLoginDialog() },
 				{ typeof(FileTooLargeDialogViewModel), () => new FileTooLargeDialog() },
 				{ typeof(ReleaseNotesDialogViewModel), () => new ReleaseNotesDialog() },
-			};
+			}.ToFrozenDictionary();
 		}
 
 		/// <inheritdoc/>

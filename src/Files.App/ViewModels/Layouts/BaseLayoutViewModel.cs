@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -15,7 +15,7 @@ namespace Files.App.ViewModels.Layouts
 	/// <summary>
 	/// Represents ViewModel for <see cref="BaseLayoutPage"/>.
 	/// </summary>
-	public class BaseLayoutViewModel : IDisposable
+	public sealed class BaseLayoutViewModel : IDisposable
 	{
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
@@ -123,7 +123,8 @@ namespace Files.App.ViewModels.Layouts
 					if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 					{
@@ -138,7 +139,8 @@ namespace Files.App.ViewModels.Layouts
 					else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (draggedItems.Any(x =>
 						x.Item is ZipStorageFile ||
@@ -151,7 +153,8 @@ namespace Files.App.ViewModels.Layouts
 					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.FilesystemViewModel.WorkingDirectory))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else
 					{
@@ -170,8 +173,17 @@ namespace Files.App.ViewModels.Layouts
 
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
-				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
-				await _associatedInstance.RefreshIfNoWatcherExistsAsync();
+				var deferral = e.GetDeferral();
+
+				try
+				{
+					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
+				}
+				finally
+				{
+					deferral.Complete();
+				}
 			}
 		}
 

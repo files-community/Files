@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
@@ -22,7 +22,7 @@ using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
+	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -113,8 +113,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			item = filteredItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-			item ??= filteredItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-			item ??= filteredItems.Where(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Path.Length);
+			item ??= filteredItems.Where(x => value.StartsWith(x.Path + "\\", StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Path.Length);
 			item ??= filteredItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
 
 			if (item is null && value == "Home")
@@ -932,7 +931,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private void FormatDrive()
 		{
-			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
+			Win32Helper.OpenFormatDriveDialog(rightClickedItem.Path);
 		}
 
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
@@ -1130,7 +1129,8 @@ namespace Files.App.ViewModels.UserControls
 					if (locationItem.Path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						operationType = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Alt) || rawEvent.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 					{
@@ -1145,7 +1145,8 @@ namespace Files.App.ViewModels.UserControls
 					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Shift))
 					{
 						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						operationType = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 						|| ZipStorageFolder.IsZipPath(locationItem.Path))
@@ -1156,7 +1157,8 @@ namespace Files.App.ViewModels.UserControls
 					else if (locationItem.IsDefaultLocation || storageItems.AreItemsInSameDrive(locationItem.Path))
 					{
 						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						operationType = DataPackageOperation.Move;
+						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else
 					{
@@ -1204,12 +1206,14 @@ namespace Files.App.ViewModels.UserControls
 				else if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Shift))
 				{
 					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-					operationType = DataPackageOperation.Move;
+					// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+					operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 				}
 				else if (storageItems.AreItemsInSameDrive(driveItem.Path))
 				{
 					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-					operationType = DataPackageOperation.Move;
+					// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+					operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 				}
 				else
 				{

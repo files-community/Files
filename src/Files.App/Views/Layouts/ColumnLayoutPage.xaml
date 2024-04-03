@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:BaseGroupableLayoutPage
 	x:Class="Files.App.Views.Layouts.ColumnLayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -175,6 +175,7 @@
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="FileList"
+					Padding="8,0,8,0"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -190,7 +191,9 @@
 					IsDoubleTapEnabled="True"
 					IsRightTapEnabled="True"
 					IsTabStop="True"
+					ItemContainerTransitions="{x:Null}"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
+					Loaded="FileList_Loaded"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					RightTapped="FileList_RightTapped"
 					ScrollViewer.IsScrollInertiaEnabled="True"
@@ -198,17 +201,12 @@
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped">
 
-					<ListView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</ListView.ItemContainerTransitions>
-
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="filesystem:ListedItem">
 							<Grid
 								x:Name="FilesRootGrid"
 								Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
+								Margin="0,2,0,2"
 								Padding="12,0,12,0"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
@@ -260,15 +258,7 @@
 										x:Load="True"
 										Source="{x:Bind IconOverlay, Mode=OneWay}"
 										Stretch="Uniform" />
-									<Viewbox
-										x:Name="WebShortcutGlyph"
-										MaxWidth="20"
-										MaxHeight="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
-										<FontIcon FontSize="20" Glyph="&#xE71B;" />
-									</Viewbox>
+
 									<Border
 										x:Name="ShortcutGlyphElement"
 										HorizontalAlignment="Left"

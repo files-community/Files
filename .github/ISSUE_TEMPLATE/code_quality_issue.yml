@@ -21,7 +21,7 @@ body:
       value: |
         - eg. A better readability.
         - eg. Uncoupling concepts X and Y.
-        - eg. Clarifying the responsability of class C.
+        - eg. Clarifying the responsibility of class C.
     validations:
       required: true
   - type: textarea

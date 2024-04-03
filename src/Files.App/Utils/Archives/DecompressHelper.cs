@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
@@ -32,7 +32,7 @@ namespace Files.App.Utils.Archives
 			// Fill files
 
 			byte[] buffer = new byte[4096];
-			int entriesAmount = zipFile.ArchiveFileData.Where(x => !x.IsDirectory).Count();
+			int entriesAmount = zipFile.ArchiveFileData.Count(x => !x.IsDirectory);
 
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,

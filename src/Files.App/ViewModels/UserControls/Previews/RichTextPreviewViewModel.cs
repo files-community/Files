@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
@@ -6,7 +6,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
 {
-	public class RichTextPreviewViewModel : BasePreviewModel
+	public sealed class RichTextPreviewViewModel : BasePreviewModel
 	{
 		public IRandomAccessStream Stream { get; set; }
 

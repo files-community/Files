@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -9,7 +9,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public class VirtualStorageFolder : BaseStorageFolder
+	public sealed class VirtualStorageFolder : BaseStorageFolder
 	{
 		public override string Path { get; }
 		public override string Name { get; }

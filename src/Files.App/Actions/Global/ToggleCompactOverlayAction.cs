@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Windowing;
@@ -6,7 +6,7 @@ using Windows.Graphics;
 
 namespace Files.App.Actions
 {
-	internal class ToggleCompactOverlayAction : ObservableObject, IToggleAction
+	internal sealed class ToggleCompactOverlayAction : ObservableObject, IToggleAction
 	{
 		private readonly IWindowContext windowContext;
 

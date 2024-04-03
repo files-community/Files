@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Shell;
@@ -10,7 +10,7 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
-	public class NativeWinApiHelper
+	public sealed class NativeWinApiHelper
 	{
 		[DllImport("user32.dll")]
 		public static extern short GetKeyState(short code);
@@ -257,6 +257,6 @@ namespace Files.App.Helpers
 		}
 
 		public static Task<string> GetFileAssociationAsync(string filePath)
-			=> Win32API.GetFileAssociationAsync(filePath, true);
+			=> Win32Helper.GetFileAssociationAsync(filePath, true);
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Data.Items
 {
-	public class FileTagItem : ObservableObject, INavigationControlItem
+	public sealed class FileTagItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 

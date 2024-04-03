@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -6,7 +6,7 @@ using Files.Core.Storage;
 
 namespace Files.App.Actions
 {
-	internal class PinToStartAction : IAction
+	internal sealed class PinToStartAction : IAction
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 

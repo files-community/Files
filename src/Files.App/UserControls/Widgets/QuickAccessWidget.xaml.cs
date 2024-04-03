@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -18,6 +18,8 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class QuickAccessWidget : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
+		private QuickAccessWidgetViewModel ViewModel { get; set; }
+
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
@@ -309,7 +311,7 @@ namespace Files.App.UserControls.Widgets
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
 
-			var recentItem = items.Where(x => !ItemsAdded.ToList().Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
+			var recentItem = items.FirstOrDefault(x => !ItemsAdded.ToList().Select(y => y.Path).Contains(x.FilePath));
 			if (recentItem is not null)
 			{
 				ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)

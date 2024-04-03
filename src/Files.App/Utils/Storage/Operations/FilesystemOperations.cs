@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
@@ -13,7 +13,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Provides group of file system operation for given page instance.
 	/// </summary>
-	public class FilesystemOperations : IFilesystemOperations
+	public sealed class FilesystemOperations : IFilesystemOperations
 	{
 		private IShellPage _associatedInstance;
 
@@ -806,17 +806,23 @@ namespace Files.App.Utils.Storage
 
 		private async static Task<BaseStorageFolder> CloneDirectoryAsync(BaseStorageFolder sourceFolder, BaseStorageFolder destinationFolder, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
 		{
-			BaseStorageFolder createdRoot = await destinationFolder.CreateFolderAsync(sourceRootName, collision);
+			BaseStorageFolder createdRoot;
+			if (collision is CreationCollisionOption.ReplaceExisting)
+				// Dont't delete the contents of the folder
+				createdRoot = await destinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.OpenIfExists);
+			else
+				createdRoot = await destinationFolder.CreateFolderAsync(sourceRootName, collision);
+
 			destinationFolder = createdRoot;
 
 			foreach (BaseStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
 			{
-				await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
+				await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, collision.ConvertBack());
 			}
 
 			foreach (BaseStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
 			{
-				await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
+				await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name, collision);
 			}
 
 			return createdRoot;

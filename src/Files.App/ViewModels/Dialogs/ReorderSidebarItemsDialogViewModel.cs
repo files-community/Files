@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public class ReorderSidebarItemsDialogViewModel : ObservableObject
+	public sealed class ReorderSidebarItemsDialogViewModel : ObservableObject
 	{
 		private readonly IQuickAccessService quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 

@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Data.EventArguments
 {
-	internal class PaneNavigationArguments
+	internal sealed class PaneNavigationArguments
 	{
 		public string? LeftPaneNavPathParam { get; set; }
 

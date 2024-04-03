@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Views.Properties;
@@ -134,7 +134,7 @@ namespace Files.App.Utils.Storage
 				new SuppressNavigationTransitionInfo());
 
 			// WINUI3: Move window to cursor position
-			InteropHelpers.GetCursorPos(out var pointerPosition);
+			Win32PInvoke.GetCursorPos(out var pointerPosition);
 			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 			var appWindowPos = new PointInt32
 			{

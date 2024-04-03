@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ContentDialog
 	x:Class="Files.App.Dialogs.SettingsDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -104,10 +104,19 @@
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
+					AccessKey="L"
+					AutomationProperties.AutomationId="SettingsItemLayout"
+					Content="{helpers:ResourceString Name=Layout}"
+					Tag="2">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE8A9;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
 					AccessKey="F"
 					AutomationProperties.AutomationId="SettingsItemFolders"
-					Content="{helpers:ResourceString Name=Folders}"
-					Tag="2">
+					Content="{helpers:ResourceString Name=FilesAndFolders}"
+					Tag="3">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xE8B7;" />
 					</NavigationViewItem.Icon>
@@ -116,7 +125,7 @@
 					AccessKey="T"
 					AutomationProperties.AutomationId="SettingsItemTags"
 					Content="{helpers:ResourceString Name=FileTags}"
-					Tag="3">
+					Tag="4">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xE8EC;" />
 					</NavigationViewItem.Icon>
@@ -125,7 +134,7 @@
 					AccessKey="G"
 					AutomationProperties.AutomationId="SettingsItemGit"
 					Content="{helpers:ResourceString Name=Git}"
-					Tag="4">
+					Tag="5">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xE794;" />
 					</NavigationViewItem.Icon>
@@ -134,7 +143,7 @@
 					AccessKey="E"
 					AutomationProperties.AutomationId="SettingsItemAdvanced"
 					Content="{helpers:ResourceString Name=Advanced}"
-					Tag="5">
+					Tag="6">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xF1AD;" />
 					</NavigationViewItem.Icon>
@@ -143,7 +152,7 @@
 					AccessKey="B"
 					AutomationProperties.AutomationId="SettingsItemAbout"
 					Content="{helpers:ResourceString Name=About}"
-					Tag="6">
+					Tag="7">
 					<NavigationViewItem.Icon>
 						<FontIcon FontSize="16" Glyph="&#xE946;" />
 					</NavigationViewItem.Icon>

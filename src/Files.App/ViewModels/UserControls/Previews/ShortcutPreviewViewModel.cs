@@ -1,11 +1,11 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	internal class ShortcutPreviewViewModel : BasePreviewModel
+	internal sealed class ShortcutPreviewViewModel : BasePreviewModel
 	{
 		public ShortcutPreviewViewModel(ListedItem item) : base(item) { }
 

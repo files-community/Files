@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
@@ -7,7 +7,7 @@ using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {
-	public class JumpListService : IJumpListService
+	public sealed class JumpListService : IJumpListService
 	{
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
@@ -113,7 +113,7 @@ namespace Files.App.Services
 					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
-					var drive = drivesViewModel.Drives.Where(drive => drive.Path == path).FirstOrDefault();
+					var drive = drivesViewModel.Drives.FirstOrDefault(drive => drive.Path == path);
 					if (drive is null)
 						return;
 
@@ -162,7 +162,7 @@ namespace Files.App.Services
 				}
 				else
 				{
-					var pinnedItemsCount = instance.Items.Where(x => x.GroupName == JumpListPinnedGroupHeader).Count();
+					var pinnedItemsCount = instance.Items.Count(x => x.GroupName == JumpListPinnedGroupHeader);
 					instance.Items.Insert(pinnedItemsCount, jumplistItem);
 				}
 			}

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Package
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
@@ -16,7 +16,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="3.2.6.0" />
+        Version="3.3.0.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -142,6 +142,7 @@
                             <uap:FileType>.rar</uap:FileType>
                             <uap:FileType>.tar</uap:FileType>
                             <uap:FileType>.jar</uap:FileType>
+                            <uap:FileType>.mrpack</uap:FileType>
                         </uap:SupportedFileTypes>
                         <uap:Logo>assets\archives\ExtensionIcon.png</uap:Logo>
                     </uap:FileTypeAssociation>

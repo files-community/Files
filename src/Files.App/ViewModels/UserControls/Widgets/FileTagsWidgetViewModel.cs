@@ -1,10 +1,13 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Utils;
 
-namespace Files.App.UserControls.ViewModels.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
+	/// <summary>
+	/// Represents view model of <see cref="FileTagsWidget"/>.
+	/// </summary>
 	public sealed partial class FileTagsWidgetViewModel : ObservableObject, IAsyncInitialize
 	{
 		// Dependency injections
@@ -17,14 +20,13 @@ namespace Files.App.UserControls.ViewModels.Widgets
 
 		// Properties
 
-		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; }
+		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = [];
 
 		// Constructor
 
 		public FileTagsWidgetViewModel(Func<string, Task> openAction)
 		{
 			_openAction = openAction;
-			Containers = new();
 		}
 
 		// Methods

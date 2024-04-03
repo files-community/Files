@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
@@ -776,7 +776,7 @@ namespace Files.App.Views.Layouts
 				var ttv = secondaryMenu.TransformToVisual(MainWindow.Instance.Content);
 				var cMenuPos = ttv.TransformPoint(new Point(0, 0));
 
-				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
+				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Count(x => x is not AppBarSeparator) * Constants.UI.ContextMenuSecondaryItemsHeight;
 				var availableHeight = MainWindow.Instance.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
 
 				// Set menu max height to current height (Avoid menu repositioning)
@@ -864,6 +864,13 @@ namespace Files.App.Views.Layouts
 					openWithOverflow.Flyout = flyout;
 					openWith.Visibility = Visibility.Collapsed;
 					openWithOverflow.Visibility = Visibility.Visible;
+
+					// TODO delete this when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
+					openWithOverflow.Content = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith"
+					}.ToOpacityIcon();
+					openWithOverflow.Label = "OpenWith".GetLocalizedResource();
 				}
 			}
 
@@ -1026,7 +1033,7 @@ namespace Files.App.Views.Layouts
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
 
-						if (item.IsExecutable || item.IsPythonFile)
+						if (item.IsExecutable || item.IsScriptFile)
 						{
 							e.DragUIOverride.Caption = $"{"OpenWith".GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
@@ -1045,7 +1052,8 @@ namespace Files.App.Views.Layouts
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
 						{
 							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
-							e.AcceptedOperation = DataPackageOperation.Move;
+							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 						}
 						else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 							|| ZipStorageFolder.IsZipPath(item.ItemPath))
@@ -1056,7 +1064,8 @@ namespace Files.App.Views.Layouts
 						else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
 						{
 							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
-							e.AcceptedOperation = DataPackageOperation.Move;
+							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 						}
 						else
 						{
@@ -1104,7 +1113,7 @@ namespace Files.App.Views.Layouts
 
 			var item = GetItemFromElement(sender);
 			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsPythonFile);
+				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
 
 			deferral.Complete();
 		}
@@ -1253,7 +1262,7 @@ namespace Files.App.Views.Layouts
 			UninitializeDrag(container);
 			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath))
 				|| item.IsExecutable
-				|| item.IsPythonFile)
+				|| item.IsScriptFile)
 			{
 				container.AllowDrop = true;
 				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);
@@ -1423,7 +1432,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		public class ContextMenuExtensions : DependencyObject
+		public sealed class ContextMenuExtensions : DependencyObject
 		{
 			public static ItemsControl GetItemsControl(DependencyObject obj)
 			{

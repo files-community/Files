@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
 namespace Files.Core.SourceGenerator
 {
 	[Generator]
-	public class DependencyPropertyGenerator : TypeWithAttributeGenerator
+	public sealed class DependencyPropertyGenerator : TypeWithAttributeGenerator
 	{
 		internal override string AttributeName => "DependencyPropertyAttribute`1";
 

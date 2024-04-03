@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Windows.Foundation.Metadata;
@@ -6,7 +6,7 @@ using Windows.System;
 
 namespace Files.App.Utils.Storage
 {
-	internal class StorageSenseHelper
+	internal sealed class StorageSenseHelper
 	{
 		public static async Task OpenStorageSenseAsync(string path)
 		{

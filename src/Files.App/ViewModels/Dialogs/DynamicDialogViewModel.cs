@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -9,7 +9,7 @@ using Windows.System;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public class DynamicDialogViewModel : ObservableObject, IDisposable
+	public sealed class DynamicDialogViewModel : ObservableObject, IDisposable
 	{
 		#region Public Properties
 

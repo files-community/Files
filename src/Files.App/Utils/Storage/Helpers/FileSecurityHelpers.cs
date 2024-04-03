@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Vanara.PInvoke;
@@ -55,7 +55,7 @@ namespace Files.App.Utils.Storage
 			// Run PowerShell as Admin
 			if (result.Failed)
 			{
-				return Win32API.RunPowershellCommand(
+				return Win32Helper.RunPowershellCommand(
 					$"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"",
 					true);
 			}

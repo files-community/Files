@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
@@ -8,7 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static Files.App.Helpers.InteropHelpers;
+using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App
 {
@@ -209,7 +209,7 @@ namespace Files.App
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
 		{
-			Win32API.OpenFolderInExistingShellWindow(shellCommand);
+			Win32Helper.OpenFolderInExistingShellWindow(shellCommand);
 		}
 
 		public static void OpenFileFromTile(string filePath)

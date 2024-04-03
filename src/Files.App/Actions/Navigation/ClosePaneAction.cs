@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
 {
-	internal class ClosePaneAction : ObservableObject, IAction
+	internal sealed class ClosePaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

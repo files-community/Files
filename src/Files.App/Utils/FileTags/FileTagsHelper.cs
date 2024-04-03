@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
@@ -66,7 +66,7 @@ namespace Files.App.Utils.FileTags
 			var dbInstance = GetDbInstance();
 			foreach (var file in dbInstance.GetAll())
 			{
-				var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
+				var pathFromFrn = Win32Helper.PathFromFileId(file.Frn ?? 0, file.FilePath);
 				if (pathFromFrn is not null)
 				{
 					// Frn is valid, update file path

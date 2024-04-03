@@ -1,14 +1,14 @@
-// Copyright (c) 2023 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using static Files.App.Helpers.NativeIoDeviceControlHelper;
+using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Data.Models
 {
-	public class RemovableDevice
+	public sealed class RemovableDevice
 	{
 		private nint handle;
 		private char driveLetter;

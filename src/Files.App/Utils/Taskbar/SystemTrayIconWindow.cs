@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices;
@@ -13,7 +13,7 @@ namespace Files.App.Utils.Taskbar
 	/// <br/>
 	/// This is provided to handle context menu and retrieve mouse events, not a regular window class.
 	/// </summary>
-	public class SystemTrayIconWindow : IDisposable
+	public sealed class SystemTrayIconWindow : IDisposable
 	{
 		private SystemTrayIcon _trayIcon;
 
