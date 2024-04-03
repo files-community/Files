@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Helpers;
+using Files.App.Helpers;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
 using Files.Shared.Helpers;

@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Server.Data.Enums;
 using System.Text.Json;
 using Windows.Storage;
 
@@ -18,7 +19,7 @@ namespace Files.App.Data.Models
 		// Fields
 
 		private static readonly Lazy<LayoutPreferencesDatabaseManager> _databaseInstance =
-			new(() => new LayoutPreferencesDatabaseManager(LayoutSettingsDbPath, true));
+			new(() => new LayoutPreferencesDatabaseManager());
 
 		private readonly FolderLayoutModes? _rootLayoutMode;
 
@@ -35,7 +36,7 @@ namespace Files.App.Data.Models
 			get => !LayoutPreferencesItem.IsAdaptiveLayoutOverridden;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.IsAdaptiveLayoutOverridden, !value, nameof(IsAdaptiveLayoutEnabled)))
+				if (SetProperty(item => item.IsAdaptiveLayoutOverridden, item => item.IsAdaptiveLayoutOverridden = !value, nameof(IsAdaptiveLayoutEnabled)))
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem, true));
 			}
 		}
@@ -45,7 +46,7 @@ namespace Files.App.Data.Models
 			get => _rootLayoutMode ?? LayoutPreferencesItem.LayoutMode;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.LayoutMode, value, nameof(LayoutMode)))
+				if (SetProperty(item => item.LayoutMode, item => item.LayoutMode = value, nameof(LayoutMode)))
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 			}
 		}
@@ -55,7 +56,7 @@ namespace Files.App.Data.Models
 			get => LayoutPreferencesItem.DirectorySortOption;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.DirectorySortOption, value, nameof(DirectorySortOption)))
+				if (SetProperty(item => item.DirectorySortOption, item => item.DirectorySortOption = value, nameof(DirectorySortOption)))
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 					SortOptionPreferenceUpdated?.Invoke(this, DirectorySortOption);
@@ -68,7 +69,7 @@ namespace Files.App.Data.Models
 			get => LayoutPreferencesItem.DirectoryGroupOption;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.DirectoryGroupOption, value, nameof(DirectoryGroupOption)))
+				if (SetProperty(item => item.DirectoryGroupOption, item => item.DirectoryGroupOption = value, nameof(DirectoryGroupOption)))
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 					GroupOptionPreferenceUpdated?.Invoke(this, DirectoryGroupOption);
@@ -81,7 +82,7 @@ namespace Files.App.Data.Models
 			get => LayoutPreferencesItem.DirectorySortDirection;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.DirectorySortDirection, value, nameof(DirectorySortDirection)))
+				if (SetProperty(item => item.DirectorySortDirection, item => item.DirectorySortDirection = value, nameof(DirectorySortDirection)))
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 					SortDirectionPreferenceUpdated?.Invoke(this, DirectorySortDirection);
@@ -94,7 +95,7 @@ namespace Files.App.Data.Models
 			get => LayoutPreferencesItem.DirectoryGroupDirection;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.DirectoryGroupDirection, value, nameof(DirectoryGroupDirection)))
+				if (SetProperty(item => item.DirectoryGroupDirection, item => item.DirectoryGroupDirection = value, nameof(DirectoryGroupDirection)))
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 					GroupDirectionPreferenceUpdated?.Invoke(this, DirectoryGroupDirection);
@@ -107,7 +108,7 @@ namespace Files.App.Data.Models
 			get => LayoutPreferencesItem.DirectoryGroupByDateUnit;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.DirectoryGroupByDateUnit, value, nameof(DirectoryGroupByDateUnit)))
+				if (SetProperty(item => item.DirectoryGroupByDateUnit, item => item.DirectoryGroupByDateUnit = value, nameof(DirectoryGroupByDateUnit)))
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 					GroupByDateUnitPreferenceUpdated?.Invoke(this, DirectoryGroupByDateUnit);
@@ -120,7 +121,7 @@ namespace Files.App.Data.Models
 			get => LayoutPreferencesItem.SortDirectoriesAlongsideFiles;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.SortDirectoriesAlongsideFiles, value, nameof(SortDirectoriesAlongsideFiles)))
+				if (SetProperty(item => item.SortDirectoriesAlongsideFiles, item => item.SortDirectoriesAlongsideFiles = value, nameof(SortDirectoriesAlongsideFiles)))
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 					SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
@@ -133,7 +134,7 @@ namespace Files.App.Data.Models
 			get => LayoutPreferencesItem.SortFilesFirst;
 			set
 			{
-				if (SetProperty(ref LayoutPreferencesItem.SortFilesFirst, value, nameof(SortFilesFirst)))
+				if (SetProperty(item => item.SortFilesFirst, item => item.SortFilesFirst = value, nameof(SortFilesFirst)))
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 					SortFilesFirstPreferenceUpdated?.Invoke(this, SortFilesFirst);
@@ -146,7 +147,7 @@ namespace Files.App.Data.Models
 			get => LayoutPreferencesItem.ColumnsViewModel;
 			set
 			{
-				SetProperty(ref LayoutPreferencesItem.ColumnsViewModel, value, nameof(ColumnsViewModel));
+				SetProperty(item => item.ColumnsViewModel, item => item.ColumnsViewModel = value, nameof(ColumnsViewModel));
 				LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 			}
 		}
@@ -588,6 +589,20 @@ namespace Files.App.Data.Models
 			}
 
 			dbInstance.SetPreferences(path, frn, preferencesItem);
+		}
+
+		private bool SetProperty<TValue>(Func<LayoutPreferencesItem, TValue> prop, Action<LayoutPreferencesItem> update, string propertyName)
+		{
+			var oldValue = prop(LayoutPreferencesItem);
+			update(LayoutPreferencesItem);
+
+			if (EqualityComparer<TValue>.Default.Equals(prop(LayoutPreferencesItem), oldValue))
+			{
+				return false;
+			}
+
+			OnPropertyChanged(propertyName);
+			return true;
 		}
 	}
 }

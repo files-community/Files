@@ -1,200 +1,159 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using LiteDB;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Helpers
 {
 	/// <summary>
 	/// Represents manager for the database of layout preferences.
 	/// </summary>
-	public sealed class LayoutPreferencesDatabaseManager : IDisposable
+	public class LayoutPreferencesDatabaseManager
 	{
 		// Fields
+		private readonly Server.Database.LayoutPreferencesDatabase _database = new();
 
-		private readonly LiteDatabase _database;
-
-		// Constructor
-
-		public LayoutPreferencesDatabaseManager(string connection, bool shared = false)
+		private DetailsLayoutColumnItem FromDatabaseEntity(Server.Data.ColumnPreferencesItem entry)
 		{
-			SafetyExtensions.IgnoreExceptions(() => EnsureDatabaseVersion(connection));
+			return new()
+			{
+				NormalMaxLength = entry.NormalMaxLength,
+				UserCollapsed = entry.UserCollapsed,
+				UserLengthPixels = entry.UserLengthPixels,
+			};
+		}
 
-			_database = new(
-				new ConnectionString(connection)
+		[return: NotNullIfNotNull(nameof(entry))]
+		private LayoutPreferencesItem? FromDatabaseEntity(Server.Data.LayoutPreferencesItem? entry)
+		{
+			if (entry is null)
+			{
+				return null;
+			}
+
+			return new()
+			{
+				ColumnsViewModel =
 				{
-					Mode = shared
-						? FileMode.Shared
-						: FileMode.Exclusive
+					DateCreatedColumn = FromDatabaseEntity(entry.ColumnsViewModel.DateCreatedColumn),
+					DateDeletedColumn = FromDatabaseEntity(entry.ColumnsViewModel.DateDeletedColumn),
+					DateModifiedColumn = FromDatabaseEntity(entry.ColumnsViewModel.DateModifiedColumn),
+					GitCommitAuthorColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitCommitAuthorColumn),
+					GitLastCommitDateColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitLastCommitDateColumn),
+					GitLastCommitMessageColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitLastCommitMessageColumn),
+					GitLastCommitShaColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitLastCommitShaColumn),
+					GitStatusColumn = FromDatabaseEntity(entry.ColumnsViewModel.GitStatusColumn),
+					ItemTypeColumn = FromDatabaseEntity(entry.ColumnsViewModel.ItemTypeColumn),
+					NameColumn = FromDatabaseEntity(entry.ColumnsViewModel.NameColumn),
+					OriginalPathColumn = FromDatabaseEntity(entry.ColumnsViewModel.OriginalPathColumn),
+					PathColumn = FromDatabaseEntity(entry.ColumnsViewModel.PathColumn),
+					SizeColumn = FromDatabaseEntity(entry.ColumnsViewModel.SizeColumn),
+					StatusColumn = FromDatabaseEntity(entry.ColumnsViewModel.StatusColumn),
+					TagColumn = FromDatabaseEntity(entry.ColumnsViewModel.TagColumn),
 				},
-				new()
+				DirectoryGroupByDateUnit = entry.DirectoryGroupByDateUnit,
+				DirectoryGroupDirection = entry.DirectoryGroupDirection,
+				DirectoryGroupOption = entry.DirectoryGroupOption,
+				DirectorySortDirection = entry.DirectorySortDirection,
+				DirectorySortOption = entry.DirectorySortOption,
+				IsAdaptiveLayoutOverridden = entry.IsAdaptiveLayoutOverridden,
+				LayoutMode = entry.LayoutMode,
+				SortDirectoriesAlongsideFiles = entry.SortDirectoriesAlongsideFiles,
+				SortFilesFirst = entry.SortFilesFirst,
+			};
+		}
+
+		private LayoutPreferencesDatabaseItem FromDatabaseEntity(Server.Data.LayoutPreferences entry)
+		{
+			return new()
+			{
+				FilePath = entry.FilePath,
+				Frn = entry.Frn,
+				Id = entry.Id,
+				LayoutPreferencesManager = FromDatabaseEntity(entry.LayoutPreferencesManager),
+			};
+		}
+
+		private Server.Data.ColumnPreferencesItem ToDatabaseEntity(DetailsLayoutColumnItem entry)
+		{
+			return new()
+			{
+				NormalMaxLength = entry.NormalMaxLength,
+				UserCollapsed = entry.UserCollapsed,
+				UserLengthPixels = entry.UserLengthPixels,
+			};
+		}
+
+		[return: NotNullIfNotNull(nameof(entry))]
+		private Server.Data.LayoutPreferencesItem? ToDatabaseEntity(LayoutPreferencesItem? entry)
+		{
+			if (entry is null)
+			{
+				return null;
+			}
+
+			return new()
+			{
+				ColumnsViewModel =
 				{
-					IncludeFields = true
-				});
+					DateCreatedColumn = ToDatabaseEntity(entry.ColumnsViewModel.DateCreatedColumn),
+					DateDeletedColumn = ToDatabaseEntity(entry.ColumnsViewModel.DateDeletedColumn),
+					DateModifiedColumn = ToDatabaseEntity(entry.ColumnsViewModel.DateModifiedColumn),
+					GitCommitAuthorColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitCommitAuthorColumn),
+					GitLastCommitDateColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitLastCommitDateColumn),
+					GitLastCommitMessageColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitLastCommitMessageColumn),
+					GitLastCommitShaColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitLastCommitShaColumn),
+					GitStatusColumn = ToDatabaseEntity(entry.ColumnsViewModel.GitStatusColumn),
+					ItemTypeColumn = ToDatabaseEntity(entry.ColumnsViewModel.ItemTypeColumn),
+					NameColumn = ToDatabaseEntity(entry.ColumnsViewModel.NameColumn),
+					OriginalPathColumn = ToDatabaseEntity(entry.ColumnsViewModel.OriginalPathColumn),
+					PathColumn = ToDatabaseEntity(entry.ColumnsViewModel.PathColumn),
+					SizeColumn = ToDatabaseEntity(entry.ColumnsViewModel.SizeColumn),
+					StatusColumn = ToDatabaseEntity(entry.ColumnsViewModel.StatusColumn),
+					TagColumn = ToDatabaseEntity(entry.ColumnsViewModel.TagColumn),
+				},
+				DirectoryGroupByDateUnit = entry.DirectoryGroupByDateUnit,
+				DirectoryGroupDirection = entry.DirectoryGroupDirection,
+				DirectoryGroupOption = entry.DirectoryGroupOption,
+				DirectorySortDirection = entry.DirectorySortDirection,
+				DirectorySortOption = entry.DirectorySortOption,
+				IsAdaptiveLayoutOverridden = entry.IsAdaptiveLayoutOverridden,
+				LayoutMode = entry.LayoutMode,
+				SortDirectoriesAlongsideFiles = entry.SortDirectoriesAlongsideFiles,
+				SortFilesFirst = entry.SortFilesFirst,
+			};
 		}
 
 		// Methods
-
 		public LayoutPreferencesItem? GetPreferences(string? filePath = null, ulong? frn = null)
 		{
-			return FindPreferences(filePath, frn)?.LayoutPreferencesManager;
+			return FromDatabaseEntity(_database.GetPreferences(filePath, frn));
 		}
 
 		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
 		{
-			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
-
-			var tmp = FindPreferences(filePath, frn);
-
-			if (tmp is null)
-			{
-				if (preferencesItem is not null)
-				{
-					// Insert new tagged file (Id will be auto-incremented)
-					var newPref = new LayoutPreferencesDatabaseItem()
-					{
-						FilePath = filePath,
-						Frn = frn,
-						LayoutPreferencesManager = preferencesItem
-					};
-
-					col.Insert(newPref);
-					col.EnsureIndex(x => x.Frn);
-					col.EnsureIndex(x => x.FilePath);
-				}
-			}
-			else
-			{
-				if (preferencesItem is not null)
-				{
-					// Update file tag
-					tmp.LayoutPreferencesManager = preferencesItem;
-					col.Update(tmp);
-				}
-				else
-				{
-					// Remove file tag
-					col.Delete(tmp.Id);
-				}
-			}
+			_database.SetPreferences(filePath, frn, ToDatabaseEntity(preferencesItem));
 		}
 
 		public void ResetAll(Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
-
-			if (predicate is null)
-			{
-				col.Delete(Query.All());
-			}
-			else
-			{
-				col.Delete(x => predicate(x));
-			}
+			_database.ResetAll(item => predicate?.Invoke(FromDatabaseEntity(item)) ?? true);
 		}
 
 		public void ApplyToAll(Action<LayoutPreferencesDatabaseItem> updateAction, Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
 		{
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
-
-			var allDocs = predicate is null ? col.FindAll() : col.Find(x => predicate(x));
-
-			allDocs.ForEach(x => updateAction(x));
-			col.Update(allDocs);
+			_database.ApplyToAll(item => updateAction.Invoke(FromDatabaseEntity(item)),
+				item => predicate?.Invoke(FromDatabaseEntity(item)) ?? true);
 		}
 
 		public void Import(string json)
 		{
-			var dataValues = JsonSerializer.DeserializeArray(json);
-
-			var col = _database.GetCollection("layoutprefs");
-
-			col.Delete(Query.All());
-			col.InsertBulk(dataValues.Select(x => x.AsDocument));
+			_database.Import(json);
 		}
 
 		public string Export()
 		{
-			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection("layoutprefs").FindAll()));
-		}
-
-		private LayoutPreferencesDatabaseItem? FindPreferences(string? filePath = null, ulong? frn = null)
-		{
-			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<LayoutPreferencesDatabaseItem>("layoutprefs");
-
-			if (filePath is not null)
-			{
-				var tmp = col.FindOne(x => x.FilePath == filePath);
-				if (tmp is not null)
-				{
-					if (frn is not null)
-					{
-						// Keep entry updated
-						tmp.Frn = frn;
-						col.Update(tmp);
-					}
-
-					return tmp;
-				}
-			}
-
-			if (frn is not null)
-			{
-				var tmp = col.FindOne(x => x.Frn == frn);
-				if (tmp is not null)
-				{
-					if (filePath is not null)
-					{
-						// Keep entry updated
-						tmp.FilePath = filePath;
-						col.Update(tmp);
-					}
-
-					return tmp;
-				}
-			}
-
-			return null;
-		}
-
-		private void EnsureDatabaseVersion(string filename)
-		{
-			// NOTE:
-			//  For more information, visit
-			//  https://github.com/mbdavid/LiteDB/blob/master/LiteDB/Engine/Engine/Upgrade.cs
-
-			var buffer = new byte[8192 * 2];
-
-			using var stream = new SystemIO.FileStream(filename, SystemIO.FileMode.Open, SystemIO.FileAccess.Read, SystemIO.FileShare.ReadWrite);
-
-			// Read first 16k
-			stream.Read(buffer, 0, buffer.Length);
-
-			// Check if v7 (plain or encrypted)
-			if (Encoding.UTF8.GetString(buffer, 25, "** This is a LiteDB file **".Length) == "** This is a LiteDB file **" &&
-				buffer[52] == 7)
-			{
-				// version 4.1.4
-				return;
-			}
-
-			// Re-create database with correct version
-			SystemIO.File.Delete(filename);
-		}
-
-		// De-constructor & Disposer
-
-		~LayoutPreferencesDatabaseManager()
-		{
-			Dispose();
-		}
-
-		public void Dispose()
-		{
-			_database.Dispose();
+			return _database.Export();
 		}
 	}
 }

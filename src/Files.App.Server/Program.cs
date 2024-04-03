@@ -1,4 +1,7 @@
-﻿using Files.Shared.Helpers;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Shared.Helpers;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
