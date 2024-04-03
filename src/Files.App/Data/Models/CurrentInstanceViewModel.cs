@@ -55,6 +55,18 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private bool _IsPageTypeSettings = false;
+		public bool IsPageTypeSettings
+		{
+			get => _IsPageTypeSettings;
+			set
+			{
+				SetProperty(ref _IsPageTypeSettings, value);
+				OnPropertyChanged(nameof(CanCreateFileInPage));
+				OnPropertyChanged(nameof(CanCopyPathInPage));
+			}
+		}
+
 		private bool isPageTypeMtpDevice = false;
 		public bool IsPageTypeMtpDevice
 		{

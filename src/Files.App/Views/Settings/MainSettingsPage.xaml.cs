@@ -7,20 +7,67 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App.Dialogs
 {
 	public sealed partial class MainSettingsPage : Page
 	{
-		private FrameworkElement RootAppElement
-			=> (FrameworkElement)MainWindow.Instance.Content;
+		private IShellPage AppInstance { get; set; } = null!;
 
 		public MainSettingsPage()
 		{
 			InitializeComponent();
+		}
 
-			MainWindow.Instance.SizeChanged += Current_SizeChanged;
-			UpdateDialogLayout();
+		protected override async void OnNavigatedTo(NavigationEventArgs e)
+		{
+			if (e.Parameter is not NavigationArguments parameters)
+				return;
+
+			AppInstance = parameters.AssociatedTabInstance!;
+
+			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
+			AppInstance.InstanceViewModel.IsPageTypeSettings = true;
+			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
+			AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
+			AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
+			AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
+			AppInstance.InstanceViewModel.IsPageTypeFtp = false;
+			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
+			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
+			AppInstance.InstanceViewModel.GitRepositoryPath = null;
+			AppInstance.ToolbarViewModel.CanRefresh = true;
+			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
+			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
+			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
+
+			AppInstance.ToolbarViewModel.CanRefresh = false;
+
+			// Set path of working directory empty
+			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Settings");
+
+			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, null);
+
+			AppInstance.ToolbarViewModel.PathComponents.Clear();
+
+			string componentLabel =
+				parameters?.NavPathParam == "Settings"
+					? "Settings".GetLocalizedResource()
+					: parameters?.NavPathParam
+				?? string.Empty;
+
+			string tag = parameters?.NavPathParam ?? string.Empty;
+
+			var item = new PathBoxItem()
+			{
+				Title = componentLabel,
+				Path = tag,
+			};
+
+			AppInstance.ToolbarViewModel.PathComponents.Add(item);
+
+			base.OnNavigatedTo(e);
 		}
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)

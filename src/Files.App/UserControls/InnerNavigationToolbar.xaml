@@ -57,7 +57,8 @@
 	<Grid
 		x:Name="RootGrid"
 		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-		BorderThickness="0,0,0,1">
+		BorderThickness="0,0,0,1"
+		Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeSettings, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />

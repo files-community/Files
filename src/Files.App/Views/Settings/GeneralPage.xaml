@@ -26,17 +26,11 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
-				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
+				Padding="0,0,0,8"
+				Style="{StaticResource SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=General}" />
 
 			<!--  Language settings  -->

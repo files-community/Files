@@ -6,7 +6,6 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -15,68 +14,33 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
-			<Thickness x:Key="ContentDialogPadding">0</Thickness>
 			<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
 			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
 
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid
-		x:Name="ContainerGrid"
-		MaxHeight="790"
-		Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="44" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-
-		<!--  Smokescreen for displaying a semi transparent background  -->
-		<Border
-			Grid.RowSpan="2"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Background="{ThemeResource App.Theme.BackgroundBrush}"
-			Opacity=".4" />
-
-		<!--  Titlebar  -->
-		<Grid Grid.Row="0" Padding="8,0">
-			<TextBlock
-				Padding="8,0,0,0"
-				HorizontalAlignment="Left"
-				VerticalAlignment="Center"
-				FontWeight="SemiBold"
-				Text="{helpers:ResourceString Name=Settings}" />
-
-			<Button
-				x:Name="CloseSettingsDialogButton"
-				Width="36"
-				Height="36"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Center"
-				AutomationProperties.Name="{helpers:ResourceString Name=Close}"
-				Background="Transparent"
-				BorderBrush="Transparent"
-				Click="CloseSettingsDialogButton_Click"
-				ToolTipService.Placement="Bottom"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
-				<FontIcon FontSize="12" Glyph="&#xE8BB;" />
-			</Button>
-		</Grid>
-
+	<Grid x:Name="ContainerGrid">
 		<!--  Settings Navigation View  -->
 		<NavigationView
 			x:Name="MainSettingsNavigationView"
-			Grid.Row="1"
 			IsBackButtonVisible="Collapsed"
 			IsBackEnabled="False"
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
-			OpenPaneLength="260"
+			OpenPaneLength="240"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainSettingsNavigationView_SelectionChanged">
+
+			<NavigationView.PaneHeader>
+				<TextBlock
+					Padding="18,8,0,8"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					Style="{StaticResource SubtitleTextBlockStyle}"
+					Text="{helpers:ResourceString Name=Settings}" />
+			</NavigationView.PaneHeader>
 
 			<!--  Menu Items  -->
 			<NavigationView.MenuItems>
@@ -157,7 +121,7 @@
 
 			<!--  Content Frame  -->
 			<ScrollViewer x:Name="SettingsContentScrollViewer">
-				<Frame x:Name="SettingsContentFrame" Padding="4,0,24,24" />
+				<Frame x:Name="SettingsContentFrame" Padding="4,12,24,24" />
 			</ScrollViewer>
 
 		</NavigationView>
