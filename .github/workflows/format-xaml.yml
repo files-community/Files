@@ -7,7 +7,6 @@ jobs:
   format-xaml:
     if: github.event.issue.pull_request && github.event.comment.body == '/format'
     runs-on: ubuntu-latest
-    environment: Pull Requests
     defaults:
       run:
         shell: pwsh
@@ -43,6 +42,9 @@ jobs:
           
           # all steps after this one must have the env.CAN_RUN == 1 condition
 
+      - uses: actions/checkout@v4
+        if: env.CAN_RUN == 1
+
       - name: Set git identity
         if: env.CAN_RUN == 1
         run: |
@@ -55,10 +57,8 @@ jobs:
 
           git config --global user.name "$($data.login)"
           git config --global user.email "$($data.databaseId)+$($data.login)@users.noreply.github.com"
-
-
-      - uses: actions/checkout@v4
-        if: env.CAN_RUN == 1
+          git config --local --unset-all http.https://github.com/.extraheader
+          git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ${{ steps.generate.outputs.token }}
 
       - name: Checkout PR
         if: env.CAN_RUN == 1
@@ -86,8 +86,16 @@ jobs:
       - name: Commit formatted files
         if: env.CAN_RUN == 1
         run: |
-          git add .
-          git commit -m "Formatted XAML files"
+          git add --renormalize .
+          if ((git status --porcelain) -eq $null)
+          {
+            gh pr comment ${{ github.event.issue.number }} -b "No XAML files changed."
+            "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
+          }
+          else
+          {
+            git commit -m "Formatted XAML files"
+          }
 
       - name: Push to PR
         if: env.CAN_RUN == 1
