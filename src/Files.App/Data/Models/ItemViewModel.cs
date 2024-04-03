@@ -1,7 +1,8 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Services.SizeProvider;
+using Files.App.Server.Data.Enums;
+using Files.App.Services.SizeProvider;
 using Files.Shared.Helpers;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.App.Helpers.Win32PInvoke;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
