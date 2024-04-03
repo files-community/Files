@@ -36,8 +36,8 @@ namespace Files.App.ViewModels.UserControls
 		/// Current selected item in the file list.
 		/// TODO see about removing this and accessing it from the page context instead
 		/// </summary>
-		private ListedItem selectedItem;
-		public ListedItem SelectedItem
+		private ListedItem? selectedItem;
+		public ListedItem? SelectedItem
 		{
 			get => selectedItem;
 			set
@@ -117,17 +117,24 @@ namespace Files.App.ViewModels.UserControls
 			IsEnabled = infoPaneSettingsService.IsEnabled;
 		}
 
-		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private async void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
 
+					ListedItem? tempSelectedItem = null;
 					if (contentPageContext.SelectedItems.Count == 1)
-						SelectedItem = contentPageContext.SelectedItems.First();
-					else
-						SelectedItem = null;
+						tempSelectedItem = contentPageContext.SelectedItems.First();
+
+					// Don't update preview pane when the selected item changes too frequently
+					const int delayBeforeUpdatingPreviewPane = 100;
+					await Task.Delay(delayBeforeUpdatingPreviewPane);
+					if (tempSelectedItem is not null && !tempSelectedItem.Equals(contentPageContext.SelectedItem))
+						return;
+
+					SelectedItem = tempSelectedItem;
 
 					if (!App.AppModel.IsMainWindowClosed)
 					{
