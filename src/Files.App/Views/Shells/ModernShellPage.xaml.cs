@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -332,7 +333,8 @@ namespace Files.App.Views.Shells
 
 				NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
-				if (sourcePageType == typeof(HomePage) ||
+				if (sourcePageType == typeof(MainSettingsPage) ||
+					sourcePageType == typeof(HomePage) ||
 					ItemDisplayFrame.Content.GetType() == typeof(HomePage) &&
 					(sourcePageType == typeof(DetailsLayoutPage) || sourcePageType == typeof(GridLayoutPage)))
 				{

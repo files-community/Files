@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Dialogs;
 using Files.App.Server.Data.Enums;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
@@ -13,6 +14,7 @@ namespace Files.App.Helpers
 {
 	public static class NavigationHelpers
 	{
+		private static IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private static MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private static NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
@@ -25,6 +27,12 @@ namespace Files.App.Helpers
 		public static Task AddNewTabAsync()
 		{
 			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
+		}
+
+		public static void OpenSettings()
+		{
+			if (ContentPageContext.ShellPage?.PaneHolder.ActivePane is IShellPage shellPage)
+				shellPage.NavigateToPath("Settings", typeof(MainSettingsPage));
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, bool focusNewTab, int atIndex = -1)

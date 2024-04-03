@@ -10,24 +10,17 @@ using System.Threading.Tasks;
 
 namespace Files.App.Dialogs
 {
-	public sealed partial class SettingsDialog : ContentDialog, IDialog<SettingsDialogViewModel>
+	public sealed partial class MainSettingsPage : Page
 	{
-		public SettingsDialogViewModel ViewModel { get; set; }
-
 		private FrameworkElement RootAppElement
 			=> (FrameworkElement)MainWindow.Instance.Content;
 
-		public SettingsDialog()
+		public MainSettingsPage()
 		{
 			InitializeComponent();
 
 			MainWindow.Instance.SizeChanged += Current_SizeChanged;
 			UpdateDialogLayout();
-		}
-
-		public new async Task<DialogResult> ShowAsync()
-		{
-			return (DialogResult)await base.ShowAsync();
 		}
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -68,7 +61,6 @@ namespace Files.App.Dialogs
 
 		private void CloseSettingsDialogButton_Click(object sender, RoutedEventArgs e)
 		{
-			Hide();
 		}
 	}
 }

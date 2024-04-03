@@ -1,19 +1,15 @@
 ﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<ContentDialog
-	x:Class="Files.App.Dialogs.SettingsDialog"
+<Page
+	x:Class="Files.App.Dialogs.MainSettingsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Closing="ContentDialog_Closing"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
-	HighContrastAdjustment="None"
-	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
-	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<ContentDialog.Resources>
+	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
@@ -25,7 +21,7 @@
 			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
 
 		</ResourceDictionary>
-	</ContentDialog.Resources>
+	</Page.Resources>
 
 	<Grid
 		x:Name="ContainerGrid"
@@ -167,4 +163,4 @@
 		</NavigationView>
 
 	</Grid>
-</ContentDialog>
+</Page>

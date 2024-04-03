@@ -5,10 +5,6 @@ namespace Files.App.Actions
 {
 	internal sealed class OpenSettingsAction : BaseUIAction, IAction
 	{
-		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-
-		private readonly SettingsDialogViewModel viewModel = new();
-
 		public string Label
 			=> "Settings".GetLocalizedResource();
 
@@ -20,8 +16,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			var dialog = dialogService.GetDialog(viewModel);
-			return dialog.TryShowAsync();
+			NavigationHelpers.OpenSettings();
+
+			return Task.CompletedTask;
 		}
 	}
 }
