@@ -862,7 +862,7 @@ namespace Files.App.Utils.Storage
 					{
 						if (operationType == "copy")
 						{
-							var tag = dbInstance.GetTags(sourcePath);
+							var tag = dbInstance.GetTags(sourcePath, null);
 
 							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
 							using var si = new ShellItem(destination);
