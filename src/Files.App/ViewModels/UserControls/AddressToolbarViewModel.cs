@@ -846,7 +846,6 @@ namespace Files.App.ViewModels.UserControls
 						{
 							Text = ">" + command.Code,
 							PrimaryDisplay = command.Description,
-							//SupplementaryDisplay = command.HotKeyText,
 							HotKeys = command.HotKeys,
 							SearchText = searchText,
 						}).ToList();
