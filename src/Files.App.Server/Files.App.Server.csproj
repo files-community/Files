@@ -25,6 +25,7 @@
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
         <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
         <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+        <CsWinRTEnableLogging>true</CsWinRTEnableLogging>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -38,7 +39,8 @@
     <ItemGroup>
         <Manifest Include="app.manifest" />
         <TrimmerRootAssembly Include="Files.App.Server" />
-        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.4" />
+        <PackageReference Include="LiteDB" Version="5.0.19" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.647-beta" PrivateAssets="all" />
     </ItemGroup>
 
