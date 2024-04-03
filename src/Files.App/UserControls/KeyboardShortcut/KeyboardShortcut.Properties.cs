@@ -13,7 +13,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 				nameof(ItemType),
 				typeof(KeyboardShortcutItemKind),
 				typeof(KeyboardShortcutItem),
-				new PropertyMetadata(defaultValue: KeyboardShortcutItemKind.Default, (d, e) => ((KeyboardShortcutItem)d).OnItemTypePropertyChanged()));
+				new PropertyMetadata(defaultValue: KeyboardShortcutItemKind.Outlined, (d, e) => ((KeyboardShortcutItem)d).OnItemTypePropertyChanged()));
 
 		public KeyboardShortcutItemKind ItemType
 		{

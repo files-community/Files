@@ -8,11 +8,11 @@ namespace Files.App.UserControls.KeyboardShortcut
 {
 	public class KeyboardShortcutItemStyleSelector : StyleSelector
 	{
-		public Style DefaultItemStyle { get; set; }
+		public Style OutlinedItemStyle { get; set; } = null!;
 
-		public Style AccentItemStyle { get; set; }
+		public Style FilledItemStyle { get; set; } = null!;
 
-		public Style RevealItemStyle { get; set; }
+		public Style TextOnlyItemStyle { get; set; } = null!;
 
 		protected override Style SelectStyleCore(object item, DependencyObject container)
 		{
@@ -20,14 +20,14 @@ namespace Files.App.UserControls.KeyboardShortcut
 			{
 				return keyboardShortcutItem.ItemType switch
 				{
-					KeyboardShortcutItemKind.Default => DefaultItemStyle,
-					KeyboardShortcutItemKind.Accent => AccentItemStyle,
-					KeyboardShortcutItemKind.Reveal => RevealItemStyle,
-					_ => DefaultItemStyle,
+					KeyboardShortcutItemKind.Outlined => OutlinedItemStyle,
+					KeyboardShortcutItemKind.Filled => FilledItemStyle,
+					KeyboardShortcutItemKind.TextOnly => TextOnlyItemStyle,
+					_ => OutlinedItemStyle,
 				};
 			}
 
-			return DefaultItemStyle;
+			return OutlinedItemStyle;
 		}
 	}
 }

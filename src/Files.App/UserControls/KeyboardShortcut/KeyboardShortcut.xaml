@@ -4,18 +4,23 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="using:Files.App.UserControls.KeyboardShortcut">
 
-	<local:KeyboardShortcutItemStyleSelector
-		x:Key="KeyboardShortcutItemStyleSelector"
-		AccentItemStyle="{StaticResource AccentKeyboardShortcutItemStyle}"
-		DefaultItemStyle="{StaticResource DefaultKeyboardShortcutItemStyle}"
-		RevealItemStyle="{StaticResource RevealKeyboardShortcutItemStyle}" />
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="OutlinedStyleBackgroundBrush" ResourceKey="ControlFillColorTransparentBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Dark">
+			<StaticResource x:Key="OutlinedStyleBackgroundBrush" ResourceKey="ControlFillColorSecondaryBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="OutlinedStyleBackgroundBrush" ResourceKey="ControlFillColorTransparentBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
 
 	<Style TargetType="local:KeyboardShortcut">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcut">
 					<Grid x:Name="PART_ContentRoot">
-
 						<ItemsControl x:Name="PART_KeyboardShortcutItemsControl" ItemContainerStyleSelector="{StaticResource KeyboardShortcutItemStyleSelector}">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
@@ -23,27 +28,36 @@
 								</ItemsPanelTemplate>
 							</ItemsControl.ItemsPanel>
 						</ItemsControl>
-
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
-	<Style x:Key="DefaultKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
+	<!--  Style Selector  -->
+	<local:KeyboardShortcutItemStyleSelector
+		x:Key="KeyboardShortcutItemStyleSelector"
+		FilledItemStyle="{StaticResource FilledKeyboardShortcutItemStyle}"
+		OutlinedItemStyle="{StaticResource OutlinedKeyboardShortcutItemStyle}"
+		TextOnlyItemStyle="{StaticResource TextOnlyKeyboardShortcutItemStyle}" />
+
+	<!--  Outlined Style  -->
+	<Style x:Key="OutlinedKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcutItem">
 					<Grid
 						x:Name="PART_ContentRoot"
-						BorderBrush="{ThemeResource TextFillColorDisabled}"
+						Background="{ThemeResource OutlinedStyleBackgroundBrush}"
+						BorderBrush="{ThemeResource TextFillColorTertiaryBrush}"
 						BorderThickness="1"
 						CornerRadius="2">
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
 							Margin="4,0"
-							VerticalAlignment="Center"
+							VerticalAlignment="Top"
 							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+							LineHeight="16"
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
 
@@ -72,7 +86,8 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="AccentKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
+	<!--  Filled Style  -->
+	<Style x:Key="FilledKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcutItem">
@@ -83,7 +98,8 @@
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
 							Margin="4,0"
-							VerticalAlignment="Center"
+							VerticalAlignment="Top"
+							LineHeight="16"
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
 
@@ -112,7 +128,8 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="RevealKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
+	<!--  TextOnly Style  -->
+	<Style x:Key="TextOnlyKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcutItem">
@@ -120,8 +137,9 @@
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
 							Margin="2,0"
-							VerticalAlignment="Center"
+							VerticalAlignment="Top"
 							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+							LineHeight="16"
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
 
@@ -149,4 +167,5 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+
 </ResourceDictionary>

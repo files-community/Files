@@ -5,10 +5,10 @@ namespace Files.App.UserControls.KeyboardShortcut
 {
 	public enum KeyboardShortcutItemKind
 	{
-		Default,
+		Outlined,
 
-		Accent,
+		Filled,
 
-		Reveal,
+		TextOnly,
 	}
 }
