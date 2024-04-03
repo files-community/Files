@@ -17,7 +17,6 @@ jobs:
         uses: tibdex/github-app-token@v1
         with:
           app_id: ${{ secrets.BOT_APP_ID }}
-
           private_key: ${{ secrets.BOT_PRIVATE_KEY }}
 
 
@@ -57,8 +56,8 @@ jobs:
 
           git config --global user.name "$($data.login)"
           git config --global user.email "$($data.databaseId)+$($data.login)@users.noreply.github.com"
-          git config --local --unset-all http.https://github.com/.extraheader
-          git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ${{ steps.generate.outputs.token }}
+          git config --local --unset-all 'http.https://github.com/.extraheader'
+          git config --local 'http.https://github.com/.extraheader' 'AUTHORIZATION: basic ${{ steps.generate.outputs.token }}'
 
       - name: Checkout PR
         if: env.CAN_RUN == 1
