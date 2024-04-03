@@ -4,6 +4,7 @@
 using Files.App.Server.Data;
 using Files.Shared.Extensions;
 using LiteDB;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
@@ -39,7 +40,7 @@ namespace Files.App.Server.Database
 			}
 		}
 
-		public void SetTags(string filePath, ulong? frn, string[]? tags)
+		public void SetTags(string filePath, ulong? frn, [ReadOnlyArray] string[] tags)
 		{
 			// Get a collection (or create, if doesn't exist)
 			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
@@ -47,7 +48,7 @@ namespace Files.App.Server.Database
 			var tmp = FindTag(filePath, frn);
 			if (tmp is null)
 			{
-				if (tags is not null && tags.Any())
+				if (tags.Any())
 				{
 					// Insert new tagged file (Id will be auto-incremented)
 					var newTag = new TaggedFile()
@@ -63,7 +64,7 @@ namespace Files.App.Server.Database
 			}
 			else
 			{
-				if (tags is not null && tags.Any())
+				if (tags.Any())
 				{
 					// Update file tag
 					tmp.Tags = tags;
