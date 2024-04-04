@@ -83,6 +83,7 @@ jobs:
         if: env.CAN_RUN == 1
         run: |
           git add --renormalize .
+          git status --porcelain
           if ((git status --porcelain) -eq $null)
           {
             gh pr comment ${{ github.event.issue.number }} -b "No XAML files changed."
