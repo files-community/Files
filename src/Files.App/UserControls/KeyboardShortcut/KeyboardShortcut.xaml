@@ -1,0 +1,171 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.UserControls.KeyboardShortcut">
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="OutlinedStyleBackgroundBrush" ResourceKey="ControlFillColorTransparentBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Dark">
+			<StaticResource x:Key="OutlinedStyleBackgroundBrush" ResourceKey="ControlFillColorSecondaryBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="OutlinedStyleBackgroundBrush" ResourceKey="ControlFillColorTransparentBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<Style TargetType="local:KeyboardShortcut">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:KeyboardShortcut">
+					<Grid x:Name="PART_ContentRoot">
+						<ItemsControl x:Name="PART_KeyboardShortcutItemsControl" ItemContainerStyleSelector="{StaticResource KeyboardShortcutItemStyleSelector}">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<StackPanel Orientation="Horizontal" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+						</ItemsControl>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!--  Style Selector  -->
+	<local:KeyboardShortcutItemStyleSelector
+		x:Key="KeyboardShortcutItemStyleSelector"
+		FilledItemStyle="{StaticResource FilledKeyboardShortcutItemStyle}"
+		OutlinedItemStyle="{StaticResource OutlinedKeyboardShortcutItemStyle}"
+		TextOnlyItemStyle="{StaticResource TextOnlyKeyboardShortcutItemStyle}" />
+
+	<!--  Outlined Style  -->
+	<Style x:Key="OutlinedKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:KeyboardShortcutItem">
+					<Grid
+						x:Name="PART_ContentRoot"
+						Background="{ThemeResource OutlinedStyleBackgroundBrush}"
+						BorderBrush="{ThemeResource TextFillColorTertiaryBrush}"
+						BorderThickness="1"
+						CornerRadius="2">
+						<TextBlock
+							x:Name="PART_MainTextTextBlock"
+							Margin="4,0"
+							VerticalAlignment="Top"
+							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+							LineHeight="16"
+							Style="{StaticResource CaptionTextBlockStyle}"
+							Text="{TemplateBinding Text}" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="SizeStates">
+								<VisualState x:Name="Small">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource CaptionTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Medium">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource BodyTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Large">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource SubtitleTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!--  Filled Style  -->
+	<Style x:Key="FilledKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:KeyboardShortcutItem">
+					<Grid
+						x:Name="PART_ContentRoot"
+						Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+						CornerRadius="2">
+						<TextBlock
+							x:Name="PART_MainTextTextBlock"
+							Margin="4,0"
+							VerticalAlignment="Top"
+							LineHeight="16"
+							Style="{StaticResource CaptionTextBlockStyle}"
+							Text="{TemplateBinding Text}" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="SizeStates">
+								<VisualState x:Name="Small">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource CaptionTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Medium">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource BodyTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Large">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource SubtitleTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!--  TextOnly Style  -->
+	<Style x:Key="TextOnlyKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:KeyboardShortcutItem">
+					<Grid x:Name="PART_ContentRoot">
+						<TextBlock
+							x:Name="PART_MainTextTextBlock"
+							Margin="2,0"
+							VerticalAlignment="Top"
+							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+							LineHeight="16"
+							Style="{StaticResource CaptionTextBlockStyle}"
+							Text="{TemplateBinding Text}" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="SizeStates">
+								<VisualState x:Name="Small">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource CaptionTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Medium">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource BodyTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Large">
+									<VisualState.Setters>
+										<Setter Target="PART_MainTextTextBlock.Style" Value="{StaticResource SubtitleTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
