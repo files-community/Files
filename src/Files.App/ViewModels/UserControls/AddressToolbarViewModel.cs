@@ -839,14 +839,15 @@ namespace Files.App.ViewModels.UserControls
 					{
 						IsCommandPaletteOpen = true;
 						var searchText = sender.Text.Substring(1).Trim();
-						suggestions = Commands.Where(command => command.IsExecutable &&
-							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
+						suggestions = Commands.Where(command =>
+							command.IsExecutable &&
+							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+							command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
 						.Select(command => new NavigationBarSuggestionItem()
 						{
 							Text = ">" + command.Code,
 							PrimaryDisplay = command.Description,
-							SupplementaryDisplay = command.HotKeyText,
+							HotKeys = command.HotKeys,
 							SearchText = searchText,
 						}).ToList();
 					}
