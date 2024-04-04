@@ -14,11 +14,10 @@ jobs:
     steps:
       - name: Generate GitHub Apps token
         id: generate
-        uses: tibdex/github-app-token@v1
+        uses: actions/create-github-app-token@v1
         with:
-          app_id: ${{ secrets.BOT_APP_ID }}
-          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
-
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
 
       - name: Create run condition variable
         run: |
@@ -57,7 +56,7 @@ jobs:
           git config --global user.name "$($data.login)"
           git config --global user.email "$($data.databaseId)+$($data.login)@users.noreply.github.com"
           git config --local --unset-all 'http.https://github.com/.extraheader'
-          git config --local 'http.https://github.com/.extraheader' 'AUTHORIZATION: basic ${{ steps.generate.outputs.token }}'
+          git config --local 'http.https://github.com/.extraheader' 'AUTHORIZATION: bearer ${{ steps.generate.outputs.token }}'
 
       - name: Checkout PR
         if: env.CAN_RUN == 1
