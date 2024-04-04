@@ -11,6 +11,8 @@ jobs:
     defaults:
       run:
         shell: pwsh
+    permissions: 
+      contents: write
 
     steps:
       - name: Generate GitHub Apps token
@@ -35,7 +37,7 @@ jobs:
         run: |
           if (!(gh pr -R ${{ github.repository }} view ${{ github.event.issue.number }} --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
           { 
-            gh pr comment ${{ github.event.issue.number }} -b "This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
+            gh pr comment ${{ github.event.issue.number }} -b "🔒 This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
             "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
           
@@ -68,7 +70,7 @@ jobs:
           $changedFiles = (git diff --name-only pr..$baseRef) -split "\n" | Where-Object {$_ -like "*.xaml"}
           if ($changedFiles.Count -eq 0)
           {
-            gh pr comment ${{ github.event.issue.number }} -b "No XAML files found to format."
+            gh pr comment ${{ github.event.issue.number }} -b "⛔ No XAML files found to format."
             "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
   
@@ -87,7 +89,7 @@ jobs:
           git status --porcelain
           if ((git status --porcelain) -eq $null)
           {
-            gh pr comment ${{ github.event.issue.number }} -b "No XAML files changed."
+            gh pr comment ${{ github.event.issue.number }} -b "⛔ No XAML files changed."
             "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
           else
@@ -125,7 +127,7 @@ jobs:
 
           if ($LASTEXITCODE -eq 0)
           {
-            gh pr comment ${{ github.event.issue.number }} -b "Successfully formatted XAML files."
+            gh pr comment ${{ github.event.issue.number }} -b "✅ Successfully formatted XAML files."
           }
           else
           {
@@ -134,5 +136,5 @@ jobs:
         continue-on-error: true
 
       - name: Comment if failed
-        if: failure() && env.CAN_RUN == 1
-        run: gh pr comment ${{ github.event.issue.number }} -b "Failed to format XAML files, check logs for more information."
+        if: failure() && env.CAN_RUN == 0
+        run: gh pr comment ${{ github.event.issue.number }} -b "⚠️ Failed to format XAML files, check [the logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for more information."
