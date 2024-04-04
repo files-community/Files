@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Server.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,7 +14,6 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Shells
 {

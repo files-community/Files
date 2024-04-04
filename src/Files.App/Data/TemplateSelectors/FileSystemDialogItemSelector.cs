@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.ViewModels.Dialogs.FileSystemDialog;
+using Files.App.ViewModels.Dialogs.FileSystemDialog;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.TemplateSelectors

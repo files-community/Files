@@ -4,7 +4,7 @@
 using Microsoft.UI.Dispatching;
 using System.IO;
 using Windows.Storage.FileProperties;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.ViewModels.Properties
