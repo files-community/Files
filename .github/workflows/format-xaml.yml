@@ -7,6 +7,7 @@ jobs:
   format-xaml:
     if: github.event.issue.pull_request && github.event.comment.body == '/format'
     runs-on: ubuntu-latest
+    environment: Pull Requests
     defaults:
       run:
         shell: pwsh
