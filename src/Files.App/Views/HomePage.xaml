@@ -15,7 +15,7 @@
 
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="Loaded">
-			<icore:InvokeCommandAction Command="{x:Bind ViewModel.HomePageLoadedCommand, Mode=OneWay}" />
+			<icore:InvokeCommandAction   Command="{x:Bind ViewModel.HomePageLoadedCommand, Mode=OneWay}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
