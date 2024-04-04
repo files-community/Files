@@ -102,7 +102,7 @@ jobs:
         $fileContent | Set-Content $localFilePath
 
     - name: Sign files with Azure Code Signing
-      uses: azure/azure-code-signing-action@v0.3.0
+      uses: azure/trusted-signing-action@v0.3.15
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
