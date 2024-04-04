@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Windows.Documents;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.RecentItem
 {
