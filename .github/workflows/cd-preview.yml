@@ -101,13 +101,13 @@ jobs:
         $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
         $fileContent | Set-Content $localFilePath
 
-    - name: Sign files with Azure Code Signing
-      uses: azure/azure-code-signing-action@v0.3.0
+    - name: Sign files with Azure Trusted Signing
+      uses: azure/trusted-signing-action@v0.3.16
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
         azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        endpoint: https://wus2.codesigning.azure.net/
+        endpoint: https://eus.codesigning.azure.net/
         code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
         files-folder: ${{ env.APPX_PACKAGE_DIR }}
