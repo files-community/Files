@@ -43,7 +43,7 @@ namespace Files.App.Utils.RecentItem
 			}
 		}
 
-		public IUserSettingsService UserSettingsService { get; }
+		private readonly IUserSettingsService UserSettingsService;
 
 		private bool ShowFileExtensions => UserSettingsService.FoldersSettingsService.ShowFileExtensions;
 
