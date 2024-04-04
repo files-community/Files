@@ -56,6 +56,8 @@ jobs:
 
           git config --global user.name "$($data.login)"
           git config --global user.email "$($data.databaseId)+$($data.login)@users.noreply.github.com"
+          git config --local --unset-all 'http.https://github.com/.extraheader'
+          git config --local 'http.https://github.com/.extraheader' 'AUTHORIZATION: basic ${{ steps.generate.outputs.token }}'
 
       - name: Checkout PR
         if: env.CAN_RUN == 1
@@ -117,14 +119,18 @@ jobs:
             }
           }' -F owner=$owner -F name=$name -F number=$number --jq '{Branch: .data.repository.pullRequest.headRef.name, Url: .data.repository.pullRequest.headRepository.url}' | ConvertFrom-Json
           
-          $url = [UriBuilder]($data.Url)
-          $url.UserName = 'Personal Access Token'
-          $url.Password = '${{ steps.generate.outputs.token }}'
-          git push $url.Uri.AbsoluteUri pr:$($data.Branch)
+          # $url = [UriBuilder]($data.Url)
+          # $url.UserName = 'Personal Access Token'
+          # $url.Password = '${{ steps.generate.outputs.token }}'
+          git push $data.Url pr:$($data.Branch)
 
           if ($LASTEXITCODE -eq 0)
           {
             gh pr comment ${{ github.event.issue.number }} -b "Successfully formatted XAML files."
+          }
+          else
+          {
+            "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
         continue-on-error: true
 
