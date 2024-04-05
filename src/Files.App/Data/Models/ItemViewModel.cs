@@ -706,7 +706,7 @@ namespace Files.App.Data.Models
 								return;
 
 							FilesAndFolders.Clear();
-							if (filter is null)
+							if (string.IsNullOrEmpty(filter))
 								FilesAndFolders.AddRange(filesAndFoldersLocal);
 							else
 								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)));
