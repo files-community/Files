@@ -27,7 +27,7 @@
 				<ResourceDictionary x:Key="Dark">
 					<SolidColorBrush x:Key="PaneBorderBrush" Color="#323130" />
 				</ResourceDictionary>
-				<ResourceDictionary x:Key="HighContrast">
+				<ResourceDictionary   x:Key="HighContrast">
 					<SolidColorBrush x:Key="PaneBorderBrush" Color="{ThemeResource SystemColorWindowColor}" />
 				</ResourceDictionary>
 			</ResourceDictionary.ThemeDictionaries>
