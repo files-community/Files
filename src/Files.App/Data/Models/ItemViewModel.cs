@@ -664,7 +664,7 @@ namespace Files.App.Data.Models
 		}
 
 		// Apply changes immediately after manipulating on filesAndFolders completed
-		public async Task ApplyFilesAndFoldersChangesAsync()
+		public async Task ApplyFilesAndFoldersChangesAsync(string? filter = null)
 		{
 			try
 			{
@@ -706,7 +706,10 @@ namespace Files.App.Data.Models
 								return;
 
 							FilesAndFolders.Clear();
-							FilesAndFolders.AddRange(filesAndFoldersLocal);
+							if (filter is null)
+								FilesAndFolders.AddRange(filesAndFoldersLocal);
+							else
+								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)));
 
 							if (folderSettings.DirectoryGroupOption != GroupOption.None)
 								OrderGroups();
