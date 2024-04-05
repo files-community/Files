@@ -75,18 +75,11 @@ namespace Files.App.Server.Database
 			}
 		}
 
-		public void ResetAll(LayoutPreferencesFilterPredicate? predicate)
+		public void ResetAll()
 		{
 			var col = _database.GetCollection<LayoutPreferences>(LayoutPreferences);
 
-			if (predicate is null)
-			{
-				col.DeleteAll();
-			}
-			else
-			{
-				col.DeleteMany(x => predicate(x));
-			}
+			col.DeleteAll();
 		}
 
 		public void ApplyToAll(LayoutPreferencesUpdateAction updateAction, LayoutPreferencesFilterPredicate? predicate)
