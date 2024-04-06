@@ -43,9 +43,15 @@ namespace Files.App.Utils.RecentItem
 			}
 		}
 
-		public RecentItems()
+		private readonly IUserSettingsService UserSettingsService;
+
+		private bool ShowFileExtensions => UserSettingsService.FoldersSettingsService.ShowFileExtensions;
+
+
+		public RecentItems(IUserSettingsService userSettingsService)
 		{
 			RecentItemsManager.Default.RecentItemsChanged += OnRecentItemsChangedAsync;
+			UserSettingsService = userSettingsService;
 		}
 
 		private async void OnRecentItemsChangedAsync(object? sender, EventArgs e)
@@ -105,7 +111,7 @@ namespace Files.App.Utils.RecentItem
 		{
 			return (await Win32Helper.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
 				.Where(link => !link.IsFolder)
-				.Select(link => new RecentItem(link)).ToList();
+				.Select(link => new RecentItem(link, ShowFileExtensions)).ToList();
 		}
 
 		/// <summary>
@@ -127,7 +133,7 @@ namespace Files.App.Utils.RecentItem
 						if (!string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder)
 						{
 							var shellLinkItem = ShellFolderExtensions.GetShellLinkItem(link);
-							return new RecentItem(shellLinkItem);
+							return new RecentItem(shellLinkItem, ShowFileExtensions);
 						}
 					}
 					catch (FileNotFoundException)

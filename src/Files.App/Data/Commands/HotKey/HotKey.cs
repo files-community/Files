@@ -11,7 +11,7 @@ namespace Files.App.Data.Commands
 	[DebuggerDisplay("{Code}")]
 	public readonly struct HotKey : IEquatable<HotKey>
 	{
-		private static readonly FrozenDictionary<KeyModifiers, string> modifiers = new Dictionary<KeyModifiers, string>()
+		public static readonly FrozenDictionary<KeyModifiers, string> modifiers = new Dictionary<KeyModifiers, string>()
 		{
 			[KeyModifiers.Menu] = GetKeyString("Menu"),
 			[KeyModifiers.Ctrl] = GetKeyString("Control"),
@@ -19,7 +19,7 @@ namespace Files.App.Data.Commands
 			[KeyModifiers.Win] = GetKeyString("Windows"),
 		}.ToFrozenDictionary();
 
-		private static readonly FrozenDictionary<Keys, string> keys = new Dictionary<Keys, string>()
+		public static readonly FrozenDictionary<Keys, string> keys = new Dictionary<Keys, string>()
 		{
 			[Keys.Enter] = GetKeyString("Enter"),
 			[Keys.Space] = GetKeyString("Space"),

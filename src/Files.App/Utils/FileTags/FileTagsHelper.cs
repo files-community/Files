@@ -11,11 +11,9 @@ namespace Files.App.Utils.FileTags
 {
 	public static class FileTagsHelper
 	{
-		public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+		private static readonly Lazy<Server.Database.FileTagsDatabase> dbInstance = new(() => new());
 
-		private static readonly Lazy<FileTagsDb> dbInstance = new(() => new FileTagsDb(FileTagsDbPath, true));
-
-		public static FileTagsDb GetDbInstance() => dbInstance.Value;
+		public static Server.Database.FileTagsDatabase GetDbInstance() => dbInstance.Value;
 
 		public static string[] ReadFileTag(string filePath)
 		{

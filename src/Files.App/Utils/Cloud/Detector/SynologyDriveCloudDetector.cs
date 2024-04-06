@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Utils.Cloud;
+using Files.App.Utils.Cloud;
 using Microsoft.Data.Sqlite;
 using System.IO;
 using Windows.Storage;

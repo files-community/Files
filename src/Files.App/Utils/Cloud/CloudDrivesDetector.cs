@@ -190,14 +190,14 @@ namespace Files.App.Utils.Cloud
 			var sharepointAccounts = new List<ICloudProvider>();
 			foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
 			{
-				var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
-				var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
-				var userFolderToExcludeFromResults = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
-				var accountName = string.IsNullOrWhiteSpace(displayName) ? "SharePoint" : $"SharePoint - {displayName}";
+				var accountKey = oneDriveAccountsKey.OpenSubKey(account);
+				if (accountKey is null)
+					continue;
 
-				var sharePointSyncFolders = new List<string>();
-				var mountPointKeyName = @$"SOFTWARE\Microsoft\OneDrive\Accounts\{account}\ScopeIdToMountPointPathCache";
-				using (var mountPointsKey = Registry.CurrentUser.OpenSubKey(mountPointKeyName))
+				var userFolderToExcludeFromResults = (string)accountKey.GetValue("UserFolder", "");
+
+				var sharePointParentFolders = new List<DirectoryInfo>();
+				using (var mountPointsKey = accountKey.OpenSubKey("ScopeIdToMountPointPathCache"))
 				{
 					if (mountPointsKey is null)
 					{
@@ -207,25 +207,27 @@ namespace Files.App.Utils.Cloud
 					var valueNames = mountPointsKey.GetValueNames();
 					foreach (var valueName in valueNames)
 					{
-						var value = (string)Registry.GetValue(@$"HKEY_CURRENT_USER\{mountPointKeyName}", valueName, null);
-						if (!string.Equals(value, userFolderToExcludeFromResults, StringComparison.OrdinalIgnoreCase))
+						var directory = (string?)mountPointsKey.GetValue(valueName, null);
+						if (directory != null && !string.Equals(directory, userFolderToExcludeFromResults, StringComparison.OrdinalIgnoreCase))
 						{
-							sharePointSyncFolders.Add(value);
+							var parentFolder = Directory.GetParent(directory);
+							if (parentFolder != null)
+								sharePointParentFolders.Add(parentFolder);
 						}
 					}
 				}
 
-				sharePointSyncFolders.Sort(StringComparer.Ordinal);
-				foreach (var sharePointSyncFolder in sharePointSyncFolders)
+				sharePointParentFolders.Sort((left, right) => left.FullName.CompareTo(right.FullName));
+
+				foreach (var sharePointParentFolder in sharePointParentFolders)
 				{
-					var parentFolder = Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
-					if (!sharepointAccounts.Any(acc =>
-						string.Equals(acc.Name, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
+					string name = $"SharePoint - {sharePointParentFolder.Name}";
+					if (!sharepointAccounts.Any(acc => string.Equals(acc.Name, name, StringComparison.OrdinalIgnoreCase)))
 					{
 						sharepointAccounts.Add(new CloudProvider(CloudProviders.OneDriveCommercial)
 						{
-							Name = accountName,
-							SyncFolder = parentFolder,
+							Name = name,
+							SyncFolder = sharePointParentFolder.FullName,
 						});
 					}
 				}

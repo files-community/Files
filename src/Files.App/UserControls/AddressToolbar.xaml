@@ -12,6 +12,7 @@
 	xmlns:extensions="using:CommunityToolkit.WinUI.UI"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:items="using:Files.App.Data.Items"
+	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
@@ -28,6 +29,8 @@
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
+
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
@@ -313,34 +316,39 @@
 				<AutoSuggestBox.ItemTemplate>
 					<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
 						<StackPanel Margin="0,4">
-							<Grid>
+							<Grid ColumnSpacing="8">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 
-								<!--  Primary Display  -->
-								<!--  This is used to display paths or command descriptions.  -->
-								<TextBlock Grid.Column="0" Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+								<!--  Primary Title  -->
+								<TextBlock
+									x:Name="PrimaryDisplayBlock"
+									Grid.Column="0"
+									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+									MaxLines="1"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap">
 									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
 								</TextBlock>
 
-								<!--  Supplementary Display  -->
-								<!--  This is used to display command hotkeys.  -->
+								<!--  Secondary Title  -->
 								<TextBlock
-									Grid.Column="1"
+									x:Name="SecondaryDisplayBlock"
+									Grid.Column="0"
+									x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 									FontWeight="Normal"
-									Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-									Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />
-							</Grid>
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
 
-							<!--  Secondary Display  -->
-							<TextBlock
-								x:Name="SecondaryDisplayBlock"
-								x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-								FontWeight="Normal"
-								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-								Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
+								<!--  Keyboard Shortcuts  -->
+								<keyboard:KeyboardShortcut
+									x:Name="RightAlignedKeyboardShortcut"
+									Grid.Column="1"
+									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
+
+							</Grid>
 						</StackPanel>
 					</DataTemplate>
 				</AutoSuggestBox.ItemTemplate>

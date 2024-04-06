@@ -16,7 +16,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="3.3.0.0" />
+        Version="3.3.1.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -166,6 +166,15 @@
                 <Path>Files.App.Server\Files.App.Server.exe</Path>
                 <Instancing>singleInstance</Instancing>
                 <ActivatableClass ActivatableClassId="Files.App.Server.AppInstanceMonitor" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Database.FileTagsDatabase" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Database.LayoutPreferencesDatabase" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Database.LayoutPreferencesFilterPredicate" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Database.LayoutPreferencesUpdateAction" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.ColumnPreferences" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.ColumnPreferencesItem" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.TaggedFile" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.LayoutPreferences" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.LayoutPreferencesItem" />
             </OutOfProcessServer>
         </Extension>
     </Extensions>
