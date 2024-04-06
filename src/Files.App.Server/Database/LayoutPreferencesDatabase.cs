@@ -82,11 +82,11 @@ namespace Files.App.Server.Database
 			col.DeleteAll();
 		}
 
-		public void ApplyToAll(LayoutPreferencesUpdateAction updateAction, LayoutPreferencesFilterPredicate? predicate)
+		public void ApplyToAll(LayoutPreferencesUpdateAction updateAction)
 		{
 			var col = _database.GetCollection<LayoutPreferences>(LayoutPreferences);
 
-			var allDocs = predicate is null ? col.FindAll() : col.Find(x => predicate(x));
+			var allDocs = col.FindAll();
 
 			foreach (var doc in allDocs)
 			{
@@ -152,6 +152,5 @@ namespace Files.App.Server.Database
 		}
 	}
 
-	public delegate bool LayoutPreferencesFilterPredicate(LayoutPreferences preference);
 	public delegate void LayoutPreferencesUpdateAction(LayoutPreferences preference);
 }

@@ -140,10 +140,9 @@ namespace Files.App.Helpers
 			_database.ResetAll();
 		}
 
-		public void ApplyToAll(Action<LayoutPreferencesDatabaseItem> updateAction, Func<LayoutPreferencesDatabaseItem, bool>? predicate = null)
+		public void ApplyToAll(Action<LayoutPreferencesDatabaseItem> updateAction)
 		{
-			_database.ApplyToAll(item => updateAction.Invoke(FromDatabaseEntity(item)),
-				item => predicate?.Invoke(FromDatabaseEntity(item)) ?? true);
+			_database.ApplyToAll(item => updateAction.Invoke(FromDatabaseEntity(item)));
 		}
 
 		public void Import(string json)
