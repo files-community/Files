@@ -663,8 +663,10 @@ namespace Files.App.Data.Models
 			EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
 		}
 
+		public string? FilesAndFoldersFilter { get; set; }
+
 		// Apply changes immediately after manipulating on filesAndFolders completed
-		public async Task ApplyFilesAndFoldersChangesAsync(string? filter = null)
+		public async Task ApplyFilesAndFoldersChangesAsync()
 		{
 			try
 			{
@@ -706,10 +708,10 @@ namespace Files.App.Data.Models
 								return;
 
 							FilesAndFolders.Clear();
-							if (string.IsNullOrEmpty(filter))
+							if (string.IsNullOrEmpty(FilesAndFoldersFilter))
 								FilesAndFolders.AddRange(filesAndFoldersLocal);
 							else
-								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)));
+								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(FilesAndFoldersFilter, StringComparison.OrdinalIgnoreCase)));
 
 							if (folderSettings.DirectoryGroupOption != GroupOption.None)
 								OrderGroups();
