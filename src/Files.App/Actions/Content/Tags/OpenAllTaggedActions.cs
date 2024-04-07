@@ -40,7 +40,7 @@ namespace Files.App.Actions
 				await NavigationHelpers.OpenPath(path, _pageContext.ShellPage!);
 			
 			foreach (var path in folderPaths) 
-				await NavigationHelpers.OpenPathInNewTab(path,false);
+				await NavigationHelpers.OpenPathInNewTab(path, false);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
