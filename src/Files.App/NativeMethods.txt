@@ -41,3 +41,5 @@ SetFocus
 SetActiveWindow
 CopyFileFromApp
 MoveFileFromApp
+DeleteFileFromApp
+RemoveDirectoryFromApp

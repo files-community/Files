@@ -142,20 +142,6 @@ namespace Files.App.Helpers
 			IntPtr SecurityAttributes
 		);
 
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool DeleteFileFromApp(
-			string lpFileName
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool RemoveDirectoryFromApp(
-			string lpPathName
-		);
-
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool GetFileAttributesExFromApp(
