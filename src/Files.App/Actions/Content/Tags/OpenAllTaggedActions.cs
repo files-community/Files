@@ -41,7 +41,7 @@ namespace Files.App.Actions
 			    await NavigationHelpers.OpenPath(file, _pageContext.ShellPage!);
 			}
 			
-			foreach (var folder in folderPaths)
+			foreach (var path in folderPaths)
 			{
 			    await NavigationHelpers.OpenPathInNewTab(folder, false);
 			}
