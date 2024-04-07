@@ -164,7 +164,6 @@ namespace Files.App.Utils.Shell
 			var iid = IPreviewHandlerIid;
 			var cannotCreate = "Cannot create class " + clsid.ToString() + " as IPreviewHandler.";
 			var cannotCast = "Cannot cast class " + clsid.ToString() + " as IObjectWithSite.";
-			const string cannotSetSite = "Cannot set site to the preview handler object.";
 			// Important: manully calling CoCreateInstance is necessary.
 			// If we use Activator.CreateInstance(Type.GetTypeFromCLSID(...)),
 			// CLR will allow in-process server, which defeats isolation and
@@ -192,7 +191,7 @@ namespace Files.App.Utils.Shell
 				throw new COMException(cannotCast);
 			hr = objectWithSite.SetSite(comSite);
 			if ((int)hr < 0)
-				throw new COMException(cannotSetSite, (int)hr);
+				throw new COMException("Cannot set site to the preview handler object.", (int)hr);
 			visuals = previewHandlerObject as IPreviewHandlerVisuals;
 		}
 
