@@ -36,15 +36,11 @@ namespace Files.App.Actions
 			var filePaths = _tagsContext.TaggedItems.Where(item => !item.isFolder).Select(f => f.path);
 			var folderPaths = _tagsContext.TaggedItems.Where(item => item.isFolder).Select(f => f.path);
 
-			foreach (var file in filePaths)
-			{
-			    await NavigationHelpers.OpenPath(file, _pageContext.ShellPage!);
-			}
+			foreach (var file in filePaths) 
+				await NavigationHelpers.OpenPath(file, _pageContext.ShellPage!);
 			
-			foreach (var folder in folderPaths)
-			{
-			    await NavigationHelpers.OpenPathInNewTab(folder,false);
-			}
+			foreach (var folder in folderPaths) 
+				await NavigationHelpers.OpenPathInNewTab(folder,false);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
