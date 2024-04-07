@@ -105,7 +105,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncAction DeleteAsync()
 		{
-			return AsyncInfo.Run( _ =>
+			return AsyncInfo.Run(_ =>
 			{
 				if (!PInvoke.DeleteFileFromApp(Path))
 				{
