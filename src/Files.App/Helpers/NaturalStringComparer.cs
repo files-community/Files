@@ -59,7 +59,7 @@ namespace Files.App.Helpers
 			{
 				return SafeNativeMethods.CompareStringEx(
 					SafeNativeMethods.LOCALE_NAME_USER_DEFAULT,
-					SafeNativeMethods.SORT_DIGITSASNUMBERS, // Add other flags if required.
+					SafeNativeMethods.SORT_DIGITSASNUMBERS,
 					a?.ToString(),
 					a?.ToString().Length ?? 0,
 					b?.ToString(),

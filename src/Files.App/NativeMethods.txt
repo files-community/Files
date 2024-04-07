@@ -39,3 +39,5 @@ AttachThreadInput
 SetWindowPos
 SetFocus
 SetActiveWindow
+CopyFileFromApp
+MoveFileFromApp
