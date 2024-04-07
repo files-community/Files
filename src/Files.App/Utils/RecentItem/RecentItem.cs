@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.RecentItem
 {
@@ -40,11 +38,11 @@ namespace Files.App.Utils.RecentItem
 		/// <summary>
 		/// Create a RecentItem from a ShellLinkItem (usually from shortcuts in `Windows\Recent`)
 		/// </summary>
-		public RecentItem(ShellLinkItem linkItem) : base()
+		public RecentItem(ShellLinkItem linkItem, bool showFileExtension) : base()
 		{
 			LinkPath = linkItem.FilePath;
 			RecentPath = linkItem.TargetPath;
-			Name = NameOrPathWithoutExtension(linkItem.FileName);
+			Name = showFileExtension ? linkItem.FileName : NameOrPathWithoutExtension(linkItem.FileName);
 			LastModified = linkItem.ModifiedDate;
 			PIDL = linkItem.PIDL;
 		}
@@ -53,11 +51,11 @@ namespace Files.App.Utils.RecentItem
 		/// Create a RecentItem from a ShellFileItem (usually from enumerating Quick Access directly).
 		/// </summary>
 		/// <param name="fileItem">The shell file item</param>
-		public RecentItem(ShellFileItem fileItem) : base()
+		public RecentItem(ShellFileItem fileItem, bool showFileExtension) : base()
 		{
 			LinkPath = ShellStorageFolder.IsShellPath(fileItem.FilePath) ? fileItem.RecyclePath : fileItem.FilePath; // use true path on disk for shell items
 			RecentPath = LinkPath; // intentionally the same
-			Name = NameOrPathWithoutExtension(fileItem.FileName);
+			Name = showFileExtension ? fileItem.FileName : NameOrPathWithoutExtension(fileItem.FileName);
 			LastModified = fileItem.ModifiedDate;
 			PIDL = fileItem.PIDL;
 		}

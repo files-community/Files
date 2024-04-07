@@ -363,6 +363,9 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_TextChanged(ISearchBoxViewModel sender, SearchBoxTextChangedEventArgs e)
 		{
+			FilesystemViewModel.FilesAndFoldersFilter = sender.Query;
+			await FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
+
 			if (e.Reason != SearchBoxTextChangeReason.UserInput)
 				return;
 

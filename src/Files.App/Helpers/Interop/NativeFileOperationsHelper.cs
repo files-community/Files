@@ -145,23 +145,6 @@ namespace Files.App.Helpers
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
 		SetLastError = true)]
-		public static extern bool MoveFileFromApp(
-			string lpExistingFileName,
-			string lpNewFileName
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool CopyFileFromApp(
-			string lpExistingFileName,
-			string lpNewFileName,
-			bool bFailIfExists
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
 		public static extern bool DeleteFileFromApp(
 			string lpFileName
 		);
