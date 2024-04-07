@@ -8,21 +8,22 @@ namespace Files.App.Helpers
 {
 	internal static class SoftwareHelpers
 	{
+		private const string UninstallRegistryKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
+		private const string VsRegistryKey = @"SOFTWARE\Microsoft\VisualStudio";
+		
+		private const string VsCodeName = "Microsoft Visual Studio Code";
+
+
 		public static bool IsVSCodeInstalled()
 		{
-			string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
-			string vsCodeName = "Microsoft Visual Studio Code";
-
 			return
-				ContainsName(Registry.CurrentUser.OpenSubKey(registryKey), vsCodeName) ||
-				ContainsName(Registry.LocalMachine.OpenSubKey(registryKey), vsCodeName);
+				ContainsName(Registry.CurrentUser.OpenSubKey(UninstallRegistryKey), VsCodeName) ||
+				ContainsName(Registry.LocalMachine.OpenSubKey(UninstallRegistryKey), VsCodeName);
 		}
 
 		public static bool IsVSInstalled()
 		{
-			string registryKey = @"SOFTWARE\Microsoft\VisualStudio";
-
-			var key = Registry.LocalMachine.OpenSubKey(registryKey);
+			var key = Registry.LocalMachine.OpenSubKey(VsRegistryKey);
 			if (key is null)
 				return false;
 
