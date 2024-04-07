@@ -33,8 +33,8 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			var files = _tagsContext.TaggedItems.Where(item => !item.isFolder).Select(f => f.path);
-			var folders = _tagsContext.TaggedItems.Where(item => item.isFolder).Select(f => f.path);
+			var filePaths = _tagsContext.TaggedItems.Where(item => !item.isFolder).Select(f => f.path);
+			var folderPaths = _tagsContext.TaggedItems.Where(item => item.isFolder).Select(f => f.path);
 
 			foreach (var file in files)
 			{
