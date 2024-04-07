@@ -355,7 +355,7 @@ namespace Files.App.Utils.Storage
 					}
 					else if (option == StorageDeleteOption.PermanentDelete)
 					{
-						NativeFileOperationsHelper.DeleteFileFromApp(Path);
+						PInvoke.DeleteFileFromApp(Path);
 					}
 					else
 					{
