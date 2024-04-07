@@ -43,7 +43,7 @@ namespace Files.App.Actions
 			
 			foreach (var folder in folderPaths)
 			{
-			    await NavigationHelpers.OpenPathInNewTab(folder,false);
+			    await NavigationHelpers.OpenPathInNewTab(folder, false);
 			}
 		}
 
