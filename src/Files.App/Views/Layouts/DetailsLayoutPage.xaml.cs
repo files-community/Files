@@ -73,6 +73,21 @@ namespace Files.App.Views.Layouts
 			DataContext = this;
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+
+			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
+			{
+				if (!Enum.TryParse<SortOption>(x, out var val))
+					return;
+				if (FolderSettings.DirectorySortOption == val)
+				{
+					FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
+				}
+				else
+				{
+					FolderSettings.DirectorySortOption = val;
+					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
+				}
+			});
 		}
 
 		// Methods
@@ -149,21 +164,6 @@ namespace Files.App.Views.Layouts
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
 				_ = ReloadItemIconsAsync();
-
-			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
-			{
-				if (!Enum.TryParse<SortOption>(x, out var val))
-					return;
-				if (FolderSettings.DirectorySortOption == val)
-				{
-					FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
-				}
-				else
-				{
-					FolderSettings.DirectorySortOption = val;
-					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
-				}
-			});
 
 			FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
 			{

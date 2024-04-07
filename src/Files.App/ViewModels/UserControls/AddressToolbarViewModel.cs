@@ -581,11 +581,12 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				SearchBox.Query = string.Empty;
 				IsSearchBoxVisible = false;
 
 				if (doFocus)
 				{
+					SearchBox.Query = string.Empty;
+
 					var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
 
 					if (page is BaseGroupableLayoutPage svb && svb.IsLoaded)
