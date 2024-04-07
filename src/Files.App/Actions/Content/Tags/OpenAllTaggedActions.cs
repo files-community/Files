@@ -36,7 +36,7 @@ namespace Files.App.Actions
 			var filePaths = _tagsContext.TaggedItems.Where(item => !item.isFolder).Select(f => f.path);
 			var folderPaths = _tagsContext.TaggedItems.Where(item => item.isFolder).Select(f => f.path);
 
-			foreach (var file in filePaths)
+			foreach (var path in filePaths)
 			{
 			    await NavigationHelpers.OpenPath(file, _pageContext.ShellPage!);
 			}
