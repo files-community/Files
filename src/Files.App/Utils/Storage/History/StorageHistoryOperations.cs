@@ -46,7 +46,7 @@ namespace Files.App.Utils.Storage
 				case FileOperationType.Rename: // Opposite: Restore original item names
 					if (!IsHistoryNull(history))
 					{
-						NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
+						const NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
 						for (int i = 0; i < history.Destination.Count; i++)
 						{
 							string name = Path.GetFileName(history.Source[i].Path);
@@ -132,7 +132,7 @@ namespace Files.App.Utils.Storage
 				case FileOperationType.Rename:
 					if (!IsHistoryNull(history))
 					{
-						NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
+						const NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
 						for (int i = 0; i < history.Source.Count; i++)
 						{
 							string name = Path.GetFileName(history.Destination[i].Path);
