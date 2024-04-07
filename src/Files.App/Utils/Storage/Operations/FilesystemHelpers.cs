@@ -20,6 +20,8 @@ namespace Files.App.Utils.Storage
 {
 	public sealed class FilesystemHelpers : IFilesystemHelpers
 	{
+		private const string NamingTemplatesKeyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates";
+		
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private IShellPage associatedInstance;
@@ -871,8 +873,7 @@ namespace Files.App.Utils.Storage
 		/// </summary>
 		public static string GetShortcutNamingPreference(string itemName)
 		{
-			const string keyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates";
-			var value = Registry.GetValue(keyName, "ShortcutNameTemplate", null);
+			var value = Registry.GetValue(NamingTemplatesKeyName, "ShortcutNameTemplate", null);
 
 			if (value is null)
 				return string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), itemName) + ".lnk";
