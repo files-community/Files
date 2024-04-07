@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using LiteDB;
-
 namespace Files.App.Helpers
 {
 	/// <summary>
@@ -10,7 +8,6 @@ namespace Files.App.Helpers
 	/// </summary>
 	public sealed class LayoutPreferencesDatabaseItem
 	{
-		[BsonId]
 		public int Id { get; set; }
 
 		public ulong? Frn { get; set; }

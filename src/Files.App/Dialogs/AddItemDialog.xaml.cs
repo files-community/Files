@@ -1,8 +1,8 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.ViewModels.Dialogs;
-using Files.Core.ViewModels.Dialogs.AddItemDialog;
+using Files.App.ViewModels.Dialogs;
+using Files.App.ViewModels.Dialogs.AddItemDialog;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 

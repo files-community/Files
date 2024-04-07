@@ -9,6 +9,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using Windows.Win32;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -74,7 +75,7 @@ namespace Files.App.Utils.Storage
 				var destFile = new NativeStorageFile(destination, desiredNewName, DateTime.Now);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(Path, destination, option != NameCollisionOption.ReplaceExisting)))
+					if (!await Task.Run(() => PInvoke.CopyFileFromApp(Path, destination, option != NameCollisionOption.ReplaceExisting)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}
@@ -185,7 +186,7 @@ namespace Files.App.Utils.Storage
 				var destination = IO.Path.Combine(destinationFolder.Path, desiredNewName);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(Path, destination)))
+					if (!await Task.Run(() => PInvoke.MoveFileFromApp(Path, destination)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}
@@ -237,7 +238,7 @@ namespace Files.App.Utils.Storage
 				var destFile = new NativeStorageFile(destination, desiredName, DateTime.Now);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(Path, destination)))
+					if (!await Task.Run(() => PInvoke.MoveFileFromApp(Path, destination)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}
