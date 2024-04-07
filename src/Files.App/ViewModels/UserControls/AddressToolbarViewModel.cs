@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Server.Data.Enums;
 using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Text;
+using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -483,6 +485,12 @@ namespace Files.App.ViewModels.UserControls
 			ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = (MenuFlyout)sender });
 		}
 
+		public void CurrentPathSetTextBox_TextChanged(object sender, TextChangedEventArgs args)
+		{
+			if (sender is TextBox textBox)
+				PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = textBox.Text });
+		}
+
 		public void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
 		{
 			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -573,11 +581,12 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				SearchBox.Query = string.Empty;
 				IsSearchBoxVisible = false;
 
 				if (doFocus)
 				{
+					SearchBox.Query = string.Empty;
+
 					var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
 
 					if (page is BaseGroupableLayoutPage svb && svb.IsLoaded)
@@ -831,14 +840,15 @@ namespace Files.App.ViewModels.UserControls
 					{
 						IsCommandPaletteOpen = true;
 						var searchText = sender.Text.Substring(1).Trim();
-						suggestions = Commands.Where(command => command.IsExecutable &&
-							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
+						suggestions = Commands.Where(command =>
+							command.IsExecutable &&
+							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+							command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
 						.Select(command => new NavigationBarSuggestionItem()
 						{
 							Text = ">" + command.Code,
 							PrimaryDisplay = command.Description,
-							SupplementaryDisplay = command.HotKeyText,
+							HotKeys = command.HotKeys,
 							SearchText = searchText,
 						}).ToList();
 					}

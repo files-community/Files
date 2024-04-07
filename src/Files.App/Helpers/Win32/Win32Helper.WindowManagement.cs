@@ -1,8 +1,13 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using System.Reflection;
+using Vanara.PInvoke;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
+using static Vanara.PInvoke.User32;
 
 namespace Files.App.Helpers
 {
@@ -36,6 +41,39 @@ namespace Files.App.Helpers
 			PInvoke.SetFocus(hWnd);
 			PInvoke.SetActiveWindow(hWnd);
 			PInvoke.AttachThreadInput(dwCurID, dwMyID, false);
+		}
+
+		/// <summary>
+		/// Sets cursor when hovering on a specific element.
+		/// </summary>
+		/// <param name="uiElement">An element to be changed.</param>
+		/// <param name="cursor">Cursor to change.</param>
+		public static void ChangeCursor(this UIElement uiElement, InputCursor cursor)
+		{
+			Type type = typeof(UIElement);
+
+			type.InvokeMember(
+				"ProtectedCursor",
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance,
+				null,
+				uiElement,
+				[cursor]
+			);
+		}
+
+		/// <summary>
+		/// Changes an attribute of the specified window.
+		/// </summary>
+		/// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
+		/// <param name="nIndex">The zero-based offset to the value to be set.</param>
+		/// <param name="dwNewLong">The replacement value.</param>
+		/// <returns>If the function succeeds, the return value is the previous value of the specified offset.</returns>
+		public static IntPtr SetWindowLong(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong)
+		{
+			return
+				IntPtr.Size == 4
+					? Win32PInvoke.SetWindowLongPtr32(hWnd, nIndex, dwNewLong)
+					: Win32PInvoke.SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
 		}
 	}
 }
