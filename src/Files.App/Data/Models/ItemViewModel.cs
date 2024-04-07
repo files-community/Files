@@ -39,7 +39,7 @@ namespace Files.App.Data.Models
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-		private readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
+		private readonly StorageCacheController fileListCache = StorageCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
 		private Task? aProcessQueueAction;

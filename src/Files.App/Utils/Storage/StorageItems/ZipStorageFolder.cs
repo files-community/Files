@@ -517,7 +517,7 @@ namespace Files.App.Utils.Storage
 				return false;
 			}
 		}
-		private static async Task<bool> CheckAccess(IStorageFile file)
+		private static async Task<bool> CheckAccess(BaseStorageFile file)
 		{
 			return await SafetyExtensions.IgnoreExceptions(async () =>
 			{

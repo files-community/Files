@@ -487,7 +487,7 @@ namespace Files.App.Utils.Storage
 
 		public void OrderOne(Func<List<T>, IEnumerable<T>> func, T item)
 		{
-			IList<T> result;
+			List<T> result;
 			lock (syncRoot)
 			{
 				result = func.Invoke(collection).ToList();
