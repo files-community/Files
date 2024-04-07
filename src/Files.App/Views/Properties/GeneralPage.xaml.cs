@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Text.RegularExpressions;
 using Windows.Storage;
+using Windows.Win32;
 
 namespace Files.App.Views.Properties
 {
@@ -168,7 +169,7 @@ namespace Files.App.Views.Properties
 				}
 
 				if (ViewModel.IsUnblockFileSelected)
-					NativeFileOperationsHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+					PInvoke.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
 
 				if (ViewModel.IsAblumCoverModified)
 				{
