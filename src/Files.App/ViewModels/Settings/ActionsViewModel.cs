@@ -14,8 +14,8 @@ namespace Files.App.ViewModels.Settings
 
 		// Properties
 
-		public ObservableCollection<ModifiableCommandHotKeyItem> KeyboardShortcuts { get; } = [];
-		public ObservableCollection<ModifiableCommandHotKeyItem> ExcludedKeyboardShortcuts { get; } = [];
+		public ObservableCollection<ModifiableCommandHotKeyItem> ValidKeyboardShortcuts { get; } = [];
+		public ObservableCollection<ModifiableCommandHotKeyItem> AllKeyboardShortcuts { get; } = [];
 
 		private bool _IsResetAllConfirmationTeachingTipOpened;
 		public bool IsResetAllConfirmationTeachingTipOpened
@@ -51,29 +51,29 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ShowResetAllConfirmationCommand { get; set; }
 		public ICommand ShowAddNewShortcutGridCommand { get; set; }
 		public ICommand HideAddNewShortcutGridCommand { get; set; }
-		public ICommand AddNewShortcutGridCommand { get; set; }
+		public ICommand AddNewShortcutCommand { get; set; }
 		public ICommand ResetAllCommand { get; set; }
 
 		// Constructor
 
 		public ActionsViewModel()
 		{
-			LoadCommandsCommand = new AsyncRelayCommand(LoadCommands);
+			LoadCommandsCommand = new AsyncRelayCommand(ExecuteLoadCommandsCommand);
 			ShowResetAllConfirmationCommand = new RelayCommand(ExecuteShowResetAllConfirmationCommand);
 			ShowAddNewShortcutGridCommand = new RelayCommand(ExecuteShowAddNewShortcutGridCommand);
 			HideAddNewShortcutGridCommand = new RelayCommand(ExecuteHideAddNewShortcutGridCommand);
-			AddNewShortcutGridCommand = new RelayCommand(ExecuteAddNewShortcutGridCommand);
+			AddNewShortcutCommand = new RelayCommand(ExecuteAddNewShortcutCommand);
 			ResetAllCommand = new RelayCommand(ExecuteResetAllCommand);
 		}
 
 		// Command methods
 
-		private async Task LoadCommands()
+		private async Task ExecuteLoadCommandsCommand()
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				KeyboardShortcuts.Clear();
-				ExcludedKeyboardShortcuts.Clear();
+				ValidKeyboardShortcuts.Clear();
+				AllKeyboardShortcuts.Clear();
 
 				foreach (var command in Commands)
 				{
@@ -82,25 +82,20 @@ namespace Files.App.ViewModels.Settings
 					if (command is NoneCommand)
 						continue;
 
-					if (command.HotKeys.IsEmpty)
+					AllKeyboardShortcuts.Add(new()
 					{
-						ExcludedKeyboardShortcuts.Add(new()
-						{
-							CommandCode = command.Code,
-							Label = command.Label,
-							Description = command.Description,
-							HotKey = new(),
-						});
-
-						continue;
-					}
+						CommandCode = command.Code,
+						Label = command.Label,
+						Description = command.Description,
+						HotKey = new(),
+					});
 
 					foreach (var hotkey in command.HotKeys)
 					{
 						if (!hotkey.IsVisible)
 							continue;
 
-						KeyboardShortcuts.Add(new()
+						ValidKeyboardShortcuts.Add(new()
 						{
 							CommandCode = command.Code,
 							Label = command.Label,
@@ -125,7 +120,7 @@ namespace Files.App.ViewModels.Settings
 			ShowAddNewShortcutGrid = true;
 
 			// Reset edit mode for each item
-			foreach (var hotkey in KeyboardShortcuts)
+			foreach (var hotkey in ValidKeyboardShortcuts)
 			{
 				hotkey.IsEditMode = false;
 				hotkey.HotKeyText = hotkey.HotKey.LocalizedLabel;
@@ -143,28 +138,57 @@ namespace Files.App.ViewModels.Settings
 			SelectedNewShortcutItem = null;
 		}
 
-		private void ExecuteAddNewShortcutGridCommand()
+		private void ExecuteAddNewShortcutCommand()
 		{
 			if (SelectedNewShortcutItem is null)
 				return;
+
+			// Check if this hot key is already taken
+			foreach (var hotkey in ValidKeyboardShortcuts)
+			{
+				if (SelectedNewShortcutItem.HotKeyText == hotkey.PreviousHotKey)
+				{
+					IsAlreadyUsedTeachingTipOpened = true;
+					return;
+				}
+			}
 
 			var actions =
 				GeneralSettingsService.Actions is not null
 					? new Dictionary<string, string>(GeneralSettingsService.Actions)
 					: [];
 
-			// Remove existing setting
-			foreach (var action in actions)
+			// Get raw string keys stored in the user setting
+			var storedKeys = actions.GetValueOrDefault(SelectedNewShortcutItem.CommandCode.ToString());
+
+			// Initialize
+			var newHotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText);
+			var modifiedCollection = HotKeyCollection.Empty;
+
+			// The first time to customize
+			if (string.IsNullOrEmpty(storedKeys))
 			{
-				if (Enum.TryParse(action.Key, true, out CommandCodes code) && code == SelectedNewShortcutItem.CommandCode)
-					actions.Remove(action.Key);
+				// Replace with new one
+				var modifiableDefaultCollection = SelectedNewShortcutItem.DefaultHotKeyCollection.ToList();
+				modifiableDefaultCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
+				modifiableDefaultCollection.Add(newHotKey);
+				modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
+			}
+			// Stored in the user setting
+			else
+			{
+				// Replace with new one
+				var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
+				modifiableCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel || x.RawLabel == $"!{SelectedNewShortcutItem.PreviousHotKey.RawLabel}");
+				modifiableCollection.Add(newHotKey);
+				modifiedCollection = new HotKeyCollection(modifiableCollection);
 			}
 
-			// Create a new one
-			actions.Add(SelectedNewShortcutItem.CommandCode.ToString(), SelectedNewShortcutItem.HotKeyText);
+			// Remove previous one and add new one
+			actions.Remove(SelectedNewShortcutItem.CommandCode.ToString());
+			actions.Add(SelectedNewShortcutItem.CommandCode.ToString(), modifiedCollection.RawLabel);
 
-			// Set
-			SelectedNewShortcutItem.HotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText);
+			// Store
 			GeneralSettingsService.Actions = actions;
 
 			// Create a clone
@@ -173,7 +197,7 @@ namespace Files.App.ViewModels.Settings
 				CommandCode = SelectedNewShortcutItem.CommandCode,
 				Label = SelectedNewShortcutItem.Label,
 				Description = SelectedNewShortcutItem.Description,
-				HotKey = HotKey.Parse(SelectedNewShortcutItem.HotKey.RawLabel),
+				HotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText),
 				DefaultHotKeyCollection = new(SelectedNewShortcutItem.DefaultHotKeyCollection),
 				PreviousHotKey = HotKey.Parse(SelectedNewShortcutItem.PreviousHotKey.RawLabel),
 			};
@@ -186,7 +210,7 @@ namespace Files.App.ViewModels.Settings
 			SelectedNewShortcutItem = null;
 
 			// Add to existing list
-			KeyboardShortcuts.Insert(0, selectedNewItem);
+			ValidKeyboardShortcuts.Insert(0, selectedNewItem);
 		}
 
 		private void ExecuteResetAllCommand()
@@ -194,7 +218,7 @@ namespace Files.App.ViewModels.Settings
 			GeneralSettingsService.Actions = null;
 			IsResetAllConfirmationTeachingTipOpened = false;
 
-			_ = LoadCommands();
+			_ = ExecuteLoadCommandsCommand();
 		}
 	}
 }

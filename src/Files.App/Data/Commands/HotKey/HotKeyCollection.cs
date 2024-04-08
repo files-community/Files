@@ -51,7 +51,7 @@ namespace Files.App.Data.Commands
 		/// <remarks>
 		/// For example, this is "Ctrl+A,  Ctrl+Alt+C"
 		/// </remarks>
-		public string HumanizedLabel
+		public string LocalizedLabel
 			=> string.Join(",  ", hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.LocalizedLabel));
 
 		// Constructors
@@ -107,7 +107,7 @@ namespace Files.App.Data.Commands
 		// Default methods
 
 		public override string ToString()
-			=> HumanizedLabel;
+			=> LocalizedLabel;
 
 		public override int GetHashCode()
 			=> hotKeys.GetHashCode();

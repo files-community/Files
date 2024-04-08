@@ -62,7 +62,7 @@ namespace Files.App.Views.Settings
 				}
 
 				// Reset edit mode for each item
-				foreach (var hotkey in ViewModel.KeyboardShortcuts)
+				foreach (var hotkey in ViewModel.ValidKeyboardShortcuts)
 				{
 					hotkey.IsEditMode = false;
 					hotkey.HotKeyText = hotkey.HotKey.LocalizedLabel;
@@ -85,7 +85,7 @@ namespace Files.App.Views.Settings
 			}
 
 			// Check if this hot key is already taken
-			foreach (var hotkey in ViewModel.KeyboardShortcuts)
+			foreach (var hotkey in ViewModel.ValidKeyboardShortcuts)
 			{
 				if (item.HotKeyText == hotkey.PreviousHotKey)
 				{
@@ -137,7 +137,7 @@ namespace Files.App.Views.Settings
 				item.HotKey = newHotKey;
 
 				// Set as customized
-				foreach (var action in ViewModel.KeyboardShortcuts)
+				foreach (var action in ViewModel.ValidKeyboardShortcuts)
 				{
 					if (action.CommandCode == item.CommandCode)
 						action.IsCustomized = !item.DefaultHotKeyCollection.Contains(action.HotKey);
@@ -172,7 +172,7 @@ namespace Files.App.Views.Settings
 				item.HotKey = newHotKey;
 
 				// Set as customized
-				foreach (var action in ViewModel.KeyboardShortcuts)
+				foreach (var action in ViewModel.ValidKeyboardShortcuts)
 				{
 					if (action.CommandCode == item.CommandCode)
 						action.IsCustomized = !item.DefaultHotKeyCollection.Contains(action.HotKey);
@@ -243,7 +243,7 @@ namespace Files.App.Views.Settings
 
 				// Exit
 				item.IsEditMode = false;
-				ViewModel.KeyboardShortcuts.Remove(item);
+				ViewModel.ValidKeyboardShortcuts.Remove(item);
 
 				return;
 			}
@@ -257,7 +257,7 @@ namespace Files.App.Views.Settings
 				// Remove previous
 				actions.Remove(item.CommandCode.ToString());
 
-				if (modifiedCollection.HumanizedLabel != string.Empty)
+				if (modifiedCollection.LocalizedLabel != string.Empty)
 					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
 
 				// Save
@@ -265,7 +265,7 @@ namespace Files.App.Views.Settings
 
 				// Exit
 				item.IsEditMode = false;
-				ViewModel.KeyboardShortcuts.Remove(item);
+				ViewModel.ValidKeyboardShortcuts.Remove(item);
 
 				return;
 			}
