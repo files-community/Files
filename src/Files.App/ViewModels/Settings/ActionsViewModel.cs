@@ -115,6 +115,13 @@ namespace Files.App.ViewModels.Settings
 		private void ExecuteShowAddNewShortcutGridCommand()
 		{
 			ShowAddNewShortcutGrid = true;
+
+			// Reset edit mode for each item
+			foreach (var hotkey in KeyboardShortcuts)
+			{
+				hotkey.IsEditMode = false;
+				hotkey.HotKeyText = hotkey.HotKey.Label;
+			}
 		}
 
 		private void ExecuteHideAddNewShortcutGridCommand()

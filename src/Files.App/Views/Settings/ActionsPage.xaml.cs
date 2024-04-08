@@ -320,16 +320,10 @@ namespace Files.App.Views.Settings
 			// Add the key with translated
 			text += HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
 
-			// Ban from using only alphabetic chars
-			// Ctrl+A is allowed, but only A is not allowed in any context
-			if (modifiers == KeyModifiers.None &&
-				(VirtualKey.A < pressedKey && pressedKey < VirtualKey.Z))
-				return;
-
 			// Set text
 			textBox.Text = text;
 
-			// Prevent from invoking key down event in other UIElements
+			// Prevent key down event in other UIElements from getting invoked
 			e.Handled = true;
 		}
 	}
