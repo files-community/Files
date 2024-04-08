@@ -282,6 +282,12 @@ namespace Files.App.Data.Commands
 			bool isVisible = true;
 
 			code = code.Trim();
+			if (code.StartsWith('!'))
+			{
+				isVisible = false;
+				code = code.Remove(0, 1);
+			}
+
 			var parts = code.Split('+').Select(part => part.Trim());
 
 			foreach (var part in parts)

@@ -107,22 +107,36 @@ namespace Files.App.Views.Settings
 					? new Dictionary<string, string>(GeneralSettingsService.Actions)
 					: [];
 
-			// Initialize
-			var existingCollection = HotKeyCollection.Empty;
-			var newHotKey = HotKey.Parse(item.HotKeyText);
-			var defaultCollection = item.DefaultHotKeyCollection;
+			// Get raw string keys stored in the user setting
+			var storedKeys = actions.GetValueOrDefault(item.CommandCode.ToString());
 
-			// The first time to customize
+			// Initialize
+			var newHotKey = HotKey.Parse(item.HotKeyText);
+			var modifiedCollection = HotKeyCollection.Empty;
+
 			if (!item.IsCustomized)
 			{
-				// Override previous default key with the new one
-				var editableDefaultCollection = defaultCollection.ToList();
-				editableDefaultCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
-				editableDefaultCollection.Add(newHotKey);
-				var customizedDefaultCollection = new HotKeyCollection(editableDefaultCollection);
+				// The first time to customize
+				if (string.IsNullOrEmpty(storedKeys))
+				{
+					// Replace with new one
+					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
+					modifiableDefaultCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+					modifiableDefaultCollection.Add(newHotKey);
+					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
+				}
+				// Stored in the user setting
+				else
+				{
+					// Replace with new one
+					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
+					modifiableCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+					modifiableCollection.Add(newHotKey);
+					modifiedCollection = new HotKeyCollection(modifiableCollection);
+				}
 
-				// Set to the user setting
-				actions.Add(item.CommandCode.ToString(), customizedDefaultCollection.Code);
+				// Store
+				actions.Add(item.CommandCode.ToString(), modifiedCollection.Code);
 				GeneralSettingsService.Actions = actions;
 
 				// Update visual
@@ -141,45 +155,39 @@ namespace Files.App.Views.Settings
 
 				return;
 			}
-
-			// Remove existing setting of the command code
-			foreach (var action in actions)
+			else
 			{
-				if (Enum.TryParse(action.Key, true, out CommandCodes code) && code == item.CommandCode)
+				// Remove existing setting
+				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
+				if (modifiableCollection.Contains(newHotKey))
+					return;
+				modifiableCollection.Add(HotKey.Parse(item.HotKeyText));
+				modifiedCollection = new(modifiableCollection);
+
+				// Remove previous one
+				actions.Remove(item.CommandCode.ToString());
+
+				// Add new one
+				if (modifiedCollection.Select(x => x.Label).SequenceEqual(item.DefaultHotKeyCollection.Select(x => x.Label)))
+					actions.Add(item.CommandCode.ToString(), modifiedCollection.Code);
+
+				// Save
+				GeneralSettingsService.Actions = actions;
+
+				// Update visual
+				item.PreviousHotKey = newHotKey;
+				item.HotKey = newHotKey;
+
+				// Set as customized
+				foreach (var action in ViewModel.KeyboardShortcuts)
 				{
-					existingCollection = HotKeyCollection.Parse(action.Value);
-
-					// If already there, exit rather than remove it
-					if (existingCollection.Contains(newHotKey))
-						return;
-
-					actions.Remove(action.Key);
-					break;
+					if (action.CommandCode == item.CommandCode)
+						action.IsCustomized = !item.DefaultHotKeyCollection.Contains(action.HotKey);
 				}
+
+				// Exit edit mode
+				item.IsEditMode = false;
 			}
-
-			// Create a new one
-			var newCollectionString = string.Join(' ', existingCollection.ToList().Where(x => x.Label != item.HotKey.Label)) + (existingCollection.IsEmpty ? string.Empty : " ") + item.HotKeyText;
-			var newCollection = HotKeyCollection.Parse(newCollectionString);
-
-			// Set to the user setting
-			if (newCollection.Select(x => x.Label).SequenceEqual(defaultCollection.Select(x => x.Label)))
-				actions.Add(item.CommandCode.ToString(), newCollectionString);
-
-			// Update visual and set
-			GeneralSettingsService.Actions = actions;
-			item.PreviousHotKey = newHotKey;
-			item.HotKey = newHotKey;
-
-			// Set as customized
-			foreach (var action in ViewModel.KeyboardShortcuts)
-			{
-				if (action.CommandCode == item.CommandCode)
-					action.IsCustomized = !item.DefaultHotKeyCollection.Contains(action.HotKey);
-			}
-
-			// Exit edit mode
-			item.IsEditMode = false;
 		}
 
 		private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -202,32 +210,72 @@ namespace Files.App.Views.Settings
 					? new Dictionary<string, string>(GeneralSettingsService.Actions)
 					: [];
 
-			HotKeyCollection customizedCollection = HotKeyCollection.Empty;
+			// Get raw string keys stored in the user setting
+			var storedKeys = actions.GetValueOrDefault(item.CommandCode.ToString());
 
-			// Remove existing setting
-			foreach (var action in actions)
+			// Initialize
+			var modifiedCollection = HotKeyCollection.Empty;
+
+			// The first time to customize
+			if (!item.IsCustomized)
 			{
-				if (Enum.TryParse(action.Key, true, out CommandCodes code) && code == item.CommandCode)
+				// Initialize
+				var newHotKey = HotKey.Parse($"!{item.PreviousHotKey.Code}");
+
+				// The first time to customize
+				if (string.IsNullOrEmpty(storedKeys))
 				{
-					// Override previous default key with the new one
-					var editableCollection = HotKeyCollection.Parse(action.Value).ToList();
-					editableCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
-					customizedCollection = new HotKeyCollection(editableCollection);
-
-					actions.Remove(action.Key);
-					break;
+					// Replace with new one
+					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
+					modifiableDefaultCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+					modifiableDefaultCollection.Add(newHotKey);
+					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
 				}
+				// Stored in the user setting
+				else
+				{
+					// Replace with new one
+					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
+					modifiableCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+					modifiableCollection.Add(newHotKey);
+					modifiedCollection = new HotKeyCollection(modifiableCollection);
+				}
+
+				// Remove previous one and add new one
+				actions.Remove(item.CommandCode.ToString());
+				actions.Add(item.CommandCode.ToString(), modifiedCollection.Code);
+
+				// Store
+				GeneralSettingsService.Actions = actions;
+
+				// Exit
+				item.IsEditMode = false;
+				ViewModel.KeyboardShortcuts.Remove(item);
+
+				return;
 			}
+			else
+			{
+				// Remove existing setting
+				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
+				modifiableCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+				modifiedCollection = new(modifiableCollection);
 
-			if (customizedCollection.Label != string.Empty)
-				actions.Add(item.CommandCode.ToString(), customizedCollection.Label);
+				// Remove previous
+				actions.Remove(item.CommandCode.ToString());
 
-			// Save
-			GeneralSettingsService.Actions = actions;
+				if (modifiedCollection.Label != string.Empty)
+					actions.Add(item.CommandCode.ToString(), modifiedCollection.Label);
 
-			item.IsEditMode = false;
+				// Save
+				GeneralSettingsService.Actions = actions;
 
-			ViewModel.KeyboardShortcuts.Remove(item);
+				// Exit
+				item.IsEditMode = false;
+				ViewModel.KeyboardShortcuts.Remove(item);
+
+				return;
+			}
 		}
 
 		private void EditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

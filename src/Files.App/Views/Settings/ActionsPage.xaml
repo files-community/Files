@@ -334,7 +334,7 @@
 									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
 									Click="DeleteButton_Click"
-									IsEnabled="{x:Bind IsCustomized, Mode=OneWay}"
+									IsEnabled="{x:Bind IsEditMode, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
 									<FontIcon FontSize="14" Glyph="&#xE74D;" />
 								</Button>
