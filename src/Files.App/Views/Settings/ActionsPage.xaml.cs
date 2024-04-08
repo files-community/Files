@@ -251,7 +251,7 @@ namespace Files.App.Views.Settings
 			{
 				// Remove existing setting
 				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
+				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{SelectedNewShortcutItem.PreviousHotKey.RawLabel}");
 				modifiedCollection = new(modifiableCollection);
 
 				// Remove previous
