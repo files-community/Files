@@ -79,7 +79,7 @@ namespace Files.App.Utils.FileTags
 					}
 					else
 					{
-						dbInstance.SetTags(null, file.Frn, null);
+						dbInstance.SetTags(null, file.Frn, []);
 					}
 				}
 				else
@@ -94,12 +94,12 @@ namespace Files.App.Utils.FileTags
 							dbInstance.SetTags(file.FilePath, frn, tag);
 						}, App.Logger))
 						{
-							dbInstance.SetTags(file.FilePath, null, null);
+							dbInstance.SetTags(file.FilePath, null, []);
 						}
 					}
 					else
 					{
-						dbInstance.SetTags(file.FilePath, null, null);
+						dbInstance.SetTags(file.FilePath, null, []);
 					}
 				}
 			}

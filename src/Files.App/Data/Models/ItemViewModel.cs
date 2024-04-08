@@ -1036,7 +1036,7 @@ namespace Files.App.Data.Models
 		private static void SetFileTag(ListedItem item)
 		{
 			var dbInstance = FileTagsHelper.GetDbInstance();
-			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags ?? []);
 		}
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
