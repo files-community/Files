@@ -275,6 +275,7 @@
 									IsReadOnly="True"
 									IsSpellCheckEnabled="False"
 									IsTabStop="True"
+									Loaded="KeyboardShortcutEditorTextBox_Loaded"
 									PreviewKeyDown="EditorTextBox_PreviewKeyDown"
 									Text="{x:Bind HotKeyText, Mode=TwoWay}"
 									TextAlignment="Right" />
