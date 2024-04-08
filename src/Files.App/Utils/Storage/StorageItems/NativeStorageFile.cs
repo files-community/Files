@@ -105,12 +105,14 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncAction DeleteAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run(_ =>
 			{
-				if (!NativeFileOperationsHelper.DeleteFileFromApp(Path))
+				if (!PInvoke.DeleteFileFromApp(Path))
 				{
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
+
+				return Task.CompletedTask;
 			});
 		}
 

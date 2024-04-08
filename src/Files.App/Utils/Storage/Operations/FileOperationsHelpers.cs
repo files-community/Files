@@ -854,7 +854,7 @@ namespace Files.App.Utils.Storage
 				};
 				if (destination is null)
 				{
-					dbInstance.SetTags(sourcePath, null, null); // remove tag from deleted files
+					dbInstance.SetTags(sourcePath, null, []); // remove tag from deleted files
 				}
 				else
 				{
@@ -864,7 +864,7 @@ namespace Files.App.Utils.Storage
 						{
 							var tag = dbInstance.GetTags(sourcePath, null);
 
-							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
+							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag ?? []); // copy tag to new files
 							using var si = new ShellItem(destination);
 							if (si.IsFolder) // File tag is not copied automatically for folders
 							{
@@ -882,7 +882,7 @@ namespace Files.App.Utils.Storage
 					var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
 					if (destination is null) // remove tag for items contained in the folder
 					{
-						tags.ForEach(t => dbInstance.SetTags(t.FilePath, null, null));
+						tags.ForEach(t => dbInstance.SetTags(t.FilePath, null, []));
 					}
 					else
 					{
@@ -893,7 +893,7 @@ namespace Files.App.Utils.Storage
 								SafetyExtensions.IgnoreExceptions(() =>
 								{
 									var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-									dbInstance.SetTags(subPath, FileTagsHelper.GetFileFRN(subPath), t.Tags);
+									dbInstance.SetTags(subPath, FileTagsHelper.GetFileFRN(subPath), t.Tags ?? []);
 								}, App.Logger);
 							});
 						}
