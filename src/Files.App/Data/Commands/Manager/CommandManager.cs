@@ -456,7 +456,7 @@ namespace Files.App.Data.Commands
 			{
 				get
 				{
-					string text = HotKeys.HumanizedLabel;
+					string text = HotKeys.LocalizedLabel;
 					if (string.IsNullOrEmpty(text))
 						return null;
 					return text;

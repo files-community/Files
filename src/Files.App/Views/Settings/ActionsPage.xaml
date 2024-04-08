@@ -126,7 +126,7 @@
 				<ComboBox
 					x:Name="NewShortcutItemPickerComboBox"
 					Padding="0"
-					ItemsSource="{x:Bind ViewModel.ExcludedKeyboardShortcuts, Mode=OneWay}"
+					ItemsSource="{x:Bind ViewModel.AllKeyboardShortcuts, Mode=OneWay}"
 					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
 					SelectedItem="{x:Bind ViewModel.SelectedNewShortcutItem, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
@@ -176,7 +176,7 @@
 					Height="32"
 					Padding="0"
 					AutomationProperties.Name="{helpers:ResourceString Name=Add}"
-					Command="{x:Bind ViewModel.AddNewShortcutGridCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.AddNewShortcutCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.SelectedNewShortcutItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
 					Style="{StaticResource AccentButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Add}">
@@ -206,8 +206,8 @@
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<ListView
-				x:Name="KeyboardShortcutsListView"
-				ItemsSource="{x:Bind ViewModel.KeyboardShortcuts, Mode=OneWay}"
+				x:Name="ValidKeyboardShortcutsListView"
+				ItemsSource="{x:Bind ViewModel.ValidKeyboardShortcuts, Mode=OneWay}"
 				ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 				ScrollViewer.HorizontalScrollMode="Disabled"
 				ScrollViewer.VerticalScrollBarVisibility="Hidden"
