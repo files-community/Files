@@ -326,5 +326,16 @@ namespace Files.App.Views.Settings
 			TextBox keyboardShortcutEditorTextBox = (TextBox)sender;
 			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
 		}
+
+		private void KeyboardShortcutEditorTextBox_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			// Check if a new action is selected
+			if (ViewModel.SelectedNewShortcutItem is null)
+				return;
+
+			// Focus Key Binding TextBox
+			TextBox keyboardShortcutEditorTextBox = (TextBox)sender;
+			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
+		}
 	}
 }
