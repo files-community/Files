@@ -54,7 +54,7 @@ namespace Files.App.Views.Settings
 			if (sender is Button button && button.DataContext is ModifiableCommandHotKeyItem item)
 			{
 				// Hide the add command grid
-				ViewModel.ShowAddNewShortcutGrid = false;
+				ViewModel.ShowAddNewHotKeySection = false;
 
 				// Reset the selected item's info
 				if (ViewModel.SelectedNewShortcutItem is not null)

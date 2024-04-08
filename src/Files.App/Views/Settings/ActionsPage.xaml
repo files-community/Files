@@ -82,35 +82,36 @@
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
+				<!--  Subtitle Text  -->
 				<TextBlock
 					Margin="0,8,0,4"
 					FontSize="16"
 					FontWeight="Medium"
 					Text="{helpers:ResourceString Name=Commands}" />
 
-				<!--  Add New Button  -->
+				<!--  Show Add New Section Button  -->
 				<Button
 					x:Name="ShowAddNewGridButton"
 					Grid.Column="1"
-					Command="{x:Bind ViewModel.ShowAddNewShortcutGridCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.ShowAddNewHotKeySectionCommand, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=AddCommand}"
 					IsEnabled="{x:Bind ViewModel.SelectedNewShortcutItem, Converter={StaticResource NullToNegateBooleanConverter}, Mode=OneWay}" />
 
-				<!--  Reset All Button  -->
+				<!--  Restore Defaults Button  -->
 				<Button
-					x:Name="ResetAllButton"
+					x:Name="RestoreDefaultsButton"
 					Grid.Column="2"
-					Command="{x:Bind ViewModel.ShowResetAllConfirmationCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=RestoreDefaults}" />
 			</Grid>
 
 			<!--  Add New  -->
 			<Grid
-				x:Name="CreateNewSectionGrid"
+				x:Name="CreateNewHotKeySection"
 				Height="60"
 				Margin="0,4,0,0"
 				Padding="16,12"
-				x:Load="{x:Bind ViewModel.ShowAddNewShortcutGrid, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.ShowAddNewHotKeySection, Mode=OneWay}"
 				Background="{ThemeResource ExpanderHeaderBackground}"
 				BorderBrush="{ThemeResource ExpanderHeaderBorderBrush}"
 				BorderThickness="1"
@@ -123,8 +124,9 @@
 					<ColumnDefinition Width="32" />
 				</Grid.ColumnDefinitions>
 
+				<!--  New Command Selector  -->
 				<ComboBox
-					x:Name="NewShortcutItemPickerComboBox"
+					x:Name="NewHotKeyItemPickerComboBox"
 					Padding="0"
 					ItemsSource="{x:Bind ViewModel.AllKeyboardShortcuts, Mode=OneWay}"
 					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
@@ -170,41 +172,43 @@
 
 				<!--  Add Button  -->
 				<Button
-					x:Name="AddNewButton"
+					x:Name="AddButton"
 					Grid.Column="2"
 					Width="32"
 					Height="32"
 					Padding="0"
 					AutomationProperties.Name="{helpers:ResourceString Name=Add}"
-					Command="{x:Bind ViewModel.AddNewShortcutCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.AddNewHotKeyCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.SelectedNewShortcutItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
 					Style="{StaticResource AccentButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Add}">
 					<FontIcon FontSize="14" Glyph="&#xE73E;" />
 				</Button>
 
-				<!--  Delete Button  -->
+				<!--  Cancel Button  -->
 				<Button
-					x:Name="DeleteButton"
+					x:Name="CancelButton"
 					Grid.Column="3"
 					Width="32"
 					Height="32"
 					Padding="0"
 					AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-					Command="{x:Bind ViewModel.HideAddNewShortcutGridCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.HideAddNewHotKeySectionCommand, Mode=OneWay}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
 					<FontIcon FontSize="14" Glyph="&#xE711;" />
 				</Button>
 
 			</Grid>
 
+			<!--  (Divider)  -->
 			<Border
-				x:Name="CreateNewSectionGridDividerBorder"
+				x:Name="NewHotKeySectionDividerBorder"
 				Height="1"
 				Margin="0,4"
-				x:Load="{x:Bind ViewModel.ShowAddNewShortcutGrid, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.ShowAddNewHotKeySection, Mode=OneWay}"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
+			<!--  List Of Available HotKeys  -->
 			<ListView
 				x:Name="ValidKeyboardShortcutsListView"
 				ItemsSource="{x:Bind ViewModel.ValidKeyboardShortcuts, Mode=OneWay}"
@@ -369,11 +373,13 @@
 				</ListView.ItemContainerStyle>
 
 			</ListView>
+
 		</StackPanel>
 
+		<!--  Restore Defaults Confirmation TeachingTip  -->
 		<TeachingTip
-			x:Name="ResetAllConfirmationTeachingTip"
-			ActionButtonCommand="{x:Bind ViewModel.ResetAllCommand, Mode=OneWay}"
+			x:Name="RestoreDefaultsConfirmationTeachingTip"
+			ActionButtonCommand="{x:Bind ViewModel.RestoreDefaultsCommand, Mode=OneWay}"
 			ActionButtonContent="{helpers:ResourceString Name=Yes}"
 			ActionButtonStyle="{ThemeResource AccentButtonStyle}"
 			CloseButtonContent="{helpers:ResourceString Name=No}"
@@ -381,8 +387,9 @@
 			IsOpen="{x:Bind ViewModel.IsResetAllConfirmationTeachingTipOpened, Mode=TwoWay}"
 			PreferredPlacement="BottomLeft"
 			Subtitle="{helpers:ResourceString Name=RestoreDefaultKeybindingsConfirmation}"
-			Target="{x:Bind ResetAllButton}" />
+			Target="{x:Bind RestoreDefaultsButton}" />
 
+		<!--  Already Used TeachingTip  -->
 		<TeachingTip
 			x:Name="AlreadyUsedTeachingTip"
 			CloseButtonContent="OK"

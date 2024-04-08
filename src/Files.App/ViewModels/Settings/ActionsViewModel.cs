@@ -31,11 +31,11 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsAlreadyUsedTeachingTipOpened, value);
 		}
 
-		private bool _ShowAddNewShortcutGrid;
-		public bool ShowAddNewShortcutGrid
+		private bool _ShowAddNewHotKeySection;
+		public bool ShowAddNewHotKeySection
 		{
-			get => _ShowAddNewShortcutGrid;
-			set => SetProperty(ref _ShowAddNewShortcutGrid, value);
+			get => _ShowAddNewHotKeySection;
+			set => SetProperty(ref _ShowAddNewHotKeySection, value);
 		}
 
 		private ModifiableCommandHotKeyItem? _SelectedNewShortcutItem;
@@ -48,22 +48,22 @@ namespace Files.App.ViewModels.Settings
 		// Commands
 
 		public ICommand LoadCommandsCommand { get; set; }
-		public ICommand ShowResetAllConfirmationCommand { get; set; }
-		public ICommand ShowAddNewShortcutGridCommand { get; set; }
-		public ICommand HideAddNewShortcutGridCommand { get; set; }
-		public ICommand AddNewShortcutCommand { get; set; }
-		public ICommand ResetAllCommand { get; set; }
+		public ICommand ShowAddNewHotKeySectionCommand { get; set; }
+		public ICommand HideAddNewHotKeySectionCommand { get; set; }
+		public ICommand AddNewHotKeyCommand { get; set; }
+		public ICommand ShowRestoreDefaultsConfirmationCommand { get; set; }
+		public ICommand RestoreDefaultsCommand { get; set; }
 
 		// Constructor
 
 		public ActionsViewModel()
 		{
 			LoadCommandsCommand = new AsyncRelayCommand(ExecuteLoadCommandsCommand);
-			ShowResetAllConfirmationCommand = new RelayCommand(ExecuteShowResetAllConfirmationCommand);
-			ShowAddNewShortcutGridCommand = new RelayCommand(ExecuteShowAddNewShortcutGridCommand);
-			HideAddNewShortcutGridCommand = new RelayCommand(ExecuteHideAddNewShortcutGridCommand);
-			AddNewShortcutCommand = new RelayCommand(ExecuteAddNewShortcutCommand);
-			ResetAllCommand = new RelayCommand(ExecuteResetAllCommand);
+			ShowAddNewHotKeySectionCommand = new RelayCommand(ExecuteShowAddNewHotKeySectionCommand);
+			HideAddNewHotKeySectionCommand = new RelayCommand(ExecuteHideAddNewHotKeySectionCommand);
+			AddNewHotKeyCommand = new RelayCommand(ExecuteAddNewHotKeyCommand);
+			ShowRestoreDefaultsConfirmationCommand = new RelayCommand(ExecuteShowRestoreDefaultsConfirmationCommand);
+			RestoreDefaultsCommand = new RelayCommand(ExecuteRestoreDefaultsCommand);
 		}
 
 		// Command methods
@@ -110,16 +110,11 @@ namespace Files.App.ViewModels.Settings
 			});
 		}
 
-		private void ExecuteShowResetAllConfirmationCommand()
+		private void ExecuteShowAddNewHotKeySectionCommand()
 		{
-			IsResetAllConfirmationTeachingTipOpened = true;
-		}
+			ShowAddNewHotKeySection = true;
 
-		private void ExecuteShowAddNewShortcutGridCommand()
-		{
-			ShowAddNewShortcutGrid = true;
-
-			// Reset edit mode for each item
+			// Reset edit mode of every item
 			foreach (var hotkey in ValidKeyboardShortcuts)
 			{
 				hotkey.IsEditMode = false;
@@ -127,9 +122,9 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private void ExecuteHideAddNewShortcutGridCommand()
+		private void ExecuteHideAddNewHotKeySectionCommand()
 		{
-			ShowAddNewShortcutGrid = false;
+			ShowAddNewHotKeySection = false;
 
 			if (SelectedNewShortcutItem is null)
 				return;
@@ -138,7 +133,7 @@ namespace Files.App.ViewModels.Settings
 			SelectedNewShortcutItem = null;
 		}
 
-		private void ExecuteAddNewShortcutCommand()
+		private void ExecuteAddNewHotKeyCommand()
 		{
 			if (SelectedNewShortcutItem is null)
 				return;
@@ -202,8 +197,8 @@ namespace Files.App.ViewModels.Settings
 				PreviousHotKey = HotKey.Parse(SelectedNewShortcutItem.PreviousHotKey.RawLabel),
 			};
 
-			// Hide the grid
-			ShowAddNewShortcutGrid = false;
+			// Hide the section
+			ShowAddNewHotKeySection = false;
 
 			// Remove from excluded list and set null
 			SelectedNewShortcutItem.HotKeyText = "";
@@ -213,7 +208,12 @@ namespace Files.App.ViewModels.Settings
 			ValidKeyboardShortcuts.Insert(0, selectedNewItem);
 		}
 
-		private void ExecuteResetAllCommand()
+		private void ExecuteShowRestoreDefaultsConfirmationCommand()
+		{
+			IsResetAllConfirmationTeachingTipOpened = true;
+		}
+
+		private void ExecuteRestoreDefaultsCommand()
 		{
 			GeneralSettingsService.Actions = null;
 			IsResetAllConfirmationTeachingTipOpened = false;
