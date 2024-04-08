@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 
 		private readonly static ShellFolder _controlPanelCategoryView = new("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
 
-		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, string action, int from, int count, params string[] properties)
+		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, bool getFolder, bool getEnumerate, int from, int count, params string[] properties)
 		{
 			if (path.StartsWith("::{", StringComparison.Ordinal))
 			{
@@ -43,9 +43,10 @@ namespace Files.App.Helpers
 						return (null, flc);
 					}
 
-					folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
+					if (getFolder)
+						folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
 
-					if (action == "Enumerate")
+					if (getEnumerate)
 					{
 						foreach (var folderItem in shellFolder.Skip(from).Take(count))
 						{

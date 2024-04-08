@@ -19,7 +19,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
-			return (await Win32Helper.GetShellFolderAsync(Constants.UserEnvironmentPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
+			return (await Win32Helper.GetShellFolderAsync(Constants.UserEnvironmentPaths.RecycleBinPath, false, true, 0, int.MaxValue)).Enumerate;
 		}
 
 		public static ulong GetSize()
