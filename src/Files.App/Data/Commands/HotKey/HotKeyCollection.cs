@@ -8,7 +8,7 @@ namespace Files.App.Data.Commands
 	/// <summary>
 	/// Represents immutable collection of <see cref="HotKey"/>.
 	/// </summary>
-	[DebuggerDisplay("{Code}")]
+	[DebuggerDisplay("{LocalizedLabel}")]
 	public readonly struct HotKeyCollection : IEnumerable<HotKey>, IEquatable<HotKeyCollection>
 	{
 		// Fields
@@ -63,12 +63,12 @@ namespace Files.App.Data.Commands
 
 		public HotKeyCollection(params HotKey[] hotKeys)
 		{
-			this.hotKeys = Clean(hotKeys);
+			this.hotKeys = Standardize(hotKeys);
 		}
 
 		public HotKeyCollection(IEnumerable<HotKey> hotKeys)
 		{
-			this.hotKeys = Clean(hotKeys);
+			this.hotKeys = Standardize(hotKeys);
 		}
 
 		// Operator overloads
@@ -120,7 +120,7 @@ namespace Files.App.Data.Commands
 
 		// Private methods
 
-		private static ImmutableArray<HotKey> Clean(IEnumerable<HotKey> hotKeys)
+		private static ImmutableArray<HotKey> Standardize(IEnumerable<HotKey> hotKeys)
 		{
 			return hotKeys
 				.Distinct()

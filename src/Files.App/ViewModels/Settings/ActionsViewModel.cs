@@ -179,7 +179,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				// Replace with new one
 				var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel || x.RawLabel == $"!{SelectedNewShortcutItem.PreviousHotKey.RawLabel}");
+				modifiableCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
 				modifiableCollection.Add(newHotKey);
 				modifiedCollection = new HotKeyCollection(modifiableCollection);
 			}

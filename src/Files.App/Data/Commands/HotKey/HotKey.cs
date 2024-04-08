@@ -11,7 +11,7 @@ namespace Files.App.Data.Commands
 	/// <summary>
 	/// Represents hot key.
 	/// </summary>
-	[DebuggerDisplay("{Code}")]
+	[DebuggerDisplay("{LocalizedLabel}")]
 	public readonly struct HotKey : IEquatable<HotKey>
 	{
 		public static FrozenDictionary<KeyModifiers, string> LocalizedModifiers { get; } = new Dictionary<KeyModifiers, string>()
@@ -194,15 +194,10 @@ namespace Files.App.Data.Commands
 				return (Key, Modifier) switch
 				{
 					(Keys.None, KeyModifiers.None) => string.Empty,
-					(Keys.None, _) => $"{GetVisibleCode(IsVisible)}{GetModifierCode(Modifier)}",
-					(_, KeyModifiers.None) => $"{GetVisibleCode(IsVisible)}{Key}",
-					_ => $"{GetVisibleCode(IsVisible)}{GetModifierCode(Modifier)}+{Key}",
+					(Keys.None, _) => $"{GetModifierCode(Modifier)}",
+					(_, KeyModifiers.None) => $"{Key}",
+					_ => $"{GetModifierCode(Modifier)}+{Key}",
 				};
-
-				static string GetVisibleCode(bool isVisible)
-				{
-					return isVisible ? string.Empty : "!";
-				}
 
 				static string GetModifierCode(KeyModifiers modifiers)
 				{
@@ -222,7 +217,7 @@ namespace Files.App.Data.Commands
 		}
 
 		/// <summary>
-		/// Gets the humanized label of the hotkey to shown in the UI.
+		/// Gets the localized label of the hotkey to shown in the UI.
 		/// </summary>
 		/// <remarks>
 		/// For example, this is "Ctrl+A" and "Ctrl+Alt+C"
@@ -285,12 +280,6 @@ namespace Files.App.Data.Commands
 			bool isVisible = true;
 
 			code = code.Trim();
-			if (code.StartsWith('!'))
-			{
-				isVisible = false;
-				code = code.Remove(0, 1);
-			}
-
 			var parts = code.Split('+').Select(part => part.Trim());
 
 			foreach (var part in parts)

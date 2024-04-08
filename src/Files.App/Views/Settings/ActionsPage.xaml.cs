@@ -114,7 +114,7 @@ namespace Files.App.Views.Settings
 				{
 					// Replace with new one
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
+					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiableDefaultCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
 				}
@@ -123,7 +123,7 @@ namespace Files.App.Views.Settings
 				{
 					// Replace with new one
 					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
+					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiableCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableCollection);
 				}
@@ -212,16 +212,12 @@ namespace Files.App.Views.Settings
 			// The first time to customize
 			if (!item.IsCustomized)
 			{
-				// Initialize
-				var newHotKey = HotKey.Parse($"!{item.PreviousHotKey.RawLabel}");
-
 				// The first time to customize
 				if (string.IsNullOrEmpty(storedKeys))
 				{
 					// Replace with new one
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
 					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiableDefaultCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
 				}
 				// Stored in the user setting
@@ -230,7 +226,6 @@ namespace Files.App.Views.Settings
 					// Replace with new one
 					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
 					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiableCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableCollection);
 				}
 
