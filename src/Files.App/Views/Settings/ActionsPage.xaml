@@ -247,7 +247,7 @@
 											x:Load="{x:Bind IsCustomized, Mode=OneWay}"
 											Background="{ThemeResource SystemAccentColor}"
 											CornerRadius="{StaticResource ControlCornerRadius}"
-											ToolTipService.ToolTip="Customized" />
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Customized}" />
 									</StackPanel>
 									<TextBlock
 										Foreground="{ThemeResource TextFillColorSecondaryBrush}"

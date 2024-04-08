@@ -3737,4 +3737,7 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>This key binding is already being used, please choose a different key binding to continue.</value>
   </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Customized</value>
+  </data>
 </root>
