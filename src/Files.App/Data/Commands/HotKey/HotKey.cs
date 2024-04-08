@@ -169,9 +169,6 @@ namespace Files.App.Data.Commands
 		/// <summary>
 		/// Gets the value that indicates whether the key should be visible.
 		/// </summary>
-		/// <remarks>
-		/// This is always true for now.
-		/// </remarks>
 		public bool IsVisible { get; init; }
 
 		/// <summary>
@@ -185,22 +182,27 @@ namespace Files.App.Data.Commands
 		public KeyModifiers Modifier { get; }
 
 		/// <summary>
-		/// Gets the raw humanized code of the hotkey.
+		/// Gets the raw label of the hotkey.
 		/// </summary>
 		/// <remarks>
 		/// For example, this is "Ctrl+A" and "Ctrl+Menu+C"
 		/// </remarks>
-		public string Code
+		public string RawLabel
 		{
 			get
 			{
 				return (Key, Modifier) switch
 				{
 					(Keys.None, KeyModifiers.None) => string.Empty,
-					(Keys.None, _) => $"{GetModifierCode(Modifier)}",
-					(_, KeyModifiers.None) => $"{Key}",
-					_ => $"{GetModifierCode(Modifier)}+{Key}",
+					(Keys.None, _) => $"{GetVisibleCode(IsVisible)}{GetModifierCode(Modifier)}",
+					(_, KeyModifiers.None) => $"{GetVisibleCode(IsVisible)}{Key}",
+					_ => $"{GetVisibleCode(IsVisible)}{GetModifierCode(Modifier)}+{Key}",
 				};
+
+				static string GetVisibleCode(bool isVisible)
+				{
+					return isVisible ? string.Empty : "!";
+				}
 
 				static string GetModifierCode(KeyModifiers modifiers)
 				{
@@ -220,12 +222,12 @@ namespace Files.App.Data.Commands
 		}
 
 		/// <summary>
-		/// Gets the humanized and localized label of the hotkey to shown in the UI.
+		/// Gets the humanized label of the hotkey to shown in the UI.
 		/// </summary>
 		/// <remarks>
 		/// For example, this is "Ctrl+A" and "Ctrl+Alt+C"
 		/// </remarks>
-		public string Label
+		public string LocalizedLabel
 		{
 			get
 			{
@@ -274,8 +276,9 @@ namespace Files.App.Data.Commands
 		/// Parses humanized hotkey code with separators.
 		/// </summary>
 		/// <param name="code">Humanized code to parse.</param>
+		/// <param name="localized">Whether the code is localized.</param>
 		/// <returns>Humanized code with a format <see cref="HotKey"/>.</returns>
-		public static HotKey Parse(string code)
+		public static HotKey Parse(string code, bool localized = true)
 		{
 			var key = Keys.None;
 			var modifier = KeyModifiers.None;
@@ -292,8 +295,18 @@ namespace Files.App.Data.Commands
 
 			foreach (var part in parts)
 			{
-				key |= LocalizedKeys.FirstOrDefault(x => x.Value == part).Key;
-				modifier |= LocalizedModifiers.FirstOrDefault(x => x.Value == part).Key;
+				if (localized)
+				{
+					key |= LocalizedKeys.FirstOrDefault(x => x.Value == part).Key;
+					modifier |= LocalizedModifiers.FirstOrDefault(x => x.Value == part).Key;
+				}
+				else
+				{
+					if (Enum.TryParse(part, true, out Keys partKey))
+						key = partKey;
+					if (Enum.TryParse(part, true, out KeyModifiers partModifier))
+						modifier |= partModifier;
+				}
 			}
 
 			return new(key, modifier, isVisible);
@@ -310,13 +323,13 @@ namespace Files.App.Data.Commands
 
 		// Operator overloads
 
-		public static implicit operator string(HotKey hotKey) => hotKey.Label;
+		public static implicit operator string(HotKey hotKey) => hotKey.LocalizedLabel;
 		public static bool operator ==(HotKey a, HotKey b) => a.Equals(b);
 		public static bool operator !=(HotKey a, HotKey b) => !a.Equals(b);
 
 		// Default methods
 
-		public override string ToString() => Label;
+		public override string ToString() => LocalizedLabel;
 		public override int GetHashCode() => (Key, Modifier, IsVisible).GetHashCode();
 		public override bool Equals(object? other) => other is HotKey hotKey && Equals(hotKey);
 		public bool Equals(HotKey other) => (other.Key, other.Modifier, other.IsVisible).Equals((Key, Modifier, IsVisible));

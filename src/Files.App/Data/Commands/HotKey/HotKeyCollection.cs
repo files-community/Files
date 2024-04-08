@@ -37,22 +37,22 @@ namespace Files.App.Data.Commands
 			=> hotKeys.Length;
 
 		/// <summary>
-		/// Gets the raw humanized code of the hotkey, separated by a space.
+		/// Gets the raw code of the hotkey, separated by a space.
 		/// </summary>
 		/// <remarks>
 		/// For example, this is "Ctrl+A Ctrl+Menu+C"
 		/// </remarks>
-		public string Code
-			=> string.Join(' ', hotKeys.Select(hotKey => hotKey.Code));
+		public string RawLabel
+			=> string.Join(' ', hotKeys.Select(hotKey => hotKey.RawLabel));
 
 		/// <summary>
-		/// Gets the humanized and localized label of the hotkey to shown in the UI, separated by a command and double space.
+		/// Gets the humanized label of the hotkey to shown in the UI, separated by a command and double space.
 		/// </summary>
 		/// <remarks>
 		/// For example, this is "Ctrl+A,  Ctrl+Alt+C"
 		/// </remarks>
-		public string Label
-			=> string.Join(",  ", hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.Label));
+		public string HumanizedLabel
+			=> string.Join(",  ", hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.LocalizedLabel));
 
 		// Constructors
 
@@ -80,13 +80,14 @@ namespace Files.App.Data.Commands
 		/// Parses humanized hotkey code collection with separators.
 		/// </summary>
 		/// <param name="code">Humanized code to parse.</param>
+		/// <param name="localized">Whether the code is localized.</param>
 		/// <returns>Humanized code with a format <see cref="HotKeyCollection"/>.</returns>
-		public static HotKeyCollection Parse(string code)
+		public static HotKeyCollection Parse(string code, bool localized = true)
 		{
 			var hotKeys = code
 				.Split(parseSeparators)
 				.Select(part => part.Trim())
-				.Select(HotKey.Parse);
+				.Select(x => HotKey.Parse(x, localized));
 
 			return new(hotKeys);
 		}
@@ -106,7 +107,7 @@ namespace Files.App.Data.Commands
 		// Default methods
 
 		public override string ToString()
-			=> Label;
+			=> HumanizedLabel;
 
 		public override int GetHashCode()
 			=> hotKeys.GetHashCode();
