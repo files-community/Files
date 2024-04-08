@@ -29,6 +29,7 @@ namespace Files.App.Views.Settings
 		{
 			VisualStateManager.GoToState((UserControl)sender, PointerOverState, true);
 
+			// Make edit button visible on pointer in
 			if (sender is UserControl userControl &&
 				userControl.FindChild(PART_EditButton) is Button editButton &&
 				userControl.DataContext is ModifiableCommandHotKeyItem item &&
@@ -40,6 +41,7 @@ namespace Files.App.Views.Settings
 		{
 			VisualStateManager.GoToState((UserControl)sender, NormalState, true);
 
+			// Make edit button invisible on pointer out
 			if (sender is UserControl userControl &&
 				userControl.FindChild(PART_EditButton) is Button editButton &&
 				userControl.DataContext is ModifiableCommandHotKeyItem item &&
@@ -51,7 +53,7 @@ namespace Files.App.Views.Settings
 		{
 			if (sender is Button button && button.DataContext is ModifiableCommandHotKeyItem item)
 			{
-				// Hide the add-new section grid
+				// Hide the add command grid
 				ViewModel.ShowAddNewShortcutGrid = false;
 
 				// Reset the selected item's info
@@ -61,14 +63,14 @@ namespace Files.App.Views.Settings
 					ViewModel.SelectedNewShortcutItem = null;
 				}
 
-				// Reset edit mode for each item
+				// Reset edit mode of every item
 				foreach (var hotkey in ViewModel.ValidKeyboardShortcuts)
 				{
 					hotkey.IsEditMode = false;
 					hotkey.HotKeyText = hotkey.HotKey.LocalizedLabel;
 				}
 
-				// Enter edit mode
+				// Enter edit mode for the item
 				item.IsEditMode = true;
 			}
 		}
@@ -107,9 +109,9 @@ namespace Files.App.Views.Settings
 			var newHotKey = HotKey.Parse(item.HotKeyText);
 			var modifiedCollection = HotKeyCollection.Empty;
 
-			if (!item.IsCustomized)
+			if (item.IsDefaultKey)
 			{
-				// The first time to customize
+				// The first time to customize in the user setting
 				if (string.IsNullOrEmpty(storedKeys))
 				{
 					// Replace with new one
@@ -140,7 +142,7 @@ namespace Files.App.Views.Settings
 				foreach (var action in ViewModel.ValidKeyboardShortcuts)
 				{
 					if (action.CommandCode == item.CommandCode)
-						action.IsCustomized = !item.DefaultHotKeyCollection.Contains(action.HotKey);
+						action.IsDefaultKey = item.DefaultHotKeyCollection.Contains(action.HotKey);
 				}
 
 				// Exit edit mode
@@ -175,7 +177,7 @@ namespace Files.App.Views.Settings
 				foreach (var action in ViewModel.ValidKeyboardShortcuts)
 				{
 					if (action.CommandCode == item.CommandCode)
-						action.IsCustomized = !item.DefaultHotKeyCollection.Contains(action.HotKey);
+						action.IsDefaultKey = item.DefaultHotKeyCollection.Contains(action.HotKey);
 				}
 
 				// Exit edit mode
@@ -209,10 +211,9 @@ namespace Files.App.Views.Settings
 			// Initialize
 			var modifiedCollection = HotKeyCollection.Empty;
 
-			// The first time to customize
-			if (!item.IsCustomized)
+			if (item.IsDefaultKey)
 			{
-				// The first time to customize
+				// The first time to customize in the user setting
 				if (string.IsNullOrEmpty(storedKeys))
 				{
 					// Replace with new one
