@@ -290,7 +290,7 @@ namespace Files.App
 								.OnSuccess(item => FileTagsHelper.GetFileFRN(item));
 							if (fileFRN is not null)
 							{
-								var tagUid = tag is not null ? new[] { tag.Uid } : null;
+								var tagUid = tag is not null ? new[] { tag.Uid } : [];
 								var dbInstance = FileTagsHelper.GetDbInstance();
 								dbInstance.SetTags(file, fileFRN, tagUid);
 								FileTagsHelper.WriteFileTag(file, tagUid);
