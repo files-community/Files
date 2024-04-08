@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> new(Keys.L, KeyModifiers.Ctrl);
 
 		public HotKey SecondHotKey
-			=> new(Keys.D, KeyModifiers.Menu);
+			=> new(Keys.D, KeyModifiers.Alt);
 
 		public EditPathAction()
 		{

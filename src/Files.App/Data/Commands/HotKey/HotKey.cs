@@ -16,7 +16,7 @@ namespace Files.App.Data.Commands
 	{
 		public static FrozenDictionary<KeyModifiers, string> LocalizedModifiers { get; } = new Dictionary<KeyModifiers, string>()
 		{
-			[KeyModifiers.Menu] = GetLocalizedKey("Menu"),
+			[KeyModifiers.Alt] = GetLocalizedKey("Menu"),
 			[KeyModifiers.Ctrl] = GetLocalizedKey("Control"),
 			[KeyModifiers.Shift] = GetLocalizedKey("Shift"),
 			[KeyModifiers.Win] = GetLocalizedKey("Windows"),
@@ -207,8 +207,8 @@ namespace Files.App.Data.Commands
 				static string GetModifierCode(KeyModifiers modifiers)
 				{
 					StringBuilder builder = new();
-					if (modifiers.HasFlag(KeyModifiers.Menu))
-						builder.Append($"+{KeyModifiers.Menu}");
+					if (modifiers.HasFlag(KeyModifiers.Alt))
+						builder.Append($"+{KeyModifiers.Alt}");
 					if (modifiers.HasFlag(KeyModifiers.Ctrl))
 						builder.Append($"+{KeyModifiers.Ctrl}");
 					if (modifiers.HasFlag(KeyModifiers.Shift))
@@ -242,8 +242,8 @@ namespace Files.App.Data.Commands
 				static string GetModifierCode(KeyModifiers modifier)
 				{
 					StringBuilder builder = new();
-					if (modifier.HasFlag(KeyModifiers.Menu))
-						builder.Append($"+{LocalizedModifiers[KeyModifiers.Menu]}");
+					if (modifier.HasFlag(KeyModifiers.Alt))
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Alt]}");
 					if (modifier.HasFlag(KeyModifiers.Ctrl))
 						builder.Append($"+{LocalizedModifiers[KeyModifiers.Ctrl]}");
 					if (modifier.HasFlag(KeyModifiers.Shift))

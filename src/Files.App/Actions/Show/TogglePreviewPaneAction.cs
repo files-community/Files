@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconRightPane");
 
 		public HotKey HotKey
-			=> new(Keys.P, KeyModifiers.MenuCtrl);
+			=> new(Keys.P, KeyModifiers.CtrlAlt);
 
 		public bool IsOn
 			=> viewModel.IsEnabled;

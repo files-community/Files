@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "NavigateBackDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.Left, KeyModifiers.Menu);
+			=> new(Keys.Left, KeyModifiers.Alt);
 
 		public HotKey SecondHotKey
 			=> new(Keys.Back);

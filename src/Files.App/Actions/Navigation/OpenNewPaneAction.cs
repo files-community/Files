@@ -14,10 +14,10 @@ namespace Files.App.Actions
 			=> "OpenNewPaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.OemPlus, KeyModifiers.MenuShift);
+			=> new(Keys.OemPlus, KeyModifiers.AltShift);
 
 		public HotKey SecondHotKey
-			=> new(Keys.Add, KeyModifiers.MenuShift);
+			=> new(Keys.Add, KeyModifiers.AltShift);
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenNewPane");
