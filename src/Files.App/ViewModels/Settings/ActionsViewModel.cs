@@ -1,16 +1,18 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services.Settings;
-using System.Linq;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
 	public class ActionsViewModel : ObservableObject
 	{
+		// Dependency injections
+
 		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		// Properties
 
 		public ObservableCollection<ModifiableCommandHotKeyItem> KeyboardShortcuts { get; } = [];
 		public ObservableCollection<ModifiableCommandHotKeyItem> ExcludedKeyboardShortcuts { get; } = [];
@@ -43,12 +45,16 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _SelectedNewShortcutItem, value);
 		}
 
+		// Commands
+
 		public ICommand LoadCommandsCommand { get; set; }
 		public ICommand ShowResetAllConfirmationCommand { get; set; }
 		public ICommand ShowAddNewShortcutGridCommand { get; set; }
 		public ICommand HideAddNewShortcutGridCommand { get; set; }
 		public ICommand AddNewShortcutGridCommand { get; set; }
 		public ICommand ResetAllCommand { get; set; }
+
+		// Constructor
 
 		public ActionsViewModel()
 		{
@@ -59,6 +65,8 @@ namespace Files.App.ViewModels.Settings
 			AddNewShortcutGridCommand = new RelayCommand(ExecuteAddNewShortcutGridCommand);
 			ResetAllCommand = new RelayCommand(ExecuteResetAllCommand);
 		}
+
+		// Command methods
 
 		private async Task LoadCommands()
 		{
@@ -120,7 +128,7 @@ namespace Files.App.ViewModels.Settings
 			foreach (var hotkey in KeyboardShortcuts)
 			{
 				hotkey.IsEditMode = false;
-				hotkey.HotKeyText = hotkey.HotKey.Label;
+				hotkey.HotKeyText = hotkey.HotKey.LocalizedLabel;
 			}
 		}
 
@@ -165,9 +173,9 @@ namespace Files.App.ViewModels.Settings
 				CommandCode = SelectedNewShortcutItem.CommandCode,
 				Label = SelectedNewShortcutItem.Label,
 				Description = SelectedNewShortcutItem.Description,
-				HotKey = HotKey.Parse(SelectedNewShortcutItem.HotKey.Code),
+				HotKey = HotKey.Parse(SelectedNewShortcutItem.HotKey.RawLabel),
 				DefaultHotKeyCollection = new(SelectedNewShortcutItem.DefaultHotKeyCollection),
-				PreviousHotKey = HotKey.Parse(SelectedNewShortcutItem.PreviousHotKey.Code),
+				PreviousHotKey = HotKey.Parse(SelectedNewShortcutItem.PreviousHotKey.RawLabel),
 			};
 
 			// Hide the grid

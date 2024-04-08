@@ -49,7 +49,7 @@ namespace Files.App.Data.Items
 			{
 				if (SetProperty(ref _HotKey, value))
 				{
-					HotKeyText = HotKey.Label;
+					HotKeyText = HotKey.LocalizedLabel;
 					HotKeys = new(value);
 					OnPropertyChanged(nameof(HotKeys));
 				}

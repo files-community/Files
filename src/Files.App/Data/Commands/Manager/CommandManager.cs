@@ -372,6 +372,9 @@ namespace Files.App.Data.Commands
 		/// </summary>
 		private void UpdateHotKeys()
 		{
+			if (GeneralSettingsService.Actions is null)
+				return;
+
 			var useds = new HashSet<HotKey>();
 
 			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
@@ -385,7 +388,7 @@ namespace Files.App.Data.Commands
 						continue;
 
 					// Parse and add the hotkeys
-					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.Value).Except(useds));
+					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.Value, false).Except(useds));
 					customs.Add(code, new(hotKeys));
 
 					foreach (var hotKey in hotKeys)
@@ -453,7 +456,7 @@ namespace Files.App.Data.Commands
 			{
 				get
 				{
-					string text = HotKeys.Label;
+					string text = HotKeys.HumanizedLabel;
 					if (string.IsNullOrEmpty(text))
 						return null;
 					return text;
@@ -473,9 +476,9 @@ namespace Files.App.Data.Commands
 					var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
 
 					if (!customs.ContainsKey(code))
-						customs.Add(code, value.Code);
+						customs.Add(code, value.RawLabel);
 					else if (value != GetHotKeys(Action))
-						customs[code] = value.Code;
+						customs[code] = value.RawLabel;
 					else
 						customs.Remove(code);
 

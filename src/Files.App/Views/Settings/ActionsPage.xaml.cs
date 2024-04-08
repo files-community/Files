@@ -2,18 +2,11 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Services.Settings;
 using Files.App.ViewModels.Settings;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.App.Views.Settings
 {
@@ -72,7 +65,7 @@ namespace Files.App.Views.Settings
 				foreach (var hotkey in ViewModel.KeyboardShortcuts)
 				{
 					hotkey.IsEditMode = false;
-					hotkey.HotKeyText = hotkey.HotKey.Label;
+					hotkey.HotKeyText = hotkey.HotKey.LocalizedLabel;
 				}
 
 				// Enter edit mode
@@ -85,7 +78,7 @@ namespace Files.App.Views.Settings
 			if (sender is not Button button || button.DataContext is not ModifiableCommandHotKeyItem item)
 				return;
 
-			if (item.HotKeyText == item.PreviousHotKey.Label)
+			if (item.HotKeyText == item.PreviousHotKey.LocalizedLabel)
 			{
 				item.IsEditMode = false;
 				return;
@@ -121,7 +114,7 @@ namespace Files.App.Views.Settings
 				{
 					// Replace with new one
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiableDefaultCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
 				}
@@ -130,13 +123,13 @@ namespace Files.App.Views.Settings
 				{
 					// Replace with new one
 					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-					modifiableCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiableCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableCollection);
 				}
 
 				// Store
-				actions.Add(item.CommandCode.ToString(), modifiedCollection.Code);
+				actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
 				GeneralSettingsService.Actions = actions;
 
 				// Update visual
@@ -168,8 +161,8 @@ namespace Files.App.Views.Settings
 				actions.Remove(item.CommandCode.ToString());
 
 				// Add new one
-				if (modifiedCollection.Select(x => x.Label).SequenceEqual(item.DefaultHotKeyCollection.Select(x => x.Label)))
-					actions.Add(item.CommandCode.ToString(), modifiedCollection.Code);
+				if (modifiedCollection.Select(x => x.RawLabel).SequenceEqual(item.DefaultHotKeyCollection.Select(x => x.RawLabel)))
+					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
 
 				// Save
 				GeneralSettingsService.Actions = actions;
@@ -196,7 +189,7 @@ namespace Files.App.Views.Settings
 				return;
 
 			item.IsEditMode = false;
-			item.HotKeyText = item.HotKey.Label;
+			item.HotKeyText = item.HotKey.LocalizedLabel;
 		}
 
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -220,14 +213,14 @@ namespace Files.App.Views.Settings
 			if (!item.IsCustomized)
 			{
 				// Initialize
-				var newHotKey = HotKey.Parse($"!{item.PreviousHotKey.Code}");
+				var newHotKey = HotKey.Parse($"!{item.PreviousHotKey.RawLabel}");
 
 				// The first time to customize
 				if (string.IsNullOrEmpty(storedKeys))
 				{
 					// Replace with new one
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiableDefaultCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
 				}
@@ -236,14 +229,14 @@ namespace Files.App.Views.Settings
 				{
 					// Replace with new one
 					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-					modifiableCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiableCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableCollection);
 				}
 
 				// Remove previous one and add new one
 				actions.Remove(item.CommandCode.ToString());
-				actions.Add(item.CommandCode.ToString(), modifiedCollection.Code);
+				actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
 
 				// Store
 				GeneralSettingsService.Actions = actions;
@@ -258,14 +251,14 @@ namespace Files.App.Views.Settings
 			{
 				// Remove existing setting
 				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
-				modifiableCollection.RemoveAll(x => x.Code == item.PreviousHotKey.Code);
+				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 				modifiedCollection = new(modifiableCollection);
 
 				// Remove previous
 				actions.Remove(item.CommandCode.ToString());
 
-				if (modifiedCollection.Label != string.Empty)
-					actions.Add(item.CommandCode.ToString(), modifiedCollection.Label);
+				if (modifiedCollection.HumanizedLabel != string.Empty)
+					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
 
 				// Save
 				GeneralSettingsService.Actions = actions;
@@ -285,8 +278,8 @@ namespace Files.App.Views.Settings
 
 			var pressedKey = e.OriginalKey;
 
-			IReadOnlyList<VirtualKey> modifierKeys = new List<VirtualKey>
-			{
+			List<VirtualKey> modifierKeys = 
+			[
 				VirtualKey.Shift,
 				VirtualKey.Control,
 				VirtualKey.Menu,
@@ -297,7 +290,7 @@ namespace Files.App.Views.Settings
 				VirtualKey.RightControl,
 				VirtualKey.LeftMenu,
 				VirtualKey.RightMenu
-			};
+			];
 
 			// If pressed key is one of modifier don't show it in the TextBox yet
 			foreach (var modifier in modifierKeys)
@@ -306,15 +299,15 @@ namespace Files.App.Views.Settings
 					return;
 			}
 
-			var modifiers = HotKeyHelpers.GetCurrentKeyModifiers();
+			var pressedModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
 			string text = string.Empty;
 
 			// Add the modifiers with translated
-			if (modifiers.HasFlag(KeyModifiers.Ctrl))
+			if (pressedModifiers.HasFlag(KeyModifiers.Ctrl))
 				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+";
-			if (modifiers.HasFlag(KeyModifiers.Menu))
+			if (pressedModifiers.HasFlag(KeyModifiers.Menu))
 				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Menu)}+";
-			if (modifiers.HasFlag(KeyModifiers.Shift))
+			if (pressedModifiers.HasFlag(KeyModifiers.Shift))
 				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+";
 
 			// Add the key with translated
