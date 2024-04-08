@@ -317,10 +317,10 @@
 									Height="32"
 									Padding="0"
 									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
-									AutomationProperties.Name="{helpers:ResourceString Name=Save}"
+									AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
 									Click="CancelButton_Click"
 									IsEnabled="{x:Bind IsEditMode, Mode=OneWay}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=Save}">
+									ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
 									<FontIcon FontSize="14" Glyph="&#xE711;" />
 								</Button>
 
