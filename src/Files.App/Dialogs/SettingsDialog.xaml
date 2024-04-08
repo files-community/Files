@@ -127,7 +127,7 @@
 					Content="Actions"
 					Tag="ActionsPage">
 					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xEDA7;" />
+						<FontIcon Glyph="&#xF73D;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
