@@ -305,8 +305,8 @@ namespace Files.App.Views.Settings
 			// Add the modifiers with translated
 			if (pressedModifiers.HasFlag(KeyModifiers.Ctrl))
 				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+";
-			if (pressedModifiers.HasFlag(KeyModifiers.Menu))
-				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Menu)}+";
+			if (pressedModifiers.HasFlag(KeyModifiers.Alt))
+				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Alt)}+";
 			if (pressedModifiers.HasFlag(KeyModifiers.Shift))
 				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+";
 

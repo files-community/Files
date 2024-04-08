@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconEnterCompactOverlay");
 
 		public HotKey HotKey
-			=> new(Keys.Up, KeyModifiers.MenuCtrl);
+			=> new(Keys.Up, KeyModifiers.CtrlAlt);
 
 		public string Description
 			=> "EnterCompactOverlayDescription".GetLocalizedResource();

@@ -70,9 +70,9 @@ namespace Files.App.UserControls.KeyboardShortcut
 
 				void GetModifierCode(KeyModifiers modifier)
 				{
-					if (modifier.HasFlag(KeyModifiers.Menu))
+					if (modifier.HasFlag(KeyModifiers.Alt))
 					{
-						items.Add(new() { Text = HotKey.LocalizedModifiers[KeyModifiers.Menu], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = HotKey.LocalizedModifiers[KeyModifiers.Alt], ItemType = ItemType, Size = Size });
 						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.TextOnly, Size = Size });
 					}
 					if (modifier.HasFlag(KeyModifiers.Ctrl))
