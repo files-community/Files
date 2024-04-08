@@ -98,7 +98,7 @@ namespace Files.App.ViewModels.Settings
 						HotKey = hotkey,
 						DefaultHotKeyCollection = defaultKeys,
 						PreviousHotKey = hotkey,
-						IsCustomized =  !defaultKeys.Contains(hotkey),
+						IsCustomized = !defaultKeys.Contains(hotkey),
 					});
 				}
 			}

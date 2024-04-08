@@ -19,7 +19,6 @@ namespace Files.App.Views.Settings
 	public sealed partial class ActionsPage : Page
 	{
 		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly string PART_EditButton = "EditButton";
 		private readonly string NormalState = "Normal";
@@ -224,7 +223,6 @@ namespace Files.App.Views.Settings
 				}
 			}
 
-			// Set
 			if (customizedCollection.Label != string.Empty)
 				actions.Add(item.CommandCode.ToString(), customizedCollection.Label);
 
@@ -249,43 +247,15 @@ namespace Files.App.Views.Settings
 					return;
 			}
 
-			var modifiers = VirtualKeyModifiers.None;
-
-			// TODO: Move to HotKeyHelpers.GetCurrentKeyModifiers()
-			foreach (var modifier in ModifierKeys)
-			{
-				var keyState = InputKeyboardSource.GetKeyStateForCurrentThread(modifier);
-
-				if (keyState.HasFlag(CoreVirtualKeyStates.Down))
-				{
-					switch (modifier)
-					{
-						case VirtualKey.Control:
-						case VirtualKey.LeftControl:
-						case VirtualKey.RightControl:
-							modifiers |= VirtualKeyModifiers.Control;
-							break;
-						case VirtualKey.Menu:
-						case VirtualKey.LeftMenu:
-						case VirtualKey.RightMenu:
-							modifiers |= VirtualKeyModifiers.Menu;
-							break;
-						case VirtualKey.Shift:
-						case VirtualKey.LeftShift:
-							modifiers |= VirtualKeyModifiers.Shift;
-							break;
-					}
-				}
-			}
-
+			var modifiers = HotKeyHelpers.GetCurrentKeyModifiers();
 			string text = string.Empty;
 
 			// Add the modifiers with translated
-			if (modifiers.HasFlag(VirtualKeyModifiers.Control))
+			if (modifiers.HasFlag(KeyModifiers.Ctrl))
 				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+";
-			if (modifiers.HasFlag(VirtualKeyModifiers.Menu))
+			if (modifiers.HasFlag(KeyModifiers.Menu))
 				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Menu)}+";
-			if (modifiers.HasFlag(VirtualKeyModifiers.Shift))
+			if (modifiers.HasFlag(KeyModifiers.Shift))
 				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+";
 
 			// Add the key with translated
@@ -293,7 +263,7 @@ namespace Files.App.Views.Settings
 
 			// Ban from using only alphabetic chars
 			// Ctrl+A is allowed, but only A is not allowed in any context
-			if (modifiers == VirtualKeyModifiers.None &&
+			if (modifiers == KeyModifiers.None &&
 				(VirtualKey.A < pressedKey && pressedKey < VirtualKey.Z))
 				return;
 
