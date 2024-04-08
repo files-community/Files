@@ -319,5 +319,12 @@ namespace Files.App.Views.Settings
 			// Prevent key down event in other UIElements from getting invoked
 			e.Handled = true;
 		}
+
+		private void KeyboardShortcutEditorTextBox_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Focus Key Binding TextBox
+			TextBox keyboardShortcutEditorTextBox = (TextBox)sender;
+			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
+		}
 	}
 }
