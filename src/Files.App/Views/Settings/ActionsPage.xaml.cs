@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Services.Settings;
+using Files.App.ViewModels.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -24,19 +25,7 @@ namespace Files.App.Views.Settings
 		private readonly string NormalState = "Normal";
 		private readonly string PointerOverState = "PointerOver";
 
-		static readonly IReadOnlyList<VirtualKey> ModifierKeys = new List<VirtualKey>
-		{
-			VirtualKey.Shift,
-			VirtualKey.Control,
-			VirtualKey.Menu,
-			VirtualKey.LeftWindows,
-			VirtualKey.RightWindows,
-			VirtualKey.LeftShift,
-			VirtualKey.LeftControl,
-			VirtualKey.RightControl,
-			VirtualKey.LeftMenu,
-			VirtualKey.RightMenu
-		};
+		private ActionsViewModel ViewModel { get; set; } = new();
 
 		public ActionsPage()
 		{
@@ -113,7 +102,10 @@ namespace Files.App.Views.Settings
 			}
 
 			// Get clone of customized hotkeys to overwrite
-			var actions = new Dictionary<string, string>(GeneralSettingsService.Actions);
+			var actions =
+				GeneralSettingsService.Actions is not null
+					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+					: [];
 
 			// Initialize
 			var existingCollection = HotKeyCollection.Empty;
@@ -204,7 +196,11 @@ namespace Files.App.Views.Settings
 			if (sender is not Button button || button.DataContext is not ModifiableCommandHotKeyItem item)
 				return;
 
-			var actions = new Dictionary<string, string>(GeneralSettingsService.Actions);
+			// Get clone of customized hotkeys to overwrite
+			var actions =
+				GeneralSettingsService.Actions is not null
+					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+					: [];
 
 			HotKeyCollection customizedCollection = HotKeyCollection.Empty;
 
@@ -226,6 +222,7 @@ namespace Files.App.Views.Settings
 			if (customizedCollection.Label != string.Empty)
 				actions.Add(item.CommandCode.ToString(), customizedCollection.Label);
 
+			// Save
 			GeneralSettingsService.Actions = actions;
 
 			item.IsEditMode = false;
@@ -240,8 +237,22 @@ namespace Files.App.Views.Settings
 
 			var pressedKey = e.OriginalKey;
 
+			IReadOnlyList<VirtualKey> modifierKeys = new List<VirtualKey>
+			{
+				VirtualKey.Shift,
+				VirtualKey.Control,
+				VirtualKey.Menu,
+				VirtualKey.LeftWindows,
+				VirtualKey.RightWindows,
+				VirtualKey.LeftShift,
+				VirtualKey.LeftControl,
+				VirtualKey.RightControl,
+				VirtualKey.LeftMenu,
+				VirtualKey.RightMenu
+			};
+
 			// If pressed key is one of modifier don't show it in the TextBox yet
-			foreach (var modifier in ModifierKeys)
+			foreach (var modifier in modifierKeys)
 			{
 				if (pressedKey == modifier)
 					return;

@@ -43,6 +43,7 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _SelectedNewShortcutItem, value);
 		}
 
+		public ICommand LoadCommandsCommand { get; set; }
 		public ICommand ShowResetAllConfirmationCommand { get; set; }
 		public ICommand ShowAddNewShortcutGridCommand { get; set; }
 		public ICommand HideAddNewShortcutGridCommand { get; set; }
@@ -51,8 +52,7 @@ namespace Files.App.ViewModels.Settings
 
 		public ActionsViewModel()
 		{
-			LoadCommands();
-
+			LoadCommandsCommand = new AsyncRelayCommand(LoadCommands);
 			ShowResetAllConfirmationCommand = new RelayCommand(ExecuteShowResetAllConfirmationCommand);
 			ShowAddNewShortcutGridCommand = new RelayCommand(ExecuteShowAddNewShortcutGridCommand);
 			HideAddNewShortcutGridCommand = new RelayCommand(ExecuteHideAddNewShortcutGridCommand);
@@ -60,48 +60,51 @@ namespace Files.App.ViewModels.Settings
 			ResetAllCommand = new RelayCommand(ExecuteResetAllCommand);
 		}
 
-		private void LoadCommands()
+		private async Task LoadCommands()
 		{
-			KeyboardShortcuts.Clear();
-			ExcludedKeyboardShortcuts.Clear();
-
-			foreach (var command in Commands)
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				var defaultKeys = command.DefaultHotKeys;
+				KeyboardShortcuts.Clear();
+				ExcludedKeyboardShortcuts.Clear();
 
-				if (command is NoneCommand)
-					continue;
-
-				if (command.HotKeys.IsEmpty)
+				foreach (var command in Commands)
 				{
-					ExcludedKeyboardShortcuts.Add(new()
-					{
-						CommandCode = command.Code,
-						Label = command.Label,
-						Description = command.Description,
-						HotKey = new(),
-					});
+					var defaultKeys = command.DefaultHotKeys;
 
-					continue;
-				}
-
-				foreach (var hotkey in command.HotKeys)
-				{
-					if (!hotkey.IsVisible)
+					if (command is NoneCommand)
 						continue;
 
-					KeyboardShortcuts.Add(new()
+					if (command.HotKeys.IsEmpty)
 					{
-						CommandCode = command.Code,
-						Label = command.Label,
-						Description = command.Description,
-						HotKey = hotkey,
-						DefaultHotKeyCollection = defaultKeys,
-						PreviousHotKey = hotkey,
-						IsCustomized = !defaultKeys.Contains(hotkey),
-					});
+						ExcludedKeyboardShortcuts.Add(new()
+						{
+							CommandCode = command.Code,
+							Label = command.Label,
+							Description = command.Description,
+							HotKey = new(),
+						});
+
+						continue;
+					}
+
+					foreach (var hotkey in command.HotKeys)
+					{
+						if (!hotkey.IsVisible)
+							continue;
+
+						KeyboardShortcuts.Add(new()
+						{
+							CommandCode = command.Code,
+							Label = command.Label,
+							Description = command.Description,
+							HotKey = hotkey,
+							DefaultHotKeyCollection = defaultKeys,
+							PreviousHotKey = hotkey,
+							IsCustomized = !defaultKeys.Contains(hotkey),
+						});
+					}
 				}
-			}
+			});
 		}
 
 		private void ExecuteShowResetAllConfirmationCommand()
@@ -130,7 +133,10 @@ namespace Files.App.ViewModels.Settings
 			if (SelectedNewShortcutItem is null)
 				return;
 
-			var actions = new Dictionary<string, string>(GeneralSettingsService.Actions);
+			var actions =
+				GeneralSettingsService.Actions is not null
+					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+					: [];
 
 			// Remove existing setting
 			foreach (var action in actions)
@@ -173,7 +179,7 @@ namespace Files.App.ViewModels.Settings
 			GeneralSettingsService.Actions = null;
 			IsResetAllConfirmationTeachingTipOpened = false;
 
-			LoadCommands();
+			_ = LoadCommands();
 		}
 	}
 }

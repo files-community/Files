@@ -6,11 +6,19 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
+
+	<i:Interaction.Behaviors>
+		<icore:EventTriggerBehavior EventName="Loaded">
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommandsCommand, Mode=OneWay}" />
+		</icore:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
 
 	<Page.Resources>
 		<ResourceDictionary>
@@ -47,10 +55,6 @@
 
 		</ResourceDictionary>
 	</Page.Resources>
-
-	<Page.DataContext>
-		<vm:ActionsViewModel x:Name="ViewModel" />
-	</Page.DataContext>
 
 	<Grid>
 		<StackPanel
@@ -315,7 +319,7 @@
 									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Save}"
 									Click="CancelButton_Click"
-									IsEnabled="{x:Bind IsCustomized, Mode=OneWay}"
+									IsEnabled="{x:Bind IsEditMode, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Save}">
 									<FontIcon FontSize="14" Glyph="&#xE711;" />
 								</Button>
