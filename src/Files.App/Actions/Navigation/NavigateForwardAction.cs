@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "NavigateForwardDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.Right, KeyModifiers.Menu);
+			=> new(Keys.Right, KeyModifiers.Alt);
 
 		public HotKey SecondHotKey
 			=> new(Keys.Mouse5);
