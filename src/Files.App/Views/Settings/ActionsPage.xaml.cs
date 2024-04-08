@@ -114,7 +114,7 @@ namespace Files.App.Views.Settings
 				{
 					// Replace with new one
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
+					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
 					modifiableDefaultCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
 				}
@@ -123,7 +123,7 @@ namespace Files.App.Views.Settings
 				{
 					// Replace with new one
 					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
+					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
 					modifiableCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableCollection);
 				}
@@ -251,7 +251,7 @@ namespace Files.App.Views.Settings
 			{
 				// Remove existing setting
 				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
+				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 				modifiedCollection = new(modifiableCollection);
 
 				// Remove previous
