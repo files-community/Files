@@ -160,6 +160,7 @@
 					Width="144"
 					VerticalAlignment="Center"
 					IsEnabled="{x:Bind ViewModel.SelectedNewShortcutItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
+					IsEnabledChanged="KeyboardShortcutEditorTextBox_IsEnabledChanged"
 					IsReadOnly="True"
 					IsSpellCheckEnabled="False"
 					IsTabStop="True"
