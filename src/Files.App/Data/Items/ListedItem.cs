@@ -102,7 +102,7 @@ namespace Files.App.Utils
 				{
 					Debug.Assert(value != null);
 					var dbInstance = FileTagsHelper.GetDbInstance();
-					dbInstance.SetTags(ItemPath, FileFRN, value ?? []);
+					dbInstance.SetTags(ItemPath, FileFRN, value);
 					HasTags = !FileTags.IsEmpty();
 					FileTagsHelper.WriteFileTag(ItemPath, value);
 					OnPropertyChanged(nameof(FileTagsUI));

@@ -30,7 +30,7 @@ namespace Files.App.UserControls.Widgets
 		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
-		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = new();
+		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = [];
 
 		private IShellPage associatedInstance;
 
@@ -212,7 +212,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = [],
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

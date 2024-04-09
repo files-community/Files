@@ -8,7 +8,7 @@ namespace Files.App.Storage.FtpStorage
 {
 	public static class FtpManager
 	{
-		public static readonly Dictionary<string, NetworkCredential> Credentials = new();
+		public static readonly Dictionary<string, NetworkCredential> Credentials = [];
 
 		public static readonly NetworkCredential Anonymous = new("anonymous", "anonymous");
 	}

@@ -115,7 +115,7 @@ namespace Files.App.Helpers
 
 			var backResistance = CreateResistanceCondition(-96f, 0f);
 			var forwardResistance = CreateResistanceCondition(0f, 96f);
-			List<CompositionConditionalValue> conditionalValues = new() { backResistance, forwardResistance };
+			List<CompositionConditionalValue> conditionalValues = [backResistance, forwardResistance];
 			_source.ConfigureDeltaPositionXModifiers(conditionalValues);
 
 			var backAnim = compositor.CreateExpressionAnimation("(-clamp(tracker.Position.X, -96, 0) * 2) - 48");

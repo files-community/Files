@@ -74,8 +74,7 @@ namespace Files.App.ViewModels.UserControls
 		public static event EventHandler<INavigationControlItem?>? RightClickedItemChanged;
 
 		private readonly SectionType[] SectionOrder =
-			new SectionType[]
-			{
+			[
 				SectionType.Home,
 				SectionType.Pinned,
 				SectionType.Library,
@@ -84,7 +83,7 @@ namespace Files.App.ViewModels.UserControls
 				SectionType.Network,
 				SectionType.WSL,
 				SectionType.FileTag
-			};
+			];
 
 		public bool IsSidebarCompactSize
 			=> SidebarDisplayMode == SidebarDisplayMode.Compact || SidebarDisplayMode == SidebarDisplayMode.Minimal;
@@ -235,7 +234,7 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-			sidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
+			sidebarItems = [];
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
 
@@ -559,7 +558,7 @@ namespace Files.App.ViewModels.UserControls
 				Section = sectionType,
 				MenuOptions = options,
 				SelectsOnInvoked = selectsOnInvoked,
-				ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+				ChildItems = []
 			};
 		}
 
@@ -1067,7 +1066,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = [],
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
@@ -1290,7 +1289,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					ItemPath = item.Path,
 					FileFRN = await FileTagsHelper.GetFileFRN(item.Item),
-					FileTags = new[] { fileTagItem.FileTag.Uid }
+					FileTags = [fileTagItem.FileTag.Uid]
 				};
 			}
 		}

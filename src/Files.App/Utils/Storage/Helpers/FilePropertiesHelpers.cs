@@ -34,7 +34,7 @@ namespace Files.App.Utils.Storage
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
 		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
-		private static BlockingCollection<WinUIEx.WindowEx> WindowCache = new();
+		private static BlockingCollection<WinUIEx.WindowEx> WindowCache = [];
 
 		/// <summary>
 		/// Open properties window

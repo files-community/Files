@@ -39,7 +39,7 @@ namespace Files.App.ViewModels.Previews
 				ImageSource = bitmap;
 			});
 
-			return new List<FileProperty>();
+			return [];
 		}
 	}
 }

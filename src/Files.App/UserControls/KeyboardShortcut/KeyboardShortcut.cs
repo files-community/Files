@@ -33,7 +33,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 			if (HotKeys.IsEmpty)
 				return;
 
-			List<KeyboardShortcutItem> items = new();
+			List<KeyboardShortcutItem> items = [];
 
 			foreach (var item in HotKeys)
 			{

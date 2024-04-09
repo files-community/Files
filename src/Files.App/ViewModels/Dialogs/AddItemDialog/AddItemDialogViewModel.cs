@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.Dialogs.AddItemDialog
 			_imagingService = Ioc.Default.GetRequiredService<IImageService>();
 
 			// Initialize
-			AddItemsList = new();
+			AddItemsList = [];
 			ResultType = new()
 			{
 				ItemType = AddItemDialogItemType.Cancel

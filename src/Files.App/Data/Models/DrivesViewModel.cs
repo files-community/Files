@@ -35,7 +35,7 @@ namespace Files.App.Data.Models
 			this.folderSizeProvider = folderSizeProvider;
 			this.logger = logger;
 
-			drives = new ObservableCollection<ILocatableFolder>();
+			drives = [];
 
 			watcher = removableDrivesService.CreateWatcher();
 			watcher.DeviceAdded += Watcher_DeviceAdded;

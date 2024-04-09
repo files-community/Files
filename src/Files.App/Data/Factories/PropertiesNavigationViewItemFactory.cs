@@ -12,7 +12,7 @@ namespace Files.App.Data.Factories
 	{
 		public static ObservableCollection<NavigationViewItemButtonStyleItem> Initialize(object item)
 		{
-			ObservableCollection<NavigationViewItemButtonStyleItem> PropertiesNavigationViewItems = new();
+			ObservableCollection<NavigationViewItemButtonStyleItem> PropertiesNavigationViewItems = [];
 
 			var generalItem = new NavigationViewItemButtonStyleItem()
 			{

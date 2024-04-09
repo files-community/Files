@@ -50,7 +50,7 @@ namespace Files.App.Data.Items
 		{
 			_tagUid = tagUid;
 			_openAction = openAction;
-			Tags = new();
+			Tags = [];
 
 			ViewMoreCommand = new AsyncRelayCommand<CancellationToken>(ViewMore);
 			OpenAllCommand = new AsyncRelayCommand<CancellationToken>(OpenAll);

@@ -113,7 +113,7 @@ namespace Files.App.Utils.Git
 		public static async Task<BranchItem[]> GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Array.Empty<BranchItem>();
+				return [];
 
 			var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
 			{

@@ -24,7 +24,7 @@ namespace Files.App.Services
 		private async Task PinToSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
 			foreach (string folderPath in folderPaths)
-				await ContextMenu.InvokeVerb("pintohome", new[] {folderPath});
+				await ContextMenu.InvokeVerb("pintohome", [folderPath]);
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)
@@ -39,7 +39,7 @@ namespace Files.App.Services
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);
-			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { $"shell:{guid}" });
+			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, [$"shell:{guid}"]);
 
 			if (folderPaths.Length == 0)
 				folderPaths = (await GetPinnedFoldersAsync())
@@ -91,7 +91,7 @@ namespace Files.App.Services
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item that is below this index and then pin them all in order
-			await UnpinFromSidebarAsync(Array.Empty<string>(), false);
+			await UnpinFromSidebarAsync([], false);
 
 			await PinToSidebarAsync(items, false);
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;

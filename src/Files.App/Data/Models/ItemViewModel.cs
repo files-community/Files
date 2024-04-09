@@ -473,8 +473,8 @@ namespace Files.App.Data.Models
 		public ItemViewModel(LayoutPreferencesManager folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
-			filesAndFolders = new ConcurrentCollection<ListedItem>();
-			FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
+			filesAndFolders = [];
+			FilesAndFolders = [];
 			operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
 			gitChangesQueue = new ConcurrentQueue<uint>();
 			itemLoadQueue = new ConcurrentDictionary<string, bool>();
@@ -1755,13 +1755,13 @@ namespace Files.App.Data.Models
 			int? syncStatus = null;
 			if (item is BaseStorageFile file && file.Properties is not null)
 			{
-				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }).AsTask());
+				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus"]).AsTask());
 				if (extraProperties)
 					syncStatus = (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
 			}
 			else if (item is BaseStorageFolder folder && folder.Properties is not null)
 			{
-				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }).AsTask());
+				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus"]).AsTask());
 				if (extraProperties)
 				{
 					syncStatus = (int?)(uint?)extraProperties.Result["System.FileOfflineAvailabilityStatus"];
@@ -2110,7 +2110,7 @@ namespace Files.App.Data.Models
 
 				if (lastItemAdded is not null && !lastItemAdded.IsArchive)
 				{
-					await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
+					await RequestSelectionAsync([lastItemAdded]);
 					lastItemAdded = null;
 				}
 
