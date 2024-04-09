@@ -7,21 +7,9 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.UserControls
 {
+	[DependencyProperty<AddressToolbarViewModel>("ViewModel")]
 	public sealed partial class PathBreadcrumb : UserControl
 	{
-		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(
-				nameof(ViewModel),
-				typeof(AddressToolbarViewModel),
-				typeof(PathBreadcrumb),
-				new(null));
-
-		public AddressToolbarViewModel ViewModel
-		{
-			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
-			set => SetValue(ViewModelProperty, value);
-		}
-
 		public PathBreadcrumb()
 		{
 			InitializeComponent();
