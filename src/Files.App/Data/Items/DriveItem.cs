@@ -260,7 +260,7 @@ namespace Files.App.Data.Items
 		{
 			try
 			{
-				var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
+				var properties = await Root.Properties.RetrievePropertiesAsync(["System.ItemNameDisplay"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 				Text = (string)properties["System.ItemNameDisplay"];
 			}
@@ -273,7 +273,7 @@ namespace Files.App.Data.Items
 		{
 			try
 			{
-				var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
+				var properties = await Root.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
 				if (properties is not null && properties["System.Capacity"] is not null && properties["System.FreeSpace"] is not null)

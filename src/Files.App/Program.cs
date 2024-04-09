@@ -203,7 +203,7 @@ namespace Files.App
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
-				new IntPtr[] { eventHandle },
+				[eventHandle],
 				out uint handleIndex);
 		}
 
@@ -226,7 +226,7 @@ namespace Files.App
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
-				new IntPtr[] { eventHandle },
+				[eventHandle],
 				out uint handleIndex);
 		}
 	}

@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.Previews
 			var text = await ReadFileAsTextAsync(Item.ItemFile);
 			TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
 
-			return new List<FileProperty>();
+			return [];
 		}
 	}
 }

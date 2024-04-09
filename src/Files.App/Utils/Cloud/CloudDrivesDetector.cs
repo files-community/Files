@@ -60,7 +60,7 @@ namespace Files.App.Utils.Cloud
 			using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
 			using var namespaceKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace");
 
-			foreach (var subKeyName in namespaceKey?.GetSubKeyNames() ?? Array.Empty<string>())
+			foreach (var subKeyName in namespaceKey?.GetSubKeyNames() ?? [])
 			{
 				using var clsidSubKey = SafetyExtensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
 				if (clsidSubKey is not null && (int?)clsidSubKey.GetValue("System.IsPinnedToNameSpaceTree") is 1)

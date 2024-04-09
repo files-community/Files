@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.Previews
 		/// <returns>The task to run</returns>
 		public virtual async Task LoadAsync()
 		{
-			List<FileProperty> detailsFull = new();
+			List<FileProperty> detailsFull = [];
 
 			if (Item.ItemFile is null)
 			{
@@ -95,7 +95,7 @@ namespace Files.App.ViewModels.Previews
 			else
 				FileImage ??= await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => new BitmapImage());
 
-			return new List<FileProperty>();
+			return [];
 		}
 
 		/// <summary>

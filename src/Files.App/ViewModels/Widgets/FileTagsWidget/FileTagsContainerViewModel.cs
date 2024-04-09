@@ -38,7 +38,7 @@ namespace Files.App.ViewModels.Widgets.FileTagsWidget
 
 			_tagUid = tagUid;
 			_openAction = openAction;
-			Tags = new();
+			Tags = [];
 		}
 
 		/// <inheritdoc/>

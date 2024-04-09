@@ -30,11 +30,11 @@ namespace Files.App.UserControls.Sidebar
 		public IRawElementProviderSimple[] GetSelection()
 		{
 			if (Owner.SelectedItemContainer != null)
-				return new IRawElementProviderSimple[]
-				{
+				return
+				[
 				ProviderFromPeer(CreatePeerForElement(Owner.SelectedItemContainer))
-				};
-			return Array.Empty<IRawElementProviderSimple>();
+				];
+			return [];
 		}
 	}
 }

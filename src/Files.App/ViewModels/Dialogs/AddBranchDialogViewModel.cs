@@ -51,7 +51,7 @@
 		{
 			_repositoryPath = repositoryPath;
 			BasedOn = activeBranch;
-			Branches = Array.Empty<string>();
+			Branches = [];
 		}
 
 		public async Task LoadBranches()

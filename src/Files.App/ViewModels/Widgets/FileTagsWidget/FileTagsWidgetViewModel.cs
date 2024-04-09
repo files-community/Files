@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.Widgets.FileTagsWidget
 			_fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 			_openAction = openAction;
-			Containers = new();
+			Containers = [];
 
 			_fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
 		}

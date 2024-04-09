@@ -211,8 +211,10 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly && prop.Modified)
 					{
-						var newDict = new Dictionary<string, object>();
-						newDict.Add(prop.Property, prop.Value);
+						var newDict = new Dictionary<string, object>
+						{
+							{ prop.Property, prop.Value }
+						};
 
 						try
 						{
@@ -249,8 +251,10 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly)
 					{
-						var newDict = new Dictionary<string, object>();
-						newDict.Add(prop.Property, null);
+						var newDict = new Dictionary<string, object>
+						{
+							{ prop.Property, null }
+						};
 
 						try
 						{

@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			Stream = await Item.ItemFile.OpenReadAsync();
 
-			return new List<FileProperty>();
+			return [];
 		}
 	}
 }

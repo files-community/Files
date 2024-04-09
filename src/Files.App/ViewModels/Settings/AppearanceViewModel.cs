@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.Settings
 		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
-		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = new();
+		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = [];
 
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
@@ -21,12 +21,12 @@ namespace Files.App.ViewModels.Settings
 			UserSettingsService = userSettingsService;
 			ResourcesService = resourcesService;
 
-			Themes = new List<string>()
-			{
+			Themes =
+			[
 				"Default".GetLocalizedResource(),
 				"LightTheme".GetLocalizedResource(),
 				"DarkTheme".GetLocalizedResource()
-			};
+			];
 
 			// TODO: Re-add Solid and regular Mica when theming is revamped
 			//BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "Solid".GetLocalizedResource());
