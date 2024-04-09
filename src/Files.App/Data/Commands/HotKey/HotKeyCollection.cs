@@ -58,7 +58,7 @@ namespace Files.App.Data.Commands
 
 		public HotKeyCollection()
 		{
-			hotKeys = ImmutableArray<HotKey>.Empty;
+			hotKeys = [];
 		}
 
 		public HotKeyCollection(params HotKey[] hotKeys)
