@@ -133,12 +133,14 @@
 					SelectedItem="{x:Bind ViewModel.SelectedNewShortcutItem, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="dataitems:ModifiableCommandHotKeyItem">
-							<StackPanel>
+							<StackPanel Width="240" HorizontalAlignment="Left">
 								<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Label}" />
 								<TextBlock
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="{x:Bind Description}" />
+									Text="{x:Bind Description}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
 							</StackPanel>
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
