@@ -504,7 +504,7 @@ namespace Files.App.Utils.Storage
 
 			if (permanently)
 			{
-				fsResult = (FilesystemResult)NativeFileOperationsHelper.DeleteFileFromApp(source.Path);
+				fsResult = (FilesystemResult)PInvoke.DeleteFileFromApp(source.Path);
 			}
 			if (!fsResult)
 			{

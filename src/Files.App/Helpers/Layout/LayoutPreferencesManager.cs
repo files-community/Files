@@ -4,6 +4,7 @@
 using Files.App.Server.Data.Enums;
 using System.Text.Json;
 using Windows.Storage;
+using Windows.Win32;
 
 namespace Files.App.Data.Models
 {
@@ -530,7 +531,7 @@ namespace Files.App.Data.Models
 
 			// Port settings to the database, delete the ADS
 			SetLayoutPreferencesToDatabase(path, frn, layoutPreferences);
-			NativeFileOperationsHelper.DeleteFileFromApp($"{path}:files_layoutmode");
+			PInvoke.DeleteFileFromApp($"{path}:files_layoutmode");
 
 			return layoutPreferences;
 		}

@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Win32;
 using IO = System.IO;
 
 namespace Files.App.Utils.FileTags
@@ -31,7 +32,7 @@ namespace Files.App.Utils.FileTags
 			}
 			if (tag is null || !tag.Any())
 			{
-				NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
+				PInvoke.DeleteFileFromApp($"{filePath}:files");
 			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
 			{
@@ -78,7 +79,7 @@ namespace Files.App.Utils.FileTags
 					}
 					else
 					{
-						dbInstance.SetTags(null, file.Frn, null);
+						dbInstance.SetTags(null, file.Frn, []);
 					}
 				}
 				else
@@ -93,12 +94,12 @@ namespace Files.App.Utils.FileTags
 							dbInstance.SetTags(file.FilePath, frn, tag);
 						}, App.Logger))
 						{
-							dbInstance.SetTags(file.FilePath, null, null);
+							dbInstance.SetTags(file.FilePath, null, []);
 						}
 					}
 					else
 					{
-						dbInstance.SetTags(file.FilePath, null, null);
+						dbInstance.SetTags(file.FilePath, null, []);
 					}
 				}
 			}

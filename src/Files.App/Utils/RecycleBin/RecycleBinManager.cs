@@ -12,7 +12,7 @@ namespace Files.App.Utils.RecycleBin
 	{
 		private static readonly Lazy<RecycleBinManager> lazy = new(() => new RecycleBinManager());
 
-		private IList<SystemIO.FileSystemWatcher>? binWatchers;
+		private List<SystemIO.FileSystemWatcher>? binWatchers;
 
 		public event SystemIO.FileSystemEventHandler? RecycleBinItemCreated;
 

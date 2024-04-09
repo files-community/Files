@@ -26,7 +26,7 @@ namespace Files.App.Utils.Storage
 
 		private IShellPage associatedInstance;
 		private readonly IJumpListService jumpListService;
-		private IFilesystemOperations filesystemOperations;
+		private ShellFilesystemOperations filesystemOperations;
 
 		private ItemManipulationModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
