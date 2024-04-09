@@ -15,7 +15,7 @@ namespace Files.App.Utils.Cloud
 
 		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private static readonly List<DriveItem> _Drives = new();
+		private static readonly List<DriveItem> _Drives = [];
 		public static IReadOnlyList<DriveItem> Drives
 		{
 			get

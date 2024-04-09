@@ -162,9 +162,9 @@ namespace Files.App.Server.Database
 			}
 		}
 
-		public string[]? GetTags(string? filePath, ulong? frn)
+		public string[] GetTags(string? filePath, ulong? frn)
 		{
-			return FindTag(filePath, frn)?.Tags;
+			return FindTag(filePath, frn)?.Tags ?? [];
 		}
 
 		public IEnumerable<TaggedFile> GetAll()

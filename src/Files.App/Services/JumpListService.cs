@@ -48,12 +48,12 @@ namespace Files.App.Services
 				}
 				catch
 				{
-					return Enumerable.Empty<string>();
+					return [];
 				}
 			}
 			else
 			{
-				return Enumerable.Empty<string>();
+				return [];
 			}
 		}
 

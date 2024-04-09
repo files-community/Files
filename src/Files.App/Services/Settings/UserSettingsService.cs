@@ -81,9 +81,9 @@ namespace Files.App.Services.Settings
 		{
 			Dictionary<string, object> settingsImport = import switch
 			{
-				string s => JsonSettingsSerializer?.DeserializeFromJson<Dictionary<string, object>>(s) ?? new(),
+				string s => JsonSettingsSerializer?.DeserializeFromJson<Dictionary<string, object>>(s) ?? [],
 				Dictionary<string, object> d => d,
-				_ => new(),
+				_ => [],
 			};
 
 			if (!settingsImport.IsEmpty() && base.ImportSettings(settingsImport))

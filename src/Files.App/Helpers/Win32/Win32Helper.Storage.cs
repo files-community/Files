@@ -194,7 +194,7 @@ namespace Files.App.Helpers
 		public static string?[] CommandLineToArgs(string commandLine)
 		{
 			if (string.IsNullOrEmpty(commandLine))
-				return Array.Empty<string>();
+				return [];
 
 			var argv = Shell32.CommandLineToArgvW(commandLine, out int argc);
 			if (argv == IntPtr.Zero)
@@ -371,14 +371,14 @@ namespace Files.App.Helpers
 							else if (isFolder)
 							{
 								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, size);
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), [2], size);
 								var generic = icons.SingleOrDefault(x => x.Index == 2);
 								iconData = generic?.IconData;
 							}
 							else
 							{
 								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, size);
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), [1], size);
 								var generic = icons.SingleOrDefault(x => x.Index == 1);
 								iconData = generic?.IconData;
 							}

@@ -23,9 +23,9 @@ namespace Files.App.ViewModels
 
 		// Properties
 
-		public static ObservableCollection<TabBarItem> AppInstances { get; private set; } = new();
+		public static ObservableCollection<TabBarItem> AppInstances { get; private set; } = [];
 
-		public List<ITabBar> MultitaskingControls { get; } = new();
+		public List<ITabBar> MultitaskingControls { get; } = [];
 
 		public ITabBar? MultitaskingControl { get; set; }
 
@@ -133,7 +133,7 @@ namespace Files.App.ViewModels
 
 						var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 
-						UserSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+						UserSettingsService.GeneralSettingsService.LastSessionTabList = [defaultArg.Serialize()];
 					}
 					else
 					{
@@ -168,7 +168,7 @@ namespace Files.App.ViewModels
 
 							var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 
-							UserSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+							UserSettingsService.GeneralSettingsService.LastSessionTabList = [defaultArg.Serialize()];
 						}
 					}
 					catch { }

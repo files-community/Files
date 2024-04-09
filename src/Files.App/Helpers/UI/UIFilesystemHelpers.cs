@@ -25,7 +25,7 @@ namespace Files.App.Helpers
 			{
 				RequestedOperation = DataPackageOperation.Move
 			};
-			ConcurrentBag<IStorageItem> items = new();
+			ConcurrentBag<IStorageItem> items = [];
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
 			{
@@ -134,7 +134,7 @@ namespace Files.App.Helpers
 			{
 				RequestedOperation = DataPackageOperation.Copy
 			};
-			ConcurrentBag<IStorageItem> items = new();
+			ConcurrentBag<IStorageItem> items = [];
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
 			{

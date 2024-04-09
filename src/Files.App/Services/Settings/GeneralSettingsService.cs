@@ -253,7 +253,7 @@ namespace Files.App.Services.Settings
 
 		public Dictionary<string, string> Actions
 		{
-			get => Get<Dictionary<string, string>>(null) ?? new();
+			get => Get<Dictionary<string, string>>(null) ?? [];
 			set => Set(value);
 		}
 

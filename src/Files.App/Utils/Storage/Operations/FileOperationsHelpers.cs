@@ -31,7 +31,7 @@ namespace Files.App.Utils.Storage
 				var fileList = new System.Collections.Specialized.StringCollection();
 				fileList.AddRange(filesToCopy);
 				MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
-					new byte[] { 5, 0, 0, 0 } : new byte[] { 2, 0, 0, 0 });
+					[5, 0, 0, 0] : [2, 0, 0, 0]);
 				var data = new System.Windows.Forms.DataObject();
 				data.SetFileDropList(fileList);
 				data.SetData("Preferred DropEffect", dropEffect);
@@ -864,7 +864,7 @@ namespace Files.App.Utils.Storage
 						{
 							var tag = dbInstance.GetTags(sourcePath, null);
 
-							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag ?? []); // copy tag to new files
+							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
 							using var si = new ShellItem(destination);
 							if (si.IsFolder) // File tag is not copied automatically for folders
 							{

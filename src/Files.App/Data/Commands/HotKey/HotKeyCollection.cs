@@ -11,7 +11,7 @@ namespace Files.App.Data.Commands
 	[DebuggerDisplay("{Code}")]
 	public readonly struct HotKeyCollection : IEnumerable<HotKey>, IEquatable<HotKeyCollection>
 	{
-		private static readonly char[] parseSeparators = new char[] { ',', ';', ' ', '\t' };
+		private static readonly char[] parseSeparators = [',', ';', ' ', '\t'];
 
 		private readonly ImmutableArray<HotKey> hotKeys;
 
@@ -25,7 +25,7 @@ namespace Files.App.Data.Commands
 		public string Code => string.Join(',', hotKeys.Select(hotKey => hotKey.Code));
 		public string Label => string.Join(",  ", hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.Label));
 
-		public HotKeyCollection() => hotKeys = ImmutableArray<HotKey>.Empty;
+		public HotKeyCollection() => hotKeys = [];
 		public HotKeyCollection(params HotKey[] hotKeys) => this.hotKeys = Clean(hotKeys);
 		public HotKeyCollection(IEnumerable<HotKey> hotKeys) => this.hotKeys = Clean(hotKeys);
 

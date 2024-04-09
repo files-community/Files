@@ -31,7 +31,7 @@ namespace Files.App.Data.Items
 
 		public ShellFileItem()
 		{
-			Properties = new Dictionary<string, object?>();
+			Properties = [];
 		}
 
 		public ShellFileItem(bool isFolder, string recyclePath, string fileName, string filePath, DateTime recycleDate, DateTime modifiedDate, DateTime createdDate, string fileSize, ulong fileSizeBytes, string fileType, byte[] pidl) : this()

@@ -20,13 +20,13 @@ namespace Files.App.Services.Settings
 
 		public event EventHandler OnTagsUpdated;
 
-		private static readonly List<TagViewModel> DefaultFileTags = new List<TagViewModel>()
-		{
+		private static readonly List<TagViewModel> DefaultFileTags =
+		[
 			new("Home", "#0072BD", "f7e0e137-2eb5-4fa4-a50d-ddd65df17c34"),
 			new("Work", "#D95319", "c84a8131-c4de-47d9-9440-26e859d14b3d"),
 			new("Photos", "#EDB120", "d4b8d4bd-ceaf-4e58-ac61-a185fcf96c5d"),
 			new("Important", "#77AC30", "79376daf-c44a-4fe4-aa3b-8b30baea453e")
-		};
+		];
 
 		public FileTagsSettingsService()
 		{

@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<ObservableCollection<ListedItem>> SearchAsync()
 		{
-			ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
+			ObservableCollection<ListedItem> results = [];
 			try
 			{
 				var token = CancellationToken.None;

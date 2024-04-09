@@ -28,11 +28,11 @@ namespace Files.App.ViewModels.Properties
 			string dateAccessedProperty = "System.DateAccessed";
 			string dateModifiedProperty = "System.DateModified";
 
-			List<string> propertiesName = new()
-			{
+			List<string> propertiesName =
+			[
 				dateAccessedProperty,
 				dateModifiedProperty
-			};
+			];
 
 			IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
 
