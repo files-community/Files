@@ -246,6 +246,8 @@
 											Text="{x:Bind Label}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
+
+										<!--  TODO, decide if we want to add an indicator for custom actions  -->
 										<Border
 											x:Name="CustomizedIndicatorCircleBorder"
 											Width="8"
@@ -253,7 +255,8 @@
 											x:Load="{x:Bind IsDefaultKey, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 											Background="{ThemeResource SystemAccentColor}"
 											CornerRadius="{StaticResource ControlCornerRadius}"
-											ToolTipService.ToolTip="{helpers:ResourceString Name=Customized}" />
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Customized}"
+											Visibility="Collapsed" />
 									</StackPanel>
 									<TextBlock
 										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
