@@ -48,7 +48,7 @@ namespace Files.App.Services
 
 		public UpdateService()
 		{
-			_updatePackages = new List<StorePackageUpdate>();
+			_updatePackages = [];
 		}
 
 		public async Task DownloadUpdatesAsync()

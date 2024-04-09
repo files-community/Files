@@ -19,7 +19,7 @@ namespace Files.App.Utils.FileTags
 		public static string[] ReadFileTag(string filePath)
 		{
 			var tagString = NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
-			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries);
+			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? [];
 		}
 
 		public static async void WriteFileTag(string filePath, string[] tag)
@@ -30,7 +30,7 @@ namespace Files.App.Utils.FileTags
 			{
 				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
-			if (tag is null || !tag.Any())
+			if (!tag.Any())
 			{
 				PInvoke.DeleteFileFromApp($"{filePath}:files");
 			}
@@ -118,7 +118,7 @@ namespace Files.App.Utils.FileTags
 
 			static async Task<ulong?> GetFileFRN(IStorageItemExtraProperties properties)
 			{
-				var extra = await properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+				var extra = await properties.RetrievePropertiesAsync(["System.FileFRN"]);
 				return (ulong?)extra["System.FileFRN"];
 			}
 		}

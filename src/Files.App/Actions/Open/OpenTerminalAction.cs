@@ -85,10 +85,10 @@ namespace Files.App.Actions
 			}
 			else if (context.Folder is not null)
 			{
-				return new string[1] { context.Folder.ItemPath };
+				return [context.Folder.ItemPath];
 			}
 
-			return Array.Empty<string>();
+			return [];
 		}
 
 		private bool GetIsExecutable()

@@ -7,7 +7,7 @@ namespace Files.App.Data.Items
 	{
 		public ShellOperationResult()
 		{
-			Items = new List<ShellOperationItemResult>();
+			Items = [];
 		}
 
 		/// <summary>

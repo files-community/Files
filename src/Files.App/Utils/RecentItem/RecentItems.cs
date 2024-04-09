@@ -18,7 +18,7 @@ namespace Files.App.Utils.RecentItem
 		public EventHandler<NotifyCollectionChangedEventArgs>? RecentFoldersChanged;
 
 		// recent files
-		private readonly List<RecentItem> recentFiles = new();
+		private readonly List<RecentItem> recentFiles = [];
 		public IReadOnlyList<RecentItem> RecentFiles    // already sorted
 		{
 			get
@@ -31,7 +31,7 @@ namespace Files.App.Utils.RecentItem
 		}
 
 		// recent folders
-		private readonly List<RecentItem> recentFolders = new();
+		private readonly List<RecentItem> recentFolders = [];
 		public IReadOnlyList<RecentItem> RecentFolders  // already sorted
 		{
 			get

@@ -5,7 +5,7 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed class StatusCenterViewModel : ObservableObject
 	{
-		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = new();
+		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = [];
 
 		private int _AverageOperationProgressValue = 0;
 		public int AverageOperationProgressValue

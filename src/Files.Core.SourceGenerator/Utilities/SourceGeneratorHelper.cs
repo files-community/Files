@@ -180,29 +180,26 @@ namespace Files.Core.SourceGenerator.Utilities
 				.AddAccessorListAccessors(getter, setter);
 
 		internal static AttributeListSyntax[] GetAttributeForField(string generatorName) =>
-			new[]
-			{
+			[
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
 					.AddArgumentListArguments(
 						AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyName + generatorName))),
 						AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyVersion)))
 					))
-			};
+			];
 
 		internal static AttributeListSyntax[] GetAttributeForEvent(string generatorName) =>
-			new[]
-			{
+			[
 				AttributeList().AddAttributes(
 					Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode")).AddArgumentListArguments(
 						AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyName + generatorName))),
 						AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyVersion))))),
 				AttributeList().AddAttributes(
 					Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))
-			};
+			];
 
 		internal static AttributeListSyntax[] GetAttributeForMethod(string generatorName) =>
-			new[]
-			{
+			[
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
 					.AddArgumentListArguments(
 						AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyName + generatorName))),
@@ -210,7 +207,7 @@ namespace Files.Core.SourceGenerator.Utilities
 					)),
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode"))),
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))
-			};
+			];
 
 		/// <summary>
 		/// Generate the following code
@@ -229,7 +226,7 @@ namespace Files.Core.SourceGenerator.Utilities
 
 			return ClassDeclaration(specificType.Name)
 				.AddModifiers(Token(SyntaxKind.PartialKeyword))
-				.AddMembers(members.ToArray());
+				.AddMembers([.. members]);
 		}
 
 		/// <summary>

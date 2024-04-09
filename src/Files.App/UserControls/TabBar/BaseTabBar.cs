@@ -142,10 +142,10 @@ namespace Files.App.UserControls.TabBar
 			tabItem.Unload();
 			
 			// Dispose and save tab arguments
-			PushRecentTab(new CustomTabViewItemParameter[]
-			{
+			PushRecentTab(
+			[
 				tabItem.NavigationParameter,
-			});
+			]);
 
 			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();

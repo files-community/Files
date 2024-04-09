@@ -13,7 +13,7 @@ namespace Files.App.Utils.FileTags
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private readonly List<FileTagItem> fileTags = new();
+		private readonly List<FileTagItem> fileTags = [];
 		public IReadOnlyList<FileTagItem> FileTags
 		{
 			get

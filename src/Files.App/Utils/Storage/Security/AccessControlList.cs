@@ -40,14 +40,14 @@ namespace Files.App.Utils.Storage
 			IsFolder = isFolder;
 			Owner = owner;
 			IsValid = isValid;
-			AccessControlEntries = new();
+			AccessControlEntries = [];
 		}
 
 		public AccessControlList()
 		{
 			Path = string.Empty;
 			Owner = new(string.Empty);
-			AccessControlEntries = new();
+			AccessControlEntries = [];
 		}
 	}
 }
