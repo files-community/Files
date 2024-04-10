@@ -292,7 +292,12 @@ namespace Files.App.Views.Settings
 			foreach (var modifier in modifierKeys)
 			{
 				if (pressedKey == modifier)
+				{
+					// Prevent key down event in other UIElements from getting invoked
+					e.Handled = true;
+
 					return;
+				}
 			}
 
 			var pressedModifiers = HotKeyHelpers.GetCurrentKeyModifiers();

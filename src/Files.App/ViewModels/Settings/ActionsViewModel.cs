@@ -92,7 +92,8 @@ namespace Files.App.ViewModels.Settings
 
 					foreach (var hotkey in command.HotKeys)
 					{
-						if (!hotkey.IsVisible)
+						// Don't show mouse hotkeys for now because no editor provided for mouse input as of now
+						if (!hotkey.IsVisible || hotkey.Key == Keys.Mouse4 || hotkey.Key == Keys.Mouse5)
 							continue;
 
 						ValidKeyboardShortcuts.Add(new()
