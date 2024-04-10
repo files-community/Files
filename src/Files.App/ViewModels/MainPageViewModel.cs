@@ -125,15 +125,14 @@ namespace Files.App.ViewModels
 					else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 						UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 					{
-						foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
+						if (AppInstances.Count == 0)
 						{
-							var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
-							await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
+							{
+								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+							}
 						}
-
-						var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
-
-						UserSettingsService.GeneralSettingsService.LastSessionTabList = [defaultArg.Serialize()];
 					}
 					else
 					{
@@ -158,17 +157,14 @@ namespace Files.App.ViewModels
 								await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path, true);
 						}
 						else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
-							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
+							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null &&
+							AppInstances.Count == 0)
 						{
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
 								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
 								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
-
-							var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
-
-							UserSettingsService.GeneralSettingsService.LastSessionTabList = [defaultArg.Serialize()];
 						}
 					}
 					catch { }
