@@ -66,6 +66,7 @@ namespace Files.App.Helpers
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
+			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
@@ -77,7 +78,7 @@ namespace Files.App.Helpers
 			);
 
 			await Task.WhenAll(
-				JumpListHelper.InitializeUpdatesAsync(),
+				jumpListService.InitializeAsync(),
 				addItemService.InitializeAsync(),
 				ContextMenu.WarmUpQueryContextMenuAsync()
 			);
@@ -182,7 +183,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
-					.AddSingleton<IJumpListService, JumpListService>()
+					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()

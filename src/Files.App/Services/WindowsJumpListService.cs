@@ -1,16 +1,32 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
 using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {
-	public sealed class JumpListService : IJumpListService
+	public sealed class WindowsJumpListService : IWindowsJumpListService
 	{
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
+
+		public async Task InitializeAsync()
+		{
+			try
+			{
+				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidgetAsync;
+				App.QuickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidgetAsync;
+
+				await RefreshPinnedFoldersAsync();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+		}
 
 		public async Task AddFolderAsync(string path)
 		{
@@ -166,6 +182,11 @@ namespace Files.App.Services
 					instance.Items.Insert(pinnedItemsCount, jumplistItem);
 				}
 			}
+		}
+
+		private async void UpdateQuickAccessWidgetAsync(object? sender, ModifyQuickAccessEventArgs e)
+		{
+			await RefreshPinnedFoldersAsync();
 		}
 	}
 }

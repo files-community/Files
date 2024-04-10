@@ -6,7 +6,7 @@ using Files.Core.Storage.LocatableStorage;
 using Files.Shared.Utils;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Services
+namespace Files.App.Data.Contracts
 {
 	internal sealed class ImagingService : IImageService
 	{
