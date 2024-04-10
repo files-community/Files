@@ -19,7 +19,7 @@ namespace Files.App.Data.Commands
 				modifiers |= VirtualKeyModifiers.Control;
 			if (IsPressed(VirtualKey.Shift))
 				modifiers |= VirtualKeyModifiers.Shift;
-			if (IsPressed(VirtualKey.LeftWindows))
+			if (IsPressed(VirtualKey.LeftWindows) || IsPressed(VirtualKey.RightWindows))
 				modifiers |= VirtualKeyModifiers.Windows;
 
 			return (KeyModifiers)modifiers;
