@@ -16,6 +16,7 @@ namespace Files.App.Services
 
 		private UISettings UISettings { get; } = new();
 
+		/// <inheritdoc/>
 		public ElementTheme AppThemeMode
 		{
 			get
@@ -54,7 +55,7 @@ namespace Files.App.Services
 			SetAppThemeMode(null, null, ElementTheme.Dark);
 			SetAppThemeMode(null, null, ElementTheme.Light);
 
-			// Restore the theme to the correct theme
+			// Restore the theme to the correct one
 			SetAppThemeMode();
 		}
 
