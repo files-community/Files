@@ -40,6 +40,8 @@ namespace Files.App.Data.Commands
 			set => BaseCommand.HotKeys = value;
 		}
 
+		public HotKeyCollection DefaultHotKeys { get; }
+
 		public bool IsToggle => BaseCommand.IsToggle;
 
 		public bool IsOn
@@ -54,6 +56,7 @@ namespace Files.App.Data.Commands
 		{
 			BaseCommand = baseCommand;
 			ModifiedCommands = modifiedCommands.ToImmutableDictionary();
+			DefaultHotKeys = new(BaseCommand.HotKeys);
 
 			if (baseCommand is ActionCommand actionCommand)
 			{

@@ -207,6 +207,6 @@ namespace Files.App.Services.Settings
 		/// <summary>
 		/// A dictionary to determine the custom hotkeys
 		/// </summary>
-		Dictionary<string, string> Actions { get; set; }
+		Dictionary<string, string>? Actions { get; set; }
 	}
 }
