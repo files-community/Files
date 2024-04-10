@@ -125,7 +125,7 @@ namespace Files.App.Data.Commands
 			return hotKeys
 				.Distinct()
 				.Where(hotKey => !hotKey.IsNone)
-				.GroupBy(hotKey => hotKey with { IsVisible = true})
+				.GroupBy(hotKey => hotKey with { IsVisible = true })
 				.Select(group => group.OrderBy(hotKey => hotKey.IsVisible).Last())
 				.ToImmutableArray();
 		}
