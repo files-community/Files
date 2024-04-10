@@ -136,77 +136,77 @@ namespace Files.App.ViewModels.Settings
 
 		private void ExecuteAddNewHotKeyCommand()
 		{
-			if (SelectedNewShortcutItem is null)
-				return;
+			//if (SelectedNewShortcutItem is null)
+			//	return;
 
-			// Check if this hot key is already taken
-			foreach (var hotkey in ValidKeyboardShortcuts)
-			{
-				if (SelectedNewShortcutItem.HotKeyText == hotkey.PreviousHotKey)
-				{
-					IsAlreadyUsedTeachingTipOpened = true;
-					return;
-				}
-			}
+			//// Check if this hot key is already taken
+			//foreach (var hotkey in ValidKeyboardShortcuts)
+			//{
+			//	if (SelectedNewShortcutItem.HotKeyText == hotkey.PreviousHotKey)
+			//	{
+			//		IsAlreadyUsedTeachingTipOpened = true;
+			//		return;
+			//	}
+			//}
 
-			var actions =
-				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
-					: [];
+			//var actions =
+			//	GeneralSettingsService.Actions is not null
+			//		? new List<Actions.ActionsViewModel>(GeneralSettingsService.Actions)
+			//		: [];
 
-			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(SelectedNewShortcutItem.CommandCode.ToString());
+			//// Get raw string keys stored in the user setting
+			//var storedKeys = actions.GetValueOrDefault(SelectedNewShortcutItem.CommandCode.ToString());
 
-			// Initialize
-			var newHotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText);
-			var modifiedCollection = HotKeyCollection.Empty;
+			//// Initialize
+			//var newHotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText);
+			//var modifiedCollection = HotKeyCollection.Empty;
 
-			// The first time to customize
-			if (string.IsNullOrEmpty(storedKeys))
-			{
-				// Replace with new one
-				var modifiableDefaultCollection = SelectedNewShortcutItem.DefaultHotKeyCollection.ToList();
-				modifiableDefaultCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
-				modifiableDefaultCollection.Add(newHotKey);
-				modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
-			}
-			// Stored in the user setting
-			else
-			{
-				// Replace with new one
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
-				modifiableCollection.Add(newHotKey);
-				modifiedCollection = new HotKeyCollection(modifiableCollection);
-			}
+			//// The first time to customize
+			//if (string.IsNullOrEmpty(storedKeys))
+			//{
+			//	// Replace with new one
+			//	var modifiableDefaultCollection = SelectedNewShortcutItem.DefaultHotKeyCollection.ToList();
+			//	modifiableDefaultCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
+			//	modifiableDefaultCollection.Add(newHotKey);
+			//	modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
+			//}
+			//// Stored in the user setting
+			//else
+			//{
+			//	// Replace with new one
+			//	var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
+			//	modifiableCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
+			//	modifiableCollection.Add(newHotKey);
+			//	modifiedCollection = new HotKeyCollection(modifiableCollection);
+			//}
 
-			// Remove previous one and add new one
-			actions.Remove(SelectedNewShortcutItem.CommandCode.ToString());
-			actions.Add(SelectedNewShortcutItem.CommandCode.ToString(), modifiedCollection.RawLabel);
+			//// Remove previous one and add new one
+			//actions.Remove(SelectedNewShortcutItem.CommandCode.ToString());
+			//actions.Add(SelectedNewShortcutItem.CommandCode.ToString(), modifiedCollection.RawLabel);
 
-			// Store
-			GeneralSettingsService.Actions = actions;
+			//// Store
+			//GeneralSettingsService.Actions = actions;
 
-			// Create a clone
-			var selectedNewItem = new ModifiableCommandHotKeyItem()
-			{
-				CommandCode = SelectedNewShortcutItem.CommandCode,
-				Label = SelectedNewShortcutItem.Label,
-				Description = SelectedNewShortcutItem.Description,
-				HotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText),
-				DefaultHotKeyCollection = new(SelectedNewShortcutItem.DefaultHotKeyCollection),
-				PreviousHotKey = HotKey.Parse(SelectedNewShortcutItem.PreviousHotKey.RawLabel),
-			};
+			//// Create a clone
+			//var selectedNewItem = new ModifiableCommandHotKeyItem()
+			//{
+			//	CommandCode = SelectedNewShortcutItem.CommandCode,
+			//	Label = SelectedNewShortcutItem.Label,
+			//	Description = SelectedNewShortcutItem.Description,
+			//	HotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText),
+			//	DefaultHotKeyCollection = new(SelectedNewShortcutItem.DefaultHotKeyCollection),
+			//	PreviousHotKey = HotKey.Parse(SelectedNewShortcutItem.PreviousHotKey.RawLabel),
+			//};
 
-			// Hide the section
-			ShowAddNewHotKeySection = false;
+			//// Hide the section
+			//ShowAddNewHotKeySection = false;
 
-			// Remove from excluded list and set null
-			SelectedNewShortcutItem.HotKeyText = "";
-			SelectedNewShortcutItem = null;
+			//// Remove from excluded list and set null
+			//SelectedNewShortcutItem.HotKeyText = "";
+			//SelectedNewShortcutItem = null;
 
-			// Add to existing list
-			ValidKeyboardShortcuts.Insert(0, selectedNewItem);
+			//// Add to existing list
+			//ValidKeyboardShortcuts.Insert(0, selectedNewItem);
 		}
 
 		private void ExecuteShowRestoreDefaultsConfirmationCommand()

@@ -4,6 +4,7 @@
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using Files.App.Actions;
+using Files.App.ViewModels.Actions;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -382,13 +383,13 @@ namespace Files.App.Data.Commands
 			// Get custom hotkeys from the user settings
 			foreach (var custom in GeneralSettingsService.Actions)
 			{
-				if (Enum.TryParse(custom.Key, true, out CommandCodes code))
+				if (Enum.TryParse(custom.Command, true, out CommandCodes code))
 				{
 					if (code is CommandCodes.None)
 						continue;
 
 					// Parse and add the hotkeys
-					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.Value, false).Except(useds));
+					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.KeyBinding, false).Except(useds));
 					customs.Add(code, new(hotKeys));
 
 					foreach (var hotKey in hotKeys)
@@ -473,14 +474,14 @@ namespace Files.App.Data.Commands
 						return;
 
 					string code = Code.ToString();
-					var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
+					var customs = new List<ActionsViewModel>(GeneralSettingsService.Actions);
 
-					if (!customs.ContainsKey(code))
-						customs.Add(code, value.RawLabel);
+					if (!customs.Any(action => action.Command == code))
+						customs.Add(new ActionsViewModel(code, value.RawLabel, ""));
 					else if (value != GetHotKeys(Action))
-						customs[code] = value.RawLabel;
+						customs.First(x => x.Command == code).KeyBinding = value.RawLabel;
 					else
-						customs.Remove(code);
+						customs.Remove(customs.First(x => x.Command == code));
 
 					GeneralSettingsService.Actions = customs;
 				}
@@ -540,8 +541,8 @@ namespace Files.App.Data.Commands
 				if (!IsCustomHotKeys)
 					return;
 
-				var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
-				customs.Remove(Code.ToString());
+				var customs = new List<ActionsViewModel>(GeneralSettingsService.Actions);
+				customs.Remove(customs.FirstOrDefault(x => x.Command == Code.ToString()));
 				GeneralSettingsService.Actions = customs;
 			}
 

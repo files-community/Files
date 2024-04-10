@@ -99,11 +99,8 @@ namespace Files.App.Views.Settings
 			// Get clone of customized hotkeys to overwrite
 			var actions =
 				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+					? new List<ViewModels.Actions.ActionsViewModel>(GeneralSettingsService.Actions)
 					: [];
-
-			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(item.CommandCode.ToString());
 
 			// Initialize
 			var newHotKey = HotKey.Parse(item.HotKeyText);
@@ -111,30 +108,18 @@ namespace Files.App.Views.Settings
 
 			if (item.IsDefaultKey)
 			{
-				// The first time to customize in the user setting
-				if (string.IsNullOrEmpty(storedKeys))
-				{
-					// Replace with new one
-					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiableDefaultCollection.Add(newHotKey);
-					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
-				}
-				// Stored in the user setting
-				else
-				{
-					// Replace with new one
-					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiableCollection.Add(newHotKey);
-					modifiedCollection = new HotKeyCollection(modifiableCollection);
-				}
+				// Replace with new one
+				var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
+				modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
+				modifiableDefaultCollection.Add(newHotKey);
 
 				// Store
-				actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
+				foreach (var hotKey in modifiableDefaultCollection)
+					actions.Add(new ViewModels.Actions.ActionsViewModel(item.CommandCode.ToString(), hotKey.Key.ToString(), ""));
+
 				GeneralSettingsService.Actions = actions;
 
-				// Update visual
+				// Update visual in the settings page
 				item.PreviousHotKey = newHotKey;
 				item.HotKey = newHotKey;
 
@@ -152,24 +137,15 @@ namespace Files.App.Views.Settings
 			}
 			else
 			{
-				// Remove existing setting
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
-				if (modifiableCollection.Contains(newHotKey))
-					return;
-				modifiableCollection.Add(HotKey.Parse(item.HotKeyText));
-				modifiedCollection = new(modifiableCollection);
+				// Edit existing setting
+				var existingSetting = actions.FirstOrDefault(x => x.KeyBinding == item.HotKey.Key.ToString());
+				if (existingSetting?.KeyBinding is not null)
+				{
+					existingSetting.KeyBinding = newHotKey;
+					GeneralSettingsService.Actions = actions;
+				}
 
-				// Remove previous one
-				actions.Remove(item.CommandCode.ToString());
-
-				// Add new one
-				if (modifiedCollection.Select(x => x.RawLabel).SequenceEqual(item.DefaultHotKeyCollection.Select(x => x.RawLabel)))
-					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
-
-				// Save
-				GeneralSettingsService.Actions = actions;
-
-				// Update visual
+				// Update visual in the settings page
 				item.PreviousHotKey = newHotKey;
 				item.HotKey = newHotKey;
 
@@ -202,37 +178,28 @@ namespace Files.App.Views.Settings
 			// Get clone of customized hotkeys to overwrite
 			var actions =
 				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+					? new List<ViewModels.Actions.ActionsViewModel>(GeneralSettingsService.Actions)
 					: [];
 
-			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(item.CommandCode.ToString());
-
-			// Initialize
+			//// Initialize
 			var modifiedCollection = HotKeyCollection.Empty;
 
 			if (item.IsDefaultKey)
 			{
-				// The first time to customize in the user setting
-				if (string.IsNullOrEmpty(storedKeys))
+				// Check if this action is already customized
+				if (!actions.Any(x => x.Command == item.CommandCode.ToString()))
 				{
-					// Replace with new one
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
 					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
+
+					foreach (var hotKey in modifiableDefaultCollection)
+						actions.Add(new ViewModels.Actions.ActionsViewModel(item.CommandCode.ToString(), hotKey.Key.ToString(), ""));
 				}
-				// Stored in the user setting
 				else
 				{
-					// Replace with new one
-					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiedCollection = new HotKeyCollection(modifiableCollection);
+					
 				}
-
-				// Remove previous one and add new one
-				actions.Remove(item.CommandCode.ToString());
-				actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
 
 				// Store
 				GeneralSettingsService.Actions = actions;
@@ -246,20 +213,13 @@ namespace Files.App.Views.Settings
 			else
 			{
 				// Remove existing setting
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
-				modifiedCollection = new(modifiableCollection);
+				var existingSetting = actions.FirstOrDefault(x => x.KeyBinding == item.HotKey.Key.ToString());
+				if (existingSetting?.KeyBinding is not null)
+				{
+					actions.Remove(existingSetting);
+					GeneralSettingsService.Actions = actions;
+				}
 
-				// Remove previous
-				actions.Remove(item.CommandCode.ToString());
-
-				if (modifiedCollection.LocalizedLabel != string.Empty)
-					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
-
-				// Save
-				GeneralSettingsService.Actions = actions;
-
-				// Exit
 				item.IsEditMode = false;
 				ViewModel.ValidKeyboardShortcuts.Remove(item);
 
@@ -274,7 +234,7 @@ namespace Files.App.Views.Settings
 
 			var pressedKey = e.OriginalKey;
 
-			List<VirtualKey> modifierKeys = 
+			List<VirtualKey> modifierKeys =
 			[
 				VirtualKey.Shift,
 				VirtualKey.Control,

@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.ViewModels.Actions;
 using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Services.Settings
@@ -251,9 +252,9 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public Dictionary<string, string>? Actions
+		public List<ActionsViewModel> Actions
 		{
-			get => Get<Dictionary<string, string>>(null) ?? [];
+			get => Get<List<ActionsViewModel>>(null) ?? [];
 			set => Set(value);
 		}
 

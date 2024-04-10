@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Data.Enums;
+using Files.App.ViewModels.Actions;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -206,7 +207,8 @@ namespace Files.App.Services.Settings
 
 		/// <summary>
 		/// A dictionary to determine the custom hotkeys
+		/// TODO move this to ActionsSettingsService
 		/// </summary>
-		Dictionary<string, string>? Actions { get; set; }
+		List<ActionsViewModel> Actions { get; set; }
 	}
 }
