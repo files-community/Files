@@ -13,13 +13,13 @@ namespace Files.App.Data.Commands
 		{
 			var modifiers = VirtualKeyModifiers.None;
 
-			if (IsPressed(VirtualKey.Menu) || IsPressed(VirtualKey.LeftMenu) || IsPressed(VirtualKey.RightMenu))
+			if (IsPressed(VirtualKey.Menu))
 				modifiers |= VirtualKeyModifiers.Menu;
-			if (IsPressed(VirtualKey.Control) || IsPressed(VirtualKey.LeftControl) || IsPressed(VirtualKey.RightControl))
+			if (IsPressed(VirtualKey.Control))
 				modifiers |= VirtualKeyModifiers.Control;
-			if (IsPressed(VirtualKey.Shift) || IsPressed(VirtualKey.LeftShift) || IsPressed(VirtualKey.RightShift))
+			if (IsPressed(VirtualKey.Shift))
 				modifiers |= VirtualKeyModifiers.Shift;
-			if (IsPressed(VirtualKey.LeftWindows) || IsPressed(VirtualKey.RightWindows))
+			if (IsPressed(VirtualKey.LeftWindows))
 				modifiers |= VirtualKeyModifiers.Windows;
 
 			return (KeyModifiers)modifiers;
