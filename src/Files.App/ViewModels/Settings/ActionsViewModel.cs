@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class ActionsViewModel : ObservableObject
+	public sealed class ActionsViewModel : ObservableObject
 	{
 		// Dependency injections
 
