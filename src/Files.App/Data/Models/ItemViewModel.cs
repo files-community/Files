@@ -50,6 +50,7 @@ namespace Files.App.Data.Models
 		private readonly IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private INetworkDrivesService NetworkDrivesService = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 
@@ -1506,7 +1507,7 @@ namespace Files.App.Data.Models
 
 			if (isNetwork)
 			{
-				var auth = await NetworkDrivesAPI.AuthenticateNetworkShare(path);
+				var auth = await NetworkDrivesService.AuthenticateNetworkShare(path);
 				if (!auth)
 					return -1;
 			}
