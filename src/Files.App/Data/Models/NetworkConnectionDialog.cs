@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices;
@@ -12,6 +12,9 @@ namespace Files.App.Data.Models
 	/// <summary>
 	/// A dialog box that allows the user to browse and connect to network resources.
 	/// </summary>
+	/// <remarks>
+	/// Forked from Vanara.
+	/// </remarks>
 	public sealed class NetworkConnectionDialog : CommonDialog
 	{
 		private readonly NETRESOURCE netRes = new();
