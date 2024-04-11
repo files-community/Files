@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices;
@@ -188,7 +188,9 @@ namespace Files.App.Services
 					}
 				}
 				else
+				{
 					return false;
+				}
 			}
 
 			if (connectionError == Win32Error.NO_ERROR)
