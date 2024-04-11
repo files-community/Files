@@ -21,7 +21,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			UserSettingsService = userSettingsService;
 			ResourcesService = resourcesService;
-			selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), AppThemeModeService.AppThemeMode.ToString());
+			selectedThemeIndex = (int)Enum.Parse<ElementTheme>(AppThemeModeService.AppThemeMode.ToString());
 
 			Themes =
 			[
