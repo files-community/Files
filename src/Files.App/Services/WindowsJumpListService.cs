@@ -17,8 +17,8 @@ namespace Files.App.Services
 		{
 			try
 			{
-				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidgetAsync;
-				App.QuickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidgetAsync;
+				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidget_Invoked;
+				App.QuickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidget_Invoked;
 
 				await RefreshPinnedFoldersAsync();
 			}
@@ -184,7 +184,7 @@ namespace Files.App.Services
 			}
 		}
 
-		private async void UpdateQuickAccessWidgetAsync(object? sender, ModifyQuickAccessEventArgs e)
+		private async void UpdateQuickAccessWidget_Invoked(object? sender, ModifyQuickAccessEventArgs e)
 		{
 			await RefreshPinnedFoldersAsync();
 		}
