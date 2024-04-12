@@ -187,7 +187,7 @@ namespace Files.App.Views.Settings
 			if (item.IsDefaultKey)
 			{
 				// Check if this action is already customized
-				if (!actions.Any(x => x.Command == item.CommandCode.ToString()))
+				if (actions.Any(x => x.Command == item.CommandCode.ToString()))
 				{
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
 					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
@@ -198,8 +198,12 @@ namespace Files.App.Views.Settings
 				}
 				else
 				{
-					// todo remove the action from the list of actions
-					// set empty string for the keybinding if all defaults were deleted
+					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
+					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
+					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
+
+					foreach (var hotKey in modifiableDefaultCollection)
+						actions.Add(new ViewModels.Actions.ActionsViewModel(item.CommandCode.ToString(), hotKey.Key.ToString(), ""));
 				}
 
 				// Store
