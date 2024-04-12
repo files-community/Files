@@ -198,7 +198,8 @@ namespace Files.App.Views.Settings
 				}
 				else
 				{
-					
+					// todo remove the action from the list of actions
+					// set empty string for the keybinding if all defaults were deleted
 				}
 
 				// Store
