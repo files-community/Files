@@ -202,11 +202,8 @@ namespace Files.App.Views.Settings
 					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
 
-					if (modifiableDefaultCollection.Count > 0)
-						foreach (var hotKey in modifiableDefaultCollection)
-							actions.Add(new ViewModels.Actions.ActionsViewModel(item.CommandCode.ToString(), hotKey.Key.ToString(), ""));
-					else
-						actions.Add(new ViewModels.Actions.ActionsViewModel(item.CommandCode.ToString(), "", ""));
+					foreach (var hotKey in modifiableDefaultCollection)
+						actions.Add(new ViewModels.Actions.ActionsViewModel(item.CommandCode.ToString(), hotKey.Key.ToString(), ""));
 				}
 
 				// Store
