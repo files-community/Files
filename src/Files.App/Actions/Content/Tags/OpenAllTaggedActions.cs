@@ -44,7 +44,7 @@ namespace Files.App.Actions
 				.Select(f => f.path)
 				.ToList();
 			
-			await Task.WhenAll(filePaths.Select(path=> NavigationHelpers.OpenPath(path, _pageContext.ShellPage!)));
+			await Task.WhenAll(filePaths.Select(path => NavigationHelpers.OpenPath(path, _pageContext.ShellPage!)));
 
 			foreach (var path in folderPaths) 
 				await NavigationHelpers.OpenPathInNewTab(path, false);
