@@ -30,6 +30,7 @@ namespace Files.InteractionTests.Tests
 				"SettingsItemAppearance",
 				//"SettingsItemLayout", TODO find workaround for the "Group by" setting block issue
 				"SettingsItemFolders",
+				"SettingsItemActions",
 				"SettingsItemTags",
 				"SettingsItemGit",
 				"SettingsItemAdvanced",

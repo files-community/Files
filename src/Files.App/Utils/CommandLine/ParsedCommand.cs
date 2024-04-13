@@ -29,7 +29,7 @@ namespace Files.App.Utils.CommandLine
 		/// </summary>
 		public ParsedCommand()
 		{
-			Args = new();
+			Args = [];
 		}
 	}
 }

@@ -96,7 +96,7 @@ namespace Files.App.Utils.Storage
 
 		public static List<PathBoxItem> GetDirectoryPathComponents(string value)
 		{
-			List<PathBoxItem> pathBoxItems = new();
+			List<PathBoxItem> pathBoxItems = [];
 
 			if (value.Contains('/', StringComparison.Ordinal))
 			{

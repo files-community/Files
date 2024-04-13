@@ -33,7 +33,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 			if (HotKeys.IsEmpty)
 				return;
 
-			List<KeyboardShortcutItem> items = new();
+			List<KeyboardShortcutItem> items = [];
 
 			foreach (var item in HotKeys)
 			{
@@ -56,38 +56,38 @@ namespace Files.App.UserControls.KeyboardShortcut
 
 					// Keys only
 					case (_, KeyModifiers.None):
-						var key = HotKey.keys[item.Key];
+						var key = HotKey.LocalizedKeys[item.Key];
 						items.Add(new() { Text = key, ItemType = ItemType, Size = Size });
 						break;
 
 					// Others
 					default:
 						GetModifierCode(item.Modifier);
-						key = HotKey.keys[item.Key];
+						key = HotKey.LocalizedKeys[item.Key];
 						items.Add(new() { Text = key, ItemType = ItemType, Size = Size });
 						break;
 				}
 
 				void GetModifierCode(KeyModifiers modifier)
 				{
-					if (modifier.HasFlag(KeyModifiers.Menu))
+					if (modifier.HasFlag(KeyModifiers.Alt))
 					{
-						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Menu], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = HotKey.LocalizedModifiers[KeyModifiers.Alt], ItemType = ItemType, Size = Size });
 						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.TextOnly, Size = Size });
 					}
 					if (modifier.HasFlag(KeyModifiers.Ctrl))
 					{
-						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Ctrl], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = HotKey.LocalizedModifiers[KeyModifiers.Ctrl], ItemType = ItemType, Size = Size });
 						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.TextOnly, Size = Size });
 					}
 					if (modifier.HasFlag(KeyModifiers.Shift))
 					{
-						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Shift], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = HotKey.LocalizedModifiers[KeyModifiers.Shift], ItemType = ItemType, Size = Size });
 						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.TextOnly, Size = Size });
 					}
 					if (modifier.HasFlag(KeyModifiers.Win))
 					{
-						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Win], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = HotKey.LocalizedModifiers[KeyModifiers.Win], ItemType = ItemType, Size = Size });
 						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.TextOnly, Size = Size });
 					}
 				}

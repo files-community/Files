@@ -35,13 +35,13 @@ namespace Files.App.Utils.Storage
 			{
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				return userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible
-					? new[] { '\\', '/', '*', '?', '"', '<', '>', '|' } // Allow ":" char
-					: new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+					? ['\\', '/', '*', '?', '"', '<', '>', '|'] // Allow ":" char
+					: ['\\', '/', ':', '*', '?', '"', '<', '>', '|'];
 			}
 		}
 
-		private static readonly string[] RestrictedFileNames = new string[]
-		{
+		private static readonly string[] RestrictedFileNames =
+		[
 				"CON", "PRN", "AUX",
 				"NUL", "COM1", "COM2",
 				"COM3", "COM4", "COM5",
@@ -49,7 +49,7 @@ namespace Files.App.Utils.Storage
 				"COM9", "LPT1", "LPT2",
 				"LPT3", "LPT4", "LPT5",
 				"LPT6", "LPT7", "LPT8", "LPT9"
-		};
+		];
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
@@ -125,7 +125,7 @@ namespace Files.App.Utils.Storage
 					(canBeSentToBin ? permanently : true, canBeSentToBin),
 					FilesystemOperationType.Delete,
 					incomingItems,
-					new());
+					[]);
 
 				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -697,7 +697,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (result != DialogResult.Primary) // Operation was cancelled
 					{
-						return (new(), true, itemsResult);
+						return ([], true, itemsResult);
 					}
 				}
 

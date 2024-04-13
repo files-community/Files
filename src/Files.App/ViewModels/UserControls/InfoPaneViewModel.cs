@@ -107,7 +107,7 @@ namespace Files.App.ViewModels.UserControls
 			PreviewPaneState is PreviewPaneStates.NoPreviewAvailable ||
 			PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable;
 
-		public ObservableCollection<TagsListItem> Items { get; } = new();
+		public ObservableCollection<TagsListItem> Items { get; } = [];
 
 		public InfoPaneViewModel()
 		{

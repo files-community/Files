@@ -908,7 +908,7 @@ namespace Files.App.Views.Layouts
 			if (tagId is not null)
 			{
 				item.FileTags = item.FileTags
-					.Except(new string[] { tagId })
+					.Except([tagId])
 					.ToArray();
 			}
 

@@ -16,7 +16,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconExitCompactOverlay");
 
 		public HotKey HotKey
-			=> new(Keys.Down, KeyModifiers.MenuCtrl);
+			=> new(Keys.Down, KeyModifiers.CtrlAlt);
 
 		public string Description
 			=> "ExitCompactOverlayDescription".GetLocalizedResource();

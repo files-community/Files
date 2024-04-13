@@ -61,7 +61,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public event EventHandler? RefreshWidgetsRequested;
 
-		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
+		public ObservableCollection<PathBoxItem> PathComponents { get; } = [];
 
 		private bool _isCommandPaletteOpen;
 		public bool IsCommandPaletteOpen
@@ -170,7 +170,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
+		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = [];
 
 		private CurrentInstanceViewModel instanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
@@ -803,7 +803,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private void SavePathToHistory(string path)
 		{
-			var pathHistoryList = UserSettingsService.GeneralSettingsService.PathHistoryList?.ToList() ?? new List<string>();
+			var pathHistoryList = UserSettingsService.GeneralSettingsService.PathHistoryList?.ToList() ?? [];
 			pathHistoryList.Remove(path);
 			pathHistoryList.Insert(0, path);
 
@@ -956,11 +956,13 @@ namespace Files.App.ViewModels.UserControls
 					return true;
 				}))
 				{
-					NavigationBarSuggestions.Clear();
-					NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
-					{
-						Text = shellpage.FilesystemViewModel.WorkingDirectory,
-						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
+					SafetyExtensions.IgnoreExceptions(() => {
+						NavigationBarSuggestions.Clear();
+						NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
+						{
+							Text = shellpage.FilesystemViewModel.WorkingDirectory,
+							PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
+						});
 					});
 				}
 			}

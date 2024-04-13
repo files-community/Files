@@ -14,9 +14,9 @@ namespace Files.App.Data.Models
 
 		private string? _gitRepositoryPath;
 
-		private readonly ObservableCollection<BranchItem> _localBranches = new();
+		private readonly ObservableCollection<BranchItem> _localBranches = [];
 
-		private readonly ObservableCollection<BranchItem> _remoteBranches = new();
+		private readonly ObservableCollection<BranchItem> _remoteBranches = [];
 
 		public bool IsBranchesFlyoutExpaned { get; set; } = false;
 

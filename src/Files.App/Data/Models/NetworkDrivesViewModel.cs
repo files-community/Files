@@ -21,7 +21,7 @@ namespace Files.App.Data.Models
 		public NetworkDrivesViewModel(INetworkDrivesService networkDrivesService)
 		{
 			this.networkDrivesService = networkDrivesService;
-			drives = new ObservableCollection<ILocatableFolder>();
+			drives = [];
 
 			var networkItem = new DriveItem
 			{
@@ -47,8 +47,10 @@ namespace Files.App.Data.Models
 
 		public async Task UpdateDrivesAsync()
 		{
-			var unsortedDrives = new List<ILocatableFolder>();
-			unsortedDrives.Add(drives.Single(x => x is DriveItem o && o.DeviceID == "network-folder"));
+			var unsortedDrives = new List<ILocatableFolder>
+			{
+				drives.Single(x => x is DriveItem o && o.DeviceID == "network-folder")
+			};
 			await foreach (ILocatableFolder item in networkDrivesService.GetDrivesAsync())
 			{
 				unsortedDrives.Add(item);

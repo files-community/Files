@@ -169,7 +169,7 @@ namespace Files.Shared.Extensions
 				return list;
 
 			return index <= 0
-				? new List<T>(0)
+				? []
 				: list.Take(index - 1).ToList();
 		}
 	}

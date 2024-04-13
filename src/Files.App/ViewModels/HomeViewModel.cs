@@ -8,7 +8,7 @@ namespace Files.App.ViewModels
 {
 	public sealed class HomeViewModel : ObservableObject, IDisposable
 	{
-		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = new();
+		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = [];
 
 		public ICommand HomePageLoadedCommand { get; }
 

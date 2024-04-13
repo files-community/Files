@@ -28,7 +28,7 @@ namespace Files.App.ViewModels.Previews
 			set => SetProperty(ref pageCount, value);
 		}
 
-		public ObservableCollection<PageViewModel> Pages { get; } = new();
+		public ObservableCollection<PageViewModel> Pages { get; } = [];
 
 		public PDFPreviewViewModel(ListedItem item)
 			: base(item)

@@ -164,7 +164,7 @@ namespace Files.App.Utils.CommandLine
 			}
 
 			if (parsedArgs.Count == 0 && args.Length >= 2)
-				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(' ', args.Skip(1)).TrimStart() }));
+				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", [string.Join(' ', args.Skip(1)).TrimStart()]));
 
 			return parsedArgs;
 		}
@@ -212,7 +212,7 @@ namespace Files.App.Utils.CommandLine
 
 			return
 				key is not null
-					? new KeyValuePair<string, string[]>(key, val.ToArray())
+					? new KeyValuePair<string, string[]>(key, [.. val])
 					: default;
 		}
 	}

@@ -20,12 +20,12 @@ namespace Files.Shared.Extensions
 		/// <returns><see cref="IEnumerable{T}"/> with <paramref name="item"/></returns>
 		public static IEnumerable<T> CreateEnumerable<T>(this T item)
 		{
-			return new[] { item };
+			return [item];
 		}
 
 		public static List<T> CreateList<T>(this T item)
 		{
-			return new() { item };
+			return [item];
 		}
 
 		public static IList<T> AddIfNotPresent<T>(this IList<T> list, T element)

@@ -199,7 +199,7 @@ namespace Files.App.ViewModels.Settings
 		private async Task ExportSettingsAsync()
 		{
 			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
-			filePicker.FileTypeChoices.Add("Zip File", new[] { ".zip" });
+			filePicker.FileTypeChoices.Add("Zip File", [".zip"]);
 			filePicker.SuggestedFileName = $"Files_{AppLifecycleHelper.AppVersion}";
 
 			StorageFile file = await filePicker.PickSaveFileAsync();

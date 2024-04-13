@@ -30,7 +30,7 @@ namespace Files.App.UserControls.Widgets
 		public event RecentFileInvokedEventHandler RecentFileInvoked;
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
+		private ObservableCollection<RecentItem> recentItemsCollection = [];
 
 		private SemaphoreSlim refreshRecentsSemaphore;
 
@@ -205,7 +205,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = [],
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

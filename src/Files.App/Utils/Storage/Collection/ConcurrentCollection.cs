@@ -9,7 +9,7 @@ namespace Files.App.Helpers
 	{
 		private readonly object syncRoot = new object();
 		
-		private readonly List<T> collection = new List<T>();
+		private readonly List<T> collection = [];
 
 		public int Count
 		{
