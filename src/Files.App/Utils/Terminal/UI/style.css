@@ -13,19 +13,15 @@ html, body {
 #terminal-container {
     width: 100%;
     height: 100%;
-    /* re-enable scrolling only in the xterm container */
-    overflow-y: auto;
-    overflow-x: hidden;
-    touch-action: pan-y;
-    -ms-touch-action: pan-y;
-}
-
-#terminal-container::-webkit-scrollbar {
-    display: none
 }
 
 .xterm .xterm-viewport {
     background-color: transparent !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    touch-action: pan-y;
+    -ms-touch-action: pan-y;
 }
 
 .terminal {
