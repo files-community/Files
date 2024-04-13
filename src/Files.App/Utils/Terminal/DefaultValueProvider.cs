@@ -22,190 +22,6 @@ namespace Files.App.Utils.Terminal
 		{
 			switch (command)
 			{
-				case Command.ToggleWindow:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.ToggleWindow),
-						Key = (int)ExtendedVirtualKey.Scroll
-					}
-				};
-
-				case Command.NextTab:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.NextTab),
-						Ctrl = true,
-						Key = (int)ExtendedVirtualKey.Tab
-					}
-				};
-
-				case Command.PreviousTab:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.PreviousTab),
-						Ctrl = true,
-						Shift = true,
-						Key = (int)ExtendedVirtualKey.Tab
-					}
-				};
-
-				case Command.SwitchToTerm1:
-				case Command.SwitchToTerm2:
-				case Command.SwitchToTerm3:
-				case Command.SwitchToTerm4:
-				case Command.SwitchToTerm5:
-				case Command.SwitchToTerm6:
-				case Command.SwitchToTerm7:
-				case Command.SwitchToTerm8:
-				case Command.SwitchToTerm9:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = command.ToString(),
-						Alt = true,
-						Key = (int)ExtendedVirtualKey.Number1 + (command - Command.SwitchToTerm1)
-					}
-				};
-
-				case Command.DuplicateTab:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.DuplicateTab),
-						Ctrl = true,
-						Shift = true,
-						Key = (int)ExtendedVirtualKey.D
-					}
-				};
-
-				case Command.ReconnectTab:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.ReconnectTab),
-						Ctrl = true,
-						Alt = true,
-						Key = (int)ExtendedVirtualKey.R
-					}
-				};
-
-				case Command.NewTab:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.NewTab),
-						Ctrl = true,
-						Shift = true,
-						Key = (int)ExtendedVirtualKey.T
-					}
-				};
-
-				case Command.NewSshTab:
-					return new List<KeyBinding>
-					{
-						new KeyBinding
-						{
-							Command = nameof(Command.NewSshTab),
-							Ctrl = true,
-							Shift = true,
-							Key = (int)ExtendedVirtualKey.Y
-						}
-					};
-
-				case Command.NewSshWindow:
-					return new List<KeyBinding>
-					{
-						new KeyBinding
-						{
-							Command = nameof(Command.NewSshWindow),
-							Ctrl = true,
-							Alt = true,
-							Key = (int)ExtendedVirtualKey.Y
-						}
-					};
-
-				case Command.NewCustomCommandTab:
-					return new List<KeyBinding>
-					{
-						new KeyBinding
-						{
-							Command = nameof(Command.NewCustomCommandTab),
-							Ctrl = true,
-							Alt = true,
-							Key = (int)ExtendedVirtualKey.T
-						}
-					};
-
-				case Command.NewCustomCommandWindow:
-					return new List<KeyBinding>
-					{
-						new KeyBinding
-						{
-							Command = nameof(Command.NewCustomCommandWindow),
-							Ctrl = true,
-							Alt = true,
-							Key = (int)ExtendedVirtualKey.N
-						}
-					};
-
-				case Command.ChangeTabTitle:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.ChangeTabTitle),
-						Ctrl = true,
-						Shift = true,
-						Key = (int)ExtendedVirtualKey.R
-					}
-				};
-
-				case Command.CloseTab:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.CloseTab),
-						Ctrl = true,
-						Shift = true,
-						Key = (int)ExtendedVirtualKey.W
-					}
-				};
-
-				case Command.NewWindow:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.NewWindow),
-						Ctrl = true,
-						Shift = true,
-						Key = (int)ExtendedVirtualKey.N
-					}
-				};
-
-				case Command.ShowSettings:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.ShowSettings),
-						Ctrl = true,
-						Shift = true,
-						Key = (int)ExtendedVirtualKey.Comma
-					}
-				};
-
 				case Command.Copy:
 					return new List<KeyBinding>
 				{
@@ -217,7 +33,6 @@ namespace Files.App.Utils.Terminal
 						Key = (int)ExtendedVirtualKey.C
 					}
 				};
-
 				case Command.Paste:
 					return new List<KeyBinding>
 				{
@@ -227,57 +42,6 @@ namespace Files.App.Utils.Terminal
 						Ctrl = true,
 						Shift = true,
 						Key = (int)ExtendedVirtualKey.V
-					}
-				};
-
-
-				case Command.PasteWithoutNewlines:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.PasteWithoutNewlines),
-						Ctrl = true,
-						Alt = true,
-						Key = (int)ExtendedVirtualKey.V
-					}
-				};
-
-				case Command.Search:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.Search),
-						Ctrl = true,
-						Shift = true,
-						Key = (int)ExtendedVirtualKey.F
-					}
-				};
-
-				case Command.CloseSearch:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.CloseSearch),
-						Key = (int)ExtendedVirtualKey.Escape
-					}
-				};
-
-				case Command.ToggleFullScreen:
-					return new List<KeyBinding>
-				{
-					new KeyBinding
-					{
-						Command = nameof(Command.ToggleFullScreen),
-						Alt = true,
-						Key = (int)ExtendedVirtualKey.Enter
-					},
-					new KeyBinding
-					{
-						Command = nameof(Command.ToggleFullScreen),
-						Key = (int)ExtendedVirtualKey.F11
 					}
 				};
 
@@ -292,7 +56,6 @@ namespace Files.App.Utils.Terminal
 						Key = (int)ExtendedVirtualKey.A
 					}
 				};
-
 				case Command.Clear:
 					return new List<KeyBinding>
 				{
@@ -304,36 +67,7 @@ namespace Files.App.Utils.Terminal
 						Key = (int)ExtendedVirtualKey.L
 					}
 				};
-				case Command.IncreaseFontSize:
-					return new List<KeyBinding>
-					{
-						new KeyBinding
-						{
-							Command = nameof(Command.IncreaseFontSize),
-							Ctrl = true,
-							Key = (int)ExtendedVirtualKey.Plus
-						}
-					};
-				case Command.DecreaseFontSize:
-					return new List<KeyBinding>
-					{
-						new KeyBinding
-						{
-							Command = nameof(Command.DecreaseFontSize),
-							Ctrl = true,
-							Key = (int)ExtendedVirtualKey.Minus
-						}
-					};
-				case Command.ResetFontSize:
-					return new List<KeyBinding>
-					{
-						new KeyBinding
-						{
-							Command = nameof(Command.ResetFontSize),
-							Ctrl = true,
-							Key = (int)ExtendedVirtualKey.Number0
-						}
-					};
+
 				default:
 					throw new InvalidOperationException($"Default keybindings for Command '{command}' are missing");
 			}

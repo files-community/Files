@@ -417,40 +417,6 @@ namespace Files.App.UserControls
 							Paste(content);
 						return;
 					}
-				case nameof(Command.PasteWithoutNewlines):
-					{
-						return;
-					}
-				case nameof(Command.Search):
-					{
-						return;
-					}
-				case nameof(Command.CloseSearch):
-					{
-						return;
-					}
-				case nameof(Command.IncreaseFontSize):
-					{
-						FontSize++;
-						await ExecuteScriptAsync($"setFontSize({FontSize})");
-						return;
-					}
-				case nameof(Command.DecreaseFontSize):
-					{
-						if (FontSize > 2)
-						{
-							FontSize--;
-							await ExecuteScriptAsync($"setFontSize({FontSize})");
-						}
-
-						return;
-					}
-				case nameof(Command.ResetFontSize):
-					{
-						FontSize = new DefaultValueProvider().GetDefaultTerminalOptions().FontSize;
-						await ExecuteScriptAsync($"setFontSize({FontSize})");
-						return;
-					}
 				default:
 					{
 						return;

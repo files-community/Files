@@ -549,40 +549,10 @@ namespace Files.App.Utils.Terminal
 
 	public enum Command
 	{
-		ToggleWindow,
-		NextTab,
-		PreviousTab,
-		NewTab,
-		NewWindow,
-		NewSshTab,
-		NewSshWindow,
-		NewCustomCommandTab,
-		NewCustomCommandWindow,
-		ChangeTabTitle,
-		CloseTab,
-		ShowSettings,
 		Copy,
 		Paste,
-		PasteWithoutNewlines,
-		Search,
-		CloseSearch,
-		ToggleFullScreen,
 		SelectAll,
-		Clear,
-		SwitchToTerm1,
-		SwitchToTerm2,
-		SwitchToTerm3,
-		SwitchToTerm4,
-		SwitchToTerm5,
-		SwitchToTerm6,
-		SwitchToTerm7,
-		SwitchToTerm8,
-		SwitchToTerm9,
-		DuplicateTab,
-		ReconnectTab,
-		IncreaseFontSize,
-		DecreaseFontSize,
-		ResetFontSize
+		Clear
 	}
 
 	public class TerminalSize
