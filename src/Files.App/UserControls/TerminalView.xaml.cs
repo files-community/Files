@@ -125,7 +125,14 @@ namespace Files.App.UserControls
 
 		private async void WebViewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
-			await WebViewControl.EnsureCoreWebView2Async();
+			var envOptions = new CoreWebView2EnvironmentOptions()
+			{
+				// TODO: switch to "ScrollBarStyle" when available
+				// https://learn.microsoft.com/en-us/dotnet/api/microsoft.web.webview2.core.corewebview2environmentoptions.scrollbarstyle?view=webview2-dotnet-1.0.2470-prerelease
+				AdditionalBrowserArguments = "--enable-features=OverlayScrollbar,OverlayScrollbarWinStyle,OverlayScrollbarWinStyleAnimation"
+			};
+			var environment = await CoreWebView2Environment.CreateWithOptionsAsync("", "", envOptions);
+			await WebViewControl.EnsureCoreWebView2Async(environment);
 			//WebViewControl.CoreWebView2.OpenDevToolsWindow();
 			WebViewControl.NavigationCompleted += WebViewControl_NavigationCompleted;
 			WebViewControl.NavigationStarting += WebViewControl_NavigationStarting;
