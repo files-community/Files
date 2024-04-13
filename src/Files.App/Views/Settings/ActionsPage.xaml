@@ -253,7 +253,7 @@
 											x:Name="CustomizedIndicatorCircleBorder"
 											Width="8"
 											Height="8"
-											x:Load="{x:Bind IsDefaultKey, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+											x:Load="{x:Bind IsDefinedByDefault, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 											Background="{ThemeResource SystemAccentColor}"
 											CornerRadius="{StaticResource ControlCornerRadius}"
 											ToolTipService.ToolTip="{helpers:ResourceString Name=Customized}"

@@ -112,7 +112,7 @@ namespace Files.App.ViewModels.Settings
 							HotKey = hotkey,
 							DefaultHotKeyCollection = defaultKeys,
 							PreviousHotKey = hotkey,
-							IsDefaultKey = defaultKeys.Contains(hotkey),
+							IsDefinedByDefault = defaultKeys.Contains(hotkey),
 						});
 					}
 				}
@@ -162,38 +162,21 @@ namespace Files.App.ViewModels.Settings
 					? new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions)
 					: [];
 
-			// Get raw string keys stored in the user setting
-			var storedKeys = actions.Find(x => x.CommandCode == SelectedNewShortcutItem.CommandCode);
-
-			// Initialize
+			// Initialize the new key binding
 			var newHotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText);
-			var modifiedCollection = HotKeyCollection.Empty;
 
-			// The first time to customize
-			if (storedKeys is null)
-			{
-				// Replace with new one
-				var modifiableDefaultCollection = SelectedNewShortcutItem.DefaultHotKeyCollection.ToList();
-				modifiableDefaultCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
-				modifiableDefaultCollection.Add(newHotKey);
-				modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
-			}
-			// Stored in the user setting
-			else
-			{
-				// Replace with new one
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys?.KeyBinding ?? string.Empty).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
-				modifiableCollection.Add(newHotKey);
-				modifiedCollection = new HotKeyCollection(modifiableCollection);
-			}
+			// Add to the temporary modifiable collection
+			actions.Add(new(SelectedNewShortcutItem.CommandCode, newHotKey.RawLabel));
 
-			// Remove previous one and add new one
-			actions.RemoveAll(x => x.CommandCode == SelectedNewShortcutItem.CommandCode);
-			actions.Add(new(SelectedNewShortcutItem.CommandCode, modifiedCollection.RawLabel));
-
-			// Store
+			// Set to the user settings
 			ActionsSettingsService.Actions = actions;
+
+			// Set as customized
+			foreach (var action in ValidKeyboardShortcuts)
+			{
+				if (action.CommandCode == SelectedNewShortcutItem.CommandCode)
+					action.IsDefinedByDefault = SelectedNewShortcutItem.DefaultHotKeyCollection.Contains(action.HotKey);
+			}
 
 			// Create a clone
 			var selectedNewItem = new ModifiableCommandHotKeyItem()
@@ -206,12 +189,11 @@ namespace Files.App.ViewModels.Settings
 				PreviousHotKey = HotKey.Parse(SelectedNewShortcutItem.PreviousHotKey.RawLabel),
 			};
 
-			// Hide the section
-			ShowAddNewHotKeySection = false;
-
-			// Remove from excluded list and set null
-			SelectedNewShortcutItem.HotKeyText = "";
-			SelectedNewShortcutItem = null;
+			// Exit edit mode
+			SelectedNewShortcutItem.PreviousHotKey = newHotKey;
+			SelectedNewShortcutItem.HotKey = newHotKey;
+			SelectedNewShortcutItem.IsEditMode = false;
+			SelectedNewShortcutItem.IsDefinedByDefault = SelectedNewShortcutItem.DefaultHotKeyCollection.Select(x => x.RawLabel).Contains(newHotKey.RawLabel);
 
 			// Add to existing list
 			ValidKeyboardShortcuts.Insert(0, selectedNewItem);
@@ -238,7 +220,7 @@ namespace Files.App.ViewModels.Settings
 			// Hide the add command grid
 			ShowAddNewHotKeySection = false;
 
-			// Reset the selected item's info
+			// Clear the selected item
 			if (SelectedNewShortcutItem is not null)
 			{
 				SelectedNewShortcutItem.HotKeyText = "";
@@ -284,86 +266,44 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeys = actions.Find(x => x.CommandCode == item.CommandCode);
+			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousHotKey.RawLabel);
 
 			// Initialize
 			var newHotKey = HotKey.Parse(item.HotKeyText);
 			var modifiedCollection = HotKeyCollection.Empty;
+			List<HotKey> modifiableCollection = [];
 
-			if (item.IsDefaultKey)
+			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
-				// The first time to customize in the user setting
-				if (storedKeys is null)
+				// Any keys associated to the command is not customized at all
+				foreach (var defaultKey in item.DefaultHotKeyCollection)
 				{
-					// Replace with new one
-					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiableDefaultCollection.Add(newHotKey);
-					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
+					if (defaultKey.RawLabel != item.PreviousHotKey.RawLabel)
+						actions.Add(new(item.CommandCode, defaultKey.RawLabel));
 				}
-				// Stored in the user setting
-				else
-				{
-					// Replace with new one
-					var modifiableCollection = HotKeyCollection.Parse(storedKeys.KeyBinding).ToList();
-					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiableCollection.Add(newHotKey);
-					modifiedCollection = new HotKeyCollection(modifiableCollection);
-				}
-
-				// Store
-				actions.Add(new(item.CommandCode, modifiedCollection.RawLabel));
-				ActionsSettingsService.Actions = actions;
-
-				// Update visual
-				item.PreviousHotKey = newHotKey;
-				item.HotKey = newHotKey;
-
-				// Set as customized
-				foreach (var action in ValidKeyboardShortcuts)
-				{
-					if (action.CommandCode == item.CommandCode)
-						action.IsDefaultKey = item.DefaultHotKeyCollection.Contains(action.HotKey);
-				}
-
-				// Exit edit mode
-				item.IsEditMode = false;
-
-				return;
 			}
 			else
 			{
-				// Remove existing setting
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys?.KeyBinding ?? string.Empty).ToList();
-				if (modifiableCollection.Contains(newHotKey))
-					return;
-				modifiableCollection.Add(HotKey.Parse(item.HotKeyText));
-				modifiedCollection = new(modifiableCollection);
+				var storedKey = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousHotKey.RawLabel);
 
-				// Remove previous one
-				actions.RemoveAll(x => x.CommandCode == item.CommandCode);
-
-				// Add new one
-				if (modifiedCollection.Select(x => x.RawLabel).SequenceEqual(item.DefaultHotKeyCollection.Select(x => x.RawLabel)))
-					actions.Add(new(item.CommandCode, modifiedCollection.RawLabel));
-
-				// Save
-				ActionsSettingsService.Actions = actions;
-
-				// Update visual
-				item.PreviousHotKey = newHotKey;
-				item.HotKey = newHotKey;
-
-				// Set as customized
-				foreach (var action in ValidKeyboardShortcuts)
-				{
-					if (action.CommandCode == item.CommandCode)
-						action.IsDefaultKey = item.DefaultHotKeyCollection.Contains(action.HotKey);
-				}
-
-				// Exit edit mode
-				item.IsEditMode = false;
+				if (storedKey is not null)
+					storedKey.KeyBinding = newHotKey.RawLabel;
 			}
+
+			// Set to the user settings
+			ActionsSettingsService.Actions = actions;
+
+			// Set as customized
+			foreach (var action in ValidKeyboardShortcuts)
+			{
+				if (action.CommandCode == item.CommandCode)
+					action.IsDefinedByDefault = item.DefaultHotKeyCollection.Contains(action.HotKey);
+			}
+
+			// Exit edit mode
+			item.PreviousHotKey = newHotKey;
+			item.HotKey = newHotKey;
+			item.IsEditMode = false;
 		}
 
 		private void ExecuteCancelCommand(ModifiableCommandHotKeyItem? item)
@@ -387,65 +327,41 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeys = actions.Find(x => x.CommandCode == item.CommandCode);
+			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousHotKey.RawLabel);
 
 			// Initialize
+			var newHotKey = HotKey.Parse(item.HotKeyText);
 			var modifiedCollection = HotKeyCollection.Empty;
+			List<HotKey> modifiableCollection = [];
 
-			if (item.IsDefaultKey)
+			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
-				// The first time to customize in the user setting
-				if (storedKeys is null)
+				// Any keys associated to the command is not customized at all
+				foreach (var defaultKey in item.DefaultHotKeyCollection)
 				{
-					// Replace with new one
-					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
+					if (defaultKey.RawLabel != item.PreviousHotKey.RawLabel)
+						actions.Add(new(item.CommandCode, defaultKey.RawLabel));
 				}
-				// Stored in the user setting
-				else
-				{
-					// Replace with new one
-					var modifiableCollection = HotKeyCollection.Parse(storedKeys.KeyBinding).ToList();
-					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiedCollection = new HotKeyCollection(modifiableCollection);
-				}
-
-				// Remove previous one and add new one
-				actions.RemoveAll(x => x.CommandCode == item.CommandCode);
-				actions.Add(new(item.CommandCode, modifiedCollection.RawLabel));
-
-				// Store
-				ActionsSettingsService.Actions = actions;
-
-				// Exit
-				item.IsEditMode = false;
-				ValidKeyboardShortcuts.Remove(item);
-
-				return;
 			}
 			else
 			{
-				// Remove existing setting
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys?.KeyBinding ?? string.Empty).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
-				modifiedCollection = new(modifiableCollection);
-
-				// Remove previous
-				actions.RemoveAll(x => x.CommandCode == item.CommandCode);
-
-				if (modifiedCollection.LocalizedLabel != string.Empty)
-					actions.Add(new(item.CommandCode, modifiedCollection.RawLabel));
-
-				// Save
-				ActionsSettingsService.Actions = actions;
-
-				// Exit
-				item.IsEditMode = false;
-				ValidKeyboardShortcuts.Remove(item);
-
-				return;
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousHotKey.RawLabel);
 			}
+
+			// Set to the user settings
+			ActionsSettingsService.Actions = actions;
+
+			// Set as customized
+			foreach (var action in ValidKeyboardShortcuts)
+			{
+				if (action.CommandCode == item.CommandCode)
+					action.IsDefinedByDefault = item.DefaultHotKeyCollection.Contains(action.HotKey);
+			}
+
+			// Exit edit mode
+			item.PreviousHotKey = newHotKey;
+			item.HotKey = newHotKey;
+			item.IsEditMode = false;
 		}
 	}
 }

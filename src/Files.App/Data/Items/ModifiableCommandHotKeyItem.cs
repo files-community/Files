@@ -35,7 +35,7 @@ namespace Files.App.Data.Items
 		}
 
 		private bool _IsCustomized;
-		public bool IsDefaultKey
+		public bool IsDefinedByDefault
 		{
 			get => _IsCustomized;
 			set => SetProperty(ref _IsCustomized, value);
