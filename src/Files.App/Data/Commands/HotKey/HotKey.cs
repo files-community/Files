@@ -8,42 +8,45 @@ using Forms = System.Windows.Forms;
 
 namespace Files.App.Data.Commands
 {
-	[DebuggerDisplay("{Code}")]
+	/// <summary>
+	/// Represents hot key.
+	/// </summary>
+	[DebuggerDisplay("{LocalizedLabel}")]
 	public readonly struct HotKey : IEquatable<HotKey>
 	{
-		public static readonly FrozenDictionary<KeyModifiers, string> modifiers = new Dictionary<KeyModifiers, string>()
+		public static FrozenDictionary<KeyModifiers, string> LocalizedModifiers { get; } = new Dictionary<KeyModifiers, string>()
 		{
-			[KeyModifiers.Menu] = GetKeyString("Menu"),
-			[KeyModifiers.Ctrl] = GetKeyString("Control"),
-			[KeyModifiers.Shift] = GetKeyString("Shift"),
-			[KeyModifiers.Win] = GetKeyString("Windows"),
+			[KeyModifiers.Alt] = GetLocalizedKey("Menu"),
+			[KeyModifiers.Ctrl] = GetLocalizedKey("Control"),
+			[KeyModifiers.Shift] = GetLocalizedKey("Shift"),
+			[KeyModifiers.Win] = GetLocalizedKey("Windows"),
 		}.ToFrozenDictionary();
 
-		public static readonly FrozenDictionary<Keys, string> keys = new Dictionary<Keys, string>()
+		public static FrozenDictionary<Keys, string> LocalizedKeys { get; } = new Dictionary<Keys, string>()
 		{
-			[Keys.Enter] = GetKeyString("Enter"),
-			[Keys.Space] = GetKeyString("Space"),
-			[Keys.Escape] = GetKeyString("Escape"),
-			[Keys.Back] = GetKeyString("Back"),
-			[Keys.Tab] = GetKeyString("Tab"),
-			[Keys.Insert] = GetKeyString("Insert"),
-			[Keys.Delete] = GetKeyString("Delete"),
-			[Keys.Left] = GetKeyString("Left"),
-			[Keys.Right] = GetKeyString("Right"),
-			[Keys.Down] = GetKeyString("Down"),
-			[Keys.Up] = GetKeyString("Up"),
-			[Keys.Home] = GetKeyString("Home"),
-			[Keys.End] = GetKeyString("End"),
-			[Keys.PageDown] = GetKeyString("PageDown"),
-			[Keys.PageUp] = GetKeyString("PageUp"),
-			[Keys.Separator] = GetKeyString("Separator"),
-			[Keys.Pause] = GetKeyString("Pause"),
-			[Keys.Sleep] = GetKeyString("Sleep"),
-			[Keys.Clear] = GetKeyString("Clear"),
-			[Keys.Print] = GetKeyString("Print"),
-			[Keys.Help] = GetKeyString("Help"),
-			[Keys.Mouse4] = GetKeyString("Mouse4"),
-			[Keys.Mouse5] = GetKeyString("Mouse5"),
+			[Keys.Enter] = GetLocalizedKey("Enter"),
+			[Keys.Space] = GetLocalizedKey("Space"),
+			[Keys.Escape] = GetLocalizedKey("Escape"),
+			[Keys.Back] = GetLocalizedKey("Back"),
+			[Keys.Tab] = GetLocalizedKey("Tab"),
+			[Keys.Insert] = GetLocalizedKey("Insert"),
+			[Keys.Delete] = GetLocalizedKey("Delete"),
+			[Keys.Left] = GetLocalizedKey("Left"),
+			[Keys.Right] = GetLocalizedKey("Right"),
+			[Keys.Down] = GetLocalizedKey("Down"),
+			[Keys.Up] = GetLocalizedKey("Up"),
+			[Keys.Home] = GetLocalizedKey("Home"),
+			[Keys.End] = GetLocalizedKey("End"),
+			[Keys.PageDown] = GetLocalizedKey("PageDown"),
+			[Keys.PageUp] = GetLocalizedKey("PageUp"),
+			[Keys.Separator] = GetLocalizedKey("Separator"),
+			[Keys.Pause] = GetLocalizedKey("Pause"),
+			[Keys.Sleep] = GetLocalizedKey("Sleep"),
+			[Keys.Clear] = GetLocalizedKey("Clear"),
+			[Keys.Print] = GetLocalizedKey("Print"),
+			[Keys.Help] = GetLocalizedKey("Help"),
+			[Keys.Mouse4] = GetLocalizedKey("Mouse4"),
+			[Keys.Mouse5] = GetLocalizedKey("Mouse5"),
 			[Keys.F1] = "F1",
 			[Keys.F2] = "F2",
 			[Keys.F3] = "F3",
@@ -78,16 +81,16 @@ namespace Files.App.Data.Commands
 			[Keys.Number7] = "7",
 			[Keys.Number8] = "8",
 			[Keys.Number9] = "9",
-			[Keys.Pad0] = GetKeyString("Pad0"),
-			[Keys.Pad1] = GetKeyString("Pad1"),
-			[Keys.Pad2] = GetKeyString("Pad2"),
-			[Keys.Pad3] = GetKeyString("Pad3"),
-			[Keys.Pad4] = GetKeyString("Pad4"),
-			[Keys.Pad5] = GetKeyString("Pad5"),
-			[Keys.Pad6] = GetKeyString("Pad6"),
-			[Keys.Pad7] = GetKeyString("Pad7"),
-			[Keys.Pad8] = GetKeyString("Pad8"),
-			[Keys.Pad9] = GetKeyString("Pad9"),
+			[Keys.Pad0] = GetLocalizedKey("Pad0"),
+			[Keys.Pad1] = GetLocalizedKey("Pad1"),
+			[Keys.Pad2] = GetLocalizedKey("Pad2"),
+			[Keys.Pad3] = GetLocalizedKey("Pad3"),
+			[Keys.Pad4] = GetLocalizedKey("Pad4"),
+			[Keys.Pad5] = GetLocalizedKey("Pad5"),
+			[Keys.Pad6] = GetLocalizedKey("Pad6"),
+			[Keys.Pad7] = GetLocalizedKey("Pad7"),
+			[Keys.Pad8] = GetLocalizedKey("Pad8"),
+			[Keys.Pad9] = GetLocalizedKey("Pad9"),
 			[Keys.A] = "A",
 			[Keys.B] = "B",
 			[Keys.C] = "C",
@@ -132,55 +135,75 @@ namespace Files.App.Data.Commands
 			[Keys.OemPeriod] = GetKeyCharacter(Forms.Keys.OemPeriod),
 			[Keys.Oem102] = GetKeyCharacter(Forms.Keys.Oem102),
 			[Keys.OemClear] = GetKeyCharacter(Forms.Keys.OemClear),
-			[Keys.Application] = GetKeyString("Application"),
-			[Keys.Application1] = GetKeyString("Application1"),
-			[Keys.Application2] = GetKeyString("Application2"),
-			[Keys.Mail] = GetKeyString("Mail"),
-			[Keys.GoHome] = GetKeyString("BrowserGoHome"),
-			[Keys.GoBack] = GetKeyString("BrowserGoBack"),
-			[Keys.GoForward] = GetKeyString("BrowserGoForward"),
-			[Keys.Refresh] = GetKeyString("BrowserRefresh"),
-			[Keys.BrowserStop] = GetKeyString("BrowserStop"),
-			[Keys.Search] = GetKeyString("BrowserSearch"),
-			[Keys.Favorites] = GetKeyString("BrowserFavorites"),
-			[Keys.PlayPause] = GetKeyString("MediaPlayPause"),
-			[Keys.MediaStop] = GetKeyString("MediaStop"),
-			[Keys.PreviousTrack] = GetKeyString("MediaPreviousTrack"),
-			[Keys.NextTrack] = GetKeyString("MediaNextTrack"),
-			[Keys.MediaSelect] = GetKeyString("MediaSelect"),
-			[Keys.Mute] = GetKeyString("MediaMute"),
-			[Keys.VolumeDown] = GetKeyString("MediaVolumeDown"),
-			[Keys.VolumeUp] = GetKeyString("MediaVolumeUp"),
+			[Keys.Application] = GetLocalizedKey("Application"),
+			[Keys.Application1] = GetLocalizedKey("Application1"),
+			[Keys.Application2] = GetLocalizedKey("Application2"),
+			[Keys.Mail] = GetLocalizedKey("Mail"),
+			[Keys.GoHome] = GetLocalizedKey("BrowserGoHome"),
+			[Keys.GoBack] = GetLocalizedKey("BrowserGoBack"),
+			[Keys.GoForward] = GetLocalizedKey("BrowserGoForward"),
+			[Keys.Refresh] = GetLocalizedKey("BrowserRefresh"),
+			[Keys.BrowserStop] = GetLocalizedKey("BrowserStop"),
+			[Keys.Search] = GetLocalizedKey("BrowserSearch"),
+			[Keys.Favorites] = GetLocalizedKey("BrowserFavorites"),
+			[Keys.PlayPause] = GetLocalizedKey("MediaPlayPause"),
+			[Keys.MediaStop] = GetLocalizedKey("MediaStop"),
+			[Keys.PreviousTrack] = GetLocalizedKey("MediaPreviousTrack"),
+			[Keys.NextTrack] = GetLocalizedKey("MediaNextTrack"),
+			[Keys.MediaSelect] = GetLocalizedKey("MediaSelect"),
+			[Keys.Mute] = GetLocalizedKey("MediaMute"),
+			[Keys.VolumeDown] = GetLocalizedKey("MediaVolumeDown"),
+			[Keys.VolumeUp] = GetLocalizedKey("MediaVolumeUp"),
 		}.ToFrozenDictionary();
 
+		/// <summary>
+		/// Gets the none value.
+		/// </summary>
 		public static HotKey None { get; } = new(Keys.None, KeyModifiers.None);
 
+		/// <summary>
+		/// Gets the value that indicates whether the hotkey is none.
+		/// </summary>
 		public bool IsNone => Key is Keys.None && Modifier is KeyModifiers.None;
 
+		/// <summary>
+		/// Gets the value that indicates whether the key should be visible.
+		/// </summary>
 		public bool IsVisible { get; init; }
 
+		/// <summary>
+		/// Gets the key.
+		/// </summary>
 		public Keys Key { get; }
+
+		/// <summary>
+		/// Gets the modifier.
+		/// </summary>
 		public KeyModifiers Modifier { get; }
 
-		public string Code
+		/// <summary>
+		/// Gets the raw label of the hotkey.
+		/// </summary>
+		/// <remarks>
+		/// For example, this is "Ctrl+A" and "Ctrl+Menu+C"
+		/// </remarks>
+		public string RawLabel
 		{
 			get
 			{
 				return (Key, Modifier) switch
 				{
 					(Keys.None, KeyModifiers.None) => string.Empty,
-					(Keys.None, _) => $"{GetVisibleCode(IsVisible)}{GetModifierCode(Modifier)}",
-					(_, KeyModifiers.None) => $"{GetVisibleCode(IsVisible)}{Key}",
-					_ => $"{GetVisibleCode(IsVisible)}{GetModifierCode(Modifier)}+{Key}",
+					(Keys.None, _) => $"{GetModifierCode(Modifier)}",
+					(_, KeyModifiers.None) => $"{Key}",
+					_ => $"{GetModifierCode(Modifier)}+{Key}",
 				};
-
-				static string GetVisibleCode(bool isVisible) => isVisible ? string.Empty : "!";
 
 				static string GetModifierCode(KeyModifiers modifiers)
 				{
 					StringBuilder builder = new();
-					if (modifiers.HasFlag(KeyModifiers.Menu))
-						builder.Append($"+{KeyModifiers.Menu}");
+					if (modifiers.HasFlag(KeyModifiers.Alt))
+						builder.Append($"+{KeyModifiers.Alt}");
 					if (modifiers.HasFlag(KeyModifiers.Ctrl))
 						builder.Append($"+{KeyModifiers.Ctrl}");
 					if (modifiers.HasFlag(KeyModifiers.Shift))
@@ -193,7 +216,13 @@ namespace Files.App.Data.Commands
 			}
 		}
 
-		public string Label
+		/// <summary>
+		/// Gets the localized label of the hotkey to shown in the UI.
+		/// </summary>
+		/// <remarks>
+		/// For example, this is "Ctrl+A" and "Ctrl+Alt+C"
+		/// </remarks>
+		public string LocalizedLabel
 		{
 			get
 			{
@@ -201,29 +230,34 @@ namespace Files.App.Data.Commands
 				{
 					(Keys.None, KeyModifiers.None) => string.Empty,
 					(Keys.None, _) => GetModifierCode(Modifier),
-					(_, KeyModifiers.None) => keys[Key],
-					_ => $"{GetModifierCode(Modifier)}+{keys[Key]}",
+					(_, KeyModifiers.None) => LocalizedKeys[Key],
+					_ => $"{GetModifierCode(Modifier)}+{LocalizedKeys[Key]}",
 				};
 
 				static string GetModifierCode(KeyModifiers modifier)
 				{
 					StringBuilder builder = new();
-					if (modifier.HasFlag(KeyModifiers.Menu))
-						builder.Append($"+{modifiers[KeyModifiers.Menu]}");
+					if (modifier.HasFlag(KeyModifiers.Alt))
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Alt]}");
 					if (modifier.HasFlag(KeyModifiers.Ctrl))
-						builder.Append($"+{modifiers[KeyModifiers.Ctrl]}");
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Ctrl]}");
 					if (modifier.HasFlag(KeyModifiers.Shift))
-						builder.Append($"+{modifiers[KeyModifiers.Shift]}");
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Shift]}");
 					if (modifier.HasFlag(KeyModifiers.Win))
-						builder.Append($"+{modifiers[KeyModifiers.Win]}");
+						builder.Append($"+{LocalizedModifiers[KeyModifiers.Win]}");
 					builder.Remove(0, 1);
 					return builder.ToString();
 				}
 			}
 		}
 
-		public HotKey(Keys key, bool isVisible = true) : this(key, KeyModifiers.None, isVisible) {}
-		public HotKey(Keys key, KeyModifiers modifier, bool isVisible = true)
+		/// <summary>
+		/// Initializes an instance of <see cref="HotKey"/>.
+		/// </summary>
+		/// <param name="key">A key</param>
+		/// <param name="modifier">A modifier</param>
+		/// <param name="isVisible">A value that indicates the hotkey should be available.</param>
+		public HotKey(Keys key, KeyModifiers modifier = KeyModifiers.None, bool isVisible = true)
 		{
 			if (!Enum.IsDefined(key) || !Enum.IsDefined(modifier))
 				return;
@@ -233,67 +267,76 @@ namespace Files.App.Data.Commands
 			Modifier = modifier;
 		}
 
-		public void Deconstruct(out Keys key, out KeyModifiers modifier)
-			=> (key, modifier) = (Key, Modifier);
-		public void Deconstruct(out Keys key, out KeyModifiers modifier, out bool isVisible)
-			=> (key, modifier, isVisible) = (Key, Modifier, IsVisible);
-
-		public static HotKey Parse(string code)
+		/// <summary>
+		/// Parses humanized hotkey code with separators.
+		/// </summary>
+		/// <param name="code">Humanized code to parse.</param>
+		/// <param name="localized">Whether the code is localized.</param>
+		/// <returns>Humanized code with a format <see cref="HotKey"/>.</returns>
+		public static HotKey Parse(string code, bool localized = true)
 		{
 			var key = Keys.None;
 			var modifier = KeyModifiers.None;
 			bool isVisible = true;
 
 			code = code.Trim();
-			if (code.StartsWith('!'))
-			{
-				isVisible = false;
-				code = code.Remove(0, 1);
-			}
-
 			var parts = code.Split('+').Select(part => part.Trim());
+
 			foreach (var part in parts)
 			{
-				if (Enum.TryParse(part, true, out Keys partKey))
-					key = partKey;
-				if (Enum.TryParse(part, true, out KeyModifiers partModifier))
-					modifier |= partModifier;
+				if (localized)
+				{
+					key |= LocalizedKeys.FirstOrDefault(x => x.Value == part).Key;
+					modifier |= LocalizedModifiers.FirstOrDefault(x => x.Value == part).Key;
+				}
+				else
+				{
+					if (Enum.TryParse(part, true, out Keys partKey))
+						key = partKey;
+					if (Enum.TryParse(part, true, out KeyModifiers partModifier))
+						modifier |= partModifier;
+				}
 			}
+
 			return new(key, modifier, isVisible);
 		}
 
-		public HotKeyCollection AsCollection() => new(this);
+		/// <summary>
+		/// Converts this <see cref="HotKey"/> instance into a <see cref="HotKeyCollection"/> instance.
+		/// </summary>
+		/// <returns></returns>
+		public HotKeyCollection AsCollection()
+		{
+			return new(this);
+		}
 
-		public static implicit operator string(HotKey hotKey) => hotKey.Label;
+		// Operator overloads
 
+		public static implicit operator string(HotKey hotKey) => hotKey.LocalizedLabel;
 		public static bool operator ==(HotKey a, HotKey b) => a.Equals(b);
 		public static bool operator !=(HotKey a, HotKey b) => !a.Equals(b);
 
-		public override string ToString() => Label;
+		// Default methods
 
+		public override string ToString() => LocalizedLabel;
 		public override int GetHashCode() => (Key, Modifier, IsVisible).GetHashCode();
 		public override bool Equals(object? other) => other is HotKey hotKey && Equals(hotKey);
 		public bool Equals(HotKey other) => (other.Key, other.Modifier, other.IsVisible).Equals((Key, Modifier, IsVisible));
 
-		private static string GetKeyString(string key) => $"Key/{key}".GetLocalizedResource();
+		// Private methods
+
+		private static string GetLocalizedKey(string key)
+		{
+			return $"Key/{key}".GetLocalizedResource();
+		}
 
 		private static string GetKeyCharacter(Forms.Keys key)
 		{
 			var buffer = new StringBuilder(256);
 			var state = new byte[256];
-			_ = ToUnicode((uint)key, 0, state, buffer, 256, 0);
+			_ = Win32PInvoke.ToUnicode((uint)key, 0, state, buffer, 256, 0);
+
 			return buffer.ToString();
 		}
-
-		[DllImport("user32.dll")]
-		private static extern int ToUnicode
-		(
-			uint virtualKeyCode,
-			uint scanCode,
-			byte[] keyboardState,
-			[Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder receivingBuffer,
-			int bufferSize,
-			uint flags
-		);
 	}
 }

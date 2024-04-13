@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconProperties");
 
 		public HotKey HotKey
-			=> new(Keys.Enter, KeyModifiers.Menu);
+			=> new(Keys.Enter, KeyModifiers.Alt);
 
 		public bool IsExecutable =>
 			context.PageType is not ContentPageTypes.Home &&
