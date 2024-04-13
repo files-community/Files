@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class ActionsSettingsService : BaseJsonSettings, IActionsSettingsService
+	internal sealed class ActionsSettingsService : BaseObservableJsonSettings, IActionsSettingsService
 	{
 		/// <inheritdoc/>
 		public List<ActionWithCustomArgItem>? Actions
