@@ -912,14 +912,16 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
-			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-
-			foreach (var item in overflowItemsWithSubMenu)
+			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+			
+			var subMenuTasks = overflowItemsWithSubMenu.Select(async item =>
 			{
 				await item.LoadSubMenuAction();
 				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
-			}
-			
+			});
+
+			await Task.WhenAll(subMenuTasks);
+
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
 				// Enable CharacterEllipsis text trimming for menu items

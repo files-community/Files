@@ -360,10 +360,8 @@ namespace Files.App.Helpers
 				}
 
 
-				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-				
-				//The order here may be important
-				foreach (var item in itemsWithSubMenu)
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+				var subMenuTasks = itemsWithSubMenu.Select(async item =>
 				{
 					await item.LoadSubMenuAction();
 					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
@@ -379,7 +377,9 @@ namespace Files.App.Helpers
 							AddItemsToOverflowMenu(overflowItem, item);
 						}
 					}
-				}
+				});
+
+				await Task.WhenAll(subMenuTasks);
 			}
 			catch { }
 		}
