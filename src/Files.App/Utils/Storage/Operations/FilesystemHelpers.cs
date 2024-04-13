@@ -475,7 +475,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			// Await all removal tasks to complete
-			await Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
+			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
 
 			var itemsCount = banner.TotalItemsCount;
 
