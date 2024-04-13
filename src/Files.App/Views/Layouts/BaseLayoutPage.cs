@@ -907,10 +907,11 @@ namespace Files.App.Views.Layouts
 			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
 
 			// Load main submenus asynchronously
+			await Task.WhenAll(mainItemsWithSubMenu.Select(item => item.LoadSubMenuAction()));
+
 			foreach (var item in mainItemsWithSubMenu)
 			{
-				await item.LoadSubMenuAction();
-				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems,item);
+				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, item);
 			}
 
 			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
