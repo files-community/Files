@@ -12,7 +12,7 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class ActionsPage : Page
 	{
-		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private IActionsSettingsService ActionsSettingsService { get; } = Ioc.Default.GetRequiredService<IActionsSettingsService>();
 
 		private readonly string PART_EditButton = "EditButton";
 		private readonly string NormalState = "Normal";
@@ -98,12 +98,12 @@ namespace Files.App.Views.Settings
 
 			// Get clone of customized hotkeys to overwrite
 			var actions =
-				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+				ActionsSettingsService.Actions is not null
+					? new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions)
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(item.CommandCode.ToString());
+			var storedKeys = actions.Find(x => x.CommandCode == item.CommandCode);
 
 			// Initialize
 			var newHotKey = HotKey.Parse(item.HotKeyText);
@@ -112,7 +112,7 @@ namespace Files.App.Views.Settings
 			if (item.IsDefaultKey)
 			{
 				// The first time to customize in the user setting
-				if (string.IsNullOrEmpty(storedKeys))
+				if (storedKeys is null)
 				{
 					// Replace with new one
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
@@ -124,15 +124,15 @@ namespace Files.App.Views.Settings
 				else
 				{
 					// Replace with new one
-					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
+					var modifiableCollection = HotKeyCollection.Parse(storedKeys.KeyBinding).ToList();
 					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiableCollection.Add(newHotKey);
 					modifiedCollection = new HotKeyCollection(modifiableCollection);
 				}
 
 				// Store
-				actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
-				GeneralSettingsService.Actions = actions;
+				actions.Add(new(item.CommandCode, modifiedCollection.RawLabel));
+				ActionsSettingsService.Actions = actions;
 
 				// Update visual
 				item.PreviousHotKey = newHotKey;
@@ -153,21 +153,21 @@ namespace Files.App.Views.Settings
 			else
 			{
 				// Remove existing setting
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
+				var modifiableCollection = HotKeyCollection.Parse(storedKeys?.KeyBinding ?? string.Empty).ToList();
 				if (modifiableCollection.Contains(newHotKey))
 					return;
 				modifiableCollection.Add(HotKey.Parse(item.HotKeyText));
 				modifiedCollection = new(modifiableCollection);
 
 				// Remove previous one
-				actions.Remove(item.CommandCode.ToString());
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode);
 
 				// Add new one
 				if (modifiedCollection.Select(x => x.RawLabel).SequenceEqual(item.DefaultHotKeyCollection.Select(x => x.RawLabel)))
-					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
+					actions.Add(new(item.CommandCode, modifiedCollection.RawLabel));
 
 				// Save
-				GeneralSettingsService.Actions = actions;
+				ActionsSettingsService.Actions = actions;
 
 				// Update visual
 				item.PreviousHotKey = newHotKey;
@@ -201,12 +201,12 @@ namespace Files.App.Views.Settings
 
 			// Get clone of customized hotkeys to overwrite
 			var actions =
-				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+				ActionsSettingsService.Actions is not null
+					? new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions)
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(item.CommandCode.ToString());
+			var storedKeys = actions.Find(x => x.CommandCode == item.CommandCode);
 
 			// Initialize
 			var modifiedCollection = HotKeyCollection.Empty;
@@ -214,7 +214,7 @@ namespace Files.App.Views.Settings
 			if (item.IsDefaultKey)
 			{
 				// The first time to customize in the user setting
-				if (string.IsNullOrEmpty(storedKeys))
+				if (storedKeys is null)
 				{
 					// Replace with new one
 					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
@@ -225,17 +225,17 @@ namespace Files.App.Views.Settings
 				else
 				{
 					// Replace with new one
-					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
+					var modifiableCollection = HotKeyCollection.Parse(storedKeys.KeyBinding).ToList();
 					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
 					modifiedCollection = new HotKeyCollection(modifiableCollection);
 				}
 
 				// Remove previous one and add new one
-				actions.Remove(item.CommandCode.ToString());
-				actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode);
+				actions.Add(new(item.CommandCode, modifiedCollection.RawLabel));
 
 				// Store
-				GeneralSettingsService.Actions = actions;
+				ActionsSettingsService.Actions = actions;
 
 				// Exit
 				item.IsEditMode = false;
@@ -246,18 +246,18 @@ namespace Files.App.Views.Settings
 			else
 			{
 				// Remove existing setting
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
+				var modifiableCollection = HotKeyCollection.Parse(storedKeys?.KeyBinding ?? string.Empty).ToList();
 				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
 				modifiedCollection = new(modifiableCollection);
 
 				// Remove previous
-				actions.Remove(item.CommandCode.ToString());
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode);
 
 				if (modifiedCollection.LocalizedLabel != string.Empty)
-					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
+					actions.Add(new(item.CommandCode, modifiedCollection.RawLabel));
 
 				// Save
-				GeneralSettingsService.Actions = actions;
+				ActionsSettingsService.Actions = actions;
 
 				// Exit
 				item.IsEditMode = false;

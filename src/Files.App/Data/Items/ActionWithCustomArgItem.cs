@@ -5,10 +5,17 @@ namespace Files.App.Data.Items
 {
 	public class ActionWithCustomArgItem
 	{
-		public string? Command { get; set; }
+		public CommandCodes CommandCode { get; set; }
 
-		public string? KeyBinding { get; set; }
+		public string KeyBinding { get; set; } = string.Empty;
 
-		public string? Args { get; set; }
+		public string Args { get; set; } = string.Empty;
+
+		public ActionWithCustomArgItem(CommandCodes command, string keyBinding, string args = null)
+		{
+			CommandCode = command;
+			KeyBinding = keyBinding;
+			Args = args ?? string.Empty;
+		}
 	}
 }

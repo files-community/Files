@@ -3,8 +3,11 @@
 
 namespace Files.App.Services.Settings
 {
-	internal interface IActionsSettingsService
+	internal interface IActionsSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
-		List<ActionWithCustomArgItem> Actions { get; set; }
+		/// <summary>
+		/// A dictionary to determine the custom hotkeys
+		/// </summary>
+		List<ActionWithCustomArgItem>? Actions { get; set; }
 	}
 }

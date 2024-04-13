@@ -4,10 +4,6 @@
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using Files.App.Actions;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Data.Commands
 {
@@ -15,7 +11,7 @@ namespace Files.App.Data.Commands
 	{
 		// Dependency injections
 
-		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private IActionsSettingsService ActionsSettingsService { get; } = Ioc.Default.GetRequiredService<IActionsSettingsService>();
 
 		// Fields
 
@@ -203,7 +199,7 @@ namespace Files.App.Data.Commands
 				.Append(new NoneCommand())
 				.ToFrozenDictionary(command => command.Code);
 
-			GeneralSettingsService.PropertyChanged += Settings_PropertyChanged;
+			ActionsSettingsService.PropertyChanged += Settings_PropertyChanged;
 			UpdateHotKeys();
 		}
 
@@ -212,7 +208,7 @@ namespace Files.App.Data.Commands
 		public IEnumerator<IRichCommand> GetEnumerator() =>
 			(commands.Values as IEnumerable<IRichCommand>).GetEnumerator();
 
-		private static Dictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
+		private static Dictionary<CommandCodes, IAction> CreateActions() => new()
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
@@ -372,7 +368,7 @@ namespace Files.App.Data.Commands
 		/// </summary>
 		private void UpdateHotKeys()
 		{
-			if (GeneralSettingsService.Actions is null)
+			if (ActionsSettingsService.Actions is null)
 				return;
 
 			var useds = new HashSet<HotKey>();
@@ -380,22 +376,19 @@ namespace Files.App.Data.Commands
 			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
 
 			// Get custom hotkeys from the user settings
-			foreach (var custom in GeneralSettingsService.Actions)
+			foreach (var custom in ActionsSettingsService.Actions)
 			{
-				if (Enum.TryParse(custom.Key, true, out CommandCodes code))
+				if (custom.CommandCode is CommandCodes.None)
+					continue;
+
+				// Parse and add the hotkeys
+				var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.KeyBinding, false).Except(useds));
+				customs.Add(custom.CommandCode, new(hotKeys));
+
+				foreach (var hotKey in hotKeys)
 				{
-					if (code is CommandCodes.None)
-						continue;
-
-					// Parse and add the hotkeys
-					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.Value, false).Except(useds));
-					customs.Add(code, new(hotKeys));
-
-					foreach (var hotKey in hotKeys)
-					{
-						useds.Add(hotKey with { IsVisible = true });
-						useds.Add(hotKey with { IsVisible = false });
-					}
+					useds.Add(hotKey with { IsVisible = true });
+					useds.Add(hotKey with { IsVisible = false });
 				}
 			}
 
@@ -421,176 +414,8 @@ namespace Files.App.Data.Commands
 
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IGeneralSettingsService.Actions))
+			if (e.PropertyName is nameof(IActionsSettingsService.Actions))
 				UpdateHotKeys();
-		}
-
-		// TODO: Move to a new file
-		[DebuggerDisplay("Command {Code}")]
-		internal sealed class ActionCommand : ObservableObject, IRichCommand
-		{
-			private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-
-			public event EventHandler? CanExecuteChanged;
-
-			private readonly CommandManager manager;
-
-			public IAction Action { get; }
-			public CommandCodes Code { get; }
-
-			public string Label => Action.Label;
-			public string LabelWithHotKey => HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
-			public string AutomationName => Label;
-
-			public string Description => Action.Description;
-
-			public RichGlyph Glyph => Action.Glyph;
-			public object? Icon { get; }
-			public FontIcon? FontIcon { get; }
-			public Style? OpacityStyle { get; }
-
-			private bool isCustomHotKeys = false;
-			public bool IsCustomHotKeys => isCustomHotKeys;
-
-			public string? HotKeyText
-			{
-				get
-				{
-					string text = HotKeys.LocalizedLabel;
-					if (string.IsNullOrEmpty(text))
-						return null;
-					return text;
-				}
-			}
-
-			private HotKeyCollection hotKeys;
-			public HotKeyCollection HotKeys
-			{
-				get => hotKeys;
-				set
-				{
-					if (hotKeys == value)
-						return;
-
-					string code = Code.ToString();
-					var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
-
-					if (!customs.ContainsKey(code))
-						customs.Add(code, value.RawLabel);
-					else if (value != GetHotKeys(Action))
-						customs[code] = value.RawLabel;
-					else
-						customs.Remove(code);
-
-					GeneralSettingsService.Actions = customs;
-				}
-			}
-
-			public HotKeyCollection DefaultHotKeys { get; }
-
-			public bool IsToggle => Action is IToggleAction;
-
-			public bool IsOn
-			{
-				get => Action is IToggleAction toggleAction && toggleAction.IsOn;
-				set
-				{
-					if (Action is IToggleAction toggleAction && toggleAction.IsOn != value)
-						Execute(null);
-				}
-			}
-
-			public bool IsExecutable => Action.IsExecutable;
-
-			public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
-			{
-				this.manager = manager;
-				Code = code;
-				Action = action;
-				Icon = action.Glyph.ToIcon();
-				FontIcon = action.Glyph.ToFontIcon();
-				OpacityStyle = action.Glyph.ToOpacityStyle();
-				hotKeys = CommandManager.GetHotKeys(action);
-				DefaultHotKeys = CommandManager.GetHotKeys(action);
-
-				if (action is INotifyPropertyChanging notifyPropertyChanging)
-					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
-				if (action is INotifyPropertyChanged notifyPropertyChanged)
-					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
-			}
-
-			public bool CanExecute(object? parameter) => Action.IsExecutable;
-			public async void Execute(object? parameter) => await ExecuteAsync();
-
-			public Task ExecuteAsync()
-			{
-				if (IsExecutable)
-				{
-					Analytics.TrackEvent($"Triggered {Code} action");
-					return Action.ExecuteAsync();
-				}
-
-				return Task.CompletedTask;
-			}
-
-			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
-
-			public void ResetHotKeys()
-			{
-				if (!IsCustomHotKeys)
-					return;
-
-				var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
-				customs.Remove(Code.ToString());
-				GeneralSettingsService.Actions = customs;
-			}
-
-			internal void UpdateHotKeys(bool isCustom, HotKeyCollection hotKeys)
-			{
-				SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
-
-				if (SetProperty(ref this.hotKeys, hotKeys, nameof(HotKeys)))
-				{
-					OnPropertyChanged(nameof(HotKeyText));
-					OnPropertyChanged(nameof(LabelWithHotKey));
-				}
-			}
-
-			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
-			{
-				switch (e.PropertyName)
-				{
-					case nameof(IAction.Label):
-						OnPropertyChanging(nameof(Label));
-						OnPropertyChanging(nameof(LabelWithHotKey));
-						OnPropertyChanging(nameof(AutomationName));
-						break;
-					case nameof(IToggleAction.IsOn) when IsToggle:
-						OnPropertyChanging(nameof(IsOn));
-						break;
-					case nameof(IAction.IsExecutable):
-						OnPropertyChanging(nameof(IsExecutable));
-						break;
-				}
-			}
-			private void Action_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-			{
-				switch (e.PropertyName)
-				{
-					case nameof(IAction.Label):
-						OnPropertyChanged(nameof(Label));
-						OnPropertyChanged(nameof(LabelWithHotKey));
-						OnPropertyChanged(nameof(AutomationName));
-						break;
-					case nameof(IToggleAction.IsOn) when IsToggle:
-						OnPropertyChanged(nameof(IsOn));
-						break;
-					case nameof(IAction.IsExecutable):
-						OnPropertyChanged(nameof(IsExecutable));
-						CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-						break;
-				}
-			}
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace Files.App.ViewModels.Settings
 	{
 		// Dependency injections
 
-		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private IActionsSettingsService ActionsSettingsService { get; } = Ioc.Default.GetRequiredService<IActionsSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		// Properties
@@ -150,19 +150,19 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			var actions =
-				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+				ActionsSettingsService.Actions is not null
+					? new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions)
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(SelectedNewShortcutItem.CommandCode.ToString());
+			var storedKeys = actions.Find(x => x.CommandCode == SelectedNewShortcutItem.CommandCode);
 
 			// Initialize
 			var newHotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText);
 			var modifiedCollection = HotKeyCollection.Empty;
 
 			// The first time to customize
-			if (string.IsNullOrEmpty(storedKeys))
+			if (storedKeys is null)
 			{
 				// Replace with new one
 				var modifiableDefaultCollection = SelectedNewShortcutItem.DefaultHotKeyCollection.ToList();
@@ -174,18 +174,18 @@ namespace Files.App.ViewModels.Settings
 			else
 			{
 				// Replace with new one
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
+				var modifiableCollection = HotKeyCollection.Parse(storedKeys?.KeyBinding ?? string.Empty).ToList();
 				modifiableCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
 				modifiableCollection.Add(newHotKey);
 				modifiedCollection = new HotKeyCollection(modifiableCollection);
 			}
 
 			// Remove previous one and add new one
-			actions.Remove(SelectedNewShortcutItem.CommandCode.ToString());
-			actions.Add(SelectedNewShortcutItem.CommandCode.ToString(), modifiedCollection.RawLabel);
+			actions.RemoveAll(x => x.CommandCode == SelectedNewShortcutItem.CommandCode);
+			actions.Add(new(SelectedNewShortcutItem.CommandCode, modifiedCollection.RawLabel));
 
 			// Store
-			GeneralSettingsService.Actions = actions;
+			ActionsSettingsService.Actions = actions;
 
 			// Create a clone
 			var selectedNewItem = new ModifiableCommandHotKeyItem()
@@ -216,7 +216,7 @@ namespace Files.App.ViewModels.Settings
 
 		private void ExecuteRestoreDefaultsCommand()
 		{
-			GeneralSettingsService.Actions = null;
+			ActionsSettingsService.Actions = null;
 			IsResetAllConfirmationTeachingTipOpened = false;
 
 			_ = ExecuteLoadCommandsCommand();
