@@ -49,7 +49,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public void RefreshAppThemeMode()
+		public void ApplyResources()
 		{
 			// Toggle between the themes to force reload the resource styles
 			SetAppThemeMode(null, null, ElementTheme.Dark);

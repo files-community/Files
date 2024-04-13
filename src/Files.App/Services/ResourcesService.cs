@@ -47,7 +47,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void ApplyResources()
 		{
-			AppThemeModeService.RefreshAppThemeMode();
+			AppThemeModeService.ApplyResources();
 		}
 	}
 }

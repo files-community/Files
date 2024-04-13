@@ -21,7 +21,10 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Refreshes the application theme mode only for the main window.
 		/// </summary>
-		public void RefreshAppThemeMode();
+		/// <remarks>
+		/// This is a workaround for <a href="https://github.com/microsoft/microsoft-ui-xaml/issues/4651">a WinUI bug</a>.
+		/// </remarks>
+		public void ApplyResources();
 
 		/// <summary>
 		/// Sets application theme mode to the main window or a specific window.
