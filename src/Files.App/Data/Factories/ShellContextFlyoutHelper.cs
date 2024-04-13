@@ -359,8 +359,8 @@ namespace Files.App.Helpers
 					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
 				}
 
-
-				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
+				// Add items to shell submenu
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
 				var subMenuTasks = itemsWithSubMenu.Select(async item =>
 				{
 					await item.LoadSubMenuAction();
