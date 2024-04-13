@@ -11,6 +11,7 @@
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	x:Name="PageRoot"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
@@ -168,7 +169,7 @@
 					IsReadOnly="True"
 					IsSpellCheckEnabled="False"
 					IsTabStop="True"
-					PreviewKeyDown="EditorTextBox_PreviewKeyDown"
+					PreviewKeyDown="KeyboardShortcutEditorTextBox_PreviewKeyDown"
 					Text="{x:Bind ViewModel.SelectedNewShortcutItem.HotKeyText, Mode=TwoWay}"
 					TextAlignment="Right" />
 
@@ -286,7 +287,7 @@
 									IsSpellCheckEnabled="False"
 									IsTabStop="True"
 									Loaded="KeyboardShortcutEditorTextBox_Loaded"
-									PreviewKeyDown="EditorTextBox_PreviewKeyDown"
+									PreviewKeyDown="KeyboardShortcutEditorTextBox_PreviewKeyDown"
 									Text="{x:Bind HotKeyText, Mode=TwoWay}"
 									TextAlignment="Right" />
 
@@ -299,7 +300,7 @@
 									Padding="0"
 									x:Load="{x:Bind IsEditMode, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
-									Click="EditButton_Click"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.EditCommand}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}"
 									Visibility="Collapsed">
 									<FontIcon FontSize="14" Glyph="&#xE70F;" />
@@ -314,7 +315,7 @@
 									Padding="0"
 									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Save}"
-									Click="SaveButton_Click"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.SaveCommand}"
 									Style="{StaticResource AccentButtonStyle}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Save}">
 									<FontIcon FontSize="14" Glyph="&#xE73E;" />
@@ -329,7 +330,7 @@
 									Padding="0"
 									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-									Click="CancelButton_Click"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.CancelCommand}"
 									IsEnabled="{x:Bind IsEditMode, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
 									<FontIcon FontSize="14" Glyph="&#xE711;" />
@@ -344,7 +345,7 @@
 									Padding="0"
 									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
-									Click="DeleteButton_Click"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.DeleteCommand}"
 									IsEnabled="{x:Bind IsEditMode, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
 									<FontIcon FontSize="14" Glyph="&#xE74D;" />

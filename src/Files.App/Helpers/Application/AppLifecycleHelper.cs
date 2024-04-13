@@ -150,6 +150,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+					.AddSingleton<IActionsSettingsService, ActionsSettingsService>()
 					// Contexts
 					.AddSingleton<IPageContext, PageContext>()
 					.AddSingleton<IContentPageContext, ContentPageContext>()
