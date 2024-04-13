@@ -368,14 +368,10 @@ namespace Files.App.Helpers
 					{
 						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
 					}
-					else
+					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton 
+						         && appBarButton.Tag as string == "ItemOverflow") is AppBarButton overflowItem)
 					{
-						var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-
-						if (overflowItem != null)
-						{
-							AddItemsToOverflowMenu(overflowItem, item);
-						}
+						AddItemsToOverflowMenu(overflowItem, item);
 					}
 				});
 
