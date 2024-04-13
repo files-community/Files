@@ -10,6 +10,9 @@ using Windows.System;
 
 namespace Files.App.Views.Settings
 {
+	/// <summary>
+	/// Represents settings page called Actions, which provides a way to customize key bindings.
+	/// </summary>
 	public sealed partial class ActionsPage : Page
 	{
 		private readonly string PART_EditButton = "EditButton";
@@ -30,8 +33,8 @@ namespace Files.App.Views.Settings
 			// Make edit button visible on pointer in
 			if (sender is UserControl userControl &&
 				userControl.FindChild(PART_EditButton) is Button editButton &&
-				userControl.DataContext is ModifiableCommandHotKeyItem item &&
-				!item.IsEditMode)
+				userControl.DataContext is ModifiableActionItem item &&
+				!item.IsInEditMode)
 				editButton.Visibility = Visibility.Visible;
 		}
 
@@ -42,12 +45,12 @@ namespace Files.App.Views.Settings
 			// Make edit button invisible on pointer out
 			if (sender is UserControl userControl &&
 				userControl.FindChild(PART_EditButton) is Button editButton &&
-				userControl.DataContext is ModifiableCommandHotKeyItem item &&
-				!item.IsEditMode)
+				userControl.DataContext is ModifiableActionItem item &&
+				!item.IsInEditMode)
 				editButton.Visibility = Visibility.Collapsed;
 		}
 
-		private void KeyboardShortcutEditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		private void KeyBindingEditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (sender is not TextBox textBox)
 				return;
@@ -101,17 +104,17 @@ namespace Files.App.Views.Settings
 			e.Handled = true;
 		}
 
-		private void KeyboardShortcutEditorTextBox_Loaded(object sender, RoutedEventArgs e)
+		private void KeyBindingEditorTextBox_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Focus the editor TextBox
 			TextBox keyboardShortcutEditorTextBox = (TextBox)sender;
 			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
 		}
 
-		private void KeyboardShortcutEditorTextBox_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+		private void KeyBindingEditorTextBox_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			// Check if a new action is selected
-			if (ViewModel.SelectedNewShortcutItem is null)
+			if (ViewModel.SelectedActionItem is null)
 				return;
 
 			// Focus the editor TextBox
