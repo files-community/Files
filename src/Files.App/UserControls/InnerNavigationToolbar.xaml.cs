@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
@@ -121,6 +122,12 @@ namespace Files.App.UserControls
 				}
 			}
 
+		}
+
+		private void AppBarButton_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
+				args.Handled = true;
 		}
 	}
 }
