@@ -1,9 +1,9 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
-using System;
 using System.IO;
+using Windows.Win32;
+using Windows.Win32.Security;
 using static Files.App.Helpers.NativeFileOperationsHelper;
 
 namespace Files.App.Utils.Serialization.Implementation
@@ -14,7 +14,7 @@ namespace Files.App.Utils.Serialization.Implementation
 
 		public bool CreateFile(string path)
 		{
-			CreateDirectoryFromApp(Path.GetDirectoryName(path), IntPtr.Zero);
+			PInvoke.CreateDirectoryFromApp(Path.GetDirectoryName(path), new SECURITY_ATTRIBUTES());
 
 			var hFile = CreateFileFromApp(path, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
 			if (hFile.IsHandleInvalid())
