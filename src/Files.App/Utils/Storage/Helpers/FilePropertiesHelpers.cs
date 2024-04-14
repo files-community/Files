@@ -19,6 +19,8 @@ namespace Files.App.Utils.Storage
 	/// </summary>
 	public static class FilePropertiesHelpers
 	{
+		private static IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		/// <summary>
 		/// Whether LayoutDirection (FlowDirection) is set to right-to-left (RTL)
 		/// </summary>
@@ -96,7 +98,7 @@ namespace Files.App.Utils.Storage
 
 			var frame = new Frame
 			{
-				RequestedTheme = ThemeHelper.RootTheme
+				RequestedTheme = (ElementTheme)AppThemeModeService.AppThemeMode
 			};
 
 			WinUIEx.WindowEx propertiesWindow;

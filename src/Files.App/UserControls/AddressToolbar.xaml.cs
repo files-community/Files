@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.System;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
@@ -118,7 +119,14 @@ namespace Files.App.UserControls
 
 		private void SearchRegion_OnGotFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_GotFocus(sender, e);
 		private void SearchRegion_LostFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_LostFocus(sender, e);
-		private void SearchRegion_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args) => sender.Focus(FocusState.Keyboard);
+		private void SearchRegion_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			// Suppress access key invocation if any dialog is open
+			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
+				args.Handled = true;
+			else
+				sender.Focus(FocusState.Keyboard);
+		}
 
 		private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 			=> ViewModel.VisiblePath_QuerySubmitted(sender, args);
@@ -134,6 +142,13 @@ namespace Files.App.UserControls
 				StatusCenterTeachingTip.IsOpen = true;
 				userSettingsService.AppSettingsService.ShowStatusCenterTeachingTip = false;
 			}
+		}
+
+		private void Button_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			// Suppress access key invocation if any dialog is open
+			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
+				args.Handled = true;
 		}
 	}
 }

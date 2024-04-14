@@ -4,7 +4,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Windows.Storage;
 
 namespace Files.App.ViewModels
@@ -13,15 +12,6 @@ namespace Files.App.ViewModels
 	public sealed class SettingsViewModel : ObservableObject
 	{
 		private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-
-		public SettingsViewModel()
-		{
-			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
-		}
-
-		public event EventHandler ThemeModeChanged;
-
-		public ICommand UpdateThemeElements { get; }
 
 		#region ReadAndSaveSettings
 
