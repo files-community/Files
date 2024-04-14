@@ -280,21 +280,23 @@ namespace Files.App.ViewModels.Settings
 			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
 			// Initialize
-			var newHotKey = HotKey.Parse(item.LocalizedKeyBindingLabel);
+			var newKeyBinding = HotKey.Parse(item.LocalizedKeyBindingLabel);
 
 			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
-				// Any keys associated to the command is not customized at all
+				// Any item related this action has never been customized
 				foreach (var defaultKey in item.DefaultKeyBindings)
 				{
 					if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
 						actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
 				}
+
+				actions.Add(new(item.CommandCode.ToString(), newKeyBinding.RawLabel));
 			}
 			else
 			{
 				if (storedKeyBindingWithArgs is not null)
-					storedKeyBindingWithArgs.KeyBinding = newHotKey.RawLabel;
+					storedKeyBindingWithArgs.KeyBinding = newKeyBinding.RawLabel;
 			}
 
 			// Set to the user settings
@@ -308,8 +310,8 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			// Exit edit mode
-			item.PreviousKeyBinding = newHotKey;
-			item.KeyBinding = newHotKey;
+			item.PreviousKeyBinding = newKeyBinding;
+			item.KeyBinding = newKeyBinding;
 			item.IsInEditMode = false;
 		}
 
@@ -338,11 +340,18 @@ namespace Files.App.ViewModels.Settings
 
 			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
-				// Any keys associated to the command is not customized at all
-				foreach (var defaultKey in item.DefaultKeyBindings)
+				if (item.DefaultKeyBindings.Where(x => x.RawLabel != item.PreviousKeyBinding.RawLabel).Count() is 0)
 				{
-					if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
-						actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
+					actions.Add(new(item.CommandCode.ToString(), string.Empty));
+				}
+				else
+				{
+					// Any item related this action has never been customized
+					foreach (var defaultKey in item.DefaultKeyBindings)
+					{
+						if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
+							actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
+					}
 				}
 			}
 			else
