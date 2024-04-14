@@ -375,7 +375,7 @@ namespace Files.App.Data.Commands
 
 			foreach (var command in commands.Values.OfType<ActionCommand>())
 			{
-				var customizedItems = ActionsSettingsService.Actions.FindAll(x => x.CommandCode == command.Code);
+				var customizedItems = ActionsSettingsService.Actions.FindAll(x => x.CommandCode == command.Code.ToString());
 
 				var hotkeys = customizedItems.IsEmpty()
 					? new HotKeyCollection(GetDefaultKeyBindings(command.Action))

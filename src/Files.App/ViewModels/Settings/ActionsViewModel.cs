@@ -169,16 +169,16 @@ namespace Files.App.ViewModels.Settings
 					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
 					: [];
 
-			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == SelectedActionItem.CommandCode && x.KeyBinding == SelectedActionItem.PreviousKeyBinding.RawLabel);
+			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == SelectedActionItem.PreviousKeyBinding.RawLabel);
 			if (storedKeyBindingWithArgs == null)
 			{
 				// Any keys associated to the command is not customized at all
 				foreach (var defaultKey in SelectedActionItem.DefaultKeyBindings)
-					actions.Add(new(SelectedActionItem.CommandCode, defaultKey.RawLabel));
+					actions.Add(new(SelectedActionItem.CommandCode.ToString(), defaultKey.RawLabel));
 			}
 
 			// Add to the temporary modifiable collection
-			actions.Add(new(SelectedActionItem.CommandCode, newKeyBinding.RawLabel));
+			actions.Add(new(SelectedActionItem.CommandCode.ToString(), newKeyBinding.RawLabel));
 
 			// Set to the user settings
 			ActionsSettingsService.Actions = actions;
@@ -277,7 +277,7 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
 			// Initialize
 			var newHotKey = HotKey.Parse(item.LocalizedKeyBindingLabel);
@@ -288,7 +288,7 @@ namespace Files.App.ViewModels.Settings
 				foreach (var defaultKey in item.DefaultKeyBindings)
 				{
 					if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
-						actions.Add(new(item.CommandCode, defaultKey.RawLabel));
+						actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
 				}
 			}
 			else
@@ -334,7 +334,7 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
 			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
@@ -342,12 +342,12 @@ namespace Files.App.ViewModels.Settings
 				foreach (var defaultKey in item.DefaultKeyBindings)
 				{
 					if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
-						actions.Add(new(item.CommandCode, defaultKey.RawLabel));
+						actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
 				}
 			}
 			else
 			{
-				actions.RemoveAll(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 			}
 
 			// Set to the user settings
