@@ -9,7 +9,7 @@ namespace Files.App.Data.Items
 	public class ActionWithParameterItem
 	{
 		[JsonPropertyName("CommandCode")]
-		public CommandCodes CommandCode { get; set; }
+		public string CommandCode { get; set; }
 
 		[JsonPropertyName("CommandParameter")]
 		public string CommandParameter { get; set; } = string.Empty;
@@ -18,7 +18,7 @@ namespace Files.App.Data.Items
 		public string KeyBinding { get; set; } = string.Empty;
 
 		[JsonConstructor]
-		public ActionWithParameterItem(CommandCodes command, string keyBinding, string? parameter = null)
+		public ActionWithParameterItem(string command, string keyBinding, string? parameter = null)
 		{
 			CommandCode = command;
 			KeyBinding = keyBinding;

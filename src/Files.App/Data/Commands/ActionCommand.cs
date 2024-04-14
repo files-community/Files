@@ -68,12 +68,12 @@ namespace Files.App.Data.Commands
 				string code = Code.ToString();
 				var customs = new List<ActionWithParameterItem>(ActionsSettingsService.Actions);
 
-				if (!customs.Any(action => action.CommandCode == Code))
-					customs.Add(new ActionWithParameterItem(Code, value.RawLabel, ""));
+				if (!customs.Any(action => action.CommandCode == Code.ToString()))
+					customs.Add(new ActionWithParameterItem(Code.ToString(), value.RawLabel, ""));
 				else if (value != CommandManager.GetDefaultKeyBindings(Action))
-					customs.First(x => x.CommandCode == Code).KeyBinding = value.RawLabel;
+					customs.First(x => x.CommandCode == Code.ToString()).KeyBinding = value.RawLabel;
 				else
-					customs.Remove(customs.First(x => x.CommandCode == Code));
+					customs.Remove(customs.First(x => x.CommandCode == Code.ToString()));
 
 				ActionsSettingsService.Actions = customs;
 			}
