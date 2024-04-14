@@ -300,7 +300,8 @@
 									Padding="0"
 									x:Load="{x:Bind IsInEditMode, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
-									Command="{Binding ElementName=PageRoot, Path=DataContext.EditCommand}"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.EditCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}"
 									Visibility="Collapsed">
 									<FontIcon FontSize="14" Glyph="&#xE70F;" />
@@ -315,7 +316,8 @@
 									Padding="0"
 									x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Save}"
-									Command="{Binding ElementName=PageRoot, Path=DataContext.SaveCommand}"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.SaveCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
 									Style="{StaticResource AccentButtonStyle}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Save}">
 									<FontIcon FontSize="14" Glyph="&#xE73E;" />
@@ -330,7 +332,8 @@
 									Padding="0"
 									x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-									Command="{Binding ElementName=PageRoot, Path=DataContext.CancelCommand}"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.CancelCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
 									IsEnabled="{x:Bind IsInEditMode, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
 									<FontIcon FontSize="14" Glyph="&#xE711;" />
@@ -345,7 +348,8 @@
 									Padding="0"
 									x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
-									Command="{Binding ElementName=PageRoot, Path=DataContext.DeleteCommand}"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.DeleteCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
 									IsEnabled="{x:Bind IsInEditMode, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
 									<FontIcon FontSize="14" Glyph="&#xE74D;" />

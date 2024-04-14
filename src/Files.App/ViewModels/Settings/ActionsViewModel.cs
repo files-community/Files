@@ -169,9 +169,7 @@ namespace Files.App.ViewModels.Settings
 					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
 					: [];
 
-			// Get raw string keys stored in the user setting
 			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == SelectedActionItem.CommandCode && x.KeyBinding == SelectedActionItem.PreviousKeyBinding.RawLabel);
-
 			if (storedKeyBindingWithArgs == null)
 			{
 				// Any keys associated to the command is not customized at all
@@ -265,7 +263,7 @@ namespace Files.App.ViewModels.Settings
 			// Check if this key binding is already taken
 			foreach (var action in ValidActionItems)
 			{
-				if (item.LocalizedKeyBindingLabel == action.PreviousKeyBinding)
+				if (item.LocalizedKeyBindingLabel == action.PreviousKeyBinding.LocalizedLabel)
 				{
 					IsAlreadyUsedTeachingTipOpened = true;
 					return;
@@ -279,7 +277,7 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.RawLabel);
+			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
 			// Initialize
 			var newHotKey = HotKey.Parse(item.LocalizedKeyBindingLabel);
@@ -336,7 +334,7 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.RawLabel);
+			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
 			// Initialize
 			var newHotKey = HotKey.Parse(item.LocalizedKeyBindingLabel);
@@ -352,7 +350,7 @@ namespace Files.App.ViewModels.Settings
 			}
 			else
 			{
-				actions.RemoveAll(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.RawLabel);
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 			}
 
 			// Set to the user settings

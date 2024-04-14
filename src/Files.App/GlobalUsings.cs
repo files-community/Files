@@ -11,6 +11,8 @@ global using global::System.Threading;
 global using global::System.Threading.Tasks;
 global using global::System.ComponentModel;
 global using global::System.Diagnostics;
+global using global::System.Text.Json;
+global using global::System.Text.Json.Serialization;
 global using SystemIO = global::System.IO;
 
 // CommunityToolkit.Mvvm
