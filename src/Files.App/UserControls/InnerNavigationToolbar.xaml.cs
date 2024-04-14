@@ -126,6 +126,7 @@ namespace Files.App.UserControls
 
 		private void AppBarButton_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
 		{
+			// Suppress access key invocation if any dialog is open
 			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
 				args.Handled = true;
 		}
