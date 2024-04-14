@@ -12,7 +12,7 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidget : UserControl
 	{
-		public FileTagsWidgetViewModel ViewModel { get; set; } = new();
+		public FileTagsWidgetViewModel ViewModel { get; set; } = Ioc.Default.GetRequiredService<FileTagsWidgetViewModel>();
 
 		public FileTagsWidget()
 		{

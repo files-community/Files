@@ -11,7 +11,7 @@ namespace Files.App.UserControls.Widgets
 	/// </summary>
 	public sealed partial class RecentFilesWidget : UserControl
 	{
-		public RecentFilesWidgetViewModel ViewModel { get; set; } = new();
+		public RecentFilesWidgetViewModel ViewModel { get; set; } = Ioc.Default.GetRequiredService<RecentFilesWidgetViewModel>();
 
 		public RecentFilesWidget()
 		{

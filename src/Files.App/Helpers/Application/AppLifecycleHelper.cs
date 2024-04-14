@@ -199,6 +199,10 @@ namespace Files.App.Helpers
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 					.AddTransient<HomeViewModel>()
+					.AddSingleton<QuickAccessWidgetViewModel>()
+					.AddSingleton<DrivesWidgetViewModel>()
+					.AddSingleton<FileTagsWidgetViewModel>()
+					.AddSingleton<RecentFilesWidgetViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()

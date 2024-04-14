@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Windows.Input;
 
-namespace Files.App.UserControls.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents base ViewModel for widget ViewModels.
@@ -23,8 +23,8 @@ namespace Files.App.UserControls.Widgets
 		protected IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		protected IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
-		protected DrivesViewModel DrivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		protected NetworkDrivesViewModel NetworkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		protected DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		protected NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		// Fields
 
