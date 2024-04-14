@@ -4,7 +4,7 @@
 using Files.App.ViewModels.FileTags;
 using Files.Core.Storage.LocatableStorage;
 
-namespace Files.App.Services
+namespace Files.App.Data.Contracts
 {
 	/// <summary>
 	/// Represents a service used to manage file tags.
