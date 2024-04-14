@@ -10,6 +10,9 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FileSystemDialogViewModel>
 	{
+		private FrameworkElement RootAppElement
+			=> (FrameworkElement)MainWindow.Instance.Content;
+
 		public FileSystemDialogViewModel ViewModel
 		{
 			get => (FileSystemDialogViewModel)DataContext;

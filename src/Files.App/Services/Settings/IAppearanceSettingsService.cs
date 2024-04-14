@@ -20,6 +20,11 @@ namespace Files.App.Services.Settings
 		#endregion
 
 		/// <summary>
+		/// Gets or sets a value for the app theme mode.
+		/// </summary>
+		string AppThemeMode { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value for the app theme background color.
 		/// </summary>
 		String AppThemeBackgroundColor { get; set; }

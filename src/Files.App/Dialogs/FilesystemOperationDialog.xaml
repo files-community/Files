@@ -19,7 +19,7 @@
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
 	Opened="FilesystemOperationDialog_Opened"
 	PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
 	SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonClickCommand, Mode=OneWay}"
 	SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
