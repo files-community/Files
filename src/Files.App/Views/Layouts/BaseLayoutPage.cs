@@ -920,9 +920,7 @@ namespace Files.App.Views.Layouts
 				await item.LoadSubMenuAction();
 				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
 			});
-
-			await Task.WhenAll(mainSubMenuTasks.Concat(overflowSubMenuTasks));
-
+			
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
 				// Enable CharacterEllipsis text trimming for menu items
@@ -948,6 +946,8 @@ namespace Files.App.Views.Layouts
 					clickAction(flyout.Items);
 				}
 			});
+			
+			await Task.WhenAll(mainSubMenuTasks.Concat(overflowSubMenuTasks));
 		}
 
 		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)
