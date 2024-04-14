@@ -377,9 +377,9 @@ namespace Files.App.Data.Commands
 			{
 				var customizedItems = ActionsSettingsService.Actions.FindAll(x => x.CommandCode == command.Code);
 
-				var hotkeys = customizedItems != null
-					? new(customizedItems.Select(x => HotKey.Parse(x.KeyBinding)))
-					: new HotKeyCollection(GetDefaultKeyBindings(command.Action));
+				var hotkeys = customizedItems.IsEmpty()
+					? new HotKeyCollection(GetDefaultKeyBindings(command.Action))
+					: new(customizedItems.Select(x => HotKey.Parse(x.KeyBinding)));
 
 				// Replace with custom hotkeys
 				command.OverwriteKeyBindings(customizedItems != null, hotkeys);
