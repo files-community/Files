@@ -3,19 +3,19 @@
 
 namespace Files.App.Data.Items
 {
-	public class ActionWithCustomArgItem
+	public class ActionWithParameterItem
 	{
 		public CommandCodes CommandCode { get; set; }
 
 		public string KeyBinding { get; set; } = string.Empty;
 
-		public string Args { get; set; } = string.Empty;
+		public string CommandParameter { get; set; } = string.Empty;
 
-		public ActionWithCustomArgItem(CommandCodes command, string keyBinding, string args = null)
+		public ActionWithParameterItem(CommandCodes command, string keyBinding, string? parameter = null)
 		{
 			CommandCode = command;
 			KeyBinding = keyBinding;
-			Args = args ?? string.Empty;
+			CommandParameter = parameter ?? string.Empty;
 		}
 	}
 }

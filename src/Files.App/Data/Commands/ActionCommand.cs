@@ -56,10 +56,10 @@ namespace Files.App.Data.Commands
 					return;
 
 				string code = Code.ToString();
-				var customs = new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions);
+				var customs = new List<ActionWithParameterItem>(ActionsSettingsService.Actions);
 
 				if (!customs.Any(action => action.CommandCode == Code))
-					customs.Add(new ActionWithCustomArgItem(Code, value.RawLabel, ""));
+					customs.Add(new ActionWithParameterItem(Code, value.RawLabel, ""));
 				else if (value != CommandManager.GetHotKeys(Action))
 					customs.First(x => x.CommandCode == Code).KeyBinding = value.RawLabel;
 				else
@@ -123,7 +123,7 @@ namespace Files.App.Data.Commands
 			if (!IsCustomHotKeys)
 				return;
 
-			var customs = new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions);
+			var customs = new List<ActionWithParameterItem>(ActionsSettingsService.Actions);
 			customs.Remove(customs.First(x => x.CommandCode == Code));
 			ActionsSettingsService.Actions = customs;
 		}

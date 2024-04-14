@@ -8,6 +8,6 @@ namespace Files.App.Services.Settings
 		/// <summary>
 		/// A dictionary to determine the custom hotkeys
 		/// </summary>
-		List<ActionWithCustomArgItem>? Actions { get; set; }
+		List<ActionWithParameterItem>? Actions { get; set; }
 	}
 }

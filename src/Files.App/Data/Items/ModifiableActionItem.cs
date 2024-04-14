@@ -14,6 +14,10 @@ namespace Files.App.Data.Items
 
 		public string CommandDescription { get; set; } = string.Empty;
 
+		public string IsCommandParameterSupported { get; set; } = string.Empty;
+
+		public string CommandParameter { get; set; } = string.Empty;
+
 		public HotKeyCollection DefaultKeyBindings { get; set; } = HotKeyCollection.Empty;
 
 		public HotKey PreviousKeyBinding { get; set; } = HotKey.None;

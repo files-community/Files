@@ -162,7 +162,7 @@ namespace Files.App.ViewModels.Settings
 
 			var actions =
 				ActionsSettingsService.Actions is not null
-					? new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions)
+					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
 					: [];
 
 			// Initialize the new key binding
@@ -265,7 +265,7 @@ namespace Files.App.ViewModels.Settings
 			// Get clone of customized hotkeys to overwrite
 			var actions =
 				ActionsSettingsService.Actions is not null
-					? new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions)
+					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
 					: [];
 
 			// Get raw string keys stored in the user setting
@@ -326,7 +326,7 @@ namespace Files.App.ViewModels.Settings
 			// Get clone of customized hotkeys to overwrite
 			var actions =
 				ActionsSettingsService.Actions is not null
-					? new List<ActionWithCustomArgItem>(ActionsSettingsService.Actions)
+					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
 					: [];
 
 			// Get raw string keys stored in the user setting

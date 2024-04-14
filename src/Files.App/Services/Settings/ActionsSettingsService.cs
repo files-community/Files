@@ -8,9 +8,9 @@ namespace Files.App.Services.Settings
 	internal sealed class ActionsSettingsService : BaseObservableJsonSettings, IActionsSettingsService
 	{
 		/// <inheritdoc/>
-		public List<ActionWithCustomArgItem>? Actions
+		public List<ActionWithParameterItem>? Actions
 		{
-			get => Get<List<ActionWithCustomArgItem>>(null);
+			get => Get<List<ActionWithParameterItem>>(null);
 			set => Set(value);
 		}
 
