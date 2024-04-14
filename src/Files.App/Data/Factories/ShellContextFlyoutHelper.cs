@@ -360,19 +360,22 @@ namespace Files.App.Helpers
 				}
 
 				// Add items to shell submenu
-				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+				var subMenuTasks = itemsWithSubMenu.Select(async item =>
 				{
-					await x.LoadSubMenuAction();
-
+					await item.LoadSubMenuAction();
 					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
-						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, x);
+						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
 					}
-					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is AppBarButton overflowItem)
+					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton 
+						         && appBarButton.Tag as string == "ItemOverflow") is AppBarButton overflowItem)
 					{
-						AddItemsToOverflowMenu(overflowItem, x);
+						AddItemsToOverflowMenu(overflowItem, item);
 					}
 				});
+
+				await Task.WhenAll(subMenuTasks);
 			}
 			catch { }
 		}
