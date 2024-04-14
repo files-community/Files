@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.Settings
 
 				foreach (var command in CommandManager)
 				{
-					var defaultKeys = command.DefaultHotKeys;
+					var defaultKeyBindings = command.DefaultHotKeys;
 
 					if (command is NoneCommand)
 						continue;
@@ -99,13 +99,13 @@ namespace Files.App.ViewModels.Settings
 						CommandLabel = command.Label,
 						CommandDescription = command.Description,
 						KeyBinding = new(),
-						DefaultKeyBindings = defaultKeys,
+						DefaultKeyBindings = defaultKeyBindings,
 					});
 
-					foreach (var hotkey in command.HotKeys)
+					foreach (var keyBinding in command.HotKeys)
 					{
-						// Don't show mouse hotkeys for now because no editor provided for mouse input as of now
-						if (!hotkey.IsVisible || hotkey.Key == Keys.Mouse4 || hotkey.Key == Keys.Mouse5)
+						// Don't show mouse key bindings for now because no editor provided for mouse input as of now
+						if (!keyBinding.IsVisible || keyBinding.Key == Keys.Mouse4 || keyBinding.Key == Keys.Mouse5)
 							continue;
 
 						ValidActionItems.Add(new()
@@ -113,10 +113,10 @@ namespace Files.App.ViewModels.Settings
 							CommandCode = command.Code,
 							CommandLabel = command.Label,
 							CommandDescription = command.Description,
-							KeyBinding = hotkey,
-							DefaultKeyBindings = defaultKeys,
-							PreviousKeyBinding = hotkey,
-							IsDefinedByDefault = defaultKeys.Contains(hotkey),
+							KeyBinding = keyBinding,
+							DefaultKeyBindings = defaultKeyBindings,
+							PreviousKeyBinding = keyBinding,
+							IsDefinedByDefault = defaultKeyBindings.Contains(keyBinding),
 						});
 					}
 				}
@@ -128,10 +128,10 @@ namespace Files.App.ViewModels.Settings
 			ShowAddNewKeyBindingBlock = true;
 
 			// Reset edit mode of every item
-			foreach (var hotkey in ValidActionItems)
+			foreach (var action in ValidActionItems)
 			{
-				hotkey.IsInEditMode = false;
-				hotkey.LocalizedKeyBindingLabel = hotkey.KeyBinding.LocalizedLabel;
+				action.IsInEditMode = false;
+				action.LocalizedKeyBindingLabel = action.KeyBinding.LocalizedLabel;
 			}
 		}
 
@@ -152,12 +152,12 @@ namespace Files.App.ViewModels.Settings
 				return;
 
 			// Initialize the new key binding
-			var newHotKey = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel);
+			var newKeyBinding = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel);
 
-			// Check if this hot key is already taken
-			foreach (var hotkey in ValidActionItems)
+			// Check if this key binding is already taken
+			foreach (var action in ValidActionItems)
 			{
-				if (newHotKey.RawLabel == hotkey.KeyBinding.RawLabel)
+				if (newKeyBinding.RawLabel == action.KeyBinding.RawLabel)
 				{
 					IsAlreadyUsedTeachingTipOpened = true;
 					return;
@@ -180,7 +180,7 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			// Add to the temporary modifiable collection
-			actions.Add(new(SelectedActionItem.CommandCode, newHotKey.RawLabel));
+			actions.Add(new(SelectedActionItem.CommandCode, newKeyBinding.RawLabel));
 
 			// Set to the user settings
 			ActionsSettingsService.Actions = actions;
@@ -241,10 +241,10 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			// Reset edit mode of every item
-			foreach (var hotkey in ValidActionItems)
+			foreach (var action in ValidActionItems)
 			{
-				hotkey.IsInEditMode = false;
-				hotkey.LocalizedKeyBindingLabel = hotkey.KeyBinding.LocalizedLabel;
+				action.IsInEditMode = false;
+				action.LocalizedKeyBindingLabel = action.KeyBinding.LocalizedLabel;
 			}
 
 			// Enter edit mode for the item
@@ -262,17 +262,17 @@ namespace Files.App.ViewModels.Settings
 				return;
 			}
 
-			// Check if this hot key is already taken
-			foreach (var hotkey in ValidActionItems)
+			// Check if this key binding is already taken
+			foreach (var action in ValidActionItems)
 			{
-				if (item.LocalizedKeyBindingLabel == hotkey.PreviousKeyBinding)
+				if (item.LocalizedKeyBindingLabel == action.PreviousKeyBinding)
 				{
 					IsAlreadyUsedTeachingTipOpened = true;
 					return;
 				}
 			}
 
-			// Get clone of customized hotkeys to overwrite
+			// Get clone of customized key bindings to overwrite
 			var actions =
 				ActionsSettingsService.Actions is not null
 					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
@@ -295,9 +295,8 @@ namespace Files.App.ViewModels.Settings
 			}
 			else
 			{
-				var storedKey = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.RawLabel);
-				if (storedKey is not null)
-					storedKey.KeyBinding = newHotKey.RawLabel;
+				if (storedKeyBindingWithArgs is not null)
+					storedKeyBindingWithArgs.KeyBinding = newHotKey.RawLabel;
 			}
 
 			// Set to the user settings
@@ -330,7 +329,7 @@ namespace Files.App.ViewModels.Settings
 			if (item is null)
 				return;
 
-			// Get clone of customized hotkeys to overwrite
+			// Get clone of customized key bindings to overwrite
 			var actions =
 				ActionsSettingsService.Actions is not null
 					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
