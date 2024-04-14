@@ -10,6 +10,9 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class CreateArchiveDialog : ContentDialog
 	{
+		private FrameworkElement RootAppElement
+			=> (FrameworkElement)MainWindow.Instance.Content;
+
 		private bool canCreate = false;
 		public bool CanCreate => canCreate;
 
