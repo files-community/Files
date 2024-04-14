@@ -368,14 +368,14 @@ namespace Files.App.Data.Commands
 		/// </summary>
 		private void OverwriteKeyBindings()
 		{
-			if (ActionsSettingsService.Actions is null)
+			if (ActionsSettingsService.ActionsV2 is null)
 				return;
 
 			var customs = new List<ActionWithParameterItem>();
 
 			foreach (var command in commands.Values.OfType<ActionCommand>())
 			{
-				var customizedItems = ActionsSettingsService.Actions.FindAll(x => x.CommandCode == command.Code.ToString());
+				var customizedItems = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
 
 				var hotkeys = customizedItems.IsEmpty()
 					? new HotKeyCollection(GetDefaultKeyBindings(command.Action))
@@ -397,7 +397,7 @@ namespace Files.App.Data.Commands
 
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IActionsSettingsService.Actions))
+			if (e.PropertyName is nameof(IActionsSettingsService.ActionsV2))
 				OverwriteKeyBindings();
 		}
 	}

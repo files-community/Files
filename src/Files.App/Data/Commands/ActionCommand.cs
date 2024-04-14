@@ -66,7 +66,7 @@ namespace Files.App.Data.Commands
 					return;
 
 				string code = Code.ToString();
-				var customs = new List<ActionWithParameterItem>(ActionsSettingsService.Actions);
+				var customs = new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2);
 
 				if (!customs.Any(action => action.CommandCode == Code.ToString()))
 					customs.Add(new ActionWithParameterItem(Code.ToString(), value.RawLabel, ""));
@@ -75,7 +75,7 @@ namespace Files.App.Data.Commands
 				else
 					customs.Remove(customs.First(x => x.CommandCode == Code.ToString()));
 
-				ActionsSettingsService.Actions = customs;
+				ActionsSettingsService.ActionsV2 = customs;
 			}
 		}
 

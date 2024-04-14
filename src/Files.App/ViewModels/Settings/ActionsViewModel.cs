@@ -165,8 +165,8 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			var actions =
-				ActionsSettingsService.Actions is not null
-					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
+				ActionsSettingsService.ActionsV2 is not null
+					? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
 					: [];
 
 			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == SelectedActionItem.PreviousKeyBinding.RawLabel);
@@ -181,7 +181,7 @@ namespace Files.App.ViewModels.Settings
 			actions.Add(new(SelectedActionItem.CommandCode.ToString(), newKeyBinding.RawLabel));
 
 			// Set to the user settings
-			ActionsSettingsService.Actions = actions;
+			ActionsSettingsService.ActionsV2 = actions;
 
 			// Set as customized
 			foreach (var action in ValidActionItems)
@@ -217,7 +217,7 @@ namespace Files.App.ViewModels.Settings
 
 		private void ExecuteRestoreDefaultsCommand()
 		{
-			ActionsSettingsService.Actions = null;
+			ActionsSettingsService.ActionsV2 = null;
 			IsResetAllConfirmationTeachingTipOpened = false;
 
 			_ = ExecuteLoadAllActionsCommand();
@@ -272,8 +272,8 @@ namespace Files.App.ViewModels.Settings
 
 			// Get clone of customized key bindings to overwrite
 			var actions =
-				ActionsSettingsService.Actions is not null
-					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
+				ActionsSettingsService.ActionsV2 is not null
+					? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
 					: [];
 
 			// Get raw string keys stored in the user setting
@@ -300,7 +300,7 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			// Set to the user settings
-			ActionsSettingsService.Actions = actions;
+			ActionsSettingsService.ActionsV2 = actions;
 
 			// Set as customized
 			foreach (var action in ValidActionItems)
@@ -331,8 +331,8 @@ namespace Files.App.ViewModels.Settings
 
 			// Get clone of customized key bindings to overwrite
 			var actions =
-				ActionsSettingsService.Actions is not null
-					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
+				ActionsSettingsService.ActionsV2 is not null
+					? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
 					: [];
 
 			// Get raw string keys stored in the user setting
@@ -360,7 +360,7 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			// Set to the user settings
-			ActionsSettingsService.Actions = actions;
+			ActionsSettingsService.ActionsV2 = actions;
 
 			// Set as customized
 			foreach (var action in ValidActionItems)
