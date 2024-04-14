@@ -74,8 +74,7 @@ namespace Files.App.ViewModels.UserControls
 		public static event EventHandler<INavigationControlItem?>? RightClickedItemChanged;
 
 		private readonly SectionType[] SectionOrder =
-			new SectionType[]
-			{
+			[
 				SectionType.Home,
 				SectionType.Pinned,
 				SectionType.Library,
@@ -84,7 +83,7 @@ namespace Files.App.ViewModels.UserControls
 				SectionType.Network,
 				SectionType.WSL,
 				SectionType.FileTag
-			};
+			];
 
 		public bool IsSidebarCompactSize
 			=> SidebarDisplayMode == SidebarDisplayMode.Compact || SidebarDisplayMode == SidebarDisplayMode.Minimal;
@@ -113,8 +112,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			item = filteredItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-			item ??= filteredItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-			item ??= filteredItems.Where(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Path.Length);
+			item ??= filteredItems.Where(x => value.StartsWith(x.Path + "\\", StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Path.Length);
 			item ??= filteredItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
 
 			if (item is null && value == "Home")
@@ -236,7 +234,7 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-			sidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
+			sidebarItems = [];
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
 
@@ -269,7 +267,7 @@ namespace Files.App.ViewModels.UserControls
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
 
-		private Task CreateItemHomeAsync()
+		private Task<LocationItem> CreateItemHomeAsync()
 		{
 			return CreateSectionAsync(SectionType.Home);
 		}
@@ -380,7 +378,7 @@ namespace Files.App.ViewModels.UserControls
 				else
 				{
 					string drivePath = drive.Path;
-					IList<string> paths = section.ChildItems.Select(item => item.Path).ToList();
+					var paths = section.ChildItems.Select(item => item.Path).ToList();
 
 					if (!paths.Contains(drivePath))
 					{
@@ -560,7 +558,7 @@ namespace Files.App.ViewModels.UserControls
 				Section = sectionType,
 				MenuOptions = options,
 				SelectsOnInvoked = selectsOnInvoked,
-				ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+				ChildItems = []
 			};
 		}
 
@@ -1068,7 +1066,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = [],
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
@@ -1277,7 +1275,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private Task HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
+		private Task<ReturnResult> HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
 		{
 			return FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
 		}
@@ -1291,7 +1289,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					ItemPath = item.Path,
 					FileFRN = await FileTagsHelper.GetFileFRN(item.Item),
-					FileTags = new[] { fileTagItem.FileTag.Uid }
+					FileTags = [fileTagItem.FileTag.Uid]
 				};
 			}
 		}

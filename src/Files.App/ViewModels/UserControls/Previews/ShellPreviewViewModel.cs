@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.Previews
 		}
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
-			=> new List<FileProperty>();
+			=> [];
 
 		private const string IPreviewHandlerIid = "{8895b1c6-b41f-4c1c-a562-0d564250836f}";
 		private static readonly Guid QueryAssociationsClsid = new Guid(0xa07034fd, 0x6caa, 0x4954, 0xac, 0x3f, 0x97, 0xa2, 0x72, 0x16, 0xf9, 0x8a);
@@ -115,10 +115,10 @@ namespace Files.App.ViewModels.Previews
 		private bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
 		{
 			D3D_DRIVER_TYPE[] driverTypes =
-			{
+			[
 				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE,
 				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_WARP,
-			};
+			];
 
 			ID3D11Device? d3d11Device = null;
 			ID3D11DeviceContext? d3d11DeviceContext = null;
@@ -193,11 +193,11 @@ namespace Files.App.ViewModels.Previews
 			{
 				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, false);
 				if (isOfficePreview)
-					InteropHelpers.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
+					Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
 			}
 			else
 			{
-				InteropHelpers.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
+				Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
 					(nint)(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED));
 				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true);
 			}

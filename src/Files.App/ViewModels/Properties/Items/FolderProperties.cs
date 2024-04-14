@@ -200,15 +200,12 @@ namespace Files.App.ViewModels.Properties
 			switch (e.PropertyName)
 			{
 				case "IsHidden":
-					if (ViewModel.IsHidden)
+					if (ViewModel.IsHidden is not null)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(
-							Item.ItemPath, System.IO.FileAttributes.Hidden);
-					}
-					else
-					{
-						NativeFileOperationsHelper.UnsetFileAttribute(
-							Item.ItemPath, System.IO.FileAttributes.Hidden);
+						if ((bool)ViewModel.IsHidden)
+							NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+						else
+							NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 					break;
 

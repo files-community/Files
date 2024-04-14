@@ -4,8 +4,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.Data.Commands
@@ -28,6 +26,7 @@ namespace Files.App.Data.Commands
 		bool IsCustomHotKeys { get; }
 		string? HotKeyText { get; }
 		HotKeyCollection HotKeys { get; set; }
+		HotKeyCollection DefaultHotKeys { get; }
 
 		bool IsToggle { get; }
 		bool IsOn { get; set; }

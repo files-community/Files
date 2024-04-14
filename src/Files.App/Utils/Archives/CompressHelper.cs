@@ -4,6 +4,7 @@
 using Files.Shared.Helpers;
 using System.IO;
 using Windows.Storage;
+using Windows.Win32;
 
 namespace Files.App.Utils.Archives
 {
@@ -92,7 +93,7 @@ namespace Files.App.Utils.Archives
 			}
 			else
 			{
-				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
+				PInvoke.DeleteFileFromApp(archivePath);
 
 				StatusCenterHelper.AddCard_Compress(
 					creator.Sources,

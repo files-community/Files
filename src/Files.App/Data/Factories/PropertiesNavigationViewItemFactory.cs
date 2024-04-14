@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Helpers;
+using Files.App.Helpers;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
 using Files.Shared.Helpers;
@@ -12,7 +12,7 @@ namespace Files.App.Data.Factories
 	{
 		public static ObservableCollection<NavigationViewItemButtonStyleItem> Initialize(object item)
 		{
-			ObservableCollection<NavigationViewItemButtonStyleItem> PropertiesNavigationViewItems = new();
+			ObservableCollection<NavigationViewItemButtonStyleItem> PropertiesNavigationViewItems = [];
 
 			var generalItem = new NavigationViewItemButtonStyleItem()
 			{
@@ -74,7 +74,8 @@ namespace Files.App.Data.Factories
 
 			if (item is List<ListedItem> listedItems)
 			{
-				var commonFileExt = listedItems.Select(x => x.FileExtension).Distinct().Count() == 1 ? listedItems.First().FileExtension : null;
+				var firstFileExtension = listedItems.FirstOrDefault()?.FileExtension;
+				var commonFileExt = listedItems.All(x => x.FileExtension == firstFileExtension) ? firstFileExtension : null;
 				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : commonFileExt, true));
 				var onlyFiles = listedItems.All(listedItem => listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsArchive);
 

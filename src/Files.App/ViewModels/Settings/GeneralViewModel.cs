@@ -105,7 +105,7 @@ namespace Files.App.ViewModels.Settings
 			if (UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.GeneralSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
 			else
-				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
+				PagesOnStartupList = [];
 
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 

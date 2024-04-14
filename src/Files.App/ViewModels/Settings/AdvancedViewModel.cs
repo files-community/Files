@@ -176,7 +176,7 @@ namespace Files.App.ViewModels.Settings
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
 					fileTagsSettingsService.ImportSettings(importTags);
-					var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
+					var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(Server.Database.FileTagsDatabase.FileTagsDbPath));
 					string importTagsDB = await fileTagsDB.ReadTextAsync();
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					tagDbInstance.Import(importTagsDB);
@@ -199,7 +199,7 @@ namespace Files.App.ViewModels.Settings
 		private async Task ExportSettingsAsync()
 		{
 			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
-			filePicker.FileTypeChoices.Add("Zip File", new[] { ".zip" });
+			filePicker.FileTypeChoices.Add("Zip File", [".zip"]);
 			filePicker.SuggestedFileName = $"Files_{AppLifecycleHelper.AppVersion}";
 
 			StorageFile file = await filePicker.PickSaveFileAsync();
@@ -224,7 +224,7 @@ namespace Files.App.ViewModels.Settings
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
+					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(Server.Database.FileTagsDatabase.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
 
 					// Export layout preferences DB
 					var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();

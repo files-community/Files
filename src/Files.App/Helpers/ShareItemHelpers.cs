@@ -27,7 +27,7 @@ namespace Files.App.Helpers
 				return;
 
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
+			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
@@ -54,7 +54,7 @@ namespace Files.App.Helpers
 			async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
 			{
 				DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
-				List<IStorageItem> items = new();
+				List<IStorageItem> items = [];
 				DataRequest dataRequest = args.Request;
 
 				foreach (ListedItem item in itemsToShare)

@@ -16,6 +16,6 @@ namespace Files.App.ViewModels.Previews
 			=> extension is ".htm" or ".html" or ".svg";
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
-			=> new List<FileProperty>();
+			=> [];
 	}
 }

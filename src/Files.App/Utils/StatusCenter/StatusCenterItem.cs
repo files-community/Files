@@ -217,8 +217,8 @@ namespace Files.App.Utils.StatusCenter
 			TotalSize = totalSize;
 			IconBackgroundCircleBorderOpacity = 1;
 			AnimatedIconState = "NormalOff";
-			SpeedGraphValues = new();
-			SpeedGraphBackgroundValues = new();
+			SpeedGraphValues = [];
+			SpeedGraphBackgroundValues = [];
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 			Message = "ProcessingItems".GetLocalizedResource();
 			Source = source;
@@ -229,8 +229,8 @@ namespace Files.App.Utils.StatusCenter
 				return;
 
 			// Initialize graph background fill series
-			SpeedGraphBackgroundSeries = new()
-			{
+			SpeedGraphBackgroundSeries =
+			[
 				new LineSeries<ObservablePoint>
 				{
 					Values = SpeedGraphBackgroundValues,
@@ -245,17 +245,17 @@ namespace Files.App.Utils.StatusCenter
 
 					// Fill under the stroke
 					Fill = new LinearGradientPaint(
-						new SKColor[] {
+						[
 							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40)
-						},
+						],
 						new(0f, 0f),
 						new(0f, 0f)),
 				}
-			};
+			];
 
 			// Initialize graph series
-			SpeedGraphSeries = new()
-			{
+			SpeedGraphSeries =
+			[
 				new LineSeries<ObservablePoint>
 				{
 					Values = SpeedGraphValues,
@@ -270,19 +270,19 @@ namespace Files.App.Utils.StatusCenter
 
 					// Fill under the stroke
 					Fill = new LinearGradientPaint(
-						new SKColor[] {
+						[
 							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 50),
 							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 10)
-						},
+						],
 						new(0f, 0f),
 						new(0f, 0f),
-						new[] { 0.1f, 1.0f }),
+						[0.1f, 1.0f]),
 				},
-			};
+			];
 
 			// Initialize X axes of the graph background fill
-			SpeedGraphBackgroundXAxes = new()
-			{
+			SpeedGraphBackgroundXAxes =
+			[
 				new Axis
 				{
 					Padding = new Padding(0, 0),
@@ -290,11 +290,11 @@ namespace Files.App.Utils.StatusCenter
 					MaxLimit = 100,
 					ShowSeparatorLines = false,
 				}
-			};
+			];
 
 			// Initialize X axes of the graph
-			SpeedGraphXAxes = new()
-			{
+			SpeedGraphXAxes =
+			[
 				new Axis
 				{
 					Padding = new Padding(0, 0),
@@ -302,11 +302,11 @@ namespace Files.App.Utils.StatusCenter
 					MaxLimit = 100,
 					ShowSeparatorLines = false,
 				}
-			};
+			];
 
 			// Initialize Y axes of the graph background fill
-			SpeedGraphBackgroundYAxes = new()
-			{
+			SpeedGraphBackgroundYAxes =
+			[
 				new Axis
 				{
 					Padding = new Padding(0, 0),
@@ -314,18 +314,18 @@ namespace Files.App.Utils.StatusCenter
 					ShowSeparatorLines = false,
 					MaxLimit = 100,
 				}
-			};
+			];
 
 			// Initialize Y axes of the graph
-			SpeedGraphYAxes = new()
-			{
+			SpeedGraphYAxes =
+			[
 				new Axis
 				{
 					Padding = new Padding(0, 0),
 					Labels = new List<string>(),
 					ShowSeparatorLines = false,
 				}
-			};
+			];
 
 			SpeedGraphXAxes[0].SharedWith = SpeedGraphBackgroundXAxes;
 			SpeedGraphBackgroundXAxes[0].SharedWith = SpeedGraphXAxes;

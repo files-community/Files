@@ -49,7 +49,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count());
+				source.Count);
 
 			fsProgress.Report();
 
@@ -353,7 +353,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count());
+				source.Count);
 
 			fsProgress.Report();
 
@@ -472,7 +472,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count());
+				source.Count);
 
 			fsProgress.Report();
 
@@ -737,7 +737,7 @@ namespace Files.App.Utils.Storage
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
 			var moveResult = new ShellOperationResult();
-			var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+			var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), [.. destination], false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
 			var result = (FilesystemResult)status;
 			moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());

@@ -40,8 +40,8 @@ namespace Files.App.Helpers
 		private CimSession _cimSession;
 		private CimAsyncMultipleResults<CimSubscriptionResult> _cimObservable;
 		private IDisposable _subscription;
-		internal static readonly string DefaultNameSpace = @"root\cimv2";
-		internal static readonly string DefaultQueryDialect = "WQL";
+		internal const string DefaultNameSpace = @"root\cimv2";
+		internal const string DefaultQueryDialect = "WQL";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.

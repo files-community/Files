@@ -35,10 +35,10 @@ namespace Files.App.Utils.Shell
 			_hMenu = hMenu;
 			_owningThread = owningThread;
 			_itemFilter = itemFilter;
-			_loadSubMenuActions = new();
+			_loadSubMenuActions = [];
 
 			ItemsPath = itemsPath.ToList();
-			Items = new();
+			Items = [];
 		}
 
 		public async static Task<bool> InvokeVerb(string verb, params string[] filePaths)
@@ -53,7 +53,7 @@ namespace Files.App.Utils.Shell
 			if (string.IsNullOrEmpty(verb))
 				return false;
 
-			var item = Items.Where(x => x.CommandString == verb).FirstOrDefault();
+			var item = Items.FirstOrDefault(x => x.CommandString == verb);
 			if (item is not null && item.ID >= 0)
 				// Prefer invocation by ID
 				return await InvokeItem(item.ID);
@@ -125,7 +125,7 @@ namespace Files.App.Utils.Shell
 					foreach (var filePathItem in filePathList.Where(x => !string.IsNullOrEmpty(x)))
 						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPIDL(filePathItem));
 
-					return GetContextMenuForFiles(shellItems.ToArray(), flags, owningThread, itemFilter);
+					return GetContextMenuForFiles([.. shellItems], flags, owningThread, itemFilter);
 				}
 				catch
 				{

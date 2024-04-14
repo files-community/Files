@@ -18,7 +18,7 @@ namespace Files.InteractionTests.Helper
 
 		public static List<WindowsElement> GetItemsWithContent(ICollection<WindowsElement> elements, string content)
 		{
-			List<WindowsElement> elementsToReturn = new List<WindowsElement>();
+			List<WindowsElement> elementsToReturn = [];
 			foreach (WindowsElement element in elements)
 			{
 				if (element.Text.Contains(content, StringComparison.OrdinalIgnoreCase))

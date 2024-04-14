@@ -41,13 +41,13 @@ namespace Files.App.ViewModels.Previews
 
 			var info = await Folder.GetBasicPropertiesAsync();
 
-			Item.FileDetails = new()
-			{
+			Item.FileDetails =
+			[
 				GetFileProperty("PropertyItemCount", items.Count),
 				GetFileProperty("PropertyDateModified", info.DateModified),
 				GetFileProperty("PropertyDateCreated", info.DateCreated),
 				GetFileProperty("PropertyParsingPath", Folder.Path),
-			};
+			];
 
 			if (GitHelpers.IsRepositoryEx(Item.ItemPath, out var repoPath) &&
 				!string.IsNullOrEmpty(repoPath))

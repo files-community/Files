@@ -211,8 +211,10 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly && prop.Modified)
 					{
-						var newDict = new Dictionary<string, object>();
-						newDict.Add(prop.Property, prop.Value);
+						var newDict = new Dictionary<string, object>
+						{
+							{ prop.Property, prop.Value }
+						};
 
 						try
 						{
@@ -249,8 +251,10 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly)
 					{
-						var newDict = new Dictionary<string, object>();
-						newDict.Add(prop.Property, null);
+						var newDict = new Dictionary<string, object>
+						{
+							{ prop.Property, null }
+						};
 
 						try
 						{
@@ -275,37 +279,23 @@ namespace Files.App.ViewModels.Properties
 			switch (e.PropertyName)
 			{
 				case nameof(ViewModel.IsReadOnly):
-					if (ViewModel.IsReadOnly)
+					if (ViewModel.IsReadOnly is not null)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(
-							Item.ItemPath,
-							System.IO.FileAttributes.ReadOnly
-						);
-					}
-					else
-					{
-						NativeFileOperationsHelper.UnsetFileAttribute(
-							Item.ItemPath,
-							System.IO.FileAttributes.ReadOnly
-						);
+						if ((bool)ViewModel.IsReadOnly)
+							NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+						else
+							NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
 					}
 
 					break;
 
 				case nameof(ViewModel.IsHidden):
-					if (ViewModel.IsHidden)
+					if (ViewModel.IsHidden is not null)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(
-							Item.ItemPath,
-							System.IO.FileAttributes.Hidden
-						);
-					}
-					else
-					{
-						NativeFileOperationsHelper.UnsetFileAttribute(
-							Item.ItemPath,
-							System.IO.FileAttributes.Hidden
-						);
+						if ((bool)ViewModel.IsHidden)
+							NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath,	System.IO.FileAttributes.Hidden);
+						else
+							NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 
 					break;

@@ -66,7 +66,7 @@ namespace Files.App.Helpers
 		}
 
 		private static void LoadMenuFlyoutItem(
-			IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+			List<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
 			ContextMenu contextMenu,
 			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
 			CancellationToken cancellationToken,
@@ -80,9 +80,9 @@ namespace Files.App.Helpers
 			var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
 			var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
 
-			if (overflowItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
+			if (overflowItems.Any(x => x.Type != MenuItemType.MFT_SEPARATOR))
 			{
-				var moreItem = menuItemsListLocal.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
+				var moreItem = menuItemsListLocal.FirstOrDefault(x => x.ID == "ItemOverflow");
 				if (moreItem is null)
 				{
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
@@ -138,7 +138,7 @@ namespace Files.App.Helpers
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
 						BitmapIcon = image,
-						Items = new List<ContextMenuFlyoutItemViewModel>(),
+						Items = [],
 					};
 
 					if (menuFlyoutItem.SubItems.Any())
@@ -181,11 +181,11 @@ namespace Files.App.Helpers
 				switch (verb)
 				{
 					case "install" when isFont:
-						await Win32Helper.InstallFontsAsync(contextMenu.ItemsPath.ToArray(), false);
+						await Win32Helper.InstallFontsAsync([.. contextMenu.ItemsPath], false);
 						break;
 
 					case "installAllUsers" when isFont:
-						await Win32Helper.InstallFontsAsync(contextMenu.ItemsPath.ToArray(), true);
+						await Win32Helper.InstallFontsAsync([.. contextMenu.ItemsPath], true);
 						break;
 
 					case "mount":
@@ -240,7 +240,7 @@ namespace Files.App.Helpers
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
 					workingDir: null,
-					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } },
+					[new ListedItem(null) { ItemPath = path }],
 					shiftPressed: shiftPressed,
 					showOpenMenu: false,
 					default);
@@ -340,8 +340,8 @@ namespace Files.App.Helpers
 					{
 						OpacityIconStyle = "ColorIconOpenWith",
 					};
-					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
-					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
+					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([openWithItem]);
+					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")) as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
 					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
@@ -352,27 +352,30 @@ namespace Files.App.Helpers
 				{
 					await sendToItem.LoadSubMenuAction();
 
-					var (_, sendToItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
-					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
+					var (_, sendToItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([sendToItem]);
+					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")) as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
 					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
 				}
 
 				// Add items to shell submenu
-				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+				var itemsWithSubMenu = shellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+				var subMenuTasks = itemsWithSubMenu.Select(async item =>
 				{
-					await x.LoadSubMenuAction();
-
+					await item.LoadSubMenuAction();
 					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
-						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, x);
+						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
 					}
-					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is AppBarButton overflowItem)
+					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton 
+						         && appBarButton.Tag as string == "ItemOverflow") is AppBarButton overflowItem)
 					{
-						AddItemsToOverflowMenu(overflowItem, x);
+						AddItemsToOverflowMenu(overflowItem, item);
 					}
 				});
+
+				await Task.WhenAll(subMenuTasks);
 			}
 			catch { }
 		}

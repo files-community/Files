@@ -61,7 +61,7 @@ namespace Files.App.ViewModels.Properties
 			IsShortcut = item.IsShortcut;
 			_selectedItemPath = item.ItemPath;
 
-			DllIcons = new();
+			DllIcons = [];
 
 			// Get default
 			LoadIconsForPath(IconResourceItemPath);

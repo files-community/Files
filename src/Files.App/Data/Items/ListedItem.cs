@@ -100,6 +100,7 @@ namespace Files.App.Utils
 			{
 				if (SetProperty(ref fileTags, value))
 				{
+					Debug.Assert(value != null);
 					var dbInstance = FileTagsHelper.GetDbInstance();
 					dbInstance.SetTags(ItemPath, FileFRN, value);
 					HasTags = !FileTags.IsEmpty();

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.ContextFlyouts;
+using Files.App.Server.Data.Enums;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
@@ -23,7 +24,6 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using SortDirection = Files.Core.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App.Views.Layouts
@@ -216,7 +216,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private List<ListedItem>? selectedItems = new();
+		private List<ListedItem>? selectedItems = [];
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;
@@ -494,8 +494,10 @@ namespace Files.App.Views.Layouts
 					navigationArguments.SelectItems is not null &&
 					navigationArguments.SelectItems.Any())
 				{
-					List<ListedItem> listedItemsToSelect = new();
-					listedItemsToSelect.AddRange(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList().Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)));
+					List<ListedItem> listedItemsToSelect =
+					[
+						.. ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList().Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)),
+					];
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
@@ -514,7 +516,7 @@ namespace Files.App.Views.Layouts
 			await GroupPreferenceUpdatedAsync();
 		}
 
-		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, Server.Data.Enums.SortDirection e)
 		{
 			await GroupPreferenceUpdatedAsync();
 		}
@@ -643,7 +645,7 @@ namespace Files.App.Views.Layouts
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<ListedItem> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
+				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: [ParentShellPageInstance!.FilesystemViewModel.CurrentFolder], commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
 
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
@@ -660,7 +662,7 @@ namespace Files.App.Views.Layouts
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 				{
-					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
@@ -776,7 +778,7 @@ namespace Files.App.Views.Layouts
 				var ttv = secondaryMenu.TransformToVisual(MainWindow.Instance.Content);
 				var cMenuPos = ttv.TransformPoint(new Point(0, 0));
 
-				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
+				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Count(x => x is not AppBarSeparator) * Constants.UI.ContextMenuSecondaryItemsHeight;
 				var availableHeight = MainWindow.Instance.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
 
 				// Set menu max height to current height (Avoid menu repositioning)
@@ -901,22 +903,24 @@ namespace Files.App.Views.Layouts
 				}
 			}
 
-			// Add items to main shell submenu
-			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
+			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+			
+			var mainSubMenuTasks = mainItemsWithSubMenu.Select(async item =>
 			{
-				await x.LoadSubMenuAction();
-
-				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, x);
+				await item.LoadSubMenuAction();
+				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, item);
 			});
 
-			// Add items to overflow shell submenu
-			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
+			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+
+			var overflowSubMenuTasks = overflowItemsWithSubMenu.Select(async item =>
 			{
-				await x.LoadSubMenuAction();
-
-				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, x);
+				await item.LoadSubMenuAction();
+				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
 			});
-
+			
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
 				// Enable CharacterEllipsis text trimming for menu items
@@ -942,6 +946,8 @@ namespace Files.App.Views.Layouts
 					clickAction(flyout.Items);
 				}
 			});
+			
+			await Task.WhenAll(mainSubMenuTasks.Concat(overflowSubMenuTasks));
 		}
 
 		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)

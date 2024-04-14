@@ -35,17 +35,17 @@ namespace Files.App.ViewModels.Properties
 			_item = item;
 			_cancellationTokenSource = new();
 
-			Hashes = new()
-			{
+			Hashes =
+			[
 				new() { Algorithm = "CRC32" },
 				new() { Algorithm = "MD5" },
 				new() { Algorithm = "SHA1" },
 				new() { Algorithm = "SHA256" },
 				new() { Algorithm = "SHA384" },
 				new() { Algorithm = "SHA512" },
-			};
+			];
 
-			ShowHashes = UserSettingsService.GeneralSettingsService.ShowHashesDictionary ?? new();
+			ShowHashes = UserSettingsService.GeneralSettingsService.ShowHashesDictionary ?? [];
 			// Default settings
 			ShowHashes.TryAdd("CRC32", true);
 			ShowHashes.TryAdd("MD5", true);
@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.Properties
 
 		private void ToggleIsEnabled(string? algorithm)
 		{
-			var hashInfoItem = Hashes.Where(x => x.Algorithm == algorithm).First();
+			var hashInfoItem = Hashes.First(x => x.Algorithm == algorithm);
 			hashInfoItem.IsEnabled = !hashInfoItem.IsEnabled;
 
 			if (ShowHashes[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)
