@@ -332,3 +332,5 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 Files.Extensions/nul
+
+/desktop.ini
