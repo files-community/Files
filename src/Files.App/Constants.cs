@@ -147,8 +147,6 @@ namespace Files.App
 			public const string UserSettingsFileName = "user_settings.json";
 
 			public const string FileTagSettingsFileName = "filetags.json";
-
-			public const string ActionsSettingsFileName = "user_settings.actions.json";
 		}
 
 		public static class PreviewPane

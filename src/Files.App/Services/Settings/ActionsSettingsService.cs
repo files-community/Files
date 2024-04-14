@@ -1,9 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization.Implementation;
 using Microsoft.AppCenter.Analytics;
-using Windows.Storage;
 
 namespace Files.App.Services.Settings
 {
@@ -16,14 +14,10 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public ActionsSettingsService()
+		public ActionsSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
-			SettingsSerializer = new DefaultSettingsSerializer();
-			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
-
-			Initialize(SystemIO.Path.Combine(ApplicationData.Current.LocalFolder.Path,
-				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.ActionsSettingsFileName));
+			// Register root
+			RegisterSettingsContext(settingsSharingContext);
 		}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
