@@ -55,12 +55,6 @@ namespace Files.App.Helpers
 			IntPtr hData
 		);
 
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool GetCursorPos(
-			out POINT point
-		);
-
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
 		public static extern IntPtr CreateEvent(
 			IntPtr lpEventAttributes,
