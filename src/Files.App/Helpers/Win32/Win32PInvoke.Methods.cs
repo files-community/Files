@@ -101,12 +101,7 @@ namespace Files.App.Helpers
 			WindowLongFlags nIndex,
 			IntPtr dwNewLong
 		);
-
-		[DllImport("User32.dll")]
-		public extern static short GetKeyState(
-			int n
-		);
-
+		
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHBrowseForFolder(
 			ref BROWSEINFO lpbi
