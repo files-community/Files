@@ -14,7 +14,7 @@ namespace Files.App.Data.Items
 
 		public string CommandDescription { get; set; } = string.Empty;
 
-		public string IsCommandParameterSupported { get; set; } = string.Empty;
+		public bool IsCommandParameterSupported { get; set; }
 
 		public string CommandParameter { get; set; } = string.Empty;
 

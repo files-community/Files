@@ -200,7 +200,7 @@ namespace Files.App.Data.Commands
 				.ToFrozenDictionary(command => command.Code);
 
 			ActionsSettingsService.PropertyChanged += Settings_PropertyChanged;
-			UpdateHotKeys();
+			OverwriteKeyBindings();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -364,44 +364,25 @@ namespace Files.App.Data.Commands
 		};
 
 		/// <summary>
-		/// Replace default hotkey collection with customized one(s) if exists.
+		/// Replaces default key binding collection with customized one(s) if exists.
 		/// </summary>
-		private void UpdateHotKeys()
+		private void OverwriteKeyBindings()
 		{
 			if (ActionsSettingsService.Actions is null)
 				return;
 
-			var useds = new HashSet<HotKey>();
-
-			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
-
-			// Get custom hotkeys from the user settings
-			foreach (var custom in ActionsSettingsService.Actions)
-			{
-				if (custom.CommandCode is CommandCodes.None)
-					continue;
-
-				// Parse and add the hotkeys
-				var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.KeyBinding, false).Except(useds));
-				customs.Add(custom.CommandCode, new(hotKeys));
-
-				foreach (var hotKey in hotKeys)
-				{
-					useds.Add(hotKey with { IsVisible = true });
-					useds.Add(hotKey with { IsVisible = false });
-				}
-			}
+			var customs = new List<ActionWithParameterItem>();
 
 			foreach (var command in commands.Values.OfType<ActionCommand>())
 			{
-				bool isCustom = customs.ContainsKey(command.Code);
+				var customizedItems = ActionsSettingsService.Actions.FindAll(x => x.CommandCode == command.Code);
 
-				var hotkeys = isCustom
-					? customs[command.Code]
-					: new HotKeyCollection(GetHotKeys(command.Action).Except(useds));
+				var hotkeys = customizedItems != null
+					? new(customizedItems.Select(x => HotKey.Parse(x.KeyBinding)))
+					: new HotKeyCollection(GetDefaultKeyBindings(command.Action));
 
 				// Replace with custom hotkeys
-				command.UpdateHotKeys(isCustom, hotkeys);
+				command.OverwriteKeyBindings(customizedItems != null, hotkeys);
 			}
 
 			hotKeys = commands.Values
@@ -409,13 +390,15 @@ namespace Files.App.Data.Commands
 				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 		}
 
-		public static HotKeyCollection GetHotKeys(IAction action)
-			=> new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
+		public static HotKeyCollection GetDefaultKeyBindings(IAction action)
+		{
+			return new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
+		}
 
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IActionsSettingsService.Actions))
-				UpdateHotKeys();
+				OverwriteKeyBindings();
 		}
 	}
 }

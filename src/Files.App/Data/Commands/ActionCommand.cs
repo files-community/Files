@@ -16,24 +16,34 @@ namespace Files.App.Data.Commands
 
 		public event EventHandler? CanExecuteChanged;
 
-		private readonly CommandManager manager;
-
 		public IAction Action { get; }
+
 		public CommandCodes Code { get; }
 
-		public string Label => Action.Label;
-		public string LabelWithHotKey => HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
-		public string AutomationName => Label;
+		public string Label
+			=> Action.Label;
 
-		public string Description => Action.Description;
+		public string LabelWithHotKey
+			=> HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
 
-		public RichGlyph Glyph => Action.Glyph;
+		public string AutomationName
+			=> Label;
+
+		public string Description
+			=> Action.Description;
+
+		public RichGlyph Glyph
+			=> Action.Glyph;
+
 		public object? Icon { get; }
+
 		public FontIcon? FontIcon { get; }
+
 		public Style? OpacityStyle { get; }
 
 		private bool isCustomHotKeys = false;
-		public bool IsCustomHotKeys => isCustomHotKeys;
+		public bool IsCustomHotKeys
+			=> isCustomHotKeys;
 
 		public string? HotKeyText
 		{
@@ -60,7 +70,7 @@ namespace Files.App.Data.Commands
 
 				if (!customs.Any(action => action.CommandCode == Code))
 					customs.Add(new ActionWithParameterItem(Code, value.RawLabel, ""));
-				else if (value != CommandManager.GetHotKeys(Action))
+				else if (value != CommandManager.GetDefaultKeyBindings(Action))
 					customs.First(x => x.CommandCode == Code).KeyBinding = value.RawLabel;
 				else
 					customs.Remove(customs.First(x => x.CommandCode == Code));
@@ -71,7 +81,8 @@ namespace Files.App.Data.Commands
 
 		public HotKeyCollection DefaultHotKeys { get; }
 
-		public bool IsToggle => Action is IToggleAction;
+		public bool IsToggle
+			=> Action is IToggleAction;
 
 		public bool IsOn
 		{
@@ -83,18 +94,18 @@ namespace Files.App.Data.Commands
 			}
 		}
 
-		public bool IsExecutable => Action.IsExecutable;
+		public bool IsExecutable
+			=> Action.IsExecutable;
 
 		public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
 		{
-			this.manager = manager;
 			Code = code;
 			Action = action;
 			Icon = action.Glyph.ToIcon();
 			FontIcon = action.Glyph.ToFontIcon();
 			OpacityStyle = action.Glyph.ToOpacityStyle();
-			hotKeys = CommandManager.GetHotKeys(action);
-			DefaultHotKeys = CommandManager.GetHotKeys(action);
+			hotKeys = CommandManager.GetDefaultKeyBindings(action);
+			DefaultHotKeys = CommandManager.GetDefaultKeyBindings(action);
 
 			if (action is INotifyPropertyChanging notifyPropertyChanging)
 				notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -102,8 +113,15 @@ namespace Files.App.Data.Commands
 				notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
 		}
 
-		public bool CanExecute(object? parameter) => Action.IsExecutable;
-		public async void Execute(object? parameter) => await ExecuteAsync();
+		public bool CanExecute(object? parameter)
+		{
+			return Action.IsExecutable;
+		}
+
+		public async void Execute(object? parameter)
+		{
+			await ExecuteAsync();
+		}
 
 		public Task ExecuteAsync()
 		{
@@ -116,19 +134,12 @@ namespace Files.App.Data.Commands
 			return Task.CompletedTask;
 		}
 
-		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
-
-		public void ResetHotKeys()
+		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e)
 		{
-			if (!IsCustomHotKeys)
-				return;
-
-			var customs = new List<ActionWithParameterItem>(ActionsSettingsService.Actions);
-			customs.Remove(customs.First(x => x.CommandCode == Code));
-			ActionsSettingsService.Actions = customs;
+			await ExecuteAsync();
 		}
 
-		internal void UpdateHotKeys(bool isCustom, HotKeyCollection hotKeys)
+		internal void OverwriteKeyBindings(bool isCustom, HotKeyCollection hotKeys)
 		{
 			SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
 
@@ -156,6 +167,7 @@ namespace Files.App.Data.Commands
 					break;
 			}
 		}
+
 		private void Action_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)

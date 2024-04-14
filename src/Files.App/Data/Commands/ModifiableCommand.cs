@@ -80,8 +80,6 @@ namespace Files.App.Data.Commands
 
 		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
 
-		public void ResetHotKeys() => BaseCommand.ResetHotKeys();
-
 		private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 		{
 			switch (e.PropertyName)
