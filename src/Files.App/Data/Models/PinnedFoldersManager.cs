@@ -9,7 +9,7 @@ namespace Files.App.Data.Models
 {
 	public sealed class PinnedFoldersManager
 	{
-		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
@@ -160,7 +160,7 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public async Task AddAllItemsToSidebarAsync()
 		{
-			if (userSettingsService.GeneralSettingsService.ShowPinnedSection)
+			if (UserSettingsService.GeneralSettingsService.ShowPinnedSection)
 				foreach (string path in PinnedFolders)
 					await AddItemToSidebarAsync(path);
 		}

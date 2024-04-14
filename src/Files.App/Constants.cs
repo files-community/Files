@@ -210,6 +210,11 @@ namespace Files.App
 			public const int MaxSelectedItems = 5;
 		}
 
+		public static class CLID
+		{
+			public static readonly string QuickAccess = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
+		}
+
 		public static class UserEnvironmentPaths
 		{
 			public static readonly string DesktopPath = Windows.Storage.UserDataPaths.GetDefault().Desktop;
