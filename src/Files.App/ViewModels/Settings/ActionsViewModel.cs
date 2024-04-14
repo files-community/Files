@@ -336,9 +336,6 @@ namespace Files.App.ViewModels.Settings
 			// Get raw string keys stored in the user setting
 			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
-			// Initialize
-			var newHotKey = HotKey.Parse(item.LocalizedKeyBindingLabel);
-
 			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
 				// Any keys associated to the command is not customized at all
@@ -364,9 +361,8 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			// Exit edit mode
-			item.PreviousKeyBinding = newHotKey;
-			item.KeyBinding = newHotKey;
 			item.IsInEditMode = false;
+			ValidActionItems.Remove(item);
 		}
 	}
 }
