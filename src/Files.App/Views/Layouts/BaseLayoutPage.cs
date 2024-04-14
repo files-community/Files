@@ -905,24 +905,23 @@ namespace Files.App.Views.Layouts
 
 			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
 			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-
-			// Load main submenus asynchronously
-			await Task.WhenAll(mainItemsWithSubMenu.Select(async item =>
+			
+			var mainSubMenuTasks = mainItemsWithSubMenu.Select(async item =>
 			{
 				await item.LoadSubMenuAction();
 				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, item);
-			}));
-			
+			});
+
 			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
-			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ToList();
-			
-			var subMenuTasks = overflowItemsWithSubMenu.Select(async item =>
+			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+
+			var overflowSubMenuTasks = overflowItemsWithSubMenu.Select(async item =>
 			{
 				await item.LoadSubMenuAction();
 				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
 			});
 
-			await Task.WhenAll(subMenuTasks);
+			await Task.WhenAll(mainSubMenuTasks.Concat(overflowSubMenuTasks));
 
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{

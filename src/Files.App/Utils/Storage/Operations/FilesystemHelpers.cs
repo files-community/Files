@@ -162,7 +162,7 @@ namespace Files.App.Utils.Storage
 			if (!permanently && registerHistory)
 				App.HistoryWrapper.AddHistory(history);
 			
-			// Await all removal tasks to complete concurrently
+			// Execute removal tasks concurrently in background
 			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
 
 			var itemsCount = banner.TotalItemsCount;
@@ -474,7 +474,7 @@ namespace Files.App.Utils.Storage
 				App.HistoryWrapper.AddHistory(history);
 			}
 
-			// Await all removal tasks to complete
+			// Execute removal tasks concurrently in background
 			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
 
 			var itemsCount = banner.TotalItemsCount;
