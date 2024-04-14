@@ -3,7 +3,7 @@
 
 using Files.Core.Storage.LocatableStorage;
 
-namespace Files.App.Services
+namespace Files.App.Data.Contracts
 {
 	public interface INetworkDrivesService
 	{
