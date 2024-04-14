@@ -29,7 +29,7 @@ namespace Files.App.Utils.Cloud
 
 					string[] orgNameFilespaceName = syncFolder.Split(".");
 					string path = Path.Combine(@"C:\Volumes", orgNameFilespaceName[1], orgNameFilespaceName[0]);
-					string filespaceName = orgNameFilespaceName[1];
+					string filespaceName = orgNameFilespaceName[0];
 
 					string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Lucid", "resources", "Logo.ico");
 					StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
