@@ -99,6 +99,7 @@ namespace Files.App.ViewModels.Settings
 						CommandLabel = command.Label,
 						CommandDescription = command.Description,
 						KeyBinding = new(),
+						DefaultKeyBindings = defaultKeys,
 					});
 
 					foreach (var hotkey in command.HotKeys)
@@ -150,10 +151,13 @@ namespace Files.App.ViewModels.Settings
 			if (SelectedActionItem is null)
 				return;
 
+			// Initialize the new key binding
+			var newHotKey = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel);
+
 			// Check if this hot key is already taken
 			foreach (var hotkey in ValidActionItems)
 			{
-				if (SelectedActionItem.LocalizedKeyBindingLabel == hotkey.PreviousKeyBinding)
+				if (newHotKey.RawLabel == hotkey.KeyBinding.RawLabel)
 				{
 					IsAlreadyUsedTeachingTipOpened = true;
 					return;
@@ -165,8 +169,15 @@ namespace Files.App.ViewModels.Settings
 					? new List<ActionWithParameterItem>(ActionsSettingsService.Actions)
 					: [];
 
-			// Initialize the new key binding
-			var newHotKey = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel);
+			// Get raw string keys stored in the user setting
+			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == SelectedActionItem.CommandCode && x.KeyBinding == SelectedActionItem.PreviousKeyBinding.RawLabel);
+
+			if (storedKeyBindingWithArgs == null)
+			{
+				// Any keys associated to the command is not customized at all
+				foreach (var defaultKey in SelectedActionItem.DefaultKeyBindings)
+					actions.Add(new(SelectedActionItem.CommandCode, defaultKey.RawLabel));
+			}
 
 			// Add to the temporary modifiable collection
 			actions.Add(new(SelectedActionItem.CommandCode, newHotKey.RawLabel));
@@ -193,10 +204,9 @@ namespace Files.App.ViewModels.Settings
 			};
 
 			// Exit edit mode
-			SelectedActionItem.PreviousKeyBinding = newHotKey;
-			SelectedActionItem.KeyBinding = newHotKey;
-			SelectedActionItem.IsInEditMode = false;
-			SelectedActionItem.IsDefinedByDefault = SelectedActionItem.DefaultKeyBindings.Select(x => x.RawLabel).Contains(newHotKey.RawLabel);
+			ShowAddNewKeyBindingBlock = false;
+			SelectedActionItem.LocalizedKeyBindingLabel = string.Empty;
+			SelectedActionItem = null;
 
 			// Add to existing list
 			ValidActionItems.Insert(0, selectedNewItem);
@@ -273,8 +283,6 @@ namespace Files.App.ViewModels.Settings
 
 			// Initialize
 			var newHotKey = HotKey.Parse(item.LocalizedKeyBindingLabel);
-			var modifiedCollection = HotKeyCollection.Empty;
-			List<HotKey> modifiableCollection = [];
 
 			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
@@ -288,7 +296,6 @@ namespace Files.App.ViewModels.Settings
 			else
 			{
 				var storedKey = actions.Find(x => x.CommandCode == item.CommandCode && x.KeyBinding == item.PreviousKeyBinding.RawLabel);
-
 				if (storedKey is not null)
 					storedKey.KeyBinding = newHotKey.RawLabel;
 			}
@@ -334,8 +341,6 @@ namespace Files.App.ViewModels.Settings
 
 			// Initialize
 			var newHotKey = HotKey.Parse(item.LocalizedKeyBindingLabel);
-			var modifiedCollection = HotKeyCollection.Empty;
-			List<HotKey> modifiableCollection = [];
 
 			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
