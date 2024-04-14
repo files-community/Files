@@ -19,8 +19,6 @@ namespace Files.App.Data.Models
 		public List<string> PinnedFolders { get; set; } = [];
 
 		public readonly List<INavigationControlItem> _PinnedFolderItems = [];
-
-		[JsonIgnore]
 		public IReadOnlyList<INavigationControlItem> PinnedFolderItems
 		{
 			get

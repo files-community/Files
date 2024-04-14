@@ -7,18 +7,15 @@ namespace Files.App.Services
 	{
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{
-			var result = (await Win32Helper.GetShellFolderAsync(Constants.CLID.QuickAccess, false, true, 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
-				.Where(link => link.IsFolder);
+			var result =
+				(await Win32Helper.GetShellFolderAsync(Constants.CLID.QuickAccess, false, true, 0, int.MaxValue, "System.Home.IsPinned"))
+					.Enumerate
+					.Where(link => link.IsFolder);
+
 			return result;
 		}
 
-		public Task PinToSidebarAsync(string folderPath)
-			=> PinToSidebarAsync([ folderPath ]);
-
-		public Task PinToSidebarAsync(string[] folderPaths)
-			=> PinToSidebarAsync(folderPaths, true);
-
-		private async Task PinToSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
+		public async Task PinToSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget = true)
 		{
 			foreach (string folderPath in folderPaths)
 				await ContextMenu.InvokeVerb("pintohome", [folderPath]);
@@ -29,13 +26,7 @@ namespace Files.App.Services
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 
-		public Task UnpinFromSidebarAsync(string folderPath)
-			=> UnpinFromSidebarAsync([ folderPath ]); 
-
-		public Task UnpinFromSidebarAsync(string[] folderPaths)
-			=> UnpinFromSidebarAsync(folderPaths, true);
-
-		private async Task UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
+		public async Task UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget = true)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);

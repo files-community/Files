@@ -7,19 +7,18 @@ namespace Files.App.Utils
 {
 	public sealed class QuickAccessManager
 	{
+		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		public FileSystemWatcher? PinnedItemsWatcher;
 
 		public event FileSystemEventHandler? PinnedItemsModified;
 		
 		public EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
 
-		public IQuickAccessService QuickAccessService;
+		public PinnedFoldersManager Model = new();
 
-		public PinnedFoldersManager Model;
 		public QuickAccessManager()
 		{
-			QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
-			Model = new();
 			Initialize();
 		}
 		

@@ -848,7 +848,7 @@ namespace Files.App.ViewModels.UserControls
 		private void UnpinItem()
 		{
 			if (rightClickedItem.Section == SectionType.Pinned || rightClickedItem is DriveItem)
-				_ = QuickAccessService.UnpinFromSidebarAsync(rightClickedItem.Path);
+				_ = QuickAccessService.UnpinFromSidebarAsync([rightClickedItem.Path]);
 		}
 
 		private void HideSection()
@@ -1265,7 +1265,7 @@ namespace Files.App.ViewModels.UserControls
 					foreach (var item in storageItems)
 					{
 						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path))
-							await QuickAccessService.PinToSidebarAsync(item.Path);
+							await QuickAccessService.PinToSidebarAsync([item.Path]);
 					}
 				}
 				else

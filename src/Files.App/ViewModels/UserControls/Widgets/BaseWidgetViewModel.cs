@@ -103,12 +103,12 @@ namespace Files.App.UserControls.Widgets
 
 		public virtual async Task PinToSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.PinToSidebarAsync(item.Path);
+			await QuickAccessService.PinToSidebarAsync([item.Path]);
 		}
 
 		public virtual async Task UnpinFromSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
+			await QuickAccessService.UnpinFromSidebarAsync([item.Path]);
 		}
 
 		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)

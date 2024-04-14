@@ -304,7 +304,7 @@ namespace Files.App.UserControls.Widgets
 
 		public override async Task PinToSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.PinToSidebarAsync(item.Path);
+			await QuickAccessService.PinToSidebarAsync([item.Path]);
 
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 
@@ -323,7 +323,7 @@ namespace Files.App.UserControls.Widgets
 
 		public override async Task UnpinFromSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
+			await QuickAccessService.UnpinFromSidebarAsync([item.Path]);
 
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}

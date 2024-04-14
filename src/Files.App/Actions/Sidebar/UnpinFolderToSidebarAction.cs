@@ -38,7 +38,7 @@ namespace Files.App.Actions
 			}
 			else if (context.Folder is not null)
 			{
-				await service.UnpinFromSidebarAsync(context.Folder.ItemPath);
+				await service.UnpinFromSidebarAsync([context.Folder.ItemPath]);
 			}
 		}
 

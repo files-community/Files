@@ -41,7 +41,7 @@ namespace Files.App.Actions
 			}
 			else if (context.Folder is not null)
 			{
-				await service.PinToSidebarAsync(context.Folder.ItemPath);
+				await service.PinToSidebarAsync([context.Folder.ItemPath]);
 			}
 		}
 
