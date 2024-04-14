@@ -18,11 +18,11 @@ namespace Files.App.Data.Items
 		public string KeyBinding { get; set; } = string.Empty;
 
 		[JsonConstructor]
-		public ActionWithParameterItem(string command, string keyBinding, string? parameter = null)
+		public ActionWithParameterItem(string commandCode, string keyBinding, string? commandParameter = null)
 		{
-			CommandCode = command;
+			CommandCode = commandCode;
 			KeyBinding = keyBinding;
-			CommandParameter = parameter ?? string.Empty;
+			CommandParameter = commandParameter ?? string.Empty;
 		}
 	}
 }
