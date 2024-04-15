@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
+using Files.App.Data.Regex;
 
 namespace Files.App.Utils.Storage
 {
@@ -37,7 +38,7 @@ namespace Files.App.Utils.Storage
 				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
 				if (!string.IsNullOrEmpty(query))
 				{
-					var spaceSplit = Data.Regex.RegexHelpers.SpaceSplit().Split(query);
+					var spaceSplit = RegexHelpers.SpaceSplit().Split(query);
 					foreach (var split in spaceSplit)
 					{
 						var colonSplit = split.Split(':');
@@ -89,7 +90,7 @@ namespace Files.App.Utils.Storage
 				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
 				if (!string.IsNullOrEmpty(query))
 				{
-					var spaceSplit = Data.Regex.RegexHelpers.SpaceSplit().Split(query);
+					var spaceSplit = RegexHelpers.SpaceSplit().Split(query);
 					foreach (var split in spaceSplit)
 					{
 						var colonSplit = split.Split(':');
@@ -141,7 +142,7 @@ namespace Files.App.Utils.Storage
 				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
 				if (!string.IsNullOrEmpty(query))
 				{
-					var spaceSplit = Data.Regex.RegexHelpers.SpaceSplit().Split(query);
+					var spaceSplit = RegexHelpers.SpaceSplit().Split(query);
 					foreach (var split in spaceSplit)
 					{
 						var colonSplit = split.Split(':');

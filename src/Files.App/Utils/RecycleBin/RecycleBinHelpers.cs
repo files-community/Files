@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Files.App.Data.Regex;
 
 namespace Files.App.Utils.RecycleBin
 {
@@ -39,7 +40,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static bool IsPathUnderRecycleBin(string path)
 		{
-			return !string.IsNullOrWhiteSpace(path) && Data.Regex.RegexHelpers.RecycleBinPath().IsMatch(path);
+			return !string.IsNullOrWhiteSpace(path) && RegexHelpers.RecycleBinPath().IsMatch(path);
 		}
 
 		public static async Task EmptyRecycleBinAsync()

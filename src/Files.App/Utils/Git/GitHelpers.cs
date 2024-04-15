@@ -10,6 +10,7 @@ using System.Net.Http.Json;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using Files.App.Data.Regex;
 
 namespace Files.App.Utils.Git
 {
@@ -316,7 +317,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrEmpty(branchName) || !Repository.IsValid(repositoryPath))
 				return false;
 
-			var nameValidator = Data.Regex.RegexHelpers.GitBranchName();
+			var nameValidator = RegexHelpers.GitBranchName();
 			if (!nameValidator.IsMatch(branchName))
 				return false;
 

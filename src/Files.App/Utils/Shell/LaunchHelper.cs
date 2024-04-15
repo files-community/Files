@@ -5,6 +5,7 @@ using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text.RegularExpressions;
+using Files.App.Data.Regex;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
@@ -13,7 +14,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Provides static helper for launching external executable files.
 	/// </summary>
-	public partial class LaunchHelper
+	public static class LaunchHelper
 	{
 		public static void LaunchSettings(string page)
 		{
@@ -184,7 +185,7 @@ namespace Files.App.Utils.Shell
 
 						if (!opened)
 						{
-							var isAlternateStream = Data.Regex.RegexHelpers.AlternateStream().IsMatch(application);
+							var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(application);
 							if (isAlternateStream)
 							{
 								var basePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), Guid.NewGuid().ToString("n"));
@@ -243,7 +244,7 @@ namespace Files.App.Utils.Shell
 				using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
 				using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
 				var deviceId = device?.ParsingName;
-				var itemPath = Data.Regex.RegexHelpers.WindowsPath().Replace(executable, "");
+				var itemPath = RegexHelpers.WindowsPath().Replace(executable, "");
 				return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;
 			}
 
