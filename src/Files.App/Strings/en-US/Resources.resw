@@ -3741,6 +3741,6 @@
     <value>Customized</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptive layout is not available when the sync option is on.</value>
+    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
 </root>
