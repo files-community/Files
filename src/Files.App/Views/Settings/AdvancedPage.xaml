@@ -162,8 +162,7 @@
 			<local:SettingsBlockControl
 				x:Name="ReplaceOpenFileDialogSetting"
 				Title="{helpers:ResourceString Name=SettingsSetAsOpenDialog}"
-				HorizontalAlignment="Stretch"
-				x:Load="False">
+				HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE8E5;" />
 				</local:SettingsBlockControl.Icon>
