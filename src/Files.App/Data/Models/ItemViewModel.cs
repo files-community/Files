@@ -39,7 +39,6 @@ namespace Files.App.Data.Models
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-		private readonly StorageCacheController fileListCache = StorageCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
 		private Task? aProcessQueueAction;
@@ -52,6 +51,7 @@ namespace Files.App.Data.Models
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
+		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -1122,7 +1122,7 @@ namespace Files.App.Data.Models
 									{
 										item.ItemNameRaw = matchingStorageFolder.DisplayName;
 									});
-									await fileListCache.SaveFileDisplayNameToCache(item.ItemPath, matchingStorageFolder.DisplayName);
+									await fileListCache.AddDisplayName(item.ItemPath, matchingStorageFolder.DisplayName);
 									if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
 									{
 										await OrderFilesAndFoldersAsync();

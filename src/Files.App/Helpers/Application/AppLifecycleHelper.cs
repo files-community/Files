@@ -188,6 +188,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
+					.AddSingleton<IStorageCacheService, StorageCacheService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
