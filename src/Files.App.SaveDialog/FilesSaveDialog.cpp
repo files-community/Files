@@ -279,6 +279,7 @@ HRESULT __stdcall CFilesSaveDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem
 #ifdef SYSTEMDIALOG
 	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddControlItem(dwIDCtl, dwIDItem, pszLabel);
 #endif
+	_ctrlItems.push_back(dwIDItem);
 	return S_OK;
 }
 
@@ -325,8 +326,11 @@ HRESULT __stdcall CFilesSaveDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD*
 #ifdef SYSTEMDIALOG
 	return AsInterface<IFileDialogCustomize>(_systemDialog)->GetSelectedControlItem(dwIDCtl, pdwIDItem);
 #endif
-	* pdwIDItem = 0;
-	return S_OK;
+	if (!_ctrlItems.empty()) {
+		*pdwIDItem = _ctrlItems.back();
+		return S_OK;
+	}
+	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem)
@@ -335,6 +339,7 @@ HRESULT __stdcall CFilesSaveDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD 
 #ifdef SYSTEMDIALOG
 	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetSelectedControlItem(dwIDCtl, dwIDItem);
 #endif
+	_ctrlItems.push_back(dwIDItem);
 	return S_OK;
 }
 
@@ -413,7 +418,6 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
 		CloseHandle(ShExecInfo.hProcess);
 	}
-
 	if (hwndOwner)
 	{
 		SetForegroundWindow(hwndOwner);
@@ -1037,7 +1041,11 @@ HRESULT __stdcall CFilesSaveDialog::GetProperties(IPropertyStore** ppStore)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->GetProperties(ppStore);
 #endif
-	* ppStore = 0;
+	if (!_selectedItem.empty())
+	{
+		return SHGetPropertyStoreFromParsingName(_selectedItem.c_str(),
+			NULL, GPS_DEFAULT, __uuidof(IPropertyStore), (void**)ppStore);
+	}
 	return E_NOTIMPL;
 }
 

@@ -4,7 +4,7 @@
 #include "resource.h"       // simboli principali
 
 
-//#define DEBUGLOG
+#define DEBUGLOG
 
 
 #include "CustomSaveDialog_i.h"
@@ -61,6 +61,8 @@ END_COM_MAP()
 	CComPtr<IFileSaveDialog> _systemDialog;
 
 	FILEOPENDIALOGOPTIONS _fos;
+
+	std::vector<DWORD> _ctrlItems;
 
 	std::wstring _selectedItem;
 	std::wstring _outputPath;
