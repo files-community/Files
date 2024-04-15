@@ -40,6 +40,12 @@ namespace Files.App.ViewModels.Settings
 
 					ResetLayoutPreferences();
 					OnPropertyChanged();
+
+					if (value && DefaultLayoutMode is FolderLayoutModes.Adaptive)
+					{
+						SelectedDefaultLayoutModeIndex = 0;
+						ShowAdaptiveDisabledTeachingTip = true;
+					}
 				}
 			}
 		}
@@ -265,7 +271,14 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		
+		private bool _ShowAdaptiveDisabledTeachingTip;
+		public bool ShowAdaptiveDisabledTeachingTip
+		{
+			get => _ShowAdaptiveDisabledTeachingTip;
+			set => SetProperty(ref _ShowAdaptiveDisabledTeachingTip, value);
+		}
+
+
 		// Methods
 
 		public void ResetLayoutPreferences()
