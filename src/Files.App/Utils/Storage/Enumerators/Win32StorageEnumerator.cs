@@ -14,10 +14,10 @@ namespace Files.App.Utils.Storage
 	public static class Win32StorageEnumerator
 	{
 		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
+		private static readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 
 		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
-		private static readonly StorageCacheController fileListCache = StorageCacheController.GetInstance();
 
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
@@ -173,7 +173,7 @@ namespace Files.App.Utils.Storage
 
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-			string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
+			string itemName = await fileListCache.GetDisplayName(itemPath, cancellationToken);
 			if (string.IsNullOrEmpty(itemName))
 				itemName = findData.cFileName;
 
