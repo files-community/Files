@@ -383,7 +383,7 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 {
 	wchar_t wnd_title[1024];
 	GetWindowText(hwndOwner, wnd_title, 1024);
-	wcout << L"Show, hwndOwner: " << wnd_title << endl;
+	wcout << L"Show, ID: " << GetCurrentProcessId() << endl;
 
 #ifdef SYSTEMDIALOG
 	HRESULT res = _systemDialog->Show(NULL);
@@ -451,7 +451,7 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	}
 	if (!_selectedItem.empty())
 	{
-		if (_dialogEvents && std::wstring(wnd_title).find(L"Visual Studio") == std::string::npos)
+		if (_dialogEvents)
 		{
 			_dialogEvents->OnFileOk(this);
 		}
@@ -498,6 +498,7 @@ HRESULT __stdcall CFilesSaveDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCo
 	return _systemDialog->Advise(pfde, pdwCookie);
 #endif
 	_dialogEvents = pfde;
+	_dialogEvents->AddRef();
 	*pdwCookie = 4;
 	return S_OK;
 }
@@ -508,6 +509,7 @@ HRESULT __stdcall CFilesSaveDialog::Unadvise(DWORD dwCookie)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->Unadvise(dwCookie);
 #endif
+	_dialogEvents->Release();
 	_dialogEvents = NULL;
 	return S_OK;
 }
