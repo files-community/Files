@@ -10,6 +10,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using Windows.Win32;
+using Files.App.Data.Regex;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -28,7 +29,7 @@ namespace Files.App.Utils.Storage
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
-		public bool IsAlternateStream => System.Text.RegularExpressions.Regex.IsMatch(Path, @"\w:\w");
+		public bool IsAlternateStream => RegexHelpers.AlternateStream().IsMatch(Path);
 
 		public override string DisplayType
 		{
@@ -161,7 +162,7 @@ namespace Files.App.Utils.Storage
 		private static bool IsNativePath(string path)
 		{
 			var isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
-			var isAlternateStream = System.Text.RegularExpressions.Regex.IsMatch(path, @"\w:\w");
+			var isAlternateStream = Data.Regex.RegexHelpers.AlternateStream().IsMatch(path);
 			return isShortcut || isAlternateStream;
 		}
 
@@ -261,5 +262,6 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<StorageFile> ToStorageFileAsync()
 			=> throw new NotSupportedException();
+
 	}
 }

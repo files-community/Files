@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Extensions;
+using RegexHelpers = Files.App.Data.Regex.RegexHelpers;
 
 namespace Files.App.Data.Items
 {
@@ -56,7 +57,7 @@ namespace Files.App.Data.Items
 				$"{(RunIn40x480Resolution ? RegExecuteAt640X480 : "")} {(DisableFullscreenOptimization ? RegDisableMaximized : "")} " +
 				$"{(RunAsAdministrator ? RegRunAsAdministrator : "")} {(RegisterForRestart ? RegRegisterForRestart : "")}";
 
-			return System.Text.RegularExpressions.Regex.Replace(value.Trim(), @"\s+", " ");
+			return RegexHelpers.WhitespaceAtLeastOnce().Replace(value.Trim(), " ");
 		}
 	}
 }
