@@ -23,7 +23,7 @@ namespace Files.App.UserControls.Widgets
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private INetworkDrivesService NetworkDrivesService = Ioc.Default.GetRequiredService<INetworkDrivesService>();
+		private readonly INetworkDrivesService NetworkDrivesService = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
