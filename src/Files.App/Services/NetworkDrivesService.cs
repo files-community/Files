@@ -65,10 +65,7 @@ namespace Files.App.Services
 						}
 						else
 						{
-							if (item is null)
-								continue;
-
-							var linkPath = (string)item.Properties["System.Link.TargetParsingPath"];
+							var linkPath = (string?)item?.Properties["System.Link.TargetParsingPath"];
 							if (linkPath is not null)
 							{
 								var linkItem = ShellFolderExtensions.GetShellFileItem(item);
