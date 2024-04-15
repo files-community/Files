@@ -1,0 +1,109 @@
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<vm:BasePropertiesPage
+	x:Class="Files.App.Views.Properties.CompatibilityPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:settingsuc="using:Files.App.UserControls.Settings"
+	xmlns:vm="using:Files.App.ViewModels.Properties"
+	DataContext="{x:Bind CompatibilityViewModel, Mode=OneWay}"
+	Loaded="Properties_Loaded"
+	Tag="Compatibility"
+	mc:Ignorable="d">
+
+	<vm:BasePropertiesPage.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
+
+		</ResourceDictionary>
+	</vm:BasePropertiesPage.Resources>
+
+	<ScrollViewer x:Name="RootScrollViewer">
+		<StackPanel Padding="12" Spacing="4">
+
+			<!--  Run Troubleshooter  -->
+			<settingsuc:SettingsBlockControl
+				Title="{helpers:ResourceString Name=CompatibilityRunTroubleshooter}"
+				ButtonCommand="{x:Bind CompatibilityViewModel.RunTroubleshooterCommand}"
+				IsClickable="True">
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+			</settingsuc:SettingsBlockControl>
+
+			<!--  Compatibility Mode  -->
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityMode}" HorizontalAlignment="Stretch">
+				<ComboBox
+					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityMode}"
+					ItemsSource="{x:Bind CompatibilityViewModel.CompatibilityModes.Values, Mode=OneWay}"
+					SelectedItem="{x:Bind CompatibilityViewModel.SelectedCompatibilityMode, Mode=TwoWay}" />
+			</settingsuc:SettingsBlockControl>
+
+			<!--  Reduce Color Mode  -->
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityReducedColorMode}" HorizontalAlignment="Stretch">
+				<ComboBox
+					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityReducedColorMode}"
+					ItemsSource="{x:Bind CompatibilityViewModel.ReducedColorModes.Values, Mode=OneWay}"
+					SelectedItem="{x:Bind CompatibilityViewModel.SelectedReducedColorMode, Mode=TwoWay}" />
+			</settingsuc:SettingsBlockControl>
+
+			<!--  Run In Low Resolution  -->
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}" HorizontalAlignment="Stretch">
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}"
+					IsOn="{x:Bind CompatibilityViewModel.RunIn40x480Resolution, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</settingsuc:SettingsBlockControl>
+
+			<!--  Disable Full Screen Optimizations  -->
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}" HorizontalAlignment="Stretch">
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}"
+					IsOn="{x:Bind CompatibilityViewModel.DisableFullscreenOptimization, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</settingsuc:SettingsBlockControl>
+
+			<!--  Run As Admin  -->
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=RunAsAdministrator}" HorizontalAlignment="Stretch">
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
+					IsOn="{x:Bind CompatibilityViewModel.RunAsAdministrator, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</settingsuc:SettingsBlockControl>
+
+			<!--  Register App For Restart  -->
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}" HorizontalAlignment="Stretch">
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}"
+					IsOn="{x:Bind CompatibilityViewModel.RegisterForRestart, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</settingsuc:SettingsBlockControl>
+
+			<!--  High DPI Options  -->
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityUseDPISettings}" HorizontalAlignment="Stretch">
+				<ComboBox
+					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityUseDPISettings}"
+					ItemsSource="{x:Bind CompatibilityViewModel.HighDpiOptions.Values, Mode=OneWay}"
+					SelectedItem="{x:Bind CompatibilityViewModel.SelectedHighDpiOption, Mode=TwoWay}" />
+			</settingsuc:SettingsBlockControl>
+
+			<!--  Override High DPI Scaling Behavior  -->
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityOverrideHighDPIBehavior}" HorizontalAlignment="Stretch">
+				<ComboBox
+					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityOverrideHighDPIBehavior}"
+					ItemsSource="{x:Bind CompatibilityViewModel.HighDpiOverrides.Values, Mode=OneWay}"
+					SelectedItem="{x:Bind CompatibilityViewModel.SelectedHighDpiOverride, Mode=TwoWay}" />
+			</settingsuc:SettingsBlockControl>
+
+		</StackPanel>
+	</ScrollViewer>
+</vm:BasePropertiesPage>

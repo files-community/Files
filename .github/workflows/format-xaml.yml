@@ -1,0 +1,140 @@
+name: Format XAML
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  format-xaml:
+    if: github.event.issue.pull_request && github.event.comment.body == '/format'
+    runs-on: ubuntu-latest
+    environment: Pull Requests
+    defaults:
+      run:
+        shell: pwsh
+    permissions: 
+      contents: write
+
+    steps:
+      - name: Generate GitHub Apps token
+        id: generate
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
+      - name: Create run condition variable
+        run: |
+          # this is required for early termination in case any conditions aren't satisfied
+          # https://github.com/actions/runner/issues/662
+          
+          "CAN_RUN=1" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Login to gh cli
+        run: |
+          "GH_TOKEN=${{ steps.generate.outputs.token }}" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Check if PR can be committed to
+        run: |
+          if (!(gh pr -R ${{ github.repository }} view ${{ github.event.issue.number }} --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
+          { 
+            gh pr comment ${{ github.event.issue.number }} -b "🔒 This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
+            "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
+          }
+          
+          # all steps after this one must have the env.CAN_RUN == 1 condition
+
+      - uses: actions/checkout@v4
+        if: env.CAN_RUN == 1
+
+      - name: Set git identity
+        if: env.CAN_RUN == 1
+        run: |
+          $data = gh api graphql -f query='query {
+            viewer {
+              login
+              databaseId
+            }
+          }'  --jq '.data.viewer' | ConvertFrom-Json
+
+          git config --global user.name "$($data.login)"
+          git config --global user.email "$($data.databaseId)+$($data.login)@users.noreply.github.com"
+
+      - name: Checkout PR
+        if: env.CAN_RUN == 1
+        run: gh pr checkout ${{ github.event.issue.number }} -b pr
+
+      - name: Check if PR has modified XAML files
+        if: env.CAN_RUN == 1
+        run: |
+          $baseRef = gh pr view ${{ github.event.issue.number }} --json baseRefName --jq '.baseRefName'
+          $changedFiles = (git diff --name-only pr..$baseRef) -split "\n" | Where-Object {$_ -like "*.xaml"}
+          if ($changedFiles.Count -eq 0)
+          {
+            gh pr comment ${{ github.event.issue.number }} -b "⛔ No XAML files found to format."
+            "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
+          }
+  
+      - name: Install Xaml Styler
+        if: env.CAN_RUN == 1
+        run: dotnet tool install --global XamlStyler.Console
+  
+      - name: Format XAML files
+        if: env.CAN_RUN == 1
+        run: xstyler -l None -r -d src/Files.App
+
+      - name: Commit formatted files
+        if: env.CAN_RUN == 1
+        run: |
+          git add --renormalize *.xaml
+          git status --porcelain
+          if ((git status --porcelain) -eq $null)
+          {
+            gh pr comment ${{ github.event.issue.number }} -b "⛔ No XAML files changed."
+            "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
+          }
+          else
+          {
+            git commit -m "Formatted XAML files"
+          }
+
+      - name: Push to PR
+        if: env.CAN_RUN == 1
+        run: |
+          # this is all to get the right repo and branch to push to 
+
+          $repo = '${{ github.repository }}' -split '/'
+          $owner = $repo[0]
+          $name = $repo[1]
+          $number = ${{ github.event.issue.number }}
+
+          $data = gh api graphql -f query='query($owner:String!, $name:String!, $number:Int!) {
+            repository(owner:$owner, name:$name) {
+              pullRequest(number:$number) {
+                headRef {
+                  name
+                }
+                headRepository {
+                  url
+                }
+              }
+            }
+          }' -F owner=$owner -F name=$name -F number=$number --jq '{Branch: .data.repository.pullRequest.headRef.name, Url: .data.repository.pullRequest.headRepository.url}' | ConvertFrom-Json
+          
+          $url = [UriBuilder]($data.Url)
+          $url.UserName = 'x-access-token'
+          $url.Password = '${{ steps.generate.outputs.token }}'
+          git push $url.Uri.AbsoluteUri pr:$($data.Branch)
+
+          if ($LASTEXITCODE -eq 0)
+          {
+            gh pr comment ${{ github.event.issue.number }} -b "✅ Successfully formatted XAML files."
+          }
+          else
+          {
+            "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
+          }
+        continue-on-error: true
+
+      - name: Comment if failed
+        if: failure() && env.CAN_RUN == 0
+        run: gh pr comment ${{ github.event.issue.number }} -b "⚠️ Failed to format XAML files, check [the logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for more information."

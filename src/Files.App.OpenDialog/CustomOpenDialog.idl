@@ -1,0 +1,31 @@
+// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+// Abstract:
+//  IDL source for CustomOpenDialog.
+
+// Note:
+//  This file will be processed by the MIDL tool for
+//  produces the type library (CustomOpenDialog.tlb) and marshaling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[uuid(14533360-0b0c-44e6-9e5f-8ec8a478158d), version(1.0)]
+library CustomOpenDialogLib
+{
+	importlib("stdole2.tlb");
+
+	[uuid(DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7)]
+	coclass FilesOpenDialog
+	{
+		[default] interface IFileOpenDialog;
+		interface IFileDialog;
+		interface IFileDialogCustomize;
+		interface IFileDialog2;
+		interface IObjectWithSite;
+		//interface IFileDialogPrivate;
+	};
+};
+
+import "shobjidl.idl";
