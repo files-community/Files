@@ -117,14 +117,14 @@
 						<FontIcon Glyph="&#xE8B7;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
-				<NavigationViewItem
+				<!--<NavigationViewItem
 					AutomationProperties.AutomationId="SettingsItemActions"
 					Content="Actions"
 					Tag="ActionsPage">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xF73D;" />
 					</NavigationViewItem.Icon>
-				</NavigationViewItem>
+				</NavigationViewItem>-->
 				<NavigationViewItem
 					AutomationProperties.AutomationId="SettingsItemTags"
 					Content="{helpers:ResourceString Name=FileTags}"
