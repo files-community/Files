@@ -1,24 +1,20 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
-
-using OpenQA.Selenium.Appium;
+﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
-using System.Diagnostics;
 using System.IO;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Files.InteractionTests
 {
 	[TestClass]
-	public sealed class SessionManager
+	public class SessionManager
 	{
 		private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
-		private static string[] FilesAppIDs = [
-			"FilesDev_ykqwq8d6ps0ag!App", // Needed to run on the local end and/or the CI
-			"FilesDev_9bhem8es8z4gp!App", // Needed to run on the local end and/or the CI
-			"FilesDev_dwm5abbcs5pn0!App", // Needed to run on the CI
-		];
+		private static string[] FilesAppIDs = new string[]{
+			"49306atecsolution.FilesUWP_dwm5abbcs5pn0!App",
+			"FilesDev_ykqwq8d6ps0ag!App"
+		};
 
 		private static uint appIdIndex = 0;
 
@@ -27,7 +23,7 @@ namespace Files.InteractionTests
 		{
 			get
 			{
-				if (_session is null)
+				if (_session == null)
 				{
 					CreateSession(null);
 				}
@@ -61,13 +57,13 @@ namespace Files.InteractionTests
 		[AssemblyInitialize]
 		public static void CreateSession(TestContext _)
 		{
-			if (_session is null)
+			if (_session == null)
 			{
 
 				int timeoutCount = 50;
 
-				tryInitializeSession();
-				if (_session is null)
+                tryInitializeSession();
+				if (_session == null)
 				{
 					// WinAppDriver is probably not running, so lets start it!
 					if (File.Exists(@"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"))
@@ -84,17 +80,17 @@ namespace Files.InteractionTests
 					}
 
 					Thread.Sleep(10000);
-					tryInitializeSession();
+                    tryInitializeSession();
 				}
 
-				while (_session is null && timeoutCount < 1000 * 4)
+                while (_session == null && timeoutCount < 1000 * 4)
 				{
-					tryInitializeSession();
+                    tryInitializeSession();
 					Thread.Sleep(timeoutCount);
 					timeoutCount *= 2;
 				}
 
-				Thread.Sleep(3000);
+                Thread.Sleep(3000);
 				Assert.IsNotNull(_session);
 				Assert.IsNotNull(_session.SessionId);
 
@@ -122,7 +118,7 @@ namespace Files.InteractionTests
 
 		public static void TearDown()
 		{
-			if (_session is not null)
+			if (_session != null)
 			{
 				_session.CloseApp();
 				_session.Quit();

@@ -1,28 +1,20 @@
-<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <IsPackable>false</IsPackable>
-        <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
-        <Platforms>x86;x64;arm64</Platforms>
-        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Files.InteractionTests</RootNamespace>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-        <DefineConstants>TRACE;DEBUG;NETFX_CORE</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
-        <DefineConstants>TRACE;RELEASE;NETFX_CORE</DefineConstants>
-        <Optimize>true</Optimize>
-    </PropertyGroup>
+    <IsPackable>false</IsPackable>
 
-    <ItemGroup>
-        <PackageReference Include="Appium.WebDriver" Version="4.4.5" />
-        <PackageReference Include="Axe.Windows" Version="2.3.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.3.1" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.3.1" />
-    </ItemGroup>
+    <Configurations>Debug;Release;Sideload</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Appium.WebDriver" Version="4.3.1" />
+    <PackageReference Include="Axe.Windows" Version="1.1.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+  </ItemGroup>
 
 </Project>

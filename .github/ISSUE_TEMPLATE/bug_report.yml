@@ -2,66 +2,54 @@ name: Bug Report
 description: Create a bug report to help improve Files
 labels: [bug]
 body:
-
-  # Description
   - type: textarea
     attributes:
       label: Description
-      description: A clear and concise description of what the issue is.
+      description: A clear and concise description of what the bug is.
     validations:
       required: true
-
-  # Step To Reproduce
   - type: textarea
     attributes:
       label: Steps To Reproduce
       description: Steps to reproduce the behavior.
       placeholder: |
-        1.
-        2.
-        3.
+        1. Go to '....'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See the error
     validations:
-      required: true
-
-  # Requirements
+      required: false
   - type: textarea
     attributes:
-      label: Requirements
-      description: describe the expected behavior (eg. Fix crash that occurs when...). If left blank, the issue will likely be closed without discussion.
-      value: |
-        - e.g. Fix crash that occurs when...
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
     validations:
       required: true
-
-  # Files Version
   - type: input
-    id: files_version
+    id: files-version
     attributes:
       label: Files Version
-      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version
-      placeholder: "e.g. 2.0.34.0"
+      description: Which version of Files are you using? The version number can be found by going to Files' Settings > About
+      placeholder: "e.g. Version: 2.0.34.0 OS Version: 10.0.22000.282"
     validations:
       required: true
-
-  # Windows Version
   - type: input
-    id: windows_version
     attributes:
       label: Windows Version
-      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version
-      placeholder: "e.g. 10.0.22621.1848"
+      description: Which version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
+      placeholder: e.g. Windows 11 21H2 22000.194
     validations:
       required: true
-
-  # Log File
   - type: textarea
     attributes:
-      label: Log File
+      label: Relevant Assets/Logs
       description: |
-        Please upload the log file as an attachment (DO NOT COPY OR PASTE THE CONTENTS INTO THIS FIELD)
+        A list of assets (logs, screenshots, etc) relevant to this bug.
+
+        Tip: You can attach image(s) or log file(s) by clicking this area to highlight it and then dragging files in.
       placeholder: |
         To upload the log, access it from Settings -> About -> Open log location; Or
-        - Select the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
-        - Drag and drop the file to upload as an attachment 
+        - Copy the `debug.log` and `debug_fulltrust.log` files from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
+        - Drag and drop them into this text area.
     validations:
       required: true

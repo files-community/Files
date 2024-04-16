@@ -1,0 +1,52 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BelowWindows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <!--  Background Resources  -->
+            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AA93A1A1" />
+            <Color x:Key="SolidBackgroundFillColorBase">#586E75</Color>
+            <Color x:Key="SolidBackgroundFillColorSecondary">#586E75</Color>
+            <Color x:Key="SolidBackgroundFillColorTertiary">#93A1A1</Color>
+            <Color x:Key="SolidBackgroundFillColorQuarternary">#3A494E</Color>
+            <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{ThemeResource SolidBackgroundFillColorBase}" />
+            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+            <!--  Acrylic Resources  -->
+            <Color x:Key="SolidBackgroundAcrylic">#93A1A1</Color>
+            <!--  Accent Color  -->
+            <Color x:Key="SystemAccentColor">#93A1A1</Color>
+            <Color x:Key="SystemAccentColorDark1">#93A1A1</Color>
+            <Color x:Key="SystemAccentColorDark2">#93A1A1</Color>
+            <Color x:Key="SystemAccentColorDark3">#93A1A1</Color>
+            <Color x:Key="SystemAccentColorLight1">#93A1A1</Color>
+            <Color x:Key="SystemAccentColorLight2">#93A1A1</Color>
+            <Color x:Key="SystemAccentColorLight3">#93A1A1</Color>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <!--  Background Resources  -->
+            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AAEEE8D5" />
+            <Color x:Key="SolidBackgroundFillColorBase">#EEE8D5</Color>
+            <Color x:Key="SolidBackgroundFillColorSecondary">#EEE8D5</Color>
+            <Color x:Key="SolidBackgroundFillColorTertiary">#FDF6E3</Color>
+            <Color x:Key="SolidBackgroundFillColorQuarternary">#c9c4b3</Color>
+            <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{ThemeResource SolidBackgroundFillColorBase}" />
+            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+            <!--  Acrylic Resources  -->
+            <Color x:Key="SolidBackgroundAcrylic">#EEE8D5</Color>
+            <!--  Accent Color  -->
+            <Color x:Key="SystemAccentColor">#EEE8D5</Color>
+            <Color x:Key="SystemAccentColorDark1">#EEE8D5</Color>
+            <Color x:Key="SystemAccentColorDark2">#EEE8D5</Color>
+            <Color x:Key="SystemAccentColorDark3">#EEE8D5</Color>
+            <Color x:Key="SystemAccentColorLight1">#EEE8D5</Color>
+            <Color x:Key="SystemAccentColorLight2">#EEE8D5</Color>
+            <Color x:Key="SystemAccentColorLight3">#EEE8D5</Color>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

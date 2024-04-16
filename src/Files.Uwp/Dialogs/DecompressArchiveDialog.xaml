@@ -1,0 +1,49 @@
+﻿<ContentDialog
+    x:Class="Files.Uwp.Dialogs.DecompressArchiveDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    Title="{helpers:ResourceString Name=DecompressArchiveDialog/Title}"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
+    DefaultButton="Primary"
+    PrimaryButtonText="Extract"
+    SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
+    RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <Grid
+        MinWidth="400"
+        Margin="0,16,0,0"
+        ColumnSpacing="6"
+        RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBox
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            IsReadOnly="True"
+            Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
+
+        <Button
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Background="Transparent"
+            Command="{x:Bind ViewModel.SelectDestinationCommand}"
+            Content="{helpers:ResourceString Name=Browse}" />
+
+        <CheckBox
+            Grid.Row="1"
+            Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete/Content}"
+            IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
+    </Grid>
+</ContentDialog>

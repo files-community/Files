@@ -4,9 +4,9 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Custom files
-Files.App.OpenDialog*.dll
-Files.App.SaveDialog*.dll
-Files.App.Launcher.exe
+CustomOpenDialog*.dll
+CustomSaveDialog*.dll
+FilesLauncher.exe
 
 # User-specific files
 *.suo
@@ -57,6 +57,7 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+**/Properties/launchSettings.json
 
 # StyleCop
 StyleCopReport.xml
@@ -173,6 +174,7 @@ publish/
 *.azurePubxml
 # Note: Comment the next line if you want to checkin your web deploy settings,
 # but database connection strings (with potential passwords) will be unencrypted
+*.pubxml
 *.publishproj
 
 # Microsoft Azure Web App publish settings. Comment the next line if you want to

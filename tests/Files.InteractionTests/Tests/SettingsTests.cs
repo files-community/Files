@@ -1,14 +1,11 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
-
-using OpenQA.Selenium.Interactions;
-using System;
+﻿using System;
 using System.Threading;
+using OpenQA.Selenium.Interactions;
 
 namespace Files.InteractionTests.Tests
 {
 	[TestClass]
-	public sealed class SettingsTests
+	public class SettingsTests
 	{
 
 		[TestCleanup]
@@ -26,14 +23,10 @@ namespace Files.InteractionTests.Tests
 
 			var settingsItems = new string[]
 			{
-				"SettingsItemGeneral",
 				"SettingsItemAppearance",
-				//"SettingsItemLayout", TODO find workaround for the "Group by" setting block issue
-				"SettingsItemFolders",
-				"SettingsItemActions",
-				"SettingsItemTags",
-				"SettingsItemGit",
-				"SettingsItemAdvanced",
+				"SettingsItemPreferences",
+				"SettingsItemMultitasking",
+				"SettingsItemExperimental",
 				"SettingsItemAbout"
 			};
 
@@ -43,8 +36,8 @@ namespace Files.InteractionTests.Tests
 				{
 					try
 					{
-						Console.WriteLine("Invoking button:" + item);
-						Thread.Sleep(3000);
+						Console.WriteLine("Inoking button:" + item);
+						Thread.Sleep(2000);
 						TestHelper.InvokeButtonById(item);
 						i = 1000;
 					}
