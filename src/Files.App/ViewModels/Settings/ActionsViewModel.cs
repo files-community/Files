@@ -41,6 +41,13 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _ShowAddNewKeyBindingBlock, value);
 		}
 
+		private int _SelectedActionItemIndex;
+		public int SelectedActionItemIndex
+		{
+			get => _SelectedActionItemIndex;
+			set => SetProperty(ref _SelectedActionItemIndex, value);
+		}
+
 		private ModifiableActionItem? _SelectedActionItem;
 		public ModifiableActionItem? SelectedActionItem
 		{
@@ -210,7 +217,7 @@ namespace Files.App.ViewModels.Settings
 			// Exit edit mode
 			ShowAddNewKeyBindingBlock = false;
 			SelectedActionItem.LocalizedKeyBindingLabel = string.Empty;
-			SelectedActionItem = null;
+			SelectedActionItemIndex = -1;
 
 			// Add to existing list
 			ValidActionItems.Insert(0, selectedNewItem);
@@ -223,7 +230,7 @@ namespace Files.App.ViewModels.Settings
 
 		private void ExecuteRestoreDefaultsCommand()
 		{
-			ActionsSettingsService.ActionsV2 = null;
+			ActionsSettingsService.ActionsV2 = [];
 			IsResetAllConfirmationTeachingTipOpened = false;
 
 			_ = ExecuteLoadAllActionsCommand();

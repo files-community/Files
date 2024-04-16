@@ -131,6 +131,7 @@
 					Padding="0"
 					ItemsSource="{x:Bind ViewModel.AllActionItems, Mode=OneWay}"
 					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
+					SelectedIndex="{x:Bind ViewModel.SelectedActionItemIndex, Mode=TwoWay}"
 					SelectedItem="{x:Bind ViewModel.SelectedActionItem, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="dataitems:ModifiableActionItem">
