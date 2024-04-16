@@ -131,7 +131,7 @@ namespace Files.App.Data.Contexts
 		{
 			context.Changing += Context_Changing;
 			context.Changed += Context_Changed;
-			settings.PropertyChanged += Settings_PropertyChanged;
+			layoutSettingsService.PropertyChanged += Settings_PropertyChanged;
 		}
 
 		private void Context_Changing(object? sender, EventArgs e)
