@@ -19,9 +19,10 @@ namespace Files.App.ViewModels.Dialogs
 			//App.Logger.LogWarning(string.Join(", ", SidebarPinnedFolderItems.Select(x => x.Path)));
 			PrimaryButtonCommand = new RelayCommand(SaveChanges);
 
-			SidebarPinnedFolderItems = new(quickAccessService.PinnedFolderItems
-			.Where(x => x is LocationItem loc && loc.Section is SectionType.Pinned && !loc.IsHeader)
-			.Cast<LocationItem>())
+			SidebarPinnedFolderItems =
+				new(quickAccessService.PinnedFolderItems
+					.Where(x => x is LocationItem loc && loc.Section is SectionType.Pinned && !loc.IsHeader)
+					.Cast<LocationItem>());
 		}
 
 		public void SaveChanges()
