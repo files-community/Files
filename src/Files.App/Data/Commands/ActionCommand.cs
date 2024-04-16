@@ -62,20 +62,11 @@ namespace Files.App.Data.Commands
 			get => hotKeys;
 			set
 			{
-				if (hotKeys == value)
-					return;
-
-				string code = Code.ToString();
-				var customs = new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2);
-
-				if (!customs.Any(action => action.CommandCode == Code.ToString()))
-					customs.Add(new ActionWithParameterItem(Code.ToString(), value.RawLabel, ""));
-				else if (value != CommandManager.GetDefaultKeyBindings(Action))
-					customs.First(x => x.CommandCode == Code.ToString()).KeyBinding = value.RawLabel;
-				else
-					customs.Remove(customs.First(x => x.CommandCode == Code.ToString()));
-
-				ActionsSettingsService.ActionsV2 = customs;
+				if (SetProperty(ref hotKeys, value))
+				{
+					OnPropertyChanged(nameof(HotKeyText));
+					OnPropertyChanged(nameof(LabelWithHotKey));
+				}
 			}
 		}
 
@@ -142,12 +133,7 @@ namespace Files.App.Data.Commands
 		internal void OverwriteKeyBindings(bool isCustom, HotKeyCollection hotKeys)
 		{
 			SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
-
-			if (SetProperty(ref this.hotKeys, hotKeys, nameof(HotKeys)))
-			{
-				OnPropertyChanged(nameof(HotKeyText));
-				OnPropertyChanged(nameof(LabelWithHotKey));
-			}
+			HotKeys = this.hotKeys;
 		}
 
 		private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)

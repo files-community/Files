@@ -96,7 +96,7 @@
 					Grid.Column="1"
 					Command="{x:Bind ViewModel.ShowAddNewKeyBindingBlockCommand, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=AddCommand}"
-					IsEnabled="{x:Bind ViewModel.SelectedActionItem, Converter={StaticResource NullToNegateBooleanConverter}, Mode=OneWay}" />
+					IsEnabled="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 				<!--  Restore Defaults Button  -->
 				<Button

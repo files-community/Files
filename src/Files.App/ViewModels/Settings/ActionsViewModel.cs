@@ -216,7 +216,6 @@ namespace Files.App.ViewModels.Settings
 
 			// Exit edit mode
 			ShowAddNewKeyBindingBlock = false;
-			SelectedActionItem.LocalizedKeyBindingLabel = string.Empty;
 			SelectedActionItemIndex = -1;
 
 			// Add to existing list
