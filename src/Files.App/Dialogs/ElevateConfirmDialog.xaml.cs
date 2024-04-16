@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Dialogs;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ElevateConfirmDialog : ContentDialog, IDialog<ElevateConfirmDialogViewModel>
 	{
+		private FrameworkElement RootAppElement
+			=> (FrameworkElement)MainWindow.Instance.Content;
+
 		public ElevateConfirmDialogViewModel ViewModel
 		{
 			get => (ElevateConfirmDialogViewModel)DataContext;

@@ -12,6 +12,9 @@ namespace Files.App.Dialogs
 	{
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
+		private FrameworkElement RootAppElement
+			=> (FrameworkElement)MainWindow.Instance.Content;
+
 		public AddItemDialogViewModel ViewModel
 		{
 			get => (AddItemDialogViewModel)DataContext;

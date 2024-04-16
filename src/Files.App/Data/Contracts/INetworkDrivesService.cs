@@ -1,7 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Services
+using Files.Core.Storage.LocatableStorage;
+
+namespace Files.App.Data.Contracts
 {
 	public interface INetworkDrivesService
 	{

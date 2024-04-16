@@ -3,7 +3,7 @@
 
 using Files.Core.Storage.LocatableStorage;
 
-namespace Files.App.Services
+namespace Files.App.Data.Contracts
 {
 	/// <summary>
 	/// Represents a service to enumerate drives and create a storage device watcher

@@ -26,6 +26,13 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
+		public string AppThemeMode
+		{
+			get => Get("Default");
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
 		public String AppThemeBackgroundColor
 		{
 			get => Get("#00000000");

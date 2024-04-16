@@ -956,11 +956,13 @@ namespace Files.App.ViewModels.UserControls
 					return true;
 				}))
 				{
-					NavigationBarSuggestions.Clear();
-					NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
-					{
-						Text = shellpage.FilesystemViewModel.WorkingDirectory,
-						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
+					SafetyExtensions.IgnoreExceptions(() => {
+						NavigationBarSuggestions.Clear();
+						NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
+						{
+							Text = shellpage.FilesystemViewModel.WorkingDirectory,
+							PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
+						});
 					});
 				}
 			}

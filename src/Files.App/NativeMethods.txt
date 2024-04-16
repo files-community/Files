@@ -43,3 +43,5 @@ CopyFileFromApp
 MoveFileFromApp
 DeleteFileFromApp
 RemoveDirectoryFromApp
+GetKeyState
+CreateDirectoryFromApp

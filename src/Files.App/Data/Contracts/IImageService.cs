@@ -4,7 +4,7 @@
 using Files.Core.Storage;
 using Files.Shared.Utils;
 
-namespace Files.App.Services
+namespace Files.App.Data.Contracts
 {
 	/// <summary>
 	/// Represents a service used for data to image conversion.

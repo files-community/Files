@@ -75,10 +75,6 @@ namespace Files.App.ViewModels
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
 
-			// Initialize the static theme helper to capture a reference to this window
-			// to handle theme changes without restarting the app
-			var isInitialized = ThemeHelper.Initialize();
-
 			var parameter = e.Parameter;
 			var ignoreStartupSettings = false;
 			if (parameter is MainPageNavigationArguments mainPageNavigationArguments)
@@ -178,15 +174,12 @@ namespace Files.App.ViewModels
 					await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 			}
 
-			if (isInitialized)
-			{
-				// Load the app theme resources
-				ResourcesService.LoadAppResources(AppearanceSettingsService);
+			// Load the app theme resources
+			ResourcesService.LoadAppResources(AppearanceSettingsService);
 
-				await Task.WhenAll(
-					DrivesViewModel.UpdateDrivesAsync(),
-					NetworkDrivesService.UpdateDrivesAsync());
-			}
+			await Task.WhenAll(
+				DrivesViewModel.UpdateDrivesAsync(),
+				NetworkDrivesService.UpdateDrivesAsync());
 		}
 
 		// Command methods
