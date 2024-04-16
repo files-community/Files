@@ -132,13 +132,27 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 		ShExecInfo.lpParameters = args;
 		CoTaskMemFree(pszPath);
 	}
-
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
-	if (ShExecInfo.hProcess)
+
+	MSG msg;
+	while (ShExecInfo.hProcess)
 	{
-		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
-		CloseHandle(ShExecInfo.hProcess);
+		switch (MsgWaitForMultipleObjectsEx(1, &ShExecInfo.hProcess, INFINITE, QS_ALLINPUT, 0))
+		{
+		case WAIT_OBJECT_0:
+			CloseHandle(ShExecInfo.hProcess);
+			ShExecInfo.hProcess = NULL;
+			break;
+		case WAIT_OBJECT_0 + 1:
+			while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			continue;
+		default: __debugbreak();
+		}
 	}
 
 	if (hwndOwner)
