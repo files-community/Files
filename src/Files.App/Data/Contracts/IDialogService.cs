@@ -4,7 +4,7 @@
 using Files.App.ViewModels.Dialogs;
 using Files.App.Data.Enums;
 
-namespace Files.App.Services
+namespace Files.App.Data.Contracts
 {
 	/// <summary>
 	/// A service to manage dialogs.

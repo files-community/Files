@@ -8,6 +8,7 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed class AppearanceViewModel : ObservableObject
 	{
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private readonly IUserSettingsService UserSettingsService;
 		private readonly IResourcesService ResourcesService;
 
@@ -20,6 +21,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			UserSettingsService = userSettingsService;
 			ResourcesService = resourcesService;
+			selectedThemeIndex = (int)Enum.Parse<ElementTheme>(AppThemeModeService.AppThemeMode.ToString());
 
 			Themes =
 			[
@@ -84,7 +86,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
+		private int selectedThemeIndex;
 		public int SelectedThemeIndex
 		{
 			get => selectedThemeIndex;
@@ -92,7 +94,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (SetProperty(ref selectedThemeIndex, value))
 				{
-					ThemeHelper.RootTheme = (ElementTheme)value;
+					AppThemeModeService.AppThemeMode = (ElementTheme)value;
 					OnPropertyChanged(nameof(SelectedElementTheme));
 				}
 			}

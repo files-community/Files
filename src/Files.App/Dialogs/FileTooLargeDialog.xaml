@@ -11,7 +11,7 @@
 	DefaultButton="Primary"
 	HighContrastAdjustment="None"
 	PrimaryButtonText="{helpers:ResourceString Name=OK}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 

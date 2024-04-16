@@ -903,22 +903,24 @@ namespace Files.App.Views.Layouts
 				}
 			}
 
-			// Add items to main shell submenu
-			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
+			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+			
+			var mainSubMenuTasks = mainItemsWithSubMenu.Select(async item =>
 			{
-				await x.LoadSubMenuAction();
-
-				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, x);
+				await item.LoadSubMenuAction();
+				ShellContextFlyoutFactory.AddItemsToMainMenu(mainItems, item);
 			});
 
-			// Add items to overflow shell submenu
-			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			// Filter overflowShellMenuItems that have a non-null LoadSubMenuAction
+			var overflowItemsWithSubMenu = overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
+
+			var overflowSubMenuTasks = overflowItemsWithSubMenu.Select(async item =>
 			{
-				await x.LoadSubMenuAction();
-
-				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, x);
+				await item.LoadSubMenuAction();
+				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
 			});
-
+			
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
 				// Enable CharacterEllipsis text trimming for menu items
@@ -944,6 +946,8 @@ namespace Files.App.Views.Layouts
 					clickAction(flyout.Items);
 				}
 			});
+			
+			await Task.WhenAll(mainSubMenuTasks.Concat(overflowSubMenuTasks));
 		}
 
 		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)

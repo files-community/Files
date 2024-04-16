@@ -43,6 +43,8 @@ namespace Files.App.Utils.Cloud
 
 		ownCloud,
 
-		ProtonDrive
+		ProtonDrive,
+
+		LucidLink
 	}
 }

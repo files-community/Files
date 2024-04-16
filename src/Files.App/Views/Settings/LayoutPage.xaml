@@ -3,6 +3,7 @@
 	x:Class="Files.App.Views.Settings.LayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
@@ -11,7 +12,13 @@
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+		<ResourceDictionary>
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</Page.Resources>
 
 	<Page.DataContext>
@@ -46,6 +53,7 @@
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch
+					x:Name="SyncPreferencesToggleSwitch"
 					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
@@ -63,7 +71,7 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Grid}" />
-					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" IsEnabled="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 				</ComboBox>
 			</local:SettingsBlockControl>
 
@@ -200,5 +208,13 @@
 			</local:SettingsBlockControl>
 
 		</StackPanel>
+
+		<!--  Adaptive Layout Disabled Teaching Tip  -->
+		<TeachingTip
+			CloseButtonContent="{helpers:ResourceString Name=OK}"
+			IsLightDismissEnabled="True"
+			IsOpen="{x:Bind ViewModel.ShowAdaptiveDisabledTeachingTip, Mode=TwoWay}"
+			Subtitle="{helpers:ResourceString Name=AdaptiveLayoutDisabledNotification}"
+			Target="{x:Bind SyncPreferencesToggleSwitch}" />
 	</Grid>
 </Page>

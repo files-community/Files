@@ -11,7 +11,7 @@
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="None"
 	HighContrastAdjustment="None"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 	<ContentDialog.Resources>

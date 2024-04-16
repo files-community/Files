@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.ViewModels.Dialogs;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
@@ -11,14 +10,11 @@ using System.Net.Http.Json;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace Files.App.Utils.Git
 {
 	internal static class GitHelpers
 	{
-		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
-
 		private const string GIT_RESOURCE_NAME = "Files:https://github.com";
 
 		private const string GIT_RESOURCE_USERNAME = "Personal Access Token";
@@ -320,7 +316,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrEmpty(branchName) || !Repository.IsValid(repositoryPath))
 				return false;
 
-			var nameValidator = new Regex(BRANCH_NAME_PATTERN);
+			var nameValidator = RegexHelpers.GitBranchName();
 			if (!nameValidator.IsMatch(branchName))
 				return false;
 

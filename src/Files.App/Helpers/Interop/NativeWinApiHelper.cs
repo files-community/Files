@@ -12,9 +12,6 @@ namespace Files.App.Helpers
 {
 	public sealed class NativeWinApiHelper
 	{
-		[DllImport("user32.dll")]
-		public static extern short GetKeyState(short code);
-
 		[DllImport("Shcore.dll", SetLastError = true)]
 		public static extern int GetDpiForMonitor(IntPtr hmonitor, uint dpiType, out uint dpiX, out uint dpiY);
 
