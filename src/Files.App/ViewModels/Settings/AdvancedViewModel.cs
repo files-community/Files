@@ -135,12 +135,18 @@ namespace Files.App.ViewModels.Settings
 
 			try
 			{
-				using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialog32.dll")}""");
-				await regProc32.WaitForExitAsync();
-				using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialog64.dll")}""");
-				await regProc64.WaitForExitAsync();
-				using var regProcARM64 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialogARM64.dll")}""");
-				await regProcARM64.WaitForExitAsync();
+				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialog32.dll")}"""))
+					await regProc.WaitForExitAsync();
+				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialog64.dll")}"""))
+					await regProc.WaitForExitAsync();
+				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialogARM64.dll")}"""))
+					await regProc.WaitForExitAsync();
+				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.SaveDialog32.dll")}"""))
+					await regProc.WaitForExitAsync();
+				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.SaveDialog64.dll")}"""))
+					await regProc.WaitForExitAsync();
+				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.SaveDialogARM64.dll")}"""))
+					await regProc.WaitForExitAsync();
 			}
 			catch
 			{
@@ -248,9 +254,13 @@ namespace Files.App.ViewModels.Settings
 
 		private bool DetectIsSetAsOpenFileDialog()
 		{
-			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
+			using var subkeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
+			using var subkeySave = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{C0B4E2F3-BA21-4773-8DBA-335EC946EB8B}");
 
-			return subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
+			var isSetAsOpenDialog = subkeyOpen?.GetValue(string.Empty) as string == "FilesOpenDialog class";
+			var isSetAsSaveDialog = subkeySave?.GetValue(string.Empty) as string == "FilesSaveDialog class";
+
+			return isSetAsOpenDialog || isSetAsSaveDialog;
 		}
 
 		private bool isSetAsDefaultFileManager;

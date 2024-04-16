@@ -279,6 +279,7 @@ HRESULT __stdcall CFilesSaveDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem
 #ifdef SYSTEMDIALOG
 	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddControlItem(dwIDCtl, dwIDItem, pszLabel);
 #endif
+	_ctrlItems.push_back(dwIDItem);
 	return S_OK;
 }
 
@@ -325,8 +326,11 @@ HRESULT __stdcall CFilesSaveDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD*
 #ifdef SYSTEMDIALOG
 	return AsInterface<IFileDialogCustomize>(_systemDialog)->GetSelectedControlItem(dwIDCtl, pdwIDItem);
 #endif
-	* pdwIDItem = 0;
-	return S_OK;
+	if (!_ctrlItems.empty()) {
+		*pdwIDItem = _ctrlItems.back();
+		return S_OK;
+	}
+	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem)
@@ -335,6 +339,7 @@ HRESULT __stdcall CFilesSaveDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD 
 #ifdef SYSTEMDIALOG
 	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetSelectedControlItem(dwIDCtl, dwIDItem);
 #endif
+	_ctrlItems.push_back(dwIDItem);
 	return S_OK;
 }
 
@@ -378,7 +383,7 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 {
 	wchar_t wnd_title[1024];
 	GetWindowText(hwndOwner, wnd_title, 1024);
-	wcout << L"Show, hwndOwner: " << wnd_title << endl;
+	wcout << L"Show, ID: " << GetCurrentProcessId() << endl;
 
 #ifdef SYSTEMDIALOG
 	HRESULT res = _systemDialog->Show(NULL);
@@ -391,6 +396,9 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
 	ShExecInfo.lpFile = L"files.exe";
 	PWSTR pszPath = NULL;
+
+	HANDLE closeEvent = CreateEvent(NULL, FALSE, FALSE, TEXT("FILEDIALOG"));
+
 	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
 	{
 		TCHAR args[1024];
@@ -408,14 +416,36 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	}
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
-	if (ShExecInfo.hProcess)
+
+	if (hwndOwner)
+		EnableWindow(hwndOwner, FALSE);
+
+	MSG msg;
+	while (ShExecInfo.hProcess)
 	{
-		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
-		CloseHandle(ShExecInfo.hProcess);
+		switch (MsgWaitForMultipleObjectsEx(1, &closeEvent, INFINITE, QS_ALLINPUT, 0))
+		{
+		case WAIT_OBJECT_0:
+			CloseHandle(ShExecInfo.hProcess);
+			ShExecInfo.hProcess = NULL;
+			break;
+		case WAIT_OBJECT_0 + 1:
+			while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			continue;
+		default: __debugbreak();
+		}
 	}
+
+	if (closeEvent)
+		CloseHandle(closeEvent);
 
 	if (hwndOwner)
 	{
+		EnableWindow(hwndOwner, TRUE);
 		SetForegroundWindow(hwndOwner);
 	}
 
@@ -447,7 +477,7 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	}
 	if (!_selectedItem.empty())
 	{
-		if (_dialogEvents && std::wstring(wnd_title).find(L"Visual Studio") == std::string::npos)
+		if (_dialogEvents)
 		{
 			_dialogEvents->OnFileOk(this);
 		}
@@ -494,6 +524,7 @@ HRESULT __stdcall CFilesSaveDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCo
 	return _systemDialog->Advise(pfde, pdwCookie);
 #endif
 	_dialogEvents = pfde;
+	_dialogEvents->AddRef();
 	*pdwCookie = 4;
 	return S_OK;
 }
@@ -504,6 +535,7 @@ HRESULT __stdcall CFilesSaveDialog::Unadvise(DWORD dwCookie)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->Unadvise(dwCookie);
 #endif
+	_dialogEvents->Release();
 	_dialogEvents = NULL;
 	return S_OK;
 }
@@ -1037,7 +1069,11 @@ HRESULT __stdcall CFilesSaveDialog::GetProperties(IPropertyStore** ppStore)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->GetProperties(ppStore);
 #endif
-	* ppStore = 0;
+	if (!_selectedItem.empty())
+	{
+		return SHGetPropertyStoreFromParsingName(_selectedItem.c_str(),
+			NULL, GPS_DEFAULT, __uuidof(IPropertyStore), (void**)ppStore);
+	}
 	return E_NOTIMPL;
 }
 
