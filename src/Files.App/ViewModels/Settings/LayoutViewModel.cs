@@ -43,6 +43,7 @@ namespace Files.App.ViewModels.Settings
 
 					if (value && DefaultLayoutMode is FolderLayoutModes.Adaptive)
 					{
+						// Change the default layout to Details, as Adaptive layout is not available when preferences are synced.
 						SelectedDefaultLayoutModeIndex = 0;
 						ShowAdaptiveDisabledTeachingTip = true;
 					}

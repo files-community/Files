@@ -53,6 +53,7 @@
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch
+					x:Name="SyncPreferencesToggleSwitch"
 					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
@@ -64,10 +65,7 @@
 					<FontIcon Glyph="&#xE8BA;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox
-					x:Name="LayoutTypeComboBox"
-					AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}"
-					SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
+				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=List}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
@@ -217,6 +215,6 @@
 			IsLightDismissEnabled="True"
 			IsOpen="{x:Bind ViewModel.ShowAdaptiveDisabledTeachingTip, Mode=TwoWay}"
 			Subtitle="{helpers:ResourceString Name=AdaptiveLayoutDisabledNotification}"
-			Target="{x:Bind LayoutTypeComboBox}" />
+			Target="{x:Bind SyncPreferencesToggleSwitch}" />
 	</Grid>
 </Page>
