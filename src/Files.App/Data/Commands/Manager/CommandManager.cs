@@ -379,7 +379,7 @@ namespace Files.App.Data.Commands
 
 				var hotkeys = customizedItems.IsEmpty()
 					? new HotKeyCollection(GetDefaultKeyBindings(command.Action))
-					: new(customizedItems.Select(x => HotKey.Parse(x.KeyBinding)));
+					: new(customizedItems.Select(x => HotKey.Parse(x.KeyBinding, false)));
 
 				// Replace with custom hotkeys
 				command.OverwriteKeyBindings(customizedItems != null, hotkeys);

@@ -105,7 +105,13 @@ namespace Files.App.ViewModels.Settings
 					foreach (var keyBinding in command.HotKeys)
 					{
 						// Don't show mouse key bindings for now because no editor provided for mouse input as of now
-						if (!keyBinding.IsVisible || keyBinding.Key == Keys.Mouse4 || keyBinding.Key == Keys.Mouse5)
+						if (!keyBinding.IsVisible ||
+							keyBinding.LocalizedLabel == string.Empty ||
+							keyBinding.RawLabel == string.Empty ||
+							keyBinding.IsNone ||
+							keyBinding.Key == Keys.None ||
+							keyBinding.Key == Keys.Mouse4 ||
+							keyBinding.Key == Keys.Mouse5)
 							continue;
 
 						ValidActionItems.Add(new()
@@ -340,23 +346,26 @@ namespace Files.App.ViewModels.Settings
 
 			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
 			{
-				if (item.DefaultKeyBindings.Where(x => x.RawLabel != item.PreviousKeyBinding.RawLabel).Count() is 0)
+				int index = 0;
+
+				// Any item related this action has never been customized
+				foreach (var defaultKey in item.DefaultKeyBindings)
 				{
+					if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
+						actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
+
+					index++;
+				}
+
+				if (index is 0)
 					actions.Add(new(item.CommandCode.ToString(), string.Empty));
-				}
-				else
-				{
-					// Any item related this action has never been customized
-					foreach (var defaultKey in item.DefaultKeyBindings)
-					{
-						if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
-							actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
-					}
-				}
 			}
 			else
 			{
 				actions.RemoveAll(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+
+				if (actions.FindAll(x => x.CommandCode == item.CommandCode.ToString()).IsEmpty())
+					actions.Add(new(item.CommandCode.ToString(), string.Empty));
 			}
 
 			// Set to the user settings
