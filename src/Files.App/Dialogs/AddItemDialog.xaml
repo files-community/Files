@@ -1,0 +1,81 @@
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ContentDialog
+	x:Class="Files.App.Dialogs.AddItemDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:Files.App.ViewModels.Dialogs.AddItemDialog"
+	x:Name="AddDialog"
+	Title="{helpers:ResourceString Name=AddDialog/Title}"
+	Grid.RowSpan="4"
+	BorderThickness="0"
+	CornerRadius="{StaticResource OverlayCornerRadius}"
+	HighContrastAdjustment="None"
+	Loaded="AddItemDialog_Loaded"
+	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
+	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<ContentDialog.Resources>
+		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+	</ContentDialog.Resources>
+
+	<Grid RowSpacing="25">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Grid x:Name="SubtitleArea">
+			<TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
+		</Grid>
+
+		<Grid
+			x:Name="SelectionListContent"
+			Grid.Row="1"
+			HorizontalAlignment="Stretch">
+			<ListView
+				x:Name="AddItemsListView"
+				Width="400"
+				IsItemClickEnabled="True"
+				ItemClick="ListView_ItemClick"
+				ItemsSource="{x:Bind ViewModel.AddItemsList}">
+				<ListView.ItemTemplate>
+					<DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
+						<Grid Height="50">
+							<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+								<Grid Margin="0,0,10,0" VerticalAlignment="Center">
+									<Viewbox
+										x:Name="IconRoot"
+										Width="24"
+										Height="24"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center">
+										<FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" />
+									</Viewbox>
+									<Image
+										Width="24"
+										Height="24"
+										Margin="0"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center"
+										Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}"
+										Stretch="Uniform" />
+								</Grid>
+								<StackPanel>
+									<TextBlock Text="{x:Bind Header, Mode=OneWay}" />
+									<TextBlock Foreground="Gray" Text="{x:Bind SubHeader, Mode=OneWay}" />
+								</StackPanel>
+							</StackPanel>
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</Grid>
+
+	</Grid>
+</ContentDialog>

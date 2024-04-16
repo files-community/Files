@@ -1,0 +1,38 @@
+name: Code Quality Issue
+description: Create a code quality issue to help Files keep a clean codebase
+labels: [codebase quality]
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the code quality issue is.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Concerned code
+      description: A list of the different files and/or areas of the code concerned by the issue.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Gains
+      description: What would fixing this code quality issue bring to the source code? 
+      value: |
+        - eg. A better readability.
+        - eg. Uncoupling concepts X and Y.
+        - eg. Clarifying the responsibility of class C.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Requirements
+      description: Describe all the requirements to solve the code quality issue.
+      value: |
+        - eg. Using a specific design pattern.
+        - eg. Separating Interface I into three new interfaces I1, I2 and I3.
+        - eg. Regrouping the duplicated process into a new helper.
+  - type: textarea
+    attributes:
+      label: Comments
+      description: Additional information, comments or screenshots about the code quality issue.

@@ -1,0 +1,23 @@
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:uc="using:Files.App.UserControls">
+
+	<Style TargetType="uc:Shimmer">
+		<Setter Property="CornerRadius" Value="4" />
+		<Setter Property="MinWidth" Value="8" />
+		<Setter Property="MinHeight" Value="8" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="uc:Shimmer">
+					<Border
+						x:Name="Shape"
+						Background="{TemplateBinding Background}"
+						CornerRadius="{TemplateBinding CornerRadius}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
