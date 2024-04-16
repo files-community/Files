@@ -10,7 +10,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using Windows.Win32;
-using Files.App.Data.Regex;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage

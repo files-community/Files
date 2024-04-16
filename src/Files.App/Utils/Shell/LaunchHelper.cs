@@ -4,8 +4,6 @@
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using System.Text.RegularExpressions;
-using Files.App.Data.Regex;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 

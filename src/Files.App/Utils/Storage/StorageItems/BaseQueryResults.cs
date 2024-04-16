@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
-using Files.App.Data.Regex;
 
 namespace Files.App.Utils.Storage
 {

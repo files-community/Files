@@ -2,11 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
-using System.Text.RegularExpressions;
 using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
-using Files.App.Data.Regex;
 
 namespace Files.App.Utils.RecycleBin
 {

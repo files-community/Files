@@ -6,10 +6,9 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
-using System.Text.RegularExpressions;
 using Windows.Storage;
 using Windows.Win32;
-using RegexHelpers = Files.App.Data.Regex.RegexHelpers;
+using Files.App.Helpers;
 
 namespace Files.App.Views.Properties
 {
@@ -28,7 +27,7 @@ namespace Files.App.Views.Properties
 
 		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
 		{
-			ItemFileName.Text = RegexHelpers.DriveLetterRegex().Replace(ItemFileName.Text, string.Empty);
+			ItemFileName.Text = RegexHelpers.DriveLetter().Replace(ItemFileName.Text, string.Empty);
 		}
 
 		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
@@ -39,7 +38,7 @@ namespace Files.App.Views.Properties
 				return;
 			}
 
-			var match = RegexHelpers.DriveLetterRegex().Match(ViewModel.OriginalItemName);
+			var match = RegexHelpers.DriveLetter().Match(ViewModel.OriginalItemName);
 			if (match.Success)
 				ItemFileName.Text += match.Value;
 		}
@@ -85,7 +84,7 @@ namespace Files.App.Views.Properties
 				if (!GetNewName(out var newName) || fsVM is null)
 					return false;
 
-				newName = RegexHelpers.DriveLetterRegex().Replace(newName, string.Empty); // Remove "(C:)" from the new label
+				newName = RegexHelpers.DriveLetter().Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
 				if (drive.Type == Data.Items.DriveType.Network)
 					Win32Helper.SetNetworkDriveLabel(drive.DeviceID, newName);

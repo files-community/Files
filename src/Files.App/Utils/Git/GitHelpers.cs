@@ -10,7 +10,6 @@ using System.Net.Http.Json;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using Files.App.Data.Regex;
 
 namespace Files.App.Utils.Git
 {

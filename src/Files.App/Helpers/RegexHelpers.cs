@@ -2,30 +2,29 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Text.RegularExpressions;
-using RegularExpression = System.Text.RegularExpressions.Regex;
 
-namespace Files.App.Data.Regex;
+namespace Files.App.Helpers;
 
 public static partial class RegexHelpers
 {
 	[GeneratedRegex(@"\w:\w")]
-	public static partial RegularExpression AlternateStream();
+	public static partial Regex AlternateStream();
 	
 	[GeneratedRegex("(?<=^[^\"]*(?:\"[^\"]*\"[^\"]*)*) (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")]
-	public static partial RegularExpression SpaceSplit();
+	public static partial Regex SpaceSplit();
 	
 	[GeneratedRegex(@"^\\\\\?\\[^\\]*\\?")]
-	public static partial RegularExpression WindowsPath();
+	public static partial Regex WindowsPath();
 	
 	[GeneratedRegex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-	public static partial RegularExpression RecycleBinPath();
+	public static partial Regex RecycleBinPath();
 	
 	[GeneratedRegex(@"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$")]
-	public static partial RegularExpression GitBranchName();
+	public static partial Regex GitBranchName();
 	
 	[GeneratedRegex(@"\s+")]
-	public static partial RegularExpression WhitespaceAtLeastOnce();
+	public static partial Regex WhitespaceAtLeastOnce();
 	
 	[GeneratedRegex(@"\s*\(\w:\)$")]
-	public static partial RegularExpression DriveLetterRegex();
+	public static partial Regex DriveLetter();
 }

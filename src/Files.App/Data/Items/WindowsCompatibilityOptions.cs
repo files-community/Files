@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
-using RegexHelpers = Files.App.Data.Regex.RegexHelpers;
 
 namespace Files.App.Data.Items
 {
