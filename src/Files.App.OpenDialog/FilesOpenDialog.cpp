@@ -124,6 +124,8 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	ShExecInfo.lpFile = L"files.exe";
 	PWSTR pszPath = NULL;
 
+	HANDLE closeEvent = CreateEvent(NULL, FALSE, FALSE, TEXT("FILEDIALOG"));
+
 	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
 	{
 		TCHAR args[1024];
@@ -141,7 +143,7 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	MSG msg;
 	while (ShExecInfo.hProcess)
 	{
-		switch (MsgWaitForMultipleObjectsEx(1, &ShExecInfo.hProcess, INFINITE, QS_ALLINPUT, 0))
+		switch (MsgWaitForMultipleObjectsEx(1, &closeEvent, INFINITE, QS_ALLINPUT, 0))
 		{
 		case WAIT_OBJECT_0:
 			CloseHandle(ShExecInfo.hProcess);
@@ -157,6 +159,9 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 		default: __debugbreak();
 		}
 	}
+
+	if (closeEvent)
+		CloseHandle(closeEvent);
 
 	if (hwndOwner)
 	{
