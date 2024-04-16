@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
-using System.Text.RegularExpressions;
 using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
@@ -12,8 +11,6 @@ namespace Files.App.Utils.RecycleBin
 	public static class RecycleBinHelpers
 	{
 		private static readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
-
-		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -41,7 +38,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static bool IsPathUnderRecycleBin(string path)
 		{
-			return !string.IsNullOrWhiteSpace(path) && recycleBinPathRegex.IsMatch(path);
+			return !string.IsNullOrWhiteSpace(path) && RegexHelpers.RecycleBinPath().IsMatch(path);
 		}
 
 		public static async Task EmptyRecycleBinAsync()
