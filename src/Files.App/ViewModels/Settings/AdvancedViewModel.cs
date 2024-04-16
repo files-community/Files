@@ -277,6 +277,11 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref isSetAsOpenFileDialog, value);
 		}
 
+		public bool CanShowSetAsOpenFileDialog
+		{
+			get => AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
+		}
+
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
