@@ -28,23 +28,22 @@ namespace Files.App.Services
 		{
 			_Drives = [];
 
-			var networkItem = new DriveItem
+			var networkItem = new DriveItem()
 			{
 				DeviceID = "network-folder",
 				Text = "Network".GetLocalizedResource(),
 				Path = Constants.UserEnvironmentPaths.NetworkFolderPath,
 				Type = DriveType.Network,
 				ItemType = NavigationControlItemType.Drive,
-				MenuOptions = new()
-				{
-					IsLocationItem = true,
-					ShowShellItems = true,
-					ShowProperties = true,
-				},
 			};
 
-			networkItem.MenuOptions.ShowEjectDevice = networkItem.IsRemovable;
-
+			networkItem.MenuOptions = new ContextMenuOptions()
+			{
+				IsLocationItem = true,
+				ShowEjectDevice = networkItem.IsRemovable,
+				ShowShellItems = true,
+				ShowProperties = true,
+			};
 			lock (_Drives)
 				_Drives.Add(networkItem);
 		}
@@ -80,23 +79,22 @@ namespace Files.App.Services
 
 			foreach (var item in networkLocations ?? Enumerable.Empty<ShellLinkItem>())
 			{
-				var networkItem = new DriveItem
+				var networkItem = new DriveItem()
 				{
 					Text = SystemIO.Path.GetFileNameWithoutExtension(item.FileName),
 					Path = item.TargetPath,
 					DeviceID = item.FilePath,
 					Type = DriveType.Network,
 					ItemType = NavigationControlItemType.Drive,
-					MenuOptions = new()
-					{
-						IsLocationItem = true,
-						ShowShellItems = true,
-						ShowProperties = true,
-					},
 				};
 
-				networkItem.MenuOptions.ShowEjectDevice = networkItem.IsRemovable;
-
+				networkItem.MenuOptions = new ContextMenuOptions()
+				{
+					IsLocationItem = true,
+					ShowEjectDevice = networkItem.IsRemovable,
+					ShowShellItems = true,
+					ShowProperties = true,
+				};
 				yield return networkItem;
 			}
 		}
