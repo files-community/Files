@@ -261,6 +261,5 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<StorageFile> ToStorageFileAsync()
 			=> throw new NotSupportedException();
-
 	}
 }
