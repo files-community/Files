@@ -175,8 +175,8 @@ namespace Files.App.ViewModels.Settings
 					? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
 					: [];
 
-			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == SelectedActionItem.PreviousKeyBinding.RawLabel);
-			if (storedKeyBindingWithArgs == null)
+			var storedKeyBinding = actions.Find(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == SelectedActionItem.PreviousKeyBinding.RawLabel);
+			if (storedKeyBinding == null)
 			{
 				// Any keys associated to the command is not customized at all
 				foreach (var defaultKey in SelectedActionItem.DefaultKeyBindings)
@@ -204,7 +204,7 @@ namespace Files.App.ViewModels.Settings
 				CommandDescription = SelectedActionItem.CommandDescription,
 				KeyBinding = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel),
 				DefaultKeyBindings = new(SelectedActionItem.DefaultKeyBindings),
-				PreviousKeyBinding = HotKey.Parse(SelectedActionItem.PreviousKeyBinding.RawLabel),
+				PreviousKeyBinding = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel),
 			};
 
 			// Exit edit mode
@@ -283,12 +283,13 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+			var storedKeyBinding = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+			var allStoredKeyBindings = actions.FindAll(x => x.CommandCode == item.CommandCode.ToString());
 
 			// Initialize
 			var newKeyBinding = HotKey.Parse(item.LocalizedKeyBindingLabel);
 
-			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
+			if (item.IsDefinedByDefault && storedKeyBinding is null)
 			{
 				// Any item related this action has never been customized
 				foreach (var defaultKey in item.DefaultKeyBindings)
@@ -299,10 +300,15 @@ namespace Files.App.ViewModels.Settings
 
 				actions.Add(new(item.CommandCode.ToString(), newKeyBinding.RawLabel));
 			}
+			else if (allStoredKeyBindings.Count == 1 && allStoredKeyBindings[0].KeyBinding == string.Empty)
+			{
+				allStoredKeyBindings.Clear();
+				actions.Add(new(item.CommandCode.ToString(), newKeyBinding.RawLabel));
+			}
 			else
 			{
-				if (storedKeyBindingWithArgs is not null)
-					storedKeyBindingWithArgs.KeyBinding = newKeyBinding.RawLabel;
+				if (storedKeyBinding is not null)
+					storedKeyBinding.KeyBinding = newKeyBinding.RawLabel;
 			}
 
 			// Set to the user settings
@@ -342,9 +348,9 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeyBindingWithArgs = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+			var storedKeyBinding = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
-			if (item.IsDefinedByDefault && storedKeyBindingWithArgs is null)
+			if (item.IsDefinedByDefault && storedKeyBinding is null)
 			{
 				int index = 0;
 
