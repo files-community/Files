@@ -10,6 +10,8 @@ namespace Files.App.Services
 {
 	public sealed class WindowsJumpListService : IWindowsJumpListService
 	{
+		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
 
@@ -17,8 +19,8 @@ namespace Files.App.Services
 		{
 			try
 			{
-				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidget_Invoked;
-				App.QuickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidget_Invoked;
+				QuickAccessService.UpdateQuickAccessWidget -= UpdateQuickAccessWidget_Invoked;
+				QuickAccessService.UpdateQuickAccessWidget += UpdateQuickAccessWidget_Invoked;
 
 				await RefreshPinnedFoldersAsync();
 			}
@@ -88,7 +90,7 @@ namespace Files.App.Services
 
 					var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
 					itemsToRemove.ForEach(x => instance.Items.Remove(x));
-					App.QuickAccessManager.Model.PinnedFolders.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
+					QuickAccessService.PinnedFolders.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
 					await instance.SaveAsync();
 				}
 			}

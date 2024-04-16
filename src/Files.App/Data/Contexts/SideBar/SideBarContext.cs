@@ -6,11 +6,11 @@ namespace Files.App.Data.Contexts
 	/// <inheritdoc cref="ISidebarContext"/>
 	internal sealed class SidebarContext : ObservableObject, ISidebarContext
 	{
-		private readonly PinnedFoldersManager favoriteModel = App.QuickAccessManager.Model;
+		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		private int PinnedFolderItemIndex =>
 			IsItemRightClicked
-				? favoriteModel.IndexOfItem(_RightClickedItem!)
+				? QuickAccessService.IndexOfItem(_RightClickedItem!)
 				: -1;
 
 		private INavigationControlItem? _RightClickedItem = null;

@@ -22,6 +22,7 @@ namespace Files.App.UserControls.Widgets
 
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public static ObservableCollection<WidgetFolderCardItem> ItemsAdded = [];
 
@@ -169,7 +170,7 @@ namespace Files.App.UserControls.Widgets
 					foreach (var itemToAdd in itemsToAdd)
 					{
 						var interimItemsAdded = ItemsAdded.ToList();
-						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var item = await QuickAccessService.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
@@ -193,7 +194,7 @@ namespace Files.App.UserControls.Widgets
 					foreach (var itemToAdd in e.Paths)
 					{
 						var interimItemsAdded = ItemsAdded.ToList();
-						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var item = await QuickAccessService.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
@@ -211,7 +212,7 @@ namespace Files.App.UserControls.Widgets
 					foreach (var itemToAdd in e.Paths)
 					{
 						var interimItemsAdded = ItemsAdded.ToList();
-						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var item = await QuickAccessService.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
@@ -237,13 +238,13 @@ namespace Files.App.UserControls.Widgets
 				Reset = true
 			});
 
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
+			QuickAccessService.UpdateQuickAccessWidget += ModifyItemAsync;
 		}
 
 		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= QuickAccessWidget_Unloaded;
-			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItemAsync;
+			QuickAccessService.UpdateQuickAccessWidget -= ModifyItemAsync;
 		}
 
 		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

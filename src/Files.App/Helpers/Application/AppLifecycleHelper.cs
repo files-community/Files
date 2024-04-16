@@ -67,6 +67,7 @@ namespace Files.App.Helpers
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
+			var quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
@@ -74,7 +75,7 @@ namespace Files.App.Helpers
 				App.LibraryManager.UpdateLibrariesAsync(),
 				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-				App.QuickAccessManager.InitializeAsync()
+				quickAccessService.InitializeAsync()
 			);
 
 			await Task.WhenAll(
@@ -200,7 +201,6 @@ namespace Files.App.Helpers
 					.AddSingleton<AppearanceViewModel>()
 					.AddTransient<HomeViewModel>()
 					// Utilities
-					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()
 					.AddSingleton<FileTagsManager>()
 					.AddSingleton<RecentItems>()

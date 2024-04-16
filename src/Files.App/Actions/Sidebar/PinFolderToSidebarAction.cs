@@ -7,8 +7,8 @@ namespace Files.App.Actions
 {
 	internal sealed class PinFolderToSidebarAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
-		private readonly IQuickAccessService service;
+		private IContentPageContext context { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public string Label
 			=> "PinFolderToSidebar".GetLocalizedResource();
@@ -24,11 +24,8 @@ namespace Files.App.Actions
 
 		public PinFolderToSidebarAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
-
 			context.PropertyChanged += Context_PropertyChanged;
-			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
+			QuickAccessService.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -37,17 +34,17 @@ namespace Files.App.Actions
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
 
-				await service.PinToSidebarAsync(items);
+				await QuickAccessService.PinToSidebarAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await service.PinToSidebarAsync([context.Folder.ItemPath]);
+				await QuickAccessService.PinToSidebarAsync([context.Folder.ItemPath]);
 			}
 		}
 
 		private bool GetIsExecutable()
 		{
-			string[] pinnedFolders = [.. App.QuickAccessManager.Model.PinnedFolders];
+			string[] pinnedFolders = [.. QuickAccessService.PinnedFolders];
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinnable)

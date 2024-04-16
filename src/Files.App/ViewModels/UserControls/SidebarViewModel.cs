@@ -28,6 +28,7 @@ namespace Files.App.ViewModels.UserControls
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
+		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
@@ -48,8 +49,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public object SidebarItems => sidebarItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
-		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		private SidebarDisplayMode sidebarDisplayMode;
 		public SidebarDisplayMode SidebarDisplayMode
@@ -246,7 +245,7 @@ namespace Files.App.ViewModels.UserControls
 			Manager_DataChanged(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
+			QuickAccessService.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
@@ -280,7 +279,7 @@ namespace Files.App.ViewModels.UserControls
 				var section = await GetOrCreateSectionAsync(sectionType);
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
-					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
+					SectionType.Pinned => QuickAccessService.PinnedFolderItems,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
@@ -582,7 +581,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
-					SectionType.Pinned => App.QuickAccessManager.Model.AddAllItemsToSidebarAsync,
+					SectionType.Pinned => QuickAccessService.AddAllItemsToSidebarAsync,
 					_ => () => Task.CompletedTask
 				};
 
@@ -641,7 +640,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
-			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
+			QuickAccessService.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;
@@ -937,9 +936,8 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var options = item.MenuOptions;
 
-			var pinnedFolderModel = App.QuickAccessManager.Model;
-			var pinnedFolderIndex = pinnedFolderModel.IndexOfItem(item);
-			var pinnedFolderCount = pinnedFolderModel.PinnedFolders.Count;
+			var pinnedFolderIndex = QuickAccessService.IndexOfItem(item);
+			var pinnedFolderCount = QuickAccessService.PinnedFolders.Count;
 
 			var isPinnedItem = item.Section is SectionType.Pinned && pinnedFolderIndex is not -1;
 			var showMoveItemUp = isPinnedItem && pinnedFolderIndex > 0;
@@ -1099,7 +1097,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section))
 				{
-					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path));
+					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !QuickAccessService.PinnedFolders.Contains(item.Path));
 
 					if (!haveFoldersToPin)
 					{
@@ -1264,7 +1262,7 @@ namespace Files.App.ViewModels.UserControls
 					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 					foreach (var item in storageItems)
 					{
-						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path))
+						if (item.ItemType == FilesystemItemType.Directory && !QuickAccessService.PinnedFolders.Contains(item.Path))
 							await QuickAccessService.PinToSidebarAsync([item.Path]);
 					}
 				}

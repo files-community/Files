@@ -26,7 +26,7 @@ namespace Files.App.Actions
 			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 			context.PropertyChanged += Context_PropertyChanged;
-			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
+			QuickAccessService.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -44,7 +44,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] pinnedFolders = [.. App.QuickAccessManager.Model.PinnedFolders];
+			string[] pinnedFolders = [.. QuickAccessService.PinnedFolders];
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinned)
