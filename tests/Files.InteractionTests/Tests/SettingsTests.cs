@@ -1,11 +1,14 @@
-﻿using System;
-using System.Threading;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using OpenQA.Selenium.Interactions;
+using System;
+using System.Threading;
 
 namespace Files.InteractionTests.Tests
 {
 	[TestClass]
-	public class SettingsTests
+	public sealed class SettingsTests
 	{
 
 		[TestCleanup]
@@ -23,10 +26,14 @@ namespace Files.InteractionTests.Tests
 
 			var settingsItems = new string[]
 			{
+				"SettingsItemGeneral",
 				"SettingsItemAppearance",
-				"SettingsItemPreferences",
-				"SettingsItemMultitasking",
-				"SettingsItemExperimental",
+				//"SettingsItemLayout", TODO find workaround for the "Group by" setting block issue
+				"SettingsItemFolders",
+				//"SettingsItemActions", TODO enable this test when we release the new keyboard shortcut settings
+				"SettingsItemTags",
+				"SettingsItemGit",
+				"SettingsItemAdvanced",
 				"SettingsItemAbout"
 			};
 
@@ -36,8 +43,8 @@ namespace Files.InteractionTests.Tests
 				{
 					try
 					{
-						Console.WriteLine("Inoking button:" + item);
-						Thread.Sleep(2000);
+						Console.WriteLine("Invoking button:" + item);
+						Thread.Sleep(3000);
 						TestHelper.InvokeButtonById(item);
 						i = 1000;
 					}

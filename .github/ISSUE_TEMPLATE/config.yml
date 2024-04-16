@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Translation issue
+    url: https://crowdin.com/project/files-app
+    about: Help improve translations on Crowdin.
+  - name: Question & Discussion
+    url: https://discord.gg/files
+    about: Post your questions and join the discussion. You can participate in chats on every channel.
