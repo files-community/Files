@@ -23,7 +23,7 @@ CComPtr<IFileOpenDialog> GetSystemDialog()
 {
 	HINSTANCE lib = CoLoadLibrary(L"C:\\Windows\\System32\\comdlg32.dll", false);
 
-	BOOL(WINAPI *dllGetClassObject)(REFCLSID, REFIID, LPVOID*) = (BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
+	BOOL(WINAPI * dllGetClassObject)(REFCLSID, REFIID, LPVOID*) = (BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
 
 	CComPtr<IClassFactory> pClassFactory;
 	dllGetClassObject(CLSID_FileOpenDialog, IID_IClassFactory, (void**)&pClassFactory);
@@ -135,6 +135,9 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
 
+	if (hwndOwner)
+		EnableWindow(hwndOwner, FALSE);
+
 	MSG msg;
 	while (ShExecInfo.hProcess)
 	{
@@ -156,7 +159,10 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	}
 
 	if (hwndOwner)
+	{
+		EnableWindow(hwndOwner, TRUE);
 		SetForegroundWindow(hwndOwner);
+	}
 
 	std::ifstream file(_outputPath);
 	if (file.good())
@@ -217,7 +223,7 @@ STDAPICALL CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 	return _systemDialog->Advise(pfde, pdwCookie);
 #endif
 	_dialogEvents = pfde;
-	* pdwCookie = 0;
+	*pdwCookie = 0;
 	return S_OK;
 }
 

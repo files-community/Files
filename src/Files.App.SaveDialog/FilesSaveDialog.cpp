@@ -414,6 +414,9 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
 
+	if (hwndOwner)
+		EnableWindow(hwndOwner, FALSE);
+
 	MSG msg;
 	while (ShExecInfo.hProcess)
 	{
@@ -435,7 +438,10 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	}
 
 	if (hwndOwner)
+	{
+		EnableWindow(hwndOwner, TRUE);
 		SetForegroundWindow(hwndOwner);
+	}
 
 	std::ifstream file(_outputPath);
 	if (file.good())
