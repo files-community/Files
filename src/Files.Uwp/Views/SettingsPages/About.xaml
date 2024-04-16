@@ -1,0 +1,291 @@
+<Page
+	x:Class="Files.Uwp.SettingsPages.About"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.Uwp.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:local="using:Files.Uwp.UserControls.Settings"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="/ResourceDictionaries/TransparentMarkdownTextBlock.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<Grid>
+		<StackPanel
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Spacing="4">
+			<StackPanel.ChildrenTransitions>
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
+			</StackPanel.ChildrenTransitions>
+
+			<local:SettingsBlockControl
+				Title="{x:Bind ViewModel.AppName}"
+				HorizontalAlignment="Stretch"
+				Description="{x:Bind ViewModel.Version}">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE946;" />
+				</local:SettingsBlockControl.Icon>
+				<Button
+					x:Name="CopyVersionInfo"
+					Command="{x:Bind ViewModel.CopyVersionInfoCommand}"
+					Content="{helpers:ResourceString Name=Copy}" />
+			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=SettingsAboutSupportUs/Text}"
+				ButtonCommand="{x:Bind ViewModel.SupportUsCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF119;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE2B4;" />
+			</local:SettingsBlockControl>
+
+			<!--  Manage Settings  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ManageSettings}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE713;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+
+						<!--  Export  -->
+						<local:SettingsBlockControl
+							Title="{helpers:ResourceString Name=ExportSettings}"
+							ButtonCommand="{x:Bind ViewModel.ExportSettingsCommand}"
+							IsClickable="True">
+							<local:SettingsBlockControl.Icon>
+								<FontIcon Glyph="&#xEDE1;" />
+							</local:SettingsBlockControl.Icon>
+
+							<FontIcon
+								FontSize="14"
+								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+								Glyph="&#xE2B4;" />
+						</local:SettingsBlockControl>
+
+						<!--  Import  -->
+						<local:SettingsBlockControl
+							Title="{helpers:ResourceString Name=ImportSettings}"
+							ButtonCommand="{x:Bind ViewModel.ImportSettingsCommand}"
+							IsClickable="True">
+							<local:SettingsBlockControl.Icon>
+								<FontIcon Glyph="&#xE8B5;" />
+							</local:SettingsBlockControl.Icon>
+
+							<FontIcon
+								FontSize="14"
+								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+								Glyph="&#xE2B4;" />
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsUsefulLinks/Title}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<SymbolIcon Symbol="Link" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<GridView
+						x:Name="FeedbackListView"
+						Padding="8"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsItemClickEnabled="True"
+						SelectionMode="None">
+						<GridViewItem
+							x:Name="FeedbackForm"
+							Width="204"
+							Padding="8,2"
+							HorizontalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutSubmitFeedbackListViewItem/AutomationProperties/Name}"
+							IsEnabled="True">
+							<StackPanel
+								Padding="4"
+								Orientation="Horizontal"
+								Spacing="14"
+								Tag="Feedback">
+								<FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xED15;" />
+								<TextBlock Text="{helpers:ResourceString Name=SettingsAboutSubmitFeedback/Text}" />
+							</StackPanel>
+						</GridViewItem>
+						<GridViewItem
+							Padding="8,2"
+							HorizontalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutReleaseNotesListViewItem/AutomationProperties/Name}"
+							IsEnabled="True">
+							<StackPanel
+								Padding="4"
+								Orientation="Horizontal"
+								Spacing="14"
+								Tag="ReleaseNotes">
+								<FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xF000;" />
+								<TextBlock Text="{helpers:ResourceString Name=SettingsAboutReleaseNotes/Text}" />
+							</StackPanel>
+						</GridViewItem>
+						<GridViewItem
+							Padding="8,2"
+							HorizontalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutDocumentationListViewItem/AutomationProperties/Name}"
+							IsEnabled="True">
+							<StackPanel
+								Padding="4"
+								Orientation="Horizontal"
+								Spacing="14"
+								Tag="Documentation">
+								<FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE736;" />
+								<TextBlock Text="{helpers:ResourceString Name=SettingsAboutDocumentation/Text}" />
+							</StackPanel>
+						</GridViewItem>
+						<GridViewItem
+							Padding="8,2"
+							HorizontalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutPrivacyPolicyListViewItem/AutomationProperties/Name}"
+							IsEnabled="True">
+							<StackPanel
+								Padding="4"
+								Orientation="Horizontal"
+								Spacing="14"
+								Tag="PrivacyPolicy">
+								<FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE72E;" />
+								<TextBlock Text="{helpers:ResourceString Name=SettingsAboutPrivacyPolicy/Text}" />
+							</StackPanel>
+						</GridViewItem>
+						<GridViewItem
+							Padding="8,2"
+							HorizontalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutContributorsListViewItem/AutomationProperties/Name}"
+							IsEnabled="True">
+							<StackPanel
+								Padding="4"
+								Orientation="Horizontal"
+								Spacing="14"
+								Tag="Contributors">
+								<FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE716;" />
+								<TextBlock Text="{helpers:ResourceString Name=SettingsAboutContributors/Text}" />
+							</StackPanel>
+						</GridViewItem>
+						<i:Interaction.Behaviors>
+							<ic:EventTriggerBehavior EventName="ItemClick">
+								<ic:InvokeCommandAction Command="{x:Bind ViewModel.ClickAboutFeedbackItemCommand}" />
+							</ic:EventTriggerBehavior>
+						</i:Interaction.Behaviors>
+					</GridView>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPrivacy/Title}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xEA18;" />
+				</local:SettingsBlockControl.Icon>
+
+				<local:SettingsBlockControl.ExpandableContent>
+					<controls:MarkdownTextBlock
+						x:Name="PrivacyTextBlock"
+						Margin="4"
+						Padding="8"
+						Text="{helpers:ResourceString Name=SettingsPrivacyPolicyMarkdownBlock/Text}" />
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=OpenLogLocation}"
+				HorizontalAlignment="Stretch"
+				ButtonCommand="{x:Bind ViewModel.OpenLogLocationCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE838;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE2B4;" />
+			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Contributors}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xEBDA;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<GridView Padding="4" SelectionMode="None">
+						<HyperlinkButton Content="gave92" NavigateUri="https://github.com/gave92" />
+						<HyperlinkButton Content="R3voA3" NavigateUri="https://github.com/R3voA3" />
+						<HyperlinkButton Content="cinqmilleans" NavigateUri="https://github.com/cinqmilleans" />
+						<HyperlinkButton Content="yaichenbaum" NavigateUri="https://github.com/yaichenbaum" />
+						<HyperlinkButton Content="puppetsw" NavigateUri="https://github.com/puppetsw" />
+						<HyperlinkButton Content="jiejasonliu" NavigateUri="https://github.com/jiejasonliu" />
+						<HyperlinkButton Content="shiazza" NavigateUri="https://github.com/shiazza" />
+						<HyperlinkButton Content="szabolcstarnai" NavigateUri="https://github.com/szabolcstarnai" />
+						<HyperlinkButton Content="onein528" NavigateUri="https://github.com/onein528" />
+						<HyperlinkButton Content="manfromarce" NavigateUri="https://github.com/manfromarce" />
+						<HyperlinkButton Content="devovercome" NavigateUri="https://github.com/devovercome" />
+						<HyperlinkButton Content="SudaCat" NavigateUri="https://github.com/SudaCat" />
+						<HyperlinkButton Content="dependabot[bot]" NavigateUri="https://github.com/apps/dependabot" />
+						<HyperlinkButton Content="bebeyaco" NavigateUri="https://github.com/bebeyaco" />
+						<HyperlinkButton Content="lukeblevins" NavigateUri="https://github.com/lukeblevins" />
+						<HyperlinkButton Content="d2dyno" NavigateUri="https://github.com/d2dyno1" />
+						<HyperlinkButton Content="somnisomni" NavigateUri="https://github.com/somnisomni" />
+						<HyperlinkButton Content="xlifi" NavigateUri="https://github.com/xlifi" />
+						<HyperlinkButton Content="konradsikorski" NavigateUri="https://github.com/konradsikorski" />
+						<HyperlinkButton Content="oleklukasiewicz" NavigateUri="https://github.com/oleklukasiewicz" />
+						<HyperlinkButton Content="mafra99" NavigateUri="https://github.com/mafra99" />
+						<HyperlinkButton Content="THEBOSSMAGNUS" NavigateUri="https://github.com/THEBOSSMAGNUS" />
+						<HyperlinkButton Content="elvistkf" NavigateUri="https://github.com/elvistkf" />
+						<HyperlinkButton Content="tsakalerisk" NavigateUri="https://github.com/tsakalerisk" />
+						<HyperlinkButton Content="michalmrowiec" NavigateUri="https://github.com/michalmrowiec" />
+						<HyperlinkButton Content="oxixes" NavigateUri="https://github.com/oxixes" />
+						<HyperlinkButton Content="Daxxxis" NavigateUri="https://github.com/Daxxxis" />
+						<HyperlinkButton Content="ahmed605" NavigateUri="https://github.com/ahmed605" />
+						<HyperlinkButton Content="pklion" NavigateUri="https://github.com/pklion" />
+						<HyperlinkButton Content="Wtcheesecakes" NavigateUri="https://github.com/Wtcheesecakes" />
+						<HyperlinkButton Content="slorixsh" NavigateUri="https://github.com/slorixsh" />
+						<HyperlinkButton Content="FilopateerMaged" NavigateUri="https://github.com/FilopateerMaged" />
+						<HyperlinkButton Content="acesyde" NavigateUri="https://github.com/acesyde" />
+					</GridView>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE99A;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel Padding="4" Spacing="4">
+						<HyperlinkButton
+							AutomationProperties.Name="QuickLook"
+							Content="QuickLook"
+							NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
+
+						<HyperlinkButton
+							AutomationProperties.Name="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/AutomationProperties/Name}"
+							Content="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/Content}"
+							NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+		</StackPanel>
+	</Grid>
+</Page>

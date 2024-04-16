@@ -1,0 +1,44 @@
+<local:BaseLayout
+    x:Class="Files.Uwp.Views.LayoutModes.ColumnViewBrowser"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters1="using:Files.Uwp.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Files.Uwp"
+    xmlns:local2="using:Files.Uwp.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="PageRoot"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerPressed">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <local:BaseLayout.Resources>
+        <Style TargetType="controls:BladeItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="TitleBarVisibility" Value="Collapsed" />
+            <Setter Property="BorderThickness" Value="0,0,1,0" />
+            <Setter Property="BorderBrush" Value="{ThemeResource ControlStrokeColorDefault}" />
+            <Setter Property="Width" Value="300" />
+        </Style>
+    </local:BaseLayout.Resources>
+    <Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+        <controls:BladeView x:Name="ColumnHost">
+            <controls:BladeView.Transitions>
+                <TransitionCollection />
+            </controls:BladeView.Transitions>
+            <controls:BladeView.ItemContainerTransitions>
+                <TransitionCollection />
+            </controls:BladeView.ItemContainerTransitions>
+
+            <controls:BladeItem>
+                <Frame x:Name="MainPageFrame" />
+            </controls:BladeItem>
+        </controls:BladeView>
+    </Grid>
+</local:BaseLayout>

@@ -2,56 +2,58 @@ name: Feature Request
 description: This project thrives from differentiation from competing apps. Suggest an idea for Files
 labels: [feature request]
 body:
-
-  # Description
   - type: textarea
     attributes:
-      label: What feature or improvement do you think would benefit Files?
-      description: Please include your use case
+      label: What's the Problem?
+      description: If your feature request is related to a problem, describe it clearly.
+  - type: textarea
+    attributes:
+      label: Solution/Idea
+      description: Describe your solution/idea.
     validations:
       required: true
-
-  # Tooltip about Requirements
+  - type: textarea
+    attributes:
+      label: Alternatives
+      description: Describe alternatives you've considered
+    validations:
+      required: true
   - type: markdown
     attributes:
       value: |
         ---
 
-        Please include a list changes required to make this improvement. A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
+        Please include a list of what the feature should and shouldn't do by filling in the table below.
 
-  # Requirements
+        'Must' implies that the feature should not ship without this capability.
+        'Should' is something we should push hard for, but is not absolutely required to ship.
+        'Could' is a nice-to-have; a good stretch goal that isn't painful if we don't achieve it.
+        'Won't' is a clear statement that the proposal/feature will intentionally not have that capability.
+
+        This list will evolve and grow as the proposal becomes more refined over time.
+        A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
   - type: textarea
     attributes:
-      label: Requirements
-      description: Describe all the requirements to make your idea happen
+      label: Priorities
+      description: describe all the elements of your idea and how important they are.
       value: |
-        - This proposal will accomplish X
-        - This proposal will accomplish Y
-        - This proposal will accomplish Z
-    validations:
-      required: true
-
-  # Files Version
+        | Capability | Priority |
+        | :---------- | :------- |
+        | This proposal will allow developers to accomplish W | Must |
+        | This proposal will allow end users to accomplish X | Should |
+        | This proposal will allow developers to accomplish Y | Could |
+        | This proposal will allow end users to accomplish Z | Won't |
   - type: input
-    id: files_version
+    id: files-version
     attributes:
       label: Files Version
-      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version
-      placeholder: 'e.g. 2.0.36.0'
-    validations:
-      required: true
-
-  # Windows Version
+      description: Which version of Files are you using?
+      placeholder: 'Version: 2.0.36.0'
   - type: input
-    id: windows_version
     attributes:
       label: Windows Version
-      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version
-      placeholder: "e.g. 10.0.22621.1848"
-    validations:
-      required: true
-
-  # Additional Comments
+      description: Which version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
+      placeholder: e.g. Windows 11 21H2 22000.194
   - type: textarea
     attributes:
       label: Comments

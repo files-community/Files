@@ -1,0 +1,47 @@
+﻿<UserControl
+    x:Class="Files.Uwp.UserControls.FolderEmptyIndicator"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TextBlock
+            x:Name="EmptyText"
+            Text="{helpers:ResourceString Name=EmptyFolder/Text}"
+            TextWrapping="Wrap"
+            Visibility="Collapsed" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="FolderEmptyState">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="1" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="EmptyText.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NoSearchResultsFoundState">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="2" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="EmptyText.Visibility" Value="Visible" />
+                        <Setter Target="EmptyText.Text" Value="{x:Bind GetTranslated('NoSearchResultsFound')}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>
