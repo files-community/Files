@@ -251,6 +251,7 @@ namespace Files.App.Views.Shells
 			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
 			{
 				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
+				InstanceViewModel.IsGitRepository = FilesystemViewModel.IsValidGitDirectory;
 
 				InstanceViewModel.GitBranchName = headBranch is not null
 					? headBranch.Name

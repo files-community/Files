@@ -24,13 +24,12 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
+		private INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
 		public IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
-
-		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
@@ -249,7 +248,7 @@ namespace Files.App.ViewModels.UserControls
 			App.LibraryManager.DataChanged += Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
-			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
+			NetworkDrivesService.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
@@ -282,7 +281,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.Pinned => QuickAccessService.PinnedFolderItems,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
-					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Network => NetworkDrivesService.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.WSL => WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
@@ -577,7 +576,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => CloudDrivesManager.UpdateDrivesAsync,
 					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
-					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => networkDrivesViewModel.UpdateDrivesAsync,
+					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => NetworkDrivesService.UpdateDrivesAsync,
 					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
@@ -644,7 +643,7 @@ namespace Files.App.ViewModels.UserControls
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;
-			networkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
+			NetworkDrivesService.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}

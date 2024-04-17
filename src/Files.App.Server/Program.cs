@@ -2,7 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.WinRT;
@@ -13,9 +15,12 @@ class Program
 {
 	internal static readonly AsyncManualResetEvent ExitSignalEvent = new();
 	private static readonly CancellationTokenSource cancellationTokenSource = new();
+	private static readonly StreamWriter logWriter = new(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_server.log"), append: true) { AutoFlush = true };
 
 	static async Task Main()
 	{
+		AppDomain.CurrentDomain.FirstChanceException += OnFirstChanceException;
+
 		nint cookie = 0;
 
 		unsafe
@@ -70,5 +75,10 @@ class Program
 
 			PInvoke.RoUninitialize();
 		}
+	}
+
+	private static void OnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
+	{
+		logWriter.WriteLine($"{DateTime.Now}|{e.Exception}");
 	}
 }
