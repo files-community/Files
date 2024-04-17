@@ -21,7 +21,8 @@ namespace Files.App.Helpers
 		public delegate void LPOVERLAPPED_COMPLETION_ROUTINE(
 			uint dwErrorCode,
 			uint dwNumberOfBytesTransfered,
-			ref NativeOverlapped lpOverlapped);
+			ref NativeOverlapped lpOverlapped
+		);
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
 		public static extern int RmRegisterResources(
@@ -230,9 +231,7 @@ namespace Files.App.Helpers
 			uint flags
 		);
 
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern IntPtr CreateFileFromApp(
 			string lpFileName,
 			uint dwDesiredAccess,
@@ -256,9 +255,7 @@ namespace Files.App.Helpers
 			string lpFileName,
 			FileAttributes dwFileAttributes);
 
-		[DllImport("api-ms-win-core-file-l1-2-1.dll", ExactSpelling = true,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
+		[DllImport("api-ms-win-core-file-l1-2-1.dll", ExactSpelling = true, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern uint SetFilePointer(
 			IntPtr hFile,
 			long lDistanceToMove,
@@ -266,9 +263,7 @@ namespace Files.App.Helpers
 			uint dwMoveMethod
 		);
 
-		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
+		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public unsafe static extern bool ReadFile(
 			IntPtr hFile,
 			byte* lpBuffer,
@@ -277,9 +272,7 @@ namespace Files.App.Helpers
 			IntPtr lpOverlapped
 		);
 
-		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
+		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public unsafe static extern bool WriteFile(
 			IntPtr hFile,
 			byte* lpBuffer,
@@ -288,9 +281,7 @@ namespace Files.App.Helpers
 			IntPtr lpOverlapped
 		);
 
-		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
-			CallingConvention = CallingConvention.StdCall,
-			SetLastError = true)]
+		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern bool WriteFileEx(
 			IntPtr hFile,
 			byte[] lpBuffer,
@@ -299,40 +290,82 @@ namespace Files.App.Helpers
 			LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		public static extern bool GetFileTime([In] IntPtr hFile, out FILETIME lpCreationTime, out FILETIME lpLastAccessTime, out FILETIME lpLastWriteTime);
+		public static extern bool GetFileTime(
+			[In] IntPtr hFile,
+			out FILETIME lpCreationTime,
+			out FILETIME lpLastAccessTime,
+			out FILETIME lpLastWriteTime
+		);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		public static extern bool SetFileTime([In] IntPtr hFile, in FILETIME lpCreationTime, in FILETIME lpLastAccessTime, in FILETIME lpLastWriteTime);
+		public static extern bool SetFileTime(
+			[In] IntPtr hFile,
+			in FILETIME lpCreationTime,
+			in FILETIME lpLastAccessTime,
+			in FILETIME lpLastWriteTime
+		);
 
 		[DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		public static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, out FILE_ID_BOTH_DIR_INFO dirInfo, uint dwBufferSize);
+		public static extern bool GetFileInformationByHandleEx(
+			IntPtr hFile,
+			FILE_INFO_BY_HANDLE_CLASS infoClass,
+			out FILE_ID_BOTH_DIR_INFO dirInfo,
+			uint dwBufferSize
+		);
 
 		[DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		public static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
+		public static extern bool GetFileInformationByHandleEx(
+			IntPtr hFile,
+			FILE_INFO_BY_HANDLE_CLASS infoClass,
+			IntPtr dirInfo,
+			uint dwBufferSize
+		);
 
 		[DllImport("kernel32.dll", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
-		public static extern IntPtr FindFirstStreamW(string lpFileName, StreamInfoLevels InfoLevel, [In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData, uint dwFlags);
+		public static extern IntPtr FindFirstStreamW(
+			string lpFileName,
+			StreamInfoLevels InfoLevel,
+			[In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData,
+			uint dwFlags
+		);
 
 		[DllImport("kernel32.dll", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool FindNextStreamW(IntPtr hndFindFile, [In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData);
+		public static extern bool FindNextStreamW(
+			IntPtr hndFindFile,
+			[In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData
+		);
 
 		[DllImport("Shcore.dll", SetLastError = true)]
-		public static extern int GetDpiForMonitor(IntPtr hmonitor, uint dpiType, out uint dpiX, out uint dpiY);
+		public static extern int GetDpiForMonitor(
+			IntPtr hmonitor,
+			uint dpiType,
+			out uint dpiX,
+			out uint dpiY
+		);
 
 		[DllImport("api-ms-win-core-processthreads-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool OpenProcessToken([In] IntPtr ProcessHandle, TokenAccess DesiredAccess, out IntPtr TokenHandle);
+		public static extern bool OpenProcessToken(
+			[In] IntPtr ProcessHandle, TokenAccess DesiredAccess, out IntPtr TokenHandle);
 
 		[DllImport("api-ms-win-core-processthreads-l1-1-2.dll", SetLastError = true, ExactSpelling = true)]
 		public static extern IntPtr GetCurrentProcess();
 
 		[DllImport("api-ms-win-security-base-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool GetTokenInformation(IntPtr hObject, TOKEN_INFORMATION_CLASS tokenInfoClass, IntPtr pTokenInfo, int tokenInfoLength, out int returnLength);
+		public static extern bool GetTokenInformation(
+			IntPtr hObject,
+			TOKEN_INFORMATION_CLASS tokenInfoClass,
+			IntPtr pTokenInfo,
+			int tokenInfoLength,
+			out int returnLength
+		);
 
 		[DllImport("api-ms-win-security-base-l1-1-0.dll", ExactSpelling = true, SetLastError = true)]
-		public static extern int GetLengthSid(IntPtr pSid);
+		public static extern int GetLengthSid(
+			IntPtr pSid
+		);
 
 		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -343,27 +376,32 @@ namespace Files.App.Helpers
 			IntPtr pvReserved,
 			IntPtr pPromptStruct,
 			CryptProtectFlags dwFlags,
-			out CRYPTOAPI_BLOB pDataOut);
+			out CRYPTOAPI_BLOB pDataOut
+		);
 
 		[DllImport("api-ms-win-core-wow64-l1-1-1.dll", SetLastError = true)]
 		public static extern bool IsWow64Process2(
 			IntPtr process,
 			out ushort processMachine,
-			out ushort nativeMachine);
+			out ushort nativeMachine
+		);
 
 		[DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
 		public static extern bool FindNextFile(
 			IntPtr hFindFile,
-			out WIN32_FIND_DATA lpFindFileData);
+			out WIN32_FIND_DATA lpFindFileData
+		);
 
 		[DllImport("api-ms-win-core-file-l1-1-0.dll")]
 		public static extern bool FindClose(
-			IntPtr hFindFile);
+			IntPtr hFindFile
+		);
 
 		[DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
 		public static extern bool FileTimeToSystemTime(
 			ref FILETIME lpFileTime,
-			out SYSTEMTIME lpSystemTime);
+			out SYSTEMTIME lpSystemTime
+		);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern IntPtr FindFirstFileExFromApp(
@@ -372,7 +410,8 @@ namespace Files.App.Helpers
 			out WIN32_FIND_DATA lpFindFileData,
 			FINDEX_SEARCH_OPS fSearchOp,
 			IntPtr lpSearchFilter,
-			int dwAdditionalFlags);
+			int dwAdditionalFlags
+		);
 
 		[DllImport("api-ms-win-core-string-l1-1-0.dll", CharSet = CharSet.Unicode)]
 		public static extern int CompareStringEx(
@@ -389,21 +428,46 @@ namespace Files.App.Helpers
 
 		[DllImport("shell32.dll", EntryPoint = "#865", CharSet = CharSet.Unicode, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool _IsElevationRequired([MarshalAs(UnmanagedType.LPWStr)] string pszPath);
+		public static extern bool _IsElevationRequired(
+			[MarshalAs(UnmanagedType.LPWStr)] string pszPath);
 
 		[DllImport("shlwapi.dll", CallingConvention = CallingConvention.StdCall, PreserveSig = true, CharSet = CharSet.Unicode)]
-		public static extern HRESULT SHCreateStreamOnFileEx(string pszFile, STGM grfMode, uint dwAttributes, uint fCreate, IntPtr pstmTemplate, out IntPtr ppstm);
+		public static extern HRESULT SHCreateStreamOnFileEx(
+			string pszFile,
+			STGM grfMode,
+			uint dwAttributes,
+			uint fCreate,
+			IntPtr pstmTemplate,
+			out IntPtr ppstm
+		);
 
 		[DllImport("shell32.dll", CallingConvention = CallingConvention.StdCall, PreserveSig = true, CharSet = CharSet.Unicode)]
-		public static extern HRESULT SHCreateItemFromParsingName(string pszPath, IntPtr pbc, ref Guid riid, out IntPtr ppv);
+		public static extern HRESULT SHCreateItemFromParsingName(
+			string pszPath,
+			IntPtr pbc,
+			ref Guid riid,
+			out IntPtr ppv
+		);
 
 		[DllImport("ole32.dll", CallingConvention = CallingConvention.StdCall)]
-		public static extern HRESULT CoCreateInstance(ref Guid rclsid, IntPtr pUnkOuter, ClassContext dwClsContext, ref Guid riid, out IntPtr ppv);
+		public static extern HRESULT CoCreateInstance(
+			ref Guid rclsid,
+			IntPtr pUnkOuter,
+			ClassContext dwClsContext,
+			ref Guid riid,
+			out IntPtr ppv
+		);
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-		public static extern uint RegisterApplicationRestart(string pwzCommandLine, int dwFlags);
+		public static extern uint RegisterApplicationRestart(
+			string pwzCommandLine,
+			int dwFlags
+		);
 
 		[DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Unicode)]
-		public static extern int SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
+		public static extern int SHQueryRecycleBin(
+			string pszRootPath,
+			ref SHQUERYRBINFO pSHQueryRBInfo
+		);
 	}
 }

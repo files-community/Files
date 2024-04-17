@@ -141,7 +141,6 @@ namespace Files.App.Helpers
 		public enum TOKEN_TYPE
 		{
 			TokenPrimary = 1,
-
 			TokenImpersonation = 2
 		}
 

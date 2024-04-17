@@ -157,7 +157,6 @@ namespace Files.App.Helpers
 		public struct CRYPTOAPI_BLOB
 		{
 			public uint cbData;
-
 			public IntPtr pbData;
 		}
 
@@ -221,9 +220,7 @@ namespace Files.App.Helpers
 		public struct SHQUERYRBINFO
 		{
 			public int cbSize;
-
 			public long i64Size;
-
 			public long i64NumItems;
 		}
 	}
