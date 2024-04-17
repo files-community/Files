@@ -101,7 +101,7 @@ namespace Files.App.Utils.Storage
 		{
 			Func<Task<bool>> queryFileAssoc = async () =>
 			{
-				var assoc = await Win32Helper.GetFileAssociationAsync(filePath);
+				var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
 				if (assoc is not null)
 				{
 					return assoc == Package.Current.Id.FamilyName
@@ -489,7 +489,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var hFile = Win32Helper.OpenFileForRead(path);
+				var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
 				if (hFile.IsInvalid)
 				{
 					return false;
@@ -530,7 +530,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var hFile = Win32Helper.OpenFileForRead(path, true);
+				var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
 				if (hFile.IsInvalid)
 				{
 					return Task.FromResult(false);
@@ -581,7 +581,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var hFile = Win32Helper.OpenFileForRead(containerPath, readWrite);
+					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
 					if (hFile.IsInvalid)
 					{
 						return null;

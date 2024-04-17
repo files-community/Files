@@ -49,7 +49,7 @@ namespace Files.App.Helpers
 		{
 			var iniPath = IO.Path.Combine(path, "desktop.ini");
 
-			var iniContents = Win32Helper.ReadStringFromFile(iniPath)?.Trim();
+			var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
 			if (string.IsNullOrEmpty(iniContents))
 				return Layouts.None;
 
