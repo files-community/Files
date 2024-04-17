@@ -11,7 +11,6 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
-using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App
 {
@@ -225,9 +224,9 @@ namespace Files.App
 				var results = items.Select(x => x.ItemPath).ToList();
 				System.IO.File.WriteAllLines(OutputPath, results);
 
-				IntPtr eventHandle = CreateEvent(IntPtr.Zero, false, false, "FILEDIALOG");
-				SetEvent(eventHandle);
-				CloseHandle(eventHandle);
+				IntPtr eventHandle = Win32PInvoke.CreateEvent(IntPtr.Zero, false, false, "FILEDIALOG");
+				Win32PInvoke.SetEvent(eventHandle);
+				Win32PInvoke.CloseHandle(eventHandle);
 			}
 
 			// Continue running the app on the background
