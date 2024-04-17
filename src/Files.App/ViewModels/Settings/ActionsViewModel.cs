@@ -197,10 +197,10 @@ namespace Files.App.ViewModels.Settings
 			// Add the new one to the user setting
 			actions.Add(new(SelectedActionItem.CommandCode.ToString(), newKeyBinding.RawLabel));
 
-			var storedKeys = actions.FindAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString());
+			var storedKeyBindings = actions.FindAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString());
 
 			// If the existing ones in the user setting are all default ones, delete them
-			if (storedKeys.Select(x => x.KeyBinding).SequenceEqual(SelectedActionItem.DefaultKeyBindings.Select(x => x.LocalizedLabel)))
+			if (storedKeyBindings.Select(x => x.KeyBinding).SequenceEqual(SelectedActionItem.DefaultKeyBindings.Select(x => x.LocalizedLabel)))
 				actions.RemoveAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString());
 
 			// Set to the user settings
@@ -299,13 +299,12 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeyBinding = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
-			var allStoredKeyBindings = actions.FindAll(x => x.CommandCode == item.CommandCode.ToString());
+			var storedKeyBindings = actions.FindAll(x => x.CommandCode == item.CommandCode.ToString());
 
 			// Initialize
 			var newKeyBinding = HotKey.Parse(item.LocalizedKeyBindingLabel);
 
-			if (item.IsDefinedByDefault && storedKeyBinding is null)
+			if (item.IsDefinedByDefault && storedKeyBindings.Count is 0)
 			{
 				// Any item related this action has never been customized
 				foreach (var defaultKey in item.DefaultKeyBindings)
@@ -316,16 +315,21 @@ namespace Files.App.ViewModels.Settings
 
 				actions.Add(new(item.CommandCode.ToString(), newKeyBinding.RawLabel));
 			}
-			else if (allStoredKeyBindings.Count == 1 && allStoredKeyBindings[0].KeyBinding == string.Empty)
+			else if (storedKeyBindings.Count == 1 && storedKeyBindings[0].KeyBinding == string.Empty)
 			{
-				allStoredKeyBindings.Clear();
+				storedKeyBindings.Clear();
 				actions.Add(new(item.CommandCode.ToString(), newKeyBinding.RawLabel));
 			}
 			else
 			{
-				if (storedKeyBinding is not null)
-					storedKeyBinding.KeyBinding = newKeyBinding.RawLabel;
+				var previousKeyBinding = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+				if (previousKeyBinding is not null)
+					previousKeyBinding.KeyBinding = newKeyBinding.RawLabel;
 			}
+
+			// If the existing ones in the user setting are all default ones, delete them
+			if (storedKeyBindings.Select(x => x.KeyBinding).SequenceEqual(item.DefaultKeyBindings.Select(x => x.LocalizedLabel)))
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode.ToString());
 
 			// Set to the user settings
 			ActionsSettingsService.ActionsV2 = actions;
