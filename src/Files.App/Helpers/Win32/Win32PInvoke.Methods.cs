@@ -189,7 +189,7 @@ namespace Files.App.Helpers
 			uint dwIoControlCode,
 			IntPtr lpInBuffer,
 			uint nInBufferSize,
-			out IntPtr lpOutBuffer,
+			IntPtr lpOutBuffer,
 			uint nOutBufferSize,
 			out uint lpBytesReturned,
 			IntPtr lpOverlapped

@@ -162,10 +162,8 @@ namespace Files.App.Utils.Storage
 			if (!permanently && registerHistory)
 				App.HistoryWrapper.AddHistory(history);
 
-			var itemsDeleted = history?.Source.Count ?? 0;
-
-			// Remove items from jump list
-			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
+			// Execute removal tasks concurrently in background
+			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -476,8 +474,8 @@ namespace Files.App.Utils.Storage
 				App.HistoryWrapper.AddHistory(history);
 			}
 
-			// Remove items from jump list
-			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
+			// Execute removal tasks concurrently in background
+			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
 
 			var itemsCount = banner.TotalItemsCount;
 
