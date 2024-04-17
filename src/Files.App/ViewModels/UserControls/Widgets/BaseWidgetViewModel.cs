@@ -18,7 +18,7 @@ namespace Files.App.UserControls.Widgets
 		// Dependency injections
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		public IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
 		// Fields

@@ -19,7 +19,7 @@ namespace Files.App.Views.Layouts
 	{
 		// Dependency injections
 
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		public IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		// Properties
 

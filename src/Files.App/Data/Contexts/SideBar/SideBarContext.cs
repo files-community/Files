@@ -6,7 +6,7 @@ namespace Files.App.Data.Contexts
 	/// <inheritdoc cref="ISidebarContext"/>
 	internal sealed class SidebarContext : ObservableObject, ISidebarContext
 	{
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		public IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		private int PinnedFolderItemIndex =>
 			IsItemRightClicked

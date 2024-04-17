@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 
 namespace Files.App.Services
 {
-	internal sealed class QuickAccessService : IQuickAccessService
+	internal sealed class WindowsQuickAccessService : IWindowsQuickAccessService
 	{
 		// Dependency injections
 
@@ -44,7 +44,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public event EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
 
-		public QuickAccessService()
+		public WindowsQuickAccessService()
 		{
 			_quickAccessFolderWatcher = new()
 			{

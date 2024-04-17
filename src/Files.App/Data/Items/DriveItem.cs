@@ -13,7 +13,7 @@ namespace Files.App.Data.Items
 {
 	public sealed class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
-		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		private BitmapImage icon;
 		public BitmapImage Icon

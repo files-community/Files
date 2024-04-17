@@ -67,7 +67,7 @@ namespace Files.App.Helpers
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
-			var quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+			var quickAccessService = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
@@ -183,7 +183,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
 					.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
-					.AddSingleton<IQuickAccessService, QuickAccessService>()
+					.AddSingleton<IWindowsQuickAccessService, WindowsQuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()

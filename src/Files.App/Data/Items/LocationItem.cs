@@ -10,7 +10,7 @@ namespace Files.App.Data.Items
 {
 	public class LocationItem : ObservableObject, INavigationControlItem
 	{
-		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		public BitmapImage icon;
 		public BitmapImage Icon

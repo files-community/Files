@@ -7,7 +7,7 @@ namespace Files.App.ViewModels.Dialogs
 {
 	public sealed class ReorderSidebarItemsDialogViewModel : ObservableObject
 	{
-		private readonly IQuickAccessService quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private readonly IWindowsQuickAccessService quickAccessService = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		public string HeaderText = "ReorderSidebarItemsDialogText".GetLocalizedResource();
 		public ICommand PrimaryButtonCommand { get; private set; }

@@ -20,7 +20,7 @@ namespace Files.App.Utils
 		protected IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
 		protected IFileTagsSettingsService fileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		protected IDateTimeFormatter dateTimeFormatter { get; } = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
-		protected IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		protected IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 
 		public bool IsHiddenItem { get; set; } = false;

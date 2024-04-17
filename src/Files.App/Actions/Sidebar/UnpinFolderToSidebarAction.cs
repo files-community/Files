@@ -5,8 +5,8 @@ namespace Files.App.Actions
 {
 	internal sealed class UnpinFolderFromSidebarAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
-		private readonly IQuickAccessService service;
+		private IContentPageContext context { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		public string Label
 			=> "UnpinFolderFromSidebar".GetLocalizedResource();
@@ -22,11 +22,8 @@ namespace Files.App.Actions
 
 		public UnpinFolderFromSidebarAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
-
 			context.PropertyChanged += Context_PropertyChanged;
-			QuickAccessService.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
+			QuickAccessService.UpdateQuickAccessWidget += QuickAccessService_DataChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -34,11 +31,11 @@ namespace Files.App.Actions
 			if (context.HasSelection)
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
-				await service.UnpinFromSidebarAsync(items);
+				await QuickAccessService.UnpinFromSidebarAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await service.UnpinFromSidebarAsync([context.Folder.ItemPath]);
+				await QuickAccessService.UnpinFromSidebarAsync([context.Folder.ItemPath]);
 			}
 		}
 
@@ -67,7 +64,7 @@ namespace Files.App.Actions
 			}
 		}
 
-		private void QuickAccessManager_DataChanged(object? sender, ModifyQuickAccessEventArgs e)
+		private void QuickAccessService_DataChanged(object? sender, ModifyQuickAccessEventArgs e)
 		{
 			OnPropertyChanged(nameof(IsExecutable));
 		}

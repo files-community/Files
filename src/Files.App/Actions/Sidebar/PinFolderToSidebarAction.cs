@@ -8,7 +8,7 @@ namespace Files.App.Actions
 	internal sealed class PinFolderToSidebarAction : ObservableObject, IAction
 	{
 		private IContentPageContext context { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		public string Label
 			=> "PinFolderToSidebar".GetLocalizedResource();

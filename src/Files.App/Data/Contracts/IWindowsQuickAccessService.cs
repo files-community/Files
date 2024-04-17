@@ -5,13 +5,15 @@ using System.Collections.Specialized;
 
 namespace Files.App.Data.Contracts
 {
-	public interface IQuickAccessService
+	public interface IWindowsQuickAccessService
 	{
 		event EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		event SystemIO.FileSystemEventHandler? PinnedItemsModified;
 
 		event EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
+
+		List<string> PinnedFolders { get; }
 
 		IReadOnlyList<INavigationControlItem> PinnedFolderItems { get; }
 
