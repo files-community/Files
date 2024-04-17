@@ -1,8 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services;
-using Files.App.UserControls.Widgets;
+using CommunityToolkit.WinUI.Helpers;
 using System.IO;
 
 namespace Files.App.Utils
@@ -12,7 +11,7 @@ namespace Files.App.Utils
 		public FileSystemWatcher? PinnedItemsWatcher;
 
 		public event FileSystemEventHandler? PinnedItemsModified;
-		
+
 		public EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
 
 		public IQuickAccessService QuickAccessService;
@@ -24,7 +23,7 @@ namespace Files.App.Utils
 			Model = new();
 			Initialize();
 		}
-		
+
 		public void Initialize()
 		{
 			PinnedItemsWatcher = new()
@@ -45,8 +44,8 @@ namespace Files.App.Utils
 		{
 			PinnedItemsModified += Model.LoadAsync;
 
-			//if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
-			//	await QuickAccessService.PinToSidebar(Constants.UserEnvironmentPaths.RecycleBinPath);
+			if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
+				await QuickAccessService.PinToSidebarAsync(Constants.UserEnvironmentPaths.RecycleBinPath);
 
 			await Model.LoadAsync();
 		}
