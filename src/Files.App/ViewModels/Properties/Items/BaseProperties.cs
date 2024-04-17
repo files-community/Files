@@ -4,7 +4,7 @@
 using Microsoft.UI.Dispatching;
 using System.IO;
 using Windows.Storage.FileProperties;
-using static Files.App.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.ViewModels.Properties
@@ -75,7 +75,7 @@ namespace Files.App.ViewModels.Properties
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
 						size += findData.GetSize();
-						var fileSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Path.Combine(path, findData.cFileName));
+						var fileSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Path.Combine(path, findData.cFileName));
 						sizeOnDisk += fileSizeOnDisk ?? 0;
 						++count;
 						ViewModel.FilesCount++;
