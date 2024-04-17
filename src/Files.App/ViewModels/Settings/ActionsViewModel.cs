@@ -364,9 +364,9 @@ namespace Files.App.ViewModels.Settings
 					: [];
 
 			// Get raw string keys stored in the user setting
-			var storedKeyBinding = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+			var storedKeyBindings = actions.FindAll(x => x.CommandCode == item.CommandCode.ToString());
 
-			if (item.IsDefinedByDefault && storedKeyBinding is null)
+			if (item.IsDefinedByDefault && storedKeyBindings.Count is 0)
 			{
 				int index = 0;
 
@@ -380,13 +380,16 @@ namespace Files.App.ViewModels.Settings
 					}
 				}
 
+				// If the count of default one(s) is 1, add the empty one to hide the default one
 				if (index is 0)
 					actions.Add(new(item.CommandCode.ToString(), string.Empty));
 			}
 			else
 			{
+				// Remove the previous one, which existed in the user setting
 				actions.RemoveAll(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
+				// If the last one is about to be removed, add the empty one to hide the default ones
 				if (actions.FindAll(x => x.CommandCode == item.CommandCode.ToString()).IsEmpty() &&
 					item.DefaultKeyBindings.Length != 0)
 					actions.Add(new(item.CommandCode.ToString(), string.Empty));
