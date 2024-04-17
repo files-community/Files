@@ -22,16 +22,13 @@ using std::endl;
 CComPtr<IFileOpenDialog> GetSystemDialog()
 {
 	HINSTANCE lib = CoLoadLibrary(L"C:\\Windows\\System32\\comdlg32.dll", false);
-
-	BOOL(WINAPI * dllGetClassObject)(REFCLSID, REFIID, LPVOID*) = (BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
-
+	BOOL(WINAPI* dllGetClassObject)(REFCLSID, REFIID, LPVOID*) = 
+		(BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
 	CComPtr<IClassFactory> pClassFactory;
 	dllGetClassObject(CLSID_FileOpenDialog, IID_IClassFactory, (void**)&pClassFactory);
-
 	CComPtr<IFileOpenDialog> systemDialog;
 	pClassFactory->CreateInstance(NULL, IID_IFileOpenDialog, (void**)&systemDialog);
 	//CoFreeLibrary(lib);
-
 	return systemDialog;
 }
 

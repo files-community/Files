@@ -21,7 +21,7 @@ using std::endl;
 CComPtr<IFileSaveDialog> GetSystemDialog()
 {
 	HINSTANCE lib = CoLoadLibrary(L"C:\\Windows\\System32\\comdlg32.dll", false);
-	BOOL(WINAPI * dllGetClassObject)(REFCLSID, REFIID, LPVOID*) =
+	BOOL(WINAPI* dllGetClassObject)(REFCLSID, REFIID, LPVOID*) =
 		(BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
 	CComPtr<IClassFactory> pClassFactory;
 	dllGetClassObject(CLSID_FileSaveDialog, IID_IClassFactory, (void**)&pClassFactory);
