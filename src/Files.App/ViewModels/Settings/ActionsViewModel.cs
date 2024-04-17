@@ -190,6 +190,8 @@ namespace Files.App.ViewModels.Settings
 					actions.Add(new(SelectedActionItem.CommandCode.ToString(), defaultKey.RawLabel));
 			}
 
+			actions.RemoveAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == string.Empty);
+
 			// Add to the temporary modifiable collection
 			actions.Add(new(SelectedActionItem.CommandCode.ToString(), newKeyBinding.RawLabel));
 
@@ -364,9 +366,10 @@ namespace Files.App.ViewModels.Settings
 				foreach (var defaultKey in item.DefaultKeyBindings)
 				{
 					if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
+					{
 						actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
-
-					index++;
+						index++;
+					}
 				}
 
 				if (index is 0)
