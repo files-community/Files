@@ -23,7 +23,7 @@ namespace Files.App.Server.Database
 
 			Database = new LiteDatabase(new ConnectionString(FileTagsDbPath)
 			{
-				Connection = ConnectionType.Shared,
+				Connection = ConnectionType.Direct,
 				Upgrade = true
 			});
 

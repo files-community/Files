@@ -18,7 +18,7 @@ namespace Files.App.Server.Database
 			Database = new(
 				new ConnectionString(LayoutSettingsDbPath)
 				{
-					Connection = ConnectionType.Shared,
+					Connection = ConnectionType.Direct,
 					Upgrade = true,
 				});
 		}
