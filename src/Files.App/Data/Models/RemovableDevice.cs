@@ -77,7 +77,8 @@ namespace Files.App.Data.Models
 
 		private bool PreventRemovalOfVolume(bool prevent)
 		{
-			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, [prevent ? (byte)1 : (byte)0], 1, nint.Zero, 0, out uint _, nint.Zero);
+			byte[] buf = [prevent ? (byte)1 : (byte)0];
+			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, nint.Zero, 0, out _, nint.Zero);
 		}
 
 		private bool AutoEjectVolume()
