@@ -44,7 +44,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
-			ViewModel.IsDownloadedFile = NativeFileOperationsHelper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
+			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
 			ViewModel.IsEditAlbumCoverVisible = 
 				FileExtensionHelpers.IsVideoFile(Item.FileExtension) ||
 				FileExtensionHelpers.IsAudioFile(Item.FileExtension);
@@ -93,9 +93,9 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
+			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+			ViewModel.IsHidden = Win32Helper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
 
 			ViewModel.ItemSizeVisibility = true;
@@ -103,7 +103,7 @@ namespace Files.App.ViewModels.Properties
 
 			// Only load the size for items on the device
 			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-				ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				   string.Empty;
 
 			var result = await FileThumbnailHelper.GetIconAsync(
@@ -282,9 +282,9 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsReadOnly is not null)
 					{
 						if ((bool)ViewModel.IsReadOnly)
-							NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
 						else
-							NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
 					}
 
 					break;
@@ -293,9 +293,9 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-							NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath,	System.IO.FileAttributes.Hidden);
+							Win32Helper.SetFileAttribute(Item.ItemPath,	System.IO.FileAttributes.Hidden);
 						else
-							NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 
 					break;

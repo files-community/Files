@@ -396,7 +396,7 @@ namespace Files.App.Data.Models
 		{
 			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
+				var folderFRN = Win32Helper.GetFolderFRN(path);
 				var trimmedFolderPath = path.TrimPath();
 				if (trimmedFolderPath is not null)
 					SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
@@ -509,7 +509,7 @@ namespace Files.App.Data.Models
 			{
 				path = path.TrimPath() ?? string.Empty;
 
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
+				var folderFRN = Win32Helper.GetFolderFRN(path);
 
 				return GetLayoutPreferencesFromDatabase(path, folderFRN)
 					?? GetLayoutPreferencesFromAds(path, folderFRN)
@@ -521,7 +521,7 @@ namespace Files.App.Data.Models
 
 		private static LayoutPreferencesItem? GetLayoutPreferencesFromAds(string path, ulong? frn)
 		{
-			var str = NativeFileOperationsHelper.ReadStringFromFile($"{path}:files_layoutmode");
+			var str = Win32Helper.ReadStringFromFile($"{path}:files_layoutmode");
 
 			var layoutPreferences = SafetyExtensions.IgnoreExceptions(() =>
 				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferencesItem>(str));

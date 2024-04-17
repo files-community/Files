@@ -23,7 +23,7 @@ namespace Files.App.Utils.Storage
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private IShellPage associatedInstance;
-		private readonly IWindowsJumpListService jumpListService;
+		private readonly IJumpListService jumpListService;
 		private ShellFilesystemOperations filesystemOperations;
 
 		private ItemManipulationModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
@@ -56,7 +56,7 @@ namespace Files.App.Utils.Storage
 		{
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
-			jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
+			jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
 		public async Task<(ReturnResult, IStorageItem?)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
@@ -161,9 +161,11 @@ namespace Files.App.Utils.Storage
 
 			if (!permanently && registerHistory)
 				App.HistoryWrapper.AddHistory(history);
-			
-			// Execute removal tasks concurrently in background
-			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
+
+			var itemsDeleted = history?.Source.Count ?? 0;
+
+			// Remove items from jump list
+			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -474,8 +476,8 @@ namespace Files.App.Utils.Storage
 				App.HistoryWrapper.AddHistory(history);
 			}
 
-			// Execute removal tasks concurrently in background
-			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
+			// Remove items from jump list
+			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -821,7 +823,7 @@ namespace Files.App.Utils.Storage
 
 							foreach (var path in itemPaths)
 							{
-								var isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory);
+								var isDirectory = Win32Helper.HasFileAttribute(path, FileAttributes.Directory);
 								itemsList.Add(StorageHelpers.FromPathAndType(path, isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File));
 							}
 						}

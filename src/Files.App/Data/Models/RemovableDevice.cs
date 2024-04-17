@@ -52,7 +52,7 @@ namespace Files.App.Data.Models
 
 			for (int i = 0; i < 5; i++)
 			{
-				if (DeviceIoControl(handle, FSCTL_LOCK_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero))
+				if (DeviceIoControl(handle, FSCTL_LOCK_VOLUME, nint.Zero, 0, out _, 0, out _, nint.Zero))
 				{
 					Debug.WriteLine("Lock successful!");
 					result = true;
@@ -72,18 +72,18 @@ namespace Files.App.Data.Models
 
 		private bool DismountVolume()
 		{
-			return DeviceIoControl(handle, FSCTL_DISMOUNT_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
+			return DeviceIoControl(handle, FSCTL_DISMOUNT_VOLUME, nint.Zero, 0, out _, 0, out _, nint.Zero);
 		}
 
 		private bool PreventRemovalOfVolume(bool prevent)
 		{
 			byte[] buf = [prevent ? (byte)1 : (byte)0];
-			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, nint.Zero, 0, out _, nint.Zero);
+			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, out _, 0, out _, nint.Zero);
 		}
 
 		private bool AutoEjectVolume()
 		{
-			return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
+			return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, nint.Zero, 0, out _, 0, out _, nint.Zero);
 		}
 
 		private bool CloseVolume()

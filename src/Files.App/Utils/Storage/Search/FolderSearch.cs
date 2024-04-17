@@ -6,9 +6,9 @@ using System.IO;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.App.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
-using WIN32_FIND_DATA = Files.App.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
+using WIN32_FIND_DATA = Files.App.Helpers.Win32Helper.WIN32_FIND_DATA;
 
 namespace Files.App.Utils.Storage
 {
