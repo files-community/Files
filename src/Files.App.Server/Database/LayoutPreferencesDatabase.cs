@@ -9,25 +9,18 @@ namespace Files.App.Server.Database
 {
 	public sealed class LayoutPreferencesDatabase
 	{
-		private static LiteDatabase _database = default!;
-		private static readonly object _lockObject = new();
-
 		private const string LayoutPreferences = "layoutprefs";
+		private readonly static LiteDatabase Database;
+		private readonly static string LayoutSettingsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 
-		public static string LayoutSettingsDbPath
-			=> Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
-
-		public LayoutPreferencesDatabase()
+		static LayoutPreferencesDatabase()
 		{
-			lock (_lockObject)
-			{
-				_database ??= new(
-					new ConnectionString(LayoutSettingsDbPath)
-					{
-						Connection = ConnectionType.Direct,
-						Upgrade = true,
-					});
-			}
+			Database = new(
+				new ConnectionString(LayoutSettingsDbPath)
+				{
+					Connection = ConnectionType.Direct,
+					Upgrade = true,
+				});
 		}
 
 		public LayoutPreferencesItem? GetPreferences(string? filePath, ulong? frn)
@@ -38,7 +31,7 @@ namespace Files.App.Server.Database
 		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<LayoutPreferences>(LayoutPreferences);
+			var col = Database.GetCollection<LayoutPreferences>(LayoutPreferences);
 
 			var tmp = FindPreferences(filePath, frn);
 
@@ -77,14 +70,14 @@ namespace Files.App.Server.Database
 
 		public void ResetAll()
 		{
-			var col = _database.GetCollection<LayoutPreferences>(LayoutPreferences);
+			var col = Database.GetCollection<LayoutPreferences>(LayoutPreferences);
 
 			col.DeleteAll();
 		}
 
 		public void ApplyToAll(LayoutPreferencesUpdateAction updateAction)
 		{
-			var col = _database.GetCollection<LayoutPreferences>(LayoutPreferences);
+			var col = Database.GetCollection<LayoutPreferences>(LayoutPreferences);
 
 			var allDocs = col.FindAll();
 
@@ -100,7 +93,7 @@ namespace Files.App.Server.Database
 		{
 			var dataValues = JsonSerializer.DeserializeArray(json);
 
-			var col = _database.GetCollection(LayoutPreferences);
+			var col = Database.GetCollection(LayoutPreferences);
 
 			col.DeleteAll();
 			col.InsertBulk(dataValues.Select(x => x.AsDocument));
@@ -108,13 +101,13 @@ namespace Files.App.Server.Database
 
 		public string Export()
 		{
-			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection(LayoutPreferences).FindAll()));
+			return JsonSerializer.Serialize(new BsonArray(Database.GetCollection(LayoutPreferences).FindAll()));
 		}
 
 		private LayoutPreferences? FindPreferences(string? filePath, ulong? frn)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<LayoutPreferences>(LayoutPreferences);
+			var col = Database.GetCollection<LayoutPreferences>(LayoutPreferences);
 
 			if (filePath is not null)
 			{

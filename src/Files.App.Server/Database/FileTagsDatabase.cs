@@ -13,37 +13,29 @@ namespace Files.App.Server.Database
 {
 	public sealed class FileTagsDatabase
 	{
-		private static LiteDatabase _database = default!;
-		private static readonly object _lockObject = new();
-
 		private const string TaggedFiles = "taggedfiles";
+		private readonly static LiteDatabase Database;
+		private readonly static string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
-		public static string FileTagsDbPath 
-			=> Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
-
-		public FileTagsDatabase()
+		static FileTagsDatabase()
 		{
-			lock (_lockObject)
+			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(FileTagsDbPath));
+
+			Database = new LiteDatabase(new ConnectionString(FileTagsDbPath)
 			{
-				if (_database is null)
-				{
-					SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(FileTagsDbPath));
+				Connection = ConnectionType.Direct,
+				Upgrade = true
+			});
 
-					_database = new LiteDatabase(new ConnectionString(FileTagsDbPath)
-					{
-						Connection = ConnectionType.Direct,
-						Upgrade = true
-					});
-
-					UpdateDb();
-				}
-			}
+			UpdateDb();
 		}
+
+		public static string GetFileTagsDbPath() => FileTagsDbPath;
 
 		public void SetTags(string filePath, ulong? frn, [ReadOnlyArray] string[] tags)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
+			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
 
 			var tmp = FindTag(filePath, frn);
 			if (tmp is null)
@@ -81,7 +73,7 @@ namespace Files.App.Server.Database
 		private TaggedFile? FindTag(string? filePath, ulong? frn)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
+			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
 
 			if (filePath is not null)
 			{
@@ -122,7 +114,7 @@ namespace Files.App.Server.Database
 		public void UpdateTag(string oldFilePath, ulong? frn, string? newFilePath)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
+			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
 			var tmp = col.FindOne(x => x.FilePath == oldFilePath);
 			if (tmp is not null)
 			{
@@ -144,7 +136,7 @@ namespace Files.App.Server.Database
 		public void UpdateTag(ulong oldFrn, ulong? frn, string? newFilePath)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
+			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
 			var tmp = col.FindOne(x => x.Frn == oldFrn);
 			if (tmp is not null)
 			{
@@ -169,13 +161,13 @@ namespace Files.App.Server.Database
 
 		public IEnumerable<TaggedFile> GetAll()
 		{
-			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
+			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
 			return col.FindAll();
 		}
 
 		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
 		{
-			var col = _database.GetCollection<TaggedFile>(TaggedFiles);
+			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
 			if (string.IsNullOrEmpty(folderPath))
 				return col.FindAll();
 			return col.Find(x => x.FilePath.StartsWith(folderPath, StringComparison.OrdinalIgnoreCase));
@@ -184,33 +176,33 @@ namespace Files.App.Server.Database
 		public void Import(string json)
 		{
 			var dataValues = JsonSerializer.DeserializeArray(json);
-			var col = _database.GetCollection(TaggedFiles);
+			var col = Database.GetCollection(TaggedFiles);
 			col.DeleteAll();
 			col.InsertBulk(dataValues.Select(x => x.AsDocument));
 		}
 
 		public string Export()
 		{
-			return JsonSerializer.Serialize(new BsonArray(_database.GetCollection(TaggedFiles).FindAll()));
+			return JsonSerializer.Serialize(new BsonArray(Database.GetCollection(TaggedFiles).FindAll()));
 		}
 
-		private void UpdateDb()
+		private static void UpdateDb()
 		{
-			if (_database.UserVersion == 0)
+			if (Database.UserVersion == 0)
 			{
-				var col = _database.GetCollection(TaggedFiles);
+				var col = Database.GetCollection(TaggedFiles);
 				foreach (var doc in col.FindAll())
 				{
 					doc["Tags"] = new BsonValue(new[] { doc["Tag"].AsString });
 					doc.Remove("Tags");
 					col.Update(doc);
 				}
-				_database.UserVersion = 1;
+				Database.UserVersion = 1;
 			}
 		}
 
 		// https://github.com/mbdavid/LiteDB/blob/master/LiteDB/Engine/Engine/Upgrade.cs
-		private void CheckDbVersion(string filename)
+		private static void CheckDbVersion(string filename)
 		{
 			var buffer = new byte[8192 * 2];
 			using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
