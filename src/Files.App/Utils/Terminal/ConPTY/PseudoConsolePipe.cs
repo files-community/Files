@@ -1,6 +1,6 @@
 using Microsoft.Win32.SafeHandles;
 using System;
-using static Files.App.Utils.Terminal.ConPTY.PseudoConsoleApi;
+using static Windows.Win32.PInvoke;
 
 namespace Files.App.Utils.Terminal.ConPTY
 {
@@ -18,7 +18,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 
 		public PseudoConsolePipe()
 		{
-			if (!CreatePipe(out ReadSide, out WriteSide, nint.Zero, 0))
+			if (!CreatePipe(out ReadSide, out WriteSide, null, 0))
 			{
 				throw new InvalidOperationException("failed to create pipe");
 			}

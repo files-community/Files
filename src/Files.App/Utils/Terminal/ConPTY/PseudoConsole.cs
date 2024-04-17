@@ -1,6 +1,7 @@
 using Microsoft.Win32.SafeHandles;
-using System;
-using static Files.App.Utils.Terminal.ConPTY.PseudoConsoleApi;
+using System.Runtime.InteropServices;
+using Windows.Win32.System.Console;
+using static Windows.Win32.PInvoke;
 
 namespace Files.App.Utils.Terminal.ConPTY
 {
@@ -11,9 +12,9 @@ namespace Files.App.Utils.Terminal.ConPTY
 	{
 		public static readonly nint PseudoConsoleThreadAttribute = (nint)PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE;
 
-		public nint Handle { get; }
+		public SafeHandle Handle { get; }
 
-		private PseudoConsole(nint handle)
+		private PseudoConsole(SafeHandle handle)
 		{
 			Handle = handle;
 		}
@@ -23,7 +24,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 			var createResult = CreatePseudoConsole(
 				new COORD { X = (short)width, Y = (short)height },
 				inputReadSide, outputWriteSide,
-				0, out nint hPC);
+				0, out var hPC);
 			if (createResult != 0)
 			{
 				throw new InvalidOperationException("Could not create pseudo console. Error Code " + createResult);
@@ -38,7 +39,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 
 		public void Dispose()
 		{
-			ClosePseudoConsole(Handle);
+			ClosePseudoConsole((HPCON)Handle.DangerousGetHandle());
 		}
 	}
 }
