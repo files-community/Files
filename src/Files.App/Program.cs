@@ -62,11 +62,17 @@ namespace Files.App
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
-			if (activatedArgs.Data is ICommandLineActivatedEventArgs cmdLineArgs)
+			// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
+			var isCommadLineLaunch = activatedArgs.Data is ILaunchActivatedEventArgs args &&
+				args.Arguments is not null &&
+					(CommandLineParser.SplitArguments(args.Arguments, true)[0].EndsWith($"files.exe", StringComparison.OrdinalIgnoreCase)
+						|| CommandLineParser.SplitArguments(args.Arguments, true)[0].EndsWith($"files", StringComparison.OrdinalIgnoreCase));
+
+			if (activatedArgs.Data is ICommandLineActivatedEventArgs || isCommadLineLaunch)
 			{
-				var operation = cmdLineArgs.Operation;
-				var cmdLineString = operation.Arguments;
-				var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+				var cmdLineArgs = activatedArgs.Data as ICommandLineActivatedEventArgs;
+				var cmdLineLaunchArgs = activatedArgs.Data as ILaunchActivatedEventArgs;
+				var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineArgs?.Operation.Arguments ?? cmdLineLaunchArgs!.Arguments);
 
 				if (parsedCommands is not null)
 				{
@@ -119,7 +125,7 @@ namespace Files.App
 				}
 			}
 
-			if (OpenTabInExistingInstance)
+			if (OpenTabInExistingInstance && !isCommadLineLaunch)
 			{
 				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
 				{
