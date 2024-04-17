@@ -60,9 +60,17 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task InitializeAsync()
 		{
-			PinnedItemsModified += LoadAsync;
+			PinnedItemsModified += async (s, e) =>
+			{
+				_quickAccessFolderWatcher.EnableRaisingEvents = false;
 
-			//if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
+				await UpdateItemsWithExplorerAsync();
+				UpdateQuickAccessWidget?.Invoke(null, new((await GetPinnedFoldersAsync()).ToArray(), true) { Reset = true });
+
+				_quickAccessFolderWatcher.EnableRaisingEvents = true;
+			};
+
+			//if (!PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
 			//	await QuickAccessService.PinToSidebar(Constants.UserEnvironmentPaths.RecycleBinPath);
 
 			await UpdateItemsWithExplorerAsync();
@@ -120,6 +128,7 @@ namespace Files.App.Services
 						{
 							await fi.InvokeVerb("unpinfromhome");
 						});
+
 						continue;
 					}
 				}
@@ -159,10 +168,7 @@ namespace Files.App.Services
 			await PinToSidebarAsync(items, false);
 			_quickAccessFolderWatcher.EnableRaisingEvents = true;
 
-			UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(items, true)
-			{
-				Reorder = true
-			});
+			UpdateQuickAccessWidget?.Invoke(this, new(items, true) { Reorder = true });
 		}
 
 		/// <inheritdoc/>
@@ -292,18 +298,6 @@ namespace Files.App.Services
 
 			// Remove unpinned items from sidebar
 			DataChanged?.Invoke(SectionType.Pinned, new(NotifyCollectionChangedAction.Reset));
-		}
-
-		/// <inheritdoc/>
-		public async void LoadAsync(object? sender, SystemIO.FileSystemEventArgs e)
-		{
-			_quickAccessFolderWatcher.EnableRaisingEvents = false;
-
-			await UpdateItemsWithExplorerAsync();
-
-			UpdateQuickAccessWidget?.Invoke(null, new((await GetPinnedFoldersAsync()).ToArray(), true) { Reset = true });
-
-			_quickAccessFolderWatcher.EnableRaisingEvents = true;
 		}
 
 		private void AddLocationItemToSidebar(LocationItem locationItem)
