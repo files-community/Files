@@ -1,8 +1,10 @@
 using Microsoft.Win32.SafeHandles;
 using System.IO;
 using System.Runtime.InteropServices;
-using Vanara.PInvoke;
-using static Files.App.Utils.Terminal.ConPTY.ConsoleApi;
+using Windows.Win32.UI.WindowsAndMessaging;
+using Windows.Win32.System.Console;
+using Windows.Win32.Storage.FileSystem;
+using static Windows.Win32.PInvoke;
 
 namespace Files.App.Utils.Terminal.ConPTY
 {
@@ -45,7 +47,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 			}
 
 			var windowHandle = GetConsoleWindow();
-			User32.ShowWindow(windowHandle, ShowWindowCommand.SW_HIDE);
+			ShowWindow(windowHandle, SHOW_WINDOW_CMD.SW_HIDE);
 
 			EnableVirtualTerminalSequenceProcessing();
 		}
@@ -62,12 +64,12 @@ namespace Files.App.Utils.Terminal.ConPTY
 		{
 			//var hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 			SafeFileHandle hStdOut = GetConsoleScreenBuffer();
-			if (!GetConsoleMode(hStdOut, out uint outConsoleMode))
+			if (!GetConsoleMode(hStdOut, out var outConsoleMode))
 			{
 				throw new InvalidOperationException("Could not get console mode");
 			}
 
-			outConsoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN;
+			outConsoleMode |= CONSOLE_MODE.ENABLE_VIRTUAL_TERMINAL_PROCESSING | CONSOLE_MODE.DISABLE_NEWLINE_AUTO_RETURN;
 			if (!SetConsoleMode(hStdOut, outConsoleMode))
 			{
 				throw new InvalidOperationException("Could not enable virtual terminal processing");
@@ -84,7 +86,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 			_inputPipe = new PseudoConsolePipe();
 			_outputPipe = new PseudoConsolePipe();
 			_pseudoConsole = PseudoConsole.Create(_inputPipe.ReadSide, _outputPipe.WriteSide, consoleWidth, consoleHeight);
-			_process = ProcessFactory.Start(command, directory, PseudoConsole.PseudoConsoleThreadAttribute, _pseudoConsole.Handle);
+			_process = ProcessFactory.Start(command, directory, PseudoConsole.PseudoConsoleThreadAttribute, _pseudoConsole.Handle.DangerousGetHandle());
 
 			// copy all pseudoconsole output to a FileStream and expose it to the rest of the app
 			ConsoleOutStream = new FileStream(_outputPipe.ReadSide, FileAccess.Read);
@@ -134,21 +136,21 @@ namespace Files.App.Utils.Terminal.ConPTY
 		/// <remarks>This is described in more detail here: https://docs.microsoft.com/en-us/windows/console/console-handles </remarks>
 		private static SafeFileHandle GetConsoleScreenBuffer()
 		{
-			var file = Kernel32.CreateFile(
+			var file = CreateFile(
 				"CONOUT$",
-				Kernel32.FileAccess.GENERIC_WRITE | Kernel32.FileAccess.GENERIC_READ,
-				FileShare.Write,
+				(FILE_ACCESS_FLAGS)(Win32PInvoke.GENERIC_WRITE | Win32PInvoke.GENERIC_READ),
+				FILE_SHARE_MODE.FILE_SHARE_WRITE,
 				null,
-				FileMode.Open,
-				FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL,
-				nint.Zero);
+				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+				FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+				new SafeFileHandle());
 
-			if (file == new nint(-1))
+			if (file.IsInvalid)
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error(), "Could not get console screen buffer.");
 			}
 
-			return new SafeFileHandle(file.ReleaseOwnership(), true);
+			return file;
 		}
 
 		#region IDisposable Support
