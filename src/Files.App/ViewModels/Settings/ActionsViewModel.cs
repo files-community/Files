@@ -182,18 +182,26 @@ namespace Files.App.ViewModels.Settings
 					? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
 					: [];
 
-			var storedKeyBinding = actions.Find(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == SelectedActionItem.PreviousKeyBinding.RawLabel);
-			if (storedKeyBinding == null)
+			if (actions.FindAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString()).Count is 0)
 			{
-				// Any keys associated to the command is not customized at all
+				// Add default ones to the user setting
 				foreach (var defaultKey in SelectedActionItem.DefaultKeyBindings)
 					actions.Add(new(SelectedActionItem.CommandCode.ToString(), defaultKey.RawLabel));
 			}
+			else
+			{
+				// Remove empty one, which was added to hide default ones
+				actions.RemoveAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == string.Empty);
+			}
 
-			actions.RemoveAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == string.Empty);
-
-			// Add to the temporary modifiable collection
+			// Add the new one to the user setting
 			actions.Add(new(SelectedActionItem.CommandCode.ToString(), newKeyBinding.RawLabel));
+
+			var storedKeys = actions.FindAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString());
+
+			// If the existing ones in the user setting are all default ones, delete them
+			if (storedKeys.Select(x => x.KeyBinding).SequenceEqual(SelectedActionItem.DefaultKeyBindings.Select(x => x.LocalizedLabel)))
+				actions.RemoveAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString());
 
 			// Set to the user settings
 			ActionsSettingsService.ActionsV2 = actions;
@@ -379,7 +387,8 @@ namespace Files.App.ViewModels.Settings
 			{
 				actions.RemoveAll(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
 
-				if (actions.FindAll(x => x.CommandCode == item.CommandCode.ToString()).IsEmpty())
+				if (actions.FindAll(x => x.CommandCode == item.CommandCode.ToString()).IsEmpty() &&
+					item.DefaultKeyBindings.Length != 0)
 					actions.Add(new(item.CommandCode.ToString(), string.Empty));
 			}
 
