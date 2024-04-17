@@ -11,6 +11,8 @@ using Windows.Foundation;
 
 namespace Files.App.Extensions
 {
+	using WebViewMessageReceivedHandler = TypedEventHandler<WebView2, CoreWebView2WebMessageReceivedEventArgs>;
+
 	/// <summary>
 	/// Code modified from https://gist.github.com/mqudsi/ceb4ecee76eb4c32238a438664783480
 	/// </summary>
@@ -47,14 +49,11 @@ namespace Files.App.Extensions
 			public string Value { get; set; }
 		}
 
-		public static List<TypedEventHandler<WebView2, CoreWebView2WebMessageReceivedEventArgs>> _handlers = new List<TypedEventHandler<WebView2, CoreWebView2WebMessageReceivedEventArgs>>();
+		public static List<WebViewMessageReceivedHandler> _handlers = new();
 		public static async Task AddWebAllowedObject<T>(this WebView2 webview, string name, T @object)
 		{
 			var sb = new StringBuilder();
 			sb.AppendLine($"window.{name} = {{ ");
-
-			// Test webview for our sanity
-			await webview.ExecuteScriptAsync($@"console.log(""Sanity check from iMessage"");");
 
 			var methodsGuid = Guid.NewGuid();
 			var methodInfo = typeof(T).GetMethods(BindingFlags.Public | BindingFlags.Instance);
@@ -79,7 +78,6 @@ namespace Files.App.Extensions
 			//    if (property.CanWrite)
 			//    {
 			//        sb.AppendLine($@"set {propertyName}(value) {{ window.chrome.webview.postMessage(JSON.stringify({{ guid: ""{propertiesGuid}"", id: this._callbackIndex++, property: ""{propertyName}"", action: ""{(int)PropertyAction.Write}"", value: JSON.stringify(value) }}));  const promise = new Promise((accept, reject) => this._callbacks.set(this._callbackIndex, {{ accept: accept, reject: reject }})); return promise; }},");
-
 			//    }
 			//    properties[propertyName] = property;
 			//}
@@ -101,7 +99,7 @@ namespace Files.App.Extensions
 				// So we can see it in the JS debugger
 			}
 
-			var handler = (TypedEventHandler<WebView2, CoreWebView2WebMessageReceivedEventArgs>)(async (_, e) =>
+			var handler = (WebViewMessageReceivedHandler)(async (_, e) =>
 			{
 				var message = JsonConvert.DeserializeObject<WebMessage>(e.TryGetWebMessageAsString());
 				if (message.Guid == methodsGuid)
@@ -187,7 +185,7 @@ namespace Files.App.Extensions
 					}
 					catch (Exception ex)
 					{
-						var json = JsonConvert.SerializeObject(ex, new JsonSerializerSettings() { Error = (_, e) => e.ErrorContext.Handled = true });
+						//var json = JsonConvert.SerializeObject(ex, new JsonSerializerSettings() { Error = (_, e) => e.ErrorContext.Handled = true });
 						//await webview.ExecuteScriptAsync($@"{name}._callbacks.get({propertyMessage.Id}).reject(JSON.parse({json})); {name}._callbacks.delete({propertyMessage.Id});");
 						//throw;
 					}
