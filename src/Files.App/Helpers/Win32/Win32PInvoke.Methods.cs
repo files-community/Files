@@ -207,6 +207,19 @@ namespace Files.App.Helpers
 			IntPtr lpOverlapped
 		);
 
+		[DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool DeviceIoControl(
+			IntPtr hDevice,
+			uint dwIoControlCode,
+			IntPtr lpInBuffer,
+			uint nInBufferSize,
+			//IntPtr lpOutBuffer,
+			out REPARSE_DATA_BUFFER outBuffer,
+			uint nOutBufferSize,
+			out uint lpBytesReturned,
+			IntPtr lpOverlapped);
+
 		[DllImport("user32.dll")]
 		public static extern int ToUnicode(
 			uint virtualKeyCode,
@@ -229,19 +242,6 @@ namespace Files.App.Helpers
 			uint dwFlagsAndAttributes,
 			IntPtr hTemplateFile
 		);
-
-		[DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool DeviceIoControl(
-			IntPtr hDevice,
-			uint dwIoControlCode,
-			IntPtr lpInBuffer,
-			uint nInBufferSize,
-			//IntPtr lpOutBuffer,
-			out REPARSE_DATA_BUFFER outBuffer,
-			uint nOutBufferSize,
-			out uint lpBytesReturned,
-			IntPtr lpOverlapped);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]

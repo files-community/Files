@@ -52,14 +52,14 @@ namespace Files.App.ViewModels.Properties
 
 			long size = 0;
 			long sizeOnDisk = 0;
-			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+			Win32PInvoke.FINDEX_INFO_LEVELS findInfoLevel = Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic;
+			int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
 
-			IntPtr hFile = FindFirstFileExFromApp(
+			IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp(
 				path + "\\*.*",
 				findInfoLevel,
-				out WIN32_FIND_DATA findData,
-				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				out Win32PInvoke.WIN32_FIND_DATA findData,
+				Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
 				IntPtr.Zero,
 				additionalFlags);
 
@@ -107,9 +107,9 @@ namespace Files.App.ViewModels.Properties
 					if (token.IsCancellationRequested)
 						break;
 				}
-				while (FindNextFile(hFile, out findData));
+				while (Win32PInvoke.FindNextFile(hFile, out findData));
 
-				FindClose(hFile);
+				Win32PInvoke.FindClose(hFile);
 
 				return (size, sizeOnDisk);
 			}

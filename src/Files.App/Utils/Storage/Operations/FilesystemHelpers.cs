@@ -23,7 +23,7 @@ namespace Files.App.Utils.Storage
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private IShellPage associatedInstance;
-		private readonly IJumpListService jumpListService;
+		private readonly IWindowsJumpListService jumpListService;
 		private ShellFilesystemOperations filesystemOperations;
 
 		private ItemManipulationModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
@@ -56,7 +56,7 @@ namespace Files.App.Utils.Storage
 		{
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
-			jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
+			jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
 		public async Task<(ReturnResult, IStorageItem?)> CreateAsync(IStorageItemWithPath source, bool registerHistory)

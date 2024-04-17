@@ -9,7 +9,7 @@ namespace Files.App.Extensions
 	{
 		private const long MAX_DWORD = 4294967295;
 
-		public static long GetSize(this WIN32_FIND_DATA findData)
+		public static long GetSize(this Win32PInvoke.WIN32_FIND_DATA findData)
 		{
 			long fDataFSize = findData.nFileSizeLow;
 

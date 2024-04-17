@@ -15,7 +15,7 @@ namespace Files.App.Helpers
 	{
 		private static MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private static NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private static INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 
 		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{
@@ -169,7 +169,7 @@ namespace Files.App.Helpers
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = NetworkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = NetworkDrivesService.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
 					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
@@ -393,7 +393,7 @@ namespace Files.App.Helpers
 				{
 					if (!isDirectory &&
 						Win32Helper.GetWin32FindDataForPath(path, out var findData) &&
-						findData.dwReserved0 == Win32Helper.IO_REPARSE_TAG_SYMLINK)
+						findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK)
 					{
 						shortcutInfo.TargetPath = Win32Helper.ParseSymLink(path);
 					}

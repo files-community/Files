@@ -1073,8 +1073,7 @@ namespace Files.App.Helpers
 			using var handle = OpenFileForRead(path, false, 0x00200000);
 			if (!handle.IsInvalid)
 			{
-				Win32PInvoke.REPARSE_DATA_BUFFER buffer = new Win32PInvoke.REPARSE_DATA_BUFFER();
-				if (Win32PInvoke.DeviceIoControl(handle.DangerousGetHandle(), Win32PInvoke.FSCTL_GET_REPARSE_POINT, IntPtr.Zero, 0, out (nint)buffer, Win32PInvoke.MAXIMUM_REPARSE_DATA_BUFFER_SIZE, out _, IntPtr.Zero))
+				if (Win32PInvoke.DeviceIoControl(handle.DangerousGetHandle(), Win32PInvoke.FSCTL_GET_REPARSE_POINT, IntPtr.Zero, 0, out Win32PInvoke.REPARSE_DATA_BUFFER buffer, Win32PInvoke.MAXIMUM_REPARSE_DATA_BUFFER_SIZE, out _, IntPtr.Zero))
 				{
 					var subsString = new string(buffer.PathBuffer, ((buffer.SubsNameOffset / 2) + 2), buffer.SubsNameLength / 2);
 					var printString = new string(buffer.PathBuffer, ((buffer.PrintNameOffset / 2) + 2), buffer.PrintNameLength / 2);
