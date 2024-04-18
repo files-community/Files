@@ -19,7 +19,7 @@ namespace Files.App.Server.Database
 {
 	public sealed class FileTagsDatabase
 	{
-		private readonly static string FileTagsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\FileTags";
+		private readonly static string FileTagsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\v1\FileTags";
 		
 		private readonly static string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 		private const string FileTagsCollectionName = "taggedfiles";
