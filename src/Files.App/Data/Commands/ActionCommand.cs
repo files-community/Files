@@ -139,6 +139,12 @@ namespace Files.App.Data.Commands
 			HotKeys = hotKeys;
 		}
 
+		internal void RestoreKeyBindings()
+		{
+			hotKeys = DefaultHotKeys;
+			IsCustomHotKeys = false;
+		}
+
 		private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 		{
 			switch (e.PropertyName)

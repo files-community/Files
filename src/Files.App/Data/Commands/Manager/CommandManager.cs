@@ -370,24 +370,31 @@ namespace Files.App.Data.Commands
 		private void OverwriteKeyBindings()
 		{
 			if (ActionsSettingsService.ActionsV2 is null)
-				return;
-
-			foreach (var command in commands.Values.OfType<ActionCommand>())
 			{
-				var customizedKeyBindings = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
+				foreach (var command in commands.Values.OfType<ActionCommand>())
+				{
+					command.RestoreKeyBindings();
+				}
+			}
+			else
+			{
+				foreach (var command in commands.Values.OfType<ActionCommand>())
+				{
+					var customizedKeyBindings = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
 
-				if (customizedKeyBindings.IsEmpty())
-				{
-					continue;
-				}
-				else if (customizedKeyBindings.Count == 1 && customizedKeyBindings[0].KeyBinding == string.Empty)
-				{
-					command.OverwriteKeyBindings(HotKeyCollection.Empty);
-				}
-				else
-				{
-					var keyBindings = new HotKeyCollection(customizedKeyBindings.Select(x => HotKey.Parse(x.KeyBinding, false)));
-					command.OverwriteKeyBindings(keyBindings);
+					if (customizedKeyBindings.IsEmpty())
+					{
+						continue;
+					}
+					else if (customizedKeyBindings.Count == 1 && customizedKeyBindings[0].KeyBinding == string.Empty)
+					{
+						command.OverwriteKeyBindings(HotKeyCollection.Empty);
+					}
+					else
+					{
+						var keyBindings = new HotKeyCollection(customizedKeyBindings.Select(x => HotKey.Parse(x.KeyBinding, false)));
+						command.OverwriteKeyBindings(keyBindings);
+					}
 				}
 			}
 
