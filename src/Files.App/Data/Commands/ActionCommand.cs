@@ -133,7 +133,7 @@ namespace Files.App.Data.Commands
 		internal void OverwriteKeyBindings(bool isCustom, HotKeyCollection hotKeys)
 		{
 			SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
-			HotKeys = this.hotKeys;
+			HotKeys = hotKeys;
 		}
 
 		private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)

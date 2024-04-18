@@ -24,7 +24,7 @@ namespace Files.App.Services.Settings
 		{
 			switch (e.SettingName)
 			{
-				case nameof(Actions):
+				case nameof(ActionsV2):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

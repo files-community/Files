@@ -199,7 +199,8 @@ namespace Files.App.Data.Commands
 				.Append(new NoneCommand())
 				.ToFrozenDictionary(command => command.Code);
 
-			ActionsSettingsService.PropertyChanged += Settings_PropertyChanged;
+			ActionsSettingsService.PropertyChanged += (s, e) => { OverwriteKeyBindings(); };
+
 			OverwriteKeyBindings();
 		}
 
@@ -377,12 +378,17 @@ namespace Files.App.Data.Commands
 			{
 				var customizedItems = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
 
-				var hotkeys = customizedItems.IsEmpty()
-					? GetDefaultKeyBindings(command.Action)
-					: new(customizedItems.Select(x => HotKey.Parse(x.KeyBinding, false)));
+				HotKeyCollection keyBindings = HotKeyCollection.Empty;
+
+				if (customizedItems.Count > 1 && customizedItems[0].KeyBinding != string.Empty)
+				{
+					keyBindings = customizedItems.IsEmpty()
+						? GetDefaultKeyBindings(command.Action)
+						: new(customizedItems.Select(x => HotKey.Parse(x.KeyBinding, false)));
+				}
 
 				// Replace with custom hotkeys
-				command.OverwriteKeyBindings(customizedItems != null, hotkeys);
+				command.OverwriteKeyBindings(customizedItems != null, keyBindings);
 			}
 
 			hotKeys = commands.Values
@@ -393,12 +399,6 @@ namespace Files.App.Data.Commands
 		public static HotKeyCollection GetDefaultKeyBindings(IAction action)
 		{
 			return new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
-		}
-
-		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName is nameof(IActionsSettingsService.ActionsV2))
-				OverwriteKeyBindings();
 		}
 	}
 }
