@@ -40,8 +40,6 @@ namespace Files.App.Data.Contracts
 
 		(bool result, string reason) CanCreateLibrary(string name);
 
-		Task ShowRestoreDefaultLibrariesDialogAsync();
-
-		Task ShowCreateNewLibraryDialogAsync();
+		bool IsLibraryPath(string path);
 	}
 }

@@ -152,7 +152,7 @@ namespace Files.App.Services
 						displayName = "ThisPC".GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "SidebarNetworkDrives".GetLocalizedResource();
-					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+					else if (App.WindowsLibraryService.TryGetLibrary(path, out LibraryLocationItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);
 						displayName = libName switch

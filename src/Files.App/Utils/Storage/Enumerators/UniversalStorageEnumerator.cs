@@ -260,7 +260,7 @@ namespace Files.App.Utils.Storage
 				return null;
 
 			// TODO: is this needed to be handled here?
-			if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
+			if (App.WindowsLibraryService.TryGetLibrary(file.Path, out LibraryLocationItem library))
 			{
 				return new LibraryItem(library)
 				{

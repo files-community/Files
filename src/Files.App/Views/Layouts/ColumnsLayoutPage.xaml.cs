@@ -98,7 +98,7 @@ namespace Files.App.Views.Layouts
 			{
 				var rootPathList = App.QuickAccessManager.Model.PinnedFolders.Select(NormalizePath)
 					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList()
-					.Concat(App.LibraryManager.Libraries.Select(x => NormalizePath(x.Path))).ToList();
+					.Concat(App.WindowsLibraryService.Libraries.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));
 
 				while (!rootPathList.Contains(NormalizePath(path)))

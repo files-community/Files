@@ -19,6 +19,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
+using Files.App.Dialogs;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -246,7 +247,7 @@ namespace Files.App.ViewModels.UserControls
 			Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
-			App.LibraryManager.DataChanged += Manager_DataChanged;
+			App.WindowsLibraryService.DataChanged += Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
 			NetworkDrivesService.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
@@ -284,7 +285,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => NetworkDrivesService.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.WSL => WSLDistroManager.Distros,
-					SectionType.Library => App.LibraryManager.Libraries,
+					SectionType.Library => App.WindowsLibraryService.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
 					_ => null
 				};
@@ -580,7 +581,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => NetworkDrivesService.UpdateDrivesAsync,
 					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
-					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
+					SectionType.Library => App.WindowsLibraryService.UpdateLibrariesAsync,
 					SectionType.Pinned => App.QuickAccessManager.Model.AddAllItemsToSidebarAsync,
 					_ => () => Task.CompletedTask
 				};
@@ -641,7 +642,7 @@ namespace Files.App.ViewModels.UserControls
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
-			App.LibraryManager.DataChanged -= Manager_DataChanged;
+			App.WindowsLibraryService.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;
 			NetworkDrivesService.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
@@ -792,9 +793,9 @@ namespace Files.App.ViewModels.UserControls
 				shellPage.NavigateToPath(navigationPath, sourcePageType);
 		}
 
-		public readonly ICommand CreateLibraryCommand = new AsyncRelayCommand(LibraryManager.ShowCreateNewLibraryDialogAsync);
+		public readonly ICommand CreateLibraryCommand = new AsyncRelayCommand(ShowCreateNewLibraryDialogAsync);
 
-		public readonly ICommand RestoreLibrariesCommand = new AsyncRelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialogAsync);
+		public readonly ICommand RestoreLibrariesCommand = new AsyncRelayCommand(ShowRestoreDefaultLibrariesDialogAsync);
 
 		private ICommand HideSectionCommand { get; }
 
@@ -930,6 +931,97 @@ namespace Files.App.ViewModels.UserControls
 		private void FormatDrive()
 		{
 			Win32Helper.OpenFormatDriveDialog(rightClickedItem.Path);
+		}
+
+		public static async Task ShowRestoreDefaultLibrariesDialogAsync()
+		{
+			var dialog = new DynamicDialog(new DynamicDialogViewModel
+			{
+				TitleText = "DialogRestoreLibrariesTitleText".GetLocalizedResource(),
+				SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalizedResource(),
+				PrimaryButtonText = "Restore".GetLocalizedResource(),
+				CloseButtonText = "Cancel".GetLocalizedResource(),
+				PrimaryButtonAction = async (vm, e) =>
+				{
+					await ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
+					await App.WindowsLibraryService.UpdateLibrariesAsync();
+				},
+				CloseButtonAction = (vm, e) => vm.HideDialog(),
+				KeyDownAction = (vm, e) =>
+				{
+					if (e.Key == VirtualKey.Escape)
+					{
+						vm.HideDialog();
+					}
+				},
+				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+			});
+			await dialog.ShowAsync();
+		}
+
+		public static async Task ShowCreateNewLibraryDialogAsync()
+		{
+			var inputText = new TextBox
+			{
+				PlaceholderText = "FolderWidgetCreateNewLibraryInputPlaceholderText".GetLocalizedResource()
+			};
+			var tipText = new TextBlock
+			{
+				Text = string.Empty,
+				Visibility = Visibility.Collapsed
+			};
+
+			var dialog = new DynamicDialog(new DynamicDialogViewModel
+			{
+				DisplayControl = new Grid
+				{
+					Children =
+					{
+						new StackPanel
+						{
+							Spacing = 4d,
+							Children =
+							{
+								inputText,
+								tipText
+							}
+						}
+					}
+				},
+				TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalizedResource(),
+				SubtitleText = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
+				PrimaryButtonText = "Create".GetLocalizedResource(),
+				CloseButtonText = "Cancel".GetLocalizedResource(),
+				PrimaryButtonAction = async (vm, e) =>
+				{
+					var (result, reason) = App.WindowsLibraryService.CanCreateLibrary(inputText.Text);
+					tipText.Text = reason;
+					tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
+					if (!result)
+					{
+						e.Cancel = true;
+						return;
+					}
+					await App.WindowsLibraryService.CreateNewLibrary(inputText.Text);
+				},
+				CloseButtonAction = (vm, e) =>
+				{
+					vm.HideDialog();
+				},
+				KeyDownAction = async (vm, e) =>
+				{
+					if (e.Key == VirtualKey.Enter)
+					{
+						await App.WindowsLibraryService.CreateNewLibrary(inputText.Text);
+					}
+					else if (e.Key == VirtualKey.Escape)
+					{
+						vm.HideDialog();
+					}
+				},
+				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+			});
+			await dialog.ShowAsync();
 		}
 
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)

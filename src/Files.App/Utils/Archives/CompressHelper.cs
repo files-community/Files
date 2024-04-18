@@ -51,7 +51,7 @@ namespace Files.App.Utils.Archives
 			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
 
 
-			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
+			if (App.WindowsLibraryService.TryGetLibrary(directory, out var library) && !library.IsEmpty)
 				directory = library.DefaultSaveFolder;
 
 			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);

@@ -72,7 +72,7 @@ namespace Files.App.Utils.Storage
 		{
 			try
 			{
-				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+				if (App.WindowsLibraryService.TryGetLibrary(Folder, out var library))
 				{
 					return AddItemsForLibraryAsync(library, results, token);
 				}
@@ -114,7 +114,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				var token = CancellationToken.None;
-				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+				if (App.WindowsLibraryService.TryGetLibrary(Folder, out var library))
 				{
 					await AddItemsForLibraryAsync(library, results, token);
 				}

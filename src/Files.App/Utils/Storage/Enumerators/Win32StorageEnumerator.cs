@@ -329,7 +329,7 @@ namespace Files.App.Utils.Storage
 					IsUrl = isUrl,
 				};
 			}
-			else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
+			else if (App.WindowsLibraryService.TryGetLibrary(itemPath, out LibraryLocationItem library))
 			{
 				return new LibraryItem(library)
 				{

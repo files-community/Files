@@ -71,7 +71,7 @@ namespace Files.App.Helpers
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
 				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-				App.LibraryManager.UpdateLibrariesAsync(),
+				App.WindowsLibraryService.UpdateLibrariesAsync(),
 				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 				App.QuickAccessManager.InitializeAsync()
@@ -190,6 +190,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton<IWindowsLibraryService, WindowsLibraryService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
@@ -204,7 +205,6 @@ namespace Files.App.Helpers
 					.AddSingleton<StorageHistoryWrapper>()
 					.AddSingleton<FileTagsManager>()
 					.AddSingleton<RecentItems>()
-					.AddSingleton<LibraryManager>()
 					.AddSingleton<AppModel>()
 				).Build();
 		}

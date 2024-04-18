@@ -561,7 +561,7 @@ namespace Files.App.Data.Models
 					DirectoryGroupByDateUnit = GroupByDateUnit.Year
 				};
 			}
-			else if (LibraryManager.IsLibraryPath(path))
+			else if (App.WindowsLibraryService.IsLibraryPath(path))
 			{
 				// Default for libraries is to group by folder path
 				return new()

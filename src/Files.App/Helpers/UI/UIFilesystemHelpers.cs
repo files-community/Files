@@ -284,7 +284,7 @@ namespace Files.App.Helpers
 			if (associatedInstance.SlimContentPage is not null)
 			{
 				currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-				if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
+				if (App.WindowsLibraryService.TryGetLibrary(currentPath, out var library) &&
 					!library.IsEmpty &&
 					library.Folders.Count == 1) // TODO: handle libraries with multiple folders
 				{
@@ -375,7 +375,7 @@ namespace Files.App.Helpers
 		{
 			var currentPath = associatedInstance?.FilesystemViewModel.WorkingDirectory;
 
-			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
+			if (App.WindowsLibraryService.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
 				currentPath = library.DefaultSaveFolder;
 
 			foreach (ListedItem selectedItem in selectedItems)
@@ -394,7 +394,7 @@ namespace Files.App.Helpers
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
 			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
+			if (App.WindowsLibraryService.TryGetLibrary(currentPath, out var library) &&
 				!library.IsEmpty)
 			{
 				currentPath = library.DefaultSaveFolder;

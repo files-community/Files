@@ -102,7 +102,7 @@ namespace Files.App.Views.Properties
 			async Task<bool> SaveLibraryAsync(LibraryItem library)
 			{
 				var fsVM = AppInstance.FilesystemViewModel;
-				if (!GetNewName(out var newName) || fsVM is null || !App.LibraryManager.CanCreateLibrary(newName).result)
+				if (!GetNewName(out var newName) || fsVM is null || !App.WindowsLibraryService.CanCreateLibrary(newName).result)
 					return false;
 
 				newName = $"{newName}{ShellLibraryItem.EXTENSION}";

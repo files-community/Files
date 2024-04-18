@@ -147,7 +147,7 @@ namespace Files.App.Helpers
 				tabLocationHeader = "ThisPC".GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 				tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
-			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
+			else if (App.WindowsLibraryService.TryGetLibrary(currentPath, out LibraryLocationItem library))
 			{
 				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
 				// If localized string is empty use the library name.
@@ -449,7 +449,7 @@ namespace Files.App.Helpers
 				await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
 				opened = (FilesystemResult)true;
 			}
-			else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+			else if (App.WindowsLibraryService.TryGetLibrary(path, out LibraryLocationItem library))
 			{
 				opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
 				if (opened)

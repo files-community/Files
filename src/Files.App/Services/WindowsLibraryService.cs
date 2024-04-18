@@ -254,99 +254,9 @@ namespace Files.App.Services
 			return (true, string.Empty);
 		}
 
-		/// <inheritdoc/>
-		public async Task ShowRestoreDefaultLibrariesDialogAsync()
+		public bool IsLibraryPath(string path)
 		{
-			var dialog = new DynamicDialog(new DynamicDialogViewModel
-			{
-				TitleText = "DialogRestoreLibrariesTitleText".GetLocalizedResource(),
-				SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalizedResource(),
-				PrimaryButtonText = "Restore".GetLocalizedResource(),
-				CloseButtonText = "Cancel".GetLocalizedResource(),
-				PrimaryButtonAction = async (vm, e) =>
-				{
-					await ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
-					await App.LibraryManager.UpdateLibrariesAsync();
-				},
-				CloseButtonAction = (vm, e) => vm.HideDialog(),
-				KeyDownAction = (vm, e) =>
-				{
-					if (e.Key == VirtualKey.Escape)
-					{
-						vm.HideDialog();
-					}
-				},
-				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-			});
-
-			await dialog.ShowAsync();
-		}
-
-		/// <inheritdoc/>
-		public async Task ShowCreateNewLibraryDialogAsync()
-		{
-			var inputText = new TextBox
-			{
-				PlaceholderText = "FolderWidgetCreateNewLibraryInputPlaceholderText".GetLocalizedResource()
-			};
-
-			var tipText = new TextBlock
-			{
-				Text = string.Empty,
-				Visibility = Visibility.Collapsed
-			};
-
-			var dialog = new DynamicDialog(new DynamicDialogViewModel
-			{
-				DisplayControl = new Grid
-				{
-					Children =
-					{
-						new StackPanel
-						{
-							Spacing = 4d,
-							Children =
-							{
-								inputText,
-								tipText
-							}
-						}
-					}
-				},
-				TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalizedResource(),
-				SubtitleText = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
-				PrimaryButtonText = "Create".GetLocalizedResource(),
-				CloseButtonText = "Cancel".GetLocalizedResource(),
-				PrimaryButtonAction = async (vm, e) =>
-				{
-					var (result, reason) = App.LibraryManager.CanCreateLibrary(inputText.Text);
-					tipText.Text = reason;
-					tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
-					if (!result)
-					{
-						e.Cancel = true;
-						return;
-					}
-					await App.LibraryManager.CreateNewLibrary(inputText.Text);
-				},
-				CloseButtonAction = (vm, e) =>
-				{
-					vm.HideDialog();
-				},
-				KeyDownAction = async (vm, e) =>
-				{
-					if (e.Key == VirtualKey.Enter)
-					{
-						await App.LibraryManager.CreateNewLibrary(inputText.Text);
-					}
-					else if (e.Key == VirtualKey.Escape)
-					{
-						vm.HideDialog();
-					}
-				},
-				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-			});
-			await dialog.ShowAsync();
+			return !string.IsNullOrEmpty(path) && path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
@@ -414,11 +324,6 @@ namespace Files.App.Services
 		private void OnLibraryRenamed(object sender, RenamedEventArgs e)
 		{
 			OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
-		}
-
-		public static bool IsLibraryPath(string path)
-		{
-			return !string.IsNullOrEmpty(path) && path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase);
 		}
 
 		public void Dispose()
