@@ -8,6 +8,9 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ReleaseNotesDialog : ContentDialog, IDialog<ReleaseNotesDialogViewModel>
 	{
+		private FrameworkElement RootAppElement
+			=> (FrameworkElement)MainWindow.Instance.Content;
+
 		public ReleaseNotesDialogViewModel ViewModel
 		{
 			get => (ReleaseNotesDialogViewModel)DataContext;

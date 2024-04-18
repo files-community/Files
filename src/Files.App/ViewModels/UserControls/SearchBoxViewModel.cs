@@ -28,9 +28,9 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
 
-		public ObservableCollection<SuggestionModel> Suggestions { get; } = new ObservableCollection<SuggestionModel>();
+		public ObservableCollection<SuggestionModel> Suggestions { get; } = [];
 
-		private readonly List<SuggestionModel> oldQueries = new List<SuggestionModel>();
+		private readonly List<SuggestionModel> oldQueries = [];
 
 		public void ClearSuggestions()
 		{

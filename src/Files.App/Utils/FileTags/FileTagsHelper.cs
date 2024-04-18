@@ -5,22 +5,21 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Win32;
 using IO = System.IO;
 
 namespace Files.App.Utils.FileTags
 {
 	public static class FileTagsHelper
 	{
-		public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+		private static readonly Lazy<Server.Database.FileTagsDatabase> dbInstance = new(() => new());
 
-		private static readonly Lazy<FileTagsDb> dbInstance = new(() => new FileTagsDb(FileTagsDbPath, true));
-
-		public static FileTagsDb GetDbInstance() => dbInstance.Value;
+		public static Server.Database.FileTagsDatabase GetDbInstance() => dbInstance.Value;
 
 		public static string[] ReadFileTag(string filePath)
 		{
 			var tagString = NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
-			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries);
+			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? [];
 		}
 
 		public static async void WriteFileTag(string filePath, string[] tag)
@@ -31,9 +30,9 @@ namespace Files.App.Utils.FileTags
 			{
 				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
-			if (tag is null || !tag.Any())
+			if (!tag.Any())
 			{
-				NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
+				PInvoke.DeleteFileFromApp($"{filePath}:files");
 			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
 			{
@@ -80,7 +79,7 @@ namespace Files.App.Utils.FileTags
 					}
 					else
 					{
-						dbInstance.SetTags(null, file.Frn, null);
+						dbInstance.SetTags(null, file.Frn, []);
 					}
 				}
 				else
@@ -95,12 +94,12 @@ namespace Files.App.Utils.FileTags
 							dbInstance.SetTags(file.FilePath, frn, tag);
 						}, App.Logger))
 						{
-							dbInstance.SetTags(file.FilePath, null, null);
+							dbInstance.SetTags(file.FilePath, null, []);
 						}
 					}
 					else
 					{
-						dbInstance.SetTags(file.FilePath, null, null);
+						dbInstance.SetTags(file.FilePath, null, []);
 					}
 				}
 			}
@@ -119,7 +118,7 @@ namespace Files.App.Utils.FileTags
 
 			static async Task<ulong?> GetFileFRN(IStorageItemExtraProperties properties)
 			{
-				var extra = await properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+				var extra = await properties.RetrievePropertiesAsync(["System.FileFRN"]);
 				return (ulong?)extra["System.FileFRN"];
 			}
 		}

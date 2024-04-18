@@ -31,7 +31,7 @@ namespace Files.App.Utils.Storage
 				var fileList = new System.Collections.Specialized.StringCollection();
 				fileList.AddRange(filesToCopy);
 				MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
-					new byte[] { 5, 0, 0, 0 } : new byte[] { 2, 0, 0, 0 });
+					[5, 0, 0, 0] : [2, 0, 0, 0]);
 				var data = new System.Windows.Forms.DataObject();
 				data.SetFileDropList(fileList);
 				data.SetData("Preferred DropEffect", dropEffect);
@@ -854,7 +854,7 @@ namespace Files.App.Utils.Storage
 				};
 				if (destination is null)
 				{
-					dbInstance.SetTags(sourcePath, null, null); // remove tag from deleted files
+					dbInstance.SetTags(sourcePath, null, []); // remove tag from deleted files
 				}
 				else
 				{
@@ -862,7 +862,7 @@ namespace Files.App.Utils.Storage
 					{
 						if (operationType == "copy")
 						{
-							var tag = dbInstance.GetTags(sourcePath);
+							var tag = dbInstance.GetTags(sourcePath, null);
 
 							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
 							using var si = new ShellItem(destination);
@@ -882,7 +882,7 @@ namespace Files.App.Utils.Storage
 					var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
 					if (destination is null) // remove tag for items contained in the folder
 					{
-						tags.ForEach(t => dbInstance.SetTags(t.FilePath, null, null));
+						tags.ForEach(t => dbInstance.SetTags(t.FilePath, null, []));
 					}
 					else
 					{
@@ -893,7 +893,7 @@ namespace Files.App.Utils.Storage
 								SafetyExtensions.IgnoreExceptions(() =>
 								{
 									var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-									dbInstance.SetTags(subPath, FileTagsHelper.GetFileFRN(subPath), t.Tags);
+									dbInstance.SetTags(subPath, FileTagsHelper.GetFileFRN(subPath), t.Tags ?? []);
 								}, App.Logger);
 							});
 						}

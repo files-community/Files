@@ -194,7 +194,7 @@ namespace Files.App.Helpers
 		public static string?[] CommandLineToArgs(string commandLine)
 		{
 			if (string.IsNullOrEmpty(commandLine))
-				return Array.Empty<string>();
+				return [];
 
 			var argv = Shell32.CommandLineToArgvW(commandLine, out int argc);
 			if (argv == IntPtr.Zero)
@@ -228,7 +228,7 @@ namespace Files.App.Helpers
 		public static byte[]? GetIconOverlay(string path, bool isDirectory)
 		{
 			var shFileInfo = new Shell32.SHFILEINFO();
-			var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
+			const Shell32.SHGFI flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
 			byte[]? overlayData = null;
 
 			try
@@ -326,7 +326,7 @@ namespace Files.App.Helpers
 				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
-					var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION | Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES;
+					const Shell32.SHGFI flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION | Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES;
 
 					// Cannot access file, use file attributes
 					var useFileAttibutes = iconData is null;
@@ -371,14 +371,14 @@ namespace Files.App.Helpers
 							else if (isFolder)
 							{
 								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, size);
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), [2], size);
 								var generic = icons.SingleOrDefault(x => x.Index == 2);
 								iconData = generic?.IconData;
 							}
 							else
 							{
 								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, size);
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), [1], size);
 								var generic = icons.SingleOrDefault(x => x.Index == 1);
 								iconData = generic?.IconData;
 							}

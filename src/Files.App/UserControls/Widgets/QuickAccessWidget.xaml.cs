@@ -23,7 +23,7 @@ namespace Files.App.UserControls.Widgets
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
-		public static ObservableCollection<WidgetFolderCardItem> ItemsAdded = new();
+		public static ObservableCollection<WidgetFolderCardItem> ItemsAdded = [];
 
 		static QuickAccessWidget()
 		{
@@ -139,7 +139,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = [],
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

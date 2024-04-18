@@ -33,15 +33,6 @@ namespace Files.App.Helpers
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct POINT
-		{
-			public int X;
-			public int Y;
-
-			public POINT(int x, int y) => (X, Y) = (x, y);
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
 		public struct BROWSEINFO
 		{
 			public IntPtr hwndOwner;

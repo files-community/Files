@@ -23,8 +23,8 @@ namespace Files.App.Utils.Storage
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private IShellPage associatedInstance;
-		private readonly IJumpListService jumpListService;
-		private IFilesystemOperations filesystemOperations;
+		private readonly IWindowsJumpListService jumpListService;
+		private ShellFilesystemOperations filesystemOperations;
 
 		private ItemManipulationModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
@@ -35,13 +35,13 @@ namespace Files.App.Utils.Storage
 			{
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				return userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible
-					? new[] { '\\', '/', '*', '?', '"', '<', '>', '|' } // Allow ":" char
-					: new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+					? ['\\', '/', '*', '?', '"', '<', '>', '|'] // Allow ":" char
+					: ['\\', '/', ':', '*', '?', '"', '<', '>', '|'];
 			}
 		}
 
-		private static readonly string[] RestrictedFileNames = new string[]
-		{
+		private static readonly string[] RestrictedFileNames =
+		[
 				"CON", "PRN", "AUX",
 				"NUL", "COM1", "COM2",
 				"COM3", "COM4", "COM5",
@@ -49,14 +49,14 @@ namespace Files.App.Utils.Storage
 				"COM9", "LPT1", "LPT2",
 				"LPT3", "LPT4", "LPT5",
 				"LPT6", "LPT7", "LPT8", "LPT9"
-		};
+		];
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
 		{
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
-			jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
+			jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
 		public async Task<(ReturnResult, IStorageItem?)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
@@ -125,7 +125,7 @@ namespace Files.App.Utils.Storage
 					(canBeSentToBin ? permanently : true, canBeSentToBin),
 					FilesystemOperationType.Delete,
 					incomingItems,
-					new());
+					[]);
 
 				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -161,11 +161,9 @@ namespace Files.App.Utils.Storage
 
 			if (!permanently && registerHistory)
 				App.HistoryWrapper.AddHistory(history);
-
-			var itemsDeleted = history?.Source.Count ?? 0;
-
-			// Remove items from jump list
-			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
+			
+			// Execute removal tasks concurrently in background
+			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -476,8 +474,8 @@ namespace Files.App.Utils.Storage
 				App.HistoryWrapper.AddHistory(history);
 			}
 
-			// Remove items from jump list
-			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
+			// Execute removal tasks concurrently in background
+			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -699,7 +697,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (result != DialogResult.Primary) // Operation was cancelled
 					{
-						return (new(), true, itemsResult);
+						return ([], true, itemsResult);
 					}
 				}
 

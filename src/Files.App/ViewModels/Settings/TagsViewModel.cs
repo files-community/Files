@@ -35,7 +35,7 @@ namespace Files.App.ViewModels.Settings
 			SaveNewTagCommand = new RelayCommand(DoSaveNewTag);
 			CancelNewTagCommand = new RelayCommand(DoCancelNewTag);
 
-			Tags = new ObservableCollection<ListedTagViewModel>();
+			Tags = [];
 			Tags.CollectionChanged += Tags_CollectionChanged;
 			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Server.Data.Enums;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -92,8 +93,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-			var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-			presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			SetFolderBackground(openedFolderPresenter, new SolidColorBrush(Microsoft.UI.Colors.Transparent));
 			openedFolderPresenter = null;
 		}
 
@@ -157,8 +157,8 @@ namespace Files.App.Views.Layouts
 			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
 				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
 			{
-				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
-				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				SetFolderBackground(args.ItemContainer as ListViewItem, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
+
 				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
 				FileList.ContainerContentChanging -= HighlightPathDirectory;
 			}
@@ -279,8 +279,7 @@ namespace Files.App.Views.Layouts
 
 			if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
 			{
-				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				SetFolderBackground(openedFolderPresenter, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
 			}
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
@@ -591,6 +590,17 @@ namespace Files.App.Views.Layouts
 			LockPreviewPaneContent = true;
 			FileList.SelectedItem = null;
 			LockPreviewPaneContent = false;
+		}
+
+		private static void SetFolderBackground(ListViewItem? lvi, SolidColorBrush? backgroundColor)
+		{
+			if (lvi == null || backgroundColor == null) return;
+
+
+			if (lvi.FindDescendant<Grid>() is Grid presenter)
+			{
+				presenter.Background = backgroundColor;
+			}
 		}
 	}
 }

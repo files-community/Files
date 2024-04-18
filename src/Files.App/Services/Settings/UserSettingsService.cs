@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Utils.Serialization;
 using Files.App.Utils.Serialization.Implementation;
-using Files.Core.Services.Settings;
+using Files.App.Services.Settings;
 using Files.Shared.Extensions;
 using System.Collections.Generic;
 using System.IO;
@@ -81,9 +81,9 @@ namespace Files.App.Services.Settings
 		{
 			Dictionary<string, object> settingsImport = import switch
 			{
-				string s => JsonSettingsSerializer?.DeserializeFromJson<Dictionary<string, object>>(s) ?? new(),
+				string s => JsonSettingsSerializer?.DeserializeFromJson<Dictionary<string, object>>(s) ?? [],
 				Dictionary<string, object> d => d,
-				_ => new(),
+				_ => [],
 			};
 
 			if (!settingsImport.IsEmpty() && base.ImportSettings(settingsImport))

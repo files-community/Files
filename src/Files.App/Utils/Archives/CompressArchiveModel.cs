@@ -163,7 +163,7 @@ namespace Files.App.Utils.Archives
 				var files = sources.Where(File.Exists).ToArray();
 				var directories = sources.Where(SystemIO.Directory.Exists);
 
-				_sizeCalculator = new FileSizeCalculator(files.Concat(directories).ToArray());
+				_sizeCalculator = new FileSizeCalculator([.. files, .. directories]);
 				var sizeTask = _sizeCalculator.ComputeSizeAsync(cts.Token);
 				_ = sizeTask.ContinueWith(_ =>
 				{

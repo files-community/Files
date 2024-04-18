@@ -10,7 +10,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using Vanara.PInvoke;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.App.Helpers
 {
@@ -122,56 +122,6 @@ namespace Files.App.Helpers
 			uint nOutBufferSize,
 			out uint lpBytesReturned,
 			IntPtr lpOverlapped);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern IntPtr CreateFile2FromApp(
-			string lpFileName,
-			uint dwDesiredAccess,
-			uint dwShareMode,
-			uint dwCreationDisposition,
-			IntPtr pCreateExParams
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool CreateDirectoryFromApp(
-			string lpPathName,
-			IntPtr SecurityAttributes
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool MoveFileFromApp(
-			string lpExistingFileName,
-			string lpNewFileName
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool CopyFileFromApp(
-			string lpExistingFileName,
-			string lpNewFileName,
-			bool bFailIfExists
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool DeleteFileFromApp(
-			string lpFileName
-		);
-
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-		CallingConvention = CallingConvention.StdCall,
-		SetLastError = true)]
-		public static extern bool RemoveDirectoryFromApp(
-			string lpPathName
-		);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]

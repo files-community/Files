@@ -55,12 +55,6 @@ namespace Files.App.Helpers
 			IntPtr hData
 		);
 
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool GetCursorPos(
-			out POINT point
-		);
-
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
 		public static extern IntPtr CreateEvent(
 			IntPtr lpEventAttributes,
@@ -101,12 +95,7 @@ namespace Files.App.Helpers
 			WindowLongFlags nIndex,
 			IntPtr dwNewLong
 		);
-
-		[DllImport("User32.dll")]
-		public extern static short GetKeyState(
-			int n
-		);
-
+		
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHBrowseForFolder(
 			ref BROWSEINFO lpbi
@@ -209,6 +198,16 @@ namespace Files.App.Helpers
 			uint nOutBufferSize,
 			out uint lpBytesReturned,
 			IntPtr lpOverlapped
+		);
+
+		[DllImport("user32.dll")]
+		public static extern int ToUnicode(
+			uint virtualKeyCode,
+			uint scanCode,
+			byte[] keyboardState,
+			[Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder receivingBuffer,
+			int bufferSize,
+			uint flags
 		);
 	}
 }

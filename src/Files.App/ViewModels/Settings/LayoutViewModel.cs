@@ -1,6 +1,8 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Server.Data.Enums;
+
 namespace Files.App.ViewModels.Settings
 {
 	public sealed class LayoutViewModel : ObservableObject
@@ -38,6 +40,13 @@ namespace Files.App.ViewModels.Settings
 
 					ResetLayoutPreferences();
 					OnPropertyChanged();
+
+					if (value && DefaultLayoutMode is FolderLayoutModes.Adaptive)
+					{
+						// Change the default layout to Details, as Adaptive layout is not available when preferences are synced.
+						SelectedDefaultLayoutModeIndex = 0;
+						ShowAdaptiveDisabledTeachingTip = true;
+					}
 				}
 			}
 		}
@@ -263,7 +272,14 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		
+		private bool _ShowAdaptiveDisabledTeachingTip;
+		public bool ShowAdaptiveDisabledTeachingTip
+		{
+			get => _ShowAdaptiveDisabledTeachingTip;
+			set => SetProperty(ref _ShowAdaptiveDisabledTeachingTip, value);
+		}
+
+
 		// Methods
 
 		public void ResetLayoutPreferences()

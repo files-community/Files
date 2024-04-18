@@ -35,6 +35,12 @@ namespace Files.App.Data.Commands
 			set => throw new InvalidOperationException("This command is readonly.");
 		}
 
+		public HotKeyCollection DefaultHotKeys
+		{
+			get => HotKeyCollection.Empty;
+			set => throw new InvalidOperationException("This command is readonly.");
+		}
+
 		public bool IsToggle => false;
 		public bool IsOn { get => false; set { } }
 		public bool IsExecutable => false;

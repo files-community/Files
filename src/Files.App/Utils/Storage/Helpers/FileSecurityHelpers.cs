@@ -98,7 +98,7 @@ namespace Files.App.Utils.Storage
 
 			var isValidAcl = IsValidAcl(pDacl);
 
-			List<AccessControlEntry> aces = new();
+			List<AccessControlEntry> aces = [];
 
 			// Get ACEs
 			for (uint i = 0; i < aclSize.AceCount; i++)
@@ -196,7 +196,7 @@ namespace Files.App.Utils.Storage
 			};
 
 			// Add an new ACE and get a new ACL
-			result = SetEntriesInAcl(1, new[] { explicitAccess }, pDACL, out var pNewDACL);
+			result = SetEntriesInAcl(1, [explicitAccess], pDACL, out var pNewDACL);
 
 			if (result.Failed)
 				return result;

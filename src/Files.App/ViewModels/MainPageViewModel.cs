@@ -16,16 +16,16 @@ namespace Files.App.ViewModels
 		// Dependency injections
 
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
-		private NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		// Properties
 
-		public static ObservableCollection<TabBarItem> AppInstances { get; private set; } = new();
+		public static ObservableCollection<TabBarItem> AppInstances { get; private set; } = [];
 
-		public List<ITabBar> MultitaskingControls { get; } = new();
+		public List<ITabBar> MultitaskingControls { get; } = [];
 
 		public ITabBar? MultitaskingControl { get; set; }
 
@@ -75,10 +75,6 @@ namespace Files.App.ViewModels
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
 
-			// Initialize the static theme helper to capture a reference to this window
-			// to handle theme changes without restarting the app
-			var isInitialized = ThemeHelper.Initialize();
-
 			var parameter = e.Parameter;
 			var ignoreStartupSettings = false;
 			if (parameter is MainPageNavigationArguments mainPageNavigationArguments)
@@ -125,15 +121,14 @@ namespace Files.App.ViewModels
 					else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 						UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 					{
-						foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
+						if (AppInstances.Count == 0)
 						{
-							var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
-							await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
+							{
+								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+							}
 						}
-
-						var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
-
-						UserSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
 					else
 					{
@@ -158,17 +153,14 @@ namespace Files.App.ViewModels
 								await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path, true);
 						}
 						else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
-							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
+							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null &&
+							AppInstances.Count == 0)
 						{
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
 								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
 								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
-
-							var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
-
-							UserSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 						}
 					}
 					catch { }
@@ -182,15 +174,12 @@ namespace Files.App.ViewModels
 					await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 			}
 
-			if (isInitialized)
-			{
-				// Load the app theme resources
-				ResourcesService.LoadAppResources(AppearanceSettingsService);
+			// Load the app theme resources
+			ResourcesService.LoadAppResources(AppearanceSettingsService);
 
-				await Task.WhenAll(
-					DrivesViewModel.UpdateDrivesAsync(),
-					NetworkDrivesViewModel.UpdateDrivesAsync());
-			}
+			await Task.WhenAll(
+				DrivesViewModel.UpdateDrivesAsync(),
+				NetworkDrivesService.UpdateDrivesAsync());
 		}
 
 		// Command methods

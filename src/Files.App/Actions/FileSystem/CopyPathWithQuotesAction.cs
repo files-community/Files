@@ -19,7 +19,7 @@ namespace Files.App.Actions
 			=> new RichGlyph(opacityStyle: "ColorIconCopyPath");
 
 		public HotKey HotKey
-			=> new(Keys.C, KeyModifiers.MenuCtrl);
+			=> new(Keys.C, KeyModifiers.CtrlAlt);
 
 		public bool IsExecutable
 			=> context.HasSelection;

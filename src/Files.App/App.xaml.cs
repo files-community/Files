@@ -211,6 +211,24 @@ namespace Files.App
 			// Save the current tab list in case it was overwriten by another instance
 			AppLifecycleHelper.SaveSessionTabs();
 
+			if (OutputPath is not null)
+			{
+				var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
+				if (instance is null)
+					return;
+
+				var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+				if (items is null)
+					return;
+
+				var results = items.Select(x => x.ItemPath).ToList();
+				System.IO.File.WriteAllLines(OutputPath, results);
+
+				IntPtr eventHandle = Win32PInvoke.CreateEvent(IntPtr.Zero, false, false, "FILEDIALOG");
+				Win32PInvoke.SetEvent(eventHandle);
+				Win32PInvoke.CloseHandle(eventHandle);
+			}
+
 			// Continue running the app on the background
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
@@ -291,23 +309,6 @@ namespace Files.App
 
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
-
-			if (OutputPath is not null)
-			{
-				await SafetyExtensions.IgnoreExceptions(async () =>
-				{
-					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
-					if (instance is null)
-						return;
-
-					var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
-					if (items is null)
-						return;
-
-					await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
-				},
-				Logger);
-			}
 
 			// Try to maintain clipboard data after app close
 			SafetyExtensions.IgnoreExceptions(() =>

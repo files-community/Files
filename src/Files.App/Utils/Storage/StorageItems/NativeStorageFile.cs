@@ -9,6 +9,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using Windows.Win32;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -27,7 +28,7 @@ namespace Files.App.Utils.Storage
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
-		public bool IsAlternateStream => System.Text.RegularExpressions.Regex.IsMatch(Path, @"\w:\w");
+		public bool IsAlternateStream => RegexHelpers.AlternateStream().IsMatch(Path);
 
 		public override string DisplayType
 		{
@@ -74,7 +75,7 @@ namespace Files.App.Utils.Storage
 				var destFile = new NativeStorageFile(destination, desiredNewName, DateTime.Now);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(Path, destination, option != NameCollisionOption.ReplaceExisting)))
+					if (!await Task.Run(() => PInvoke.CopyFileFromApp(Path, destination, option != NameCollisionOption.ReplaceExisting)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}
@@ -104,12 +105,14 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncAction DeleteAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run(_ =>
 			{
-				if (!NativeFileOperationsHelper.DeleteFileFromApp(Path))
+				if (!PInvoke.DeleteFileFromApp(Path))
 				{
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
+
+				return Task.CompletedTask;
 			});
 		}
 
@@ -158,7 +161,7 @@ namespace Files.App.Utils.Storage
 		private static bool IsNativePath(string path)
 		{
 			var isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
-			var isAlternateStream = System.Text.RegularExpressions.Regex.IsMatch(path, @"\w:\w");
+			var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(path);
 			return isShortcut || isAlternateStream;
 		}
 
@@ -185,7 +188,7 @@ namespace Files.App.Utils.Storage
 				var destination = IO.Path.Combine(destinationFolder.Path, desiredNewName);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(Path, destination)))
+					if (!await Task.Run(() => PInvoke.MoveFileFromApp(Path, destination)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}
@@ -237,7 +240,7 @@ namespace Files.App.Utils.Storage
 				var destFile = new NativeStorageFile(destination, desiredName, DateTime.Now);
 				if (!IsAlternateStream)
 				{
-					if (!await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(Path, destination)))
+					if (!await Task.Run(() => PInvoke.MoveFileFromApp(Path, destination)))
 					{
 						throw new Win32Exception(Marshal.GetLastWin32Error());
 					}

@@ -69,6 +69,13 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref _SupplementaryDisplay, value);
 		}
 
+		private HotKeyCollection _HotKeys = new();
+		public HotKeyCollection HotKeys
+		{
+			get => _HotKeys;
+			set => SetProperty(ref _HotKeys, value);
+		}
+
 		private void UpdatePrimaryDisplay()
 		{
 			if (SearchText is null || PrimaryDisplay is null)

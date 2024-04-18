@@ -2,12 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Drawing;
-using Files.Core.Services.SizeProvider;
+using Files.App.Services.SizeProvider;
 using Files.Shared.Helpers;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Storage;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
@@ -15,10 +15,10 @@ namespace Files.App.Utils.Storage
 	public static class Win32StorageEnumerator
 	{
 		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
+		private static readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 
 		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
-		private static readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
 
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
@@ -174,7 +174,7 @@ namespace Files.App.Utils.Storage
 
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-			string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
+			string itemName = await fileListCache.GetDisplayName(itemPath, cancellationToken);
 			if (string.IsNullOrEmpty(itemName))
 				itemName = findData.cFileName;
 

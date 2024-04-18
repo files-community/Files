@@ -1,6 +1,8 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Server.Data.Enums;
+
 namespace Files.App.Data.Models
 {
 	public sealed class CurrentInstanceViewModel : ObservableObject
@@ -137,7 +139,15 @@ namespace Files.App.Data.Models
 			get => !isPageTypeRecycleBin && !isPageTypeFtp && !isPageTypeZipFolder;
 		}
 
-		public bool IsGitRepository => !string.IsNullOrWhiteSpace(gitRepositoryPath);
+		private bool isGitRepository;
+		public bool IsGitRepository
+		{
+			get => isGitRepository;
+			set
+			{
+				SetProperty(ref isGitRepository, value);
+			}
+		}
 
 		private string? gitRepositoryPath;
 		public string? GitRepositoryPath
@@ -145,8 +155,7 @@ namespace Files.App.Data.Models
 			get => gitRepositoryPath;
 			set
 			{
-				if (SetProperty(ref gitRepositoryPath, value))
-					OnPropertyChanged(nameof(IsGitRepository));
+				SetProperty(ref gitRepositoryPath, value);
 			}
 		}
 

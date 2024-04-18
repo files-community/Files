@@ -40,7 +40,7 @@ namespace Files.App.Actions
 		private string ComputeLabel()
 		{
 			if (context.SelectedItems == null || context.SelectedItems.Count == 0)
-				return string.Empty;
+				return string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), string.Empty);
 
 			return context.SelectedItems.Count > 1
 				? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")

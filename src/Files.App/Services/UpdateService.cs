@@ -16,7 +16,7 @@ namespace Files.App.Services
 	internal sealed class UpdateService : ObservableObject, IUpdateService
 	{
 		private StoreContext? _storeContext;
-		private IList<StorePackageUpdate>? _updatePackages;
+		private List<StorePackageUpdate>? _updatePackages;
 
 		private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
 
@@ -48,7 +48,7 @@ namespace Files.App.Services
 
 		public UpdateService()
 		{
-			_updatePackages = new List<StorePackageUpdate>();
+			_updatePackages = [];
 		}
 
 		public async Task DownloadUpdatesAsync()

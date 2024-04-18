@@ -39,3 +39,9 @@ AttachThreadInput
 SetWindowPos
 SetFocus
 SetActiveWindow
+CopyFileFromApp
+MoveFileFromApp
+DeleteFileFromApp
+RemoveDirectoryFromApp
+GetKeyState
+CreateDirectoryFromApp

@@ -8,11 +8,12 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed class AppearanceViewModel : ObservableObject
 	{
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private readonly IUserSettingsService UserSettingsService;
 		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
-		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = new();
+		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = [];
 
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
@@ -20,13 +21,14 @@ namespace Files.App.ViewModels.Settings
 		{
 			UserSettingsService = userSettingsService;
 			ResourcesService = resourcesService;
+			selectedThemeIndex = (int)Enum.Parse<ElementTheme>(AppThemeModeService.AppThemeMode.ToString());
 
-			Themes = new List<string>()
-			{
+			Themes =
+			[
 				"Default".GetLocalizedResource(),
 				"LightTheme".GetLocalizedResource(),
 				"DarkTheme".GetLocalizedResource()
-			};
+			];
 
 			// TODO: Re-add Solid and regular Mica when theming is revamped
 			//BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "Solid".GetLocalizedResource());
@@ -84,7 +86,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
+		private int selectedThemeIndex;
 		public int SelectedThemeIndex
 		{
 			get => selectedThemeIndex;
@@ -92,7 +94,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (SetProperty(ref selectedThemeIndex, value))
 				{
-					ThemeHelper.RootTheme = (ElementTheme)value;
+					AppThemeModeService.AppThemeMode = (ElementTheme)value;
 					OnPropertyChanged(nameof(SelectedElementTheme));
 				}
 			}

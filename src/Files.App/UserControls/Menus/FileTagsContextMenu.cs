@@ -73,11 +73,11 @@ namespace Files.App.UserControls.Menus
 		{
 			foreach (var selectedItem in selectedListedItems)
 			{
-				var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
+				var existingTags = selectedItem.FileTags ?? [];
 				if (existingTags.Contains(removed.Uid))
 				{
 					var tagList = existingTags.Except(new[] { removed.Uid }).ToArray();
-					selectedItem.FileTags = tagList.Any() ? tagList : null;
+					selectedItem.FileTags = tagList;
 				}
 			}
 		}
@@ -86,10 +86,10 @@ namespace Files.App.UserControls.Menus
 		{
 			foreach (var selectedItem in selectedListedItems)
 			{
-				var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
+				var existingTags = selectedItem.FileTags ?? [];
 				if (!existingTags.Contains(added.Uid))
 				{
-					selectedItem.FileTags = existingTags.Append(added.Uid).ToArray();
+					selectedItem.FileTags = [.. existingTags, added.Uid];
 				}
 			}
 		}

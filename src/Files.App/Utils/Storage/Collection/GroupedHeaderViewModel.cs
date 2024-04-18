@@ -103,7 +103,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private List<string> changedPropQueue = new List<string>();
+		private List<string> changedPropQueue = [];
 
 		// This is true by default to make it easier to initialize groups from a different thread
 		private bool deferPropChangedNotifs = true;

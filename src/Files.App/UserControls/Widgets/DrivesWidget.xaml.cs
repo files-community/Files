@@ -22,15 +22,15 @@ namespace Files.App.UserControls.Widgets
 
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
-		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly INetworkDrivesService NetworkDrivesService = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
 		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
-		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = new();
+		public static ObservableCollection<WidgetDriveCardItem> ItemsAdded = [];
 
 		private IShellPage associatedInstance;
 
@@ -212,7 +212,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = [],
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
@@ -222,7 +222,7 @@ namespace Files.App.UserControls.Widgets
 
 		private Task DoNetworkMapDriveAsync()
 		{
-			return networkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
+			return NetworkDrivesService.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -314,7 +314,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void DisconnectNetworkDrive(WidgetDriveCardItem item)
 		{
-			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
+			NetworkDrivesService.DisconnectNetworkDrive(item.Item);
 		}
 
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)

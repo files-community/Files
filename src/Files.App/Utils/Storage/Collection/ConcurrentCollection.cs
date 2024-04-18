@@ -9,7 +9,7 @@ namespace Files.App.Helpers
 	{
 		private readonly object syncRoot = new object();
 		
-		private readonly List<T> collection = new List<T>();
+		private readonly List<T> collection = [];
 
 		public int Count
 		{
@@ -243,7 +243,7 @@ namespace Files.App.Helpers
 
 		public void OrderOne(Func<List<T>, IEnumerable<T>> func, T item)
 		{
-			IList<T> result;
+			List<T> result;
 
 			lock (syncRoot)
 			{

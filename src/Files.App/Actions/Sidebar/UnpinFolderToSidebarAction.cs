@@ -44,7 +44,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] pinnedFolders = App.QuickAccessManager.Model.PinnedFolders.ToArray();
+			string[] pinnedFolders = [.. App.QuickAccessManager.Model.PinnedFolders];
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinned)

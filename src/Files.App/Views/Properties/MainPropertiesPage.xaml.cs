@@ -17,11 +17,11 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class MainPropertiesPage : BasePropertiesPage
 	{
+		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		private AppWindow AppWindow => Window.AppWindow;
 
 		private Window Window;
-
-		private SettingsViewModel AppSettings { get; set; }
 
 		private MainPropertiesViewModel MainPropertiesViewModel { get; set; }
 
@@ -58,8 +58,7 @@ namespace Files.App.Views.Properties
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
-			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+			AppThemeModeService.AppThemeModeChanged += AppThemeModeService_AppThemeModeChanged;
 			Window.Closed += Window_Closed;
 
 			UpdatePageLayout();
@@ -97,36 +96,20 @@ namespace Files.App.Views.Properties
 				foreach (var item in MainPropertiesViewModel.NavigationViewItems) item.IsCompact = false;
 		}
 
-		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
+		private async void AppThemeModeService_AppThemeModeChanged(object? sender, EventArgs e)
 		{
 			if (Parent is null)
 				return;
 
 			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
-
-				switch (ThemeHelper.RootTheme)
-				{
-					case ElementTheme.Default:
-						AppWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-						AppWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-						break;
-					case ElementTheme.Light:
-						AppWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0, 0, 0);
-						AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
-						break;
-					case ElementTheme.Dark:
-						AppWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0xFF, 0xFF, 0xFF);
-						AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
-						break;
-				}
+				AppThemeModeService.SetAppThemeMode(Window, Window.AppWindow.TitleBar, AppThemeModeService.AppThemeMode, false);
 			});
 		}
 
 		private void Window_Closed(object sender, WindowEventArgs args)
 		{
-			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+			AppThemeModeService.AppThemeModeChanged -= AppThemeModeService_AppThemeModeChanged;
 			Window.Closed -= Window_Closed;
 			Window.AppWindow.Changed -= AppWindow_Changed;
 
