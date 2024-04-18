@@ -15,7 +15,7 @@ namespace Files.App.Server.Database
 {
 	public sealed class LayoutPreferencesDatabase
 	{
-		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\LayoutPreferences";
+		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\v1\LayoutPreferences";
 
 		private readonly static string LayoutSettingsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 		private const string LayoutSettingsCollectionName = "layoutprefs";
