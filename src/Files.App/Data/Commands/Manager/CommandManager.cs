@@ -16,7 +16,7 @@ namespace Files.App.Data.Commands
 		// Fields
 
 		private readonly FrozenDictionary<CommandCodes, IRichCommand> commands;
-		private ImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
+		private ImmutableDictionary<HotKey, IRichCommand> _allKeyBindings = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[string code]
@@ -34,8 +34,8 @@ namespace Files.App.Data.Commands
 			}
 		}
 		public IRichCommand this[HotKey hotKey]
-			=> hotKeys.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
-			: hotKeys.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
+			=> _allKeyBindings.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
+			: _allKeyBindings.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
 			: None;
 
 		public IRichCommand None => commands[CommandCodes.None];
@@ -372,26 +372,26 @@ namespace Files.App.Data.Commands
 			if (ActionsSettingsService.ActionsV2 is null)
 				return;
 
-			var customs = new List<ActionWithParameterItem>();
-
 			foreach (var command in commands.Values.OfType<ActionCommand>())
 			{
-				var customizedItems = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
+				var customizedKeyBindings = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
 
-				HotKeyCollection keyBindings = HotKeyCollection.Empty;
-
-				if (customizedItems.Count > 1 && customizedItems[0].KeyBinding != string.Empty)
+				if (customizedKeyBindings.IsEmpty())
 				{
-					keyBindings = customizedItems.IsEmpty()
-						? GetDefaultKeyBindings(command.Action)
-						: new(customizedItems.Select(x => HotKey.Parse(x.KeyBinding, false)));
+					continue;
 				}
-
-				// Replace with custom hotkeys
-				command.OverwriteKeyBindings(customizedItems != null, keyBindings);
+				else if (customizedKeyBindings.Count == 1 && customizedKeyBindings[0].KeyBinding == string.Empty)
+				{
+					command.OverwriteKeyBindings(HotKeyCollection.Empty);
+				}
+				else
+				{
+					var keyBindings = new HotKeyCollection(customizedKeyBindings.Select(x => HotKey.Parse(x.KeyBinding, false)));
+					command.OverwriteKeyBindings(keyBindings);
+				}
 			}
 
-			hotKeys = commands.Values
+			_allKeyBindings = commands.Values
 				.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 		}

@@ -239,7 +239,7 @@ namespace Files.App.ViewModels.Settings
 
 		private void ExecuteRestoreDefaultsCommand()
 		{
-			ActionsSettingsService.ActionsV2 = [];
+			ActionsSettingsService.ActionsV2 = null;
 			IsResetAllConfirmationTeachingTipOpened = false;
 
 			_ = ExecuteLoadAllActionsCommand();

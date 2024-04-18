@@ -43,7 +43,10 @@ namespace Files.App.Data.Commands
 
 		private bool isCustomHotKeys = false;
 		public bool IsCustomHotKeys
-			=> isCustomHotKeys;
+		{
+			get => isCustomHotKeys;
+			set => SetProperty(ref isCustomHotKeys, value);
+		}
 
 		public string? HotKeyText
 		{
@@ -66,6 +69,7 @@ namespace Files.App.Data.Commands
 				{
 					OnPropertyChanged(nameof(HotKeyText));
 					OnPropertyChanged(nameof(LabelWithHotKey));
+					IsCustomHotKeys = true;
 				}
 			}
 		}
@@ -130,9 +134,8 @@ namespace Files.App.Data.Commands
 			await ExecuteAsync();
 		}
 
-		internal void OverwriteKeyBindings(bool isCustom, HotKeyCollection hotKeys)
+		internal void OverwriteKeyBindings(HotKeyCollection hotKeys)
 		{
-			SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
 			HotKeys = hotKeys;
 		}
 
