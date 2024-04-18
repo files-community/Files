@@ -2,18 +2,40 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Server.Data;
+using LiteDB;
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
-using System.Text.Json;
 using Windows.ApplicationModel;
+using Windows.Storage;
 using static Files.App.Server.Data.LayoutPreferencesRegistry;
 using static Files.App.Server.Utils.RegistryUtils;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Server.Database
 {
 	public sealed class LayoutPreferencesDatabase
 	{
 		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\LayoutPreferences";
+
+		private readonly static string LayoutSettingsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
+		private const string LayoutSettingsCollectionName = "layoutprefs";
+
+		static LayoutPreferencesDatabase()
+		{
+			if (File.Exists(LayoutSettingsDbPath))
+			{
+				using (var database = new LiteDatabase(new ConnectionString(LayoutSettingsDbPath)
+				{
+					Connection = ConnectionType.Direct,
+					Upgrade = true
+				}))
+				{
+					ImportCore(database.GetCollection<LayoutPreferences>(LayoutSettingsCollectionName).FindAll().ToArray());
+				}
+
+				File.Delete(LayoutSettingsDbPath);
+			}
+		}
 
 		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn)
 		{
@@ -78,8 +100,14 @@ namespace Files.App.Server.Database
 
 		public void Import(string json)
 		{
-			ResetAll();
 			var preferences = JsonSerializer.Deserialize<LayoutPreferences[]>(json);
+			ImportCore(preferences);
+		}
+
+
+		private static void ImportCore(LayoutPreferences[]? preferences)
+		{
+			Registry.CurrentUser.DeleteSubKeyTree(LayoutSettingsKey, false);
 			if (preferences is null)
 			{
 				return;

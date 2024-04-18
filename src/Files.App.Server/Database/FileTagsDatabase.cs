@@ -2,20 +2,81 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Server.Data;
+using Files.Shared.Extensions;
+using LiteDB;
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.Json;
+using System.Text;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 using static Files.App.Server.Data.TaggedFileRegistry;
 using static Files.App.Server.Utils.RegistryUtils;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Server.Database
 {
 	public sealed class FileTagsDatabase
 	{
 		private readonly static string FileTagsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\FileTags";
+		
+		private readonly static string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+		private const string FileTagsCollectionName = "taggedfiles";
+
+		static FileTagsDatabase()
+		{
+			if (File.Exists(FileTagsDbPath))
+			{
+				SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(FileTagsDbPath));
+
+				using (var database = new LiteDatabase(new ConnectionString(FileTagsDbPath)
+				{
+					Connection = ConnectionType.Direct,
+					Upgrade = true
+				}))
+				{
+					UpdateDb(database);
+					ImportCore(database.GetCollection<TaggedFile>(FileTagsCollectionName).FindAll().ToArray());
+				}
+
+				File.Delete(FileTagsDbPath);
+			}
+		}
+
+		private static void UpdateDb(LiteDatabase database)
+		{
+			if (database.UserVersion == 0)
+			{
+				var col = database.GetCollection(FileTagsCollectionName);
+				foreach (var doc in col.FindAll())
+				{
+					doc["Tags"] = new BsonValue(new[] { doc["Tag"].AsString });
+					doc.Remove("Tags");
+					col.Update(doc);
+				}
+				database.UserVersion = 1;
+			}
+		}
+
+		// https://github.com/mbdavid/LiteDB/blob/master/LiteDB/Engine/Engine/Upgrade.cs
+		private static void CheckDbVersion(string filename)
+		{
+			var buffer = new byte[8192 * 2];
+			using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+			{
+				// read first 16k
+				stream.Read(buffer, 0, buffer.Length);
+
+				// checks if v7 (plain or encrypted)
+				if (Encoding.UTF8.GetString(buffer, 25, "** This is a LiteDB file **".Length) == "** This is a LiteDB file **" &&
+					buffer[52] == 7)
+				{
+					return; // version 4.1.4
+				}
+			}
+			File.Delete(filename); // recreate DB with correct version
+		}
 
 		public void SetTags(string filePath, ulong? frn, [ReadOnlyArray] string[] tags)
 		{
@@ -162,8 +223,13 @@ namespace Files.App.Server.Database
 
 		public void Import(string json)
 		{
-			Registry.CurrentUser.DeleteSubKeyTree(FileTagsKey, false);
 			var tags = JsonSerializer.Deserialize<TaggedFile[]>(json);
+			ImportCore(tags);
+		}
+
+		private static void ImportCore(TaggedFile[]? tags)
+		{
+			Registry.CurrentUser.DeleteSubKeyTree(FileTagsKey, false);
 			if (tags is null)
 			{
 				return;

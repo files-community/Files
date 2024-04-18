@@ -182,13 +182,13 @@ namespace Files.App.ViewModels.Settings
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
 					fileTagsSettingsService.ImportSettings(importTags);
-					var fileTagsDB = await zipFolder.GetFileAsync("filetags.db");
+					var fileTagsDB = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsDatabaseFileName);
 					string importTagsDB = await fileTagsDB.ReadTextAsync();
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					tagDbInstance.Import(importTagsDB);
 
 					// Import layout preferences and DB
-					var layoutPrefsDB = await zipFolder.GetFileAsync("user_settings.db");
+					var layoutPrefsDB = await zipFolder.GetFileAsync(Constants.LocalSettings.UserSettingsDatabaseFileName);
 					string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
 					var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
 					layoutDbInstance.Import(importPrefsDB);
