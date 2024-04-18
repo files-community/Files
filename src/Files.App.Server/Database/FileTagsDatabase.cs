@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
+using static Files.App.Server.Data.TaggedFileRegistry;
 using static Files.App.Server.Utils.RegistryUtils;
 
 namespace Files.App.Server.Database

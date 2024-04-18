@@ -3,10 +3,10 @@
 
 using Files.App.Server.Data;
 using Microsoft.Win32;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Windows.ApplicationModel;
+using static Files.App.Server.Data.LayoutPreferencesRegistry;
 using static Files.App.Server.Utils.RegistryUtils;
 
 namespace Files.App.Server.Database
