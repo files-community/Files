@@ -25,10 +25,6 @@ namespace Files.App.Data.Models
 		private readonly FolderLayoutModes? _rootLayoutMode;
 
 		// Properties
-
-		public static string LayoutSettingsDbPath
-			=> SystemIO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
-
 		public bool IsLayoutModeFixed
 			=> _rootLayoutMode is not null;
 

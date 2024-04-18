@@ -168,7 +168,6 @@
                 <ActivatableClass ActivatableClassId="Files.App.Server.AppInstanceMonitor" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.Database.FileTagsDatabase" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.Database.LayoutPreferencesDatabase" />
-                <ActivatableClass ActivatableClassId="Files.App.Server.Database.LayoutPreferencesUpdateAction" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.Data.ColumnPreferences" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.Data.ColumnPreferencesItem" />
                 <ActivatableClass ActivatableClassId="Files.App.Server.Data.TaggedFile" />
