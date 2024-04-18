@@ -14,7 +14,7 @@ namespace Files.App.Server.Database
 {
 	public sealed class FileTagsDatabase
 	{
-		private readonly static string FileTagsKey = @$"Software\Files Community\Files\{Package.Current.Id.FullName}\FileTags";
+		private readonly static string FileTagsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\FileTags";
 
 		public void SetTags(string filePath, ulong? frn, [ReadOnlyArray] string[] tags)
 		{

@@ -13,7 +13,7 @@ namespace Files.App.Server.Database
 {
 	public sealed class LayoutPreferencesDatabase
 	{
-		private readonly static string LayoutSettingsKey = @$"Software\Files Community\Files\{Package.Current.Id.FullName}\LayoutPreferences";
+		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\LayoutPreferences";
 
 		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn)
 		{
