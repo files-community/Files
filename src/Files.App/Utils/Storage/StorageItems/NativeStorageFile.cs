@@ -161,7 +161,7 @@ namespace Files.App.Utils.Storage
 		private static bool IsNativePath(string path)
 		{
 			var isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
-			var isAlternateStream = System.Text.RegularExpressions.Regex.IsMatch(path, @"\w:\w");
+			var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(path);
 			return isShortcut || isAlternateStream;
 		}
 
