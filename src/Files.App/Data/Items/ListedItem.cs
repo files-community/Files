@@ -293,7 +293,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public string DimensionsDisplay => IsImage ? $"{ImageWidth} x {ImageHeight}" : string.Empty;
+		public string DimensionsDisplay => IsImage ? $"{ImageWidth} × {ImageHeight}" : string.Empty;
 		
 		public string ItemDateModified { get; private set; }
 
