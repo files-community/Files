@@ -1,6 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Text;
 
 namespace Files.Core.SourceGenerator
@@ -18,6 +20,7 @@ namespace Files.Core.SourceGenerator
 			{
 				var queue = new Queue<ITypeSymbol>();
 				var generatedTypes = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
+				var diagnostics = new List<Diagnostic>();
 				queue.Enqueue(symbol);
 
 				var sb = new StringBuilder();
@@ -28,11 +31,13 @@ namespace Files.Core.SourceGenerator
 				sb.AppendLine("// Licensed under the MIT License. See the LICENSE.");
 				sb.AppendLine();
 				sb.AppendLine("using System;");
-				sb.AppendLine("using System.Runtime.CompilerServices;");
 				sb.AppendLine("using Microsoft.Win32;");
 				sb.AppendLine();
-				sb.AppendLine($"namespace {symbol.ContainingNamespace};");
-				sb.AppendLine();
+				if (symbol.ContainingNamespace is { IsGlobalNamespace: false })
+				{
+					sb.AppendLine($"namespace {symbol.ContainingNamespace};");
+					sb.AppendLine();
+				}
 				sb.AppendLine($"internal sealed class {symbol.Name}Registry");
 				sb.AppendLine("{");
 				sb.AppendLine();
@@ -45,17 +50,26 @@ namespace Files.Core.SourceGenerator
 						continue;
 					}
 
-					EmitBindValues(sb, queue, type);
-					EmitSaveValues(sb, queue, type);
+					EmitBindValues(diagnostics, sb, queue, type);
+					EmitSaveValues(diagnostics, sb, queue, type);
 				}
 
 				sb.AppendLine("}");
-
-				ctx.AddSource($"{symbol.Name}Registry.g.cs", sb.ToString());
+				if (diagnostics.Count == 0)
+				{
+					ctx.AddSource($"{symbol.Name}Registry.g.cs", sb.ToString());
+				}
+				else
+				{
+					foreach (var diagnostic in diagnostics)
+					{
+						ctx.ReportDiagnostic(diagnostic);
+					}
+				}
 			});
 		}
 
-		private void EmitBindValues(StringBuilder sb, Queue<ITypeSymbol> queue, ITypeSymbol type)
+		private void EmitBindValues(List<Diagnostic> diagnostics, StringBuilder sb, Queue<ITypeSymbol> queue, ITypeSymbol type)
 		{
 			sb.AppendLine($"	internal static void BindValues(RegistryKey key, {type.Name} target, string prefix = \"\")");
 			sb.AppendLine("	{");
@@ -68,18 +82,18 @@ namespace Files.Core.SourceGenerator
 								}
 						""");
 
-			var properties = new Queue<(ITypeSymbol Type, string Name, bool EmitNullBranch)>();
+			var properties = new Queue<(ImmutableArray<Location> Locations, ITypeSymbol Type, string Name, bool EmitNullBranch)>();
 			foreach (var member in type.GetMembers())
 			{
 				if (member is IPropertySymbol { IsReadOnly: false } property)
 				{
-					properties.Enqueue((property.Type, property.Name, false));
+					properties.Enqueue((property.Locations, property.Type, property.Name, false));
 				}
 			}
 
 			while (properties.Count > 0)
 			{
-				var (propertyType, propertyName, emitNullBranch) = properties.Dequeue();
+				var (propertyLocation, propertyType, propertyName, emitNullBranch) = properties.Dequeue();
 
 				switch (propertyType)
 				{
@@ -165,7 +179,7 @@ namespace Files.Core.SourceGenerator
 						EmitNullBranch(emitNullBranch, propertyName);
 						break;
 					case INamedTypeSymbol { TypeKind: TypeKind.Struct, NullableAnnotation: NullableAnnotation.Annotated, TypeArguments: [var underlyingType] }:
-						properties.Enqueue((underlyingType, propertyName, true));
+						properties.Enqueue((propertyLocation, underlyingType, propertyName, true));
 						break;
 					case IArrayTypeSymbol { TypeKind: TypeKind.Array, ElementType.SpecialType: SpecialType.System_String }:
 						sb.AppendLine(
@@ -184,7 +198,10 @@ namespace Files.Core.SourceGenerator
 						queue.Enqueue(propertyType);
 						continue;
 					default:
-						sb.AppendLine($"#warning Reading {propertyType}{(emitNullBranch ? "?" : "")} {propertyName} from Windows Registry is not supported.");
+						if (!diagnostics.Any(d => d.Id == DiagnosticDescriptors.FSG1001.Id && d.Location.SourceSpan == propertyLocation[0].SourceSpan))
+						{
+							diagnostics.Add(Diagnostic.Create(DiagnosticDescriptors.FSG1001, propertyLocation[0], $"{propertyType}{(emitNullBranch ? "?" : "")}"));
+						}
 						break;
 				}
 			}
@@ -206,7 +223,7 @@ namespace Files.Core.SourceGenerator
 			}
 		}
 
-		private void EmitSaveValues(StringBuilder sb, Queue<ITypeSymbol> queue, ITypeSymbol type)
+		private void EmitSaveValues(List<Diagnostic> diagnostics, StringBuilder sb, Queue<ITypeSymbol> queue, ITypeSymbol type)
 		{
 			sb.AppendLine($"	internal static void SaveValues(RegistryKey key, {type.Name} source, string prefix = \"\")");
 			sb.AppendLine("	{");
@@ -227,18 +244,18 @@ namespace Files.Core.SourceGenerator
 								}
 						""");
 
-			var properties = new Queue<(ITypeSymbol Type, string Name, bool EmitNullBranch)>();
+			var properties = new Queue<(ImmutableArray<Location> Locations, ITypeSymbol Type, string Name, bool EmitNullBranch)>();
 			foreach (var member in type.GetMembers())
 			{
 				if (member is IPropertySymbol { IsReadOnly: false } property)
 				{
-					properties.Enqueue((property.Type, property.Name, false));
+					properties.Enqueue((property.Locations, property.Type, property.Name, false));
 				}
 			}
 
 			while (properties.Count > 0)
 			{
-				var (propertyType, propertyName, emitNullBranch) = properties.Dequeue();
+				var (propertyLocation, propertyType, propertyName, emitNullBranch) = properties.Dequeue();
 
 				switch (propertyType)
 				{
@@ -315,7 +332,7 @@ namespace Files.Core.SourceGenerator
 								""");
 						break;
 					case INamedTypeSymbol { TypeKind: TypeKind.Struct, NullableAnnotation: NullableAnnotation.Annotated, TypeArguments: [var underlyingType] }:
-						properties.Enqueue((underlyingType, propertyName, true));
+						properties.Enqueue((propertyLocation, underlyingType, propertyName, true));
 						break;
 					case IArrayTypeSymbol { TypeKind: TypeKind.Array, ElementType.SpecialType: SpecialType.System_String }:
 						sb.AppendLine(
@@ -333,7 +350,10 @@ namespace Files.Core.SourceGenerator
 						queue.Enqueue(propertyType);
 						continue;
 					default:
-						sb.AppendLine($"#warning Saving {propertyType}{(emitNullBranch ? "?" : "")} {propertyName} into Windows Registry is not supported.");
+						if (!diagnostics.Any(d => d.Id == DiagnosticDescriptors.FSG1001.Id && d.Location.SourceSpan == propertyLocation[0].SourceSpan))
+						{
+							diagnostics.Add(Diagnostic.Create(DiagnosticDescriptors.FSG1001, propertyLocation[0], $"{propertyType}{(emitNullBranch ? "?" : "")}"));
+						}
 						break;
 				}
 			}
