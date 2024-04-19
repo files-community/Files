@@ -230,12 +230,12 @@ namespace Files.App.ViewModels.Settings
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), "filetags.db", CreationCollisionOption.ReplaceExisting);
+					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Constants.LocalSettings.FileTagSettingsDatabaseFileName, CreationCollisionOption.ReplaceExisting);
 
 					// Export layout preferences DB
 					var layoutDbInstance = LayoutPreferencesManager.GetDatabaseManagerInstance();
 					byte[] exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), "user_settings.db", CreationCollisionOption.ReplaceExisting);
+					await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Constants.LocalSettings.UserSettingsDatabaseFileName, CreationCollisionOption.ReplaceExisting);
 				}
 				catch (Exception ex)
 				{
