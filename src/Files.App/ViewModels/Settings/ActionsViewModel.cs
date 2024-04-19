@@ -41,6 +41,13 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _ShowAddNewKeyBindingBlock, value);
 		}
 
+		private bool _EnableAddNewKeyBindingButton;
+		public bool EnableAddNewKeyBindingButton
+		{
+			get => _EnableAddNewKeyBindingButton;
+			set => SetProperty(ref _EnableAddNewKeyBindingButton, value);
+		}
+
 		private int _SelectedActionItemIndex;
 		public int SelectedActionItemIndex
 		{
@@ -139,6 +146,7 @@ namespace Files.App.ViewModels.Settings
 		private void ExecuteShowAddNewKeyBindingBlockCommand()
 		{
 			ShowAddNewKeyBindingBlock = true;
+			EnableAddNewKeyBindingButton = false;
 
 			// Reset edit mode of every item
 			foreach (var action in ValidActionItems)
@@ -151,6 +159,7 @@ namespace Files.App.ViewModels.Settings
 		private void ExecuteHideAddNewKeyBindingBlockCommand()
 		{
 			ShowAddNewKeyBindingBlock = false;
+			EnableAddNewKeyBindingButton = false;
 
 			if (SelectedActionItem is null)
 				return;

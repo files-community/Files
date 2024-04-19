@@ -100,6 +100,8 @@ namespace Files.App.Views.Settings
 			// Set text
 			textBox.Text = text;
 
+			ViewModel.EnableAddNewKeyBindingButton = true;
+
 			// Prevent key down event in other UIElements from getting invoked
 			e.Handled = true;
 		}

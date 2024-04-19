@@ -183,7 +183,7 @@
 					Padding="0"
 					AutomationProperties.Name="{helpers:ResourceString Name=Add}"
 					Command="{x:Bind ViewModel.AddNewKeyBindingCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.SelectedActionItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.EnableAddNewKeyBindingButton, Mode=OneWay}"
 					Style="{StaticResource AccentButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Add}">
 					<FontIcon FontSize="14" Glyph="&#xE73E;" />
