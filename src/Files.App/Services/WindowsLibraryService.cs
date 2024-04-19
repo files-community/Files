@@ -1,16 +1,11 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Dialogs;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using System.IO;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.System;
-using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.Services
 {
@@ -37,14 +32,13 @@ namespace Files.App.Services
 				Path = ShellLibraryItem.LibrariesPath,
 				Filter = "*" + ShellLibraryItem.EXTENSION,
 				NotifyFilter = NotifyFilters.Attributes | NotifyFilters.LastWrite | NotifyFilters.FileName,
-				IncludeSubdirectories = false,
+				IncludeSubdirectories = true,
 			};
 
 			_librariesWatcher.Created += OnLibraryChanged;
 			_librariesWatcher.Changed += OnLibraryChanged;
 			_librariesWatcher.Deleted += OnLibraryChanged;
 			_librariesWatcher.Renamed += OnLibraryRenamed;
-			_librariesWatcher.EnableRaisingEvents = true;
 		}
 
 		/// <inheritdoc/>

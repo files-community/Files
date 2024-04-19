@@ -199,7 +199,7 @@ namespace Files.App.Views.Properties
 					using var dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
 					try
 					{
-						var library = await Task.Run(() => App.WindowsLibraryService.UpdateLibrary(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned));
+						var library = await Task.Run(() => App.WindowsLibraryService.UpdateLibraryAsync(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned));
 						if (library is not null)
 						{
 							props.UpdateLibrary(new LibraryItem(library));
