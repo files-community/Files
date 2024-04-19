@@ -92,19 +92,27 @@ namespace Files.App.Utils
 
 		public ulong? FileFRN { get; set; }
 
-		private string[] fileTags; // TODO: initialize to empty array after UI is done
+		private string[] fileTags = null!;
 		public string[] FileTags
 		{
 			get => fileTags;
 			set
 			{
+				// fileTags is null when the item is first created
+				var fileTagsInitialized = fileTags is not null;
 				if (SetProperty(ref fileTags, value))
 				{
 					Debug.Assert(value != null);
-					var dbInstance = FileTagsHelper.GetDbInstance();
-					dbInstance.SetTags(ItemPath, FileFRN, value);
+
+					// only set the tags if the file tags have been changed
+					if (fileTagsInitialized)
+					{
+						var dbInstance = FileTagsHelper.GetDbInstance();
+						dbInstance.SetTags(ItemPath, FileFRN, value);
+						FileTagsHelper.WriteFileTag(ItemPath, value);
+					}
+
 					HasTags = !FileTags.IsEmpty();
-					FileTagsHelper.WriteFileTag(ItemPath, value);
 					OnPropertyChanged(nameof(FileTagsUI));
 				}
 			}

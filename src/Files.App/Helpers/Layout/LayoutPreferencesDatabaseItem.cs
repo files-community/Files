@@ -8,8 +8,6 @@ namespace Files.App.Helpers
 	/// </summary>
 	public sealed class LayoutPreferencesDatabaseItem
 	{
-		public int Id { get; set; }
-
 		public ulong? Frn { get; set; }
 
 		public string FilePath { get; set; } = string.Empty;
