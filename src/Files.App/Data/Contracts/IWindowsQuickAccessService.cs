@@ -5,6 +5,9 @@ using System.Collections.Specialized;
 
 namespace Files.App.Data.Contracts
 {
+	/// <summary>
+	/// Provides service to manage the QuickAccess shell folder for Windows.
+	/// </summary>
 	public interface IWindowsQuickAccessService
 	{
 		/// <summary>

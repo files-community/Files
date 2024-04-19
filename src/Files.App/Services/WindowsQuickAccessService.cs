@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 
 namespace Files.App.Services
 {
+	/// <inheritdoc cref="IWindowsQuickAccessService"/>
 	internal sealed class WindowsQuickAccessService : IWindowsQuickAccessService
 	{
 		// Dependency injections
