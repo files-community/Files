@@ -6,4 +6,3 @@ RoRevokeActivationFactories
 WindowsCreateString
 WindowsDeleteString
 RoInitialize
-RoUninitialize

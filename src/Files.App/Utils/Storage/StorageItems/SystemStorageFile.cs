@@ -84,7 +84,7 @@ namespace Files.App.Utils.Storage
 						return destFile;
 					}
 				}
-				catch (UnauthorizedAccessException ex) // shortcuts & .url
+				catch (UnauthorizedAccessException) // shortcuts & .url
 				{
 					if (!string.IsNullOrEmpty(destFolder.Path))
 					{
@@ -102,7 +102,7 @@ namespace Files.App.Utils.Storage
 							return new NativeStorageFile(destination, desiredNewName, DateTime.Now);
 						}
 					}
-					throw ex;
+					throw;
 				}
 			});
 		}
