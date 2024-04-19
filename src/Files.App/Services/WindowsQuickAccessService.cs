@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.Helpers;
 using System.Collections.Specialized;
 
 namespace Files.App.Services
@@ -70,8 +71,8 @@ namespace Files.App.Services
 				_quickAccessFolderWatcher.EnableRaisingEvents = true;
 			};
 
-			//if (!PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
-			//	await QuickAccessService.PinToSidebar(Constants.UserEnvironmentPaths.RecycleBinPath);
+			if (!PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
+				await PinToSidebarAsync([Constants.UserEnvironmentPaths.RecycleBinPath]);
 
 			await UpdateItemsWithExplorerAsync();
 		}
