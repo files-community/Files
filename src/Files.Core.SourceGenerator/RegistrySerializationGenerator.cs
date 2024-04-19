@@ -76,11 +76,11 @@ namespace Files.Core.SourceGenerator
 
 			sb.AppendLine(
 				$$"""
-								if (target is null)
-								{
-									return;
-								}
-						""");
+						if (target is null)
+						{
+							return;
+						}
+				""");
 
 			var properties = new Queue<(ImmutableArray<Location> Locations, ITypeSymbol Type, string Name, bool EmitNullBranch)>();
 			foreach (var member in type.GetMembers())
@@ -100,20 +100,20 @@ namespace Files.Core.SourceGenerator
 					case { SpecialType: SpecialType.System_String }:
 						sb.AppendLine(
 							$$"""
-										if (key.GetValue($"{prefix}{{propertyName}}") is string valueOf{{propertyName}})
-										{
-											target.{{propertyName}} = valueOf{{propertyName}};
-										}
-								""");
+									if (key.GetValue($"{prefix}{{propertyName}}") is string valueOf{{propertyName}})
+									{
+										target.{{propertyName}} = valueOf{{propertyName}};
+									}
+							""");
 						break;
 					case { SpecialType: SpecialType.System_Boolean }:
 						sb.AppendLine(
 							$$"""
-										if (key.GetValue($"{prefix}{{propertyName}}") is int valueOf{{propertyName}})
-										{
-											target.{{propertyName}} = valueOf{{propertyName}} is not 0;
-										}
-								""");
+									if (key.GetValue($"{prefix}{{propertyName}}") is int valueOf{{propertyName}})
+									{
+										target.{{propertyName}} = valueOf{{propertyName}} is not 0;
+									}
+							""");
 						EmitNullBranch(emitNullBranch, propertyName);
 						break;
 					case
@@ -127,11 +127,11 @@ namespace Files.Core.SourceGenerator
 					}:
 						sb.AppendLine(
 							$$"""
-										if (key.GetValue($"{prefix}{{propertyName}}") is int valueOf{{propertyName}})
-										{
-											target.{{propertyName}} = ({{propertyType}})valueOf{{propertyName}};
-										}
-								""");
+									if (key.GetValue($"{prefix}{{propertyName}}") is int valueOf{{propertyName}})
+									{
+										target.{{propertyName}} = ({{propertyType}})valueOf{{propertyName}};
+									}
+							""");
 						EmitNullBranch(emitNullBranch, propertyName);
 						break;
 					case
@@ -141,41 +141,41 @@ namespace Files.Core.SourceGenerator
 					}:
 						sb.AppendLine(
 							$$"""
-										if (key.GetValue($"{prefix}{{propertyName}}") is long valueOf{{propertyName}})
-										{
-											target.{{propertyName}} = ({{propertyType}})valueOf{{propertyName}};
-										}
-								""");
+									if (key.GetValue($"{prefix}{{propertyName}}") is long valueOf{{propertyName}})
+									{
+										target.{{propertyName}} = ({{propertyType}})valueOf{{propertyName}};
+									}
+							""");
 						EmitNullBranch(emitNullBranch, propertyName);
 						break;
 					case { SpecialType: SpecialType.System_Single }:
 						sb.AppendLine(
 							$$"""
-										if (key.GetValue($"{prefix}{{propertyName}}") is int valueOf{{propertyName}})
-										{
-											target.{{propertyName}} = BitConverter.Int32BitsToSingle(valueOf{{propertyName}});
-										}
-								""");
+									if (key.GetValue($"{prefix}{{propertyName}}") is int valueOf{{propertyName}})
+									{
+										target.{{propertyName}} = BitConverter.Int32BitsToSingle(valueOf{{propertyName}});
+									}
+							""");
 						EmitNullBranch(emitNullBranch, propertyName);
 						break;
 					case { SpecialType: SpecialType.System_Double }:
 						sb.AppendLine(
 							$$"""
-										if (key.GetValue($"{prefix}{{propertyName}}") is long valueOf{{propertyName}})
-										{
-											target.{{propertyName}} = BitConverter.Int64BitsToDouble(valueOf{{propertyName}});
-										}
-								""");
+									if (key.GetValue($"{prefix}{{propertyName}}") is long valueOf{{propertyName}})
+									{
+										target.{{propertyName}} = BitConverter.Int64BitsToDouble(valueOf{{propertyName}});
+									}
+							""");
 						EmitNullBranch(emitNullBranch, propertyName);
 						break;
 					case { TypeKind: TypeKind.Enum }:
 						sb.AppendLine(
 							$$"""
-										if (key.GetValue($"{prefix}{{propertyName}}") is string valueOf{{propertyName}})
-										{
-											target.{{propertyName}} = Enum.Parse<{{propertyType}}>(valueOf{{propertyName}});
-										}
-								""");
+									if (key.GetValue($"{prefix}{{propertyName}}") is string valueOf{{propertyName}})
+									{
+										target.{{propertyName}} = Enum.Parse<{{propertyType}}>(valueOf{{propertyName}});
+									}
+							""");
 						EmitNullBranch(emitNullBranch, propertyName);
 						break;
 					case INamedTypeSymbol { TypeKind: TypeKind.Struct, NullableAnnotation: NullableAnnotation.Annotated, TypeArguments: [var underlyingType] }:
@@ -184,17 +184,17 @@ namespace Files.Core.SourceGenerator
 					case IArrayTypeSymbol { TypeKind: TypeKind.Array, ElementType.SpecialType: SpecialType.System_String }:
 						sb.AppendLine(
 							$$"""
-										if (key.GetValue($"{prefix}{{propertyName}}") is string[] valueOf{{propertyName}})
-										{
-											target.{{propertyName}} = valueOf{{propertyName}};
-										}
-								""");
+									if (key.GetValue($"{prefix}{{propertyName}}") is string[] valueOf{{propertyName}})
+									{
+										target.{{propertyName}} = valueOf{{propertyName}};
+									}
+							""");
 						break;
 					case { TypeKind: TypeKind.Class, SpecialType: SpecialType.None }:
 						sb.AppendLine(
 							$$"""
-										BindValues(key, target.{{propertyName}}, $"{prefix}{{propertyName}}.");
-								""");
+									BindValues(key, target.{{propertyName}}, $"{prefix}{{propertyName}}.");
+							""");
 						queue.Enqueue(propertyType);
 						continue;
 					default:
@@ -214,11 +214,11 @@ namespace Files.Core.SourceGenerator
 				{
 					sb.AppendLine(
 						$$"""
-										else
-										{
-											target.{{propertyName}} = null;
-										}
-								""");
+								else
+								{
+									target.{{propertyName}} = null;
+								}
+						""");
 				}
 			}
 		}
@@ -230,19 +230,19 @@ namespace Files.Core.SourceGenerator
 
 			sb.AppendLine(
 				$$"""
-								if (source is null)
+						if (source is null)
+						{
+							foreach (var name in key.GetValueNames())
+							{
+								if (name.StartsWith(prefix, StringComparison.Ordinal))
 								{
-									foreach (var name in key.GetValueNames())
-									{
-										if (name.StartsWith(prefix, StringComparison.Ordinal))
-										{
-											key.DeleteValue(name, false);
-										}
-									}
-
-									return;
+									key.DeleteValue(name, false);
 								}
-						""");
+							}
+
+							return;
+						}
+				""");
 
 			var properties = new Queue<(ImmutableArray<Location> Locations, ITypeSymbol Type, string Name, bool EmitNullBranch)>();
 			foreach (var member in type.GetMembers())
@@ -262,17 +262,17 @@ namespace Files.Core.SourceGenerator
 					case { SpecialType: SpecialType.System_String }:
 						sb.AppendLine(
 							$$"""
-										key.SetValue($"{prefix}{{propertyName}}", source.{{propertyName}}, RegistryValueKind.String);
-								""");
+									key.SetValue($"{prefix}{{propertyName}}", source.{{propertyName}}, RegistryValueKind.String);
+							""");
 						break;
 					case { SpecialType: SpecialType.System_Boolean }:
 						EmitNullBranch(emitNullBranch, propertyName);
 						sb.AppendLine(
 							$$"""
-										{
-											key.SetValue($"{prefix}{{propertyName}}", source.{{propertyName}} ? 1 : 0, RegistryValueKind.DWord);
-										}
-								""");
+									{
+										key.SetValue($"{prefix}{{propertyName}}", source.{{propertyName}} ? 1 : 0, RegistryValueKind.DWord);
+									}
+							""");
 						break;
 					case
 					{
@@ -286,10 +286,10 @@ namespace Files.Core.SourceGenerator
 						EmitNullBranch(emitNullBranch, propertyName);
 						sb.AppendLine(
 							$$"""
-										{
-											key.SetValue($"{prefix}{{propertyName}}", (int)source.{{propertyName}}, RegistryValueKind.DWord);
-										}
-								""");
+									{
+										key.SetValue($"{prefix}{{propertyName}}", (int)source.{{propertyName}}, RegistryValueKind.DWord);
+									}
+							""");
 						break;
 					case
 					{
@@ -299,37 +299,37 @@ namespace Files.Core.SourceGenerator
 						EmitNullBranch(emitNullBranch, propertyName);
 						sb.AppendLine(
 							$$"""
-										{
-											key.SetValue($"{prefix}{{propertyName}}", (long)source.{{propertyName}}, RegistryValueKind.QWord);
-										}
-								""");
+									{
+										key.SetValue($"{prefix}{{propertyName}}", (long)source.{{propertyName}}, RegistryValueKind.QWord);
+									}
+							""");
 						break;
 					case { SpecialType: SpecialType.System_Single }:
 						EmitNullBranch(emitNullBranch, propertyName);
 						sb.AppendLine(
 							$$"""
-										{
-											key.SetValue($"{prefix}{{propertyName}}", BitConverter.SingleToInt32Bits(source.{{propertyName}}), RegistryValueKind.DWord);
-										}
-								""");
+									{
+										key.SetValue($"{prefix}{{propertyName}}", BitConverter.SingleToInt32Bits(source.{{propertyName}}), RegistryValueKind.DWord);
+									}
+							""");
 						break;
 					case { SpecialType: SpecialType.System_Double }:
 						EmitNullBranch(emitNullBranch, propertyName);
 						sb.AppendLine(
 							$$"""
-										{
-											key.SetValue($"{prefix}{{propertyName}}", BitConverter.DoubleToInt64Bits(source.{{propertyName}}), RegistryValueKind.QWord);
-										}
-								""");
+									{
+										key.SetValue($"{prefix}{{propertyName}}", BitConverter.DoubleToInt64Bits(source.{{propertyName}}), RegistryValueKind.QWord);
+									}
+							""");
 						break;
 					case { TypeKind: TypeKind.Enum }:
 						EmitNullBranch(emitNullBranch, propertyName);
 						sb.AppendLine(
 							$$"""
-										{
-											key.SetValue($"{prefix}{{propertyName}}", source.{{propertyName}}.ToString(), RegistryValueKind.String);
-										}
-								""");
+									{
+										key.SetValue($"{prefix}{{propertyName}}", source.{{propertyName}}.ToString(), RegistryValueKind.String);
+									}
+							""");
 						break;
 					case INamedTypeSymbol { TypeKind: TypeKind.Struct, NullableAnnotation: NullableAnnotation.Annotated, TypeArguments: [var underlyingType] }:
 						properties.Enqueue((propertyLocation, underlyingType, propertyName, true));
@@ -337,16 +337,16 @@ namespace Files.Core.SourceGenerator
 					case IArrayTypeSymbol { TypeKind: TypeKind.Array, ElementType.SpecialType: SpecialType.System_String }:
 						sb.AppendLine(
 							$$"""
-										{
-											key.SetValue($"{prefix}{{propertyName}}", source.{{propertyName}}, RegistryValueKind.MultiString);
-										}
-								""");
+									{
+										key.SetValue($"{prefix}{{propertyName}}", source.{{propertyName}}, RegistryValueKind.MultiString);
+									}
+							""");
 						break;
 					case { TypeKind: TypeKind.Class, SpecialType: SpecialType.None }:
 						sb.AppendLine(
 							$$"""
-										SaveValues(key, source.{{propertyName}}, $"{prefix}{{propertyName}}.");
-								""");
+									SaveValues(key, source.{{propertyName}}, $"{prefix}{{propertyName}}.");
+							""");
 						queue.Enqueue(propertyType);
 						continue;
 					default:
@@ -366,12 +366,12 @@ namespace Files.Core.SourceGenerator
 				{
 					sb.AppendLine(
 						$$"""
-										if (source.{{propertyName}} is null)
-										{
-											key.DeleteValue($"{prefix}{{propertyName}}", false);
-										}
-										else
-								""");
+								if (source.{{propertyName}} is null)
+								{
+									key.DeleteValue($"{prefix}{{propertyName}}", false);
+								}
+								else
+						""");
 				}
 			}
 		}
