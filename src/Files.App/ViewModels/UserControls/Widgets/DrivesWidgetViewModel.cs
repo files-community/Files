@@ -208,7 +208,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private Task ExecuteMapNetworkDriveCommand()
 		{
-			return NetworkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
+			return NetworkDrivesService.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void ExecuteFormatDriveCommand(WidgetDriveCardItem? item)
@@ -238,7 +238,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null)
 				return;
 
-			NetworkDrivesViewModel.DisconnectNetworkDrive(item.Item);
+			NetworkDrivesService.DisconnectNetworkDrive(item.Item);
 		}
 
 		// Event methods
