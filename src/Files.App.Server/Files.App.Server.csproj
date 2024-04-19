@@ -39,8 +39,7 @@
     <ItemGroup>
         <Manifest Include="app.manifest" />
         <TrimmerRootAssembly Include="Files.App.Server" />
-        <!-- Don't upgrade LiteDB until https://github.com/mbdavid/LiteDB/issues/2435 gets fixed -->
-        <PackageReference Include="LiteDB" Version="5.0.17" />
+        <PackageReference Include="LiteDB" Version="5.0.19" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.647-beta" PrivateAssets="all" />
     </ItemGroup>
@@ -54,6 +53,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Files.Core.SourceGenerator\Files.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
     </ItemGroup>
 
