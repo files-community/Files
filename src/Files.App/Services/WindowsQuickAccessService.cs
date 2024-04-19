@@ -8,19 +8,21 @@ namespace Files.App.Services
 {
 	internal sealed class WindowsQuickAccessService : IWindowsQuickAccessService
 	{
-		private static readonly string ShellContextMenuVerbPinToHome = "PinToHome";
-
-		private static readonly string ShellContextMenuVerbUnpinToHome = "UnpinFromHome";
-
-		private static readonly string ShellPropertyIsPinned = "System.Home.IsPinned";
-
-		private static readonly string ShellMemberNameSpace = "NameSpace";
-
-		private static readonly string ShellProgIDApplication = "Shell.Application";
-
 		// Dependency injections
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		// Constants
+
+		private const string ShellContextMenuVerbPinToHome = "PinToHome";
+
+		private const string ShellContextMenuVerbUnpinToHome = "UnpinFromHome";
+
+		private const string ShellPropertyIsPinned = "System.Home.IsPinned";
+
+		private const string ShellMemberNameSpace = "NameSpace";
+
+		private const string ShellProgIDApplication = "Shell.Application";
 
 		// Fields
 
@@ -52,6 +54,9 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public event EventHandler<ModifyQuickAccessEventArgs>? PinnedItemsChanged;
 
+		/// <summary>
+		/// Initializes an instance of <see cref="WindowsQuickAccessService"/>.
+		/// </summary>
 		public WindowsQuickAccessService()
 		{
 			_quickAccessFolderWatcher = new()
@@ -226,13 +231,6 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public int IndexOf(string path)
-		{
-			lock (_PinnedFolderItems)
-				return _PinnedFolderItems.FindIndex(x => x.Path == path);
-		}
-
-		/// <inheritdoc/>
 		public async Task SyncPinnedItemsAsync()
 		{
 			foreach (string path in PinnedFolderPaths)
@@ -255,6 +253,13 @@ namespace Files.App.Services
 
 				DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 			}
+		}
+
+		/// <inheritdoc/>
+		public int IndexOf(string path)
+		{
+			lock (_PinnedFolderItems)
+				return _PinnedFolderItems.FindIndex(x => x.Path == path);
 		}
 	}
 }
