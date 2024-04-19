@@ -40,11 +40,14 @@ namespace Files.App.Dialogs
 		{
 			args.Cancel = true;
 
-			var data = new DataPackage();
-			data.SetText(ViewModel.UserCode);
+			SafetyExtensions.IgnoreExceptions(() =>
+			{
+				var data = new DataPackage();
+				data.SetText(ViewModel.UserCode);
 
-			Clipboard.SetContent(data);
-			Clipboard.Flush();
+				Clipboard.SetContent(data);
+				Clipboard.Flush();
+			});
 		}
 
 		private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)

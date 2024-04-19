@@ -397,7 +397,7 @@
 		<!--  Already Used TeachingTip  -->
 		<TeachingTip
 			x:Name="AlreadyUsedTeachingTip"
-			CloseButtonContent="OK"
+			CloseButtonContent="{helpers:ResourceString Name=OK}"
 			IsLightDismissEnabled="True"
 			IsOpen="{x:Bind ViewModel.IsAlreadyUsedTeachingTipOpened, Mode=TwoWay}"
 			PlacementMargin="20"
