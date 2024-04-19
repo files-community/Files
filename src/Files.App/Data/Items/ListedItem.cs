@@ -375,7 +375,7 @@ namespace Files.App.Utils
 		public bool IsGitItem => this is GitItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
-		public bool IsPinned => QuickAccessService.PinnedFolders.Contains(itemPath);
+		public bool IsPinned => QuickAccessService.PinnedFolderPaths.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevationRequired { get; set; }
 

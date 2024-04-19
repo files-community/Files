@@ -81,7 +81,7 @@ namespace Files.App.Data.Items
 
 		public bool IsInvalid { get; set; } = false;
 
-		public bool IsPinned => QuickAccessService.PinnedFolders.Contains(path);
+		public bool IsPinned => QuickAccessService.PinnedFolderPaths.Contains(path);
 
 		public SectionType Section { get; set; }
 
@@ -120,6 +120,69 @@ namespace Files.App.Data.Items
 		public static T Create<T>() where T : LocationItem, new()
 		{
 			return new T();
+		}
+
+		public static async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
+		{
+			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
+			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+			LocationItem locationItem;
+
+			if (string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			{
+				locationItem = LocationItem.Create<RecycleBinLocationItem>();
+			}
+			else
+			{
+				locationItem = LocationItem.Create<LocationItem>();
+
+				if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+					locationItem.Text = "ThisPC".GetLocalizedResource();
+				else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+					locationItem.Text = "Network".GetLocalizedResource();
+			}
+
+			locationItem.Path = path;
+			locationItem.Section = SectionType.Pinned;
+			locationItem.MenuOptions = new ContextMenuOptions
+			{
+				IsLocationItem = true,
+				ShowProperties = true,
+				ShowUnpinItem = true,
+				ShowShellItems = true,
+				ShowEmptyRecycleBin = string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase)
+			};
+			locationItem.IsDefaultLocation = false;
+			locationItem.Text = res.Result?.DisplayName ?? SystemIO.Path.GetFileName(path.TrimEnd('\\'));
+
+			if (res)
+			{
+				locationItem.IsInvalid = false;
+
+				if (res && res.Result is not null)
+				{
+					var result = await FileThumbnailHelper.GetIconAsync(
+						res.Result.Path,
+						Constants.ShellIconSizes.Small,
+						true,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
+					locationItem.IconData = result;
+
+					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+					if (bitmapImage is not null)
+						locationItem.Icon = bitmapImage;
+				}
+			}
+			else
+			{
+				locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
+				locationItem.IsInvalid = true;
+
+				Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
+			}
+
+			return locationItem;
 		}
 	}
 

@@ -19,8 +19,8 @@ namespace Files.App.Services
 		{
 			try
 			{
-				QuickAccessService.UpdateQuickAccessWidget -= UpdateQuickAccessWidget_Invoked;
-				QuickAccessService.UpdateQuickAccessWidget += UpdateQuickAccessWidget_Invoked;
+				QuickAccessService.PinnedItemsChanged -= UpdateQuickAccessWidget_Invoked;
+				QuickAccessService.PinnedItemsChanged += UpdateQuickAccessWidget_Invoked;
 
 				await RefreshPinnedFoldersAsync();
 			}
@@ -90,7 +90,7 @@ namespace Files.App.Services
 
 					var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
 					itemsToRemove.ForEach(x => instance.Items.Remove(x));
-					QuickAccessService.PinnedFolders.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
+					QuickAccessService.PinnedFolderPaths.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
 					await instance.SaveAsync();
 				}
 			}

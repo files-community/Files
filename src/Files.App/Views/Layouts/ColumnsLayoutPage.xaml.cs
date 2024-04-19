@@ -100,7 +100,7 @@ namespace Files.App.Views.Layouts
 
 			if (!string.IsNullOrEmpty(pathRoot))
 			{
-				var rootPathList = QuickAccessService.PinnedFolders.Select(NormalizePath)
+				var rootPathList = QuickAccessService.PinnedFolderPaths.Select(NormalizePath)
 					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList()
 					.Concat(App.LibraryManager.Libraries.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));

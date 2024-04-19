@@ -69,7 +69,7 @@ namespace Files.App.UserControls.Widgets
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsPinnedToSidebar(item.Path));
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsPinnedFolder(item.Path));
 			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout
@@ -103,12 +103,12 @@ namespace Files.App.UserControls.Widgets
 
 		public virtual async Task PinToSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.PinToSidebarAsync([item.Path]);
+			await QuickAccessService.PinFolderToSidebarAsync([item.Path]);
 		}
 
 		public virtual async Task UnpinFromSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.UnpinFromSidebarAsync([item.Path]);
+			await QuickAccessService.UnpinFolderFromSidebarAsync([item.Path]);
 		}
 
 		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)

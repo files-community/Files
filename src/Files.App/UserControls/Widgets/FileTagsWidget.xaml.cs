@@ -121,7 +121,7 @@ namespace Files.App.UserControls.Widgets
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsPinnedToSidebar(item.Path), item.IsFolder);
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsPinnedFolder(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout

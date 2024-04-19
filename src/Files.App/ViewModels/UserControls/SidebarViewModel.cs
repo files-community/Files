@@ -580,7 +580,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
-					SectionType.Pinned => QuickAccessService.AddAllItemsToSidebarAsync,
+					SectionType.Pinned => QuickAccessService.SyncPinnedItemsAsync,
 					_ => () => Task.CompletedTask
 				};
 
@@ -841,12 +841,12 @@ namespace Files.App.ViewModels.UserControls
 		private void PinItem()
 		{
 			if (rightClickedItem is DriveItem)
-				_ = QuickAccessService.PinToSidebarAsync(new[] { rightClickedItem.Path });
+				_ = QuickAccessService.PinFolderToSidebarAsync(new[] { rightClickedItem.Path });
 		}
 		private void UnpinItem()
 		{
 			if (rightClickedItem.Section == SectionType.Pinned || rightClickedItem is DriveItem)
-				_ = QuickAccessService.UnpinFromSidebarAsync([rightClickedItem.Path]);
+				_ = QuickAccessService.UnpinFolderFromSidebarAsync([rightClickedItem.Path]);
 		}
 
 		private void HideSection()
@@ -935,8 +935,8 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var options = item.MenuOptions;
 
-			var pinnedFolderIndex = QuickAccessService.IndexOfItem(item);
-			var pinnedFolderCount = QuickAccessService.PinnedFolders.Count;
+			var pinnedFolderIndex = QuickAccessService.IndexOfItem(item.Path);
+			var pinnedFolderCount = QuickAccessService.PinnedFolderPaths.Count;
 
 			var isPinnedItem = item.Section is SectionType.Pinned && pinnedFolderIndex is not -1;
 			var showMoveItemUp = isPinnedItem && pinnedFolderIndex > 0;
@@ -1096,7 +1096,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section))
 				{
-					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !QuickAccessService.PinnedFolders.Contains(item.Path));
+					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !QuickAccessService.PinnedFolderPaths.Contains(item.Path));
 
 					if (!haveFoldersToPin)
 					{
@@ -1261,8 +1261,8 @@ namespace Files.App.ViewModels.UserControls
 					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 					foreach (var item in storageItems)
 					{
-						if (item.ItemType == FilesystemItemType.Directory && !QuickAccessService.PinnedFolders.Contains(item.Path))
-							await QuickAccessService.PinToSidebarAsync([item.Path]);
+						if (item.ItemType == FilesystemItemType.Directory && !QuickAccessService.PinnedFolderPaths.Contains(item.Path))
+							await QuickAccessService.PinFolderToSidebarAsync([item.Path]);
 					}
 				}
 				else

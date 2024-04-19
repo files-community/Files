@@ -25,7 +25,7 @@ namespace Files.App.Actions
 		public PinFolderToSidebarAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
-			QuickAccessService.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
+			QuickAccessService.PinnedItemsChanged += QuickAccessManager_DataChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -34,17 +34,17 @@ namespace Files.App.Actions
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
 
-				await QuickAccessService.PinToSidebarAsync(items);
+				await QuickAccessService.PinFolderToSidebarAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await QuickAccessService.PinToSidebarAsync([context.Folder.ItemPath]);
+				await QuickAccessService.PinFolderToSidebarAsync([context.Folder.ItemPath]);
 			}
 		}
 
 		private bool GetIsExecutable()
 		{
-			string[] pinnedFolders = [.. QuickAccessService.PinnedFolders];
+			string[] pinnedFolders = [.. QuickAccessService.PinnedFolderPaths];
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinnable)

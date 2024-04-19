@@ -23,7 +23,7 @@ namespace Files.App.Actions
 		public UnpinFolderFromSidebarAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
-			QuickAccessService.UpdateQuickAccessWidget += QuickAccessService_DataChanged;
+			QuickAccessService.PinnedItemsChanged += QuickAccessService_DataChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -31,17 +31,17 @@ namespace Files.App.Actions
 			if (context.HasSelection)
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
-				await QuickAccessService.UnpinFromSidebarAsync(items);
+				await QuickAccessService.UnpinFolderFromSidebarAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await QuickAccessService.UnpinFromSidebarAsync([context.Folder.ItemPath]);
+				await QuickAccessService.UnpinFolderFromSidebarAsync([context.Folder.ItemPath]);
 			}
 		}
 
 		private bool GetIsExecutable()
 		{
-			string[] pinnedFolders = [.. QuickAccessService.PinnedFolders];
+			string[] pinnedFolders = [.. QuickAccessService.PinnedFolderPaths];
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinned)

@@ -170,7 +170,7 @@ namespace Files.App.UserControls.Widgets
 					foreach (var itemToAdd in itemsToAdd)
 					{
 						var interimItemsAdded = ItemsAdded.ToList();
-						var item = await QuickAccessService.CreateLocationItemFromPathAsync(itemToAdd);
+						var item = await LocationItem.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
@@ -194,7 +194,7 @@ namespace Files.App.UserControls.Widgets
 					foreach (var itemToAdd in e.Paths)
 					{
 						var interimItemsAdded = ItemsAdded.ToList();
-						var item = await QuickAccessService.CreateLocationItemFromPathAsync(itemToAdd);
+						var item = await LocationItem.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
@@ -212,7 +212,7 @@ namespace Files.App.UserControls.Widgets
 					foreach (var itemToAdd in e.Paths)
 					{
 						var interimItemsAdded = ItemsAdded.ToList();
-						var item = await QuickAccessService.CreateLocationItemFromPathAsync(itemToAdd);
+						var item = await LocationItem.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(interimItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						if (interimItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
@@ -238,13 +238,13 @@ namespace Files.App.UserControls.Widgets
 				Reset = true
 			});
 
-			QuickAccessService.UpdateQuickAccessWidget += ModifyItemAsync;
+			QuickAccessService.PinnedItemsChanged += ModifyItemAsync;
 		}
 
 		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= QuickAccessWidget_Unloaded;
-			QuickAccessService.UpdateQuickAccessWidget -= ModifyItemAsync;
+			QuickAccessService.PinnedItemsChanged -= ModifyItemAsync;
 		}
 
 		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -305,7 +305,7 @@ namespace Files.App.UserControls.Widgets
 
 		public override async Task PinToSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.PinToSidebarAsync([item.Path]);
+			await QuickAccessService.PinFolderToSidebarAsync([item.Path]);
 
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 
@@ -324,7 +324,7 @@ namespace Files.App.UserControls.Widgets
 
 		public override async Task UnpinFromSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.UnpinFromSidebarAsync([item.Path]);
+			await QuickAccessService.UnpinFolderFromSidebarAsync([item.Path]);
 
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
