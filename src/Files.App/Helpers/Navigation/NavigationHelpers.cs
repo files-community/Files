@@ -16,6 +16,7 @@ namespace Files.App.Helpers
 		private static MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private static INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
+		private static IWSLDrivesService WSLDrivesService { get; } = Ioc.Default.GetRequiredService<IWSLDrivesService>();
 
 		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{
@@ -153,7 +154,7 @@ namespace Files.App.Helpers
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
-			else if (WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
+			else if (WSLDrivesService.TryGet(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
 				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);

@@ -67,12 +67,13 @@ namespace Files.App.Helpers
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
+			var wslDrivesService = Ioc.Default.GetRequiredService<IWSLDrivesService>();
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
 				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 				App.LibraryManager.UpdateLibrariesAsync(),
-				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+				OptionalTaskAsync(wslDrivesService.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 				App.QuickAccessManager.InitializeAsync()
 			);

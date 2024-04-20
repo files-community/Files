@@ -27,6 +27,7 @@ namespace Files.App.ViewModels.UserControls
 		private INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private IWSLDrivesService WSLDrivesService { get; } = Ioc.Default.GetRequiredService<IWSLDrivesService>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
 
@@ -250,7 +251,7 @@ namespace Files.App.ViewModels.UserControls
 			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
 			NetworkDrivesService.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
-			WSLDistroManager.DataChanged += Manager_DataChanged;
+			WSLDrivesService.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
@@ -283,7 +284,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => NetworkDrivesService.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
-					SectionType.WSL => WSLDistroManager.Distros,
+					SectionType.WSL => WSLDrivesService.WSLDrives,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
 					_ => null
@@ -506,7 +507,7 @@ namespace Files.App.ViewModels.UserControls
 
 				case SectionType.WSL:
 					{
-						if (ShowWslSection == false || WSLDistroManager.Distros.Any() == false)
+						if (ShowWslSection == false || WSLDrivesService.WSLDrives.Any() == false)
 						{
 							break;
 						}
@@ -578,7 +579,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => CloudDrivesManager.UpdateDrivesAsync,
 					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
 					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => NetworkDrivesService.UpdateDrivesAsync,
-					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
+					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDrivesService.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
 					SectionType.Pinned => App.QuickAccessManager.Model.AddAllItemsToSidebarAsync,
@@ -645,7 +646,7 @@ namespace Files.App.ViewModels.UserControls
 			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;
 			NetworkDrivesService.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
-			WSLDistroManager.DataChanged -= Manager_DataChanged;
+			WSLDrivesService.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}
 
