@@ -38,6 +38,7 @@ namespace Files.App.Data.Commands
 			: _allKeyBindings.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
 			: None;
 
+		#region Commands
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
@@ -190,6 +191,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand GitPush => commands[CommandCodes.GitPush];
 		public IRichCommand GitSync => commands[CommandCodes.GitSync];
 		public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
+		#endregion
 
 		public CommandManager()
 		{
