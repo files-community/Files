@@ -506,9 +506,7 @@ namespace Files.App.Data.Models
 				path = path.TrimPath() ?? string.Empty;
 
 				if (path.StartsWith("tag:", StringComparison.Ordinal))
-				{
 					return GetLayoutPreferencesFromDatabase("Home", null);
-				}
 
 				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
 
