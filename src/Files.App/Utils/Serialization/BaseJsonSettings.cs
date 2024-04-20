@@ -95,7 +95,9 @@ namespace Files.App.Utils.Serialization
 				return false;
 			}
 
-			if (JsonSettingsDatabase?.SetValue(propertyName, value) ?? false)
+			if (JsonSettingsDatabase is not null &&
+				(!JsonSettingsDatabase.GetValue<TValue>(propertyName)?.Equals(value) ?? true) &&
+				JsonSettingsDatabase.SetValue(propertyName, value))
 			{
 				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(propertyName, value));
 				return true;
