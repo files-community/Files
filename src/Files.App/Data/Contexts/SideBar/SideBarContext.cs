@@ -10,7 +10,7 @@ namespace Files.App.Data.Contexts
 
 		private int PinnedFolderItemIndex =>
 			IsItemRightClicked
-				? QuickAccessService.IndexOfItem(_RightClickedItem!.Path)
+				? QuickAccessService.IndexOf(_RightClickedItem!.Path)
 				: -1;
 
 		private INavigationControlItem? _RightClickedItem = null;

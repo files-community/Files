@@ -935,7 +935,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var options = item.MenuOptions;
 
-			var pinnedFolderIndex = QuickAccessService.IndexOfItem(item.Path);
+			var pinnedFolderIndex = QuickAccessService.IndexOf(item.Path);
 			var pinnedFolderCount = QuickAccessService.PinnedFolderPaths.Count;
 
 			var isPinnedItem = item.Section is SectionType.Pinned && pinnedFolderIndex is not -1;
