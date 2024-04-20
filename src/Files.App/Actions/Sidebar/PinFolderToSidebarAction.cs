@@ -34,11 +34,11 @@ namespace Files.App.Actions
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
 
-				await QuickAccessService.PinFolderToSidebarAsync(items);
+				await QuickAccessService.PinFolderAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await QuickAccessService.PinFolderToSidebarAsync([context.Folder.ItemPath]);
+				await QuickAccessService.PinFolderAsync([context.Folder.ItemPath]);
 			}
 		}
 

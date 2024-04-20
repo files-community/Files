@@ -40,21 +40,21 @@ namespace Files.App.Data.Contracts
 		/// Gets the list of Quick Access items.
 		/// </summary>
 		/// <returns></returns>
-		Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync();
+		Task<IEnumerable<ShellFileItem>> GetFoldersAsync();
 
 		/// <summary>
 		/// Pins folders to the Quick Access list.
 		/// </summary>
 		/// <param name="folderPaths">The array of folders to pin.</param>
 		/// <returns></returns>
-		Task PinFolderToSidebarAsync(string[] folderPaths, bool invokeQuickAccessChangedEvent = true);
+		Task PinFolderAsync(string[] folderPaths, bool invokeQuickAccessChangedEvent = true);
 
 		/// <summary>
 		/// Unpins folders from the Quick Access list.
 		/// </summary>
 		/// <param name="folderPaths">The array of folders to unpin.</param>
 		/// <returns></returns>
-		Task UnpinFolderFromSidebarAsync(string[] folderPaths, bool invokeQuickAccessChangedEvent = true);
+		Task UnpinFolderAsync(string[] folderPaths, bool invokeQuickAccessChangedEvent = true);
 
 		/// <summary>
 		/// Checks if a folder is pinned to the Quick Access list.
@@ -66,9 +66,9 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Refreshes Quick Access pinned items.
 		/// </summary>
-		/// <param name="items">The array of items to pin.</param>
+		/// <param name="folderPaths">The array of paths to pin.</param>
 		/// <returns></returns>
-		Task RefreshPinnedFolders(string[] items);
+		Task RefreshPinnedFolders(string[] folderPaths);
 
 		/// <summary>
 		/// Fetches items from File Explorer.

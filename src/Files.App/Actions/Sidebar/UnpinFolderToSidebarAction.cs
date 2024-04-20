@@ -31,11 +31,11 @@ namespace Files.App.Actions
 			if (context.HasSelection)
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
-				await QuickAccessService.UnpinFolderFromSidebarAsync(items);
+				await QuickAccessService.UnpinFolderAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await QuickAccessService.UnpinFolderFromSidebarAsync([context.Folder.ItemPath]);
+				await QuickAccessService.UnpinFolderAsync([context.Folder.ItemPath]);
 			}
 		}
 

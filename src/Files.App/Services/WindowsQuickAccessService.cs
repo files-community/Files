@@ -16,13 +16,9 @@ namespace Files.App.Services
 		// Constants
 
 		private const string ShellContextMenuVerbPinToHome = "PinToHome";
-
 		private const string ShellContextMenuVerbUnpinToHome = "UnpinFromHome";
-
 		private const string ShellPropertyIsPinned = "System.Home.IsPinned";
-
 		private const string ShellMemberNameSpace = "NameSpace";
-
 		private const string ShellProgIDApplication = "Shell.Application";
 
 		// Fields
@@ -73,7 +69,7 @@ namespace Files.App.Services
 				_quickAccessFolderWatcher.EnableRaisingEvents = false;
 
 				await UpdatePinnedFolders();
-				PinnedItemsChanged?.Invoke(null, new((await GetPinnedFoldersAsync()).ToArray(), true) { Reset = true });
+				PinnedItemsChanged?.Invoke(null, new((await GetFoldersAsync()).ToArray(), true) { Reset = true });
 
 				_quickAccessFolderWatcher.EnableRaisingEvents = true;
 			};
@@ -84,14 +80,14 @@ namespace Files.App.Services
 		{
 			// Pin RecycleBin folder
 			if (!PinnedFolderPaths.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
-				await PinFolderToSidebarAsync([Constants.UserEnvironmentPaths.RecycleBinPath]);
+				await PinFolderAsync([Constants.UserEnvironmentPaths.RecycleBinPath]);
 
 			// Refresh
 			await UpdatePinnedFolders();
 		}
 
 		/// <inheritdoc/>
-		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
+		public async Task<IEnumerable<ShellFileItem>> GetFoldersAsync()
 		{
 			// TODO: Return IAsyncEnumerable, instead
 			return (await Win32Helper.GetShellFolderAsync(Constants.CLID.QuickAccess, false, true, 0, int.MaxValue, "System.Home.IsPinned"))
@@ -100,7 +96,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task PinFolderToSidebarAsync(string[] folderPaths, bool invokeQuickAccessChangedEvent = true)
+		public async Task PinFolderAsync(string[] folderPaths, bool invokeQuickAccessChangedEvent = true)
 		{
 			foreach (string folderPath in folderPaths)
 				await ContextMenu.InvokeVerb(ShellContextMenuVerbPinToHome, [folderPath]);
@@ -112,7 +108,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task UnpinFolderFromSidebarAsync(string[] folderPaths, bool invokeQuickAccessChangedEvent = true)
+		public async Task UnpinFolderAsync(string[] folderPaths, bool invokeQuickAccessChangedEvent = true)
 		{
 			// Get the shell application Program ID
 			var shellAppType = Type.GetTypeFromProgID(ShellProgIDApplication)!;
@@ -134,7 +130,7 @@ namespace Files.App.Services
 
 			if (folderPaths.Length == 0)
 			{
-				folderPaths = (await GetPinnedFoldersAsync())
+				folderPaths = (await GetFoldersAsync())
 					.Where(link => (bool?)link.Properties[ShellPropertyIsPinned] ?? false)
 					.Select(link => link.FilePath).ToArray();
 			}
@@ -182,20 +178,20 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task RefreshPinnedFolders(string[] items)
+		public async Task RefreshPinnedFolders(string[] folderPaths)
 		{
-			if (Equals(items, PinnedFolderPaths.ToArray()))
+			if (Equals(folderPaths, PinnedFolderPaths.ToArray()))
 				return;
 
 			_quickAccessFolderWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item and pin new items in order
-			await UnpinFolderFromSidebarAsync([], false);
-			await PinFolderToSidebarAsync(items, false);
+			await UnpinFolderAsync([], false);
+			await PinFolderAsync(folderPaths, false);
 
 			_quickAccessFolderWatcher.EnableRaisingEvents = true;
 
-			PinnedItemsChanged?.Invoke(this, new(items, true) { Reorder = true });
+			PinnedItemsChanged?.Invoke(this, new(folderPaths, true) { Reorder = true });
 		}
 
 		/// <inheritdoc/>
@@ -205,7 +201,7 @@ namespace Files.App.Services
 
 			try
 			{
-				PinnedFolderPaths = (await GetPinnedFoldersAsync())
+				PinnedFolderPaths = (await GetFoldersAsync())
 					.Where(x => (bool?)x.Properties[ShellPropertyIsPinned] ?? false)
 					.Select(x => x.FilePath).ToList();
 

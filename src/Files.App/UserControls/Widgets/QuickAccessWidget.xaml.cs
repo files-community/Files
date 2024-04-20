@@ -232,7 +232,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			Loaded -= QuickAccessWidget_Loaded;
 
-			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
+			var itemsToAdd = await QuickAccessService.GetFoldersAsync();
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false)
 			{
 				Reset = true
@@ -305,11 +305,11 @@ namespace Files.App.UserControls.Widgets
 
 		public override async Task PinToSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.PinFolderToSidebarAsync([item.Path]);
+			await QuickAccessService.PinFolderAsync([item.Path]);
 
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 
-			var items = (await QuickAccessService.GetPinnedFoldersAsync())
+			var items = (await QuickAccessService.GetFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
 
 			var recentItem = items.FirstOrDefault(x => !ItemsAdded.ToList().Select(y => y.Path).Contains(x.FilePath));
@@ -324,7 +324,7 @@ namespace Files.App.UserControls.Widgets
 
 		public override async Task UnpinFromSidebarAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.UnpinFolderFromSidebarAsync([item.Path]);
+			await QuickAccessService.UnpinFolderAsync([item.Path]);
 
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
