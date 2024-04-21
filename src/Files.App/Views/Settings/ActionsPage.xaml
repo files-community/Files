@@ -132,7 +132,8 @@
 					ItemsSource="{x:Bind ViewModel.AllActionItems, Mode=OneWay}"
 					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
 					SelectedIndex="{x:Bind ViewModel.SelectedActionItemIndex, Mode=TwoWay}"
-					SelectedItem="{x:Bind ViewModel.SelectedActionItem, Mode=TwoWay}">
+					SelectedItem="{x:Bind ViewModel.SelectedActionItem, Mode=TwoWay}"
+					DropDownClosed="NewKeyBindingItemPickerComboBox_DropDownClosed">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="dataitems:ModifiableActionItem">
 							<StackPanel Width="240" HorizontalAlignment="Left">
@@ -166,7 +167,6 @@
 					Width="144"
 					VerticalAlignment="Center"
 					IsEnabled="{x:Bind ViewModel.SelectedActionItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
-					IsEnabledChanged="KeyBindingEditorTextBox_IsEnabledChanged"
 					IsReadOnly="True"
 					IsSpellCheckEnabled="False"
 					IsTabStop="True"

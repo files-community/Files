@@ -57,7 +57,7 @@ namespace Files.App.Views.Settings
 
 			var pressedKey = e.OriginalKey;
 
-			List<VirtualKey> modifierKeys = 
+			List<VirtualKey> modifierKeys =
 			[
 				VirtualKey.Shift,
 				VirtualKey.Control,
@@ -113,15 +113,14 @@ namespace Files.App.Views.Settings
 			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
 		}
 
-		private void KeyBindingEditorTextBox_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+		private void NewKeyBindingItemPickerComboBox_DropDownClosed(object sender, object e)
 		{
 			// Check if a new action is selected
 			if (ViewModel.SelectedActionItem is null)
 				return;
 
 			// Focus the editor TextBox
-			TextBox keyboardShortcutEditorTextBox = (TextBox)sender;
-			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
+			KeyBindingEditorTextBox.Focus(FocusState.Programmatic);
 		}
 	}
 }
