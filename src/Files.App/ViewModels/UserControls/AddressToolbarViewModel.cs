@@ -848,7 +848,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							Text = ">" + command.Code,
 							PrimaryDisplay = command.Description,
-							HotKeys = command.HotKeys,
+							HotKeys = new(command.HotKeys),
 							SearchText = searchText,
 						}).ToList();
 					}
@@ -925,10 +925,8 @@ namespace Files.App.ViewModels.UserControls
 							{
 								NavigationBarSuggestions[index].Text = suggestions[index].Text;
 								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
-								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
-								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
 								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
-								NavigationBarSuggestions[index].HotKeys = suggestions[index].HotKeys;
+								NavigationBarSuggestions[index].HotKeys = new(suggestions[index].HotKeys);
 							}
 							else
 							{

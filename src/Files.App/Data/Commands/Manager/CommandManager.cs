@@ -386,7 +386,7 @@ namespace Files.App.Data.Commands
 
 					if (customizedKeyBindings.IsEmpty())
 					{
-						continue;
+						command.RestoreKeyBindings();
 					}
 					else if (customizedKeyBindings.Count == 1 && customizedKeyBindings[0].KeyBinding == string.Empty)
 					{
