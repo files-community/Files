@@ -57,6 +57,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				item.Path is null)
 				return;
 
+			// TODO: Add IsFolder to all WidgetCardItems
+			// NOTE: This is a workaround for file tags isFolder
+			var fileTagsCardItem = widgetCardItem.DataContext as WidgetFileTagCardItem;
+
 			// Create a new Flyout
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
@@ -73,7 +77,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			// Get items for the flyout
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), fileTagsCardItem is not null && fileTagsCardItem.IsFolder);
 			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
 			// Set max width of the flyout
