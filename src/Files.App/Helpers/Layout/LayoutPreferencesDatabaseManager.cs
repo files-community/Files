@@ -63,17 +63,6 @@ namespace Files.App.Helpers
 			};
 		}
 
-		private LayoutPreferencesDatabaseItem FromDatabaseEntity(Server.Data.LayoutPreferences entry)
-		{
-			return new()
-			{
-				FilePath = entry.FilePath,
-				Frn = entry.Frn,
-				Id = entry.Id,
-				LayoutPreferencesManager = FromDatabaseEntity(entry.LayoutPreferencesManager),
-			};
-		}
-
 		private Server.Data.ColumnPreferencesItem ToDatabaseEntity(DetailsLayoutColumnItem entry)
 		{
 			return new()
@@ -125,7 +114,7 @@ namespace Files.App.Helpers
 		}
 
 		// Methods
-		public LayoutPreferencesItem? GetPreferences(string? filePath = null, ulong? frn = null)
+		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn = null)
 		{
 			return FromDatabaseEntity(_database.GetPreferences(filePath, frn));
 		}
@@ -138,11 +127,6 @@ namespace Files.App.Helpers
 		public void ResetAll()
 		{
 			_database.ResetAll();
-		}
-
-		public void ApplyToAll(Action<LayoutPreferencesDatabaseItem> updateAction)
-		{
-			_database.ApplyToAll(item => updateAction.Invoke(FromDatabaseEntity(item)));
 		}
 
 		public void Import(string json)

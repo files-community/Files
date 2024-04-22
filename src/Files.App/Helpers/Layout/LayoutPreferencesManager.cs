@@ -25,10 +25,6 @@ namespace Files.App.Data.Models
 		private readonly FolderLayoutModes? _rootLayoutMode;
 
 		// Properties
-
-		public static string LayoutSettingsDbPath
-			=> SystemIO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
-
 		public bool IsLayoutModeFixed
 			=> _rootLayoutMode is not null;
 
@@ -508,6 +504,9 @@ namespace Files.App.Data.Models
 			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
 				path = path.TrimPath() ?? string.Empty;
+
+				if (path.StartsWith("tag:", StringComparison.Ordinal))
+					return GetLayoutPreferencesFromDatabase("Home", null);
 
 				var folderFRN = Win32Helper.GetFolderFRN(path);
 

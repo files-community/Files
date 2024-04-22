@@ -52,8 +52,8 @@ namespace Files.App.Data.Items
 			_openAction = openAction;
 			Tags = [];
 
-			ViewMoreCommand = new AsyncRelayCommand<CancellationToken>(ViewMore);
-			OpenAllCommand = new AsyncRelayCommand<CancellationToken>(OpenAll);
+			ViewMoreCommand = new AsyncRelayCommand(ViewMore);
+			OpenAllCommand = new AsyncRelayCommand(OpenAll);
 		}
 
 		/// <inheritdoc/>
@@ -66,12 +66,12 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		private Task ViewMore(CancellationToken cancellationToken)
+		private Task ViewMore()
 		{
 			return _openAction($"tag:{Name}");
 		}
 
-		private Task OpenAll(CancellationToken cancellationToken)
+		private Task OpenAll()
 		{
 			SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(Tags.Select(tag => (tag.Path, tag.IsFolder))));
 

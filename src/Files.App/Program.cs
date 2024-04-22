@@ -57,16 +57,62 @@ namespace Files.App
 		{
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
+			// We are about to do the first WinRT server call, in case the WinRT server is hanging
+			// we need to kill the server if there is no other Files instances already running
+
+			static bool ProcessPathPredicate(Process p)
+			{
+				try
+				{
+					return p.MainModule?.FileName
+						.StartsWith(Windows.ApplicationModel.Package.Current.EffectivePath, StringComparison.OrdinalIgnoreCase) ?? false;
+				}
+				catch
+				{
+					return false;
+				}
+			}
+
+			var processes = Process.GetProcessesByName("Files")
+				.Where(ProcessPathPredicate)
+				.Where(p => p.Id != Environment.ProcessId);
+
+			if (!processes.Any())
+			{
+				foreach (var process in Process.GetProcessesByName("Files.App.Server").Where(ProcessPathPredicate))
+				{
+					try
+					{
+						process.Kill();
+					}
+					catch
+					{
+						// ignore any exceptions
+					}
+					finally
+					{
+						process.Dispose();
+					}
+				}
+			}
+
+			// Now we can do the first WinRT server call
 			Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
-			if (activatedArgs.Data is ICommandLineActivatedEventArgs cmdLineArgs)
+			// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
+			var isCommadLineLaunch = activatedArgs.Data is ILaunchActivatedEventArgs args &&
+				args.Arguments is not null &&
+					(CommandLineParser.SplitArguments(args.Arguments, true)[0].EndsWith($"files.exe", StringComparison.OrdinalIgnoreCase)
+						|| CommandLineParser.SplitArguments(args.Arguments, true)[0].EndsWith($"files", StringComparison.OrdinalIgnoreCase));
+
+			if (activatedArgs.Data is ICommandLineActivatedEventArgs || isCommadLineLaunch)
 			{
-				var operation = cmdLineArgs.Operation;
-				var cmdLineString = operation.Arguments;
-				var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+				var cmdLineArgs = activatedArgs.Data as ICommandLineActivatedEventArgs;
+				var cmdLineLaunchArgs = activatedArgs.Data as ILaunchActivatedEventArgs;
+				var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineArgs?.Operation.Arguments ?? cmdLineLaunchArgs!.Arguments);
 
 				if (parsedCommands is not null)
 				{
@@ -119,7 +165,7 @@ namespace Files.App
 				}
 			}
 
-			if (OpenTabInExistingInstance)
+			if (OpenTabInExistingInstance && !isCommadLineLaunch)
 			{
 				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
 				{

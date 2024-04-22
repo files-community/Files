@@ -22,16 +22,13 @@ using std::endl;
 CComPtr<IFileOpenDialog> GetSystemDialog()
 {
 	HINSTANCE lib = CoLoadLibrary(L"C:\\Windows\\System32\\comdlg32.dll", false);
-
-	BOOL(WINAPI *dllGetClassObject)(REFCLSID, REFIID, LPVOID*) = (BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
-
+	BOOL(WINAPI* dllGetClassObject)(REFCLSID, REFIID, LPVOID*) = 
+		(BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
 	CComPtr<IClassFactory> pClassFactory;
 	dllGetClassObject(CLSID_FileOpenDialog, IID_IClassFactory, (void**)&pClassFactory);
-
 	CComPtr<IFileOpenDialog> systemDialog;
 	pClassFactory->CreateInstance(NULL, IID_IFileOpenDialog, (void**)&systemDialog);
 	//CoFreeLibrary(lib);
-
 	return systemDialog;
 }
 
@@ -124,6 +121,8 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	ShExecInfo.lpFile = L"files.exe";
 	PWSTR pszPath = NULL;
 
+	HANDLE closeEvent = CreateEvent(NULL, FALSE, FALSE, TEXT("FILEDIALOG"));
+
 	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
 	{
 		TCHAR args[1024];
@@ -132,17 +131,40 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 		ShExecInfo.lpParameters = args;
 		CoTaskMemFree(pszPath);
 	}
-
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
-	if (ShExecInfo.hProcess)
-	{
-		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
-		CloseHandle(ShExecInfo.hProcess);
-	}
 
 	if (hwndOwner)
+		EnableWindow(hwndOwner, FALSE);
+
+	MSG msg;
+	while (ShExecInfo.hProcess)
+	{
+		switch (MsgWaitForMultipleObjectsEx(1, &closeEvent, INFINITE, QS_ALLINPUT, 0))
+		{
+		case WAIT_OBJECT_0:
+			CloseHandle(ShExecInfo.hProcess);
+			ShExecInfo.hProcess = NULL;
+			break;
+		case WAIT_OBJECT_0 + 1:
+			while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			continue;
+		default: __debugbreak();
+		}
+	}
+
+	if (closeEvent)
+		CloseHandle(closeEvent);
+
+	if (hwndOwner)
+	{
+		EnableWindow(hwndOwner, TRUE);
 		SetForegroundWindow(hwndOwner);
+	}
 
 	std::ifstream file(_outputPath);
 	if (file.good())
@@ -203,7 +225,7 @@ STDAPICALL CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 	return _systemDialog->Advise(pfde, pdwCookie);
 #endif
 	_dialogEvents = pfde;
-	* pdwCookie = 0;
+	*pdwCookie = 0;
 	return S_OK;
 }
 
