@@ -10,6 +10,7 @@
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	mc:Ignorable="d">
@@ -108,7 +109,7 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE790;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox
+				<uc:ComboBoxEx
 					x:Name="ThemeChooser"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
@@ -120,7 +121,7 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xEF1F;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox
+				<uc:ComboBoxEx
 					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
 					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
