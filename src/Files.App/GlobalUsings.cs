@@ -64,7 +64,6 @@ global using global::Files.App.Services.Settings;
 global using global::Files.App.ViewModels.Dialogs;
 global using global::Files.App.ViewModels.Dialogs.AddItemDialog;
 global using global::Files.App.ViewModels.Dialogs.FileSystemDialog;
-global using global::Files.App.ViewModels.FileTags;
 global using global::Files.App.ViewModels.UserControls.Widgets;
 global using global::Files.App.Utils.CommandLine;
 
