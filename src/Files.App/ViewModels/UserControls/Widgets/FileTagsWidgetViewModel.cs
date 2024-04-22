@@ -82,6 +82,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
+					Text = "SendTo".GetLocalizedResource(),
+					Tag = "SendToPlaceholder",
+					ShowItem = !isFolder && UserSettingsService.GeneralSettingsService.ShowSendToMenu
+				},
+				new()
+				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewTab" },
 					Command = OpenInNewTabCommand,
