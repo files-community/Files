@@ -50,28 +50,28 @@ namespace Files.App.Data.Items
 			_tagUid = tagUid;
 			Tags = new();
 
-			ViewMoreCommand = new AsyncRelayCommand<CancellationToken>(ViewMore);
-			OpenAllCommand = new AsyncRelayCommand<CancellationToken>(OpenAll);
+			ViewMoreCommand = new AsyncRelayCommand(ViewMore);
+			OpenAllCommand = new AsyncRelayCommand(OpenAll);
 		}
 
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
-			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
+			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid))
 			{
-				var icon = await ImageService.GetIconAsync(item.Storable, cancellationToken);
+				var icon = await ImageService.GetIconAsync(item.Storable, default);
 				Tags.Add(new(item.Storable, icon));
 			}
 		}
 
-		private Task ViewMore(CancellationToken cancellationToken)
+		private Task<bool> ViewMore()
 		{
 			return NavigationHelpers.OpenPath($"tag:{Name}", ContentPageContext.ShellPage!);
 		}
 
-		private Task OpenAll(CancellationToken cancellationToken)
+		private Task OpenAll()
 		{
-			SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(Tags.Select(tag => (tag.Path, tag.IsFolder))));
+			SelectedTagChanged?.Invoke(this, new(Tags.Select(tag => (tag.Path, tag.IsFolder))));
 
 			return Commands.OpenAllTaggedItems.ExecuteAsync();
 		}

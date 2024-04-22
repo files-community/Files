@@ -34,15 +34,15 @@
 
 		<!--  List of recent files  -->
 		<ListView
-			x:Name="RecentFilesView"
+			x:Name="RecentFilesListView"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			IsItemClickEnabled="True"
 			IsRightTapEnabled="True"
-			ItemClick="RecentFilesView_ItemClick"
+			ItemClick="RecentFilesListView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-			RightTapped="ListView_RightTapped"
+			RightTapped="RecentFilesListView_RightTapped"
 			SelectionMode="None">
 
 			<ListView.ItemTemplate>

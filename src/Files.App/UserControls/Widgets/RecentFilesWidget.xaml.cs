@@ -18,7 +18,7 @@ namespace Files.App.UserControls.Widgets
 			InitializeComponent();
 		}
 
-		private void RecentFilesView_ItemClick(object sender, ItemClickEventArgs e)
+		private void RecentFilesListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (e.ClickedItem is not RecentItem item)
 				return;
@@ -26,7 +26,7 @@ namespace Files.App.UserControls.Widgets
 			ViewModel.NavigateToPath(item.RecentPath);
 		}
 
-		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void RecentFilesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			ViewModel.BuildItemContextMenu(e.OriginalSource, e);
 		}

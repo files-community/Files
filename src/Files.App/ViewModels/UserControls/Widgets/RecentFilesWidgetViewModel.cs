@@ -82,12 +82,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "SendTo".GetLocalizedResource(),
-					Tag = "SendToPlaceholder",
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},
-				new()
-				{
 					Text = "RecentItemRemove/Text".GetLocalizedResource(),
 					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
