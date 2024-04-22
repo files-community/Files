@@ -35,6 +35,8 @@
 		<ItemsRepeater.ItemTemplate>
 			<DataTemplate x:DataType="dataitems:WidgetFileTagsContainerItem">
 				<Grid
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
 					AllowDrop="True"
 					Background="{ThemeResource ControlFillColorDefaultBrush}"
 					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -123,7 +125,6 @@
 						<wctcontrols:AdaptiveGridView.ItemContainerStyle>
 							<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 								<Setter Property="Padding" Value="8,0" />
-								<Setter Property="HorizontalAlignment" Value="Stretch" />
 							</Style>
 						</wctcontrols:AdaptiveGridView.ItemContainerStyle>
 
