@@ -582,7 +582,7 @@ namespace Files.App.Utils.Storage
 						using ShellFolder shd = new(Path.GetDirectoryName(copyDestination[i]));
 
 						// Performa copy operation
-						op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+						op.QueueCopyOperation(shi, shd, GetIncrementalName(overwriteOnCopy,copyDestination[i]));
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -1016,6 +1016,21 @@ namespace Files.App.Utils.Storage
 					if (taskbar is not null)
 						Marshal.ReleaseComObject(taskbar);
 				}
+			}
+		}
+
+		public static string GetIncrementalName(bool overWriteOnCopy,string? filePathToCheck)
+		{
+			if (filePathToCheck == null)
+				return null;
+			else
+			{
+				if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy)
+					return Path.GetFileName(filePathToCheck);
+				else
+				{
+					return Path.GetFileName(filePathToCheck) + " - (2)";
+				}				
 			}
 		}
 	}
