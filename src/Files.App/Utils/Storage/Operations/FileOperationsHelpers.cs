@@ -1019,26 +1019,19 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static string GetIncrementalName(bool overWriteOnCopy,string? filePathToCheck)
+		public static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck)
 		{
 			if (filePathToCheck == null)
-				return null;
-			else
+				return null;			
+			if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy)
+				return Path.GetFileName(filePathToCheck);
+			int i = 2;
+			Func<int, string> genFilePath = x => string.Concat([filePathToCheck, " - (", x.ToString(), ")"]);
+			while (Path.Exists(genFilePath(i)))
 			{
-				if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy)
-					return Path.GetFileName(filePathToCheck);
-				else
-				{
-					int i = 2;
-					string genfilepath = string.Concat([filePathToCheck, " - (", i.ToString(), ")"]);
-					while (Path.Exists(genfilepath))
-					{
-						i = i+1;
-						genfilepath = string.Concat([filePathToCheck, " - (", i.ToString(), ")"]);
-					}
-					return Path.GetFileName(genfilepath);
-				}				
+				i = i+1;				
 			}
-		}
+			return Path.GetFileName(genFilePath(i));									
+		}		
 	}
 }
