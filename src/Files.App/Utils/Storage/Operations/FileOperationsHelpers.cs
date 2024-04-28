@@ -1029,7 +1029,14 @@ namespace Files.App.Utils.Storage
 					return Path.GetFileName(filePathToCheck);
 				else
 				{
-					return Path.GetFileName(filePathToCheck) + " - (2)";
+					int i = 2;
+					string genfilepath = string.Concat([filePathToCheck, " - (", i.ToString(), ")"]);
+					while (Path.Exists(genfilepath))
+					{
+						i = i+1;
+						genfilepath = string.Concat([filePathToCheck, " - (", i.ToString(), ")"]);
+					}
+					return Path.GetFileName(genfilepath);
 				}				
 			}
 		}
