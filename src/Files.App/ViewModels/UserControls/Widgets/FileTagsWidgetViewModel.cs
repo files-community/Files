@@ -82,12 +82,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "SendTo".GetLocalizedResource(),
-					Tag = "SendToPlaceholder",
-					ShowItem = !isFolder && UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},
-				new()
-				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewTab" },
 					Command = OpenInNewTabCommand,
@@ -132,6 +126,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned && isFolder
+				},
+				new()
+				{
+					Text = "SendTo".GetLocalizedResource(),
+					Tag = "SendToPlaceholder",
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
