@@ -1026,8 +1026,11 @@ namespace Files.App.Utils.Storage
 			if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy)
 				return Path.GetFileName(filePathToCheck);
 			int i = 2;
-			Func<int, string> genFilePath = x => string.Concat([filePathToCheck, " - (", x.ToString(), ")"]);
-			while (Path.Exists(genFilePath(i)))
+			string filePath = filePathToCheck;
+			if (Path.HasExtension(filePathToCheck))
+				filePath = filePathToCheck.Substring(0, filePathToCheck.LastIndexOf("."));
+			Func<int, string> genFilePath = x => string.Concat([filePath, " (", x.ToString(), ")", Path.GetExtension(filePathToCheck)]);
+			while (File.Exists(genFilePath(i)))
 			{
 				i = i+1;				
 			}
