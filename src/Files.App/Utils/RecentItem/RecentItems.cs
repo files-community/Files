@@ -109,7 +109,8 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFilesAsync()
 		{
-			return (await Win32Helper.GetShellFolderAsync(QuickAccessGuid, false, true, 0, int.MaxValue)).Enumerate
+			// Since the maximum number of recent files is 20, we set the count to 20 to avoid loading of unnecessary shell items.
+			return (await Win32Helper.GetShellFolderAsync(QuickAccessGuid, false, true, 0, 20)).Enumerate
 				.Where(link => !link.IsFolder)
 				.Select(link => new RecentItem(link, ShowFileExtensions)).ToList();
 		}
