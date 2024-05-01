@@ -57,7 +57,7 @@ namespace Files.App.Data.Models
 		public bool ShowLoadingIndicator { get; set; }
 
 		/// <summary>
-		/// Initializes an instance of <see cref="CustomMenuFlyoutItem"/>.
+		/// Initializes an instance of <see cref="ContextFlyoutItemModel"/>.
 		/// </summary>
 		public ContextFlyoutItemModel(ContextFlyoutItemType type = ContextFlyoutItemType.Button)
 		{
@@ -65,7 +65,7 @@ namespace Files.App.Data.Models
 		}
 
 		/// <summary>
-		/// Initializes an instance of <see cref="CustomMenuFlyoutItem"/> with <see cref="IRichCommand"/>.
+		/// Initializes an instance of <see cref="ContextFlyoutItemModel"/> with <see cref="IRichCommand"/>.
 		/// </summary>
 		/// <param name="richCommand"><see cref="IRichCommand"/> instance.</param>
 		/// <param name="richCommandParameter"><see cref="IRichCommand"/> parameter.</param>
