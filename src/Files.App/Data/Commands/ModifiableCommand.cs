@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Immutable;
-using static Files.App.Data.Commands.CommandManager;
 
 namespace Files.App.Data.Commands
 {
@@ -80,8 +79,6 @@ namespace Files.App.Data.Commands
 		}
 
 		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
-
-		public void ResetHotKeys() => BaseCommand.ResetHotKeys();
 
 		private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 		{

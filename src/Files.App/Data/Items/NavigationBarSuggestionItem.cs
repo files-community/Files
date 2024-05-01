@@ -55,20 +55,6 @@ namespace Files.App.Data.Items
 			private set => SetProperty(ref _PrimaryDisplayPostMatched, value);
 		}
 
-		private string? _SecondaryDisplay;
-		public string? SecondaryDisplay
-		{
-			get => _SecondaryDisplay;
-			set => SetProperty(ref _SecondaryDisplay, value);
-		}
-
-		private string? _SupplementaryDisplay;
-		public string? SupplementaryDisplay
-		{
-			get => _SupplementaryDisplay;
-			set => SetProperty(ref _SupplementaryDisplay, value);
-		}
-
 		private HotKeyCollection _HotKeys = new();
 		public HotKeyCollection HotKeys
 		{
