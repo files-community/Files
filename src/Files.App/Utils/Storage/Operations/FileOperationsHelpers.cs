@@ -582,7 +582,7 @@ namespace Files.App.Utils.Storage
 						using ShellFolder shd = new(Path.GetDirectoryName(copyDestination[i]));
 
 						// Performa copy operation
-						op.QueueCopyOperation(shi, shd, GetIncrementalName(overwriteOnCopy,copyDestination[i]));
+						op.QueueCopyOperation(shi, shd, GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]));
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -1019,18 +1019,22 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck)
+		public static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck, string? filePathToCopy)
 		{
 			if (filePathToCheck == null)
 				return null;			
-			if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy)
+
+			if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy || filePathToCheck == filePathToCopy)
 				return Path.GetFileName(filePathToCheck);
+
 			int i = 2;
 			string filePath = filePathToCheck;
 			if (Path.HasExtension(filePathToCheck))
 				filePath = filePathToCheck.Substring(0, filePathToCheck.LastIndexOf("."));
+
 			Func<int, string> genFilePath = x => string.Concat([filePath, " (", x.ToString(), ")", Path.GetExtension(filePathToCheck)]);
-			while (File.Exists(genFilePath(i)))
+
+			while (Path.HasExtension(filePathToCheck) ? File.Exists(genFilePath(i)) : Path.Exists(genFilePath(i)))
 			{
 				i = i+1;				
 			}
