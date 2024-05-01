@@ -1698,12 +1698,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Benutzername</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Laufwerks-Widget</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Letzte Dateien-Widget</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Keine Objekte gefunden</value>
   </data>
@@ -3715,5 +3709,32 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Layout-Typ</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Aktionen</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Befehle</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Befehl hinzufügen</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Standard wiederherstellen</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Aktion auswählen</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie die Standard-Belegungen wiederherstellen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Diese Tastenbelegung wird bereits verwendet, bitte wählen Sie eine andere, um fortzufahren.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Benutzerdefiniert</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Adaptives Layout ist nicht verfügbar, wenn die Einstellungen synchronisiert werden. Das Standardlayout wurde auf Details geändert.</value>
   </data>
 </root>
