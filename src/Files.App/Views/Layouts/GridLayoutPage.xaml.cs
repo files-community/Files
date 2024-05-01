@@ -90,6 +90,14 @@ namespace Files.App.Views.Layouts
 			FileList.ScrollIntoView(e);
 		}
 
+		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
+		{
+			if (FolderSettings?.LayoutMode is FolderLayoutModes.ListView)
+				ContentScroller?.ChangeView(0, null, null, true);
+			else
+				ContentScroller?.ChangeView(null, 0, null, true);
+		}
+
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems.Any())
