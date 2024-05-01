@@ -4551,4 +4551,7 @@
   <data name="EditTagsGroupDescription" xml:space="preserve">
     <value>Add or remove file tags</value>
   </data>
+  <data name="SettingsTerminalIntegration" xml:space="preserve">
+    <value>Enable Terminal integration</value>
+  </data>
 </root>
