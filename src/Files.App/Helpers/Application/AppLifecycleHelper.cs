@@ -150,6 +150,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IInfoPaneSettingsService, InfoPaneSettingsService>(sp => new InfoPaneSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IActionsSettingsService, ActionsSettingsService>(sp => new ActionsSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
 					// Contexts
 					.AddSingleton<IPageContext, PageContext>()
@@ -199,6 +200,10 @@ namespace Files.App.Helpers
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 					.AddTransient<HomeViewModel>()
+					.AddSingleton<QuickAccessWidgetViewModel>()
+					.AddSingleton<DrivesWidgetViewModel>()
+					.AddSingleton<FileTagsWidgetViewModel>()
+					.AddSingleton<RecentFilesWidgetViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()

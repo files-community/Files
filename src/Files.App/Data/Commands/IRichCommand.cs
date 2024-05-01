@@ -34,7 +34,5 @@ namespace Files.App.Data.Commands
 
 		Task ExecuteAsync();
 		void ExecuteTapped(object sender, TappedRoutedEventArgs e);
-
-		void ResetHotKeys();
 	}
 }

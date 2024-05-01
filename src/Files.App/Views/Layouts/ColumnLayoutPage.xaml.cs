@@ -109,6 +109,11 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
+		{
+			ContentScroller?.ChangeView(null, 0, null, true);
+		}
+
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems?.Any() ?? false)
@@ -483,18 +488,7 @@ namespace Files.App.Views.Layouts
 					await CommitRenameAsync(textBox);
 				}
 
-				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-				{
-					ItemInvoked?.Invoke(
-						new ColumnParam
-						{
-							Source = this,
-							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath),
-							ListView = FileList
-						},
-						EventArgs.Empty);
-				}
-				else if (!IsRenamingItem && isItemFile)
+				if (!IsRenamingItem && isItemFile)
 				{
 					CheckDoubleClick(item!);
 				}
