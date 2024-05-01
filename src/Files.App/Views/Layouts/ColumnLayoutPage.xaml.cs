@@ -483,18 +483,7 @@ namespace Files.App.Views.Layouts
 					await CommitRenameAsync(textBox);
 				}
 
-				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-				{
-					ItemInvoked?.Invoke(
-						new ColumnParam
-						{
-							Source = this,
-							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath),
-							ListView = FileList
-						},
-						EventArgs.Empty);
-				}
-				else if (!IsRenamingItem && isItemFile)
+				if (!IsRenamingItem && isItemFile)
 				{
 					CheckDoubleClick(item!);
 				}
