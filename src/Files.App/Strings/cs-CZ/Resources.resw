@@ -361,7 +361,7 @@
     <value>Soubor nenalezen</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Složka, ke které se snažíte přístoupit, mohla být přesunuta nebo odstraněna.</value>
+    <value>Složka, ke které se snažíte přistoupit, mohla být přesunuta nebo odstraněna.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Smazali jste tuto složku?</value>
@@ -415,7 +415,7 @@
     <value>{0} volných z {1}</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Poslat do</value>
+    <value>Odeslat do</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Název položky nesmí obsahovat následující znaky: \ / : * ? " &lt; &gt; |</value>
@@ -439,7 +439,7 @@
     <value>Ano</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Opravdu chcete trvale odstrantit všechny tyto položky?</value>
+    <value>Opravdu chcete trvale odstranit všechny tyto položky?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Vyprázdnit koš</value>
@@ -595,7 +595,7 @@
     <value>Neplatný název položky</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Délka názvu položky překaračuje maximální limit. Zkontrolujte prosím požadovaný název a zkuste to znovu.</value>
+    <value>Délka názvu položky překračuje maximální limit. Zkontrolujte prosím požadovaný název a zkuste to znovu.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Název položky byl příliš dlouhý</value>
@@ -790,7 +790,7 @@
     <value>URL autora</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Distibutor obsahu</value>
+    <value>Distributor obsahu</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Datum vydání</value>
@@ -979,7 +979,7 @@
     <value>Stavové centrum</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Výsledy vyhledávání v {1} pro {0}</value>
+    <value>Výsledky vyhledávání v {1} pro {0}</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Podrobnosti</value>
@@ -1015,10 +1015,10 @@
     <value>Zobrazit možnost otevření složek v novém panelu</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Zobrazit mošnost pro zkopírování cesty</value>
+    <value>Zobrazit možnosti pro zkopírování cesty</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Zobrazit možnost pro vytvoření složky s výberem</value>
+    <value>Zobrazit možnost pro vytvoření složky s výběrem</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
     <value>Zobrazit možnost pro vytvoření zástupce</value>
@@ -1060,7 +1060,7 @@
     <value>Přepnout panel detailů pro zobrazení základních vlastností souboru</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Přepnout info panel</value>
+    <value>Přepnout informační panel</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Přepnout informační podokno pro zobrazení detailů/náhled podoken</value>
@@ -1252,7 +1252,7 @@
     <value>Je zde {0} konfliktních názvů souborů, a {1} odchozí položka(y).</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Konfiltní názvy souborů</value>
+    <value>Konfliktní názvy souborů</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>Je zde jeden konfliktní název souboru a {0} odchozí položka(y).</value>
@@ -1441,7 +1441,7 @@
     <value>Neznámý účet</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Nemáte oprávnění k zobrazení vlastností zabezpečení tohoto objektu. Klikněta na "Pokročilá oprávnění" a pokračujte.</value>
+    <value>Nemáte oprávnění k zobrazení vlastností zabezpečení tohoto objektu. Klikněte na "Pokročilá oprávnění" a pokračujte.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Majitel:</value>
@@ -1642,7 +1642,7 @@
     <value>Aktualizovat</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Domů</value>
+    <value>Domov</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -1698,12 +1698,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Uživatelské jméno</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget disků</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget nedávných souborů</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Nenalezeny žádné položky</value>
   </data>
@@ -1729,7 +1723,7 @@
     <value>Sloupec data vytvoření</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>Slopuec velikosti položky</value>
+    <value>Sloupec velikosti položky</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
     <value>Experimentální funkce</value>
@@ -1855,7 +1849,7 @@
     <value>Licence třetích stran</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Tato možnost upravuje systémový registr and může mít neočekávané vedlejší efekty na vaše zařízení. Pokračujte na vlastní nebezpečí.</value>
+    <value>Tato možnost upravuje systémový registr a může mít neočekávané vedlejší efekty na vaše zařízení. Pokračujte na vlastní nebezpečí.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Vytvořit Knihovnu</value>
@@ -1978,7 +1972,7 @@
     <value>Adaptivní rozvržení</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptivní rovržení (Ctrl+Shift+7)</value>
+    <value>Adaptivní rozvržení (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2449,13 +2443,13 @@
     <value>Odepnout položku (ky) z Hlavního panelu</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Připnout složky do postranního panelu</value>
+    <value>Připnout složku(y) do postranního panelu</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Odepnout složky ze postranního panelu</value>
+    <value>Odepnout složku(y) ze postranního panelu</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Použiť vybraný obrázek jako pozadí</value>
+    <value>Použít vybraný obrázek jako pozadí</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
     <value>Nastavit vybrané obrázky jako prezentaci na ploše</value>
@@ -2518,7 +2512,7 @@
     <value>Otevřít složku v terminálu jako administrátor</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Změnšit velikost položky v aktuálním zobrazení</value>
+    <value>Zmenšit velikost položky v aktuálním zobrazení</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
     <value>Zvětšit velikost položky v aktuálním zobrazení</value>
@@ -3150,7 +3144,7 @@
     <value>Připojit GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Zadejte následující kód na přihlašovací stránce aby jste mohli začít pracovat s repozitářema GitHub.</value>
+    <value>Zadejte následující kód na přihlašovací stránce aby jste mohli začít pracovat s repozitářemi GitHub.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files nemá aktuálně přístup ke GitHub.</value>
@@ -3531,7 +3525,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Vyprázdňování koše</value>
+    <value>Vyprazdňování koše</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
@@ -3715,5 +3709,32 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Typ rozložení</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Příkazy</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Přidat příkaz</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Obnovit výchozí</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Vybrat akci</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Jste si jisti, že chcete obnovit výchozí klávesové zkratky? Tuto akci nelze vrátit zpět.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Tato klávesová zkratka je již používána, vyberte prosím jinou klávesovou zkratku, abyste mohli pokračovat.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Přizpůsobeno</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Adaptivní rozložení není dostupné, pokud jsou nastavení synchronizována, výchozí rozložení bylo změněno na Podrobnosti.</value>
   </data>
 </root>
