@@ -4,8 +4,6 @@ using Files.App.Utils.Terminal.ConPTY;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -188,14 +186,14 @@ namespace Files.App.UserControls
 
 		private Task<TerminalSize> CreateXtermViewAsync(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
 		{
-			var serializerSettings = new JsonSerializerSettings();
-			serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-			var serializedOptions = JsonConvert.SerializeObject(options, serializerSettings);
-			var serializedTheme = JsonConvert.SerializeObject(theme, serializerSettings);
-			var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings, serializerSettings);
+			var serializerSettings = new JsonSerializerOptions();
+			serializerSettings.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+			var serializedOptions = JsonSerializer.Serialize(options, serializerSettings);
+			var serializedTheme = JsonSerializer.Serialize(theme, serializerSettings);
+			var serializedKeyBindings = JsonSerializer.Serialize(keyBindings, serializerSettings);
 			return ExecuteScriptAsync(
 					$"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')")
-				.ContinueWith(t => JsonConvert.DeserializeObject<TerminalSize>(t.Result)!);
+				.ContinueWith(t => JsonSerializer.Deserialize<TerminalSize>(t.Result)!);
 		}
 
 		private void WebViewControl_NavigationStarting(WebView2 sender, CoreWebView2NavigationStartingEventArgs args)
@@ -439,14 +437,14 @@ namespace Files.App.UserControls
 			if (!_tcsConnected.Task.IsCompleted)
 				return;
 
-			var serializerSettings = new JsonSerializerSettings();
-			serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+			var serializerSettings = new JsonSerializerOptions();
+			serializerSettings.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 			var profile = _mainPageModel.TerminalSelectedProfile;
 			var theme = new DefaultValueProvider().GetPreInstalledThemes().First(x => x.Id == profile.TerminalThemeId);
 
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
 
-			var serializedTheme = JsonConvert.SerializeObject(theme.Colors, serializerSettings);
+			var serializedTheme = JsonSerializer.Serialize(theme.Colors, serializerSettings);
 			await ExecuteScriptAsync($"changeTheme('{serializedTheme}')");
 		}
 	}
