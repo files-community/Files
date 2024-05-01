@@ -203,6 +203,7 @@ namespace Files.App
 				AppWindow.Show();
 				Activate();
 			}
+
 			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
 				Instance.Restore(); // Restore window if minimized
 		}
