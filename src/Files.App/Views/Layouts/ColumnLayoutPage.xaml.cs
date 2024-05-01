@@ -109,6 +109,11 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
+		{
+			ContentScroller?.ChangeView(null, 0, null, true);
+		}
+
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems?.Any() ?? false)
