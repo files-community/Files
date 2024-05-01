@@ -1,10 +1,8 @@
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.Helpers;
 using Files.App.Utils.Terminal;
 using Files.App.Utils.Terminal.ConPTY;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -197,7 +195,7 @@ namespace Files.App.UserControls
 			var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings, serializerSettings);
 			return ExecuteScriptAsync(
 					$"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')")
-				.ContinueWith(t => JsonConvert.DeserializeObject<TerminalSize>(t.Result));
+				.ContinueWith(t => JsonConvert.DeserializeObject<TerminalSize>(t.Result)!);
 		}
 
 		private void WebViewControl_NavigationStarting(WebView2 sender, CoreWebView2NavigationStartingEventArgs args)
@@ -445,20 +443,6 @@ namespace Files.App.UserControls
 			serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 			var profile = _mainPageModel.TerminalSelectedProfile;
 			var theme = new DefaultValueProvider().GetPreInstalledThemes().First(x => x.Id == profile.TerminalThemeId);
-			var backgroundColor = ActualTheme switch
-			{
-				Microsoft.UI.Xaml.ElementTheme.Dark => "#000000",
-				_ => "#FFFFFF"
-			};
-			var foregroundColor = ActualTheme switch
-			{
-				Microsoft.UI.Xaml.ElementTheme.Dark => "#FFFFFF",
-				_ => "#000000"
-			};
-			theme.Colors.Background = backgroundColor;
-			theme.Colors.Foreground = foregroundColor;
-			theme.Colors.CursorAccent = backgroundColor;
-			theme.Colors.Cursor = foregroundColor;
 
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
 

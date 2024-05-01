@@ -305,5 +305,41 @@
 			</Button.Flyout>
 		</Button>
 
+		<StackPanel
+			x:Name="TerminalPanel"
+			Grid.Column="3"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind MainPageViewModel.IsTerminalIntegrationEnabled, Mode=OneWay}"
+			Orientation="Horizontal"
+			Spacing="4">
+
+			<Button
+				x:Name="SyncFolderUp"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind MainPageViewModel.IsTerminalViewOpen, Mode=OneWay}"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Command="{x:Bind MainPageViewModel.TerminalSyncUpCommand}">
+				<Button.Content>
+					<FontIcon FontSize="12" Glyph="&#xE110;" />
+				</Button.Content>
+			</Button>
+
+			<Button
+				x:Name="SyncFolderDown"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind MainPageViewModel.IsTerminalViewOpen, Mode=OneWay}"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Command="{x:Bind MainPageViewModel.TerminalSyncDownCommand}">
+				<Button.Content>
+					<FontIcon FontSize="12" Glyph="&#xE74B;" />
+				</Button.Content>
+			</Button>
+
 	</Grid>
 </UserControl>

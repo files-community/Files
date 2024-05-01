@@ -27,6 +27,7 @@ namespace Files.App.ViewModels
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
+		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		public ShelfViewModel ShelfViewModel { get; } = Ioc.Default.GetRequiredService<ShelfViewModel>();
 
@@ -422,6 +423,8 @@ namespace Files.App.ViewModels
 
 		public List<ShellProfile> TerminalProfiles => new DefaultValueProvider().GetPreinstalledShellProfiles().ToList();
 
+		public bool IsTerminalIntegrationEnabled => GeneralSettingsService.IsTerminalIntegrationEnabled;
+
 		private bool _isTerminalViewOpen;
 		public bool IsTerminalViewOpen
 		{
@@ -433,7 +436,11 @@ namespace Files.App.ViewModels
 		public ShellProfile TerminalSelectedProfile
 		{
 			get => _terminalSelectedProfile;
-			set => SetProperty(ref _terminalSelectedProfile, value);
+			set
+			{
+				if (value is not null)
+					SetProperty(ref _terminalSelectedProfile, value);
+			}
 		}
 	}
 }
