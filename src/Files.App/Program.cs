@@ -101,11 +101,11 @@ namespace Files.App
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
-			var commadLineArgs = GetCommandLineArgs(activatedArgs);
+			var commandLineArgs = GetCommandLineArgs(activatedArgs);
 
-			if (commadLineArgs is not null)
+			if (commandLineArgs is not null)
 			{
-				var parsedCommands = CommandLineParser.ParseUntrustedCommands(commadLineArgs);
+				var parsedCommands = CommandLineParser.ParseUntrustedCommands(commandLineArgs);
 
 				if (parsedCommands is not null)
 				{
@@ -154,7 +154,7 @@ namespace Files.App
 				}
 			}
 
-			if (OpenTabInExistingInstance && commadLineArgs is null)
+			if (OpenTabInExistingInstance && commandLineArgs is null)
 			{
 				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
 				{
