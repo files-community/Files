@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Files.App.Utils.Terminal
 {
