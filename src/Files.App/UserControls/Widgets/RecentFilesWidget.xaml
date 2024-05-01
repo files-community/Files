@@ -1,23 +1,21 @@
 <!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:BaseWidgetViewModel
+<UserControl
 	x:Class="Files.App.UserControls.Widgets.RecentFilesWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	xmlns:recent="using:Files.App.Utils.RecentItem"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
-	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">
+	<StackPanel>
 
 		<!--  Message when recent files are disabled in File Explorer  -->
-		<muxc:InfoBar
+		<InfoBar
 			x:Name="RecentFilesDisabledOnWindowsWarning"
-			x:Load="{x:Bind IsRecentFilesDisabledInWindows, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.IsRecentFilesDisabledInWindows, Mode=OneWay}"
 			IsClosable="False"
 			IsIconVisible="True"
 			IsOpen="True"
@@ -28,7 +26,7 @@
 		<TextBlock
 			x:Name="RecentItemDescription"
 			HorizontalAlignment="Stretch"
-			x:Load="{x:Bind IsEmptyRecentsTextVisible, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.IsEmptyRecentFilesTextVisible, Mode=OneWay}"
 			FontSize="14"
 			Text="{helpers:ResourceString Name=RecentItemDescription/Text}"
 			TextAlignment="Center"
@@ -36,15 +34,15 @@
 
 		<!--  List of recent files  -->
 		<ListView
-			x:Name="RecentsView"
+			x:Name="RecentFilesListView"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			IsItemClickEnabled="True"
 			IsRightTapEnabled="True"
-			ItemClick="RecentsView_ItemClick"
+			ItemClick="RecentFilesListView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
-			ItemsSource="{x:Bind recentItemsCollection}"
-			RightTapped="ListView_RightTapped"
+			ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+			RightTapped="RecentFilesListView_RightTapped"
 			SelectionMode="None">
 
 			<ListView.ItemTemplate>
@@ -93,4 +91,4 @@
 		</ListView>
 
 	</StackPanel>
-</local:BaseWidgetViewModel>
+</UserControl>
