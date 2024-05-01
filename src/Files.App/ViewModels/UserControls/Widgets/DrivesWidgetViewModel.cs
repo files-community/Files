@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new() { NavPathParam = path });
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextFlyoutItemModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive =
 				Items.Where(x =>
@@ -96,7 +96,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			var options = drive?.Item.MenuOptions;
 
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<ContextFlyoutItemModel>()
 			{
 				new()
 				{
@@ -104,7 +104,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new OpacityIconModel() { OpacityIconStyle = "ColorIconOpenInNewTab" },
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					IsAvailable = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new()
 				{
@@ -112,14 +112,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new OpacityIconModel() { OpacityIconStyle = "ColorIconOpenInNewWindow" },
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					IsAvailable = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					IsAvailable = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new()
 				{
@@ -127,7 +127,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new OpacityIconModel() { OpacityIconStyle = "Icons.Pin.16x16" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
-					ShowItem = !isPinned
+					IsAvailable = !isPinned
 				},
 				new()
 				{
@@ -135,21 +135,21 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new OpacityIconModel() { OpacityIconStyle = "Icons.Unpin.16x16" },
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
-					ShowItem = isPinned
+					IsAvailable = isPinned
 				},
 				new()
 				{
 					Text = "Eject".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
-					ShowItem = options?.ShowEjectDevice ?? false
+					IsAvailable = options?.ShowEjectDevice ?? false
 				},
 				new()
 				{
 					Text = "FormatDriveText".GetLocalizedResource(),
 					Command = FormatDriveCommand,
 					CommandParameter = item,
-					ShowItem = options?.ShowFormatDrive ?? false
+					IsAvailable = options?.ShowFormatDrive ?? false
 				},
 				new()
 				{
@@ -172,7 +172,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
+					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
 				new()
@@ -184,7 +184,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}
-			}.Where(x => x.ShowItem).ToList();
+			}.Where(x => x.IsAvailable).ToList();
 		}
 
 		// Command methods

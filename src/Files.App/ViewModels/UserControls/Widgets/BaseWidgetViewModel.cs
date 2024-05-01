@@ -47,7 +47,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Methods
 
-		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
+		public abstract List<ContextFlyoutItemModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		public void BuildItemContextMenu(object sender, RightTappedRoutedEventArgs e)
 		{

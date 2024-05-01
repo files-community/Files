@@ -69,16 +69,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextFlyoutItemModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<ContextFlyoutItemModel>()
 			{
 				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenWith" },
 					Tag = "OpenWithPlaceholder",
-					ShowItem = !isFolder
+					IsAvailable = !isFolder
 				},
 				new()
 				{
@@ -86,7 +86,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewTab" },
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
 				new()
 				{
@@ -94,7 +94,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewWindow" },
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
 				new()
 				{
@@ -102,14 +102,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item,
-					ShowItem = !isFolder
+					IsAvailable = !isFolder
 				},
 				new()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
+					IsAvailable = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
 				new()
 				{
@@ -117,7 +117,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new() { OpacityIconStyle = "Icons.Pin.16x16" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
-					ShowItem = !isPinned && isFolder
+					IsAvailable = !isPinned && isFolder
 				},
 				new()
 				{
@@ -125,13 +125,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new() { OpacityIconStyle = "Icons.Unpin.16x16" },
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
-					ShowItem = isPinned && isFolder
+					IsAvailable = isPinned && isFolder
 				},
 				new()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
+					IsAvailable = UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
@@ -139,11 +139,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconProperties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
 				new()
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
+					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
 				new()
@@ -155,7 +155,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}
-			}.Where(x => x.ShowItem).ToList();
+			}.Where(x => x.IsAvailable).ToList();
 		}
 
 		// Command methods
