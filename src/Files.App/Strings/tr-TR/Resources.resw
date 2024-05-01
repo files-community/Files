@@ -1698,12 +1698,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Kullanıcı adı</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Sürücüler aracı</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Son Dosyalar aracı</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Hiç bir öğe bulunamadı</value>
   </data>
@@ -3715,5 +3709,32 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Düzen türü</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Eylemler</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Komutlar</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Komut ekle</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Varsayılanları geri yükle</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Bir işlem seçin</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Varsayılan tuş atamalarını geri yüklemek istediğinizden emin misiniz? Bu eylem geri alınamaz.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Bu tuş ataması zaten kullanılıyor. Devam etmek için lütfen farklı bir tuş ataması seçin.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Özelleştirilmiş</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Tercihler senkronize edildiğinde uyarlanabilir düzen kullanılamaz, varsayılan düzen Ayrıntılar olarak değiştirilmiştir.</value>
   </data>
 </root>

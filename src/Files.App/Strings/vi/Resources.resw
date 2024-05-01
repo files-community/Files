@@ -1698,12 +1698,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Tên người dùng</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Tiện ích ổ lưu trữ</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Tiện ích tệp gần đây</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Không tìm thấy khoản mục nào</value>
   </data>
@@ -3715,5 +3709,32 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Bố cục</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Tác vụ</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Lệnh</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Thêm lệnh</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Khôi phục mặc định</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Chọn một tác vụ</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn khôi phục tổ hợp phím mặc định không? Bạn sẽ không thể hoàn tác sau khi tiếp tục.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Tổ hợp phím này đã được sử dụng, vui lòng chọn một tổ hợp phím khác để tiếp tục.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Tùy chỉnh</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
 </root>
