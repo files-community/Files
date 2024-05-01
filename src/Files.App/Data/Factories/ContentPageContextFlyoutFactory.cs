@@ -266,7 +266,8 @@ namespace Files.App.Data.Factories
 					Tag = "OpenWithOverflow",
 					IsVisible = false,
 					CollapseLabel = true,
-					Items = [
+					Items =
+					[
 						new()
 						{
 							Text = "Placeholder",
@@ -294,15 +295,17 @@ namespace Files.App.Data.Factories
 				},
 				new(ContextFlyoutItemType.Button, Commands.RotateLeft)
 				{
-					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
-								&& !currentInstanceViewModel.IsPageTypeZipFolder
-								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
+					IsVisible =
+						!currentInstanceViewModel.IsPageTypeRecycleBin &&
+						!currentInstanceViewModel.IsPageTypeZipFolder &&
+						(selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
 				},
 				new(ContextFlyoutItemType.Button, Commands.RotateRight)
 				{
-					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
-								&& !currentInstanceViewModel.IsPageTypeZipFolder
-								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
+					IsVisible =
+						!currentInstanceViewModel.IsPageTypeRecycleBin &&
+						!currentInstanceViewModel.IsPageTypeZipFolder &&
+						(selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
 				},
 				new(ContextFlyoutItemType.Button, Commands.RunAsAdmin),
 				new(ContextFlyoutItemType.Button, Commands.RunAsAnotherUser),
@@ -328,20 +331,24 @@ namespace Files.App.Data.Factories
 				},
 				new(ContextFlyoutItemType.Button, Commands.CopyPath)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowCopyPath
-						&& itemsSelected
-						&&!currentInstanceViewModel.IsPageTypeRecycleBin,
+					IsVisible =
+						UserSettingsService.GeneralSettingsService.ShowCopyPath &&
+						itemsSelected &&
+						!currentInstanceViewModel.IsPageTypeRecycleBin,
 				},
 				new(ContextFlyoutItemType.Button, Commands.CreateFolderWithSelection)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected
+					IsVisible =
+						UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection &&
+						itemsSelected
 				},
 				new(ContextFlyoutItemType.Button, Commands.CreateShortcut)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateShortcut
-						&& itemsSelected
-						&& (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
-						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
+					IsVisible =
+						UserSettingsService.GeneralSettingsService.ShowCreateShortcut &&
+						itemsSelected &&
+						(!selectedItems.FirstOrDefault()?.IsShortcut ?? false) &&
+						!currentInstanceViewModel.IsPageTypeRecycleBin,
 				},
 				new(ContextFlyoutItemType.Button, Commands.Rename)
 				{
@@ -365,11 +372,15 @@ namespace Files.App.Data.Factories
 				new(ContextFlyoutItemType.Button, Commands.OpenParentFolder),
 				new(ContextFlyoutItemType.Button, Commands.PinFolderToSidebar)
 				{
-					IsVisible = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
+					IsVisible =
+						Commands.PinFolderToSidebar.IsExecutable &&
+						UserSettingsService.GeneralSettingsService.ShowPinnedSection,
 				},
 				new(ContextFlyoutItemType.Button, Commands.UnpinFolderFromSidebar)
 				{
-					IsVisible = Commands.UnpinFolderFromSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
+					IsVisible =
+						Commands.UnpinFolderFromSidebar.IsExecutable &&
+						UserSettingsService.GeneralSettingsService.ShowPinnedSection,
 				},
 				new(ContextFlyoutItemType.Button, Commands.PinToStart)
 				{
@@ -422,7 +433,8 @@ namespace Files.App.Data.Factories
 					Tag = "SendToOverflow",
 					IsVisible = false,
 					CollapseLabel = true,
-					Items = [
+					Items =
+					[
 						new()
 						{
 							Text = "Placeholder",
