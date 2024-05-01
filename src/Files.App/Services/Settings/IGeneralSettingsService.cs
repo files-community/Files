@@ -1,10 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Enums;
-using System.Collections.Generic;
-using System.ComponentModel;
-
 namespace Files.App.Services.Settings
 {
 	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
@@ -203,10 +199,5 @@ namespace Files.App.Services.Settings
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
-
-		/// <summary>
-		/// A dictionary to determine the custom hotkeys
-		/// </summary>
-		Dictionary<string, string>? Actions { get; set; }
 	}
 }

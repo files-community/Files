@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.FileTags;
-
 namespace Files.App.Services.Settings
 {
 	public interface IFileTagsSettingsService : IBaseSettingsService

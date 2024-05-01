@@ -18,7 +18,7 @@ namespace Files.App.Utils.RecentItem
 		public string Name { get; set; }
 		public DateTime LastModified { get; set; }
 		public byte[] PIDL { get; set; }
-		public string Path { get => RecentPath; }
+		public override string Path => RecentPath;
 
 		public RecentItem()
 		{
