@@ -161,7 +161,7 @@ namespace Files.App.Utils.Storage
 
 			if (!permanently && registerHistory)
 				App.HistoryWrapper.AddHistory(history);
-			
+
 			// Execute removal tasks concurrently in background
 			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
 
@@ -821,7 +821,7 @@ namespace Files.App.Utils.Storage
 
 							foreach (var path in itemPaths)
 							{
-								var isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory);
+								var isDirectory = Win32Helper.HasFileAttribute(path, FileAttributes.Directory);
 								itemsList.Add(StorageHelpers.FromPathAndType(path, isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File));
 							}
 						}

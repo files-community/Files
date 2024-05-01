@@ -15,9 +15,6 @@ namespace Files.App.Services
 {
 	public sealed class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
 	{
-		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-		private static extern uint RegisterApplicationRestart(string pwzCommandLine, int dwFlags);
-
 		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
 		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
 
@@ -229,7 +226,7 @@ namespace Files.App.Services
 			{
 				PackageManager packageManager = new PackageManager();
 
-				var restartStatus = RegisterApplicationRestart(null, 0);
+				var restartStatus = Win32PInvoke.RegisterApplicationRestart(null, 0);
 				App.AppModel.ForceProcessTermination = true;
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
