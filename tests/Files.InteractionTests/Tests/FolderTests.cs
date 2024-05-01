@@ -139,7 +139,7 @@ namespace Files.InteractionTests.Tests
 
 
 			// Select the "Renamed Folder - Copy" folder and clicks the "delete" button on the toolbar
-			TestHelper.InvokeButtonByName("Renamed Folder (2)");
+			TestHelper.InvokeButtonByName("Renamed Folder - Copy");
 			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
 
 			// Wait for prompt to show
