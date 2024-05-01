@@ -23,6 +23,8 @@ namespace Files.App.Data.Models
 
 		public event EventHandler<ListedItem> ScrollIntoViewInvoked;
 
+		public event EventHandler ScrollToTopInvoked;
+
 		public event EventHandler SetDragModeForItemsInvoked;
 
 		public event EventHandler RefreshItemsOpacityInvoked;
@@ -102,6 +104,11 @@ namespace Files.App.Data.Models
 		public void ScrollIntoView(ListedItem item)
 		{
 			ScrollIntoViewInvoked?.Invoke(this, item);
+		}
+
+		public void ScrollToTop()
+		{
+			ScrollToTopInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void SetDragModeForItems()

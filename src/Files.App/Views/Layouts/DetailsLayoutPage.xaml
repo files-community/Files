@@ -6,8 +6,8 @@
 	xmlns:behaviors="using:Files.App.Data.Behaviors"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:filesystem="using:Files.App.Utils"
-	xmlns:filetags="using:Files.App.ViewModels.FileTags"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
@@ -1101,7 +1101,7 @@
 												<StackLayout Orientation="Horizontal" Spacing="4" />
 											</ItemsRepeater.Layout>
 											<ItemsRepeater.ItemTemplate>
-												<DataTemplate x:DataType="filetags:TagViewModel">
+												<DataTemplate x:DataType="datamodels:TagViewModel">
 													<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
 														<StackPanel
 															x:Name="TagPill"

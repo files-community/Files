@@ -341,10 +341,14 @@ namespace Files.App.Helpers
 						OpacityIconStyle = "ColorIconOpenWith",
 					};
 					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([openWithItem]);
+					var index = 0;
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")) as AppBarButton;
 					if (placeholder is not null)
+					{
 						placeholder.Visibility = Visibility.Collapsed;
-					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
+						index = itemContextMenuFlyout.SecondaryCommands.IndexOf(placeholder);
+					}
+					itemContextMenuFlyout.SecondaryCommands.Insert(index, openWithItems.FirstOrDefault());
 				}
 
 				// Add items to sendto dropdown
@@ -353,10 +357,14 @@ namespace Files.App.Helpers
 					await sendToItem.LoadSubMenuAction();
 
 					var (_, sendToItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([sendToItem]);
+					var index = 1;
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")) as AppBarButton;
 					if (placeholder is not null)
+					{
 						placeholder.Visibility = Visibility.Collapsed;
-					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
+						index = itemContextMenuFlyout.SecondaryCommands.IndexOf(placeholder);
+					}
+					itemContextMenuFlyout.SecondaryCommands.Insert(index, sendToItems.FirstOrDefault());
 				}
 
 				// Add items to shell submenu

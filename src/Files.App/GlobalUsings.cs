@@ -11,6 +11,8 @@ global using global::System.Threading;
 global using global::System.Threading.Tasks;
 global using global::System.ComponentModel;
 global using global::System.Diagnostics;
+global using global::System.Text.Json;
+global using global::System.Text.Json.Serialization;
 global using SystemIO = global::System.IO;
 
 // CommunityToolkit.Mvvm
@@ -64,8 +66,7 @@ global using global::Files.App.Services.Settings;
 global using global::Files.App.ViewModels.Dialogs;
 global using global::Files.App.ViewModels.Dialogs.AddItemDialog;
 global using global::Files.App.ViewModels.Dialogs.FileSystemDialog;
-global using global::Files.App.ViewModels.FileTags;
-global using global::Files.App.ViewModels.Widgets;
+global using global::Files.App.ViewModels.UserControls.Widgets;
 global using global::Files.App.Utils.CommandLine;
 
 // Files.Core.Storage

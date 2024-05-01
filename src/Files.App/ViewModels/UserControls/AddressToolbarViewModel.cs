@@ -925,9 +925,8 @@ namespace Files.App.ViewModels.UserControls
 							{
 								NavigationBarSuggestions[index].Text = suggestions[index].Text;
 								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
-								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
-								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
 								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
+								NavigationBarSuggestions[index].HotKeys = suggestions[index].HotKeys;
 							}
 							else
 							{
@@ -947,7 +946,10 @@ namespace Files.App.ViewModels.UserControls
 						for (int index = 0; index < suggestions.Count; index++)
 						{
 							if (NavigationBarSuggestions.Count > index && NavigationBarSuggestions[index].PrimaryDisplay == suggestions[index].PrimaryDisplay)
+							{
 								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
+								NavigationBarSuggestions[index].HotKeys = suggestions[index].HotKeys;
+							}
 							else
 								NavigationBarSuggestions.Insert(index, suggestions[index]);
 						}

@@ -659,6 +659,10 @@ namespace Files.App.Views.Shells
 					break;
 				case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
 					SetLoadingIndicatorForTabs(false);
+
+					if (ContentPage is not null)
+						ContentPage.ItemManipulationModel.ScrollToTop();
+
 					ToolbarViewModel.CanRefresh = true;
 					// Select previous directory
 					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
@@ -694,13 +698,10 @@ namespace Files.App.Views.Shells
 
 						var itemToSelect = FilesystemViewModel.FilesAndFolders.ToList().FirstOrDefault((item) => item.ItemPath == folderToSelect);
 
-						if (itemToSelect is not null && ContentPage is not null)
+						if (itemToSelect is not null && ContentPage is not null && userSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
 						{
-							if (userSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
-							{
-								ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
-								ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
-							}
+							ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+							ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
 						}
 					}
 					break;
