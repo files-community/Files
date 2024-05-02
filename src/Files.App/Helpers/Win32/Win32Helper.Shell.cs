@@ -82,10 +82,10 @@ namespace Files.App.Helpers
 
 		public static (bool HasRecycleBin, long NumItems, long BinSize) QueryRecycleBin(string drive = "")
 		{
-			Win32Helper.SHQUERYRBINFO queryBinInfo = new Win32Helper.SHQUERYRBINFO();
+			Win32PInvoke.SHQUERYRBINFO queryBinInfo = new Win32PInvoke.SHQUERYRBINFO();
 			queryBinInfo.cbSize = Marshal.SizeOf(queryBinInfo);
 
-			var res = Win32Helper.SHQueryRecycleBin(drive, ref queryBinInfo);
+			var res = Win32PInvoke.SHQueryRecycleBin(drive, ref queryBinInfo);
 			if (res == HRESULT.S_OK)
 			{
 				var numItems = queryBinInfo.i64NumItems;

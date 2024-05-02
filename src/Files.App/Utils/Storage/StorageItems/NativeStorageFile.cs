@@ -28,7 +28,7 @@ namespace Files.App.Utils.Storage
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
-		public bool IsAlternateStream => RegexHelpers.AlternateStream().IsMatch(Path);
+		public bool IsAlternateStream => System.Text.RegularExpressions.Regex.IsMatch(Path, @"\w:\w");
 
 		public override string DisplayType
 		{
@@ -96,7 +96,7 @@ namespace Files.App.Utils.Storage
 
 		private void CreateFile()
 		{
-			using var hFile = NativeFileOperationsHelper.CreateFileForWrite(Path, false);
+			using var hFile = Win32Helper.CreateFileForWrite(Path, false);
 			if (hFile.IsInvalid)
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -154,7 +154,7 @@ namespace Files.App.Utils.Storage
 
 		private static bool CheckAccess(string path)
 		{
-			using var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+			using var hFile = Win32Helper.OpenFileForRead(path);
 			return !hFile.IsInvalid;
 		}
 
@@ -203,7 +203,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
-			var hFile = NativeFileOperationsHelper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
+			var hFile = Win32Helper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
 			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
 		}
 
@@ -219,7 +219,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
-			var hFile = NativeFileOperationsHelper.OpenFileForRead(Path);
+			var hFile = Win32Helper.OpenFileForRead(Path);
 			return Task.FromResult(new FileStream(hFile, FileAccess.Read).AsInputStream()).AsAsyncOperation();
 		}
 

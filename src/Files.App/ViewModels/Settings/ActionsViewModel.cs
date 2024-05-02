@@ -5,17 +5,20 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents view model of <see cref="Views.Settings.ActionsPage"/>.
+	/// </summary>
 	public sealed class ActionsViewModel : ObservableObject
 	{
 		// Dependency injections
 
-		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private IActionsSettingsService ActionsSettingsService { get; } = Ioc.Default.GetRequiredService<IActionsSettingsService>();
+		private ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		// Properties
 
-		public ObservableCollection<ModifiableCommandHotKeyItem> ValidKeyboardShortcuts { get; } = [];
-		public ObservableCollection<ModifiableCommandHotKeyItem> AllKeyboardShortcuts { get; } = [];
+		public ObservableCollection<ModifiableActionItem> ValidActionItems { get; } = [];
+		public ObservableCollection<ModifiableActionItem> AllActionItems { get; } = [];
 
 		private bool _IsResetAllConfirmationTeachingTipOpened;
 		public bool IsResetAllConfirmationTeachingTipOpened
@@ -31,118 +34,152 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsAlreadyUsedTeachingTipOpened, value);
 		}
 
-		private bool _ShowAddNewHotKeySection;
-		public bool ShowAddNewHotKeySection
+		private bool _ShowAddNewKeyBindingBlock;
+		public bool ShowAddNewKeyBindingBlock
 		{
-			get => _ShowAddNewHotKeySection;
-			set => SetProperty(ref _ShowAddNewHotKeySection, value);
+			get => _ShowAddNewKeyBindingBlock;
+			set => SetProperty(ref _ShowAddNewKeyBindingBlock, value);
 		}
 
-		private ModifiableCommandHotKeyItem? _SelectedNewShortcutItem;
-		public ModifiableCommandHotKeyItem? SelectedNewShortcutItem
+		private bool _EnableAddNewKeyBindingButton;
+		public bool EnableAddNewKeyBindingButton
 		{
-			get => _SelectedNewShortcutItem;
-			set => SetProperty(ref _SelectedNewShortcutItem, value);
+			get => _EnableAddNewKeyBindingButton;
+			set => SetProperty(ref _EnableAddNewKeyBindingButton, value);
+		}
+
+		private int _SelectedActionItemIndex;
+		public int SelectedActionItemIndex
+		{
+			get => _SelectedActionItemIndex;
+			set => SetProperty(ref _SelectedActionItemIndex, value);
+		}
+
+		private ModifiableActionItem? _SelectedActionItem;
+		public ModifiableActionItem? SelectedActionItem
+		{
+			get => _SelectedActionItem;
+			set => SetProperty(ref _SelectedActionItem, value);
 		}
 
 		// Commands
 
-		public ICommand LoadCommandsCommand { get; set; }
-		public ICommand ShowAddNewHotKeySectionCommand { get; set; }
-		public ICommand HideAddNewHotKeySectionCommand { get; set; }
-		public ICommand AddNewHotKeyCommand { get; set; }
+		public ICommand LoadAllActionsCommand { get; set; }
+		public ICommand ShowAddNewKeyBindingBlockCommand { get; set; }
+		public ICommand HideAddNewKeyBindingBlockCommand { get; set; }
+		public ICommand AddNewKeyBindingCommand { get; set; }
 		public ICommand ShowRestoreDefaultsConfirmationCommand { get; set; }
 		public ICommand RestoreDefaultsCommand { get; set; }
+		public ICommand EditCommand { get; set; }
+		public ICommand SaveCommand { get; set; }
+		public ICommand CancelCommand { get; set; }
+		public ICommand DeleteCommand { get; set; }
 
 		// Constructor
 
 		public ActionsViewModel()
 		{
-			LoadCommandsCommand = new AsyncRelayCommand(ExecuteLoadCommandsCommand);
-			ShowAddNewHotKeySectionCommand = new RelayCommand(ExecuteShowAddNewHotKeySectionCommand);
-			HideAddNewHotKeySectionCommand = new RelayCommand(ExecuteHideAddNewHotKeySectionCommand);
-			AddNewHotKeyCommand = new RelayCommand(ExecuteAddNewHotKeyCommand);
+			LoadAllActionsCommand = new AsyncRelayCommand(ExecuteLoadAllActionsCommand);
+			ShowAddNewKeyBindingBlockCommand = new RelayCommand(ExecuteShowAddNewKeyBindingBlockCommand);
+			HideAddNewKeyBindingBlockCommand = new RelayCommand(ExecuteHideAddNewKeyBindingBlockCommand);
+			AddNewKeyBindingCommand = new RelayCommand(ExecuteAddNewKeyBindingCommand);
 			ShowRestoreDefaultsConfirmationCommand = new RelayCommand(ExecuteShowRestoreDefaultsConfirmationCommand);
 			RestoreDefaultsCommand = new RelayCommand(ExecuteRestoreDefaultsCommand);
+			EditCommand = new RelayCommand<ModifiableActionItem>(ExecuteEditCommand);
+			SaveCommand = new RelayCommand<ModifiableActionItem>(ExecuteSaveCommand);
+			CancelCommand = new RelayCommand<ModifiableActionItem>(ExecuteCancelCommand);
+			DeleteCommand = new RelayCommand<ModifiableActionItem>(ExecuteDeleteCommand);
 		}
 
 		// Command methods
 
-		private async Task ExecuteLoadCommandsCommand()
+		private async Task ExecuteLoadAllActionsCommand()
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				ValidKeyboardShortcuts.Clear();
-				AllKeyboardShortcuts.Clear();
+				ValidActionItems.Clear();
+				AllActionItems.Clear();
 
-				foreach (var command in Commands)
+				foreach (var command in CommandManager)
 				{
-					var defaultKeys = command.DefaultHotKeys;
+					var defaultKeyBindings = command.DefaultHotKeys;
 
 					if (command is NoneCommand)
 						continue;
 
-					AllKeyboardShortcuts.Add(new()
+					AllActionItems.Add(new()
 					{
 						CommandCode = command.Code,
-						Label = command.Label,
-						Description = command.Description,
-						HotKey = new(),
+						CommandLabel = command.Label,
+						CommandDescription = command.Description,
+						KeyBinding = new(),
+						DefaultKeyBindings = defaultKeyBindings,
 					});
 
-					foreach (var hotkey in command.HotKeys)
+					foreach (var keyBinding in command.HotKeys)
 					{
-						// Don't show mouse hotkeys for now because no editor provided for mouse input as of now
-						if (!hotkey.IsVisible || hotkey.Key == Keys.Mouse4 || hotkey.Key == Keys.Mouse5)
+						// Don't show mouse key bindings for now because no editor provided for mouse input as of now
+						if (!keyBinding.IsVisible ||
+							keyBinding.LocalizedLabel == string.Empty ||
+							keyBinding.RawLabel == string.Empty ||
+							keyBinding.IsNone ||
+							keyBinding.Key == Keys.None ||
+							keyBinding.Key == Keys.Mouse4 ||
+							keyBinding.Key == Keys.Mouse5)
 							continue;
 
-						ValidKeyboardShortcuts.Add(new()
+						ValidActionItems.Add(new()
 						{
 							CommandCode = command.Code,
-							Label = command.Label,
-							Description = command.Description,
-							HotKey = hotkey,
-							DefaultHotKeyCollection = defaultKeys,
-							PreviousHotKey = hotkey,
-							IsDefaultKey = defaultKeys.Contains(hotkey),
+							CommandLabel = command.Label,
+							CommandDescription = command.Description,
+							KeyBinding = keyBinding,
+							DefaultKeyBindings = defaultKeyBindings,
+							PreviousKeyBinding = keyBinding,
+							IsDefinedByDefault = defaultKeyBindings.Contains(keyBinding),
 						});
 					}
 				}
 			});
 		}
 
-		private void ExecuteShowAddNewHotKeySectionCommand()
+		private void ExecuteShowAddNewKeyBindingBlockCommand()
 		{
-			ShowAddNewHotKeySection = true;
+			ShowAddNewKeyBindingBlock = true;
+			EnableAddNewKeyBindingButton = false;
 
 			// Reset edit mode of every item
-			foreach (var hotkey in ValidKeyboardShortcuts)
+			foreach (var action in ValidActionItems)
 			{
-				hotkey.IsEditMode = false;
-				hotkey.HotKeyText = hotkey.HotKey.LocalizedLabel;
+				action.IsInEditMode = false;
+				action.LocalizedKeyBindingLabel = action.KeyBinding.LocalizedLabel;
 			}
 		}
 
-		private void ExecuteHideAddNewHotKeySectionCommand()
+		private void ExecuteHideAddNewKeyBindingBlockCommand()
 		{
-			ShowAddNewHotKeySection = false;
+			ShowAddNewKeyBindingBlock = false;
+			EnableAddNewKeyBindingButton = false;
 
-			if (SelectedNewShortcutItem is null)
+			if (SelectedActionItem is null)
 				return;
 
-			SelectedNewShortcutItem.HotKeyText = "";
-			SelectedNewShortcutItem = null;
+			SelectedActionItem.LocalizedKeyBindingLabel = "";
+			SelectedActionItem = null;
 		}
 
-		private void ExecuteAddNewHotKeyCommand()
+		private void ExecuteAddNewKeyBindingCommand()
 		{
-			if (SelectedNewShortcutItem is null)
+			if (SelectedActionItem is null)
 				return;
 
-			// Check if this hot key is already taken
-			foreach (var hotkey in ValidKeyboardShortcuts)
+			// Initialize the new key binding
+			var newKeyBinding = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel);
+
+			// Check if this key binding is already taken
+			foreach (var action in ValidActionItems)
 			{
-				if (SelectedNewShortcutItem.HotKeyText == hotkey.PreviousHotKey)
+				if (newKeyBinding.RawLabel == action.KeyBinding.RawLabel)
 				{
 					IsAlreadyUsedTeachingTipOpened = true;
 					return;
@@ -150,63 +187,58 @@ namespace Files.App.ViewModels.Settings
 			}
 
 			var actions =
-				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
+				ActionsSettingsService.ActionsV2 is not null
+					? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
 					: [];
 
-			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(SelectedNewShortcutItem.CommandCode.ToString());
-
-			// Initialize
-			var newHotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText);
-			var modifiedCollection = HotKeyCollection.Empty;
-
-			// The first time to customize
-			if (string.IsNullOrEmpty(storedKeys))
+			if (actions.FindAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString()).Count is 0)
 			{
-				// Replace with new one
-				var modifiableDefaultCollection = SelectedNewShortcutItem.DefaultHotKeyCollection.ToList();
-				modifiableDefaultCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
-				modifiableDefaultCollection.Add(newHotKey);
-				modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
+				// Add default ones to the user setting
+				foreach (var defaultKey in SelectedActionItem.DefaultKeyBindings)
+					actions.Add(new(SelectedActionItem.CommandCode.ToString(), defaultKey.RawLabel));
 			}
-			// Stored in the user setting
 			else
 			{
-				// Replace with new one
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == SelectedNewShortcutItem.PreviousHotKey.RawLabel);
-				modifiableCollection.Add(newHotKey);
-				modifiedCollection = new HotKeyCollection(modifiableCollection);
+				// Remove empty one, which was added to hide default ones
+				actions.RemoveAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString() && x.KeyBinding == string.Empty);
 			}
 
-			// Remove previous one and add new one
-			actions.Remove(SelectedNewShortcutItem.CommandCode.ToString());
-			actions.Add(SelectedNewShortcutItem.CommandCode.ToString(), modifiedCollection.RawLabel);
+			// Add the new one to the user setting
+			actions.Add(new(SelectedActionItem.CommandCode.ToString(), newKeyBinding.RawLabel));
 
-			// Store
-			GeneralSettingsService.Actions = actions;
+			var storedKeyBindings = actions.FindAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString());
+
+			// If the existing ones in the user setting are all default ones, delete them
+			if (storedKeyBindings.Select(x => x.KeyBinding).SequenceEqual(SelectedActionItem.DefaultKeyBindings.Select(x => x.LocalizedLabel)))
+				actions.RemoveAll(x => x.CommandCode == SelectedActionItem.CommandCode.ToString());
+
+			// Set to the user settings
+			ActionsSettingsService.ActionsV2 = actions;
+
+			// Set as customized
+			foreach (var action in ValidActionItems)
+			{
+				if (action.CommandCode == SelectedActionItem.CommandCode)
+					action.IsDefinedByDefault = SelectedActionItem.DefaultKeyBindings.Contains(action.KeyBinding);
+			}
 
 			// Create a clone
-			var selectedNewItem = new ModifiableCommandHotKeyItem()
+			var selectedNewItem = new ModifiableActionItem()
 			{
-				CommandCode = SelectedNewShortcutItem.CommandCode,
-				Label = SelectedNewShortcutItem.Label,
-				Description = SelectedNewShortcutItem.Description,
-				HotKey = HotKey.Parse(SelectedNewShortcutItem.HotKeyText),
-				DefaultHotKeyCollection = new(SelectedNewShortcutItem.DefaultHotKeyCollection),
-				PreviousHotKey = HotKey.Parse(SelectedNewShortcutItem.PreviousHotKey.RawLabel),
+				CommandCode = SelectedActionItem.CommandCode,
+				CommandLabel = SelectedActionItem.CommandLabel,
+				CommandDescription = SelectedActionItem.CommandDescription,
+				KeyBinding = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel),
+				DefaultKeyBindings = new(SelectedActionItem.DefaultKeyBindings),
+				PreviousKeyBinding = HotKey.Parse(SelectedActionItem.LocalizedKeyBindingLabel),
 			};
 
-			// Hide the section
-			ShowAddNewHotKeySection = false;
-
-			// Remove from excluded list and set null
-			SelectedNewShortcutItem.HotKeyText = "";
-			SelectedNewShortcutItem = null;
+			// Exit edit mode
+			ShowAddNewKeyBindingBlock = false;
+			SelectedActionItemIndex = -1;
 
 			// Add to existing list
-			ValidKeyboardShortcuts.Insert(0, selectedNewItem);
+			ValidActionItems.Insert(0, selectedNewItem);
 		}
 
 		private void ExecuteShowRestoreDefaultsConfirmationCommand()
@@ -216,10 +248,179 @@ namespace Files.App.ViewModels.Settings
 
 		private void ExecuteRestoreDefaultsCommand()
 		{
-			GeneralSettingsService.Actions = null;
+			ActionsSettingsService.ActionsV2 = null;
 			IsResetAllConfirmationTeachingTipOpened = false;
 
-			_ = ExecuteLoadCommandsCommand();
+			_ = ExecuteLoadAllActionsCommand();
+		}
+
+		private void ExecuteEditCommand(ModifiableActionItem? item)
+		{
+			if (item is null)
+				return;
+
+			// Hide the add command grid
+			ShowAddNewKeyBindingBlock = false;
+
+			// Clear the selected item
+			if (SelectedActionItem is not null)
+			{
+				SelectedActionItem.LocalizedKeyBindingLabel = "";
+				SelectedActionItem = null;
+			}
+
+			// Reset edit mode of every item
+			foreach (var action in ValidActionItems)
+			{
+				action.IsInEditMode = false;
+				action.LocalizedKeyBindingLabel = action.KeyBinding.LocalizedLabel;
+			}
+
+			// Enter edit mode for the item
+			item.IsInEditMode = true;
+		}
+
+		private void ExecuteSaveCommand(ModifiableActionItem? item)
+		{
+			if (item is null)
+				return;
+
+			if (item.LocalizedKeyBindingLabel == item.PreviousKeyBinding.LocalizedLabel)
+			{
+				item.IsInEditMode = false;
+				return;
+			}
+
+			// Check if this key binding is already taken
+			foreach (var action in ValidActionItems)
+			{
+				if (item.LocalizedKeyBindingLabel == action.PreviousKeyBinding.LocalizedLabel)
+				{
+					IsAlreadyUsedTeachingTipOpened = true;
+					return;
+				}
+			}
+
+			// Get clone of customized key bindings to overwrite
+			var actions =
+				ActionsSettingsService.ActionsV2 is not null
+					? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
+					: [];
+
+			// Get raw string keys stored in the user setting
+			var storedKeyBindings = actions.FindAll(x => x.CommandCode == item.CommandCode.ToString());
+
+			// Initialize
+			var newKeyBinding = HotKey.Parse(item.LocalizedKeyBindingLabel);
+
+			if (item.IsDefinedByDefault && storedKeyBindings.Count is 0)
+			{
+				// Any item related this action has never been customized
+				foreach (var defaultKey in item.DefaultKeyBindings)
+				{
+					if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
+						actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
+				}
+
+				actions.Add(new(item.CommandCode.ToString(), newKeyBinding.RawLabel));
+			}
+			else if (storedKeyBindings.Count == 1 && storedKeyBindings[0].KeyBinding == string.Empty)
+			{
+				storedKeyBindings.Clear();
+				actions.Add(new(item.CommandCode.ToString(), newKeyBinding.RawLabel));
+			}
+			else
+			{
+				var previousKeyBinding = actions.Find(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+				if (previousKeyBinding is not null)
+					previousKeyBinding.KeyBinding = newKeyBinding.RawLabel;
+			}
+
+			// If the existing ones in the user setting are all default ones, delete them
+			if (storedKeyBindings.Select(x => x.KeyBinding).SequenceEqual(item.DefaultKeyBindings.Select(x => x.LocalizedLabel)))
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode.ToString());
+
+			// Set to the user settings
+			ActionsSettingsService.ActionsV2 = actions;
+
+			// Set as customized
+			foreach (var action in ValidActionItems)
+			{
+				if (action.CommandCode == item.CommandCode)
+					action.IsDefinedByDefault = item.DefaultKeyBindings.Contains(action.KeyBinding);
+			}
+
+			// Exit edit mode
+			item.PreviousKeyBinding = newKeyBinding;
+			item.KeyBinding = newKeyBinding;
+			item.IsInEditMode = false;
+		}
+
+		private void ExecuteCancelCommand(ModifiableActionItem? item)
+		{
+			if (item is null)
+				return;
+
+			item.IsInEditMode = false;
+			item.LocalizedKeyBindingLabel = item.KeyBinding.LocalizedLabel;
+		}
+
+		private void ExecuteDeleteCommand(ModifiableActionItem? item)
+		{
+			if (item is null)
+				return;
+
+			// Get clone of customized key bindings to overwrite
+			var actions =
+				ActionsSettingsService.ActionsV2 is not null
+					? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
+					: [];
+
+			// Get raw string keys stored in the user setting
+			var storedKeyBindings = actions.FindAll(x => x.CommandCode == item.CommandCode.ToString());
+
+			if (item.IsDefinedByDefault && storedKeyBindings.Count is 0)
+			{
+				int index = 0;
+
+				// Any item related this action has never been customized
+				foreach (var defaultKey in item.DefaultKeyBindings)
+				{
+					if (defaultKey.RawLabel != item.PreviousKeyBinding.RawLabel)
+					{
+						actions.Add(new(item.CommandCode.ToString(), defaultKey.RawLabel));
+						index++;
+					}
+				}
+
+				// If the count of default one(s) is 1, add the empty one to hide the default one
+				if (index is 0)
+					actions.Add(new(item.CommandCode.ToString(), string.Empty));
+			}
+			else
+			{
+				// Remove the previous one, which existed in the user setting
+				actions.RemoveAll(x => x.CommandCode == item.CommandCode.ToString() && x.KeyBinding == item.PreviousKeyBinding.LocalizedLabel);
+
+				// If the last one is about to be removed, add the empty one to hide the default ones
+				if (actions.FindAll(x => x.CommandCode == item.CommandCode.ToString()).IsEmpty() &&
+					item.DefaultKeyBindings.Length != 0)
+					actions.Add(new(item.CommandCode.ToString(), string.Empty));
+			}
+
+			// Set to the user settings
+			ActionsSettingsService.ActionsV2 = actions;
+
+			// Set as customized
+			foreach (var action in ValidActionItems)
+			{
+				if (action.CommandCode == item.CommandCode)
+					action.IsDefinedByDefault = item.DefaultKeyBindings.Contains(action.KeyBinding);
+			}
+
+			// Exit edit mode
+			item.IsInEditMode = false;
+			ValidActionItems.Remove(item);
 		}
 	}
 }

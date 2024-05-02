@@ -13,10 +13,9 @@ namespace Files.App.Data.Items
 		private readonly IFileTagsService FileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 		private readonly IImageService ImageService = Ioc.Default.GetRequiredService<IImageService>();
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private readonly string _tagUid;
-
-		private readonly Func<string, Task> _openAction;
 
 		// Properties
 
@@ -46,11 +45,10 @@ namespace Files.App.Data.Items
 		public ICommand ViewMoreCommand { get; }
 		public ICommand OpenAllCommand { get; }
 
-		public WidgetFileTagsContainerItem(string tagUid, Func<string, Task> openAction)
+		public WidgetFileTagsContainerItem(string tagUid)
 		{
 			_tagUid = tagUid;
-			_openAction = openAction;
-			Tags = [];
+			Tags = new();
 
 			ViewMoreCommand = new AsyncRelayCommand(ViewMore);
 			OpenAllCommand = new AsyncRelayCommand(OpenAll);
@@ -59,21 +57,21 @@ namespace Files.App.Data.Items
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
-			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
+			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid))
 			{
-				var icon = await ImageService.GetIconAsync(item.Storable, cancellationToken);
-				Tags.Add(new(item.Storable, _openAction, icon));
+				var icon = await ImageService.GetIconAsync(item.Storable, default);
+				Tags.Add(new(item.Storable, icon));
 			}
 		}
 
-		private Task ViewMore()
+		private Task<bool> ViewMore()
 		{
-			return _openAction($"tag:{Name}");
+			return NavigationHelpers.OpenPath($"tag:{Name}", ContentPageContext.ShellPage!);
 		}
 
 		private Task OpenAll()
 		{
-			SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(Tags.Select(tag => (tag.Path, tag.IsFolder))));
+			SelectedTagChanged?.Invoke(this, new(Tags.Select(tag => (tag.Path, tag.IsFolder))));
 
 			return Commands.OpenAllTaggedItems.ExecuteAsync();
 		}

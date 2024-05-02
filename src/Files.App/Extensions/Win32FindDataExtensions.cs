@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using static Files.App.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App.Extensions
 {
@@ -9,7 +9,7 @@ namespace Files.App.Extensions
 	{
 		private const long MAX_DWORD = 4294967295;
 
-		public static long GetSize(this WIN32_FIND_DATA findData)
+		public static long GetSize(this Win32PInvoke.WIN32_FIND_DATA findData)
 		{
 			long fDataFSize = findData.nFileSizeLow;
 
