@@ -84,7 +84,7 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
-		public Stretch AppBackgroundImageStretch
+		public Stretch AppBackgroundImageFit
 		{
 			get => Get(Stretch.UniformToFill);
 			set => Set(value);
@@ -120,7 +120,7 @@ namespace Files.App.Services.Settings
 				case nameof(AppThemeSidebarBackgroundColor):
 				case nameof(AppThemeFileAreaBackgroundColor):
 				case nameof(AppThemeBackdropMaterial):
-				case nameof(AppBackgroundImageStretch):
+				case nameof(AppBackgroundImageFit):
 				case nameof(AppBackgroundImageOpacity):
 				case nameof(AppBackgroundImageVerticalAlignment):
 				case nameof(AppBackgroundImageHorizontalAlignment):

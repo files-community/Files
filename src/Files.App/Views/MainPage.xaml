@@ -130,7 +130,7 @@
 			VerticalAlignment="{x:Bind ViewModel.AppBackgroundImageVerticalAlignment, Mode=OneWay}"
 			Opacity="{x:Bind ViewModel.AppBackgroundImageOpacity, Mode=OneWay}"
 			Source="{x:Bind ViewModel.AppBackgroundImageSource, Mode=OneWay}"
-			Stretch="{x:Bind ViewModel.AppBackgroundImageStretch, Mode=OneWay}" />
+			Stretch="{x:Bind ViewModel.AppBackgroundImageFit, Mode=OneWay}" />
 
 		<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
 			<Grid.RowDefinitions>

@@ -60,7 +60,7 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref shouldPreviewPaneBeDisplayed, value);
 		}
 
-		public Stretch AppBackgroundImageStretch => AppearanceSettingsService.AppBackgroundImageStretch;
+		public Stretch AppBackgroundImageFit => AppearanceSettingsService.AppBackgroundImageFit;
 
 		public float AppBackgroundImageOpacity => AppearanceSettingsService.AppBackgroundImageOpacity;
 
@@ -88,6 +88,28 @@ namespace Files.App.ViewModels
 		public MainPageViewModel()
 		{
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand);
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.AppBackgroundImageSource):
+						OnPropertyChanged(nameof(AppBackgroundImageSource));
+						break;
+					case nameof(AppearanceSettingsService.AppBackgroundImageOpacity):
+						OnPropertyChanged(nameof(AppBackgroundImageOpacity));
+						break;
+					case nameof(AppearanceSettingsService.AppBackgroundImageFit):
+						OnPropertyChanged(nameof(AppBackgroundImageFit));
+						break;
+					case nameof(AppearanceSettingsService.AppBackgroundImageVerticalAlignment):
+						OnPropertyChanged(nameof(AppBackgroundImageVerticalAlignment));
+						break;
+					case nameof(AppearanceSettingsService.AppBackgroundImageHorizontalAlignment):
+						OnPropertyChanged(nameof(AppBackgroundImageHorizontalAlignment));
+						break;
+				}
+			};
 		}
 
 		// Methods

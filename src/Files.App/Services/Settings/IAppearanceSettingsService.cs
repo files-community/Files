@@ -63,9 +63,9 @@ namespace Files.App.Services.Settings
 		string AppBackgroundImageSource { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value for the app background image stretch.
+		/// Gets or sets a value for the app background image fit.
 		/// </summary>
-		Stretch AppBackgroundImageStretch { get; set; }
+		Stretch AppBackgroundImageFit { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app background image opacity.

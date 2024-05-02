@@ -2,7 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+using System.Windows.Input;
+using Windows.Storage.Pickers;
+using Windows.UI.WindowManagement;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -15,7 +20,16 @@ namespace Files.App.ViewModels.Settings
 		public List<string> Themes { get; private set; }
 		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = [];
 
+		public Dictionary<Stretch, string> ImageStretchTypes { get; private set; } = [];
+
+		public Dictionary<VerticalAlignment, string> ImageVerticalAlignmentTypes { get; private set; } = [];
+
+		public Dictionary<HorizontalAlignment, string> ImageHorizontalAlignmentTypes { get; private set; } = [];
+
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
+
+		public ICommand SelectImageCommand { get; }
+		public ICommand RemoveImageCommand { get; }
 
 		public AppearanceViewModel(IUserSettingsService userSettingsService, IResourcesService resourcesService)
 		{
@@ -42,7 +56,64 @@ namespace Files.App.ViewModels.Settings
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
 
+
+			// Background image fit options
+			ImageStretchTypes.Add(Stretch.None, "None".GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.Fill, "Fill".GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.Uniform, "Uniform".GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.UniformToFill, "UniformToFill".GetLocalizedResource());
+			SelectedImageStretchType = ImageStretchTypes[UserSettingsService.AppearanceSettingsService.AppBackgroundImageFit];
+
+			// Background image allignment options
+
+			// VerticalAlignment
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Top, "Top".GetLocalizedResource());
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Center, "Center".GetLocalizedResource());
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Bottom, "Bottom".GetLocalizedResource());
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Stretch, "Stretch".GetLocalizedResource());
+			SelectedImageVerticalAlignmentType = ImageVerticalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppBackgroundImageVerticalAlignment];
+
+			// HorizontalAlignment
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Left, "Top".GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Center, "Center".GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Right, "Bottom".GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Stretch, "Stretch".GetLocalizedResource());
+			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppBackgroundImageHorizontalAlignment];
+
 			UpdateSelectedResource();
+
+			SelectImageCommand = new AsyncRelayCommand(SelectBackgroundImage);
+			RemoveImageCommand = new RelayCommand(RemoveBackgroundImage);
+		}
+
+		/// <summary>
+		/// Opens a file picker to select a background image
+		/// </summary>
+		private async Task SelectBackgroundImage()
+		{
+			var filePicker = new FileOpenPicker
+			{
+				ViewMode = PickerViewMode.Thumbnail,
+				SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+				FileTypeFilter = { ".jpg", ".jpeg", ".png", ".bmp", ".gif" }
+			};
+
+			// WINUI3: Create and initialize new window
+			var parentWindowId = MainWindow.Instance.AppWindow.Id;
+			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
+			WinRT.Interop.InitializeWithWindow.Initialize(filePicker, handle);
+
+			var file = await filePicker.PickSingleFileAsync();
+			if (file is not null)
+				AppBackgroundImageSource = file.Path;
+		}
+
+		/// <summary>
+		/// Clears the current background image
+		/// </summary>
+		private void RemoveBackgroundImage()
+		{
+			AppBackgroundImageSource = string.Empty;
 		}
 
 		/// <summary>
@@ -143,5 +214,71 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public string AppBackgroundImageSource
+		{
+			get => UserSettingsService.AppearanceSettingsService.AppBackgroundImageSource;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.AppBackgroundImageSource)
+				{
+					UserSettingsService.AppearanceSettingsService.AppBackgroundImageSource = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string selectedImageStretchType;
+		public string SelectedImageStretchType
+		{
+			get => selectedImageStretchType;
+			set
+			{
+				if (SetProperty(ref selectedImageStretchType, value))
+				{
+					UserSettingsService.AppearanceSettingsService.AppBackgroundImageFit = ImageStretchTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
+		public float AppBackgroundImageOpacity
+		{
+			get => UserSettingsService.AppearanceSettingsService.AppBackgroundImageOpacity;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.AppBackgroundImageOpacity)
+				{
+					UserSettingsService.AppearanceSettingsService.AppBackgroundImageOpacity = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string selectedImageVerticalAlignmentType;
+		public string SelectedImageVerticalAlignmentType
+		{
+			get => selectedImageVerticalAlignmentType;
+			set
+			{
+				if (SetProperty(ref selectedImageVerticalAlignmentType, value))
+				{
+					UserSettingsService.AppearanceSettingsService.AppBackgroundImageVerticalAlignment = ImageVerticalAlignmentTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
+		private string selectedImageHorizontalAlignmentType;
+		public string SelectedImageHorizontalAlignmentType
+		{
+			get => selectedImageHorizontalAlignmentType;
+			set
+			{
+				if (SetProperty(ref selectedImageHorizontalAlignmentType, value))
+				{
+					UserSettingsService.AppearanceSettingsService.AppBackgroundImageHorizontalAlignment = ImageHorizontalAlignmentTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
 	}
 }
