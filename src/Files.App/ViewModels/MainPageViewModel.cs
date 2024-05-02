@@ -1,7 +1,10 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
@@ -56,6 +59,25 @@ namespace Files.App.ViewModels
 			get => shouldPreviewPaneBeDisplayed;
 			set => SetProperty(ref shouldPreviewPaneBeDisplayed, value);
 		}
+
+		public Stretch AppBackgroundImageStretch => AppearanceSettingsService.AppBackgroundImageStretch;
+
+		public float AppBackgroundImageOpacity => AppearanceSettingsService.AppBackgroundImageOpacity;
+
+		public ImageSource? AppBackgroundImageSource
+		{
+			get
+			{
+				return string.IsNullOrEmpty(AppearanceSettingsService.AppBackgroundImageSource)
+					? null
+					: new BitmapImage(new Uri(AppearanceSettingsService.AppBackgroundImageSource, UriKind.RelativeOrAbsolute));
+			}
+		}
+
+		public VerticalAlignment AppBackgroundImageVerticalAlignment => AppearanceSettingsService.AppBackgroundImageVerticalAlignment;
+
+		public HorizontalAlignment AppBackgroundImageHorizontalAlignment => AppearanceSettingsService.AppBackgroundImageHorizontalAlignment;
+
 
 		// Commands
 

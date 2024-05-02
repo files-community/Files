@@ -123,6 +123,15 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
+		<!--  Background Image  -->
+		<Image
+			Grid.RowSpan="2"
+			HorizontalAlignment="{x:Bind ViewModel.AppBackgroundImageHorizontalAlignment, Mode=OneWay}"
+			VerticalAlignment="{x:Bind ViewModel.AppBackgroundImageVerticalAlignment, Mode=OneWay}"
+			Opacity="{x:Bind ViewModel.AppBackgroundImageOpacity, Mode=OneWay}"
+			Source="{x:Bind ViewModel.AppBackgroundImageSource, Mode=OneWay}"
+			Stretch="{x:Bind ViewModel.AppBackgroundImageStretch, Mode=OneWay}" />
+
 		<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
