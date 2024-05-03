@@ -229,7 +229,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				{
 					Source = item.BitmapIcon,
 				};
-			else if (item.OpacityIcon is not null or item.OpacityIcon.IsValid)
+			else if (item.OpacityIcon?.IsValid ?? false)
 				content = item.OpacityIcon.ToOpacityIcon();
 			else if (item.ShowLoadingIndicator)
 				content = new ProgressRing()
