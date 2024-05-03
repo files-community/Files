@@ -5,10 +5,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Vanara.Extensions;
 using Vanara.InteropServices;
-
-
-//using Vanara.Extensions;
-//using Vanara.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.NetworkManagement.WNet;
@@ -86,9 +82,7 @@ namespace Files.App.Data.Models
 				unsafe
 				{
 					fixed (char* lpcRemoteName = value)
-					{
 						netRes.lpRemoteName = lpcRemoteName;
-					}
 				}
 			}
 		}
@@ -131,9 +125,7 @@ namespace Files.App.Data.Models
 				dialogOptions.hwndOwner = new(hwndOwner);
 
 				fixed (NETRESOURCEW* lpConnRes = &netRes)
-				{
 					dialogOptions.lpConnRes = lpConnRes;
-				}
 
 				if (ReadOnlyPath && !string.IsNullOrEmpty(netRes.lpRemoteName.ToString()))
 					dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_RO_PATH;
