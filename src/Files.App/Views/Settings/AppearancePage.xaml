@@ -215,6 +215,7 @@
 						<!--  Image Fit  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ImageFit}" HorizontalAlignment="Stretch">
 							<uc:ComboBoxEx
+								MinWidth="140"
 								AutomationProperties.Name="{helpers:ResourceString Name=ImageFit}"
 								ItemsSource="{x:Bind ViewModel.ImageStretchTypes.Values}"
 								SelectedItem="{x:Bind ViewModel.SelectedImageStretchType, Mode=TwoWay}" />
@@ -223,6 +224,7 @@
 						<!--  VerticalAlignment  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=VerticalAlignment}" HorizontalAlignment="Stretch">
 							<uc:ComboBoxEx
+								MinWidth="140"
 								AutomationProperties.Name="{helpers:ResourceString Name=VerticalAlignment}"
 								ItemsSource="{x:Bind ViewModel.ImageVerticalAlignmentTypes.Values}"
 								SelectedItem="{x:Bind ViewModel.SelectedImageVerticalAlignmentType, Mode=TwoWay}" />
@@ -231,6 +233,7 @@
 						<!--  HorizontalAlignment  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=HorizontalAlignment}" HorizontalAlignment="Stretch">
 							<uc:ComboBoxEx
+								MinWidth="140"
 								AutomationProperties.Name="{helpers:ResourceString Name=HorizontalAlignment}"
 								ItemsSource="{x:Bind ViewModel.ImageHorizontalAlignmentTypes.Values}"
 								SelectedItem="{x:Bind ViewModel.SelectedImageHorizontalAlignmentType, Mode=TwoWay}" />
