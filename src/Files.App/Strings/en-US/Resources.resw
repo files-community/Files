@@ -3788,7 +3788,4 @@
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Vertical alignment</value>
   </data>
-  <data name="ImagePath" xml:space="preserve">
-    <value>Image path</value>
-  </data>
 </root>
