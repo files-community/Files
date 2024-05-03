@@ -6,12 +6,12 @@ namespace Files.App.Data.Enums
 	/// <summary>
 	/// Defines constants that specify item type of ContextMenuFlyout on Windows.
 	/// </summary>
-	public enum ContextMenuFlyoutItemType
+	public enum ContextFlyoutItemType
 	{
 		/// <summary>
 		/// Button type.
 		/// </summary>
-		Item,
+		Button,
 
 		/// <summary>
 		/// Separator type.

@@ -750,7 +750,7 @@ namespace Files.App.Views.Layouts
 			});
 		}
 
-		private async Task AddShellMenuItemsAsync(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
+		private async Task AddShellMenuItemsAsync(List<ContextFlyoutItemModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
 			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
@@ -760,9 +760,9 @@ namespace Files.App.Views.Layouts
 			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
-				(x, i) => (x.ItemType == ContextMenuFlyoutItemType.Separator &&
-				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ContextMenuFlyoutItemType.Separator)
-				|| x.ItemType != ContextMenuFlyoutItemType.Separator).ToList();
+				(x, i) => (x.ItemType == ContextFlyoutItemType.Separator &&
+				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ContextFlyoutItemType.Separator)
+				|| x.ItemType != ContextFlyoutItemType.Separator).ToList();
 
 			var overflowItems = ContextFlyoutModelToElementHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
 			var mainItems = ContextFlyoutModelToElementHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);

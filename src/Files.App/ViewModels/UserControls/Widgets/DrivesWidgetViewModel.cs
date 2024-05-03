@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new() { NavPathParam = path });
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextFlyoutItemModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive =
 				Items.Where(x =>
@@ -96,7 +96,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			var options = drive?.Item.MenuOptions;
 
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<ContextFlyoutItemModel>()
 			{
 				new()
 				{
@@ -172,7 +172,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
+					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
 				new()

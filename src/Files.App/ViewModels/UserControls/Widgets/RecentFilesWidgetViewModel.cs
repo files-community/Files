@@ -70,9 +70,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextFlyoutItemModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<ContextFlyoutItemModel>()
 			{
 				new()
 				{
@@ -115,7 +115,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
+					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
 				new()
