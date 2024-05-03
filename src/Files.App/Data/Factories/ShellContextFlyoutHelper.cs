@@ -82,7 +82,7 @@ namespace Files.App.Helpers
 
 			if (overflowItems.Any(x => x.Type != MenuItemType.MFT_SEPARATOR))
 			{
-				var moreItem = menuItemsListLocal.FirstOrDefault(x => x.Tag == "ItemOverflow");
+				var moreItem = menuItemsListLocal.FirstOrDefault(x => x.ID == "ItemOverflow");
 				if (moreItem is null)
 				{
 					var menuLayoutSubItem = new ContextFlyoutItemModel()
