@@ -86,7 +86,7 @@ namespace Files.App.Data.Items
 		/// <summary>
 		/// Gets the value that indicates whether the item is available in the flyout.
 		/// </summary>
-		public bool IsAvailable { get; set; } = true;
+		public bool IsAvailable { get; set; }
 
 		/// <summary>
 		/// Gets the value that indicates whether the item is visible in the flyout.
