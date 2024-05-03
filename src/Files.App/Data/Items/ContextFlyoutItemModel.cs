@@ -158,16 +158,13 @@ namespace Files.App.Data.Items
 		/// </summary>
 		/// <param name="richCommand"><see cref="IRichCommand"/> instance.</param>
 		/// <param name="richCommandParameter"><see cref="IRichCommand"/> parameter.</param>
-		public ContextFlyoutItemModel(ContextFlyoutItemType type, IRichCommand richCommand, object? richCommandParameter = null) : this(type)
+		public ContextFlyoutItemModel(ContextFlyoutItemType type, IRichCommand richCommand) : this(type)
 		{
-			Command = richCommand;
-
-			//richCommand.Parameter = richCommandParameter;
-
 			bool isExecutable = richCommand.IsExecutable;
 			if (!isExecutable)
 				return;
 
+			Command = richCommand;
 			Text = richCommand.Label;
 			IsEnabled = isExecutable;
 			IsChecked = richCommand.IsOn;
