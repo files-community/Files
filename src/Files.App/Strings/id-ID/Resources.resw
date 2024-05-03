@@ -1698,12 +1698,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nama pengguna</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget penyimpanan</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget file terbaru</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Tidak ada item yang ditemukan</value>
   </data>
@@ -3715,5 +3709,32 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tipe layout</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Perintah</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Tambah perintah</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Kembalikan ke awal</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Pilih tindakan</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Apakah ingin mereset pengaturan tombol keyboard? Tindakan ini tidak dapat dibatalkan.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Tombol keyboard ini sudah dipakai, gunakan tombol keyboard lainya untuk melanjutkan.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Sesuaikan</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Tata letak adaptif tidak tersedia ketika preferensi disinkronkan, tata letak default telah diubah menjadi Detail.</value>
   </data>
 </root>

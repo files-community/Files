@@ -2,7 +2,8 @@
 <Application
 	x:Class="Files.App.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:uc="using:Files.App.UserControls">
 
 	<Application.Resources>
 		<ResourceDictionary>
@@ -29,6 +30,8 @@
 			<Style TargetType="MenuFlyoutPresenter">
 				<Setter Target="HighContrastAdjustment" Value="None" />
 			</Style>
+
+			<Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="uc:ComboBoxEx" />
 
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />

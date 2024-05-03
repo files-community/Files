@@ -1699,12 +1699,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Gebruikersnaam</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Aandrywers-hulptuig</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Onlangse lêers hulptuig</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Geen items gevind nie</value>
   </data>
@@ -3716,5 +3710,32 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Layout type</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Commands</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Add command</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Restore defaults</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Choose an action</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Are you sure you want to restore the default key bindings? This action cannot be undone.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>This key binding is already being used, please choose a different key binding to continue.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Customized</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
 </root>

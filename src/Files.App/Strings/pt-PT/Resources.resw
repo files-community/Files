@@ -1698,12 +1698,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nome de utilizador</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Unidades</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Ficheiros recentes</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Nenhum item encontrado</value>
   </data>
@@ -3715,5 +3709,32 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tipo de esquema</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Comandos</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Adicionar comando</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Repor predefinições</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Escolha uma ação</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Tem a certeza de que pretende repor as combinações de teclas padrão? Esta ação não pode ser anulada.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Esta combinação de teclas já está a ser utilizada. Escolha uma combinação de teclas diferente para continuar.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Personalizado</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>O esquema adaptativo não está disponível quando as preferências são sincronizadas, o esquema predefinido foi alterado para Detalhes.</value>
   </data>
 </root>
