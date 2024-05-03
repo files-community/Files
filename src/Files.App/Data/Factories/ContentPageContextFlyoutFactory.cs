@@ -40,12 +40,12 @@ namespace Files.App.Data.Factories
 			items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList();
 			items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList());
 
-			var overflow = items.FirstOrDefault(x => x.ID == "ItemOverflow");
+			var overflow = items.FirstOrDefault(x => x.Tag == "ItemOverflow");
 			if (overflow is not null)
 			{
 				if (!shiftPressed && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
 				{
-					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
+					var overflowItems = items.Where(x => x.IsVisibleOnShiftPressed).ToList();
 
 					// Adds a separator between items already there and the new ones
 					if (overflow.Items.Count != 0 && overflowItems.Count > 0 && overflow.Items.Last().ItemType != ContextFlyoutItemType.Separator)
@@ -66,11 +66,10 @@ namespace Files.App.Data.Factories
 		private static bool Check(ContextFlyoutItemModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
 		{
 			return
-				(item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) &&
-				(item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults) &&
-				(item.ShowInFtpPage || !currentInstanceViewModel.IsPageTypeFtp) &&
-				(item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder) &&
-				(!item.SingleItemOnly || selectedItems.Count == 1) &&
+				(item.IsVisibleInRecycleBinPage || !currentInstanceViewModel.IsPageTypeRecycleBin) &&
+				(item.IsVisibleInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults) &&
+				(item.IsVisibleInFtpPage || !currentInstanceViewModel.IsPageTypeFtp) &&
+				(item.IsVisibleInArchivePage || !currentInstanceViewModel.IsPageTypeZipFolder) &&
 				item.IsAvailable;
 		}
 
@@ -102,10 +101,10 @@ namespace Files.App.Data.Factories
 					Text = "Layout".GetLocalizedResource(),
 					Glyph = "\uE8A9",
 					IsAvailable = !itemsSelected,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
+					IsVisibleInRecycleBinPage = true,
+					IsVisibleInSearchPage = true,
+					IsVisibleInFtpPage = true,
+					IsVisibleInArchivePage = true,
 					Items =
 					[
 						new(ContextFlyoutItemType.Toggle, Commands.LayoutDetails),
@@ -121,10 +120,10 @@ namespace Files.App.Data.Factories
 					Text = "SortBy".GetLocalizedResource(),
 					OpacityIcon = new("ColorIconSort"),
 					IsAvailable = !itemsSelected,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
+					IsVisibleInRecycleBinPage = true,
+					IsVisibleInSearchPage = true,
+					IsVisibleInFtpPage = true,
+					IsVisibleInArchivePage = true,
 					Items =
 					[
 						new(ContextFlyoutItemType.Toggle, Commands.SortByName),
@@ -139,10 +138,10 @@ namespace Files.App.Data.Factories
 						new(ContextFlyoutItemType.Toggle, Commands.SortByDateDeleted),
 						new(ContextFlyoutItemType.Separator)
 						{
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
+							IsVisibleInRecycleBinPage = true,
+							IsVisibleInSearchPage = true,
+							IsVisibleInFtpPage = true,
+							IsVisibleInArchivePage = true,
 						},
 						new(ContextFlyoutItemType.Toggle, Commands.SortAscending),
 						new(ContextFlyoutItemType.Toggle, Commands.SortDescending),
@@ -153,10 +152,10 @@ namespace Files.App.Data.Factories
 					Text = "GroupBy".GetLocalizedResource(),
 					Glyph = "\uF168",
 					IsAvailable = !itemsSelected,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
+					IsVisibleInRecycleBinPage = true,
+					IsVisibleInSearchPage = true,
+					IsVisibleInFtpPage = true,
+					IsVisibleInArchivePage = true,
 					Items =
 					[
 						new(ContextFlyoutItemType.Toggle, Commands.GroupByNone),
@@ -164,10 +163,10 @@ namespace Files.App.Data.Factories
 						new()
 						{
 							Text = "DateModifiedLowerCase".GetLocalizedResource(),
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
+							IsVisibleInRecycleBinPage = true,
+							IsVisibleInSearchPage = true,
+							IsVisibleInFtpPage = true,
+							IsVisibleInArchivePage = true,
 							Items =
 							[
 								new(ContextFlyoutItemType.Toggle, Commands.GroupByDateModifiedYear),
@@ -178,10 +177,10 @@ namespace Files.App.Data.Factories
 						new()
 						{
 							Text = "DateCreated".GetLocalizedResource(),
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
+							IsVisibleInRecycleBinPage = true,
+							IsVisibleInSearchPage = true,
+							IsVisibleInFtpPage = true,
+							IsVisibleInArchivePage = true,
 							Items =
 							[
 								new(ContextFlyoutItemType.Toggle, Commands.GroupByDateCreatedYear),
@@ -197,7 +196,7 @@ namespace Files.App.Data.Factories
 						new()
 						{
 							Text = "DateDeleted".GetLocalizedResource(),
-							ShowInRecycleBin = true,
+							IsVisibleInRecycleBinPage = true,
 							IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin,
 							Items =
 							[
@@ -209,10 +208,10 @@ namespace Files.App.Data.Factories
 						new(ContextFlyoutItemType.Toggle, Commands.GroupByFolderPath),
 						new(ContextFlyoutItemType.Separator)
 						{
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
+							IsVisibleInRecycleBinPage = true,
+							IsVisibleInSearchPage = true,
+							IsVisibleInFtpPage = true,
+							IsVisibleInArchivePage = true,
 						},
 						new(ContextFlyoutItemType.Toggle, Commands.GroupAscending),
 						new(ContextFlyoutItemType.Toggle, Commands.GroupDescending),
@@ -225,8 +224,8 @@ namespace Files.App.Data.Factories
 				new()
 				{
 					ItemType = ContextFlyoutItemType.Separator,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
+					IsVisibleInFtpPage = true,
+					IsVisibleInArchivePage = true,
 					IsAvailable = !itemsSelected
 				},
 				new()
@@ -235,7 +234,7 @@ namespace Files.App.Data.Factories
 					Text = Commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
 					IsAvailable = !itemsSelected,
-					ShowInFtpPage = true
+					IsVisibleInFtpPage = true
 				},
 				new(ContextFlyoutItemType.Button, Commands.FormatDrive),
 				new(ContextFlyoutItemType.Button, Commands.EmptyRecycleBin)
@@ -265,16 +264,16 @@ namespace Files.App.Data.Factories
 					//},
 					Tag = "OpenWithOverflow",
 					IsVisible = false,
-					CollapseLabel = true,
+					IsTextVisible = false,
 					Items =
 					[
 						new()
 						{
 							Text = "Placeholder",
-							ShowInSearchPage = true,
+							IsVisibleInSearchPage = true,
 						}
 					],
-					ShowInSearchPage = true,
+					IsVisibleInSearchPage = true,
 					IsAvailable = itemsSelected && showOpenItemWith
 				},
 				new(ContextFlyoutItemType.Button, Commands.OpenFileLocation),
@@ -285,7 +284,7 @@ namespace Files.App.Data.Factories
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
 					IsAvailable = itemsSelected && (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false),
-					ShowInSearchPage = true,
+					IsVisibleInSearchPage = true,
 					Items =
 					[
 						new(ContextFlyoutItemType.Button, Commands.SetAsWallpaperBackground),
@@ -311,9 +310,9 @@ namespace Files.App.Data.Factories
 				new(ContextFlyoutItemType.Button, Commands.RunAsAnotherUser),
 				new(ContextFlyoutItemType.Separator)
 				{
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
+					IsVisibleInSearchPage = true,
+					IsVisibleInFtpPage = true,
+					IsVisibleInArchivePage = true,
 					IsAvailable = itemsSelected
 				},
 				new(ContextFlyoutItemType.Button, Commands.CutItem)
@@ -385,17 +384,17 @@ namespace Files.App.Data.Factories
 				new(ContextFlyoutItemType.Button, Commands.PinToStart)
 				{
 					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable || (x is ShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && !x.IsItemPinnedToStart),
-					ShowOnShift = true,
+					IsVisibleOnShiftPressed = true,
 				},
 				new(ContextFlyoutItemType.Button, Commands.UnpinFromStart)
 				{
 					IsVisible = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable|| (x is ShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && x.IsItemPinnedToStart),
-					ShowOnShift = true,
+					IsVisibleOnShiftPressed = true,
 				},
 				new()
 				{
 					Text = "Compress".GetLocalizedResource(),
-					ShowInSearchPage = true,
+					IsVisibleInSearchPage = true,
 					OpacityIcon = new("ColorIconZip"),
 					Items =
 					[
@@ -408,7 +407,7 @@ namespace Files.App.Data.Factories
 				new()
 				{
 					Text = "Extract".GetLocalizedResource(),
-					ShowInSearchPage = true,
+					IsVisibleInSearchPage = true,
 					OpacityIcon = new("ColorIconZip"),
 					Items =
 					[
@@ -423,8 +422,8 @@ namespace Files.App.Data.Factories
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendTo",
-					CollapseLabel = true,
-					ShowInSearchPage = true,
+					IsTextVisible = false,
+					IsVisibleInSearchPage = true,
 					IsAvailable = itemsSelected && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
@@ -432,23 +431,23 @@ namespace Files.App.Data.Factories
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToOverflow",
 					IsVisible = false,
-					CollapseLabel = true,
+					IsTextVisible = false,
 					Items =
 					[
 						new()
 						{
 							Text = "Placeholder",
-							ShowInSearchPage = true,
+							IsVisibleInSearchPage = true,
 						}
 					],
-					ShowInSearchPage = true,
+					IsVisibleInSearchPage = true,
 					IsAvailable = itemsSelected && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
 					Text = "TurnOnBitLocker".GetLocalizedResource(),
 					Tag = "TurnOnBitLockerPlaceholder",
-					CollapseLabel = true,
+					IsTextVisible = false,
 					IsEnabled = false,
 					IsAvailable = isDriveRoot
 				},
@@ -456,7 +455,7 @@ namespace Files.App.Data.Factories
 				{
 					Text = "ManageBitLocker".GetLocalizedResource(),
 					Tag = "ManageBitLockerPlaceholder",
-					CollapseLabel = true,
+					IsTextVisible = false,
 					IsAvailable = isDriveRoot,
 					IsEnabled = false
 				},
@@ -467,22 +466,21 @@ namespace Files.App.Data.Factories
 				{
 					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
+					IsVisibleInFtpPage = true,
+					IsVisibleInArchivePage = true,
+					IsVisibleInRecycleBinPage = true,
+					IsVisibleInSearchPage = true,
 				},
 				new()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = [],
-					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
+					IsVisibleInFtpPage = true,
+					IsVisibleInArchivePage = true,
+					IsVisibleInRecycleBinPage = true,
+					IsVisibleInSearchPage = true,
 					IsEnabled = false
 				},
 			}.Where(x => x.IsAvailable).ToList();
@@ -498,8 +496,8 @@ namespace Files.App.Data.Factories
 					Text = "File".GetLocalizedResource(),
 					Glyph = "\uE7C3",
 					Command = commandsViewModel.CreateNewFileCommand,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
+					IsVisibleInFtpPage = true,
+					IsVisibleInArchivePage = true,
 					IsEnabled = canCreateFileInPage
 				},
 				new(ContextFlyoutItemType.Button,Commands.CreateShortcutFromDialog),

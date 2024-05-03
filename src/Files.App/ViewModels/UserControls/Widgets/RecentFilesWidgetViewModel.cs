@@ -123,7 +123,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = [],
-					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}

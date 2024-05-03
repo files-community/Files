@@ -217,7 +217,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 
 			MenuFlyout? ctxFlyout = null;
-			if ((item.Items is not null && item.Items.Count > 0) || item.ID == "ItemOverflow")
+			if ((item.Items is not null && item.Items.Count > 0) || item.Tag == "ItemOverflow")
 			{
 				ctxFlyout = new MenuFlyout();
 				GetMenuFlyoutItemsFromModel(item.Items)?.ForEach(i => ctxFlyout.Items.Add(i));
@@ -231,7 +231,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				};
 			else if (item.OpacityIcon.IsValid)
 				content = item.OpacityIcon.ToOpacityIcon();
-			else if (item.ShowLoadingIndicator)
+			else if (item.IsLoadingIndicatorVisible)
 				content = new ProgressRing()
 				{
 					IsIndeterminate = true,
@@ -248,7 +248,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					CommandParameter = item.CommandParameter,
 					IsChecked = item.IsChecked,
 					Content = content,
-					LabelPosition = item.IsPrimary || item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
+					LabelPosition = item.IsPrimary || item.IsTextVisible ? CommandBarLabelPosition.Default: CommandBarLabelPosition.Collapsed,
 					IsEnabled = item.IsEnabled,
 					Visibility = item.IsVisible ? Visibility.Visible : Visibility.Collapsed,
 				};
@@ -258,7 +258,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					if (icon is not null)
 						toggleButton.Icon = icon;
 
-					if (item.IsPrimary || item.CollapseLabel)
+					if (item.IsPrimary || !item.IsTextVisible)
 						toggleButton.SetValue(ToolTipService.ToolTipProperty, item.Text);
 
 					if (item.KeyboardAccelerator is not null && item.KeyboardAcceleratorTextOverride is not null)
@@ -277,7 +277,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Command = item.Command,
 					CommandParameter = item.CommandParameter,
 					Flyout = ctxFlyout,
-					LabelPosition = item.IsPrimary || item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
+					LabelPosition = item.IsPrimary || item.IsTextVisible ? CommandBarLabelPosition.Default : CommandBarLabelPosition.Collapsed,
 					Content = content,
 					IsEnabled = item.IsEnabled,
 					Visibility = item.IsVisible ? Visibility.Visible : Visibility.Collapsed,
@@ -288,7 +288,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					if (icon is not null)
 						button.Icon = icon;
 
-					if (item.IsPrimary || item.CollapseLabel)
+					if (item.IsPrimary || !item.IsTextVisible)
 						button.SetValue(ToolTipService.ToolTipProperty, item.Text);
 
 					if (item.KeyboardAccelerator is not null && item.KeyboardAcceleratorTextOverride is not null)

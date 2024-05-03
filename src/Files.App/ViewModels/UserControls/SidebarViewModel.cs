@@ -1050,7 +1050,6 @@ namespace Files.App.ViewModels.UserControls
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = [],
-					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 					IsVisible = options.ShowShellItems,
