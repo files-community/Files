@@ -1,5 +1,4 @@
-﻿using DirectN;
-using Files.App.ViewModels.Properties;
+﻿using Files.App.ViewModels.Properties;
 using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
@@ -7,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
 using WinRT;
+using Windows.Win32;
+using Windows.Win32.Graphics.Dwm;
 using static Vanara.PInvoke.ShlwApi;
 using static Vanara.PInvoke.User32;
 
@@ -114,23 +115,23 @@ namespace Files.App.ViewModels.Previews
 
 		private bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
 		{
-			D3D_DRIVER_TYPE[] driverTypes =
+			DirectN.D3D_DRIVER_TYPE[] driverTypes =
 			[
-				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE,
-				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_WARP,
+				DirectN.D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE,
+				DirectN.D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_WARP,
 			];
 
-			ID3D11Device? d3d11Device = null;
-			ID3D11DeviceContext? d3d11DeviceContext = null;
-			D3D_FEATURE_LEVEL featureLevelSupported;
+			DirectN.ID3D11Device? d3d11Device = null;
+			DirectN.ID3D11DeviceContext? d3d11DeviceContext = null;
+			DirectN.D3D_FEATURE_LEVEL featureLevelSupported;
 
 			foreach (var driveType in driverTypes)
 			{
-				var hr = D3D11Functions.D3D11CreateDevice(
+				var hr = DirectN.D3D11Functions.D3D11CreateDevice(
 					null,
 					driveType,
 					IntPtr.Zero,
-					(uint)D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
+					(uint)DirectN.D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 					null,
 					0,
 					7,
@@ -144,10 +145,10 @@ namespace Files.App.ViewModels.Previews
 
 			if (d3d11Device is null)
 				return false;
-			IDXGIDevice dxgiDevice = (IDXGIDevice)d3d11Device;
-			if (Functions.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var compDevicePtr).IsError)
+			DirectN.IDXGIDevice dxgiDevice = (DirectN.IDXGIDevice)d3d11Device;
+			if (DirectN.Functions.DCompositionCreateDevice(dxgiDevice, typeof(DirectN.IDCompositionDevice).GUID, out var compDevicePtr).IsError)
 				return false;
-			IDCompositionDevice compDevice = (IDCompositionDevice)Marshal.GetObjectForIUnknown(compDevicePtr);
+			DirectN.IDCompositionDevice compDevice = (DirectN.IDCompositionDevice)Marshal.GetObjectForIUnknown(compDevicePtr);
 
 			if (compDevice.CreateVisual(out var childVisual).IsError ||
 				compDevice.CreateSurfaceFromHwnd(hwnd.DangerousGetHandle(), out var controlSurface).IsError ||
@@ -156,7 +157,7 @@ namespace Files.App.ViewModels.Previews
 
 			var compositor = ElementCompositionPreview.GetElementVisual(presenter).Compositor;
 			outputLink = ContentExternalOutputLink.Create(compositor);
-			IDCompositionTarget target = outputLink.As<IDCompositionTarget>();
+			DirectN.IDCompositionTarget target = outputLink.As<DirectN.IDCompositionTarget>();
 			target.SetRoot(childVisual);
 
 			outputLink.PlacementVisual.Size = new(0, 0);
@@ -174,7 +175,18 @@ namespace Files.App.ViewModels.Previews
 			Marshal.ReleaseComObject(d3d11Device);
 			Marshal.ReleaseComObject(d3d11DeviceContext);
 
-			return DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true).Succeeded;
+			unsafe
+			{
+				var dwAttrib = Convert.ToUInt32(true);
+
+				return
+					PInvoke.DwmSetWindowAttribute(
+						new((nint)hwnd),
+						DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
+						&dwAttrib,
+						(uint)Marshal.SizeOf(dwAttrib))
+					.Succeeded;
+			}
 		}
 
 		public void UnloadPreview()
@@ -191,7 +203,17 @@ namespace Files.App.ViewModels.Previews
 		{
 			if (onPreview)
 			{
-				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, false);
+				unsafe
+				{
+					var dwAttrib = Convert.ToUInt32(false);
+
+					PInvoke.DwmSetWindowAttribute(
+						new((nint)hwnd),
+						DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
+						&dwAttrib,
+						(uint)Marshal.SizeOf(dwAttrib));
+				}
+
 				if (isOfficePreview)
 					Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
 			}
@@ -199,7 +221,17 @@ namespace Files.App.ViewModels.Previews
 			{
 				Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
 					(nint)(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED));
-				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true);
+
+				unsafe
+				{
+					var dwAttrib = Convert.ToUInt32(true);
+
+					PInvoke.DwmSetWindowAttribute(
+						new((nint)hwnd),
+						DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
+						&dwAttrib,
+						(uint)Marshal.SizeOf(dwAttrib));
+				}
 			}
 		}
 	}
