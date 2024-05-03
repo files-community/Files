@@ -580,16 +580,17 @@ namespace Files.App.Utils.Storage
 					{
 						using ShellItem shi = new(fileToCopyPath[i]);
 						using ShellFolder shd = new(Path.GetDirectoryName(copyDestination[i]));
-
+						string fileName = GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]);
 						// Performa copy operation
-						op.QueueCopyOperation(shi, shd, GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]));
+						op.QueueCopyOperation(shi, shd, fileName);
+						// 
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
 						{
 							Succeeded = false,
 							Source = fileToCopyPath[i],
-							Destination = copyDestination[i],
+							Destination = GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]),
 							HResult = -1
 						});
 					}
@@ -848,7 +849,7 @@ namespace Files.App.Utils.Storage
 				var destination = operationType switch
 				{
 					"delete" => e.DestItem.GetParsingPath(),
-					"rename" => !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
+					"rename" => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
 					"copy" => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
 					_ => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null
 				};
@@ -1034,7 +1035,7 @@ namespace Files.App.Utils.Storage
 
 			Func<int, string> genFilePath = x => string.Concat([filePath, " (", x.ToString(), ")", Path.GetExtension(filePathToCheck)]);
 
-			while (Path.HasExtension(filePathToCheck) ? File.Exists(genFilePath(index)) : Path.Exists(genFilePath(index)))			
+			while (Path.Exists(genFilePath(index)))			
 				index++;				
 
 			return Path.GetFileName(genFilePath(index));									
