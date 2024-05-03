@@ -62,7 +62,7 @@ namespace Files.App.ViewModels.Settings
 			ImageStretchTypes.Add(Stretch.Fill, "Fill".GetLocalizedResource());
 			ImageStretchTypes.Add(Stretch.Uniform, "Uniform".GetLocalizedResource());
 			ImageStretchTypes.Add(Stretch.UniformToFill, "UniformToFill".GetLocalizedResource());
-			SelectedImageStretchType = ImageStretchTypes[UserSettingsService.AppearanceSettingsService.AppBackgroundImageFit];
+			SelectedImageStretchType = ImageStretchTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageFit];
 
 			// Background image allignment options
 
@@ -71,14 +71,14 @@ namespace Files.App.ViewModels.Settings
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Center, "Center".GetLocalizedResource());
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Bottom, "Bottom".GetLocalizedResource());
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Stretch, "Stretch".GetLocalizedResource());
-			SelectedImageVerticalAlignmentType = ImageVerticalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppBackgroundImageVerticalAlignment];
+			SelectedImageVerticalAlignmentType = ImageVerticalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment];
 
 			// HorizontalAlignment
 			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Left, "Top".GetLocalizedResource());
 			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Center, "Center".GetLocalizedResource());
 			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Right, "Bottom".GetLocalizedResource());
 			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Stretch, "Stretch".GetLocalizedResource());
-			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppBackgroundImageHorizontalAlignment];
+			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment];
 
 			UpdateSelectedResource();
 
@@ -105,7 +105,7 @@ namespace Files.App.ViewModels.Settings
 
 			var file = await filePicker.PickSingleFileAsync();
 			if (file is not null)
-				AppBackgroundImageSource = file.Path;
+				AppThemeBackgroundImageSource = file.Path;
 		}
 
 		/// <summary>
@@ -113,7 +113,7 @@ namespace Files.App.ViewModels.Settings
 		/// </summary>
 		private void RemoveBackgroundImage()
 		{
-			AppBackgroundImageSource = string.Empty;
+			AppThemeBackgroundImageSource = string.Empty;
 		}
 
 		/// <summary>
@@ -214,14 +214,14 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public string AppBackgroundImageSource
+		public string AppThemeBackgroundImageSource
 		{
-			get => UserSettingsService.AppearanceSettingsService.AppBackgroundImageSource;
+			get => UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageSource;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.AppBackgroundImageSource)
+				if (value != UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageSource)
 				{
-					UserSettingsService.AppearanceSettingsService.AppBackgroundImageSource = value;
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageSource = value;
 
 					OnPropertyChanged();
 				}
@@ -236,19 +236,19 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (SetProperty(ref selectedImageStretchType, value))
 				{
-					UserSettingsService.AppearanceSettingsService.AppBackgroundImageFit = ImageStretchTypes.First(e => e.Value == value).Key;
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageFit = ImageStretchTypes.First(e => e.Value == value).Key;
 				}
 			}
 		}
 
-		public float AppBackgroundImageOpacity
+		public float AppThemeBackgroundImageOpacity
 		{
-			get => UserSettingsService.AppearanceSettingsService.AppBackgroundImageOpacity;
+			get => UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageOpacity;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.AppBackgroundImageOpacity)
+				if (value != UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageOpacity)
 				{
-					UserSettingsService.AppearanceSettingsService.AppBackgroundImageOpacity = value;
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageOpacity = value;
 
 					OnPropertyChanged();
 				}
@@ -263,7 +263,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (SetProperty(ref selectedImageVerticalAlignmentType, value))
 				{
-					UserSettingsService.AppearanceSettingsService.AppBackgroundImageVerticalAlignment = ImageVerticalAlignmentTypes.First(e => e.Value == value).Key;
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment = ImageVerticalAlignmentTypes.First(e => e.Value == value).Key;
 				}
 			}
 		}
@@ -276,7 +276,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (SetProperty(ref selectedImageHorizontalAlignmentType, value))
 				{
-					UserSettingsService.AppearanceSettingsService.AppBackgroundImageHorizontalAlignment = ImageHorizontalAlignmentTypes.First(e => e.Value == value).Key;
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment = ImageHorizontalAlignmentTypes.First(e => e.Value == value).Key;
 				}
 			}
 		}

@@ -60,26 +60,26 @@ namespace Files.App.Services.Settings
 		/// <summary>
 		/// Gets or sets a value for the app background image source
 		/// </summary>
-		string AppBackgroundImageSource { get; set; }
+		string AppThemeBackgroundImageSource { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app background image fit.
 		/// </summary>
-		Stretch AppBackgroundImageFit { get; set; }
+		Stretch AppThemeBackgroundImageFit { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app background image opacity.
 		/// </summary>
-		float AppBackgroundImageOpacity { get; set; }
+		float AppThemeBackgroundImageOpacity { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app background image Vertical Alignment.
 		/// </summary>
-		VerticalAlignment AppBackgroundImageVerticalAlignment { get; set; }
+		VerticalAlignment AppThemeBackgroundImageVerticalAlignment { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app background image Horizontal Alignment.
 		/// </summary>
-		HorizontalAlignment AppBackgroundImageHorizontalAlignment { get; set; }
+		HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment { get; set; }
 	}
 }

@@ -60,23 +60,22 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref shouldPreviewPaneBeDisplayed, value);
 		}
 
-		public Stretch AppBackgroundImageFit => AppearanceSettingsService.AppBackgroundImageFit;
+		public Stretch AppThemeBackgroundImageFit
+			=> AppearanceSettingsService.AppThemeBackgroundImageFit;
 
-		public float AppBackgroundImageOpacity => AppearanceSettingsService.AppBackgroundImageOpacity;
+		public float AppThemeBackgroundImageOpacity
+			=> AppearanceSettingsService.AppThemeBackgroundImageOpacity;
 
-		public ImageSource? AppBackgroundImageSource
-		{
-			get
-			{
-				return string.IsNullOrEmpty(AppearanceSettingsService.AppBackgroundImageSource)
-					? null
-					: new BitmapImage(new Uri(AppearanceSettingsService.AppBackgroundImageSource, UriKind.RelativeOrAbsolute));
-			}
-		}
+		public ImageSource? AppThemeBackgroundImageSource =>
+			string.IsNullOrEmpty(AppearanceSettingsService.AppThemeBackgroundImageSource)
+				? null
+				: new BitmapImage(new Uri(AppearanceSettingsService.AppThemeBackgroundImageSource, UriKind.RelativeOrAbsolute));
 
-		public VerticalAlignment AppBackgroundImageVerticalAlignment => AppearanceSettingsService.AppBackgroundImageVerticalAlignment;
+		public VerticalAlignment AppThemeBackgroundImageVerticalAlignment
+			=> AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment;
 
-		public HorizontalAlignment AppBackgroundImageHorizontalAlignment => AppearanceSettingsService.AppBackgroundImageHorizontalAlignment;
+		public HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment
+			=> AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment;
 
 
 		// Commands
@@ -93,20 +92,20 @@ namespace Files.App.ViewModels
 			{
 				switch (e.PropertyName)
 				{
-					case nameof(AppearanceSettingsService.AppBackgroundImageSource):
-						OnPropertyChanged(nameof(AppBackgroundImageSource));
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageSource):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageSource));
 						break;
-					case nameof(AppearanceSettingsService.AppBackgroundImageOpacity):
-						OnPropertyChanged(nameof(AppBackgroundImageOpacity));
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageOpacity):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageOpacity));
 						break;
-					case nameof(AppearanceSettingsService.AppBackgroundImageFit):
-						OnPropertyChanged(nameof(AppBackgroundImageFit));
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageFit):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageFit));
 						break;
-					case nameof(AppearanceSettingsService.AppBackgroundImageVerticalAlignment):
-						OnPropertyChanged(nameof(AppBackgroundImageVerticalAlignment));
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageVerticalAlignment));
 						break;
-					case nameof(AppearanceSettingsService.AppBackgroundImageHorizontalAlignment):
-						OnPropertyChanged(nameof(AppBackgroundImageHorizontalAlignment));
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageHorizontalAlignment));
 						break;
 				}
 			};

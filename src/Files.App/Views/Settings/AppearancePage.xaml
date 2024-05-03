@@ -176,7 +176,7 @@
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=BackgroundImage}"
 				HorizontalAlignment="Stretch"
-				Description="{x:Bind ViewModel.AppBackgroundImageSource, Mode=OneWay}"
+				Description="{x:Bind ViewModel.AppThemeBackgroundImageSource, Mode=OneWay}"
 				IsExpanded="False">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE91B;" />
@@ -209,7 +209,7 @@
 								Maximum="1"
 								Minimum=".1"
 								StepFrequency=".1"
-								Value="{x:Bind ViewModel.AppBackgroundImageOpacity, Mode=TwoWay}" />
+								Value="{x:Bind ViewModel.AppThemeBackgroundImageOpacity, Mode=TwoWay}" />
 						</local:SettingsBlockControl>
 
 						<!--  Image Fit  -->
