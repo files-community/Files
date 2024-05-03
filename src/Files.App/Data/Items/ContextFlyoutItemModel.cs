@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -10,7 +11,7 @@ using Windows.System;
 namespace Files.App.Data.Items
 {
 	/// <summary>
-	/// Represents flyout item model for <see cref="MenuFlyoutItem"/> and <see cref="CommandBarFlyout"/>.
+	/// Represents flyout item model for <see cref="MenuFlyoutItemBase"/> and <see cref="ICommandBarElement"/>.
 	/// </summary>
 	public sealed class ContextFlyoutItemModel
 	{
@@ -60,12 +61,12 @@ namespace Files.App.Data.Items
 		/// <summary>
 		/// Gets the keyboard shortcut that can invoke the item.
 		/// </summary>
-		public KeyboardAccelerator? KeyboardAccelerator { get; set; }
+		public KeyboardAccelerator? KeyBinding { get; set; }
 
 		/// <summary>
 		/// Gets the humanized keyboard shortcut.
 		/// </summary>
-		public string? KeyboardAcceleratorTextOverride { get; set; }
+		public string? KeyBindingHumanized { get; set; }
 
 		/// <summary>
 		/// Gets the tag that is handled internally.
@@ -85,17 +86,26 @@ namespace Files.App.Data.Items
 		/// <summary>
 		/// Gets the value that indicates whether the item is available in the flyout.
 		/// </summary>
+		/// <remarks>
+		/// If true, the item will be included in the flyout; otherwise the item will be discarded above all.
+		/// </remarks>
 		public bool IsAvailable { get; set; } = true;
 
 		/// <summary>
 		/// Gets the value that indicates whether the item is visible in the flyout.
 		/// </summary>
+		/// <remarks>
+		/// If true, the item will be <see cref="Visibility.Visible"/> in the flyout; otherwise the item will be <see cref="Visibility.Collapsed"/>.
+		/// </remarks>
 		public bool IsVisible { get; set; } = true;
 
 		/// <summary>
-		/// Gets the value that indicates whether the item type is Checkable and checked.
+		/// Gets the value that indicates whether the item type is checked by default.
 		/// </summary>
-		public bool IsChecked { get; set; }
+		/// <remarks>
+		/// Used for <see cref="ToggleMenuFlyoutItem"/> and <see cref="AppBarToggleButton"/>.
+		/// </remarks>
+		public bool IsCheckedByDefault { get; set; }
 
 		/// <summary>
 		/// Gets the value that indicates whether the item is enabled and cannot be interacted with.
@@ -164,7 +174,7 @@ namespace Files.App.Data.Items
 			Command = richCommand;
 			Text = richCommand.Label;
 			IsEnabled = richCommand.IsExecutable;
-			IsChecked = richCommand.IsOn;
+			IsCheckedByDefault = richCommand.IsOn;
 			ItemType = type;
 			IsAvailable = true;
 			IsVisible = true;
@@ -187,13 +197,13 @@ namespace Files.App.Data.Items
 				!(richCommand.HotKeys[0].Key is Keys.Enter &&
 				richCommand.HotKeys[0].Modifier is KeyModifiers.None))
 			{
-				KeyboardAccelerator = new KeyboardAccelerator()
+				KeyBinding = new()
 				{
 					Key = (VirtualKey)richCommand.HotKeys[0].Key,
 					Modifiers = (VirtualKeyModifiers)richCommand.HotKeys[0].Modifier
 				};
 
-				KeyboardAcceleratorTextOverride = richCommand.HotKeys[0].LocalizedLabel;
+				KeyBindingHumanized = richCommand.HotKeys[0].LocalizedLabel;
 			}
 		}
 	}

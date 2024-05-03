@@ -143,7 +143,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Tag = i.Tag,
 					Command = i.Command,
 					CommandParameter = i.CommandParameter,
-					IsChecked = i.IsChecked,
+					IsChecked = i.IsCheckedByDefault,
 				};
 				if (!string.IsNullOrEmpty(i.Glyph))
 				{
@@ -173,14 +173,14 @@ namespace Files.App.Helpers.ContextFlyouts
 				};
 			}
 
-			if (i.KeyboardAccelerator is not null)
-				flyoutItem.KeyboardAccelerators.Add(i.KeyboardAccelerator);
+			if (i.KeyBinding is not null)
+				flyoutItem.KeyboardAccelerators.Add(i.KeyBinding);
 
 			flyoutItem.IsEnabled = i.IsEnabled;
 			flyoutItem.Visibility = i.IsVisible ? Visibility.Visible : Visibility.Collapsed;
 
-			if (i.KeyboardAcceleratorTextOverride is not null)
-				flyoutItem.KeyboardAcceleratorTextOverride = i.KeyboardAcceleratorTextOverride;
+			if (i.KeyBindingHumanized is not null)
+				flyoutItem.KeyboardAcceleratorTextOverride = i.KeyBindingHumanized;
 
 			return flyoutItem;
 		}
@@ -246,7 +246,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Tag = item.Tag,
 					Command = item.Command,
 					CommandParameter = item.CommandParameter,
-					IsChecked = item.IsChecked,
+					IsChecked = item.IsCheckedByDefault,
 					Content = content,
 					LabelPosition = item.IsPrimary || item.IsTextVisible ? CommandBarLabelPosition.Default: CommandBarLabelPosition.Collapsed,
 					IsEnabled = item.IsEnabled,
@@ -261,10 +261,10 @@ namespace Files.App.Helpers.ContextFlyouts
 					if (item.IsPrimary || !item.IsTextVisible)
 						toggleButton.SetValue(ToolTipService.ToolTipProperty, item.Text);
 
-					if (item.KeyboardAccelerator is not null && item.KeyboardAcceleratorTextOverride is not null)
+					if (item.KeyBinding is not null && item.KeyBindingHumanized is not null)
 					{
-						toggleButton.KeyboardAccelerators.Add(item.KeyboardAccelerator);
-						toggleButton.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
+						toggleButton.KeyboardAccelerators.Add(item.KeyBinding);
+						toggleButton.KeyboardAcceleratorTextOverride = item.KeyBindingHumanized;
 					}
 				}
 			}
@@ -291,10 +291,10 @@ namespace Files.App.Helpers.ContextFlyouts
 					if (item.IsPrimary || !item.IsTextVisible)
 						button.SetValue(ToolTipService.ToolTipProperty, item.Text);
 
-					if (item.KeyboardAccelerator is not null && item.KeyboardAcceleratorTextOverride is not null)
+					if (item.KeyBinding is not null && item.KeyBindingHumanized is not null)
 					{
-						button.KeyboardAccelerators.Add(item.KeyboardAccelerator);
-						button.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
+						button.KeyboardAccelerators.Add(item.KeyBinding);
+						button.KeyboardAcceleratorTextOverride = item.KeyBindingHumanized;
 					}
 				}
 			}
