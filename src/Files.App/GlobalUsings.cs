@@ -60,7 +60,6 @@ global using global::Files.App.Views;
 global using global::Files.App.Views.Layouts;
 global using global::Files.App.Views.Shells;
 global using global::Files.App.Data.Enums;
-global using global::Files.App.Data.Messages;
 global using global::Files.App.Services.DateTimeFormatter;
 global using global::Files.App.Services.Settings;
 global using global::Files.App.ViewModels.Dialogs;

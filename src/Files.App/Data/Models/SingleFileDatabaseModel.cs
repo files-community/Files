@@ -5,7 +5,7 @@ using Files.Shared.Extensions;
 using Files.Shared.Utils;
 using System.IO;
 
-namespace Files.App.Data.AppModels
+namespace Files.App.Data.Models
 {
 	/// <inheritdoc cref="BaseDatabaseModel{TDictionaryValue}"/>
 	public sealed class SingleFileDatabaseModel : BaseDatabaseModel<ISerializedModel>

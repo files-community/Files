@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using Files.App.ViewModels.Dialogs.FileSystemDialog;
 
-namespace Files.App.Data.Messages
+namespace Files.App.Data.Models
 {
 	/// <summary>
 	/// Represents a messenger for FileSystemDialog option changed.

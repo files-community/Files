@@ -307,8 +307,8 @@ namespace Files.App.Views.Layouts
 			}
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
-				|| openedFolderPresenter != null && ParentShellPageInstance != null
-				&& !ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				|| openedFolderPresenter != null && ShellPage != null
+				&& !ShellPage.ShellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
 				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
 			{
 				CloseFolder();
@@ -317,7 +317,7 @@ namespace Files.App.Views.Layouts
 
 		private void CloseFolder()
 		{
-			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+			var currentBladeIndex = (ShellPage is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
 			this.FindAscendant<ColumnsLayoutPage>()?.DismissOtherBlades(currentBladeIndex);
 			ClearOpenedFolderSelectionIndicator();
 		}
@@ -332,7 +332,7 @@ namespace Files.App.Views.Layouts
 		{
 			if
 			(
-				ParentShellPageInstance is null ||
+				ShellPage is null ||
 				IsRenamingItem ||
 				SelectedItems?.Count > 1
 			)
@@ -359,12 +359,12 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
-				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPageInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(ShellPage);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (!ShellPage.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -390,10 +390,10 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				if (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (ShellPage is not null && ShellPage.ToolbarViewModel.IsEditModeEnabled)
 					return;
 
-				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				var currentBladeIndex = (ShellPage is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
 				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToPreviousBlade(currentBladeIndex);
 				FileList.SelectedItem = null;
 				ClearOpenedFolderSelectionIndicator();
@@ -401,10 +401,10 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				if (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (ShellPage is not null && ShellPage.ToolbarViewModel.IsEditModeEnabled)
 					return;
 
-				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				var currentBladeIndex = (ShellPage is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
 				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
 				e.Handled = true;
 			}
@@ -449,9 +449,9 @@ namespace Files.App.Views.Layouts
 
 		private void HandleRightClick()
 		{
-			if (ParentShellPageInstance is UIElement element &&
-				(!ParentShellPageInstance.IsCurrentPane
-				|| columnsOwner is not null && ParentShellPageInstance != columnsOwner.ActiveColumnShellPage))
+			if (ShellPage is UIElement element &&
+				(!ShellPage.IsCurrentPane
+				|| columnsOwner is not null && ShellPage != columnsOwner.ActiveColumnShellPage))
 				element.Focus(FocusState.Programmatic);
 		}
 

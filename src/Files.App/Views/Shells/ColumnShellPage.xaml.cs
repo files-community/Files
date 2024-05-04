@@ -14,7 +14,7 @@ namespace Files.App.Views.Shells
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
 		public override bool IsCurrentPane
-			=> this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.IsCurrentPane ?? false;
+			=> this.FindAscendant<ColumnsLayoutPage>()?.ShellPage?.IsCurrentPane ?? false;
 
 		public override bool CanNavigateBackward
 			=> false;
@@ -85,7 +85,7 @@ namespace Files.App.Views.Shells
 			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
-			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.PaneHolder;
+			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ShellPage?.PaneHolder;
 
 			base.Page_Loaded(sender, e);
 
@@ -179,11 +179,11 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateHome()
 		{
-			this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.NavigateHome();
+			this.FindAscendant<ColumnsLayoutPage>()?.ShellPage?.NavigateHome();
 		}
 
 		public override Task WhenIsCurrent()
-			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
+			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayoutPage>()?.ShellPage?.WhenIsCurrent() ?? Task.CompletedTask);
 
 		public void RemoveLastPageFromBackStack()
 		{

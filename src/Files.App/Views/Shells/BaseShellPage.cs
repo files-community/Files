@@ -650,8 +650,8 @@ namespace Files.App.Views.Shells
 					var columnCanNavigateForward = false;
 					if (SlimContentPage is ColumnsLayoutPage browser)
 					{
-						columnCanNavigateBackward = browser.ParentShellPageInstance?.CanNavigateBackward ?? false;
-						columnCanNavigateForward = browser.ParentShellPageInstance?.CanNavigateForward ?? false;
+						columnCanNavigateBackward = browser.ShellPage?.CanNavigateBackward ?? false;
+						columnCanNavigateForward = browser.ShellPage?.CanNavigateForward ?? false;
 					}
 					ToolbarViewModel.CanGoBack = ItemDisplay.CanGoBack || columnCanNavigateBackward;
 					ToolbarViewModel.CanGoForward = ItemDisplay.CanGoForward || columnCanNavigateForward;

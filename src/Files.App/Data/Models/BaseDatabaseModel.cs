@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace Files.App.Data.AppModels
+namespace Files.App.Data.Models
 {
 	/// <summary>
 	/// Represents a dictionary-based database model.

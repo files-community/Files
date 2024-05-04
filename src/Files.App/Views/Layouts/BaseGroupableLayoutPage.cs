@@ -55,7 +55,7 @@ namespace Files.App.Views.Layouts
 
 		protected override void InitializeCommandsViewModel()
 		{
-			CommandsViewModel = new BaseLayoutViewModel(ParentShellPageInstance, ItemManipulationModel);
+			CommandsViewModel = new BaseLayoutViewModel(ShellPage, ItemManipulationModel);
 		}
 
 		protected override void HookEvents()
@@ -97,8 +97,8 @@ namespace Files.App.Views.Layouts
 
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			if (ParentShellPageInstance is null ||
-				ParentShellPageInstance.CurrentPageType != this.GetType() ||
+			if (ShellPage is null ||
+				ShellPage.CurrentPageType != this.GetType() ||
 				IsRenamingItem)
 				return;
 
@@ -129,40 +129,40 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async Task ReloadSelectedItemIconAsync()
 		{
-			if (ParentShellPageInstance?.SlimContentPage?.SelectedItem is null)
+			if (ShellPage?.SlimContentPage?.SelectedItem is null)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
+			ShellPage.ShellViewModel.CancelExtendedPropertiesLoading();
+			ShellPage.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
-			await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem);
+			await ShellPage.ShellViewModel.LoadExtendedItemPropertiesAsync(ShellPage.SlimContentPage.SelectedItem);
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None &&
-				ParentShellPageInstance.SlimContentPage.SelectedItem is GitItem gitItem)
+			if (ShellPage.ShellViewModel.EnabledGitProperties is not GitProperties.None &&
+				ShellPage.SlimContentPage.SelectedItem is GitItem gitItem)
 			{
-				await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+				await ShellPage.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 			}
 		}
 
 		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
-			if (ParentShellPageInstance?.SlimContentPage?.SelectedItems is null)
+			if (ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
+			ShellPage.ShellViewModel.CancelExtendedPropertiesLoading();
 
-			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
+			foreach (var selectedItem in ShellPage.SlimContentPage.SelectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
+				await ShellPage.ShellViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
 			}
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ShellPage.ShellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
-				await Task.WhenAll(ParentShellPageInstance.SlimContentPage.SelectedItems.Select(item =>
+				await Task.WhenAll(ShellPage.SlimContentPage.SelectedItems.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return ShellPage.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
@@ -273,7 +273,7 @@ namespace Files.App.Views.Layouts
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
+			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ShellPage);
 		}
 
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
