@@ -590,7 +590,7 @@ namespace Files.App.Utils.Storage
 						{
 							Succeeded = false,
 							Source = fileToCopyPath[i],
-							Destination = GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]),
+							Destination = copyDestination[i],
 							HResult = -1
 						});
 					}
@@ -849,7 +849,7 @@ namespace Files.App.Utils.Storage
 				var destination = operationType switch
 				{
 					"delete" => e.DestItem.GetParsingPath(),
-					"rename" => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
+					"rename" => !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
 					"copy" => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
 					_ => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null
 				};
