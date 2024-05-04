@@ -8,6 +8,9 @@ using Windows.System;
 
 namespace Files.App.Data.Models
 {
+	/// <summary>
+	/// Represents flyout item model for <see cref="MenuFlyoutItem"/> and <see cref="CommandBarFlyout"/>.
+	/// </summary>
 	public sealed class ContextFlyoutItemModel
 	{
 		/// <summary>
