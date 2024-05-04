@@ -9,6 +9,8 @@ namespace Files.App.Data.Contexts
 {
 	internal sealed class MultitaskingContext : ObservableObject, IMultitaskingContext
 	{
+		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+
 		private bool isPopupOpen = false;
 
 		private ITabBar? control;
@@ -29,7 +31,7 @@ namespace Files.App.Data.Contexts
 		public MultitaskingContext()
 		{
 			MainPageViewModel.AppInstances.CollectionChanged += AppInstances_CollectionChanged;
-			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
+			WindowContext.PropertyChanged += WindowContext_PropertyChanged;
 			BaseTabBar.OnLoaded += BaseMultitaskingControl_OnLoaded;
 			TabBar.SelectedTabItemChanged += HorizontalMultitaskingControl_SelectedTabItemChanged;
 			FocusManager.GotFocus += FocusManager_GotFocus;
@@ -40,9 +42,9 @@ namespace Files.App.Data.Contexts
 		{
 			UpdateTabCount();
 		}
-		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void WindowContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(AppModel.TabStripSelectedIndex))
+			if (e.PropertyName is nameof(IWindowContext.TabStripSelectedIndex))
 				UpdateCurrentTabIndex();
 		}
 
@@ -90,7 +92,7 @@ namespace Files.App.Data.Contexts
 
 		private void UpdateCurrentTabIndex()
 		{
-			if (SetProperty(ref currentTabIndex, (ushort)App.AppModel.TabStripSelectedIndex, nameof(CurrentTabIndex)))
+			if (SetProperty(ref currentTabIndex, (ushort)App.WindowContext.TabStripSelectedIndex, nameof(CurrentTabIndex)))
 			{
 				OnPropertyChanged(nameof(CurrentTabItem));
 			}

@@ -147,7 +147,7 @@ namespace Files.App.Utils.Storage
 					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 			};
 
-			if (App.AppModel.IncrementPropertiesWindowCount() == 1)
+			if (App.WindowContext.IncrementPropertiesWindowCount() == 1)
 				PropertiesWindowsClosingTCS = new();
 
 			appWindow.Move(appWindowPos);
@@ -160,7 +160,7 @@ namespace Files.App.Utils.Storage
 		// So instead of destroying the Window object, cache it and reuse it as a workaround.
 		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
 		{
-			if (!App.AppModel.IsMainWindowClosed && sender is WinUIEx.WindowEx window)
+			if (!App.WindowContext.IsMainWindowClosed && sender is WinUIEx.WindowEx window)
 			{
 				args.Handled = true;
 
@@ -168,14 +168,14 @@ namespace Files.App.Utils.Storage
 				window.Content = null;
 				WindowCache.Add(window);
 
-				if (App.AppModel.DecrementPropertiesWindowCount() == 0)
+				if (App.WindowContext.DecrementPropertiesWindowCount() == 0)
 				{
 					PropertiesWindowsClosingTCS!.TrySetResult();
 					PropertiesWindowsClosingTCS = null;
 				}
 			}
 			else
-				App.AppModel.DecrementPropertiesWindowCount();
+				App.WindowContext.DecrementPropertiesWindowCount();
 		}
 
 		/// <summary>

@@ -19,8 +19,8 @@ namespace Files.App.Services
 		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
 		{
 			var list = DriveInfo.GetDrives();
-			var googleDrivePath = App.AppModel.GoogleDrivePath;
-			var pCloudDrivePath = App.AppModel.PCloudDrivePath;
+			var googleDrivePath = App.WindowContext.GoogleDrivePath;
+			var pCloudDrivePath = App.WindowContext.PCloudDrivePath;
 
 			foreach (var drive in list)
 			{

@@ -16,6 +16,8 @@ namespace Files.App.UserControls.TabBar
 	{
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
 
+		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly DispatcherTimer tabHoverTimer = new();
@@ -90,9 +92,9 @@ namespace Files.App.UserControls.TabBar
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
 		{
 			if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
-				App.AppModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabBarItem);
+				App.WindowContext.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabBarItem);
 
-			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
+			if (App.WindowContext.TabStripSelectedIndex >= 0 && App.WindowContext.TabStripSelectedIndex < Items.Count)
 			{
 				CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -106,7 +108,7 @@ namespace Files.App.UserControls.TabBar
 				}
 			}
 
-			HorizontalTabView.SelectedIndex = App.AppModel.TabStripSelectedIndex;
+			HorizontalTabView.SelectedIndex = App.WindowContext.TabStripSelectedIndex;
 		}
 
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
@@ -138,7 +140,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			tabHoverTimer.Stop();
 			if (hoveredTabViewItem is not null)
-				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabBarItem);
+				App.WindowContext.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabBarItem);
 		}
 
 		private void TabView_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)

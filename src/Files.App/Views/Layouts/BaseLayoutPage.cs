@@ -39,6 +39,7 @@ namespace Files.App.Views.Layouts
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		// ViewModels
 
@@ -78,9 +79,6 @@ namespace Files.App.Views.Layouts
 
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
-
-		public static AppModel AppModel
-			=> App.AppModel;
 
 		// NOTE: Dragging makes the app crash when run as admin. (#12390)
 		// For more information, visit https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669

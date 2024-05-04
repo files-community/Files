@@ -28,7 +28,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			App.AppModel.TabStripSelectedIndex = (App.AppModel.TabStripSelectedIndex + 1) % multitaskingContext.TabCount;
+			App.WindowContext.TabStripSelectedIndex = (App.WindowContext.TabStripSelectedIndex + 1) % multitaskingContext.TabCount;
 
 			return Task.CompletedTask;
 		}

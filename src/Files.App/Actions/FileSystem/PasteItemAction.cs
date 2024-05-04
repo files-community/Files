@@ -14,6 +14,7 @@ namespace Files.App.Actions
 	internal sealed class PasteItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
+		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		public string Label
 			=> "Paste".GetLocalizedResource();
@@ -35,7 +36,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
-			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
+			WindowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync(object? parameter = null)
@@ -50,7 +51,7 @@ namespace Files.App.Actions
 		public bool GetIsExecutable()
 		{
 			return
-				App.AppModel.IsPasteEnabled &&
+				App.WindowContext.IsPasteEnabled &&
 				context.PageType != ContentPageTypes.Home &&
 				context.PageType != ContentPageTypes.RecycleBin &&
 				context.PageType != ContentPageTypes.SearchResults;
@@ -62,9 +63,9 @@ namespace Files.App.Actions
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 
-		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void WindowContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(AppModel.IsPasteEnabled))
+			if (e.PropertyName is nameof(IWindowContext.IsPasteEnabled))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}

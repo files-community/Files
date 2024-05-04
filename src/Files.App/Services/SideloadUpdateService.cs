@@ -227,7 +227,7 @@ namespace Files.App.Services
 				PackageManager packageManager = new PackageManager();
 
 				var restartStatus = Win32PInvoke.RegisterApplicationRestart(null, 0);
-				App.AppModel.ForceProcessTermination = true;
+				App.WindowContext.ForceProcessTermination = true;
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
 

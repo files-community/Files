@@ -37,9 +37,6 @@ namespace Files.App.Views
 
 		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
-		public static AppModel AppModel
-			=> App.AppModel;
-
 		private bool keyReleased = true;
 
 		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
@@ -336,7 +333,7 @@ namespace Files.App.Views
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			if (!App.AppModel.IsMainWindowClosed)
+			if (!App.WindowContext.IsMainWindowClosed)
 				PreviewPane?.ViewModel.UpdateDateDisplay();
 		}
 
@@ -444,7 +441,7 @@ namespace Files.App.Views
 		{
 			var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 			var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-			var isBigEnough = !App.AppModel.IsMainWindowClosed &&
+			var isBigEnough = !App.WindowContext.IsMainWindowClosed &&
 				(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
 			ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;

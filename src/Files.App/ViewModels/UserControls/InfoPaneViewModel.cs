@@ -136,7 +136,7 @@ namespace Files.App.ViewModels.UserControls
 
 					SelectedItem = tempSelectedItem;
 
-					if (!App.AppModel.IsMainWindowClosed)
+					if (!App.WindowContext.IsMainWindowClosed)
 					{
 						var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
 						if (shouldUpdatePreview == true)

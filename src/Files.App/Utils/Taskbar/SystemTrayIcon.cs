@@ -287,7 +287,7 @@ namespace Files.App.Utils.Taskbar
 		{
 			Hide();
 
-			App.AppModel.ForceProcessTermination = true;
+			App.WindowContext.ForceProcessTermination = true;
 			if (Program.Pool is not null)
 				Program.Pool.Release();
 			else

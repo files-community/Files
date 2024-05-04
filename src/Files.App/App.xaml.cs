@@ -42,7 +42,7 @@ namespace Files.App
 		public static FileTagsManager FileTagsManager { get; private set; } = null!;
 		public static RecentItems RecentItemsManager { get; private set; } = null!;
 		public static LibraryManager LibraryManager { get; private set; } = null!;
-		public static AppModel AppModel { get; private set; } = null!;
+		public static IWindowContext WindowContext { get; private set; } = null!;
 		public static ILogger Logger { get; private set; } = null!;
 
 		/// <summary>
@@ -117,8 +117,8 @@ namespace Files.App
 				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
 				RecentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
 				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+				WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-				AppModel = Ioc.Default.GetRequiredService<AppModel>();
 
 				// Hook events for the window
 				MainWindow.Instance.Closed += Window_Closed;
@@ -177,7 +177,7 @@ namespace Files.App
 		/// </summary>
 		private void Window_Activated(object sender, WindowActivatedEventArgs args)
 		{
-			AppModel.IsMainWindowClosed = false;
+			WindowContext.IsMainWindowClosed = false;
 
 			// TODO(s): Is this code still needed?
 			if (args.WindowActivationState != WindowActivationState.CodeActivated ||
@@ -231,7 +231,7 @@ namespace Files.App
 
 			// Continue running the app on the background
 			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
-				!AppModel.ForceProcessTermination &&
+				!WindowContext.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Environment.ProcessId))
 			{
 				// Close open content dialogs
@@ -298,7 +298,7 @@ namespace Files.App
 					Program.Pool.Dispose();
 					Program.Pool = null;
 
-					if (!AppModel.ForceProcessTermination)
+					if (!WindowContext.ForceProcessTermination)
 					{
 						args.Handled = true;
 						_ = AppLifecycleHelper.CheckAppUpdate();
@@ -324,7 +324,7 @@ namespace Files.App
 
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
-			AppModel.IsMainWindowClosed = true;
+			WindowContext.IsMainWindowClosed = true;
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();

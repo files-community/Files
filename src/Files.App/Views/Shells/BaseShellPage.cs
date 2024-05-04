@@ -39,6 +39,8 @@ namespace Files.App.Views.Shells
 
 		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
+		protected IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+
 		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -56,8 +58,6 @@ namespace Files.App.Views.Shells
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
 
 		public LayoutPreferencesManager FolderSettings => InstanceViewModel.FolderSettings;
-
-		public AppModel AppModel => App.AppModel;
 
 		protected abstract Frame ItemDisplay { get; }
 
@@ -802,7 +802,7 @@ namespace Files.App.Views.Shells
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			if (App.AppModel.IsMainWindowClosed)
+			if (App.WindowContext.IsMainWindowClosed)
 				return;
 
 			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)

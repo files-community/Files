@@ -245,7 +245,7 @@ namespace Files.App.ViewModels
 
 			// Only select the tab if it is in the list
 			if (indexToSelect < AppInstances.Count)
-				App.AppModel.TabStripSelectedIndex = indexToSelect;
+				App.WindowContext.TabStripSelectedIndex = indexToSelect;
 
 			e.Handled = true;
 		}

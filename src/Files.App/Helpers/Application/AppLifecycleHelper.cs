@@ -210,7 +210,6 @@ namespace Files.App.Helpers
 					.AddSingleton<FileTagsManager>()
 					.AddSingleton<RecentItems>()
 					.AddSingleton<LibraryManager>()
-					.AddSingleton<AppModel>()
 				).Build();
 		}
 

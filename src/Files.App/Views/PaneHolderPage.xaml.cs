@@ -82,7 +82,7 @@ namespace Files.App.Views
 		{
 			get
 			{
-				if (App.AppModel.IsMainWindowClosed)
+				if (App.WindowContext.IsMainWindowClosed)
 					return false;
 				else
 					return MainWindow.Instance.Bounds.Width > DualPaneWidthThreshold;

@@ -79,7 +79,7 @@ namespace Files.App.Views.Properties
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			if (App.AppModel.PropertiesWindowCount == 0)
+			if (App.WindowContext.PropertiesWindowCount == 0)
 				return;
 
 			ViewModel.PropertySections.ForEach(section => section.ForEach(property =>

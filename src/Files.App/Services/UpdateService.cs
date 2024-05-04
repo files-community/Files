@@ -112,13 +112,13 @@ namespace Files.App.Services
 			// Save the updated tab list before installing the update
 			AppLifecycleHelper.SaveSessionTabs();
 
-			App.AppModel.ForceProcessTermination = true;
+			App.WindowContext.ForceProcessTermination = true;
 
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 			var result = await downloadOperation.AsTask();
 
 			if (result.OverallState == StorePackageUpdateState.Canceled)
-				App.AppModel.ForceProcessTermination = false;
+				App.WindowContext.ForceProcessTermination = false;
 		}
 
 		private async Task GetUpdatePackagesAsync()

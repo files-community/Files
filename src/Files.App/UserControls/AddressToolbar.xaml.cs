@@ -96,7 +96,7 @@ namespace Files.App.UserControls
 		}
 		private void VisiblePath_LostFocus(object _, RoutedEventArgs e)
 		{
-			if (App.AppModel.IsMainWindowClosed)
+			if (App.WindowContext.IsMainWindowClosed)
 				return;
 
 			var element = FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
