@@ -159,13 +159,9 @@ namespace Files.App.Services
 			}
 
 			// If credentials are saved, this will return NO_ERROR
-			var connectionError = PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, null, null, 0);
-			Marshal.GetLastWin32Error();
+			var res = (WIN32_ERROR)PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, null, null, 0);
 
-			// ERROR_LOGON_FAILURE: 0x0000052E
-			// ERROR_ACCESS_DENIED: 0x00000005
-			// NO_ERROR: 0x00000000
-			if (connectionError == 0x0000052E || connectionError == 0x00000005)
+			if (res == WIN32_ERROR.ERROR_LOGON_FAILURE || res == WIN32_ERROR.ERROR_ACCESS_DENIED)
 			{
 				var dialog = DynamicDialogFactory.GetFor_CredentialEntryDialog(path);
 				await dialog.ShowAsync();
@@ -173,8 +169,8 @@ namespace Files.App.Services
 
 				if (credentialsReturned is not null && credentialsReturned[1] != null)
 				{
-					connectionError = PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, credentialsReturned[1], credentialsReturned[0], 0);
-					if (credentialsReturned[2] == "y" && connectionError == 0x00000000)
+					res = (WIN32_ERROR)PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, credentialsReturned[1], credentialsReturned[0], 0);
+					if (credentialsReturned[2] == "y" && res == WIN32_ERROR.NO_ERROR)
 					{
 						var creds = new CREDENTIALW()
 						{
@@ -207,13 +203,13 @@ namespace Files.App.Services
 				}
 			}
 
-			if (connectionError == 0x00000000)
+			if (res == WIN32_ERROR.NO_ERROR)
 			{
 				return true;
 			}
 			else
 			{
-				await DialogDisplayHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), connectionError.ToString().Split(":")[1].Trim());
+				await DialogDisplayHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), res.ToString());
 
 				return false;
 			}

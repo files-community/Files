@@ -55,3 +55,4 @@ CredWrite
 WNetConnectionDialog1
 CONNECTDLGSTRUCTW
 DwmSetWindowAttribute
+WIN32_ERROR
