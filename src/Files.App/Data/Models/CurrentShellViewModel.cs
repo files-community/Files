@@ -5,7 +5,7 @@ using Files.App.Server.Data.Enums;
 
 namespace Files.App.Data.Models
 {
-	public sealed class CurrentInstanceViewModel : ObservableObject
+	public sealed class CurrentShellViewModel : ObservableObject
 	{
 		// TODO:
 		//  In the future, we should consolidate these public variables into
@@ -14,12 +14,12 @@ namespace Files.App.Data.Models
 
 		public LayoutPreferencesManager FolderSettings { get; }
 
-		public CurrentInstanceViewModel()
+		public CurrentShellViewModel()
 		{
 			FolderSettings = new LayoutPreferencesManager();
 		}
 
-		public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
+		public CurrentShellViewModel(FolderLayoutModes rootLayoutMode)
 		{
 			FolderSettings = new LayoutPreferencesManager(rootLayoutMode);
 		}

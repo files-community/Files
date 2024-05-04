@@ -131,7 +131,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			string filePath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
-			BaseStorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(filePath);
+			BaseStorageFile file = await AppInstance.ShellViewModel.GetFileFromPathAsync(filePath);
 
 			// Couldn't access the file and can't load any other properties
 			if (file is null)

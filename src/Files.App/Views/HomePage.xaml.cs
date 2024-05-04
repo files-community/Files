@@ -32,16 +32,16 @@ namespace Files.App.Views
 
 			AppInstance = parameters.AssociatedTabInstance!;
 
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
-			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-			AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
-			AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
-			AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-			AppInstance.InstanceViewModel.IsPageTypeFtp = false;
-			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
-			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
-			AppInstance.InstanceViewModel.GitRepositoryPath = null;
-			AppInstance.InstanceViewModel.IsGitRepository = false;
+			AppInstance.CurrentShellViewModel.IsPageTypeNotHome = false;
+			AppInstance.CurrentShellViewModel.IsPageTypeSearchResults = false;
+			AppInstance.CurrentShellViewModel.IsPageTypeMtpDevice = false;
+			AppInstance.CurrentShellViewModel.IsPageTypeRecycleBin = false;
+			AppInstance.CurrentShellViewModel.IsPageTypeCloudDrive = false;
+			AppInstance.CurrentShellViewModel.IsPageTypeFtp = false;
+			AppInstance.CurrentShellViewModel.IsPageTypeZipFolder = false;
+			AppInstance.CurrentShellViewModel.IsPageTypeLibrary = false;
+			AppInstance.CurrentShellViewModel.GitRepositoryPath = null;
+			AppInstance.CurrentShellViewModel.IsGitRepository = false;
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
@@ -51,7 +51,7 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
 			// Set path of working directory empty
-			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
 
 			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, null);
 

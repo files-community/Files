@@ -25,7 +25,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			var instance = _context.ShellPage?.InstanceViewModel;
+			var instance = _context.ShellPage?.CurrentShellViewModel;
 
 			return GitHelpers.PullOriginAsync(instance?.GitRepositoryPath)
 				.ContinueWith(t => GitHelpers.PushToOriginAsync(

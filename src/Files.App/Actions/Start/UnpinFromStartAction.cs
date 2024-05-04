@@ -43,7 +43,7 @@ namespace Files.App.Actions
 			}
 			else
 			{
-				var currentFolder = context.ShellPage.FilesystemViewModel.CurrentFolder;
+				var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
 				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
 
 				await StartMenuService.UnpinAsync(folder);

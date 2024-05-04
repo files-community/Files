@@ -30,7 +30,7 @@ namespace Files.App.Actions
 				if (page is null)
 					return false;
 
-				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
+				int itemCount = page.ShellViewModel.FilesAndFolders.Count;
 				int selectedItemCount = context.SelectedItems.Count;
 				if (itemCount == selectedItemCount)
 					return false;

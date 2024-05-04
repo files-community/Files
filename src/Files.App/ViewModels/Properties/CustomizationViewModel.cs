@@ -127,7 +127,7 @@ namespace Files.App.ViewModels.Properties
 
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				_appInstance?.FilesystemViewModel?.RefreshItems(null);
+				_appInstance?.ShellViewModel?.RefreshItems(null);
 			});
 
 			return true;

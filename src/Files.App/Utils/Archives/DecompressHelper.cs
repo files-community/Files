@@ -129,7 +129,7 @@ namespace Files.App.Utils.Archives
 				return;
 
 			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage?.SelectedItems?.Count is null or 0
-				? associatedInstance.FilesystemViewModel.WorkingDirectory
+				? associatedInstance.ShellViewModel.WorkingDirectory
 				: associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
 			if (archive?.Path is null)
@@ -184,7 +184,7 @@ namespace Files.App.Utils.Archives
 			{
 				var password = string.Empty;
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.ShellViewModel.CurrentFolder.ItemPath);
 
 				if (archive?.Path is null)
 					return;
@@ -230,7 +230,7 @@ namespace Files.App.Utils.Archives
 				var password = string.Empty;
 
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.ShellViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
 
 				if (archive?.Path is null)

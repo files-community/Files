@@ -80,7 +80,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 
 			ContentPageContext.ShellPage!.NavigateWithArguments(
-				ContentPageContext.ShellPage!.InstanceViewModel.FolderSettings.GetLayoutType(path),
+				ContentPageContext.ShellPage!.CurrentShellViewModel.FolderSettings.GetLayoutType(path),
 				new() { NavPathParam = path });
 		}
 

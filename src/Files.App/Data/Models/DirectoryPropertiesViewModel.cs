@@ -98,7 +98,7 @@ namespace Files.App.Data.Models
 		{
 			GitBranchDisplayName = isGitRepository &&
 								head is not null &&
-								!ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults
+								!ContentPageContext.ShellPage!.CurrentShellViewModel.IsPageTypeSearchResults
 				? head.Name
 				: null;
 

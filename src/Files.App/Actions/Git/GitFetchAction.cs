@@ -25,7 +25,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			GitHelpers.FetchOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
+			GitHelpers.FetchOrigin(_context.ShellPage!.CurrentShellViewModel.GitRepositoryPath);
 
 			return Task.CompletedTask;
 		}

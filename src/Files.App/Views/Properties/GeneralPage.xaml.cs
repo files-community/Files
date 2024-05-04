@@ -80,7 +80,7 @@ namespace Files.App.Views.Properties
 
 			bool SaveDrive(DriveItem drive)
 			{
-				var fsVM = AppInstance.FilesystemViewModel;
+				var fsVM = AppInstance.ShellViewModel;
 				if (!GetNewName(out var newName) || fsVM is null)
 					return false;
 
@@ -101,7 +101,7 @@ namespace Files.App.Views.Properties
 
 			async Task<bool> SaveLibraryAsync(LibraryItem library)
 			{
-				var fsVM = AppInstance.FilesystemViewModel;
+				var fsVM = AppInstance.ShellViewModel;
 				if (!GetNewName(out var newName) || fsVM is null || !App.LibraryManager.CanCreateLibrary(newName).result)
 					return false;
 
@@ -147,7 +147,7 @@ namespace Files.App.Views.Properties
 
 							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
-								AppInstance?.FilesystemViewModel?.RefreshItems(null);
+								AppInstance?.ShellViewModel?.RefreshItems(null);
 							});
 						}
 					}
@@ -175,7 +175,7 @@ namespace Files.App.Views.Properties
 
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
-						AppInstance?.FilesystemViewModel?.RefreshItems(null);
+						AppInstance?.ShellViewModel?.RefreshItems(null);
 					});
 				}
 

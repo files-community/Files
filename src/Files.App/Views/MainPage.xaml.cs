@@ -442,14 +442,14 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
-			var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+			var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.CurrentShellViewModel?.IsPageTypeNotHome ?? false);
 			var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
 			var isBigEnough = !App.AppModel.IsMainWindowClosed &&
 				(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
 			ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
 			ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
-			ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+			ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.CurrentShellViewModel?.IsPageTypeNotHome ?? false;
 
 			UpdatePositioning();
 		}

@@ -197,7 +197,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var itemName = Path.GetFileName(item?.Path ?? string.Empty);
 
 			ContentPageContext.ShellPage!.NavigateWithArguments(
-				ContentPageContext.ShellPage!.InstanceViewModel.FolderSettings.GetLayoutType(itemPath),
+				ContentPageContext.ShellPage!.CurrentShellViewModel.FolderSettings.GetLayoutType(itemPath),
 				new NavigationArguments()
 				{
 					NavPathParam = itemPath,

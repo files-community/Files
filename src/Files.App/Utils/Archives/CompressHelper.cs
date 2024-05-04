@@ -48,7 +48,7 @@ namespace Files.App.Utils.Archives
 			if (sources.Length is 0)
 				return (sources, string.Empty, string.Empty);
 
-			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
+			string directory = associatedInstance.ShellViewModel.WorkingDirectory.Normalize();
 
 
 			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)

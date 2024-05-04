@@ -125,7 +125,7 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private LayoutPreferencesManager? FolderSettings => context.PaneOrColumn?.InstanceViewModel?.FolderSettings;
+		private LayoutPreferencesManager? FolderSettings => context.PaneOrColumn?.CurrentShellViewModel?.FolderSettings;
 
 		public DisplayPageContext()
 		{

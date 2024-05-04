@@ -37,7 +37,7 @@ namespace Files.App.Actions
 
 			string path = context.SelectedItem is ListedItem selectedItem
 				? selectedItem.ItemPath
-				: context.ShellPage.FilesystemViewModel.WorkingDirectory;
+				: context.ShellPage.ShellViewModel.WorkingDirectory;
 
 			await UIFilesystemHelpers.PasteItemAsync(path, context.ShellPage);
 		}

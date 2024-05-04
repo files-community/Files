@@ -36,7 +36,7 @@ namespace Files.App.Actions
 				var selectedItems = context.ShellPage.SlimContentPage.SelectedItems;
 				var path = selectedItems is not null
 					? string.Join("\n", selectedItems.Select(item => $"\"{item.ItemPath}\""))
-					: context.ShellPage.FilesystemViewModel.WorkingDirectory;
+					: context.ShellPage.ShellViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);
