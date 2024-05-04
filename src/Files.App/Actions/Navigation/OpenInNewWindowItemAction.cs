@@ -7,9 +7,12 @@ namespace Files.App.Actions
 {
 	internal sealed class OpenInNewWindowItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+		private ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
-		private readonly IUserSettingsService userSettingsService;
+		private ExecutableContextType _executableContextType;
 
 		public string Label
 			=> "OpenInNewWindow".GetLocalizedResource();
@@ -23,35 +26,72 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
 
-		public bool IsExecutable =>
-			context.ShellPage is not null &&
-			context.ShellPage.SlimContentPage is not null &&
-			context.SelectedItems.Count <= 5 &&
-			context.SelectedItems.Count(x => x.IsFolder) == context.SelectedItems.Count &&
-			userSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
+		public bool IsExecutable
+			=> GetIsExecutable();
 
 		public OpenInNewWindowItemAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
-				return;
-
-			List<ListedItem> items = context.ShellPage.SlimContentPage.SelectedItems;
-
-			foreach (ListedItem listedItem in items)
+			switch (_executableContextType)
 			{
-				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
+				case ExecutableContextType.ContentPageContext:
+					{
+						foreach (ListedItem listedItem in ContentPageContext.SelectedItems)
+						{
+							var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
+							var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
+							await Launcher.LaunchUriAsync(folderUri);
+						}
 
-				await Launcher.LaunchUriAsync(folderUri);
+						break;
+					}
+				case ExecutableContextType.HomePageContext:
+					{
+						var folderUri = new Uri($"files-uwp:?folder={HomePageContext.RightClickedItem?.Path ?? string.Empty}");
+						await Launcher.LaunchUriAsync(folderUri);
+
+						break;
+					}
+				case ExecutableContextType.SidebarContext:
+					{
+						var folderUri = new Uri($"files-uwp:?folder={SidebarContext.RightClickedItem?.Path ?? string.Empty}");
+						await Launcher.LaunchUriAsync(folderUri);
+
+						break;
+					}
 			}
+		}
+
+		private bool GetIsExecutable()
+		{
+			if (ContentPageContext.ShellPage is not null &&
+				ContentPageContext.ShellPage.SlimContentPage is not null &&
+				ContentPageContext.SelectedItems.Count is not 0 &&
+				ContentPageContext.SelectedItems.Count <= 5 &&
+				ContentPageContext.SelectedItems.Count(x => x.IsFolder) == ContentPageContext.SelectedItems.Count &&
+				UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow)
+			{
+				_executableContextType = ExecutableContextType.ContentPageContext;
+				return true;
+			}
+			else if (HomePageContext.IsAnyItemRightClicked &&
+				HomePageContext.RightClickedItem is not null)
+			{
+				_executableContextType = ExecutableContextType.HomePageContext;
+				return true;
+			}
+			else if (SidebarContext.IsItemRightClicked &&
+				SidebarContext.RightClickedItem is not null)
+			{
+				_executableContextType = ExecutableContextType.SidebarContext;
+				return true;
+			}
+
+			return false;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -5,9 +5,12 @@ namespace Files.App.Actions
 {
 	internal sealed class OpenDirectoryInNewTabAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+		private ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
-		private readonly IUserSettingsService userSettingsService;
+		private ExecutableContextType _executableContextType;
 
 		public string Label
 			=> "OpenInNewTab".GetLocalizedResource();
@@ -18,37 +21,89 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
-		public bool IsExecutable =>
-			context.ShellPage is not null &&
-			context.ShellPage.SlimContentPage is not null &&
-			context.SelectedItems.Count <= 5 &&
-			context.SelectedItems.Count(x => x.IsFolder) == context.SelectedItems.Count &&
-			userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
+		public bool IsExecutable
+			=> GetIsExecutable();
 
 		public OpenDirectoryInNewTabAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
-				return;
-
-			foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
+			switch (_executableContextType)
 			{
-				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					await NavigationHelpers.AddNewTabByPathAsync(
-						typeof(PaneHolderPage),
-						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath,
-						false);
-				},
-				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				case ExecutableContextType.ContentPageContext:
+					{
+						foreach (ListedItem listedItem in ContentPageContext.SelectedItems)
+						{
+							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+							{
+								await NavigationHelpers.AddNewTabByPathAsync(
+									typeof(PaneHolderPage),
+									(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath,
+									false);
+							},
+							Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						}
+
+						break;
+					}
+				case ExecutableContextType.HomePageContext:
+					{
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							await NavigationHelpers.AddNewTabByPathAsync(
+								typeof(PaneHolderPage),
+								HomePageContext.RightClickedItem?.Path ?? string.Empty,
+								false);
+						},
+						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+						break;
+					}
+				case ExecutableContextType.SidebarContext:
+					{
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							await NavigationHelpers.AddNewTabByPathAsync(
+								typeof(PaneHolderPage),
+								SidebarContext.RightClickedItem?.Path ?? string.Empty,
+								false);
+						},
+						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+						break;
+					}
 			}
+		}
+
+		private bool GetIsExecutable()
+		{
+			if (ContentPageContext.ShellPage is not null &&
+				ContentPageContext.ShellPage.SlimContentPage is not null &&
+				ContentPageContext.SelectedItems.Count is not 0 &&
+				ContentPageContext.SelectedItems.Count <= 5 &&
+				ContentPageContext.SelectedItems.Count(x => x.IsFolder) == ContentPageContext.SelectedItems.Count &&
+				UserSettingsService.GeneralSettingsService.ShowOpenInNewTab)
+			{
+				_executableContextType = ExecutableContextType.ContentPageContext;
+				return true;
+			}
+			else if (HomePageContext.IsAnyItemRightClicked &&
+				HomePageContext.RightClickedItem is not null)
+			{
+				_executableContextType = ExecutableContextType.HomePageContext;
+				return true;
+			}
+			else if (SidebarContext.IsItemRightClicked &&
+				SidebarContext.RightClickedItem is not null)
+			{
+				_executableContextType = ExecutableContextType.SidebarContext;
+				return true;
+			}
+
+			return false;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
