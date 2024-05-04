@@ -155,6 +155,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel() { OpacityIconStyle = "ColorIconProperties" },
+					ShowItem = true,
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
@@ -162,18 +163,21 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					Text = "TurnOnBitLocker".GetLocalizedResource(),
 					Tag = "TurnOnBitLockerPlaceholder",
-					IsEnabled = false
+					IsEnabled = false,
+					ShowItem = true,
 				},
 				new()
 				{
 					Text = "ManageBitLocker".GetLocalizedResource(),
 					Tag = "ManageBitLockerPlaceholder",
-					IsEnabled = false
+					IsEnabled = false,
+					ShowItem = true,
 				},
 				new()
 				{
 					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
+					ShowItem = true,
 				},
 				new()
 				{
@@ -183,6 +187,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
+					ShowItem = true,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}

@@ -273,7 +273,8 @@ namespace Files.App.Data.Factories
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
-					Items = [
+					Items =
+					[
 						new()
 						{
 							Text = "Placeholder",
@@ -313,9 +314,8 @@ namespace Files.App.Data.Factories
 				},
 				new(ContextFlyoutItemType.Button, Commands.RunAsAdmin),
 				new(ContextFlyoutItemType.Button, Commands.RunAsAnotherUser),
-				new()
+				new(ContextFlyoutItemType.Separator)
 				{
-					ItemType = ContextFlyoutItemType.Separator,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -436,7 +436,8 @@ namespace Files.App.Data.Factories
 					Tag = "SendToOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
-					Items = [
+					Items =
+					[
 						new()
 						{
 							Text = "Placeholder",
@@ -473,6 +474,7 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
+					ShowItem = true,
 				},
 				new()
 				{
@@ -485,7 +487,8 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
-					IsEnabled = false
+					IsEnabled = false,
+					ShowItem = true,
 				},
 			}.Where(x => x.ShowItem).ToList();
 		}
@@ -500,15 +503,19 @@ namespace Files.App.Data.Factories
 					Text = "File".GetLocalizedResource(),
 					Glyph = "\uE7C3",
 					Command = commandsViewModel.CreateNewFileCommand,
+					ShowItem = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					IsEnabled = canCreateFileInPage
 				},
-				new(ContextFlyoutItemType.Button, Commands.CreateShortcutFromDialog),
-				new()
+				new(ContextFlyoutItemType.Button, Commands.CreateShortcutFromDialog)
 				{
-					ItemType = ContextFlyoutItemType.Separator,
-				}
+					ShowItem = true,
+				},
+				new(ContextFlyoutItemType.Separator)
+				{
+					ShowItem = true,
+				},
 			};
 
 			if (canCreateFileInPage)
@@ -523,10 +530,12 @@ namespace Files.App.Data.Factories
 						using var ms = new MemoryStream(bitmapData);
 						var bitmap = new BitmapImage();
 						_ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
+
 						list.Add(new()
 						{
 							Text = i.Name,
 							BitmapIcon = bitmap,
+							ShowItem = true,
 							Command = commandsViewModel.CreateNewFileCommand,
 							CommandParameter = i,
 						});
@@ -537,6 +546,7 @@ namespace Files.App.Data.Factories
 						{
 							Text = i.Name,
 							Glyph = "\xE7C3",
+							ShowItem = true,
 							Command = commandsViewModel.CreateNewFileCommand,
 							CommandParameter = i,
 						});

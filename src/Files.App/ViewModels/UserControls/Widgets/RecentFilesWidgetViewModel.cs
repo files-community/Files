@@ -79,26 +79,30 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenWith" },
 					Tag = "OpenWithPlaceholder",
+					ShowItem = true,
 				},
 				new()
 				{
 					Text = "RecentItemRemove/Text".GetLocalizedResource(),
 					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = true,
 				},
 				new()
 				{
 					Text = "RecentItemClearAll/Text".GetLocalizedResource(),
 					Glyph = "\uE74D",
-					Command = ClearAllItemsCommand
+					Command = ClearAllItemsCommand,
+					ShowItem = true,
 				},
 				new()
 				{
 					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = true,
 				},
 				new()
 				{
@@ -111,12 +115,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconProperties" },
 					Command = OpenPropertiesCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = true,
 				},
 				new()
 				{
 					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
+					ShowItem = true,
 				},
 				new()
 				{
@@ -126,6 +132,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
+					ShowItem = true,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}

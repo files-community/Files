@@ -13,7 +13,7 @@ namespace Files.App.Data.Models
 		/// <summary>
 		/// Gets the value that indicates whether the item is available in the flyout.
 		/// </summary>
-		public bool ShowItem { get; set; } = true;
+		public bool ShowItem { get; set; }
 
 		/// <summary>
 		/// Gets command that gets invoked when clicked.
@@ -156,16 +156,16 @@ namespace Files.App.Data.Models
 		/// <param name="richCommandParameter"><see cref="IRichCommand"/> parameter.</param>
 		public ContextFlyoutItemModel(ContextFlyoutItemType type, IRichCommand richCommand) : this(type)
 		{
-			bool isExecutable = richCommand.IsExecutable;
-			if (!isExecutable)
-				return;
+			//bool isExecutable = richCommand.IsExecutable;
+			//if (!isExecutable)
+			//	return;
 
 			Command = richCommand;
 			Text = richCommand.Label;
-			IsEnabled = isExecutable;
+			IsEnabled = richCommand.IsExecutable;
 			IsChecked = richCommand.IsOn;
 			ItemType = type;
-			ShowItem = true;
+			ShowItem = richCommand.IsExecutable;
 			IsHidden = false;
 			ShowInRecycleBin = true;
 			ShowInSearchPage = true;

@@ -111,18 +111,20 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},              
+				},
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconProperties" },
 					Command = OpenPropertiesCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = true,
 				},
 				new()
 				{
 					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
+					ShowItem = true,
 				},
 				new()
 				{
@@ -132,6 +134,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
+					ShowItem = true,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
