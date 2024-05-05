@@ -70,14 +70,12 @@ namespace Files.App.ViewModels.Settings
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Top, "Top".GetLocalizedResource());
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Center, "Center".GetLocalizedResource());
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Bottom, "Bottom".GetLocalizedResource());
-			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Stretch, "Stretch".GetLocalizedResource());
 			SelectedImageVerticalAlignmentType = ImageVerticalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment];
 
 			// HorizontalAlignment
 			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Left, "Top".GetLocalizedResource());
 			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Center, "Center".GetLocalizedResource());
 			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Right, "Bottom".GetLocalizedResource());
-			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Stretch, "Stretch".GetLocalizedResource());
 			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment];
 
 			UpdateSelectedResource();
