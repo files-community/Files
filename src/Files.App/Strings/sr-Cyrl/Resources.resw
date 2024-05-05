@@ -1222,19 +1222,19 @@
     <value>Отвори подешавања Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Копирај</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be copied</value>
+    <value>Биће копирано датотека: {0}</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy item(s)</value>
+    <value>Копирај датотеку(е)</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete item(s)</value>
+    <value>Обриши датотеку(е)</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Move</value>
+    <value>Премести</value>
   </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be moved</value>
@@ -1345,28 +1345,28 @@
     <value>Future</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Данас</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>Јуче</value>
   </data>
   <data name="EarlierThisWeek" xml:space="preserve">
-    <value>Earlier this week</value>
+    <value>Раније ове недеље</value>
   </data>
   <data name="LastWeek" xml:space="preserve">
-    <value>Last week</value>
+    <value>Прошле недеље</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Раније овог месеца</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
-    <value>Last month</value>
+    <value>Прошлог месеца</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Раније ове године</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Прошле године</value>
   </data>
   <data name="YearN" xml:space="preserve">
     <value>Year {0}</value>
@@ -2383,7 +2383,7 @@
     <value>Paste item(s) from clipboard to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Delete item(s)</value>
+    <value>Обриши датотеку(е)</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Create new folder</value>
