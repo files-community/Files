@@ -286,13 +286,13 @@
     <value>Chcete-li začít, musíte nám udělit oprávnění k zobrazení vašich souborů. Toto otevře stránku s nastavením, kde nám můžete toto oprávnění udělit. Po dokončení tohoto kroku budete muset aplikaci znovu otevřít. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Obrazovka</value>
+    <value>Zobrazení</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Zadejte název položky</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Nastavit název</value>
+    <value>Pojmenovat</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Světlý</value>
@@ -469,7 +469,7 @@
     <value>{0:#,##0} souborů, {1:#,##0} složek</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} souborů, {1:#,##0} složek z {2:#,##0} lokací</value>
+    <value>{0:#,##0} souborů, {1:#,##0} složek z {2:#,##0} umístění</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Spustit jako jiný uživatel</value>
@@ -484,7 +484,7 @@
     <value>Vše v {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Použité místo:</value>
+    <value>Využité místo:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
     <value>Volné místo:</value>
@@ -505,7 +505,7 @@
     <value>Stav</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Výchozí Windows</value>
+    <value>Výchozí systému</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Žádné výsledky</value>
@@ -751,7 +751,7 @@
     <value>Vzorkovací frekvence</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>Interpret</value>
+    <value>Interpret alba</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Název alba</value>
@@ -766,7 +766,7 @@
     <value>Skladatel</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>Další umělci</value>
+    <value>Dirigent</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
     <value>Číslo disku</value>
@@ -808,7 +808,7 @@
     <value>Producent</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>Adresa URL propagace</value>
+    <value>URL propagace</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
     <value>Styl poskytovatele</value>
@@ -1015,7 +1015,7 @@
     <value>Zobrazit možnost otevření složek v novém panelu</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Zobrazit možnosti pro zkopírování cesty</value>
+    <value>Zobrazit možnost pro zkopírování cesty</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
     <value>Zobrazit možnost pro vytvoření složky s výběrem</value>
@@ -1117,13 +1117,13 @@
     <value>Neznámý</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Pokud změníte příponu souboru, soubor se může stát nepoužitelným. Jste si jisti že jí chcete změnit?</value>
+    <value>Pokud změníte příponu souboru, soubor se může stát nepoužitelným. Jste si jist že jí chcete změnit?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>Jednotka CD-ROM</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Disk Cloudu</value>
+    <value>Cloudový disk</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
     <value>Jednotka pevného disku</value>
@@ -1141,7 +1141,7 @@
     <value>RAM disk</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Odstranitelné úložiště</value>
+    <value>Odpojitelné paměťové zařízení</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Neznámý</value>
@@ -1531,10 +1531,10 @@
     <value>Změnit oprávnění</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Tvořit složky</value>
+    <value>Vytvořit složky</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Tvořit soubory</value>
+    <value>Vytvořit soubory</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Odstranit podsložky a soubory</value>
@@ -1789,7 +1789,7 @@
     <value>Kompatibilita</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>Žádná</value>
+    <value>Žádné</value>
   </data>
   <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
     <value>Po přihlášení do Windows</value>
@@ -1978,7 +1978,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Zobrazit jiné datové toky</value>
+    <value>Zobrazit alternativní datové toky</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
     <value>Chování</value>
@@ -2023,7 +2023,7 @@
     <value>Otevírání položek</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Komprese</value>
+    <value>Komprimovat</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Vyberte soubory a složky při najetí na ně</value>
@@ -2188,10 +2188,10 @@
     <value>Zobrazit odeslání do menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Zobrazit možnost otevřít složky v nové záložce</value>
+    <value>Zobrazit možnost otevření složky v nové záložce</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Zobrazit možnost otevřít složky v novém okně</value>
+    <value>Zobrazit možnost otevření složky v novém okně</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Rychlý přístup</value>
@@ -2239,7 +2239,7 @@
     <value>Nastavení kontextového menu</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Zobrazit přípony souboru</value>
+    <value>Zobrazit přípony souborů</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Zobrazit skryté položky</value>
@@ -2867,7 +2867,7 @@
     <value>Přepnout výběr</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Zobrazovat varování při změně přípony souborů</value>
+    <value>Zobrazit varování při změně přípony souborů</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
     <value>Tento počítač</value>
@@ -3062,7 +3062,7 @@
     <value>Vzdálené</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Pomoct s překladem na Crowdin</value>
+    <value>Pomoc s překladem na Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Stáhnout</value>
@@ -3305,7 +3305,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Tmavší červená</value>
+    <value>Tmavě červená</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
@@ -3321,7 +3321,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Jasná růže</value>
+    <value>Jasně růžová</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
@@ -3337,7 +3337,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Žlutá zlatá</value>
+    <value>Žlutě zlatá</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
@@ -3736,5 +3736,52 @@
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>Adaptivní rozložení není dostupné, pokud jsou nastavení synchronizována, výchozí rozložení bylo změněno na Podrobnosti.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Obrázek na pozadí</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Dolů</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Střed</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Vyplnit</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Horizontální zarovnání</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Přizpůsobit</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Vlevo</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Průhlednost</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Vpravo</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Nahoru</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Rovnoměrně</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Rovnoměrné vyplnění</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Vertikální zarovnání</value>
   </data>
 </root>

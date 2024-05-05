@@ -3737,4 +3737,51 @@
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>Il layout Adattivo non è disponibile quando le preferenze sono sincronizzate, il layout predefinito è stato cambiato in Dettagli.</value>
   </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Immagine di sfondo</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>In basso</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Centro</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Riempi</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Allineamento orizzontale</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Adatta immagini</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Sinistra</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacità</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Destra</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>In alto</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniforme</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Uniforma per riempire</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Allineamento verticale</value>
+  </data>
 </root>
