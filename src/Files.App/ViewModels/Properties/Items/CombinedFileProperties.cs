@@ -32,20 +32,6 @@ namespace Files.App.ViewModels.Properties
 						x => x.Property == "System.GPS.LatitudeDecimal").Value,
 						(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
-				// Find Encoding Bitrate property and convert it to kbps
-				var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
-
-				if (encodingBitrate?.Value is null)
-					encodingBitrate = list.Find(x => x.Property == "System.Video.EncodingBitrate");
-
-				if (encodingBitrate?.Value is not null)
-				{
-					var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
-					var order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));
-					var readableSpeed = (uint)encodingBitrate.Value / Math.Pow(1024, order);
-					encodingBitrate.Value = $"{readableSpeed:0.##} {sizes[order]}";
-				}
-
 				return list
 					.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
 					.GroupBy(fileProp => fileProp.SectionResource)
