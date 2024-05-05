@@ -283,61 +283,61 @@
     <value>Дозволи</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Потребно је да нам даш дозволу за приступ твојим датотекама како бисмо почели. Отвориће се страница у Windows подешавањима где нам можеш дати приступ. Чим завршиш са овим кораком, поново отвори апликацију Files. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Приказ</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Унеси нови назив</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>Подеси назив</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Light</value>
+    <value>Светла тема</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Dark</value>
+    <value>Тамна тема</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>Application</value>
+    <value>Формат по апликацији</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>System</value>
+    <value>Формат по систему</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Нова фасцикла</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Нова датотека</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>This folder is empty.</value>
+    <value>Ова фасцикла је празна.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Back</value>
+    <value>Назад</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Forward</value>
+    <value>Напред</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Up</value>
+    <value>Претходна фасцикла</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Освежи</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>An item with this name already exists in this directory.</value>
+    <value>Датотека са овим именом већ постоји у овој фасцикли.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Replace existing item</value>
+    <value>Замени постојећу датотеку са овом</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Item already exists</value>
+    <value>Датотека већ постоји</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Постави као позадина закључаног екрана</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>We weren't able to delete this item</value>
@@ -1798,7 +1798,7 @@
     <value>On this program start</value>
   </data>
   <data name="System" xml:space="preserve">
-    <value>System</value>
+    <value>Формат по систему</value>
   </data>
   <data name="CompatibilitySystemEnhanced" xml:space="preserve">
     <value>System (Enhanced)</value>
@@ -2733,7 +2733,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>Up</value>
+    <value>Претходна фасцикла</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
