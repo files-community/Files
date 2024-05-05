@@ -199,7 +199,7 @@
     <value>Açık kaynak</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>Tarih formatı</value>
+    <value>Tarih biçimi</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Tema</value>
@@ -481,7 +481,7 @@
     <value>Farklı türler</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>{0} konumundaki tümü</value>
+    <value>{0} konumundaki her şey</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Kullanılan alan:</value>
@@ -646,7 +646,7 @@
     <value>Dil</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Shell uzantılarını alt menüye taşı</value>
+    <value>Kabuk uzantılarını alt menüye taşı</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Ögeleri silmeden önce onay kutusu göster</value>
@@ -721,7 +721,7 @@
     <value>Yükseklik</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Alma tarihi</value>
+    <value>Çekildiği Tarih</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Kamera Üreticisi</value>
@@ -772,7 +772,7 @@
     <value>Disk Numarası</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>Tarz</value>
+    <value>Tür</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
     <value>Parça Numarası</value>
@@ -817,10 +817,10 @@
     <value>Yayıncı</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Uzun KüçükGörsel Yolu</value>
+    <value>Uzun Küçük Resim Yolu</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Uzun KüçükGörsel Adresi</value>
+    <value>Uzun Küçük Resim Uri'ı</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Kısa KüçükGörsel Yolu</value>

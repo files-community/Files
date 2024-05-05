@@ -37,7 +37,6 @@
         <Resource Language="ca" />
         <Resource Language="cs-CZ" />
         <Resource Language="da" />
-        <Resource Language="da-DK" />
         <Resource Language="de-DE" />
         <Resource Language="el" />
         <Resource Language="en-GB" />
@@ -68,8 +67,9 @@
         <Resource Language="pt-PT" />
         <Resource Language="ro-RO" />
         <Resource Language="ru-RU" />
-        <Resource Language="sk-SK" />        
+        <Resource Language="sk-SK" />
         <Resource Language="sq-AL" />
+        <Resource Language="sr-Cyrl" />
         <Resource Language="sv-SE" />
         <Resource Language="ta" />
         <Resource Language="th-TH" />
