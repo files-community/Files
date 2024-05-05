@@ -317,8 +317,6 @@ namespace Files.App.Utils.Storage
 
 			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 
-			await Task.Yield();
-
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
 				foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
@@ -329,13 +327,13 @@ namespace Files.App.Utils.Storage
 						{
 							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
 							history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
-
-							await Task.Yield();
 						}
 					}
 				}
 				App.HistoryWrapper.AddHistory(history);
 			}
+
+			await Task.Yield();
 
 			var itemsCount = banner.TotalItemsCount;
 
