@@ -646,7 +646,7 @@
     <value>Dil</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Shell uzantılarını alt menüye taşı</value>
+    <value>Kabuk uzantılarını alt menüye taşı</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Ögeleri silmeden önce onay kutusu göster</value>
@@ -721,7 +721,7 @@
     <value>Yükseklik</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Alma tarihi</value>
+    <value>Çekildiği Tarih</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Kamera Üreticisi</value>
@@ -772,7 +772,7 @@
     <value>Disk Numarası</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>Tarz</value>
+    <value>Tür</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
     <value>Parça Numarası</value>
@@ -817,7 +817,7 @@
     <value>Yayıncı</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Uzun KüçükGörsel Yolu</value>
+    <value>Uzun Küçük Resim Yolu</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
     <value>Uzun KüçükGörsel Adresi</value>
