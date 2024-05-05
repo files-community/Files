@@ -3763,7 +3763,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Прозорість</value>
   </data>
   <data name="Right" xml:space="preserve">
     <value>Right</value>
