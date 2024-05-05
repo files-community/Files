@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>New window</value>
+    <value>Nyt vindue</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Kopiér sti</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copy path with quotes</value>
+    <value>Kopiér sti med anførselstegn</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Søg</value>
+    <value>Gennemse</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Størrelse</value>
@@ -157,13 +157,13 @@
     <value>er en undermappe til kildemappen</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>Spring over</value>
+    <value>Overspring</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Marker Alt</value>
+    <value>Markér alle</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value/>
+    <value>Invertér valg</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>Ryd markering</value>
@@ -172,31 +172,31 @@
     <value>Ændret:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Åbnet:</value>
+    <value>Tilgået:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Ryd alle emner</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Angiv en sti som destination eller skriv "&gt;" for at åbne kommandopaletten</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Søg</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Filer, du tidligere har fået adgang til, vises her</value>
+    <value>Tidligere tilgåede filer vil dukke op her</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Fjern dette emne</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub arkiv</value>
+    <value>GitHub-repo</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Om</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Åben kilde</value>
+    <value>Open-source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datoformat</value>
@@ -205,13 +205,13 @@
     <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Vis udvidelser for kendte filtyper</value>
+    <value>Vis filtypenavne for kendte filtyper</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Vis skjulte filer og mapper</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Vis dot filer</value>
+    <value>Vis punktumfiler</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Udseende</value>
@@ -229,28 +229,28 @@
     <value>Åbn en ny fane</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Åbn en eller flere bestemte sider</value>
+    <value>Åbn bestemt side(r)</value>
   </data>
   <data name="Desktop" xml:space="preserve">
-    <value>Skrivebord</value>
+    <value>Computer</value>
   </data>
   <data name="Documents" xml:space="preserve">
     <value>Dokumenter</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Overførelser</value>
+    <value>Downloads</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Navn</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>Faldende</value>
+    <value>Stigende</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Sæt ind</value>
+    <value>Indsæt</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>Nyt</value>
+    <value>Ny</value>
   </data>
   <data name="Properties" xml:space="preserve">
     <value>Egenskaber</value>
@@ -259,10 +259,10 @@
     <value>Åbn</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Åben i ny fane</value>
+    <value>Åbn på ny fane</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Åben i nyt vindue</value>
+    <value>Åbn i nyt vindue</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Del</value>
@@ -274,7 +274,7 @@
     <value>Slet</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin to Sidebar</value>
+    <value>Fastgør til sidebjælke</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Velkommen til Filer!</value>
@@ -283,22 +283,22 @@
     <value>Giv tilladelse</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>For at komme i gang skal du give os tilladelse til at vise dine filer. Dette åbner en side med indstillinger, hvor du kan give os denne tilladelse. Du skal åbne appen igen, når du har gennemført dette trin.</value>
+    <value>For at komme i gang skal appen tillades at vise filer. Dette åbner en indstillingsside, hvor appen kan tildeles denne tilladelse. Appen skal genstartes, efter dette trin er gennemført. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Vis</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Indtast et navn</value>
+    <value>Angiv et enmenavn</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Angiv navn</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Lys</value>
+    <value>Lyst</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Mørk</value>
+    <value>Mørkt</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Applikation</value>
@@ -316,13 +316,13 @@
     <value>Denne mappe er tom.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Tilbage (Alt + Venstre Pil)</value>
+    <value>Retur</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Fremad (Alt + Højre Pil)</value>
+    <value>Fremad</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Op (Alt + Pil Op)</value>
+    <value>Op</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Opdatér</value>
@@ -334,49 +334,49 @@
     <value>Erstat eksisterende emne</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Emnet findes allerede</value>
+    <value>Emne findes allerede</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Indstil som låseskærmsbaggrund</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>Vi kunne ikke slette dette emne</value>
+    <value>Dette emne kunne ikke slettes</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Indsæt det nødvendige drev for at få adgang til dette emne.</value>
+    <value>Indsæt det nødvendige drev for at tilgå dette emne.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>Drev frakoblet</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Den fil, du forsøger at få adgang til, er muligvis blevet flyttet eller slettet.</value>
+    <value>Filen, der forsøges tilgået, er muligvis flyttet eller slettet.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Cannot open properties for this file</value>
+    <value>Kan ikke åbne egenskaber for denne fil</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
-    <value>Den fil, du forsøger at få adgang til, er muligvis blevet flyttet eller slettet.</value>
+    <value>Filen, der forsøges tilgået, er muligvis flyttet eller slettet.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Fil ikke fundet</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Mappen, du forsøger at få adgang til, er muligvis blevet flyttet eller slettet.</value>
+    <value>Mappen, der forsøges tilgået, er muligvis flyttet eller slettet.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Har du slettet denne mappe?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Den fil, du forsøger at få adgang til, bruges i øjeblikket af {0}</value>
+    <value>Filen, der forsøges tilgået, bruges i øjeblikket af {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Filen du forsøger at få adgang til bruges i øjeblikket af et andet program</value>
+    <value>Filen, der forsøges tilgået, bruges i øjeblikket af en anden applikation</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>Filen er i brug</value>
+    <value>Fil er i brug</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Opstilling</value>
+    <value>Layout</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Skrivebeskyttet</value>
@@ -418,16 +418,16 @@
     <value>Send til</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>Emnets navn må ikke indeholde følgende tegn: \ / : * ? " &lt; &gt; |</value>
+    <value>Emnenavnet må ikke indeholde flg. tegn: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>Det angivne navn er ugyldigt</value>
+    <value>Det angivne emnenavn er ugyldigt</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>valgt emne</value>
+    <value>emne valgt</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>valgte emner</value>
+    <value>emner valgt</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>emne</value>
@@ -439,10 +439,10 @@
     <value>Ja</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Er du sikker på, at du vil slette alle disse emner permanent?</value>
+    <value>Sikker på, at alle disse emner skal slettes permanent?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Tøm papirkurven</value>
+    <value>Tøm papirkurv</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>bytes</value>
@@ -466,7 +466,7 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} Filer, {1:#,##0} Mapper</value>
+    <value>{0:#,##0} filer, {1:#,##0} mapper</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>{0:#,##0} filer, {1:#,##0} mapper fra {2:#,##0} placeringer</value>
@@ -481,10 +481,10 @@
     <value>Forskellige typer</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Alle i {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Brugt plads:</value>
+    <value>Forbrugt plads:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
     <value>Ledig plads:</value>
@@ -505,13 +505,13 @@
     <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Windows-Standard</value>
+    <value>Windows-standard</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Ingen resultater</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>Kan ikke få adgang til nogen emner at vise</value>
+    <value>Kan ikke tilgå nogen emner at vise</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Flyt til {0}</value>
@@ -535,7 +535,7 @@
     <value>Genvejstype:</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Web link</value>
+    <value>Web-link</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Generelt</value>
@@ -544,22 +544,22 @@
     <value>Genvej</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Internet genvej</value>
+    <value>Internet-genvej</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - genvej</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files løb ind i et problem, som udviklerne ikke forberedte sig på endnu.</value>
+    <value>Files løb ind i et for udviklerne ukendt problem.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Noget gik galt!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>Rapportér dette problem</value>
+    <value>Anmeld dette problem</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>Emnet er enten ugyldig eller utilgængelig. {0} Fejlmeddelelse: {0} {1}</value>
+    <value>Emnet er enten ugyldigt eller utilgængeligt. {0} Fejlmeddelelse: {0} {1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Ugyldigt emne</value>
@@ -571,10 +571,10 @@
     <value>Der er ikke noget at dele lige nu ...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>De emner, du har valgt, deles</value>
+    <value>De valgte emner vil blive delt</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>Det valgte emne deles</value>
+    <value>Det valgte emne vil blive delt</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
     <value>Deler {0}</value>
@@ -583,16 +583,16 @@
     <value>Deler {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>Det emne, du forsøger at omdøbe ikke længere eksisterer. Kontrollér den korrekte placering af det emne, du har brug for at omdøbe.</value>
+    <value>Emnet, der forsøges omdøbt, findes ikke længere. Tjek den korrekte placering af det emne, der ønskes omdøbt.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Emnet findes ikke længere</value>
+    <value>Emne findes ikke længere</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>Det angivne navn var ugyldigt. Kontroller det ønskede emne navn, og prøv igen.</value>
+    <value>Det angivne navn er ugyldigt. Tjek det ønskede emnenavn, og forsøg igen.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>Ugyldigt navn</value>
+    <value>Ugyldigt emnenavn</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
     <value>Længden af emnets navn er angivet overskrider grænseværdien. Kontroller det ønskede navn, og prøv igen.</value>
@@ -3736,5 +3736,52 @@
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Background image</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Bottom</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Center</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Fill</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Horizontal alignment</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Image fit</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Venstre</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Højre</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Top</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniform</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Uniform to fill</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Vertical alignment</value>
   </data>
 </root>

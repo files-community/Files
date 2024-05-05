@@ -3737,4 +3737,51 @@
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>当选项“在不同目录之间使用相同的布局和排序设置”启用时，自适应布局不可用。默认布局已更改为“详细信息”。</value>
   </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>背景图片</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>底部</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>居中</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>填充</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>水平对齐方式</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>图片契合方式</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>左方向键</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>右方向键</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>顶部</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>均匀分布</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>均匀填充</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>垂直对齐方式</value>
+  </data>
 </root>

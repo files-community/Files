@@ -55,8 +55,10 @@
         <Resource Language="it-IT" />
         <Resource Language="ja-JP" />
         <Resource Language="ka" />
+        <Resource Language="km-KH" />
         <Resource Language="ko-KR" />
-        <Resource Language="lt" />
+        <Resource Language="ku-Arab" />
+        <Resource Language="lt-LT" />
         <Resource Language="lv-LV" />
         <Resource Language="nb-NO" />
         <Resource Language="nl-NL" />
@@ -66,7 +68,8 @@
         <Resource Language="pt-PT" />
         <Resource Language="ro-RO" />
         <Resource Language="ru-RU" />
-        <Resource Language="sk-SK" />             
+        <Resource Language="sk-SK" />        
+        <Resource Language="sq-AL" />
         <Resource Language="sv-SE" />
         <Resource Language="ta" />
         <Resource Language="th-TH" />
