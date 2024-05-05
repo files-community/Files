@@ -3738,50 +3738,50 @@
     <value>Adaptivní rozložení není dostupné, pokud jsou nastavení synchronizována, výchozí rozložení bylo změněno na Podrobnosti.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>Obrázek na pozadí</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>Dolů</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>Střed</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>Vyplnit</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>Horizontální zarovnání</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>Přizpůsobit</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Vlevo</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Průhlednost</value>
   </data>
   <data name="Right" xml:space="preserve">
     <value>Vpravo</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>Nahoru</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Rovnoměrně</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Uniform to fill</value>
+    <value>Rovnoměrné vyplnění</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>Vertikální zarovnání</value>
   </data>
 </root>
