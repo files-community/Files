@@ -3769,10 +3769,6 @@
     <value>Right</value>
     <comment>Image alignment type</comment>
   </data>
-  <data name="Stretch" xml:space="preserve">
-    <value>Stretch</value>
-    <comment>Image alignment type</comment>
-  </data>
   <data name="Top" xml:space="preserve">
     <value>Top</value>
     <comment>Image alignment type</comment>
