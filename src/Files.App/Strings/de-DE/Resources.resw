@@ -3144,7 +3144,7 @@
     <value>Mit GitHub verbinden</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Geben Sie den folgenden Code unter dem unten stehenden Link ein, um mit GitHub Repositories zu arbeiten.</value>
+    <value>Gib den folgenden Code unter dem unten stehenden Link ein, um mit GitHub Repositories zu arbeiten.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files kann momentan nicht auf GitHub zugreifen.</value>
@@ -3736,5 +3736,52 @@
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>Adaptives Layout ist nicht verfügbar, wenn die Einstellungen synchronisiert werden. Das Standardlayout wurde auf Details geändert.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Hintergrundbild</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Unten</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Mittig</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Füllen</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Horizontale Ausrichtung</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Bildanpassung</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Links</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Deckkraft</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Rechts</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Oben</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Einheitlich</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Ausfüllen &amp; Seitenverhältnis beibehalten</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Vertikale Ausrichtung</value>
   </data>
 </root>
