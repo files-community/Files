@@ -323,7 +323,7 @@ namespace Files.App.Utils.Storage
 				{
 					foreach (var item2 in itemsResult)
 					{
-						if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+						if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path && Path.GetFileName(item2.SourcePath) != item2.CustomName)
 						{
 							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
 							history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
