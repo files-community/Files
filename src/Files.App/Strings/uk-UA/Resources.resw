@@ -3738,7 +3738,7 @@
     <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>Фонове зображення</value>
   </data>
   <data name="Bottom" xml:space="preserve">
     <value>Bottom</value>
