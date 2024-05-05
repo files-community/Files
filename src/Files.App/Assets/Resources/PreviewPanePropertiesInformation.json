@@ -185,6 +185,22 @@
 		"ID": null
 	},
 	{
+		"NameResource": "PropertyPreviewAudioEncodingBitrate",
+		"SectionResource": "PropertySectionAudio",
+		"Property": "System.Audio.EncodingBitrate",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "FormatEncodingBitrate",
+		"ID": null
+	},
+	{
+		"NameResource": "PropertyPreviewVideoEncodingBitrate",
+		"SectionResource": "PropertySectionVideo",
+		"Property": "System.Video.EncodingBitrate",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "FormatEncodingBitrate",
+		"ID": null
+	},
+	{
 		"NameResource": "PropertyDuration",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.Duration",
