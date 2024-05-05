@@ -1096,28 +1096,28 @@
     <value>Доступно на мрежи</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Документација</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>Available offline</value>
+    <value>Доступно офлајн</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>Partially available offline</value>
+    <value>Делом доступно офлајн</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>Syncing</value>
+    <value>Синхронизација у току</value>
   </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
-    <value>Excluded from sync</value>
+    <value>Изузето од синхронизовања</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>Not calculated</value>
+    <value>Није израчунато</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Непознато</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Уколико промениш екстензију датотека, можда ће постати неупотребљива? Да ли си сигуран да желиш да је промениш?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD ROM Drive</value>
@@ -1144,28 +1144,28 @@
     <value>Removable Storage Device</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Непознато</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtual Drive</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
-    <value>Date created</value>
+    <value>Датум креирања</value>
   </data>
   <data name="MoreOptions" xml:space="preserve">
-    <value>More options...</value>
+    <value>Остале опције...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Map network drive</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Pinned</value>
+    <value>Закачено</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>Libraries</value>
+    <value>Библиотеке</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>No item selected</value>
+    <value>Нема изабраних датотека</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Target</value>
