@@ -3737,4 +3737,51 @@
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>Tercihler senkronize edildiğinde uyarlanabilir düzen kullanılamaz, varsayılan düzen Ayrıntılar olarak değiştirilmiştir.</value>
   </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Arka plan resmi</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Alt</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Merkez</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Doldur</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Yatay hizalama</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Fotoğraf Sığdırma</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Sol</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Şeffaflık</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Sağ</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Üst</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Oran</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Doldurmak için oranı koru</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Dikey hizalama</value>
+  </data>
 </root>
