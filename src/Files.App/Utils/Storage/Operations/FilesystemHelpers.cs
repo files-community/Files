@@ -329,6 +329,8 @@ namespace Files.App.Utils.Storage
 						{
 							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
 							history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+
+							await Task.Yield();
 						}
 					}
 				}
