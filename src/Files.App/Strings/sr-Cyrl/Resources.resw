@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>New window</value>
+    <value>Нов прозор</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Копирај путању</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copy path with quotes</value>
+    <value>Копирај путању са наводницима</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Потражи</value>
@@ -136,16 +136,16 @@
     <value>Направљено:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path</value>
+    <value>Путања</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Величина:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Величина на диску:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Некомпромитована величина:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Није могуће извршити ову радњу</value>
@@ -160,13 +160,13 @@
     <value>Прескочи</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Изабери све</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Обрни селекцију</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Поништи селекцију</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Измењено:</value>
@@ -178,10 +178,10 @@
     <value>Обриши све ставке</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Унеси путању или укуцај "&gt;" да отвориш листу команди</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Претражи</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Овде ће се појављивати датотеке којима сте скоро приступили</value>
@@ -190,13 +190,13 @@
     <value>Уклони ову ставку</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>Репозиторијум на платформи GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>О програму</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Отворени код</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Формат датума</value>
@@ -2821,7 +2821,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>Претражи</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
