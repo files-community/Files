@@ -349,7 +349,7 @@
     <value>Laufwerk getrennt</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Sie zugreifen möchten, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei, auf die Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Eigenschaften für diese Datei können nicht geöffnet werden</value>
