@@ -877,7 +877,7 @@
     <value>Anzahl der Folien</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>Einzelbildrate</value>
+    <value>Bildrate</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Enkodierungsbitrate</value>
@@ -991,7 +991,7 @@
     <value>Geschützte Systemdateien anzeigen</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Layout- und Sortierungspräferenzen zwischen Verzeichnissen synchronisieren</value>
+    <value>Layout- und Sortierungseinstellungen zwischen Verzeichnissen synchronisieren</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kontextmenü anpassen</value>
