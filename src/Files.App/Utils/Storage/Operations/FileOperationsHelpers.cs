@@ -1035,10 +1035,10 @@ namespace Files.App.Utils.Storage
 
 			Func<int, string> genFilePath = x => string.Concat([filePath, " (", x.ToString(), ")", Path.GetExtension(filePathToCheck)]);
 
-			while (Path.Exists(genFilePath(index)))			
-				index++;				
+			while (Path.Exists(genFilePath(index)))
+				index++;
 
-			return Path.GetFileName(genFilePath(index));									
+			return Path.GetFileName(genFilePath(index));
 		}		
 	}
 }
