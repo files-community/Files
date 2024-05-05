@@ -481,7 +481,7 @@
     <value>Farklı türler</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>{0} konumundaki tümü</value>
+    <value>{0} konumundaki her şey</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Kullanılan alan:</value>
