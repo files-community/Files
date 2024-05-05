@@ -664,7 +664,7 @@
     <value>Оцена</value>
   </data>
   <data name="PropertyParsingPath" xml:space="preserve">
-    <value>Item Path</value>
+    <value>Путања датотеке</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Врста ставке</value>
@@ -721,13 +721,13 @@
     <value>Altitude</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Date Taken</value>
+    <value>Датум сликања</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
-    <value>Camera Manufacturer</value>
+    <value>Произвођач камере</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
-    <value>Camera Model</value>
+    <value>Модел камере</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
     <value>Exposure Time</value>
