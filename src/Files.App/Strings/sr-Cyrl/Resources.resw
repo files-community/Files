@@ -340,7 +340,7 @@
     <value>Постави као позадина закључаног екрана</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Нисмо могли да обришемо ову датотеку</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Молимо привежите потребан диск како бисте приступили овој ставци.</value>
@@ -622,7 +622,7 @@
     <value>Откажи</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>Направи нову датотеку</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Одаберите тип датотеке за нову ставку испод</value>
@@ -643,13 +643,13 @@
     <value>Освежи директоријум</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Језик</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Проширења окружења смести у подмени</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Питај још једном пре брисања датотека</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Настао је проблем приликом чувања подешавања.</value>
@@ -1600,7 +1600,7 @@
     <value>Company</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
-    <value>Language</value>
+    <value>Језик</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
     <value>Trademarks</value>
