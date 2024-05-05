@@ -583,8 +583,7 @@ namespace Files.App.Utils.Storage
 						
 						var fileName = GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]);
 						// Perform a copy operation
-						op.QueueCopyOperation(shi, shd, fileName);
-						
+						op.QueueCopyOperation(shi, shd, fileName);						
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -1021,7 +1020,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck, string? filePathToCopy)
+		private static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck, string? filePathToCopy)
 		{
 			if (filePathToCheck == null)
 				return null;			
