@@ -375,7 +375,7 @@ namespace Files.App.ViewModels.Properties
 			if (input.GetType() != typeof(uint))
 				return input?.ToString() ?? string.Empty;
 
-			var sizes = new string[] { "bps", "kbps", "mbps", "gbps" };
+			var sizes = new string[] { "bps", "kbps", "Mbps", "Gbps" };
 			var order = (int)Math.Floor(Math.Log((uint)input, 1000));
 			var readableSpeed = (uint)input / Math.Pow(1000, order);
 			return $"{readableSpeed:0.##} {sizes[order]}";
