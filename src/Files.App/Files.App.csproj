@@ -7,7 +7,7 @@
         <AssemblyName>Files</AssemblyName>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lt;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;ku-Arab;lt-LT;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -52,11 +52,8 @@
             <Link>NOTICE.md</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="Resources\PreviewPanePropertiesInformation.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Resources\PropertiesInformation.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Content Update="Assets\Resources\**">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Update="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -87,7 +84,7 @@
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
         <PackageReference Include="SevenZipSharp" Version="1.0.2" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
         <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
@@ -95,14 +92,14 @@
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
         <PackageReference Include="TagLibSharp" Version="2.3.0" />
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
-        <PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.0.0" />
-        <PackageReference Include="Vanara.Windows.Extensions" Version="4.0.0" />
+        <PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.0.1" />
+        <PackageReference Include="Vanara.Windows.Extensions" Version="4.0.1" />
         <PackageReference Include="WinUIEx" Version="2.3.4" />
-        <PackageReference Include="Vanara.PInvoke.Mpr" Version="4.0.0" />
-        <PackageReference Include="Vanara.Windows.Shell" Version="4.0.0" />
+        <PackageReference Include="Vanara.PInvoke.Mpr" Version="4.0.1" />
+        <PackageReference Include="Vanara.Windows.Shell" Version="4.0.1" />
         <PackageReference Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
         <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="3.0.0" />
-        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.647-beta" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta" PrivateAssets="all" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
     </ItemGroup>
   

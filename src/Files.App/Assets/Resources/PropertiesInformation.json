@@ -160,6 +160,7 @@
 		"SectionResource": "PropertySectionAudio",
 		"Property": "System.Audio.EncodingBitrate",
 		"IsReadOnly": true,
+		"DisplayFunctionName": "FormatEncodingBitrate",
 		"ID": null
 	},
 	{
@@ -499,6 +500,7 @@
 		"SectionResource": "PropertySectionVideo",
 		"Property": "System.Video.EncodingBitrate",
 		"IsReadOnly": true,
+		"DisplayFunctionName": "FormatEncodingBitrate",
 		"ID": null
 	},
 	{

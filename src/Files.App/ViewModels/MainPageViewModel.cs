@@ -1,7 +1,10 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
@@ -57,6 +60,24 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref shouldPreviewPaneBeDisplayed, value);
 		}
 
+		public Stretch AppThemeBackgroundImageFit
+			=> AppearanceSettingsService.AppThemeBackgroundImageFit;
+
+		public float AppThemeBackgroundImageOpacity
+			=> AppearanceSettingsService.AppThemeBackgroundImageOpacity;
+
+		public ImageSource? AppThemeBackgroundImageSource =>
+			string.IsNullOrEmpty(AppearanceSettingsService.AppThemeBackgroundImageSource)
+				? null
+				: new BitmapImage(new Uri(AppearanceSettingsService.AppThemeBackgroundImageSource, UriKind.RelativeOrAbsolute));
+
+		public VerticalAlignment AppThemeBackgroundImageVerticalAlignment
+			=> AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment;
+
+		public HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment
+			=> AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment;
+
+
 		// Commands
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; }
@@ -66,6 +87,28 @@ namespace Files.App.ViewModels
 		public MainPageViewModel()
 		{
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand);
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageSource):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageSource));
+						break;
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageOpacity):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageOpacity));
+						break;
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageFit):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageFit));
+						break;
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageVerticalAlignment));
+						break;
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageHorizontalAlignment));
+						break;
+				}
+			};
 		}
 
 		// Methods

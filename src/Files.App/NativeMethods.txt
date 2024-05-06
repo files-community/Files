@@ -39,6 +39,7 @@ AttachThreadInput
 SetWindowPos
 SetFocus
 SetActiveWindow
+IsIconic
 CopyFileFromApp
 MoveFileFromApp
 DeleteFileFromApp

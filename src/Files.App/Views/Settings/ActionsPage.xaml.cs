@@ -10,10 +10,11 @@ using Windows.System;
 
 namespace Files.App.Views.Settings
 {
+	/// <summary>
+	/// Represents settings page called Actions, which provides a way to customize key bindings.
+	/// </summary>
 	public sealed partial class ActionsPage : Page
 	{
-		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-
 		private readonly string PART_EditButton = "EditButton";
 		private readonly string NormalState = "Normal";
 		private readonly string PointerOverState = "PointerOver";
@@ -32,8 +33,8 @@ namespace Files.App.Views.Settings
 			// Make edit button visible on pointer in
 			if (sender is UserControl userControl &&
 				userControl.FindChild(PART_EditButton) is Button editButton &&
-				userControl.DataContext is ModifiableCommandHotKeyItem item &&
-				!item.IsEditMode)
+				userControl.DataContext is ModifiableActionItem item &&
+				!item.IsInEditMode)
 				editButton.Visibility = Visibility.Visible;
 		}
 
@@ -44,237 +45,19 @@ namespace Files.App.Views.Settings
 			// Make edit button invisible on pointer out
 			if (sender is UserControl userControl &&
 				userControl.FindChild(PART_EditButton) is Button editButton &&
-				userControl.DataContext is ModifiableCommandHotKeyItem item &&
-				!item.IsEditMode)
+				userControl.DataContext is ModifiableActionItem item &&
+				!item.IsInEditMode)
 				editButton.Visibility = Visibility.Collapsed;
 		}
 
-		private void EditButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is Button button && button.DataContext is ModifiableCommandHotKeyItem item)
-			{
-				// Hide the add command grid
-				ViewModel.ShowAddNewHotKeySection = false;
-
-				// Reset the selected item's info
-				if (ViewModel.SelectedNewShortcutItem is not null)
-				{
-					ViewModel.SelectedNewShortcutItem.HotKeyText = "";
-					ViewModel.SelectedNewShortcutItem = null;
-				}
-
-				// Reset edit mode of every item
-				foreach (var hotkey in ViewModel.ValidKeyboardShortcuts)
-				{
-					hotkey.IsEditMode = false;
-					hotkey.HotKeyText = hotkey.HotKey.LocalizedLabel;
-				}
-
-				// Enter edit mode for the item
-				item.IsEditMode = true;
-			}
-		}
-
-		private void SaveButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is not Button button || button.DataContext is not ModifiableCommandHotKeyItem item)
-				return;
-
-			if (item.HotKeyText == item.PreviousHotKey.LocalizedLabel)
-			{
-				item.IsEditMode = false;
-				return;
-			}
-
-			// Check if this hot key is already taken
-			foreach (var hotkey in ViewModel.ValidKeyboardShortcuts)
-			{
-				if (item.HotKeyText == hotkey.PreviousHotKey)
-				{
-					ViewModel.IsAlreadyUsedTeachingTipOpened = true;
-					return;
-				}
-			}
-
-			// Get clone of customized hotkeys to overwrite
-			var actions =
-				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
-					: [];
-
-			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(item.CommandCode.ToString());
-
-			// Initialize
-			var newHotKey = HotKey.Parse(item.HotKeyText);
-			var modifiedCollection = HotKeyCollection.Empty;
-
-			if (item.IsDefaultKey)
-			{
-				// The first time to customize in the user setting
-				if (string.IsNullOrEmpty(storedKeys))
-				{
-					// Replace with new one
-					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiableDefaultCollection.Add(newHotKey);
-					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
-				}
-				// Stored in the user setting
-				else
-				{
-					// Replace with new one
-					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiableCollection.Add(newHotKey);
-					modifiedCollection = new HotKeyCollection(modifiableCollection);
-				}
-
-				// Store
-				actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
-				GeneralSettingsService.Actions = actions;
-
-				// Update visual
-				item.PreviousHotKey = newHotKey;
-				item.HotKey = newHotKey;
-
-				// Set as customized
-				foreach (var action in ViewModel.ValidKeyboardShortcuts)
-				{
-					if (action.CommandCode == item.CommandCode)
-						action.IsDefaultKey = item.DefaultHotKeyCollection.Contains(action.HotKey);
-				}
-
-				// Exit edit mode
-				item.IsEditMode = false;
-
-				return;
-			}
-			else
-			{
-				// Remove existing setting
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
-				if (modifiableCollection.Contains(newHotKey))
-					return;
-				modifiableCollection.Add(HotKey.Parse(item.HotKeyText));
-				modifiedCollection = new(modifiableCollection);
-
-				// Remove previous one
-				actions.Remove(item.CommandCode.ToString());
-
-				// Add new one
-				if (modifiedCollection.Select(x => x.RawLabel).SequenceEqual(item.DefaultHotKeyCollection.Select(x => x.RawLabel)))
-					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
-
-				// Save
-				GeneralSettingsService.Actions = actions;
-
-				// Update visual
-				item.PreviousHotKey = newHotKey;
-				item.HotKey = newHotKey;
-
-				// Set as customized
-				foreach (var action in ViewModel.ValidKeyboardShortcuts)
-				{
-					if (action.CommandCode == item.CommandCode)
-						action.IsDefaultKey = item.DefaultHotKeyCollection.Contains(action.HotKey);
-				}
-
-				// Exit edit mode
-				item.IsEditMode = false;
-			}
-		}
-
-		private void CancelButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is not Button button || button.DataContext is not ModifiableCommandHotKeyItem item)
-				return;
-
-			item.IsEditMode = false;
-			item.HotKeyText = item.HotKey.LocalizedLabel;
-		}
-
-		private void DeleteButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is not Button button || button.DataContext is not ModifiableCommandHotKeyItem item)
-				return;
-
-			// Get clone of customized hotkeys to overwrite
-			var actions =
-				GeneralSettingsService.Actions is not null
-					? new Dictionary<string, string>(GeneralSettingsService.Actions)
-					: [];
-
-			// Get raw string keys stored in the user setting
-			var storedKeys = actions.GetValueOrDefault(item.CommandCode.ToString());
-
-			// Initialize
-			var modifiedCollection = HotKeyCollection.Empty;
-
-			if (item.IsDefaultKey)
-			{
-				// The first time to customize in the user setting
-				if (string.IsNullOrEmpty(storedKeys))
-				{
-					// Replace with new one
-					var modifiableDefaultCollection = item.DefaultHotKeyCollection.ToList();
-					modifiableDefaultCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiedCollection = new HotKeyCollection(modifiableDefaultCollection);
-				}
-				// Stored in the user setting
-				else
-				{
-					// Replace with new one
-					var modifiableCollection = HotKeyCollection.Parse(storedKeys).ToList();
-					modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel);
-					modifiedCollection = new HotKeyCollection(modifiableCollection);
-				}
-
-				// Remove previous one and add new one
-				actions.Remove(item.CommandCode.ToString());
-				actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
-
-				// Store
-				GeneralSettingsService.Actions = actions;
-
-				// Exit
-				item.IsEditMode = false;
-				ViewModel.ValidKeyboardShortcuts.Remove(item);
-
-				return;
-			}
-			else
-			{
-				// Remove existing setting
-				var modifiableCollection = HotKeyCollection.Parse(storedKeys!).ToList();
-				modifiableCollection.RemoveAll(x => x.RawLabel == item.PreviousHotKey.RawLabel || x.RawLabel == $"!{item.PreviousHotKey.RawLabel}");
-				modifiedCollection = new(modifiableCollection);
-
-				// Remove previous
-				actions.Remove(item.CommandCode.ToString());
-
-				if (modifiedCollection.LocalizedLabel != string.Empty)
-					actions.Add(item.CommandCode.ToString(), modifiedCollection.RawLabel);
-
-				// Save
-				GeneralSettingsService.Actions = actions;
-
-				// Exit
-				item.IsEditMode = false;
-				ViewModel.ValidKeyboardShortcuts.Remove(item);
-
-				return;
-			}
-		}
-
-		private void EditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		private void KeyBindingEditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (sender is not TextBox textBox)
 				return;
 
 			var pressedKey = e.OriginalKey;
 
-			List<VirtualKey> modifierKeys = 
+			List<VirtualKey> modifierKeys =
 			[
 				VirtualKey.Shift,
 				VirtualKey.Control,
@@ -317,26 +100,27 @@ namespace Files.App.Views.Settings
 			// Set text
 			textBox.Text = text;
 
+			ViewModel.EnableAddNewKeyBindingButton = true;
+
 			// Prevent key down event in other UIElements from getting invoked
 			e.Handled = true;
 		}
 
-		private void KeyboardShortcutEditorTextBox_Loaded(object sender, RoutedEventArgs e)
+		private void KeyBindingEditorTextBox_Loaded(object sender, RoutedEventArgs e)
 		{
-			// Focus Key Binding TextBox
+			// Focus the editor TextBox
 			TextBox keyboardShortcutEditorTextBox = (TextBox)sender;
 			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
 		}
 
-		private void KeyboardShortcutEditorTextBox_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+		private void NewKeyBindingItemPickerComboBox_DropDownClosed(object sender, object e)
 		{
 			// Check if a new action is selected
-			if (ViewModel.SelectedNewShortcutItem is null)
+			if (ViewModel.SelectedActionItem is null)
 				return;
 
-			// Focus Key Binding TextBox
-			TextBox keyboardShortcutEditorTextBox = (TextBox)sender;
-			keyboardShortcutEditorTextBox.Focus(FocusState.Programmatic);
+			// Focus the editor TextBox
+			KeyBindingEditorTextBox.Focus(FocusState.Programmatic);
 		}
 	}
 }

@@ -236,11 +236,11 @@ namespace Files.App.Utils.Taskbar
 
 			TRACK_POPUP_MENU_FLAGS tRACK_POPUP_MENU_FLAGS =
 				TRACK_POPUP_MENU_FLAGS.TPM_RETURNCMD |
-				(PInvoke.GetSystemMetricsForDpi((int)SYSTEM_METRICS_INDEX.SM_MENUDROPALIGNMENT, PInvoke.GetDpiForWindow(_IconWindow.WindowHandle)) != 0
+				(PInvoke.GetSystemMetricsForDpi(SYSTEM_METRICS_INDEX.SM_MENUDROPALIGNMENT, PInvoke.GetDpiForWindow(_IconWindow.WindowHandle)) != 0
 					? TRACK_POPUP_MENU_FLAGS.TPM_RIGHTALIGN
 					: TRACK_POPUP_MENU_FLAGS.TPM_LEFTBUTTON);
 
-			switch (PInvoke.TrackPopupMenuEx(hMenu, (uint)tRACK_POPUP_MENU_FLAGS, lpPoint.x, lpPoint.y, _IconWindow.WindowHandle, null).Value)
+			switch (PInvoke.TrackPopupMenuEx(hMenu, (uint)tRACK_POPUP_MENU_FLAGS, lpPoint.X, lpPoint.Y, _IconWindow.WindowHandle, null).Value)
 			{
 				case 1:
 					OnDocumentationClicked();

@@ -8,21 +8,81 @@ namespace Files.App.ViewModels
 {
 	public sealed class HomeViewModel : ObservableObject, IDisposable
 	{
+		// Dependency injections
+
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		// Properties
+
 		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = [];
+
+		// Commands
 
 		public ICommand HomePageLoadedCommand { get; }
 
-		public event EventHandler<RoutedEventArgs>? HomePageLoadedInvoked;
-		public event EventHandler? WidgetListRefreshRequestedInvoked;
+		// Constructor
 
 		public HomeViewModel()
 		{
 			HomePageLoadedCommand = new RelayCommand<RoutedEventArgs>(ExecuteHomePageLoadedCommand);
 		}
 
-		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
+		// Methods
+
+		public void ReloadWidgets()
 		{
-			HomePageLoadedInvoked?.Invoke(this, e!);
+			var reloadQuickAccessWidget = WidgetsHelpers.TryGetWidget<QuickAccessWidgetViewModel>(this);
+			var reloadDrivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidgetViewModel>(this);
+			var reloadFileTagsWidget = WidgetsHelpers.TryGetWidget<FileTagsWidgetViewModel>(this);
+			var reloadRecentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidgetViewModel>(this);
+
+			if (reloadQuickAccessWidget)
+			{
+				var quickAccessWidget = new QuickAccessWidget();
+
+				AddWidget(
+					new(
+						quickAccessWidget,
+						quickAccessWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded));
+			}
+
+			if (reloadDrivesWidget)
+			{
+				var drivesWidget = new DrivesWidget();
+
+				AddWidget(
+					new(
+						drivesWidget,
+						drivesWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded));
+			}
+
+			if (reloadFileTagsWidget)
+			{
+				var fileTagsWidget = new FileTagsWidget();
+
+				AddWidget(
+					new(
+						fileTagsWidget,
+						fileTagsWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded));
+			}
+
+			if (reloadRecentFilesWidget)
+			{
+				var recentFilesWidget = new RecentFilesWidget();
+
+				AddWidget(
+					new(
+						recentFilesWidget,
+						recentFilesWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded));
+			}
 		}
 
 		public void RefreshWidgetList()
@@ -30,12 +90,10 @@ namespace Files.App.ViewModels
 			for (int i = 0; i < WidgetItems.Count; i++)
 			{
 				if (!WidgetItems[i].WidgetItemModel.IsWidgetSettingEnabled)
-				{
 					RemoveWidgetAt(i);
-				}
 			}
 
-			WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
+			ReloadWidgets();
 		}
 
 		public bool AddWidget(WidgetContainerItem widgetModel)
@@ -102,11 +160,14 @@ namespace Files.App.ViewModels
 			RemoveWidgetAt(indexToRemove);
 		}
 
-		public void ReorderWidget(WidgetContainerItem widgetModel, int place)
+		// Command methods
+
+		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
 		{
-			int widgetIndex = WidgetItems.IndexOf(widgetModel);
-			WidgetItems.Move(widgetIndex, place);
+			ReloadWidgets();
 		}
+
+		// Disposer
 
 		public void Dispose()
 		{

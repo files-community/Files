@@ -4,200 +4,58 @@
 using Files.App.Server.Data;
 using Files.Shared.Extensions;
 using LiteDB;
+using Microsoft.Win32;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using static Files.App.Server.Data.TaggedFileRegistry;
+using static Files.App.Server.Utils.RegistryUtils;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Server.Database
 {
 	public sealed class FileTagsDatabase
 	{
-		private const string TaggedFiles = "taggedfiles";
-		private readonly static LiteDatabase Database;
+		private readonly static string FileTagsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\v1\FileTags";
+		
 		private readonly static string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+		private const string FileTagsCollectionName = "taggedfiles";
 
 		static FileTagsDatabase()
 		{
-			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(FileTagsDbPath));
-
-			Database = new LiteDatabase(new ConnectionString(FileTagsDbPath)
+			if (File.Exists(FileTagsDbPath))
 			{
-				Connection = ConnectionType.Direct,
-				Upgrade = true
-			});
+				SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(FileTagsDbPath));
 
-			UpdateDb();
-		}
-
-		public static string GetFileTagsDbPath() => FileTagsDbPath;
-
-		public void SetTags(string filePath, ulong? frn, [ReadOnlyArray] string[] tags)
-		{
-			// Get a collection (or create, if doesn't exist)
-			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
-
-			var tmp = FindTag(filePath, frn);
-			if (tmp is null)
-			{
-				if (tags.Any())
+				using (var database = new LiteDatabase(new ConnectionString(FileTagsDbPath)
 				{
-					// Insert new tagged file (Id will be auto-incremented)
-					var newTag = new TaggedFile()
-					{
-						FilePath = filePath,
-						Frn = frn,
-						Tags = tags
-					};
-					col.Insert(newTag);
-					col.EnsureIndex(x => x.Frn);
-					col.EnsureIndex(x => x.FilePath);
-				}
-			}
-			else
-			{
-				if (tags.Any())
+					Connection = ConnectionType.Direct,
+					Upgrade = true
+				}))
 				{
-					// Update file tag
-					tmp.Tags = tags;
-					col.Update(tmp);
+					UpdateDb(database);
+					ImportCore(database.GetCollection<TaggedFile>(FileTagsCollectionName).FindAll().ToArray());
 				}
-				else
-				{
-					// Remove file tag
-					col.Delete(tmp.Id);
-				}
+
+				File.Delete(FileTagsDbPath);
 			}
 		}
 
-		private TaggedFile? FindTag(string? filePath, ulong? frn)
+		private static void UpdateDb(LiteDatabase database)
 		{
-			// Get a collection (or create, if doesn't exist)
-			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
-
-			if (filePath is not null)
+			if (database.UserVersion == 0)
 			{
-				var tmp = col.FindOne(x => x.FilePath == filePath);
-				if (tmp is not null)
-				{
-					if (frn is not null)
-					{
-						// Keep entry updated
-						tmp.Frn = frn;
-						col.Update(tmp);
-					}
-
-					return tmp;
-				}
-			}
-
-			if (frn is not null)
-			{
-				var tmp = col.FindOne(x => x.Frn == frn);
-				if (tmp is not null)
-				{
-					if (filePath is not null)
-					{
-						// Keep entry updated
-						tmp.FilePath = filePath;
-						col.Update(tmp);
-					}
-
-					return tmp;
-				}
-			}
-
-			return null;
-		}
-
-		[DefaultOverload]
-		public void UpdateTag(string oldFilePath, ulong? frn, string? newFilePath)
-		{
-			// Get a collection (or create, if doesn't exist)
-			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
-			var tmp = col.FindOne(x => x.FilePath == oldFilePath);
-			if (tmp is not null)
-			{
-				if (frn is not null)
-				{
-					tmp.Frn = frn;
-					col.Update(tmp);
-				}
-
-				if (newFilePath is not null)
-				{
-					tmp.FilePath = newFilePath;
-					col.Update(tmp);
-				}
-			}
-		}
-
-		[Overload("UpdateTagByFrn")]
-		public void UpdateTag(ulong oldFrn, ulong? frn, string? newFilePath)
-		{
-			// Get a collection (or create, if doesn't exist)
-			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
-			var tmp = col.FindOne(x => x.Frn == oldFrn);
-			if (tmp is not null)
-			{
-				if (frn is not null)
-				{
-					tmp.Frn = frn;
-					col.Update(tmp);
-				}
-
-				if (newFilePath is not null)
-				{
-					tmp.FilePath = newFilePath;
-					col.Update(tmp);
-				}
-			}
-		}
-
-		public string[] GetTags(string? filePath, ulong? frn)
-		{
-			return FindTag(filePath, frn)?.Tags ?? [];
-		}
-
-		public IEnumerable<TaggedFile> GetAll()
-		{
-			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
-			return col.FindAll();
-		}
-
-		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
-		{
-			var col = Database.GetCollection<TaggedFile>(TaggedFiles);
-			if (string.IsNullOrEmpty(folderPath))
-				return col.FindAll();
-			return col.Find(x => x.FilePath.StartsWith(folderPath, StringComparison.OrdinalIgnoreCase));
-		}
-
-		public void Import(string json)
-		{
-			var dataValues = JsonSerializer.DeserializeArray(json);
-			var col = Database.GetCollection(TaggedFiles);
-			col.DeleteAll();
-			col.InsertBulk(dataValues.Select(x => x.AsDocument));
-		}
-
-		public string Export()
-		{
-			return JsonSerializer.Serialize(new BsonArray(Database.GetCollection(TaggedFiles).FindAll()));
-		}
-
-		private static void UpdateDb()
-		{
-			if (Database.UserVersion == 0)
-			{
-				var col = Database.GetCollection(TaggedFiles);
+				var col = database.GetCollection(FileTagsCollectionName);
 				foreach (var doc in col.FindAll())
 				{
 					doc["Tags"] = new BsonValue(new[] { doc["Tag"].AsString });
 					doc.Remove("Tags");
 					col.Update(doc);
 				}
-				Database.UserVersion = 1;
+				database.UserVersion = 1;
 			}
 		}
 
@@ -218,6 +76,208 @@ namespace Files.App.Server.Database
 				}
 			}
 			File.Delete(filename); // recreate DB with correct version
+		}
+
+		public void SetTags(string filePath, ulong? frn, [ReadOnlyArray] string[] tags)
+		{
+			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
+
+			if (tags is [])
+			{
+				SaveValues(filePathKey, null);
+				if (frn is not null)
+				{
+					using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()));
+					SaveValues(frnKey, null);
+				}
+
+				return;
+			}
+
+			var newTag = new TaggedFile()
+			{
+				FilePath = filePath,
+				Frn = frn,
+				Tags = tags
+			};
+			SaveValues(filePathKey, newTag);
+
+			if (frn is not null)
+			{
+				using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()));
+				SaveValues(frnKey, newTag);
+			}
+		}
+
+		private TaggedFile? FindTag(string? filePath, ulong? frn)
+		{
+			if (filePath is not null)
+			{
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
+				if (filePathKey.ValueCount > 0)
+				{
+					var tag = new TaggedFile();
+					BindValues(filePathKey, tag);
+					if (frn is not null)
+					{
+						// Keep entry updated
+						tag.Frn = frn;
+						var value = frn.Value;
+						filePathKey.SetValue(nameof(LayoutPreferences.Frn), Unsafe.As<ulong, long>(ref value), RegistryValueKind.QWord);
+					}
+					return tag;
+				}
+			}
+
+			if (frn is not null)
+			{
+				using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()));
+				if (frnKey.ValueCount > 0)
+				{
+					var tag = new TaggedFile();
+					BindValues(frnKey, tag);
+					if (filePath is not null)
+					{
+						// Keep entry updated
+						tag.FilePath = filePath;
+						frnKey.SetValue(nameof(LayoutPreferences.FilePath), filePath, RegistryValueKind.String);
+					}
+					return tag;
+				}
+			}
+
+			return null;
+		}
+
+		[DefaultOverload]
+		public void UpdateTag(string oldFilePath, ulong? frn, string? newFilePath)
+		{
+			var tag = FindTag(oldFilePath, null);
+			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, oldFilePath));
+			SaveValues(filePathKey, null);
+
+			if (tag is not null)
+			{
+				tag.Frn = frn ?? tag.Frn;
+				tag.FilePath = newFilePath ?? tag.FilePath;
+
+				if (frn is not null)
+				{
+					using var newFrnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()));
+					SaveValues(newFrnKey, tag);
+				}
+
+				if (newFilePath is not null)
+				{
+					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, newFilePath));
+					SaveValues(newFilePathKey, tag);
+				}
+			}
+		}
+
+		[Overload("UpdateTagByFrn")]
+		public void UpdateTag(ulong oldFrn, ulong? frn, string? newFilePath)
+		{
+			var tag = FindTag(null, oldFrn);
+			using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", oldFrn.ToString()));
+			SaveValues(frnKey, null);
+
+			if (tag is not null)
+			{
+				tag.Frn = frn ?? tag.Frn;
+				tag.FilePath = newFilePath ?? tag.FilePath;
+
+				if (frn is not null)
+				{
+					using var newFrnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", frn.Value.ToString()));
+					SaveValues(newFrnKey, tag);
+				}
+
+				if (newFilePath is not null)
+				{
+					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, newFilePath));
+					SaveValues(newFilePathKey, tag);
+				}
+			}
+		}
+
+		public string[] GetTags(string? filePath, ulong? frn)
+		{
+			return FindTag(filePath, frn)?.Tags ?? [];
+		}
+
+		public IEnumerable<TaggedFile> GetAll()
+		{
+			var list = new List<TaggedFile>();
+			IterateKeys(list, FileTagsKey, 0);
+			return list;
+		}
+
+		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
+		{
+			folderPath = folderPath.Replace('/', '\\').TrimStart('\\');
+			var list = new List<TaggedFile>();
+			IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+			return list;
+		}
+
+		public void Import(string json)
+		{
+			var tags = JsonSerializer.Deserialize<TaggedFile[]>(json);
+			ImportCore(tags);
+		}
+
+		private static void ImportCore(TaggedFile[]? tags)
+		{
+			Registry.CurrentUser.DeleteSubKeyTree(FileTagsKey, false);
+			if (tags is null)
+			{
+				return;
+			}
+			foreach (var tag in tags)
+			{
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, tag.FilePath));
+				SaveValues(filePathKey, tag);
+				if (tag.Frn is not null)
+				{
+					using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", tag.Frn.Value.ToString()));
+					SaveValues(frnKey, tag);
+				}
+			}
+		}
+
+		public string Export()
+		{
+			var list = new List<TaggedFile>();
+			IterateKeys(list, FileTagsKey, 0);
+			return JsonSerializer.Serialize(list);
+		}
+
+		private void IterateKeys(List<TaggedFile> list, string path, int depth)
+		{
+			using var key = Registry.CurrentUser.OpenSubKey(path);
+			if (key is null)
+			{
+				return;
+			}
+
+			if (key.ValueCount > 0)
+			{
+				var tag = new TaggedFile();
+				BindValues(key, tag);
+				list.Add(tag);
+			}
+
+			foreach (var subKey in key.GetSubKeyNames())
+			{
+				if (depth == 0 && subKey == "FRN")
+				{
+					// Skip FRN key
+					continue;
+				}
+
+				IterateKeys(list, CombineKeys(path, subKey), depth + 1);
+			}
 		}
 	}
 }

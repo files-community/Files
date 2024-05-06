@@ -1,11 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using static Microsoft.UI.Xaml.Application;
 
 namespace Files.App.Data.Commands
 {
@@ -35,7 +33,10 @@ namespace Files.App.Data.Commands
 			opacityStyle = OpacityStyle;
 		}
 
-		public object? ToIcon() => (object?)ToOpacityIcon() ?? ToFontIcon();
+		public object? ToIcon()
+		{
+			return (object?)ToOpacityIcon() ?? ToFontIcon();
+		}
 
 		public FontIcon? ToFontIcon()
 		{
@@ -48,7 +49,7 @@ namespace Files.App.Data.Commands
 			};
 
 			if (!string.IsNullOrEmpty(FontFamily))
-				fontIcon.FontFamily = (FontFamily)Current.Resources[FontFamily];
+				fontIcon.FontFamily = (FontFamily)Application.Current.Resources[FontFamily];
 
 			return fontIcon;
 		}
@@ -60,7 +61,7 @@ namespace Files.App.Data.Commands
 
 			return new()
 			{
-				Style = (Style)Current.Resources[OpacityStyle]
+				Style = (Style)Application.Current.Resources[OpacityStyle]
 			};
 		}
 
@@ -68,7 +69,7 @@ namespace Files.App.Data.Commands
 		{
 			if (string.IsNullOrEmpty(OpacityStyle))
 				return null;
-			return (Style)Current.Resources[OpacityStyle];
+			return (Style)Application.Current.Resources[OpacityStyle];
 		}
 	}
 }

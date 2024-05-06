@@ -7,6 +7,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
@@ -163,11 +164,11 @@
 					<FontIcon Glyph="&#xE74D;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Always}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=PermanentDeletionOnly}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
-				</ComboBox>
+				</uc:ComboBoxEx>
 			</local:SettingsBlockControl>
 
 			<!--  File Extension Warning  -->

@@ -8,7 +8,9 @@ namespace Files.App.Services
 {
 	internal sealed class QuickAccessService : IQuickAccessService
 	{
-		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
+		// Quick access shell folder (::{679f85cb-0220-4080-b29b-5540cc05aab6}) contains recent files
+		// which are unnecessary for getting pinned folders, so we use frequent places shell folder instead.
+		private readonly static string guid = "::{3936e9e4-d92c-4eee-a85a-bc16d5ea0819}";
 
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{

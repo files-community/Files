@@ -48,6 +48,43 @@ IShellItem* CloneShellItem(IShellItem* psi)
 	return item;
 }
 
+std::string wstring_to_utf8_hex(const std::wstring& input)
+{
+	std::string output;
+
+	int cbNeeded = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, NULL, 0, NULL, NULL);
+	if (cbNeeded > 0)
+	{
+		char* utf8 = new char[cbNeeded];
+		if (WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, utf8, cbNeeded, NULL, NULL) != 0)
+		{
+			for (char* p = utf8; *p; p++)
+			{
+				char onehex[5];
+				sprintf_s(onehex, sizeof(onehex), "%%%02.2X", (unsigned char)*p);
+				output.append(onehex);
+			}
+		}
+
+		delete[] utf8;
+	}
+
+	return output;
+}
+
+std::wstring str2wstr(const std::string& str)
+{
+	int cbNeeded = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+	if (cbNeeded > 0)
+	{
+		std::wstring wstrTo(cbNeeded, 0);
+		MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], cbNeeded);
+		return wstrTo;
+	}
+
+	return L"";
+}
+
 template <typename T>
 CComPtr<T> AsInterface(CComPtr<IFileOpenDialog> dialog)
 {
@@ -118,19 +155,27 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	SHELLEXECUTEINFO ShExecInfo = { 0 };
 	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
-	ShExecInfo.lpFile = L"files.exe";
+
 	PWSTR pszPath = NULL;
+	WCHAR szBuf[MAX_PATH];
+	TCHAR args[1024] = { 0 };
+	ExpandEnvironmentStrings(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\files.exe", szBuf, MAX_PATH - 1);
 
 	HANDLE closeEvent = CreateEvent(NULL, FALSE, FALSE, TEXT("FILEDIALOG"));
 
 	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
 	{
-		TCHAR args[1024];
-		wsprintf(args, L"-directory \"%s\" -outputpath \"%s\"", pszPath, _outputPath.c_str());
+		swprintf(args, _countof(args) - 1, L"\"%s\" -directory \"%s\" -outputpath \"%s\"", szBuf, pszPath, _outputPath.c_str());
 		wcout << L"Invoking: " << args << endl;
-		ShExecInfo.lpParameters = args;
 		CoTaskMemFree(pszPath);
 	}
+	else
+	{
+		swprintf(args, _countof(args) - 1, L"\"%s\" -outputpath \"%s\"", szBuf, _outputPath.c_str());
+	}
+
+	std::wstring uriWithArgs = L"files-uwp:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
+	ShExecInfo.lpFile = uriWithArgs.c_str();
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
 

@@ -7,7 +7,6 @@ using Files.App.Helpers;
 using Files.App.Utils.Serialization;
 using Files.App.Utils.Serialization.Implementation;
 using Files.App.Services.Settings;
-using Files.App.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;

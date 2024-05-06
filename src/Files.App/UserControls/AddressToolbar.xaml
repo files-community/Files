@@ -337,15 +337,6 @@
 									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
 								</TextBlock>
 
-								<!--  Secondary Title  -->
-								<TextBlock
-									x:Name="SecondaryDisplayBlock"
-									Grid.Column="0"
-									x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-									FontWeight="Normal"
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
-
 								<!--  Keyboard Shortcuts  -->
 								<keyboard:KeyboardShortcut
 									x:Name="RightAlignedKeyboardShortcut"
