@@ -69,7 +69,7 @@ namespace Files.App.Data.Contexts
 		/// Increments the count of properties windows that are being opened.
 		/// </summary>
 		/// <remarks>
-		/// Call this make cure the property is thread-safe.
+		/// Call this make sure the property <see cref="PropertiesWindowCount"/>'s setter is thread-safe.
 		/// </remarks>
 		/// <returns>The updated count of properties window that are being opened.</returns>
 		int IncrementPropertiesWindowCount();
@@ -78,7 +78,7 @@ namespace Files.App.Data.Contexts
 		/// Decreases the count of properties windows that are being opened.
 		/// </summary>
 		/// <remarks>
-		/// Call this make cure the property is thread-safe.
+		/// Call this make sure the property <see cref="PropertiesWindowCount"/>'s setter is thread-safe.
 		/// </remarks>
 		/// <returns>The updated count of properties window that are being opened.</returns>
 		int DecrementPropertiesWindowCount();
