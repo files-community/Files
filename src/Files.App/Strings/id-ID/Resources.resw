@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Latar belakang</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Lanjutan</value>
@@ -881,6 +881,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Encoding Bitrate</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Enkoding Audio Bitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Enkoding Video Bitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Kompresi</value>
