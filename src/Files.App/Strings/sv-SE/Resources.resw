@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Använd som låsskärmsbakgrund</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Vi kunde inte ta bort det här objektet</value>
   </data>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Ställ in den valda bilden som bakgrund på låsskärmen</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Installera valda teckensnitt</value>
