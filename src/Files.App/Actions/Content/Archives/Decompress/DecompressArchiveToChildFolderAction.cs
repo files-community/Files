@@ -37,7 +37,7 @@ namespace Files.App.Actions
 				if (archive?.Path is null)
 					return;
 
-				if (await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive)))
+				if (await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
@@ -62,7 +62,7 @@ namespace Files.App.Actions
 
 				// Operate decompress
 				var result = await FilesystemTasks.Wrap(() =>
-					StorageArchiveService.DecompressAsync(archive, destinationFolder, password));
+					StorageArchiveService.DecompressAsync(selectedItem.ItemPath, destinationFolder?.Path ?? string.Empty, password));
 			}
 		}
 

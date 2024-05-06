@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
-using Microsoft.Extensions.Logging;
 using SevenZip;
 using System.IO;
 using Windows.Storage;
@@ -35,7 +34,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task CompressAsync(ICompressArchiveModel creator)
+		public async Task<bool> CompressAsync(ICompressArchiveModel creator)
 		{
 			var archivePath = creator.GetArchivePath();
 
@@ -79,19 +78,25 @@ namespace Files.App.Services
 						: ReturnResult.Failed,
 					creator.Sources.Count());
 			}
+
+			return isSuccess;
 		}
 
 		/// <inheritdoc/>
-		public async Task<bool> DecompressAsync(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password)
+		public async Task<bool> DecompressAsync(string archiveFilePath, string destinationFolderPath, string password = "")
 		{
-			using var zipFile = await GetSevenZipExtractorAsync(archive, password);
+			if (string.IsNullOrEmpty(archiveFilePath) ||
+				string.IsNullOrEmpty(destinationFolderPath))
+				return false;
+
+			using var zipFile = await GetSevenZipExtractorAsync(archiveFilePath, password);
 			if (zipFile is null)
 				return false;
 
 			// Initialize a new in-progress status card
 			var statusCard = StatusCenterHelper.AddCard_Decompress(
-				archive.Path.CreateEnumerable(),
-				destinationFolder!.Path.CreateEnumerable(),
+				archiveFilePath.CreateEnumerable(),
+				destinationFolderPath.CreateEnumerable(),
 				ReturnResult.InProgress);
 
 			// Check if the decompress operation canceled
@@ -112,7 +117,7 @@ namespace Files.App.Services
 			try
 			{
 				// TODO: Get this method return result
-				await zipFile.ExtractArchiveAsync(destinationFolder.Path);
+				await zipFile.ExtractArchiveAsync(destinationFolderPath);
 
 				isSuccess = true;
 			}
@@ -129,16 +134,16 @@ namespace Files.App.Services
 				{
 					// Successful
 					StatusCenterHelper.AddCard_Decompress(
-						archive.Path.CreateEnumerable(),
-						destinationFolder.Path.CreateEnumerable(),
+						archiveFilePath.CreateEnumerable(),
+						destinationFolderPath.CreateEnumerable(),
 						ReturnResult.Success);
 				}
 				else
 				{
 					// Error
 					StatusCenterHelper.AddCard_Decompress(
-						archive.Path.CreateEnumerable(),
-						destinationFolder.Path.CreateEnumerable(),
+						archiveFilePath.CreateEnumerable(),
+						destinationFolderPath.CreateEnumerable(),
 						statusCard.CancellationToken.IsCancellationRequested
 							? ReturnResult.Cancelled
 							: ReturnResult.Failed);
@@ -193,9 +198,9 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<bool> IsEncryptedAsync(BaseStorageFile archive)
+		public async Task<bool> IsEncryptedAsync(string archiveFilePath)
 		{
-			using SevenZipExtractor? zipFile = await GetSevenZipExtractorAsync(archive);
+			using SevenZipExtractor? zipFile = await GetSevenZipExtractorAsync(archiveFilePath);
 			if (zipFile is null)
 				return true;
 
@@ -203,10 +208,12 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<SevenZipExtractor?> GetSevenZipExtractorAsync(BaseStorageFile archive, string password = "")
+		public async Task<SevenZipExtractor?> GetSevenZipExtractorAsync(string archiveFilePath, string password = "")
 		{
 			return await FilesystemTasks.Wrap(async () =>
 			{
+				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
+
 				var arch = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
 
 				// Force to load archive (1665013614u)

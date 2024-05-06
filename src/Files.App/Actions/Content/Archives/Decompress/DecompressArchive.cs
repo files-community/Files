@@ -31,15 +31,12 @@ namespace Files.App.Actions
 			if (context.ShellPage is null)
 				return;
 
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(
-				context.SelectedItems.Count is 0
-					? context.ShellPage.FilesystemViewModel.WorkingDirectory
-					: context.SelectedItem?.ItemPath ?? string.Empty);
+			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(context.SelectedItem?.ItemPath ?? string.Empty);
 
 			if (archive?.Path is null)
 				return;
 
-			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive));
+			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path));
 			var password = string.Empty;
 
 			DecompressArchiveDialog decompressArchiveDialog = new();
@@ -69,13 +66,13 @@ namespace Files.App.Actions
 
 			if (destinationFolder is null)
 			{
-				BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
+				BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path) ?? string.Empty);
 				destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
 			}
 
 			// Operate decompress
 			var result = await FilesystemTasks.Wrap(() =>
-				StorageArchiveService.DecompressAsync(archive, destinationFolder, password));
+				StorageArchiveService.DecompressAsync(archive?.Path ?? string.Empty, destinationFolder?.Path ?? string.Empty, password));
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, context.ShellPage, FilesystemItemType.Directory);

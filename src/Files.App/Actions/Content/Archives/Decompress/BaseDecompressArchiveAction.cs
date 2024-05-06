@@ -4,8 +4,10 @@
 using Files.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using SevenZip;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 
 namespace Files.App.Actions
 {
@@ -53,12 +55,12 @@ namespace Files.App.Actions
 			{
 				var password = string.Empty;
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(context.ShellPage?.FilesystemViewModel.CurrentFolder.ItemPath);
+				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(context.ShellPage?.FilesystemViewModel.CurrentFolder?.ItemPath ?? string.Empty);
 
 				if (archive?.Path is null)
 					return;
 
-				if (await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive)))
+				if (await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
@@ -76,14 +78,15 @@ namespace Files.App.Actions
 					if (option != ContentDialogResult.Primary)
 						return;
 
-					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+					if (decompressArchiveViewModel.Password is not null)
+						password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
 				BaseStorageFolder? destinationFolder = null;
 
 				var isMultipleItems = await FilesystemTasks.Wrap(async () =>
 				{
-					using SevenZipExtractor? zipFile = await StorageArchiveService.GetSevenZipExtractorAsync(archive);
+					using SevenZipExtractor? zipFile = await StorageArchiveService.GetSevenZipExtractorAsync(archive.Path);
 					if (zipFile is null)
 						return true;
 
@@ -100,7 +103,11 @@ namespace Files.App.Actions
 
 				if (smart && currentFolder is not null && isMultipleItems)
 				{
-					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(SystemIO.Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+					destinationFolder =
+						await FilesystemTasks.Wrap(() =>
+							currentFolder.CreateFolderAsync(
+								SystemIO.Path.GetFileNameWithoutExtension(archive.Path),
+								CreationCollisionOption.GenerateUniqueName).AsTask());
 				}
 				else
 				{
@@ -109,7 +116,7 @@ namespace Files.App.Actions
 
 				// Operate decompress
 				var result = await FilesystemTasks.Wrap(() =>
-					StorageArchiveService.DecompressAsync(archive, destinationFolder, password));
+					StorageArchiveService.DecompressAsync(selectedItem.ItemPath, destinationFolder?.Path ?? string.Empty, password));
 			}
 		}
 
