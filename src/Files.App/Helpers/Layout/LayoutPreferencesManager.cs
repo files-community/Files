@@ -503,15 +503,18 @@ namespace Files.App.Data.Models
 		{
 			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
-				path = path.TrimPath() ?? string.Empty;
+				return SafetyExtensions.IgnoreExceptions(() =>
+				{
+					path = path.TrimPath() ?? string.Empty;
 
-				if (path.StartsWith("tag:", StringComparison.Ordinal))
-					return GetLayoutPreferencesFromDatabase("Home", null);
+					if (path.StartsWith("tag:", StringComparison.Ordinal))
+						return GetLayoutPreferencesFromDatabase("Home", null);
 
-				var folderFRN = Win32Helper.GetFolderFRN(path);
+					var folderFRN = Win32Helper.GetFolderFRN(path);
 
-				return GetLayoutPreferencesFromDatabase(path, folderFRN)
-					?? GetLayoutPreferencesFromAds(path, folderFRN)
+					return GetLayoutPreferencesFromDatabase(path, folderFRN)
+						?? GetLayoutPreferencesFromAds(path, folderFRN);
+				}, App.Logger)
 					?? GetDefaultLayoutPreferences(path);
 			}
 
