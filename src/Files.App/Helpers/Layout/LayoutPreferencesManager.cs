@@ -503,10 +503,10 @@ namespace Files.App.Data.Models
 		{
 			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
+				path = path.TrimPath() ?? string.Empty;
+
 				return SafetyExtensions.IgnoreExceptions(() =>
 				{
-					path = path.TrimPath() ?? string.Empty;
-
 					if (path.StartsWith("tag:", StringComparison.Ordinal))
 						return GetLayoutPreferencesFromDatabase("Home", null);
 
