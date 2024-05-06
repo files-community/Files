@@ -9,6 +9,7 @@ using Windows.Win32;
 
 namespace Files.App.Services
 {
+	/// <inheritdoc cref="IStorageArchiveService"/>
 	public class StorageArchiveService : IStorageArchiveService
 	{
 		private StatusCenterViewModel StatusCenterViewModel { get; } = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -214,10 +215,10 @@ namespace Files.App.Services
 			{
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
 
-				var arch = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
+				var extractor = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
 
 				// Force to load archive (1665013614u)
-				return arch?.ArchiveFileData is null ? null : arch;
+				return extractor?.ArchiveFileData is null ? null : extractor;
 			});
 		}
 	}
