@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Сделать фоном экрана блокировки</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Ошибка при удалении этого элемента</value>
   </data>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Установить как обои экрана блокировки</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Установить выбранный(е) шрифт(ы)</value>
