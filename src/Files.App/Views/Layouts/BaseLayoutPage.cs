@@ -39,7 +39,6 @@ namespace Files.App.Views.Layouts
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
-		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		// ViewModels
 

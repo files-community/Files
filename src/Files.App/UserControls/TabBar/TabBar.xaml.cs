@@ -92,9 +92,9 @@ namespace Files.App.UserControls.TabBar
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
 		{
 			if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
-				App.WindowContext.SelectedTabBarItemIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabBarItem);
+				WindowContext.SelectedTabBarItemIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabBarItem);
 
-			if (App.WindowContext.SelectedTabBarItemIndex >= 0 && App.WindowContext.SelectedTabBarItemIndex < Items.Count)
+			if (WindowContext.SelectedTabBarItemIndex >= 0 && WindowContext.SelectedTabBarItemIndex < Items.Count)
 			{
 				CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -108,7 +108,7 @@ namespace Files.App.UserControls.TabBar
 				}
 			}
 
-			HorizontalTabView.SelectedIndex = App.WindowContext.SelectedTabBarItemIndex;
+			HorizontalTabView.SelectedIndex = WindowContext.SelectedTabBarItemIndex;
 		}
 
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
@@ -140,7 +140,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			tabHoverTimer.Stop();
 			if (hoveredTabViewItem is not null)
-				App.WindowContext.SelectedTabBarItemIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabBarItem);
+				WindowContext.SelectedTabBarItemIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabBarItem);
 		}
 
 		private void TabView_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)

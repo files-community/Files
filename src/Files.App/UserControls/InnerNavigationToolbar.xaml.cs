@@ -20,8 +20,6 @@ namespace Files.App.UserControls
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public IModifiableCommandManager ModifiableCommands { get; } = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
-		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
-
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		public AddressToolbarViewModel? ViewModel

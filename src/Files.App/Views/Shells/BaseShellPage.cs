@@ -802,7 +802,7 @@ namespace Files.App.Views.Shells
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			if (App.WindowContext.IsMainWindowClosed)
+			if (WindowContext.IsMainWindowClosed)
 				return;
 
 			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
