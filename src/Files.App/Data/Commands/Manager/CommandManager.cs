@@ -76,6 +76,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand SetAsWallpaperBackground => commands[CommandCodes.SetAsWallpaperBackground];
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
+		public IRichCommand SetAsAppBackground => commands[CommandCodes.SetAsAppBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
 		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
 		public IRichCommand CopyPathWithQuotes => commands[CommandCodes.CopyPathWithQuotes];
@@ -249,6 +250,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
+			[CommandCodes.SetAsAppBackground] = new SetAsAppBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
 			[CommandCodes.CopyPath] = new CopyPathAction(),
 			[CommandCodes.CopyPathWithQuotes] = new CopyPathWithQuotesAction(),
