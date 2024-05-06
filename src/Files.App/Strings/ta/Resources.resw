@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>பூட்டுத்திரை பின்புலமாக அமை</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் நீக்க முடியவில்லை</value>
   </data>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>தேர்ந்தெடுத்துள்ள புகைப்படத்தைப் பூட்டுத்திரை பின்புலமாக அமை</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>தேர்ந்தெடுத்துள்ள எழுத்துரு(கள்)-ஐ நிறுவு</value>
