@@ -388,7 +388,7 @@
 								x:Name="SetAsAppBackgroundFlyoutItem"
 								Command="{x:Bind Commands.SetAsAppBackground}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsAppBackground.HotKeyText, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Lockscreen}">
+								Text="{helpers:ResourceString Name=App}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="{x:Bind Commands.SetAsAppBackground.Glyph.BaseGlyph}" />
 								</MenuFlyoutItem.Icon>

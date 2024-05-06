@@ -3796,4 +3796,8 @@
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Vertical alignment</value>
   </data>
+  <data name="App" xml:space="preserve">
+    <value>App</value>
+    <comment>Used for the "Set as app background" menu</comment>
+  </data>
 </root>
