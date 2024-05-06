@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>主题色</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高级选项</value>
@@ -880,7 +880,13 @@
     <value>帧速率</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>编码速率</value>
+    <value>编码比特率</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>音频编码比特率</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>视频编码比特率</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>压缩</value>
@@ -3741,7 +3747,7 @@
     <value>背景图片</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>底部</value>
+    <value>底端对齐</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
@@ -3759,22 +3765,22 @@
     <value>图片契合方式</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>左方向键</value>
+    <value>左对齐</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
     <value>不透明度</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>右方向键</value>
+    <value>右对齐</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>顶部</value>
+    <value>顶端对齐</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>均匀分布</value>
+    <value>均匀</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
