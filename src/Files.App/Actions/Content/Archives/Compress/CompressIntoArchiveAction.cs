@@ -63,7 +63,7 @@ namespace Files.App.Actions
 				dialog.CompressionLevel,
 				dialog.SplittingSize);
 
-			await CompressHelper.CompressArchiveAsync(creator);
+			await StorageArchiveService.CompressAsync(creator);
 		}
 	}
 }

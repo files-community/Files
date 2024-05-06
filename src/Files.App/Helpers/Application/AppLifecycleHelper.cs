@@ -190,6 +190,7 @@ namespace Files.App.Helpers
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
+					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()

@@ -6,6 +6,7 @@ namespace Files.App.Actions
 	internal abstract class BaseCompressArchiveAction : BaseUIAction, IAction
 	{
 		protected readonly IContentPageContext context;
+		protected IStorageArchiveService StorageArchiveService { get; } = Ioc.Default.GetRequiredService<IStorageArchiveService>();
 
 		public abstract string Label { get; }
 
@@ -13,7 +14,7 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
-			CompressHelper.CanCompress(context.SelectedItems) &&
+			StorageArchiveService.CanCompress(context.SelectedItems) &&
 			UIHelpers.CanShowDialog;
 
 		public BaseCompressArchiveAction()
