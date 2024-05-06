@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>잠금 화면 배경으로 설정</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>항목을 삭제할 수 없습니다.</value>
   </data>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>잠금 화면 배경으로 설정</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>선택한 폰트 설치</value>
