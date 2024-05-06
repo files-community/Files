@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Внешний вид</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Фон</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Расширенные</value>
@@ -881,6 +881,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Скорость потока</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Audio Encoding Bitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Video Encoding Bitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Сжатие</value>
