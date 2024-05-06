@@ -158,7 +158,7 @@ namespace Files.App.Services
 
 			zipFile.FileExtractionStarted += (s, e) =>
 			{
-				if (cancellationToken.IsCancellationRequested)
+				if (statusCard.CancellationToken.IsCancellationRequested)
 					e.Cancel = true;
 
 				if (!e.FileInfo.IsDirectory)
