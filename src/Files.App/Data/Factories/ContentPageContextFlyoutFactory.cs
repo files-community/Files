@@ -411,6 +411,7 @@ namespace Files.App.Data.Factories
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.SetAsWallpaperBackground).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.SetAsLockscreenBackground).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.SetAsSlideshowBackground).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.SetAsAppBackground).Build(),
 					]
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RotateLeft)
