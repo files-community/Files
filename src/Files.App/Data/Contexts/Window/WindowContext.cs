@@ -1,39 +1,41 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Windowing;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.Contexts
 {
+	/// <inheritdoc/>
 	internal sealed class WindowContext : ObservableObject, IWindowContext
 	{
 		private bool _IsCompactOverlay;
+		/// <inheritdoc/>
 		public bool IsCompactOverlay
 		{
 			get => _IsCompactOverlay;
 			set => SetProperty(ref _IsCompactOverlay, value);
 		}
 
-		private int _TabStripSelectedIndex = 0;
-		public int TabStripSelectedIndex
+		private int _SelectedTabBarItemIndex = 0;
+		/// <inheritdoc/>
+		public int SelectedTabBarItemIndex
 		{
-			get => _TabStripSelectedIndex;
+			get => _SelectedTabBarItemIndex;
 			set
 			{
-				SetProperty(ref _TabStripSelectedIndex, value);
-
-				if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
+				if (SetProperty(ref _SelectedTabBarItemIndex, value) &&
+					value >= 0 &&
+					value < MainPageViewModel.AppInstances.Count)
 				{
-					Frame rootFrame = (Frame)MainWindow.Instance.Content;
-					var mainView = (MainPage)rootFrame.Content;
-					mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+					var mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+					mainPageViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
 				}
 			}
 		}
 
 		private bool _IsAppElevated = false;
+		/// <inheritdoc/>
 		public bool IsAppElevated
 		{
 			get => _IsAppElevated;
@@ -41,6 +43,7 @@ namespace Files.App.Data.Contexts
 		}
 
 		private bool _IsPasteEnabled = false;
+		/// <inheritdoc/>
 		public bool IsPasteEnabled
 		{
 			get => _IsPasteEnabled;
@@ -48,6 +51,7 @@ namespace Files.App.Data.Contexts
 		}
 
 		private volatile int _IsMainWindowClosed = 0;
+		/// <inheritdoc/>
 		public bool IsMainWindowClosed
 		{
 			get => _IsMainWindowClosed == 1;
@@ -60,10 +64,12 @@ namespace Files.App.Data.Contexts
 		}
 
 		private int _PropertiesWindowCount = 0;
+		/// <inheritdoc/>
 		public int PropertiesWindowCount
 			=> _PropertiesWindowCount;
 
 		private bool _ForceProcessTermination = false;
+		/// <inheritdoc/>
 		public bool ForceProcessTermination
 		{
 			get => _ForceProcessTermination;
@@ -104,6 +110,7 @@ namespace Files.App.Data.Contexts
 
 		// Methods
 
+		/// <inheritdoc/>
 		public int IncrementPropertiesWindowCount()
 		{
 			var result = Interlocked.Increment(ref _PropertiesWindowCount);
@@ -111,6 +118,7 @@ namespace Files.App.Data.Contexts
 			return result;
 		}
 
+		/// <inheritdoc/>
 		public int DecrementPropertiesWindowCount()
 		{
 			var result = Interlocked.Decrement(ref _PropertiesWindowCount);

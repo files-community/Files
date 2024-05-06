@@ -44,7 +44,7 @@ namespace Files.App.Data.Contexts
 		}
 		private void WindowContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IWindowContext.TabStripSelectedIndex))
+			if (e.PropertyName is nameof(IWindowContext.SelectedTabBarItemIndex))
 				UpdateCurrentTabIndex();
 		}
 
@@ -92,7 +92,7 @@ namespace Files.App.Data.Contexts
 
 		private void UpdateCurrentTabIndex()
 		{
-			if (SetProperty(ref currentTabIndex, (ushort)App.WindowContext.TabStripSelectedIndex, nameof(CurrentTabIndex)))
+			if (SetProperty(ref currentTabIndex, (ushort)App.WindowContext.SelectedTabBarItemIndex, nameof(CurrentTabIndex)))
 			{
 				OnPropertyChanged(nameof(CurrentTabItem));
 			}
