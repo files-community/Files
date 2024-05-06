@@ -217,7 +217,7 @@
     <value>Vzhled</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Barva pozadí</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Pokročilé</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Nastavit pozadí uzamčené obrazovky</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodařilo se nám odstranit tuto položku</value>
@@ -2463,6 +2466,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Nastaví vybraný obrázek jako pozadí zamykací obrazovky</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Nainstalovat vybraná písma</value>
   </data>
@@ -3744,7 +3750,7 @@
     <value>Adaptivní rozložení není dostupné, pokud jsou nastavení synchronizována, výchozí rozložení bylo změněno na Podrobnosti.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Obrázek na pozadí</value>
+    <value>Obrázek pozadí</value>
   </data>
   <data name="Bottom" xml:space="preserve">
     <value>Dolů</value>
