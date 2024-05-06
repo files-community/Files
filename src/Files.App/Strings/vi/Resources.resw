@@ -217,7 +217,7 @@
     <value>Giao diện</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Màu nền</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Nâng cao</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Hình nền màn hình khóa</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi không thể xóa khoản mục này</value>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Đặt hình ảnh đã chọn làm hình nền màn hình khóa</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Cài đặt phông chữ đã chọn</value>
