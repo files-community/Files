@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Ορισμός ως φόντο οθόνης κλειδώματος</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Δεν ήταν δυνατή η διαγραφή αυτού του στοιχείου</value>
   </data>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Ορισμός επιλεγμένης εικόνας ως φόντου επιφάνειας κλειδώματος οθόνης</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Εγκατάσταση επιλεγμένης γραμματοσειράς(ων)</value>
