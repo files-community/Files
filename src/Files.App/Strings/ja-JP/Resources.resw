@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>背景</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高度な設定</value>
@@ -881,6 +881,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>エンコード ビットレート</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>音声エンコード ビットレート</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>動画エンコード ビットレート</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>圧縮</value>
