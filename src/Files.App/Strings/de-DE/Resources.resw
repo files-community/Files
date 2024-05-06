@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Erscheinungsbild</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Hintergrund</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Erweitert</value>
@@ -280,7 +280,7 @@
     <value>Willkommen bei Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Zugriff erlauben</value>
+    <value>Berechtigung erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Als Sperrbildschirm festlegen</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Löschen der Datei oder des Ordners nicht möglich</value>
@@ -436,7 +439,7 @@
     <value>Elemente</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>OK</value>
+    <value>Ja</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Bist Du sicher, dass Du alle Elemente endgültig löschen möchtest?</value>
@@ -880,6 +883,12 @@
     <value>Bildrate</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Enkodierungsbitrate</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Enkodierungsbitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
     <value>Enkodierungsbitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
@@ -2456,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Ausgewähltes Bild als Sperrbildschirm-Hintergrund festlegen</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Ausgewählte Schriftart(en) installieren</value>
