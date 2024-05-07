@@ -21,7 +21,7 @@ namespace Files.App.Actions
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(ISidebarContext.IsAnyItemRightClicked):
+				case nameof(ISidebarContext.IsItemRightClicked):
 				case nameof(ISidebarContext.RightClickedItem):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
