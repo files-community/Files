@@ -18,32 +18,32 @@ namespace Files.App.Data.Contexts
 		bool IsCompactOverlay { get; }
 
 		/// <summary>
-		/// Gets the index of the current selected <see cref="TabBarItem"/>.
+		/// Gets or sets the index of the current selected <see cref="TabBarItem"/>.
 		/// </summary>
-		int SelectedTabBarItemIndex { get; set; }
+		int TabBarItemSelectedIndex { get; set; }
 
 		/// <summary>
-		/// Gets the value that indicates whether the application process is elevated.
+		/// Gets or sets the value that indicates whether the application process is elevated.
 		/// </summary>
 		bool IsAppElevated { get; set; }
 
 		/// <summary>
-		/// Gets the value that indicates whether the paste file filesystem operation is enabled.
+		/// Gets or sets the value that indicates whether the paste file filesystem operation is enabled.
 		/// </summary>
 		bool IsPasteEnabled { get; set; }
 
 		/// <summary>
-		/// Gets the value that indicates the application window is closed.
+		/// Gets or sets the value that indicates the application window is closed.
 		/// </summary>
 		bool IsMainWindowClosed { get; set; }
 
 		/// <summary>
-		/// Gets the count of properties windows that are being opened
+		/// Gets or sets the count of properties windows that are being opened
 		/// </summary>
 		int PropertiesWindowCount { get; }
 
 		/// <summary>
-		/// Gets the value that indicates whether the application must be terminated on closed.
+		/// Gets or sets the value that indicates whether the application must be terminated on closed.
 		/// </summary>
 		bool ForceProcessTermination { get; set; }
 

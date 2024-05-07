@@ -245,7 +245,7 @@ namespace Files.App.ViewModels
 
 			// Only select the tab if it is in the list
 			if (indexToSelect < AppInstances.Count)
-				App.WindowContext.SelectedTabBarItemIndex = indexToSelect;
+				App.WindowContext.TabBarItemSelectedIndex = indexToSelect;
 
 			e.Handled = true;
 		}

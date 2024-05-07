@@ -63,7 +63,7 @@ namespace Files.App.UserControls.TabBar
 
 		protected void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (App.WindowContext.SelectedTabBarItemIndex >= 0 && App.WindowContext.SelectedTabBarItemIndex < Items.Count)
+			if (App.WindowContext.TabBarItemSelectedIndex >= 0 && App.WindowContext.TabBarItemSelectedIndex < Items.Count)
 			{
 				CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -96,7 +96,7 @@ namespace Files.App.UserControls.TabBar
 
 		public ITabBarItemContent GetCurrentSelectedTabInstance()
 		{
-			return MainPageViewModel.AppInstances[App.WindowContext.SelectedTabBarItemIndex].TabItemContent;
+			return MainPageViewModel.AppInstances[App.WindowContext.TabBarItemSelectedIndex].TabItemContent;
 		}
 
 		public void SelectionChanged()
