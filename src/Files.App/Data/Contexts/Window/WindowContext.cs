@@ -135,8 +135,6 @@ namespace Files.App.Data.Contexts
 
 		private void Clipboard_ContentChanged(object? sender, object e)
 		{
-			// TODO: Refactor here
-
 			try
 			{
 				DataPackageView packageView = Clipboard.GetContent();
