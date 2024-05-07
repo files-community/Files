@@ -20,7 +20,7 @@ namespace Files.App.Actions
 			base.IsExecutable &&
 			context.SelectedItem is not null;
 
-		public override Task ExecuteAsync()
+		public override Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.SelectedItem is not null)
 				AppearanceSettingsService.AppThemeBackgroundImageSource = context.SelectedItem.ItemPath;
