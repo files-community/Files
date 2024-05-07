@@ -148,7 +148,7 @@
     <value>Nekomprimovaná velikost:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Tato akce nemůže být provedena</value>
+    <value>Tuto akci nelze provést</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
     <value>Cílová složka</value>
@@ -202,7 +202,7 @@
     <value>Časový formát</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Vzhled</value>
+    <value>Motiv</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Zobrazit přípony známých typů souborů</value>
@@ -340,7 +340,7 @@
     <value>Nastavit pozadí uzamčené obrazovky</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Nastavit jako pozadí aplikace</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodařilo se nám odstranit tuto položku</value>
@@ -2461,13 +2461,13 @@
     <value>Použít vybraný obrázek jako pozadí</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Nastavit vybrané obrázky jako prezentaci na ploše</value>
+    <value>Nastaví vybrané obrázky jako prezentaci na ploše</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Nastaví vybraný obrázek jako pozadí zamykací obrazovky</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Nastaví vybraný obrázek jako pozadí aplikace</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Nainstalovat vybraná písma</value>
@@ -2494,10 +2494,10 @@
     <value>Vytvořit archiv s vybranými položkami</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Vytvořit okamžitě 7z archiv s vybranými položkami</value>
+    <value>Vytvořit 7z archiv s vybranými položkami</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Vytvořit rovnou zip archiv s vybranými položkami</value>
+    <value>Vytvořit zip archiv s vybranými položkami</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
     <value>Extrahovat položky z vybraných archivů do jakékoli složky</value>
@@ -3768,7 +3768,7 @@
     <value>Horizontální zarovnání</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Přizpůsobit</value>
+    <value>Velikost</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Vlevo</value>
@@ -3786,7 +3786,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Oříznout</value>
+    <value>Přizpůsobit</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
