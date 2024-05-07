@@ -5,6 +5,9 @@ namespace Files.App.Actions
 {
 	internal sealed class OpenInNewWindowFromHomeAction : BaseOpenInNewWindowAction
 	{
+		public override HotKey HotKey
+			=> HotKey.None;
+
 		public override bool IsExecutable =>
 			HomePageContext.IsAnyItemRightClicked &&
 			HomePageContext.RightClickedItem is not null;

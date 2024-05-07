@@ -18,7 +18,7 @@ namespace Files.App.Actions
 		public string Description
 			=> "OpenInNewWindowDescription".GetLocalizedResource();
 
-		public HotKey HotKey
+		public virtual HotKey HotKey
 			=> new(Keys.Enter, KeyModifiers.CtrlAlt);
 
 		public RichGlyph Glyph

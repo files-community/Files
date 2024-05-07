@@ -5,6 +5,9 @@ namespace Files.App.Actions
 {
 	internal sealed class OpenInNewWindowFromSidebarAction : BaseOpenInNewWindowAction
 	{
+		public override HotKey HotKey
+			=> HotKey.None;
+
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
 			SidebarContext.RightClickedItem is not null;
