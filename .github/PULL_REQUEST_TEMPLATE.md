@@ -7,20 +7,13 @@ I ACKNOWLEDGE THE FOLLOWING BEFORE PROCEEDING:
 -->
 
 **Resolved / Related Issues**
-- [ ] Were these changes approved in an issue or discussion with the project maintainers? In order to prevent extra work, feature requests and changes to the codebase must be approved before the pull request will be reviewed. This prevents extra work for the contributors and maintainers.
-   Closes #issue...
 
-**Validation**
-How did you test these changes?
-- [ ] Did you build the app and test your changes?
-- [ ] Did you check for accessibility? You can use Accessibility Insights for this.
-- [ ] Did you remove any strings from the en-us resource file?
-   - [ ] Did you search the solution to see if the string is still being used? 
-- [ ] Did you implement any design changes to an existing feature?
-   - [ ] Was this change approved?
-- [ ] Are there any other steps that were used to validate these changes?
-   1. Open app ...
-   2. Click settings button ...
+To prevent extra work, all changes to the Files codebase must link to an approved issue marked as `Ready to build`. Please insert the issue number following the hashtag with the issue number that this Pull Request resolves.
+- Closes #
 
-**Screenshots (optional)**
-Add screenshots here.
+**Steps used to test these changes**
+
+Stability is a top priority for Files and all changes are required to go through testing before being merged into the repo. Please include a list of steps that you used to test this PR.
+
+1. Opened Files ...
+2. ...

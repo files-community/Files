@@ -125,13 +125,13 @@ namespace Files.App.ViewModels.Settings
 			if (!AppThemeResources.Any(p => p.BackgroundColor == themeBackgroundColor))
 			{
 				// Remove current value before adding a new one
-				if (AppThemeResources.Last().Name == "Custom")
+				if (AppThemeResources.Last().Name == "Custom".GetLocalizedResource())
 					AppThemeResources.Remove(AppThemeResources.Last());
 
 				var appThemeBackgroundColor = new AppThemeResourceItem
 				{
 					BackgroundColor = themeBackgroundColor,
-					Name = "Custom"
+					Name = "Custom".GetLocalizedResource(),
 				};
 
 				AppThemeResources.Add(appThemeBackgroundColor);

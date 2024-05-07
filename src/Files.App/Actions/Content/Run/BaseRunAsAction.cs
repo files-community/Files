@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			_context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			await ContextMenu.InvokeVerb(_verb, _context.SelectedItem!.ItemPath);
 		}

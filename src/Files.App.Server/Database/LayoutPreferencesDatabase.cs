@@ -5,6 +5,7 @@ using Files.App.Server.Data;
 using LiteDB;
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using static Files.App.Server.Data.LayoutPreferencesRegistry;
@@ -13,12 +14,15 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Server.Database
 {
-	public sealed class LayoutPreferencesDatabase
+	public sealed class LayoutPreferencesDatabase : IDisposable
 	{
 		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\v1\LayoutPreferences";
 
 		private readonly static string LayoutSettingsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 		private const string LayoutSettingsCollectionName = "layoutprefs";
+
+		private readonly GCHandle _handle;
+		private bool _disposed = false;
 
 		static LayoutPreferencesDatabase()
 		{
@@ -34,6 +38,25 @@ namespace Files.App.Server.Database
 				}
 
 				File.Delete(LayoutSettingsDbPath);
+			}
+		}
+
+		public LayoutPreferencesDatabase()
+		{
+			throw new NotSupportedException($"Instantiating {nameof(LayoutPreferencesDatabase)} by non-parameterized constructor is not supported.");
+		}
+
+		public LayoutPreferencesDatabase(int processId)
+		{
+			_handle = GCHandle.Alloc(this, GCHandleType.Pinned);
+
+			if (AppInstanceMonitor.AppInstanceResources.TryGetValue(processId, out var instances))
+			{
+				instances.Add(this);
+			}
+			else
+			{
+				AppInstanceMonitor.AppInstanceResources[processId] = [this];
 			}
 		}
 
@@ -196,6 +219,15 @@ namespace Files.App.Server.Database
 			}
 
 			return null;
+		}
+
+		public void Dispose()
+		{
+			if (!_disposed)
+			{
+				_disposed = true;
+				_handle.Free();
+			}
 		}
 	}
 }
