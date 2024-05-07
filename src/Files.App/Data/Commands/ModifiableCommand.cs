@@ -107,9 +107,9 @@ namespace Files.App.Data.Commands
 		{
 			if (ModifiedCommands.TryGetValue(HotKeyHelpers.GetCurrentKeyModifiers(), out var modifiedCommand) &&
 				modifiedCommand.IsExecutable)
-				return modifiedCommand.ExecuteAsync();
+				return modifiedCommand.ExecuteAsync(parameter);
 			else
-				return BaseCommand.ExecuteAsync();
+				return BaseCommand.ExecuteAsync(parameter);
 		}
 
 		/// <inheritdoc/>
