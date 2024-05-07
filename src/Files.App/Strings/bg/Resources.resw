@@ -217,7 +217,7 @@
     <value>Външен вид</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Фонов цвят</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Разширени</value>
