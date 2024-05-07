@@ -172,19 +172,19 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = [];
 
-		private CurrentShellViewModel instanceViewModel;
-		public CurrentShellViewModel InstanceViewModel
+		private CurrentShellViewModel _CurrentShellViewModel;
+		public CurrentShellViewModel CurrentShellViewModel
 		{
-			get => instanceViewModel;
+			get => _CurrentShellViewModel;
 			set
 			{
-				if (instanceViewModel?.FolderSettings is not null)
-					instanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
+				if (_CurrentShellViewModel?.FolderSettings is not null)
+					_CurrentShellViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 
-				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.FolderSettings is not null)
+				if (SetProperty(ref _CurrentShellViewModel, value) && _CurrentShellViewModel?.FolderSettings is not null)
 				{
 					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
-					instanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
+					_CurrentShellViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 				}
 			}
 		}
@@ -975,7 +975,7 @@ namespace Files.App.ViewModels.UserControls
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
+					LayoutOpacityIcon = CurrentShellViewModel.FolderSettings.LayoutMode switch
 					{
 						FolderLayoutModes.ListView => Commands.LayoutList.OpacityStyle!,
 						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
@@ -1029,23 +1029,23 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
+		public bool HasAdditionalAction => CurrentShellViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
-		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !CurrentShellViewModel.IsPageTypeRecycleBin;
 		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
-		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !CurrentShellViewModel.IsPageTypeRecycleBin;
+		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !CurrentShellViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !CurrentShellViewModel.IsPageTypeRecycleBin;
+		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !CurrentShellViewModel.IsPageTypeRecycleBin;
+		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !CurrentShellViewModel.IsPageTypeRecycleBin;
 
-		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
-		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
-		public bool IsGridLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
-		public bool IsDetailsLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
-		public bool IsListLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
+		public bool IsTilesLayout => CurrentShellViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
+		public bool IsColumnLayout => CurrentShellViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridLayout => CurrentShellViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;
+		public bool IsDetailsLayout => CurrentShellViewModel.FolderSettings.LayoutMode is FolderLayoutModes.DetailsView;
+		public bool IsListLayout => CurrentShellViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ListView;
 
 		public bool IsLayoutSizeCompact =>
 			(IsDetailsLayout && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact) ||

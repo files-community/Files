@@ -52,7 +52,7 @@ namespace Files.App.Views.Shells
 
 			ColumnParams = eventArgs.Parameter as ColumnParam;
 			if (ColumnParams?.IsLayoutSwitch ?? false)
-				FilesystemViewModel_DirectoryInfoUpdated(this, EventArgs.Empty);
+				ShellViewModel_DirectoryInfoUpdated(this, EventArgs.Empty);
 		}
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
@@ -79,11 +79,11 @@ namespace Files.App.Views.Shells
 		{
 			ShellViewModel = new ShellViewModel(CurrentShellViewModel?.FolderSettings);
 			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			ShellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
+			ShellViewModel.DirectoryInfoUpdated += ShellViewModel_DirectoryInfoUpdated;
+			ShellViewModel.PageTypeUpdated += ShellViewModel_PageTypeUpdated;
+			ShellViewModel.OnSelectionRequestedEvent += ShellViewModel_OnSelectionRequestedEvent;
+			ShellViewModel.GitDirectoryUpdated += ShellViewModel_GitDirectoryUpdated;
 
 			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ShellPage?.PaneHolder;
 

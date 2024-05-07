@@ -12,7 +12,7 @@ namespace Files.App.Data.Contexts
 
 		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 
-		private ShellViewModel? filesystemViewModel;
+		private ShellViewModel? ShellViewModel;
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
@@ -73,16 +73,16 @@ namespace Files.App.Data.Contexts
 			{
 				page.PropertyChanged -= Page_PropertyChanged;
 				page.ContentChanged -= Page_ContentChanged;
-				page.CurrentShellViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
+				page.CurrentShellViewModel.PropertyChanged -= CurrentShellViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
 
 				if (page.PaneHolder is not null)
 					page.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 			}
 
-			if (filesystemViewModel is not null)
-				filesystemViewModel.PropertyChanged -= FilesystemViewModel_PropertyChanged;
-			filesystemViewModel = null;
+			if (ShellViewModel is not null)
+				ShellViewModel.PropertyChanged -= ShellViewModel_PropertyChanged;
+			ShellViewModel = null;
 
 			OnPropertyChanging(nameof(ShellPage));
 		}
@@ -92,16 +92,16 @@ namespace Files.App.Data.Contexts
 			{
 				page.PropertyChanged += Page_PropertyChanged;
 				page.ContentChanged += Page_ContentChanged;
-				page.CurrentShellViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
+				page.CurrentShellViewModel.PropertyChanged += CurrentShellViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
 				
 				if (page.PaneHolder is not null)
 					page.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			}
 
-			filesystemViewModel = ShellPage?.ShellViewModel;
-			if (filesystemViewModel is not null)
-				filesystemViewModel.PropertyChanged += FilesystemViewModel_PropertyChanged;
+			ShellViewModel = ShellPage?.ShellViewModel;
+			if (ShellViewModel is not null)
+				ShellViewModel.PropertyChanged += ShellViewModel_PropertyChanged;
 
 			Update();
 			OnPropertyChanged(nameof(ShellPage));
@@ -135,7 +135,7 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void InstanceViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void CurrentShellViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
@@ -174,7 +174,7 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void FilesystemViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void ShellViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

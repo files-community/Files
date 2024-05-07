@@ -76,7 +76,7 @@ namespace Files.App.Views.Layouts
 		public LayoutPreferencesManager? FolderSettings
 			=> ShellPage?.CurrentShellViewModel.FolderSettings;
 
-		public CurrentShellViewModel? InstanceViewModel
+		public CurrentShellViewModel? CurrentShellViewModel
 			=> ShellPage?.CurrentShellViewModel;
 
 		public static AppModel AppModel
@@ -466,7 +466,7 @@ namespace Files.App.Views.Layouts
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
-						ThumbnailSize = InstanceViewModel!.FolderSettings.GetRoundedIconSize(),
+						ThumbnailSize = CurrentShellViewModel!.FolderSettings.GetRoundedIconSize(),
 					};
 
 					_ = ShellPage.ShellViewModel.SearchAsync(searchInstance);
@@ -587,7 +587,7 @@ namespace Files.App.Views.Layouts
 					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 
 					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
+					var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentCurrentShellViewModel: CurrentShellViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
 
 					ItemContextMenuFlyout.PrimaryCommands.Clear();
 					ItemContextMenuFlyout.SecondaryCommands.Clear();
@@ -598,10 +598,10 @@ namespace Files.App.Views.Layouts
 					secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 					secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
 
-					if (InstanceViewModel!.CanTagFilesInPage)
+					if (CurrentShellViewModel!.CanTagFilesInPage)
 						AddNewFileTagsToMenu(ItemContextMenuFlyout);
 
-					if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
+					if (!CurrentShellViewModel.IsPageTypeZipFolder && !CurrentShellViewModel.IsPageTypeFtp)
 					{
 						var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ShellPage.ShellViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 						if (shellMenuItems.Any())
@@ -645,7 +645,7 @@ namespace Files.App.Views.Layouts
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: [ShellPage!.ShellViewModel.CurrentFolder], commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ShellPage!.ShellViewModel, selectedItemsPropertiesViewModel: null);
+				var items = ContentPageContextFlyoutFactory.GetItemContextCommandsWithoutShellItems(currentCurrentShellViewModel: CurrentShellViewModel!, selectedItems: [ShellPage!.ShellViewModel.CurrentFolder], commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ShellPage!.ShellViewModel, selectedItemsPropertiesViewModel: null);
 
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
@@ -660,7 +660,7 @@ namespace Files.App.Views.Layouts
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
-				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
+				if (!CurrentShellViewModel!.IsPageTypeSearchResults && !CurrentShellViewModel.IsPageTypeZipFolder && !CurrentShellViewModel.IsPageTypeFtp)
 				{
 					var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(workingDir: ShellPage.ShellViewModel.WorkingDirectory, selectedItems: [], shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
@@ -975,7 +975,7 @@ namespace Files.App.Views.Layouts
 			try
 			{
 				var shellItemList = SafetyExtensions.IgnoreExceptions(() => e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
-				if (shellItemList?[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
+				if (shellItemList?[0].FileSystemPath is not null && !CurrentShellViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());

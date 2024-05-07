@@ -223,7 +223,7 @@
 					VerticalContentAlignment="Stretch"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
-					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					AllowDrop="{x:Bind CurrentShellViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					AutomationProperties.AccessibilityView="Raw"
 					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
@@ -276,7 +276,7 @@
 									<MenuFlyoutSubItem
 										x:Name="GitColumnsVisibilityMenuFlyoutSubItem"
 										Text="{helpers:ResourceString Name=Git}"
-										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Mode=OneWay}">
+										Visibility="{x:Bind CurrentShellViewModel.IsGitRepository, Mode=OneWay}">
 
 										<!--  Git Unmerged File Kind  -->
 										<ToggleMenuFlyoutItem

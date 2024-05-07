@@ -168,15 +168,15 @@ namespace Files.App.Views.Shells
 
 		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
 
-		public BaseShellPage(CurrentShellViewModel instanceViewModel)
+		public BaseShellPage(CurrentShellViewModel CurrentShellViewModel)
 		{
-			CurrentShellViewModel = instanceViewModel;
+			CurrentShellViewModel = CurrentShellViewModel;
 			CurrentShellViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
 			cancellationTokenSource = new CancellationTokenSource();
 			FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
 			StorageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
-			ToolbarViewModel.InstanceViewModel = CurrentShellViewModel;
+			ToolbarViewModel.CurrentShellViewModel = CurrentShellViewModel;
 
 			InitToolbarCommands();
 
@@ -209,7 +209,7 @@ namespace Files.App.Views.Shells
 
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 
-			GitHelpers.GitFetchCompleted += FilesystemViewModel_GitDirectoryUpdated;
+			GitHelpers.GitFetchCompleted += ShellViewModel_GitDirectoryUpdated;
 
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
@@ -223,19 +223,19 @@ namespace Files.App.Views.Shells
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		protected void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
+		protected void ShellViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
 		{
 			CurrentShellViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
 		}
 
-		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
+		protected void ShellViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
 		{
 			// Set focus since selection might occur before the UI finishes updating
 			ContentPage.ItemManipulationModel.FocusFileList();
 			ContentPage.ItemManipulationModel.SetSelectedItems(e);
 		}
 
-		protected async void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
+		protected async void ShellViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
 		{
 			if (ContentPage is null)
 				return;
@@ -287,7 +287,7 @@ namespace Files.App.Views.Shells
 			contentPage.UpdateSelectionSize();
 		}
 
-		protected async void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
+		protected async void ShellViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
 			if (GitHelpers.IsExecutingGitAction)
 				return;
@@ -637,7 +637,7 @@ namespace Files.App.Views.Shells
 			ContentChanged?.Invoke(instance, args);
 		}
 
-		protected void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+		protected void ShellViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
 		{
 			switch (e.Status)
 			{
@@ -844,18 +844,18 @@ namespace Files.App.Views.Shells
 			if (ShellViewModel is not null)
 			{
 				ShellViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
-				ShellViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
-				ShellViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
-				ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-				ShellViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
-				ShellViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
+				ShellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
+				ShellViewModel.DirectoryInfoUpdated -= ShellViewModel_DirectoryInfoUpdated;
+				ShellViewModel.PageTypeUpdated -= ShellViewModel_PageTypeUpdated;
+				ShellViewModel.OnSelectionRequestedEvent -= ShellViewModel_OnSelectionRequestedEvent;
+				ShellViewModel.GitDirectoryUpdated -= ShellViewModel_GitDirectoryUpdated;
 				ShellViewModel.Dispose();
 			}
 
 			if (ItemDisplay.Content is IDisposable disposableContent)
 				disposableContent?.Dispose();
 
-			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
+			GitHelpers.GitFetchCompleted -= ShellViewModel_GitDirectoryUpdated;
 
 			_updateDateDisplayTimer.Stop();
 		}

@@ -59,11 +59,11 @@ namespace Files.App.Views.Shells
 
 			ShellViewModel = new ShellViewModel(CurrentShellViewModel.FolderSettings);
 			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			ShellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
+			ShellViewModel.DirectoryInfoUpdated += ShellViewModel_DirectoryInfoUpdated;
+			ShellViewModel.PageTypeUpdated += ShellViewModel_PageTypeUpdated;
+			ShellViewModel.OnSelectionRequestedEvent += ShellViewModel_OnSelectionRequestedEvent;
+			ShellViewModel.GitDirectoryUpdated += ShellViewModel_GitDirectoryUpdated;
 
 			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
@@ -174,7 +174,7 @@ namespace Files.App.Views.Shells
 			};
 
 			if (parameters.IsLayoutSwitch)
-				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
+				ShellViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
 		}

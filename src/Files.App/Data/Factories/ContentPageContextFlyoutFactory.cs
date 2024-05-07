@@ -23,10 +23,10 @@ namespace Files.App.Data.Factories
 		private static readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentShellViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ShellViewModel? itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentShellViewModel currentCurrentShellViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ShellViewModel? itemViewModel = null)
 		{
-			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
-			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
+			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentCurrentShellViewModel: currentCurrentShellViewModel, itemViewModel: itemViewModel);
+			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentCurrentShellViewModel: currentCurrentShellViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
 			return menuItemsList;
 		}
 
@@ -35,10 +35,10 @@ namespace Files.App.Data.Factories
 			return ShellContextFlyoutFactory.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
 		}
 
-		public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentShellViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
+		public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentShellViewModel currentCurrentShellViewModel, bool removeOverflowMenu = true)
 		{
-			items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList();
-			items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList());
+			items = items.Where(x => Check(item: x, currentCurrentShellViewModel: currentCurrentShellViewModel, selectedItems: selectedItems)).ToList();
+			items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentCurrentShellViewModel: currentCurrentShellViewModel, selectedItems: selectedItems)).ToList());
 
 			var overflow = items.FirstOrDefault(x => x.ID == "ItemOverflow");
 			if (overflow is not null)
@@ -63,13 +63,13 @@ namespace Files.App.Data.Factories
 			return items;
 		}
 
-		private static bool Check(ContextMenuFlyoutItemViewModel item, CurrentShellViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
+		private static bool Check(ContextMenuFlyoutItemViewModel item, CurrentShellViewModel currentCurrentShellViewModel, List<ListedItem> selectedItems)
 		{
 			return
-				(item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) &&
-				(item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults) &&
-				(item.ShowInFtpPage || !currentInstanceViewModel.IsPageTypeFtp) &&
-				(item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder) &&
+				(item.ShowInRecycleBin || !currentCurrentShellViewModel.IsPageTypeRecycleBin) &&
+				(item.ShowInSearchPage || !currentCurrentShellViewModel.IsPageTypeSearchResults) &&
+				(item.ShowInFtpPage || !currentCurrentShellViewModel.IsPageTypeFtp) &&
+				(item.ShowInZipPage || !currentCurrentShellViewModel.IsPageTypeZipFolder) &&
 				(!item.SingleItemOnly || selectedItems.Count == 1) &&
 				item.ShowItem;
 		}
@@ -78,7 +78,7 @@ namespace Files.App.Data.Factories
 			BaseLayoutViewModel commandsViewModel,
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
-			CurrentShellViewModel currentInstanceViewModel,
+			CurrentShellViewModel currentCurrentShellViewModel,
 			ShellViewModel? itemViewModel = null)
 		{
 			bool itemsSelected = itemViewModel is null;
@@ -295,7 +295,7 @@ namespace Files.App.Data.Factories
 						{
 							Text = "DateDeleted".GetLocalizedResource(),
 							ShowInRecycleBin = true,
-							IsHidden = !currentInstanceViewModel.IsPageTypeRecycleBin,
+							IsHidden = !currentCurrentShellViewModel.IsPageTypeRecycleBin,
 							Items =
 							[
 								new ContextMenuFlyoutItemViewModelBuilder(Commands.GroupByDateDeletedYear)
@@ -354,22 +354,22 @@ namespace Files.App.Data.Factories
 						OpacityIconStyle = Commands.AddItem.Glyph.OpacityStyle
 					},
 					Text = Commands.AddItem.Label,
-					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
+					Items = GetNewItemItems(commandsViewModel, currentCurrentShellViewModel.CanCreateFileInPage),
 					ShowItem = !itemsSelected,
 					ShowInFtpPage = true
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.EmptyRecycleBin)
 				{
-					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
+					IsVisible = currentCurrentShellViewModel.IsPageTypeRecycleBin && !itemsSelected,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RestoreAllRecycleBin)
 				{
-					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
+					IsVisible = currentCurrentShellViewModel.IsPageTypeRecycleBin && !itemsSelected,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RestoreRecycleBin)
 				{
-					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && itemsSelected,
+					IsVisible = currentCurrentShellViewModel.IsPageTypeRecycleBin && itemsSelected,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenItem).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenItemWithApplicationPicker)
@@ -415,14 +415,14 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RotateLeft)
 				{
-					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
-								&& !currentInstanceViewModel.IsPageTypeZipFolder
+					IsVisible = !currentCurrentShellViewModel.IsPageTypeRecycleBin
+								&& !currentCurrentShellViewModel.IsPageTypeZipFolder
 								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RotateRight)
 				{
-					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
-								&& !currentInstanceViewModel.IsPageTypeZipFolder
+					IsVisible = !currentCurrentShellViewModel.IsPageTypeRecycleBin
+								&& !currentCurrentShellViewModel.IsPageTypeZipFolder
 								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAdmin).Build(),
@@ -452,7 +452,7 @@ namespace Files.App.Data.Factories
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCopyPath
 						&& itemsSelected
-						&&!currentInstanceViewModel.IsPageTypeRecycleBin,
+						&&!currentCurrentShellViewModel.IsPageTypeRecycleBin,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateFolderWithSelection)
 				{
@@ -463,7 +463,7 @@ namespace Files.App.Data.Factories
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateShortcut
 						&& itemsSelected
 						&& (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
-						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
+						&& !currentCurrentShellViewModel.IsPageTypeRecycleBin,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.Rename)
 				{

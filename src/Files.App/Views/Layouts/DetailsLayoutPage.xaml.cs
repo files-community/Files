@@ -163,19 +163,19 @@ namespace Files.App.Views.Layouts
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
-			ShellPage.ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ShellPage.ShellViewModel.PageTypeUpdated += ShellViewModel_PageTypeUpdated;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
 				_ = ReloadItemIconsAsync();
 
-			FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
+			ShellViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
 			{
-				IsTypeCloudDrive = InstanceViewModel?.IsPageTypeCloudDrive ?? false,
-				IsTypeRecycleBin = InstanceViewModel?.IsPageTypeRecycleBin ?? false,
-				IsTypeGitRepository = InstanceViewModel?.IsGitRepository ?? false,
-				IsTypeSearchResults = InstanceViewModel?.IsPageTypeSearchResults ?? false
+				IsTypeCloudDrive = CurrentShellViewModel?.IsPageTypeCloudDrive ?? false,
+				IsTypeRecycleBin = CurrentShellViewModel?.IsPageTypeRecycleBin ?? false,
+				IsTypeGitRepository = CurrentShellViewModel?.IsGitRepository ?? false,
+				IsTypeSearchResults = CurrentShellViewModel?.IsPageTypeSearchResults ?? false
 			});
 
 			RootGrid_SizeChanged(null, null);
@@ -190,7 +190,7 @@ namespace Files.App.Views.Layouts
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			ShellPage.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			ShellPage.ShellViewModel.PageTypeUpdated -= ShellViewModel_PageTypeUpdated;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
 		}
 
@@ -265,7 +265,7 @@ namespace Files.App.Views.Layouts
 			SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
 		}
 
-		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
+		private void ShellViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
 			if (e.IsTypeRecycleBin)
 			{

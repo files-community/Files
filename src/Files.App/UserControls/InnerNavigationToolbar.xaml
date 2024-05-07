@@ -70,7 +70,7 @@
 			Margin="18,0,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
-			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.CurrentShellViewModel.IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 			Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
 			Text="{helpers:ResourceString Name=Home}" />
 
@@ -79,7 +79,7 @@
 			x:Name="ContextCommandBar"
 			Grid.Column="0"
 			HorizontalAlignment="Left"
-			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.CurrentShellViewModel.IsPageTypeNotHome, Mode=OneWay}"
 			DefaultLabelPosition="Right">
 			<CommandBar.PrimaryCommands>
 
@@ -114,7 +114,7 @@
 								AutomationProperties.AutomationId="File"
 								Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
 								CommandParameter="{x:Null}"
-								IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+								IsEnabled="{x:Bind ViewModel.CurrentShellViewModel.CanCreateFileInPage, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=File}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE7C3;" />
@@ -252,7 +252,7 @@
 				<!--  Empty Recycle Bin  -->
 				<AppBarButton
 					x:Name="EmptyRecycleBinButton"
-					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+					x:Load="{x:Bind ViewModel.CurrentShellViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					Command="{x:Bind Commands.EmptyRecycleBin}"
@@ -264,7 +264,7 @@
 				<!--  Restore All Recycle Bin  -->
 				<AppBarButton
 					x:Name="RestoreAllRecycleBinButton"
-					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+					x:Load="{x:Bind ViewModel.CurrentShellViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					Command="{x:Bind Commands.RestoreAllRecycleBin}"
@@ -277,7 +277,7 @@
 				<!--  Restore Recycle Bin  -->
 				<AppBarButton
 					x:Name="RestoreRecycleBinButton"
-					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+					x:Load="{x:Bind ViewModel.CurrentShellViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					Command="{x:Bind Commands.RestoreRecycleBin}"

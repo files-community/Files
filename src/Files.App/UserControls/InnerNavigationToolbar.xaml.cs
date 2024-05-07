@@ -58,7 +58,7 @@ namespace Files.App.UserControls
 		{
 			var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
 			shell.ForEach(x => NewEmptySpace.Items.Remove(x));
-			if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
+			if (!ViewModel.CurrentShellViewModel.CanCreateFileInPage)
 				return;
 
 			var cachedNewContextMenuEntries = addItemService.GetEntries();
