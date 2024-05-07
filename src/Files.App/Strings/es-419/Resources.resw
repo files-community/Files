@@ -217,7 +217,7 @@
     <value>Apariencia</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Color de fondo</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avanzado</value>
@@ -340,7 +340,7 @@
     <value>Establecer como fondo de pantalla de bloqueo</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Establecer como fondo de aplicación</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No pudimos eliminar este elemento</value>
@@ -886,10 +886,10 @@
     <value>Velocidad de bits</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Tasa de bits de codificación de audio</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Tasa de bits de codificación de vídeo</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compresión</value>
@@ -2467,7 +2467,7 @@
     <value>Establecer imagen seleccionada como fondo de pantalla de bloqueo</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Establecer la imagen seleccionada como fondo de la aplicación</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalar fuente(s) seleccionada(s)</value>

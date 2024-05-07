@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>New window</value>
+    <value>חלון חדש</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>העתק נתיב</value>
@@ -217,7 +217,7 @@
     <value>מראה</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>צבע רקע</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>הגדרות מתקדמות</value>

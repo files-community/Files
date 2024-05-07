@@ -340,7 +340,7 @@
     <value>Estableix com a fons de pantalla de bloqueig</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Estableix com a fons de l'aplicació</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No hem pogut suprimir aquest element</value>
@@ -2467,7 +2467,7 @@
     <value>Estableix la imatge seleccionada com a fons de pantalla de bloqueig</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Estableix la imatge seleccionada com a fons de l'aplicació</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instal·la les fonts seleccionades</value>

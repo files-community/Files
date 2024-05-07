@@ -217,7 +217,7 @@
     <value>Aparência</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Cor de fundo</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avançado</value>
@@ -340,7 +340,7 @@
     <value>Definir como fundo de ecrã de bloqueio</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Definir como fundo da aplicação</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Não foi possível eliminar este item</value>
@@ -886,10 +886,10 @@
     <value>Taxa de dados</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Taxa de codificação de áudio</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Taxa de codificação de vídeo</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compressão</value>
@@ -2467,7 +2467,7 @@
     <value>Definir imagem selecionada como fundo do ecrã de bloqueio</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Utilizar imagem selecionada como fundo da aplicação</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalar tipos de letra selecionados</value>
@@ -3747,7 +3747,7 @@
     <value>Personalizado</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>O esquema adaptativo não está disponível quando as preferências são sincronizadas, o esquema predefinido foi alterado para Detalhes.</value>
+    <value>O esquema adaptativo não está disponível quando as preferências são sincronizadas e o esquema padrão foi alterado para Detalhes.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Imagem de fundo</value>

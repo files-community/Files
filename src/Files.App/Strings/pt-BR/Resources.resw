@@ -217,7 +217,7 @@
     <value>Aparência</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Cor de fundo</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avançado</value>
@@ -340,7 +340,7 @@
     <value>Definir como plano de fundo da tela de bloqueio</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Definir como fundo do aplicativo</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Não foi possível excluir este item</value>
@@ -886,10 +886,10 @@
     <value>Taxa de Bits de Codificação</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Bitrate de codificação de áudio</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Bitrate da Codificação de Vídeo</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compressão</value>
@@ -2467,7 +2467,7 @@
     <value>Definir a imagem selecionada como plano de fundo da tela de bloqueio</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Definir imagem selecionada como plano de fundo do aplicativo</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalar tipos de letra selecionados</value>
@@ -3750,50 +3750,50 @@
     <value>O layout adaptativo não está disponível quando as preferências estão sincronizadas, o layout padrão foi alterado para Detalhes.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>Imagem de fundo</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>Inferior</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>Centralizar</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>Preencher</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>Alinhamento horizontal</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>Ajuste de imagem</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Esquerda</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Transparência</value>
   </data>
   <data name="Right" xml:space="preserve">
     <value>Direita</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>Superior</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Uniforme</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Uniform to fill</value>
+    <value>Preenchimento uniforme</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>Alinhamento vertical</value>
   </data>
 </root>
