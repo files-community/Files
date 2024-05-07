@@ -12,9 +12,9 @@ namespace Files.App.Utils.FileTags
 {
 	public static class FileTagsHelper
 	{
-		private static readonly Lazy<Server.Database.FileTagsDatabase> dbInstance = new(() => new());
+		private static readonly Server.Database.FileTagsDatabase dbInstance = new(Environment.ProcessId);
 
-		public static Server.Database.FileTagsDatabase GetDbInstance() => dbInstance.Value;
+		public static Server.Database.FileTagsDatabase GetDbInstance() => dbInstance;
 
 		public static string[] ReadFileTag(string filePath)
 		{

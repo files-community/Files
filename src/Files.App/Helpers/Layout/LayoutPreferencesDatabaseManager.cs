@@ -11,7 +11,7 @@ namespace Files.App.Helpers
 	public class LayoutPreferencesDatabaseManager
 	{
 		// Fields
-		private readonly Server.Database.LayoutPreferencesDatabase _database = new();
+		private readonly Server.Database.LayoutPreferencesDatabase _database = new(Environment.ProcessId);
 
 		private DetailsLayoutColumnItem FromDatabaseEntity(Server.Data.ColumnPreferencesItem entry)
 		{
