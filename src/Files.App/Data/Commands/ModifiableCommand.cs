@@ -17,39 +17,61 @@ namespace Files.App.Data.Commands
 		private IRichCommand BaseCommand;
 		private ImmutableDictionary<KeyModifiers, IRichCommand> ModifiedCommands;
 
+		/// <inheritdoc/>
 		public CommandCodes Code => BaseCommand.Code;
 
+		/// <inheritdoc/>
 		public string Label => BaseCommand.Label;
+
+		/// <inheritdoc/>
 		public string LabelWithHotKey => BaseCommand.LabelWithHotKey;
+
+		/// <inheritdoc/>
 		public string AutomationName => BaseCommand.AutomationName;
 
+		/// <inheritdoc/>
 		public string Description => BaseCommand.Description;
 
+		/// <inheritdoc/>
 		public RichGlyph Glyph => BaseCommand.Glyph;
+
+		/// <inheritdoc/>
 		public object? Icon => BaseCommand.Icon;
+
+		/// <inheritdoc/>
 		public FontIcon? FontIcon => BaseCommand.FontIcon;
+
+		/// <inheritdoc/>
 		public Style? OpacityStyle => BaseCommand.OpacityStyle;
 
+		/// <inheritdoc/>
 		public bool IsCustomHotKeys => BaseCommand.IsCustomHotKeys;
+
+		/// <inheritdoc/>
 		public string? HotKeyText => BaseCommand.HotKeyText;
 
+		/// <inheritdoc/>
 		public HotKeyCollection HotKeys
 		{
 			get => BaseCommand.HotKeys;
 			set => BaseCommand.HotKeys = value;
 		}
 
+		/// <inheritdoc/>
 		public HotKeyCollection DefaultHotKeys { get; }
 
+		/// <inheritdoc/>
 		public bool IsToggle
 			=> BaseCommand.IsToggle;
 
+		/// <inheritdoc/>
 		public bool IsOn
 		{
 			get => BaseCommand.IsOn;
 			set => BaseCommand.IsOn = value;
 		}
 
+		/// <inheritdoc/>
 		public bool IsExecutable
 			=> BaseCommand.IsExecutable;
 
@@ -68,16 +90,19 @@ namespace Files.App.Data.Commands
 			}
 		}
 
+		/// <inheritdoc/>
 		public bool CanExecute(object? parameter)
 		{
 			return BaseCommand.CanExecute(parameter);
 		}
 
+		/// <inheritdoc/>
 		public async void Execute(object? parameter)
 		{
 			await ExecuteAsync(parameter);
 		}
 
+		/// <inheritdoc/>
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (ModifiedCommands.TryGetValue(HotKeyHelpers.GetCurrentKeyModifiers(), out var modifiedCommand) &&
@@ -87,6 +112,7 @@ namespace Files.App.Data.Commands
 				return BaseCommand.ExecuteAsync();
 		}
 
+		/// <inheritdoc/>
 		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e)
 		{
 			await ExecuteAsync();
