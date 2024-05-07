@@ -340,7 +340,7 @@
     <value>ロック画面の背景に設定</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>アプリの背景として設定</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>この項目を削除できませんでした</value>
@@ -2467,7 +2467,7 @@
     <value>選択した画像をロック画面の背景に設定する</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>選択した画像をアプリの背景として設定</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>選択したフォントをインストールする</value>
