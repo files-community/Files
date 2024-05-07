@@ -32,7 +32,7 @@ namespace Files.App.Data.Commands
 		bool IsOn { get; set; }
 		bool IsExecutable { get; }
 
-		Task ExecuteAsync();
+		Task ExecuteAsync(object? parameter = null);
 		void ExecuteTapped(object sender, TappedRoutedEventArgs e);
 	}
 }

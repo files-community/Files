@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			_context.ShellPage?.ToolbarViewModel.OpenCommandPalette();
 

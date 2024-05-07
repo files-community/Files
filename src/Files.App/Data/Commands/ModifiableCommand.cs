@@ -41,7 +41,8 @@ namespace Files.App.Data.Commands
 
 		public HotKeyCollection DefaultHotKeys { get; }
 
-		public bool IsToggle => BaseCommand.IsToggle;
+		public bool IsToggle
+			=> BaseCommand.IsToggle;
 
 		public bool IsOn
 		{
@@ -49,7 +50,8 @@ namespace Files.App.Data.Commands
 			set => BaseCommand.IsOn = value;
 		}
 
-		public bool IsExecutable => BaseCommand.IsExecutable;
+		public bool IsExecutable
+			=> BaseCommand.IsExecutable;
 
 		public ModifiableCommand(IRichCommand baseCommand, Dictionary<KeyModifiers, IRichCommand> modifiedCommands)
 		{
@@ -66,10 +68,17 @@ namespace Files.App.Data.Commands
 			}
 		}
 
-		public bool CanExecute(object? parameter) => BaseCommand.CanExecute(parameter);
-		public async void Execute(object? parameter) => await ExecuteAsync();
+		public bool CanExecute(object? parameter)
+		{
+			return BaseCommand.CanExecute(parameter);
+		}
 
-		public Task ExecuteAsync()
+		public async void Execute(object? parameter)
+		{
+			await ExecuteAsync(parameter);
+		}
+
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (ModifiedCommands.TryGetValue(HotKeyHelpers.GetCurrentKeyModifiers(), out var modifiedCommand) &&
 				modifiedCommand.IsExecutable)
@@ -78,7 +87,10 @@ namespace Files.App.Data.Commands
 				return BaseCommand.ExecuteAsync();
 		}
 
-		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
+		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e)
+		{
+			await ExecuteAsync();
+		}
 
 		private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 		{
@@ -97,6 +109,7 @@ namespace Files.App.Data.Commands
 					break;
 			}
 		}
+
 		private void Action_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)

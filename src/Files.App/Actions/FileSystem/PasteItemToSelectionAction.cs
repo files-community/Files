@@ -30,7 +30,7 @@ namespace Files.App.Actions
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return;

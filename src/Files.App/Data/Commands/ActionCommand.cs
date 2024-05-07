@@ -115,15 +115,15 @@ namespace Files.App.Data.Commands
 
 		public async void Execute(object? parameter)
 		{
-			await ExecuteAsync();
+			await ExecuteAsync(parameter);
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (IsExecutable)
 			{
 				Analytics.TrackEvent($"Triggered {Code} action");
-				return Action.ExecuteAsync();
+				return Action.ExecuteAsync(parameter);
 			}
 
 			return Task.CompletedTask;
