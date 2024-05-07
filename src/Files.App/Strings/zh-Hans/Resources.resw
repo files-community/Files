@@ -190,7 +190,7 @@
     <value>移除此项</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub 仓库</value>
+    <value>GitHub 存储库</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>关于</value>
@@ -217,7 +217,7 @@
     <value>外观</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>背景颜色</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高级选项</value>
@@ -340,7 +340,7 @@
     <value>设为锁屏背景</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>设置为此应用背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>该项目无法删除</value>
@@ -2467,7 +2467,7 @@
     <value>设置所选图片为锁屏背景</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>设置所选图片为此应用背景</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>安装所选字体</value>
