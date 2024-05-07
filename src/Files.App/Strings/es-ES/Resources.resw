@@ -217,7 +217,7 @@
     <value>Apariencia</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Color de fondo</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avanzado</value>
@@ -340,7 +340,7 @@
     <value>Establecer como fondo de pantalla de bloqueo</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Establecer como fondo de la aplicación</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No se pudo eliminar este elemento</value>
@@ -886,10 +886,10 @@
     <value>Velocidad de bits</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Tasa de bits de codificación de audio</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Tasa de bits de codificación de vídeo</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compresión</value>
@@ -2467,7 +2467,7 @@
     <value>Establecer imagen seleccionada como fondo de pantalla de bloqueo</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Establecer imagen seleccionada como fondo de la aplicación</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalar fuente(s) seleccionada(s)</value>
@@ -3321,7 +3321,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Naranje brillante</value>
+    <value>Naranja brillante</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
@@ -3750,50 +3750,50 @@
     <value>El diseño adaptable no está disponible cuando las preferencias están sincronizadas, el diseño predeterminado se ha cambiado a Detalles.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>Imagen de fondo</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>Abajo</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>Centro</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>Relleno</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>Alineación horizontal</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>Ajuste de imagen</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>Flecha izquierda</value>
+    <value>Izquierda</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Opacidad</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>Flecha derecha</value>
+    <value>Derecha</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>Arriba</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Uniforme</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Uniform to fill</value>
+    <value>Uniforme hasta rellenar</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>Alineación vertical</value>
   </data>
 </root>
