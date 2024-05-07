@@ -25,6 +25,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		protected IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 		protected DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		protected INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
+		protected ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		// Fields
 

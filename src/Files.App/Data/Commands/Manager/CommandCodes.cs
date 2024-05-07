@@ -180,15 +180,23 @@ namespace Files.App.Data.Commands
 		CloseTabsToTheRightSelected,
 		CloseOtherTabsCurrent,
 		CloseOtherTabsSelected,
-		OpenInNewPane,
-		OpenInNewTab,
-		OpenInNewWindow,
 		ReopenClosedTab,
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
 		OpenNewPane,
 		ClosePane,
+
+		// OpenInNew
+		OpenInNewPane,
+		OpenInNewPaneFromHome,
+		OpenInNewPaneFromSidebar,
+		OpenInNewTab,
+		OpenInNewTabFromHome,
+		OpenInNewTabFromSidebar,
+		OpenInNewWindow,
+		OpenInNewWindowFromHome,
+		OpenInNewWindowFromSidebar,
 
 		// Play
 		PlayAll,

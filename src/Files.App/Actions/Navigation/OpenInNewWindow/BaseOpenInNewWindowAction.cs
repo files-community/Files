@@ -1,30 +1,38 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Windows.System;
+
 namespace Files.App.Actions
 {
-	internal abstract class BaseOpenInNewTabAction : ObservableObject, IAction
+	internal abstract class BaseOpenInNewWindowAction : ObservableObject, IAction
 	{
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		protected IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+		protected ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
 		public string Label
-			=> "OpenInNewTab".GetLocalizedResource();
+			=> "OpenInNewWindow".GetLocalizedResource();
 
 		public string Description
-			=> "OpenDirectoryInNewTabDescription".GetLocalizedResource();
+			=> "OpenInNewWindowDescription".GetLocalizedResource();
+
+		public HotKey HotKey
+			=> new(Keys.Enter, KeyModifiers.CtrlAlt);
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenInNewTab");
+			=> new(opacityStyle: "ColorIconOpenInNewWindow");
 
 		public virtual bool IsExecutable =>
 			ContentPageContext.ShellPage is not null &&
 			ContentPageContext.ShellPage.SlimContentPage is not null &&
+			ContentPageContext.SelectedItems.Count is not 0 &&
 			ContentPageContext.SelectedItems.Count <= 5 &&
 			ContentPageContext.SelectedItems.Count(x => x.IsFolder) == ContentPageContext.SelectedItems.Count &&
-			UserSettingsService.GeneralSettingsService.ShowOpenInNewTab;
+			UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
 
-		public BaseOpenInNewTabAction()
+		public BaseOpenInNewWindowAction()
 		{
 			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
@@ -34,16 +42,14 @@ namespace Files.App.Actions
 			if (ContentPageContext.ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;
 
-			foreach (ListedItem listedItem in ContentPageContext.SelectedItems)
+			List<ListedItem> items = ContentPageContext.ShellPage.SlimContentPage.SelectedItems;
+
+			foreach (ListedItem listedItem in items)
 			{
-				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					await NavigationHelpers.AddNewTabByPathAsync(
-						typeof(PaneHolderPage),
-						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath,
-						false);
-				},
-				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
+				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
+
+				await Launcher.LaunchUriAsync(folderUri);
 			}
 		}
 
