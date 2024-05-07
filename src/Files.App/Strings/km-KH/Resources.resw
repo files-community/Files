@@ -214,7 +214,7 @@
     <value>Show dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>រូបរាង</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
     <value>Background color</value>
@@ -379,52 +379,52 @@
     <value>File is in use</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>ប្លង់</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Read-only</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} days ago</value>
+    <value>{0} ថ្ងៃ​មុន</value>
   </data>
   <data name="DayAgo" xml:space="preserve">
-    <value>{0} day ago</value>
+    <value>{0} ថ្ងៃ​មុន</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} hours ago</value>
+    <value>{0} ម៉ោង​មុន</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>{0} hour ago</value>
+    <value>{0} ម៉ោង​មុន</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} minutes ago</value>
+    <value>{0} នាទី​មុន</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>{0} minute ago</value>
+    <value>{0} នាទី​មុន</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} seconds ago</value>
+    <value>{0} វិនាទី​មុន</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>១ វិនាទី​មុន</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>ឥឡូវនេះ</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>The requested operation is not supported</value>
+    <value>ប្រតិបត្តិការស្នើសុំត្រូវបានបដិសេដ</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} free of {1}</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>ផ្ញើ​ទៅ៖</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+    <value>ឈ្មោះធាតុមិនត្រូវមានតួអក្សរខាងក្រោមទេ៖ \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>ឈ្មោះធាតុដែលបានបញ្ជាក់គឺមិនត្រឹមត្រូវទេ</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item selected</value>
@@ -1039,7 +1039,7 @@
     <value>Open in new pane</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files &amp; folders</value>
+    <value>ឯកសារ និងថត</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details (Ctrl+Shift+1)</value>
@@ -1948,7 +1948,7 @@
     <value>Update Files</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>Tags</value>
+    <value>ស្លាក</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -3117,7 +3117,7 @@
     <value>Commit SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
-    <value>Git</value>
+    <value>ហ្គិត</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3723,7 +3723,7 @@
     <value>Layout type</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>សកម្មភាព</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Commands</value>
