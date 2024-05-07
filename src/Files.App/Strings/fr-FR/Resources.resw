@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Apparence</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Arrière-plan</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Couleurs du fond</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avancé</value>
@@ -337,7 +337,10 @@
     <value>L‘élément existe déjà</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Définir en tant qu'écran de verrouillage</value>
+    <value>Définir comme fond d'écran de verrouillage</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Définir comme fond d'écran de l'application</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Impossible de supprimer cet élément</value>
@@ -882,6 +885,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Débit binaire</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Débit binaire de codage audio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Débit binaire de codage vidéo</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Compression</value>
   </data>
@@ -1111,7 +1120,7 @@
     <value>Exclu de la synchronisation</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>Non calculée</value>
+    <value>Non calculé</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Inconnu</value>
@@ -1441,7 +1450,7 @@
     <value>Compte inconnu</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Cliquez sur « Autorisations avancées » pour continuer.</value>
+    <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Cliquez sur "Autorisations avancées" pour continuer.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Propriétaire :</value>
@@ -1618,7 +1627,7 @@
     <value>{0} éléments ({1} fichiers et {2} dossiers)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Taille décompressé</value>
+    <value>Taille décompressée</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -1990,10 +1999,10 @@
     <value>Souhaitez-vous laisser une évaluation de Files ?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Définir comme arrière-plan</value>
+    <value>Définir comme fond d'écran</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Définir comme fond d'écran</value>
+    <value>Définir comme fond d'écran du bureau</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Définir par défaut</value>
@@ -2125,7 +2134,7 @@
     <value>Format</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Synchroniser la colonne de statuts</value>
+    <value>Statut de la synchronisation</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
     <value>Grouper par</value>
@@ -2456,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Définir l'image sélectionnée comme fond d'écran de verrouillage</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Définir l'image sélectionnée comme fond d'écran de l'application</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Installer la ou les polices sélectionnée(s)</value>
@@ -2921,7 +2933,7 @@
     <value>Créer un nouvel élément</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>Aucun groupe ou utilisateur n'a la permission d'accéder à cet objet. Cependant, le propriétaire de cet objet peut assigner des permissions.</value>
+    <value>Aucun groupe ou utilisateur n'a l'autorisation d'accéder à cet objet. Cependant, le propriétaire de cet objet peut attribuer des autorisations.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Ouvrir l'emplacement de l'élément</value>
@@ -3738,7 +3750,7 @@
     <value>La disposition adaptative n'est pas disponible lorsque les préférences sont synchronisées, la disposition par défaut a été changée en Détails.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Image d'arrière-plan</value>
+    <value>Image de fond</value>
   </data>
   <data name="Bottom" xml:space="preserve">
     <value>Bas</value>

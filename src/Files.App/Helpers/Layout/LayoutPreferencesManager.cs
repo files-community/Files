@@ -505,13 +505,16 @@ namespace Files.App.Data.Models
 			{
 				path = path.TrimPath() ?? string.Empty;
 
-				if (path.StartsWith("tag:", StringComparison.Ordinal))
-					return GetLayoutPreferencesFromDatabase("Home", null);
+				return SafetyExtensions.IgnoreExceptions(() =>
+				{
+					if (path.StartsWith("tag:", StringComparison.Ordinal))
+						return GetLayoutPreferencesFromDatabase("Home", null);
 
-				var folderFRN = Win32Helper.GetFolderFRN(path);
+					var folderFRN = Win32Helper.GetFolderFRN(path);
 
-				return GetLayoutPreferencesFromDatabase(path, folderFRN)
-					?? GetLayoutPreferencesFromAds(path, folderFRN)
+					return GetLayoutPreferencesFromDatabase(path, folderFRN)
+						?? GetLayoutPreferencesFromAds(path, folderFRN);
+				}, App.Logger)
 					?? GetDefaultLayoutPreferences(path);
 			}
 
@@ -529,8 +532,8 @@ namespace Files.App.Data.Models
 				return null;
 
 			// Port settings to the database, delete the ADS
-			SetLayoutPreferencesToDatabase(path, frn, layoutPreferences);
-			PInvoke.DeleteFileFromApp($"{path}:files_layoutmode");
+			if (SetLayoutPreferencesToDatabase(path, frn, layoutPreferences))
+				PInvoke.DeleteFileFromApp($"{path}:files_layoutmode");
 
 			return layoutPreferences;
 		}
@@ -575,20 +578,23 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private static void SetLayoutPreferencesToDatabase(string path, ulong? frn, LayoutPreferencesItem preferencesItem)
+		private static bool SetLayoutPreferencesToDatabase(string path, ulong? frn, LayoutPreferencesItem preferencesItem)
 		{
 			if (string.IsNullOrEmpty(path))
-				return;
+				return false;
 
-			var dbInstance = GetDatabaseManagerInstance();
-			if (dbInstance.GetPreferences(path, frn) is null &&
-				new LayoutPreferencesItem().Equals(preferencesItem))
+			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				// Do not create setting if it's default
-				return;
-			}
+				var dbInstance = GetDatabaseManagerInstance();
+				if (dbInstance.GetPreferences(path, frn) is null &&
+					new LayoutPreferencesItem().Equals(preferencesItem))
+				{
+					// Do not create setting if it's default
+					return;
+				}
 
-			dbInstance.SetPreferences(path, frn, preferencesItem);
+				dbInstance.SetPreferences(path, frn, preferencesItem);
+			});	
 		}
 
 		private bool SetProperty<TValue>(Func<LayoutPreferencesItem, TValue> prop, Action<LayoutPreferencesItem> update, string propertyName)

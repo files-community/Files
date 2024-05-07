@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Aparência</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Fundo</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Cor de fundo</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avançado</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Definir como fundo de ecrã de bloqueio</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Definir como fundo da aplicação</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Não foi possível eliminar este item</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Taxa de dados</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Taxa de codificação de áudio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Taxa de codificação de vídeo</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compressão</value>
@@ -2457,6 +2466,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Definir imagem selecionada como fundo do ecrã de bloqueio</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Utilizar imagem selecionada como fundo da aplicação</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalar tipos de letra selecionados</value>
   </data>
@@ -3735,7 +3747,7 @@
     <value>Personalizado</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>O esquema adaptativo não está disponível quando as preferências são sincronizadas, o esquema predefinido foi alterado para Detalhes.</value>
+    <value>O esquema adaptativo não está disponível quando as preferências são sincronizadas e o esquema padrão foi alterado para Detalhes.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Imagem de fundo</value>

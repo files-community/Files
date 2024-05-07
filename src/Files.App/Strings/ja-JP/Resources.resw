@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>背景</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>背景の色</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高度な設定</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>ロック画面の背景に設定</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>アプリの背景として設定</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>この項目を削除できませんでした</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>エンコード ビットレート</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>音声エンコード ビットレート</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>動画エンコード ビットレート</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>圧縮</value>
@@ -2456,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>選択した画像をロック画面の背景に設定する</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>選択した画像をアプリの背景として設定</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>選択したフォントをインストールする</value>

@@ -426,9 +426,9 @@ namespace Files.App.Helpers
 			int param
 		);
 
-		[DllImport("shell32.dll", EntryPoint = "#865", CharSet = CharSet.Unicode, SetLastError = true)]
+		[LibraryImport("shell32.dll", EntryPoint = "#865", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool _IsElevationRequired(
+		public static partial bool IsElevationRequired(
 			[MarshalAs(UnmanagedType.LPWStr)] string pszPath);
 
 		[DllImport("shlwapi.dll", CallingConvention = CallingConvention.StdCall, PreserveSig = true, CharSet = CharSet.Unicode)]
