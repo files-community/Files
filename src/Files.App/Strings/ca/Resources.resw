@@ -217,7 +217,7 @@
     <value>Aparença</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Color de fons</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avançat</value>
@@ -886,10 +886,10 @@
     <value>Taxa de bits de la codificació</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Taxa de bits de codificació d'àudio</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Taxa de bits de codificació de vídeo</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compressió</value>
