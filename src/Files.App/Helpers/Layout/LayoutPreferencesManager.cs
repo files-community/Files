@@ -505,16 +505,13 @@ namespace Files.App.Data.Models
 			{
 				path = path.TrimPath() ?? string.Empty;
 
-				return SafetyExtensions.IgnoreExceptions(() =>
-				{
-					if (path.StartsWith("tag:", StringComparison.Ordinal))
-						return GetLayoutPreferencesFromDatabase("Home", null);
+				if (path.StartsWith("tag:", StringComparison.Ordinal))
+					return GetLayoutPreferencesFromDatabase("Home", null);
 
-					var folderFRN = Win32Helper.GetFolderFRN(path);
+				var folderFRN = Win32Helper.GetFolderFRN(path);
 
-					return GetLayoutPreferencesFromDatabase(path, folderFRN)
-						?? GetLayoutPreferencesFromAds(path, folderFRN);
-				}, App.Logger)
+				return GetLayoutPreferencesFromDatabase(path, folderFRN)
+					?? GetLayoutPreferencesFromAds(path, folderFRN)
 					?? GetDefaultLayoutPreferences(path);
 			}
 
