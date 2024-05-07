@@ -3225,7 +3225,7 @@
     <value>Åbn alle</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Åbn alle mærkede elementer</value>
+    <value>Åbn alle taggede emner</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
     <value>Drev ({0})</value>
@@ -3235,19 +3235,19 @@
     <value>Ugyldig kommando</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>'{0}' genkendes ikke som en kommando.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Kommando ikke eksekverbar</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>Kommandoen '{0}' er ikke klar til at blive udført.</value>
+    <value>Kommandoen '{0}' er ikke klar til eksekvering.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Kommando palette</value>
+    <value>Kommandopalette</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Åbn kommando palette</value>
+    <value>Åbn kommandopalette</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start i:</value>
@@ -3256,10 +3256,10 @@
     <value>Slå BitLocker til</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Administrér BitLocker</value>
+    <value>Håndtér BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>Følgende elementer er for store til at blive kopieret til dette drev</value>
+    <value>Flg. emner er for store til at blive kopieret til dette drev</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
     <value>Formatér drev</value>
@@ -3268,13 +3268,13 @@
     <value>Vis ikke igen</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>Filer kører som administrator</value>
+    <value>Files kører som administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>På grund af platformsbegrænsninger er træk og slip ikke tilgængelig, når du kører Filer som administrator.</value>
+    <value>Grundet platformsbegrænsninger er træk og slip utilgængelig, når Files køres som administrator.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>Lad appen køre i baggrunden, når vinduet er lukket</value>
+    <value>Lad appen køre i baggrunden, når vinduet lukkes</value>
   </data>
   <data name="Blue" xml:space="preserve">
     <value>Blå</value>
@@ -3285,7 +3285,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>Murstens rød</value>
+    <value>Murstensrød</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
@@ -3293,7 +3293,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>Cool Blå Lys</value>
+    <value>Kølig blå, kraftigt</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
@@ -3301,7 +3301,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>Mørke Grå</value>
+    <value>Mørkegrå</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
@@ -3309,11 +3309,11 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Iris Pastel</value>
+    <value>Iris pastel</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>Mynte Lys</value>
+    <value>Lys mynte</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
@@ -3321,7 +3321,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Orange Bright</value>
+    <value>Kraftig orange</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
@@ -3356,64 +3356,64 @@
     <value>Ryd gennemført</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>Navn:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>{0} of {1} processed</value>
+    <value>{0} af {1} behandlet</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
     <value>emner</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
-    <value>Filer kan ikke initialisere denne mappe som et Git-arkiv.</value>
+    <value>Filer kan ikke initialisere denne mappe som et Git-repo.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
-    <value>Contributing Artist</value>
+    <value>Medvirkende kunstner</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>Add page</value>
+    <value>Tilføj side</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>Processing items...</value>
+    <value>Behandler emner...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Hastighed:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Canceled compressing {0} items to "{1}"</value>
+    <value>Annullerede komprimering af {0} emner til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <value>Annullerede komprimering af {0} emner fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0} item(s) to "{1}"</value>
+    <value>Komprimerede {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <value>Komprimerede {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0} item(s) to "{1}"</value>
+    <value>Fejl under komprimering af {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <value>Kunne ikke komprimere {0} emne(r) fra {1} til {2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0} item(s) to "{1}"</value>
+    <value>Komprimerer {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <value>Komprimerer {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <value>Annullerede kopiering af {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
