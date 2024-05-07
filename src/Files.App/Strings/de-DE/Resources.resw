@@ -217,7 +217,7 @@
     <value>Erscheinungsbild</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Hintergrundfarbe</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Erweitert</value>
@@ -340,7 +340,7 @@
     <value>Als Sperrbildschirm festlegen</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Als App-Hintergrund festlegen</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Löschen der Datei oder des Ordners nicht möglich</value>
@@ -886,10 +886,10 @@
     <value>Enkodierungsbitrate</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Enkodierungsbitrate</value>
+    <value>Audioenkodierungsbitrate</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Enkodierungsbitrate</value>
+    <value>Videoenkodierungsbitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Komprimierung</value>
@@ -2467,7 +2467,7 @@
     <value>Ausgewähltes Bild als Sperrbildschirm-Hintergrund festlegen</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Ausgewähltes Bild als Hintergrund der App festlegen</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Ausgewählte Schriftart(en) installieren</value>
