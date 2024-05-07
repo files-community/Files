@@ -8,12 +8,12 @@ I ACKNOWLEDGE THE FOLLOWING BEFORE PROCEEDING:
 
 **Resolved / Related Issues**
 
-In order to prevent extra work, all changes to the Files codebase must link to an approved issue marked as `Ready to build`. Please insert the issue number following the hashtag with the issue number that this Pull Request resolves.
+To prevent extra work, all changes to the Files codebase must link to an approved issue marked as `Ready to build`. Please insert the issue number following the hashtag with the issue number that this Pull Request resolves.
 - Closes #
 
 **Steps used to test these changes**
 
-Stability is a top priorty for Files and all changes are required to go through testing before being merged into the repo. Please include a list of steps that you used to test this PR.
+Stability is a top priority for Files and all changes are required to go through testing before being merged into the repo. Please include a list of steps that you used to test this PR.
 
 1. Opened Files ...
 2. ...
