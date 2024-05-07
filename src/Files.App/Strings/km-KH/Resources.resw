@@ -316,16 +316,16 @@
     <value>This folder is empty.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Back</value>
+    <value>ត្រលប់</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Forward</value>
+    <value>បញ្ចូនបន្ត</value>
   </data>
   <data name="Up" xml:space="preserve">
     <value>Up</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>ធ្វើឱ្យស្អាត</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>An item with this name already exists in this directory.</value>
