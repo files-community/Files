@@ -178,7 +178,7 @@
     <value>Ryd alle emner</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Indtast en sti</value>
+    <value>Angiv en sti som destination eller skriv "&gt;" for at åbne kommandopaletten</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Søg</value>
@@ -202,7 +202,7 @@
     <value>Datoformat</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Vælg din farve.</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Vis filtypenavne for kendte filtyper</value>
@@ -217,7 +217,7 @@
     <value>Udseende</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Baggrunds farve</value>
+    <value>Baggrundsfarve</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Advanceret</value>
@@ -232,7 +232,7 @@
     <value>Åbn bestemt side(r)</value>
   </data>
   <data name="Desktop" xml:space="preserve">
-    <value>Computer</value>
+    <value>Skrivebord</value>
   </data>
   <data name="Documents" xml:space="preserve">
     <value>Dokumenter</value>
@@ -277,7 +277,7 @@
     <value>Fastgør til sidebjælke</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Velkommen til Filer!</value>
+    <value>Velkommen til Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Giv tilladelse</value>
@@ -286,13 +286,13 @@
     <value>For at komme i gang skal appen tillades at vise filer. Dette åbner en indstillingsside, hvor appen kan tildeles denne tilladelse. Appen skal genstartes, efter dette trin er gennemført. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Vis</value>
+    <value>Visning</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Angiv et enmenavn</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ændr navn</value>
+    <value>Gem navn</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Lyst</value>
@@ -301,7 +301,7 @@
     <value>Mørkt</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>Applikation</value>
+    <value>App</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
     <value>System</value>
@@ -310,13 +310,13 @@
     <value>Ny mappe</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>Ny Fil</value>
+    <value>Ny fil</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Denne mappe er tom.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Retur</value>
+    <value>Tilbage</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Fremad</value>
@@ -340,7 +340,7 @@
     <value>Indstil som låseskærmsbaggrund</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Angiv som app baggrund</value>
+    <value>Angiv som app-baggrund</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Dette emne kunne ikke slettes</value>
@@ -373,7 +373,7 @@
     <value>Filen, der forsøges tilgået, bruges i øjeblikket af {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Filen, der forsøges tilgået, bruges i øjeblikket af en anden applikation</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Fil er i brug</value>
@@ -508,13 +508,13 @@
     <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Windows-standard</value>
+    <value>Windows standard</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Ingen resultater</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>Kan ikke tilgå nogen emner at vise</value>
+    <value>Kan ikke tilgå nogen emner til visning</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Flyt til {0}</value>
@@ -1747,10 +1747,10 @@
     <value>Indsend fejlanmeldelse</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Sæt Filer som standard filhåndtering</value>
+    <value>Sæt Files som standard filhåndtering</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>Brug Filer som Åbn fil-dialog</value>
+    <value>Brug Files som Åbn fil-dialog</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Tag</value>
@@ -1789,7 +1789,7 @@
     <value>Gendan standard</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Åbn fanen i eksisterende instans, når filer fra en anden app åbnes</value>
+    <value>Åbn fanen i eksisterende instans, når Files åbnes fra en anden app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Opstartsindstillinger</value>
@@ -1873,7 +1873,7 @@
     <value>Seneste filer</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Åbn Filer ved Windows-opstart</value>
+    <value>Åbn Files ved Windows-opstart</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Attributter</value>
@@ -2302,7 +2302,7 @@
     <value>Kunne ikke beregne hash. Luk filen og forsøg igen.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Hashes er ikke tilgængelige til onlinefiler</value>
+    <value>Hashes er ikke tilgængelige for onlinefiler</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritme</value>
@@ -3159,7 +3159,7 @@
     <value>Angiv flg. kode på linket nedenfor for at begynde at arbejde med GitHub-repo'er.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Filer kan ikke få adgang til GitHub lige nu.</value>
+    <value>Files kan ikke få adgang til GitHub lige nu.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>Åbn mappe i VS Code</value>
@@ -3563,7 +3563,7 @@
     <value>Ingen igangværende filoperationer</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>Muligheden for at åbne Files ifm. Windows-opstart er utilgængelig grundet aktuelle systemindstillinger eller gruppepolitik. For at genaktivere, åbne startsiden i Opgavehåndtering.</value>
+    <value>Muligheden for at åbne Files ved Windows-opstart er utilgængelig grundet aktuelle systemindstillinger eller gruppepolitik. For at genaktivere, åbne startsiden i Opgavehåndtering.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Kunne ikke gendanne emner fra papirkurven</value>
@@ -3590,19 +3590,19 @@
     <value>Log ind</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>Tags er i øjeblikket kun kompatible på drev formateret som NTFS.</value>
+    <value>Tags er pt. kun kompatible via NTFS-formaterede drev.</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
-    <value>Der opstod en fejl under anvendelsen af dette tag</value>
+    <value>En fejl opstod under anvendelsen af dette tag</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Udpak elementer fra valgte arkiv(er) til den aktuelle mappe til single-item arkiv, eller til ny mappe til multi-item arkiv</value>
+    <value>Udpak emner fra valgte arkiv(er) til den aktuelle mappe til enkeltemnearkiv, eller til ny mappe til multiemnearkiv</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Udpak her (Smart)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sorter filer og mapper sammen</value>
+    <value>Sortér filer og mapper sammen</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
     <value>Sorter filer og mapper sammen</value>
@@ -3611,16 +3611,16 @@
     <value>Sortér filer først</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>Sortér filer først derefter mapper</value>
+    <value>Sortér filer først dernæst mapper</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
     <value>Sortér mapper først</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Sortér mapper først derefter filer</value>
+    <value>Sortér mapper først dernæst filer</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Sortér prioritet</value>
+    <value>Sorteringsprioritet</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Kunne ikke rotere billedet</value>
@@ -3632,44 +3632,44 @@
     <value>Afslut</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
-    <value>Kunne ikke dele elementer</value>
+    <value>Kunne ikke dele emner</value>
   </data>
   <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
-    <value>Rul til forrige mappe når du navigerer op</value>
+    <value>Rul til foregående mappe, når der navigeres op</value>
   </data>
   <data name="NewWindowDescription" xml:space="preserve">
     <value>Åbn nyt vindue</value>
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
-    <value>Skift album cover</value>
+    <value>Skift albumcover</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
-    <value>Kunne ikke omdøbe element</value>
+    <value>Kunne ikke omdøbe emne</value>
   </data>
   <data name="HigherPermissionsRequired" xml:space="preserve">
     <value>Redigering af "{0}" kræver yderligere tilladelser</value>
   </data>
   <data name="EditPermissions" xml:space="preserve">
-    <value>Rediger tilladelser</value>
+    <value>Redigere tilladelser</value>
   </data>
   <data name="BackgroundRunningNotificationBody" xml:space="preserve">
-    <value>Filer kører stadig i baggrunden for at forbedre opstart ydeevne.</value>
+    <value>Files kører stadig i baggrunden for at forbedre opstartsydeevnen.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Hvor gik filerne?</value>
+    <value>Hvad blev der af Files?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
-    <value>Spørgsmål og diskussioner</value>
+    <value>Spørgsmål og debatter</value>
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Yderligere størrelser er endnu ikke tilgængelige for flisevisningen.</value>
+    <value>Yderligere størrelser er endnu ikke tilgængelige i Flisevisning.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Kompakt</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
-    <value>LILLE</value>
+    <value>Lille</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium" xml:space="preserve">
@@ -3697,11 +3697,11 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
-    <value>STOR</value>
+    <value>Stor</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
-    <value>Stort +</value>
+    <value>Stor +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
@@ -3717,10 +3717,10 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="DetailsView" xml:space="preserve">
-    <value>Detaljer visning</value>
+    <value>Detaljevisning</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
-    <value>Layout type</value>
+    <value>Layouttype</value>
   </data>
   <data name="Actions" xml:space="preserve">
     <value>Handlinger</value>
@@ -3738,16 +3738,16 @@
     <value>Vælg en handling</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Er du sikker på, at du vil gendanne standard tastebindingerne? Denne handling kan ikke fortrydes.</value>
+    <value>Sikker på, at standard tastetilknytningerne skal gendannes? Handlingen er irreversibel.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>Denne nøgle-binding bruges allerede, vælg venligst en anden nøgle-binding for at fortsætte.</value>
+    <value>Denne tastetilknytning bruges allerede. Vælg en anden tastetilknytningerne for at fortsætte.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Tilpasset</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptivt layout er ikke tilgængeligt, når præferencerne synkroniseres, standard layout er blevet ændret til Detaljerne.</value>
+    <value>Adaptivt layout er utilgængeligt, når præferencerne synkes. Standardlayoutet er ændret til Detaljer.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Baggrundsbillede</value>
@@ -3768,7 +3768,7 @@
     <value>Horisontal justering</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Billede passer</value>
+    <value>Billedtilpasning</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Venstre</value>
@@ -3786,7 +3786,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Ensartet</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
