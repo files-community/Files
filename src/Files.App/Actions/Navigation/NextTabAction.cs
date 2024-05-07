@@ -28,7 +28,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			App.WindowContext.TabBarItemSelectedIndex = (App.WindowContext.TabBarItemSelectedIndex + 1) % multitaskingContext.TabCount;
+			App.WindowContext.TabBarSelectedItemIndex = (App.WindowContext.TabBarSelectedItemIndex + 1) % multitaskingContext.TabCount;
 
 			return Task.CompletedTask;
 		}

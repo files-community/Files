@@ -19,7 +19,7 @@ namespace Files.App.Data.Contexts
 
 		private int _SelectedTabBarItemIndex = 0;
 		/// <inheritdoc/>
-		public int TabBarItemSelectedIndex
+		public int TabBarSelectedItemIndex
 		{
 			get => _SelectedTabBarItemIndex;
 			set

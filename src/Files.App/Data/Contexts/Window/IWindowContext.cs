@@ -20,7 +20,7 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// Gets or sets the index of the current selected <see cref="TabBarItem"/>.
 		/// </summary>
-		int TabBarItemSelectedIndex { get; set; }
+		int TabBarSelectedItemIndex { get; set; }
 
 		/// <summary>
 		/// Gets or sets the value that indicates whether the application process is elevated.

@@ -60,7 +60,7 @@ namespace Files.App.Helpers
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
 			if (focusNewTab)
-				App.WindowContext.TabBarItemSelectedIndex = index;
+				App.WindowContext.TabBarSelectedItemIndex = index;
 		}
 
 		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
@@ -85,7 +85,7 @@ namespace Files.App.Helpers
 
 			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
-			App.WindowContext.TabBarItemSelectedIndex = index;
+			App.WindowContext.TabBarSelectedItemIndex = index;
 		}
 
 		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)

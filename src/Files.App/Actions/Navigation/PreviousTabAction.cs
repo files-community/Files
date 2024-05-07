@@ -28,10 +28,10 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (App.WindowContext.TabBarItemSelectedIndex is 0)
-				App.WindowContext.TabBarItemSelectedIndex = multitaskingContext.TabCount - 1;
+			if (App.WindowContext.TabBarSelectedItemIndex is 0)
+				App.WindowContext.TabBarSelectedItemIndex = multitaskingContext.TabCount - 1;
 			else
-				App.WindowContext.TabBarItemSelectedIndex--;
+				App.WindowContext.TabBarSelectedItemIndex--;
 
 			return Task.CompletedTask;
 		}
