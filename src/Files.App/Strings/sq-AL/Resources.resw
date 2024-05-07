@@ -118,154 +118,154 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>New window</value>
+    <value>Dritare e re</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Kopjo vendndodhjen</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copy path with quotes</value>
+    <value>Kopje vendndodhjen me thonjëza</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Naršyti</value>
+    <value>Shfleto</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Dydis</value>
+    <value>Madhësia</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Sukurta:</value>
+    <value>Krijuar:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path</value>
+    <value>Vendndodhja</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Dydis:</value>
+    <value>Madhësia:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Madhësia në disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Madhësia e pakompresuar:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Ši veiksma negalima atlikti</value>
+    <value>Ky veprim nuk mund të zhbëhet</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Paskirties aplankas</value>
+    <value>Dosja mbërritëse</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>yra šaltinio aplanko poaplankis</value>
+    <value>është një nëndosje e dosjes burim</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>Praleisti</value>
+    <value>Anashkalo</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Pažymėti visus</value>
+    <value>Përzgjidhi të gjitha</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Përkëmbe përzgjedhjen</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Pastro përzgjedhjen</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modifikuota:</value>
+    <value>Modifikuar:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Atidaryta:</value>
+    <value>Qasur:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Išvalyti visus elementus</value>
+    <value>Pastro të gjithë artikujt</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Fut vendndodhjen ku kërkon të shkosh ose shkruaj "&gt;" për të hapur panelin e komandës</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Ieškoti</value>
+    <value>Kërko</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Čia bus rodomi failai, kuriuos anksčiau atidarėte</value>
+    <value>Skedarët që ke qasur më parë do të shfaqen këtu</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Hiqe këtë artikull</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>depo GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>About</value>
+    <value>Rreth kësaj</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Burim i hapur</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>Date format</value>
+    <value>Formati i datës</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Paraqitja</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Show extensions for known file types</value>
+    <value>Shfaq prapashtesat për tipet e njohura të skedarëve</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Show hidden files and folders</value>
+    <value>Shfaq skedarët dhe dosjet e fshehura</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Shfaq skedarët që fillojnë me pikë</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>Pamja e jashtme</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Ngjyra në sfond</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>I avancuar</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continue where you left off</value>
+    <value>Vazhdo aty ku e kishe lënë</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Open a new tab</value>
+    <value>Hap një skedë të re</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Open a specific page or pages</value>
+    <value>Hap një ose disa faqe specifike</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>Desktop</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>Documents</value>
+    <value>Documentat</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Downloads</value>
+    <value>Shkarkimet</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Emrit</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>Ascending</value>
+    <value>Në ngjitje</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Ngjit</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>New</value>
+    <value>i/e Re</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Cilësimet</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Hap</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Hap në një skedë të re</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Hap në një dritare të re</value>
   </data>
   <data name="Share" xml:space="preserve">
-    <value>Share</value>
+    <value>Shpërndaje</value>
   </data>
   <data name="Cut" xml:space="preserve">
     <value>Cut</value>
@@ -316,13 +316,13 @@
     <value>This folder is empty.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Back (Alt+Left Arrow)</value>
+    <value>Back</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Forward (Alt+Right Arrow)</value>
+    <value>Forward</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Up (Alt+Up Arrow)</value>
+    <value>Up</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
@@ -1978,10 +1978,10 @@
     <value>Size all columns to fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Adaptive layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptive layout (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2745,7 +2745,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>Up (Alt+Up Arrow)</value>
+    <value>Up</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
@@ -2833,7 +2833,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Ieškoti</value>
+    <value>Kërko</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">

@@ -298,6 +298,7 @@ namespace Files.App.Data.Factories
 						new(ContextFlyoutItemType.Button, Commands.SetAsWallpaperBackground),
 						new(ContextFlyoutItemType.Button, Commands.SetAsLockscreenBackground),
 						new(ContextFlyoutItemType.Button, Commands.SetAsSlideshowBackground),
+						new(ContextFlyoutItemType.Button, Commands.SetAsAppBackground),
 					]
 				},
 				new(ContextFlyoutItemType.Button, Commands.RotateLeft)

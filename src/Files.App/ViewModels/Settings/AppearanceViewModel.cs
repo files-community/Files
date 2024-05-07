@@ -70,14 +70,12 @@ namespace Files.App.ViewModels.Settings
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Top, "Top".GetLocalizedResource());
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Center, "Center".GetLocalizedResource());
 			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Bottom, "Bottom".GetLocalizedResource());
-			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Stretch, "Stretch".GetLocalizedResource());
 			SelectedImageVerticalAlignmentType = ImageVerticalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment];
 
 			// HorizontalAlignment
-			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Left, "Top".GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Left, "Left".GetLocalizedResource());
 			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Center, "Center".GetLocalizedResource());
-			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Right, "Bottom".GetLocalizedResource());
-			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Stretch, "Stretch".GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Right, "Right".GetLocalizedResource());
 			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment];
 
 			UpdateSelectedResource();
@@ -127,13 +125,13 @@ namespace Files.App.ViewModels.Settings
 			if (!AppThemeResources.Any(p => p.BackgroundColor == themeBackgroundColor))
 			{
 				// Remove current value before adding a new one
-				if (AppThemeResources.Last().Name == "Custom")
+				if (AppThemeResources.Last().Name == "Custom".GetLocalizedResource())
 					AppThemeResources.Remove(AppThemeResources.Last());
 
 				var appThemeBackgroundColor = new AppThemeResourceItem
 				{
 					BackgroundColor = themeBackgroundColor,
-					Name = "Custom"
+					Name = "Custom".GetLocalizedResource(),
 				};
 
 				AppThemeResources.Add(appThemeBackgroundColor);

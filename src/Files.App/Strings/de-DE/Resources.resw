@@ -178,7 +178,7 @@
     <value>Verlauf leeren</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Gebe einen Pfad zum Navigieren ein oder Tippe "&gt;" ein, um die Befehlspalette zu öffnen</value>
+    <value>Geben Sie einen Pfad zum Navigieren ein oder Tippen "&gt;", um die Befehlspalette zu öffnen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
@@ -193,10 +193,10 @@
     <value>GitHub-Repository</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>Über</value>
+    <value>Info</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open Source</value>
+    <value>Quelloffen</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datumsformat</value>
@@ -208,7 +208,7 @@
     <value>Dateierweiterungen für bekannte Dateitypen anzeigen</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Alle Dateien und Ordner anzeigen</value>
+    <value>Versteckte Dateien und Ordner anzeigen</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>Dateien die mit einem Punkt beginnen anzeigen</value>
@@ -216,14 +216,14 @@
   <data name="Appearance" xml:space="preserve">
     <value>Erscheinungsbild</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Hintergrund</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Hintergrundfarbe</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Erweitert</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Fortsetzen, wo Du aufgehört hast</value>
+    <value>Fortsetzen, wo du aufgehört hast</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
@@ -280,7 +280,7 @@
     <value>Willkommen bei Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Zugriff erlauben</value>
+    <value>Berechtigung erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Als Sperrbildschirm festlegen</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Als App-Hintergrund festlegen</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Löschen der Datei oder des Ordners nicht möglich</value>
   </data>
@@ -349,7 +352,7 @@
     <value>Laufwerk getrennt</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Sie zugreifen möchten, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei, auf die Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Eigenschaften für diese Datei können nicht geöffnet werden</value>
@@ -436,7 +439,7 @@
     <value>Elemente</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>OK</value>
+    <value>Ja</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Bist Du sicher, dass Du alle Elemente endgültig löschen möchtest?</value>
@@ -604,13 +607,13 @@
     <value>Mehr Optionen anzeigen</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Die Anwendung muss neu gestartet werden, um die Einstellungen zu übernehmen. Möchtest Du die Anwendung jetzt neu starten?</value>
+    <value>Die App muss neu gestartet werden, um die Einstellungen zu übernehmen. Möchten Sie die App jetzt neu starten?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Uns auf GitHub unterstützen</value>
+    <value>Unterstütze uns auf GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>Wir können dieses Element nicht erstellen</value>
+    <value>Wir konnten dieses Element nicht erstellen</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Zugriff verweigert</value>
@@ -679,7 +682,7 @@
     <value>Kommentar</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Copyright</value>
+    <value>Urheberrecht</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Änderungsdatum</value>
@@ -877,10 +880,16 @@
     <value>Anzahl der Folien</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>Einzelbildrate</value>
+    <value>Bildrate</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Enkodierungsbitrate</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Audioenkodierungsbitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Videoenkodierungsbitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Komprimierung</value>
@@ -991,7 +1000,7 @@
     <value>Geschützte Systemdateien anzeigen</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Layout- und Sortierungspräferenzen zwischen Verzeichnissen synchronisieren</value>
+    <value>Layout- und Sortierungseinstellungen zwischen Verzeichnissen synchronisieren</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kontextmenü anpassen</value>
@@ -2457,6 +2466,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Ausgewähltes Bild als Sperrbildschirm-Hintergrund festlegen</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Ausgewähltes Bild als Hintergrund der App festlegen</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Ausgewählte Schriftart(en) installieren</value>
   </data>
@@ -3144,7 +3156,7 @@
     <value>Mit GitHub verbinden</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Geben Sie den folgenden Code unter dem unten stehenden Link ein, um mit GitHub Repositories zu arbeiten.</value>
+    <value>Gib den folgenden Code unter dem unten stehenden Link ein, um mit GitHub Repositories zu arbeiten.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files kann momentan nicht auf GitHub zugreifen.</value>
@@ -3736,5 +3748,52 @@
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>Adaptives Layout ist nicht verfügbar, wenn die Einstellungen synchronisiert werden. Das Standardlayout wurde auf Details geändert.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Hintergrundbild</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Unten</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Mittig</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Füllen</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Horizontale Ausrichtung</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Bildanpassung</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Links</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Deckkraft</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Rechts</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Oben</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Einheitlich</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Ausfüllen &amp; Seitenverhältnis beibehalten</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Vertikale Ausrichtung</value>
   </data>
 </root>
