@@ -43,7 +43,7 @@ namespace Files.App.Server.Database
 
 		public LayoutPreferencesDatabase()
 		{
-			throw new NotSupportedException($"Instantiate {nameof(FileTagsDatabase)} by non-parameterized constructor is not supported.");
+			throw new NotSupportedException($"Instantiating {nameof(LayoutPreferencesDatabase)} by non-parameterized constructor is not supported.");
 		}
 
 		public LayoutPreferencesDatabase(int processId)
