@@ -2757,11 +2757,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.PageDown" xml:space="preserve">
-    <value>Side Ned</value>
+    <value>SideNed</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.PageUp" xml:space="preserve">
-    <value>Side Op</value>
+    <value>SideOp</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
@@ -2813,7 +2813,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GåHjem</value>
+    <value>TilStartside</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
@@ -2825,11 +2825,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>WebbrowserGenopfrisk</value>
+    <value>BrowserGenopfrisk</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
-    <value>WebbrowserStop</value>
+    <value>BrowserStop</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
@@ -2876,7 +2876,7 @@
     <value>Skift</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Skift valg</value>
+    <value>Invertér valg</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Vis advarsel ved ændring af filtyper</value>
@@ -2927,7 +2927,7 @@
     <value>Vis afkrydsningsfelter, når emner vælges</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Fokus stibjælke</value>
+    <value>Fokus – stibjælke</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Opret nyt emne</value>
@@ -3029,7 +3029,7 @@
     <value>Bring ændringerne til '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>Ændringer på denne gren er af-committed. Hvad skal der ske med dem?</value>
+    <value>Ændringer på denne gren er blevet uncommitted. Hvad skal der ske med dem?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Skift gren</value>
@@ -3092,7 +3092,7 @@
     <value>Forhåndsvisning</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>Git-status</value>
+    <value>Git status</value>
   </data>
   <data name="GitError" xml:space="preserve">
     <value>Git-fejl</value>
@@ -3114,7 +3114,7 @@
     <value>Commit-meddelelse</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>Commit SHA</value>
+    <value>Commit-SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
@@ -3159,7 +3159,7 @@
     <value>Angiv flg. kode på linket nedenfor for at begynde at arbejde med GitHub-repo'er.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Filer kan ikke tilgå GitHub lige nu.</value>
+    <value>Filer kan ikke få adgang til GitHub lige nu.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>Åbn mappe i VS Code</value>
@@ -3293,7 +3293,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>Kølig blå, kraftigt</value>
+    <value>Kølig lyseblå</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
@@ -3317,15 +3317,15 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Mod Red</value>
+    <value>Mellemrød</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Kraftig orange</value>
+    <value>Lysorange</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>Overskyet</value>
+    <value>Himmelgrå</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
@@ -3333,7 +3333,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Rose Lyse</value>
+    <value>Lysrosa</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
@@ -3345,7 +3345,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Violet Rød Lys</value>
+    <value>Lysvioletrød</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
@@ -3366,7 +3366,7 @@
     <value>emner</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
-    <value>Filer kan ikke initialisere denne mappe som et Git-repo.</value>
+    <value>Files kan ikke initialisere denne mappe som et Git-repo.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
     <value>Medvirkende kunstner</value>
@@ -3381,11 +3381,11 @@
     <value>Hastighed:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Annullerede komprimering af {0} emner til "{1}"</value>
+    <value>Annullerede komprimeringen af {0} emner til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>Annullerede komprimering af {0} emner fra "{1}" til "{2}"</value>
+    <value>Annullerede komprimeringen af {0} emner fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
@@ -3397,7 +3397,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Fejl under komprimering af {0} emne(r) til "{1}"</value>
+    <value>Fejl under komprimeringen af {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
@@ -3413,43 +3413,43 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Annullerede kopiering af {0} emne(r) til "{1}"</value>
+    <value>Annullerede kopieringen af {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Annullerede kopiering af {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Annullerede kopieringen af {0} vare(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Kopierede {0} vare(r) til "{1}"</value>
+    <value>Kopierede {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Kopierede {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Kopierede {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Fejl ved kopiering af {0} vare(r) til "{1}"</value>
+    <value>Fejl under kopieringen af {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Mislykkedes at kopiere {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Mislykkedes at kopiere {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Kopierer {0} vare(r) til "{1}"</value>
+    <value>Kopierer {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Kopierer {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Kopierer {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>Annullerede udpakning "{0}" til "{1}"</value>
+    <value>Annullerede udpakningen "{0}" til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>Annullerede udpakning "{0}" fra "{1}" til "{2}"</value>
+    <value>Annullerede udpakningen "{0}" fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
@@ -3477,71 +3477,71 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Annulleret sletning af {0} vare(r) fra "{1}"</value>
+    <value>Annullerede sletningen af {0} emne(r) fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Slettede {0} vare(r) fra "{1}"</value>
+    <value>Slettede {0} emne(r) fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Fejl under sletning af {0} vare(r) fra "{1}"</value>
+    <value>Fejl under sletningen af {0} emne(r) fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Mislykkedes at slette {0} element(er) fra "{1}"</value>
+    <value>Mislykkedes at slette {0} emne(r) fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Sletter {0} vare(r) fra "{1}"</value>
+    <value>Sletter {0} emne(r) fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Annullerede flytning af {0} vare(r) til "{1}"</value>
+    <value>Annullerede flytningen af {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Annullerede flytning af {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Annullerede flytningen af {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Flyttede {0} vare(r) til "{1}"</value>
+    <value>Flyttede {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Flyttede {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Flyttede {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Flytter {0} vare(r) til "{1}"</value>
+    <value>Flytter {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Flytter {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Flytter {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Fejl under flytning af {0} vare(r) til "{1}"</value>
+    <value>Fejl under flytningen af {0} emne(r) til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Kunne ikke flytte {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Kunne ikke flytte {0} emne(r) fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Annulleret tømning af papirkurven</value>
+    <value>Annullerede tømningen af papirkurven</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Tømt Papirkurv</value>
+    <value>Papirkurv tømt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Tømning Af Papirkurv</value>
+    <value>Tømmer papirkurv</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Fejl ved tømning af papirkurven</value>
+    <value>Fejl under tømning af papirkurven</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
@@ -3553,7 +3553,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} vare(r) behandlet</value>
+    <value>{0}/{1} emne(r) behandlet</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3563,31 +3563,31 @@
     <value>Ingen igangværende filoperationer</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>Muligheden for at åbne filer på Windows Startup er ikke tilgængelig på grund af dine systemindstillinger eller gruppepolitik. For at genaktivere, skal du åbne startsiden i Opgavehåndtering.</value>
+    <value>Muligheden for at åbne Files ifm. Windows-opstart er utilgængelig grundet aktuelle systemindstillinger eller gruppepolitik. For at genaktivere, åbne startsiden i Opgavehåndtering.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Kunne ikke gendanne elementer fra papirkurven</value>
+    <value>Kunne ikke gendanne emner fra papirkurven</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
-    <value>Kunne ikke indstille baggrundsbaggrunden</value>
+    <value>Kunne ikke indstille baggrundstapetet</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Slet Git gren</value>
+    <value>Slet Git-gren</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Er du sikker på, at du vil slette "{0}"gren?</value>
+    <value>Sikker på, at grenen "{0}" skal slettes permanent?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
     <value>Forbundet til GitHub</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Log Ud</value>
+    <value>Log ud</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
     <value>Forbind til GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Log ind</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
     <value>Tags er i øjeblikket kun kompatible på drev formateret som NTFS.</value>
