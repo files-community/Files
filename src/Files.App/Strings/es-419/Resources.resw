@@ -340,7 +340,7 @@
     <value>Establecer como fondo de pantalla de bloqueo</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Establecer como fondo de la aplicación</value>
+    <value>Establecer como fondo de aplicación</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No pudimos eliminar este elemento</value>
@@ -2467,7 +2467,7 @@
     <value>Establecer imagen seleccionada como fondo de pantalla de bloqueo</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Establecer imagen seleccionada como fondo de la aplicación</value>
+    <value>Establecer la imagen seleccionada como fondo de la aplicación</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalar fuente(s) seleccionada(s)</value>
