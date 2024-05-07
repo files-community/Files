@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenDirectoryInNewPaneAction : ObservableObject, IAction
+	internal sealed class OpenInNewPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
@@ -20,7 +20,7 @@ namespace Files.App.Actions
 			context.SelectedItem.IsFolder &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewPane;
 
-		public OpenDirectoryInNewPaneAction()
+		public OpenInNewPaneAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
