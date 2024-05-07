@@ -4,27 +4,27 @@
 namespace Files.App.Actions
 {
 	/// <summary>
-	/// Defines constant that specifies the <see cref="IRichCommand"/> executable type.
+	/// Defines constants that specifies the <see cref="IRichCommand"/> executable type.
 	/// </summary>
 	public enum ExecutableContextType
 	{
 		/// <summary>
-		/// Unknown executable context type,
+		/// Unknown executable context type.
 		/// </summary>
 		None,
 
 		/// <summary>
-		/// executable context type is <see cref="IContentPageContext"/>,
+		/// executable context type is <see cref="IContentPageContext"/>.
 		/// </summary>
 		ContentPageContext,
 
 		/// <summary>
-		/// executable context type is <see cref="IHomePageContext"/>,
+		/// executable context type is <see cref="IHomePageContext"/>.
 		/// </summary>
 		HomePageContext,
 
 		/// <summary>
-		/// executable context type is <see cref="ISidebarContext"/>,
+		/// executable context type is <see cref="ISidebarContext"/>.
 		/// </summary>
 		SidebarContext,
 	}
