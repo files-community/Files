@@ -31,6 +31,9 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
+			if (GetIsExecutable() is false)
+				return;
+
 			switch (_executableContextType)
 			{
 				case ExecutableContextType.ContentPageContext:
