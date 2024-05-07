@@ -340,7 +340,7 @@
     <value>Hình nền màn hình khóa</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Đặt làm hình nền ứng dụng</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi không thể xóa khoản mục này</value>
@@ -2467,7 +2467,7 @@
     <value>Đặt hình ảnh đã chọn làm hình nền màn hình khóa</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Đặt hình ảnh đã chọn làm hình nền ứng dụng</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Cài đặt phông chữ đã chọn</value>
