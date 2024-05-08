@@ -138,7 +138,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 		{
 			var file = CreateFile(
 				"CONOUT$",
-				(FILE_ACCESS_FLAGS)(Win32PInvoke.GENERIC_WRITE | Win32PInvoke.GENERIC_READ),
+				Win32PInvoke.GENERIC_WRITE | Win32PInvoke.GENERIC_READ,
 				FILE_SHARE_MODE.FILE_SHARE_WRITE,
 				null,
 				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
