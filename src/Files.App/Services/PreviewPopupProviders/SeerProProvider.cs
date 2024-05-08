@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services;
+using System.IO;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 
@@ -34,6 +34,18 @@ namespace Files.App.Services.PreviewPopupProviders
 
 		public async Task SwitchPreviewAsync(string path)
 		{
+			// Close preview window is track selection setting is disabled
+			if (!isTrackSelectionSettingEnabled)
+			{
+				HWND Window = User32.FindWindow("SeerWindowClass", null);
+				if (User32.IsWindowVisible(Window))
+				{
+					// Hide window if it's already visible
+					return;
+				}
+			}
+
+			// Update the preview window if the path changed
 			if (CurrentPath is not null && path != CurrentPath)
 				await TogglePreviewPopupAsync(path);
 		}
@@ -42,6 +54,58 @@ namespace Files.App.Services.PreviewPopupProviders
 		{
 			var handle = User32.FindWindow("SeerWindowClass", null).DangerousGetHandle();
 			return handle != IntPtr.Zero && handle.ToInt64() != -1;
+		}
+
+		private bool? _isTrackSelectionSettingEnabledCache;
+		private bool isTrackSelectionSettingEnabled
+		{
+			get
+			{
+				if (_isTrackSelectionSettingEnabledCache is null)
+					_isTrackSelectionSettingEnabledCache = DetectTrackSelectionSetting().Result;
+
+				return _isTrackSelectionSettingEnabledCache.Value;
+			}
+		}
+
+		private Task<bool> DetectTrackSelectionSetting()
+		{
+			bool trackSelectedFile = true;
+
+			// List of possible paths for the Seer Pro settings file
+			string[] paths =
+			{
+				Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Documents\\Seer\\uwp.ini"),
+				Environment.ExpandEnvironmentVariables("%USERPROFILE%\\appdata\\Local\\Corey\\Seer\\uwp.ini"),
+				Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Documents\\Seer\\config.ini")
+			};
+
+			// Find the first existing path
+			foreach (var path in paths)
+			{
+				if (File.Exists(path))
+				{
+					// Read the settings file and look for the tracking_file setting
+					string[] lines = File.ReadAllLines(path);
+
+					foreach (var line in lines)
+					{
+						if (line.StartsWith("tracking_file", StringComparison.OrdinalIgnoreCase))
+						{
+							string[] keyValue = line.Split('=');
+							if (keyValue.Length == 2 && bool.TryParse(keyValue[1].Trim(), out bool isTrackingFile))
+							{
+								trackSelectedFile = isTrackingFile;
+								break;
+							}
+						}
+					}
+
+					break;
+				}
+			}
+
+			return Task.FromResult(trackSelectedFile);
 		}
 	}
 }
