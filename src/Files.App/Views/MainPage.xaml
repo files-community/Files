@@ -257,11 +257,12 @@
 						Unloaded="PreviewPane_Unloaded" />
 
 				<!--  Terminal  -->
-                <uc:TerminalView
+				<ContentPresenter
 					x:Name="TerminalControl"
 					Grid.Row="4"
 					Grid.ColumnSpan="3"
-					x:Load="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
+					Content="{x:Bind ViewModel.ActiveTerminal, Mode=OneWay}"
+					Visibility="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
 
                     <!--  Status Bar  -->
 				<uc:StatusBarControl
