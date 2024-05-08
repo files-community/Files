@@ -53,6 +53,12 @@ namespace Files.App.Actions
 			=> true;
 
 		/// <summary>
+		/// Returns whether the action is accessible in the specific context.
+		/// </summary>
+		bool IsContextual
+			=> false;
+
+		/// <summary>
 		/// Executes the action asynchronously.
 		/// </summary>
 		/// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>

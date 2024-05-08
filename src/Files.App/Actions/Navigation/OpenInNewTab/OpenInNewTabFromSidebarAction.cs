@@ -9,6 +9,9 @@ namespace Files.App.Actions
 			SidebarContext.IsItemRightClicked &&
 			SidebarContext.RightClickedItem is not null;
 
+		public bool IsContextual
+			=> true;
+
 		public override async Task ExecuteAsync()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(SidebarContext.RightClickedItem!.Path))

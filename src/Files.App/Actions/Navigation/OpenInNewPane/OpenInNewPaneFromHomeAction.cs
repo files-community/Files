@@ -9,6 +9,9 @@ namespace Files.App.Actions
 			HomePageContext.IsAnyItemRightClicked &&
 			HomePageContext.RightClickedItem is not null;
 
+		public bool IsContextual
+			=> true;
+
 		public override async Task ExecuteAsync()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(HomePageContext.RightClickedItem!.Path))

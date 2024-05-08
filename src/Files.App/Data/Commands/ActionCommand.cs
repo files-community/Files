@@ -92,6 +92,9 @@ namespace Files.App.Data.Commands
 		public bool IsExecutable
 			=> Action.IsExecutable;
 
+		public bool IsContextual
+			=> Action.IsContextual;
+
 		public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
 		{
 			Code = code;

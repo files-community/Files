@@ -51,6 +51,9 @@ namespace Files.App.Data.Commands
 
 		public bool IsExecutable => BaseCommand.IsExecutable;
 
+		public bool IsContextual
+			=> BaseCommand.IsContextual;
+
 		public ModifiableCommand(IRichCommand baseCommand, Dictionary<KeyModifiers, IRichCommand> modifiedCommands)
 		{
 			BaseCommand = baseCommand;
