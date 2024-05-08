@@ -92,6 +92,10 @@ namespace Files.App.Data.Commands
 		/// Gets the value that indicates whether the command is executable.
 		/// </summary>
 		bool IsExecutable { get; }
+
+		/// <summary>
+		/// Returns whether the action is accessible in any context.
+		/// </summary>
 		bool IsAccessibleGlobally { get; }
 
 		/// <summary>
