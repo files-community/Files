@@ -35,14 +35,10 @@ namespace Files.App.Services.PreviewPopupProviders
 		public async Task SwitchPreviewAsync(string path)
 		{
 			// Close preview window is track selection setting is disabled
-			if (!isTrackSelectionSettingEnabled)
+			if (!isTrackSelectionSettingEnabled && !string.IsNullOrEmpty(CurrentPath))
 			{
-				HWND Window = User32.FindWindow("SeerWindowClass", null);
-				if (User32.IsWindowVisible(Window))
-				{
-					// Hide window if it's already visible
-					return;
-				}
+				await TogglePreviewPopupAsync(CurrentPath);
+				return;				
 			}
 
 			// Update the preview window if the path changed
