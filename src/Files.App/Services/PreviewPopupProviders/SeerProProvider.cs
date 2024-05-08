@@ -72,6 +72,7 @@ namespace Files.App.Services.PreviewPopupProviders
 			string[] paths =
 			{
 				Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Documents\\Seer\\uwp.ini"),
+				Environment.ExpandEnvironmentVariables("%USERPROFILE%\\appdata\\Local\\Packages\\CNABA5E861-AC2A-4523-B3C1.Seer-AWindowsQuickLookTo_p7t0z30wh4868\\LocalCache\\Local\\Corey\\Seer\\uwp.ini"),
 				Environment.ExpandEnvironmentVariables("%USERPROFILE%\\appdata\\Local\\Corey\\Seer\\uwp.ini"),
 				Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Documents\\Seer\\config.ini")
 			};
