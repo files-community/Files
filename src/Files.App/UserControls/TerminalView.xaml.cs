@@ -131,7 +131,6 @@ namespace Files.App.UserControls
 			await WebViewControl.EnsureCoreWebView2Async(environment);
 			//WebViewControl.CoreWebView2.OpenDevToolsWindow();
 			WebViewControl.NavigationCompleted += WebViewControl_NavigationCompleted;
-			WebViewControl.NavigationStarting += WebViewControl_NavigationStarting;
 			WebViewControl.CoreWebView2.SetVirtualHostNameToFolderMapping(
 				"terminal.files",
 				Path.Combine(Package.Current.InstalledLocation.Path, "Utils", "Terminal", "UI"),
@@ -196,14 +195,10 @@ namespace Files.App.UserControls
 				.ContinueWith(t => JsonSerializer.Deserialize<TerminalSize>(t.Result)!);
 		}
 
-		private void WebViewControl_NavigationStarting(WebView2 sender, CoreWebView2NavigationStartingEventArgs args)
+		private async void WebViewControl_NavigationCompleted(WebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
 		{
 			var _terminalBridge = new TerminalBridge(this);
-			_ = WebViewControl.AddWebAllowedObject("terminalBridge", _terminalBridge);
-		}
-
-		private void WebViewControl_NavigationCompleted(WebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
-		{
+			await WebViewControl.AddWebAllowedObject("terminalBridge", _terminalBridge);
 			_tcsNavigationCompleted.TrySetResult(null);
 		}
 
