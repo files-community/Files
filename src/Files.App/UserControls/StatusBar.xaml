@@ -341,5 +341,105 @@
 				</Button.Content>
 			</Button>
 
+			<SplitButton
+				x:Name="ToggleTerminal"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				AutomationProperties.Name="Toggle terminal"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Command="{x:Bind MainPageViewModel.TerminalToggleCommand}">
+				<SplitButton.Content>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<FontIcon FontSize="12" Glyph="&#xE756;" />
+						<TextBlock Text="Terminal" />
+					</StackPanel>
+				</SplitButton.Content>
+				<SplitButton.Flyout>
+					<Flyout Placement="Top">
+						<Grid
+							Width="200"
+							Height="160"
+							Margin="-16">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<!--  Header  -->
+							<Grid
+								Grid.Row="0"
+								Padding="4,8,8,8"
+								Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+								BorderThickness="0,0,0,1">
+
+								<SplitButton
+									Height="24"
+									Padding="8,0"
+									HorizontalAlignment="Center"
+									Command="{x:Bind MainPageViewModel.TerminalAddCommand, Mode=OneWay}">
+									<SplitButton.Content>
+										<TextBlock FontSize="12">
+											<Run Text="Add" />
+											<Run Text="{x:Bind MainPageViewModel.TerminalSelectedProfile.Name, Mode=OneWay}" />
+										</TextBlock>
+									</SplitButton.Content>
+									<SplitButton.Flyout>
+										<Flyout>
+											<ListView
+												x:Name="ShellProfileList"
+												Margin="-16"
+												Padding="4"
+												DisplayMemberPath="Name"
+												IsItemClickEnabled="True"
+												ItemClick="ShellProfileList_ItemClick"
+												ItemsSource="{x:Bind MainPageViewModel.TerminalProfiles, Mode=OneWay}"
+												SelectionMode="None" />
+										</Flyout>
+									</SplitButton.Flyout>
+								</SplitButton>
+							</Grid>
+
+							<ListView
+								Grid.Row="1"
+								Padding="4"
+								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								IsItemClickEnabled="True"
+								ItemsSource="{x:Bind MainPageViewModel.TerminalNames, Mode=OneWay}"
+								SelectedIndex="{x:Bind MainPageViewModel.SelectedTerminal, Mode=TwoWay}"
+								SelectionMode="Single">
+								<ListView.ItemTemplate>
+									<DataTemplate x:DataType="x:String">
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="*" />
+												<ColumnDefinition Width="Auto" />
+											</Grid.ColumnDefinitions>
+											<TextBlock
+												VerticalAlignment="Center"
+												Text="{x:Bind}"
+												TextTrimming="CharacterEllipsis" />
+											<Button
+												Grid.Column="1"
+												AutomationProperties.Name="{helpers:ResourceString Name=Close}"
+												Background="Transparent"
+												BorderBrush="Transparent"
+												Click="Button_Click"
+												Tag="{x:Bind}"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
+												<FontIcon FontSize="12" Glyph="&#xE74D;" />
+											</Button>
+										</Grid>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</Grid>
+					</Flyout>
+				</SplitButton.Flyout>
+			</SplitButton>
+		</StackPanel>
+
 	</Grid>
 </UserControl>

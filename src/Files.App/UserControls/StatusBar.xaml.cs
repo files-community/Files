@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Commands;
+using Files.App.Utils.Terminal;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -75,6 +77,16 @@ namespace Files.App.UserControls
 
 			BranchesFlyout.Hide();
 			await StatusBarViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			MainPageViewModel.TerminalCloseCommand.Execute(((Button)sender).Tag.ToString());
+		}
+
+		private void ShellProfileList_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			MainPageViewModel.TerminalAddCommand.Execute((ShellProfile)e.ClickedItem);
 		}
 	}
 }

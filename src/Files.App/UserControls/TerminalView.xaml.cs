@@ -113,6 +113,10 @@ namespace Files.App.UserControls
 
 		private Terminal _terminal;
 		private BufferedReader _reader;
+		private ShellProfile _profile;
+
+		public TerminalView(ShellProfile profile) : this()
+			=> _profile = profile;
 
 		public TerminalView()
 		{
@@ -121,6 +125,9 @@ namespace Files.App.UserControls
 
 		private async void WebViewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
+			if (WebViewControl.Source is not null)
+				return;
+
 			var envOptions = new CoreWebView2EnvironmentOptions()
 			{
 				// TODO: switch to "ScrollBarStyle" when available
@@ -143,8 +150,7 @@ namespace Files.App.UserControls
 			var provider = new DefaultValueProvider();
 			var options = provider.GetDefaultTerminalOptions();
 			var keyBindings = provider.GetCommandKeyBindings();
-			var profile = _mainPageModel.TerminalSelectedProfile;
-			var theme = provider.GetPreInstalledThemes().First(x => x.Id == profile.TerminalThemeId);
+			var theme = provider.GetPreInstalledThemes().First(x => x.Id == _profile.TerminalThemeId);
 
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
 
@@ -167,7 +173,7 @@ namespace Files.App.UserControls
 				}
 			}
 
-			StartShellProcess(size, profile);
+			StartShellProcess(size, _profile);
 
 			lock (_resizeLock)
 			{
@@ -329,8 +335,6 @@ namespace Files.App.UserControls
 
 		public void Dispose()
 		{
-			_mainPageModel.GetTerminalFolder = null;
-			_mainPageModel.SetTerminalFolder = null;
 			WebViewControl.Close();
 			_outputBlockedBuffer?.Dispose();
 			_reader?.Dispose();
@@ -338,6 +342,34 @@ namespace Files.App.UserControls
 		}
 
 		public void Paste(string text) => OnPaste?.Invoke(this, text);
+
+		public async Task<string?> GetTerminalFolder()
+		{
+			var tcs = new TaskCompletionSource<string>();
+			EventHandler<object> getResponse = (s, e) =>
+			{
+				var pwd = Encoding.UTF8.GetString((byte[])e);
+				var match = Regex.Match(pwd, @"[a-zA-Z]:\\(((?![<>:""\r/\\|?*]).)+((?<![ .])\\)?)*");
+				if (match.Success)
+					tcs.TrySetResult(match.Value);
+			};
+			OnOutput += getResponse;
+			if (_profile.Location.Contains("wsl.exe"))
+				_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"wslpath -w \"$(pwd)\"\r"));
+			else
+				_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd .\r"));
+			var pwd = await tcs.Task.WithTimeoutAsync(TimeSpan.FromSeconds(1));
+			OnOutput -= getResponse;
+			return pwd;
+		}
+
+		public void SetTerminalFolder(string folder)
+		{
+			if (_profile.Location.Contains("wsl.exe"))
+				_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"$(wslpath \"{folder}\")\"\r"));
+			else
+				_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"{folder}\"\r"));
+		}
 
 		private void StartShellProcess(TerminalSize size, ShellProfile profile)
 		{
@@ -352,38 +384,12 @@ namespace Files.App.UserControls
 			_terminal.OutputReady += (s, e) =>
 			{
 				_reader = new BufferedReader(_terminal.ConsoleOutStream, OutputReceivedCallback, true);
-				_mainPageModel.GetTerminalFolder = async () =>
-				{
-					var tcs = new TaskCompletionSource<string>();
-					EventHandler<object> getResponse = (s, e) =>
-					{
-						var pwd = Encoding.UTF8.GetString((byte[])e);
-						var match = Regex.Match(pwd, @"[a-zA-Z]:\\(((?![<>:""\r/\\|?*]).)+((?<![ .])\\)?)*");
-						if (match.Success)
-							tcs.TrySetResult(match.Value);
-					};
-					OnOutput += getResponse;
-					if (profile.Location.Contains("wsl.exe"))
-						_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"wslpath -w \"$(pwd)\"\r"));
-					else
-						_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd .\r"));
-					var pwd = await tcs.Task.WithTimeoutAsync(TimeSpan.FromSeconds(1));
-					OnOutput -= getResponse;
-					return pwd;
-				};
-				_mainPageModel.SetTerminalFolder = (folder) =>
-				{
-					if (profile.Location.Contains("wsl.exe"))
-						_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"$(wslpath \"{folder}\")\"\r"));
-					else
-						_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"{folder}\"\r"));
-				};
 			};
 			_terminal.Exited += (s, e) =>
 			{
 				DispatcherQueue.EnqueueAsync(() =>
 				{
-					_mainPageModel.IsTerminalViewOpen = false;
+					_mainPageModel.TerminalCloseCommand.Execute(Tag);
 				});
 			};
 
@@ -424,7 +430,6 @@ namespace Files.App.UserControls
 
 		private void TerminalView_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
-			Dispose();
 		}
 
 		private async void TerminalView_ActualThemeChanged(Microsoft.UI.Xaml.FrameworkElement sender, object args)
@@ -434,8 +439,7 @@ namespace Files.App.UserControls
 
 			var serializerSettings = new JsonSerializerOptions();
 			serializerSettings.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-			var profile = _mainPageModel.TerminalSelectedProfile;
-			var theme = new DefaultValueProvider().GetPreInstalledThemes().First(x => x.Id == profile.TerminalThemeId);
+			var theme = new DefaultValueProvider().GetPreInstalledThemes().First(x => x.Id == _profile.TerminalThemeId);
 
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
 
