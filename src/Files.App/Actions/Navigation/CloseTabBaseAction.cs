@@ -30,7 +30,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public abstract Task ExecuteAsync();
+		public abstract Task ExecuteAsync(object? parameter = null);
 
 		protected virtual bool GetIsExecutable()
 		{

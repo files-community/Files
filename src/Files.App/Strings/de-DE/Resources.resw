@@ -607,7 +607,7 @@
     <value>Mehr Optionen anzeigen</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Die App muss neu gestartet werden, um die Einstellungen zu übernehmen. Möchten Sie die App jetzt neu starten?</value>
+    <value>Die Anwendung muss neu gestartet werden, um diese Einstellungen zu übernehmen. Möchtest du die Anwendung neu starten?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Unterstütze uns auf GitHub</value>
@@ -628,7 +628,7 @@
     <value>Neues Element erstellen</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Wählen Sie unten einen Dateityp für das neue Element aus</value>
+    <value>Wähle unten einen Dateityp für das neue Element aus</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Datei</value>
@@ -1126,7 +1126,7 @@
     <value>Unbekannt</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Wenn Du die Dateierweiterung änderst, wird die Datei möglicherweise unbrauchbar. Bist Du sicher, dass Du sie ändern möchtest?</value>
+    <value>Wenn du eine Dateierweiterung änderst, kann die Datei unbrauchbar werden. Bist du sicher, dass du sie ändern willst?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM-Laufwerk</value>
@@ -1192,7 +1192,7 @@
     <value>Diese Aktion erfordert Administratorrechte</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>Möchtest Du als Administrator fortfahren?</value>
+    <value>Möchtest du als Administrator fortfahren?</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Spaltenansicht (Strg+Shift+6)</value>
@@ -1474,7 +1474,7 @@
     <value>Standardbibiliotheken wiederherstellen</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Bist Du sicher, dass Du die Standardbibliotheken wiederherstellen möchtest? Alle Dateien verbleiben auf der Festplatte.</value>
+    <value>Bist du sicher, dass du die Standardbibliotheken wiederherstellen willst? Alle deine Dateien bleiben auf deinem Speicherplatz.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Bibliotheken wiederherstellen</value>
@@ -1858,7 +1858,7 @@
     <value>Lizenzen von Drittanbietern</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigst Du, dass Dir dieses Risiko bewusst ist.</value>
+    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigen Sie, dass Ihnen dieses Risiko bewusst ist.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Bibliothek erstellen</value>
@@ -1963,7 +1963,7 @@
     <value>Wiederholen</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Verschieben wird in diesem Kontext nicht unterstützt. Möchtest Du die Elemente stattdessen kopieren?</value>
+    <value>Der Vorgang des Verschiebens wird in diesem Zusammenhang nicht unterstützt. Willst du die Elemente stattdessen kopieren?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>Versteckte Elemente</value>
@@ -2059,7 +2059,7 @@
     <value>Verknüpfung kann nicht geöffnet werden</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>Das Ziel {0} konnte nicht gefunden werden. Möchtest Du diese Verknüpfung löschen?</value>
+    <value>Das Ziel kann nicht gefunden werden {0}. Willst du diese Verknüpfung löschen?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Du hast keine Berechtigung für den Zugriff auf diesen Ordner.</value>
@@ -2299,7 +2299,7 @@
     <value>Während der Berechnung ist ein Fehler aufgetreten</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Fehler beim Berechnen des Hashs, bitte schließen Sie die Datei und versuchen Sie es erneut.</value>
+    <value>Die Berechnung des Hashes ist fehlgeschlagen. Bitte schließe die Datei und versuche es erneut.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes sind für Online-Dateien nicht verfügbar</value>
@@ -3563,7 +3563,7 @@
     <value>Keine laufenden Dateioperationen</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>Die Option, Files beim Start von Windows zu öffnen, ist aufgrund Ihrer Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Zum erneuten Aktivieren öffnen Sie die Autostart-Seite im Task-Manager.</value>
+    <value>Die Option, Dateien beim Windows-Start zu öffnen, ist aufgrund deiner Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Um sie wieder zu aktivieren, öffne die Startseite im Task-Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Wiederherstellung der Elemente aus dem Papierkorb fehlgeschlagen</value>
@@ -3575,7 +3575,7 @@
     <value>Git-Branch löschen</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie den Branch "{0}" unwiderruflich löschen möchten?</value>
+    <value>Bist du sicher, dass du den Zweig "{0}" dauerhaft löschen willst?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
     <value>Mit GitHub verbunden</value>
@@ -3738,10 +3738,10 @@
     <value>Aktion auswählen</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie die Standard-Belegungen wiederherstellen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</value>
+    <value>Bist du sicher, dass du die Standard-Tastenbelegung wiederherstellen willst? Diese Aktion kann nicht rückgängig gemacht werden.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>Diese Tastenbelegung wird bereits verwendet, bitte wählen Sie eine andere, um fortzufahren.</value>
+    <value>Diese Schlüsselbindung wird bereits verwendet. Bitte wähle eine andere Schlüsselbindung, um fortzufahren.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Benutzerdefiniert</value>

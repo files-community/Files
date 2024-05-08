@@ -21,7 +21,7 @@ namespace Files.App.Actions
 		{
 		}
 
-		public override Task ExecuteAsync()
+		public override Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return Task.CompletedTask;
