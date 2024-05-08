@@ -44,7 +44,7 @@ namespace Files.App.Data.Commands
 		public bool IsToggle => false;
 		public bool IsOn { get => false; set { } }
 		public bool IsExecutable => false;
-		public bool IsContextual => false;
+		public bool IsAccessibleGlobally => false;
 
 		public bool CanExecute(object? parameter) => false;
 		public void Execute(object? parameter) { }

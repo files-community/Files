@@ -9,8 +9,8 @@ namespace Files.App.Actions
 			SidebarContext.IsItemRightClicked &&
 			SidebarContext.RightClickedItem is not null;
 
-		public bool IsContextual
-			=> true;
+		public override bool IsAccessibleGlobally
+			=> false;
 
 		public override async Task ExecuteAsync()
 		{

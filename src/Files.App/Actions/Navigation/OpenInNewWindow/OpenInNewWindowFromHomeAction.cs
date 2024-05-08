@@ -8,12 +8,12 @@ namespace Files.App.Actions
 		public override HotKey HotKey
 			=> HotKey.None;
 
-		public bool IsContextual
-			=> true;
-
 		public override bool IsExecutable =>
 			HomePageContext.IsAnyItemRightClicked &&
 			HomePageContext.RightClickedItem is not null;
+
+		public override bool IsAccessibleGlobally
+			=> false;
 
 		public override Task ExecuteAsync()
 		{

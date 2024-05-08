@@ -19,6 +19,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
+		public virtual bool IsAccessibleGlobally
+			=> true;
+
 		public virtual bool IsExecutable =>
 			ContentPageContext.ShellPage is not null &&
 			ContentPageContext.ShellPage.SlimContentPage is not null &&

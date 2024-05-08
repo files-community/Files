@@ -53,10 +53,10 @@ namespace Files.App.Actions
 			=> true;
 
 		/// <summary>
-		/// Returns whether the action is accessible in the specific context.
+		/// Returns whether the action is accessible in any context.
 		/// </summary>
-		bool IsContextual
-			=> false;
+		bool IsAccessibleGlobally
+			=> true;
 
 		/// <summary>
 		/// Executes the action asynchronously.

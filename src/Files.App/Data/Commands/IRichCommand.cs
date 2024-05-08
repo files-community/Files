@@ -31,7 +31,7 @@ namespace Files.App.Data.Commands
 		bool IsToggle { get; }
 		bool IsOn { get; set; }
 		bool IsExecutable { get; }
-		bool IsContextual { get; }
+		bool IsAccessibleGlobally { get; }
 
 		Task ExecuteAsync();
 		void ExecuteTapped(object sender, TappedRoutedEventArgs e);

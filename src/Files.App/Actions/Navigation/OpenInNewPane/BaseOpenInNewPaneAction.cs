@@ -21,6 +21,9 @@ namespace Files.App.Actions
 			ContentPageContext.SelectedItem.IsFolder &&
 			UserSettingsService.GeneralSettingsService.ShowOpenInNewPane;
 
+		public virtual bool IsAccessibleGlobally
+			=> true;
+
 		public BaseOpenInNewPaneAction()
 		{
 			ContentPageContext.PropertyChanged += Context_PropertyChanged;

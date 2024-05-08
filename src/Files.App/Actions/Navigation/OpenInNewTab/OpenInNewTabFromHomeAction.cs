@@ -9,8 +9,8 @@ namespace Files.App.Actions
 			HomePageContext.IsAnyItemRightClicked &&
 			HomePageContext.RightClickedItem is not null;
 
-		public bool IsContextual
-			=> true;
+		public override bool IsAccessibleGlobally
+			=> false;
 
 		public override async Task ExecuteAsync()
 		{
