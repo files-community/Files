@@ -87,6 +87,7 @@ namespace Files.App.Data.Commands
 		public bool IsExecutable
 			=> false;
 
+		/// <inheritdoc/>
 		public bool IsAccessibleGlobally
 			=> false;
 

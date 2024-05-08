@@ -75,6 +75,7 @@ namespace Files.App.Data.Commands
 		public bool IsExecutable
 			=> BaseCommand.IsExecutable;
 
+		/// <inheritdoc/>
 		public bool IsAccessibleGlobally
 			=> BaseCommand.IsAccessibleGlobally;
 
