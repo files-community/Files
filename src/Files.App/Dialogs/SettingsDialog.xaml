@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ContentDialog
 	x:Class="Files.App.Dialogs.SettingsDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -119,7 +119,7 @@
 				</NavigationViewItem>
 				<NavigationViewItem
 					AutomationProperties.AutomationId="SettingsItemActions"
-					Content="Actions"
+					Content="{helpers:ResourceString Name=Actions}"
 					Tag="ActionsPage">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xF73D;" />
