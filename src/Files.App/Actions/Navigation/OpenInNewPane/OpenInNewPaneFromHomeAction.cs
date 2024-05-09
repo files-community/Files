@@ -12,7 +12,7 @@ namespace Files.App.Actions
 		public override bool IsAccessibleGlobally
 			=> false;
 
-		public override async Task ExecuteAsync()
+		public override async Task ExecuteAsync(object? parameter = null)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(HomePageContext.RightClickedItem!.Path))
 				return;

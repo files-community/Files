@@ -40,7 +40,7 @@ namespace Files.App.Actions
 			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public virtual async Task ExecuteAsync()
+		public virtual async Task ExecuteAsync(object? parameter = null)
 		{
 			if (ContentPageContext.ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;

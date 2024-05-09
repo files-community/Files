@@ -15,7 +15,7 @@ namespace Files.App.Actions
 		public override bool IsAccessibleGlobally
 			=> false;
 
-		public override async Task ExecuteAsync()
+		public override async Task ExecuteAsync(object? parameter = null)
 		{
 			await NavigationHelpers.OpenPathInNewWindowAsync(SidebarContext.RightClickedItem!.Path ?? string.Empty);
 		}

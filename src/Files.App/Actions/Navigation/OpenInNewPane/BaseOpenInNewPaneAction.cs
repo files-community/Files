@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			ContentPageContext.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public virtual Task ExecuteAsync()
+		public virtual Task ExecuteAsync(object? parameter = null)
 		{
 			NavigationHelpers.OpenInSecondaryPane(
 				ContentPageContext.ShellPage,
