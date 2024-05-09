@@ -11,7 +11,7 @@ namespace Files.App.Helpers
 	public class LayoutPreferencesDatabaseManager
 	{
 		// Fields
-		private readonly Server.Database.LayoutPreferencesDatabase _database = new(Environment.ProcessId);
+		private static readonly Lazy<Server.Database.LayoutPreferencesDatabase> dbInstance = new(() => new());
 
 		private DetailsLayoutColumnItem FromDatabaseEntity(Server.Data.ColumnPreferencesItem entry)
 		{
@@ -116,27 +116,27 @@ namespace Files.App.Helpers
 		// Methods
 		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn = null)
 		{
-			return FromDatabaseEntity(_database.GetPreferences(filePath, frn));
+			return FromDatabaseEntity(dbInstance.Value.GetPreferences(filePath, frn));
 		}
 
 		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
 		{
-			_database.SetPreferences(filePath, frn, ToDatabaseEntity(preferencesItem));
+			dbInstance.Value.SetPreferences(filePath, frn, ToDatabaseEntity(preferencesItem));
 		}
 
 		public void ResetAll()
 		{
-			_database.ResetAll();
+			dbInstance.Value.ResetAll();
 		}
 
 		public void Import(string json)
 		{
-			_database.Import(json);
+			dbInstance.Value.Import(json);
 		}
 
 		public string Export()
 		{
-			return _database.Export();
+			return dbInstance.Value.Export();
 		}
 	}
 }

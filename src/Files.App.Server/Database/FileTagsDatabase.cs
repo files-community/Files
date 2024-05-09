@@ -6,7 +6,6 @@ using Files.Shared.Extensions;
 using LiteDB;
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Windows.ApplicationModel;
@@ -18,15 +17,12 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Server.Database
 {
-	public sealed class FileTagsDatabase : IDisposable
+	public sealed class FileTagsDatabase
 	{
 		private readonly static string FileTagsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\v1\FileTags";
 		
 		private readonly static string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 		private const string FileTagsCollectionName = "taggedfiles";
-
-		private readonly GCHandle _handle;
-		private bool _disposed = false;
 
 		static FileTagsDatabase()
 		{
@@ -45,25 +41,6 @@ namespace Files.App.Server.Database
 				}
 
 				File.Delete(FileTagsDbPath);
-			}
-		}
-
-		public FileTagsDatabase()
-		{
-			throw new NotSupportedException($"Instantiating {nameof(FileTagsDatabase)} by non-parameterized constructor is not supported.");
-		}
-
-		public FileTagsDatabase(int processId)
-		{
-			_handle = GCHandle.Alloc(this, GCHandleType.Pinned);
-
-			if (AppInstanceMonitor.AppInstanceResources.TryGetValue(processId, out var instances))
-			{
-				instances.Add(this);
-			}
-			else
-			{
-				AppInstanceMonitor.AppInstanceResources[processId] = [this];
 			}
 		}
 
@@ -300,15 +277,6 @@ namespace Files.App.Server.Database
 				}
 
 				IterateKeys(list, CombineKeys(path, subKey), depth + 1);
-			}
-		}
-
-		public void Dispose()
-		{
-			if (!_disposed)
-			{
-				_disposed = true;
-				_handle.Free();
 			}
 		}
 	}
