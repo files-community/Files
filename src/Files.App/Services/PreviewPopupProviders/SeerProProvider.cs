@@ -35,7 +35,7 @@ namespace Files.App.Services.PreviewPopupProviders
 		public async Task SwitchPreviewAsync(string path)
 		{
 			// Close preview window is track selection setting is disabled
-			if (!isTrackSelectionSettingEnabled && !string.IsNullOrEmpty(CurrentPath))
+			if (!IsTrackSelectionSettingEnabled && !string.IsNullOrEmpty(CurrentPath))
 			{
 				await TogglePreviewPopupAsync(CurrentPath);
 				return;				
@@ -52,15 +52,15 @@ namespace Files.App.Services.PreviewPopupProviders
 			return handle != IntPtr.Zero && handle.ToInt64() != -1;
 		}
 
-		private bool? _isTrackSelectionSettingEnabledCache;
-		private bool isTrackSelectionSettingEnabled
+		private bool? _IsTrackSelectionSettingEnabledCache;
+		private bool IsTrackSelectionSettingEnabled
 		{
 			get
 			{
-				if (_isTrackSelectionSettingEnabledCache is null)
-					_isTrackSelectionSettingEnabledCache = DetectTrackSelectionSetting().Result;
+				if (_IsTrackSelectionSettingEnabledCache is null)
+					_IsTrackSelectionSettingEnabledCache = DetectTrackSelectionSetting().Result;
 
-				return _isTrackSelectionSettingEnabledCache.Value;
+				return _IsTrackSelectionSettingEnabledCache.Value;
 			}
 		}
 
