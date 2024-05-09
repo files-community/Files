@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>ظاهر</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>پس‌زمینه</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>رنگ پس‌زمینه</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>پیشرفته</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>به عنوان پس زمینه صفحه قفل اعمال شود</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>تنظیم بعنوان تصویر زمینه</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>قادر به حذف این مورد نیستیم</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>رمزگذاری میزان بیت</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>رمزگذاری میزان بیت صدا</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>رمزگذاری میزان بیت ویدئو</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>فشرده‌سازي</value>
@@ -1747,7 +1756,7 @@
     <value>برچسب</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>باز کردن آیتم با یک کلیک</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>مسیر پوشه</value>
@@ -1762,7 +1771,7 @@
     <value>تنظیمات وارد نشد. فایل تنظیمات خراب است.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>Error importing settings</value>
+    <value>خطا در وارد کردن تنظیمات</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
     <value>خالی کردن سطل بازیافت</value>
@@ -1771,7 +1780,7 @@
     <value>سایدبار</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>Choose a custom folder icon</value>
+    <value>انتخاب آیکون دلخواه برای پوشه</value>
   </data>
   <data name="Customization" xml:space="preserve">
     <value>شخصی سازی</value>
@@ -1792,61 +1801,61 @@
     <value>هیچکدام</value>
   </data>
   <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
-    <value>On Windows login</value>
+    <value>در ورود به ویندوز</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
-    <value>On this program start</value>
+    <value>در شروع این برنامه</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>سیستم</value>
   </data>
   <data name="CompatibilitySystemEnhanced" xml:space="preserve">
-    <value>System (Enhanced)</value>
+    <value>سیستم (بهبودیافته)</value>
   </data>
   <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
-    <value>16-bit (65536) color</value>
+    <value>رنگ 16 بیتی (65536)</value>
   </data>
   <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
-    <value>8-bit (256) color</value>
+    <value>رنگ 8 بیتی (256)</value>
   </data>
   <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
-    <value>Disable full-screen optimizations</value>
+    <value>غیرفعالسازی بهینه‌سازی تمام‌صفحه</value>
   </data>
   <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
-    <value>Run in 640 x 480 screen resolution</value>
+    <value>باز کردن با رزولوشن 640 در 480</value>
   </data>
   <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
-    <value>Override high DPI scaling behavior</value>
+    <value>غیرفعال سازی مقیاس‌بندی DPI بالا</value>
   </data>
   <data name="CompatibilityReducedColorMode" xml:space="preserve">
-    <value>Reduced color mode</value>
+    <value>حالت رنگ کاهش یافته</value>
   </data>
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
-    <value>Register this program for restart</value>
+    <value>ثبت این برنامه برای راه‌اندازی مجدد</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>Run as administrator</value>
+    <value>اجرا به عنوان مدیر</value>
   </data>
   <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
-    <value>Run compatibility troubleshooter</value>
+    <value>اجرای عیب‌یاب سازگاری</value>
   </data>
   <data name="CompatibilityUseDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>استفاده از تنظیمات DPI مانیتور اصلی</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
-    <value>Do not adjust DPI</value>
+    <value>عدم تنظیم DPI</value>
   </data>
   <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
-    <value>Do not override DPI</value>
+    <value>عدم تغییر DPI</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>حالت سازگاری</value>
   </data>
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
-    <value>No reduced color</value>
+    <value>بدون کاهش رنگ</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>گواهینامه‌های شخص ثالث</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>این گزینه، رجیستری سیستم (ثبّات سیستم) را تغییر می‌دهد و می‌تواند عوارض جانبی غیرمنتظره‌ای روی دستگاه شما داشته باشد. با مسئولیت خود ادامه دهید.</value>
@@ -1858,13 +1867,13 @@
     <value>نام کتابخانه را وارد کنید</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>محاسبه‌ی سایز پوشه‌ها</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>فایل‌های اخیر</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows startup</value>
+    <value>بازکردن Files همراه با ویندوز</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>صفات</value>
@@ -1879,7 +1888,7 @@
     <value>فقط خواندنی</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Cleanup your drive contents</value>
+    <value>محتوای درایو خود را پاکسازی کنید</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>نوع</value>
@@ -1921,10 +1930,10 @@
     <value>نصب</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>بستن زبانه های سمت چپ</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>Close tabs to the right</value>
+    <value>بستن زبانه های سمت راست</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>بستن سایر زبانه ها</value>
@@ -1963,22 +1972,22 @@
     <value>سفارشی</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>تنظیم به عنوان اسلایدشو دسکتاپ</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size all columns to fit</value>
+    <value>متناسب کردن اندازه‌ی ستون‌ها</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>چیدمان تطبیقی</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive layout (Ctrl+Shift+7)</value>
+    <value>چیدمان تطبیقی (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show alternate data streams</value>
+    <value>نمایش جریان‌های داده جایگزین</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
     <value>رفتارها</value>
@@ -1987,13 +1996,13 @@
     <value>بررسی فایل ها</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>آیا میخواهید برای Files ثبت نظر کنید؟</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>تنظیم بعنوان تصویز زمینه</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Set as desktop background</value>
+    <value>استفاده به عنوان تصویر پس زمینه</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>تنظیم به‌عنوان پیش‌فرض</value>
@@ -2047,7 +2056,7 @@
     <value>بازیابی</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>امکان باز کردن میانبر نیست</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>مقصد مورد نظر {0} یافت نمی شود. آیا می خواهید این میانبر را حذف کنید؟</value>
@@ -2062,7 +2071,7 @@
     <value>مسیر</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>مرتب‌سازی و گروه‌بندی</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>ایجاد آرشیو</value>
@@ -2134,19 +2143,19 @@
     <value>مرتب سازی بر اساس</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>گروه‌بندی به ترتیب نزولی</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>مرتب سازی به ترتیب نزولی</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>ایجاد میانبر جدید</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
     <value>میانبرهایی برای برنامه های محلی یا شبکه، فایل ها، پوشه ها، رایانه ها یا آدرس های اینترنتی ایجاد کن.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>موقعیت آیتم را وارد کنید:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
     <value>میانبر ایجاد می کند</value>
@@ -2167,7 +2176,7 @@
     <value>آیا می خواهید به جای آن میانبر را روی دسکتاپ ایجاد کنید؟</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>نام آیتم وارد شده نادرست است</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>تنظیمات</value>
@@ -2179,31 +2188,31 @@
     <value>مشاهده بیشتر</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>نمایش منوی شناور ویرایش تگ‌ها</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Show compression options</value>
+    <value>نمایش گزینه‌های فشرده‌سازی</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show send to menu</value>
+    <value>نمایش گزینه‌‌ی ارسال به</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>نمایش گزینه باز کردن پوشه‌ها در تب جدید</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>نمایش گزینه باز کردن پوشه‌ها در پنجره‌ی جدید</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>دسترسی سریع</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>اطلاعات خود برای اتصال به {0} را وارد کنید</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter network credentials</value>
+    <value>اطلاعات شبکه را وارد کنید</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>مشخصات مرا به خاطر بسپار</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
     <value>Network folder error</value>
@@ -2457,6 +2466,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Set selected picture as lockscreen background</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Install selected font(s)</value>
   </data>
@@ -2467,19 +2479,19 @@
     <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>اجرای برنامه‌ی انتخابی به عنوان مدیر</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>اجرای برنامه‌ی انتخابی به عنوان کاربر دیگر</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>باز کردن اسکریپت پاورشل انتخابی</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>باز کردن پیش‌نمایش در پنجره‌ی پاپ آپ</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>ساخت آرشیو با آیتم (های) انتخابی</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
     <value>یک آرشیو 7Z با آیتم (های) انتخاب شده فورا ایجاد کن</value>
@@ -2497,58 +2509,58 @@
     <value>موارد را از آرشیو(های) انتخاب شده به پوشه جدید استخراج کن</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>چرخش عکس (های) انتخابی به چپ</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>چرخش عکس (های) انتخابی به راست</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>باز کردن صفحه تنظیمات</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>باز کردن پوشه در ترمینال</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>باز کردن پوشه در ترمینال به عنوان مدیر</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease item size in the current view</value>
+    <value>کاهش اندازه‌ی آیتم در نمای فعلی</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase item size in the current view</value>
+    <value>افزایش اندازه‌ی آیتم در نمای فعلی</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>تغییر به نمای جزئیات</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>تغییر به نمای کاشی‌</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
-    <value>Switch to list view</value>
+    <value>تغییر به نمای فهرست</value>
   </data>
   <data name="List" xml:space="preserve">
-    <value>List</value>
+    <value>فهرست</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>Grid</value>
+    <value>جدول</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>Switch to grid view</value>
+    <value>تغییر به نمای شبکه‌ای</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>تغییر به نمای ستونی</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>تطبیق خودکار نماها</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>مرتب‌سازی آیتم ها بر اساس نام</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>مرتب‌سازی آیتم‌ها بر اساس تاریخ تغییر</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>مرتب‌سازی آیتم‌ها بر اساس تاریخ ساخت</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
     <value>مرتب‌سازی آیتم ها بر اساس سایز</value>

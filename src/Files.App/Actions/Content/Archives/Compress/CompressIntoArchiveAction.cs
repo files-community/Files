@@ -19,7 +19,7 @@ namespace Files.App.Actions
 		{
 		}
 
-		public override async Task ExecuteAsync()
+		public override async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return;

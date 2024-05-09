@@ -18,36 +18,47 @@ namespace Files.App.Data.Commands
 
 		public IAction Action { get; }
 
+		/// <inheritdoc/>
 		public CommandCodes Code { get; }
 
+		/// <inheritdoc/>
 		public string Label
 			=> Action.Label;
 
+		/// <inheritdoc/>
 		public string LabelWithHotKey
 			=> HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
 
+		/// <inheritdoc/>
 		public string AutomationName
 			=> Label;
 
+		/// <inheritdoc/>
 		public string Description
 			=> Action.Description;
 
+		/// <inheritdoc/>
 		public RichGlyph Glyph
 			=> Action.Glyph;
 
+		/// <inheritdoc/>
 		public object? Icon { get; }
 
+		/// <inheritdoc/>
 		public FontIcon? FontIcon { get; }
 
+		/// <inheritdoc/>
 		public Style? OpacityStyle { get; }
 
 		private bool isCustomHotKeys = false;
+		/// <inheritdoc/>
 		public bool IsCustomHotKeys
 		{
 			get => isCustomHotKeys;
 			set => SetProperty(ref isCustomHotKeys, value);
 		}
 
+		/// <inheritdoc/>
 		public string? HotKeyText
 		{
 			get
@@ -60,6 +71,7 @@ namespace Files.App.Data.Commands
 		}
 
 		private HotKeyCollection hotKeys;
+		/// <inheritdoc/>
 		public HotKeyCollection HotKeys
 		{
 			get => hotKeys;
@@ -74,11 +86,14 @@ namespace Files.App.Data.Commands
 			}
 		}
 
+		/// <inheritdoc/>
 		public HotKeyCollection DefaultHotKeys { get; }
 
+		/// <inheritdoc/>
 		public bool IsToggle
 			=> Action is IToggleAction;
 
+		/// <inheritdoc/>
 		public bool IsOn
 		{
 			get => Action is IToggleAction toggleAction && toggleAction.IsOn;
@@ -89,6 +104,7 @@ namespace Files.App.Data.Commands
 			}
 		}
 
+		/// <inheritdoc/>
 		public bool IsExecutable
 			=> Action.IsExecutable;
 
@@ -108,27 +124,31 @@ namespace Files.App.Data.Commands
 				notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
 		}
 
+		/// <inheritdoc/>
 		public bool CanExecute(object? parameter)
 		{
 			return Action.IsExecutable;
 		}
 
+		/// <inheritdoc/>
 		public async void Execute(object? parameter)
 		{
-			await ExecuteAsync();
+			await ExecuteAsync(parameter);
 		}
 
-		public Task ExecuteAsync()
+		/// <inheritdoc/>
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (IsExecutable)
 			{
 				Analytics.TrackEvent($"Triggered {Code} action");
-				return Action.ExecuteAsync();
+				return Action.ExecuteAsync(parameter);
 			}
 
 			return Task.CompletedTask;
 		}
 
+		/// <inheritdoc/>
 		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e)
 		{
 			await ExecuteAsync();

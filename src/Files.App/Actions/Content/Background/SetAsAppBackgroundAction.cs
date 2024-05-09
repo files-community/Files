@@ -3,13 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class SetAsWallpaperBackgroundAction : BaseSetAsAction
+	internal sealed class SetAsAppBackgroundAction : BaseSetAsAction
 	{
+		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+
 		public override string Label
-			=> "SetAsBackground".GetLocalizedResource();
+			=> "SetAsAppBackground".GetLocalizedResource();
 
 		public override string Description
-			=> "SetAsWallpaperBackgroundDescription".GetLocalizedResource();
+			=> "SetAsAppBackgroundDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uE91B");
@@ -21,7 +23,7 @@ namespace Files.App.Actions
 		public override Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.SelectedItem is not null)
-				return WallpaperHelpers.SetAsBackgroundAsync(WallpaperType.Desktop, context.SelectedItem.ItemPath);
+				AppearanceSettingsService.AppThemeBackgroundImageSource = context.SelectedItem.ItemPath;
 
 			return Task.CompletedTask;
 		}

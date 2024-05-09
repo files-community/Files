@@ -14,7 +14,7 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.Delete, KeyModifiers.Shift);
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			return DeleteItemsAsync(true);
 		}

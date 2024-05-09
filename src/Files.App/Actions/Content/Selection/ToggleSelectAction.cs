@@ -20,7 +20,7 @@ namespace Files.App.Actions
 		public bool IsExecutable
 			=> GetFocusedElement() is not null;
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (GetFocusedElement() is SelectorItem item)
 				item.IsSelected = !item.IsSelected;

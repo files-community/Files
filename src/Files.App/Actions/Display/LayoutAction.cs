@@ -147,7 +147,7 @@ namespace Files.App.Actions
 			Context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			Context.LayoutType = LayoutType;
 
@@ -233,7 +233,7 @@ namespace Files.App.Actions
 			}
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			switch (DisplayPageContext.LayoutType)
 			{
@@ -326,7 +326,7 @@ namespace Files.App.Actions
 			}
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			switch (DisplayPageContext.LayoutType)
 			{

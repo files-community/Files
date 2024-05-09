@@ -129,13 +129,13 @@
 
 			<!--  App Background  -->
 			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=Background}"
+				Title="{helpers:ResourceString Name=BackgroundColor}"
 				HorizontalAlignment="Stretch"
 				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE771;" />
 				</local:SettingsBlockControl.Icon>
-				<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
+				<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=BackgroundColor}">
 					<StackPanel Orientation="Horizontal">
 						<Border
 							Width="24"

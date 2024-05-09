@@ -71,6 +71,7 @@ namespace Files.App.Data.Commands
 		SetAsWallpaperBackground,
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
+		SetAsAppBackground,
 
 		// Install
 		InstallFont,

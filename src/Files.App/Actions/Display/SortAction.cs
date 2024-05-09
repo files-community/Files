@@ -164,7 +164,7 @@ namespace Files.App.Actions
 			displayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			displayContext.SortOption = SortOption;
 
@@ -206,7 +206,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection = SortDirection.Ascending;
 
@@ -240,7 +240,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection = SortDirection.Descending;
 
@@ -269,7 +269,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection =
 				context.SortDirection is SortDirection.Descending
