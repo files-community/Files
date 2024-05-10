@@ -1633,7 +1633,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Skjul {0} afsnit</value>
+    <value>Skjul afsnittet {0}</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Tilføj fil</value>
@@ -1690,7 +1690,7 @@
     <value>Indsæt disk i drev {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Indsæt en disk</value>
+    <value>Indsæt disk</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -1711,7 +1711,7 @@
     <value>Ingen emner fundet</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Åbn log-placering</value>
+    <value>Åbn logplacering</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Opret link i {0}</value>
@@ -1723,7 +1723,7 @@
     <value>Felter</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Åbn mapper på ny fane</value>
+    <value>Åbn mapper i ny fane</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
     <value>Statuscenter</value>
@@ -1747,7 +1747,7 @@
     <value>Indsend fejlanmeldelse</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Sæt Files som standard filhåndtering</value>
+    <value>Sæt Files som standardfilhåndtering</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Brug Files som Åbn fil-dialog</value>
