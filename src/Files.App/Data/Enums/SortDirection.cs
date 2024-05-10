@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Server.Data.Enums
+namespace Files.App.Data.Enums
 {
 	/// <summary>
 	/// SortDirection is used instead of the CommunityToolkit equivalent because it is tied to the model

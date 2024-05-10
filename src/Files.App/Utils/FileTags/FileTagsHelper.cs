@@ -10,11 +10,12 @@ using IO = System.IO;
 
 namespace Files.App.Utils.FileTags
 {
+
 	public static class FileTagsHelper
 	{
-		private static readonly Lazy<Server.Database.FileTagsDatabase> dbInstance = new(() => new());
+		private static readonly Lazy<FileTagsDatabase> dbInstance = new(() => new());
 
-		public static Server.Database.FileTagsDatabase GetDbInstance() => dbInstance.Value;
+		public static FileTagsDatabase GetDbInstance() => dbInstance.Value;
 
 		public static string[] ReadFileTag(string filePath)
 		{

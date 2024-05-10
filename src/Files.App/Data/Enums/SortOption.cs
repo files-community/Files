@@ -1,75 +1,70 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Server.Data.Enums
+namespace Files.App.Data.Enums
 {
-	public enum GroupOption
+	public enum SortOption
 	{
 		/// <summary>
-		/// No grouping.
+		/// Sort by name.
 		/// </summary>
-		None = 0,
+		Name = 0,
 
 		/// <summary>
-		/// Group by name
+		/// Sort by date modified.
 		/// </summary>
-		Name = 1,
+		DateModified = 1,
 
 		/// <summary>
-		/// Group by date modified.
+		/// Sort by date created.
 		/// </summary>
-		DateModified = 2,
+		DateCreated = 2,
 
 		/// <summary>
-		/// Group by date created.
+		/// Sort by size.
 		/// </summary>
-		DateCreated = 3,
+		Size = 3,
 
 		/// <summary>
-		/// Group by size.
+		/// Sort by file type.
 		/// </summary>
-		Size = 4,
+		FileType = 4,
 
 		/// <summary>
-		/// Group by file type.
-		/// </summary>
-		FileType = 5,
-
-		/// <summary>
-		/// Group by sync status.
+		/// Sort by sync status.
 		/// </summary>
 		/// <remarks>
-		/// Preserved for cloud drives.
+		/// Reserved for cloud drives.
 		/// </remarks>
-		SyncStatus = 6,
+		SyncStatus = 5,
 
 		/// <summary>
-		/// Group by file tags.
+		/// Sort by file tags.
 		/// </summary>
-		FileTag = 7,
+		FileTag = 6,
 
 		/// <summary>
-		/// Group by original folder.
+		/// Sort by original folder.
 		/// </summary>
 		/// <remarks>
 		/// Preserved for recycle bin.
 		/// </remarks>
-		OriginalFolder = 8,
+		OriginalFolder = 7,
 
 		/// <summary>
-		/// Group by date deleted.
+		/// Sort by date deleted.
 		/// </summary>
 		/// <remarks>
 		/// Preserved for recycle bin.
 		/// </remarks>
-		DateDeleted = 9,
+		DateDeleted = 8,
 
 		/// <summary>
-		/// Group by folder path.
+		/// Sort by path.
 		/// </summary>
 		/// <remarks>
-		/// Preserved for libraries.
+		/// Preserved for search results.
 		/// </remarks>
-		FolderPath = 10,
+		Path = 9
 	}
 }

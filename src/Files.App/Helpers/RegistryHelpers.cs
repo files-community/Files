@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Server.Utils;
+namespace Files.App.Helpers;
 
-internal sealed class RegistryUtils
+internal sealed class RegistryHelpers
 {
 	internal static string CombineKeys(string key1, string key2)
 	{
