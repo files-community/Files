@@ -114,9 +114,10 @@ namespace Files.App.UserControls
 		private Terminal _terminal;
 		private BufferedReader _reader;
 		private ShellProfile _profile;
+		private string _id;
 
-		public TerminalView(ShellProfile profile) : this()
-			=> _profile = profile;
+		public TerminalView(ShellProfile profile, string id) : this()
+			=> (_profile, _id) = (profile, id);
 
 		public TerminalView()
 		{
@@ -389,7 +390,7 @@ namespace Files.App.UserControls
 			{
 				DispatcherQueue.EnqueueAsync(() =>
 				{
-					_mainPageModel.TerminalCloseCommand.Execute(Tag);
+					_mainPageModel.TerminalCloseCommand.Execute(_id);
 				});
 			};
 
