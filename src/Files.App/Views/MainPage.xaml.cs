@@ -154,7 +154,7 @@ namespace Files.App.Views
 			return height;
 		}
 
-		public async void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		public async void TabItemContent_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
@@ -177,8 +177,8 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
-			var navArgs = e.CurrentInstance.TabItemParameter?.NavigationParameter;
-			if (e.CurrentInstance is IPaneHolder currentInstance)
+			var navArgs = e.CurrentInstance.TabBarItemParameter?.NavigationParameter;
+			if (e.CurrentInstance is IPanesPage currentInstance)
 			{
 				SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
@@ -200,7 +200,7 @@ namespace Files.App.Views
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemParameter?.NavigationParameter?.ToString());
+			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString());
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();

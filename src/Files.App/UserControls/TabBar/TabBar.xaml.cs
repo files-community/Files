@@ -214,7 +214,7 @@ namespace Files.App.UserControls.TabBar
 				}
 			}
 
-			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
+			var tabViewItemArgs = TabBarItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
 			await NavigationHelpers.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}

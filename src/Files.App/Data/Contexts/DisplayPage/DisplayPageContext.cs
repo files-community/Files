@@ -8,7 +8,7 @@ namespace Files.App.Data.Contexts
 {
 	internal sealed class DisplayPageContext : ObservableObject, IDisplayPageContext
 	{
-		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
+		private readonly IMultiPanesContext context = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 		private readonly ILayoutSettingsService layoutSettingsService = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 
@@ -125,12 +125,12 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private LayoutPreferencesManager? FolderSettings => context.PaneOrColumn?.InstanceViewModel?.FolderSettings;
+		private LayoutPreferencesManager? FolderSettings => context.ActivePaneOrColumn?.InstanceViewModel?.FolderSettings;
 
 		public DisplayPageContext()
 		{
-			context.Changing += Context_Changing;
-			context.Changed += Context_Changed;
+			context.ActivePane_Changing += Context_Changing;
+			context.ActivePane_Changed += Context_Changed;
 			layoutSettingsService.PropertyChanged += Settings_PropertyChanged;
 		}
 

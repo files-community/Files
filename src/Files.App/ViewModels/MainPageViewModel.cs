@@ -133,9 +133,9 @@ namespace Files.App.ViewModels
 					// add last session tabs to closed tabs stack if those tabs are not about to be opened
 					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
 					{
-						var items = new CustomTabViewItemParameter[UserSettingsService.GeneralSettingsService.LastSessionTabList.Count];
+						var items = new TabBarItemParameter[UserSettingsService.GeneralSettingsService.LastSessionTabList.Count];
 						for (int i = 0; i < items.Length; i++)
-							items[i] = CustomTabViewItemParameter.Deserialize(UserSettingsService.GeneralSettingsService.LastSessionTabList[i]);
+							items[i] = TabBarItemParameter.Deserialize(UserSettingsService.GeneralSettingsService.LastSessionTabList[i]);
 
 						BaseTabBar.PushRecentTab(items);
 					}
@@ -147,7 +147,7 @@ namespace Files.App.ViewModels
 						{
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
-								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
 								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 
@@ -159,7 +159,7 @@ namespace Files.App.ViewModels
 						UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 					{
 						foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
-							await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path, true);
+							await NavigationHelpers.AddNewTabByPathAsync(typeof(MainPanesPage), path, true);
 					}
 					else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 						UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
@@ -168,7 +168,7 @@ namespace Files.App.ViewModels
 						{
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
-								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
 								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 						}
@@ -193,7 +193,7 @@ namespace Files.App.ViewModels
 								UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 						{
 							foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
-								await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path, true);
+								await NavigationHelpers.AddNewTabByPathAsync(typeof(MainPanesPage), path, true);
 						}
 						else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null &&
@@ -201,7 +201,7 @@ namespace Files.App.ViewModels
 						{
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
-								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
 								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 						}
@@ -210,10 +210,10 @@ namespace Files.App.ViewModels
 				}
 
 				if (parameter is string navArgs)
-					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs, true);
+					await NavigationHelpers.AddNewTabByPathAsync(typeof(MainPanesPage), navArgs, true);
 				else if (parameter is PaneNavigationArguments paneArgs)
-					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneArgs);
-				else if (parameter is CustomTabViewItemParameter tabArgs)
+					await NavigationHelpers.AddNewTabByParamAsync(typeof(MainPanesPage), paneArgs);
+				else if (parameter is TabBarItemParameter tabArgs)
 					await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 			}
 

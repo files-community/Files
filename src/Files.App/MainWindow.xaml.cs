@@ -92,7 +92,7 @@ namespace Files.App
 						// Bring to foreground (#14730)
 						Win32Helper.BringToForegroundEx(new(WindowHandle));
 
-						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments, true);
+						await NavigationHelpers.AddNewTabByPathAsync(typeof(MainPanesPage), launchArgs.Arguments, true);
 					}
 					else
 					{
@@ -125,7 +125,7 @@ namespace Files.App
 						{
 							case "tab":
 								rootFrame.Navigate(typeof(MainPage),
-									new MainPageNavigationArguments() { Parameter = CustomTabViewItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
+									new MainPageNavigationArguments() { Parameter = TabBarItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
 									new SuppressNavigationTransitionInfo());
 								break;
 
@@ -182,7 +182,7 @@ namespace Files.App
 
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path, true);
+						await NavigationHelpers.AddNewTabByPathAsync(typeof(MainPanesPage), fileArgs.Files[index].Path, true);
 					}
 					break;
 
@@ -251,7 +251,7 @@ namespace Files.App
 				{
 					LeftPaneNavPathParam = payload,
 					LeftPaneSelectItemParam = selectItem,
-					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
+					RightPaneNavPathParam = Bounds.Width > Constants.UI.MultiplePaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
@@ -259,7 +259,7 @@ namespace Files.App
 					// Bring to foreground (#14730)
 					Win32Helper.BringToForegroundEx(new(WindowHandle));
 
-					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
+					await NavigationHelpers.AddNewTabByParamAsync(typeof(MainPanesPage), paneNavigationArgs);
 				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());

@@ -19,12 +19,12 @@ namespace Files.App.Helpers
 
 		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), path, focusNewTab);
+			return AddNewTabByPathAsync(typeof(MainPanesPage), path, focusNewTab);
 		}
 
 		public static Task AddNewTabAsync()
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
+			return AddNewTabByPathAsync(typeof(MainPanesPage), "Home", true);
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, bool focusNewTab, int atIndex = -1)
@@ -45,7 +45,7 @@ namespace Files.App.Helpers
 				IconSource = null,
 				Description = null,
 				ToolTipText = null,
-				NavigationParameter = new CustomTabViewItemParameter()
+				NavigationParameter = new TabBarItemParameter()
 				{
 					InitialPageType = type,
 					NavigationParameter = path
@@ -74,7 +74,7 @@ namespace Files.App.Helpers
 				ToolTipText = null
 			};
 
-			tabItem.NavigationParameter = new CustomTabViewItemParameter()
+			tabItem.NavigationParameter = new TabBarItemParameter()
 			{
 				InitialPageType = type,
 				NavigationParameter = tabViewItemArgs
@@ -233,7 +233,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static async void Control_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		public static async void Control_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			if (sender is null)
 				return;
