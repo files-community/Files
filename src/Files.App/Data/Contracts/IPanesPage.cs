@@ -5,14 +5,14 @@ namespace Files.App.Data.Contracts
 {
 	public interface IPanesPage : IDisposable, INotifyPropertyChanged
 	{
-		public IShellPage ActivePane { get; set; }
+		public IShellPage? ActivePane { get; set; }
 
 		// If column view, returns the last column shell page, otherwise returns the active pane normally
-		public IShellPage ActivePaneOrColumn { get; }
+		public IShellPage? ActivePaneOrColumn { get; }
 
-		public IFilesystemHelpers FilesystemHelpers { get; }
+		public IFilesystemHelpers? FilesystemHelpers { get; }
 
-		public TabBarItemParameter TabBarItemParameter { get; set; }
+		public TabBarItemParameter? TabBarItemParameter { get; set; }
 
 		public void OpenPathInNewPane(string path);
 
