@@ -29,7 +29,7 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="creator">A valid instance of <see cref="ICompressArchiveModel"/>.</param>
 		/// <returns>True if the compression has done successfully; otherwise, false.</returns>
-		Task<bool> CompressAsync(ICompressArchiveModel creator);
+		Task<bool> CompressAsync(ICompressArchiveModel compressionModel);
 
 		/// <summary>
 		/// Decompresses the archive file specified by the path to the path specified by the path with password if applicable.

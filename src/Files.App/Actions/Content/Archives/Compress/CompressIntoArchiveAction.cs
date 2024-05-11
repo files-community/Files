@@ -24,27 +24,9 @@ namespace Files.App.Actions
 			if (context.ShellPage is null)
 				return;
 
-			string[] sources = context.SelectedItems.Select(item => item.ItemPath).ToArray();
-			string directory = string.Empty;
-			string fileName = string.Empty;
+			GetDestination(out var sources, out var directory, out var fileName);
 
-			if (sources.Length is not 0)
-			{
-				// Get the current directory path
-				directory = context.ShellPage.FilesystemViewModel.WorkingDirectory.Normalize();
-
-				// Get the library save folder if the folder is library item
-				if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
-					directory = library.DefaultSaveFolder;
-
-				// Gets the file name from the directory path
-				fileName = SystemIO.Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
-			}
-
-			var dialog = new CreateArchiveDialog
-			{
-				FileName = fileName,
-			};
+			var dialog = new CreateArchiveDialog() { FileName = fileName };
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
@@ -54,7 +36,7 @@ namespace Files.App.Actions
 			if (!dialog.CanCreate || result != ContentDialogResult.Primary)
 				return;
 
-			ICompressArchiveModel creator = new CompressArchiveModel(
+			ICompressArchiveModel compressionModel = new CompressArchiveModel(
 				sources,
 				directory,
 				dialog.FileName,
@@ -63,7 +45,7 @@ namespace Files.App.Actions
 				dialog.CompressionLevel,
 				dialog.SplittingSize);
 
-			await StorageArchiveService.CompressAsync(creator);
+			await StorageArchiveService.CompressAsync(compressionModel);
 		}
 	}
 }

@@ -35,49 +35,49 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<bool> CompressAsync(ICompressArchiveModel creator)
+		public async Task<bool> CompressAsync(ICompressArchiveModel compressionModel)
 		{
-			var archivePath = creator.GetArchivePath();
+			var archivePath = compressionModel.GetArchivePath();
 
 			int index = 1;
 
 			while (SystemIO.File.Exists(archivePath) || SystemIO.Directory.Exists(archivePath))
-				archivePath = creator.GetArchivePath($" ({++index})");
+				archivePath = compressionModel.GetArchivePath($" ({++index})");
 
-			creator.ArchivePath = archivePath;
+			compressionModel.ArchivePath = archivePath;
 
 			var banner = StatusCenterHelper.AddCard_Compress(
-				creator.Sources,
+				compressionModel.Sources,
 				archivePath.CreateEnumerable(),
 				ReturnResult.InProgress,
-				creator.Sources.Count());
+				compressionModel.Sources.Count());
 
-			creator.Progress = banner.ProgressEventSource;
-			creator.CancellationToken = banner.CancellationToken;
+			compressionModel.Progress = banner.ProgressEventSource;
+			compressionModel.CancellationToken = banner.CancellationToken;
 
-			bool isSuccess = await creator.RunCreationAsync();
+			bool isSuccess = await compressionModel.RunCreationAsync();
 
 			StatusCenterViewModel.RemoveItem(banner);
 
 			if (isSuccess)
 			{
 				StatusCenterHelper.AddCard_Compress(
-					creator.Sources,
+					compressionModel.Sources,
 					archivePath.CreateEnumerable(),
 					ReturnResult.Success,
-					creator.Sources.Count());
+					compressionModel.Sources.Count());
 			}
 			else
 			{
 				PInvoke.DeleteFileFromApp(archivePath);
 
 				StatusCenterHelper.AddCard_Compress(
-					creator.Sources,
+					compressionModel.Sources,
 					archivePath.CreateEnumerable(),
-					creator.CancellationToken.IsCancellationRequested
+					compressionModel.CancellationToken.IsCancellationRequested
 						? ReturnResult.Cancelled
 						: ReturnResult.Failed,
-					creator.Sources.Count());
+					compressionModel.Sources.Count());
 			}
 
 			return isSuccess;

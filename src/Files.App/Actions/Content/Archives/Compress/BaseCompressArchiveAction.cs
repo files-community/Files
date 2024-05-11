@@ -26,6 +26,26 @@ namespace Files.App.Actions
 
 		public abstract Task ExecuteAsync(object? parameter = null);
 
+		protected void GetDestination(out string[] sources, out string directory, out string fileName)
+		{
+			sources = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+			directory = string.Empty;
+			fileName = string.Empty;
+
+			if (sources.Length is not 0)
+			{
+				// Get the current directory path
+				directory = context.ShellPage.FilesystemViewModel.WorkingDirectory.Normalize();
+
+				// Get the library save folder if the folder is library item
+				if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
+					directory = library.DefaultSaveFolder;
+
+				// Gets the file name from the directory path
+				fileName = SystemIO.Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+			}
+		}
+
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
 			return
