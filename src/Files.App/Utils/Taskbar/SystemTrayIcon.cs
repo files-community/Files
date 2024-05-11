@@ -264,7 +264,7 @@ namespace Files.App.Utils.Taskbar
 			{
 				_lastLaunchDate = DateTime.Now;
 
-				_ = Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+				_ = Launcher.LaunchUriAsync(new Uri(Constants.AutomatedWorkflowInjectionKeys.FilesUriSchemaVariable));
 			}
 			else
 				MainWindow.Instance.Activate();

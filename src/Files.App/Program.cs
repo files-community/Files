@@ -217,7 +217,7 @@ namespace Files.App
 			var cmdLaunchArgs = activatedArgs.Data is ILaunchActivatedEventArgs launchArgs &&
 				launchArgs.Arguments is not null &&
 				CommandLineParser.SplitArguments(launchArgs.Arguments, true).FirstOrDefault() is string arg0 &&
-				(arg0.EndsWith($"files.exe", StringComparison.OrdinalIgnoreCase) ||
+				(arg0.EndsWith(Constants.AutomatedWorkflowInjectionKeys.FilesExecutionAliasVariable, StringComparison.OrdinalIgnoreCase) ||
 				arg0.EndsWith($"files", StringComparison.OrdinalIgnoreCase)) ? launchArgs.Arguments : null;
 			var cmdProtocolArgs = activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs &&
 				protocolArgs.Uri.Query.TrimStart('?').Split('=') is string[] parsedArgs &&

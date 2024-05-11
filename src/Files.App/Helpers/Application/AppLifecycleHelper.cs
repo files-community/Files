@@ -58,6 +58,16 @@ namespace Files.App.Helpers
 				_ => Constants.AssetPaths.StableLogo
 			});
 
+		public static string AppExecutionAlias { get; } =
+			Constants.AutomatedWorkflowInjectionKeys.FilesExecutionAliasVariable == Constants.AutomatedWorkflowInjectionKeys.FilesExecutionAliasVariableEscaped.Replace('/', '.')
+				? Constants.AutomatedWorkflowInjectionKeys.FilesExecutionAliasStaticDev
+				: Constants.AutomatedWorkflowInjectionKeys.FilesExecutionAliasVariable;
+
+		public static string AppURIScheme { get; } =
+			Constants.AutomatedWorkflowInjectionKeys.FilesUriSchemaVariable == Constants.AutomatedWorkflowInjectionKeys.FilesUriSchemaVariableEscaped.Replace('/', '.')
+				? Constants.AutomatedWorkflowInjectionKeys.FilesUriSchemaStaticDev
+				: Constants.AutomatedWorkflowInjectionKeys.FilesUriSchemaVariable;
+
 		/// <summary>
 		/// Initializes the app components.
 		/// </summary>
@@ -359,7 +369,7 @@ namespace Files.App.Helpers
 				// Try to re-launch and start over
 				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+					await Launcher.LaunchUriAsync(new Uri(Constants.AutomatedWorkflowInjectionKeys.FilesUriSchemaVariable));
 				})
 				.Wait(100);
 			}

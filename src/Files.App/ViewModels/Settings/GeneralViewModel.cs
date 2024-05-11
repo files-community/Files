@@ -121,7 +121,7 @@ namespace Files.App.ViewModels.Settings
 			AppLifecycleHelper.SaveSessionTabs();
 
 			// Launches a new instance of Files
-			await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+			await Launcher.LaunchUriAsync(new Uri(Constants.AutomatedWorkflowInjectionKeys.FilesUriSchemaVariable));
 
 			// Closes the current instance
 			Process.GetCurrentProcess().Kill();

@@ -26,6 +26,27 @@ namespace Files.App
 			public const string GitHubClientId = "githubclientid.secret";
 
 			public const string BingMapsSecret = "bingmapskey.secret";
+
+			public const string FilesExecutionAliasVariable = "files.alias.key";
+
+			public const string FilesExecutionAliasVariableEscaped = "files/alias/key";
+
+			public const string FilesExecutionAliasStaticStable = "files.exe";
+
+			public const string FilesExecutionAliasStaticPreview = "files-pre.exe";
+
+			public const string FilesExecutionAliasStaticDev = "files-dev.exe";
+
+			public const string FilesUriSchemaVariable = "files.urischeme.key";
+
+			public const string FilesUriSchemaVariableEscaped = "files/urischeme/key";
+
+			public const string FilesUriSchemaStaticStable = "files:";
+
+			public const string FilesUriSchemaStaticPreview = "files-pre:";
+
+			public const string FilesUriSchemaStaticDev = "files-dev:";
+
 		}
 
 		public static class KnownImageFormats

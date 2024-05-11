@@ -119,12 +119,12 @@
                 </uap3:Extension>
 
                 <uap:Extension Category="windows.protocol">
-                    <uap:Protocol ReturnResults="none" Name="files-uwp" />
+                    <uap:Protocol ReturnResults="none" Name="files-dev" />
                 </uap:Extension>
 
                 <uap5:Extension Category="windows.appExecutionAlias">
                     <uap5:AppExecutionAlias>
-                        <uap5:ExecutionAlias Alias="files.exe" />
+                        <uap5:ExecutionAlias Alias="files-dev.exe" />
                     </uap5:AppExecutionAlias>
                 </uap5:Extension>
 
