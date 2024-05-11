@@ -176,13 +176,15 @@ namespace Files.App.ViewModels
             {
                 if (Terminals.IsEmpty())
                     IsTerminalViewOpen = true;
-                Terminals.Add(new TerminalView(e ?? TerminalSelectedProfile)
+                var termId = Guid.NewGuid().ToString();
+                Terminals.Add(new TerminalModel()
                 {
-                    Tag = $"Terminal {Terminals.Count}"
+                    Name = (e ?? TerminalSelectedProfile).Name,
+                    Id = termId,
+                    Control = new TerminalView(e ?? TerminalSelectedProfile, termId)
                 });
                 OnPropertyChanged(nameof(SelectedTerminal));
                 OnPropertyChanged(nameof(ActiveTerminal));
-                OnPropertyChanged(nameof(TerminalNames));
             });
             TerminalToggleCommand = new RelayCommand(() =>
             {
@@ -204,14 +206,13 @@ namespace Files.App.ViewModels
             });
             TerminalCloseCommand = new RelayCommand<string>((name) =>
             {
-                var terminal = Terminals.First(x => x.Tag.ToString() == name);
-                (terminal as IDisposable)?.Dispose();
+                var terminal = Terminals.First(x => x.Id == name);
+                terminal.Dispose();
                 Terminals.Remove(terminal);
                 SelectedTerminal = int.Min(SelectedTerminal, Terminals.Count - 1);
                 if (Terminals.IsEmpty())
                     IsTerminalViewOpen = false;
                 OnPropertyChanged(nameof(ActiveTerminal));
-                OnPropertyChanged(nameof(TerminalNames));
             });
             TerminalSelectedProfile = TerminalProfiles[0];
 
@@ -475,10 +476,9 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref _isTerminalViewOpen, value);
 		}
 
-		public Control? ActiveTerminal => SelectedTerminal >= 0 && SelectedTerminal < Terminals.Count ? Terminals[SelectedTerminal] : null;
+		public Control? ActiveTerminal => SelectedTerminal >= 0 && SelectedTerminal < Terminals.Count ? Terminals[SelectedTerminal].Control : null;
 
-		public List<Control> Terminals { get; } = new();
-		public List<string> TerminalNames => Terminals.Select(x => x.Tag.ToString()!).ToList();
+		public ObservableCollection<TerminalModel> Terminals { get; } = new();
 
 		private int _selectedTerminal;
 		public int SelectedTerminal

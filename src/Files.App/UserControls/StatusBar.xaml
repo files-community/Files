@@ -7,6 +7,7 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:data="using:Files.App.Data.Items"
+	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
@@ -407,11 +408,11 @@
 								Padding="4"
 								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 								IsItemClickEnabled="True"
-								ItemsSource="{x:Bind MainPageViewModel.TerminalNames, Mode=OneWay}"
+								ItemsSource="{x:Bind MainPageViewModel.Terminals, Mode=OneWay}"
 								SelectedIndex="{x:Bind MainPageViewModel.SelectedTerminal, Mode=TwoWay}"
 								SelectionMode="Single">
 								<ListView.ItemTemplate>
-									<DataTemplate x:DataType="x:String">
+									<DataTemplate x:DataType="datamodels:TerminalModel">
 										<Grid>
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="*" />
@@ -419,15 +420,15 @@
 											</Grid.ColumnDefinitions>
 											<TextBlock
 												VerticalAlignment="Center"
-												Text="{x:Bind}"
+												Text="{x:Bind Name, Mode=OneWay}"
 												TextTrimming="CharacterEllipsis" />
 											<Button
 												Grid.Column="1"
 												AutomationProperties.Name="{helpers:ResourceString Name=Close}"
 												Background="Transparent"
 												BorderBrush="Transparent"
-												Click="Button_Click"
-												Tag="{x:Bind}"
+												Click="TerminalCloseButton_Click"
+												Tag="{x:Bind Id}"
 												ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
 												<FontIcon FontSize="12" Glyph="&#xE74D;" />
 											</Button>
