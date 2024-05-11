@@ -215,7 +215,6 @@ namespace Files.App.ViewModels
                     IsTerminalViewOpen = false;
                 OnPropertyChanged(nameof(ActiveTerminal));
             });
-            TerminalSelectedProfile = TerminalProfiles[0];
 
             AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -471,6 +470,8 @@ namespace Files.App.ViewModels
 
 		public List<ShellProfile> TerminalProfiles => new DefaultValueProvider().GetPreinstalledShellProfiles().ToList();
 
+		public ShellProfile TerminalSelectedProfile => TerminalProfiles[0]; // TODO: selectable in settings
+
 		public bool IsTerminalIntegrationEnabled => GeneralSettingsService.IsTerminalIntegrationEnabled;
 
 		private bool _isTerminalViewOpen;
@@ -479,8 +480,6 @@ namespace Files.App.ViewModels
 			get => _isTerminalViewOpen;
 			set => SetProperty(ref _isTerminalViewOpen, value);
 		}
-
-		public Control? ActiveTerminal => SelectedTerminal >= 0 && SelectedTerminal < Terminals.Count ? Terminals[SelectedTerminal].Control : null;
 
 		public ObservableCollection<TerminalModel> Terminals { get; } = new();
 
@@ -496,15 +495,6 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private ShellProfile _terminalSelectedProfile;
-		public ShellProfile TerminalSelectedProfile
-		{
-			get => _terminalSelectedProfile;
-			set
-			{
-				if (value is not null)
-					SetProperty(ref _terminalSelectedProfile, value);
-			}
-		}
+		public Control? ActiveTerminal => SelectedTerminal >= 0 && SelectedTerminal < Terminals.Count ? Terminals[SelectedTerminal].Control : null;
 	}
 }
