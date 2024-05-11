@@ -1,6 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
-using static Files.App.Utils.Terminal.ConPTY.ProcessApi;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Security;
+using Windows.Win32.System.Threading;
 
 namespace Files.App.Utils.Terminal.ConPTY
 {
@@ -22,77 +25,95 @@ namespace Files.App.Utils.Terminal.ConPTY
 			return new Process(startupInfo, processInfo);
 		}
 
-		private static STARTUPINFOEX ConfigureProcessThread(nint hPC, nint attributes)
+		private static STARTUPINFOEXW ConfigureProcessThread(nint hPC, nint attributes)
 		{
 			// this method implements the behavior described in https://docs.microsoft.com/en-us/windows/console/creating-a-pseudoconsole-session#preparing-for-creation-of-the-child-process
-
-			var lpSize = nint.Zero;
-			var success = InitializeProcThreadAttributeList(
-				lpAttributeList: nint.Zero,
-				dwAttributeCount: 1,
-				dwFlags: 0,
-				lpSize: ref lpSize
-			);
-			if (success || lpSize == nint.Zero) // we're not expecting `success` here, we just want to get the calculated lpSize
+			unsafe
 			{
-				throw new InvalidOperationException("Could not calculate the number of bytes for the attribute list. " + Marshal.GetLastWin32Error());
+				var lpSize = nuint.Zero;
+				var success = PInvoke.InitializeProcThreadAttributeList(
+					lpAttributeList: new(null),
+					dwAttributeCount: 1,
+					lpSize: ref lpSize
+				);
+				if (success || lpSize == nuint.Zero) // we're not expecting `success` here, we just want to get the calculated lpSize
+				{
+					throw new InvalidOperationException("Could not calculate the number of bytes for the attribute list. " + Marshal.GetLastWin32Error());
+				}
+
+				var startupInfo = new STARTUPINFOEXW();
+				startupInfo.StartupInfo.cb = (uint)Marshal.SizeOf<STARTUPINFOEXW>();
+				startupInfo.lpAttributeList = new((void*)Marshal.AllocHGlobal((int)lpSize));
+
+				success = PInvoke.InitializeProcThreadAttributeList(
+					lpAttributeList: startupInfo.lpAttributeList,
+					dwAttributeCount: 1,
+					lpSize: ref lpSize
+				);
+				if (!success)
+				{
+					throw new InvalidOperationException("Could not set up attribute list. " + Marshal.GetLastWin32Error());
+				}
+
+				success = PInvoke.UpdateProcThreadAttribute(
+					lpAttributeList: startupInfo.lpAttributeList,
+					dwFlags: 0,
+					Attribute: (nuint)attributes,
+					lpValue: (void*)hPC,
+					cbSize: (nuint)nint.Size,
+					lpPreviousValue: null,
+					lpReturnSize: (nuint*)null
+				);
+				if (!success)
+				{
+					throw new InvalidOperationException("Could not set pseudoconsole thread attribute. " + Marshal.GetLastWin32Error());
+				}
+
+				return startupInfo;
 			}
-
-			var startupInfo = new STARTUPINFOEX();
-			startupInfo.StartupInfo.cb = Marshal.SizeOf<STARTUPINFOEX>();
-			startupInfo.lpAttributeList = Marshal.AllocHGlobal(lpSize);
-
-			success = InitializeProcThreadAttributeList(
-				lpAttributeList: startupInfo.lpAttributeList,
-				dwAttributeCount: 1,
-				dwFlags: 0,
-				lpSize: ref lpSize
-			);
-			if (!success)
-			{
-				throw new InvalidOperationException("Could not set up attribute list. " + Marshal.GetLastWin32Error());
-			}
-
-			success = UpdateProcThreadAttribute(
-				lpAttributeList: startupInfo.lpAttributeList,
-				dwFlags: 0,
-				attribute: attributes,
-				lpValue: hPC,
-				cbSize: nint.Size,
-				lpPreviousValue: nint.Zero,
-				lpReturnSize: nint.Zero
-			);
-			if (!success)
-			{
-				throw new InvalidOperationException("Could not set pseudoconsole thread attribute. " + Marshal.GetLastWin32Error());
-			}
-
-			return startupInfo;
 		}
 
-		private static PROCESS_INFORMATION RunProcess(ref STARTUPINFOEX sInfoEx, string commandLine, string directory)
+		private static PROCESS_INFORMATION RunProcess(ref STARTUPINFOEXW sInfoEx, string commandLine, string directory)
 		{
-			int securityAttributeSize = Marshal.SizeOf<SECURITY_ATTRIBUTES>();
-			var pSec = new SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
-			var tSec = new SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
-			var success = CreateProcess(
-				lpApplicationName: null,
-				lpCommandLine: commandLine,
-				lpProcessAttributes: ref pSec,
-				lpThreadAttributes: ref tSec,
-				bInheritHandles: false,
-				dwCreationFlags: EXTENDED_STARTUPINFO_PRESENT,
-				lpEnvironment: nint.Zero,
-				lpCurrentDirectory: directory,
-				lpStartupInfo: ref sInfoEx,
-				lpProcessInformation: out PROCESS_INFORMATION pInfo
-			);
-			if (!success)
+			unsafe
 			{
-				throw new InvalidOperationException("Could not create process. " + Marshal.GetLastWin32Error());
-			}
+				var success = false;
 
-			return pInfo;
+				int securityAttributeSize = Marshal.SizeOf<SECURITY_ATTRIBUTES>();
+				var pSec = new SECURITY_ATTRIBUTES { nLength = (uint)securityAttributeSize };
+				var tSec = new SECURITY_ATTRIBUTES { nLength = (uint)securityAttributeSize };
+
+				PROCESS_INFORMATION lpProcessInformation;
+
+				fixed (STARTUPINFOEXW* lpStartupInfo = &sInfoEx)
+				{
+					fixed (char* lpCurrentDirectory = directory)
+					{
+						fixed (char* lpCommandLine = commandLine)
+						{
+							success = PInvoke.CreateProcess(
+								lpApplicationName: new PCWSTR(null),
+								lpCommandLine: lpCommandLine,
+								lpProcessAttributes: &pSec,
+								lpThreadAttributes: &tSec,
+								bInheritHandles: false,
+								dwCreationFlags: PROCESS_CREATION_FLAGS.EXTENDED_STARTUPINFO_PRESENT,
+								lpEnvironment: null,
+								lpCurrentDirectory: lpCurrentDirectory,
+								lpStartupInfo: (STARTUPINFOW*)lpStartupInfo,
+								lpProcessInformation: &lpProcessInformation
+							);
+						}
+					}
+				}
+
+				if (!success)
+				{
+					throw new InvalidOperationException("Could not create process. " + Marshal.GetLastWin32Error());
+				}
+
+				return lpProcessInformation;
+			}
 		}
 	}
 }

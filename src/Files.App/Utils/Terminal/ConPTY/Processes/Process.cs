@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
-using static Files.App.Utils.Terminal.ConPTY.ProcessApi;
+using Windows.Win32;
+using Windows.Win32.System.Threading;
 
 namespace Files.App.Utils.Terminal.ConPTY
 {
@@ -9,13 +10,13 @@ namespace Files.App.Utils.Terminal.ConPTY
 	/// </summary>
 	internal sealed class Process : IDisposable
 	{
-		public Process(STARTUPINFOEX startupInfo, PROCESS_INFORMATION processInfo)
+		public Process(STARTUPINFOEXW startupInfo, PROCESS_INFORMATION processInfo)
 		{
 			StartupInfo = startupInfo;
 			ProcessInfo = processInfo;
 		}
 
-		public STARTUPINFOEX StartupInfo { get; }
+		public STARTUPINFOEXW StartupInfo { get; }
 		public PROCESS_INFORMATION ProcessInfo { get; }
 
 		#region IDisposable Support
@@ -34,20 +35,23 @@ namespace Files.App.Utils.Terminal.ConPTY
 				// dispose unmanaged state
 
 				// Free the attribute list
-				if (StartupInfo.lpAttributeList != nint.Zero)
+				unsafe
 				{
-					DeleteProcThreadAttributeList(StartupInfo.lpAttributeList);
-					Marshal.FreeHGlobal(StartupInfo.lpAttributeList);
+					if ((void*)StartupInfo.lpAttributeList != null)
+					{
+						PInvoke.DeleteProcThreadAttributeList(StartupInfo.lpAttributeList);
+						Marshal.FreeHGlobal((nint)(void*)StartupInfo.lpAttributeList);
+					}
 				}
 
 				// Close process and thread handles
 				if (ProcessInfo.hProcess != nint.Zero)
 				{
-					CloseHandle(ProcessInfo.hProcess);
+					PInvoke.CloseHandle(ProcessInfo.hProcess);
 				}
 				if (ProcessInfo.hThread != nint.Zero)
 				{
-					CloseHandle(ProcessInfo.hThread);
+					PInvoke.CloseHandle(ProcessInfo.hThread);
 				}
 
 				disposedValue = true;
