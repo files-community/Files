@@ -202,6 +202,11 @@ namespace Files.App.UserControls
 				.ContinueWith(t => JsonSerializer.Deserialize<TerminalSize>(t.Result)!);
 		}
 
+		public Task<string> SerializeXtermStateAsync()
+		{
+			return ExecuteScriptAsync(@"serializeTerminal()");
+		}
+
 		private async void WebViewControl_NavigationCompleted(WebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
 		{
 			var _terminalBridge = new TerminalBridge(this);

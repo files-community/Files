@@ -206,7 +206,9 @@ namespace Files.App.ViewModels
             });
             TerminalCloseCommand = new RelayCommand<string>((name) =>
             {
-                var terminal = Terminals.First(x => x.Id == name);
+                var terminal = Terminals.FirstOrDefault(x => x.Id == name);
+                if (terminal is null)
+                    return;
                 terminal.Dispose();
                 Terminals.Remove(terminal);
                 SelectedTerminal = int.Min(SelectedTerminal, Terminals.Count - 1);
