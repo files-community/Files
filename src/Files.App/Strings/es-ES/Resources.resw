@@ -3271,7 +3271,7 @@
     <value>Files se está ejecutando como administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Debido a limitaciones de la plataforma, arrastrar y soltar no está disponible cuando se ejecuta Files como administrador.</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Permitir que la aplicación se ejecute en segundo plano al cerrar la ventana</value>
