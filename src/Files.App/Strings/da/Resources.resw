@@ -3271,7 +3271,7 @@
     <value>Files kører som administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
+    <value>På grund af en begrænsning med Windows og WinAppSdk, træk og slip er ikke tilgængelig, når du kører filer som admin. Hvis du ønsker at bruge træk og slip, Du kan arbejde omkring denne begrænsning ved at åbne UAC (Brugerkontokontrol) fra menuen Start og vælge det tredje niveau, og genstarte Windows. Ellers kan du fortsætte med at bruge filer uden at trække &amp; slip.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lad appen køre i baggrunden, når vinduet lukkes</value>
