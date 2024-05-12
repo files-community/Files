@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.Win32;
 
 namespace Files.App.Utils.Storage
 {
@@ -185,10 +186,10 @@ namespace Files.App.Utils.Storage
 
 						if (fsCopyResult)
 						{
-							if (NativeFileOperationsHelper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
+							if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
 							{
 								// The source folder was hidden, apply hidden attribute to destination
-								NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, SystemIO.FileAttributes.Hidden);
+								Win32Helper.SetFileAttribute(fsCopyResult.Result.Path, SystemIO.FileAttributes.Hidden);
 							}
 
 							copiedItem = (BaseStorageFolder)fsCopyResult;
@@ -210,7 +211,7 @@ namespace Files.App.Utils.Storage
 			}
 			else if (source.ItemType == FilesystemItemType.File)
 			{
-				var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
+				var fsResult = (FilesystemResult)await Task.Run(() => PInvoke.CopyFileFromApp(source.Path, destination, true));
 
 				if (!fsResult)
 				{
@@ -363,7 +364,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+					var fsResult = (FilesystemResult)await Task.Run(() => PInvoke.MoveFileFromApp(source.Path, destination));
 
 					if (!fsResult)
 					{
@@ -402,10 +403,10 @@ namespace Files.App.Utils.Storage
 
 							if (fsResultMove)
 							{
-								if (NativeFileOperationsHelper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
+								if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
 								{
 									// The source folder was hidden, apply hidden attribute to destination
-									NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, SystemIO.FileAttributes.Hidden);
+									Win32Helper.SetFileAttribute(fsResultMove.Result.Path, SystemIO.FileAttributes.Hidden);
 								}
 
 								movedItem = (BaseStorageFolder)fsResultMove;
@@ -423,7 +424,7 @@ namespace Files.App.Utils.Storage
 			}
 			else if (source.ItemType == FilesystemItemType.File)
 			{
-				var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+				var fsResult = (FilesystemResult)await Task.Run(() => PInvoke.MoveFileFromApp(source.Path, destination));
 
 				if (!fsResult)
 				{
@@ -503,7 +504,7 @@ namespace Files.App.Utils.Storage
 
 			if (permanently)
 			{
-				fsResult = (FilesystemResult)NativeFileOperationsHelper.DeleteFileFromApp(source.Path);
+				fsResult = (FilesystemResult)PInvoke.DeleteFileFromApp(source.Path);
 			}
 			if (!fsResult)
 			{
@@ -620,7 +621,7 @@ namespace Files.App.Utils.Storage
 				{
 					// Try again with MoveFileFromApp
 					var destination = Path.Combine(Path.GetDirectoryName(source.Path), newName);
-					if (NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination))
+					if (PInvoke.MoveFileFromApp(source.Path, destination))
 					{
 						fsProgress.ReportStatus(FileSystemStatusCode.Success);
 
@@ -729,7 +730,7 @@ namespace Files.App.Utils.Storage
 
 			FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
-			fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+			fsResult = (FilesystemResult)await Task.Run(() => PInvoke.MoveFileFromApp(source.Path, destination));
 
 			if (!fsResult)
 			{

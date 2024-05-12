@@ -178,7 +178,7 @@
     <value>Verlauf leeren</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Gebe einen Pfad zum Navigieren ein oder Tippe "&gt;" ein, um die Befehlspalette zu öffnen</value>
+    <value>Geben Sie einen Pfad zum Navigieren ein oder Tippen "&gt;", um die Befehlspalette zu öffnen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
@@ -193,10 +193,10 @@
     <value>GitHub-Repository</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>Über</value>
+    <value>Info</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open Source</value>
+    <value>Quelloffen</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datumsformat</value>
@@ -208,7 +208,7 @@
     <value>Dateierweiterungen für bekannte Dateitypen anzeigen</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Alle Dateien und Ordner anzeigen</value>
+    <value>Versteckte Dateien und Ordner anzeigen</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>Dateien die mit einem Punkt beginnen anzeigen</value>
@@ -216,14 +216,14 @@
   <data name="Appearance" xml:space="preserve">
     <value>Erscheinungsbild</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Hintergrund</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Hintergrundfarbe</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Erweitert</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Fortsetzen, wo Du aufgehört hast</value>
+    <value>Fortsetzen, wo du aufgehört hast</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
@@ -280,7 +280,7 @@
     <value>Willkommen bei Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Zugriff erlauben</value>
+    <value>Berechtigung erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Als Sperrbildschirm festlegen</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Als App-Hintergrund festlegen</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Löschen der Datei oder des Ordners nicht möglich</value>
   </data>
@@ -349,7 +352,7 @@
     <value>Laufwerk getrennt</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Sie zugreifen möchten, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei, auf die Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Eigenschaften für diese Datei können nicht geöffnet werden</value>
@@ -436,7 +439,7 @@
     <value>Elemente</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>OK</value>
+    <value>Ja</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Bist Du sicher, dass Du alle Elemente endgültig löschen möchtest?</value>
@@ -604,13 +607,13 @@
     <value>Mehr Optionen anzeigen</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Die Anwendung muss neu gestartet werden, um die Einstellungen zu übernehmen. Möchtest Du die Anwendung jetzt neu starten?</value>
+    <value>Die Anwendung muss neu gestartet werden, um diese Einstellungen zu übernehmen. Möchtest du die Anwendung neu starten?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Uns auf GitHub unterstützen</value>
+    <value>Unterstütze uns auf GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>Wir können dieses Element nicht erstellen</value>
+    <value>Wir konnten dieses Element nicht erstellen</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Zugriff verweigert</value>
@@ -625,7 +628,7 @@
     <value>Neues Element erstellen</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Wählen Sie unten einen Dateityp für das neue Element aus</value>
+    <value>Wähle unten einen Dateityp für das neue Element aus</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Datei</value>
@@ -679,7 +682,7 @@
     <value>Kommentar</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Copyright</value>
+    <value>Urheberrecht</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Änderungsdatum</value>
@@ -877,10 +880,16 @@
     <value>Anzahl der Folien</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>Einzelbildrate</value>
+    <value>Bildrate</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Enkodierungsbitrate</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Audioenkodierungsbitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Videoenkodierungsbitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Komprimierung</value>
@@ -991,7 +1000,7 @@
     <value>Geschützte Systemdateien anzeigen</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Layout- und Sortierungspräferenzen zwischen Verzeichnissen synchronisieren</value>
+    <value>Layout- und Sortierungseinstellungen zwischen Verzeichnissen synchronisieren</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kontextmenü anpassen</value>
@@ -1117,7 +1126,7 @@
     <value>Unbekannt</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Wenn Du die Dateierweiterung änderst, wird die Datei möglicherweise unbrauchbar. Bist Du sicher, dass Du sie ändern möchtest?</value>
+    <value>Wenn du eine Dateierweiterung änderst, kann die Datei unbrauchbar werden. Bist du sicher, dass du sie ändern willst?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM-Laufwerk</value>
@@ -1183,7 +1192,7 @@
     <value>Diese Aktion erfordert Administratorrechte</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>Möchtest Du als Administrator fortfahren?</value>
+    <value>Möchtest du als Administrator fortfahren?</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Spaltenansicht (Strg+Shift+6)</value>
@@ -1465,7 +1474,7 @@
     <value>Standardbibiliotheken wiederherstellen</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Bist Du sicher, dass Du die Standardbibliotheken wiederherstellen möchtest? Alle Dateien verbleiben auf der Festplatte.</value>
+    <value>Bist du sicher, dass du die Standardbibliotheken wiederherstellen willst? Alle deine Dateien bleiben auf deinem Speicherplatz.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Bibliotheken wiederherstellen</value>
@@ -1698,12 +1707,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Benutzername</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Laufwerks-Widget</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Letzte Dateien-Widget</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Keine Objekte gefunden</value>
   </data>
@@ -1855,7 +1858,7 @@
     <value>Lizenzen von Drittanbietern</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigst Du, dass Dir dieses Risiko bewusst ist.</value>
+    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigen Sie, dass Ihnen dieses Risiko bewusst ist.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Bibliothek erstellen</value>
@@ -1960,7 +1963,7 @@
     <value>Wiederholen</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Verschieben wird in diesem Kontext nicht unterstützt. Möchtest Du die Elemente stattdessen kopieren?</value>
+    <value>Der Vorgang des Verschiebens wird in diesem Zusammenhang nicht unterstützt. Willst du die Elemente stattdessen kopieren?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>Versteckte Elemente</value>
@@ -2056,7 +2059,7 @@
     <value>Verknüpfung kann nicht geöffnet werden</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>Das Ziel {0} konnte nicht gefunden werden. Möchtest Du diese Verknüpfung löschen?</value>
+    <value>Das Ziel kann nicht gefunden werden {0}. Willst du diese Verknüpfung löschen?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Du hast keine Berechtigung für den Zugriff auf diesen Ordner.</value>
@@ -2296,7 +2299,7 @@
     <value>Während der Berechnung ist ein Fehler aufgetreten</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Fehler beim Berechnen des Hashs, bitte schließen Sie die Datei und versuchen Sie es erneut.</value>
+    <value>Die Berechnung des Hashes ist fehlgeschlagen. Bitte schließe die Datei und versuche es erneut.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes sind für Online-Dateien nicht verfügbar</value>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Ausgewähltes Bild als Sperrbildschirm-Hintergrund festlegen</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Ausgewähltes Bild als Hintergrund der App festlegen</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Ausgewählte Schriftart(en) installieren</value>
@@ -3150,7 +3156,7 @@
     <value>Mit GitHub verbinden</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Geben Sie den folgenden Code unter dem unten stehenden Link ein, um mit GitHub Repositories zu arbeiten.</value>
+    <value>Gib den folgenden Code unter dem unten stehenden Link ein, um mit GitHub Repositories zu arbeiten.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files kann momentan nicht auf GitHub zugreifen.</value>
@@ -3557,7 +3563,7 @@
     <value>Keine laufenden Dateioperationen</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>Die Option, Files beim Start von Windows zu öffnen, ist aufgrund Ihrer Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Zum erneuten Aktivieren öffnen Sie die Autostart-Seite im Task-Manager.</value>
+    <value>Die Option, Dateien beim Windows-Start zu öffnen, ist aufgrund deiner Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Um sie wieder zu aktivieren, öffne die Startseite im Task-Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Wiederherstellung der Elemente aus dem Papierkorb fehlgeschlagen</value>
@@ -3569,7 +3575,7 @@
     <value>Git-Branch löschen</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie den Branch "{0}" unwiderruflich löschen möchten?</value>
+    <value>Bist du sicher, dass du den Zweig "{0}" dauerhaft löschen willst?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
     <value>Mit GitHub verbunden</value>
@@ -3715,5 +3721,79 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Layout-Typ</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Aktionen</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Befehle</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Befehl hinzufügen</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Standard wiederherstellen</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Aktion auswählen</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Bist du sicher, dass du die Standard-Tastenbelegung wiederherstellen willst? Diese Aktion kann nicht rückgängig gemacht werden.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Diese Schlüsselbindung wird bereits verwendet. Bitte wähle eine andere Schlüsselbindung, um fortzufahren.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Benutzerdefiniert</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Adaptives Layout ist nicht verfügbar, wenn die Einstellungen synchronisiert werden. Das Standardlayout wurde auf Details geändert.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Hintergrundbild</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Unten</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Mittig</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Füllen</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Horizontale Ausrichtung</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Bildanpassung</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Links</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Deckkraft</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Rechts</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Oben</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Einheitlich</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Ausfüllen &amp; Seitenverhältnis beibehalten</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Vertikale Ausrichtung</value>
   </data>
 </root>

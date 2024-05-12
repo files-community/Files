@@ -25,7 +25,9 @@ namespace Files.App.Data.Commands
 			return (KeyModifiers)modifiers;
 
 			static bool IsPressed(VirtualKey key)
-				=> InputKeyboardSource.GetKeyStateForCurrentThread(key).HasFlag(CoreVirtualKeyStates.Down);
+			{
+				return InputKeyboardSource.GetKeyStateForCurrentThread(key).HasFlag(CoreVirtualKeyStates.Down);
+			}
 		}
 	}
 }

@@ -2,11 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Views.Settings;
-using Files.Core.ViewModels.Dialogs;
+using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
+using Files.App.Data.Enums;
 
 namespace Files.App.Dialogs
 {
@@ -45,18 +46,18 @@ namespace Files.App.Dialogs
 		private void MainSettingsNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
 			var selectedItem = (NavigationViewItem)args.SelectedItem;
-			int selectedItemTag = Convert.ToInt32(selectedItem.Tag);
 
-			_ = selectedItemTag switch
+			_ = Enum.Parse<SettingsPageKind>(selectedItem.Tag.ToString()) switch
 			{
-				0 => SettingsContentFrame.Navigate(typeof(GeneralPage)),
-				1 => SettingsContentFrame.Navigate(typeof(AppearancePage)),
-				2 => SettingsContentFrame.Navigate(typeof(LayoutPage)),
-				3 => SettingsContentFrame.Navigate(typeof(FoldersPage)),
-				4 => SettingsContentFrame.Navigate(typeof(TagsPage)),
-				5 => SettingsContentFrame.Navigate(typeof(GitPage)),
-				6 => SettingsContentFrame.Navigate(typeof(AdvancedPage)),
-				7 => SettingsContentFrame.Navigate(typeof(AboutPage)),
+				SettingsPageKind.GeneralPage => SettingsContentFrame.Navigate(typeof(GeneralPage)),
+				SettingsPageKind.AppearancePage => SettingsContentFrame.Navigate(typeof(AppearancePage)),
+				SettingsPageKind.LayoutPage => SettingsContentFrame.Navigate(typeof(LayoutPage)),
+				SettingsPageKind.FoldersPage => SettingsContentFrame.Navigate(typeof(FoldersPage)),
+				SettingsPageKind.ActionsPage => SettingsContentFrame.Navigate(typeof(ActionsPage)),
+				SettingsPageKind.TagsPage => SettingsContentFrame.Navigate(typeof(TagsPage)),
+				SettingsPageKind.GitPage => SettingsContentFrame.Navigate(typeof(GitPage)),
+				SettingsPageKind.AdvancedPage => SettingsContentFrame.Navigate(typeof(AdvancedPage)),
+				SettingsPageKind.AboutPage => SettingsContentFrame.Navigate(typeof(AboutPage)),
 				_ => SettingsContentFrame.Navigate(typeof(AppearancePage))
 			};
 		}

@@ -9,6 +9,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using Windows.Win32;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -104,7 +105,7 @@ namespace Files.App.Utils.Storage
 						return await backingFile.OpenAsync(accessMode);
 					}
 
-					var file = NativeFileOperationsHelper.OpenFileForRead(containerPath, rw);
+					var file = Win32Helper.OpenFileForRead(containerPath, rw);
 					return file.IsInvalid ? null : new FileStream(file, rw ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream();
 				}
 
@@ -149,7 +150,7 @@ namespace Files.App.Utils.Storage
 						return await backingFile.OpenReadAsync();
 					}
 
-					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath);
+					var hFile = Win32Helper.OpenFileForRead(containerPath);
 					return hFile.IsInvalid ? null : new StreamWithContentType(new FileStream(hFile, FileAccess.Read).AsRandomAccessStream());
 				}
 
@@ -188,7 +189,7 @@ namespace Files.App.Utils.Storage
 						return await backingFile.OpenSequentialReadAsync();
 					}
 
-					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath);
+					var hFile = Win32Helper.OpenFileForRead(containerPath);
 					return hFile.IsInvalid ? null : new FileStream(hFile, FileAccess.Read).AsInputStream();
 				}
 
@@ -310,7 +311,7 @@ namespace Files.App.Utils.Storage
 					else
 					{
 						var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
-						NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
+						PInvoke.MoveFileFromApp(Path, fileName);
 					}
 				}
 				else
@@ -354,7 +355,7 @@ namespace Files.App.Utils.Storage
 					}
 					else if (option == StorageDeleteOption.PermanentDelete)
 					{
-						NativeFileOperationsHelper.DeleteFileFromApp(Path);
+						PInvoke.DeleteFileFromApp(Path);
 					}
 					else
 					{
@@ -399,7 +400,7 @@ namespace Files.App.Utils.Storage
 		{
 			try
 			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+				var hFile = Win32Helper.OpenFileForRead(path);
 				if (hFile.IsInvalid)
 				{
 					return false;
@@ -474,7 +475,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+					var hFile = Win32Helper.OpenFileForRead(containerPath, readWrite);
 					if (hFile.IsInvalid)
 					{
 						return null;

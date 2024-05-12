@@ -25,7 +25,7 @@ namespace Files.App.Utils.Storage.Operations
 			await Parallel.ForEachAsync(_paths, cancellationToken, async (path, token) => await Task.Factory.StartNew(() =>
 			{
 				var queue = new Queue<string>();
-				if (!NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory))
+				if (!Win32Helper.HasFileAttribute(path, FileAttributes.Directory))
 				{
 					ComputeFileSize(path);
 				}
@@ -101,7 +101,7 @@ namespace Files.App.Utils.Storage.Operations
 
 		public void ForceComputeFileSize(string path)
 		{
-			if (!NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory))
+			if (!Win32Helper.HasFileAttribute(path, FileAttributes.Directory))
 			{
 				ComputeFileSize(path);
 			}

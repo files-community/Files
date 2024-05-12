@@ -12,6 +12,7 @@
 	xmlns:extensions="using:CommunityToolkit.WinUI.UI"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:items="using:Files.App.Data.Items"
+	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
@@ -28,6 +29,8 @@
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
+
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
@@ -238,6 +241,7 @@
 					x:Name="Back"
 					x:FieldModifier="public"
 					AccessKey="B"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
@@ -251,6 +255,7 @@
 					x:Name="Forward"
 					x:FieldModifier="public"
 					AccessKey="F"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
@@ -264,6 +269,7 @@
 					x:Name="Up"
 					x:FieldModifier="public"
 					AccessKey="U"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateUp.Description, Mode=OneWay}"
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateUp.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.NavigateUp, Mode=OneWay}"
@@ -277,6 +283,7 @@
 					x:Name="Refresh"
 					x:FieldModifier="public"
 					AccessKey="R"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label}"
 					Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
@@ -313,34 +320,30 @@
 				<AutoSuggestBox.ItemTemplate>
 					<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
 						<StackPanel Margin="0,4">
-							<Grid>
+							<Grid ColumnSpacing="8">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 
-								<!--  Primary Display  -->
-								<!--  This is used to display paths or command descriptions.  -->
-								<TextBlock Grid.Column="0" Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+								<!--  Primary Title  -->
+								<TextBlock
+									x:Name="PrimaryDisplayBlock"
+									Grid.Column="0"
+									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+									MaxLines="1"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap">
 									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
 								</TextBlock>
 
-								<!--  Supplementary Display  -->
-								<!--  This is used to display command hotkeys.  -->
-								<TextBlock
+								<!--  Keyboard Shortcuts  -->
+								<keyboard:KeyboardShortcut
+									x:Name="RightAlignedKeyboardShortcut"
 									Grid.Column="1"
-									FontWeight="Normal"
-									Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-									Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />
-							</Grid>
+									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
 
-							<!--  Secondary Display  -->
-							<TextBlock
-								x:Name="SecondaryDisplayBlock"
-								x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-								FontWeight="Normal"
-								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-								Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
+							</Grid>
 						</StackPanel>
 					</DataTemplate>
 				</AutoSuggestBox.ItemTemplate>
@@ -402,6 +405,7 @@
 				<Button
 					x:Name="ShowSearchButton"
 					AccessKey="I"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
 					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
@@ -416,6 +420,7 @@
 					x:Name="ShowStatusCenterButton"
 					Padding="0"
 					AccessKey="T"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
@@ -479,6 +484,7 @@
 					VerticalContentAlignment="Stretch"
 					x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
 					AccessKey="1"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
 					Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
@@ -510,6 +516,7 @@
 					VerticalContentAlignment="Stretch"
 					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
 					AccessKey="2"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
 					Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
@@ -524,6 +531,7 @@
 				<Button
 					x:Name="SettingsButton"
 					AccessKey="I"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.AutomationId="SettingsButton"
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"

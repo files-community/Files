@@ -116,7 +116,7 @@ namespace Files.App.ViewModels.Properties
 			return WindowsCompatibilityService.SetCompatibilityOptionsForPath(ItemPath, CompatibilityOptions);
 		}
 
-		private Task ExecuteRunTroubleshooterCommand()
+		private Task<bool> ExecuteRunTroubleshooterCommand()
 		{
 			return LaunchHelper.RunCompatibilityTroubleshooterAsync(ItemPath);
 		}

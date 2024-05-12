@@ -1,8 +1,8 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.ViewModels.Dialogs;
-using Files.Core.ViewModels.Dialogs.AddItemDialog;
+using Files.App.ViewModels.Dialogs;
+using Files.App.ViewModels.Dialogs.AddItemDialog;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -11,6 +11,9 @@ namespace Files.App.Dialogs
 	public sealed partial class AddItemDialog : ContentDialog, IDialog<AddItemDialogViewModel>
 	{
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+
+		private FrameworkElement RootAppElement
+			=> (FrameworkElement)MainWindow.Instance.Content;
 
 		public AddItemDialogViewModel ViewModel
 		{

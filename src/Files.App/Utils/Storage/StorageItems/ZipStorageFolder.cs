@@ -11,6 +11,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.Win32;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -100,7 +101,7 @@ namespace Files.App.Utils.Storage
 		{
 			Func<Task<bool>> queryFileAssoc = async () =>
 			{
-				var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
+				var assoc = await Win32Helper.GetFileAssociationAsync(filePath);
 				if (assoc is not null)
 				{
 					return assoc == Package.Current.Id.FamilyName
@@ -350,7 +351,7 @@ namespace Files.App.Utils.Storage
 					else
 					{
 						var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
-						NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
+						PInvoke.MoveFileFromApp(Path, fileName);
 					}
 				}
 				else
@@ -397,7 +398,7 @@ namespace Files.App.Utils.Storage
 					}
 					else if (option == StorageDeleteOption.PermanentDelete)
 					{
-						NativeFileOperationsHelper.DeleteFileFromApp(Path);
+						PInvoke.DeleteFileFromApp(Path);
 					}
 					else
 					{
@@ -488,7 +489,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+				var hFile = Win32Helper.OpenFileForRead(path);
 				if (hFile.IsInvalid)
 				{
 					return false;
@@ -516,7 +517,7 @@ namespace Files.App.Utils.Storage
 				return false;
 			}
 		}
-		private static async Task<bool> CheckAccess(IStorageFile file)
+		private static async Task<bool> CheckAccess(BaseStorageFile file)
 		{
 			return await SafetyExtensions.IgnoreExceptions(async () =>
 			{
@@ -529,7 +530,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
+				var hFile = Win32Helper.OpenFileForRead(path, true);
 				if (hFile.IsInvalid)
 				{
 					return Task.FromResult(false);
@@ -580,7 +581,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+					var hFile = Win32Helper.OpenFileForRead(containerPath, readWrite);
 					if (hFile.IsInvalid)
 					{
 						return null;

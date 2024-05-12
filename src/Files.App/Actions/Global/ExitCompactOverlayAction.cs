@@ -16,7 +16,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconExitCompactOverlay");
 
 		public HotKey HotKey
-			=> new(Keys.Down, KeyModifiers.MenuCtrl);
+			=> new(Keys.Down, KeyModifiers.CtrlAlt);
 
 		public string Description
 			=> "ExitCompactOverlayDescription".GetLocalizedResource();
@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var appWindow = MainWindow.Instance.AppWindow;
 			appWindow.SetPresenter(AppWindowPresenterKind.Overlapped);

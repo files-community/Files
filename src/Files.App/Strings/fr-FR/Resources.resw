@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Apparence</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Arrière-plan</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Couleurs du fond</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avancé</value>
@@ -337,7 +337,10 @@
     <value>L‘élément existe déjà</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Définir en tant qu'écran de verrouillage</value>
+    <value>Définir comme fond d'écran de verrouillage</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Définir comme fond d'écran de l'application</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Impossible de supprimer cet élément</value>
@@ -882,6 +885,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Débit binaire</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Débit binaire de codage audio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Débit binaire de codage vidéo</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Compression</value>
   </data>
@@ -1060,7 +1069,7 @@
     <value>Activer le volet des détails pour afficher les propriétés de base du fichier</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Afficher le volet d'information</value>
+    <value>Afficher le volet d'informations</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Afficher le volet d'informations pour afficher les volets de détails/aperçu</value>
@@ -1111,7 +1120,7 @@
     <value>Exclu de la synchronisation</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>Non calculée</value>
+    <value>Non calculé</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Inconnu</value>
@@ -1159,7 +1168,7 @@
     <value>Connecter un lecteur réseau</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Épingler</value>
+    <value>Épinglé</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliothèques</value>
@@ -1423,7 +1432,7 @@
     <value>Modifier</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions pour {0}</value>
+    <value>Autorisation pour {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lire et exécuter</value>
@@ -1441,7 +1450,7 @@
     <value>Compte inconnu</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Cliquez sur « Autorisations avancées » pour continuer.</value>
+    <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Cliquez sur "Autorisations avancées" pour continuer.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Propriétaire :</value>
@@ -1618,7 +1627,7 @@
     <value>{0} éléments ({1} fichiers et {2} dossiers)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Taille décompressé</value>
+    <value>Taille décompressée</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -1697,12 +1706,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nom d'utilisateur</value>
-  </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Disques</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Fichiers récents</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Aucun élément trouvé</value>
@@ -1996,10 +1999,10 @@
     <value>Souhaitez-vous laisser une évaluation de Files ?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Définir comme arrière-plan</value>
+    <value>Définir comme fond d'écran</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Définir comme fond d'écran</value>
+    <value>Définir comme fond d'écran du bureau</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Définir par défaut</value>
@@ -2131,7 +2134,7 @@
     <value>Format</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Synchroniser la colonne de statuts</value>
+    <value>Statut de la synchronisation</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
     <value>Grouper par</value>
@@ -2281,7 +2284,7 @@
     <value>Ouvrir dans le Terminal Windows en tant qu'administrateur</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Sauvegarder</value>
+    <value>Enregistrer</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Sélection multiple</value>
@@ -2374,10 +2377,10 @@
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copier le chemin des éléments sélectionnés dans le presse-papiers</value>
+    <value>Copier le chemin des éléments sélectionnés dans le presse-papier</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copier le chemin des éléments sélectionnés avec des guillemets dans le presse-papiers</value>
+    <value>Copier le chemin des éléments sélectionnés entre guillemets dans le presse-papier</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Couper le(s) élément(s) dans le presse-papiers</value>
@@ -2463,6 +2466,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Définir l'image sélectionnée comme fond d'écran de verrouillage</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Définir l'image sélectionnée comme fond d'écran de l'application</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Installer la ou les polices sélectionnée(s)</value>
   </data>
@@ -2524,10 +2530,10 @@
     <value>Augmenter la taille des éléments dans la vue actuelle</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Basculer sur vue détaillée</value>
+    <value>Basculer en vue détaillée</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Basculer en vue tuiles</value>
+    <value>Basculer en vue en tuiles</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Basculer en vue liste</value>
@@ -2927,7 +2933,7 @@
     <value>Créer un nouvel élément</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>Aucun groupe ou utilisateur n'a la permission d'accéder à cet objet. Cependant, le propriétaire de cet objet peut assigner des permissions.</value>
+    <value>Aucun groupe ou utilisateur n'a l'autorisation d'accéder à cet objet. Cependant, le propriétaire de cet objet peut attribuer des autorisations.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Ouvrir l'emplacement de l'élément</value>
@@ -3611,10 +3617,10 @@
     <value>Trier les dossiers en premier</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Trier d'abord les dossiers puis les fichiers</value>
+    <value>Trier les dossiers en premier, puis les fichiers</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Trier la priorité</value>
+    <value>Trier par priorité</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Échec de la rotation de l'image</value>
@@ -3656,7 +3662,7 @@
     <value>Questions &amp; discussions</value>
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Des tailles supplémentaires ne sont pas encore disponibles pour la vue par tuiles.</value>
+    <value>Des tailles supplémentaires ne sont pas encore disponibles pour la vue en tuiles.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compact</value>
@@ -3715,5 +3721,79 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Type de disposition</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Commandes</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Ajouter une commande</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Rétablir par défaut</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Choisir une action</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir restaurer les raccourcis par défaut ? Cette action ne peut pas être annulée.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Cette liaison de clé est déjà utilisée, veuillez choisir une autre liaison pour continuer.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Personnalisé</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>La disposition adaptative n'est pas disponible lorsque les préférences sont synchronisées, la disposition par défaut a été changée en Détails.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Image de fond</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Bas</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Centrer</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Remplir</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Alignement horizontal</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Ajustement de l'image</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Gauche</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacité</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Droite</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Haut</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniforme</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Remplissage uniforme</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Alignement vertical</value>
   </data>
 </root>

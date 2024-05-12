@@ -30,7 +30,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage?.FilesystemViewModel is null)
 				return;
@@ -49,7 +49,7 @@ namespace Files.App.Actions
 				context.ShellPage?.NavigateWithArguments(context.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 				{
 					NavPathParam = folderPath,
-					SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
+					SelectItems = [Path.GetFileName(item.TargetPath.TrimPath())],
 					AssociatedTabInstance = context.ShellPage
 				});
 			}

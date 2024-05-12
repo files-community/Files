@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconProperties");
 
 		public HotKey HotKey
-			=> new(Keys.Enter, KeyModifiers.Menu);
+			=> new(Keys.Enter, KeyModifiers.Alt);
 
 		public bool IsExecutable =>
 			context.PageType is not ContentPageTypes.Home &&
@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var page = context.ShellPage?.SlimContentPage;
 

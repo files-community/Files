@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Latar belakang</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Warna Latar Belakang</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Lanjutan</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Tetapkan sebagai latar belakang layar kunci</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Kami tidak dapat menghapus item ini</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Encoding Bitrate</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Enkoding Audio Bitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Enkoding Video Bitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Kompresi</value>
@@ -1698,12 +1707,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nama pengguna</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget penyimpanan</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget file terbaru</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Tidak ada item yang ditemukan</value>
   </data>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Gunakan gambar yang dipilih sebagai lockscreen background</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instal font yang dipilih</value>
@@ -3715,5 +3721,79 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tipe layout</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Perintah</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Tambah perintah</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Kembalikan ke awal</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Pilih tindakan</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Apakah ingin mereset pengaturan tombol keyboard? Tindakan ini tidak dapat dibatalkan.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Tombol keyboard ini sudah dipakai, gunakan tombol keyboard lainya untuk melanjutkan.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Sesuaikan</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Tata letak adaptif tidak tersedia ketika preferensi disinkronkan, tata letak default telah diubah menjadi Detail.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Wallpaper</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Bawah</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Tengah</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Penuh</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Letak horizontal</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Sesuaikan</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Kiri</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Transparasi</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Kanan</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Atas</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Seragam</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Seragam untuk diisi</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Letak vertikal</value>
   </data>
 </root>

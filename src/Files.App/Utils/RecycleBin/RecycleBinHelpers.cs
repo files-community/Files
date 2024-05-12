@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
-using System.Text.RegularExpressions;
 using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
@@ -13,13 +12,11 @@ namespace Files.App.Utils.RecycleBin
 	{
 		private static readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
-		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
-			return (await Win32Helper.GetShellFolderAsync(Constants.UserEnvironmentPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
+			return (await Win32Helper.GetShellFolderAsync(Constants.UserEnvironmentPaths.RecycleBinPath, false, true, 0, int.MaxValue)).Enumerate;
 		}
 
 		public static ulong GetSize()
@@ -41,7 +38,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static bool IsPathUnderRecycleBin(string path)
 		{
-			return !string.IsNullOrWhiteSpace(path) && recycleBinPathRegex.IsMatch(path);
+			return !string.IsNullOrWhiteSpace(path) && RegexHelpers.RecycleBinPath().IsMatch(path);
 		}
 
 		public static async Task EmptyRecycleBinAsync()

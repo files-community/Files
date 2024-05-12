@@ -147,6 +147,10 @@ namespace Files.App
 			public const string UserSettingsFileName = "user_settings.json";
 
 			public const string FileTagSettingsFileName = "filetags.json";
+
+			public const string UserSettingsDatabaseFileName = "user_settings.db";
+
+			public const string FileTagSettingsDatabaseFileName = "filetags.db";
 		}
 
 		public static class PreviewPane
@@ -173,12 +177,12 @@ namespace Files.App
 			/// <summary>
 			/// The path to the json file containing a list of file properties to be loaded in the properties window details page.
 			/// </summary>
-			public const string DetailsPagePropertiesJsonPath = @"ms-appx:///Resources/PropertiesInformation.json";
+			public const string DetailsPagePropertiesJsonPath = @"ms-appx:///Assets/Resources/PropertiesInformation.json";
 
 			/// <summary>
 			/// The path to the json file containing a list of file properties to be loaded in the preview pane.
 			/// </summary>
-			public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
+			public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Assets/Resources/PreviewPanePropertiesInformation.json";
 		}
 
 		public static class Filesystem

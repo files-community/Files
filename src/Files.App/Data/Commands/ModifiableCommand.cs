@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Immutable;
-using static Files.App.Data.Commands.CommandManager;
 
 namespace Files.App.Data.Commands
 {
@@ -18,42 +17,69 @@ namespace Files.App.Data.Commands
 		private IRichCommand BaseCommand;
 		private ImmutableDictionary<KeyModifiers, IRichCommand> ModifiedCommands;
 
+		/// <inheritdoc/>
 		public CommandCodes Code => BaseCommand.Code;
 
+		/// <inheritdoc/>
 		public string Label => BaseCommand.Label;
+
+		/// <inheritdoc/>
 		public string LabelWithHotKey => BaseCommand.LabelWithHotKey;
+
+		/// <inheritdoc/>
 		public string AutomationName => BaseCommand.AutomationName;
 
+		/// <inheritdoc/>
 		public string Description => BaseCommand.Description;
 
+		/// <inheritdoc/>
 		public RichGlyph Glyph => BaseCommand.Glyph;
+
+		/// <inheritdoc/>
 		public object? Icon => BaseCommand.Icon;
+
+		/// <inheritdoc/>
 		public FontIcon? FontIcon => BaseCommand.FontIcon;
+
+		/// <inheritdoc/>
 		public Style? OpacityStyle => BaseCommand.OpacityStyle;
 
+		/// <inheritdoc/>
 		public bool IsCustomHotKeys => BaseCommand.IsCustomHotKeys;
+
+		/// <inheritdoc/>
 		public string? HotKeyText => BaseCommand.HotKeyText;
 
+		/// <inheritdoc/>
 		public HotKeyCollection HotKeys
 		{
 			get => BaseCommand.HotKeys;
 			set => BaseCommand.HotKeys = value;
 		}
 
-		public bool IsToggle => BaseCommand.IsToggle;
+		/// <inheritdoc/>
+		public HotKeyCollection DefaultHotKeys { get; }
 
+		/// <inheritdoc/>
+		public bool IsToggle
+			=> BaseCommand.IsToggle;
+
+		/// <inheritdoc/>
 		public bool IsOn
 		{
 			get => BaseCommand.IsOn;
 			set => BaseCommand.IsOn = value;
 		}
 
-		public bool IsExecutable => BaseCommand.IsExecutable;
+		/// <inheritdoc/>
+		public bool IsExecutable
+			=> BaseCommand.IsExecutable;
 
 		public ModifiableCommand(IRichCommand baseCommand, Dictionary<KeyModifiers, IRichCommand> modifiedCommands)
 		{
 			BaseCommand = baseCommand;
 			ModifiedCommands = modifiedCommands.ToImmutableDictionary();
+			DefaultHotKeys = new(BaseCommand.HotKeys);
 
 			if (baseCommand is ActionCommand actionCommand)
 			{
@@ -64,21 +90,33 @@ namespace Files.App.Data.Commands
 			}
 		}
 
-		public bool CanExecute(object? parameter) => BaseCommand.CanExecute(parameter);
-		public async void Execute(object? parameter) => await ExecuteAsync();
+		/// <inheritdoc/>
+		public bool CanExecute(object? parameter)
+		{
+			return BaseCommand.CanExecute(parameter);
+		}
 
-		public Task ExecuteAsync()
+		/// <inheritdoc/>
+		public async void Execute(object? parameter)
+		{
+			await ExecuteAsync(parameter);
+		}
+
+		/// <inheritdoc/>
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (ModifiedCommands.TryGetValue(HotKeyHelpers.GetCurrentKeyModifiers(), out var modifiedCommand) &&
 				modifiedCommand.IsExecutable)
-				return modifiedCommand.ExecuteAsync();
+				return modifiedCommand.ExecuteAsync(parameter);
 			else
-				return BaseCommand.ExecuteAsync();
+				return BaseCommand.ExecuteAsync(parameter);
 		}
 
-		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
-
-		public void ResetHotKeys() => BaseCommand.ResetHotKeys();
+		/// <inheritdoc/>
+		public async void ExecuteTapped(object sender, TappedRoutedEventArgs e)
+		{
+			await ExecuteAsync();
+		}
 
 		private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 		{
@@ -97,6 +135,7 @@ namespace Files.App.Data.Commands
 					break;
 			}
 		}
+
 		private void Action_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)

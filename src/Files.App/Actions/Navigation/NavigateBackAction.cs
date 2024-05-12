@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "NavigateBackDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.Left, KeyModifiers.Menu);
+			=> new(Keys.Left, KeyModifiers.Alt);
 
 		public HotKey SecondHotKey
 			=> new(Keys.Back);
@@ -23,7 +23,7 @@ namespace Files.App.Actions
 			=> new(Keys.Mouse4);
 
 		public HotKey MediaHotKey
-			=> new(Keys.GoBack, false);
+			=> new(Keys.GoBack, KeyModifiers.None, false);
 
 		public RichGlyph Glyph
 			=> new("\uE72B");
@@ -38,7 +38,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.ShellPage!.Back_Click();
 

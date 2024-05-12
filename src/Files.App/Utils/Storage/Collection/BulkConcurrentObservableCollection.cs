@@ -11,7 +11,7 @@ namespace Files.App.Utils.Storage
 	{
 		protected bool isBulkOperationStarted;
 		private readonly object syncRoot = new object();
-		private readonly List<T> collection = new List<T>();
+		private readonly List<T> collection = [];
 
 		// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
 		public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }
@@ -90,7 +90,7 @@ namespace Files.App.Utils.Storage
 			{
 				itemGroupKeySelector = value;
 				if (value is not null)
-					GroupedCollection ??= new BulkConcurrentObservableCollection<GroupedCollection<T>>();
+					GroupedCollection ??= [];
 				else
 					GroupedCollection = null;
 			}
@@ -487,7 +487,7 @@ namespace Files.App.Utils.Storage
 
 		public void OrderOne(Func<List<T>, IEnumerable<T>> func, T item)
 		{
-			IList<T> result;
+			List<T> result;
 			lock (syncRoot)
 			{
 				result = func.Invoke(collection).ToList();

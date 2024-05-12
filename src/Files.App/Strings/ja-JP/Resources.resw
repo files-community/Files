@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>背景</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>背景の色</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高度な設定</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>ロック画面の背景に設定</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>アプリの背景に設定</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>この項目を削除できませんでした</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>エンコード ビットレート</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>音声エンコード ビットレート</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>動画エンコード ビットレート</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>圧縮</value>
@@ -1698,12 +1707,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>ユーザー名</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>ドライブ ウィジェット</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>最近のファイル ウィジェット</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>項目は見つかりませんでした</value>
   </data>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>選択した画像をロック画面の背景に設定する</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>選択した画像をアプリの背景に設定する</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>選択したフォントをインストールする</value>
@@ -3715,5 +3721,79 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>レイアウトの種類</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>コマンドを追加</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>初期設定に戻す</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>操作を選択</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>キーの割り当てを初期設定に戻しますか? この操作は取り消すことができません。</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>このキーの割り当ては既に使用されています。別のキーを割り当ててください。</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>カスタマイズされています</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>レイアウトの自動選択は設定を同期している場合は使用できません。レイアウトの種類は [詳細] に変更されています。</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>背景画像</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>下</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>中央</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>拡大して表示</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>水平方向の配置</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>画像の調整</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>左</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>右</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>上</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>ウィンドウのサイズに合わせる</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>ページ幅に合わせる</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>垂直方向の配置</value>
   </data>
 </root>

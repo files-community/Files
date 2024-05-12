@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Ulkoasu</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Tausta</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Taustan väri</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Lisäasetukset</value>
@@ -274,7 +274,7 @@
     <value>Poista</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin to Sidebar</value>
+    <value>Kiinnitä sivupalkkiin</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Tervetuloa Filesiin!</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Aseta lukitusnäytön taustaksi</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Aseta sovelluksen taustaksi</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Emme voineet poistaa tätä kohdetta</value>
@@ -882,6 +885,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Koodauksen bittinopeus</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Äänen Enkoodaus Bitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Videon Enkoodaus Bittinopeus</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Pakkaus</value>
   </data>
@@ -1030,7 +1039,7 @@
     <value>Avaa uudessa ruudussa</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files &amp; folders</value>
+    <value>Tiedostot ja kansiot</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tiedot (Ctrl+Shift+1)</value>
@@ -1072,7 +1081,7 @@
     <value>Kohteen nimi</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
-    <value>Unpin from Sidebar</value>
+    <value>Irrota sivupalkista</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Verkkoasemat</value>
@@ -1159,7 +1168,7 @@
     <value>Yhdistä verkkoasemaan</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Pinned</value>
+    <value>Kiinnitetty</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Kirjastot</value>
@@ -1698,12 +1707,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Käyttäjätunnus</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Asemat-widget</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Viimeisimmät tiedostot -widget</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Kohteita ei löytynyt</value>
   </data>
@@ -1798,58 +1801,58 @@
     <value>Ei mitään</value>
   </data>
   <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
-    <value>On Windows login</value>
+    <value>Windows-kirjautuessa</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
-    <value>On this program start</value>
+    <value>Tämän ohjelman käynnistyessä</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>Järjestelmä</value>
   </data>
   <data name="CompatibilitySystemEnhanced" xml:space="preserve">
-    <value>System (Enhanced)</value>
+    <value>Järjestelmä (Enhanced)</value>
   </data>
   <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
-    <value>16-bit (65536) color</value>
+    <value>16-bittinen (65536) väri</value>
   </data>
   <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
-    <value>8-bit (256) color</value>
+    <value>8-bittinen (256) väri</value>
   </data>
   <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
-    <value>Disable full-screen optimizations</value>
+    <value>Poista koko näytön optimoinnit käytöstä</value>
   </data>
   <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
-    <value>Run in 640 x 480 screen resolution</value>
+    <value>Suorita 640 x 480 näytön resoluutiolla</value>
   </data>
   <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
-    <value>Override high DPI scaling behavior</value>
+    <value>Ohita korkean DPI skaalauksen käyttäytyminen</value>
   </data>
   <data name="CompatibilityReducedColorMode" xml:space="preserve">
-    <value>Reduced color mode</value>
+    <value>Vähennetty väritila</value>
   </data>
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
-    <value>Register this program for restart</value>
+    <value>Rekisteröi tämä ohjelma käynnistääksesi uudelleen</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Suorita järjestelmänvalvojana</value>
   </data>
   <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
-    <value>Run compatibility troubleshooter</value>
+    <value>Suorita yhteensopivuuden vianmääritys</value>
   </data>
   <data name="CompatibilityUseDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>Käytä päänäytön DPI asetuksia</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
-    <value>Do not adjust DPI</value>
+    <value>Älä säädä DPI</value>
   </data>
   <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
-    <value>Do not override DPI</value>
+    <value>Älä ohita DPI</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Yhteensopivuustila</value>
   </data>
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
-    <value>No reduced color</value>
+    <value>Ei väriä</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Kolmannen osapuolen lisenssit</value>
@@ -2449,10 +2452,10 @@
     <value>Irrota kohteet Käynnistä-valikosta</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Pin folder(s) to Sidebar</value>
+    <value>Kiinnitä kansio(t) sivupalkkiin</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Sidebar</value>
+    <value>Poista kansioiden kiinnitys sivupalkista</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Aseta valittu kuva työpöydän taustaksi</value>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Aseta valittu kuva lukitusnäytön taustaksi</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Aseta valittu kuva sovelluksen taustaksi</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Asenna valitut kirjasimet</value>
@@ -2518,10 +2524,10 @@
     <value>Avaa kansio päätteessä järjestelmänvalvojana</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease item size in the current view</value>
+    <value>Pienennä kohteen kokoa nykyisessä näkymässä</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase item size in the current view</value>
+    <value>Kasvata kohteen kokoa nykyisessä näkymässä</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Vaihda tietonäkymään</value>
@@ -2536,10 +2542,10 @@
     <value>Luettelo</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>Grid</value>
+    <value>Ruudukko</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>Switch to grid view</value>
+    <value>Vaihda ruudukkonäkymään</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>Vaihda sarakenäkymään</value>
@@ -3638,13 +3644,13 @@
     <value>Vaihda albumin kansikuvaa</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
-    <value>Failed to rename item</value>
+    <value>Kohteen nimeäminen uudelleen epäonnistui</value>
   </data>
   <data name="HigherPermissionsRequired" xml:space="preserve">
-    <value>Editing "{0}" requires additional permissions</value>
+    <value>Muokkaaminen "{0}" vaatii lisää oikeuksia</value>
   </data>
   <data name="EditPermissions" xml:space="preserve">
-    <value>Edit permissions</value>
+    <value>Muokkaa käyttöoikeuksia</value>
   </data>
   <data name="BackgroundRunningNotificationBody" xml:space="preserve">
     <value>Files on edelleen käynnissä taustalla suorituskyvyn parantamiseksi käynnistettäessä.</value>
@@ -3653,13 +3659,13 @@
     <value>Mihin Files katosi?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
-    <value>Questions &amp; discussions</value>
+    <value>Kysymykset ja keskustelut</value>
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Additional sizes are not yet available for the Tiles View.</value>
+    <value>Lisäkokoja ei ole vielä saatavilla laatat View:lle.</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>Compact</value>
+    <value>Kompakti</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
@@ -3671,23 +3677,23 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>Medium +</value>
+    <value>Keskitaso +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>Medium ++</value>
+    <value>Keskitaso ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>Medium +++</value>
+    <value>Keskitaso +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>Medium ++++</value>
+    <value>Keskitaso ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>Medium +++++</value>
+    <value>Keskitaso +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
@@ -3695,25 +3701,99 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
-    <value>Large +</value>
+    <value>Suuri +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
-    <value>Large ++</value>
+    <value>Suuri ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+++" xml:space="preserve">
-    <value>Large +++</value>
+    <value>Suuri +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="ExtraLarge" xml:space="preserve">
-    <value>Extra large</value>
+    <value>Erittäin suuri</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="DetailsView" xml:space="preserve">
-    <value>Details view</value>
+    <value>Yksityiskohtien näkymä</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
-    <value>Layout type</value>
+    <value>Asettelun tyyppi</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Toiminnot</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Komennot</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Lisää komento</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Palauta oletukset</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Valitse toiminto</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Oletko varma, että haluat palauttaa oletusavaimen sitomiset? Tätä toimintoa ei voi peruuttaa.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Tämä avainsitovuus on jo käytössä, valitse toinen sitova avain jatkaaksesi.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Mukautettu</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Mukautuva asettelu ei ole käytettävissä, kun asetukset on synkronoitu, oletusasettelu on muutettu Yksityiskohdiksi.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Taustakuva</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Alhaalla</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Keskitetty</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Täytä</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Vaakasuora suuntaus</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Kuva mahtuu</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Vasen</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Läpinäkyvyys</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Oikea</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Ylhäällä</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Yhtenäinen</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Yhtenäinen täyttäminen</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Pystysuuntainen suuntaus</value>
   </data>
 </root>

@@ -4,7 +4,6 @@
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using System.Text.RegularExpressions;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
@@ -130,6 +129,11 @@ namespace Files.App.Utils.Shell
 
 					return true;
 				}
+				catch (Win32Exception ex) when (ex.NativeErrorCode == 50)
+				{
+					// ShellExecute return code 50 (ERROR_NOT_SUPPORTED) for some exes (#15179)
+					return Win32Helper.RunPowershellCommand($"\"{application}\"", false);
+				}
 				catch (Win32Exception)
 				{
 					try
@@ -184,7 +188,7 @@ namespace Files.App.Utils.Shell
 
 						if (!opened)
 						{
-							var isAlternateStream = Regex.IsMatch(application, @"\w:\w");
+							var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(application);
 							if (isAlternateStream)
 							{
 								var basePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), Guid.NewGuid().ToString("n"));
@@ -243,7 +247,7 @@ namespace Files.App.Utils.Shell
 				using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
 				using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
 				var deviceId = device?.ParsingName;
-				var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");
+				var itemPath = RegexHelpers.WindowsPath().Replace(executable, "");
 				return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;
 			}
 

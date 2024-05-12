@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			BaseTabBar.StaticPropertyChanged += BaseMultitaskingControl_StaticPropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.Control!.ReopenClosedTabAsync();
 

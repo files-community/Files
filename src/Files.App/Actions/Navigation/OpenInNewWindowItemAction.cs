@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			=> "OpenInNewWindowDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.Enter, KeyModifiers.MenuCtrl);
+			=> new(Keys.Enter, KeyModifiers.CtrlAlt);
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
@@ -38,7 +38,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;

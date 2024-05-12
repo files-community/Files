@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Services.SizeProvider;
+using Files.App.Services.SizeProvider;
 using Files.Shared.Helpers;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
@@ -19,7 +19,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.App.Helpers.Win32PInvoke;
-using static Files.Core.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.Win32Helper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -38,7 +38,6 @@ namespace Files.App.Data.Models
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-		private readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
 		private Task? aProcessQueueAction;
@@ -46,11 +45,13 @@ namespace Files.App.Data.Models
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
-		private readonly IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
+		private readonly IWindowsJumpListService jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly INetworkDrivesService NetworkDrivesService = Ioc.Default.GetRequiredService<INetworkDrivesService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
+		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -472,8 +473,8 @@ namespace Files.App.Data.Models
 		public ItemViewModel(LayoutPreferencesManager folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
-			filesAndFolders = new ConcurrentCollection<ListedItem>();
-			FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
+			filesAndFolders = [];
+			FilesAndFolders = [];
 			operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
 			gitChangesQueue = new ConcurrentQueue<uint>();
 			itemLoadQueue = new ConcurrentDictionary<string, bool>();
@@ -662,6 +663,8 @@ namespace Files.App.Data.Models
 			EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
 		}
 
+		public string? FilesAndFoldersFilter { get; set; }
+
 		// Apply changes immediately after manipulating on filesAndFolders completed
 		public async Task ApplyFilesAndFoldersChangesAsync()
 		{
@@ -676,7 +679,7 @@ namespace Files.App.Data.Models
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
 
-					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+					if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 						ClearDisplay();
 					else
 						await dispatcherQueue.EnqueueOrInvokeAsync(ClearDisplay);
@@ -705,7 +708,10 @@ namespace Files.App.Data.Models
 								return;
 
 							FilesAndFolders.Clear();
-							FilesAndFolders.AddRange(filesAndFoldersLocal);
+							if (string.IsNullOrEmpty(FilesAndFoldersFilter))
+								FilesAndFolders.AddRange(filesAndFoldersLocal);
+							else
+								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(FilesAndFoldersFilter, StringComparison.OrdinalIgnoreCase)));
 
 							if (folderSettings.DirectoryGroupOption != GroupOption.None)
 								OrderGroups();
@@ -761,7 +767,7 @@ namespace Files.App.Data.Models
 					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst));
 			}
 
-			if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+			if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 				return Task.Run(OrderEntries);
 
 			OrderEntries();
@@ -1030,7 +1036,7 @@ namespace Files.App.Data.Models
 		private static void SetFileTag(ListedItem item)
 		{
 			var dbInstance = FileTagsHelper.GetDbInstance();
-			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags ?? []);
 		}
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
@@ -1116,7 +1122,7 @@ namespace Files.App.Data.Models
 									{
 										item.ItemNameRaw = matchingStorageFolder.DisplayName;
 									});
-									await fileListCache.SaveFileDisplayNameToCache(item.ItemPath, matchingStorageFolder.DisplayName);
+									await fileListCache.AddDisplayName(item.ItemPath, matchingStorageFolder.DisplayName);
 									if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
 									{
 										await OrderFilesAndFoldersAsync();
@@ -1500,7 +1506,7 @@ namespace Files.App.Data.Models
 
 			if (isNetwork)
 			{
-				var auth = await NetworkDrivesAPI.AuthenticateNetworkShare(path);
+				var auth = await NetworkDrivesService.AuthenticateNetworkShare(path);
 				if (!auth)
 					return -1;
 			}
@@ -1749,13 +1755,13 @@ namespace Files.App.Data.Models
 			int? syncStatus = null;
 			if (item is BaseStorageFile file && file.Properties is not null)
 			{
-				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }).AsTask());
+				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus"]).AsTask());
 				if (extraProperties)
 					syncStatus = (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
 			}
 			else if (item is BaseStorageFolder folder && folder.Properties is not null)
 			{
-				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }).AsTask());
+				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus"]).AsTask());
 				if (extraProperties)
 				{
 					syncStatus = (int?)(uint?)extraProperties.Result["System.FileOfflineAvailabilityStatus"];
@@ -1858,8 +1864,8 @@ namespace Files.App.Data.Models
 		private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
 		{
 			Debug.WriteLine($"WatchForDirectoryChanges: {path}");
-			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
-				IntPtr.Zero, 3, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped, IntPtr.Zero);
+			var hWatchDir = Win32PInvoke.CreateFileFromApp(path, 1, 1 | 2 | 4,
+				IntPtr.Zero, 3, (uint)Win32PInvoke.File_Attributes.BackupSemantics | (uint)Win32PInvoke.File_Attributes.Overlapped, IntPtr.Zero);
 			if (hWatchDir.ToInt64() == -1)
 				return;
 
@@ -1967,13 +1973,13 @@ namespace Files.App.Data.Models
 
 		private void WatchForGitChanges()
 		{
-			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(
+			var hWatchDir = Win32PInvoke.CreateFileFromApp(
 				GitDirectory!,
 				1,
 				1 | 2 | 4,
 				IntPtr.Zero,
 				3,
-				(uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped,
+				(uint)Win32PInvoke.File_Attributes.BackupSemantics | (uint)Win32PInvoke.File_Attributes.Overlapped,
 				IntPtr.Zero);
 
 			if (hWatchDir.ToInt64() == -1)
@@ -2104,7 +2110,7 @@ namespace Files.App.Data.Models
 
 				if (lastItemAdded is not null && !lastItemAdded.IsArchive)
 				{
-					await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
+					await RequestSelectionAsync([lastItemAdded]);
 					lastItemAdded = null;
 				}
 
@@ -2219,7 +2225,7 @@ namespace Files.App.Data.Models
 				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					// New file added, enumerate ADS
-					foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
+					foreach (var ads in Win32Helper.GetAlternateStreams(item.ItemPath))
 					{
 						var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
 						filesAndFolders.Add(adsItem);

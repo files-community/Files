@@ -75,7 +75,7 @@ namespace Files.App.Views.Shells
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
 		{
 			if (ItemDisplayFrame?.Content is HomePage currentPage)
-				currentPage.RefreshWidgetList();
+				currentPage.ViewModel.RefreshWidgetList();
 		}
 
 		protected override void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
@@ -300,6 +300,8 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
+			FilesystemViewModel.FilesAndFoldersFilter = null;
+
 			if (sourcePageType is null && !string.IsNullOrEmpty(navigationPath))
 				sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
 

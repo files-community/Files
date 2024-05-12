@@ -14,13 +14,13 @@ namespace Files.App.Actions
 			=> "NavigateForwardDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.Right, KeyModifiers.Menu);
+			=> new(Keys.Right, KeyModifiers.Alt);
 
 		public HotKey SecondHotKey
 			=> new(Keys.Mouse5);
 
 		public HotKey MediaHotKey
-			=> new(Keys.GoForward, false);
+			=> new(Keys.GoForward, KeyModifiers.None, false);
 
 		public RichGlyph Glyph
 			=> new("\uE72A");
@@ -35,7 +35,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.ShellPage!.Forward_Click();
 

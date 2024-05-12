@@ -6,7 +6,7 @@
 
 #pragma once
 
-//#define DEBUGLOG
+#define DEBUGLOG
 
 #include <iostream>
 #include <string>

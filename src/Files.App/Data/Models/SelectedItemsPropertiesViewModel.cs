@@ -649,14 +649,14 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private ObservableCollection<FilePropertySection> propertySections = new();
+		private ObservableCollection<FilePropertySection> propertySections = [];
 		public ObservableCollection<FilePropertySection> PropertySections
 		{
 			get => propertySections;
 			set => SetProperty(ref propertySections, value);
 		}
 
-		private ObservableCollection<FileProperty> fileProperties = new();
+		private ObservableCollection<FileProperty> fileProperties = [];
 		public ObservableCollection<FileProperty> FileProperties
 		{
 			get => fileProperties;

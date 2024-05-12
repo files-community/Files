@@ -11,6 +11,7 @@ using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
 using Windows.ApplicationModel;
 using Windows.Graphics;
+using Windows.Win32;
 
 namespace Files.App.Utils.Storage
 {
@@ -19,6 +20,8 @@ namespace Files.App.Utils.Storage
 	/// </summary>
 	public static class FilePropertiesHelpers
 	{
+		private static IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 		/// <summary>
 		/// Whether LayoutDirection (FlowDirection) is set to right-to-left (RTL)
 		/// </summary>
@@ -96,7 +99,7 @@ namespace Files.App.Utils.Storage
 
 			var frame = new Frame
 			{
-				RequestedTheme = ThemeHelper.RootTheme
+				RequestedTheme = (ElementTheme)AppThemeModeService.AppThemeMode
 			};
 
 			WinUIEx.WindowEx propertiesWindow;
@@ -134,7 +137,7 @@ namespace Files.App.Utils.Storage
 				new SuppressNavigationTransitionInfo());
 
 			// WINUI3: Move window to cursor position
-			Win32PInvoke.GetCursorPos(out var pointerPosition);
+			PInvoke.GetCursorPos(out var pointerPosition);
 			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 			var appWindowPos = new PointInt32
 			{

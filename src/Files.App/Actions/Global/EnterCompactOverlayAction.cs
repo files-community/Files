@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconEnterCompactOverlay");
 
 		public HotKey HotKey
-			=> new(Keys.Up, KeyModifiers.MenuCtrl);
+			=> new(Keys.Up, KeyModifiers.CtrlAlt);
 
 		public string Description
 			=> "EnterCompactOverlayDescription".GetLocalizedResource();
@@ -32,7 +32,7 @@ namespace Files.App.Actions
 			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var appWindow = MainWindow.Instance.AppWindow;
 			appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);

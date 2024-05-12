@@ -19,6 +19,8 @@ namespace Files.App.Data.Items
 		}
 
 		private double _NormalMaxLength = 800;
+
+		[RegistryIgnore]
 		public double NormalMaxLength
 		{
 			get => _NormalMaxLength;
@@ -36,33 +38,28 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		[LiteDB.BsonIgnore]
+		[RegistryIgnore]
 		public bool IsResizable { get; set; } = true;
 
-		[LiteDB.BsonIgnore]
 		public double MinLength
 			=> UserCollapsed || IsHidden ? 0 : NormalMinLength;
 
-		[LiteDB.BsonIgnore]
 		public Visibility Visibility
 			=> UserCollapsed || IsHidden ? Visibility.Collapsed : Visibility.Visible;
 
-		[LiteDB.BsonIgnore]
 		public GridLength Length
 			=> UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
 
-		[LiteDB.BsonIgnore]
 		public GridLength LengthIncludingGridSplitter =>
 			UserCollapsed || IsHidden
 				? new(0)
 				: new(UserLength.Value + (IsResizable ? GRID_SPLITTER_WIDTH : 0));
 
-		[LiteDB.BsonIgnore]
 		public double MaxLength
 			=> UserCollapsed || IsHidden ? 0 : NormalMaxLength;
 
 		private bool _IsHidden;
-		[LiteDB.BsonIgnore]
+
 		public bool IsHidden
 		{
 			get => _IsHidden;
@@ -70,7 +67,8 @@ namespace Files.App.Data.Items
 		}
 
 		private double _NormalMinLength = 50;
-		[LiteDB.BsonIgnore]
+
+		[RegistryIgnore]
 		public double NormalMinLength
 		{
 			get => _NormalMinLength;
@@ -82,7 +80,8 @@ namespace Files.App.Data.Items
 		}
 
 		private GridLength _UserLength = new(200, GridUnitType.Pixel);
-		[LiteDB.BsonIgnore]
+
+		[RegistryIgnore]
 		public GridLength UserLength
 		{
 			get => _UserLength;

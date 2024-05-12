@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "NavigateUpDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.Up, KeyModifiers.Menu);
+			=> new(Keys.Up, KeyModifiers.Alt);
 
 		public RichGlyph Glyph
 			=> new("\uE74A");
@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.ShellPage!.Up_Click();
 

@@ -32,20 +32,6 @@ namespace Files.App.ViewModels.Properties
 						x => x.Property == "System.GPS.LatitudeDecimal").Value,
 						(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
-				// Find Encoding Bitrate property and convert it to kbps
-				var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
-
-				if (encodingBitrate?.Value is null)
-					encodingBitrate = list.Find(x => x.Property == "System.Video.EncodingBitrate");
-
-				if (encodingBitrate?.Value is not null)
-				{
-					var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
-					var order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));
-					var readableSpeed = (uint)encodingBitrate.Value / Math.Pow(1024, order);
-					encodingBitrate.Value = $"{readableSpeed:0.##} {sizes[order]}";
-				}
-
 				return list
 					.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
 					.GroupBy(fileProp => fileProp.SectionResource)
@@ -99,8 +85,10 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly && prop.Modified)
 					{
-						var newDict = new Dictionary<string, object>();
-						newDict.Add(prop.Property, prop.Value);
+						var newDict = new Dictionary<string, object>
+						{
+							{ prop.Property, prop.Value }
+						};
 
 						foreach (var file in files)
 						{
@@ -146,8 +134,10 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (!prop.IsReadOnly)
 					{
-						var newDict = new Dictionary<string, object>();
-						newDict.Add(prop.Property, null);
+						var newDict = new Dictionary<string, object>
+						{
+							{ prop.Property, null }
+						};
 
 						foreach (var file in files)
 						{

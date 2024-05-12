@@ -127,7 +127,7 @@
     <value>Copiați calea cu ghilimele</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Răsfoiește</value>
+    <value>Răsfoire</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Mărime</value>
@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Aspect</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Fundal</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Culoare fundal</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avansat</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Stabilire ca ecran de blocare</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Setează ca fundal al aplicației</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nu am putut șterge acest element</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Codare Bitrate</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Rată de Biți de Codificare Audio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Rată de Biți de Codificare Video</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compresie</value>
@@ -1698,12 +1707,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nume de utilizator</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget unități</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget fișiere recente</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Niciun element găsit</value>
   </data>
@@ -1975,10 +1978,10 @@
     <value>Poziționează toate coloanele să încapă</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Aspect adaptabil</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Aspect adaptiv (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Setați imaginea selectată ca imagine de fundal pentru ecranul de blocare</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Setează imaginea selectată ca fundal al aplicației</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalați fonturile selectate</value>
@@ -3065,7 +3071,7 @@
     <value>Locale</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>La distanţă</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Traduceți pe Crowdin</value>
@@ -3715,5 +3721,79 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tip aspect</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Acțiuni</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Comenzi</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Adăugare comandă</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Restabiliți la valorile implicite</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Alegeți o acțiune</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Sunteți sigur că doriți să restaurați comenzile rapide la valorile implicite? Această acțiune nu poate fi anulată.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Această comandă rapidă este deja utilizată, vă rugăm să alegeți o comandă rapidă diferită pentru a continua.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Personalizat</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Aspectul Adaptiv nu este disponibil atunci când preferințele sunt sincronizate, aspectul implicit a fost schimbat la Detalii.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Imagine de fundal</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Partea de jos</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Centrare</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Umplere</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Aliniere orizontală</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Potrivire imagine</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Stânga</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacitate</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Dreapta</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Deasupra</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniformă</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Umplere uniformă</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Aliniere verticală</value>
   </data>
 </root>

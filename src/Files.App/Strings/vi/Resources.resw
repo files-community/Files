@@ -216,7 +216,7 @@
   <data name="Appearance" xml:space="preserve">
     <value>Giao diện</value>
   </data>
-  <data name="Background" xml:space="preserve">
+  <data name="BackgroundColor" xml:space="preserve">
     <value>Màu nền</value>
   </data>
   <data name="Advanced" xml:space="preserve">
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Hình nền màn hình khóa</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Đặt làm hình nền ứng dụng</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi không thể xóa khoản mục này</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Tốc độ mã hóa bit</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Tốc độ bit mã hóa âm thanh</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Tốc độ bit mã hóa video</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Nén</value>
@@ -1698,12 +1707,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Tên người dùng</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Tiện ích ổ lưu trữ</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Tiện ích tệp gần đây</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Không tìm thấy khoản mục nào</value>
   </data>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Đặt hình ảnh đã chọn làm hình nền màn hình khóa</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Đặt hình ảnh đã chọn làm hình nền ứng dụng</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Cài đặt phông chữ đã chọn</value>
@@ -3715,5 +3721,79 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Bố cục</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Tác vụ</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Lệnh</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Thêm lệnh</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Khôi phục mặc định</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Chọn một tác vụ</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn khôi phục tổ hợp phím mặc định không? Bạn sẽ không thể hoàn tác sau khi tiếp tục.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Tổ hợp phím này đã được sử dụng, vui lòng chọn một tổ hợp phím khác để tiếp tục.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Tùy chỉnh</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Tuỳ chọn bố cục tự động không khả dụng khi các thiết đặt được đồng bộ. Vì vậy, bố cục sẽ được đặt lại thành Chi tiết.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Hình nền</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Bên dưới</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Chính giữa</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Lấp đầy</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Căn ngang</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Khớp cỡ ảnh</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Trái</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Độ trong suốt</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Phải</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Bên trên</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Đồng dạng</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Đồng dạng (lấp đầy)</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Căn dọc</value>
   </data>
 </root>

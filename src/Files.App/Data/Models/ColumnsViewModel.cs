@@ -13,7 +13,7 @@ namespace Files.App.Data.Models
 			IsResizable = false,
 		};
 
-		[LiteDB.BsonIgnore]
+		[RegistryIgnore]
 		public DetailsLayoutColumnItem IconColumn
 		{
 			get => iconColumn;
@@ -141,7 +141,6 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref sizeColumn, value);
 		}
 
-		[LiteDB.BsonIgnore]
 		public double TotalWidth =>
 			IconColumn.Length.Value +
 			GitStatusColumn.Length.Value +

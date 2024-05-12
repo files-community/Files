@@ -124,7 +124,7 @@
     <value>复制路径</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>复制带引号的路径</value>
+    <value>复制路径（带引号）</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
@@ -190,7 +190,7 @@
     <value>移除此项</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub 仓库</value>
+    <value>GitHub 存储库</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>关于</value>
@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>主题色</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>背景颜色</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高级选项</value>
@@ -301,10 +301,10 @@
     <value>深色</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>应用的时间格式</value>
+    <value>应用</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>系统的时间格式</value>
+    <value>系统</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>新建文件夹</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>设为锁屏背景</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>设置为此应用背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>该项目无法删除</value>
@@ -880,7 +883,13 @@
     <value>帧速率</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>编码速率</value>
+    <value>编码比特率</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>音频编码比特率</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>视频编码比特率</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>压缩</value>
@@ -1030,7 +1039,7 @@
     <value>在新面板中打开</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files &amp; folders</value>
+    <value>文件和文件夹</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>详细信息 (Ctrl+Shift+1)</value>
@@ -1698,12 +1707,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>用户名</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>驱动器 组件</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>最近使用的文件 组件</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>没有与搜索条件匹配的项</value>
   </data>
@@ -1975,7 +1978,7 @@
     <value>自动调整所有列宽</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>自动选择最佳布局</value>
+    <value>自适应布局</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>自适应 (Ctrl+Shift+7)</value>
@@ -1993,7 +1996,7 @@
     <value>评价 Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>您想要评价 Files 吗？</value>
+    <value>给个好评呗</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>设置为背景</value>
@@ -2032,10 +2035,10 @@
     <value>压缩</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>鼠标悬停时自动选择文件(夹)</value>
+    <value>鼠标悬停在项目上时自动选择</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>是否确实要还原回收站中的所有项目？</value>
+    <value>确定要还原回收站中的所有项目吗？</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>还原所有项目</value>
@@ -2164,13 +2167,13 @@
     <value>编辑设置文件</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>新变化</value>
+    <value>新功能</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>在此位置创建快捷方式需要管理员权限</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>要改为在桌面上创建快捷方式吗？</value>
+    <value>您要在桌面上创建快捷方式吗？</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>指定的项目名称无效</value>
@@ -2446,10 +2449,10 @@
     <value>固定项目到开始菜单</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>从开始菜单取消固定项目</value>
+    <value>从开始菜单取消固定</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>固定文件夹至侧边栏</value>
+    <value>固定文件夹到侧边栏</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
     <value>从侧边栏取消固定文件夹</value>
@@ -2462,6 +2465,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>设置所选图片为锁屏背景</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>设置所选图片为此应用背景</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>安装所选字体</value>
@@ -3120,7 +3126,7 @@
     <value>Mica</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica 变体</value>
+    <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>背景材质</value>
@@ -3183,10 +3189,10 @@
     <value>未跟踪</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>无法显示当前的所有者。</value>
+    <value>无法显示当前所有者。</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>很好！你现在已获得授权。</value>
+    <value>针不戳！你现在已获得授权。</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
     <value>初始化存储库</value>
@@ -3303,7 +3309,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>粉彩鸢尾花色</value>
+    <value>粉鸢尾花色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
@@ -3629,7 +3635,7 @@
     <value>共享项目失败</value>
   </data>
   <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
-    <value>向上导航时滚动至前一个文件夹</value>
+    <value>向上导航时滚动至上一目录</value>
   </data>
   <data name="NewWindowDescription" xml:space="preserve">
     <value>打开新窗口</value>
@@ -3711,9 +3717,83 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="DetailsView" xml:space="preserve">
-    <value>Details view</value>
+    <value>详细信息视图</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
-    <value>Layout type</value>
+    <value>布局类型</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>命令</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>添加命令</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>恢复默认</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>选择一个操作</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>确定要恢复为默认按键绑定吗？此操作无法撤消。</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>此按键绑定已被使用，请选择一个不同的按键绑定以继续。</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>当选项“在不同目录之间使用相同的布局和排序设置”启用时，自适应布局不可用。默认布局已更改为“详细信息”。</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>背景图片</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>底端对齐</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>居中</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>填充</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>水平对齐方式</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>图片契合方式</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>左对齐</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>右对齐</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>顶端对齐</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>均匀</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>均匀填充</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>垂直对齐方式</value>
   </data>
 </root>

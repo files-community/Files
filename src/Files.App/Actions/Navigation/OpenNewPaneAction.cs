@@ -14,10 +14,10 @@ namespace Files.App.Actions
 			=> "OpenNewPaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.OemPlus, KeyModifiers.MenuShift);
+			=> new(Keys.OemPlus, KeyModifiers.AltShift);
 
 		public HotKey SecondHotKey
-			=> new(Keys.Add, KeyModifiers.MenuShift);
+			=> new(Keys.Add, KeyModifiers.AltShift);
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenNewPane");
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.ShellPage!.PaneHolder.OpenPathInNewPane("Home");
 

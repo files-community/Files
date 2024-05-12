@@ -12,7 +12,7 @@ namespace Files.App.Utils.RecycleBin
 	{
 		private static readonly Lazy<RecycleBinManager> lazy = new(() => new RecycleBinManager());
 
-		private IList<SystemIO.FileSystemWatcher>? binWatchers;
+		private List<SystemIO.FileSystemWatcher>? binWatchers;
 
 		public event SystemIO.FileSystemEventHandler? RecycleBinItemCreated;
 
@@ -40,7 +40,7 @@ namespace Files.App.Utils.RecycleBin
 		{
 			// NOTE: SHChangeNotifyRegister only works if recycle bin is open in explorer
 			// Create file system watcher to monitor recycle bin folder(s)
-			binWatchers = new List<SystemIO.FileSystemWatcher>();
+			binWatchers = [];
 
 			var sid = WindowsIdentity.GetCurrent().User.ToString();
 

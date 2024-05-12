@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -8,6 +9,9 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class GitHubLoginDialog : ContentDialog, IDialog<GitHubLoginDialogViewModel>
 	{
+		private FrameworkElement RootAppElement
+			=> (FrameworkElement)MainWindow.Instance.Content;
+
 		public GitHubLoginDialogViewModel ViewModel
 		{
 			get => (GitHubLoginDialogViewModel)DataContext;
@@ -36,11 +40,14 @@ namespace Files.App.Dialogs
 		{
 			args.Cancel = true;
 
-			var data = new DataPackage();
-			data.SetText(ViewModel.UserCode);
+			SafetyExtensions.IgnoreExceptions(() =>
+			{
+				var data = new DataPackage();
+				data.SetText(ViewModel.UserCode);
 
-			Clipboard.SetContent(data);
-			Clipboard.Flush();
+				Clipboard.SetContent(data);
+				Clipboard.Flush();
+			});
 		}
 
 		private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)

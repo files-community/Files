@@ -4,7 +4,7 @@
 	"$schema": "https://aka.ms/CsWin32.schema.json",
 
 	// Emit COM interfaces instead of structs, and allow generation of non-blittable structs for the sake of an easier to use API.
-	"allowMarshaling": true,
+	"allowMarshaling": false,
 
 	// A value indicating whether to generate APIs judged to be unnecessary or redundant given the target framework.
 	// This is useful for multi-targeting projects that need a consistent set of APIs across target frameworks
@@ -24,5 +24,5 @@
 	"className": "PInvoke",
 
 	// A value indicating whether to expose the generated APIs publicly (as opposed to internally).
-	"public": true
+	"public": false
 }

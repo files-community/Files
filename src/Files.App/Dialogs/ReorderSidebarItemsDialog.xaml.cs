@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.UI;
 using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.ViewModels.Dialogs;
-using Files.Core.ViewModels.Dialogs;
+using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -17,6 +17,9 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ReorderSidebarItemsDialog : ContentDialog, IDialog<ReorderSidebarItemsDialogViewModel>
 	{
+		private FrameworkElement RootAppElement
+			=> (FrameworkElement)MainWindow.Instance.Content;
+
 		public ReorderSidebarItemsDialogViewModel ViewModel
 		{
 			get => (ReorderSidebarItemsDialogViewModel)DataContext;

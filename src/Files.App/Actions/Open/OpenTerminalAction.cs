@@ -32,7 +32,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var terminalStartInfo = GetProcessStartInfo();
 			if (terminalStartInfo is not null)
@@ -85,10 +85,10 @@ namespace Files.App.Actions
 			}
 			else if (context.Folder is not null)
 			{
-				return new string[1] { context.Folder.ItemPath };
+				return [context.Folder.ItemPath];
 			}
 
-			return Array.Empty<string>();
+			return [];
 		}
 
 		private bool GetIsExecutable()

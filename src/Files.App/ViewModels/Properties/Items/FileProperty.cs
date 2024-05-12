@@ -163,8 +163,10 @@ namespace Files.App.ViewModels.Properties
 				return Task.CompletedTask;
 			}
 
-			var propsToSave = new Dictionary<string, object>();
-			propsToSave.Add(Property, Converter.ConvertBack(Value, null, null, null));
+			var propsToSave = new Dictionary<string, object>
+			{
+				{ Property, Converter.ConvertBack(Value, null, null, null) }
+			};
 
 			return file.Properties.SavePropertiesAsync(propsToSave).AsTask();
 		}
@@ -273,7 +275,7 @@ namespace Files.App.ViewModels.Properties
 			return value;
 		}
 
-		private static Dictionary<string, string> cachedPropertiesListFiles = new Dictionary<string, string>();
+		private static Dictionary<string, string> cachedPropertiesListFiles = [];
 
 		/// <summary>
 		/// This function retrieves the list of properties to display from the PropertiesInformation.json
@@ -319,7 +321,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					if (file.Properties is not null)
 					{
-						val = (await file.Properties.RetrievePropertiesAsync(new string[] { prop })).First().Value;
+						val = (await file.Properties.RetrievePropertiesAsync([prop])).First().Value;
 					}
 				}
 				catch (ArgumentException e)
@@ -361,9 +363,22 @@ namespace Files.App.ViewModels.Properties
 			{ "AddISO" , input => $"ISO-{(UInt16)input}"},
 			{ "RoundDouble" , input => $"{Math.Round((double)input)}"},
 			{ "UnitMM" , input => $"{(double)input} mm"},
+			{ "FormatEncodingBitrate", FormatEncodingBitrate }
 		};
 
 		private static string TimeSpanToString(TimeSpan t)
 			=> t.Days > 0 ? (t.Days * 24 + t.Hours) + t.ToString("':'mm':'ss") : t.ToString("hh':'mm':'ss");
+
+		private static string FormatEncodingBitrate(object input)
+		{
+			// For cases when multiple files are selected and it has a string value
+			if (input.GetType() != typeof(uint))
+				return input?.ToString() ?? string.Empty;
+
+			var sizes = new string[] { "bps", "kbps", "Mbps", "Gbps" };
+			var order = (int)Math.Floor(Math.Log((uint)input, 1000));
+			var readableSpeed = (uint)input / Math.Pow(1000, order);
+			return $"{readableSpeed:0.##} {sizes[order]}";
+		}
 	}
 }

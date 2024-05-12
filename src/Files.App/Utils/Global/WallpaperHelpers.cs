@@ -43,7 +43,7 @@ namespace Files.App.Utils
 			try
 			{
 				var idList = filePaths.Select(Shell32.IntILCreateFromPath).ToArray();
-				Shell32.SHCreateShellItemArrayFromIDLists((uint)idList.Length, idList.ToArray(), out var shellItemArray);
+				Shell32.SHCreateShellItemArrayFromIDLists((uint)idList.Length, [.. idList], out var shellItemArray);
 
 				// Set SlideShow
 				var wallpaper = (Shell32.IDesktopWallpaper)new Shell32.DesktopWallpaper();

@@ -3,15 +3,23 @@
 	x:Class="Files.App.Views.Settings.LayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+		<ResourceDictionary>
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</Page.Resources>
 
 	<Page.DataContext>
@@ -46,6 +54,7 @@
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch
+					x:Name="SyncPreferencesToggleSwitch"
 					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
@@ -57,14 +66,14 @@
 					<FontIcon Glyph="&#xE8BA;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=List}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Grid}" />
-					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" />
-				</ComboBox>
+					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" IsEnabled="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+				</uc:ComboBoxEx>
 			</local:SettingsBlockControl>
 
 			<!--  Sorting & grouping  -->
@@ -80,14 +89,14 @@
 					<FontIcon Glyph="&#xE8CB;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
-				</ComboBox>
+				</uc:ComboBoxEx>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
 						<!--  Sort in Descending order  -->
@@ -100,11 +109,11 @@
 
 						<!--  Sort Priority  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortPriority}" HorizontalAlignment="Stretch">
-							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortPriority}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortPriorityIndex, Mode=TwoWay}">
+							<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=SortPriority}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortPriorityIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFoldersFirst}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesFirst}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesAndFoldersTogether}" />
-							</ComboBox>
+							</uc:ComboBoxEx>
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
@@ -116,7 +125,7 @@
 					<FontIcon Glyph="&#xF168;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
@@ -124,7 +133,7 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
-				</ComboBox>
+				</uc:ComboBoxEx>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
 						<!--  Group in Descending order  -->
@@ -138,14 +147,14 @@
 
 						<!--  Group by date unit  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupByDateUnit}" HorizontalAlignment="Stretch">
-							<ComboBox
+							<uc:ComboBoxEx
 								AutomationProperties.Name="{helpers:ResourceString Name=GroupByDateUnit}"
 								IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
 								SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupByDateUnitIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=Year}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Month}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Day}" />
-							</ComboBox>
+							</uc:ComboBoxEx>
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
@@ -200,5 +209,13 @@
 			</local:SettingsBlockControl>
 
 		</StackPanel>
+
+		<!--  Adaptive Layout Disabled Teaching Tip  -->
+		<TeachingTip
+			CloseButtonContent="{helpers:ResourceString Name=OK}"
+			IsLightDismissEnabled="True"
+			IsOpen="{x:Bind ViewModel.ShowAdaptiveDisabledTeachingTip, Mode=TwoWay}"
+			Subtitle="{helpers:ResourceString Name=AdaptiveLayoutDisabledNotification}"
+			Target="{x:Bind SyncPreferencesToggleSwitch}" />
 	</Grid>
 </Page>

@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.HasSelection)
 			{
@@ -47,7 +47,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] pinnedFolders = App.QuickAccessManager.Model.PinnedFolders.ToArray();
+			string[] pinnedFolders = [.. App.QuickAccessManager.Model.PinnedFolders];
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinnable)

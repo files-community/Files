@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconRightPane");
 
 		public HotKey HotKey
-			=> new(Keys.P, KeyModifiers.MenuCtrl);
+			=> new(Keys.P, KeyModifiers.CtrlAlt);
 
 		public bool IsOn
 			=> viewModel.IsEnabled;
@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			viewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			viewModel.IsEnabled = true;
 			infoPaneSettingsService.SelectedTab = InfoPaneTabs.Preview;

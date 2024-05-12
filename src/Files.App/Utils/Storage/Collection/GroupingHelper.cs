@@ -157,14 +157,14 @@ namespace Files.App.Utils.Storage
 			return "0";
 		}
 
-		private static readonly (long size, string text, string sizeText)[] sizeGroups = new (long, string, string)[]
-		{
+		private static readonly (long size, string text, string sizeText)[] sizeGroups =
+		[
 			(5000000000, "ItemSizeText_Huge".GetLocalizedResource(), "5 GiB".ConvertSizeAbbreviation()),
 			(1000000000, "ItemSizeText_VeryLarge".GetLocalizedResource(), "1 GiB".ConvertSizeAbbreviation()),
 			(128000000, "ItemSizeText_Large".GetLocalizedResource(), "128 MiB".ConvertSizeAbbreviation()),
 			(1000000, "ItemSizeText_Medium".GetLocalizedResource(), "1 MiB".ConvertSizeAbbreviation()),
 			(16000, "ItemSizeText_Small".GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
-		};
+		];
 
 		private static string GetFolderName(string path)
 		{

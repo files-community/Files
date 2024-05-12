@@ -54,7 +54,7 @@ namespace Files.App.Helpers
 			async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
 			{
 				DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
-				List<IStorageItem> items = new();
+				List<IStorageItem> items = [];
 				DataRequest dataRequest = args.Request;
 
 				foreach (ListedItem item in itemsToShare)
