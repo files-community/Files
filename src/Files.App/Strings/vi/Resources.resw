@@ -3271,7 +3271,7 @@
     <value>Files đang chạy với quyền quản trị</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Do giới hạn nền tảng, tính năng kéo thả sẽ không khả dụng khi chạy Files với quyền quản trị viên.</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Chạy ứng dụng trong nền khi đóng cửa sổ</value>
