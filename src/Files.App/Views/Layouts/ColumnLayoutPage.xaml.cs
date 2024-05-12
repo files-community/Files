@@ -217,7 +217,7 @@ namespace Files.App.Views.Layouts
 			if (textBox is not null)
 			{
 				textBox!.LostFocus -= RenameTextBox_LostFocus;
-				textBox.KeyDown -= RenameTextBox_KeyDown;
+				textBox.PreviewKeyDown -= RenameTextBox_KeyDown;
 			}
 
 			if (textBox is not null && textBox.Parent is not null)
