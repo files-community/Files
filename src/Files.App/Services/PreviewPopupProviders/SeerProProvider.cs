@@ -70,7 +70,7 @@ namespace Files.App.Services.PreviewPopupProviders
 			bool trackSelectedFile = true;
 
 			var keyName = @"\\HKEY_CURRENT_USER\\Software\\Corey\\Seer";
-			var value = Registry.GetValue(keyName, "General", null);
+			var value = Registry.GetValue(keyName, "tracking_file", null);
 
 			if (value is not null)
 				return Task.FromResult(true);
