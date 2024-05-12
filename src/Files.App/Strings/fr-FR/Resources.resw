@@ -3271,7 +3271,7 @@
     <value>Files est exécuté en tant qu'administrateur</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>En raison des limitations de la plateforme, le glisser-déposer n'est pas disponible lorsque vous exécutez Files en tant qu'administrateur.</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Laisser l'application s'exécuter en arrière-plan lorsque la fenêtre est fermée</value>
