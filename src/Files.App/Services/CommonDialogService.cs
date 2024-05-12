@@ -88,7 +88,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		public bool Open_FileSaveDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
 		{
 			filePath = string.Empty;
 
