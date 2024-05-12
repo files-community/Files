@@ -46,3 +46,7 @@ DeleteFileFromApp
 RemoveDirectoryFromApp
 GetKeyState
 CreateDirectoryFromApp
+CoCreateInstance
+FileOpenDialog
+IFileOpenDialog
+SHCreateItemFromParsingName

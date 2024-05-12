@@ -3,11 +3,14 @@ using Files.App.Utils.Shell;
 using System.IO;
 using Windows.Storage.Pickers;
 using Microsoft.UI.Windowing;
+using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
 	public sealed class CustomizationViewModel : ObservableObject
 	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+
 		private static string DefaultIconDllFilePath
 			=> Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "SHELL32.dll");
 
@@ -41,8 +44,8 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public IRelayCommand RestoreDefaultIconCommand { get; private set; }
-		public IAsyncRelayCommand OpenFilePickerCommand { get; private set; }
+		public ICommand RestoreDefaultIconCommand { get; private set; }
+		public ICommand OpenFilePickerCommand { get; private set; }
 
 		public CustomizationViewModel(IShellPage appInstance, BaseProperties baseProperties, AppWindow appWindow)
 		{
@@ -66,40 +69,31 @@ namespace Files.App.ViewModels.Properties
 			// Get default
 			LoadIconsForPath(IconResourceItemPath);
 
-			RestoreDefaultIconCommand = new RelayCommand(ExecuteRestoreDefaultIcon);
-			OpenFilePickerCommand = new AsyncRelayCommand(ExecuteOpenFilePickerAsync);
+			RestoreDefaultIconCommand = new RelayCommand(ExecuteRestoreDefaultIconCommand);
+			OpenFilePickerCommand = new RelayCommand(ExecuteOpenFilePickerCommand);
 		}
 
-		private void ExecuteRestoreDefaultIcon()
+		private void ExecuteRestoreDefaultIconCommand()
 		{
 			SelectedDllIcon = null;
 			_isIconChanged = true;
 		}
 
-		private async Task ExecuteOpenFilePickerAsync()
+		private void ExecuteOpenFilePickerCommand()
 		{
-			// Initialize picker
-			FileOpenPicker picker = new()
-			{
-				SuggestedStartLocation = PickerLocationId.ComputerFolder,
-				ViewMode = PickerViewMode.Thumbnail,
-			};
-
-			picker.FileTypeFilter.Add(".dll");
-			picker.FileTypeFilter.Add(".exe");
-			picker.FileTypeFilter.Add(".ico");
-
-			// WINUI3: Create and initialize new window
 			var parentWindowId = _appWindow.Id;
 			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
-			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
 
-			// Open picker
-			var file = await picker.PickSingleFileAsync();
-			if (file is null)
-				return;
+			var filePath =
+				CommonDialogService.Open_FileOpenDialog(
+					handle,
+					[
+						"Application extension", "*.dll",
+						"Application", "*.exe",
+						"ICO File", "*.ico",
+					]);
 
-			LoadIconsForPath(file.Path);
+			LoadIconsForPath(filePath);
 		}
 
 		public async Task<bool> UpdateIcon()
