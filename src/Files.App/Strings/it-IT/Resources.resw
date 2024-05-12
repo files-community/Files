@@ -3271,7 +3271,7 @@
     <value>Files è in esecuzione come amministratore</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
+    <value>A causa di una limitazione con Windows e WinAppSdk, il drag and drop non è disponibile quando si esegue FIles come amministratore. Se si desidera utilizzare il drag and drop, è possibile aggirare questa limitazione aprendo UAC (User Account Control) dal menu Start, selezionando il terzo livello e riavviando Windows. In caso contrario, è possibile continuare a utilizzare i file senza drag and drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lasciare l'app in esecuzione in background quando la finestra è chiusa</value>
