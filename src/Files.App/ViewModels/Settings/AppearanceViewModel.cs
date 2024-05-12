@@ -81,14 +81,14 @@ namespace Files.App.ViewModels.Settings
 
 			UpdateSelectedResource();
 
-			SelectImageCommand = new AsyncRelayCommand(SelectBackgroundImage);
+			SelectImageCommand = new RelayCommand(SelectBackgroundImage);
 			RemoveImageCommand = new RelayCommand(RemoveBackgroundImage);
 		}
 
 		/// <summary>
 		/// Opens a file picker to select a background image
 		/// </summary>
-		private async Task SelectBackgroundImage()
+		private void SelectBackgroundImage()
 		{
 			string[] extensions =
 			[
@@ -103,7 +103,7 @@ namespace Files.App.ViewModels.Settings
 				"Image File", "*.webp",
 			];
 
-			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, extensions, Environment.SpecialFolder.MyPictures, out var filePath);
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath);
 			if (result)
 				AppThemeBackgroundImageSource = filePath;
 		}

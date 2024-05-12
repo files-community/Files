@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.Properties
 					"Image File", "*.png",
 				];
 
-				CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+				CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 
 				var file = await StorageHelpers.ToStorageItem<StorageFile>(filePath);
 				if (file is not null)

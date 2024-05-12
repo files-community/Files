@@ -17,7 +17,7 @@ namespace Files.App.Services
 	public sealed class CommonDialogService : ICommonDialogService
 	{
 		/// <inheritdoc/>
-		public bool Open_FileOpenDialog(nint hWnd, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		public bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
 		{
 			filePath = string.Empty;
 
@@ -60,6 +60,10 @@ namespace Files.App.Services
 						out var directoryShellItem)
 					.ThrowOnFailure();
 
+					// Folder picker
+					if (pickFoldersOnly)
+						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+
 					// Set the default folder to open in the dialog
 					dialog.SetFolder((IShellItem)directoryShellItem);
 					dialog.SetDefaultFolder((IShellItem)directoryShellItem);
@@ -84,7 +88,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool Open_FileSaveDialog(nint hWnd, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		public bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
 		{
 			filePath = string.Empty;
 
@@ -126,6 +130,10 @@ namespace Files.App.Services
 						typeof(IShellItem).GUID,
 						out var directoryShellItem)
 					.ThrowOnFailure();
+
+					// Folder picker
+					if (pickFoldersOnly)
+						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 
 					// Set the default folder to open in the dialog
 					dialog.SetFolder((IShellItem)directoryShellItem);
