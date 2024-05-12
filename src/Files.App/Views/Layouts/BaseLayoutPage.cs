@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.Server.Data.Enums;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
@@ -24,6 +23,7 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using SortDirection = Files.App.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App.Views.Layouts
@@ -516,7 +516,7 @@ namespace Files.App.Views.Layouts
 			await GroupPreferenceUpdatedAsync();
 		}
 
-		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, Server.Data.Enums.SortDirection e)
+		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
 		{
 			await GroupPreferenceUpdatedAsync();
 		}

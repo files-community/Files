@@ -85,7 +85,8 @@ namespace Files.Core.SourceGenerator
 			var properties = new Queue<(ImmutableArray<Location> Locations, ITypeSymbol Type, string Name, bool EmitNullBranch)>();
 			foreach (var member in type.GetMembers())
 			{
-				if (member is IPropertySymbol { IsReadOnly: false } property)
+				if (member is IPropertySymbol { IsReadOnly: false } property
+					&& !property.GetAttributes().Any(a => a.AttributeClass?.MetadataName == "RegistryIgnoreAttribute"))
 				{
 					properties.Enqueue((property.Locations, property.Type, property.Name, false));
 				}
@@ -190,7 +191,7 @@ namespace Files.Core.SourceGenerator
 									}
 							""");
 						break;
-					case { TypeKind: TypeKind.Class, SpecialType: SpecialType.None }:
+					case { TypeKind: TypeKind.Class or TypeKind.Struct, SpecialType: SpecialType.None }:
 						sb.AppendLine(
 							$$"""
 									BindValues(key, target.{{propertyName}}, $"{prefix}{{propertyName}}.");
@@ -247,7 +248,8 @@ namespace Files.Core.SourceGenerator
 			var properties = new Queue<(ImmutableArray<Location> Locations, ITypeSymbol Type, string Name, bool EmitNullBranch)>();
 			foreach (var member in type.GetMembers())
 			{
-				if (member is IPropertySymbol { IsReadOnly: false } property)
+				if (member is IPropertySymbol { IsReadOnly: false } property
+					&& !property.GetAttributes().Any(a => a.AttributeClass?.MetadataName == "RegistryIgnoreAttribute"))
 				{
 					properties.Enqueue((property.Locations, property.Type, property.Name, false));
 				}
@@ -342,7 +344,7 @@ namespace Files.Core.SourceGenerator
 									}
 							""");
 						break;
-					case { TypeKind: TypeKind.Class, SpecialType: SpecialType.None }:
+					case { TypeKind: TypeKind.Class or TypeKind.Struct, SpecialType: SpecialType.None }:
 						sb.AppendLine(
 							$$"""
 									SaveValues(key, source.{{propertyName}}, $"{prefix}{{propertyName}}.");

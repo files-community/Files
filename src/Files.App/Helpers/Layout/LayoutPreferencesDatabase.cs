@@ -1,17 +1,17 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data;
 using LiteDB;
 using Microsoft.Win32;
+using System.IO;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Storage;
-using static Files.App.Server.Data.LayoutPreferencesRegistry;
-using static Files.App.Server.Utils.RegistryUtils;
+using static Files.App.Helpers.LayoutPreferencesDatabaseItemRegistry;
+using static Files.App.Helpers.RegistryHelpers;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace Files.App.Server.Database
+namespace Files.App.Helpers
 {
 	public sealed class LayoutPreferencesDatabase
 	{
@@ -30,7 +30,7 @@ namespace Files.App.Server.Database
 					Upgrade = true
 				}))
 				{
-					ImportCore(database.GetCollection<LayoutPreferences>(LayoutSettingsCollectionName).FindAll().ToArray());
+					ImportCore(database.GetCollection<LayoutPreferencesDatabaseItem>(LayoutSettingsCollectionName).FindAll().ToArray());
 				}
 
 				File.Delete(LayoutSettingsDbPath);
@@ -51,7 +51,7 @@ namespace Files.App.Server.Database
 				if (preferencesItem is not null)
 				{
 					// Insert new tagged file (Id will be auto-incremented)
-					var newPref = new LayoutPreferences()
+					var newPref = new LayoutPreferencesDatabaseItem()
 					{
 						FilePath = filePath,
 						Frn = frn,
@@ -77,7 +77,7 @@ namespace Files.App.Server.Database
 				}
 			}
 
-			void UpdateValues(LayoutPreferences? preferences)
+			void UpdateValues(LayoutPreferencesDatabaseItem? preferences)
 			{
 				if (filePath is not null)
 				{
@@ -100,12 +100,12 @@ namespace Files.App.Server.Database
 
 		public void Import(string json)
 		{
-			var preferences = JsonSerializer.Deserialize<LayoutPreferences[]>(json);
+			var preferences = JsonSerializer.Deserialize<LayoutPreferencesDatabaseItem[]>(json);
 			ImportCore(preferences);
 		}
 
 
-		private static void ImportCore(LayoutPreferences[]? preferences)
+		private static void ImportCore(LayoutPreferencesDatabaseItem[]? preferences)
 		{
 			Registry.CurrentUser.DeleteSubKeyTree(LayoutSettingsKey, false);
 			if (preferences is null)
@@ -126,12 +126,12 @@ namespace Files.App.Server.Database
 
 		public string Export()
 		{
-			var list = new List<LayoutPreferences>();
+			var list = new List<LayoutPreferencesDatabaseItem>();
 			IterateKeys(list, LayoutSettingsKey, 0);
 			return JsonSerializer.Serialize(list);
 		}
 
-		private void IterateKeys(List<LayoutPreferences> list, string path, int depth)
+		private void IterateKeys(List<LayoutPreferencesDatabaseItem> list, string path, int depth)
 		{
 			using var key = Registry.CurrentUser.OpenSubKey(path);
 			if (key is null)
@@ -141,7 +141,7 @@ namespace Files.App.Server.Database
 
 			if (key.ValueCount > 0)
 			{
-				var preference = new LayoutPreferences();
+				var preference = new LayoutPreferencesDatabaseItem();
 				BindValues(key, preference);
 				list.Add(preference);
 			}
@@ -158,21 +158,21 @@ namespace Files.App.Server.Database
 			}
 		}
 
-		private LayoutPreferences? FindPreferences(string filePath, ulong? frn)
+		private LayoutPreferencesDatabaseItem? FindPreferences(string filePath, ulong? frn)
 		{
 			if (filePath is not null)
 			{
 				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, filePath));
 				if (filePathKey.ValueCount > 0)
 				{
-					var preference = new LayoutPreferences();
+					var preference = new LayoutPreferencesDatabaseItem();
 					BindValues(filePathKey, preference);
 					if (frn is not null)
 					{
 						// Keep entry updated
 						preference.Frn = frn;
 						var value = frn.Value;
-						filePathKey.SetValue(nameof(LayoutPreferences.Frn), Unsafe.As<ulong, long>(ref value), RegistryValueKind.QWord);
+						filePathKey.SetValue(nameof(LayoutPreferencesDatabaseItem.Frn), Unsafe.As<ulong, long>(ref value), RegistryValueKind.QWord);
 					}
 					return preference;
 				}
@@ -183,13 +183,13 @@ namespace Files.App.Server.Database
 				using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, "FRN", frn.Value.ToString()));
 				if (frnKey.ValueCount > 0)
 				{
-					var preference = new LayoutPreferences();
+					var preference = new LayoutPreferencesDatabaseItem();
 					BindValues(frnKey, preference);
 					if (filePath is not null)
 					{
 						// Keep entry updated
 						preference.FilePath = filePath;
-						frnKey.SetValue(nameof(LayoutPreferences.FilePath), filePath, RegistryValueKind.String);
+						frnKey.SetValue(nameof(LayoutPreferencesDatabaseItem.FilePath), filePath, RegistryValueKind.String);
 					}
 					return preference;
 				}

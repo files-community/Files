@@ -13,6 +13,7 @@ namespace Files.App.Data.Models
 			IsResizable = false,
 		};
 
+		[RegistryIgnore]
 		public DetailsLayoutColumnItem IconColumn
 		{
 			get => iconColumn;

@@ -1,12 +1,12 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data.Enums;
+using Files.App.Data.Enums;
 using System.Text.Json;
 using Windows.Storage;
 using Windows.Win32;
 
-namespace Files.App.Data.Models
+namespace Files.App.Helpers
 {
 	/// <summary>
 	/// Represents manager for layout preferences settings.
