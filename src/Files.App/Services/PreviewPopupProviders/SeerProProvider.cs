@@ -72,7 +72,7 @@ namespace Files.App.Services.PreviewPopupProviders
 			var keyName = @"HKEY_CURRENT_USER\Software\Corey\Seer";
 			var value = Registry.GetValue(keyName, "tracking_file", null);
 
-			if (value is not null)
+			if (value?.ToString() == "true")
 				return Task.FromResult(true);
 
 			// List of possible paths for the Seer Pro settings file
