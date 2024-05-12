@@ -46,3 +46,11 @@ DeleteFileFromApp
 RemoveDirectoryFromApp
 GetKeyState
 CreateDirectoryFromApp
+D3D_DRIVER_TYPE
+D3D_FEATURE_LEVEL
+ID3D11Device
+ID3D11DeviceContext
+D3D11CreateDevice
+IDXGIDevice
+DCompositionCreateDevice
+IDCompositionDevice
