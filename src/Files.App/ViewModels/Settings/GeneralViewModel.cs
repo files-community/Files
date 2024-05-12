@@ -15,6 +15,7 @@ namespace Files.App.ViewModels.Settings
 	public sealed class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
 		private bool disposed;
 
@@ -317,23 +318,10 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ChangePageAsync()
 		{
-			var folderPicker = InitializeWithWindow(new FolderPicker());
-			folderPicker.FileTypeFilter.Add("*");
-			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+			CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
 
-			if (folder is not null)
-			{
-				if (SelectedPageIndex >= 0)
-					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
-			}
-		}
-
-		// WINUI3
-		private FolderPicker InitializeWithWindow(FolderPicker obj)
-		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
-
-			return obj;
+			if (SelectedPageIndex >= 0)
+				PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(filePath);
 		}
 
 		private void RemovePage(PageOnStartupViewModel page)
@@ -345,12 +333,9 @@ namespace Files.App.ViewModels.Settings
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
-				var folderPicker = InitializeWithWindow(new FolderPicker());
-				folderPicker.FileTypeFilter.Add("*");
+				CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
 
-				var folder = await folderPicker.PickSingleFolderAsync();
-				if (folder is not null)
-					path = folder.Path;
+				path = filePath;
 			}
 
 			if (path is not null && PagesOnStartupList is not null)
