@@ -1768,7 +1768,7 @@
     <value>Importindstillinger</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>Indstillinger kunne ikke importeres. Indstillingsfil defekt.</value>
+    <value>Indstillinger kunne ikke importeres. Indstillingsfil beskadiget.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Fejl under import af indstillinger</value>
@@ -3271,7 +3271,7 @@
     <value>Files kører som administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Grundet platformsbegrænsninger er træk og slip utilgængelig, når Files køres som administrator.</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lad appen køre i baggrunden, når vinduet lukkes</value>
