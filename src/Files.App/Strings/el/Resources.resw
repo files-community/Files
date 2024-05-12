@@ -3271,7 +3271,7 @@
     <value>Το Files εκτελείται με δικαιώματα διαχειριστή</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
+    <value>Λόγω ενός περιορισμού με τα Windows και WinAppSdk, το drag and drop δεν είναι διαθέσιμο κατά την εκτέλεση αρχείων ως διαχειριστή. Αν θέλετε να χρησιμοποιήσετε drag and drop, μπορείτε να εργαστείτε γύρω από αυτόν τον περιορισμό ανοίγοντας το UAC (Έλεγχος Λογαριασμού Χρήστη) από το μενού Έναρξη και επιλέγοντας το τρίτο επίπεδο, και επανεκκινώντας τα Windows. Διαφορετικά, μπορείτε να συνεχίσετε να χρησιμοποιείτε τα Αρχεία χωρίς drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Αφήστε την εφαρμογή να εκτελείται στο παρασκήνιο όταν το παράθυρο είναι κλειστό</value>
