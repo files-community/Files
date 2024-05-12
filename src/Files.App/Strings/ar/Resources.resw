@@ -3271,7 +3271,7 @@
     <value>الملفات قيد التشغيل كمسؤول</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
+    <value>بسبب تقييد استخدام Windows و WinAppSdk ، لا يتوفر السحب والإسقاط عند تشغيل الملفات كمشرف. إذا كنت ترغب في استخدام السحب والإسقاط، يمكنك العمل حول هذا الحد من خلال فتح UAC (التحكم في الحساب) من قائمة البدء وتحديد المستوى الثالث، وإعادة تشغيل Windows. خلاف ذلك، يمكنك الاستمرار في استخدام الملفات دون سحب و إسقاط.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>اترك التطبيق قيد التشغيل في الخلفية عند إغلاق النافذة</value>
