@@ -91,9 +91,10 @@ namespace Files.App.ViewModels.Properties
 				"ICO File", "*.ico",
 			];
 
-			CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.MyComputer, out var filePath);
+			var result = CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.MyComputer, out var filePath);
 
-			LoadIconsForPath(filePath);
+			if (result)
+				LoadIconsForPath(filePath);
 		}
 
 		public async Task<bool> UpdateIcon()
