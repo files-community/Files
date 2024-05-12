@@ -50,3 +50,5 @@ CoCreateInstance
 FileOpenDialog
 IFileOpenDialog
 SHCreateItemFromParsingName
+FileSaveDialog
+IFileSaveDialog

@@ -82,7 +82,7 @@ namespace Files.App.ViewModels.Properties
 		private void ExecuteOpenFilePickerCommand()
 		{
 			var parentWindowId = _appWindow.Id;
-			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
+			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 
 			string[] extensions =
 			[
@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.Properties
 				"ICO File", "*.ico",
 			];
 
-			var filePath = CommonDialogService.Open_FileOpenDialog(handle, extensions);
+			CommonDialogService.Open_FileOpenDialog(hWnd, extensions, out var filePath);
 
 			LoadIconsForPath(filePath);
 		}
