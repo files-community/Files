@@ -3271,7 +3271,7 @@
     <value>Files は管理者として実行されています</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>プラットフォームの制約により、Files を管理者として実行している場合はドラッグ アンド ドロップを使用できません。</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>ウィンドウを閉じたときにアプリをバックグラウンドで実行したままにする</value>
