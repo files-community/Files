@@ -6,6 +6,7 @@ namespace Files.App.Helpers
 	/// <summary>
 	/// Represents item for the database of a folder's layout preferences.
 	/// </summary>
+	[RegistrySerializable]
 	public sealed class LayoutPreferencesDatabaseItem
 	{
 		public ulong? Frn { get; set; }
