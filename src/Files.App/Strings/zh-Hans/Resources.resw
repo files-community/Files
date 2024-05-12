@@ -3271,7 +3271,7 @@
     <value>Files 正在以管理员身份运行</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>由于Windows和WinAppSdk的限制，当以管理员身份运行文件时，拖动和拖放不可用。 如果您想要使用拖放方式， 您可以通过从启动菜单中打开UAC(用户帐户控制)，选择第三级，并重启窗口来围绕这个限制进行操作。 否则，您可以继续使用文件而不拖放。</value>
+    <value>由于 Windows 和 WinAppSdk 的限制，当以管理员身份运行 Files 时，拖动和拖放不可用。 若要启用拖放， 你可以从开始菜单中打开 UAC（用户帐户控制）设置，选择第三个保护等级并重启 Windows，以解除这一限制。 否则，您可继续使用 Files，但无法使用拖放。</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>当窗口关闭后保持应用程序后台运行</value>
