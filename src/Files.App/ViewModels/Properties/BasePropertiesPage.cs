@@ -14,6 +14,8 @@ namespace Files.App.ViewModels.Properties
 {
 	public abstract class BasePropertiesPage : Page, IDisposable
 	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+
 		public IShellPage AppInstance = null;
 
 		public BaseProperties BaseProperties { get; set; }
@@ -81,18 +83,17 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.EditAlbumCoverCommand = new RelayCommand(async () =>
 			{
-				FileOpenPicker filePicker = new FileOpenPicker();
-				filePicker.FileTypeFilter.Add(".jpg");
-				filePicker.FileTypeFilter.Add(".jpeg");
-				filePicker.FileTypeFilter.Add(".bmp");
-				filePicker.FileTypeFilter.Add(".png");
+				string[] extensions =
+				[
+					"Image File", "*.jpg",
+					"Image File", "*.jpeg",
+					"Image File", "*.bmp",
+					"Image File", "*.png",
+				];
 
-				var parentWindowId = np.Window.AppWindow.Id;
-				var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
-				WinRT.Interop.InitializeWithWindow.Initialize(filePicker, handle);
+				CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 
-				StorageFile file = await filePicker.PickSingleFileAsync();
-
+				var file = await StorageHelpers.ToStorageItem<StorageFile>(filePath);
 				if (file is not null)
 				{
 					ViewModel.IsAblumCoverModified = true;

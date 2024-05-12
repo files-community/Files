@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.Properties
 				"ICO File", "*.ico",
 			];
 
-			CommonDialogService.Open_FileOpenDialog(hWnd, extensions, out var filePath);
+			CommonDialogService.Open_FileOpenDialog(hWnd, extensions, Environment.SpecialFolder.MyComputer, out var filePath);
 
 			LoadIconsForPath(filePath);
 		}

@@ -17,7 +17,7 @@ namespace Files.App.Services
 	public sealed class CommonDialogService : ICommonDialogService
 	{
 		/// <inheritdoc/>
-		public bool Open_FileOpenDialog(nint hWnd, string[] filters, out string filePath)
+		public bool Open_FileOpenDialog(nint hWnd, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
 		{
 			filePath = string.Empty;
 
@@ -54,7 +54,7 @@ namespace Files.App.Services
 
 					// Get the default shell folder (My Computer)
 					PInvoke.SHCreateItemFromParsingName(
-						Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
+						Environment.GetFolderPath(defaultFolder),
 						null,
 						typeof(IShellItem).GUID,
 						out var directoryShellItem)
@@ -84,7 +84,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool Open_FileSaveDialog(nint hWnd, string[] filters, out string filePath)
+		public bool Open_FileSaveDialog(nint hWnd, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
 		{
 			filePath = string.Empty;
 
@@ -121,7 +121,7 @@ namespace Files.App.Services
 
 					// Get the default shell folder (My Computer)
 					PInvoke.SHCreateItemFromParsingName(
-						Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
+						Environment.GetFolderPath(defaultFolder),
 						null,
 						typeof(IShellItem).GUID,
 						out var directoryShellItem)

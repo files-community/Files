@@ -18,7 +18,7 @@ namespace Files.App.Data.Contracts
 		/// NOTE: There's a WinRT API to launch this dialog, but the API doesn't support windows that are launched by those who is in Administrators group or has broader privileges.
 		/// </remarks>
 		/// <returns>True if the 'Open' button was clicked; otherwise, false.</returns>
-		bool Open_FileOpenDialog(nint hWnd, string[] filters, out string filePath);
+		bool Open_FileOpenDialog(nint hWnd, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath);
 
 		/// <summary>
 		/// Opens a common dialog called FileSaveDialog through native Win32API.
@@ -30,7 +30,7 @@ namespace Files.App.Data.Contracts
 		/// NOTE: There's a WinRT API to launch this dialog, but the API doesn't support windows that are launched by those who is in Administrators group or has broader privileges.
 		/// </remarks>
 		/// <returns>True if the 'Open' button was clicked; otherwise, false.</returns>
-		bool Open_FileSaveDialog(nint hWnd, string[] filters, out string filePath);
+		bool Open_FileSaveDialog(nint hWnd, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath);
 
 		/// <summary>
 		/// Opens a common dialog called NetworkConnectionDialog through native Win32API.

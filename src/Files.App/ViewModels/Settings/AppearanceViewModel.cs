@@ -14,6 +14,7 @@ namespace Files.App.ViewModels.Settings
 	public sealed class AppearanceViewModel : ObservableObject
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private readonly IUserSettingsService UserSettingsService;
 		private readonly IResourcesService ResourcesService;
 
@@ -89,21 +90,22 @@ namespace Files.App.ViewModels.Settings
 		/// </summary>
 		private async Task SelectBackgroundImage()
 		{
-			var filePicker = new FileOpenPicker
-			{
-				ViewMode = PickerViewMode.Thumbnail,
-				SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-				FileTypeFilter = { ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".webp" }
-			};
+			string[] extensions =
+			[
+				"Image File", "*.png",
+				"Image File", "*.bmp",
+				"Image File", "*.jpg",
+				"Image File", "*.jpeg",
+				"Image File", "*.jfif",
+				"Image File", "*.gif",
+				"Image File", "*.tiff",
+				"Image File", "*.tif",
+				"Image File", "*.webp",
+			];
 
-			// WINUI3: Create and initialize new window
-			var parentWindowId = MainWindow.Instance.AppWindow.Id;
-			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
-			WinRT.Interop.InitializeWithWindow.Initialize(filePicker, handle);
-
-			var file = await filePicker.PickSingleFileAsync();
-			if (file is not null)
-				AppThemeBackgroundImageSource = file.Path;
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, extensions, Environment.SpecialFolder.MyPictures, out var filePath);
+			if (result)
+				AppThemeBackgroundImageSource = filePath;
 		}
 
 		/// <summary>
