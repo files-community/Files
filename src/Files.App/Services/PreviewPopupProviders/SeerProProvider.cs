@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
@@ -67,6 +68,12 @@ namespace Files.App.Services.PreviewPopupProviders
 		private Task<bool> DetectTrackSelectionSetting()
 		{
 			bool trackSelectedFile = true;
+
+			var keyName = @"\\HKEY_CURRENT_USER\\Software\\Corey\\Seer";
+			var value = Registry.GetValue(keyName, "General", null);
+
+			if (value is not null)
+				return Task.FromResult(true);
 
 			// List of possible paths for the Seer Pro settings file
 			string[] paths =
