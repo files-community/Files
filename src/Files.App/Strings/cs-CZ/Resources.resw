@@ -3271,7 +3271,7 @@
     <value>Files je spuštěn s oprávněním správce</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
+    <value>Kvůli omezení systému Windows a aplikace WinAppSdk není při spuštění aplikace Files jako správce k dispozici funkce 'drag &amp; drop'. Pokud chcete 'drag &amp; drop' použít, můžete toto omezení obejít tak, že v nabídce Start otevřete UAC (Řízení uživatelských účtů), vyberete třetí úroveň a restartujete systém Windows. V opačném případě můžete nadále používat aplikaci Files bez funkce 'drag &amp; drop'.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Ponechat aplikaci běžet na pozadí, když je okno zavřeno</value>
