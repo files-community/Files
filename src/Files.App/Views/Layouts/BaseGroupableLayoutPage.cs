@@ -327,6 +327,7 @@ namespace Files.App.Views.Layouts
 					e.Handled = true;
 					break;
 				case VirtualKey.End:
+		if (!isShiftPressed)
 					textBox.SelectionStart = textBox.Text.Length;
 					e.Handled = true;
 					break;
