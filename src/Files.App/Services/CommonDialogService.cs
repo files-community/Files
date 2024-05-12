@@ -11,8 +11,10 @@ using Windows.Win32.UI.Shell.Common;
 
 namespace Files.App.Services
 {
+	/// <inheritdoc cref="ICommonDialogService"/>
 	public class CommonDialogService : ICommonDialogService
 	{
+		/// <inheritdoc/>
 		public string Open_FileOpenDialog(nint hWnd, string[] filters)
 		{
 			try

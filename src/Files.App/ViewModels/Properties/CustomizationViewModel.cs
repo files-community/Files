@@ -84,14 +84,14 @@ namespace Files.App.ViewModels.Properties
 			var parentWindowId = _appWindow.Id;
 			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 
-			var filePath =
-				CommonDialogService.Open_FileOpenDialog(
-					handle,
-					[
-						"Application extension", "*.dll",
-						"Application", "*.exe",
-						"ICO File", "*.ico",
-					]);
+			string[] extensions =
+			[
+				"Application extension", "*.dll",
+				"Application", "*.exe",
+				"ICO File", "*.ico",
+			];
+
+			var filePath = CommonDialogService.Open_FileOpenDialog(handle, extensions);
 
 			LoadIconsForPath(filePath);
 		}
