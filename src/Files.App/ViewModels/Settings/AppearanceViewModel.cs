@@ -93,7 +93,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				ViewMode = PickerViewMode.Thumbnail,
 				SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-				FileTypeFilter = { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp" }
+				FileTypeFilter = { ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".webp" }
 			};
 
 			// WINUI3: Create and initialize new window
