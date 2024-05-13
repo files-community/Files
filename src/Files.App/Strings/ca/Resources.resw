@@ -3271,7 +3271,7 @@
     <value>El Files s'executa com a administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
+    <value>A causa d'una limitació amb Windows i WinAppSdk, arrossegar i deixar anar no està disponible quan s'executa el Files com a administrador. Si voleu utilitzar arrossegar i deixar anar, podeu evitar aquesta limitació obrint l'UAC (control del compte d'usuari) des del menú Inici, seleccionanar el tercer nivell i reiniciar el Windows. En cas contrari, podeu seguir utilitzant el Files sense arrossegar i deixar anar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Permet que l'aplicació s'executi en segon pla en tancar la finestra</value>
