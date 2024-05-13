@@ -1,6 +1,6 @@
 ﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Page
-	x:Class="Files.App.Views.Settings.GitPage"
+	x:Class="Files.App.Views.Settings.DevToolsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -10,6 +10,7 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
@@ -24,7 +25,7 @@
 	</Page.Resources>
 
 	<Page.DataContext>
-		<vm:GitViewModel x:Name="ViewModel" />
+		<vm:DevToolsViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -43,7 +44,21 @@
 				Padding="0,0,0,12"
 				FontSize="24"
 				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=Git}" />
+				Text="{helpers:ResourceString Name=DevTools}" />
+
+			<!--  Display Open IDE status bar button  -->
+			<local:SettingsBlockControl
+				x:Name="OpenIDESection"
+				Title="{helpers:ResourceString Name=DisplayOpenIDE}"
+				HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE7AC;" />
+				</local:SettingsBlockControl.Icon>
+				<uc:ComboBoxEx
+					AutomationProperties.Name="{helpers:ResourceString Name=DisplayOpenIDE}"
+					ItemsSource="{x:Bind ViewModel.OpenInIDEOptions.Values}"
+					SelectedItem="{x:Bind ViewModel.SelectedOpenInIDEOption, Mode=TwoWay}" />
+			</local:SettingsBlockControl>
 
 			<!--  Connect to GitHub  -->
 			<local:SettingsBlockControl
@@ -68,6 +83,7 @@
 				</local:SettingsBlockControl.Icon>
 				<Button Command="{x:Bind ViewModel.RemoveCredentialsCommand}" Content="{helpers:ResourceString Name=Logout}" />
 			</local:SettingsBlockControl>
+
 		</StackPanel>
 	</Grid>
 </Page>

@@ -107,8 +107,10 @@
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
+		<!--  Folder and selection info  -->
 		<StackPanel
 			Grid.Column="0"
 			Height="32"
@@ -156,56 +158,56 @@
 				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" />
 		</StackPanel>
 
+		<!--  Open in IDE Button  -->
+		<Button
+			x:Name="OpenInIDEButton"
+			Grid.Column="1"
+			Height="24"
+			Padding="8,0,8,0"
+			VerticalAlignment="Center"
+			Background="Transparent"
+			BorderBrush="Transparent">
+			<Button.Content>
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<usercontrols:OpacityIcon
+						Width="16"
+						Height="16"
+						Style="{StaticResource ColorIconOpen}" />
+					<TextBlock Text="{helpers:ResourceString Name=Open}" />
+				</StackPanel>
+			</Button.Content>
+
+			<Button.Flyout>
+				<MenuFlyout>
+					<MenuFlyoutItem
+						x:Name="OpenFolderInVSCodeButton"
+						Command="{x:Bind Commands.OpenInVSCode}"
+						KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInVSCode.HotKeys, Mode=OneWay}"
+						Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}"
+						ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" />
+					<MenuFlyoutItem
+						x:Name="OpenRepoInVSCodeButton"
+						Command="{x:Bind Commands.OpenRepoInVSCode}"
+						KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
+						Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}"
+						ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInVSCode.LabelWithHotKey, Mode=OneWay}" />
+				</MenuFlyout>
+			</Button.Flyout>
+		</Button>
+
+		<!--  Git actions panel  -->
 		<StackPanel
 			x:Name="GitActionsPanel"
-			Grid.Column="1"
+			Grid.Column="2"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
 			Orientation="Horizontal"
 			Spacing="4">
 
-			<!--  Open in IDE Button  -->
-			<Button
-				x:Name="OpenInIDEButton"
-				Height="24"
-				Padding="8,0,8,0"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
-				Background="Transparent"
-				BorderBrush="Transparent">
-				<Button.Content>
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon
-							Width="16"
-							Height="16"
-							Style="{StaticResource ColorIconOpen}" />
-						<TextBlock Text="{helpers:ResourceString Name=Open}" />
-					</StackPanel>
-				</Button.Content>
-
-				<Button.Flyout>
-					<MenuFlyout>
-						<MenuFlyoutItem
-							x:Name="OpenFolderInVSCodeButton"
-							Command="{x:Bind Commands.OpenInVSCode}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInVSCode.HotKeys, Mode=OneWay}"
-							Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}"
-							ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" />
-						<MenuFlyoutItem
-							x:Name="OpenRepoInVSCodeButton"
-							Command="{x:Bind Commands.OpenRepoInVSCode}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
-							Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}"
-							ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInVSCode.LabelWithHotKey, Mode=OneWay}" />
-					</MenuFlyout>
-				</Button.Flyout>
-			</Button>
-			<!--  Divider  -->
 			<Border
 				x:Name="VSCodeDivider"
 				Width="1"
 				Height="18"
-				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<Button
@@ -276,7 +278,7 @@
 		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
 		<Button
 			x:Name="GitBranch"
-			Grid.Column="2"
+			Grid.Column="3"
 			Height="24"
 			Padding="8,0,8,0"
 			Background="Transparent"
