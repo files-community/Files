@@ -961,7 +961,7 @@
     <value>Problém s odpojením zařízení</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Zařízení je v současné době používáno. Zavřete všechny programy, okna nebo panely které mohou používat zařízení, poté to zkuste znovu.</value>
+    <value>Zařízení je v současné době používáno. Zavřete všechny programy, okna nebo karty které mohou používat zařízení, poté to zkuste znovu.</value>
   </data>
   <data name="Eject" xml:space="preserve">
     <value>Odpojit</value>
@@ -2644,28 +2644,28 @@
     <value>Přejít o složku výše</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplikovat aktuální záložku</value>
+    <value>Duplikovat aktuální kartu</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Duplikovat vybranou kartu</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Zavřít záložky vlevo od aktuální záložky</value>
+    <value>Zavřít karty vlevo od aktuální karty</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Zavřít záložky vlevo od vybrané záložky</value>
+    <value>Zavřít karty vlevo od vybrané karty</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Zavřít záložky vpravo od aktuální záložky</value>
+    <value>Zavřít karty vpravo od aktuální karty</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Zavřít záložky vpravo od vybrané záložky</value>
+    <value>Zavřít karty vpravo od vybrané karty</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Zavřít všechny ostatní záložky</value>
+    <value>Zavřít všechny ostatní karty</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Zavřít všechny ostatní záložky</value>
+    <value>Zavřít všechny ostatní karty</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Vrátit naposledy uzavřenou kartu</value>
