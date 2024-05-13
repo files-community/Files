@@ -3271,7 +3271,7 @@
     <value>Files wird mit Administratorrechten ausgeführt</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Aufgrund von Plattformbeschränkungen ist Drag and Drop nicht verfügbar, wenn Files als Administrator ausgeführt werden.</value>
+    <value>Aufgrund einer Einschränkung von Windows und WinAppSdk ist Drag and Drop nicht verfügbar, wenn Dateien als Admin ausgeführt werden. Wenn du Drag &amp; Drop verwenden möchtest, Sie können diese Einschränkung umgehen, indem Sie UAC (User Account Control) aus dem Startmenü öffnen und die dritte Ebene auswählen und Windows neu starten. Ansonsten können Sie Dateien ohne Drag &amp; Drop verwenden.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Beim Schließen des Fensters die App im Hintergrund laufen lassen</value>

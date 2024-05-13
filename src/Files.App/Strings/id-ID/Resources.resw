@@ -3271,7 +3271,7 @@
     <value>Files sedang berjalan sebagai admin</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Karena keterbatasan platform, drag and drop tidak tersedia saat menjalankan File sebagai admin.</value>
+    <value>Dikarenakan limitasi WIndows dan WinAppSDK, fitur drag and drop tidak tersedia saat menjalankan Files sebagai admin. Jika ingin memakai fitur drag and drop sementara bisa dengan membuka UAC (User Account Control) dari Start Menu dan pilih level ketiga, dan muat ulang Windows, sementara itu kamu dapat memakai Files tanpa fitur drag and drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Biarkan app berjalan di latar belakang ketika window di tutup</value>

@@ -1978,7 +1978,7 @@
     <value>Столбцы по размеру содержимого</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Адаптивный макет</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Адаптивный (Ctrl+Shift+7)</value>
@@ -2245,7 +2245,7 @@
     <value>Загрузка...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Опции контекстного меню</value>
+    <value>Настройки контекстного меню</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>Показывать расширения файлов</value>
@@ -3271,7 +3271,7 @@
     <value>Files запущены от имени администратора</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Из-за ограничений платформы, перетаскивание недоступно при запуске Files от имени администратора.</value>
+    <value>Из-за ограничений в Windows и WinAppSdk, перетаскивание и перетаскивание не доступно при запуске файлов как администратора. Если вы хотите использовать перетаскивание, Вы можете обойти это ограничение, открыв контроль учетной записи пользователя из меню Пуск и выбрав третий уровень и перезапустив Windows. В противном случае вы можете продолжать использовать файлы без перетаскивания.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Оставить приложение в фоновом режиме при закрытии окна</value>
@@ -3720,7 +3720,7 @@
     <value>Подробный вид</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
-    <value>Вид значков</value>
+    <value>Тип макета</value>
   </data>
   <data name="Actions" xml:space="preserve">
     <value>Действия</value>
