@@ -102,13 +102,14 @@
 		</Style>
 	</UserControl.Resources>
 
-	<Grid Padding="8,0" ColumnSpacing="4">
+	<Grid Padding="8,0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
+		<!--  Folder and selection info  -->
 		<StackPanel
 			Grid.Column="0"
 			Height="32"
@@ -156,11 +157,11 @@
 				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" />
 		</StackPanel>
 
+		<!--  Actions panel  -->
 		<StackPanel
 			x:Name="GitActionsPanel"
 			Grid.Column="1"
 			VerticalAlignment="Center"
-			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
 			Orientation="Horizontal"
 			Spacing="4">
 
@@ -170,7 +171,8 @@
 				Height="24"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
-				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
+				x:Load="{x:Bind DirectoryPropertiesViewModel.ShowOpenInIDEButton, Mode=OneWay}"
+				AutomationProperties.Name="{helpers:ResourceString Name=Open}"
 				Background="Transparent"
 				BorderBrush="Transparent">
 				<Button.Content>
@@ -193,6 +195,7 @@
 							ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" />
 						<MenuFlyoutItem
 							x:Name="OpenRepoInVSCodeButton"
+							x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
 							Command="{x:Bind Commands.OpenRepoInVSCode}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
 							Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}"
@@ -205,7 +208,7 @@
 				x:Name="VSCodeDivider"
 				Width="1"
 				Height="18"
-				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
+				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<Button
@@ -213,6 +216,7 @@
 				Height="24"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
+				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
 				Background="Transparent"
 				BorderBrush="Transparent"
 				ToolTipService.ToolTip="{x:Bind DirectoryPropertiesViewModel.ExtendedStatusInfo, Mode=OneWay}">
@@ -268,8 +272,10 @@
 			</Button>
 			<!--  Divider  -->
 			<Border
+				x:Name="BranchNameDivider"
 				Width="1"
 				Height="18"
+				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 		</StackPanel>
 
@@ -278,6 +284,7 @@
 			x:Name="GitBranch"
 			Grid.Column="2"
 			Height="24"
+			Margin="4,0,0,0"
 			Padding="8,0,8,0"
 			Background="Transparent"
 			BorderBrush="Transparent"

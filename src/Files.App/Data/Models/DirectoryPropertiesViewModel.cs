@@ -8,6 +8,7 @@ namespace Files.App.Data.Models
 	public sealed class DirectoryPropertiesViewModel : ObservableObject
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
 
 		// The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
@@ -80,6 +81,14 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _ExtendedStatusInfo, value);
 		}
 
+		public bool ShowOpenInIDEButton
+		{
+			get
+			{
+				return DevToolsSettingsService.OpenInIDEOption == OpenInIDEOption.AllLocations || (DevToolsSettingsService.OpenInIDEOption == OpenInIDEOption.GitRepos && GitBranchDisplayName is not null);
+			}
+		}
+
 		public ObservableCollection<BranchItem> Branches => _ShowLocals 
 			? _localBranches 
 			: _remoteBranches;
@@ -92,6 +101,16 @@ namespace Files.App.Data.Models
 		{
 			NewBranchCommand = new AsyncRelayCommand(()
 				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX].Name));
+
+			DevToolsSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(DevToolsSettingsService.OpenInIDEOption):
+						OnPropertyChanged(nameof(ShowOpenInIDEButton));
+						break;
+				}
+			};
 		}
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
@@ -113,6 +132,8 @@ namespace Files.App.Data.Models
 
 			ExtendedStatusInfo = string.Format("GitSyncStatusExtendedInfo".GetLocalizedResource(), ahead, behind);
 			StatusInfo = $"{ahead} / {behind}";
+
+			OnPropertyChanged(nameof(ShowOpenInIDEButton));
 		}
 
 		public async Task LoadBranches()
