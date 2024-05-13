@@ -1963,7 +1963,7 @@
     <value>Forsøg igen</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Flytning er ikke understøttet i denne kontekst. Kopiér emnerne i stedet?</value>
+    <value>Flytning understøttes ikke i denne kontekst. Kopiér emnerne i stedet?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>Skjulte emner</value>
@@ -2014,13 +2014,13 @@
     <value>Kolonneoprettelsesdato</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Størrelseskolonne</value>
+    <value>Tilpas kolonnestørrelse</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag-kolonne</value>
+    <value>Tag kolonne</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type-kolonne</value>
+    <value>Type kolonne</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Låseskærm</value>
@@ -2041,7 +2041,7 @@
     <value>Sikker på, at alle emner i papirkurven skal gendannes?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Gendan alle elementer</value>
+    <value>Gendan alle emner</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
     <value>Gendan {0} valgt(e) emne(r)?</value>
@@ -2053,7 +2053,7 @@
     <value>Gendan alle emner</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Gendannelse</value>
+    <value>Gendan</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>Genvej kan ikke åbnes</value>
