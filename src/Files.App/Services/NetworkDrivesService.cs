@@ -56,10 +56,10 @@ namespace Files.App.Services
 
 			return result.Enumerate.Where(item => item.IsFolder).Select(item =>
 			{
-				var driveItem = new DriveItem()
+				var networkItem = new DriveItem()
 				{
-					Text = item.FileName,
 					Path = item.FilePath,
+					Text = item.FileName,
 					DeviceID = item.FilePath,
 					Type = DriveType.Network,
 					ItemType = NavigationControlItemType.Drive,
@@ -68,12 +68,12 @@ namespace Files.App.Services
 				driveItem.MenuOptions = new ContextMenuOptions()
 				{
 					IsLocationItem = true,
-					ShowEjectDevice = driveItem.IsRemovable,
+					ShowEjectDevice = networkItem.IsRemovable,
 					ShowShellItems = true,
 					ShowProperties = true,
 				};
 
-				return driveItem;
+				return networkItem;
 			});
 		}
 
