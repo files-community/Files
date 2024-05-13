@@ -58,14 +58,14 @@ namespace Files.App.Services
 			{
 				var networkItem = new DriveItem()
 				{
-					Path = item.FilePath,
 					Text = item.FileName,
+					Path = item.FilePath,
 					DeviceID = item.FilePath,
 					Type = DriveType.Network,
 					ItemType = NavigationControlItemType.Drive,
 				};
 
-				driveItem.MenuOptions = new ContextMenuOptions()
+				networkItem.MenuOptions = new ContextMenuOptions()
 				{
 					IsLocationItem = true,
 					ShowEjectDevice = networkItem.IsRemovable,
