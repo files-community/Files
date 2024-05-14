@@ -165,6 +165,7 @@
 			Height="24"
 			Padding="8,0,8,0"
 			VerticalAlignment="Center"
+			AutomationProperties.Name="{helpers:ResourceString Name=Open}"
 			Background="Transparent"
 			BorderBrush="Transparent">
 			<Button.Content>
