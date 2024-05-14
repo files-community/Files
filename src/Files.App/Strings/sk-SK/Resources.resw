@@ -217,7 +217,7 @@
     <value>Prispôsobenie</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Farba pozadia</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Pokročilé</value>
@@ -340,7 +340,7 @@
     <value>Nastaviť ako pozadie uzamknutej obrazovky</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Nastaviť ako pozadie aplikácie</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodarilo sa nám zmazať túto položku</value>
@@ -1845,7 +1845,7 @@
     <value>Use DPI settings of the main monitor</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
-    <value>Do not adjust DPI</value>
+    <value>Neprispôsobovať DPI</value>
   </data>
   <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
     <value>Do not override DPI</value>
@@ -2544,7 +2544,7 @@
     <value>Zoznam</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>Grid</value>
+    <value>Mriežka</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
     <value>Switch to grid view</value>
@@ -2652,7 +2652,7 @@
     <value>Duplikovať vybranú záložku</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Zatvoriť taby vľavo</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Close tabs to the left of selected tab</value>
