@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Aparença</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Fons</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Color de fons</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avançat</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Estableix com a fons de pantalla de bloqueig</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Estableix com a fons de l'aplicació</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No hem pogut suprimir aquest element</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Taxa de bits de la codificació</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Taxa de bits de codificació d'àudio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Taxa de bits de codificació de vídeo</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compressió</value>
@@ -2457,6 +2466,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Estableix la imatge seleccionada com a fons de pantalla de bloqueig</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Estableix la imatge seleccionada com a fons de l'aplicació</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instal·la les fonts seleccionades</value>
   </data>
@@ -3259,7 +3271,7 @@
     <value>El Files s'executa com a administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>A causa de les limitacions de la plataforma, arrossegar i deixar anar no està disponible quan s'executa Files com a administrador.</value>
+    <value>A causa d'una limitació amb Windows i WinAppSdk, arrossegar i deixar anar no està disponible quan s'executa el Files com a administrador. Si voleu utilitzar arrossegar i deixar anar, podeu evitar aquesta limitació obrint l'UAC (control del compte d'usuari) des del menú Inici, seleccionanar el tercer nivell i reiniciar el Windows. En cas contrari, podeu seguir utilitzant el Files sense arrossegar i deixar anar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Permet que l'aplicació s'executi en segon pla en tancar la finestra</value>
@@ -3736,5 +3748,52 @@
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>El disseny adaptatiu no està disponible quan les preferències estan sincronitzades, el disseny per defecte s'ha canviat a Detalls.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Imatge de fons</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Inferior</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Centre</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Omple</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Alineació horitzontal</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Ajusta la imatge</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Esquerra</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacitat</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Dreta</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Superior</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniforme</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Omple uniformement</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Alineació vertical</value>
   </data>
 </root>

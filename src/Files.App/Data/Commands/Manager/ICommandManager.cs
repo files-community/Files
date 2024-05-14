@@ -67,6 +67,7 @@ namespace Files.App.Data.Commands
 		IRichCommand SetAsWallpaperBackground { get; }
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
+		IRichCommand SetAsAppBackground { get; }
 
 		IRichCommand InstallFont { get; }
 		IRichCommand InstallInfDriver { get; }

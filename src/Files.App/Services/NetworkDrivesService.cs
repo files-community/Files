@@ -12,6 +12,8 @@ namespace Files.App.Services
 {
 	public sealed class NetworkDrivesService : ObservableObject, INetworkDrivesService
 	{
+		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
+
 		private ObservableCollection<ILocatableFolder> _Drives;
 		/// <inheritdoc/>
 		public ObservableCollection<ILocatableFolder> Drives
@@ -48,40 +50,16 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
+		public async Task<IEnumerable<ILocatableFolder>> GetDrivesAsync()
 		{
-			var networkLocations = await Win32Helper.StartSTATask(() =>
-			{
-				var locations = new List<ShellLinkItem>();
-				using (var netHood = new Vanara.Windows.Shell.ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
-				{
-					foreach (var item in netHood)
-					{
-						if (item is Vanara.Windows.Shell.ShellLink link)
-						{
-							locations.Add(ShellFolderExtensions.GetShellLinkItem(link));
-						}
-						else
-						{
-							var linkPath = (string?)item?.Properties["System.Link.TargetParsingPath"];
-							if (linkPath is not null)
-							{
-								var linkItem = ShellFolderExtensions.GetShellFileItem(item);
-								locations.Add(new(linkItem) { TargetPath = linkPath });
-							}
-						}
-					}
-				}
+			var result = await Win32Helper.GetShellFolderAsync(guid, false, true, 0, int.MaxValue);
 
-				return locations;
-			});
-
-			foreach (var item in networkLocations ?? Enumerable.Empty<ShellLinkItem>())
+			return result.Enumerate.Where(item => item.IsFolder).Select(item =>
 			{
 				var networkItem = new DriveItem()
 				{
-					Text = SystemIO.Path.GetFileNameWithoutExtension(item.FileName),
-					Path = item.TargetPath,
+					Text = item.FileName,
+					Path = item.FilePath,
 					DeviceID = item.FilePath,
 					Type = DriveType.Network,
 					ItemType = NavigationControlItemType.Drive,
@@ -94,8 +72,9 @@ namespace Files.App.Services
 					ShowShellItems = true,
 					ShowProperties = true,
 				};
-				yield return networkItem;
-			}
+
+				return networkItem;
+			});
 		}
 
 		/// <inheritdoc/>
@@ -106,7 +85,7 @@ namespace Files.App.Services
 				_Drives.Single(x => x is DriveItem o && o.DeviceID == "network-folder")
 			};
 
-			await foreach (ILocatableFolder item in GetDrivesAsync())
+			foreach (ILocatableFolder item in await GetDrivesAsync())
 				unsortedDrives.Add(item);
 
 			var orderedDrives =

@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Wygląd</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Tło</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Kolor tła</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Zaawansowane</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Ustaw jako tło blokady ekranu</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Ustaw jako tło aplikacji</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nie mogliśmy usunąć tego elementu</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Współczynnik kodowania Bitrate</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Bitrate kodowania audio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Bitrate kodowania wideo</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Kompresja</value>
@@ -2457,6 +2466,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Ustaw wybrane zdjęcie jako tło ekranu blokady</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Ustaw wybrane zdjęcie jako tło aplikacji</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Zainstaluj wybrane czcionki</value>
   </data>
@@ -3259,7 +3271,7 @@
     <value>Aplikacja Files jest uruchomiona jako administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Ze względu na ograniczenia platformy, funkcja przeciągnij i upuść nie jest dostępna podczas uruchamiania Files jako administrator.</value>
+    <value>Ze względu na ograniczenie z Windows i WinAppSdk, przeciągnij i upuść nie jest dostępne podczas uruchamiania plików jako administratora. Jeśli chcesz użyć przeciągnij i upuść, możesz pracować nad tym ograniczeniem, otwierając UAC (kontrola konta użytkownika) z Menu Start i wybierając trzeci poziom oraz uruchamiając ponownie Windows. W przeciwnym razie możesz nadal używać plików bez przeciągania i upuszczania.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Pozostaw aplikację uruchomioną w tle, gdy okno jest zamknięte</value>
@@ -3711,30 +3723,77 @@
     <value>Typ układu</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>Akcje</value>
   </data>
   <data name="Commands" xml:space="preserve">
-    <value>Commands</value>
+    <value>Polecenia</value>
   </data>
   <data name="AddCommand" xml:space="preserve">
-    <value>Add command</value>
+    <value>Dodaj polecenie</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
-    <value>Restore defaults</value>
+    <value>Przywróć domyślne</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
-    <value>Choose an action</value>
+    <value>Wybierz akcję</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Are you sure you want to restore the default key bindings? This action cannot be undone.</value>
+    <value>Czy na pewno chcesz przywrócić powiązania kluczy domyślnych? Tej akcji nie można cofnąć.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>This key binding is already being used, please choose a different key binding to continue.</value>
+    <value>Ten klucz jest już używany, wybierz inny klucz wiążący, aby kontynuować.</value>
   </data>
   <data name="Customized" xml:space="preserve">
-    <value>Customized</value>
+    <value>Dostosuj</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
+    <value>Adaptacyjny układ nie jest dostępny, gdy preferencje są synchronizowane, domyślny układ został zmieniony na Szczegóły.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Obraz tła</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Dolny</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Środkowy</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Wypełnij</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Wyrównanie poziome</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Dopasowanie obrazu</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Lewo</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Przezroczystość</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Prawo</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Góra</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Jednolity</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Jednolite do wypełnienia</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Wyrównanie pionowe</value>
   </data>
 </root>

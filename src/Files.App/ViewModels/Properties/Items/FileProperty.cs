@@ -363,9 +363,22 @@ namespace Files.App.ViewModels.Properties
 			{ "AddISO" , input => $"ISO-{(UInt16)input}"},
 			{ "RoundDouble" , input => $"{Math.Round((double)input)}"},
 			{ "UnitMM" , input => $"{(double)input} mm"},
+			{ "FormatEncodingBitrate", FormatEncodingBitrate }
 		};
 
 		private static string TimeSpanToString(TimeSpan t)
 			=> t.Days > 0 ? (t.Days * 24 + t.Hours) + t.ToString("':'mm':'ss") : t.ToString("hh':'mm':'ss");
+
+		private static string FormatEncodingBitrate(object input)
+		{
+			// For cases when multiple files are selected and it has a string value
+			if (input.GetType() != typeof(uint))
+				return input?.ToString() ?? string.Empty;
+
+			var sizes = new string[] { "bps", "kbps", "Mbps", "Gbps" };
+			var order = (int)Math.Floor(Math.Log((uint)input, 1000));
+			var readableSpeed = (uint)input / Math.Pow(1000, order);
+			return $"{readableSpeed:0.##} {sizes[order]}";
+		}
 	}
 }

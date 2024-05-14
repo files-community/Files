@@ -21,7 +21,7 @@ namespace Files.App.Actions
 		{
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			return NavigationHelpers.LaunchNewWindowAsync();
 		}

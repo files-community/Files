@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 
 namespace Files.App.Helpers
@@ -13,7 +12,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(filePath))
 				return false;
 
-			return Win32PInvoke._IsElevationRequired(filePath);
+			return Win32PInvoke.IsElevationRequired(filePath);
 		}
 
 		public static bool IsAppRunAsAdmin()

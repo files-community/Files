@@ -14,42 +14,100 @@ namespace Files.App.Data.Commands
 		public event PropertyChangingEventHandler? PropertyChanging { add { } remove { } }
 		public event PropertyChangedEventHandler? PropertyChanged { add { } remove { } }
 
-		public CommandCodes Code => CommandCodes.None;
+		/// <inheritdoc/>
+		public CommandCodes Code
+			=> CommandCodes.None;
 
-		public string Label => string.Empty;
-		public string LabelWithHotKey => string.Empty;
-		public string AutomationName => string.Empty;
+		/// <inheritdoc/>
+		public string Label
+			=> string.Empty;
 
-		public string Description => string.Empty;
+		/// <inheritdoc/>
+		public string LabelWithHotKey
+			=> string.Empty;
 
-		public RichGlyph Glyph => RichGlyph.None;
-		public object? Icon => null;
-		public FontIcon? FontIcon => null;
-		public Style? OpacityStyle => null;
+		/// <inheritdoc/>
+		public string AutomationName
+			=> string.Empty;
 
-		public bool IsCustomHotKeys => false;
-		public string? HotKeyText => null;
+		/// <inheritdoc/>
+		public string Description
+			=> string.Empty;
+
+		/// <inheritdoc/>
+		public RichGlyph Glyph
+			=> RichGlyph.None;
+
+		/// <inheritdoc/>
+		public object? Icon
+			=> null;
+
+		/// <inheritdoc/>
+		public FontIcon? FontIcon
+			=> null;
+
+		/// <inheritdoc/>
+		public Style? OpacityStyle
+			=> null;
+
+		/// <inheritdoc/>
+		public bool IsCustomHotKeys
+			=> false;
+
+		/// <inheritdoc/>
+		public string? HotKeyText
+			=> null;
+
+		/// <inheritdoc/>
 		public HotKeyCollection HotKeys
 		{
 			get => HotKeyCollection.Empty;
 			set => throw new InvalidOperationException("This command is readonly.");
 		}
 
+		/// <inheritdoc/>
 		public HotKeyCollection DefaultHotKeys
 		{
 			get => HotKeyCollection.Empty;
 			set => throw new InvalidOperationException("This command is readonly.");
 		}
 
-		public bool IsToggle => false;
-		public bool IsOn { get => false; set { } }
-		public bool IsExecutable => false;
+		/// <inheritdoc/>
+		public bool IsToggle
+			=> false;
 
-		public bool CanExecute(object? parameter) => false;
-		public void Execute(object? parameter) { }
-		public Task ExecuteAsync() => Task.CompletedTask;
-		public void ExecuteTapped(object sender, TappedRoutedEventArgs e) { }
+		/// <inheritdoc/>
+		public bool IsOn
+		{
+			get => false;
+			set { }
+		}
 
-		public void ResetHotKeys() { }
+		/// <inheritdoc/>
+		public bool IsExecutable
+			=> false;
+
+		public bool CanExecute(object? parameter)
+			=> false;
+
+		/// <inheritdoc/>
+		public void Execute(object? parameter)
+		{
+		}
+
+		/// <inheritdoc/>
+		public Task ExecuteAsync(object? parameter = null)
+		{
+			return Task.CompletedTask;
+		}
+
+		/// <inheritdoc/>
+		public void ExecuteTapped(object sender, TappedRoutedEventArgs e)
+		{
+		}
+
+		public void ResetHotKeys()
+		{
+		}
 	}
 }

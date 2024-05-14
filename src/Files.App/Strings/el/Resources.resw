@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Εμφάνιση</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Φόντο</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Χρώμα φόντου</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Για προχωρημένους</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Ορισμός ως φόντο οθόνης κλειδώματος</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Ορισμός ως φόντο εφαρμογών</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Δεν ήταν δυνατή η διαγραφή αυτού του στοιχείου</value>
@@ -881,6 +884,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Κωδικοποίηση Bitrate</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Ρυθμός Bit Κωδικοποίησης Ήχου</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Ρυθμός Bit Κωδικοποίησης Βίντεο</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Συμπίεση</value>
@@ -2457,6 +2466,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Ορισμός επιλεγμένης εικόνας ως φόντου επιφάνειας κλειδώματος οθόνης</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Ορισμός επιλεγμένης εικόνας ως φόντου της εφαρμογής</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Εγκατάσταση επιλεγμένης γραμματοσειράς(ων)</value>
   </data>
@@ -3259,7 +3271,7 @@
     <value>Το Files εκτελείται με δικαιώματα διαχειριστή</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Λόγω περιορισμών της πλατφόρμας, το σύρση και απόθεση δεν είναι διαθέσιμο κατά την εκτέλεση αρχείων ως διαχειριστή.</value>
+    <value>Λόγω ενός περιορισμού με τα Windows και WinAppSdk, το drag and drop δεν είναι διαθέσιμο κατά την εκτέλεση αρχείων ως διαχειριστή. Αν θέλετε να χρησιμοποιήσετε drag and drop, μπορείτε να εργαστείτε γύρω από αυτόν τον περιορισμό ανοίγοντας το UAC (Έλεγχος Λογαριασμού Χρήστη) από το μενού Έναρξη και επιλέγοντας το τρίτο επίπεδο, και επανεκκινώντας τα Windows. Διαφορετικά, μπορείτε να συνεχίσετε να χρησιμοποιείτε τα Αρχεία χωρίς drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Αφήστε την εφαρμογή να εκτελείται στο παρασκήνιο όταν το παράθυρο είναι κλειστό</value>
@@ -3735,6 +3747,53 @@
     <value>Προσαρμοσμένο</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
+    <value>Η προσαρμοστική διάταξη δεν είναι διαθέσιμη όταν συγχρονίζονται οι προτιμήσεις, η προεπιλεγμένη διάταξη έχει αλλάξει σε Λεπτομέρειες.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Εικόνα φόντου</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Κάτω</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Κέντρο</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Γέμισμα</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Οριζόντια στοίχιση</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Προσαρμογή εικόνας</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Αριστερά</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Αδιαφάνεια</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Δεξιά</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Πάνω</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Ομοιόμορφη</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Ομοιόμορφη συμπλήρωση</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Κατακόρυφη στοίχιση</value>
   </data>
 </root>

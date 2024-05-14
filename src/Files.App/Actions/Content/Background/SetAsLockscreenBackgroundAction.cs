@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			base.IsExecutable &&
 			context.SelectedItem is not null;
 
-		public override Task ExecuteAsync()
+		public override Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.SelectedItem is not null)
 				return WallpaperHelpers.SetAsBackgroundAsync(WallpaperType.LockScreen, context.SelectedItem.ItemPath);

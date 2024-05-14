@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.HasSelection)
 			{

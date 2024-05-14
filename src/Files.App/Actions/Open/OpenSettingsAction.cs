@@ -18,7 +18,7 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.OemComma, KeyModifiers.Ctrl);
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var dialog = dialogService.GetDialog(viewModel);
 			return dialog.TryShowAsync();
