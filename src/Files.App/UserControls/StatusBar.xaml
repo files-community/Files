@@ -275,7 +275,7 @@
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 		</StackPanel>
 
-		<!--  NOTE:  Use Visibility Property Because It Causes a Crash To Use a TwoWay x:Bind On an Element That Is Inside an Element With x:Load (#12589, #12599)  -->
+		<!--  NOTE:  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
 		<Button
 			x:Name="GitBranch"
 			Grid.Column="3"
