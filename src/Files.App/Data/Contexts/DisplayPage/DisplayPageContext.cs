@@ -129,8 +129,8 @@ namespace Files.App.Data.Contexts
 
 		public DisplayPageContext()
 		{
-			context.ActivePane_Changing += Context_Changing;
-			context.ActivePane_Changed += Context_Changed;
+			context.ActivePaneChanging += Context_Changing;
+			context.ActivePaneChanged += Context_Changed;
 			layoutSettingsService.PropertyChanged += Settings_PropertyChanged;
 		}
 

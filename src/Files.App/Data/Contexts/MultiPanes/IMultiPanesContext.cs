@@ -11,12 +11,12 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// Gets invoked when active pane is changing.
 		/// </summary>
-		event EventHandler? ActivePane_Changing;
+		event EventHandler? ActivePaneChanging;
 
 		/// <summary>
 		/// Gets invoked when active pane is changed.
 		/// </summary>
-		event EventHandler? ActivePane_Changed;
+		event EventHandler? ActivePaneChanged;
 
 		/// <summary>
 		/// Gets active pane.

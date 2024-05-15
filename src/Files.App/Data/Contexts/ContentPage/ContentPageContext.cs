@@ -55,8 +55,8 @@ namespace Files.App.Data.Contexts
 
 		public ContentPageContext()
 		{
-			context.ActivePane_Changing += Context_Changing;
-			context.ActivePane_Changed += Context_Changed;
+			context.ActivePaneChanging += Context_Changing;
+			context.ActivePaneChanged += Context_Changed;
 			GitHelpers.IsExecutingGitActionChanged += GitHelpers_IsExecutingGitActionChanged;
 
 			Update();

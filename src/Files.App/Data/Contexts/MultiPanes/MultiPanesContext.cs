@@ -19,10 +19,10 @@ namespace Files.App.Data.Contexts
 			=> _ActivePaneOrColumn;
 
 		/// <inheritdoc/>
-		public event EventHandler? ActivePane_Changing;
+		public event EventHandler? ActivePaneChanging;
 
 		/// <inheritdoc/>
-		public event EventHandler? ActivePane_Changed;
+		public event EventHandler? ActivePaneChanged;
 
 		/// <summary>
 		/// Initializes an instance of <see cref="MultiPanesContext"/>.
@@ -87,12 +87,12 @@ namespace Files.App.Data.Contexts
 				_ActivePaneOrColumn == _mainPanesPage?.ActivePaneOrColumn)
 				return;
 
-			ActivePane_Changing?.Invoke(this, EventArgs.Empty);
+			ActivePaneChanging?.Invoke(this, EventArgs.Empty);
 
 			_ActivePane = _mainPanesPage?.ActivePane;
 			_ActivePaneOrColumn = _mainPanesPage?.ActivePaneOrColumn;
 
-			ActivePane_Changed?.Invoke(this, EventArgs.Empty);
+			ActivePaneChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
