@@ -176,7 +176,7 @@ namespace Files.App.Helpers
 #if STABLE || PREVIEW
 					.AddSingleton<IUpdateService, SideloadUpdateService>()
 #elif STORE
-					.AddSingleton<IUpdateService, UpdateService>()
+					.AddSingleton<IUpdateService, StoreUpdateService>()
 #else
 					.AddSingleton<IUpdateService, DummyUpdateService>()
 #endif
