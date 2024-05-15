@@ -9,7 +9,7 @@ namespace Files.App.Services.Settings
 	public interface IDevToolsSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Gets or sets a value when the open in ide button should be displayed on the status bar.
+		/// Gets or sets a value when the Open in IDE button should be displayed on the status bar.
 		/// </summary>
 		OpenInIDEOption OpenInIDEOption { get; set; }
 	}
