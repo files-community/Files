@@ -231,7 +231,7 @@ namespace Files.App.Helpers
 				{
 					var defaultArg = new TabBarItemParameter()
 					{
-						InitialPageType = typeof(MainPanesPage),
+						InitialPageType = typeof(PaneHolderPage),
 						NavigationParameter = "Home"
 					};
 

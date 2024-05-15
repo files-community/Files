@@ -14,7 +14,7 @@ namespace Files.App.Views
 	/// <summary>
 	/// Represents <see cref="Page"/> that holds multiple panes.
 	/// </summary>
-	public sealed partial class MainPanesPage : Page, IPanesPage, ITabBarItemContent
+	public sealed partial class PaneHolderPage : Page, IPanesPage, ITabBarItemContent
 	{
 		// Dependency injections
 
@@ -207,13 +207,13 @@ namespace Files.App.Views
 
 		// Events
 
-		public static event EventHandler<MainPanesPage>? CurrentInstanceChanged;
+		public static event EventHandler<PaneHolderPage>? CurrentInstanceChanged;
 		public event EventHandler<TabBarItemParameter>? ContentChanged;
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Constructor
 
-		public MainPanesPage()
+		public PaneHolderPage()
 		{
 			InitializeComponent();
 
@@ -271,7 +271,7 @@ namespace Files.App.Views
 
 			TabBarItemParameter = new()
 			{
-				InitialPageType = typeof(MainPanesPage),
+				InitialPageType = typeof(PaneHolderPage),
 				NavigationParameter = new PaneNavigationArguments()
 				{
 					LeftPaneNavPathParam = NavParamsLeft?.NavPath,
@@ -329,7 +329,7 @@ namespace Files.App.Views
 		{
 			TabBarItemParameter = new()
 			{
-				InitialPageType = typeof(MainPanesPage),
+				InitialPageType = typeof(PaneHolderPage),
 				NavigationParameter = new PaneNavigationArguments()
 				{
 					LeftPaneNavPathParam = PaneLeft.TabBarItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,

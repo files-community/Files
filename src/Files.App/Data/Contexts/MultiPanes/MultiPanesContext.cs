@@ -6,7 +6,7 @@ namespace Files.App.Data.Contexts
 	/// <inheritdoc cref="IMultiPanesContext"/>
 	internal sealed class MultiPanesContext : IMultiPanesContext
 	{
-		private MainPanesPage? _mainPanesPage;
+		private PaneHolderPage? _mainPanesPage;
 
 		private IShellPage? _ActivePane;
 		/// <inheritdoc/>
@@ -29,10 +29,10 @@ namespace Files.App.Data.Contexts
 		/// </summary>
 		public MultiPanesContext()
 		{
-			MainPanesPage.CurrentInstanceChanged += Page_CurrentInstanceChanged;
+			PaneHolderPage.CurrentInstanceChanged += Page_CurrentInstanceChanged;
 		}
 
-		private void Page_CurrentInstanceChanged(object? sender, MainPanesPage? modifiedPage)
+		private void Page_CurrentInstanceChanged(object? sender, PaneHolderPage? modifiedPage)
 		{
 			if (_mainPanesPage is not null && !_mainPanesPage.IsCurrentInstance)
 			{
@@ -59,7 +59,7 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void UpdatePage(MainPanesPage? newPage)
+		private void UpdatePage(PaneHolderPage? newPage)
 		{
 			if (Equals(_mainPanesPage, newPage))
 				return;
