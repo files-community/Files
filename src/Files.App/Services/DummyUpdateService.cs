@@ -16,7 +16,7 @@ namespace Files.App.Services
 
 		public bool IsReleaseNotesAvailable => true;
 
-		public event PropertyChangedEventHandler? PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged { add { } remove { } }
 
 		public Task CheckAndUpdateFilesLauncherAsync()
 		{
