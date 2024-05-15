@@ -111,6 +111,8 @@ namespace Files.App
 
 			// For contextmenu hacks
 			public const double ContextMenuItemsMaxWidth = 250;
+
+			public const double MultiplePaneWidthThreshold = 750;
 		}
 
 		public static class Appearance

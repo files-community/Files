@@ -44,7 +44,7 @@ namespace Files.App.Helpers
 				IconSource = null,
 				Description = null,
 				ToolTipText = null,
-				NavigationParameter = new CustomTabViewItemParameter()
+				NavigationParameter = new TabBarItemParameter()
 				{
 					InitialPageType = type,
 					NavigationParameter = path
@@ -73,7 +73,7 @@ namespace Files.App.Helpers
 				ToolTipText = null
 			};
 
-			tabItem.NavigationParameter = new CustomTabViewItemParameter()
+			tabItem.NavigationParameter = new TabBarItemParameter()
 			{
 				InitialPageType = type,
 				NavigationParameter = tabViewItemArgs
@@ -232,7 +232,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static async void Control_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		public static async void Control_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			if (sender is null)
 				return;

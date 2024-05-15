@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Files.App.Data.Parameters
 {
-	public sealed class CustomTabViewItemParameter
+	public sealed class TabBarItemParameter
 	{
 		private static readonly KnownTypesConverter _typesConverter = new();
 
@@ -18,9 +18,9 @@ namespace Files.App.Data.Parameters
 			return JsonSerializer.Serialize(this, _typesConverter.Options);
 		}
 
-		public static CustomTabViewItemParameter Deserialize(string obj)
+		public static TabBarItemParameter Deserialize(string obj)
 		{
-			var tabArgs = new CustomTabViewItemParameter();
+			var tabArgs = new TabBarItemParameter();
 
 			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
 			tabArgs.InitialPageType = Type.GetType(tempArgs[nameof(InitialPageType)].GetString());

@@ -154,7 +154,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IActionsSettingsService, ActionsSettingsService>(sp => new ActionsSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
 					// Contexts
-					.AddSingleton<IPageContext, PageContext>()
+					.AddSingleton<IMultiPanesContext, MultiPanesContext>()
 					.AddSingleton<IContentPageContext, ContentPageContext>()
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 					.AddSingleton<IHomePageContext, HomePageContext>()
@@ -232,7 +232,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					var defaultArg = new CustomTabViewItemParameter()
+					var defaultArg = new TabBarItemParameter()
 					{
 						InitialPageType = typeof(PaneHolderPage),
 						NavigationParameter = "Home"
