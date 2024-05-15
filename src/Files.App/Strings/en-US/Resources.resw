@@ -3812,7 +3812,7 @@
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
     <value>Application extension</value>
-    <comment>This is the friendly name of DLL file.</comment>
+    <comment>This is the friendly name for DLL files.</comment>
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
     <value>ICO File</value>
