@@ -3796,4 +3796,7 @@
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Vertical alignment</value>
   </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Thin Acrylic</value>
+  </data>
 </root>
