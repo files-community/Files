@@ -43,7 +43,7 @@ namespace Files.App.Views.Layouts
 		// ViewModels
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		public StatusBarViewModel StatusBarViewModel { get; }
 		public ItemManipulationModel ItemManipulationModel { get; private set; }
 		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
 
@@ -285,7 +285,7 @@ namespace Files.App.Views.Layouts
 			Item_DragOverEventHandler = new DragEventHandler(Item_DragOver);
 
 			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
-			DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
+			StatusBarViewModel = new StatusBarViewModel();
 
 			dragOverTimer = DispatcherQueue.CreateTimer();
 			tapDebounceTimer = DispatcherQueue.CreateTimer();

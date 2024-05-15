@@ -134,9 +134,9 @@
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
-					AutomationProperties.AutomationId="SettingsItemGit"
-					Content="{helpers:ResourceString Name=Git}"
-					Tag="GitPage">
+					AutomationProperties.AutomationId="SettingsItemDevTools"
+					Content="{helpers:ResourceString Name=DevTools}"
+					Tag="DevToolsPage">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xE794;" />
 					</NavigationViewItem.Icon>

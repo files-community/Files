@@ -11,15 +11,15 @@ namespace Files.App.UserControls
 	{
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public DirectoryPropertiesViewModel? DirectoryPropertiesViewModel
+		public StatusBarViewModel? StatusBarViewModel
 		{
-			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
-			set => SetValue(DirectoryPropertiesViewModelProperty, value);
+			get => (StatusBarViewModel)GetValue(StatusBarViewModelProperty);
+			set => SetValue(StatusBarViewModelProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for DirectoryPropertiesViewModel.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBar), new PropertyMetadata(null));
+		// Using a DependencyProperty as the backing store for StatusBarViewModel.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty StatusBarViewModelProperty =
+			DependencyProperty.Register(nameof(StatusBarViewModel), typeof(StatusBarViewModel), typeof(StatusBar), new PropertyMetadata(null));
 
 		public SelectedItemsPropertiesViewModel? SelectedItemsPropertiesViewModel
 		{
@@ -47,13 +47,13 @@ namespace Files.App.UserControls
 
 		private async void BranchesFlyout_Opening(object _, object e)
 		{
-			if (DirectoryPropertiesViewModel is null)
+			if (StatusBarViewModel is null)
 				return;
 
-			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = true;
-			DirectoryPropertiesViewModel.ShowLocals = true;
-			await DirectoryPropertiesViewModel.LoadBranches();
-			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+			StatusBarViewModel.IsBranchesFlyoutExpanded = true;
+			StatusBarViewModel.ShowLocals = true;
+			await StatusBarViewModel.LoadBranches();
+			StatusBarViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
 		}
 
 		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
@@ -63,19 +63,19 @@ namespace Files.App.UserControls
 
 		private void BranchesFlyout_Closing(object _, object e)
 		{
-			if (DirectoryPropertiesViewModel is null)
+			if (StatusBarViewModel is null)
 				return;
 
-			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = false;
+			StatusBarViewModel.IsBranchesFlyoutExpanded = false;
 		}
 
 		private async void DeleteBranch_Click(object sender, RoutedEventArgs e)
 		{
-			if (DirectoryPropertiesViewModel is null)
+			if (StatusBarViewModel is null)
 				return;
 
 			BranchesFlyout.Hide();
-			await DirectoryPropertiesViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
+			await StatusBarViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
 		}
 	}
 }
