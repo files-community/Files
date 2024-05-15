@@ -80,14 +80,14 @@ namespace Files.App.Views.Shells
 				if (value != _ContentPage)
 				{
 					if (_ContentPage is not null)
-						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
+						_ContentPage.StatusBarViewModel.CheckoutRequested -= GitCheckout_Required;
 
 					_ContentPage = value;
 
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
 					if (value is not null)
-						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
+						_ContentPage.StatusBarViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}
@@ -276,13 +276,13 @@ namespace Files.App.Views.Shells
 
 			if (!GitHelpers.IsExecutingGitAction)
 			{
-				contentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				contentPage.StatusBarViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					headBranch);
 			}
 
-			contentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			contentPage.StatusBarViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			contentPage.UpdateSelectionSize();
 		}
 
@@ -299,7 +299,7 @@ namespace Files.App.Views.Shells
 				? head.Name
 				: string.Empty;
 
-			ContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(
+			ContentPage?.StatusBarViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
 				head);
@@ -309,12 +309,12 @@ namespace Files.App.Views.Shells
 		{
 			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
 			{
-				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
-				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+				_ContentPage.StatusBarViewModel.ShowLocals = true;
+				_ContentPage.StatusBarViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
 			}
 			else
 			{
-				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				ContentPage.StatusBarViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath));

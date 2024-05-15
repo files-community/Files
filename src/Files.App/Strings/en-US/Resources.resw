@@ -3799,4 +3799,18 @@
   <data name="ThinAcrylic" xml:space="preserve">
     <value>Thin Acrylic</value>
   </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Show for all locations</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Developer tools</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configure the "Open IDE" button on the status bar</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Show for Git repos</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
 </root>
