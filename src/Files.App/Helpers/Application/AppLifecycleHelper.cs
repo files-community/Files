@@ -175,8 +175,10 @@ namespace Files.App.Helpers
 					.AddSingleton<IAddItemService, AddItemService>()
 #if STABLE || PREVIEW
 					.AddSingleton<IUpdateService, SideloadUpdateService>()
+#elif STORE
+					.AddSingleton<IUpdateService, StoreUpdateService>()
 #else
-					.AddSingleton<IUpdateService, UpdateService>()
+					.AddSingleton<IUpdateService, DummyUpdateService>()
 #endif
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
