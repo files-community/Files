@@ -33,10 +33,10 @@ namespace Files.App.Services
 						out IFileOpenDialog dialog)
 					.ThrowOnFailure();
 
-					List<COMDLG_FILTERSPEC> extensions = [];
-
 					if (filters.Length is not 0 && filters.Length % 2 is 0)
 					{
+						List<COMDLG_FILTERSPEC> extensions = [];
+
 						for (int i = 1; i < filters.Length; i += 2)
 						{
 							COMDLG_FILTERSPEC extension;
@@ -47,10 +47,10 @@ namespace Files.App.Services
 							// Add to the exclusive extension list
 							extensions.Add(extension);
 						}
-					}
 
-					// Set the file type using the extension list
-					dialog.SetFileTypes(extensions.ToArray());
+						// Set the file type using the extension list
+						dialog.SetFileTypes(extensions.ToArray());
+					}
 
 					// Get the default shell folder (My Computer)
 					PInvoke.SHCreateItemFromParsingName(
@@ -106,10 +106,10 @@ namespace Files.App.Services
 						out IFileSaveDialog dialog)
 					.ThrowOnFailure();
 
-					List<COMDLG_FILTERSPEC> extensions = [];
-
 					if (filters.Length is not 0 && filters.Length % 2 is 0)
 					{
+						List<COMDLG_FILTERSPEC> extensions = [];
+
 						for (int i = 1; i < filters.Length; i += 2)
 						{
 							COMDLG_FILTERSPEC extension;
@@ -120,10 +120,10 @@ namespace Files.App.Services
 							// Add to the exclusive extension list
 							extensions.Add(extension);
 						}
-					}
 
-					// Set the file type using the extension list
-					dialog.SetFileTypes(extensions.ToArray());
+						// Set the file type using the extension list
+						dialog.SetFileTypes(extensions.ToArray());
+					}
 
 					// Get the default shell folder (My Computer)
 					PInvoke.SHCreateItemFromParsingName(
