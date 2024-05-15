@@ -83,6 +83,8 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.EditAlbumCoverCommand = new RelayCommand(async () =>
 			{
+				var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(np.Window.AppWindow.Id);
+
 				string[] extensions =
 				[
 					"Image File", "*.jpg",
@@ -91,7 +93,7 @@ namespace Files.App.ViewModels.Properties
 					"Image File", "*.png",
 				];
 
-				CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+				CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 
 				var file = await StorageHelpers.ToStorageItem<StorageFile>(filePath);
 				if (file is not null)
