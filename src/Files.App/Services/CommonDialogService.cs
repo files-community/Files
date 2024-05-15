@@ -62,7 +62,9 @@ namespace Files.App.Services
 
 					// Folder picker
 					if (pickFoldersOnly)
+					{
 						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+					}
 
 					// Set the default folder to open in the dialog
 					dialog.SetFolder((IShellItem)directoryShellItem);

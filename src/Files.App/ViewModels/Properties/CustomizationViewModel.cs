@@ -92,7 +92,6 @@ namespace Files.App.ViewModels.Properties
 			];
 
 			var result = CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.MyComputer, out var filePath);
-
 			if (result)
 				LoadIconsForPath(filePath);
 		}
