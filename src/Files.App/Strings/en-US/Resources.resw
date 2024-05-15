@@ -3816,7 +3816,7 @@
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
     <value>ICO File</value>
-    <comment>This is the friendly type name of ICO file.</comment>
+    <comment>This is the friendly name for ICO files.</comment>
   </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip File</value>
