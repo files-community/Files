@@ -3271,7 +3271,7 @@
     <value>Files está sendo executado como administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Devido a limitações da plataforma, arrastar e soltar não está disponível ao executar Files como administrador.</value>
+    <value>Devido a uma limitação com Windows e WinAppSdk, arrastar e soltar não está disponível ao executar Arquivos como administrador. Se você deseja usar arrastar e soltar, você pode contornar essa limitação abrindo UAC (Controle de Conta do Usuário) no menu inicial e selecionando o terceiro nível e reiniciando o Windows. Caso contrário, você pode continuar usando Arquivos sem arrastar e soltar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Manter o aplicativo sendo executado em segundo plano quando a janela do files estiver fechada</value>

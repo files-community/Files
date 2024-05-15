@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.LocatableStorage;
-
 namespace Files.App.Data.Contracts
 {
 	public interface INetworkDrivesService
@@ -16,7 +14,7 @@ namespace Files.App.Data.Contracts
 		/// Enumerates network storage drives.
 		/// </summary>
 		/// <returns>A collection of network storage devices</returns>
-		IAsyncEnumerable<ILocatableFolder> GetDrivesAsync();
+		Task<IEnumerable<ILocatableFolder>> GetDrivesAsync();
 
 		/// <summary>
 		/// Updates network storage drives to up-to-date.

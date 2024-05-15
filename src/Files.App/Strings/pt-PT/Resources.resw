@@ -3271,7 +3271,7 @@
     <value>A aplicação está a ser executada no modo de administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Devido a limitações da plataforma, arrastar e largar não está disponível se executar a aplicação como administrador.</value>
+    <value>Devido a uma limitação com Windows e WinAppSdk, arrastar e largar não está disponível ao executar a aplicação como administrador. Se quiser usar a funcionalidade "Arrastar e largar", pode contornar a limitação abrindo UAC (Controle de Conta do Utilizador) no menu Iniciar, selecionar o terceiro nível e reiniciando o Windows. Caso contrário, terá que continuar a utilizar a aplicação sem a funcionalidade.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Manter aplicação em segundo plano ao fechar a janela</value>

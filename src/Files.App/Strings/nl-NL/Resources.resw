@@ -3271,7 +3271,7 @@
     <value>Files wordt uitgevoerd als beheerder</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Vanwege platform beperkingen is slepen en neerzetten niet beschikbaar wanneer Files wordt uitgevoerd als beheerder.</value>
+    <value>Slepen en neerzetten zijn als gevolg van een beperking met Windows en WinAppSd niet beschikbaar als er bestanden als admin worden gebruikt. Als u drag and drop wilt gebruiken, u kunt rond deze beperking werken door UAC (gebruikersaccount Control) te openen uit het startmenu en het derde niveau te selecteren en Windows te herstarten. Anders kun je bestanden blijven gebruiken zonder verslepen en neerzetten.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Laat de app op de achtergrond actief als het venster wordt gesloten</value>

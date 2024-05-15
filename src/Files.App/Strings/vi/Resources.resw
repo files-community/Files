@@ -1465,7 +1465,7 @@
     <value>Mở thư mục đích khi hoàn tất</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Giải nén đến {0}\</value>
+    <value>Giải nén vào {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>Tạo thư viện mới</value>
@@ -2374,22 +2374,22 @@
     <value>Chuyển đổi ẩn/hiện thanh bên</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Sao chép khoản mục vào khay nhớ tạm</value>
+    <value>Sao chép khoản mục vào bộ nhớ tạm</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Sao chép đường dẫn khoản mục đã chọn vào khay nhớ tạm</value>
+    <value>Sao chép đường dẫn khoản mục đã chọn vào bộ nhớ tạm</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép vào khay nhớ tạm</value>
+    <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép vào bộ nhớ tạm</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Chuyển khoản mục vào khay nhớ tạm</value>
+    <value>Chuyển khoản mục vào bộ nhớ tạm</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Dán khoản mục từ khay nhớ tạm vào thư mục hiện tại</value>
+    <value>Dán khoản mục từ bộ nhớ tạm vào thư mục hiện tại</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Dán khoản mục từ khay nhớ tạm vào thư mục đã chọn</value>
+    <value>Dán khoản mục từ bộ nhớ tạm vào thư mục đã chọn</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Xóa khoản mục</value>
@@ -2425,7 +2425,7 @@
     <value>Mở thư mục nguồn của khoản mục đã tìm được</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Làm mới nội dung trang</value>
+    <value>Làm mới nội dung hiển thị</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
     <value>Đổi tên khoản mục đã chọn</value>
@@ -3271,7 +3271,7 @@
     <value>Files đang chạy với quyền quản trị</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Do giới hạn nền tảng, tính năng kéo thả sẽ không khả dụng khi chạy Files với quyền quản trị viên.</value>
+    <value>Do giới hạn của Windows và WinAppSdk, tính năng kéo thả sẽ không khả dụng khi chạy Files với quyền quản trị viên. Để khắc phục, hãy mở cài đặt UAC (User Account Control) từ menu Bắt đầu, chọn mức thứ ba rồi khởi động lại máy. Lưu ý rằng bạn vẫn có thể tiếp tục sử dụng Files mà không cần tính năng này.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Chạy ứng dụng trong nền khi đóng cửa sổ</value>
@@ -3445,35 +3445,35 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>Đã hủy giải nén "{0}" đến "{1}"</value>
+    <value>Đã hủy giải nén "{0}" vào "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>Đã hủy thao tác giải nén "{0}" từ "{1}" đến "{2}"</value>
+    <value>Đã hủy thao tác giải nén "{0}" từ "{1}" vào "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Đã giải nén "{0}" đến "{1}"</value>
+    <value>Đã giải nén "{0}" vào "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>Đã giải nén "{0}" từ "{1}" đến "{2}"</value>
+    <value>Đã giải nén "{0}" từ "{1}" vào "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>Xảy ra lỗi khi giải nén "{0}" đến "{1}"</value>
+    <value>Xảy ra lỗi khi giải nén "{0}" vào "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>Không thể giải nén "{0}" từ "{1}" đến "{2}"</value>
+    <value>Không thể giải nén "{0}" từ "{1}" vào "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>Đang giải nén "{0}" đến "{1}"</value>
+    <value>Đang giải nén "{0}" vào "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>Đang thực hiện giải nén "{0}" từ "{1}" đến "{2}"</value>
+    <value>Đang thực hiện giải nén "{0}" từ "{1}" vào "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
@@ -3596,7 +3596,7 @@
     <value>Đã xảy ra lỗi khi gắn nhãn</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Giải nén tệp đã chọn vào thư mục hiện tại nếu tệp nén chỉ chứa một khoản mục, hoặc vào thư mục mới nếu tệp nén chứa nhiều khoản mục</value>
+    <value>Giải nén tệp đã chọn vào thư mục hiện tại nếu tệp chỉ chứa một khoản mục, hoặc vào thư mục mới nếu tệp chứa nhiều khoản mục</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Giải nén tại đây (Thông minh)</value>
@@ -3761,7 +3761,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Lấp đầy</value>
+    <value>Kéo giãn</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
@@ -3771,14 +3771,14 @@
     <value>Khớp cỡ ảnh</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>Trái</value>
+    <value>Bên trái</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
     <value>Độ trong suốt</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>Phải</value>
+    <value>Bên phải</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
@@ -3786,11 +3786,11 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Đồng dạng</value>
+    <value>Vừa cửa sổ</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Đồng dạng (lấp đầy)</value>
+    <value>Lấp đầy</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">

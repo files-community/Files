@@ -3271,7 +3271,7 @@
     <value>Filer körs som administratör</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>På grund av plattformsbegränsningar är dra och släpp inte tillgängligt när filer körs som administratör.</value>
+    <value>På grund av en begränsning med Windows och WinAppSdk, dra och släpp är inte tillgänglig när du kör filer som administratör. Om du vill använda dra och släpp, du kan arbeta runt denna begränsning genom att öppna UAC (User Account Control) från Start-menyn och välja den tredje nivån, och starta om Windows. Annars kan du fortsätta använda filer utan att dra och släppa.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lämna appen igång i bakgrunden när fönstret är stängt</value>

@@ -118,14 +118,9 @@ namespace Files.App.Data.Items
 			get => type; set
 			{
 				type = value;
-				if (value == DriveType.Network)
-				{
-					ToolTip = "Network".GetLocalizedResource();
-				}
-				else if (value == DriveType.CloudDrive)
-				{
+
+				if (value is DriveType.Network or DriveType.CloudDrive)
 					ToolTip = Text;
-				}
 			}
 		}
 

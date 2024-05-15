@@ -5,9 +5,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Views.Settings
 {
-	public sealed partial class GitPage : Page
+	public sealed partial class DevToolsPage : Page
 	{
-		public GitPage()
+		public DevToolsPage()
 		{
 			InitializeComponent();
 		}

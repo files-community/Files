@@ -3271,7 +3271,7 @@
     <value>Files rulează ca administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Din cauza limitărilor platformei, tragerea și lăsarea fișierelor nu este disponibilă atunci când rulați Files ca administrator.</value>
+    <value>Din cauza unei limitări cu Windows și WinAppSdk, tragerea și fixarea nu sunt disponibile atunci când se execută fișierele ca administrator. Daca doresti sa folosesti drag and drop poți lucra în jurul acestei limitări deschizând UAC (Control Cont Utilizator) din Meniul Start și selectând al treilea nivel, și repornind Windows. Altfel, puteţi continua să utilizaţi fişiere fără a trage &amp; plasa.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lăsați aplicația să ruleze în fundal atunci când fereastra este închisă</value>
