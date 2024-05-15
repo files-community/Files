@@ -104,42 +104,34 @@ namespace Files.App.Data.Models
 		}
 
 		/// <inheritdoc/>
-		public override void Reset()
+		public unsafe override void Reset()
 		{
-			unsafe
-			{
-				dialogOptions.dwDevNum = 0;
-				dialogOptions.dwFlags = 0;
-				dialogOptions.lpConnRes = null;
-				ReadOnlyPath = false;
-			}
+			dialogOptions.dwDevNum = unchecked((uint)-1);
+			dialogOptions.dwFlags = 0;
+			dialogOptions.lpConnRes = null;
+			ReadOnlyPath = false;
 		}
 
 		/// <inheritdoc/>
-		protected override bool RunDialog(IntPtr hwndOwner)
+		protected unsafe override bool RunDialog(IntPtr hwndOwner)
 		{
-			using var lpNetResource = SafeCoTaskMemHandle.CreateFromStructure(netRes);
+			dialogOptions.hwndOwner = new(hwndOwner);
 
-			unsafe
-			{
-				dialogOptions.hwndOwner = new(hwndOwner);
+			fixed (NETRESOURCEW* lpConnRes = &netRes)
+				dialogOptions.lpConnRes = lpConnRes;
 
-				fixed (NETRESOURCEW* lpConnRes = &netRes)
-					dialogOptions.lpConnRes = lpConnRes;
+			if (ReadOnlyPath && !string.IsNullOrEmpty(netRes.lpRemoteName.ToString()))
+				dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_RO_PATH;
 
-				if (ReadOnlyPath && !string.IsNullOrEmpty(netRes.lpRemoteName.ToString()))
-					dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_RO_PATH;
+			var result = PInvoke.WNetConnectionDialog1W(ref dialogOptions);
 
-				var result = PInvoke.WNetConnectionDialog1W(ref dialogOptions);
+			dialogOptions.lpConnRes = null;
 
-				dialogOptions.lpConnRes = null;
+			if ((uint)result == unchecked((uint)-1))
+				return false;
 
-				if (result == unchecked((uint)-1))
-					return false;
-
-				if (result == 0)
-					throw new Win32Exception("Cannot display dialog");
-			}
+			if (result == 0)
+				throw new Win32Exception("Cannot display dialog");
 
 			return true;
 		}

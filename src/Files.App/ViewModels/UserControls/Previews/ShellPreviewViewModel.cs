@@ -120,10 +120,10 @@ namespace Files.App.ViewModels.Previews
 
 		private unsafe bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
 		{
-			DirectN.D3D_DRIVER_TYPE[] driverTypes =
+			D3D_DRIVER_TYPE[] driverTypes =
 			[
-				DirectN.D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE,
-				DirectN.D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_WARP,
+				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE,
+				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_WARP,
 			];
 
 			ID3D11Device? d3d11Device = null;
@@ -162,7 +162,7 @@ namespace Files.App.ViewModels.Previews
 
 			var compositor = ElementCompositionPreview.GetElementVisual(presenter).Compositor;
 			outputLink = ContentExternalOutputLink.Create(compositor);
-			DirectN.IDCompositionTarget target = outputLink.As<DirectN.IDCompositionTarget>();
+			IDCompositionTarget target = outputLink.As<IDCompositionTarget>();
 			target.SetRoot(childVisual);
 
 			outputLink.PlacementVisual.Size = new(0, 0);

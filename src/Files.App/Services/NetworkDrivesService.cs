@@ -106,7 +106,8 @@ namespace Files.App.Services
 				PInvoke.WNetCancelConnection2W(
 					drive.Path.TrimEnd('\\'),
 					(uint)NET_USE_CONNECT_FLAGS.CONNECT_UPDATE_PROFILE,
-					true) is 0u;
+					true)
+				is WIN32_ERROR.NO_ERROR;
 		}
 
 		/// <inheritdoc/>
@@ -167,10 +168,10 @@ namespace Files.App.Services
 								creds.UserName = new(lpcUserName);
 
 							byte[] bPassword = Encoding.Unicode.GetBytes(credentialsReturned[1]);
-							creds.CredentialBlobSize = (uint)bPassword.Length;
-
-							fixed (byte* lpCredentialBlob = Encoding.UTF8.GetBytes(credentialsReturned[1]))
+							fixed (byte* lpCredentialBlob = bPassword)
 								creds.CredentialBlob = lpCredentialBlob;
+
+							creds.CredentialBlobSize = (uint)bPassword.Length;
 						}
 
 						PInvoke.CredWrite(creds, 0);
