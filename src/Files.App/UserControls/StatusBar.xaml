@@ -195,11 +195,11 @@
 							ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" />
 						<MenuFlyoutItem
 							x:Name="OpenRepoInVSCodeButton"
-							x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
 							Command="{x:Bind Commands.OpenRepoInVSCode}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
 							Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}"
-							ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInVSCode.LabelWithHotKey, Mode=OneWay}" />
+							ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInVSCode.LabelWithHotKey, Mode=OneWay}"
+							Visibility="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}" />
 					</MenuFlyout>
 				</Button.Flyout>
 			</Button>
