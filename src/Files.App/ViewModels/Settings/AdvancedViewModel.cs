@@ -205,7 +205,7 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ExportSettingsAsync()
 		{
-			string[] extensions = [ "Zip File", "*.zip" ];
+			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip" ];
 			CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 
 			var file = await StorageHelpers.ToStorageItem<StorageFile>(filePath);

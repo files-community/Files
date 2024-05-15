@@ -92,15 +92,15 @@ namespace Files.App.ViewModels.Settings
 		{
 			string[] extensions =
 			[
-				"Image File", "*.png",
-				"Image File", "*.bmp",
-				"Image File", "*.jpg",
-				"Image File", "*.jpeg",
-				"Image File", "*.jfif",
-				"Image File", "*.gif",
-				"Image File", "*.tiff",
-				"Image File", "*.tif",
-				"Image File", "*.webp",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.png",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.bmp",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.jpg",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.jpeg",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.jfif",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.gif",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.tiff",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.tif",
+				"ImageFileCapitalized".GetLocalizedResource(), "*.webp",
 			];
 
 			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath);

@@ -86,9 +86,9 @@ namespace Files.App.ViewModels.Properties
 
 			string[] extensions =
 			[
-				"Application extension", "*.dll",
-				"Application", "*.exe",
-				"ICO File", "*.ico",
+				"ApplicationExtension".GetLocalizedResource(), "*.dll",
+				"Application".GetLocalizedResource(), "*.exe",
+				"IcoFileCapitalized".GetLocalizedResource(), "*.ico",
 			];
 
 			var result = CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.MyComputer, out var filePath);
