@@ -3,9 +3,9 @@
 
 using System.Windows.Input;
 
-namespace Files.App.Data.Models
+namespace Files.App.ViewModels.UserControls
 {
-	public sealed class DirectoryPropertiesViewModel : ObservableObject
+	public sealed class StatusBarViewModel : ObservableObject
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
@@ -19,7 +19,7 @@ namespace Files.App.Data.Models
 
 		private readonly ObservableCollection<BranchItem> _remoteBranches = [];
 
-		public bool IsBranchesFlyoutExpaned { get; set; } = false;
+		public bool IsBranchesFlyoutExpanded { get; set; } = false;
 
 		private string? _DirectoryItemCount;
 		public string? DirectoryItemCount
@@ -98,7 +98,7 @@ namespace Files.App.Data.Models
 
 		public ICommand NewBranchCommand { get; }
 
-		public DirectoryPropertiesViewModel()
+		public StatusBarViewModel()
 		{
 			NewBranchCommand = new AsyncRelayCommand(()
 				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX].Name));
@@ -116,16 +116,17 @@ namespace Files.App.Data.Models
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
 		{
-			GitBranchDisplayName = isGitRepository &&
-								head is not null &&
-								!ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults
-				? head.Name
-				: null;
+			GitBranchDisplayName =
+				isGitRepository &&
+				head is not null &&
+				!ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults
+					? head.Name
+					: null;
 
 			_gitRepositoryPath = repositoryPath;
 			
 			// Change ShowLocals value only if branches flyout is closed
-			if (!IsBranchesFlyoutExpaned)
+			if (!IsBranchesFlyoutExpanded)
 				ShowLocals = true;
 
 			var behind = head is not null ? head.BehindBy ?? 0 : 0;
