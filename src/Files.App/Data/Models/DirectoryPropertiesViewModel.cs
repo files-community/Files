@@ -85,7 +85,8 @@ namespace Files.App.Data.Models
 		{
 			get
 			{
-				return DevToolsSettingsService.OpenInIDEOption == OpenInIDEOption.AllLocations || (DevToolsSettingsService.OpenInIDEOption == OpenInIDEOption.GitRepos && GitBranchDisplayName is not null);
+				return DevToolsSettingsService.OpenInIDEOption == OpenInIDEOption.AllLocations ||
+					   (DevToolsSettingsService.OpenInIDEOption == OpenInIDEOption.GitRepos && GitBranchDisplayName is not null);
 			}
 		}
 
