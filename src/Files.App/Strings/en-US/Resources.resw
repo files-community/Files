@@ -3824,6 +3824,6 @@
   </data>
   <data name="ImageFileCapitalized" xml:space="preserve">
     <value>Image File</value>
-    <comment>This is the friendly type name of image files group.</comment>
+    <comment>This is the friendly name for image files.</comment>
   </data>
 </root>
