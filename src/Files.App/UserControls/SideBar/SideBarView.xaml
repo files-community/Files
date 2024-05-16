@@ -146,10 +146,16 @@
 				BorderThickness="1,1,0,1"
 				Child="{x:Bind InnerContent, Mode=OneWay}"
 				CornerRadius="8,0,0,8"
-				TabFocusNavigation="Local" />
+				TabFocusNavigation="Local"
+				Translation="0,0,8">
+				<Border.Shadow>
+					<ThemeShadow x:Name="ContentThemeShadow" />
+				</Border.Shadow>
+			</Border>
 
 			<!--  Footer  -->
 			<Border
+				x:Name="FooterContentPresenter"
 				Grid.Row="1"
 				VerticalAlignment="Stretch"
 				Child="{x:Bind FooterContent, Mode=OneWay}"
