@@ -85,13 +85,9 @@ namespace Files.App.ViewModels.Properties
 
 				string[] extensions =
 				[
-					"BitmapFiles".GetLocalizedResource(), "*.bmp;*.dib",
-					"JPEG", "*.jpg;*.jpeg;*.jpe;*.jfif",
-					"GIF", "*.gif",
-					"TIFF", "*.tif;*.tiff",
+					"BitmapFiles".GetLocalizedResource(), "*.bmp",
+					"JPEG", "*.jpg;*.jpeg;*.jpe",
 					"PNG", "*.png",
-					"HEIC", "*.heic;*.hif",
-					"WEBP", "*.webp",
 				];
 
 				CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
