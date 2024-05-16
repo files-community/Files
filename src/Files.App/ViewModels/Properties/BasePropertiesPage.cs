@@ -87,10 +87,7 @@ namespace Files.App.ViewModels.Properties
 
 				string[] extensions =
 				[
-					"ImageFileCapitalized".GetLocalizedResource(), "*.jpg",
-					"ImageFileCapitalized".GetLocalizedResource(), "*.jpeg",
-					"ImageFileCapitalized".GetLocalizedResource(), "*.bmp",
-					"ImageFileCapitalized".GetLocalizedResource(), "*.png",
+					"ImageFileCapitalized".GetLocalizedResource(), "*.jpg;*.jpeg;*.bmp;*.png",
 				];
 
 				CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
