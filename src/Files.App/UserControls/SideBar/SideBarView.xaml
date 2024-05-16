@@ -175,6 +175,7 @@
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="Content.CornerRadius" Value="0" />
+						<Setter Target="Content.BorderThickness" Value="0,1,0,1" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="0,0,0,0" />
 						<!--  Specific to collapsed pane  -->
@@ -193,6 +194,7 @@
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="Content.CornerRadius" Value="0" />
+						<Setter Target="Content.BorderThickness" Value="0,1,0,1" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="0,0,0,0" />
 						<!--  Specific to expanded pane  -->
