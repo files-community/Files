@@ -16,6 +16,6 @@ namespace Files.Core.Storage.Contracts
 		/// <summary>
 		/// Stops the watcher
 		/// </summary>
-		void StopsWatcher();
+		void StopWatcher();
 	}
 }
