@@ -1,32 +1,25 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data;
-using Files.Shared.Extensions;
 using LiteDB;
 using Microsoft.Win32;
+using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
-using static Files.App.Server.Data.TaggedFileRegistry;
-using static Files.App.Server.Utils.RegistryUtils;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using static Files.App.Helpers.RegistryHelpers;
+using static Files.App.Utils.FileTags.TaggedFileRegistry;
 
-namespace Files.App.Server.Database
+namespace Files.App.Utils.FileTags
 {
-	public sealed class FileTagsDatabase : IDisposable
+	public sealed class FileTagsDatabase
 	{
 		private readonly static string FileTagsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\v1\FileTags";
-		
+
 		private readonly static string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 		private const string FileTagsCollectionName = "taggedfiles";
-
-		private readonly GCHandle _handle;
-		private bool _disposed = false;
 
 		static FileTagsDatabase()
 		{
@@ -45,25 +38,6 @@ namespace Files.App.Server.Database
 				}
 
 				File.Delete(FileTagsDbPath);
-			}
-		}
-
-		public FileTagsDatabase()
-		{
-			throw new NotSupportedException($"Instantiating {nameof(FileTagsDatabase)} by non-parameterized constructor is not supported.");
-		}
-
-		public FileTagsDatabase(int processId)
-		{
-			_handle = GCHandle.Alloc(this, GCHandleType.Pinned);
-
-			if (AppInstanceMonitor.AppInstanceResources.TryGetValue(processId, out var instances))
-			{
-				instances.Add(this);
-			}
-			else
-			{
-				AppInstanceMonitor.AppInstanceResources[processId] = [this];
 			}
 		}
 
@@ -101,7 +75,7 @@ namespace Files.App.Server.Database
 			File.Delete(filename); // recreate DB with correct version
 		}
 
-		public void SetTags(string filePath, ulong? frn, [ReadOnlyArray] string[] tags)
+		public void SetTags(string filePath, ulong? frn, string[] tags)
 		{
 			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
 
@@ -146,7 +120,7 @@ namespace Files.App.Server.Database
 						// Keep entry updated
 						tag.Frn = frn;
 						var value = frn.Value;
-						filePathKey.SetValue(nameof(LayoutPreferences.Frn), Unsafe.As<ulong, long>(ref value), RegistryValueKind.QWord);
+						filePathKey.SetValue(nameof(TaggedFile.Frn), Unsafe.As<ulong, long>(ref value), RegistryValueKind.QWord);
 					}
 					return tag;
 				}
@@ -163,7 +137,7 @@ namespace Files.App.Server.Database
 					{
 						// Keep entry updated
 						tag.FilePath = filePath;
-						frnKey.SetValue(nameof(LayoutPreferences.FilePath), filePath, RegistryValueKind.String);
+						frnKey.SetValue(nameof(TaggedFile.FilePath), filePath, RegistryValueKind.String);
 					}
 					return tag;
 				}
@@ -172,7 +146,6 @@ namespace Files.App.Server.Database
 			return null;
 		}
 
-		[DefaultOverload]
 		public void UpdateTag(string oldFilePath, ulong? frn, string? newFilePath)
 		{
 			var tag = FindTag(oldFilePath, null);
@@ -198,7 +171,6 @@ namespace Files.App.Server.Database
 			}
 		}
 
-		[Overload("UpdateTagByFrn")]
 		public void UpdateTag(ulong oldFrn, ulong? frn, string? newFilePath)
 		{
 			var tag = FindTag(null, oldFrn);
@@ -300,15 +272,6 @@ namespace Files.App.Server.Database
 				}
 
 				IterateKeys(list, CombineKeys(path, subKey), depth + 1);
-			}
-		}
-
-		public void Dispose()
-		{
-			if (!_disposed)
-			{
-				_disposed = true;
-				_handle.Free();
 			}
 		}
 	}

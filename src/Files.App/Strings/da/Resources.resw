@@ -571,7 +571,7 @@
     <value>Version:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>Der er ikke noget at dele lige nu ...</value>
+    <value>Intet at dele lige nu...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>De valgte emner vil blive delt</value>
@@ -607,7 +607,7 @@
     <value>Vis flere muligheder</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Appen skal genstartes for at anvende indstillingerne. Genstart appen nu?</value>
+    <value>Appen skal genstartes for at anvende indstillingerne. Genstart den nu?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Støt os på GitHub</value>
@@ -619,7 +619,7 @@
     <value>Adgang nægtet</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Sæt som</value>
+    <value>Indstil som</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annullér</value>
@@ -628,7 +628,7 @@
     <value>Opret et nyt emne</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Vælg type for det nye emne herunder</value>
+    <value>Vælg en type for det nye emne herunder</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Fil</value>
@@ -745,13 +745,13 @@
     <value>Personnavne</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>Kanaltælling</value>
+    <value>Kanalantal</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Format</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>Datafrekvens</value>
+    <value>Samplingshastighed</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Albumkunstner</value>
@@ -784,7 +784,7 @@
     <value>Varighed</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
-    <value>Rammeantal</value>
+    <value>Billedantal</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
     <value>Beskyttelsestype</value>
@@ -958,10 +958,10 @@
     <value>Enheden kan nu fjernes sikkert fra computeren.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Problem med frakoble enhed</value>
+    <value>Problem med at frakoble enhed</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Denne enhed er pt. i brug. Luk alle programmer, vinduer eller faner, som muligvis bruger enheden, og forsøg derefter igen.</value>
+    <value>Denne enhed er pt. i brug. Luk alle programmer, vinduer eller faner, som muligvis bruger enheden, og forsøg dernæst igen.</value>
   </data>
   <data name="Eject" xml:space="preserve">
     <value>Frakobl</value>
@@ -976,7 +976,7 @@
     <value>Ny fane</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>Nogle indstillinger kan indeholde personlige oplysninger.</value>
+    <value>Nogle egenskaber kan indeholde personlig information.</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Ryd alle egenskaber</value>
@@ -1003,7 +1003,7 @@
     <value>Synk layout og sorteringspræferencer på tværs af mapper</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Tilpas højreklikskontekstmenuen</value>
+    <value>Tilpas højreklikkontekstmenuen</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
     <value>Oprindelig sti</value>
@@ -1081,7 +1081,7 @@
     <value>Emnenavn</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
-    <value>Frigør fra sidepanel</value>
+    <value>Frigør fra sidebjælke</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Netværksdrev</value>
@@ -1180,7 +1180,7 @@
     <value>Mål</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>Variabler</value>
+    <value>Parametre</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Standard</value>
@@ -1207,7 +1207,7 @@
     <value>Mappe</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>Placeringer</value>
+    <value>Placeringer:</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Angiv som standard gem-sti</value>
@@ -1216,7 +1216,7 @@
     <value>Ingen placeringer</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>Inputfeltet er obligatorisk!</value>
+    <value>Inputfeltindhold er obligatorisk!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>Emnenavn må ikke indeholde flg. tegn: \ / : * ? " &lt; &gt; |</value>
@@ -1351,7 +1351,7 @@
     <value>Meget lille</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Fremtid</value>
+    <value>Fremtidig</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>I dag</value>
@@ -1462,13 +1462,13 @@
     <value>Udpak arkiv</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Åbn destinationsmappe, når udført</value>
+    <value>Åbn efterfølgende destinationsmappen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Udpak til {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>Opret nyt mappe</value>
+    <value>Opret ny mappe</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>Gendan standardmapper</value>
@@ -1516,7 +1516,7 @@
     <value>Denne mappe og filer</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>Denne mappe, undermapper, og filer</value>
+    <value>Denne mappe, undermapper og filer</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
     <value>Kun filer</value>
@@ -1549,7 +1549,7 @@
     <value>Slet undermapper og filer</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Eksekvere filer</value>
+    <value>Eksekvering af filer</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
     <value>Læsning af egenskaber</value>
@@ -1633,7 +1633,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Skjul {0} afsnit</value>
+    <value>Skjul afsnittet {0}</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Tilføj fil</value>
@@ -1690,7 +1690,7 @@
     <value>Indsæt disk i drev {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Indsæt en disk</value>
+    <value>Indsæt disk</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -1711,7 +1711,7 @@
     <value>Ingen emner fundet</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Åbn log-placering</value>
+    <value>Åbn logplacering</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Opret link i {0}</value>
@@ -1723,7 +1723,7 @@
     <value>Felter</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Åbn mapper på ny fane</value>
+    <value>Åbn mapper i ny fane</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
     <value>Statuscenter</value>
@@ -1747,7 +1747,7 @@
     <value>Indsend fejlanmeldelse</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Sæt Files som standard filhåndtering</value>
+    <value>Sæt Files som standardfilhåndtering</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Brug Files som Åbn fil-dialog</value>
@@ -1768,7 +1768,7 @@
     <value>Importindstillinger</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>Indstillinger kunne ikke importeres. Indstillingsfil defekt.</value>
+    <value>Indstillinger kunne ikke importeres. Indstillingsfil beskadiget.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Fejl under import af indstillinger</value>
@@ -1963,7 +1963,7 @@
     <value>Forsøg igen</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Flytning er ikke understøttet i denne kontekst. Kopiér emnerne i stedet?</value>
+    <value>Flytning understøttes ikke i denne kontekst. Kopiér emnerne i stedet?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>Skjulte emner</value>
@@ -2014,13 +2014,13 @@
     <value>Kolonneoprettelsesdato</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Størrelseskolonne</value>
+    <value>Tilpas kolonnestørrelse</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag-kolonne</value>
+    <value>Tag kolonne</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type-kolonne</value>
+    <value>Type kolonne</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Låseskærm</value>
@@ -2041,7 +2041,7 @@
     <value>Sikker på, at alle emner i papirkurven skal gendannes?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Gendan alle elementer</value>
+    <value>Gendan alle emner</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
     <value>Gendan {0} valgt(e) emne(r)?</value>
@@ -2053,7 +2053,7 @@
     <value>Gendan alle emner</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Gendannelse</value>
+    <value>Gendan</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>Genvej kan ikke åbnes</value>
@@ -3271,7 +3271,7 @@
     <value>Files kører som administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Grundet platformsbegrænsninger er træk og slip utilgængelig, når Files køres som administrator.</value>
+    <value>På grund af en begrænsning med Windows og WinAppSdk, træk og slip er ikke tilgængelig, når du kører filer som admin. Hvis du ønsker at bruge træk og slip, Du kan arbejde omkring denne begrænsning ved at åbne UAC (Brugerkontokontrol) fra menuen Start og vælge det tredje niveau, og genstarte Windows. Ellers kan du fortsætte med at bruge filer uden at trække &amp; slip.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lad appen køre i baggrunden, når vinduet lukkes</value>

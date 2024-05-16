@@ -19,6 +19,8 @@ namespace Files.App.Data.Items
 		}
 
 		private double _NormalMaxLength = 800;
+
+		[RegistryIgnore]
 		public double NormalMaxLength
 		{
 			get => _NormalMaxLength;
@@ -36,6 +38,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		[RegistryIgnore]
 		public bool IsResizable { get; set; } = true;
 
 		public double MinLength
@@ -65,6 +68,7 @@ namespace Files.App.Data.Items
 
 		private double _NormalMinLength = 50;
 
+		[RegistryIgnore]
 		public double NormalMinLength
 		{
 			get => _NormalMinLength;
@@ -77,6 +81,7 @@ namespace Files.App.Data.Items
 
 		private GridLength _UserLength = new(200, GridUnitType.Pixel);
 
+		[RegistryIgnore]
 		public GridLength UserLength
 		{
 			get => _UserLength;

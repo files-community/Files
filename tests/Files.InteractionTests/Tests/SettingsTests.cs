@@ -32,7 +32,7 @@ namespace Files.InteractionTests.Tests
 				"SettingsItemFolders",
 				"SettingsItemActions",
 				"SettingsItemTags",
-				"SettingsItemGit",
+				"SettingsItemDevTools",
 				"SettingsItemAdvanced",
 				"SettingsItemAbout"
 			};

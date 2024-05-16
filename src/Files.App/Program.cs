@@ -96,8 +96,11 @@ namespace Files.App
 				}
 			}
 
+			// NOTE:
+			//  This has been commentted out since out-of-proc WinRT server seems not to support elevetion.
+			//  For more info, see the GitHub issue (#15384).
 			// Now we can do the first WinRT server call
-			Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
+			//Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
 
 			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();

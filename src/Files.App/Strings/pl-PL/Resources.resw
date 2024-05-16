@@ -3271,7 +3271,7 @@
     <value>Aplikacja Files jest uruchomiona jako administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Ze względu na ograniczenia platformy, funkcja przeciągnij i upuść nie jest dostępna podczas uruchamiania Files jako administrator.</value>
+    <value>Ze względu na ograniczenie z Windows i WinAppSdk, przeciągnij i upuść nie jest dostępne podczas uruchamiania plików jako administratora. Jeśli chcesz użyć przeciągnij i upuść, możesz pracować nad tym ograniczeniem, otwierając UAC (kontrola konta użytkownika) z Menu Start i wybierając trzeci poziom oraz uruchamiając ponownie Windows. W przeciwnym razie możesz nadal używać plików bez przeciągania i upuszczania.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Pozostaw aplikację uruchomioną w tle, gdy okno jest zamknięte</value>

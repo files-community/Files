@@ -44,12 +44,10 @@ namespace Files.App.ViewModels.Settings
 				"DarkTheme".GetLocalizedResource()
 			];
 
-			// TODO: Re-add Solid and regular Mica when theming is revamped
-			//BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "Solid".GetLocalizedResource());
-
+			BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "None".GetLocalizedResource());
 			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, "Acrylic".GetLocalizedResource());
-
-			//BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.ThinAcrylic, "ThinAcrylic".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
 			BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, "MicaAlt".GetLocalizedResource());
 
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
@@ -93,7 +91,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				ViewMode = PickerViewMode.Thumbnail,
 				SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-				FileTypeFilter = { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp" }
+				FileTypeFilter = { ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".webp" }
 			};
 
 			// WINUI3: Create and initialize new window

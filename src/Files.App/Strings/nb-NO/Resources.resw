@@ -3271,7 +3271,7 @@
     <value>Filer kjører som administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>På grunn av plattformbegrensninger, er det ikke mulig å dra og slipp når filer kjører som administrator.</value>
+    <value>På grunn av en begrensning med Windows og WinAppSdk, er det ikke tilgjengelig dra og slipp ved kjøring av filer som admin. Hvis du vil bruke dra og slipp, du kan arbeide rundt denne begrensningen ved å åpne UAC (brukerkontokontroll) fra Startmenyen og velge tredje nivå og starte Windows på nytt. Ellers kan du fortsette å bruke filer uten å dra og slippe.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>La appen kjøre i bakgrunnen når vinduet er lukket</value>

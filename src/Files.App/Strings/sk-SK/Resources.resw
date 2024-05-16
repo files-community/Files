@@ -217,7 +217,7 @@
     <value>Prispôsobenie</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Farba pozadia</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Pokročilé</value>
@@ -340,7 +340,7 @@
     <value>Nastaviť ako pozadie uzamknutej obrazovky</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Nastaviť ako pozadie aplikácie</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodarilo sa nám zmazať túto položku</value>
@@ -1845,7 +1845,7 @@
     <value>Use DPI settings of the main monitor</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
-    <value>Do not adjust DPI</value>
+    <value>Neprispôsobovať DPI</value>
   </data>
   <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
     <value>Do not override DPI</value>
@@ -2544,7 +2544,7 @@
     <value>Zoznam</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>Grid</value>
+    <value>Mriežka</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
     <value>Switch to grid view</value>
@@ -2652,7 +2652,7 @@
     <value>Duplikovať vybranú záložku</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Zatvoriť taby vľavo</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Close tabs to the left of selected tab</value>
@@ -3273,7 +3273,7 @@
     <value>Súbory sú spostené ako správca</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Ponechať aplikáciu bežať na pozadí keď je okno zavreté</value>
