@@ -53,6 +53,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
 
+			// TODO: Move this to an application service
 			// Detect if Files is set as the default file manager
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = (string?)subkey?.GetValue(string.Empty);
