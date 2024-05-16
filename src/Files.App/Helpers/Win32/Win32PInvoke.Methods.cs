@@ -231,6 +231,17 @@ namespace Files.App.Helpers
 			uint flags
 		);
 
+		[DllImport("user32.dll")]
+		public static extern bool GetKeyboardState(
+			byte[] lpKeyState
+		);
+
+		[DllImport("user32.dll")]
+		public static extern uint MapVirtualKey(
+			uint code,
+			uint mapType
+		);
+
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern IntPtr CreateFileFromApp(
 			string lpFileName,
