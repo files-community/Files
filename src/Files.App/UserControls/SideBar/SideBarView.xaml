@@ -137,6 +137,7 @@
 
 			<!--  Content  -->
 			<Border
+				x:Name="Content"
 				Grid.Row="0"
 				VerticalAlignment="Stretch"
 				Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
@@ -173,7 +174,7 @@
 						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
+						<Setter Target="Content.CornerRadius" Value="0" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="0,0,0,0" />
 						<!--  Specific to collapsed pane  -->
@@ -191,7 +192,7 @@
 						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
+						<Setter Target="Content.CornerRadius" Value="0" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="0,0,0,0" />
 						<!--  Specific to expanded pane  -->
