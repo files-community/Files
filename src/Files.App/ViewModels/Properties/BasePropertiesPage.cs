@@ -96,13 +96,13 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.IsAblumCoverModified = true;
 					ViewModel.ModifiedAlbumCover = new Picture(filePath);
 
-					var result = await FileThumbnailHelper.GetIconAsync(
+					var iconData = await FileThumbnailHelper.GetIconAsync(
 						filePath,
 						Constants.ShellIconSizes.ExtraLarge,
 						false,
 						IconOptions.UseCurrentScale);
 
-					ViewModel.IconData = result;
+					ViewModel.IconData = iconData;
 				}
 			});
 
