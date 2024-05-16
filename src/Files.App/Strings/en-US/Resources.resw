@@ -3796,6 +3796,10 @@
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Vertical alignment</value>
   </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Thin Acrylic</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
   <data name="AllLocations" xml:space="preserve">
     <value>Show for all locations</value>
     <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
