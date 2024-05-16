@@ -103,7 +103,9 @@ namespace Files.App.Views.Properties
 
 		private async Task AddLocationAsync()
 		{
-			CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+			if (!result)
+				return;
 
 			var folder = await StorageHelpers.ToStorageItem<StorageFile>(filePath);
 			if (folder is not null && !Folders.Any((f) => string.Equals(folder.Path, f.Path, StringComparison.OrdinalIgnoreCase)))

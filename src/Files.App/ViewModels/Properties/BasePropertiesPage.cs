@@ -90,19 +90,18 @@ namespace Files.App.ViewModels.Properties
 					"ImageFileCapitalized".GetLocalizedResource(), "*.jpg;*.jpeg;*.bmp;*.png",
 				];
 
-				CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
-
-				var file = await StorageHelpers.ToStorageItem<StorageFile>(filePath);
-				if (file is not null)
+				var result = CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+				if (result)
 				{
 					ViewModel.IsAblumCoverModified = true;
-					ViewModel.ModifiedAlbumCover = new Picture(file.Path);
+					ViewModel.ModifiedAlbumCover = new Picture(filePath);
 
 					var result = await FileThumbnailHelper.GetIconAsync(
-						file.Path,
+						filePath,
 						Constants.ShellIconSizes.ExtraLarge,
 						false,
 						IconOptions.UseCurrentScale);
+
 					ViewModel.IconData = result;
 				}
 			});

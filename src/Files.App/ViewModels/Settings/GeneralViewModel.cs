@@ -319,7 +319,7 @@ namespace Files.App.ViewModels.Settings
 		private void ChangePageAsync()
 		{
 			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
-			if (result  && SelectedPageIndex >= 0)
+			if (result && SelectedPageIndex >= 0)
 				PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(filePath);
 		}
 
@@ -337,7 +337,7 @@ namespace Files.App.ViewModels.Settings
 				path = filePath;
 			}
 
-			if (path is not null && PagesOnStartupList is not null)
+			if (!string.IsNullOrEmpty(path) && PagesOnStartupList is not null)
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
 		}
 
