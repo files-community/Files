@@ -7,8 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using TagLib;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -87,7 +85,9 @@ namespace Files.App.ViewModels.Properties
 
 				string[] extensions =
 				[
-					"ImageFileCapitalized".GetLocalizedResource(), "*.jpg;*.jpeg;*.bmp;*.png",
+					"BitmapFiles".GetLocalizedResource(), "*.bmp",
+					"JPEG", "*.jpg;*.jpeg",
+					"PNG", "*.png",
 				];
 
 				var result = CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);

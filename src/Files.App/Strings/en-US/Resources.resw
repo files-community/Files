@@ -3822,8 +3822,8 @@
     <value>Zip File</value>
     <comment>This is the friendly name for ZIP files.</comment>
   </data>
-  <data name="ImageFileCapitalized" xml:space="preserve">
-    <value>Image File</value>
-    <comment>This is the friendly name for image files.</comment>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Bitmap Files</value>
+    <comment>This is the friendly name for bitmap files.</comment>
   </data>
 </root>
