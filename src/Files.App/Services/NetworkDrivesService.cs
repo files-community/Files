@@ -12,7 +12,10 @@ namespace Files.App.Services
 {
 	public sealed class NetworkDrivesService : ObservableObject, INetworkDrivesService
 	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+
 		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
+
 
 		private ObservableCollection<ILocatableFolder> _Drives;
 		/// <inheritdoc/>
@@ -108,17 +111,12 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public Task OpenMapNetworkDriveDialogAsync()
 		{
-			var hWnd = MainWindow.Instance.WindowHandle.ToInt64();
-
 			return Win32Helper.StartSTATask(() =>
 			{
-				using var ncd = new NetworkConnectionDialog
-				{
-					UseMostRecentPath = true,
-					HideRestoreConnectionCheckBox = false
-				};
-
-				return ncd.ShowDialog(Win32Helper.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK;
+				return CommonDialogService.Open_NetworkConnectionDialog(
+					MainWindow.Instance.WindowHandle,
+					useMostRecentPath: true,
+					hideRestoreConnectionCheckBox: false);
 			});
 		}
 

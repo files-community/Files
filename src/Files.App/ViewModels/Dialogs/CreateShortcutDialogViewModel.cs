@@ -108,12 +108,6 @@ namespace Files.App.ViewModels.Dialogs
 			return Task.CompletedTask;
 		}
 
-		private FolderPicker InitializeWithWindow(FolderPicker obj)
-		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
-			return obj;
-		}
-
 		private async Task CreateShortcutAsync()
 		{
 			string? destinationName;
