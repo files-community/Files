@@ -103,7 +103,7 @@ namespace Files.App.Helpers
 			WindowLongFlags nIndex,
 			IntPtr dwNewLong
 		);
-		
+
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHBrowseForFolder(
 			ref BROWSEINFO lpbi
@@ -231,9 +231,26 @@ namespace Files.App.Helpers
 			uint flags
 		);
 
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern int ToUnicodeEx(
+			uint virtualKeyCode,
+			uint scanCode,
+			byte[] keyboardState,
+			[Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder receivingBuffer,
+			int bufferSize,
+			uint flags,
+			IntPtr keyboardLayout
+		);
+
 		[DllImport("user32.dll")]
 		public static extern bool GetKeyboardState(
 			byte[] lpKeyState
+		);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern IntPtr GetKeyboardLayout
+		(
+			uint idThread
 		);
 
 		[DllImport("user32.dll")]
@@ -241,6 +258,20 @@ namespace Files.App.Helpers
 			uint code,
 			uint mapType
 		);
+
+		[DllImport("user32.dll")]
+		public static extern bool TranslateMessage([In] ref MSG lpMsg);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct MSG
+		{
+			public IntPtr hwnd;
+			public uint message;
+			public IntPtr wParam;
+			public IntPtr lParam;
+			public uint time;
+			public System.Drawing.Point pt;
+		}
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern IntPtr CreateFileFromApp(

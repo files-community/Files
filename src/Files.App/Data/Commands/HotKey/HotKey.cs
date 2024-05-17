@@ -370,14 +370,30 @@ namespace Files.App.Data.Commands
 			var buffer = new StringBuilder(2);
 			var state = new byte[256];
 
+			// Get the current keyboard state
 			if (!Win32PInvoke.GetKeyboardState(state))
 				return buffer.ToString();
 
+			// Convert the key to its virtual key code
 			var virtualKey = (uint)key;
+
+			// Map the virtual key to a scan code
 			var scanCode = Win32PInvoke.MapVirtualKey(virtualKey, 0);
 
-			if (Win32PInvoke.ToUnicode(virtualKey, scanCode, state, buffer, buffer.Capacity, 0) > 0)
-				return buffer[^1].ToString();
+			// Get the active keyboard layout
+			var keyboardLayout = Win32PInvoke.GetKeyboardLayout(0);
+
+			if (Win32PInvoke.ToUnicodeEx(virtualKey, scanCode, state, buffer, buffer.Capacity, 0, keyboardLayout) > 0)
+			{
+				// Remove the dead key if it exists
+				var msg = new Win32PInvoke.MSG { wParam = (IntPtr)virtualKey };
+				Win32PInvoke.TranslateMessage(ref msg);
+
+				if (msg.message == 0)
+					return buffer[^1].ToString();
+
+				return buffer[^2].ToString();
+			}
 
 			return buffer.ToString();
 		}
