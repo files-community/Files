@@ -282,8 +282,30 @@ namespace Files.App.Data.Commands
 			var modifier = KeyModifiers.None;
 			bool isVisible = true;
 
+			// Remove leading and trailing whitespace from the code string
 			code = code.Trim();
-			var parts = code.Split('+').Select(part => part.Trim());
+
+			// Split the code by "++" into a list of parts
+			var parts = code.Split("++").ToList();
+
+			if (parts.Count == 2)
+			{
+				// If there are two parts after splitting by "++", split the first part by "+"
+				// and append the second part prefixed with a "+"
+				parts = parts.First().Split('+').Append($"+{parts.Last()}").Select(part => part.Trim()).ToList();
+			}
+			else
+			{
+				// If not, split the code by a single '+' and trim each part
+				parts = code.Split('+').Select(part => part.Trim()).ToList();
+
+				// If the resulting list has two parts and the first part is empty, use the original code as the single element
+				if (parts.Count == 2 && string.IsNullOrEmpty(parts.First()))
+				{
+					parts = [code];
+				}
+			}
+
 
 			foreach (var part in parts)
 			{
@@ -335,7 +357,7 @@ namespace Files.App.Data.Commands
 
 		private static string GetLocalizedNumPadKey(string key)
 		{
-			return $"{key} ({$"NumPadTypeName".GetLocalizedResource()})";
+			return $"{key} [{$"NumPadTypeName".GetLocalizedResource()}]";
 		}
 
 		private static string GetLocalizedNumPadDigitKey(uint key)
