@@ -150,7 +150,7 @@ namespace Files.Shared.Helpers
 			return
 				exeOnly
 					? HasExtension(filePathToCheck, ".exe")
-					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd");
+					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd", ".ahk");
 		}
 
 		/// <summary>
