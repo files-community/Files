@@ -254,6 +254,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
+				IsNoNetworkLocations = false;
+
 				foreach (DriveItem drive in source.ToList().Cast<DriveItem>())
 				{
 					if (!Items.Any(x => x.Item == drive) && drive.Type is DriveType.Network)
