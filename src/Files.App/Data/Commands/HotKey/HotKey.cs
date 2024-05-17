@@ -336,17 +336,13 @@ namespace Files.App.Data.Commands
 			var state = new byte[256];
 
 			if (!Win32PInvoke.GetKeyboardState(state))
-			{
 				return buffer.ToString();
-			}
 
 			var virtualKey = (uint)key;
 			var scanCode = Win32PInvoke.MapVirtualKey(virtualKey, 0);
 
 			if (Win32PInvoke.ToUnicode(virtualKey, scanCode, state, buffer, buffer.Capacity, 0) > 0)
-			{
 				return buffer[^1].ToString();
-			}
 
 			return buffer.ToString();
 		}
