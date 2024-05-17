@@ -10,6 +10,8 @@ namespace Files.App.ViewModels.Dialogs
 {
 	public sealed class DecompressArchiveDialogViewModel : ObservableObject
 	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+
 		private readonly IStorageFile archive;
 
 		public StorageFolder DestinationFolder { get; private set; }
@@ -60,19 +62,10 @@ namespace Files.App.ViewModels.Dialogs
 
 		private async Task SelectDestinationAsync()
 		{
-			FolderPicker folderPicker = InitializeWithWindow(new FolderPicker());
-			folderPicker.FileTypeFilter.Add("*");
+			CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
 
-			DestinationFolder = await folderPicker.PickSingleFolderAsync();
-
+			DestinationFolder = await StorageHelpers.ToStorageItem<StorageFolder>(filePath);
 			DestinationFolderPath = (DestinationFolder is not null) ? DestinationFolder.Path : DefaultDestinationFolderPath();
-		}
-
-		// WINUI3
-		private FolderPicker InitializeWithWindow(FolderPicker obj)
-		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
-			return obj;
 		}
 
 		private string DefaultDestinationFolderPath()

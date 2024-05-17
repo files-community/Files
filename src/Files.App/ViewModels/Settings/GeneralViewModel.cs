@@ -15,12 +15,13 @@ namespace Files.App.ViewModels.Settings
 	public sealed class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
 		private bool disposed;
 
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
-		public AsyncRelayCommand ChangePageCommand { get; }
+		public RelayCommand ChangePageCommand { get; }
 		public RelayCommand<PageOnStartupViewModel> RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
 		public RelayCommand RestartCommand { get; }
@@ -89,7 +90,7 @@ namespace Files.App.ViewModels.Settings
 
 		public GeneralViewModel()
 		{
-			ChangePageCommand = new AsyncRelayCommand(ChangePageAsync);
+			ChangePageCommand = new RelayCommand(ChangePageAsync);
 			RemovePageCommand = new RelayCommand<PageOnStartupViewModel>(RemovePage);
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPageAsync(path));
 			RestartCommand = new RelayCommand(DoRestartAsync);
@@ -315,25 +316,11 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private async Task ChangePageAsync()
+		private void ChangePageAsync()
 		{
-			var folderPicker = InitializeWithWindow(new FolderPicker());
-			folderPicker.FileTypeFilter.Add("*");
-			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-
-			if (folder is not null)
-			{
-				if (SelectedPageIndex >= 0)
-					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
-			}
-		}
-
-		// WINUI3
-		private FolderPicker InitializeWithWindow(FolderPicker obj)
-		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
-
-			return obj;
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+			if (result && SelectedPageIndex >= 0)
+				PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(filePath);
 		}
 
 		private void RemovePage(PageOnStartupViewModel page)
@@ -345,15 +332,12 @@ namespace Files.App.ViewModels.Settings
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
-				var folderPicker = InitializeWithWindow(new FolderPicker());
-				folderPicker.FileTypeFilter.Add("*");
+				CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
 
-				var folder = await folderPicker.PickSingleFolderAsync();
-				if (folder is not null)
-					path = folder.Path;
+				path = filePath;
 			}
 
-			if (path is not null && PagesOnStartupList is not null)
+			if (!string.IsNullOrEmpty(path) && PagesOnStartupList is not null)
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
 		}
 

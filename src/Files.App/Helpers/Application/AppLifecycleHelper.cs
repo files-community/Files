@@ -164,6 +164,7 @@ namespace Files.App.Helpers
 					// Services
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<IDialogService, DialogService>()
+					.AddSingleton<ICommonDialogService, CommonDialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()
 					.AddSingleton<ILocalizationService, LocalizationService>()
