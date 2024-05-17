@@ -23,20 +23,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public string AutomationProperties => "Drives".GetLocalizedResource();
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
-		public bool ShowMenuFlyout => true;
-		public MenuFlyoutItem? MenuFlyoutItem => new()
-		{
-			Icon = new FontIcon() { Glyph = "\uE710" },
-			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
-			Command = MapNetworkDriveCommand
-		};
+		public bool ShowMenuFlyout => false;
+		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		// Commands
 
 		private ICommand FormatDriveCommand { get; } = null!;
 		private ICommand EjectDeviceCommand { get; } = null!;
 		private ICommand OpenInNewPaneCommand { get; } = null!;
-		private ICommand MapNetworkDriveCommand { get; } = null!;
 		private ICommand DisconnectNetworkDriveCommand { get; } = null!;
 
 		// Constructor
@@ -56,7 +50,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteOpenInNewPaneCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
-			MapNetworkDriveCommand = new AsyncRelayCommand(ExecuteMapNetworkDriveCommand);
 		}
 
 		// Methods
@@ -204,11 +197,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Item.Path);
-		}
-
-		private Task ExecuteMapNetworkDriveCommand()
-		{
-			return NetworkService.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void ExecuteFormatDriveCommand(WidgetDriveCardItem? item)
