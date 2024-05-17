@@ -1083,7 +1083,7 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Откачи са леве траке</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
+  <data name="NetworkDrives" xml:space="preserve">
     <value>Мрежни дискови</value>
   </data>
   <data name="Network" xml:space="preserve">

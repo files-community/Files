@@ -33,6 +33,7 @@ namespace Files.App.ViewModels
 		{
 			var reloadQuickAccessWidget = WidgetsHelpers.TryGetWidget<QuickAccessWidgetViewModel>(this);
 			var reloadDrivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidgetViewModel>(this);
+			var reloadNetworkLocationsWidget = WidgetsHelpers.TryGetWidget<NetworkLocationsWidgetViewModel>(this);
 			var reloadFileTagsWidget = WidgetsHelpers.TryGetWidget<FileTagsWidgetViewModel>(this);
 			var reloadRecentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidgetViewModel>(this);
 
@@ -58,6 +59,18 @@ namespace Files.App.ViewModels
 						drivesWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded));
+			}
+
+			if (reloadNetworkLocationsWidget)
+			{
+				var networkLocationsWidget = new NetworkLocationsWidget();
+
+				AddWidget(
+					new(
+						networkLocationsWidget,
+						networkLocationsWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.NetworkLocationsWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.NetworkLocationsWidgetExpanded));
 			}
 
 			if (reloadFileTagsWidget)

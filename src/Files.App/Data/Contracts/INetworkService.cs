@@ -3,24 +3,41 @@
 
 namespace Files.App.Data.Contracts
 {
-	public interface INetworkDrivesService
+	public interface INetworkService
 	{
 		/// <summary>
-		/// Gets enumerated network storage drives.
+		/// Gets enumerated network computers.
 		/// </summary>
-		ObservableCollection<ILocatableFolder> Drives { get; }
+		ObservableCollection<ILocatableFolder> Computers { get; }
 
 		/// <summary>
-		/// Enumerates network storage drives.
+		/// Gets enumerated network shortcuts.
 		/// </summary>
-		/// <returns>A collection of network storage devices</returns>
-		Task<IEnumerable<ILocatableFolder>> GetDrivesAsync();
+		ObservableCollection<ILocatableFolder> Shortcuts { get; }
 
 		/// <summary>
-		/// Updates network storage drives to up-to-date.
+		/// Enumerates network computers.
+		/// </summary>
+		/// <returns>A collection of network computers</returns>
+		Task<IEnumerable<ILocatableFolder>> GetComputersAsync();
+
+		/// <summary>
+		/// Enumerates network shortcuts.
+		/// </summary>
+		/// <returns>A collection of network shortcuts</returns>
+		Task<IEnumerable<ILocatableFolder>> GetShortcutsAsync();
+
+		/// <summary>
+		/// Updates computers to up-to-date.
 		/// </summary>
 		/// <returns></returns>
-		Task UpdateDrivesAsync();
+		Task UpdateComputersAsync();
+
+		/// <summary>
+		/// Updates shortcuts to up-to-date.
+		/// </summary>
+		/// <returns></returns>
+		Task UpdateShortcutsAsync();
 
 		/// <summary>
 		/// Displays the operating system dialog for connecting to a network storage device

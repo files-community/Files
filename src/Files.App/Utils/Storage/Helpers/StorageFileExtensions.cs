@@ -295,7 +295,7 @@ namespace Files.App.Utils.Storage
 			}
 			else if (component.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.Ordinal))
 			{
-				title = "SidebarNetworkDrives".GetLocalizedResource();
+				title = "NetworkDrives".GetLocalizedResource();
 			}
 			else if (component.EndsWith(':'))
 			{

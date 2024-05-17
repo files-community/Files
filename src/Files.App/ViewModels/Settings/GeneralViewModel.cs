@@ -379,6 +379,16 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowNetworkLocationsWidget
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget)
+					UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget = value;
+			}
+		}
+
 		public bool ShowFileTagsWidget
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
