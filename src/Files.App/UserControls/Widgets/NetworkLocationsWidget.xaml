@@ -11,6 +11,16 @@
 	mc:Ignorable="d">
 
 	<Grid>
+		<!--  Message when there are no network locations  -->
+		<InfoBar
+			x:Name="NoNetworkLocationsInfo"
+			x:Load="{x:Bind ViewModel.IsNoNetworkLocations, Mode=OneWay}"
+			IsClosable="False"
+			IsIconVisible="True"
+			IsOpen="True"
+			Message="{helpers:ResourceString Name=NoNetworkLocationsInfo}"
+			Severity="Informational" />
+
 		<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
 			<ItemsRepeater.Layout>

@@ -31,6 +31,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			Command = MapNetworkDriveCommand
 		};
 
+		private bool _IsNoNetworkLocations;
+		public bool IsNoNetworkLocations
+		{
+			get => _IsNoNetworkLocations;
+			private set => SetProperty(ref _IsNoNetworkLocations, value);
+		}
+
 		// Commands
 
 		private ICommand FormatDriveCommand { get; } = null!;
@@ -243,13 +250,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			NetworkService.DisconnectNetworkDrive(item.Item);
 		}
 
-		// Event methods
-
-		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private async Task UpdateItems(ObservableCollection<ILocatableFolder> source)
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
+				foreach (DriveItem drive in source.ToList().Cast<DriveItem>())
 				{
 					if (!Items.Any(x => x.Item == drive) && drive.Type is DriveType.Network)
 					{
@@ -265,30 +270,21 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					if (!DrivesViewModel.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
 						Items.Remove(driveCard);
 				}
+
+				IsNoNetworkLocations = !Items.Any();
 			});
+		}	
+
+		// Event methods
+
+		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			await UpdateItems(DrivesViewModel.Drives);
 		}
 
 		private async void Shortcuts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-			{
-				foreach (DriveItem drive in NetworkService.Shortcuts.ToList().Cast<DriveItem>())
-				{
-					if (!Items.Any(x => x.Item == drive))
-					{
-						var cardItem = new WidgetDriveCardItem(drive);
-						Items.AddSorted(cardItem);
-
-						await cardItem.LoadCardThumbnailAsync();
-					}
-				}
-
-				foreach (WidgetDriveCardItem driveCard in Items.ToList())
-				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
-						Items.Remove(driveCard);
-				}
-			});
+			await UpdateItems(NetworkService.Shortcuts);
 		}
 
 		// Disposer
