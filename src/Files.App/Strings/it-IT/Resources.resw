@@ -1083,7 +1083,7 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Rimuovi dalla barra laterale</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
+  <data name="NetworkDrives" xml:space="preserve">
     <value>Dischi di rete</value>
   </data>
   <data name="Network" xml:space="preserve">

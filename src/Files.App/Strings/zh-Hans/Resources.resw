@@ -1083,7 +1083,7 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>从侧边栏取消固定</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
+  <data name="NetworkDrives" xml:space="preserve">
     <value>网络驱动器</value>
   </data>
   <data name="Network" xml:space="preserve">

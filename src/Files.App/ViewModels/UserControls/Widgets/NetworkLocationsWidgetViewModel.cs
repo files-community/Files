@@ -11,18 +11,18 @@ using Windows.UI.Core;
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
-	/// Represents view model of <see cref="DrivesWidget"/>.
+	/// Represents view model of <see cref="NetworkLocationsWidget"/>.
 	/// </summary>
-	public sealed class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed class NetworkLocationsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 
 		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
 
-		public string WidgetName => nameof(DrivesWidget);
-		public string AutomationProperties => "Drives".GetLocalizedResource();
-		public string WidgetHeader => "Drives".GetLocalizedResource();
-		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
+		public string WidgetName => nameof(NetworkLocationsWidget);
+		public string AutomationProperties => "NetworkLocations".GetLocalizedResource();
+		public string WidgetHeader => "NetworkLocations".GetLocalizedResource();
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget;
 		public bool ShowMenuFlyout => true;
 		public MenuFlyoutItem? MenuFlyoutItem => new()
 		{
@@ -41,11 +41,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Constructor
 
-		public DrivesWidgetViewModel()
+		public NetworkLocationsWidgetViewModel()
 		{
 			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Shortcuts_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			NetworkService.Shortcuts.CollectionChanged += Shortcuts_CollectionChanged;
 
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewWindowCommand);
@@ -249,7 +251,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
 				{
-					if (!Items.Any(x => x.Item == drive) && drive.Type is not DriveType.VirtualDrive and not DriveType.Network)
+					if (!Items.Any(x => x.Item == drive) && drive.Type is DriveType.Network)
 					{
 						var cardItem = new WidgetDriveCardItem(drive);
 						Items.AddSorted(cardItem);
@@ -260,7 +262,30 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				foreach (WidgetDriveCardItem driveCard in Items.ToList())
 				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
+					if (!DrivesViewModel.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
+						Items.Remove(driveCard);
+				}
+			});
+		}
+
+		private async void Shortcuts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				foreach (DriveItem drive in NetworkService.Shortcuts.ToList().Cast<DriveItem>())
+				{
+					if (!Items.Any(x => x.Item == drive))
+					{
+						var cardItem = new WidgetDriveCardItem(drive);
+						Items.AddSorted(cardItem);
+
+						await cardItem.LoadCardThumbnailAsync();
+					}
+				}
+
+				foreach (WidgetDriveCardItem driveCard in Items.ToList())
+				{
+					if (!DrivesViewModel.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
 						Items.Remove(driveCard);
 				}
 			});

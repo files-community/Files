@@ -307,7 +307,7 @@ namespace Files.App.Data.Items
 
 		public async Task LoadThumbnailAsync()
 		{
-			if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
+			if (!string.IsNullOrEmpty(DeviceID))
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
 					DeviceID,
@@ -323,9 +323,6 @@ namespace Files.App.Data.Items
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
 				IconData ??= await thumbnail.ToByteArrayAsync();
 			}
-
-			if (string.Equals(DeviceID, "network-folder"))
-				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.NetworkDrives).IconData;
 
 			IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 

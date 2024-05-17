@@ -1083,7 +1083,7 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>นำออกจากแถบด้านข้าง</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
+  <data name="NetworkDrives" xml:space="preserve">
     <value>ตำแหน่งบนเครือข่าย</value>
   </data>
   <data name="Network" xml:space="preserve">
