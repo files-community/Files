@@ -6,6 +6,7 @@ using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using System.Text;
 using Windows.System;
 
 namespace Files.App.Views.Settings
@@ -56,6 +57,14 @@ namespace Files.App.Views.Settings
 				return;
 
 			var pressedKey = e.OriginalKey;
+			var pressetKeyValue = HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
+
+			List<VirtualKey> invalidKeys =
+			[
+				VirtualKey.CapitalLock,
+				VirtualKey.NumberKeyLock,
+				VirtualKey.Scroll,
+			];
 
 			List<VirtualKey> modifierKeys =
 			[
@@ -71,34 +80,31 @@ namespace Files.App.Views.Settings
 				VirtualKey.RightMenu
 			];
 
-			// If pressed key is one of modifier don't show it in the TextBox yet
-			foreach (var modifier in modifierKeys)
+			// Check if the pressed key is invalid, a modifier, or has no value; Don't show it in the TextBox yet
+			if (invalidKeys.Contains(pressedKey) || modifierKeys.Contains(pressedKey) || string.IsNullOrEmpty(pressetKeyValue))
 			{
-				if (pressedKey == modifier)
-				{
-					// Prevent key down event in other UIElements from getting invoked
-					e.Handled = true;
+				// Prevent key down event in other UIElements from getting invoked
+				e.Handled = true;
 
-					return;
-				}
+				return;
 			}
 
+			var buffer = new StringBuilder();
 			var pressedModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
-			string text = string.Empty;
 
 			// Add the modifiers with translated
 			if (pressedModifiers.HasFlag(KeyModifiers.Ctrl))
-				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+";
+				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+");
 			if (pressedModifiers.HasFlag(KeyModifiers.Alt))
-				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Alt)}+";
+				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Alt)}+");
 			if (pressedModifiers.HasFlag(KeyModifiers.Shift))
-				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+";
+				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+");
 
 			// Add the key with translated
-			text += HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
+			buffer.Append(pressetKeyValue);
 
 			// Set text
-			textBox.Text = text;
+			textBox.Text = buffer.ToString();
 
 			ViewModel.EnableAddNewKeyBindingButton = true;
 
