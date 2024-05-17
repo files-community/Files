@@ -81,16 +81,6 @@ namespace Files.App.Data.Commands
 			[Keys.Number7] = "7",
 			[Keys.Number8] = "8",
 			[Keys.Number9] = "9",
-			[Keys.Pad0] = GetLocalizedKey("Pad0"),
-			[Keys.Pad1] = GetLocalizedKey("Pad1"),
-			[Keys.Pad2] = GetLocalizedKey("Pad2"),
-			[Keys.Pad3] = GetLocalizedKey("Pad3"),
-			[Keys.Pad4] = GetLocalizedKey("Pad4"),
-			[Keys.Pad5] = GetLocalizedKey("Pad5"),
-			[Keys.Pad6] = GetLocalizedKey("Pad6"),
-			[Keys.Pad7] = GetLocalizedKey("Pad7"),
-			[Keys.Pad8] = GetLocalizedKey("Pad8"),
-			[Keys.Pad9] = GetLocalizedKey("Pad9"),
 			[Keys.A] = "A",
 			[Keys.B] = "B",
 			[Keys.C] = "C",
@@ -117,10 +107,6 @@ namespace Files.App.Data.Commands
 			[Keys.X] = "X",
 			[Keys.Y] = "Y",
 			[Keys.Z] = "Z",
-			[Keys.Add] = "+",
-			[Keys.Subtract] = "-",
-			[Keys.Multiply] = "*",
-			[Keys.Divide] = "/",
 			[Keys.Oem1] = GetKeyCharacter(Forms.Keys.Oem1),
 			[Keys.Oem2] = GetKeyCharacter(Forms.Keys.Oem2),
 			[Keys.Oem3] = GetKeyCharacter(Forms.Keys.Oem3),
@@ -154,6 +140,23 @@ namespace Files.App.Data.Commands
 			[Keys.Mute] = GetLocalizedKey("MediaMute"),
 			[Keys.VolumeDown] = GetLocalizedKey("MediaVolumeDown"),
 			[Keys.VolumeUp] = GetLocalizedKey("MediaVolumeUp"),
+
+			// NumPad Keys
+			[Keys.Add] = GetLocalizedNumPadKey("+"),
+			[Keys.Subtract] = GetLocalizedNumPadKey("-"),
+			[Keys.Multiply] = GetLocalizedNumPadKey("*"),
+			[Keys.Divide] = GetLocalizedNumPadKey("/"),
+			[Keys.Decimal] = GetLocalizedNumPadKey("."),
+			[Keys.Pad0] = GetLocalizedNumPadDigitKey(0),
+			[Keys.Pad1] = GetLocalizedNumPadDigitKey(1),
+			[Keys.Pad2] = GetLocalizedNumPadDigitKey(2),
+			[Keys.Pad3] = GetLocalizedNumPadDigitKey(3),
+			[Keys.Pad4] = GetLocalizedNumPadDigitKey(4),
+			[Keys.Pad5] = GetLocalizedNumPadDigitKey(5),
+			[Keys.Pad6] = GetLocalizedNumPadDigitKey(6),
+			[Keys.Pad7] = GetLocalizedNumPadDigitKey(7),
+			[Keys.Pad8] = GetLocalizedNumPadDigitKey(8),
+			[Keys.Pad9] = GetLocalizedNumPadDigitKey(9),
 		}.ToFrozenDictionary();
 
 		/// <summary>
@@ -328,6 +331,16 @@ namespace Files.App.Data.Commands
 		private static string GetLocalizedKey(string key)
 		{
 			return $"Key/{key}".GetLocalizedResource();
+		}
+
+		private static string GetLocalizedNumPadKey(string key)
+		{
+			return $"{key} ({$"NumPadTypeName".GetLocalizedResource()})";
+		}
+
+		private static string GetLocalizedNumPadDigitKey(uint key)
+		{
+			return $"{$"NumPadTypeName".GetLocalizedResource()} {key}";
 		}
 
 		private static string GetKeyCharacter(Forms.Keys key)

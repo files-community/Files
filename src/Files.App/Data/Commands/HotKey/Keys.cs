@@ -105,6 +105,7 @@ namespace Files.App.Data.Commands
 		Subtract = VirtualKey.Subtract,
 		Multiply = VirtualKey.Multiply,
 		Divide = VirtualKey.Divide,
+		Decimal = VirtualKey.Decimal,
 		Oem1 = 186,
 		Oem2 = 191,
 		Oem3 = 192,

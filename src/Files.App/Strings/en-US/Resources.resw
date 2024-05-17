@@ -3830,4 +3830,7 @@
     <value>Bitmap Files</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>NumPad</value>
+  </data>
 </root>
