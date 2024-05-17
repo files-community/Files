@@ -3833,4 +3833,7 @@
   <data name="NetworkLocations" xml:space="preserve">
     <value>Network locations</value>
   </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>There are no network locations. If you don't use network locations, you can disable the widget in the general settings.</value>
+  </data>
 </root>
