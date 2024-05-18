@@ -319,6 +319,7 @@
 									AutomationProperties.Name="{helpers:ResourceString Name=Save}"
 									Command="{Binding ElementName=PageRoot, Path=DataContext.SaveCommand, Mode=OneWay}"
 									CommandParameter="{x:Bind}"
+									IsEnabled="{x:Bind IsValidKeyBinding, Mode=OneWay}"
 									Style="{StaticResource AccentButtonStyle}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Save}">
 									<FontIcon FontSize="14" Glyph="&#xE73E;" />

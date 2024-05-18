@@ -285,6 +285,9 @@ namespace Files.App.ViewModels.Settings
 
 			// Enter edit mode for the item
 			item.IsInEditMode = true;
+
+			// Mark the key binding as invalid to prevent saving it
+			item.IsValidKeyBinding = false;
 		}
 
 		private void ExecuteSaveCommand(ModifiableActionItem? item)

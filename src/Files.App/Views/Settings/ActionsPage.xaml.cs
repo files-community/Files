@@ -53,22 +53,28 @@ namespace Files.App.Views.Settings
 
 		private void KeyBindingEditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			// Ensure the sender is a TextBox
 			if (sender is not TextBox textBox)
 				return;
 
+			// Cast the DataContext of the TextBox to a ModifiableActionItem if possible, or null if the cast fails
+			var item = textBox.DataContext as ModifiableActionItem;
+
 			var pressedKey = e.OriginalKey;
-			var pressetKeyValue = HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
+			var pressedKeyValue = HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
 			var buffer = new StringBuilder();
 
-			List<VirtualKey> invalidKeys =
-			[
+			// Define invalid keys that shouldn't be processed
+			var invalidKeys = new HashSet<VirtualKey>
+			{
 				VirtualKey.CapitalLock,
 				VirtualKey.NumberKeyLock,
 				VirtualKey.Scroll,
-			];
+			};
 
-			List<VirtualKey> modifierKeys =
-			[
+			// Define modifier keys
+			var modifierKeys = new HashSet<VirtualKey>
+			{
 				VirtualKey.Shift,
 				VirtualKey.Control,
 				VirtualKey.Menu,
@@ -79,11 +85,13 @@ namespace Files.App.Views.Settings
 				VirtualKey.RightControl,
 				VirtualKey.LeftMenu,
 				VirtualKey.RightMenu
-			];
+			};
 
-			var isInvalidKey = (invalidKeys.Contains(pressedKey) || string.IsNullOrEmpty(pressetKeyValue));
+			// Determine if the pressed key is invalid or a modifier
+			var isInvalidKey = invalidKeys.Contains(pressedKey) || string.IsNullOrEmpty(pressedKeyValue);
 			var isModifierKey = modifierKeys.Contains(pressedKey);
 
+			// Handle invalid keys that are not modifiers
 			if (isInvalidKey && !isModifierKey)
 			{
 				InvalidKeyTeachingTip.Target = textBox;
@@ -93,18 +101,24 @@ namespace Files.App.Views.Settings
 			// Check if the pressed key is invalid, a modifier, or has no value; Don't show it in the TextBox yet
 			if (isInvalidKey || isModifierKey)
 			{
+				// Set the text of the TextBox to the empty buffer
 				textBox.Text = buffer.ToString();
-				ViewModel.EnableAddNewKeyBindingButton = false;
+
+				// Update UI state based on the context item
+				if (item is null)
+					ViewModel.EnableAddNewKeyBindingButton = false;
+				else
+					item.IsValidKeyBinding = false;
 
 				// Prevent key down event in other UIElements from getting invoked
 				e.Handled = true;
-
 				return;
 			}
 
+			// Get the currently pressed modifier keys
 			var pressedModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
 
-			// Add the modifiers with translated
+			// Append modifier keys to the buffer
 			if (pressedModifiers.HasFlag(KeyModifiers.Ctrl))
 				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+");
 			if (pressedModifiers.HasFlag(KeyModifiers.Alt))
@@ -112,13 +126,17 @@ namespace Files.App.Views.Settings
 			if (pressedModifiers.HasFlag(KeyModifiers.Shift))
 				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+");
 
-			// Add the key with translated
-			buffer.Append(pressetKeyValue);
+			// Append the pressed key to the buffer
+			buffer.Append(pressedKeyValue);
 
-			// Set text
+			// Set the text of the TextBox to the constructed key combination
 			textBox.Text = buffer.ToString();
 
-			ViewModel.EnableAddNewKeyBindingButton = true;
+			// Update UI state based on the context item
+			if (item is null)
+				ViewModel.EnableAddNewKeyBindingButton = true;
+			else
+				item.IsValidKeyBinding = true;
 
 			// Prevent key down event in other UIElements from getting invoked
 			e.Handled = true;
