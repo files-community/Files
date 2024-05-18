@@ -1083,7 +1083,7 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Odepnout z postranního panelu</value>
   </data>
-  <data name="NetworkDrives" xml:space="preserve">
+  <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Síťové disky</value>
   </data>
   <data name="Network" xml:space="preserve">

@@ -1085,7 +1085,7 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Odopnúť z rýchlej ponuky</value>
   </data>
-  <data name="NetworkDrives" xml:space="preserve">
+  <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Sieťové disky</value>
   </data>
   <data name="Network" xml:space="preserve">
