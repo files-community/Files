@@ -18,8 +18,21 @@
 			IsClosable="False"
 			IsIconVisible="True"
 			IsOpen="True"
-			Message="{helpers:ResourceString Name=NoNetworkLocationsInfo}"
-			Severity="Informational" />
+			Severity="Informational">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=NoNetworkLocationsInfo}" />
+				<Button
+					x:Name="NoNetworkLocationsInfoBarButton"
+					Margin="8"
+					HorizontalAlignment="Right"
+					Click="NoNetworkLocationsInfoBarButton_Click"
+					Content="{helpers:ResourceString Name=Disable}" />
+			</Grid>
+		</InfoBar>
 
 		<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
