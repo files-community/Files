@@ -58,6 +58,7 @@ namespace Files.App.Views.Settings
 
 			var pressedKey = e.OriginalKey;
 			var pressetKeyValue = HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
+			var buffer = new StringBuilder();
 
 			List<VirtualKey> invalidKeys =
 			[
@@ -80,16 +81,24 @@ namespace Files.App.Views.Settings
 				VirtualKey.RightMenu
 			];
 
+			var isInvalidKey = (invalidKeys.Contains(pressedKey) || string.IsNullOrEmpty(pressetKeyValue));
+			var isModifierKey = modifierKeys.Contains(pressedKey);
+
+			if (isInvalidKey && !isModifierKey)
+				ViewModel.IsInvalidKeyTeachingTipOpened = true;
+
 			// Check if the pressed key is invalid, a modifier, or has no value; Don't show it in the TextBox yet
-			if (invalidKeys.Contains(pressedKey) || modifierKeys.Contains(pressedKey) || string.IsNullOrEmpty(pressetKeyValue))
+			if (isInvalidKey || isModifierKey)
 			{
+				textBox.Text = buffer.ToString();
+				ViewModel.EnableAddNewKeyBindingButton = false;
+
 				// Prevent key down event in other UIElements from getting invoked
 				e.Handled = true;
 
 				return;
 			}
 
-			var buffer = new StringBuilder();
 			var pressedModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
 
 			// Add the modifiers with translated

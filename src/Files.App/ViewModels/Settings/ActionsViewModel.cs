@@ -34,6 +34,13 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsAlreadyUsedTeachingTipOpened, value);
 		}
 
+		private bool _IsInvalidKeyTeachingTipOpened;
+		public bool IsInvalidKeyTeachingTipOpened
+		{
+			get => _IsInvalidKeyTeachingTipOpened;
+			set => SetProperty(ref _IsInvalidKeyTeachingTipOpened, value);
+		}
+
 		private bool _ShowAddNewKeyBindingBlock;
 		public bool ShowAddNewKeyBindingBlock
 		{

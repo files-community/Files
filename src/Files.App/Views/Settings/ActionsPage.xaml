@@ -410,5 +410,14 @@
 			PreferredPlacement="Auto"
 			Subtitle="{helpers:ResourceString Name=KeybindingAlreadyUsedNotification}" />
 
+		<!--  Invalid key TeachingTip  -->
+		<TeachingTip
+			x:Name="InvalidKeyTeachingTip"
+			IsLightDismissEnabled="True"
+			IsOpen="{x:Bind ViewModel.IsInvalidKeyTeachingTipOpened, Mode=TwoWay}"
+			PreferredPlacement="Bottom"
+			Subtitle="{helpers:ResourceString Name=KeybindingInvalidKeyNotification}"
+			Target="{x:Bind KeyBindingEditorTextBox}" />
+
 	</Grid>
 </Page>
