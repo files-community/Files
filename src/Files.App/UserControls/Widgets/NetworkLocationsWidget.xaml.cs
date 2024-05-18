@@ -45,5 +45,10 @@ namespace Files.App.UserControls.Widgets
 		{
 			ViewModel.BuildItemContextMenu(sender, e);
 		}
+
+		private void NoNetworkLocationsInfoBarButton_Click(object sender, RoutedEventArgs e)
+		{
+			ViewModel.DisableWidget();
+		}
 	}
 }

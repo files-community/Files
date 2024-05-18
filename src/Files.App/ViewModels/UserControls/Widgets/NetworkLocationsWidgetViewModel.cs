@@ -196,6 +196,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
+		public void DisableWidget()
+		{
+			UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget = false;
+		}
+
 		// Command methods
 
 		private async Task ExecuteEjectDeviceCommand(WidgetDriveCardItem? item)

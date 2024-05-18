@@ -219,7 +219,7 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=Drives}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NetworkLocations}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=NetworkLocations}"
 								IsOn="{x:Bind ViewModel.ShowNetworkLocationsWidget, Mode=TwoWay}"
