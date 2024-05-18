@@ -1083,7 +1083,7 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Unpin from Sidebar</value>
   </data>
-  <data name="NetworkDrives" xml:space="preserve">
+  <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Network drives</value>
   </data>
   <data name="Network" xml:space="preserve">

@@ -150,8 +150,6 @@ namespace Files.App.Services
 						displayName = "RecycleBin".GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ThisPC".GetLocalizedResource();
-					else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-						displayName = "NetworkDrives".GetLocalizedResource();
 					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);
