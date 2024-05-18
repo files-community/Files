@@ -99,30 +99,6 @@
 								Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
 								Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
 
-							<Button
-								x:Name="GoToStorageSense"
-								Grid.RowSpan="3"
-								Grid.Column="2"
-								Width="28"
-								Height="28"
-								Margin="4,0,0,0"
-								Padding="0"
-								HorizontalContentAlignment="Center"
-								VerticalContentAlignment="Center"
-								x:Load="{x:Bind Item.ShowStorageSense, Mode=OneWay}"
-								AutomationProperties.Name="{helpers:ResourceString Name=OpenStorageSense}"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								Click="GoToStorageSense_Click"
-								Tag="{x:Bind Item.Path}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=OpenStorageSense}">
-								<FontIcon
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									FontSize="14"
-									Glyph="&#xE946;" />
-							</Button>
-
 							<TextBlock
 								x:Name="DriveSpaceTextBlock"
 								Grid.Row="2"
