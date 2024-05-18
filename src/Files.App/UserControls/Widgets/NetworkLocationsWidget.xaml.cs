@@ -45,14 +45,5 @@ namespace Files.App.UserControls.Widgets
 		{
 			ViewModel.BuildItemContextMenu(sender, e);
 		}
-
-		private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is not Button button ||
-				button.Tag.ToString() is not string path)
-				return;
-
-			await StorageSenseHelper.OpenStorageSenseAsync(path);
-		}
 	}
 }
