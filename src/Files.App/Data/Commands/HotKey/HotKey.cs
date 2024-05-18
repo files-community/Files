@@ -367,7 +367,7 @@ namespace Files.App.Data.Commands
 
 		private static string GetKeyCharacter(Forms.Keys key)
 		{
-			var buffer = new StringBuilder(2);
+			var buffer = new StringBuilder(4);
 			var state = new byte[256];
 
 			// Get the current keyboard state
@@ -390,7 +390,7 @@ namespace Files.App.Data.Commands
 				Win32PInvoke.TranslateMessage(ref msg);
 
 				if (msg.message == 0)
-					return buffer[^1].ToString();
+				return buffer[^1].ToString();
 
 				return buffer[^2].ToString();
 			}
