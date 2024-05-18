@@ -6,7 +6,6 @@ using System.Text;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using static SkiaSharp.HarfBuzz.SKShaper;
 using static Vanara.PInvoke.AdvApi32;
 using static Vanara.PInvoke.Mpr;
 
@@ -19,7 +18,7 @@ namespace Files.App.Services
 		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
 
 
-		private ObservableCollection<ILocatableFolder> _Computers;
+		private ObservableCollection<ILocatableFolder> _Computers = [];
 		/// <inheritdoc/>
 		public ObservableCollection<ILocatableFolder> Computers
 		{
@@ -27,21 +26,12 @@ namespace Files.App.Services
 			private set => SetProperty(ref _Computers, value);
 		}
 
-		private ObservableCollection<ILocatableFolder> _Shortcuts;
+		private ObservableCollection<ILocatableFolder> _Shortcuts = [];
 		/// <inheritdoc/>
 		public ObservableCollection<ILocatableFolder> Shortcuts
 		{
 			get => _Shortcuts;
 			private set => SetProperty(ref _Shortcuts, value);
-		}
-
-		/// <summary>
-		/// Initializes an instance of <see cref="NetworkService"/>.
-		/// </summary>
-		public NetworkService()
-		{
-			_Computers = [];
-			_Shortcuts = [];
 		}
 
 		/// <inheritdoc/>
