@@ -85,7 +85,10 @@ namespace Files.App.Views.Settings
 			var isModifierKey = modifierKeys.Contains(pressedKey);
 
 			if (isInvalidKey && !isModifierKey)
+			{
+				InvalidKeyTeachingTip.Target = textBox;
 				ViewModel.IsInvalidKeyTeachingTipOpened = true;
+			}
 
 			// Check if the pressed key is invalid, a modifier, or has no value; Don't show it in the TextBox yet
 			if (isInvalidKey || isModifierKey)
