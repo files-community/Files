@@ -384,16 +384,7 @@ namespace Files.App.Data.Commands
 			var keyboardLayout = Win32PInvoke.GetKeyboardLayout(0);
 
 			if (Win32PInvoke.ToUnicodeEx(virtualKey, scanCode, state, buffer, buffer.Capacity, 0, keyboardLayout) > 0)
-			{
-				// Remove the dead key if it exists
-				var msg = new Win32PInvoke.MSG { wParam = (IntPtr)virtualKey };
-				Win32PInvoke.TranslateMessage(ref msg);
-
-				if (msg.message == 0)
 				return buffer[^1].ToString();
-
-				return buffer[^2].ToString();
-			}
 
 			return buffer.ToString();
 		}
