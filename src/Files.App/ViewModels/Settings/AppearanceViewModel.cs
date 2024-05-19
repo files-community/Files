@@ -14,6 +14,7 @@ namespace Files.App.ViewModels.Settings
 	public sealed class AppearanceViewModel : ObservableObject
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private readonly IUserSettingsService UserSettingsService;
 		private readonly IResourcesService ResourcesService;
 
@@ -44,12 +45,10 @@ namespace Files.App.ViewModels.Settings
 				"DarkTheme".GetLocalizedResource()
 			];
 
-			// TODO: Re-add Solid and regular Mica when theming is revamped
-			//BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "Solid".GetLocalizedResource());
-
+			BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "None".GetLocalizedResource());
 			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, "Acrylic".GetLocalizedResource());
-
-			//BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.ThinAcrylic, "ThinAcrylic".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
 			BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, "MicaAlt".GetLocalizedResource());
 
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
@@ -80,30 +79,29 @@ namespace Files.App.ViewModels.Settings
 
 			UpdateSelectedResource();
 
-			SelectImageCommand = new AsyncRelayCommand(SelectBackgroundImage);
+			SelectImageCommand = new RelayCommand(SelectBackgroundImage);
 			RemoveImageCommand = new RelayCommand(RemoveBackgroundImage);
 		}
 
 		/// <summary>
 		/// Opens a file picker to select a background image
 		/// </summary>
-		private async Task SelectBackgroundImage()
+		private void SelectBackgroundImage()
 		{
-			var filePicker = new FileOpenPicker
-			{
-				ViewMode = PickerViewMode.Thumbnail,
-				SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-				FileTypeFilter = { ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".webp" }
-			};
+			string[] extensions =
+			[
+				"BitmapFiles".GetLocalizedResource(), "*.bmp;*.dib",
+				"JPEG", "*.jpg;*.jpeg;*.jpe;*.jfif",
+				"GIF", "*.gif",
+				"TIFF", "*.tif;*.tiff",
+				"PNG", "*.png",
+				"HEIC", "*.heic;*.hif",
+				"WEBP", "*.webp",
+			];
 
-			// WINUI3: Create and initialize new window
-			var parentWindowId = MainWindow.Instance.AppWindow.Id;
-			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
-			WinRT.Interop.InitializeWithWindow.Initialize(filePicker, handle);
-
-			var file = await filePicker.PickSingleFileAsync();
-			if (file is not null)
-				AppThemeBackgroundImageSource = file.Path;
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath);
+			if (result)
+				AppThemeBackgroundImageSource = filePath;
 		}
 
 		/// <summary>

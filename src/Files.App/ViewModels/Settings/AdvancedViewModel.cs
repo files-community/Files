@@ -17,6 +17,7 @@ namespace Files.App.ViewModels.Settings
 	public sealed class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -204,11 +205,10 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ExportSettingsAsync()
 		{
-			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
-			filePicker.FileTypeChoices.Add("Zip File", [".zip"]);
-			filePicker.SuggestedFileName = $"Files_{AppLifecycleHelper.AppVersion}";
+			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip" ];
+			CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 
-			StorageFile file = await filePicker.PickSaveFileAsync();
+			var file = await StorageHelpers.ToStorageItem<StorageFile>(filePath);
 			if (file is not null)
 			{
 				try

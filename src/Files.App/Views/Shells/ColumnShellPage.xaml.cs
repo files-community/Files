@@ -115,7 +115,7 @@ namespace Files.App.Views.Shells
 			}
 
 			var parameters = e.Parameter as NavigationArguments;
-			TabItemParameter = new CustomTabViewItemParameter()
+			TabBarItemParameter = new TabBarItemParameter()
 			{
 				InitialPageType = typeof(ColumnShellPage),
 				NavigationParameter = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam

@@ -37,7 +37,7 @@ namespace Files.App.Utils.Storage
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
 		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
-		private static BlockingCollection<WinUIEx.WindowEx> WindowCache = new();
+		private static readonly BlockingCollection<WinUIEx.WindowEx> WindowCache = [];
 
 		/// <summary>
 		/// Open properties window
@@ -184,8 +184,11 @@ namespace Files.App.Utils.Storage
 		/// <returns></returns>
 		public static void DestroyCachedWindows()
 		{
-			while (WindowCache.TryTake(out var window))
+			while (WindowCache?.TryTake(out var window) ?? false)
 			{
+				if (window is null)
+					continue;
+
 				window.Closed -= PropertiesWindow_Closed;
 				window.Close();
 			}

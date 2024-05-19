@@ -56,6 +56,12 @@ WNetConnectionDialog1
 CONNECTDLGSTRUCTW
 DwmSetWindowAttribute
 WIN32_ERROR
+CoCreateInstance
+FileOpenDialog
+IFileOpenDialog
+SHCreateItemFromParsingName
+FileSaveDialog
+IFileSaveDialog
 D3D_DRIVER_TYPE
 D3D_FEATURE_LEVEL
 ID3D11Device
