@@ -24,9 +24,13 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=NoNetworkLocationsInfo}" />
+				<TextBlock
+					Grid.Column="0"
+					VerticalAlignment="Center"
+					Text="{helpers:ResourceString Name=NoNetworkLocationsInfo}" />
 				<Button
 					x:Name="NoNetworkLocationsInfoBarButton"
+					Grid.Column="1"
 					Margin="8"
 					HorizontalAlignment="Right"
 					Click="NoNetworkLocationsInfoBarButton_Click"
