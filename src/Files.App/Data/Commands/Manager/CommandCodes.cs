@@ -107,6 +107,7 @@ namespace Files.App.Data.Commands
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 		OpenCommandPalette,
+		OpenInNotepad,
 
 		// Layout
 		LayoutDecreaseSize,

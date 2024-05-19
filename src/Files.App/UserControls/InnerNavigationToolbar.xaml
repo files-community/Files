@@ -351,6 +351,22 @@
 					</AppBarButton.Icon>
 				</AppBarButton>
 
+				<!--  Open In Notepad  -->
+				<AppBarButton
+					x:Name="OpenInNotepadButton"
+					Width="Auto"
+					MinWidth="40"
+					x:Load="{x:Bind Commands.OpenInNotepad.IsExecutable, Mode=OneWay}"
+					AutomationProperties.Name="OpenInNotepad"
+					Command="{x:Bind Commands.OpenInNotepad}"
+					Label="{x:Bind Commands.OpenInNotepad.Label}"
+					LabelPosition="Default"
+					ToolTipService.ToolTip="{x:Bind Commands.OpenInNotepad.LabelWithHotKey, Mode=OneWay}">
+					<AppBarButton.Icon>
+						<FontIcon Glyph="{x:Bind Commands.OpenInNotepad.Glyph.BaseGlyph}" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+
 				<!--  Set As Background  -->
 				<AppBarButton
 					x:Name="SetAsBackgroundButton"

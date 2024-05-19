@@ -111,6 +111,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand OpenCommandPalette => commands[CommandCodes.OpenCommandPalette];
+		public IRichCommand OpenInNotepad => commands[CommandCodes.OpenInNotepad];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
@@ -278,13 +279,13 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
-			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
 			[CommandCodes.OpenRepoInVSCode] = new OpenRepoInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.OpenCommandPalette] = new OpenCommandPaletteAction(),
+			[CommandCodes.OpenInNotepad] = new OpenInNotepadAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),

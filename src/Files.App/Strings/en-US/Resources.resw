@@ -3830,4 +3830,10 @@
     <value>Bitmap Files</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="OpenInNotepad" xml:space="preserve">
+    <value>Open in Notepad</value>
+  </data>
+  <data name="OpenInNotepadDescription" xml:space="preserve">
+    <value>Opens the selected file in Notepad</value>
+  </data>
 </root>
