@@ -3834,6 +3834,6 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
-    <value>NumPad</value>
+    <value>Num</value>
   </data>
 </root>

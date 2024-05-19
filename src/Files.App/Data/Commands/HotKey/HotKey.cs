@@ -147,16 +147,16 @@ namespace Files.App.Data.Commands
 			[Keys.Multiply] = GetLocalizedNumPadKey("*"),
 			[Keys.Divide] = GetLocalizedNumPadKey("/"),
 			[Keys.Decimal] = GetLocalizedNumPadKey("."),
-			[Keys.Pad0] = GetLocalizedNumPadDigitKey(0),
-			[Keys.Pad1] = GetLocalizedNumPadDigitKey(1),
-			[Keys.Pad2] = GetLocalizedNumPadDigitKey(2),
-			[Keys.Pad3] = GetLocalizedNumPadDigitKey(3),
-			[Keys.Pad4] = GetLocalizedNumPadDigitKey(4),
-			[Keys.Pad5] = GetLocalizedNumPadDigitKey(5),
-			[Keys.Pad6] = GetLocalizedNumPadDigitKey(6),
-			[Keys.Pad7] = GetLocalizedNumPadDigitKey(7),
-			[Keys.Pad8] = GetLocalizedNumPadDigitKey(8),
-			[Keys.Pad9] = GetLocalizedNumPadDigitKey(9),
+			[Keys.Pad0] = GetLocalizedNumPadKey("0"),
+			[Keys.Pad1] = GetLocalizedNumPadKey("1"),
+			[Keys.Pad2] = GetLocalizedNumPadKey("2"),
+			[Keys.Pad3] = GetLocalizedNumPadKey("3"),
+			[Keys.Pad4] = GetLocalizedNumPadKey("4"),
+			[Keys.Pad5] = GetLocalizedNumPadKey("5"),
+			[Keys.Pad6] = GetLocalizedNumPadKey("6"),
+			[Keys.Pad7] = GetLocalizedNumPadKey("7"),
+			[Keys.Pad8] = GetLocalizedNumPadKey("8"),
+			[Keys.Pad9] = GetLocalizedNumPadKey("9"),
 		}.ToFrozenDictionary();
 
 		/// <summary>
@@ -281,31 +281,39 @@ namespace Files.App.Data.Commands
 			var key = Keys.None;
 			var modifier = KeyModifiers.None;
 			bool isVisible = true;
+			var splitCharacter = '+';
 
 			// Remove leading and trailing whitespace from the code string
 			code = code.Trim();
 
 			// Split the code by "++" into a list of parts
-			var parts = code.Split("++").ToList();
+			List<string> parts = [.. code.Split(new string(splitCharacter, 2), StringSplitOptions.None)];
 
 			if (parts.Count == 2)
 			{
 				// If there are two parts after splitting by "++", split the first part by "+"
 				// and append the second part prefixed with a "+"
-				parts = parts.First().Split('+').Append($"+{parts.Last()}").Select(part => part.Trim()).ToList();
+				parts = [.. parts.First().Split(splitCharacter), splitCharacter + parts.Last()];
 			}
 			else
 			{
-				// If not, split the code by a single '+' and trim each part
-				parts = code.Split('+').Select(part => part.Trim()).ToList();
+				// Split the code by a single '+' and trim each part
+				parts = [.. code.Split(splitCharacter)];
 
-				// If the resulting list has two parts and the first part is empty, use the original code as the single element
-				if (parts.Count == 2 && string.IsNullOrEmpty(parts.First()))
+				// If the resulting list has two parts and one of them is empty, use the original code as the single element
+				if (parts.Count == 2 && (string.IsNullOrEmpty(parts.First()) || string.IsNullOrEmpty(parts.Last())))
 				{
 					parts = [code];
 				}
+				else if (parts.Count > 0 && string.IsNullOrEmpty(parts.Last()))
+				{
+					// If the last part is empty, remove it and add a "+" to the last non-empty part
+					parts.RemoveAt(parts.Count - 1);
+					parts[^1] += splitCharacter;
+				}
 			}
 
+			parts = [.. parts.Select(part => part.Trim())];
 
 			foreach (var part in parts)
 			{
@@ -357,12 +365,7 @@ namespace Files.App.Data.Commands
 
 		private static string GetLocalizedNumPadKey(string key)
 		{
-			return $"{key} [{$"NumPadTypeName".GetLocalizedResource()}]";
-		}
-
-		private static string GetLocalizedNumPadDigitKey(uint key)
-		{
-			return $"{$"NumPadTypeName".GetLocalizedResource()} {key}";
+			return "NumPadTypeName".GetLocalizedResource() + " " + key;
 		}
 
 		private static string GetKeyCharacter(Forms.Keys key)
