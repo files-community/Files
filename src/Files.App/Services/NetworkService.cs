@@ -34,6 +34,31 @@ namespace Files.App.Services
 			private set => SetProperty(ref _Shortcuts, value);
 		}
 
+		/// <summary>
+		/// Initializes an instance of <see cref="NetworkService"/>.
+		/// </summary>
+		public NetworkService()
+		{
+			var networkItem = new DriveItem()
+			{
+				DeviceID = "network-folder",
+				Text = "Network".GetLocalizedResource(),
+				Path = Constants.UserEnvironmentPaths.NetworkFolderPath,
+				Type = DriveType.Network,
+				ItemType = NavigationControlItemType.Drive,
+			};
+
+			networkItem.MenuOptions = new ContextMenuOptions()
+			{
+				IsLocationItem = true,
+				ShowEjectDevice = networkItem.IsRemovable,
+				ShowShellItems = true,
+				ShowProperties = true,
+			};
+			lock (_Computers)
+				_Computers.Add(networkItem);
+		}
+
 		/// <inheritdoc/>
 		public async Task<IEnumerable<ILocatableFolder>> GetComputersAsync()
 		{
@@ -115,14 +140,18 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task UpdateComputersAsync()
 		{
-			var unsortedDrives = new List<ILocatableFolder>();
+			var unsortedDrives = new List<ILocatableFolder>()
+			{
+				_Computers.Single(x => x is DriveItem o && o.DeviceID == "network-folder")
+			};
 
 			foreach (ILocatableFolder item in await GetComputersAsync())
 				unsortedDrives.Add(item);
 
 			var orderedDrives =
 				unsortedDrives.Cast<DriveItem>()
-					.OrderBy(o => o.Text);
+					.OrderByDescending(o => o.DeviceID == "network-folder")
+					.ThenBy(o => o.Text);
 
 			Computers.Clear();
 
