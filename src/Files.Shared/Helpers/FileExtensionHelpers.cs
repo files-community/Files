@@ -150,7 +150,17 @@ namespace Files.Shared.Helpers
 			return
 				exeOnly
 					? HasExtension(filePathToCheck, ".exe")
-					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd", ".ahk");
+					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd");
+		}
+
+		/// <summary>
+		/// Check if the file path is an Auto Hot Key file.
+		/// </summary>
+		/// <param name="filePathToCheck">The file path to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is an Auto Hot Key file; otherwise, <c>false</c>.</returns>
+		public static bool IsAhkFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".ahk");
 		}
 
 		/// <summary>

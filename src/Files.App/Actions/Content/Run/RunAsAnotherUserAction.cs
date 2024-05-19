@@ -7,6 +7,8 @@ namespace Files.App.Actions
 {
 	internal sealed class RunAsAnotherUserAction : BaseRunAsAction
 	{
+		private readonly IContentPageContext _context;
+
 		public override string Label
 			=> "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalizedResource();
 
@@ -16,8 +18,15 @@ namespace Files.App.Actions
 		public override RichGlyph Glyph
 			=> new("\uE7EE");
 
+		public override bool IsExecutable =>
+			_context.SelectedItem is not null &&
+			(FileExtensionHelpers.IsExecutableFile(_context.SelectedItem.FileExtension) ||
+			(_context.SelectedItem is ShortcutItem shortcut &&
+			shortcut.IsExecutable));
+
 		public RunAsAnotherUserAction() : base("runasuser")
 		{
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 	}
 }

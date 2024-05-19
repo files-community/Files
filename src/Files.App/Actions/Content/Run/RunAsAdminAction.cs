@@ -7,6 +7,8 @@ namespace Files.App.Actions
 {
 	internal sealed class RunAsAdminAction : BaseRunAsAction
 	{
+		private readonly IContentPageContext _context;
+
 		public override string Label
 			=> "RunAsAdministrator".GetLocalizedResource();
 
@@ -16,8 +18,16 @@ namespace Files.App.Actions
 		public override RichGlyph Glyph
 			=> new("\uE7EF");
 
+		public override bool IsExecutable =>
+			_context.SelectedItem is not null &&
+			(FileExtensionHelpers.IsExecutableFile(_context.SelectedItem.FileExtension) ||
+			FileExtensionHelpers.IsAhkFile(_context.SelectedItem.FileExtension) ||
+			(_context.SelectedItem is ShortcutItem shortcut &&
+			shortcut.IsExecutable));
+
 		public RunAsAdminAction() : base("runas")
 		{
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 	}
 }
