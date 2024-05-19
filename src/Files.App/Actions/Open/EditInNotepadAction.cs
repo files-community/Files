@@ -5,24 +5,24 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenInNotepadAction : ObservableObject, IAction
+	internal sealed class EditInNotepadAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "OpenInNotepad".GetLocalizedResource();
+			=> "EditInNotepad".GetLocalizedResource();
 
 		public string Description
-			=> "OpenInNotepadDescription".GetLocalizedResource();
+			=> "EditInNotepadDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new("\uE756");
+			=> new("\uE70F");
 
 		public bool IsExecutable =>
 			context.SelectedItem is not null &&
 			FileExtensionHelpers.IsBatchFile(context.SelectedItem.FileExtension);
 
-		public OpenInNotepadAction()
+		public EditInNotepadAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
