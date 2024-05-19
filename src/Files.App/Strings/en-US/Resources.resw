@@ -3834,6 +3834,6 @@
     <value>Edit in Notepad</value>
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
-    <value>Opens the selected file in Notepad</value>
+    <value>Edit the selected file in Notepad</value>
   </data>
 </root>
