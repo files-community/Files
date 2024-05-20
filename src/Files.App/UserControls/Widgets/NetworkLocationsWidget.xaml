@@ -1,0 +1,139 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<UserControl
+	x:Class="Files.App.UserControls.Widgets.NetworkLocationsWidget"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	mc:Ignorable="d">
+
+	<Grid>
+		<!--  Message when there are no network locations  -->
+		<InfoBar
+			x:Name="NoNetworkLocationsInfo"
+			x:Load="{x:Bind ViewModel.IsNoNetworkLocations, Mode=OneWay}"
+			IsClosable="False"
+			IsIconVisible="True"
+			IsOpen="True"
+			Severity="Informational">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock
+					Grid.Column="0"
+					VerticalAlignment="Center"
+					Text="{helpers:ResourceString Name=NoNetworkLocationsInfo}" />
+				<Button
+					x:Name="NoNetworkLocationsInfoBarButton"
+					Grid.Column="1"
+					Margin="8"
+					HorizontalAlignment="Right"
+					Click="NoNetworkLocationsInfoBarButton_Click"
+					Content="{helpers:ResourceString Name=Disable}" />
+			</Grid>
+		</InfoBar>
+
+		<ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+
+			<ItemsRepeater.Layout>
+				<UniformGridLayout
+					ItemsStretch="None"
+					MinColumnSpacing="8"
+					MinItemHeight="72"
+					MinItemWidth="240"
+					MinRowSpacing="8"
+					Orientation="Horizontal" />
+			</ItemsRepeater.Layout>
+
+			<ItemsRepeater.ItemTemplate>
+				<DataTemplate x:DataType="dataitems:WidgetDriveCardItem">
+					<Button
+						Padding="0"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						HorizontalContentAlignment="Stretch"
+						VerticalContentAlignment="Stretch"
+						AutomationProperties.Name="{x:Bind Item.Text, Mode=OneWay}"
+						Click="Button_Click"
+						CornerRadius="{StaticResource ControlCornerRadius}"
+						DataContext="{x:Bind}"
+						PointerPressed="Button_PointerPressed"
+						RightTapped="Button_RightTapped"
+						Tag="{x:Bind Item.Path}"
+						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
+						<Grid
+							Margin="8"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							ColumnSpacing="8">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="32" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<Image
+								Grid.RowSpan="3"
+								Grid.Column="0"
+								Width="32"
+								Height="32"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								x:Phase="1"
+								Source="{x:Bind Thumbnail, Mode=OneWay}"
+								Stretch="Uniform" />
+
+							<TextBlock
+								x:Name="ItemLocationName"
+								Grid.Row="0"
+								Grid.Column="1"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
+								FontSize="14"
+								FontWeight="Medium"
+								Text="{x:Bind Item.Text, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
+
+							<ProgressBar
+								x:Name="DriveSpaceProgressBar"
+								Grid.Row="1"
+								Grid.Column="1"
+								VerticalAlignment="Stretch"
+								VerticalContentAlignment="Stretch"
+								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
+								AutomationProperties.AccessibilityView="Raw"
+								Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
+								Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
+
+							<TextBlock
+								x:Name="DriveSpaceTextBlock"
+								Grid.Row="2"
+								Grid.Column="1"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
+								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
+								x:Phase="1"
+								FontSize="12"
+								Text="{x:Bind Item.SpaceText, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap"
+								ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}" />
+						</Grid>
+					</Button>
+				</DataTemplate>
+			</ItemsRepeater.ItemTemplate>
+
+		</ItemsRepeater>
+	</Grid>
+</UserControl>

@@ -219,6 +219,13 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NetworkLocations}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=NetworkLocations}"
+								IsOn="{x:Bind ViewModel.ShowNetworkLocationsWidget, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=FileTags}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=FileTags}"
