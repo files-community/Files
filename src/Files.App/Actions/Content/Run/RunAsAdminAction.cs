@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal sealed class RunAsAdminAction : BaseRunAsAction
 	{
-		private readonly IContentPageContext _context;
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public override string Label
 			=> "RunAsAdministrator".GetLocalizedResource();
