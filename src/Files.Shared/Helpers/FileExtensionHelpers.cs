@@ -66,6 +66,16 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
+		/// Check if the file extension is a Batch file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a Batch file; otherwise, <c>false</c>.</returns>
+		public static bool IsBatchFile(string fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".bat");
+		}
+
+		/// <summary>
 		/// Check if the file extension is a zip file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
