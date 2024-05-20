@@ -3836,4 +3836,10 @@
   <data name="Disable" xml:space="preserve">
     <value>Disable</value>
   </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edit in Notepad</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Edit the selected file in Notepad</value>
+  </data>
 </root>
