@@ -5,6 +5,7 @@ using Jeffijoe.MessageFormat;
 using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Globalization;
 using System.Globalization;
+using Microsoft.Extensions.Logging;
 
 namespace Files.App.Extensions
 {
@@ -40,9 +41,10 @@ namespace Files.App.Extensions
 			catch
 			{
 				value = string.Empty;
+				App.Logger.LogWarning($"Formatter could not get a valid result value for: '{resourceKey}'");
 			}
 
-			return value ?? string.Empty;
+			return value;
 		}
 
 		// Overloaded method to accept multiple dictionaries of pairs and merge them
