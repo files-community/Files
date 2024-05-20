@@ -432,11 +432,17 @@
   <data name="ItemsSelected.Text" xml:space="preserve">
     <value>items selected</value>
   </data>
+  <data name="Plural.ItemsSelected.Text" xml:space="preserve">
+    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+  </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>item</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>items</value>
+  </data>
+  <data name="Plural.ItemsCount.Text" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
