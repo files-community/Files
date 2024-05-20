@@ -164,6 +164,16 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
+		/// Check if the file path is an Auto Hot Key file.
+		/// </summary>
+		/// <param name="filePathToCheck">The file path to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is an Auto Hot Key file; otherwise, <c>false</c>.</returns>
+		public static bool IsAhkFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".ahk");
+		}
+
+		/// <summary>
 		/// Check if the file path is an msi installer file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
