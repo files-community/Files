@@ -22,6 +22,14 @@ namespace Files.App.UserControls.Sidebar
 		}
 		public static readonly DependencyProperty InnerContentProperty =
 			DependencyProperty.Register(nameof(InnerContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+		
+		public UIElement FooterContent
+		{
+			get { return (UIElement)GetValue(FooterContentProperty); }
+			set { SetValue(FooterContentProperty, value); }
+		}
+		public static readonly DependencyProperty FooterContentProperty =
+			DependencyProperty.Register(nameof(FooterContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
 		public UIElement Footer
 		{

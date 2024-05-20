@@ -137,10 +137,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid
-		HorizontalAlignment="Stretch"
-		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-		BorderThickness="0,0,0,1">
+	<Grid HorizontalAlignment="Stretch">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" />

@@ -99,7 +99,7 @@
 			Grid.RowSpan="2"
 			Grid.Column="2"
 			MinWidth="4"
-			Margin="0,8,0,0"
+			Margin="0,8,0,40"
 			HorizontalAlignment="Left"
 			AllowFocusOnInteraction="True"
 			Background="Transparent"
@@ -129,16 +129,38 @@
 			Grid.Row="1"
 			Grid.Column="2"
 			Margin="2,0,0,0"
-			HorizontalAlignment="Stretch"
-			Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
-			BackgroundSizing="InnerBorderEdge"
-			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-			BorderThickness="1,1,0,0"
-			CornerRadius="8,0,0,0">
+			HorizontalAlignment="Stretch">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<!--  Content  -->
 			<Border
+				x:Name="Content"
+				Grid.Row="0"
 				VerticalAlignment="Stretch"
+				Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+				BackgroundSizing="InnerBorderEdge"
+				BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+				BorderThickness="1,1,0,1"
 				Child="{x:Bind InnerContent, Mode=OneWay}"
+				CornerRadius="8,0,0,8"
+				TabFocusNavigation="Local"
+				Translation="0,0,8">
+				<Border.Shadow>
+					<ThemeShadow x:Name="ContentThemeShadow" />
+				</Border.Shadow>
+			</Border>
+
+			<!--  Footer  -->
+			<Border
+				x:Name="FooterContentPresenter"
+				Grid.Row="1"
+				VerticalAlignment="Stretch"
+				Child="{x:Bind FooterContent, Mode=OneWay}"
 				TabFocusNavigation="Local" />
+
 		</Grid>
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="DisplayModes">
@@ -158,7 +180,8 @@
 						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
+						<Setter Target="Content.CornerRadius" Value="0" />
+						<Setter Target="Content.BorderThickness" Value="0,1,0,1" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="0,0,0,0" />
 						<!--  Specific to collapsed pane  -->
@@ -176,7 +199,8 @@
 						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
+						<Setter Target="Content.CornerRadius" Value="0" />
+						<Setter Target="Content.BorderThickness" Value="0,1,0,1" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="0,0,0,0" />
 						<!--  Specific to expanded pane  -->
