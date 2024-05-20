@@ -59,5 +59,8 @@ namespace Files.App.Extensions
 							  .ToDictionary(pair => pair.Key, pair => pair.Value);
 			return GetLocalizedFormatResource(resourceKey, pairs);
 		}
+
+		//TODO: Could replace `GetLocalizedResource()` in the future
+		public static string GetLocalizedFormatResource(this string resourceKey) => GetLocalizedFormatResource(resourceKey, new Dictionary<string, object?>());
 	}
 }
