@@ -39,6 +39,7 @@ namespace Files.App.ViewModels.Properties
 				var props = new DriveProperties(ViewModel, drive, AppInstance);
 				BaseProperties = props;
 
+				ViewModel.CleanupVisibility = props.Drive.Type != DriveType.Network;
 				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || string.Equals(props.Drive.Path, "C:\\", StringComparison.OrdinalIgnoreCase));
 				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSenseAsync(props.Drive.Path));
 				ViewModel.FormatDriveCommand = new RelayCommand(async () =>
