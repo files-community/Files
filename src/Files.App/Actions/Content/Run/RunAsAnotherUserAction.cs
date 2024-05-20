@@ -7,8 +7,7 @@ namespace Files.App.Actions
 {
 	internal sealed class RunAsAnotherUserAction : BaseRunAsAction
 	{
-		private readonly IContentPageContext _context;
-
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		public override string Label
 			=> "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalizedResource();
 
@@ -19,14 +18,14 @@ namespace Files.App.Actions
 			=> new("\uE7EE");
 
 		public override bool IsExecutable =>
-			_context.SelectedItem is not null &&
-			(FileExtensionHelpers.IsExecutableFile(_context.SelectedItem.FileExtension) ||
-			(_context.SelectedItem is ShortcutItem shortcut &&
+			ContentPageContext.SelectedItem is not null &&
+			!FileExtensionHelpers.IsAhkFile(ContentPageContext.SelectedItem.FileExtension) &&
+			(FileExtensionHelpers.IsExecutableFile(ContentPageContext.SelectedItem.FileExtension) ||
+			(ContentPageContext.SelectedItem is ShortcutItem shortcut &&
 			shortcut.IsExecutable));
 
 		public RunAsAnotherUserAction() : base("runasuser")
 		{
-			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 	}
 }

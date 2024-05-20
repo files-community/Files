@@ -19,15 +19,13 @@ namespace Files.App.Actions
 			=> new("\uE7EF");
 
 		public override bool IsExecutable =>
-			_context.SelectedItem is not null &&
-			(FileExtensionHelpers.IsExecutableFile(_context.SelectedItem.FileExtension) ||
-			FileExtensionHelpers.IsAhkFile(_context.SelectedItem.FileExtension) ||
-			(_context.SelectedItem is ShortcutItem shortcut &&
+			ContentPageContext.SelectedItem is not null &&
+			(FileExtensionHelpers.IsExecutableFile(ContentPageContext.SelectedItem.FileExtension) ||
+			(ContentPageContext.SelectedItem is ShortcutItem shortcut &&
 			shortcut.IsExecutable));
 
 		public RunAsAdminAction() : base("runas")
 		{
-			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 	}
 }
