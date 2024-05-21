@@ -215,13 +215,27 @@
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
 
+			<!--  Content Header  -->
+			<sidebar:SidebarView.ContentHeader>
+				<Border>
+					<!--  File Navigation Toolbar  -->
+					<uc:InnerNavigationToolbar
+						x:Name="InnerNavigationToolbar"
+						x:Load="False"
+						Loaded="NavToolbar_Loaded"
+						ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
+						ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
+						TabIndex="2" />
+				</Border>
+			</sidebar:SidebarView.ContentHeader>
+
+			<!--  Inner Content  -->
 			<sidebar:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
 					SizeChanged="RootGrid_SizeChanged">
 					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
 						<RowDefinition
 							x:Name="ContentRow"
 							Height="*"
@@ -238,19 +252,9 @@
 						<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<!--  File Navigation Toolbar  -->
-					<uc:InnerNavigationToolbar
-						x:Name="InnerNavigationToolbar"
-						Grid.ColumnSpan="3"
-						x:Load="False"
-						Loaded="NavToolbar_Loaded"
-						ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
-						ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
-						TabIndex="2" />
-
 					<!--  Page Content  -->
 					<ContentPresenter
-						Grid.Row="1"
+						Grid.Row="0"
 						Grid.Column="0"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
@@ -259,7 +263,7 @@
 					<!--  Preview Pane Splitter  -->
 					<toolkit:GridSplitter
 						x:Name="PaneSplitter"
-						Grid.Row="1"
+						Grid.Row="0"
 						Grid.Column="1"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 						ManipulationCompleted="PaneSplitter_ManipulationCompleted"
@@ -270,7 +274,7 @@
 					<!--  Preview Pane  -->
 					<uc:InfoPane
 						x:Name="PreviewPane"
-						Grid.Row="1"
+						Grid.Row="0"
 						Grid.Column="2"
 						HorizontalContentAlignment="Stretch"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
@@ -279,7 +283,7 @@
 				</Grid>
 			</sidebar:SidebarView.InnerContent>
 
-			<!--  Footer Content  -->
+			<!--  Content Footer  -->
 			<sidebar:SidebarView.ContentFooter>
 				<Border>
 					<!--  Status Bar  -->
