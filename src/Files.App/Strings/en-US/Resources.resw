@@ -1079,9 +1079,6 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Unpin from Sidebar</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Network Drives</value>
-  </data>
   <data name="Network" xml:space="preserve">
     <value>Network</value>
   </data>
@@ -3825,5 +3822,20 @@
   <data name="BitmapFiles" xml:space="preserve">
     <value>Bitmap Files</value>
     <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Network locations</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edit in Notepad</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Edit the selected file in Notepad</value>
   </data>
 </root>

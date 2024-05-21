@@ -11,35 +11,50 @@ using Windows.UI.Core;
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
-	/// Represents view model of <see cref="DrivesWidget"/>.
+	/// Represents view model of <see cref="NetworkLocationsWidget"/>.
 	/// </summary>
-	public sealed class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed class NetworkLocationsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 
 		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
 
-		public string WidgetName => nameof(DrivesWidget);
-		public string AutomationProperties => "Drives".GetLocalizedResource();
-		public string WidgetHeader => "Drives".GetLocalizedResource();
-		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
-		public bool ShowMenuFlyout => false;
-		public MenuFlyoutItem? MenuFlyoutItem => null;
+		public string WidgetName => nameof(NetworkLocationsWidget);
+		public string AutomationProperties => "NetworkLocations".GetLocalizedResource();
+		public string WidgetHeader => "NetworkLocations".GetLocalizedResource();
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget;
+		public bool ShowMenuFlyout => true;
+		public MenuFlyoutItem? MenuFlyoutItem => new()
+		{
+			Icon = new FontIcon() { Glyph = "\uE710" },
+			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
+			Command = MapNetworkDriveCommand
+		};
+
+		private bool _IsNoNetworkLocations;
+		public bool IsNoNetworkLocations
+		{
+			get => _IsNoNetworkLocations;
+			private set => SetProperty(ref _IsNoNetworkLocations, value);
+		}
 
 		// Commands
 
 		private ICommand FormatDriveCommand { get; } = null!;
 		private ICommand EjectDeviceCommand { get; } = null!;
 		private ICommand OpenInNewPaneCommand { get; } = null!;
+		private ICommand MapNetworkDriveCommand { get; } = null!;
 		private ICommand DisconnectNetworkDriveCommand { get; } = null!;
 
 		// Constructor
 
-		public DrivesWidgetViewModel()
+		public NetworkLocationsWidgetViewModel()
 		{
 			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Shortcuts_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			NetworkService.Shortcuts.CollectionChanged += Shortcuts_CollectionChanged;
 
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewWindowCommand);
@@ -50,6 +65,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteOpenInNewPaneCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
+			MapNetworkDriveCommand = new AsyncRelayCommand(ExecuteMapNetworkDriveCommand);
 		}
 
 		// Methods
@@ -180,6 +196,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
+		public void DisableWidget()
+		{
+			UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget = false;
+		}
+
 		// Command methods
 
 		private async Task ExecuteEjectDeviceCommand(WidgetDriveCardItem? item)
@@ -197,6 +218,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Item.Path);
+		}
+
+		private Task ExecuteMapNetworkDriveCommand()
+		{
+			return NetworkService.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void ExecuteFormatDriveCommand(WidgetDriveCardItem? item)
@@ -229,15 +255,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			NetworkService.DisconnectNetworkDrive(item.Item);
 		}
 
-		// Event methods
-
-		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private async Task UpdateItems(ObservableCollection<ILocatableFolder> source)
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
+				IsNoNetworkLocations = false;
+
+				foreach (DriveItem drive in source.ToList().Cast<DriveItem>())
 				{
-					if (!Items.Any(x => x.Item == drive) && drive.Type is not DriveType.VirtualDrive and not DriveType.Network)
+					if (!Items.Any(x => x.Item == drive) && drive.Type is DriveType.Network)
 					{
 						var cardItem = new WidgetDriveCardItem(drive);
 						Items.AddSorted(cardItem);
@@ -248,10 +274,24 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				foreach (WidgetDriveCardItem driveCard in Items.ToList())
 				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
+					if (!DrivesViewModel.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
 						Items.Remove(driveCard);
 				}
+
+				IsNoNetworkLocations = !Items.Any();
 			});
+		}	
+
+		// Event methods
+
+		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			await UpdateItems(DrivesViewModel.Drives);
+		}
+
+		private async void Shortcuts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			await UpdateItems(NetworkService.Shortcuts);
 		}
 
 		// Disposer

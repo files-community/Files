@@ -76,6 +76,11 @@ namespace Files.App.Services.Settings
 		bool ShowDrivesWidget { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to display the network locations widget.
+		/// </summary>
+		bool ShowNetworkLocationsWidget { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to display the file tags widget.
 		/// </summary>
 		bool ShowFileTagsWidget { get; set; }
@@ -94,6 +99,11 @@ namespace Files.App.Services.Settings
 		/// Gets or sets a value indicating whether or not to expand the drives widget.
 		/// </summary>
 		bool DrivesWidgetExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to expand the network locations widget.
+		/// </summary>
+		bool NetworkLocationsWidgetExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to expand the file tags widget.
@@ -121,9 +131,9 @@ namespace Files.App.Services.Settings
 		bool ShowCloudDrivesSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the network drive section should be visible.
+		/// Gets or sets a value indicating if the network section should be visible.
 		/// </summary>
-		bool ShowNetworkDrivesSection { get; set; }
+		bool ShowNetworkSection { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the wsl section should be visible.

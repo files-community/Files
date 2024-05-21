@@ -1,28 +1,30 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
+
 namespace Files.App.Actions
 {
-	internal sealed class CreateFolderWithSelectionAction : ObservableObject, IAction
+	internal sealed class EditInNotepadAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CreateFolderWithSelection".GetLocalizedResource();
+			=> "EditInNotepad".GetLocalizedResource();
 
 		public string Description
-			=> "CreateFolderWithSelectionDescription".GetLocalizedResource();
+			=> "EditInNotepadDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconNewFolder");
+			=> new("\uE70F");
 
 		public bool IsExecutable =>
-			context.ShellPage is not null &&
+			context.SelectedItems.Any() &&
 			context.PageType != ContentPageTypes.RecycleBin &&
 			context.PageType != ContentPageTypes.ZipFolder &&
-			context.HasSelection;
+			context.SelectedItems.All(x => FileExtensionHelpers.IsBatchFile(x.FileExtension) || FileExtensionHelpers.IsAhkFile(x.FileExtension) || FileExtensionHelpers.IsCmdFile(x.FileExtension));
 
-		public CreateFolderWithSelectionAction()
+		public EditInNotepadAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -31,15 +33,14 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(context.ShellPage!);
+			return Task.WhenAll(context.SelectedItems.Select(item => Win32Helper.RunPowershellCommandAsync($"notepad '{item.ItemPath}\'", false)));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IContentPageContext.ShellPage):
-				case nameof(IContentPageContext.HasSelection):
+				case nameof(IContentPageContext.SelectedItems):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
