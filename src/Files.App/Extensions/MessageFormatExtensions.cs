@@ -15,7 +15,7 @@ namespace Files.App.Extensions
 		private static readonly ResourceMap resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
 
 		// CultureInfo based on the application's primary language override
-		private static readonly CultureInfo locale = new(ApplicationLanguages.PrimaryLanguageOverride);
+		private static readonly CultureInfo locale = ApplicationLanguages.PrimaryLanguageOverride == string.Empty ? CultureInfo.InstalledUICulture : new(ApplicationLanguages.PrimaryLanguageOverride);
 
 		// Message formatter with caching enabled, using the current UI culture's two-letter ISO language name
 		private static readonly MessageFormatter formatter = new(useCache: true, locale: locale.TwoLetterISOLanguageName);

@@ -152,6 +152,11 @@ namespace Files.App.ViewModels.Settings
 				.ThenBy(language => language.LanguageName);
 			AppLanguages = new ObservableCollection<AppLanguageItem>(appLanguages);
 
+			// Add default language
+			var osDefaultLanguage = new AppLanguageItem(CultureInfo.InstalledUICulture.Name);
+			if (AppLanguages.Select(language => language.LanguageName.Contains(osDefaultLanguage.LanguageName)).Any())
+				AppLanguages[0].LanguagID = osDefaultLanguage.LanguagID;
+
 			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
 			SelectedAppLanguageIndex = AppLanguages
 				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
