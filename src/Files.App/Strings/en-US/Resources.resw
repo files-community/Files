@@ -3737,7 +3737,7 @@
     <value>This key binding is already being used, please choose a different key binding to continue.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
-    <value>The key bind you pressed cannot be used, try using a different key bind.</value>
+    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Customized</value>
