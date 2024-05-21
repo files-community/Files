@@ -244,7 +244,7 @@ namespace Files.App.Views.Layouts
 						UpdateSelectionSize();
 
 						SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
-						SelectedItemsPropertiesViewModel.SelectedItemsCountString = "pItemsSelected".GetLocalizedFormatResource(selectedItems!.Count);
+						SelectedItemsPropertiesViewModel.SelectedItemsCountString = "SelectedItems".GetLocalizedFormatResource(selectedItems!.Count);
 
 						if (selectedItems.Count == 1)
 						{
