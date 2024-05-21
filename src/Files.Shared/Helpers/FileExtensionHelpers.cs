@@ -174,16 +174,6 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file path is a text file.
-		/// </summary>
-		/// <param name="filePathToCheck">The file path to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is a text file; otherwise, <c>false</c>.</returns>
-		public static bool IsTextFile(string? filePathToCheck)
-		{
-			return HasExtension(filePathToCheck, ".txt");
-		}
-
-		/// <summary>
 		/// Check if the file path is a cmd file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>

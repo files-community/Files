@@ -21,8 +21,7 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.SelectedItem is not null &&
 			(FileExtensionHelpers.IsBatchFile(context.SelectedItem.FileExtension) ||
-			FileExtensionHelpers.IsAhkFile(context.SelectedItem.FileExtension) ||
-			FileExtensionHelpers.IsTextFile(context.SelectedItem.FileExtension));
+			FileExtensionHelpers.IsAhkFile(context.SelectedItem.FileExtension));
 
 		public EditInNotepadAction()
 		{
