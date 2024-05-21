@@ -589,6 +589,7 @@ namespace Files.App.Data.Factories
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.EditInNotepad).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Loading".GetLocalizedResource(),

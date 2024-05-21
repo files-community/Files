@@ -19,8 +19,10 @@ namespace Files.App.Actions
 			=> new("\uE70F");
 
 		public bool IsExecutable =>
-			context.SelectedItem is not null &&
-			FileExtensionHelpers.IsBatchFile(context.SelectedItem.FileExtension);
+			context.SelectedItems.Any() &&
+			context.PageType != ContentPageTypes.RecycleBin &&
+			context.PageType != ContentPageTypes.ZipFolder &&
+			context.SelectedItems.All(x => FileExtensionHelpers.IsBatchFile(x.FileExtension) || FileExtensionHelpers.IsAhkFile(x.FileExtension) || FileExtensionHelpers.IsCmdFile(x.FileExtension));
 
 		public EditInNotepadAction()
 		{
@@ -31,8 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			return Win32Helper.RunPowershellCommandAsync($"notepad '{context.ShellPage?.SlimContentPage?.SelectedItem?.ItemPath}\'", false);
-
+			return Task.WhenAll(context.SelectedItems.Select(item => Win32Helper.RunPowershellCommandAsync($"notepad '{item.ItemPath}\'", false)));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

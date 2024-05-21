@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Zadaný název položky je neplatný</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>položka vybrána</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {vybráno # položek} other {# položek}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>položky vybrány</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>položka</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>položky</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {položka} other {položky}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ano</value>
@@ -1083,9 +1079,6 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Odepnout z postranního panelu</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Síťové disky</value>
-  </data>
   <data name="Network" xml:space="preserve">
     <value>Síť</value>
   </data>
@@ -1561,7 +1554,7 @@
     <value>Číst rozšířené atributy</value>
   </data>
   <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>Oprávnění k čtení souboru</value>
+    <value>Číst oprávnění</value>
   </data>
   <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
     <value>Převzít vlastnictví</value>
@@ -1570,7 +1563,7 @@
     <value>Přejít do složky</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>Zapisovací atributy</value>
+    <value>Zapisovat atributy</value>
   </data>
   <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
     <value>Zapsat data</value>
@@ -2725,11 +2718,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Insert" xml:space="preserve">
-    <value>Ins</value>
+    <value>Insert</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Delete" xml:space="preserve">
-    <value>Del</value>
+    <value>Delete</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
@@ -2749,7 +2742,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
-    <value>Domů</value>
+    <value>Home</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
@@ -2777,7 +2770,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Clear" xml:space="preserve">
-    <value>Vyčistit</value>
+    <value>Clear</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Print" xml:space="preserve">
@@ -2785,7 +2778,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
-    <value>Nápověda</value>
+    <value>Help</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
@@ -2861,7 +2854,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
-    <value>Ztlumení</value>
+    <value>Mute</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
@@ -2873,7 +2866,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Change</value>
+    <value>Změnit</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
     <value>Přepnout výběr</value>
@@ -2888,7 +2881,7 @@
     <value>Koš</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Neoznačené</value>
+    <value>Bez štítku</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
     <value>Přesune se na předchozí kartu</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Vertikální zarovnání</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Slabě akrylová</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Zobrazit pro všechna umístění</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Nástroje pro vývojáře</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Konfigurace tlačítka „Otevřít IDE“ na stavové liště</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Zobrazit pro repozitáře Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Rozšíření aplikace</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Soubor ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Soubor ZIP</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Soubory bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Síť</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Neexistují žádná síťová umístění. Pokud síťová umístění nepoužíváte, můžete widget vypnout.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Zakázat</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Upravit v Poznámkovém bloku</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Upravit vybraný soubor v Poznámkovém bloku</value>
   </data>
 </root>

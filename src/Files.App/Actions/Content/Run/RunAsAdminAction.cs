@@ -20,6 +20,8 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			ContentPageContext.SelectedItem is not null &&
+			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+			ContentPageContext.PageType != ContentPageTypes.ZipFolder &&
 			(FileExtensionHelpers.IsExecutableFile(ContentPageContext.SelectedItem.FileExtension) ||
 			(ContentPageContext.SelectedItem is ShortcutItem shortcut &&
 			shortcut.IsExecutable));
