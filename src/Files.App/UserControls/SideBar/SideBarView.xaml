@@ -99,7 +99,7 @@
 			Grid.RowSpan="2"
 			Grid.Column="2"
 			MinWidth="4"
-			Margin="0,52,0,40"
+			Margin="0,60,0,40"
 			HorizontalAlignment="Left"
 			AllowFocusOnInteraction="True"
 			Background="Transparent"
