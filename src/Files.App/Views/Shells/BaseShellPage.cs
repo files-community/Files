@@ -239,9 +239,7 @@ namespace Files.App.Views.Shells
 			if (ContentPage is null)
 				return;
 
-			var directoryItemCountLocalization = (FilesystemViewModel.FilesAndFolders.Count == 1)
-				? "ItemCount/Text".GetLocalizedResource()
-				: "ItemsCount/Text".GetLocalizedResource();
+			var directoryItemCountLocalization = "Items".GetLocalizedFormatResource(FilesystemViewModel.FilesAndFolders.Count);
 
 			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
 					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
