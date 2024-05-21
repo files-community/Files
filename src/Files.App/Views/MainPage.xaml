@@ -280,7 +280,7 @@
 			</sidebar:SidebarView.InnerContent>
 
 			<!--  Footer Content  -->
-			<sidebar:SidebarView.FooterContent>
+			<sidebar:SidebarView.ContentFooter>
 				<Border>
 					<!--  Status Bar  -->
 					<uc:StatusBar
@@ -289,7 +289,7 @@
 						x:Load="False"
 						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
 				</Border>
-			</sidebar:SidebarView.FooterContent>
+			</sidebar:SidebarView.ContentFooter>
 		</sidebar:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>

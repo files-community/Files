@@ -23,13 +23,13 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty InnerContentProperty =
 			DependencyProperty.Register(nameof(InnerContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 		
-		public UIElement FooterContent
+		public UIElement ContentFooter
 		{
-			get { return (UIElement)GetValue(FooterContentProperty); }
-			set { SetValue(FooterContentProperty, value); }
+			get { return (UIElement)GetValue(ContentFooterProperty); }
+			set { SetValue(ContentFooterProperty, value); }
 		}
-		public static readonly DependencyProperty FooterContentProperty =
-			DependencyProperty.Register(nameof(FooterContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ContentFooterProperty =
+			DependencyProperty.Register(nameof(ContentFooter), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
 		public UIElement Footer
 		{

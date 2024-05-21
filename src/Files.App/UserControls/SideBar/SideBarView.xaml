@@ -155,10 +155,10 @@
 
 			<!--  Footer  -->
 			<Border
-				x:Name="FooterContentPresenter"
+				x:Name="ContentFooterPresenter"
 				Grid.Row="1"
 				VerticalAlignment="Stretch"
-				Child="{x:Bind FooterContent, Mode=OneWay}"
+				Child="{x:Bind ContentFooter, Mode=OneWay}"
 				TabFocusNavigation="Local" />
 
 		</Grid>
