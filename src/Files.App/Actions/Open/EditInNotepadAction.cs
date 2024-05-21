@@ -19,7 +19,7 @@ namespace Files.App.Actions
 			=> new("\uE70F");
 
 		public bool IsExecutable =>
-			context.SelectedItem is not null &&
+			context.SelectedItems.Any() &&
 			context.PageType != ContentPageTypes.RecycleBin &&
 			context.PageType != ContentPageTypes.ZipFolder &&
 			context.SelectedItems.All(x => FileExtensionHelpers.IsBatchFile(x.FileExtension) || FileExtensionHelpers.IsAhkFile(x.FileExtension) || FileExtensionHelpers.IsCmdFile(x.FileExtension));
