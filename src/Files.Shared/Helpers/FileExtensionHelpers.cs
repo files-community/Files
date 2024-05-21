@@ -174,6 +174,16 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
+		/// Check if the file path is a cmd file.
+		/// </summary>
+		/// <param name="filePathToCheck">The file path to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is a cmd file; otherwise, <c>false</c>.</returns>
+		public static bool IsCmdFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".cmd");
+		}
+
+		/// <summary>
 		/// Check if the file path is an msi installer file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
