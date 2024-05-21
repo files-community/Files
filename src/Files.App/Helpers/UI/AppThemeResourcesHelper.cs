@@ -28,8 +28,8 @@ namespace Files.App.Helpers
 			}
 			catch
 			{
-				appearance.AppThemeBackgroundColor = "#00000000"; //migrate to new default
-				service.SetAppThemeBackgroundColor(ColorHelper.ToColor("#00000000").FromWindowsColor()); // can this line be removed?
+				appearance.AppThemeBackgroundColor = "#00000000"; // reset to default
+				service.SetAppThemeBackgroundColor(ColorHelper.ToColor("#00000000").FromWindowsColor());
 			}
 
 			if (!string.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor))
