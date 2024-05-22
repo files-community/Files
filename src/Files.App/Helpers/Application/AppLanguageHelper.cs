@@ -93,7 +93,7 @@ namespace Files.App.Helpers
 				.ToList()
 				.IndexOf(Languages.FirstOrDefault(dl => dl.Name == lang.Name) ?? Languages.First());
 
-			// Adjusts the index to avoid zero (default language), increments if zero
+			// Adjusts the index to match the correct index
 			index = index == 0 ? index : index + 1;
 
             if (index == SelectedIndex)
