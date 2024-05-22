@@ -77,7 +77,7 @@ namespace Files.App.Helpers
                 return false;
 
             // Update the primary language override
-            ApplicationLanguages.PrimaryLanguageOverride = index == 0? _defaultId : Languages[index].Id;
+            ApplicationLanguages.PrimaryLanguageOverride = index == 0 ? _defaultId : Languages[index].Id;
 
             SelectedIndex = index;
             return true;
