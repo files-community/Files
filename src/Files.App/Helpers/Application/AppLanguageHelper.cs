@@ -37,9 +37,6 @@ namespace Files.App.Helpers
         /// </summary>
         static AppLanguageHelper()
         {
-            if (Languages is not null)
-                return;
-
             // Populate the Languages collection with available languages
             var appLanguages = ApplicationLanguages.ManifestLanguages
                .Append(string.Empty) // Add default language id
