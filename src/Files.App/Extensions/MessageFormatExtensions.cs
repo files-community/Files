@@ -3,7 +3,6 @@
 
 using Jeffijoe.MessageFormat;
 using Microsoft.Windows.ApplicationModel.Resources;
-using Windows.Globalization;
 using System.Globalization;
 using Microsoft.Extensions.Logging;
 

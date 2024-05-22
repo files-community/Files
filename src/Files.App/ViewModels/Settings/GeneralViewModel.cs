@@ -68,7 +68,7 @@ namespace Files.App.ViewModels.Settings
 
 		public int SelectedAppLanguageIndex
 		{
-			get => AppLanguageHelper.SelectedLanguageIndex;
+			get => AppLanguageHelper.SelectedIndex;
 			set
 			{
 				if (AppLanguageHelper.TryChangeIndex(value))
@@ -81,7 +81,7 @@ namespace Files.App.ViewModels.Settings
 
 		public List<DateTimeFormatItem> DateFormats { get; set; }
 
-		public ObservableCollection<AppLanguageItem> AppLanguages => AppLanguageHelper.AppLanguages;
+		public ObservableCollection<AppLanguageItem> AppLanguages => AppLanguageHelper.Languages;
 
 		public GeneralViewModel()
 		{
