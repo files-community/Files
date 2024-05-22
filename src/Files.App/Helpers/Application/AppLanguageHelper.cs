@@ -91,8 +91,13 @@ namespace Files.App.Helpers
         public static bool TryChangeId(string id)
         {
             var lang = new AppLanguageItem(id);
-            var index = Languages.Skip(1).ToList().IndexOf(Languages.FirstOrDefault(dl => dl.Name == lang.Name) ?? Languages.First());
-            index = index == 0 ? index : index + 1;
+            var index = Languages
+				.Skip(1) // Skip first (default) language
+				.ToList()
+				.IndexOf(Languages.FirstOrDefault(dl => dl.Name == lang.Name) ?? Languages.First());
+
+			// Adjusts the index to avoid zero (default language), increments if zero
+			index = index == 0 ? index : index + 1;
 
             if (index == SelectedIndex)
                 return false;
