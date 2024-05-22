@@ -25,7 +25,6 @@ global using global::CommunityToolkit.Mvvm.Messaging;
 global using global::Files.App.Helpers;
 global using global::Files.App.Extensions;
 global using global::Files.App.Utils;
-global using global::Files.App.Utils.Archives;
 global using global::Files.App.Utils.Cloud;
 global using global::Files.App.Utils.FileTags;
 global using global::Files.App.Utils.Git;
