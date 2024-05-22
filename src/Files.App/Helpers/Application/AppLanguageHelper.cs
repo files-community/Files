@@ -49,7 +49,7 @@ namespace Files.App.Helpers
 			var current = new AppLanguageItem(ApplicationLanguages.PrimaryLanguageOverride);
 
             // Find the index of the saved language
-            var index = appLanguages.IndexOf(appLanguages.FirstOrDefault(dl => dl.Name == current.Name)?? appLanguages.First());
+            var index = appLanguages.IndexOf(appLanguages.FirstOrDefault(dl => dl.Name == current.Name) ?? appLanguages.First());
             SelectedIndex = index;
 
             // Set the OS default language as the first item in the Languages collection
