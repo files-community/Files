@@ -92,7 +92,7 @@ namespace Files.App.Helpers
         {
             var lang = new AppLanguageItem(id);
             var index = Languages.Skip(1).ToList().IndexOf(Languages.FirstOrDefault(dl => dl.Name == lang.Name) ?? Languages.First());
-            index = index == 0? index : index + 1;
+            index = index == 0 ? index : index + 1;
 
             if (index == SelectedIndex)
                 return false;
