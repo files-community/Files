@@ -99,7 +99,7 @@ namespace Files.App.Services.Settings
 
 		public bool ShowNetworkLocationsWidget
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
@@ -129,7 +129,7 @@ namespace Files.App.Services.Settings
 
 		public bool NetworkLocationsWidgetExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
