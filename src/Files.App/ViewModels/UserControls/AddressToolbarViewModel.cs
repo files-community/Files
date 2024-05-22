@@ -688,6 +688,10 @@ namespace Files.App.ViewModels.UserControls
 
 		private static string NormalizePathInput(string currentInput, bool isFtp)
 		{
+			// Check if input is a command and not a path
+			if (currentInput.Length > 1 && currentInput.ElementAt(1) != ':')
+				return currentInput;
+
 			if (currentInput.Contains('/') && !isFtp)
 				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
 
