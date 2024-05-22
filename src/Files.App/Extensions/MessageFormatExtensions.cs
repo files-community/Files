@@ -15,10 +15,19 @@ namespace Files.App.Extensions
 		private static readonly ResourceMap resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
 
 		// CultureInfo based on the application's primary language override
-		private static readonly CultureInfo locale = new(ApplicationLanguages.PrimaryLanguageOverride);
+		private static readonly CultureInfo locale = default!;
 
 		// Message formatter with caching enabled, using the current UI culture's two-letter ISO language name
-		private static readonly MessageFormatter formatter = new(useCache: true, locale: locale.TwoLetterISOLanguageName);
+		private static readonly MessageFormatter formatter = default!;
+
+		static MessageFormatExtensions()
+		{
+			if (locale is not null)
+				return;
+
+			locale = new(AppLanguageHelper.SelectedLanguage);
+			formatter = new(useCache: true, locale: locale.TwoLetterISOLanguageName);
+		}
 
 		// Extension method to create a dictionary for format pairs with a string key
 		public static IReadOnlyDictionary<string, object?> ToFormatPairs(this string key, object value) => new Dictionary<string, object?> { [key] = value };

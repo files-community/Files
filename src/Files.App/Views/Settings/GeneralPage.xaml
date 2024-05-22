@@ -51,8 +51,8 @@
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
 					<uc:ComboBoxEx.ItemTemplate>
-						<DataTemplate x:DataType="vm:AppLanguageItem">
-							<TextBlock Text="{x:Bind LanguageName}" />
+						<DataTemplate x:DataType="helpers:AppLanguageItem">
+							<TextBlock Text="{x:Bind Name}" />
 						</DataTemplate>
 					</uc:ComboBoxEx.ItemTemplate>
 				</uc:ComboBoxEx>
