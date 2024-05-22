@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.ViewModels
 {
@@ -228,7 +229,7 @@ namespace Files.App.ViewModels
 
 		// Command methods
 
-		private void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)
+		private async void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			int indexToSelect = e!.KeyboardAccelerator.Key switch
 			{
@@ -246,7 +247,12 @@ namespace Files.App.ViewModels
 
 			// Only select the tab if it is in the list
 			if (indexToSelect < AppInstances.Count)
+			{
 				App.AppModel.TabStripSelectedIndex = indexToSelect;
+
+				await Task.Delay(500);
+				(SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+			}
 
 			e.Handled = true;
 		}
