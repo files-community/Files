@@ -27,6 +27,12 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
+		public void SetAppThemeToolbarBackgroundColor(Color appThemeToolbarBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.Toolbar.BackgroundBrush"] = appThemeToolbarBackgroundColor.ToWindowsColor();
+		}
+		
+		/// <inheritdoc/>
 		public void SetAppThemeSidebarBackgroundColor(Color appThemeSidebarBackgroundColor)
 		{
 			Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = appThemeSidebarBackgroundColor.ToWindowsColor();

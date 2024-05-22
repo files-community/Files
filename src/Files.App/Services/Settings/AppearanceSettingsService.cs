@@ -49,6 +49,13 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
+		public String AppThemeToolbarBackgroundColor
+		{
+			get => Get("");
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
 		public String AppThemeSidebarBackgroundColor
 		{
 			get => Get("");
@@ -117,6 +124,7 @@ namespace Files.App.Services.Settings
 			{
 				case nameof(AppThemeBackgroundColor):
 				case nameof(AppThemeAddressBarBackgroundColor):
+				case nameof(AppThemeToolbarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):
 				case nameof(AppThemeFileAreaBackgroundColor):
 				case nameof(AppThemeBackdropMaterial):
