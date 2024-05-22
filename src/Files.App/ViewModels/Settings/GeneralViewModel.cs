@@ -154,7 +154,8 @@ namespace Files.App.ViewModels.Settings
 
 			// Add default language
 			var osDefaultLanguage = new AppLanguageItem(CultureInfo.InstalledUICulture.Name);
-			if (AppLanguages.Select(language => language.LanguageName.Contains(osDefaultLanguage.LanguageName)).Any())
+			if (AppLanguages.Select(language =>
+				language.LanguageName.Contains(osDefaultLanguage.LanguageName)).Any())
 				AppLanguages[0].LanguagID = osDefaultLanguage.LanguagID;
 
 			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
