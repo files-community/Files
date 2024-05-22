@@ -38,6 +38,11 @@ namespace Files.App.Services.Settings
 		String AppThemeAddressBarBackgroundColor { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value for the app theme toolbar background color.
+		/// </summary>
+		String AppThemeToolbarBackgroundColor { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value for the app theme sidebar background color.
 		/// </summary>
 		String AppThemeSidebarBackgroundColor { get; set; }

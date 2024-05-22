@@ -26,6 +26,12 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="appThemeAddressBarBackgroundColor"></param>
 		void SetAppThemeAddressBarBackgroundColor(Color appThemeAddressBarBackgroundColor);
+		
+		/// <summary>
+		/// Overrides the XAML resource for App.Theme.Toolbar.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeToolbarBackgroundColor"></param>
+		void SetAppThemeToolbarBackgroundColor(Color appThemeToolbarBackgroundColor);
 
 		/// <summary>
 		/// Overrides the XAML resource for App.Theme.Sidebar.BackgroundBrush

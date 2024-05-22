@@ -101,7 +101,7 @@
 		</Style>
 	</UserControl.Resources>
 
-	<Grid Padding="8,0">
+	<Grid Padding="8,0,0,0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
