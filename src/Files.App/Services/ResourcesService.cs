@@ -45,6 +45,12 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
+		public void SetAppThemeInfoPaneBackgroundColor(Color appThemeInfoPaneBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.InfoPane.BackgroundBrush"] = appThemeInfoPaneBackgroundColor.ToWindowsColor();
+		}
+
+		/// <inheritdoc/>
 		public void SetAppThemeFontFamily(string contentControlThemeFontFamily)
 		{
 			Application.Current.Resources["ContentControlThemeFontFamily"] = contentControlThemeFontFamily;

@@ -390,9 +390,9 @@ namespace Files.App.Views
 						PaneColumn.Width = new GridLength(0);
 						break;
 					case PreviewPanePositions.Right:
-						PreviewPane.SetValue(Grid.RowProperty, 0);
-						PreviewPane.SetValue(Grid.ColumnProperty, 2);
-						PaneSplitter.SetValue(Grid.RowProperty, 0);
+						InfoPaneContainer.SetValue(Grid.RowProperty, 1);
+						InfoPaneContainer.SetValue(Grid.ColumnProperty, 2);
+						PaneSplitter.SetValue(Grid.RowProperty, 1);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
@@ -406,9 +406,9 @@ namespace Files.App.Views
 						PaneRow.Height = new GridLength(0);
 						break;
 					case PreviewPanePositions.Bottom:
-						PreviewPane.SetValue(Grid.RowProperty, 2);
-						PreviewPane.SetValue(Grid.ColumnProperty, 0);
-						PaneSplitter.SetValue(Grid.RowProperty, 1);
+						InfoPaneContainer.SetValue(Grid.RowProperty, 3);
+						InfoPaneContainer.SetValue(Grid.ColumnProperty, 0);
+						PaneSplitter.SetValue(Grid.RowProperty, 2);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
 						PaneSplitter.Width = RootGrid.ActualWidth;
@@ -553,6 +553,12 @@ namespace Files.App.Views
 			{
 				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
 			}
+		}
+
+		private void RootGrid_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Cast shadow on the status bar
+			PageContentThemeShadow.Receivers.Add(StatusBar);
 		}
 	}
 }
