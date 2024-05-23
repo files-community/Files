@@ -826,7 +826,7 @@ namespace Files.App.ViewModels.UserControls
 				positionOfDelimiter = currentInput.Length - 1;
 
 			positionOfDelimiter += 1;
-			var fileName = currentInput.Substring(0, positionOfDelimiter).Trim('"');
+			var fileName = currentInput.Substring(0, positionOfDelimiter).Trim().Trim('"');
 			var arguments = currentInput.Substring(positionOfDelimiter);
 
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
