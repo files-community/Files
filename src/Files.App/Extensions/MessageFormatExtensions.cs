@@ -19,14 +19,12 @@ namespace Files.App.Extensions
 		/// </summary>
 		private static readonly ResourceMap _resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
 
-		// CultureInfo based on the application's primary language override
 		/// <summary>
 		/// CultureInfo based on the application's primary language override.
 		/// It is initialized with the selected language of the application.
 		/// </summary>
 		private static readonly CultureInfo _locale = new(AppLanguageHelper.PreferredLanguage.Code);
 
-		// Message formatter with caching enabled, using the current UI culture's two-letter ISO language name
 		/// <summary>
 		/// Message formatter with caching enabled, using the current UI culture's two-letter ISO language name.
 		/// It is initialized with the options to use cache and the two-letter ISO language name of the current UI culture.
