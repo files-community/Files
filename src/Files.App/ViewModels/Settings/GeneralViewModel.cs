@@ -75,7 +75,7 @@ namespace Files.App.ViewModels.Settings
 				if (AppLanguageHelper.TryChange(value))
 				{
 					selectedAppLanguageIndex = value;
-					OnPropertyChanged(nameof(SelectedDateTimeFormatIndex));
+					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
 					ShowRestartControl = true;
 				}
 			}
