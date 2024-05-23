@@ -297,7 +297,7 @@
 						Grid.Row="1"
 						Grid.Column="2"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
-						Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
+						Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
 						BackgroundSizing="InnerBorderEdge"
 						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 						BorderThickness="1"
