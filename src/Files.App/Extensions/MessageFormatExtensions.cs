@@ -24,7 +24,7 @@ namespace Files.App.Extensions
 		/// CultureInfo based on the application's primary language override.
 		/// It is initialized with the selected language of the application.
 		/// </summary>
-		private static readonly CultureInfo _locale = new(AppLanguageHelper.SelectedLanguage);
+		private static readonly CultureInfo _locale = new(AppLanguageHelper.PreferredLanguage.Code);
 
 		// Message formatter with caching enabled, using the current UI culture's two-letter ISO language name
 		/// <summary>

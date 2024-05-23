@@ -8,7 +8,7 @@ namespace Files.App.Services.DateTimeFormatter
 {
 	internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
 	{
-		private static readonly CultureInfo cultureInfo = new(AppLanguageHelper.SelectedLanguage);
+		private static readonly CultureInfo cultureInfo = new(AppLanguageHelper.PreferredLanguage.Code);
 
 		public abstract string Name { get; }
 

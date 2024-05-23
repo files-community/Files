@@ -66,14 +66,16 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		private int selectedAppLanguageIndex;
 		public int SelectedAppLanguageIndex
 		{
-			get => AppLanguageHelper.SelectedIndex;
+			get => selectedAppLanguageIndex;
 			set
 			{
-				if (AppLanguageHelper.TryChangeIndex(value))
+				if (AppLanguageHelper.TryChange(value))
 				{
-					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
+					selectedAppLanguageIndex = value;
+					OnPropertyChanged(nameof(SelectedDateTimeFormatIndex));
 					ShowRestartControl = true;
 				}
 			}
@@ -81,7 +83,7 @@ namespace Files.App.ViewModels.Settings
 
 		public List<DateTimeFormatItem> DateFormats { get; set; }
 
-		public ObservableCollection<AppLanguageItem> AppLanguages => AppLanguageHelper.Languages;
+		public ObservableCollection<AppLanguageItem> AppLanguages => AppLanguageHelper.SupportedLanguages;
 
 		public GeneralViewModel()
 		{
@@ -90,6 +92,8 @@ namespace Files.App.ViewModels.Settings
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPageAsync(path));
 			RestartCommand = new RelayCommand(DoRestartAsync);
 			CancelRestartCommand = new RelayCommand(DoCancelRestart);
+
+			selectedAppLanguageIndex = AppLanguageHelper.SupportedLanguages.IndexOf(AppLanguageHelper.PreferredLanguage);
 
 			AddDateTimeOptions();
 			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());

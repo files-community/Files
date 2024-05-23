@@ -11,6 +11,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:items="using:Files.App.Data.Items"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -51,7 +52,7 @@
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
 					<uc:ComboBoxEx.ItemTemplate>
-						<DataTemplate x:DataType="helpers:AppLanguageItem">
+						<DataTemplate x:DataType="items:AppLanguageItem">
 							<TextBlock Text="{x:Bind Name}" />
 						</DataTemplate>
 					</uc:ComboBoxEx.ItemTemplate>
