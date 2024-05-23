@@ -269,7 +269,7 @@
 						HorizontalContentAlignment="Stretch"
 						Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
 						BackgroundSizing="InnerBorderEdge"
-						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 						BorderThickness="1"
 						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}"
 						CornerRadius="8"
