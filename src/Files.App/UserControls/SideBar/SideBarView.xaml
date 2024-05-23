@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <UserControl
 	x:Class="Files.App.UserControls.Sidebar.SidebarView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -106,6 +106,7 @@
 			<ItemsRepeater
 				x:Name="PaneFooterItemsRepeater"
 				Grid.Row="2"
+				AutomationProperties.AccessibilityView="Content"
 				AutomationProperties.Name="SidebarPaneFooter"
 				IsTabStop="True"
 				ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
