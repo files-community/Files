@@ -46,6 +46,12 @@ namespace Files.App.Data.Contracts
 		void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor);
 
 		/// <summary>
+		/// Overrides the XAML resource for App.Theme.InfoPane.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeInfoPaneBackgroundColor"></param>
+		void SetAppThemeInfoPaneBackgroundColor(Color appThemeInfoPaneBackgroundColor);
+
+		/// <summary>
 		/// Overrides the XAML resource for ContentControlThemeFontFamily
 		/// </summary>
 		/// <param name="contentControlThemeFontFamily"></param>
