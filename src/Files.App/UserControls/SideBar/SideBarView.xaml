@@ -131,23 +131,14 @@
 			Margin="2,0,8,0"
 			HorizontalAlignment="Stretch">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<!--  Header  -->
-			<Border
-				x:Name="ContentHeaderPresenter"
-				Grid.Row="0"
-				VerticalAlignment="Stretch"
-				Child="{x:Bind ContentHeader, Mode=OneWay}"
-				TabFocusNavigation="Local" />
-
 			<!--  Content  -->
 			<Border
 				x:Name="Content"
-				Grid.Row="1"
+				Grid.Row="0"
 				VerticalAlignment="Stretch"
 				Child="{x:Bind InnerContent, Mode=OneWay}"
 				TabFocusNavigation="Local" />

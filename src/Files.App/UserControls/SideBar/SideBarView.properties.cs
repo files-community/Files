@@ -15,14 +15,6 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty DisplayModeProperty =
 			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarView), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
 
-		public UIElement ContentHeader
-		{
-			get { return (UIElement)GetValue(ContentHeaderProperty); }
-			set { SetValue(ContentHeaderProperty, value); }
-		}
-		public static readonly DependencyProperty ContentHeaderProperty =
-			DependencyProperty.Register(nameof(ContentHeader), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
-		
 		public UIElement InnerContent
 		{
 			get { return (UIElement)GetValue(InnerContentProperty); }
