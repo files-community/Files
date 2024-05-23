@@ -285,6 +285,7 @@
 						Grid.Row="0"
 						Grid.Column="1"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
+						Opacity="0"
 						ManipulationCompleted="PaneSplitter_ManipulationCompleted"
 						ManipulationStarted="PaneSplitter_ManipulationStarted"
 						ResizeBehavior="BasedOnAlignment"
