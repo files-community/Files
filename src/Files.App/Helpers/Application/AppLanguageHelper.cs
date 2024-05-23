@@ -23,7 +23,7 @@ namespace Files.App.Helpers
 		public static ObservableCollection<AppLanguageItem> SupportedLanguages { get; }
 
 		/// <summary>
-		/// Gets the preferred language code. e.g. en-US.
+		/// Gets the preferred language.
 		/// </summary>
 		public static AppLanguageItem PreferredLanguage { get; private set; }
 
