@@ -291,14 +291,22 @@
 						Style="{StaticResource DefaultGridSplitterStyle}" />
 
 					<!--  Preview Pane  -->
-					<uc:InfoPane
-						x:Name="PreviewPane"
+					<Border
+						x:Name="InfoPaneContainer"
 						Grid.Row="0"
 						Grid.Column="2"
-						HorizontalContentAlignment="Stretch"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
-						Loaded="PreviewPane_Loaded"
-						Unloaded="PreviewPane_Unloaded" />
+						Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
+						BackgroundSizing="InnerBorderEdge"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						CornerRadius="8">
+						<uc:InfoPane
+							x:Name="PreviewPane"
+							HorizontalContentAlignment="Stretch"
+							Loaded="PreviewPane_Loaded"
+							Unloaded="PreviewPane_Unloaded" />
+					</Border>
 
 					<!--  Status Bar  -->
 					<uc:StatusBar

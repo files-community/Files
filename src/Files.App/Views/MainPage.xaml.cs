@@ -390,8 +390,8 @@ namespace Files.App.Views
 						PaneColumn.Width = new GridLength(0);
 						break;
 					case PreviewPanePositions.Right:
-						PreviewPane.SetValue(Grid.RowProperty, 0);
-						PreviewPane.SetValue(Grid.ColumnProperty, 2);
+						InfoPaneContainer.SetValue(Grid.RowProperty, 0);
+						InfoPaneContainer.SetValue(Grid.ColumnProperty, 2);
 						PaneSplitter.SetValue(Grid.RowProperty, 0);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
@@ -406,8 +406,8 @@ namespace Files.App.Views
 						PaneRow.Height = new GridLength(0);
 						break;
 					case PreviewPanePositions.Bottom:
-						PreviewPane.SetValue(Grid.RowProperty, 2);
-						PreviewPane.SetValue(Grid.ColumnProperty, 0);
+						InfoPaneContainer.SetValue(Grid.RowProperty, 2);
+						InfoPaneContainer.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.SetValue(Grid.RowProperty, 1);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
