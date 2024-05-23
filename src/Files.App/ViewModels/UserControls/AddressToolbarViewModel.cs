@@ -815,15 +815,19 @@ namespace Files.App.ViewModels.UserControls
 
 		private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
 		{
-			var trimmedInput = currentInput.Trim();
-			var fileName = trimmedInput;
-			var arguments = string.Empty;
-			if (trimmedInput.Contains(' '))
-			{
-				var positionOfBlank = trimmedInput.IndexOf(' ');
-				fileName = trimmedInput.Substring(0, positionOfBlank);
-				arguments = currentInput.Substring(currentInput.IndexOf(' '));
-			}
+			currentInput = currentInput.TrimStart();
+
+			var positionOfDelimiter = currentInput.IndexOf(' ');
+			if (currentInput.ElementAt(0) == '"')
+				positionOfDelimiter = currentInput.IndexOf('"', 1);
+
+			// if no spaces && doesn't start with '"' || start with '"' && 2nd '"' not found
+			if (positionOfDelimiter == -1)
+				positionOfDelimiter = currentInput.Length - 1;
+
+			positionOfDelimiter += 1;
+			var fileName = currentInput.Substring(0, positionOfDelimiter).Trim('"');
+			var arguments = currentInput.Substring(positionOfDelimiter);
 
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
