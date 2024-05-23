@@ -15,13 +15,18 @@ namespace Files.App.UserControls.Sidebar
 	public interface ISidebarViewModel
 	{
 		/// <summary>
-		/// The source/list of items that will be rendered in the sidebar
+		/// Gets the list of items that will be rendered in the sidebar pane.
 		/// </summary>
-		object SidebarItems { get; }
+		BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; }
+
+		/// <summary>
+		/// Gets the list of items that will be rendered in the sidebar pane footer.
+		/// </summary>
+		BulkConcurrentObservableCollection<INavigationControlItem> PaneFooterItems { get; }
 
 		/// <summary>
 		/// Gets invoked when the context was requested for an item in the sidebar.
-		/// Also applies when context was requested for the pane itsself.
+		/// Also applies when context was requested for the pane itself.
 		/// </summary>
 		/// <param name="sender">The sender of this event</param>
 		/// <param name="args">The <see cref="ItemContextInvokedArgs"/> for this event.</param>

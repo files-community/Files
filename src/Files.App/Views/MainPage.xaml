@@ -212,6 +212,7 @@
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
 			Loaded="SidebarControl_Loaded"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
+			PaneFooterItemsSource="{x:Bind SidebarAdaptiveViewModel.PaneFooterItems, Mode=OneWay}"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
 

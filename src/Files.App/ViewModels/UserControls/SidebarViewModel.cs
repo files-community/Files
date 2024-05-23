@@ -3,7 +3,6 @@
 
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Sidebar;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -17,18 +16,16 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Files.Core.Storage;
-using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls
 {
 	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
-		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private readonly IFileTagsService fileTagsService;
+		private INetworkService NetworkService = Ioc.Default.GetRequiredService<INetworkService>();
+		private IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private IFileTagsService fileTagsService;
 
 		private IPanesPage paneHolder;
 		public IPanesPage PaneHolder
@@ -45,8 +42,10 @@ namespace Files.App.ViewModels.UserControls
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
 		private INavigationControlItem rightClickedItem;
 
-		public object SidebarItems => sidebarItems;
-		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
+		public BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; private set; } = [];
+
+		public BulkConcurrentObservableCollection<INavigationControlItem> PaneFooterItems { get; private set; } = [];
+
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
@@ -99,14 +98,14 @@ namespace Files.App.ViewModels.UserControls
 			var value = arg;
 
 			INavigationControlItem? item = null;
-			var filteredItems = sidebarItems
+			var filteredItems = SidebarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(sidebarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.Concat(SidebarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
 
 			if (string.IsNullOrEmpty(value))
 			{
-				//SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+				//SidebarSelectedItem = SidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
 				return;
 			}
 
@@ -233,9 +232,11 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-			sidebarItems = [];
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
 			CreateItemHomeAsync();
+
+			CreateItemSettingsAsync();
 
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -269,6 +270,23 @@ namespace Files.App.ViewModels.UserControls
 		private Task<LocationItem> CreateItemHomeAsync()
 		{
 			return CreateSectionAsync(SectionType.Home);
+		}
+
+		private void CreateItemSettingsAsync()
+		{
+			var item = new LocationItem()
+			{
+				Text = "Settings".GetLocalizedResource(),
+				Path = "Settings",
+				Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon)),
+				Section = SectionType.Footer,
+				IsHeader = true,
+				MenuOptions = new ContextMenuOptions { IsLocationItem = true },
+				SelectsOnInvoked = false,
+				ChildItems = [],
+			};
+
+			PaneFooterItems.Add(item);
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -417,7 +435,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private LocationItem? GetSection(SectionType sectionType)
 		{
-			return sidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
+			return SidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
 		}
 
 		private async Task<LocationItem> CreateSectionAsync(SectionType sectionType)
@@ -563,8 +581,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private void AddSectionToSideBar(LocationItem section)
 		{
-			var index = SectionOrder.TakeWhile(x => x != section.Section).Select(x => sidebarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
-			sidebarItems.Insert(Math.Min(index, sidebarItems.Count), section);
+			var index = SectionOrder.TakeWhile(x => x != section.Section).Select(x => SidebarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+			SidebarItems.Insert(Math.Min(index, SidebarItems.Count), section);
 		}
 
 		public async Task UpdateSectionVisibilityAsync(SectionType sectionType, bool show)
@@ -591,7 +609,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				sidebarItems.Remove(sidebarItems.FirstOrDefault(x => x.Section == sectionType));
+				SidebarItems.Remove(SidebarItems.FirstOrDefault(x => x.Section == sectionType));
 			}
 		}
 
@@ -748,21 +766,23 @@ namespace Files.App.ViewModels.UserControls
 				case NavigationControlItemType.Location:
 					{
 						// Get the path of the invoked item
-						var ItemPath = navigationControlItem.Path;
-
-						if (ItemPath is null)
-							ItemPath = navigationControlItem.Text;
+						var ItemPath = navigationControlItem.Path ?? navigationControlItem.Text ?? string.Empty;
 
 						// Home item
-						if (ItemPath != null && ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
+						switch (ItemPath)
 						{
-							navigationPath = "Home";
-							sourcePageType = typeof(HomePage);
+							case "Home":
+								navigationPath = "Home";
+								sourcePageType = typeof(HomePage);
+								break;
+							case "Settings":
+								await Commands.OpenSettings.ExecuteAsync();
+								return;
+							default:
+								navigationPath = navigationControlItem.Path;
+								break;
 						}
-						else
-						{
-							navigationPath = navigationControlItem.Path;
-						}
+
 						break;
 					}
 

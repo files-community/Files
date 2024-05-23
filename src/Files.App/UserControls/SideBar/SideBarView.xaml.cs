@@ -65,6 +65,17 @@ namespace Files.App.UserControls.Sidebar
 			await ViewModel.HandleItemDragOverAsync(new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
+		private void UpdatePaneFooterVisibility()
+		{
+			if (PaneFooterItemsSource is not IList<INavigationControlItem> list)
+				return;
+
+			VisualStateManager.GoToState(
+				this,
+				list.Count is 0 ? "PaneFooterNoChildren" : "PaneFooterNormal",
+				true);
+		}
+
 		private void UpdateMinimalMode()
 		{
 			if (DisplayMode != SidebarDisplayMode.Minimal) return;

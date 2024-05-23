@@ -39,13 +39,13 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty ContentFooterProperty =
 			DependencyProperty.Register(nameof(ContentFooter), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
-		public UIElement Footer
+		public object PaneFooterItemsSource
 		{
-			get { return (UIElement)GetValue(FooterProperty); }
-			set { SetValue(FooterProperty, value); }
+			get => (object)GetValue(PaneFooterItemsSourceProperty);
+			set => SetValue(PaneFooterItemsSourceProperty, value);
 		}
-		public static readonly DependencyProperty FooterProperty =
-			DependencyProperty.Register("Footer", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+		public static readonly DependencyProperty PaneFooterItemsSourceProperty =
+			DependencyProperty.Register(nameof(PaneFooterItemsSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null, OnPropertyChanged));
 
 		public bool IsPaneOpen
 		{
@@ -96,7 +96,8 @@ namespace Files.App.UserControls.Sidebar
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (sender is not SidebarView control) return;
+			if (sender is not SidebarView control)
+				return;
 
 			if (e.Property == OpenPaneLengthProperty)
 			{
@@ -109,6 +110,10 @@ namespace Files.App.UserControls.Sidebar
 			else if (e.Property == IsPaneOpenProperty)
 			{
 				control.UpdateMinimalMode();
+			}
+			else if (e.Property == PaneFooterItemsSourceProperty)
+			{
+				control.UpdatePaneFooterVisibility();
 			}
 		}
 	}

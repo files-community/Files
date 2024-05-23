@@ -6,11 +6,22 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	HorizontalAlignment="Stretch"
 	Loaded="SidebarView_Loaded"
 	TabFocusNavigation="Local"
 	mc:Ignorable="d">
 
+	<UserControl.Resources>
+		<ResourceDictionary>
+
+			<wctconverters:EmptyCollectionToObjectConverter
+				x:Key="EmptyCollectionToVisibilityConverter"
+				EmptyValue="Collapsed"
+				NotEmptyValue="Visible" />
+
+		</ResourceDictionary>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition
@@ -28,6 +39,7 @@
 			Grid.ColumnSpan="3"
 			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}" />
 
+		<!--  Light Dismiss Layer  -->
 		<Grid
 			x:Name="PaneLightDismissLayer"
 			Grid.Row="1"
@@ -41,6 +53,7 @@
 			Tapped="PaneLightDismissLayer_Tapped"
 			Visibility="Collapsed" />
 
+		<!--  Pane  -->
 		<Grid
 			x:Name="PaneColumnGrid"
 			Grid.Row="1"
@@ -49,12 +62,11 @@
 			Canvas.ZIndex="10"
 			ContextRequested="PaneColumnGrid_ContextRequested"
 			XYFocusKeyboardNavigation="Enabled">
-
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-
 			<Grid.RenderTransform>
 				<CompositeTransform x:Name="PaneColumnGridTransform" />
 			</Grid.RenderTransform>
@@ -84,15 +96,27 @@
 				</ScrollViewer>
 			</ItemsRepeaterScrollHost>
 
-			<ContentPresenter
+			<Rectangle
+				x:Name="PaneFooterDivider"
 				Grid.Row="1"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
-				HorizontalContentAlignment="Stretch"
-				VerticalContentAlignment="Stretch"
-				Content="{x:Bind Footer, Mode=OneWay}" />
+				Height="1"
+				Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
+				Visibility="Collapsed" />
+
+			<ItemsRepeater
+				x:Name="PaneFooterItemsRepeater"
+				Grid.Row="2"
+				AutomationProperties.Name="SidebarPaneFooter"
+				IsTabStop="True"
+				ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
+				ItemsSource="{x:Bind PaneFooterItemsSource, Mode=OneWay}"
+				VerticalCacheLength="10"
+				Visibility="Collapsed"
+				XYFocusKeyboardNavigation="Enabled" />
+
 		</Grid>
 
+		<!--  Sizer  -->
 		<Border
 			x:Name="SidebarResizer"
 			Grid.Row="1"
@@ -124,6 +148,7 @@
 				UseSystemFocusVisuals="True" />
 		</Border>
 
+		<!--  Content  -->
 		<Grid
 			x:Name="ContentPresenter"
 			Grid.Row="1"
@@ -140,8 +165,8 @@
 			<Border
 				x:Name="ContentHeaderPresenter"
 				Grid.Row="0"
-				VerticalAlignment="Stretch"				
-				Child="{x:Bind ContentHeader, Mode=OneWay}"				
+				VerticalAlignment="Stretch"
+				Child="{x:Bind ContentHeader, Mode=OneWay}"
 				TabFocusNavigation="Local" />
 
 			<!--  Content  -->
@@ -171,12 +196,16 @@
 				TabFocusNavigation="Local" />
 
 		</Grid>
+
 		<VisualStateManager.VisualStateGroups>
+
 			<VisualStateGroup x:Name="DisplayModes">
 				<VisualState x:Name="Expanded" />
 				<VisualState x:Name="Compact">
 					<VisualState.Setters>
 						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarCompactOpenPaneLength}" />
+						<Setter Target="PaneFooterDivider.Visibility" Value="Collapsed" />
+						<Setter Target="PaneFooterItemsRepeater.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalCollapsed">
@@ -387,6 +416,22 @@
 					</Storyboard>
 				</VisualState>
 			</VisualStateGroup>
+
+			<VisualStateGroup x:Name="PaneFooterStates">
+				<VisualState x:Name="PaneFooterNormal">
+					<VisualState.Setters>
+						<Setter Target="PaneFooterDivider.Visibility" Value="{x:Bind PaneFooterItemsSource, Converter={StaticResource EmptyCollectionToVisibilityConverter}, Mode=OneWay}" />
+						<Setter Target="PaneFooterItemsRepeater.Visibility" Value="{x:Bind PaneFooterItemsSource, Converter={StaticResource EmptyCollectionToVisibilityConverter}, Mode=OneWay}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="PaneFooterNoChildren">
+					<VisualState.Setters>
+						<Setter Target="PaneFooterDivider.Visibility" Value="{x:Bind PaneFooterItemsSource, Converter={StaticResource EmptyCollectionToVisibilityConverter}, Mode=OneWay}" />
+						<Setter Target="PaneFooterItemsRepeater.Visibility" Value="{x:Bind PaneFooterItemsSource, Converter={StaticResource EmptyCollectionToVisibilityConverter}, Mode=OneWay}" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </UserControl>
