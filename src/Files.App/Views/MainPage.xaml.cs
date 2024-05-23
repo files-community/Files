@@ -557,7 +557,7 @@ namespace Files.App.Views
 
 		private void RootGrid_Loaded(object sender, RoutedEventArgs e)
 		{
-			// Cast shadow on the footer
+			// Cast shadow on the status bar
 			PageContentThemeShadow.Receivers.Add(StatusBar);
 		}
 	}
