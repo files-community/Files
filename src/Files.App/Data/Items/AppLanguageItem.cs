@@ -11,12 +11,12 @@ namespace Files.App.Data.Items
 	public sealed class AppLanguageItem
 	{
 		/// <summary>
-		/// Gets language code. e.g. en-US.
+		/// Gets the language code. e.g. en-US.
 		/// </summary>
 		public string Code { get; set; }
 
 		/// <summary>
-		/// The name of the language. e.g. English (United States)
+		/// Gets the language name. e.g. English (United States)
 		/// </summary>
 		public string Name { get; set; }
 
