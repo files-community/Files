@@ -140,14 +140,8 @@
 			<Border
 				x:Name="ContentHeaderPresenter"
 				Grid.Row="0"
-				Margin="0,0,0,4"
-				VerticalAlignment="Stretch"
-				Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
-				BackgroundSizing="InnerBorderEdge"
-				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-				BorderThickness="1"
-				Child="{x:Bind ContentHeader, Mode=OneWay}"
-				CornerRadius="8"
+				VerticalAlignment="Stretch"				
+				Child="{x:Bind ContentHeader, Mode=OneWay}"				
 				TabFocusNavigation="Local" />
 
 			<!--  Content  -->

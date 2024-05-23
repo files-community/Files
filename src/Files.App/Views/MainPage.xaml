@@ -217,7 +217,13 @@
 
 			<!--  Content Header  -->
 			<sidebar:SidebarView.ContentHeader>
-				<Border>
+				<Border
+					Margin="0,0,0,4"
+					Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
+					BackgroundSizing="InnerBorderEdge"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="1"
+					CornerRadius="8">
 					<!--  File Navigation Toolbar  -->
 					<uc:InnerNavigationToolbar
 						x:Name="InnerNavigationToolbar"
