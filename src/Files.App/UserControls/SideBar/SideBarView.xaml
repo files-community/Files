@@ -140,8 +140,8 @@
 			<Border
 				x:Name="ContentHeaderPresenter"
 				Grid.Row="0"
-				VerticalAlignment="Stretch"				
-				Child="{x:Bind ContentHeader, Mode=OneWay}"				
+				VerticalAlignment="Stretch"
+				Child="{x:Bind ContentHeader, Mode=OneWay}"
 				TabFocusNavigation="Local" />
 
 			<!--  Content  -->
@@ -149,25 +149,7 @@
 				x:Name="Content"
 				Grid.Row="1"
 				VerticalAlignment="Stretch"
-				Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
-				BackgroundSizing="InnerBorderEdge"
-				BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-				BorderThickness="1"
 				Child="{x:Bind InnerContent, Mode=OneWay}"
-				CornerRadius="8"
-				TabFocusNavigation="Local"
-				Translation="0,0,8">
-				<Border.Shadow>
-					<ThemeShadow x:Name="ContentThemeShadow" />
-				</Border.Shadow>
-			</Border>
-
-			<!--  Footer  -->
-			<Border
-				x:Name="ContentFooterPresenter"
-				Grid.Row="2"
-				VerticalAlignment="Stretch"
-				Child="{x:Bind ContentFooter, Mode=OneWay}"
 				TabFocusNavigation="Local" />
 
 		</Grid>

@@ -239,6 +239,7 @@
 			<sidebar:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
+					Loaded="RootGrid_Loaded"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
 					SizeChanged="RootGrid_SizeChanged">
 					<Grid.RowDefinitions>
@@ -248,6 +249,7 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="PaneRow" Height="Auto" />
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -260,11 +262,22 @@
 
 					<!--  Page Content  -->
 					<ContentPresenter
+						x:Name="PageContent"
 						Grid.Row="0"
 						Grid.Column="0"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
-						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}" />
+						Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+						BackgroundSizing="InnerBorderEdge"
+						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}"
+						CornerRadius="8"
+						Translation="0,0,8">
+						<ContentPresenter.Shadow>
+							<ThemeShadow x:Name="PageContentThemeShadow" />
+						</ContentPresenter.Shadow>
+					</ContentPresenter>
 
 					<!--  Preview Pane Splitter  -->
 					<toolkit:GridSplitter
@@ -286,20 +299,16 @@
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
-				</Grid>
-			</sidebar:SidebarView.InnerContent>
 
-			<!--  Content Footer  -->
-			<sidebar:SidebarView.ContentFooter>
-				<Border>
 					<!--  Status Bar  -->
 					<uc:StatusBar
 						x:Name="StatusBar"
-						Height="32"
+						Grid.Row="3"
+						Grid.ColumnSpan="3"
 						x:Load="False"
 						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
-				</Border>
-			</sidebar:SidebarView.ContentFooter>
+				</Grid>
+			</sidebar:SidebarView.InnerContent>
 		</sidebar:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>
