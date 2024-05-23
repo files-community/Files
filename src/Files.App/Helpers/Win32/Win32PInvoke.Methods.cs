@@ -260,18 +260,9 @@ namespace Files.App.Helpers
 		);
 
 		[DllImport("user32.dll")]
-		public static extern bool TranslateMessage(ref MSG lpMsg);
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct MSG
-		{
-			public IntPtr hwnd;
-			public uint message;
-			public IntPtr wParam;
-			public IntPtr lParam;
-			public uint time;
-			public System.Drawing.Point pt;
-		}
+		public static extern bool TranslateMessage(
+			ref MSG lpMsg
+		);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern IntPtr CreateFileFromApp(
