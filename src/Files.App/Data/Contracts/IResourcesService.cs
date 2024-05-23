@@ -26,6 +26,12 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="appThemeAddressBarBackgroundColor"></param>
 		void SetAppThemeAddressBarBackgroundColor(Color appThemeAddressBarBackgroundColor);
+		
+		/// <summary>
+		/// Overrides the XAML resource for App.Theme.Toolbar.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeToolbarBackgroundColor"></param>
+		void SetAppThemeToolbarBackgroundColor(Color appThemeToolbarBackgroundColor);
 
 		/// <summary>
 		/// Overrides the XAML resource for App.Theme.Sidebar.BackgroundBrush
@@ -38,6 +44,12 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="appThemeFileAreaBackgroundColor"></param>
 		void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor);
+
+		/// <summary>
+		/// Overrides the XAML resource for App.Theme.InfoPane.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeInfoPaneBackgroundColor"></param>
+		void SetAppThemeInfoPaneBackgroundColor(Color appThemeInfoPaneBackgroundColor);
 
 		/// <summary>
 		/// Overrides the XAML resource for ContentControlThemeFontFamily

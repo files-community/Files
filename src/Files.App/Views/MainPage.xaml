@@ -215,9 +215,11 @@
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
 
+			<!--  Inner Content  -->
 			<sidebar:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
+					Loaded="RootGrid_Loaded"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
 					SizeChanged="RootGrid_SizeChanged">
 					<Grid.RowDefinitions>
@@ -228,6 +230,7 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="PaneRow" Height="Auto" />
+						<RowDefinition Height="Auto" MinHeight="8" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -239,22 +242,42 @@
 					</Grid.ColumnDefinitions>
 
 					<!--  File Navigation Toolbar  -->
-					<uc:InnerNavigationToolbar
-						x:Name="InnerNavigationToolbar"
+					<Border
+						Grid.Row="0"
 						Grid.ColumnSpan="3"
-						x:Load="False"
-						Loaded="NavToolbar_Loaded"
-						ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
-						ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
-						TabIndex="2" />
+						Margin="0,0,0,4"
+						Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
+						BackgroundSizing="InnerBorderEdge"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						CornerRadius="8">
+						<uc:InnerNavigationToolbar
+							x:Name="InnerNavigationToolbar"
+							x:Load="False"
+							Loaded="NavToolbar_Loaded"
+							ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
+							ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
+							TabIndex="2" />
+					</Border>
 
 					<!--  Page Content  -->
 					<ContentPresenter
+						x:Name="PageContent"
 						Grid.Row="1"
 						Grid.Column="0"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
-						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}" />
+						Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+						BackgroundSizing="InnerBorderEdge"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}"
+						CornerRadius="8"
+						Translation="0,0,8">
+						<ContentPresenter.Shadow>
+							<ThemeShadow x:Name="PageContentThemeShadow" />
+						</ContentPresenter.Shadow>
+					</ContentPresenter>
 
 					<!--  Preview Pane Splitter  -->
 					<toolkit:GridSplitter
@@ -264,32 +287,38 @@
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 						ManipulationCompleted="PaneSplitter_ManipulationCompleted"
 						ManipulationStarted="PaneSplitter_ManipulationStarted"
+						Opacity="0"
 						ResizeBehavior="BasedOnAlignment"
 						Style="{StaticResource DefaultGridSplitterStyle}" />
 
 					<!--  Preview Pane  -->
-					<uc:InfoPane
-						x:Name="PreviewPane"
+					<Border
+						x:Name="InfoPaneContainer"
 						Grid.Row="1"
 						Grid.Column="2"
-						HorizontalContentAlignment="Stretch"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
-						Loaded="PreviewPane_Loaded"
-						Unloaded="PreviewPane_Unloaded" />
-				</Grid>
-			</sidebar:SidebarView.InnerContent>
+						Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
+						BackgroundSizing="InnerBorderEdge"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						CornerRadius="8">
+						<uc:InfoPane
+							x:Name="PreviewPane"
+							HorizontalContentAlignment="Stretch"
+							Loaded="PreviewPane_Loaded"
+							Unloaded="PreviewPane_Unloaded" />
+					</Border>
 
-			<!--  Footer Content  -->
-			<sidebar:SidebarView.ContentFooter>
-				<Border>
 					<!--  Status Bar  -->
 					<uc:StatusBar
 						x:Name="StatusBar"
-						Height="32"
+						Grid.Row="4"
+						Grid.ColumnSpan="3"
 						x:Load="False"
-						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
-				</Border>
-			</sidebar:SidebarView.ContentFooter>
+						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+						Visibility="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+				</Grid>
+			</sidebar:SidebarView.InnerContent>
 		</sidebar:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>

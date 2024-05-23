@@ -54,10 +54,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid
-		x:Name="RootGrid"
-		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-		BorderThickness="0,0,0,1">
+	<Grid x:Name="RootGrid">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
