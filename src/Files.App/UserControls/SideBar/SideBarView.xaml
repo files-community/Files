@@ -106,6 +106,7 @@
 			<ItemsRepeater
 				x:Name="PaneFooterItemsRepeater"
 				Grid.Row="2"
+				Margin="0,4"
 				AutomationProperties.AccessibilityView="Content"
 				AutomationProperties.Name="SidebarPaneFooter"
 				IsTabStop="True"
