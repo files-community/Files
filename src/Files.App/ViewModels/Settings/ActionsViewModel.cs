@@ -34,6 +34,13 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsAlreadyUsedTeachingTipOpened, value);
 		}
 
+		private bool _IsInvalidKeyTeachingTipOpened;
+		public bool IsInvalidKeyTeachingTipOpened
+		{
+			get => _IsInvalidKeyTeachingTipOpened;
+			set => SetProperty(ref _IsInvalidKeyTeachingTipOpened, value);
+		}
+
 		private bool _ShowAddNewKeyBindingBlock;
 		public bool ShowAddNewKeyBindingBlock
 		{
@@ -278,6 +285,9 @@ namespace Files.App.ViewModels.Settings
 
 			// Enter edit mode for the item
 			item.IsInEditMode = true;
+
+			// Mark the key binding as invalid to prevent saving it
+			item.IsValidKeyBinding = false;
 		}
 
 		private void ExecuteSaveCommand(ModifiableActionItem? item)
