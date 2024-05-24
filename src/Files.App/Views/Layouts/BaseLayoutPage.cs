@@ -1380,6 +1380,10 @@ namespace Files.App.Views.Layouts
 		{
 		}
 
+		virtual public void StartRenameItems()
+		{
+		}
+
 		public void CheckRenameDoubleClick(object clickedItem)
 		{
 			if (clickedItem is ListedItem item)

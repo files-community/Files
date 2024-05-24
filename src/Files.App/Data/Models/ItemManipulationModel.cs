@@ -21,6 +21,8 @@ namespace Files.App.Data.Models
 
 		public event EventHandler StartRenameItemInvoked;
 
+		public event EventHandler StartRenameItemsInvoked;
+
 		public event EventHandler<ListedItem> ScrollIntoViewInvoked;
 
 		public event EventHandler ScrollToTopInvoked;
@@ -99,6 +101,11 @@ namespace Files.App.Data.Models
 		public void StartRenameItem()
 		{
 			StartRenameItemInvoked?.Invoke(this, EventArgs.Empty);
+		}
+
+		public void StartRenameItems()
+		{
+			StartRenameItemsInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void ScrollIntoView(ListedItem item)
