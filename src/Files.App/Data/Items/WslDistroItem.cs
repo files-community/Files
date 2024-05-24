@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Items
@@ -52,14 +53,8 @@ namespace Files.App.Data.Items
 
 		public bool IsExpanded { get => false; set { } }
 
-		public IconSource? IconSource
-		{
-			get => new BitmapIconSource()
-			{
-				UriSource = icon,
-				ShowAsMonochrome = false,
-			};
-		}
+		public FrameworkElement? IconSource
+			=> new BitmapIconSource() { UriSource = icon, ShowAsMonochrome = false }.CreateIconElement();
 
 		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
 	}

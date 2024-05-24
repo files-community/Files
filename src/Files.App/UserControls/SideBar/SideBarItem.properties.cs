@@ -49,13 +49,13 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty ChildrenPresenterHeightProperty =
 			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d)); 
 
-		public ISidebarItemModel? Item
+		public INavigationControlItem? Item
 		{
-			get { return (ISidebarItemModel)GetValue(ItemProperty); }
+			get { return (INavigationControlItem)GetValue(ItemProperty); }
 			set { SetValue(ItemProperty, value); }
 		}
 		public static readonly DependencyProperty ItemProperty =
-			DependencyProperty.Register(nameof(Item), typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(Item), typeof(INavigationControlItem), typeof(SidebarItem), new PropertyMetadata(null));
 
 		public bool UseReorderDrop
 		{

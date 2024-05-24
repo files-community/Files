@@ -181,13 +181,8 @@ namespace Files.App.Data.Items
 
 		public bool IsExpanded { get => false; set { } }
 
-		public IconSource? IconSource
-		{
-			get => new ImageIconSource()
-			{
-				ImageSource = Icon
-			};
-		}
+		public FrameworkElement? IconSource
+			=> new ImageIconSource() { ImageSource = Icon }.CreateIconElement();
 
 		public FrameworkElement? ItemDecorator
 		{

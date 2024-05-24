@@ -21,12 +21,15 @@ namespace Files.App.UserControls.Sidebar
 		public bool IsGroupHeader => Item?.Children is not null;
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 
+		// TODO: Use if SpecialItem or not
+		public bool IsSpecialItem => Item?.Section == SectionType.Footer;
+
 		private bool hasChildSelection => selectedChildItem != null;
 		private bool isPointerOver = false;
 		private bool isClicking = false;
 		private object? selectedChildItem = null;
 		private ItemsRepeater? childrenRepeater;
-		private ISidebarItemModel? lastSubscriber;
+		private INavigationControlItem? lastSubscriber;
 
 		public SidebarItem()
 		{
@@ -120,7 +123,7 @@ namespace Files.App.UserControls.Sidebar
 			ReevaluateSelection();
 		}
 
-		private void HookupItemChangeListener(ISidebarItemModel? oldItem, ISidebarItemModel? newItem)
+		private void HookupItemChangeListener(INavigationControlItem? oldItem, INavigationControlItem? newItem)
 		{
 			if (lastSubscriber != null)
 			{
@@ -177,7 +180,7 @@ namespace Files.App.UserControls.Sidebar
 
 		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
 		{
-			if (args.PropertyName == nameof(ISidebarItemModel.IconSource))
+			if (args.PropertyName == nameof(INavigationControlItem.IconSource))
 			{
 				UpdateIcon();
 			}
@@ -192,6 +195,10 @@ namespace Files.App.UserControls.Sidebar
 				{
 					Owner?.UpdateSelectedItemContainer(this);
 				}
+			}
+			else if (IsSpecialItem)
+			{
+				return;
 			}
 			else if (Item?.Children is IList list)
 			{
@@ -282,7 +289,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateIcon()
 		{
-			Icon = Item?.IconSource?.CreateIconElement();
+			Icon = Item?.IconSource;
 			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}

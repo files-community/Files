@@ -41,14 +41,12 @@ namespace Files.App.Data.Items
 
 		public object? Children => null;
 
-		public IconSource? IconSource
-		{
-			get => new PathIconSource()
+		public FrameworkElement? IconSource =>
+			new PathIconSource()
 			{
 				Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["ColorIconFilledTag"]),
 				Foreground = new SolidColorBrush(FileTag.Color.ToColor())
-			};
-		}
+			}.CreateIconElement();
 
 		public object ToolTip => Text;
 
