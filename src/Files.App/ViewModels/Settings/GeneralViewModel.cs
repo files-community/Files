@@ -72,21 +72,18 @@ namespace Files.App.ViewModels.Settings
 			get => selectedAppLanguageIndex;
 			set
 			{
-				if (SetProperty(ref selectedAppLanguageIndex, value))
+				if (AppLanguageHelper.TryChange(value))
 				{
+					selectedAppLanguageIndex = value;
 					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
-
-					if (ApplicationLanguages.PrimaryLanguageOverride != AppLanguages[value].LanguagID)
-						ShowRestartControl = true;
-
-					ApplicationLanguages.PrimaryLanguageOverride = AppLanguages[value].LanguagID;
+					ShowRestartControl = true;
 				}
 			}
 		}
 
 		public List<DateTimeFormatItem> DateFormats { get; set; }
 
-		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
+		public ObservableCollection<AppLanguageItem> AppLanguages => AppLanguageHelper.SupportedLanguages;
 
 		public GeneralViewModel()
 		{
@@ -96,7 +93,7 @@ namespace Files.App.ViewModels.Settings
 			RestartCommand = new RelayCommand(DoRestartAsync);
 			CancelRestartCommand = new RelayCommand(DoCancelRestart);
 
-			AddSupportedAppLanguages();
+			selectedAppLanguageIndex = AppLanguageHelper.SupportedLanguages.IndexOf(AppLanguageHelper.PreferredLanguage);
 
 			AddDateTimeOptions();
 			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
@@ -141,20 +138,6 @@ namespace Files.App.ViewModels.Settings
 			var styles = new DateTimeFormats[] { DateTimeFormats.Application, DateTimeFormats.System, DateTimeFormats.Universal };
 
 			DateFormats = styles.Select(style => new DateTimeFormatItem(style, sampleDate1, sampleDate2)).ToList();
-		}
-
-		private void AddSupportedAppLanguages()
-		{
-			var appLanguages = ApplicationLanguages.ManifestLanguages
-				.Append(string.Empty) // Add default language id
-				.Select(language => new AppLanguageItem(language))
-				.OrderBy(language => language.LanguagID is not "") // Default language on top
-				.ThenBy(language => language.LanguageName);
-			AppLanguages = new ObservableCollection<AppLanguageItem>(appLanguages);
-
-			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
-			SelectedAppLanguageIndex = AppLanguages
-				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
 		}
 
 		private void InitStartupSettingsRecentFoldersFlyout()
@@ -517,35 +500,6 @@ namespace Files.App.ViewModels.Settings
 
 		internal PageOnStartupViewModel(string path)
 			=> Path = path;
-	}
-
-	public sealed class AppLanguageItem
-	{
-		public string LanguagID { get; set; }
-
-		public string LanguageName { get; set; }
-
-		public AppLanguageItem(string languagID)
-		{
-			if (!string.IsNullOrEmpty(languagID))
-			{
-				var info = new CultureInfo(languagID);
-				LanguagID = info.Name;
-				LanguageName = info.NativeName;
-			}
-			else
-			{
-				LanguagID = string.Empty;
-				var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalizedResource();
-
-				LanguageName = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
-			}
-		}
-
-		public override string ToString()
-		{
-			return LanguageName;
-		}
 	}
 
 	public sealed class DateTimeFormatItem
