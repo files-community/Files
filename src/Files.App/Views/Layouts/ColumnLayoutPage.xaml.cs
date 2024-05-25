@@ -196,6 +196,11 @@ namespace Files.App.Views.Layouts
 			StartRenameItem("ListViewTextBoxItemName");
 		}
 
+		public override void StartRenameItems()
+		{
+			StartRenameItems("ListViewTextBoxItemName");
+		}
+
 		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
 			if (IsRenamingItem)

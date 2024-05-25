@@ -271,6 +271,60 @@ namespace Files.App.Helpers
 			return false;
 		}
 
+		public static async Task<Dictionary<ListedItem, bool>> RenameFileItemsAsync(List<ListedItem> items, List<string> newNames, IShellPage associatedInstance, bool showExtensionDialog = true)
+		{
+			if (items == null || newNames == null || items.Count != newNames.Count)
+				throw new ArgumentException("Items and new names must be non-null and of the same length.");
+
+			var results = new Dictionary<ListedItem, bool>();
+
+			for (int i = 0; i < items.Count; i++)
+			{
+				var item = items[i];
+				var newName = newNames[i];
+
+				if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
+				{
+					newName = item.ItemNameRaw.Replace(
+						item.Name.Substring(item.Name.LastIndexOf(':') + 1),
+						newName.Substring(newName.LastIndexOf(':') + 1),
+						StringComparison.Ordinal);
+					newName = $"{ads.MainStreamName}:{newName}";
+				}
+				else if (string.IsNullOrEmpty(item.Name))
+				{
+					newName = string.Concat(newName, item.FileExtension);
+				}
+				else
+				{
+					newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
+				}
+
+				if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
+				{
+					results[item] = true;
+					continue;
+				}
+
+				FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
+
+				ReturnResult renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
+
+				if (renamed == ReturnResult.Success)
+				{
+					associatedInstance.ToolbarViewModel.CanGoForward = false;
+					await associatedInstance.RefreshIfNoWatcherExistsAsync();
+					results[item] = true;
+				}
+				else
+				{
+					results[item] = false;
+				}
+			}
+
+			return results;
+		}
+
 		public static async Task CreateFileFromDialogResultTypeAsync(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
 		{
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
