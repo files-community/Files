@@ -34,6 +34,8 @@ namespace Files.App.Views.Layouts
 
 		protected override ItemsControl ItemsControl => ListViewBase;
 
+		protected volatile bool IsMultipleRenameInProgress = false;
+
 		// Constructor
 
 		public BaseGroupableLayoutPage() : base()
@@ -276,7 +278,8 @@ namespace Files.App.Views.Layouts
 		}
 
 		protected virtual void StartRenameItems(string itemNameTextBox)
-		{
+		{	
+			IsMultipleRenameInProgress  = true;
 			var RenamingItems = SelectedItems; // Assume this method retrieves all selected items.
 			if (RenamingItems == null || RenamingItems.Count == 0)
 				return;
@@ -328,6 +331,7 @@ namespace Files.App.Views.Layouts
 
 				index++;
 			}
+			
 		}
 
 		protected virtual async Task CommitRenameAsync(TextBox textBox)
@@ -344,7 +348,11 @@ namespace Files.App.Views.Layouts
 			if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
-				await CommitRenameAsync(textBox);
+				if (!IsMultipleRenameInProgress)
+				{
+					await CommitRenameAsync(textBox);
+				}
+				
 			}
 		}
 
