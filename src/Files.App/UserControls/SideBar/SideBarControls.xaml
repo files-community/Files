@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.UserControls.Sidebar"
-	xmlns:usercontrols="using:Files.App.UserControls">
+	xmlns:uc="using:Files.App.UserControls">
 
 	<x:Double x:Key="SidebarOpenPaneLength">300</x:Double>
 	<x:Double x:Key="SidebarNegativeOpenPaneLength">-300</x:Double>
@@ -28,7 +28,7 @@
 	<Style
 		x:Key="SidebarFavouritesPinnedIcon"
 		BasedOn="{StaticResource ColorIconPin}"
-		TargetType="usercontrols:OpacityIcon">
+		TargetType="uc:OpacityIcon">
 		<Setter Target="MinWidth" Value="16" />
 		<Setter Target="Width" Value="16" />
 		<Setter Target="MinHeight" Value="16" />
@@ -39,8 +39,12 @@
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
 		<local:SidebarItem
 			AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}"
+			Decorator="{Binding ItemDecorator, Mode=OneWay}"
+			Icon="{Binding IconSource, Mode=OneWay}"
 			IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
-			Item="{Binding}" />
+			Item="{Binding}"
+			Text="{Binding Text, Mode=OneWay}"
+			TooltipText="{Binding ToolTip, Mode=TwoWay}" />
 	</DataTemplate>
 
 	<Style TargetType="local:SidebarItem">
@@ -54,6 +58,7 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
+						<!--  Drag Target  -->
 						<Rectangle
 							x:Name="DragTargetIndicator"
 							Grid.ColumnSpan="3"
@@ -67,6 +72,7 @@
 							RadiusY="4"
 							Visibility="Collapsed" />
 
+						<!--  Root Item  -->
 						<Grid
 							x:Name="ElementGrid"
 							Grid.Row="0"
@@ -79,7 +85,7 @@
 							CornerRadius="{ThemeResource ControlCornerRadius}"
 							IsTabStop="True"
 							TabFocusNavigation="Once"
-							ToolTipService.ToolTip="{Binding ToolTip, Mode=OneWay}"
+							ToolTipService.ToolTip="{Binding ToolTip, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
 							UseSystemFocusVisuals="True">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="IconColumn" Width="40" />
@@ -107,6 +113,7 @@
 								Height="16"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
+								AnimatedIcon.State="Normal"
 								AutomationProperties.AccessibilityView="Raw"
 								Content="{Binding Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
 
@@ -120,7 +127,7 @@
 								AutomationProperties.AccessibilityView="Raw"
 								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								LineHeight="16"
-								Text="{Binding Text, Mode=OneWay}" />
+								Text="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
 
 							<!--  Item Decorator  -->
 							<ContentPresenter
@@ -182,8 +189,12 @@
 											<DataTemplate>
 												<local:SidebarItem
 													AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}"
+													Decorator="{Binding ItemDecorator, Mode=OneWay}"
+													Icon="{Binding IconSource, Mode=OneWay}"
 													IsInFlyout="True"
-													Item="{Binding}" />
+													Item="{Binding}"
+													Text="{Binding Text, Mode=OneWay}"
+													TooltipText="{Binding ToolTip, Mode=TwoWay}" />
 											</DataTemplate>
 										</ItemsRepeater.ItemTemplate>
 									</ItemsRepeater>
@@ -383,28 +394,28 @@
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
-										<Setter Target="ContentPresenter.(controls:AnimatedIcon.State)" Value="PointerOver" />
+										<Setter Target="IconPresenter.(AnimatedIcon.State)" Value="PointerOver" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
-										<Setter Target="ContentPresenter.(controls:AnimatedIcon.State)" Value="PointerOver" />
+										<Setter Target="IconPresenter.(AnimatedIcon.State)" Value="PointerOver" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
-										<Setter Target="ContentPresenter.(controls:AnimatedIcon.State)" Value="Pressed" />
+										<Setter Target="IconPresenter.(AnimatedIcon.State)" Value="Pressed" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
-										<Setter Target="ContentPresenter.(controls:AnimatedIcon.State)" Value="Pressed" />
+										<Setter Target="IconPresenter.(AnimatedIcon.State)" Value="Pressed" />
 									</VisualState.Setters>
 								</VisualState>
 

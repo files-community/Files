@@ -20,9 +20,9 @@ namespace Files.App.UserControls.Sidebar
 		BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; }
 
 		/// <summary>
-		/// Gets the list of items that will be rendered in the sidebar pane footer.
+		/// Gets the Settings button items that will be rendered in the sidebar pane footer.
 		/// </summary>
-		BulkConcurrentObservableCollection<INavigationControlItem> PaneFooterItems { get; }
+		INavigationControlItem FooterSettingsItem { get; }
 
 		/// <summary>
 		/// Gets invoked when the context was requested for an item in the sidebar.

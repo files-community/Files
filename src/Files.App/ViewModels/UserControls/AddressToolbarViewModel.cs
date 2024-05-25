@@ -22,6 +22,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -61,6 +63,10 @@ namespace Files.App.ViewModels.UserControls
 		public event EventHandler? RefreshWidgetsRequested;
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = [];
+
+		public bool IsSettingsButtonVisible =>
+			!WindowContext.IsCompactOverlay &&
+			UserSettingsService.GeneralSettingsService.ShowSettingsButtonOnAddressToolbar;
 
 		private bool _isCommandPaletteOpen;
 		public bool IsCommandPaletteOpen
@@ -213,6 +219,7 @@ namespace Files.App.ViewModels.UserControls
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+			WindowContext.PropertyChanged += WindowContext_OnPropertyChanged;
 		}
 
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -223,6 +230,16 @@ namespace Files.App.ViewModels.UserControls
 			// TODO: Bad code, result is called twice when checking for release notes
 			if (UpdateService.IsReleaseNotesAvailable)
 				await CheckForReleaseNotesAsync();
+		}
+
+		private async void WindowContext_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IWindowContext.IsCompactOverlay):
+					OnPropertyChanged(nameof(IsSettingsButtonVisible));
+					break;
+			}
 		}
 
 		private async Task ViewReleaseNotesAsync()

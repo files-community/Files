@@ -209,5 +209,10 @@ namespace Files.App.Services.Settings
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value that indicates whether the Settings button 
+		/// </summary>
+		bool ShowSettingsButtonOnAddressToolbar { get; set; }
 	}
 }

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
+using System.Diagnostics.Eventing.Reader;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
@@ -15,7 +16,6 @@ namespace Files.App.UserControls.Sidebar
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
 	{
-
 		private const double COMPACT_MAX_WIDTH = 200;
 
 		public event EventHandler<object>? ItemInvoked;
@@ -40,7 +40,14 @@ namespace Files.App.UserControls.Sidebar
 		internal void RaiseItemInvoked(SidebarItem item, PointerUpdateKind pointerUpdateKind)
 		{
 			// Only leaves can be selected
-			if (item.Item is null || item.IsGroupHeader) return;
+			if (item.Item is null || item.IsGroupHeader)
+				return;
+
+			if (item.IsFooterItem)
+			{
+				ViewModel.HandleItemInvokedAsync(item.Item, pointerUpdateKind);
+				return;
+			}
 
 			SelectedItem = item.Item;
 			ItemInvoked?.Invoke(item, item.Item);
@@ -67,12 +74,9 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdatePaneFooterVisibility()
 		{
-			if (PaneFooterItemsSource is not IList<INavigationControlItem> list)
-				return;
-
 			VisualStateManager.GoToState(
 				this,
-				list.Count is 0 ? "PaneFooterNoChildren" : "PaneFooterNormal",
+				PaneFooter is SidebarItem list ? "PaneFooterNormal" : "PaneFooterEmpty",
 				true);
 		}
 

@@ -31,7 +31,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				SetProperty(ref icon, value, nameof(Icon));
-				OnPropertyChanged(nameof(IconSource));
+				OnPropertyChanged(nameof(Icon));
 			}
 		}
 

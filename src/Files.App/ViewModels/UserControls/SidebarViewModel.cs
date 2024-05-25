@@ -44,7 +44,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; private set; } = [];
 
-		public BulkConcurrentObservableCollection<INavigationControlItem> PaneFooterItems { get; private set; } = [];
+		public INavigationControlItem FooterSettingsItem { get; private set; }
 
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -236,7 +236,8 @@ namespace Files.App.ViewModels.UserControls
 
 			CreateItemHomeAsync();
 
-			CreateItemSettingsAsync();
+			if (!UserSettingsService.GeneralSettingsService.ShowSettingsButtonOnAddressToolbar)
+				CreateItemSettingsAsync();
 
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -274,7 +275,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private void CreateItemSettingsAsync()
 		{
-			var item = new LocationItem()
+			FooterSettingsItem = new LocationItem()
 			{
 				Text = "Settings".GetLocalizedResource(),
 				Path = "Settings",
@@ -284,8 +285,6 @@ namespace Files.App.ViewModels.UserControls
 				MenuOptions = new ContextMenuOptions { IsLocationItem = true, },
 				SelectsOnInvoked = false,
 			};
-
-			PaneFooterItems.Add(item);
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)

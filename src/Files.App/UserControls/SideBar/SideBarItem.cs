@@ -20,9 +20,7 @@ namespace Files.App.UserControls.Sidebar
 		public bool HasChildren => Item?.Children is IList enumerable && enumerable.Count > 0;
 		public bool IsGroupHeader => Item?.Children is not null;
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
-
-		// TODO: Use if SpecialItem or not
-		public bool IsSpecialItem => Item?.Section == SectionType.Footer;
+		public bool IsFooterItem => Item?.Section == SectionType.Footer;
 
 		private bool hasChildSelection => selectedChildItem != null;
 		private bool isPointerOver = false;
@@ -104,10 +102,9 @@ namespace Files.App.UserControls.Sidebar
 		private void HookupOwners()
 		{
 			FrameworkElement resolvingTarget = this;
-			if (GetTemplateRoot(Parent) is FrameworkElement element)
-			{
+			if (Parent is not null && GetTemplateRoot(Parent) is FrameworkElement element)
 				resolvingTarget = element;
-			}
+
 			Owner = resolvingTarget.FindAscendant<SidebarView>()!;
 
 			Owner.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (sender, args) =>
@@ -195,10 +192,6 @@ namespace Files.App.UserControls.Sidebar
 				{
 					Owner?.UpdateSelectedItemContainer(this);
 				}
-			}
-			else if (IsSpecialItem)
-			{
-				return;
 			}
 			else if (Item?.Children is IList list)
 			{
@@ -289,7 +282,6 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateIcon()
 		{
-			Icon = Item?.IconSource;
 			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}
@@ -297,13 +289,9 @@ namespace Files.App.UserControls.Sidebar
 		private bool ShouldShowSelectionIndicator()
 		{
 			if (IsExpanded && CollapseEnabled)
-			{
 				return IsSelected;
-			}
 			else
-			{
 				return IsSelected || hasChildSelection;
-			}
 		}
 
 		private void UpdatePointerState(bool isPointerDown = false)
@@ -349,6 +337,7 @@ namespace Files.App.UserControls.Sidebar
 			UpdateSelectionState();
 		}
 
+		#region Pointer events
 		private void ItemGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isPointerOver = true;
@@ -392,7 +381,9 @@ namespace Files.App.UserControls.Sidebar
 				Clicked(pointerUpdateKind);
 			}
 		}
+		#endregion
 
+		#region Drag&Drop
 		private async void ItemGrid_DragOver(object sender, DragEventArgs e)
 		{
 			if (HasChildren)
@@ -464,5 +455,6 @@ namespace Files.App.UserControls.Sidebar
 			}
 			return SidebarItemDropPosition.Center;
 		}
+		#endregion
 	}
 }

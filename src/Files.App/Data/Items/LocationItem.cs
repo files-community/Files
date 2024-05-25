@@ -66,11 +66,11 @@ namespace Files.App.Data.Items
 
 		public FrameworkElement? IconSource =>
 			AnimatedIconSymbol is Symbol.Setting
-				? new AnimatedIcon()
+				? new AnimatedIconSource()
 				{
 					Source = new Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedSettingsVisualSource(),
 					FallbackIconSource = new SymbolIconSource() { Symbol = Symbol.Setting },
-				}
+				}.CreateIconElement()
 				: new ImageIconSource() { ImageSource = icon }.CreateIconElement();
 
 		public bool SelectsOnInvoked { get; set; } = true;
