@@ -34,8 +34,7 @@ namespace Files.App.Views.Layouts
 
 		protected override ItemsControl ItemsControl => ListViewBase;
 
-		protected volatile bool IsMultipleRenameInProgress = false;
-
+		
 		// Constructor
 
 		public BaseGroupableLayoutPage() : base()
@@ -279,59 +278,46 @@ namespace Files.App.Views.Layouts
 
 		protected virtual void StartRenameItems(string itemNameTextBox)
 		{	
-			IsMultipleRenameInProgress  = true;
-			var RenamingItems = SelectedItems; // Assume this method retrieves all selected items.
+			
+			RenamingItems = SelectedItems; // Assume this method retrieves all selected items.
 			if (RenamingItems == null || RenamingItems.Count == 0)
 				return;
+			var lastItem = RenamingItems.Last();
+			int extensionLength = lastItem.FileExtension?.Length ?? 0;
 
-			int index = 1; // Starting number for the prefix.
-			foreach (var item in RenamingItems)
+			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(lastItem) as ListViewItem;
+			if (listViewItem is null)
+				return;
+
+			TextBox? textBox = null;
+			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+			textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
+			textBox!.Text = textBlock!.Text;
+			OldItemName = textBlock.Text;
+			textBlock.Visibility = Visibility.Collapsed;
+			textBox.Visibility = Visibility.Visible;
+
+			if (textBox.FindParent<Grid>() is null)
 			{
-				if (item is null)
-					continue;
-
-				int extensionLength = item.FileExtension?.Length ?? 0;
-
-				ListViewItem? listViewItem = ListViewBase.ContainerFromItem(item) as ListViewItem;
-				if (listViewItem is null)
-					continue;
-
-				TextBox? textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
-				TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
-				if (textBox == null || textBlock == null)
-					continue;
-
-				string newNamePrefix = $"{index:D2}_"; // e.g., "01_", "02_", etc.
-				string oldNameWithoutExtension = item.Name.Substring(0, item.Name.Length - extensionLength);
-				textBox.Text = newNamePrefix + oldNameWithoutExtension + (item.FileExtension ?? "");
-				OldItemName = textBlock.Text;
-				textBlock.Visibility = Visibility.Collapsed;
-				textBox.Visibility = Visibility.Visible;
-
-				if (textBox.FindParent<Grid>() is null)
-				{
-					textBlock.Visibility = Visibility.Visible;
-					textBox.Visibility = Visibility.Collapsed;
-					continue;
-				}
-
-				Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
-
-				textBox.Focus(FocusState.Pointer);
-				textBox.LostFocus += RenameTextBox_LostFocus;
-				textBox.KeyDown += RenameTextBox_KeyDown;
-
-				int selectedTextLength = newNamePrefix.Length + oldNameWithoutExtension.Length;
-
-				if (!item.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
-					selectedTextLength -= extensionLength;
-
-				textBox.Select(newNamePrefix.Length, selectedTextLength - newNamePrefix.Length);
-				IsRenamingItem = true;
-
-				index++;
+				textBlock.Visibility = Visibility.Visible;
+				textBox.Visibility = Visibility.Collapsed;
+				return;
 			}
-			
+
+			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+
+			textBox.Focus(FocusState.Pointer);
+			textBox.LostFocus += RenameTextBox_LostFocus;
+			textBox.KeyDown += RenameTextBox_KeyDown;
+
+			int selectedTextLength = lastItem.Name.Length;
+
+			if (!lastItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+				selectedTextLength -= extensionLength;
+
+			textBox.Select(0, selectedTextLength);
+			IsRenamingMultipleItems = true;
+
 		}
 
 		protected virtual async Task CommitRenameAsync(TextBox textBox)
@@ -348,7 +334,7 @@ namespace Files.App.Views.Layouts
 			if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
-				if (!IsMultipleRenameInProgress)
+				if (!IsRenamingMultipleItems)
 				{
 					await CommitRenameAsync(textBox);
 				}

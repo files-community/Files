@@ -10,6 +10,8 @@ namespace Files.App.Views.Layouts
 	{
 		bool IsRenamingItem { get; }
 
+		bool IsRenamingMultipleItems { get; }
+
 		bool IsItemSelected { get; }
 
 		bool IsMiddleClickToScrollEnabled { get; set; }
