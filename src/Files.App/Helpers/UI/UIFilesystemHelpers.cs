@@ -271,18 +271,12 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static async Task<Dictionary<ListedItem, bool>> RenameFileItemsAsync(List<ListedItem> items, List<string> newNames, IShellPage associatedInstance, bool showExtensionDialog = true)
+		public static async Task<bool> RenameFileItemsAsync(List<ListedItem> items, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
 		{
-			if (items == null || newNames == null || items.Count != newNames.Count)
-				throw new ArgumentException("Items and new names must be non-null and of the same length.");
-
-			var results = new Dictionary<ListedItem, bool>();
-
 			for (int i = 0; i < items.Count; i++)
 			{
 				var item = items[i];
-				var newName = newNames[i];
-
+				
 				if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 				{
 					newName = item.ItemNameRaw.Replace(
@@ -302,7 +296,6 @@ namespace Files.App.Helpers
 
 				if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
 				{
-					results[item] = true;
 					continue;
 				}
 
@@ -314,15 +307,15 @@ namespace Files.App.Helpers
 				{
 					associatedInstance.ToolbarViewModel.CanGoForward = false;
 					await associatedInstance.RefreshIfNoWatcherExistsAsync();
-					results[item] = true;
+					
 				}
 				else
 				{
-					results[item] = false;
+					return false;
 				}
 			}
 
-			return results;
+			return true;
 		}
 
 		public static async Task CreateFileFromDialogResultTypeAsync(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)

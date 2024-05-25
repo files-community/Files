@@ -217,13 +217,19 @@ namespace Files.App.Views.Layouts
 		{
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
-			IsRenamingMultipleItems = false;
+			
 
 			// Unsubscribe from events
 			if (textBox is not null)
 			{
 				textBox!.LostFocus -= RenameTextBox_LostFocus;
 				textBox.KeyDown -= RenameTextBox_KeyDown;
+			}
+
+			if (IsRenamingMultipleItems)
+			{
+				IsRenamingMultipleItems = false;
+				return;
 			}
 
 			if (textBox is not null && textBox.Parent is not null)

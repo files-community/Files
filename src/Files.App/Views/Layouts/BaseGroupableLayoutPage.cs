@@ -332,11 +332,9 @@ namespace Files.App.Views.Layouts
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
-
-			foreach (var item in RenamingItems)
-			{
-				await UIFilesystemHelpers.RenameFileItemAsync(item, newItemName, ParentShellPageInstance);
-			}
+			await UIFilesystemHelpers.RenameFileItemsAsync(RenamingItems, newItemName, ParentShellPageInstance);
+			
+			
 		}
 
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
