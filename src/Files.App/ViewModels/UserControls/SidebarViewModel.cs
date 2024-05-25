@@ -279,7 +279,6 @@ namespace Files.App.ViewModels.UserControls
 			{
 				Text = "Settings".GetLocalizedResource(),
 				Path = "Settings",
-				AnimatedIconSymbol = Symbol.Setting,
 				Section = SectionType.Footer,
 				IsHeader = true,
 				MenuOptions = new ContextMenuOptions { IsLocationItem = true, },
@@ -447,7 +446,7 @@ namespace Files.App.ViewModels.UserControls
 				case SectionType.Home:
 					{
 						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
-						section.ChildItems = null!;
+						section.ChildItems = null;
 						section.Path = "Home";
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 						section.IsHeader = true;

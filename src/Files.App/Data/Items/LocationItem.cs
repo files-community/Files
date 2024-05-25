@@ -61,17 +61,8 @@ namespace Files.App.Data.Items
 		public object? Children => ChildItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
 
-		// NOTE: Only Setting symbol is available for now
-		public Symbol? AnimatedIconSymbol { get; set; }
-
-		public FrameworkElement? IconSource =>
-			AnimatedIconSymbol is Symbol.Setting
-				? new AnimatedIconSource()
-				{
-					Source = new Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedSettingsVisualSource(),
-					FallbackIconSource = new SymbolIconSource() { Symbol = Symbol.Setting },
-				}.CreateIconElement()
-				: new ImageIconSource() { ImageSource = icon }.CreateIconElement();
+		public FrameworkElement? IconSource
+			=> new ImageIconSource() { ImageSource = icon }.CreateIconElement();
 
 		public bool SelectsOnInvoked { get; set; } = true;
 

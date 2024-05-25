@@ -217,6 +217,7 @@
 
 			<sidebar:SidebarView.PaneFooter>
 				<sidebar:SidebarItem
+					x:Name="SettingsButton"
 					Item="{x:Bind SidebarAdaptiveViewModel.FooterSettingsItem, Mode=OneWay}"
 					Text="{x:Bind SidebarAdaptiveViewModel.FooterSettingsItem.Text, Mode=OneWay}"
 					TooltipText="{x:Bind SidebarAdaptiveViewModel.FooterSettingsItem.ToolTip, Mode=OneWay}">
