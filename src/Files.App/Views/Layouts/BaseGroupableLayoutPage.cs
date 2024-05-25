@@ -328,6 +328,17 @@ namespace Files.App.Views.Layouts
 			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
 		}
 
+		protected virtual async Task CommitMultipleRenameAsync(TextBox textBox)
+		{
+			EndRename(textBox);
+			string newItemName = textBox.Text.Trim().TrimEnd('.');
+
+			foreach (var item in RenamingItems)
+			{
+				await UIFilesystemHelpers.RenameFileItemAsync(item, newItemName, ParentShellPageInstance);
+			}
+		}
+
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
@@ -337,6 +348,10 @@ namespace Files.App.Views.Layouts
 				if (!IsRenamingMultipleItems)
 				{
 					await CommitRenameAsync(textBox);
+				}
+				else
+				{
+					await CommitMultipleRenameAsync(textBox);
 				}
 				
 			}
@@ -359,7 +374,10 @@ namespace Files.App.Views.Layouts
 					break;
 				case VirtualKey.Enter:
 					textBox.LostFocus -= RenameTextBox_LostFocus;
-					await CommitRenameAsync(textBox);
+					if(!IsRenamingMultipleItems)
+						await CommitRenameAsync(textBox);
+					else
+						await CommitMultipleRenameAsync(textBox);
 					e.Handled = true;
 					break;
 				case VirtualKey.Up:
@@ -385,7 +403,14 @@ namespace Files.App.Views.Layouts
 
 					if (textBox.Text != OldItemName)
 					{
-						await CommitRenameAsync(textBox);
+						if (!IsRenamingMultipleItems)
+						{
+							await CommitRenameAsync(textBox);
+						}
+						else
+						{
+							await CommitMultipleRenameAsync(textBox);
+						}
 					}
 					else
 					{

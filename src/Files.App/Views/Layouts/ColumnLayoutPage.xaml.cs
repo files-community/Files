@@ -217,6 +217,7 @@ namespace Files.App.Views.Layouts
 		{
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
+			IsRenamingMultipleItems = false;
 
 			// Unsubscribe from events
 			if (textBox is not null)
