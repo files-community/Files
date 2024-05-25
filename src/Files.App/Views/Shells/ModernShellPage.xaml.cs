@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -70,6 +71,19 @@ namespace Files.App.Views.Shells
 
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
+		}
+
+		protected override void Page_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Cast shadow on the status bar
+			if (this.FindAscendant<Grid>() is Grid grid &&
+				grid.FindAscendant<Page>() is Page page &&
+				page.FindAscendant<ContentPresenter>() is ContentPresenter contentPresenter &&
+				contentPresenter.FindAscendant<Grid>() is Grid grid2 &&
+				grid2.FindDescendant<StatusBar>() is StatusBar statusBar)
+				ShellContentThemeShadow.Receivers.Add(statusBar);
+
+			base.Page_Loaded(sender, e);
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)

@@ -13,13 +13,6 @@
 	Loaded="Page_Loaded"
 	mc:Ignorable="d">
 
-	<local:BaseShellPage.Resources>
-		<ResourceDictionary>
-			<wctconverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-		</ResourceDictionary>
-	</local:BaseShellPage.Resources>
-
 	<local:BaseShellPage.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="V"
@@ -28,7 +21,17 @@
 			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
 
-	<Grid HorizontalAlignment="Stretch" wct:UIElementExtensions.ClipToBounds="True">
+	<Grid
+		wct:UIElementExtensions.ClipToBounds="True"
+		Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+		BackgroundSizing="InnerBorderEdge"
+		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+		BorderThickness="1"
+		CornerRadius="8,8,8,8"
+		Translation="0,0,8">
+		<Grid.Shadow>
+			<ThemeShadow x:Name="ShellContentThemeShadow" />
+		</Grid.Shadow>
 
 		<Border
 			x:Name="BackIcon"
@@ -76,6 +79,7 @@
 			x:FieldModifier="public"
 			BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
 			BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
+			CornerRadius="8"
 			Navigated="ItemDisplayFrame_Navigated" />
 
 	</Grid>
