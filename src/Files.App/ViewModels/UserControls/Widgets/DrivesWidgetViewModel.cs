@@ -23,20 +23,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public string AutomationProperties => "Drives".GetLocalizedResource();
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
-		public bool ShowMenuFlyout => true;
-		public MenuFlyoutItem? MenuFlyoutItem => new()
-		{
-			Icon = new FontIcon() { Glyph = "\uE710" },
-			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
-			Command = MapNetworkDriveCommand
-		};
+		public bool ShowMenuFlyout => false;
+		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		// Commands
 
 		private ICommand FormatDriveCommand { get; } = null!;
 		private ICommand EjectDeviceCommand { get; } = null!;
 		private ICommand OpenInNewPaneCommand { get; } = null!;
-		private ICommand MapNetworkDriveCommand { get; } = null!;
 		private ICommand DisconnectNetworkDriveCommand { get; } = null!;
 
 		// Constructor
@@ -56,7 +50,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteOpenInNewPaneCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
-			MapNetworkDriveCommand = new AsyncRelayCommand(ExecuteMapNetworkDriveCommand);
 		}
 
 		// Methods
@@ -206,11 +199,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Item.Path);
 		}
 
-		private Task ExecuteMapNetworkDriveCommand()
-		{
-			return NetworkDrivesService.OpenMapNetworkDriveDialogAsync();
-		}
-
 		private void ExecuteFormatDriveCommand(WidgetDriveCardItem? item)
 		{
 			Win32Helper.OpenFormatDriveDialog(item?.Path ?? string.Empty);
@@ -238,7 +226,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null)
 				return;
 
-			NetworkDrivesService.DisconnectNetworkDrive(item.Item);
+			NetworkService.DisconnectNetworkDrive(item.Item);
 		}
 
 		// Event methods
@@ -249,7 +237,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
 				{
-					if (!Items.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
+					if (!Items.Any(x => x.Item == drive) && drive.Type is not DriveType.VirtualDrive and not DriveType.Network)
 					{
 						var cardItem = new WidgetDriveCardItem(drive);
 						Items.AddSorted(cardItem);

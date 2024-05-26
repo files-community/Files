@@ -10,28 +10,34 @@ using Windows.Win32.Security.Credentials;
 
 namespace Files.App.Services
 {
-	public sealed class NetworkDrivesService : ObservableObject, INetworkDrivesService
+	public sealed class NetworkService : ObservableObject, INetworkService
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
 		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
 
 
-		private ObservableCollection<ILocatableFolder> _Drives;
+		private ObservableCollection<ILocatableFolder> _Computers = [];
 		/// <inheritdoc/>
-		public ObservableCollection<ILocatableFolder> Drives
+		public ObservableCollection<ILocatableFolder> Computers
 		{
-			get => _Drives;
-			private set => SetProperty(ref _Drives, value);
+			get => _Computers;
+			private set => SetProperty(ref _Computers, value);
+		}
+
+		private ObservableCollection<ILocatableFolder> _Shortcuts = [];
+		/// <inheritdoc/>
+		public ObservableCollection<ILocatableFolder> Shortcuts
+		{
+			get => _Shortcuts;
+			private set => SetProperty(ref _Shortcuts, value);
 		}
 
 		/// <summary>
-		/// Initializes an instance of <see cref="NetworkDrivesService"/>.
+		/// Initializes an instance of <see cref="NetworkService"/>.
 		/// </summary>
-		public NetworkDrivesService()
+		public NetworkService()
 		{
-			_Drives = [];
-
 			var networkItem = new DriveItem()
 			{
 				DeviceID = "network-folder",
@@ -48,12 +54,12 @@ namespace Files.App.Services
 				ShowShellItems = true,
 				ShowProperties = true,
 			};
-			lock (_Drives)
-				_Drives.Add(networkItem);
+			lock (_Computers)
+				_Computers.Add(networkItem);
 		}
 
 		/// <inheritdoc/>
-		public async Task<IEnumerable<ILocatableFolder>> GetDrivesAsync()
+		public async Task<IEnumerable<ILocatableFolder>> GetComputersAsync()
 		{
 			var result = await Win32Helper.GetShellFolderAsync(guid, false, true, 0, int.MaxValue);
 
@@ -81,14 +87,64 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task UpdateDrivesAsync()
+		public async Task<IEnumerable<ILocatableFolder>> GetShortcutsAsync()
+		{
+			var networkLocations = await Win32Helper.StartSTATask(() =>
+			{
+				var locations = new List<ShellLinkItem>();
+				using (var netHood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
+				{
+					foreach (var item in netHood)
+					{
+						if (item is ShellLink link)
+						{
+							locations.Add(ShellFolderExtensions.GetShellLinkItem(link));
+						}
+						else
+						{
+							var linkPath = (string?)item?.Properties["System.Link.TargetParsingPath"];
+							if (linkPath is not null)
+							{
+								var linkItem = ShellFolderExtensions.GetShellFileItem(item);
+								locations.Add(new(linkItem) { TargetPath = linkPath });
+							}
+						}
+					}
+				}
+				return locations;
+			});
+
+			return (networkLocations ?? Enumerable.Empty<ShellLinkItem>()).Select(item =>
+			{
+				var networkItem = new DriveItem()
+				{
+					Text = item.FileName,
+					Path = item.TargetPath,
+					DeviceID = item.FilePath,
+					Type = DriveType.Network,
+					ItemType = NavigationControlItemType.Drive,
+				};
+
+				networkItem.MenuOptions = new ContextMenuOptions()
+				{
+					IsLocationItem = true,
+					ShowEjectDevice = networkItem.IsRemovable,
+					ShowShellItems = true,
+					ShowProperties = true,
+				};
+				return networkItem;
+			});
+		}
+
+		/// <inheritdoc/>
+		public async Task UpdateComputersAsync()
 		{
 			var unsortedDrives = new List<ILocatableFolder>()
 			{
-				_Drives.Single(x => x is DriveItem o && o.DeviceID == "network-folder")
+				_Computers.Single(x => x is DriveItem o && o.DeviceID == "network-folder")
 			};
 
-			foreach (ILocatableFolder item in await GetDrivesAsync())
+			foreach (ILocatableFolder item in await GetComputersAsync())
 				unsortedDrives.Add(item);
 
 			var orderedDrives =
@@ -96,10 +152,28 @@ namespace Files.App.Services
 					.OrderByDescending(o => o.DeviceID == "network-folder")
 					.ThenBy(o => o.Text);
 
-			Drives.Clear();
+			Computers.Clear();
 
 			foreach (ILocatableFolder item in orderedDrives)
-				Drives.AddIfNotPresent(item);
+				Computers.AddIfNotPresent(item);
+		}
+
+		/// <inheritdoc/>
+		public async Task UpdateShortcutsAsync()
+		{
+			var unsortedDrives = new List<ILocatableFolder>();
+
+			foreach (ILocatableFolder item in await GetShortcutsAsync())
+				unsortedDrives.Add(item);
+
+			var orderedDrives =
+				unsortedDrives.Cast<DriveItem>()
+					.OrderBy(o => o.Text);
+
+			Shortcuts.Clear();
+
+			foreach (ILocatableFolder item in orderedDrives)
+				Shortcuts.AddIfNotPresent(item);
 		}
 
 		/// <inheritdoc/>

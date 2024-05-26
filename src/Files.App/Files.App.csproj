@@ -75,6 +75,7 @@
         <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
         <PackageReference Include="LiteDB" Version="5.0.19" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1.2" />
+        <PackageReference Include="MessageFormat" Version="7.1.0" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.4" />

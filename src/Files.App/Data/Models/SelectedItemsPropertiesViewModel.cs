@@ -461,6 +461,13 @@ namespace Files.App.Data.Models
 			get => DriveCapacityValue > 0 ? DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
 		}
 
+		private bool cleanupVisibility = false;
+		public bool CleanupVisibility
+		{
+			get => cleanupVisibility;
+			set => SetProperty(ref cleanupVisibility, value);
+		}
+
 		private ICommand cleanupDriveCommand;
 		public ICommand CleanupDriveCommand
 		{

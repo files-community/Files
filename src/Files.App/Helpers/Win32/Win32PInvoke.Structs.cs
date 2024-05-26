@@ -223,5 +223,16 @@ namespace Files.App.Helpers
 			public long i64Size;
 			public long i64NumItems;
 		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct MSG
+		{
+			public IntPtr hwnd;
+			public uint message;
+			public IntPtr wParam;
+			public IntPtr lParam;
+			public uint time;
+			public System.Drawing.Point pt;
+		}
 	}
 }

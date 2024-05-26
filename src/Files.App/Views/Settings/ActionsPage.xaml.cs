@@ -6,6 +6,7 @@ using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using System.Text;
 using Windows.System;
 
 namespace Files.App.Views.Settings
@@ -52,13 +53,28 @@ namespace Files.App.Views.Settings
 
 		private void KeyBindingEditorTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			// Ensure the sender is a TextBox
 			if (sender is not TextBox textBox)
 				return;
 
-			var pressedKey = e.OriginalKey;
+			// Cast the DataContext of the TextBox to a ModifiableActionItem if possible, or null if the cast fails
+			var item = textBox.DataContext as ModifiableActionItem;
 
-			List<VirtualKey> modifierKeys =
-			[
+			var pressedKey = e.OriginalKey;
+			var pressedKeyValue = HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
+			var buffer = new StringBuilder();
+
+			// Define invalid keys that shouldn't be processed
+			var invalidKeys = new HashSet<VirtualKey>
+			{
+				VirtualKey.CapitalLock,
+				VirtualKey.NumberKeyLock,
+				VirtualKey.Scroll,
+			};
+
+			// Define modifier keys
+			var modifierKeys = new HashSet<VirtualKey>
+			{
 				VirtualKey.Shift,
 				VirtualKey.Control,
 				VirtualKey.Menu,
@@ -69,38 +85,58 @@ namespace Files.App.Views.Settings
 				VirtualKey.RightControl,
 				VirtualKey.LeftMenu,
 				VirtualKey.RightMenu
-			];
+			};
 
-			// If pressed key is one of modifier don't show it in the TextBox yet
-			foreach (var modifier in modifierKeys)
+			// Determine if the pressed key is invalid or a modifier
+			var isInvalidKey = invalidKeys.Contains(pressedKey) || string.IsNullOrEmpty(pressedKeyValue);
+			var isModifierKey = modifierKeys.Contains(pressedKey);
+
+			// Handle invalid keys that are not modifiers
+			if (isInvalidKey && !isModifierKey)
 			{
-				if (pressedKey == modifier)
-				{
-					// Prevent key down event in other UIElements from getting invoked
-					e.Handled = true;
-
-					return;
-				}
+				InvalidKeyTeachingTip.Target = textBox;
+				ViewModel.IsInvalidKeyTeachingTipOpened = true;
 			}
 
+			// Check if the pressed key is invalid, a modifier, or has no value; Don't show it in the TextBox yet
+			if (isInvalidKey || isModifierKey)
+			{
+				// Set the text of the TextBox to the empty buffer
+				textBox.Text = buffer.ToString();
+
+				// Update UI state based on the context item
+				if (item is null)
+					ViewModel.EnableAddNewKeyBindingButton = false;
+				else
+					item.IsValidKeyBinding = false;
+
+				// Prevent key down event in other UIElements from getting invoked
+				e.Handled = true;
+				return;
+			}
+
+			// Get the currently pressed modifier keys
 			var pressedModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
-			string text = string.Empty;
 
-			// Add the modifiers with translated
+			// Append modifier keys to the buffer
 			if (pressedModifiers.HasFlag(KeyModifiers.Ctrl))
-				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+";
+				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Ctrl)}+");
 			if (pressedModifiers.HasFlag(KeyModifiers.Alt))
-				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Alt)}+";
+				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Alt)}+");
 			if (pressedModifiers.HasFlag(KeyModifiers.Shift))
-				text += $"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+";
+				buffer.Append($"{HotKey.LocalizedModifiers.GetValueOrDefault(KeyModifiers.Shift)}+");
 
-			// Add the key with translated
-			text += HotKey.LocalizedKeys.GetValueOrDefault((Keys)pressedKey);
+			// Append the pressed key to the buffer
+			buffer.Append(pressedKeyValue);
 
-			// Set text
-			textBox.Text = text;
+			// Set the text of the TextBox to the constructed key combination
+			textBox.Text = buffer.ToString();
 
-			ViewModel.EnableAddNewKeyBindingButton = true;
+			// Update UI state based on the context item
+			if (item is null)
+				ViewModel.EnableAddNewKeyBindingButton = true;
+			else
+				item.IsValidKeyBinding = true;
 
 			// Prevent key down event in other UIElements from getting invoked
 			e.Handled = true;
