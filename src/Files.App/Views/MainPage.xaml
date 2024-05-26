@@ -240,26 +240,38 @@
 						<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<!--  Inner Navigation Toolbar  -->
-					<uc:InnerNavigationToolbar
-						x:Name="InnerNavigationToolbar"
+					<!--  File Navigation Toolbar  -->
+					<Border
 						Grid.Row="0"
 						Grid.ColumnSpan="3"
 						Margin="0,0,0,4"
-						x:Load="False"
-						Loaded="NavToolbar_Loaded"
-						ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
-						ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
-						TabIndex="2" />
+						Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
+						BackgroundSizing="InnerBorderEdge"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						CornerRadius="8">
+						<uc:InnerNavigationToolbar
+							x:Name="InnerNavigationToolbar"
+							x:Load="False"
+							Loaded="NavToolbar_Loaded"
+							ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
+							ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
+							TabIndex="2" />
+					</Border>
 
-					<!--  Shell Panes  -->
+					<!--  Page Content  -->
 					<ContentPresenter
 						x:Name="PageContent"
 						Grid.Row="1"
 						Grid.Column="0"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
-						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
+						Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+						BackgroundSizing="InnerBorderEdge"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}"
+						CornerRadius="8" />
 
 					<!--  Sizer  -->
 					<toolkit:GridSplitter
@@ -273,15 +285,23 @@
 						ResizeBehavior="BasedOnAlignment"
 						Style="{StaticResource DefaultGridSplitterStyle}" />
 
-					<!--  Info Pane  -->
-					<uc:InfoPane
-						x:Name="PreviewPane"
+					<!--  Preview Pane  -->
+					<Border
+						x:Name="InfoPaneContainer"
 						Grid.Row="1"
 						Grid.Column="2"
-						HorizontalContentAlignment="Stretch"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
-						Loaded="PreviewPane_Loaded"
-						Unloaded="PreviewPane_Unloaded" />
+						Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
+						BackgroundSizing="InnerBorderEdge"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						CornerRadius="8">
+						<uc:InfoPane
+							x:Name="PreviewPane"
+							HorizontalContentAlignment="Stretch"
+							Loaded="PreviewPane_Loaded"
+							Unloaded="PreviewPane_Unloaded" />
+					</Border>
 
 					<!--  Status Bar  -->
 					<uc:StatusBar
@@ -296,7 +316,7 @@
 		</sidebar:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup x:Name="WindowAdaptiveStates">
+			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>
 						<AdaptiveTrigger x:Name="CollapseSearchBoxAdaptiveTrigger" MinWindowWidth="750" />
@@ -311,7 +331,7 @@
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
-			<VisualStateGroup x:Name="SidebarStates">
+			<VisualStateGroup>
 				<VisualState x:Name="NormalSidebarState">
 					<VisualState.StateTriggers>
 						<AdaptiveTrigger MinWindowWidth="0" />
@@ -328,58 +348,6 @@
 					</VisualState.StateTriggers>
 				</VisualState>
 			</VisualStateGroup>
-			<!--<VisualStateGroup x:Name="InfoPaneStates">
-				<VisualState x:Name="InfoPaneCollapsedState">
-					<VisualState.Setters>
-						<Setter Target="PaneRow.MinHeight" Value="0" />
-						<Setter Target="PaneRow.MaxHeight" Value="PositiveInfinity" />
-						<Setter Target="PaneRow.Height" Value="0" />
-						<Setter Target="PaneColumn.MinWidth" Value="0" />
-						<Setter Target="PaneColumn.MaxWidth" Value="PositiveInfinity" />
-						<Setter Target="PaneColumn.Width" Value="0" />
-					</VisualState.Setters>
-				</VisualState>
-				<VisualState x:Name="InfoPaneRightPlacedState">
-					<VisualState.Setters>
-						<Setter Target="PreviewPane.(Grid.Row)" Value="1" />
-						<Setter Target="PreviewPane.(Grid.Column)" Value="2" />
-
-						<Setter Target="PaneSplitter.(Grid.Row)" Value="1" />
-						<Setter Target="PaneSplitter.(Grid.Column)" Value="1" />
-						<Setter Target="PaneSplitter.Width" Value="2" />
-						<Setter Target="PaneSplitter.Height" Value="{x:Bind RootGrid.ActualHeight, Mode=OneWay}" />
-						<Setter Target="PaneSplitter.GripperCursor" Value="10" />
-
-						<Setter Target="PaneColumn.MinWidth" Value="{x:Bind PreviewPane.MinWidth, Mode=OneWay}" />
-						<Setter Target="PaneColumn.MaxWidth" Value="{x:Bind PreviewPane.MaxWidth, Mode=OneWay}" />
-						<Setter Target="PaneColumn.Width" Value="{x:Bind UserSettingsService.InfoPaneSettingsService.VerticalSizePx, Mode=OneWay}" />
-
-						<Setter Target="PaneRow.MinHeight" Value="0" />
-						<Setter Target="PaneRow.MaxHeight" Value="NaN" />
-						<Setter Target="PaneRow.Height" Value="0" />
-					</VisualState.Setters>
-				</VisualState>
-				<VisualState x:Name="InfoPaneBottomPlacedState">
-					<VisualState.Setters>
-						<Setter Target="PreviewPane.(Grid.Row)" Value="3" />
-						<Setter Target="PreviewPane.(Grid.Column)" Value="0" />
-
-						<Setter Target="PaneSplitter.(Grid.Row)" Value="2" />
-						<Setter Target="PaneSplitter.(Grid.Column)" Value="0" />
-						<Setter Target="PaneSplitter.Width" Value="{x:Bind RootGrid.ActualWidth, Mode=OneWay}" />
-						<Setter Target="PaneSplitter.Height" Value="2" />
-						<Setter Target="PaneSplitter.GripperCursor" Value="8" />
-
-						<Setter Target="PaneColumn.MinWidth" Value="0" />
-						<Setter Target="PaneColumn.MaxWidth" Value="NaN" />
-						<Setter Target="PaneColumn.Width" Value="0" />
-
-						<Setter Target="PaneRow.MinHeight" Value="{x:Bind PreviewPane.MinHeight, Mode=OneWay}" />
-						<Setter Target="PaneRow.MaxHeight" Value="{x:Bind PreviewPane.MaxHeight, Mode=OneWay}" />
-						<Setter Target="PaneRow.Height" Value="{x:Bind UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, Mode=OneWay}" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>-->
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </Page>
