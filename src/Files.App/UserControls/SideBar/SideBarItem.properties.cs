@@ -63,7 +63,7 @@ namespace Files.App.UserControls.Sidebar
 		}
 		// Using 30 as a default in case something goes wrong
 		public static readonly DependencyProperty ChildrenPresenterHeightProperty =
-			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d));
+			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d)); 
 
 		public INavigationControlItem? Item
 		{
@@ -118,8 +118,7 @@ namespace Files.App.UserControls.Sidebar
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (sender is not SidebarItem item)
-				return;
+			if (sender is not SidebarItem item) return;
 
 			if (e.Property == DisplayModeProperty)
 			{
@@ -133,13 +132,13 @@ namespace Files.App.UserControls.Sidebar
 			{
 				item.UpdateExpansionState();
 			}
-			else if (e.Property == ItemProperty)
+			else if(e.Property == ItemProperty)
 			{
 				item.HandleItemChange();
 			}
 			else
 			{
-				Debug.Write($@"The property ""{e.Property}"" has been changed but not updated accordingly in SidebarItem.");
+				Debug.Write(e.Property.ToString());
 			}
 		}
 	}

@@ -112,7 +112,6 @@
 								AnimatedIcon.State="Normal"
 								AutomationProperties.AccessibilityView="Raw"
 								Content="{Binding Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-
 							<TextBlock
 								x:Name="ItemNameTextBlock"
 								Grid.Column="1"

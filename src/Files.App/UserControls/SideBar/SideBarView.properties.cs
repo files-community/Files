@@ -77,8 +77,7 @@ namespace Files.App.UserControls.Sidebar
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (sender is not SidebarView control)
-				return;
+			if (sender is not SidebarView control) return;
 
 			if (e.Property == OpenPaneLengthProperty)
 			{

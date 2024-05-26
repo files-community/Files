@@ -16,6 +16,7 @@ namespace Files.App.UserControls.Sidebar
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
 	{
+
 		private const double COMPACT_MAX_WIDTH = 200;
 
 		public event EventHandler<object>? ItemInvoked;
@@ -40,8 +41,7 @@ namespace Files.App.UserControls.Sidebar
 		internal void RaiseItemInvoked(SidebarItem item, PointerUpdateKind pointerUpdateKind)
 		{
 			// Only leaves can be selected
-			if (item.Item is null || item.IsGroupHeader)
-				return;
+			if (item.Item is null || item.IsGroupHeader) return;
 
 			if (item.IsFooterItem)
 			{

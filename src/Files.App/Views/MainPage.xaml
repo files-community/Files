@@ -338,7 +338,6 @@
 						Visibility="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
 				</Grid>
 			</sidebar:SidebarView.InnerContent>
-
 		</sidebar:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>

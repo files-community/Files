@@ -103,7 +103,9 @@ namespace Files.App.UserControls.Sidebar
 		{
 			FrameworkElement resolvingTarget = this;
 			if (Parent is not null && GetTemplateRoot(Parent) is FrameworkElement element)
+			{
 				resolvingTarget = element;
+			}
 
 			Owner = resolvingTarget.FindAscendant<SidebarView>()!;
 
@@ -289,9 +291,13 @@ namespace Files.App.UserControls.Sidebar
 		private bool ShouldShowSelectionIndicator()
 		{
 			if (IsExpanded && CollapseEnabled)
+			{
 				return IsSelected;
+			}
 			else
+			{
 				return IsSelected || hasChildSelection;
+			}
 		}
 
 		private void UpdatePointerState(bool isPointerDown = false)

@@ -21,11 +21,11 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
-		private INetworkService NetworkService = Ioc.Default.GetRequiredService<INetworkService>();
-		private IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private IFileTagsService fileTagsService;
+		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly IFileTagsService fileTagsService;
 
 		private IPanesPage paneHolder;
 		public IPanesPage PaneHolder
