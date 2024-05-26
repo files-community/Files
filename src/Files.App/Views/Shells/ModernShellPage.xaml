@@ -22,13 +22,14 @@
 	</local:BaseShellPage.KeyboardAccelerators>
 
 	<Grid
+		x:Name="RootGrid"
 		wct:UIElementExtensions.ClipToBounds="True"
+		x:FieldModifier="public"
 		Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
 		BackgroundSizing="InnerBorderEdge"
 		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 		BorderThickness="1"
-		CornerRadius="8,8,8,8"
-		Translation="0,0,8">
+		CornerRadius="8,8,8,8">
 		<Grid.Shadow>
 			<ThemeShadow x:Name="ShellContentThemeShadow" x:FieldModifier="public" />
 		</Grid.Shadow>

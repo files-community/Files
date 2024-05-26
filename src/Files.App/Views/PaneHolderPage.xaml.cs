@@ -284,6 +284,9 @@ namespace Files.App.Views
 					RightPaneSelectItemParam = IsRightPaneVisible ? NavParamsRight?.SelectItem : null,
 				}
 			};
+
+			// Initialize
+			PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 		}
 
 		// Event methods
@@ -371,13 +374,23 @@ namespace Files.App.Views
 			// Add theme shadow to the active pane
 			if (isLeftPane)
 			{
-				PaneRight.ShellContentThemeShadow.Receivers.Remove(StatusBar);
-				PaneLeft.ShellContentThemeShadow.Receivers.Add(StatusBar);
+				PaneRight?.ShellContentThemeShadow.Receivers.Remove(StatusBar);
+				PaneLeft?.ShellContentThemeShadow.Receivers.Add(StatusBar);
+
+				if (PaneRight is not null)
+					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+				if (PaneLeft is not null)
+					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 			}
 			else
 			{
-				PaneRight.ShellContentThemeShadow.Receivers.Add(StatusBar);
-				PaneLeft.ShellContentThemeShadow.Receivers.Remove(StatusBar);
+				PaneRight?.ShellContentThemeShadow.Receivers.Add(StatusBar);
+				PaneLeft?.ShellContentThemeShadow.Receivers.Remove(StatusBar);
+
+				if (PaneRight is not null)
+					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+				if (PaneLeft is not null)
+					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
 			}
 		}
 
