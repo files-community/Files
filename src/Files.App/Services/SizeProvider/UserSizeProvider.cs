@@ -3,7 +3,7 @@
 
 using Files.App.Services.SizeProvider;
 
-namespace Files.App.Services.SizeProvider
+namespace Files.App.Services
 {
 	public sealed class UserSizeProvider : ISizeProvider
 	{

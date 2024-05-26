@@ -63,7 +63,6 @@ global using global::Files.App.Data.Messages;
 global using global::Files.App.Services.DateTimeFormatter;
 global using global::Files.App.Services.PreviewPopupProviders;
 global using global::Files.App.Services.Settings;
-global using global::Files.App.Services.SizeProvider;
 global using global::Files.App.ViewModels.Dialogs;
 global using global::Files.App.ViewModels.Dialogs.AddItemDialog;
 global using global::Files.App.ViewModels.Dialogs.FileSystemDialog;
