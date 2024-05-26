@@ -119,7 +119,6 @@ namespace Files.App.UserControls.Sidebar
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
 			if (sender is not SidebarItem item) return;
-
 			if (e.Property == DisplayModeProperty)
 			{
 				item.SidebarDisplayModeChanged((SidebarDisplayMode)e.OldValue);

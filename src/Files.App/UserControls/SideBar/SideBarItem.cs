@@ -106,7 +106,6 @@ namespace Files.App.UserControls.Sidebar
 			{
 				resolvingTarget = element;
 			}
-
 			Owner = resolvingTarget.FindAscendant<SidebarView>()!;
 
 			Owner.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (sender, args) =>
@@ -343,7 +342,6 @@ namespace Files.App.UserControls.Sidebar
 			UpdateSelectionState();
 		}
 
-		#region Pointer events
 		private void ItemGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isPointerOver = true;
@@ -387,9 +385,7 @@ namespace Files.App.UserControls.Sidebar
 				Clicked(pointerUpdateKind);
 			}
 		}
-		#endregion
 
-		#region Drag&Drop
 		private async void ItemGrid_DragOver(object sender, DragEventArgs e)
 		{
 			if (HasChildren)
@@ -461,6 +457,5 @@ namespace Files.App.UserControls.Sidebar
 			}
 			return SidebarItemDropPosition.Center;
 		}
-		#endregion
 	}
 }

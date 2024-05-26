@@ -21,7 +21,7 @@ namespace Files.InteractionTests.Tests
 		[TestMethod]
 		public void VerifySettingsAreAccessible()
 		{
-			TestHelper.InvokeButtonById("SettingsButton");
+			TestHelper.InvokeButtonById("Settings");
 			AxeHelper.AssertNoAccessibilityErrors();
 
 			var settingsItems = new string[]
