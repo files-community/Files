@@ -75,7 +75,7 @@ namespace Files.App.Views.Shells
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
 		{
 			if (ItemDisplayFrame?.Content is HomePage currentPage)
-				currentPage.RefreshWidgetList();
+				currentPage.ViewModel.RefreshWidgetList();
 		}
 
 		protected override void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
@@ -167,7 +167,7 @@ namespace Files.App.Views.Shells
 
 			var parameters = e.Parameter as NavigationArguments;
 			var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
-			TabItemParameter = new()
+			TabBarItemParameter = new()
 			{
 				InitialPageType = typeof(ModernShellPage),
 				NavigationParameter = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
@@ -319,7 +319,7 @@ namespace Files.App.Views.Shells
 					navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
 						FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
 						StringComparison.OrdinalIgnoreCase)) &&
-					(TabItemParameter?.NavigationParameter is not string navArg ||
+					(TabBarItemParameter?.NavigationParameter is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
 					!navArg.StartsWith("tag:"))) // Return if already selected
 				{

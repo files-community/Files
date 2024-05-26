@@ -580,9 +580,10 @@ namespace Files.App.Utils.Storage
 					{
 						using ShellItem shi = new(fileToCopyPath[i]);
 						using ShellFolder shd = new(Path.GetDirectoryName(copyDestination[i]));
-
-						// Performa copy operation
-						op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+						
+						var fileName = GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]);
+						// Perform a copy operation
+						op.QueueCopyOperation(shi, shd, fileName);						
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -1018,5 +1019,26 @@ namespace Files.App.Utils.Storage
 				}
 			}
 		}
+
+		private static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck, string? filePathToCopy)
+		{
+			if (filePathToCheck == null)
+				return null;			
+
+			if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy || filePathToCheck == filePathToCopy)
+				return Path.GetFileName(filePathToCheck);
+
+			var index = 2;
+			var filePath = filePathToCheck;
+			if (Path.HasExtension(filePathToCheck))
+				filePath = filePathToCheck.Substring(0, filePathToCheck.LastIndexOf("."));
+
+			Func<int, string> genFilePath = x => string.Concat([filePath, " (", x.ToString(), ")", Path.GetExtension(filePathToCheck)]);
+
+			while (Path.Exists(genFilePath(index)))
+				index++;
+
+			return Path.GetFileName(genFilePath(index));
+		}		
 	}
 }

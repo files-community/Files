@@ -46,7 +46,7 @@ namespace Files.App
 			public const int GenericDiskDrive = 35;
 			public const int WindowsDrive = 36;
 			public const int ThisPC = 109;
-			public const int NetworkDrives = 25;
+			public const int Network = 25;
 			public const int RecycleBin = 55;
 			public const int CloudDrives = 1040;
 			public const int OneDrive = 1043;
@@ -111,6 +111,8 @@ namespace Files.App
 
 			// For contextmenu hacks
 			public const double ContextMenuItemsMaxWidth = 250;
+
+			public const double MultiplePaneWidthThreshold = 750;
 		}
 
 		public static class Appearance
@@ -177,12 +179,12 @@ namespace Files.App
 			/// <summary>
 			/// The path to the json file containing a list of file properties to be loaded in the properties window details page.
 			/// </summary>
-			public const string DetailsPagePropertiesJsonPath = @"ms-appx:///Resources/PropertiesInformation.json";
+			public const string DetailsPagePropertiesJsonPath = @"ms-appx:///Assets/Resources/PropertiesInformation.json";
 
 			/// <summary>
 			/// The path to the json file containing a list of file properties to be loaded in the preview pane.
 			/// </summary>
-			public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
+			public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Assets/Resources/PreviewPanePropertiesInformation.json";
 		}
 
 		public static class Filesystem

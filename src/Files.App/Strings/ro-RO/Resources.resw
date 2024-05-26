@@ -127,7 +127,7 @@
     <value>Copiați calea cu ghilimele</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Răsfoiește</value>
+    <value>Răsfoire</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Mărime</value>
@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Aspect</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Fundal</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Culoare de fundal</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avansat</value>
@@ -319,10 +319,10 @@
     <value>Înapoi (Alt+Stânga)</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Înainte (Alt+Dreapta)</value>
+    <value>Înainte</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Sus (Alt+Săgeată sus)</value>
+    <value>Sus</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Reîmprospătare</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Stabilire ca ecran de blocare</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Setați ca fundal al aplicației</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nu am putut șterge acest element</value>
@@ -423,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Numele specificat nu este valid</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>element selectat</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# element selectat} other {# articole selectate}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>element selectat</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>element</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elemente</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {Articole}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Da</value>
@@ -442,7 +441,7 @@
     <value>Ești sigur că dorești să ștergi definitiv toate elementele?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Golește cos de gunoi</value>
+    <value>Golire Coș de Reciclare</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>Octeți</value>
@@ -523,7 +522,7 @@
     <value>Creați o comandă rapidă</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Deschide locația fișierului</value>
+    <value>Deschidere locație fișier</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Argumente:</value>
@@ -664,7 +663,7 @@
     <value>Evaluare</value>
   </data>
   <data name="PropertyParsingPath" xml:space="preserve">
-    <value>Cale articol</value>
+    <value>Cale element</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Tip element</value>
@@ -882,6 +881,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Codare Bitrate</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Rată de Biți de Codificare Audio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Rată de Biți de Codificare Video</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Compresie</value>
   </data>
@@ -1074,9 +1079,6 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Anulați fixarea la Bara Laterală</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Unități de rețea</value>
-  </data>
   <data name="Network" xml:space="preserve">
     <value>Rețea</value>
   </data>
@@ -1153,7 +1155,7 @@
     <value>Data creării</value>
   </data>
   <data name="MoreOptions" xml:space="preserve">
-    <value>Mai multe opţiuni...</value>
+    <value>Mai multe opțiuni...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Conectare unitate de rețea</value>
@@ -1294,7 +1296,7 @@
     <value>Data modificării:</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
-    <value>Deschideți cu</value>
+    <value>Deschidere cu</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Pictogramă fișier</value>
@@ -1698,12 +1700,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nume de utilizator</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget unități</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget fișiere recente</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Niciun element găsit</value>
   </data>
@@ -1975,10 +1971,10 @@
     <value>Poziționează toate coloanele să încapă</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Aspect adaptabil</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Aspect adaptiv (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -1999,7 +1995,7 @@
     <value>Setați ca fundal</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Stabilire ca fundal pentru desktop</value>
+    <value>Stabilire ca imagine de fundal pentru desktop</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Setați ca implicit</value>
@@ -2008,7 +2004,7 @@
     <value>Coloană dată</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Coloană dată de creare</value>
+    <value>Coloană data creării</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Coloană dimensiune</value>
@@ -2137,7 +2133,7 @@
     <value>Grupaţi după</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sortați după</value>
+    <value>Sortare după</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
     <value>Grupare în ordine descrescătoare</value>
@@ -2401,7 +2397,7 @@
     <value>Creați o comandă rapidă către orice element</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Golește cos de gunoi</value>
+    <value>Golire Coș de Reciclare</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Deschideți meniul "Formatare unitate" pentru elementul selectat</value>
@@ -2462,6 +2458,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Setați imaginea selectată ca imagine de fundal pentru ecranul de blocare</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Setează imaginea selectată ca fundal al aplicației</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalați fonturile selectate</value>
@@ -2739,7 +2738,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>Sus (Alt+Săgeată sus)</value>
+    <value>Sus</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
@@ -3065,7 +3064,7 @@
     <value>Locale</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>La distanţă</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Traduceți pe Crowdin</value>
@@ -3265,7 +3264,7 @@
     <value>Files rulează ca administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Din cauza limitărilor platformei, tragerea și lăsarea fișierelor nu este disponibilă atunci când rulați Files ca administrator.</value>
+    <value>Din cauza unei limitări a Windows și WinAppSdk, tragerea și fixarea nu sunt disponibile atunci când executați Files ca administrator. Dacă doriți să folosiți caracteristica tragere și fixare puteți lucra în jurul acestei limitări deschizând CCU (Control Cont Utilizator) din Meniul Start și selectând al treilea nivel, și apoi reporniți Windows. Altfel, puteți continua să utilizați Files fără caracteristica tragere și fixare.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lăsați aplicația să ruleze în fundal atunci când fereastra este închisă</value>
@@ -3715,5 +3714,128 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tip aspect</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Acțiuni</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Comenzi</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Adăugare comandă</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Restabiliți la valorile implicite</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Alegeți o acțiune</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Sunteți sigur că doriți să restaurați comenzile rapide la valorile implicite? Această acțiune nu poate fi anulată.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Această comandă rapidă este deja utilizată, vă rugăm să alegeți o comandă rapidă diferită pentru a continua.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Personalizat</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Aspectul Adaptiv nu este disponibil atunci când preferințele sunt sincronizate, aspectul implicit a fost schimbat la Detalii.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Imagine de fundal</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Partea de jos</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Centrare</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Umplere</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Aliniere orizontală</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Potrivire imagine</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Stânga</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacitate</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Dreapta</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Deasupra</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniformă</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Umplere uniformă</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Aliniere verticală</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Acrilic subțire</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Arată pentru toate locațiile</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Instrumente pentru dezvoltatori</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configurați butonul "Deschide IDE" pe bara de stare</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Arată pentru Git repos</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Extensie aplicație</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Fişier ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Fișier Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Fișiere Bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Locațiile rețelei</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Nu există locații de rețea. Dacă nu utilizați locații de rețea, puteți dezactiva widgetul.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Dezactivează</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Editare în Notepad</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Editați fișierul selectat în Notepad</value>
   </data>
 </root>

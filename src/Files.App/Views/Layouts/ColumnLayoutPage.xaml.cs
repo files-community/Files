@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Server.Data.Enums;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -107,6 +106,11 @@ namespace Files.App.Views.Layouts
 			{
 				// Catch error where row index could not be found
 			}
+		}
+
+		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
+		{
+			ContentScroller?.ChangeView(null, 0, null, true);
 		}
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
@@ -483,18 +487,7 @@ namespace Files.App.Views.Layouts
 					await CommitRenameAsync(textBox);
 				}
 
-				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-				{
-					ItemInvoked?.Invoke(
-						new ColumnParam
-						{
-							Source = this,
-							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath),
-							ListView = FileList
-						},
-						EventArgs.Empty);
-				}
-				else if (!IsRenamingItem && isItemFile)
+				if (!IsRenamingItem && isItemFile)
 				{
 					CheckDoubleClick(item!);
 				}

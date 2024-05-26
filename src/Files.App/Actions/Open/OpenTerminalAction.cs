@@ -32,7 +32,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var terminalStartInfo = GetProcessStartInfo();
 			if (terminalStartInfo is not null)

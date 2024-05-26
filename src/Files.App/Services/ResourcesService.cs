@@ -27,6 +27,12 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
+		public void SetAppThemeToolbarBackgroundColor(Color appThemeToolbarBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.Toolbar.BackgroundBrush"] = appThemeToolbarBackgroundColor.ToWindowsColor();
+		}
+		
+		/// <inheritdoc/>
 		public void SetAppThemeSidebarBackgroundColor(Color appThemeSidebarBackgroundColor)
 		{
 			Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = appThemeSidebarBackgroundColor.ToWindowsColor();
@@ -36,6 +42,12 @@ namespace Files.App.Services
 		public void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor)
 		{
 			Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor.ToWindowsColor();
+		}
+
+		/// <inheritdoc/>
+		public void SetAppThemeInfoPaneBackgroundColor(Color appThemeInfoPaneBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.InfoPane.BackgroundBrush"] = appThemeInfoPaneBackgroundColor.ToWindowsColor();
 		}
 
 		/// <inheritdoc/>

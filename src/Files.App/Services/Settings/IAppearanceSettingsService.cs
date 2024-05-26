@@ -1,6 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+
 namespace Files.App.Services.Settings
 {
 	public interface IAppearanceSettingsService : IBaseSettingsService, INotifyPropertyChanged
@@ -35,6 +38,11 @@ namespace Files.App.Services.Settings
 		String AppThemeAddressBarBackgroundColor { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value for the app theme toolbar background color.
+		/// </summary>
+		String AppThemeToolbarBackgroundColor { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value for the app theme sidebar background color.
 		/// </summary>
 		String AppThemeSidebarBackgroundColor { get; set; }
@@ -45,6 +53,11 @@ namespace Files.App.Services.Settings
 		String AppThemeFileAreaBackgroundColor { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value for the app theme info pane background color.
+		/// </summary>
+		String AppThemeInfoPaneBackgroundColor { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value for the app theme font family.
 		/// </summary>
 		String AppThemeFontFamily { get; set; }
@@ -53,5 +66,30 @@ namespace Files.App.Services.Settings
 		/// Gets or sets a value for the theme system backdrop.
 		/// </summary>
 		BackdropMaterialType AppThemeBackdropMaterial { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app background image source
+		/// </summary>
+		string AppThemeBackgroundImageSource { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app background image fit.
+		/// </summary>
+		Stretch AppThemeBackgroundImageFit { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app background image opacity.
+		/// </summary>
+		float AppThemeBackgroundImageOpacity { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app background image Vertical Alignment.
+		/// </summary>
+		VerticalAlignment AppThemeBackgroundImageVerticalAlignment { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app background image Horizontal Alignment.
+		/// </summary>
+		HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment { get; set; }
 	}
 }

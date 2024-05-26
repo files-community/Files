@@ -1,0 +1,254 @@
+// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Runtime.InteropServices;
+using System.Text;
+using Vanara.InteropServices;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
+using static Vanara.PInvoke.AdvApi32;
+using static Vanara.PInvoke.Mpr;
+
+namespace Files.App.Services
+{
+	public sealed class NetworkService : ObservableObject, INetworkService
+	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+
+		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
+
+
+		private ObservableCollection<ILocatableFolder> _Computers = [];
+		/// <inheritdoc/>
+		public ObservableCollection<ILocatableFolder> Computers
+		{
+			get => _Computers;
+			private set => SetProperty(ref _Computers, value);
+		}
+
+		private ObservableCollection<ILocatableFolder> _Shortcuts = [];
+		/// <inheritdoc/>
+		public ObservableCollection<ILocatableFolder> Shortcuts
+		{
+			get => _Shortcuts;
+			private set => SetProperty(ref _Shortcuts, value);
+		}
+
+		/// <summary>
+		/// Initializes an instance of <see cref="NetworkService"/>.
+		/// </summary>
+		public NetworkService()
+		{
+			var networkItem = new DriveItem()
+			{
+				DeviceID = "network-folder",
+				Text = "Network".GetLocalizedResource(),
+				Path = Constants.UserEnvironmentPaths.NetworkFolderPath,
+				Type = DriveType.Network,
+				ItemType = NavigationControlItemType.Drive,
+			};
+
+			networkItem.MenuOptions = new ContextMenuOptions()
+			{
+				IsLocationItem = true,
+				ShowEjectDevice = networkItem.IsRemovable,
+				ShowShellItems = true,
+				ShowProperties = true,
+			};
+			lock (_Computers)
+				_Computers.Add(networkItem);
+		}
+
+		/// <inheritdoc/>
+		public async Task<IEnumerable<ILocatableFolder>> GetComputersAsync()
+		{
+			var result = await Win32Helper.GetShellFolderAsync(guid, false, true, 0, int.MaxValue);
+
+			return result.Enumerate.Where(item => item.IsFolder).Select(item =>
+			{
+				var networkItem = new DriveItem()
+				{
+					Text = item.FileName,
+					Path = item.FilePath,
+					DeviceID = item.FilePath,
+					Type = DriveType.Network,
+					ItemType = NavigationControlItemType.Drive,
+				};
+
+				networkItem.MenuOptions = new ContextMenuOptions()
+				{
+					IsLocationItem = true,
+					ShowEjectDevice = networkItem.IsRemovable,
+					ShowShellItems = true,
+					ShowProperties = true,
+				};
+
+				return networkItem;
+			});
+		}
+
+		/// <inheritdoc/>
+		public async Task<IEnumerable<ILocatableFolder>> GetShortcutsAsync()
+		{
+			var networkLocations = await Win32Helper.StartSTATask(() =>
+			{
+				var locations = new List<ShellLinkItem>();
+				using (var netHood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
+				{
+					foreach (var item in netHood)
+					{
+						if (item is ShellLink link)
+						{
+							locations.Add(ShellFolderExtensions.GetShellLinkItem(link));
+						}
+						else
+						{
+							var linkPath = (string?)item?.Properties["System.Link.TargetParsingPath"];
+							if (linkPath is not null)
+							{
+								var linkItem = ShellFolderExtensions.GetShellFileItem(item);
+								locations.Add(new(linkItem) { TargetPath = linkPath });
+							}
+						}
+					}
+				}
+				return locations;
+			});
+
+			return (networkLocations ?? Enumerable.Empty<ShellLinkItem>()).Select(item =>
+			{
+				var networkItem = new DriveItem()
+				{
+					Text = item.FileName,
+					Path = item.TargetPath,
+					DeviceID = item.FilePath,
+					Type = DriveType.Network,
+					ItemType = NavigationControlItemType.Drive,
+				};
+
+				networkItem.MenuOptions = new ContextMenuOptions()
+				{
+					IsLocationItem = true,
+					ShowEjectDevice = networkItem.IsRemovable,
+					ShowShellItems = true,
+					ShowProperties = true,
+				};
+				return networkItem;
+			});
+		}
+
+		/// <inheritdoc/>
+		public async Task UpdateComputersAsync()
+		{
+			var unsortedDrives = new List<ILocatableFolder>()
+			{
+				_Computers.Single(x => x is DriveItem o && o.DeviceID == "network-folder")
+			};
+
+			foreach (ILocatableFolder item in await GetComputersAsync())
+				unsortedDrives.Add(item);
+
+			var orderedDrives =
+				unsortedDrives.Cast<DriveItem>()
+					.OrderByDescending(o => o.DeviceID == "network-folder")
+					.ThenBy(o => o.Text);
+
+			Computers.Clear();
+
+			foreach (ILocatableFolder item in orderedDrives)
+				Computers.AddIfNotPresent(item);
+		}
+
+		/// <inheritdoc/>
+		public async Task UpdateShortcutsAsync()
+		{
+			var unsortedDrives = new List<ILocatableFolder>();
+
+			foreach (ILocatableFolder item in await GetShortcutsAsync())
+				unsortedDrives.Add(item);
+
+			var orderedDrives =
+				unsortedDrives.Cast<DriveItem>()
+					.OrderBy(o => o.Text);
+
+			Shortcuts.Clear();
+
+			foreach (ILocatableFolder item in orderedDrives)
+				Shortcuts.AddIfNotPresent(item);
+		}
+
+		/// <inheritdoc/>
+		public bool DisconnectNetworkDrive(ILocatableFolder drive)
+		{
+			return WNetCancelConnection2(drive.Path.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Succeeded;
+		}
+
+		/// <inheritdoc/>
+		public Task OpenMapNetworkDriveDialogAsync()
+		{
+			return Win32Helper.StartSTATask(() =>
+			{
+				return CommonDialogService.Open_NetworkConnectionDialog(
+					MainWindow.Instance.WindowHandle,
+					useMostRecentPath: true,
+					hideRestoreConnectionCheckBox: false);
+			});
+		}
+
+		/// <inheritdoc/>
+		public async Task<bool> AuthenticateNetworkShare(string path)
+		{
+			var netRes = new NETRESOURCE()
+			{
+				dwType = NETRESOURCEType.RESOURCETYPE_DISK,
+				lpRemoteName = path
+			};
+
+			// If credentials are saved, this will return NO_ERROR
+			Win32Error connectionError = WNetAddConnection3(HWND.NULL, netRes, null, null, 0);
+
+			if (connectionError == Win32Error.ERROR_LOGON_FAILURE || connectionError == Win32Error.ERROR_ACCESS_DENIED)
+			{
+				var dialog = DynamicDialogFactory.GetFor_CredentialEntryDialog(path);
+				await dialog.ShowAsync();
+				var credentialsReturned = dialog.ViewModel.AdditionalData as string[];
+
+				if (credentialsReturned is not null && credentialsReturned[1] != null)
+				{
+					connectionError = WNetAddConnection3(HWND.NULL, netRes, credentialsReturned[1], credentialsReturned[0], 0);
+					if (credentialsReturned[2] == "y" && connectionError == Win32Error.NO_ERROR)
+					{
+						var creds = new CREDENTIAL
+						{
+							TargetName = new StrPtrAuto(path.Substring(2)),
+							UserName = new StrPtrAuto(credentialsReturned[0]),
+							Type = CRED_TYPE.CRED_TYPE_DOMAIN_PASSWORD,
+							AttributeCount = 0,
+							Persist = CRED_PERSIST.CRED_PERSIST_ENTERPRISE
+						};
+
+						byte[] bPassword = Encoding.Unicode.GetBytes(credentialsReturned[1]);
+						creds.CredentialBlobSize = (uint)bPassword.Length;
+						creds.CredentialBlob = Marshal.StringToCoTaskMemUni(credentialsReturned[1]);
+						CredWrite(creds, 0);
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			if (connectionError == Win32Error.NO_ERROR)
+			{
+				return true;
+			}
+			else
+			{
+				await DialogDisplayHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), connectionError.ToString().Split(":")[1].Trim());
+
+				return false;
+			}
+		}
+	}
+}

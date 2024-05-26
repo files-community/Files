@@ -1,7 +1,10 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
@@ -16,7 +19,7 @@ namespace Files.App.ViewModels
 		// Dependency injections
 
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
-		private INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
+		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -57,6 +60,24 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref shouldPreviewPaneBeDisplayed, value);
 		}
 
+		public Stretch AppThemeBackgroundImageFit
+			=> AppearanceSettingsService.AppThemeBackgroundImageFit;
+
+		public float AppThemeBackgroundImageOpacity
+			=> AppearanceSettingsService.AppThemeBackgroundImageOpacity;
+
+		public ImageSource? AppThemeBackgroundImageSource =>
+			string.IsNullOrEmpty(AppearanceSettingsService.AppThemeBackgroundImageSource)
+				? null
+				: new BitmapImage(new Uri(AppearanceSettingsService.AppThemeBackgroundImageSource, UriKind.RelativeOrAbsolute));
+
+		public VerticalAlignment AppThemeBackgroundImageVerticalAlignment
+			=> AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment;
+
+		public HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment
+			=> AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment;
+
+
 		// Commands
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; }
@@ -66,6 +87,28 @@ namespace Files.App.ViewModels
 		public MainPageViewModel()
 		{
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand);
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageSource):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageSource));
+						break;
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageOpacity):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageOpacity));
+						break;
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageFit):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageFit));
+						break;
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageVerticalAlignment));
+						break;
+					case nameof(AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment):
+						OnPropertyChanged(nameof(AppThemeBackgroundImageHorizontalAlignment));
+						break;
+				}
+			};
 		}
 
 		// Methods
@@ -90,9 +133,9 @@ namespace Files.App.ViewModels
 					// add last session tabs to closed tabs stack if those tabs are not about to be opened
 					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
 					{
-						var items = new CustomTabViewItemParameter[UserSettingsService.GeneralSettingsService.LastSessionTabList.Count];
+						var items = new TabBarItemParameter[UserSettingsService.GeneralSettingsService.LastSessionTabList.Count];
 						for (int i = 0; i < items.Length; i++)
-							items[i] = CustomTabViewItemParameter.Deserialize(UserSettingsService.GeneralSettingsService.LastSessionTabList[i]);
+							items[i] = TabBarItemParameter.Deserialize(UserSettingsService.GeneralSettingsService.LastSessionTabList[i]);
 
 						BaseTabBar.PushRecentTab(items);
 					}
@@ -104,7 +147,7 @@ namespace Files.App.ViewModels
 						{
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
-								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
 								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 
@@ -125,7 +168,7 @@ namespace Files.App.ViewModels
 						{
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
-								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
 								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 						}
@@ -158,7 +201,7 @@ namespace Files.App.ViewModels
 						{
 							foreach (string tabArgsString in UserSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
-								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								var tabArgs = TabBarItemParameter.Deserialize(tabArgsString);
 								await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 						}
@@ -170,7 +213,7 @@ namespace Files.App.ViewModels
 					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs, true);
 				else if (parameter is PaneNavigationArguments paneArgs)
 					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneArgs);
-				else if (parameter is CustomTabViewItemParameter tabArgs)
+				else if (parameter is TabBarItemParameter tabArgs)
 					await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 			}
 
@@ -179,7 +222,8 @@ namespace Files.App.ViewModels
 
 			await Task.WhenAll(
 				DrivesViewModel.UpdateDrivesAsync(),
-				NetworkDrivesService.UpdateDrivesAsync());
+				NetworkService.UpdateComputersAsync(),
+				NetworkService.UpdateShortcutsAsync());
 		}
 
 		// Command methods

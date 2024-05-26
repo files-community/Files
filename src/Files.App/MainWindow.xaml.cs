@@ -1,15 +1,11 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System.IO;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using WinUIEx;
@@ -129,7 +125,7 @@ namespace Files.App
 						{
 							case "tab":
 								rootFrame.Navigate(typeof(MainPage),
-									new MainPageNavigationArguments() { Parameter = CustomTabViewItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
+									new MainPageNavigationArguments() { Parameter = TabBarItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
 									new SuppressNavigationTransitionInfo());
 								break;
 
@@ -207,6 +203,9 @@ namespace Files.App
 				AppWindow.Show();
 				Activate();
 			}
+
+			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
+				Instance.Restore(); // Restore window if minimized
 		}
 
 		public Frame EnsureWindowIsInitialized()
@@ -252,7 +251,7 @@ namespace Files.App
 				{
 					LeftPaneNavPathParam = payload,
 					LeftPaneSelectItemParam = selectItem,
-					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
+					RightPaneNavPathParam = Bounds.Width > Constants.UI.MultiplePaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())

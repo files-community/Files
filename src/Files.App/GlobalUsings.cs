@@ -11,6 +11,8 @@ global using global::System.Threading;
 global using global::System.Threading.Tasks;
 global using global::System.ComponentModel;
 global using global::System.Diagnostics;
+global using global::System.Text.Json;
+global using global::System.Text.Json.Serialization;
 global using SystemIO = global::System.IO;
 
 // CommunityToolkit.Mvvm
@@ -23,7 +25,6 @@ global using global::CommunityToolkit.Mvvm.Messaging;
 global using global::Files.App.Helpers;
 global using global::Files.App.Extensions;
 global using global::Files.App.Utils;
-global using global::Files.App.Utils.Archives;
 global using global::Files.App.Utils.Cloud;
 global using global::Files.App.Utils.FileTags;
 global using global::Files.App.Utils.Git;
@@ -64,16 +65,23 @@ global using global::Files.App.Services.Settings;
 global using global::Files.App.ViewModels.Dialogs;
 global using global::Files.App.ViewModels.Dialogs.AddItemDialog;
 global using global::Files.App.ViewModels.Dialogs.FileSystemDialog;
-global using global::Files.App.ViewModels.FileTags;
-global using global::Files.App.ViewModels.Widgets;
+global using global::Files.App.ViewModels.UserControls.Widgets;
 global using global::Files.App.Utils.CommandLine;
 
 // Files.Core.Storage
 
 global using global::Files.Core.Storage;
+global using global::Files.Core.Storage.Contracts;
+global using global::Files.Core.Storage.DirectStorage;
 global using global::Files.Core.Storage.Enums;
+global using global::Files.Core.Storage.EventArguments;
+global using global::Files.Core.Storage.ExtendableStorage;
+global using global::Files.Core.Storage.Extensions;
 global using global::Files.Core.Storage.LocatableStorage;
+global using global::Files.Core.Storage.ModifiableStorage;
+global using global::Files.Core.Storage.MutableStorage;
 global using global::Files.Core.Storage.NestedStorage;
+global using global::Files.Core.Storage.StorageEnumeration;
 
 // Files.Shared
 global using global::Files.Shared;

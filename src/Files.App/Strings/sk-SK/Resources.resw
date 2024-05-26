@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Prispôsobenie</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Pozadie</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Farba pozadia</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Pokročilé</value>
@@ -274,7 +274,7 @@
     <value>Odstrániť</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin to Sidebar</value>
+    <value>Pripnúť do rýchlej ponuky</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Vitajte v aplikácii Files!</value>
@@ -338,6 +338,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Nastaviť ako pozadie uzamknutej obrazovky</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Nastaviť ako pozadie aplikácie</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodarilo sa nám zmazať túto položku</value>
@@ -423,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Názov položky je neplatný</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>vybraná položka</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>vybraných položiek</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>položka</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>položiek</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Áno</value>
@@ -882,6 +881,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Prenosová rýchlosť</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Audio Encoding Bitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Video Encoding Bitrate</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Kompresia</value>
   </data>
@@ -1032,7 +1037,7 @@
     <value>Otvoriť v novom paneli</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files &amp; folders</value>
+    <value>Súbory a priečinky</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detaily (Ctrl+Shift+1)</value>
@@ -1065,7 +1070,7 @@
     <value>Prepnite info panel</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail/preview panes</value>
+    <value>Prepnúť detail/náhlaď</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Žiaden náhľad k dispozícii</value>
@@ -1074,10 +1079,7 @@
     <value>Názov položky</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
-    <value>Unpin from Sidebar</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Sieťové disky</value>
+    <value>Odopnúť z rýchlej ponuky</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Sieť</value>
@@ -1161,7 +1163,7 @@
     <value>Mapovať sieťový disk</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Pinned</value>
+    <value>Pripnuté v rýchlej ponuke</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Knižnice</value>
@@ -1485,7 +1487,7 @@
     <value>Platí pre</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>Riaditeľ</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>súbory</value>
@@ -1700,12 +1702,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Používateľské meno</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Miniaplikácia diskov</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Miniaplikácia nedávnych súborov</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Nenašli sa žiadne položky</value>
   </data>
@@ -1788,7 +1784,7 @@
     <value>Obnoviť predvolené</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Open tab in existing instance when opening Files from another app</value>
+    <value>Otvoriť okno v bežiacej inštancii keď je otvorený súbor v inej aplikácií</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Nastavenia spustenia</value>
@@ -1800,28 +1796,28 @@
     <value>Žiadne</value>
   </data>
   <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
-    <value>On Windows login</value>
+    <value>Počas prihlásenia</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
-    <value>On this program start</value>
+    <value>Počas spustenia programu</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>Systém</value>
   </data>
   <data name="CompatibilitySystemEnhanced" xml:space="preserve">
-    <value>System (Enhanced)</value>
+    <value>Systém (pokročilé)</value>
   </data>
   <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
-    <value>16-bit (65536) color</value>
+    <value>16-bit (65536) farieb</value>
   </data>
   <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
-    <value>8-bit (256) color</value>
+    <value>8-bit (256) farieb</value>
   </data>
   <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
-    <value>Disable full-screen optimizations</value>
+    <value>Vypnúť optimalizáciu celej obrazovky</value>
   </data>
   <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
-    <value>Run in 640 x 480 screen resolution</value>
+    <value>Spustiť v rozlíšení 640 x 480 pixlov</value>
   </data>
   <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
     <value>Override high DPI scaling behavior</value>
@@ -1842,7 +1838,7 @@
     <value>Use DPI settings of the main monitor</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
-    <value>Do not adjust DPI</value>
+    <value>Neprispôsobovať DPI</value>
   </data>
   <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
     <value>Do not override DPI</value>
@@ -2465,6 +2461,9 @@
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Nastaviť vybraný obrázok ako pozadie uzamknutej obrazovky</value>
   </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Nainštalovať vybrané písmo(a)</value>
   </data>
@@ -2538,7 +2537,7 @@
     <value>Zoznam</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>Grid</value>
+    <value>Mriežka</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
     <value>Switch to grid view</value>
@@ -2646,7 +2645,7 @@
     <value>Duplikovať vybranú záložku</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Zatvoriť taby vľavo</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Close tabs to the left of selected tab</value>
@@ -2676,7 +2675,7 @@
     <value>Zavrieť aktuálnu kartu</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>Otvoriť nový panel</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Close right pane</value>
@@ -3267,7 +3266,7 @@
     <value>Súbory sú spostené ako správca</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Ponechať aplikáciu bežať na pozadí keď je okno zavreté</value>
@@ -3717,5 +3716,128 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Layout type</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Commands</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Add command</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Restore defaults</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Choose an action</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Are you sure you want to restore the default key bindings? This action cannot be undone.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>This key binding is already being used, please choose a different key binding to continue.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Customized</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Background image</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Bottom</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Center</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Fill</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Horizontal alignment</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Image fit</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Vľavo</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Vpravo</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Top</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniform</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Uniform to fill</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Vertical alignment</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Thin Acrylic</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Show for all locations</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Developer tools</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configure the "Open IDE" button on the status bar</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Show for Git repos</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Application extension</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO File</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip File</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Bitmap Files</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Network locations</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edit in Notepad</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Edit the selected file in Notepad</value>
   </data>
 </root>

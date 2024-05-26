@@ -67,6 +67,7 @@ namespace Files.App.Data.Commands
 		IRichCommand SetAsWallpaperBackground { get; }
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
+		IRichCommand SetAsAppBackground { get; }
 
 		IRichCommand InstallFont { get; }
 		IRichCommand InstallInfDriver { get; }
@@ -96,6 +97,7 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
 		IRichCommand OpenCommandPalette { get; }
+		IRichCommand EditInNotepad { get; }
 
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }

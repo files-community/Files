@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Aparença</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Fons</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Color de fons</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avançat</value>
@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Estableix com a fons de pantalla de bloqueig</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Estableix com a fons de l'aplicació</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No hem pogut suprimir aquest element</value>
   </data>
@@ -423,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>El nom de l'element especificat no és vàlid</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>element seleccionat</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>elements seleccionats</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>element</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elements</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sí</value>
@@ -882,6 +881,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Taxa de bits de la codificació</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Taxa de bits de codificació d'àudio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Taxa de bits de codificació de vídeo</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Compressió</value>
   </data>
@@ -1073,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Treure de la barra lateral</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Unitats de xarxa</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Xarxa</value>
@@ -1698,12 +1700,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nom d'usuari</value>
   </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Giny d'unitats</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Giny de fitxers recents</value>
-  </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>No s'ha trobat cap element</value>
   </data>
@@ -1933,7 +1929,7 @@
     <value>Tanca les pestanyes a la dreta</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Tanca altres pestanyes</value>
+    <value>Tanca les altres pestanyes</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Música</value>
@@ -2462,6 +2458,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Estableix la imatge seleccionada com a fons de pantalla de bloqueig</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Estableix la imatge seleccionada com a fons de l'aplicació</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instal·la les fonts seleccionades</value>
@@ -3265,7 +3264,7 @@
     <value>El Files s'executa com a administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>A causa de les limitacions de la plataforma, arrossegar i deixar anar no està disponible quan s'executa Files com a administrador.</value>
+    <value>A causa d'una limitació amb Windows i WinAppSdk, arrossegar i deixar anar no està disponible quan s'executa el Files com a administrador. Si voleu utilitzar arrossegar i deixar anar, podeu evitar aquesta limitació obrint l'UAC (control del compte d'usuari) des del menú Inici, seleccionanar el tercer nivell i reiniciar el Windows. En cas contrari, podeu seguir utilitzant el Files sense arrossegar i deixar anar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Permet que l'aplicació s'executi en segon pla en tancar la finestra</value>
@@ -3715,5 +3714,128 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tipus de disseny</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Accions</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Ordres</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Afegeix una ordre</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Restaura els valors per defecte</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Trieu una acció</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Esteu segur que voleu restaurar les vinculacions de les tecles per defecte? Aquesta acció no es pot desfer.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Aquesta vinculació de tecles ja s'està utilitzant, trieu una vinculació de tecles diferent per continuar.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Personalitzat</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>El disseny adaptatiu no està disponible quan les preferències estan sincronitzades, el disseny per defecte s'ha canviat a Detalls.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Imatge de fons</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Inferior</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Centre</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Omple</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Alineació horitzontal</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Ajusta la imatge</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Esquerra</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacitat</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Dreta</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Superior</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniforme</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Omple uniformement</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Alineació vertical</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Acrílic prim</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Mostra per a totes les ubicacions</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Eines per a desenvolupadors</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configureu el botó «Obre l'IDE» a la barra d'estat</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Mostra per als repositoris Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Extensió de l'aplicació</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Fitxer ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Fitxer Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Fitxers de mapa de bits</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Network locations</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edita al Bloc de notes</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Editeu el fitxer seleccionat al Bloc de notes</value>
   </data>
 </root>

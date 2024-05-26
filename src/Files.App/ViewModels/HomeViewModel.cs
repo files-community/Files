@@ -8,21 +8,100 @@ namespace Files.App.ViewModels
 {
 	public sealed class HomeViewModel : ObservableObject, IDisposable
 	{
+		// Dependency injections
+
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		// Properties
+
 		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = [];
+
+		// Commands
 
 		public ICommand HomePageLoadedCommand { get; }
 
-		public event EventHandler<RoutedEventArgs>? HomePageLoadedInvoked;
-		public event EventHandler? WidgetListRefreshRequestedInvoked;
+		// Constructor
 
 		public HomeViewModel()
 		{
 			HomePageLoadedCommand = new RelayCommand<RoutedEventArgs>(ExecuteHomePageLoadedCommand);
 		}
 
-		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
+		// Methods
+
+		private void ReloadWidgets()
 		{
-			HomePageLoadedInvoked?.Invoke(this, e!);
+			var reloadQuickAccessWidget = WidgetsHelpers.TryGetWidget<QuickAccessWidgetViewModel>(this);
+			var reloadDrivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidgetViewModel>(this);
+			var reloadNetworkLocationsWidget = WidgetsHelpers.TryGetWidget<NetworkLocationsWidgetViewModel>(this);
+			var reloadFileTagsWidget = WidgetsHelpers.TryGetWidget<FileTagsWidgetViewModel>(this);
+			var reloadRecentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidgetViewModel>(this);
+			var insertIndex = 0;
+
+			if (reloadQuickAccessWidget)
+			{
+				var quickAccessWidget = new QuickAccessWidget();
+
+				InsertWidget(
+					new(
+						quickAccessWidget,
+						quickAccessWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded),
+					insertIndex++);
+			}
+
+			if (reloadDrivesWidget)
+			{
+				var drivesWidget = new DrivesWidget();
+
+				InsertWidget(
+					new(
+						drivesWidget,
+						drivesWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded),
+					insertIndex++);
+			}
+
+			if (reloadNetworkLocationsWidget)
+			{
+				var networkLocationsWidget = new NetworkLocationsWidget();
+
+				InsertWidget(
+					new(
+						networkLocationsWidget,
+						networkLocationsWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.NetworkLocationsWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.NetworkLocationsWidgetExpanded),
+					insertIndex++);
+			}
+
+			if (reloadFileTagsWidget)
+			{
+				var fileTagsWidget = new FileTagsWidget();
+
+				InsertWidget(
+					new(
+						fileTagsWidget,
+						fileTagsWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded),
+					insertIndex++);
+			}
+
+			if (reloadRecentFilesWidget)
+			{
+				var recentFilesWidget = new RecentFilesWidget();
+
+				InsertWidget(
+					new(
+						recentFilesWidget,
+						recentFilesWidget.ViewModel,
+						(value) => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded),
+					insertIndex++);
+			}
 		}
 
 		public void RefreshWidgetList()
@@ -30,20 +109,13 @@ namespace Files.App.ViewModels
 			for (int i = 0; i < WidgetItems.Count; i++)
 			{
 				if (!WidgetItems[i].WidgetItemModel.IsWidgetSettingEnabled)
-				{
 					RemoveWidgetAt(i);
-				}
 			}
 
-			WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
+			ReloadWidgets();
 		}
 
-		public bool AddWidget(WidgetContainerItem widgetModel)
-		{
-			return InsertWidget(widgetModel, WidgetItems.Count + 1);
-		}
-
-		public bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
+		private bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
 		{
 			// The widget must not be null and must implement IWidgetItemModel
 			if (widgetModel.WidgetItemModel is not IWidgetViewModel widgetItemModel)
@@ -74,7 +146,7 @@ namespace Files.App.ViewModels
 			return !(WidgetItems.Any((item) => item.WidgetItemModel.WidgetName == widgetName));
 		}
 
-		public void RemoveWidgetAt(int index)
+		private void RemoveWidgetAt(int index)
 		{
 			if (index < 0)
 			{
@@ -102,11 +174,14 @@ namespace Files.App.ViewModels
 			RemoveWidgetAt(indexToRemove);
 		}
 
-		public void ReorderWidget(WidgetContainerItem widgetModel, int place)
+		// Command methods
+
+		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
 		{
-			int widgetIndex = WidgetItems.IndexOf(widgetModel);
-			WidgetItems.Move(widgetIndex, place);
+			ReloadWidgets();
 		}
+
+		// Disposer
 
 		public void Dispose()
 		{

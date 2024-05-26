@@ -10,11 +10,11 @@ namespace Files.App.Data.Contexts
 	{
 		private static readonly IReadOnlyList<ListedItem> emptyItems = Enumerable.Empty<ListedItem>().ToImmutableList();
 
-		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
+		private readonly IMultiPanesContext context = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
 		private ItemViewModel? filesystemViewModel;
 
-		public IShellPage? ShellPage => context?.PaneOrColumn;
+		public IShellPage? ShellPage => context?.ActivePaneOrColumn;
 
 		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutPage);
 
@@ -55,8 +55,8 @@ namespace Files.App.Data.Contexts
 
 		public ContentPageContext()
 		{
-			context.Changing += Context_Changing;
-			context.Changed += Context_Changed;
+			context.ActivePaneChanging += Context_Changing;
+			context.ActivePaneChanged += Context_Changed;
 			GitHelpers.IsExecutingGitActionChanged += GitHelpers_IsExecutingGitActionChanged;
 
 			Update();
@@ -122,14 +122,14 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void Page_ContentChanged(object? sender, CustomTabViewItemParameter e) => Update();
+		private void Page_ContentChanged(object? sender, TabBarItemParameter e) => Update();
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IPaneHolder.IsMultiPaneEnabled):
-				case nameof(IPaneHolder.IsMultiPaneActive):
+				case nameof(IPanesPage.IsMultiPaneEnabled):
+				case nameof(IPanesPage.IsMultiPaneActive):
 					OnPropertyChanged(e.PropertyName);
 					break;
 			}

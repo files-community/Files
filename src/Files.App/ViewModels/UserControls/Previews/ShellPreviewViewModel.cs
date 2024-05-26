@@ -1,11 +1,15 @@
-﻿using DirectN;
-using Files.App.ViewModels.Properties;
+﻿using Files.App.ViewModels.Properties;
 using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
+using Windows.Win32;
+using Windows.Win32.Graphics.Direct3D;
+using Windows.Win32.Graphics.Direct3D11;
+using Windows.Win32.Graphics.Dxgi;
+using Windows.Win32.Graphics.DirectComposition;
 using WinRT;
 using static Vanara.PInvoke.ShlwApi;
 using static Vanara.PInvoke.User32;
@@ -112,7 +116,7 @@ namespace Files.App.ViewModels.Previews
 			_ = ChildWindowToXaml(parent, presenter);
 		}
 
-		private bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
+		private unsafe bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
 		{
 			D3D_DRIVER_TYPE[] driverTypes =
 			[
@@ -122,36 +126,36 @@ namespace Files.App.ViewModels.Previews
 
 			ID3D11Device? d3d11Device = null;
 			ID3D11DeviceContext? d3d11DeviceContext = null;
-			D3D_FEATURE_LEVEL featureLevelSupported;
 
 			foreach (var driveType in driverTypes)
 			{
-				var hr = D3D11Functions.D3D11CreateDevice(
+				var hr = PInvoke.D3D11CreateDevice(
 					null,
 					driveType,
-					IntPtr.Zero,
-					(uint)D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
+					new(IntPtr.Zero),
+					D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 					null,
 					0,
 					7,
 					out d3d11Device,
-					out featureLevelSupported,
+					null,
 					out d3d11DeviceContext);
 
-				if (hr.IsSuccess)
+				if (hr.Succeeded)
 					break;
 			}
 
 			if (d3d11Device is null)
 				return false;
 			IDXGIDevice dxgiDevice = (IDXGIDevice)d3d11Device;
-			if (Functions.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var compDevicePtr).IsError)
+			if (PInvoke.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var compDevicePtr).Failed)
 				return false;
-			IDCompositionDevice compDevice = (IDCompositionDevice)Marshal.GetObjectForIUnknown(compDevicePtr);
+			IDCompositionDevice compDevice = (IDCompositionDevice)compDevicePtr;
 
-			if (compDevice.CreateVisual(out var childVisual).IsError ||
-				compDevice.CreateSurfaceFromHwnd(hwnd.DangerousGetHandle(), out var controlSurface).IsError ||
-				childVisual.SetContent(controlSurface).IsError)
+			compDevice.CreateVisual(out var childVisual);
+			compDevice.CreateSurfaceFromHwnd(new(hwnd.DangerousGetHandle()), out var controlSurface);
+			childVisual.SetContent(controlSurface);
+			if (childVisual is null || controlSurface is null)
 				return false;
 
 			var compositor = ElementCompositionPreview.GetElementVisual(presenter).Compositor;
@@ -169,7 +173,7 @@ namespace Files.App.ViewModels.Previews
 			Marshal.ReleaseComObject(childVisual);
 			Marshal.ReleaseComObject(controlSurface);
 			Marshal.ReleaseComObject(compDevice);
-			Marshal.Release(compDevicePtr);
+			Marshal.ReleaseComObject(compDevicePtr);
 			Marshal.ReleaseComObject(dxgiDevice);
 			Marshal.ReleaseComObject(d3d11Device);
 			Marshal.ReleaseComObject(d3d11DeviceContext);

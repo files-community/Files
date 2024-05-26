@@ -66,6 +66,16 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
+		/// Check if the file extension is a Batch file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a Batch file; otherwise, <c>false</c>.</returns>
+		public static bool IsBatchFile(string fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".bat");
+		}
+
+		/// <summary>
 		/// Check if the file extension is a zip file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
@@ -150,7 +160,27 @@ namespace Files.Shared.Helpers
 			return
 				exeOnly
 					? HasExtension(filePathToCheck, ".exe")
-					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd");
+					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd", ".ahk");
+		}
+
+		/// <summary>
+		/// Check if the file path is an Auto Hot Key file.
+		/// </summary>
+		/// <param name="filePathToCheck">The file path to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is an Auto Hot Key file; otherwise, <c>false</c>.</returns>
+		public static bool IsAhkFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".ahk");
+		}
+
+		/// <summary>
+		/// Check if the file path is a cmd file.
+		/// </summary>
+		/// <param name="filePathToCheck">The file path to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is a cmd file; otherwise, <c>false</c>.</returns>
+		public static bool IsCmdFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".cmd");
 		}
 
 		/// <summary>
@@ -194,7 +224,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(
 				filePathToCheck, ".mp4", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp",
-				".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".avi", ".wmv", ".mov", ".qt");
+				".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".mkv", ".ogg", ".avi", ".wmv", ".mov", ".qt");
 		}
 
 		/// <summary>

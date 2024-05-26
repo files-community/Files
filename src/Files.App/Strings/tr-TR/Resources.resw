@@ -199,7 +199,7 @@
     <value>Açık kaynak</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>Tarih formatı</value>
+    <value>Tarih biçimi</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Tema</value>
@@ -216,8 +216,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Görünüm</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Arka plan</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Gelişmiş</value>
@@ -339,6 +339,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Kilit ekranı arka planı olarak ayarla</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Set as app background</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Bu öge silinemedi</value>
   </data>
@@ -423,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Belirtilen isim geçersiz</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>öge seçildi</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>ögeler seçildi</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>öge</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>ögeler</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Evet</value>
@@ -481,7 +480,7 @@
     <value>Farklı türler</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>{0} konumundaki tümü</value>
+    <value>{0} konumundaki her şey</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Kullanılan alan:</value>
@@ -646,7 +645,7 @@
     <value>Dil</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Shell uzantılarını alt menüye taşı</value>
+    <value>Kabuk uzantılarını alt menüye taşı</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Ögeleri silmeden önce onay kutusu göster</value>
@@ -721,7 +720,7 @@
     <value>Yükseklik</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Alma tarihi</value>
+    <value>Çekildiği Tarih</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Kamera Üreticisi</value>
@@ -772,7 +771,7 @@
     <value>Disk Numarası</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>Tarz</value>
+    <value>Tür</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
     <value>Parça Numarası</value>
@@ -817,10 +816,10 @@
     <value>Yayıncı</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Uzun KüçükGörsel Yolu</value>
+    <value>Uzun Küçük Resim Yolu</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Uzun KüçükGörsel Adresi</value>
+    <value>Uzun Küçük Resim Uri'ı</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Kısa KüçükGörsel Yolu</value>
@@ -881,6 +880,12 @@
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Kodlama Bit Hızı</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Audio Encoding Bitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Video Encoding Bitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Sıkıştırma</value>
@@ -1073,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Kenar Çubuğundan Sabitlemeyi Kaldır</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Ağ Sürücüleri</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Ağ</value>
@@ -1697,12 +1699,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Kullanıcı adı</value>
-  </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Sürücüler aracı</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Son Dosyalar aracı</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Hiç bir öğe bulunamadı</value>
@@ -2462,6 +2458,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Seçili resmi kilit ekranı arka planı olarak ayarla</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Seçili yazı tip(ler)ini yükle</value>
@@ -3265,7 +3264,7 @@
     <value>Files yönetici olarak çalışıyor</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Platform kısıtlamalarından dolayı sürükle ve bırak, Files yönetici olarak çalıştırıldığında kullanılamaz.</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Penceresi kapatıldığında uygulamayı arka planda çalışır durumda bırak</value>
@@ -3715,5 +3714,128 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Düzen türü</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Eylemler</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Komutlar</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Komut ekle</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Varsayılanları geri yükle</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Bir işlem seçin</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Varsayılan tuş atamalarını geri yüklemek istediğinizden emin misiniz? Bu eylem geri alınamaz.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Bu tuş ataması zaten kullanılıyor. Devam etmek için lütfen farklı bir tuş ataması seçin.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Özelleştirilmiş</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Tercihler senkronize edildiğinde uyarlanabilir düzen kullanılamaz, varsayılan düzen Ayrıntılar olarak değiştirilmiştir.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Arka plan resmi</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Alt</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Merkez</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Doldur</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Yatay hizalama</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Fotoğraf Sığdırma</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Sol</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Şeffaflık</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Sağ</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Üst</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Oran</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Doldurmak için oranı koru</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Dikey hizalama</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Thin Acrylic</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Show for all locations</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Developer tools</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configure the "Open IDE" button on the status bar</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Show for Git repos</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Application extension</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO File</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip File</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Bitmap Files</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Network locations</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edit in Notepad</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Edit the selected file in Notepad</value>
   </data>
 </root>

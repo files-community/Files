@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data.Enums;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -15,7 +14,7 @@ namespace Files.App.Helpers
 	{
 		private static MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private static INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
+		private static INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 
 		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{
@@ -45,7 +44,7 @@ namespace Files.App.Helpers
 				IconSource = null,
 				Description = null,
 				ToolTipText = null,
-				NavigationParameter = new CustomTabViewItemParameter()
+				NavigationParameter = new TabBarItemParameter()
 				{
 					InitialPageType = type,
 					NavigationParameter = path
@@ -74,7 +73,7 @@ namespace Files.App.Helpers
 				ToolTipText = null
 			};
 
-			tabItem.NavigationParameter = new CustomTabViewItemParameter()
+			tabItem.NavigationParameter = new TabBarItemParameter()
 			{
 				InitialPageType = type,
 				NavigationParameter = tabViewItemArgs
@@ -146,7 +145,7 @@ namespace Files.App.Helpers
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 				tabLocationHeader = "ThisPC".GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-				tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
+				tabLocationHeader = "Network".GetLocalizedResource();
 			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
 			{
 				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
@@ -169,7 +168,7 @@ namespace Files.App.Helpers
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = NetworkDrivesService.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = NetworkService.Computers.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
 					matchingDrive ??= DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
@@ -233,7 +232,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static async void Control_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		public static async void Control_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			if (sender is null)
 				return;
@@ -336,9 +335,9 @@ namespace Files.App.Helpers
 		public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string>? selectItems = null, string? args = default, bool forceOpenInNewTab = false)
 		{
 			string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
-			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
+			bool isHiddenItem = Win32Helper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+			bool isDirectory = Win32Helper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
+			bool isReparsePoint = Win32Helper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 			bool isScreenSaver = FileExtensionHelpers.IsScreenSaverFile(path);
 			bool isTag = path.StartsWith("tag:");
@@ -392,16 +391,16 @@ namespace Files.App.Helpers
 				else if (isReparsePoint)
 				{
 					if (!isDirectory &&
-						NativeFindStorageItemHelper.GetWin32FindDataForPath(path, out var findData) &&
-						findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK)
+						Win32Helper.GetWin32FindDataForPath(path, out var findData) &&
+						findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK)
 					{
-						shortcutInfo.TargetPath = NativeFileOperationsHelper.ParseSymLink(path);
+						shortcutInfo.TargetPath = Win32Helper.ParseSymLink(path);
 					}
 					itemType ??= isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File;
 				}
 				else if (isHiddenItem)
 				{
-					itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
+					itemType = Win32Helper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
 				}
 				else
 				{
@@ -443,7 +442,7 @@ namespace Files.App.Helpers
 			IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			var opened = (FilesystemResult)false;
-			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+			bool isHiddenItem = Win32Helper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			if (isHiddenItem)
 			{
 				await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
@@ -463,7 +462,7 @@ namespace Files.App.Helpers
 			IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			var opened = (FilesystemResult)false;
-			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+			bool isHiddenItem = Win32Helper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 
 			if (isShortcut)
@@ -507,7 +506,7 @@ namespace Files.App.Helpers
 		private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string? args = default)
 		{
 			var opened = (FilesystemResult)false;
-			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+			bool isHiddenItem = Win32Helper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
 
 			if (isShortcut)

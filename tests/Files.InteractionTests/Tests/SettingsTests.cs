@@ -30,9 +30,9 @@ namespace Files.InteractionTests.Tests
 				"SettingsItemAppearance",
 				//"SettingsItemLayout", TODO find workaround for the "Group by" setting block issue
 				"SettingsItemFolders",
-				//"SettingsItemActions", TODO enable this test when we release the new keyboard shortcut settings
+				"SettingsItemActions",
 				"SettingsItemTags",
-				"SettingsItemGit",
+				"SettingsItemDevTools",
 				"SettingsItemAdvanced",
 				"SettingsItemAbout"
 			};

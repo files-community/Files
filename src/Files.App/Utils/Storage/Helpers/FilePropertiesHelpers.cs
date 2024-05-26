@@ -37,7 +37,7 @@ namespace Files.App.Utils.Storage
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
 		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
-		private static BlockingCollection<WinUIEx.WindowEx> WindowCache = [];
+		private static readonly BlockingCollection<WinUIEx.WindowEx> WindowCache = [];
 
 		/// <summary>
 		/// Open properties window
@@ -138,13 +138,13 @@ namespace Files.App.Utils.Storage
 
 			// WINUI3: Move window to cursor position
 			PInvoke.GetCursorPos(out var pointerPosition);
-			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.x, pointerPosition.y), DisplayAreaFallback.Nearest);
+			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 			var appWindowPos = new PointInt32
 			{
 				X = displayArea.WorkArea.X
-					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.x - displayArea.WorkArea.X)),
+					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
 				Y = displayArea.WorkArea.Y
-					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.y - displayArea.WorkArea.Y)),
+					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 			};
 
 			if (App.AppModel.IncrementPropertiesWindowCount() == 1)
@@ -184,8 +184,11 @@ namespace Files.App.Utils.Storage
 		/// <returns></returns>
 		public static void DestroyCachedWindows()
 		{
-			while (WindowCache.TryTake(out var window))
+			while (WindowCache?.TryTake(out var window) ?? false)
 			{
+				if (window is null)
+					continue;
+
 				window.Closed -= PropertiesWindow_Closed;
 				window.Close();
 			}

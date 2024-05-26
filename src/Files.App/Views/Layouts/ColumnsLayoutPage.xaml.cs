@@ -77,13 +77,13 @@ namespace Files.App.Views.Layouts
 					NavPathParam = column.NavPathParam
 				});
 				navigationArguments.NavPathParam = column.NavPathParam;
-				ParentShellPageInstance.TabItemParameter.NavigationParameter = column.NavPathParam;
+				ParentShellPageInstance.TabBarItemParameter.NavigationParameter = column.NavPathParam;
 			}
 		}
 
 		private void ContentChanged(IShellPage p)
 		{
-			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemParameter);
+			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabBarItemParameter);
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -217,7 +217,7 @@ namespace Files.App.Views.Layouts
 					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
 					{
 						navigationArguments.NavPathParam = s.FilesystemViewModel.WorkingDirectory;
-						ParentShellPageInstance.TabItemParameter.NavigationParameter = s.FilesystemViewModel.WorkingDirectory;
+						ParentShellPageInstance.TabBarItemParameter.NavigationParameter = s.FilesystemViewModel.WorkingDirectory;
 					}
 				});
 			}
@@ -253,7 +253,7 @@ namespace Files.App.Views.Layouts
 			ContentChanged(shPage);
 		}
 
-		private void ColumnViewBrowser_ContentChanged(object sender, CustomTabViewItemParameter e)
+		private void ColumnViewBrowser_ContentChanged(object sender, TabBarItemParameter e)
 		{
 			var c = sender as IShellPage;
 			var columnView = c?.SlimContentPage as ColumnLayoutPage;

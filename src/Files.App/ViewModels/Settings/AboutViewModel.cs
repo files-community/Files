@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
+using Microsoft.Win32;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -48,9 +49,20 @@ namespace Files.App.ViewModels.Settings
 			OpenCrowdinCommand = new AsyncRelayCommand(DoOpenCrowdin);
 		}
 
-		private Task<bool> OpenLogLocation()
+		private async Task<bool> OpenLogLocation()
 		{
-			return Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
+			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
+
+			// TODO: Move this to an application service
+			// Detect if Files is set as the default file manager
+			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
+			var command = (string?)subkey?.GetValue(string.Empty);
+
+			// Close the settings dialog if Files is the deault file manager
+			if (!string.IsNullOrEmpty(command) && command.Contains("Files.App.Launcher.exe"))
+				UIHelpers.CloseAllDialogs();
+
+			return true;
 		}
 
 		public Task DoOpenDocumentation()
@@ -82,7 +94,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.PrivacyPolicyUrl)).AsTask();
 		}
-		
+
 
 		public Task DoOpenCrowdin()
 		{

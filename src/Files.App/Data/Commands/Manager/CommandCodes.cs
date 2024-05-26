@@ -71,6 +71,7 @@ namespace Files.App.Data.Commands
 		SetAsWallpaperBackground,
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
+		SetAsAppBackground,
 
 		// Install
 		InstallFont,
@@ -106,6 +107,7 @@ namespace Files.App.Data.Commands
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 		OpenCommandPalette,
+		EditInNotepad,
 
 		// Layout
 		LayoutDecreaseSize,

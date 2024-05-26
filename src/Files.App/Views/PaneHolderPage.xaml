@@ -126,7 +126,7 @@
 				<icore:ChangePropertyAction
 					PropertyName="CurrentInstanceBorderThickness"
 					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="0,0,0,1" />
+					Value="0,0,0,0" />
 			</icore:DataTriggerBehavior>
 			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
 				<icore:ChangePropertyAction
@@ -146,7 +146,7 @@
 				<icore:ChangePropertyAction
 					PropertyName="CurrentInstanceBorderThickness"
 					TargetObject="{Binding ElementName=PaneRight}"
-					Value="0,0,0,1" />
+					Value="0,0,0,0" />
 			</icore:DataTriggerBehavior>
 			<icore:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="True">
 				<icore:ChangePropertyAction
