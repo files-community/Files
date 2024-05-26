@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="FluentFTP" Version="43.0.1" />
+        <PackageReference Include="SSH.NET" Version="2024.0.0" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

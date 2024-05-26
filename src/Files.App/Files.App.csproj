@@ -91,6 +91,7 @@
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+        <PackageReference Include="SSH.NET" Version="2024.0.0" />
         <PackageReference Include="TagLibSharp" Version="2.3.0" />
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
         <PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.0.1" />
