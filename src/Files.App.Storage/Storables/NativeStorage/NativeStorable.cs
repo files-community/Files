@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.Storage.NativeStorage
+namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IStorable"/>
 	public abstract class NativeStorable<TStorage> : ILocatableStorable, INestedStorable

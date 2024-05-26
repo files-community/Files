@@ -4,8 +4,8 @@
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
-using Files.App.Storage.FtpStorage;
-using Files.App.Storage.NativeStorage;
+using Files.App.Storage.Storables;
+using Files.App.Storage.Storables;
 using Files.App.ViewModels.Settings;
 using Files.App.Services.SizeProvider;
 using Files.Core.Storage;
@@ -185,7 +185,6 @@ namespace Files.App.Helpers
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
-					.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
