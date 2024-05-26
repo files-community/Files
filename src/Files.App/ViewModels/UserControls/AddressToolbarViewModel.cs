@@ -140,6 +140,13 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref canRefresh, value);
 		}
 
+		private bool canExtract;
+		public bool CanExtract
+		{
+			get => canExtract;
+			set => SetProperty(ref canExtract, value);
+		}
+
 		private string searchButtonGlyph = "\uE721";
 		public string SearchButtonGlyph
 		{
@@ -1029,7 +1036,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
 		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
@@ -1038,7 +1044,6 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-
 		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
 		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
 		public bool IsGridLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView;

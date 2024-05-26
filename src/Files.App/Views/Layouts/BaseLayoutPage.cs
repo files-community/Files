@@ -426,6 +426,9 @@ namespace Files.App.Views.Layouts
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
 
+				if (ZipStorageFolder.IsZipPath(workingDir))
+					ParentShellPageInstance.ToolbarViewModel.CanExtract = true;
+
 				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Path)
 					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Name;
 

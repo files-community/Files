@@ -21,6 +21,7 @@ namespace Files.App.Data.Contracts
 		public bool CanNavigateToParent { get; set; }
 
 		public bool CanGoBack { get; set; }
+		public bool CanExtract { get; set; }
 
 		public bool CanGoForward { get; set; }
 
