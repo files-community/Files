@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Указанное имя элемента недопустимо</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>элемент выбран</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# элемент выбран} other {# предметов выбрано}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>выбранных элементов</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>элемент</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>элементов</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {предмет} other {предметы}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Да</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Убрать из боковой панели</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Сетевые диски</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Сеть</value>
@@ -1978,7 +1971,7 @@
     <value>Столбцы по размеру содержимого</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Адаптивный макет</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Адаптивный (Ctrl+Shift+7)</value>
@@ -2245,7 +2238,7 @@
     <value>Загрузка...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Опции контекстного меню</value>
+    <value>Настройки контекстного меню</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>Показывать расширения файлов</value>
@@ -3271,7 +3264,7 @@
     <value>Files запущены от имени администратора</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Из-за ограничений платформы, перетаскивание недоступно при запуске Files от имени администратора.</value>
+    <value>Из-за ограничений в Windows и WinAppSdk, перетаскивание и перетаскивание не доступно при запуске файлов как администратора. Если вы хотите использовать перетаскивание, Вы можете обойти это ограничение, открыв контроль учетной записи пользователя из меню Пуск и выбрав третий уровень и перезапустив Windows. В противном случае вы можете продолжать использовать файлы без перетаскивания.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Оставить приложение в фоновом режиме при закрытии окна</value>
@@ -3720,7 +3713,7 @@
     <value>Подробный вид</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
-    <value>Вид значков</value>
+    <value>Тип макета</value>
   </data>
   <data name="Actions" xml:space="preserve">
     <value>Действия</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Вертикальное выравнивание</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Тонкий акрил</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Показать для всех мест</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Инструменты разработчика</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Настроить кнопку "Open IDE" на строке состояния</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Показать для Git репозитория</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Расширение приложения</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Файл ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip файл</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Растровые файлы</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Местоположение сети</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Нет сетевых местоположений. Если вы не используете сетевые местоположения, вы можете отключить виджет.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Отключено</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Редактировать в Блокноте</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Редактировать выбранный файл в Блокноте</value>
   </data>
 </root>

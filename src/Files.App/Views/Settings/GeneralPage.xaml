@@ -7,6 +7,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:items="using:Files.App.Data.Items"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
@@ -51,8 +52,8 @@
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
 					<uc:ComboBoxEx.ItemTemplate>
-						<DataTemplate x:DataType="vm:AppLanguageItem">
-							<TextBlock Text="{x:Bind LanguageName}" />
+						<DataTemplate x:DataType="items:AppLanguageItem">
+							<TextBlock Text="{x:Bind Name}" />
 						</DataTemplate>
 					</uc:ComboBoxEx.ItemTemplate>
 				</uc:ComboBoxEx>
@@ -216,6 +217,13 @@
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=Drives}"
 								IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NetworkLocations}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=NetworkLocations}"
+								IsOn="{x:Bind ViewModel.ShowNetworkLocationsWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 

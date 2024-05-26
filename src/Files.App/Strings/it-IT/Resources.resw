@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Il nome specificato non è valido</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>elemento selezionato</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# elemento selezionato} other {# elementi selezionati}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>elementi selezionati</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>elemento</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elementi</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sì</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Rimuovi dalla barra laterale</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Dischi di rete</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Rete</value>
@@ -3271,7 +3264,7 @@
     <value>Files è in esecuzione come amministratore</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>A causa delle limitazioni della piattaforma, il drag and drop non è disponibile quando si esegue Files come amministratore.</value>
+    <value>A causa di una limitazione con Windows e WinAppSdk, il drag and drop non è disponibile quando si esegue FIles come amministratore. Se si desidera utilizzare il drag and drop, è possibile aggirare questa limitazione aprendo UAC (User Account Control) dal menu Start, selezionando il terzo livello e riavviando Windows. In caso contrario, è possibile continuare a utilizzare i file senza drag and drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lasciare l'app in esecuzione in background quando la finestra è chiusa</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Allineamento verticale</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Acrilico Sottile</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Mostra per tutte le posizioni</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Strumenti per sviluppatori</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configura il pulsante "Apri IDE" sulla barra di stato</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Mostra per i repos di Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Estensione dell'applicazione</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>File ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>File Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>File Bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Posizioni di rete</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Non ci sono posizioni di rete. Se non si utilizzano posizioni di rete, è possibile disabilitare il widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disabilita</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Modifica nel Blocco note</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Modifica il file selezionato nel Blocco note</value>
   </data>
 </root>

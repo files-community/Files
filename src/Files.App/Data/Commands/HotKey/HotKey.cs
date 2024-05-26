@@ -81,60 +81,46 @@ namespace Files.App.Data.Commands
 			[Keys.Number7] = "7",
 			[Keys.Number8] = "8",
 			[Keys.Number9] = "9",
-			[Keys.Pad0] = GetLocalizedKey("Pad0"),
-			[Keys.Pad1] = GetLocalizedKey("Pad1"),
-			[Keys.Pad2] = GetLocalizedKey("Pad2"),
-			[Keys.Pad3] = GetLocalizedKey("Pad3"),
-			[Keys.Pad4] = GetLocalizedKey("Pad4"),
-			[Keys.Pad5] = GetLocalizedKey("Pad5"),
-			[Keys.Pad6] = GetLocalizedKey("Pad6"),
-			[Keys.Pad7] = GetLocalizedKey("Pad7"),
-			[Keys.Pad8] = GetLocalizedKey("Pad8"),
-			[Keys.Pad9] = GetLocalizedKey("Pad9"),
-			[Keys.A] = "A",
-			[Keys.B] = "B",
-			[Keys.C] = "C",
-			[Keys.D] = "D",
-			[Keys.E] = "E",
-			[Keys.F] = "F",
-			[Keys.G] = "G",
-			[Keys.H] = "H",
-			[Keys.I] = "I",
-			[Keys.J] = "J",
-			[Keys.K] = "K",
-			[Keys.L] = "L",
-			[Keys.M] = "M",
-			[Keys.N] = "N",
-			[Keys.O] = "O",
-			[Keys.P] = "P",
-			[Keys.Q] = "Q",
-			[Keys.R] = "R",
-			[Keys.S] = "S",
-			[Keys.T] = "T",
-			[Keys.U] = "U",
-			[Keys.V] = "V",
-			[Keys.W] = "W",
-			[Keys.X] = "X",
-			[Keys.Y] = "Y",
-			[Keys.Z] = "Z",
-			[Keys.Add] = "+",
-			[Keys.Subtract] = "-",
-			[Keys.Multiply] = "*",
-			[Keys.Divide] = "/",
-			[Keys.Oem1] = GetKeyCharacter(Forms.Keys.Oem1),
-			[Keys.Oem2] = GetKeyCharacter(Forms.Keys.Oem2),
-			[Keys.Oem3] = GetKeyCharacter(Forms.Keys.Oem3),
-			[Keys.Oem4] = GetKeyCharacter(Forms.Keys.Oem4),
-			[Keys.Oem5] = GetKeyCharacter(Forms.Keys.Oem5),
-			[Keys.Oem6] = GetKeyCharacter(Forms.Keys.Oem6),
-			[Keys.Oem7] = GetKeyCharacter(Forms.Keys.Oem7),
-			[Keys.Oem8] = GetKeyCharacter(Forms.Keys.Oem8),
-			[Keys.OemPlus] = GetKeyCharacter(Forms.Keys.Oemplus),
-			[Keys.OemComma] = GetKeyCharacter(Forms.Keys.Oemcomma),
-			[Keys.OemMinus] = GetKeyCharacter(Forms.Keys.OemMinus),
-			[Keys.OemPeriod] = GetKeyCharacter(Forms.Keys.OemPeriod),
-			[Keys.Oem102] = GetKeyCharacter(Forms.Keys.Oem102),
-			[Keys.OemClear] = GetKeyCharacter(Forms.Keys.OemClear),
+			[Keys.A] = GetKeyCharacter(Forms.Keys.A).ToUpper(),
+			[Keys.B] = GetKeyCharacter(Forms.Keys.B).ToUpper(),
+			[Keys.C] = GetKeyCharacter(Forms.Keys.C).ToUpper(),
+			[Keys.D] = GetKeyCharacter(Forms.Keys.D).ToUpper(),
+			[Keys.E] = GetKeyCharacter(Forms.Keys.E).ToUpper(),
+			[Keys.F] = GetKeyCharacter(Forms.Keys.F).ToUpper(),
+			[Keys.G] = GetKeyCharacter(Forms.Keys.G).ToUpper(),
+			[Keys.H] = GetKeyCharacter(Forms.Keys.H).ToUpper(),
+			[Keys.I] = GetKeyCharacter(Forms.Keys.I).ToUpper(),
+			[Keys.J] = GetKeyCharacter(Forms.Keys.J).ToUpper(),
+			[Keys.K] = GetKeyCharacter(Forms.Keys.K).ToUpper(),
+			[Keys.L] = GetKeyCharacter(Forms.Keys.L).ToUpper(),
+			[Keys.M] = GetKeyCharacter(Forms.Keys.M).ToUpper(),
+			[Keys.N] = GetKeyCharacter(Forms.Keys.N).ToUpper(),
+			[Keys.O] = GetKeyCharacter(Forms.Keys.O).ToUpper(),
+			[Keys.P] = GetKeyCharacter(Forms.Keys.P).ToUpper(),
+			[Keys.Q] = GetKeyCharacter(Forms.Keys.Q).ToUpper(),
+			[Keys.R] = GetKeyCharacter(Forms.Keys.R).ToUpper(),
+			[Keys.S] = GetKeyCharacter(Forms.Keys.S).ToUpper(),
+			[Keys.T] = GetKeyCharacter(Forms.Keys.T).ToUpper(),
+			[Keys.U] = GetKeyCharacter(Forms.Keys.U).ToUpper(),
+			[Keys.V] = GetKeyCharacter(Forms.Keys.V).ToUpper(),
+			[Keys.W] = GetKeyCharacter(Forms.Keys.W).ToUpper(),
+			[Keys.X] = GetKeyCharacter(Forms.Keys.X).ToUpper(),
+			[Keys.Y] = GetKeyCharacter(Forms.Keys.Y).ToUpper(),
+			[Keys.Z] = GetKeyCharacter(Forms.Keys.Z).ToUpper(),
+			[Keys.Oem1] = GetKeyCharacter(Forms.Keys.Oem1).ToUpper(),
+			[Keys.Oem2] = GetKeyCharacter(Forms.Keys.Oem2).ToUpper(),
+			[Keys.Oem3] = GetKeyCharacter(Forms.Keys.Oem3).ToUpper(),
+			[Keys.Oem4] = GetKeyCharacter(Forms.Keys.Oem4).ToUpper(),
+			[Keys.Oem5] = GetKeyCharacter(Forms.Keys.Oem5).ToUpper(),
+			[Keys.Oem6] = GetKeyCharacter(Forms.Keys.Oem6).ToUpper(),
+			[Keys.Oem7] = GetKeyCharacter(Forms.Keys.Oem7).ToUpper(),
+			[Keys.Oem8] = GetKeyCharacter(Forms.Keys.Oem8).ToUpper(),
+			[Keys.Oem102] = GetKeyCharacter(Forms.Keys.Oem102).ToUpper(),
+			[Keys.OemPlus] = GetKeyCharacter(Forms.Keys.Oemplus).ToUpper(),
+			[Keys.OemComma] = GetKeyCharacter(Forms.Keys.Oemcomma).ToUpper(),
+			[Keys.OemMinus] = GetKeyCharacter(Forms.Keys.OemMinus).ToUpper(),
+			[Keys.OemPeriod] = GetKeyCharacter(Forms.Keys.OemPeriod).ToUpper(),
+			[Keys.OemClear] = GetKeyCharacter(Forms.Keys.OemClear).ToUpper(),
 			[Keys.Application] = GetLocalizedKey("Application"),
 			[Keys.Application1] = GetLocalizedKey("Application1"),
 			[Keys.Application2] = GetLocalizedKey("Application2"),
@@ -154,6 +140,23 @@ namespace Files.App.Data.Commands
 			[Keys.Mute] = GetLocalizedKey("MediaMute"),
 			[Keys.VolumeDown] = GetLocalizedKey("MediaVolumeDown"),
 			[Keys.VolumeUp] = GetLocalizedKey("MediaVolumeUp"),
+
+			// NumPad Keys
+			[Keys.Add] = GetLocalizedNumPadKey("+"),
+			[Keys.Subtract] = GetLocalizedNumPadKey("-"),
+			[Keys.Multiply] = GetLocalizedNumPadKey("*"),
+			[Keys.Divide] = GetLocalizedNumPadKey("/"),
+			[Keys.Decimal] = GetLocalizedNumPadKey("."),
+			[Keys.Pad0] = GetLocalizedNumPadKey("0"),
+			[Keys.Pad1] = GetLocalizedNumPadKey("1"),
+			[Keys.Pad2] = GetLocalizedNumPadKey("2"),
+			[Keys.Pad3] = GetLocalizedNumPadKey("3"),
+			[Keys.Pad4] = GetLocalizedNumPadKey("4"),
+			[Keys.Pad5] = GetLocalizedNumPadKey("5"),
+			[Keys.Pad6] = GetLocalizedNumPadKey("6"),
+			[Keys.Pad7] = GetLocalizedNumPadKey("7"),
+			[Keys.Pad8] = GetLocalizedNumPadKey("8"),
+			[Keys.Pad9] = GetLocalizedNumPadKey("9"),
 		}.ToFrozenDictionary();
 
 		/// <summary>
@@ -278,9 +281,39 @@ namespace Files.App.Data.Commands
 			var key = Keys.None;
 			var modifier = KeyModifiers.None;
 			bool isVisible = true;
+			var splitCharacter = '+';
 
+			// Remove leading and trailing whitespace from the code string
 			code = code.Trim();
-			var parts = code.Split('+').Select(part => part.Trim());
+
+			// Split the code by "++" into a list of parts
+			List<string> parts = [.. code.Split(new string(splitCharacter, 2), StringSplitOptions.None)];
+
+			if (parts.Count == 2)
+			{
+				// If there are two parts after splitting by "++", split the first part by "+"
+				// and append the second part prefixed with a "+"
+				parts = [.. parts.First().Split(splitCharacter), splitCharacter + parts.Last()];
+			}
+			else
+			{
+				// Split the code by a single '+' and trim each part
+				parts = [.. code.Split(splitCharacter)];
+
+				// If the resulting list has two parts and one of them is empty, use the original code as the single element
+				if (parts.Count == 2 && (string.IsNullOrEmpty(parts.First()) || string.IsNullOrEmpty(parts.Last())))
+				{
+					parts = [code];
+				}
+				else if (parts.Count > 0 && string.IsNullOrEmpty(parts.Last()))
+				{
+					// If the last part is empty, remove it and add a "+" to the last non-empty part
+					parts.RemoveAt(parts.Count - 1);
+					parts[^1] += splitCharacter;
+				}
+			}
+
+			parts = [.. parts.Select(part => part.Trim())];
 
 			foreach (var part in parts)
 			{
@@ -330,11 +363,31 @@ namespace Files.App.Data.Commands
 			return $"Key/{key}".GetLocalizedResource();
 		}
 
+		private static string GetLocalizedNumPadKey(string key)
+		{
+			return "NumPadTypeName".GetLocalizedResource() + " " + key;
+		}
+
 		private static string GetKeyCharacter(Forms.Keys key)
 		{
-			var buffer = new StringBuilder(256);
+			var buffer = new StringBuilder(4);
 			var state = new byte[256];
-			_ = Win32PInvoke.ToUnicode((uint)key, 0, state, buffer, 256, 0);
+
+			// Get the current keyboard state
+			if (!Win32PInvoke.GetKeyboardState(state))
+				return buffer.ToString();
+
+			// Convert the key to its virtual key code
+			var virtualKey = (uint)key;
+
+			// Map the virtual key to a scan code
+			var scanCode = Win32PInvoke.MapVirtualKey(virtualKey, 0);
+
+			// Get the active keyboard layout
+			var keyboardLayout = Win32PInvoke.GetKeyboardLayout(0);
+
+			if (Win32PInvoke.ToUnicodeEx(virtualKey, scanCode, state, buffer, buffer.Capacity, 0, keyboardLayout) > 0)
+				return buffer[^1].ToString();
 
 			return buffer.ToString();
 		}

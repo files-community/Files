@@ -217,7 +217,7 @@
     <value>外觀</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>背景顏色</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>進階設定</value>
@@ -340,7 +340,7 @@
     <value>設為鎖定畫面背景</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>設置為應用程式背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>無法刪除此檔案</value>
@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>指定的項目名稱無效</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>已選取的項目</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>已選取的項目</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>項目</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>項目</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>確定</value>
@@ -886,10 +882,10 @@
     <value>編碼位元速率</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>音頻編碼位元速率</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>影像編碼位元速率</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>壓縮</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>從側邊欄取消固定</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>網路磁碟機</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>網路</value>
@@ -2467,7 +2460,7 @@
     <value>設成鎖定畫面背景</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>設成此應用程式背景</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>安裝選取的字型</value>
@@ -2500,19 +2493,19 @@
     <value>使用所選的項目 (s) 建立zip壓縮檔</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>將所選的壓縮文件解壓至文件夾</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>將所選的壓縮文件解壓至當前文件夾</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>將所選的壓縮文件解壓至新建文件夾</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>向左旋轉所選圖像</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>向右旋轉所選圖像</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>開啟設定頁面</value>
@@ -2801,15 +2794,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
-    <value>App1</value>
+    <value>應用程式 1</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application2" xml:space="preserve">
-    <value>App2</value>
+    <value>應用程式 2</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mail" xml:space="preserve">
-    <value>Mail</value>
+    <value>郵件</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
@@ -2817,11 +2810,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>回退</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>前進</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
@@ -3068,7 +3061,7 @@
     <value>打開屬性視窗</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>本地</value>
   </data>
   <data name="Remotes" xml:space="preserve">
     <value>Remotes</value>
@@ -3271,7 +3264,7 @@
     <value>正以系統管理員身分執行 Files</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>基於系統限制，以系統管理員身分執行 Files 時無法使用拖放功能</value>
+    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>關閉視窗後在背景繼續執行</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Vertical alignment</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Thin Acrylic</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Show for all locations</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Developer tools</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configure the "Open IDE" button on the status bar</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Show for Git repos</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Application extension</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO File</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip File</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Bitmap Files</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Network locations</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edit in Notepad</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Edit the selected file in Notepad</value>
   </data>
 </root>

@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data.Enums;
 using System.Globalization;
 using Windows.Globalization;
 
@@ -9,8 +8,7 @@ namespace Files.App.Services.DateTimeFormatter
 {
 	internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
 	{
-		private static readonly CultureInfo cultureInfo
-			= ApplicationLanguages.PrimaryLanguageOverride == string.Empty ? CultureInfo.CurrentCulture : new(ApplicationLanguages.PrimaryLanguageOverride);
+		private static readonly CultureInfo cultureInfo = new(AppLanguageHelper.PreferredLanguage.Code);
 
 		public abstract string Name { get; }
 

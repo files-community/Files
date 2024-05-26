@@ -136,7 +136,7 @@
 					<Grid x:Name="PART_ContentRoot">
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
-							Margin="2,0"
+							Margin="2,2,2,2"
 							VerticalAlignment="Top"
 							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
 							LineHeight="16"

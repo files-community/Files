@@ -1,6 +1,7 @@
-﻿// Copyright (c) 2024 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -62,37 +63,44 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void SetAppThemeMode(Window? window = null, AppWindowTitleBar? titleBar = null, ElementTheme? rootTheme = null, bool callThemeModeChangedEvent = true)
 		{
-			window ??= MainWindow.Instance;
-			titleBar ??= MainWindow.Instance.AppWindow.TitleBar;
-			rootTheme ??= AppThemeMode;
-
-			if (window.Content is FrameworkElement rootElement)
-				rootElement.RequestedTheme = (ElementTheme)rootTheme;
-
-			if (titleBar is not null)
+			try
 			{
-				titleBar.ButtonBackgroundColor = Colors.Transparent;
-				titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+				window ??= MainWindow.Instance;
+				titleBar ??= MainWindow.Instance.AppWindow.TitleBar;
+				rootTheme ??= AppThemeMode;
 
-				switch (rootTheme)
+				if (window.Content is FrameworkElement rootElement)
+					rootElement.RequestedTheme = (ElementTheme)rootTheme;
+
+				if (titleBar is not null)
 				{
-					case ElementTheme.Default:
-						titleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-						titleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-						break;
-					case ElementTheme.Light:
-						titleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-						titleBar.ButtonForegroundColor = Colors.Black;
-						break;
-					case ElementTheme.Dark:
-						titleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-						titleBar.ButtonForegroundColor = Colors.White;
-						break;
-				}
-			}
+					titleBar.ButtonBackgroundColor = Colors.Transparent;
+					titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			if (callThemeModeChangedEvent)
-				AppThemeModeChanged?.Invoke(null, EventArgs.Empty);
+					switch (rootTheme)
+					{
+						case ElementTheme.Default:
+							titleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+							titleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+							break;
+						case ElementTheme.Light:
+							titleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+							titleBar.ButtonForegroundColor = Colors.Black;
+							break;
+						case ElementTheme.Dark:
+							titleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+							titleBar.ButtonForegroundColor = Colors.White;
+							break;
+					}
+				}
+
+				if (callThemeModeChangedEvent)
+					AppThemeModeChanged?.Invoke(null, EventArgs.Empty);
+			}
+			catch (Exception ex)
+			{
+   				App.Logger.LogWarning(ex, "Failed to change theme mode of the app.");
+			}
 		}
 
 		private async void UISettings_ColorValuesChanged(UISettings sender, object args)

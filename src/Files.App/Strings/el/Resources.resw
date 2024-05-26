@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Το όνομα του στοιχείου που καθορίστηκε δεν είναι έγκυρο</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>επιλεγμένο στοιχείο</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# επιλεγμένο στοιχείο} other {# επιλεγμένα αντικείμενα}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>επιλεγμένα στοιχεία</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>στοιχείο</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>στοιχεία</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {στοιχείο} other {αντικείμενα}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ναι</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Ξεκαρφίτσωμα από την πλαϊνή μπάρα</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Δίσκοι δικτύου</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Δίκτυο</value>
@@ -3271,7 +3264,7 @@
     <value>Το Files εκτελείται με δικαιώματα διαχειριστή</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Λόγω περιορισμών της πλατφόρμας, το σύρση και απόθεση δεν είναι διαθέσιμο κατά την εκτέλεση αρχείων ως διαχειριστή.</value>
+    <value>Λόγω ενός περιορισμού με τα Windows και WinAppSdk, το drag and drop δεν είναι διαθέσιμο κατά την εκτέλεση αρχείων ως διαχειριστή. Αν θέλετε να χρησιμοποιήσετε drag and drop, μπορείτε να εργαστείτε γύρω από αυτόν τον περιορισμό ανοίγοντας το UAC (Έλεγχος Λογαριασμού Χρήστη) από το μενού Έναρξη και επιλέγοντας το τρίτο επίπεδο, και επανεκκινώντας τα Windows. Διαφορετικά, μπορείτε να συνεχίσετε να χρησιμοποιείτε τα Αρχεία χωρίς drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Αφήστε την εφαρμογή να εκτελείται στο παρασκήνιο όταν το παράθυρο είναι κλειστό</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Κατακόρυφη στοίχιση</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Λεπτό Ακρυλικό</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Εμφάνιση για όλες τις τοποθεσίες</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Εργαλεία προγραμματιστή</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Ρυθμίστε το κουμπί "Άνοιγμα IDE" στη γραμμή κατάστασης</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Εμφάνιση για Git repos</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Επέκταση εφαρμογής</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Αρχείο ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Αρχείο Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Αρχεία Bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Τοποθεσίες δικτύου</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Δεν υπάρχουν τοποθεσίες δικτύου. Εάν δεν χρησιμοποιείτε τοποθεσίες δικτύου, μπορείτε να απενεργοποιήσετε το widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Απενεργοποίηση</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Επεξεργασία στο σημειωματάριο</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Επεξεργασία του επιλεγμένου αρχείου στο Σημειωματάριο</value>
   </data>
 </root>

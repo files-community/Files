@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Määritetty kohteen nimi on virheellinen</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>kohde valittu</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# kohde valittu} other {# kohdetta valittu}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>kohteet valittu</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>kohde</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>kohdetta</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {tuote} other {kohdetta}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Kyllä</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Irrota sivupalkista</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Verkkoasemat</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Verkko</value>
@@ -3271,7 +3264,7 @@
     <value>Files on käynnissä järjestelmänvalvojana</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Alustan rajoitusten vuoksi vedä ja pudota -toiminto ei ole käytettävissä, kun Files on käynnissä järjestelmänvalvojana.</value>
+    <value>Koska rajoitus Windows ja WinAppSdk, vedä ja pudota ei ole käytettävissä, kun käynnissä tiedostoja ylläpitäjä. Jos haluat käyttää vedä ja pudota, Voit työskennellä tämän rajoituksen ympärillä avaamalla UAC (User Account Control) aloitusvalikosta ja valitsemalla kolmannen tason ja käynnistämällä Windows-ikkunat uudelleen. Muussa tapauksessa voit pitää tiedostoja ilman vedä &amp; pudotusta.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Jätä sovellus toimimaan taustalla, kun ikkuna suljetaan</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Pystysuuntainen suuntaus</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Ohut Akryyli</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Näytä kaikki sijainnit</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Kehittäjän työkalut</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Määritä "Avaa IDE" -painike tilarivillä</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Näytä Git repot</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Sovelluksen laajennus</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Iso Tiedosto</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip Tiedosto</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Bittikarttatiedostot</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Verkon sijainnit</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Verkkosijainteja ei ole. Jos et käytä verkkosijainteja, voit poistaa widgetin käytöstä.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Poista Käytöstä</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Muokkaa Muistiinpanossa</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Muokkaa valittua tiedostoa Muistiinpanossa</value>
   </data>
 </root>

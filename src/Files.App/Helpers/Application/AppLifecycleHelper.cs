@@ -146,6 +146,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IDevToolsSettingsService, DevToolsSettingsService>(sp => new DevToolsSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IInfoPaneSettingsService, InfoPaneSettingsService>(sp => new InfoPaneSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
@@ -153,7 +154,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IActionsSettingsService, ActionsSettingsService>(sp => new ActionsSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
 					// Contexts
-					.AddSingleton<IPageContext, PageContext>()
+					.AddSingleton<IMultiPanesContext, MultiPanesContext>()
 					.AddSingleton<IContentPageContext, ContentPageContext>()
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 					.AddSingleton<IHomePageContext, HomePageContext>()
@@ -163,6 +164,7 @@ namespace Files.App.Helpers
 					// Services
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<IDialogService, DialogService>()
+					.AddSingleton<ICommonDialogService, CommonDialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()
 					.AddSingleton<ILocalizationService, LocalizationService>()
@@ -175,8 +177,10 @@ namespace Files.App.Helpers
 					.AddSingleton<IAddItemService, AddItemService>()
 #if STABLE || PREVIEW
 					.AddSingleton<IUpdateService, SideloadUpdateService>()
+#elif STORE
+					.AddSingleton<IUpdateService, StoreUpdateService>()
 #else
-					.AddSingleton<IUpdateService, UpdateService>()
+					.AddSingleton<IUpdateService, DummyUpdateService>()
 #endif
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
@@ -187,9 +191,10 @@ namespace Files.App.Helpers
 					.AddSingleton<IResourcesService, ResourcesService>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
-					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<INetworkService, NetworkService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
+					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
@@ -202,6 +207,7 @@ namespace Files.App.Helpers
 					.AddTransient<HomeViewModel>()
 					.AddSingleton<QuickAccessWidgetViewModel>()
 					.AddSingleton<DrivesWidgetViewModel>()
+					.AddSingleton<NetworkLocationsWidgetViewModel>()
 					.AddSingleton<FileTagsWidgetViewModel>()
 					.AddSingleton<RecentFilesWidgetViewModel>()
 					// Utilities
@@ -229,7 +235,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					var defaultArg = new CustomTabViewItemParameter()
+					var defaultArg = new TabBarItemParameter()
 					{
 						InitialPageType = typeof(PaneHolderPage),
 						NavigationParameter = "Home"

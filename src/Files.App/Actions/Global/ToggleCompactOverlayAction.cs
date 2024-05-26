@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var appWindow = MainWindow.Instance.AppWindow;
 

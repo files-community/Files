@@ -48,7 +48,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.SelectAllItems();
 

@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>指定的项目名称无效</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>个项目已选择</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# 项目选择} other {# 项目选择}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>个项目已选择</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>个项目</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>个项目</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {项目} other {项目}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>是</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>从侧边栏取消固定</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>网络驱动器</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>网络</value>
@@ -3271,7 +3264,7 @@
     <value>Files 正在以管理员身份运行</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>由于平台限制，在以管理员身份运行 Files 时，拖放将无法使用。</value>
+    <value>由于 Windows 和 WinAppSdk 的限制，当以管理员身份运行 Files 时，拖动和拖放不可用。 若要启用拖放， 你可以从开始菜单中打开 UAC（用户帐户控制）设置，选择第三个保护等级并重启 Windows，以解除这一限制。 否则，您可继续使用 Files，但无法使用拖放。</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>当窗口关闭后保持应用程序后台运行</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>垂直对齐方式</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>薄 Acrylic</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>在所有位置中显示</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>开发者工具</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>配置状态栏上的“打开 IDE”按钮</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>在 Git 存储库中显示</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>应用程序扩展</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO 图标文件</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip 压缩文件</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>位图文件</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>网络位置</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>没有网络位置。如果你未使用任何网络位置，你可以禁用该小组件。</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>在记事本中编辑</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>在记事本中编辑选中的文件</value>
   </data>
 </root>

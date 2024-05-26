@@ -217,7 +217,7 @@
     <value>Megjelenés</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Háttérszín</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Haladó</value>
@@ -340,7 +340,7 @@
     <value>Beállítás zárolási képernyő háttérként</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Beállítás alkalmazás háttérképként</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nem sikerült törölni ezt az elemet</value>
@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>A megadott név érvénytelen</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>kijelölt elem</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>kijelölt elem</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>elem</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elem</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Igen</value>
@@ -886,10 +882,10 @@
     <value>Kódolási bitráta</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Kódolási bitráta</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Kódolási bitráta</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Tömörítés</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Levétel az oldalsávról</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Hálózati meghajtók</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Hálózat</value>
@@ -2467,7 +2460,7 @@
     <value>Kiválasztott kép beállítása képernyővédőként</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Kiválasztott kép beállítása alkalmazás háttérképként</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Kiválasztott betűtípus(ok) letöltése</value>
@@ -3271,7 +3264,7 @@
     <value>A Files rendszergazdaként fut</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>A platformkorlátozások miatt a drag and drop nem érhető el, ha a Files rendszergazdaként fut.</value>
+    <value>A Windows és a WinAppSdk korlátozása miatt a drag &amp; drop nem érhető el, ha a Files rendszergazdaként fut. Ha szeretné használni ezt a funkciót, akkor a korlátozást úgy tudja megkerülni, hogy a Start menüből megnyitja az UAC (User Account Control - Felhasználói fiókvezérlés) programot, és kiválasztja a harmadik szintet, majd újraindítja a Windowst. Ellenkező esetben továbbra is használhatja a Files-t drag &amp; drop nélkül.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>A háttérben futó alkalmazás hagyása az ablak bezárásakor</value>
@@ -3723,77 +3716,126 @@
     <value>Elrendezés tipusa</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>Műveletek</value>
   </data>
   <data name="Commands" xml:space="preserve">
-    <value>Commands</value>
+    <value>Parancsok</value>
   </data>
   <data name="AddCommand" xml:space="preserve">
-    <value>Add command</value>
+    <value>Parancs hozzáadása</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
-    <value>Restore defaults</value>
+    <value>Alaphelyzetbe állítás</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
-    <value>Choose an action</value>
+    <value>Művelet választása</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Are you sure you want to restore the default key bindings? This action cannot be undone.</value>
+    <value>Biztos, hogy vissza akarja állítani az alapértelmezett billentyűparancsokat? Ezt a műveletet nem lehet visszacsinálni.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>This key binding is already being used, please choose a different key binding to continue.</value>
+    <value>Ez a billentyűparancs már használatban van, kérjük, válasszon másik billentyűkötést a folytatáshoz.</value>
   </data>
   <data name="Customized" xml:space="preserve">
-    <value>Customized</value>
+    <value>Testreszabva</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
+    <value>A beállítások szinkronizálásakor az adaptív elrendezés nem érhető el, az alapértelmezett elrendezés Részletek lett.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>Háttérkép</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>Alulra</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>Középre</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>Kitöltés</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>Vízszintes igazítás</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>Kép pozíciója</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Balra</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Áttetszőség</value>
   </data>
   <data name="Right" xml:space="preserve">
     <value>Jobbra</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>Felül</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Arányos</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Uniform to fill</value>
+    <value>Arányosan kitöltött</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>Függőleges igazítás</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Vékony akril</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Mindenhol</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Fejlesztői eszközök</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Az állapotsoron lévő "Open IDE" gomb megjelenítése</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Git repókban</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Alkalmazás kiegészítő</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO Fájl</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip fájl</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Bitmap fájlok</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Hálózati helyek</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Szerkesztés a Jegyzettömbben</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>A kiválasztott fájl szerkesztése a Jegyzettömbben</value>
   </data>
 </root>

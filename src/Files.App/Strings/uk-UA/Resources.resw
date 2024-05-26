@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Вказане ім'я елемента неприпустиме</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>елемент вибрано</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# елемент вибрано} other {# об'єктів вибрано}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>елементів вибрано</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>елемент</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>елементів</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {елемент} other {об'єкти}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Так</value>
@@ -1083,9 +1079,6 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Відкріпити від бічної панелі</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Мережеві диски</value>
-  </data>
   <data name="Network" xml:space="preserve">
     <value>Мережа</value>
   </data>
@@ -1099,7 +1092,7 @@
     <value>Панель попереднього перегляду файлу</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Зворотній зв'язок</value>
+    <value>Зворотний зв'язок</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Доступно за наявності підключення до мережі</value>
@@ -3271,7 +3264,7 @@
     <value>Files запущений від імені адміністратора</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>У зв'язку з обмеженнями платформи, перемістити та відпустити недоступно при запуску Files як адміністратор.</value>
+    <value>Через обмеження з Windows та WinAppSdk, перетягування недоступний при виконанні файлів як адміністратор. Якщо ви хочете використовувати перетягування, ви можете обійти це обмеження, відкривши UAC (контроль за обліковими записами користувачів) в меню Пуск і вибравши третій рівень і відновивши Windows. В іншому випадку, ви можете продовжувати використовувати файли без перетягування і скидання.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>При закритті вікна залишати застосунок на фоні</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Вертикальне вирівнювання</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Тін Акрил</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Показати для всіх місць</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Інструменти розробника</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Налаштування кнопки "Відкрити IDE" в рядку стану</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Показати для Git репозиторіїв</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Розширення додатку</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Файл ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>ZIP-файл</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Файли растру</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Мережеві розташування</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Немає жодної мережі. Якщо ви не використовуєте мережеві місцезнаходження, можна вимкнути віджет.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Вимкнено</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Редагувати в Блокноті</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Редагування виділеного файлу в Notepad</value>
   </data>
 </root>

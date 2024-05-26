@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.Server.Data.Enums;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
@@ -24,6 +23,7 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using SortDirection = Files.App.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App.Views.Layouts
@@ -43,7 +43,7 @@ namespace Files.App.Views.Layouts
 		// ViewModels
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		public StatusBarViewModel StatusBarViewModel { get; }
 		public ItemManipulationModel ItemManipulationModel { get; private set; }
 		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
 
@@ -244,10 +244,10 @@ namespace Files.App.Views.Layouts
 						UpdateSelectionSize();
 
 						SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
+						SelectedItemsPropertiesViewModel.SelectedItemsCountString = "SelectedItems".GetLocalizedFormatResource(selectedItems!.Count);
 
 						if (selectedItems.Count == 1)
 						{
-							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
 							DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								// Tapped event must be executed first
@@ -256,10 +256,7 @@ namespace Files.App.Views.Layouts
 							});
 						}
 						else
-						{
-							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems!.Count} {"ItemsSelected/Text".GetLocalizedResource()}";
 							ResetRenameDoubleClick();
-						}
 					}
 
 					NotifyPropertyChanged(nameof(SelectedItems));
@@ -285,7 +282,7 @@ namespace Files.App.Views.Layouts
 			Item_DragOverEventHandler = new DragEventHandler(Item_DragOver);
 
 			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
-			DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
+			StatusBarViewModel = new StatusBarViewModel();
 
 			dragOverTimer = DispatcherQueue.CreateTimer();
 			tapDebounceTimer = DispatcherQueue.CreateTimer();
@@ -516,7 +513,7 @@ namespace Files.App.Views.Layouts
 			await GroupPreferenceUpdatedAsync();
 		}
 
-		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, Server.Data.Enums.SortDirection e)
+		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
 		{
 			await GroupPreferenceUpdatedAsync();
 		}

@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			UIHelpers.CanShowDialog &&
 			RecycleBinHelpers.RecycleBinHasItems();
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			await RecycleBinHelpers.RestoreRecycleBinAsync();
 		}

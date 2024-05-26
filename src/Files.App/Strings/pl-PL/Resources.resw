@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Podana nazwa elementu jest nieprawidłowa</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>zaznaczony element</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# element wybrany} other {# elementy wybrane}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>zaznaczone elementy</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>element</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elementy</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {przedmiot} other {przedmioty}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Tak</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Odepnij z panelu bocznego</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Dyski sieciowe</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Sieć</value>
@@ -3271,7 +3264,7 @@
     <value>Aplikacja Files jest uruchomiona jako administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Ze względu na ograniczenia platformy, funkcja przeciągnij i upuść nie jest dostępna podczas uruchamiania Files jako administrator.</value>
+    <value>Ze względu na ograniczenie z Windows i WinAppSdk, przeciągnij i upuść nie jest dostępne podczas uruchamiania plików jako administratora. Jeśli chcesz użyć przeciągnij i upuść, możesz pracować nad tym ograniczeniem, otwierając UAC (kontrola konta użytkownika) z Menu Start i wybierając trzeci poziom oraz uruchamiając ponownie Windows. W przeciwnym razie możesz nadal używać plików bez przeciągania i upuszczania.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Pozostaw aplikację uruchomioną w tle, gdy okno jest zamknięte</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Wyrównanie pionowe</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Cienka akryla</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Pokaż dla wszystkich lokalizacji</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Narzędzia deweloperskie</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Skonfiguruj przycisk "Otwórz IDE" na pasku stanu</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Pokaż dla repozytoriów Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Rozszerzenie aplikacji</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Plik ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Plik zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Pliki bitmapowe</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Lokalizacje sieci</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Brak lokalizacji sieciowych. Jeśli nie używasz lokalizacji sieciowych, możesz wyłączyć widżet.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Wyłącz</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edytuj w notatniku</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Edytuj wybrany plik w notatniku</value>
   </data>
 </root>

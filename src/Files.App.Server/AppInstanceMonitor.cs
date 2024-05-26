@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Concurrent;
 using System.Diagnostics;
 
 namespace Files.App.Server;
@@ -9,7 +8,6 @@ namespace Files.App.Server;
 public sealed class AppInstanceMonitor
 {
 	private static int processCount = 0;
-	internal static ConcurrentDictionary<int, ConcurrentBag<IDisposable>> AppInstanceResources = new();
 
 	public static void StartMonitor(int processId)
 	{
@@ -21,17 +19,9 @@ public sealed class AppInstanceMonitor
 
 	private static void Process_Exited(object? sender, EventArgs e)
 	{
-		if (sender is Process { Id: var processId } process)
+		if (sender is Process process)
 		{
 			process.Dispose();
-
-			if (AppInstanceResources.TryRemove(processId, out var instances))
-			{
-				foreach (var instance in instances)
-				{
-					instance.Dispose();
-				}
-			}
 
 			if (Interlocked.Decrement(ref processCount) == 0)
 			{

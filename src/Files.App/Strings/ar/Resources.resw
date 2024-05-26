@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>اسم العنصر المحدد غير صالح</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>تم تحديد العنصر</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# العنصر المحدد} other {# العناصر المحددة}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>عناصر محددة</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>عنصر</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>الأصناف</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {عنصر} other {عناصر}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>نعم</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>إلغاء التثبيت من الشريط الجانبي</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>محركات الشبكة</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>الشبكة</value>
@@ -3271,7 +3264,7 @@
     <value>الملفات قيد التشغيل كمسؤول</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>بسبب قيود المنصة، السحب والإفلات غير متاحين عند تشغيل الملفات كمسؤول.</value>
+    <value>بسبب تقييد استخدام Windows و WinAppSdk ، لا يتوفر السحب والإسقاط عند تشغيل الملفات كمشرف. إذا كنت ترغب في استخدام السحب والإسقاط، يمكنك العمل حول هذا الحد من خلال فتح UAC (التحكم في الحساب) من قائمة البدء وتحديد المستوى الثالث، وإعادة تشغيل Windows. خلاف ذلك، يمكنك الاستمرار في استخدام الملفات دون سحب و إسقاط.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>اترك التطبيق قيد التشغيل في الخلفية عند إغلاق النافذة</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>محاذاة عمودية</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>كريليك رقيق</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>إظهار لجميع المواقع</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>أدوات المطور</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>تكوين زر "فتح IDE" في شريط الحالة</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>إظهار لـ Git repos</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>تمديد التطبيق</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ملف ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>ملف مضغوط</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>ملفات Bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>مواقع الشبكة</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>لا توجد مواقع شبكة. إذا كنت لا تستخدم مواقع الشبكة، يمكنك تعطيل القطعة.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>تعطيل</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>تحرير في الملحوظة</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>تحرير الملف المحدد في ملاحظات</value>
   </data>
 </root>

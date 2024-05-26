@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>El nombre del elemento especificado no es válido</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>elemento seleccionado</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# elemento seleccionado} other {# elementos seleccionados}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>elementos seleccionados</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>elemento</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elementos</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sí</value>
@@ -1072,7 +1068,7 @@
     <value>Mostrar/Ocultar panel de información</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Mostrar/Ocultar panel de información con paneles de vista previa y detalles</value>
+    <value>Muestra/Oculta panel de información con paneles de vista previa y detalles</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Desanclar de la barra lateral</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Unidades de red</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Red</value>
@@ -1621,7 +1614,7 @@
     <value>Cargar vista previa completa</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Descargue el elemento de la nube y cargue la vista previa</value>
+    <value>Descarga el elemento de la nube y carga la vista previa</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} elementos ({1} archivos, {2} carpetas)</value>
@@ -2341,25 +2334,25 @@
     <value>Abrir vista previa emergente</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Intercambiar superposición compacta</value>
-  </data>
-  <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Abrir página de ayuda en línea en el navegador</value>
-  </data>
-  <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Cambiar a pantalla completa</value>
-  </data>
-  <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Entrar en superposición compacta</value>
-  </data>
-  <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Salir de superposición compacta</value>
-  </data>
-  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Entrar/Salir de superposición compacta</value>
   </data>
+  <data name="OpenHelpDescription" xml:space="preserve">
+    <value>Abre la página de ayuda en línea en el navegador</value>
+  </data>
+  <data name="ToggleFullScreenDescription" xml:space="preserve">
+    <value>Cambia a pantalla completa</value>
+  </data>
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Entra en superposición compacta</value>
+  </data>
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Sale de superposición compacta</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Entra/Sale de superposición compacta</value>
+  </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Ir al cuadro de búsqueda</value>
+    <value>Enfoca el cuadro de búsqueda</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Mostrar/Ocultar elementos ocultos</value>
@@ -2741,7 +2734,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
-    <value>Abajo</value>
+    <value>Flecha abajo</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
@@ -2927,7 +2920,7 @@
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Enfocar la barra de ruta</value>
+    <value>Enfoca la barra de ruta</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Crear nuevo elemento</value>
@@ -2948,10 +2941,10 @@
     <value>Reproducir los archivos multimedia seleccionados</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Deshacer la última operación del archivo</value>
+    <value>Deshace la última operación del archivo</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Rehacer la última operación del archivo</value>
+    <value>Rehace la última operación del archivo</value>
   </data>
   <data name="Location" xml:space="preserve">
     <value>Ubicación:</value>
@@ -3271,7 +3264,7 @@
     <value>Files se está ejecutando como administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Debido a limitaciones de la plataforma, arrastrar y soltar no está disponible cuando se ejecuta Files como administrador.</value>
+    <value>Debido a una limitación con Windows y WinAppSdk, arrastrar y soltar no está disponible cuando se ejecuta Files como administrador. Si desea utilizar la función de arrastrar y soltar, puede evitar esta limitación abriendo UAC (Control de cuentas de usuario) desde Inicio, seleccionando el tercer nivel y reiniciando Windows. De lo contrario, puede seguir utilizando Files sin arrastrar y soltar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Permitir que la aplicación se ejecute en segundo plano al cerrar la ventana</value>
@@ -3720,7 +3713,7 @@
     <value>Vista detallada</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
-    <value>Tipo de disposición</value>
+    <value>Tipo de diseño</value>
   </data>
   <data name="Actions" xml:space="preserve">
     <value>Acciones</value>
@@ -3738,7 +3731,7 @@
     <value>Seleccionar una acción</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>¿Está seguro de que desea restaurar las combinaciones de teclas predeterminadas? Esta acción no se puede deshacer.</value>
+    <value>¿Está seguro de que desea restaurar las combinaciones de teclas predeterminadas? Esta acción no puede deshacerse.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Esta combinación de teclas ya está siendo utilizada, por favor elija una combinación de teclas diferente para continuar.</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Alineación vertical</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Acrílico fino</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Mostrar para todas las ubicaciones</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Herramientas de desarrollador</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configurar el botón "Abrir IDE" en la barra de estado</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Mostrar para repos de Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Extensión de la aplicación</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Archivo ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Archivo Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Archivos de mapa de bits</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Ubicaciones de red</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>No hay ubicaciones de red. Si no utiliza ubicaciones de red, puede desactivar el widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Desactivar</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Editar en Bloc de notas</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Editar el archivo seleccionado en el Bloc de notas</value>
   </data>
 </root>

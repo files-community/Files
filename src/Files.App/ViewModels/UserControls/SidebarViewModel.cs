@@ -24,14 +24,14 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
-		private INetworkDrivesService NetworkDrivesService { get; } = Ioc.Default.GetRequiredService<INetworkDrivesService>();
+		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
 
-		private IPaneHolder paneHolder;
-		public IPaneHolder PaneHolder
+		private IPanesPage paneHolder;
+		public IPanesPage PaneHolder
 		{
 			get => paneHolder;
 			set => SetProperty(ref paneHolder, value);
@@ -184,15 +184,15 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public bool ShowNetworkDrivesSection
+		public bool ShowNetworkSection
 		{
-			get => UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection;
+			get => UserSettingsService.GeneralSettingsService.ShowNetworkSection;
 			set
 			{
-				if (value == UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection)
+				if (value == UserSettingsService.GeneralSettingsService.ShowNetworkSection)
 					return;
 
-				UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection = value;
+				UserSettingsService.GeneralSettingsService.ShowNetworkSection = value;
 			}
 		}
 
@@ -249,7 +249,7 @@ namespace Files.App.ViewModels.UserControls
 			App.LibraryManager.DataChanged += Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
-			NetworkDrivesService.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
+			NetworkService.Computers.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
@@ -282,7 +282,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
-					SectionType.Network => NetworkDrivesService.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Network => NetworkService.Computers.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.WSL => WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
@@ -493,12 +493,12 @@ namespace Files.App.ViewModels.UserControls
 
 				case SectionType.Network:
 					{
-						if (!ShowNetworkDrivesSection)
+						if (!ShowNetworkSection)
 						{
 							break;
 						}
-						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.NetworkDrives;
+						section = BuildSection("Network".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						iconIdex = Constants.ImageRes.Network;
 						section.IsHeader = true;
 
 						break;
@@ -577,7 +577,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => CloudDrivesManager.UpdateDrivesAsync,
 					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
-					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => NetworkDrivesService.UpdateDrivesAsync,
+					SectionType.Network when generalSettingsService.ShowNetworkSection => NetworkService.UpdateComputersAsync,
 					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
@@ -621,9 +621,9 @@ namespace Files.App.ViewModels.UserControls
 					await UpdateSectionVisibilityAsync(SectionType.Drives, ShowDrivesSection);
 					OnPropertyChanged(nameof(ShowDrivesSection));
 					break;
-				case nameof(UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection):
-					await UpdateSectionVisibilityAsync(SectionType.Network, ShowNetworkDrivesSection);
-					OnPropertyChanged(nameof(ShowNetworkDrivesSection));
+				case nameof(UserSettingsService.GeneralSettingsService.ShowNetworkSection):
+					await UpdateSectionVisibilityAsync(SectionType.Network, ShowNetworkSection);
+					OnPropertyChanged(nameof(ShowNetworkSection));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowWslSection):
 					await UpdateSectionVisibilityAsync(SectionType.WSL, ShowWslSection);
@@ -644,7 +644,7 @@ namespace Files.App.ViewModels.UserControls
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;
-			NetworkDrivesService.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
+			NetworkService.Computers.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}
@@ -867,7 +867,7 @@ namespace Files.App.ViewModels.UserControls
 					UserSettingsService.GeneralSettingsService.ShowDrivesSection = false;
 					break;
 				case SectionType.Network:
-					UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection = false;
+					UserSettingsService.GeneralSettingsService.ShowNetworkSection = false;
 					break;
 				case SectionType.WSL:
 					UserSettingsService.GeneralSettingsService.ShowWslSection = false;

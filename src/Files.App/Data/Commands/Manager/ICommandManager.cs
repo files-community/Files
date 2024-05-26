@@ -97,6 +97,7 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
 		IRichCommand OpenCommandPalette { get; }
+		IRichCommand EditInNotepad { get; }
 
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }

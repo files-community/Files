@@ -22,6 +22,7 @@ namespace Files.App.Data.Factories
 		private static readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private static readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private static IStorageArchiveService StorageArchiveService { get; } = Ioc.Default.GetRequiredService<IStorageArchiveService>();
 
 		public static List<ContextFlyoutItemModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
 		{
@@ -404,7 +405,7 @@ namespace Files.App.Data.Factories
 						new(ContextFlyoutItemType.Button, Commands.CompressIntoZip),
 						new(ContextFlyoutItemType.Button, Commands.CompressIntoSevenZip),
 					],
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && CompressHelper.CanCompress(selectedItems)
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && StorageArchiveService.CanCompress(selectedItems)
 				},
 				new()
 				{
@@ -421,7 +422,7 @@ namespace Files.App.Data.Factories
 						new(ContextFlyoutItemType.Button, Commands.DecompressArchiveHere),
 						new(ContextFlyoutItemType.Button, Commands.DecompressArchiveToChildFolder),
 					],
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && CompressHelper.CanDecompress(selectedItems)
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && StorageArchiveService.CanDecompress(selectedItems)
 				},
 				new()
 				{
@@ -477,6 +478,7 @@ namespace Files.App.Data.Factories
 					ShowInSearchPage = true,
 					ShowItem = true,
 				},
+				new(ContextFlyoutItemType.Button, Commands.EditInNotepad),
 				new()
 				{
 					Text = "Loading".GetLocalizedResource(),

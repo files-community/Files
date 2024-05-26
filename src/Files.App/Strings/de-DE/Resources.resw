@@ -178,7 +178,7 @@
     <value>Verlauf leeren</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Geben Sie einen Pfad zum Navigieren ein oder Tippen "&gt;", um die Befehlspalette zu öffnen</value>
+    <value>Gib einen Pfad zum Navigieren ein oder gib "&gt;" ein, um die Befehlspalette zu öffnen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
@@ -283,7 +283,7 @@
     <value>Berechtigung erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
+    <value>Um loszulegen, musst du uns die Berechtigung erteilen, deine Dateien anzuzeigen. Daraufhin öffnet sich eine Einstellungsseite, auf der du uns diese Berechtigung erteilen kannst. Wenn du diesen Schritt vollständig erledigt hast, musst du die App erneut öffnen. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Anzeige</value>
@@ -346,34 +346,34 @@
     <value>Löschen der Datei oder des Ordners nicht möglich</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Schließen Sie bitte das entsprechende Laufwerk an, um auf diese Datei zuzugreifen.</value>
+    <value>Bitte lege das erforderliche Laufwerk ein, um auf diesen Artikel zuzugreifen.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>Laufwerk getrennt</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei, auf die du zuzugreifen versuchst, wurde möglicherweise verschoben oder gelöscht.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
     <value>Eigenschaften für diese Datei können nicht geöffnet werden</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
-    <value>Die Datei, auf die Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei, auf die du zuzugreifen versuchst, wurde möglicherweise verschoben oder gelöscht.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Datei nicht gefunden</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Der Ordner, auf den Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Der Ordner, auf den du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Hast Du diesen Ordner gelöscht?</value>
+    <value>Hast du diesen Ordner gelöscht?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Du zugreifen möchtest, wird derzeit von {0} verwendet</value>
+    <value>Die Datei, auf die du zugreifen möchtest, wird derzeit von {0} verwendet</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Du zugreifen möchtest, wird derzeit von einer anderen Anwendung verwendet</value>
+    <value>Die Datei, auf die du zuzugreifen versuchst, wird gerade von einer anderen Bewerbung verwendet</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Datei wird bereits verwendet.</value>
@@ -426,23 +426,19 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Der angegebene Dateiname ist ungültig</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>Element ausgewählt</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# Element ausgewählt} other {# Elemente ausgewählt}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>Elemente ausgewählt</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>Element</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>Elemente</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {Item} other {Items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Bist Du sicher, dass Du alle Elemente endgültig löschen möchtest?</value>
+    <value>Bist du sicher, dass du alle Elemente endgültig löschen möchtest?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Papierkorb leeren</value>
@@ -586,19 +582,19 @@
     <value>Teilen {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>Das Element, das Du umbenennen möchtest, ist nicht mehr vorhanden. Bitte überprüfe den richtigen Speicherort des Elements, das Du umbenennen möchtest.</value>
+    <value>Der Eintrag, den du umzubenennen versuchst, existiert nicht mehr. Bitte verifiziere den korrekten Ort des Eintrags, den du umbenennen möchtest.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>Das Element exisitert nicht mehr</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>Der angegebene Dateiname war ungültig. Bitte überprüfen Sie den gewünschten Elementnamen und versuchen Sie es erneut.</value>
+    <value>Der angegebene Name war ungültig. Bitte überprüfe den gewünschten Artikelnamen und versuche es erneut.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
     <value>Ungültiger Dateiname</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Die Länge des angegebenen Elementnamens überschreitet den Grenzwert. Bitte überprüfen Sie den gewünschten Namen und versuchen Sie es erneut.</value>
+    <value>Die Länge des angegebenen Eintragsnamens überschreitet die Höchstgrenze. Bitte überprüfe den gewünschten Namen und versuche es erneut.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Der Elementname war zu lang</value>
@@ -607,7 +603,7 @@
     <value>Mehr Optionen anzeigen</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Die App muss neu gestartet werden, um die Einstellungen zu übernehmen. Möchten Sie die App jetzt neu starten?</value>
+    <value>Die Anwendung muss neu gestartet werden, um diese Einstellungen zu übernehmen. Möchtest du die Anwendung neu starten?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Unterstütze uns auf GitHub</value>
@@ -628,7 +624,7 @@
     <value>Neues Element erstellen</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Wählen Sie unten einen Dateityp für das neue Element aus</value>
+    <value>Wähle unten einen Dateityp für das neue Element aus</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Datei</value>
@@ -1083,9 +1079,6 @@
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Von Seitenleiste lösen</value>
   </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Netzlaufwerke</value>
-  </data>
   <data name="Network" xml:space="preserve">
     <value>Netzwerk</value>
   </data>
@@ -1126,7 +1119,7 @@
     <value>Unbekannt</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Wenn Du die Dateierweiterung änderst, wird die Datei möglicherweise unbrauchbar. Bist Du sicher, dass Du sie ändern möchtest?</value>
+    <value>Wenn du eine Dateierweiterung änderst, kann die Datei unbrauchbar werden. Bist du sicher, dass du sie ändern willst?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM-Laufwerk</value>
@@ -1192,7 +1185,7 @@
     <value>Diese Aktion erfordert Administratorrechte</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>Möchtest Du als Administrator fortfahren?</value>
+    <value>Möchtest du als Administrator fortfahren?</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Spaltenansicht (Strg+Shift+6)</value>
@@ -1474,7 +1467,7 @@
     <value>Standardbibiliotheken wiederherstellen</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Bist Du sicher, dass Du die Standardbibliotheken wiederherstellen möchtest? Alle Dateien verbleiben auf der Festplatte.</value>
+    <value>Bist du sicher, dass du die Standardbibliotheken wiederherstellen willst? Alle deine Dateien bleiben auf deinem Speicherplatz.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Bibliotheken wiederherstellen</value>
@@ -1858,7 +1851,7 @@
     <value>Lizenzen von Drittanbietern</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigst Du, dass Dir dieses Risiko bewusst ist.</value>
+    <value>Diese Option verändert die Systemregistrierung und kann unerwartete Nebenwirkungen auf dein Gerät haben. Die Fortsetzung erfolgt auf eigene Gefahr.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Bibliothek erstellen</value>
@@ -1963,7 +1956,7 @@
     <value>Wiederholen</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Verschieben wird in diesem Kontext nicht unterstützt. Möchtest Du die Elemente stattdessen kopieren?</value>
+    <value>Der Vorgang des Verschiebens wird in diesem Zusammenhang nicht unterstützt. Willst du die Elemente stattdessen kopieren?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>Versteckte Elemente</value>
@@ -1996,7 +1989,7 @@
     <value>File bewerten</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Möchtest Du Files bewerten?</value>
+    <value>Willst du Files bewerten?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Als Hintergrund festlegen</value>
@@ -2038,13 +2031,13 @@
     <value>Dateien und Ordner beim Überfahren auswählen</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Bist Du sicher, dass Du alle Elemente im Papierkorb wiederherstellen möchtest?</value>
+    <value>Bist du sicher, dass du alle Elemente im Papierkorb wiederherstellen willst?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Alle Elemente wiederherstellen</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Möchtest Du {0} ausgewählte(s) Element(e) wiederherstellen?</value>
+    <value>Willst du das/die {0} ausgewählte(n) Element(e) wiederherstellen?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Auswahl wiederherstellen</value>
@@ -2059,7 +2052,7 @@
     <value>Verknüpfung kann nicht geöffnet werden</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>Das Ziel {0} konnte nicht gefunden werden. Möchtest Du diese Verknüpfung löschen?</value>
+    <value>Das Ziel kann nicht gefunden werden {0}. Willst du diese Verknüpfung löschen?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Du hast keine Berechtigung für den Zugriff auf diesen Ordner.</value>
@@ -2173,7 +2166,7 @@
     <value>Um eine Verknüpfung an dieser Stelle zu erstellen, werden Administrator-Rechte benötigt</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Möchtest Du die Verknüpfung stattdessen lieber auf dem Desktop erstellen?</value>
+    <value>Möchtest du die Verknüpfung stattdessen auf dem Desktop erstellen?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>Der angegebene Name ist ungültig</value>
@@ -2299,7 +2292,7 @@
     <value>Während der Berechnung ist ein Fehler aufgetreten</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Fehler beim Berechnen des Hashs, bitte schließen Sie die Datei und versuchen Sie es erneut.</value>
+    <value>Die Berechnung des Hashes ist fehlgeschlagen. Bitte schließe die Datei und versuche es erneut.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes sind für Online-Dateien nicht verfügbar</value>
@@ -2912,7 +2905,7 @@
     <value>Ungültiger Ort</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Bist Du sicher, dass Du diese Dateien ohne ihre Eigenschaften kopieren willst?</value>
+    <value>Bist du sicher, dass du diese Dateien ohne ihre Eigenschaften kopieren willst?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
     <value>Diese Dateien haben Eigenschaften, die nicht an den neuen Ort kopiert werden können</value>
@@ -2921,7 +2914,7 @@
     <value>Diese Dateien haben Eigenschaften, die nicht zum neuen Ort verschoben werden können</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Bist Du sicher, dass Du diese Dateien ohne ihre Eigenschaften verschieben willst?</value>
+    <value>Bist du sicher, dass du diese Dateien ohne ihre Eigenschaften verschieben willst?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Auswahlkästchen beim Auswählen von Elementen anzeigen</value>
@@ -3029,7 +3022,7 @@
     <value>Meine Änderungen zu '{0}' bringen</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>Du hast uncommitete Änderungen in dieser Branch. Was willst Du mit ihnen tun?</value>
+    <value>Du hast unübertragene Änderungen in diesem Zweig. Was möchtest du mit ihnen tun?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Branch wechseln</value>
@@ -3271,7 +3264,7 @@
     <value>Files wird mit Administratorrechten ausgeführt</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Aufgrund von Plattformbeschränkungen ist Drag and Drop nicht verfügbar, wenn Files als Administrator ausgeführt werden.</value>
+    <value>Aufgrund einer Einschränkung von Windows und WinAppSDK ist Drag-and-drop nicht verfügbar, wenn Files als Admin ausgeführt wird. Wenn du Drag-and-drop verwenden möchtest, kannst du diese Einschränkung umgehen, indem du UAC (Benutzerkontosteuerung) aus dem Startmenü öffnest, die dritte Stufe auswählst und Windows neu startest. Ansonsten kannst du Files weiterhin ohne Drag-and-drop verwenden.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Beim Schließen des Fensters die App im Hintergrund laufen lassen</value>
@@ -3563,7 +3556,7 @@
     <value>Keine laufenden Dateioperationen</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>Die Option, Files beim Start von Windows zu öffnen, ist aufgrund Ihrer Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Zum erneuten Aktivieren öffnen Sie die Autostart-Seite im Task-Manager.</value>
+    <value>Die Option, Dateien beim Windows-Start zu öffnen, ist aufgrund deiner Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Um sie wieder zu aktivieren, öffne die Startseite im Task-Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Wiederherstellung der Elemente aus dem Papierkorb fehlgeschlagen</value>
@@ -3575,7 +3568,7 @@
     <value>Git-Branch löschen</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie den Branch "{0}" unwiderruflich löschen möchten?</value>
+    <value>Bist du sicher, dass du den Zweig "{0}" dauerhaft löschen willst?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
     <value>Mit GitHub verbunden</value>
@@ -3738,10 +3731,10 @@
     <value>Aktion auswählen</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie die Standard-Belegungen wiederherstellen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</value>
+    <value>Bist du sicher, dass du die Standard-Tastenbelegung wiederherstellen willst? Diese Aktion kann nicht rückgängig gemacht werden.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>Diese Tastenbelegung wird bereits verwendet, bitte wählen Sie eine andere, um fortzufahren.</value>
+    <value>Diese Schlüsselbindung wird bereits verwendet. Bitte wähle eine andere Schlüsselbindung, um fortzufahren.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Benutzerdefiniert</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Vertikale Ausrichtung</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Dünn Acrylisch</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Für alle Standorte anzeigen</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Entwicklerwerkzeuge</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Die Schaltfläche "IDE öffnen" in der Statusleiste konfigurieren</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Für Git Repos anzeigen</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Anwendungs-Erweiterung</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO-Datei</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip-Datei</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Bitmap-Dateien</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Netzwerkstandorte</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Es gibt keine Netzwerk-Standorte. Wenn Sie keine Netzwerk-Standorte verwenden, können Sie das Widget deaktivieren.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Deaktivieren</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Im Notizblock bearbeiten</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Ausgewählte Datei im Notepad bearbeiten</value>
   </data>
 </root>

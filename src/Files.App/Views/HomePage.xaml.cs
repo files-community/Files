@@ -53,7 +53,7 @@ namespace Files.App.Views
 			// Set path of working directory empty
 			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
 
-			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, null);
+			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 
 			AppInstance.ToolbarViewModel.PathComponents.Clear();
 

@@ -125,7 +125,7 @@ namespace Files.App
 						{
 							case "tab":
 								rootFrame.Navigate(typeof(MainPage),
-									new MainPageNavigationArguments() { Parameter = CustomTabViewItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
+									new MainPageNavigationArguments() { Parameter = TabBarItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
 									new SuppressNavigationTransitionInfo());
 								break;
 
@@ -251,7 +251,7 @@ namespace Files.App
 				{
 					LeftPaneNavPathParam = payload,
 					LeftPaneSelectItemParam = selectItem,
-					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
+					RightPaneNavPathParam = Bounds.Width > Constants.UI.MultiplePaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())

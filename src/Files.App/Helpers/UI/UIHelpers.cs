@@ -165,7 +165,7 @@ namespace Files.App.Helpers
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.RecycleBin,
-					Constants.ImageRes.NetworkDrives,
+					Constants.ImageRes.Network,
 					Constants.ImageRes.Libraries,
 					Constants.ImageRes.ThisPC,
 					Constants.ImageRes.CloudDrives,

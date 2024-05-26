@@ -37,7 +37,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is not null)
 				return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage);
@@ -78,7 +78,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return Task.CompletedTask;
@@ -118,7 +118,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return;

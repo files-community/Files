@@ -7,7 +7,7 @@
         <AssemblyName>Files</AssemblyName>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;ku-Arab;lt-LT;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;ku-Arab;lt-LT;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -69,12 +69,13 @@
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.2" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-        <PackageReference Include="DirectNCore" Version="1.16.0" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
         <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
+        <PackageReference Include="LiteDB" Version="5.0.19" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1.2" />
+        <PackageReference Include="MessageFormat" Version="7.1.0" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.4" />

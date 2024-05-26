@@ -283,7 +283,7 @@
     <value>Accorder l'autorisation</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée.</value>
+    <value>Pour commencer, vous devrez nous accorder l'autorisation d'afficher vos fichiers. Cela ouvrira une page de paramètres où vous pourrez nous accorder cette autorisation. Vous devrez relancer l'application une fois cette étape terminée.</value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Affichage</value>
@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Le nom de l'élément n'est pas valide</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>élément sélectionné</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# élément sélectionné} other {# éléments sélectionnés}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>éléments sélectionnés</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>élément</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>éléments</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {objet} other {objets}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Désépingler de la barre latérale</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Disques réseaux</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Réseau</value>
@@ -3271,7 +3264,7 @@
     <value>Files est exécuté en tant qu'administrateur</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>En raison des limitations de la plateforme, le glisser-déposer n'est pas disponible lorsque vous exécutez Files en tant qu'administrateur.</value>
+    <value>En raison d'une limitation avec Windows et WinAppSdk, le glisser-déposer n'est pas disponible lors de l'exécution de Files en tant qu'administrateur. Si vous souhaitez utiliser le glisser-déposer, vous pouvez contourner cette limitation en ouvrant l'UAC (contrôle du compte utilisateur) à partir du menu Démarrer et en sélectionnant le troisième niveau, puis en redémarrant Windows. Sinon, vous pouvez continuer à utiliser Files sans glisser-déposer.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Laisser l'application s'exécuter en arrière-plan lorsque la fenêtre est fermée</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Alignement vertical</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Acrylique fin</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Afficher pour tous les emplacements</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Outils de développement</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configurer le bouton "Ouvrir l'IDE" dans la barre d'état</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Afficher pour les repos Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Extension de l'application</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Fichier ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Fichier Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Fichiers Bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Localisations réseau</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Il n'y a pas d'emplacement réseau. Si vous n'utilisez pas d'emplacement réseau, vous pouvez désactiver le widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Désactiver</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Modifier dans Bloc-notes</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Modifier le fichier sélectionné dans Bloc-notes</value>
   </data>
 </root>

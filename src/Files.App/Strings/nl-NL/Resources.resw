@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>De opgegeven itemnaam is ongeldig</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>item geselecteerd</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# item geselecteerd} other {# items geselecteerd}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>items geselecteerd</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>item</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>items</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {artikel}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Losmaken van zijbalk</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Netwerkstations</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Netwerk</value>
@@ -3271,7 +3264,7 @@
     <value>Files wordt uitgevoerd als beheerder</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Vanwege platform beperkingen is slepen en neerzetten niet beschikbaar wanneer Files wordt uitgevoerd als beheerder.</value>
+    <value>Slepen en neerzetten zijn als gevolg van een beperking met Windows en WinAppSd niet beschikbaar als er bestanden als admin worden gebruikt. Als u drag and drop wilt gebruiken, u kunt rond deze beperking werken door UAC (gebruikersaccount Control) te openen uit het startmenu en het derde niveau te selecteren en Windows te herstarten. Anders kun je bestanden blijven gebruiken zonder verslepen en neerzetten.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Laat de app op de achtergrond actief als het venster wordt gesloten</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Verticale uitlijning</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Dunne krilische</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Toon voor alle locaties</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Hulpmiddelen voor ontwikkelaars</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configureer de "Open IDE" knop op de statusbalk</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Toon voor Git repos</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Applicatie extensie</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO bestand</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip bestand</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Bitmap bestanden</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Netwerk locaties</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Er zijn geen netwerklocaties. Als u geen netwerklocaties gebruikt, kunt u de widget uitschakelen.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Uitschakelen</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Bewerken in kladblok</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Bewerk het geselecteerde bestand in Kladblok</value>
   </data>
 </root>
