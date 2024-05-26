@@ -284,9 +284,6 @@ namespace Files.App.Views
 					RightPaneSelectItemParam = IsRightPaneVisible ? NavParamsRight?.SelectItem : null,
 				}
 			};
-
-			// Initialize
-			PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 		}
 
 		// Event methods
@@ -349,6 +346,8 @@ namespace Files.App.Views
 		{
 			((UIElement)sender).GotFocus += Pane_GotFocus;
 			((UIElement)sender).RightTapped += Pane_RightTapped;
+
+			PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 		}
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
