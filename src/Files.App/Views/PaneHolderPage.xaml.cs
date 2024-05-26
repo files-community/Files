@@ -418,7 +418,7 @@ namespace Files.App.Views
 
 		private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			if (PaneRight is not null && PaneRight.ActualWidth <= 300)
+			if (PaneRight is not null && PaneRight.ActualWidth <= 100)
 				IsRightPaneVisible = false;
 
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));

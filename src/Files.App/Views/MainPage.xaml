@@ -235,7 +235,7 @@
 						<ColumnDefinition
 							x:Name="ContentColumn"
 							Width="*"
-							MinWidth="100" />
+							MinWidth="208" />
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>

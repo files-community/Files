@@ -41,7 +41,7 @@
 			<ColumnDefinition
 				x:Name="LeftColumn"
 				Width="*"
-				MinWidth="300" />
+				MinWidth="100" />
 			<ColumnDefinition x:Name="SizerColumnDefinition" Width="Auto" />
 			<ColumnDefinition
 				x:Name="RightColumn"
@@ -89,7 +89,7 @@
 				<icore:ChangePropertyAction
 					PropertyName="MinWidth"
 					TargetObject="{Binding ElementName=RightColumn}"
-					Value="290" />
+					Value="100" />
 				<icore:ChangePropertyAction
 					PropertyName="Width"
 					TargetObject="{Binding ElementName=RightColumn}"
