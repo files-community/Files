@@ -538,7 +538,7 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.Placement="Bottom"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
-					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
+					Visibility="{x:Bind ViewModel.IsSettingsButtonVisible, Mode=OneWay}">
 					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
 						<AnimatedIcon.Source>
 							<animatedvisuals:AnimatedSettingsVisualSource />
