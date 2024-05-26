@@ -46,6 +46,16 @@ DeleteFileFromApp
 RemoveDirectoryFromApp
 GetKeyState
 CreateDirectoryFromApp
+WNetCancelConnection2
+NET_USE_CONNECT_FLAGS
+NETRESOURCEW
+WNetAddConnection3
+CREDENTIALW
+CredWrite
+WNetConnectionDialog1
+CONNECTDLGSTRUCTW
+DwmSetWindowAttribute
+WIN32_ERROR
 CoCreateInstance
 FileOpenDialog
 IFileOpenDialog
