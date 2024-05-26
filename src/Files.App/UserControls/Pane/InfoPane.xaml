@@ -137,7 +137,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid>
+	<Grid HorizontalAlignment="Stretch">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" />

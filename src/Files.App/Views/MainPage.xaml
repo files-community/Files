@@ -273,7 +273,7 @@
 						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}"
 						CornerRadius="8" />
 
-					<!--  Sizer  -->
+					<!--  Preview Pane Splitter  -->
 					<toolkit:GridSplitter
 						x:Name="PaneSplitter"
 						Grid.Row="1"
