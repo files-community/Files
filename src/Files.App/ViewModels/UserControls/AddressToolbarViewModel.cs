@@ -66,7 +66,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool IsSettingsButtonVisible =>
 			!WindowContext.IsCompactOverlay &&
-			UserSettingsService.GeneralSettingsService.ShowSettingsButtonOnAddressToolbar;
+			!UserSettingsService.GeneralSettingsService.DisplaySettingsButtonOnSidebar;
 
 		private bool _isCommandPaletteOpen;
 		public bool IsCommandPaletteOpen

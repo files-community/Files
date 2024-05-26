@@ -263,7 +263,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ShowSettingsButtonOnAddressToolbar
+		public bool DisplaySettingsButtonOnSidebar
 		{
 			get => Get(false);
 			set => Set(value);

@@ -236,7 +236,7 @@ namespace Files.App.ViewModels.UserControls
 
 			CreateItemHomeAsync();
 
-			if (!UserSettingsService.GeneralSettingsService.ShowSettingsButtonOnAddressToolbar)
+			if (UserSettingsService.GeneralSettingsService.DisplaySettingsButtonOnSidebar)
 				CreateItemSettingsAsync();
 
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
