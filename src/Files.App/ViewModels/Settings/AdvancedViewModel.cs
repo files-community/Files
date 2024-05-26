@@ -164,7 +164,9 @@ namespace Files.App.ViewModels.Settings
 
 			try
 			{
-				var zipFolder = await ZipStorageFolder.FromPathAsync(filePath);
+				var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
+
+				var zipFolder = await ZipStorageFolder.FromStorageFileAsync(file);
 				if (zipFolder is null)
 					return;
 
@@ -206,18 +208,22 @@ namespace Files.App.ViewModels.Settings
 
 			try
 			{
-				Win32PInvoke.CreateFileFromAppW(
+				var handle = Win32PInvoke.CreateFileFromAppW(
 					filePath,
-					GENERIC_READ | GENERIC_WRITE,
-					FILE_SHARE_READ | FILE_SHARE_WRITE,
+					Win32PInvoke.GENERIC_READ | Win32PInvoke.GENERIC_WRITE,
+					Win32PInvoke.FILE_SHARE_READ | Win32PInvoke.FILE_SHARE_WRITE,
 					nint.Zero,
-					OPEN_EXISTING,
+					Win32PInvoke.CREATE_NEW,
 					0,
 					nint.Zero);
 
-				await ZipStorageFolder.InitArchive(filePath, OutArchiveFormat.Zip);
+				Win32PInvoke.CloseHandle(handle);
 
-				var zipFolder = (ZipStorageFolder)await ZipStorageFolder.FromPathAsync(filePath);
+				var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
+
+				await ZipStorageFolder.InitArchive(file, OutArchiveFormat.Zip);
+
+				var zipFolder = (ZipStorageFolder)await ZipStorageFolder.FromStorageFileAsync(file);
 				if (zipFolder is null)
 					return;
 
