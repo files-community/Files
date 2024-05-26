@@ -159,10 +159,10 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ImportSettingsAsync()
 		{
-			FileOpenPicker filePicker = InitializeWithWindow(new FileOpenPicker());
-			filePicker.FileTypeFilter.Add(".zip");
+			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip"];
+			CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 
-			StorageFile file = await filePicker.PickSingleFileAsync();
+			var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
 			if (file is not null)
 			{
 				try
@@ -208,7 +208,7 @@ namespace Files.App.ViewModels.Settings
 			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip" ];
 			CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 
-			var file = await StorageHelpers.ToStorageItem<StorageFile>(filePath);
+			var file = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
 			if (file is not null)
 			{
 				try
