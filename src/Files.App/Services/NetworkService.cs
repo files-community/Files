@@ -3,6 +3,8 @@
 
 using System.Runtime.InteropServices;
 using System.Text;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.NetworkManagement.WNet;
