@@ -30,7 +30,7 @@
 		CornerRadius="8,8,8,8"
 		Translation="0,0,8">
 		<Grid.Shadow>
-			<ThemeShadow x:Name="ShellContentThemeShadow" />
+			<ThemeShadow x:Name="ShellContentThemeShadow" x:FieldModifier="public" />
 		</Grid.Shadow>
 
 		<Border
@@ -75,11 +75,7 @@
 
 		<Frame
 			x:Name="ItemDisplayFrame"
-			HorizontalAlignment="Stretch"
 			x:FieldModifier="public"
-			BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-			BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
-			CornerRadius="8"
 			Navigated="ItemDisplayFrame_Navigated" />
 
 	</Grid>

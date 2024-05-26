@@ -150,19 +150,6 @@ namespace Files.App.Views.Shells
 
 		public virtual Task WhenIsCurrent() => _IsCurrentInstanceTCS.Task;
 
-		public SolidColorBrush CurrentInstanceBorderBrush
-		{
-			get => (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty);
-			set => SetValue(CurrentInstanceBorderBrushProperty, value);
-		}
-
-		public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
-		   DependencyProperty.Register(
-			nameof(CurrentInstanceBorderBrush),
-			typeof(SolidColorBrush),
-			typeof(ModernShellPage),
-			new PropertyMetadata(null));
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public event EventHandler<TabBarItemParameter> ContentChanged;

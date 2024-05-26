@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,6 +26,9 @@ namespace Files.App.Views
 		private bool _wasRightPaneVisible;
 
 		// Properties
+
+		private StatusBar StatusBar
+			=> ((Frame)MainWindow.Instance.Content).FindDescendant<StatusBar>()!;
 
 		public bool IsLeftPaneActive
 			=> ActivePane == PaneLeft;
@@ -363,6 +367,18 @@ namespace Files.App.Views
 			var activePane = isLeftPane ? PaneLeft : PaneRight;
 			if (ActivePane != activePane)
 				ActivePane = activePane;
+
+			// Add theme shadow to the active pane
+			if (isLeftPane)
+			{
+				PaneRight.ShellContentThemeShadow.Receivers.Remove(StatusBar);
+				PaneLeft.ShellContentThemeShadow.Receivers.Add(StatusBar);
+			}
+			else
+			{
+				PaneRight.ShellContentThemeShadow.Receivers.Add(StatusBar);
+				PaneLeft.ShellContentThemeShadow.Receivers.Remove(StatusBar);
+			}
 		}
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)

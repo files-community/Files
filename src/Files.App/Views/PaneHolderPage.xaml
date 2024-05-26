@@ -85,46 +85,6 @@
 			PaneHolder="{x:Bind}" />
 
 		<i:Interaction.Behaviors>
-			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderBrush"
-					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="{ThemeResource SystemAccentColorLight1}" />
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderThickness"
-					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="0,0,0,2" />
-			</icore:DataTriggerBehavior>
-			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderBrush"
-					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderThickness"
-					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="0,0,0,0" />
-			</icore:DataTriggerBehavior>
-			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderBrush"
-					TargetObject="{Binding ElementName=PaneRight}"
-					Value="{ThemeResource SystemAccentColorLight1}" />
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderThickness"
-					TargetObject="{Binding ElementName=PaneRight}"
-					Value="0,0,0,2" />
-			</icore:DataTriggerBehavior>
-			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderBrush"
-					TargetObject="{Binding ElementName=PaneRight}"
-					Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderThickness"
-					TargetObject="{Binding ElementName=PaneRight}"
-					Value="0,0,0,0" />
-			</icore:DataTriggerBehavior>
 			<icore:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="True">
 				<icore:ChangePropertyAction
 					PropertyName="MinWidth"
