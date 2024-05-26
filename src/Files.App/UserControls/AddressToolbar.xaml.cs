@@ -14,44 +14,30 @@ namespace Files.App.UserControls
 {
 	public sealed partial class AddressToolbar : UserControl
 	{
-		// Dependency injections
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		private IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-
+		// Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowOngoingTasksProperty =
-			DependencyProperty.Register(
-				nameof(ShowOngoingTasks),
-				typeof(bool),
-				typeof(AddressToolbar),
-				new(null));
-
+			DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(AddressToolbar), new(null));
 		public bool ShowOngoingTasks
 		{
 			get => (bool)GetValue(ShowOngoingTasksProperty);
 			set => SetValue(ShowOngoingTasksProperty, value);
 		}
 
+		// Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowSearchBoxProperty =
-			DependencyProperty.Register(
-				nameof(ShowSearchBox),
-				typeof(bool),
-				typeof(AddressToolbar),
-				new(null));
-
+			DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(AddressToolbar), new(null));
 		public bool ShowSearchBox
 		{
-			get => (bool)GetValue(ShowSearchBoxProperty);
-			set => SetValue(ShowSearchBoxProperty, value);
+			get { return (bool)GetValue(ShowSearchBoxProperty); }
+			set { SetValue(ShowSearchBoxProperty, value); }
 		}
 
+		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(
-				nameof(ViewModel),
-				typeof(AddressToolbarViewModel),
-				typeof(AddressToolbar),
-				new PropertyMetadata(null));
-
+			DependencyProperty.Register(nameof(ViewModel), typeof(AddressToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
 		public AddressToolbarViewModel? ViewModel
 		{
 			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
@@ -60,10 +46,7 @@ namespace Files.App.UserControls
 
 		public StatusCenterViewModel? OngoingTasksViewModel { get; set; }
 
-		public AddressToolbar()
-		{
-			InitializeComponent();
-		}
+		public AddressToolbar() => InitializeComponent();
 
 		private void NavToolbar_Loading(FrameworkElement _, object e)
 		{

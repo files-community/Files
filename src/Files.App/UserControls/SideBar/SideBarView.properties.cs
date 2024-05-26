@@ -25,8 +25,8 @@ namespace Files.App.UserControls.Sidebar
 
 		public UIElement PaneFooter
 		{
-			get => (UIElement)GetValue(PaneFooterProperty);
-			set => SetValue(PaneFooterProperty, value);
+			get { return (UIElement)GetValue(PaneFooterProperty); }
+			set { SetValue(PaneFooterProperty, value); }
 		}
 		public static readonly DependencyProperty PaneFooterProperty =
 			DependencyProperty.Register(nameof(PaneFooter), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null, OnPropertyChanged));
@@ -81,13 +81,21 @@ namespace Files.App.UserControls.Sidebar
 				return;
 
 			if (e.Property == OpenPaneLengthProperty)
+			{
 				control.UpdateOpenPaneLengthColumn();
+			}
 			else if (e.Property == DisplayModeProperty)
+			{
 				control.UpdateDisplayMode();
+			}
 			else if (e.Property == IsPaneOpenProperty)
+			{
 				control.UpdateMinimalMode();
+			}
 			else if (e.Property == PaneFooterProperty)
+			{
 				control.UpdatePaneFooterVisibility();
+			}
 		}
 	}
 }

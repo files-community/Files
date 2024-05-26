@@ -106,10 +106,13 @@ namespace Files.App.UserControls.Sidebar
 			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarItem), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
 
 		public static void SetTemplateRoot(DependencyObject target, FrameworkElement value)
-			=> target.SetValue(TemplateRootProperty, value);
+		{
+			target.SetValue(TemplateRootProperty, value);
+		}
 		public static FrameworkElement GetTemplateRoot(DependencyObject target)
-			=> (FrameworkElement)target.GetValue(TemplateRootProperty);
-
+		{
+			return (FrameworkElement)target.GetValue(TemplateRootProperty);
+		}
 		public static readonly DependencyProperty TemplateRootProperty =
 			DependencyProperty.Register("TemplateRoot", typeof(FrameworkElement), typeof(FrameworkElement), new PropertyMetadata(null));
 
@@ -119,15 +122,25 @@ namespace Files.App.UserControls.Sidebar
 				return;
 
 			if (e.Property == DisplayModeProperty)
+			{
 				item.SidebarDisplayModeChanged((SidebarDisplayMode)e.OldValue);
+			}
 			else if (e.Property == IsSelectedProperty)
+			{
 				item.UpdateSelectionState();
+			}
 			else if (e.Property == IsExpandedProperty)
+			{
 				item.UpdateExpansionState();
-			else if(e.Property == ItemProperty)
+			}
+			else if (e.Property == ItemProperty)
+			{
 				item.HandleItemChange();
+			}
 			else
+			{
 				Debug.Write($@"The property ""{e.Property}"" has been changed but not updated accordingly in SidebarItem.");
+			}
 		}
 	}
 }

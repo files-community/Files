@@ -15,7 +15,7 @@ namespace Files.App.UserControls.Sidebar
 	public interface ISidebarViewModel
 	{
 		/// <summary>
-		/// Gets the list of items that will be rendered in the sidebar pane.
+		/// The source/list of items that will be rendered in the sidebar
 		/// </summary>
 		BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; }
 

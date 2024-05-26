@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.UserControls.Sidebar"
-	xmlns:uc="using:Files.App.UserControls">
+	xmlns:usercontrols="using:Files.App.UserControls">
 
 	<x:Double x:Key="SidebarOpenPaneLength">300</x:Double>
 	<x:Double x:Key="SidebarNegativeOpenPaneLength">-300</x:Double>
@@ -28,7 +28,7 @@
 	<Style
 		x:Key="SidebarFavouritesPinnedIcon"
 		BasedOn="{StaticResource ColorIconPin}"
-		TargetType="uc:OpacityIcon">
+		TargetType="usercontrols:OpacityIcon">
 		<Setter Target="MinWidth" Value="16" />
 		<Setter Target="Width" Value="16" />
 		<Setter Target="MinHeight" Value="16" />
@@ -58,7 +58,6 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-						<!--  Drag Target  -->
 						<Rectangle
 							x:Name="DragTargetIndicator"
 							Grid.ColumnSpan="3"
@@ -72,7 +71,6 @@
 							RadiusY="4"
 							Visibility="Collapsed" />
 
-						<!--  Root Item  -->
 						<Grid
 							x:Name="ElementGrid"
 							Grid.Row="0"
@@ -93,7 +91,6 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<!--  Selection Indicator  -->
 							<Rectangle
 								x:Name="SelectionIndicator"
 								Width="3"
@@ -106,7 +103,6 @@
 								RadiusX="2"
 								RadiusY="2" />
 
-							<!--  Icon  -->
 							<ContentPresenter
 								x:Name="IconPresenter"
 								Width="16"
@@ -117,7 +113,6 @@
 								AutomationProperties.AccessibilityView="Raw"
 								Content="{Binding Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
 
-							<!--  Name  -->
 							<TextBlock
 								x:Name="ItemNameTextBlock"
 								Grid.Column="1"
@@ -129,7 +124,6 @@
 								LineHeight="16"
 								Text="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
 
-							<!--  Item Decorator  -->
 							<ContentPresenter
 								x:Name="ItemDecoratorPresenter"
 								Grid.Column="3"
@@ -141,7 +135,6 @@
 								Content="{Binding Decorator, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
 								Visibility="Collapsed" />
 
-							<!--  Chevron  -->
 							<AnimatedIcon
 								x:Name="ExpandCollapseChevron"
 								Grid.Column="3"
@@ -168,7 +161,15 @@
 								</AnimatedIcon.RenderTransform>
 							</AnimatedIcon>
 
-							<!--  Overflow  -->
+							<FontIcon
+								x:Name="ExpanderIcon"
+								Grid.Column="2"
+								Margin="8,0,14,0"
+								AutomationProperties.AccessibilityView="Raw"
+								FontSize="8"
+								Glyph="&#xE70E;"
+								Visibility="Collapsed" />
+
 							<FlyoutBase.AttachedFlyout>
 								<Flyout x:Name="ChildrenFlyout" Placement="Right">
 									<Flyout.FlyoutPresenterStyle>
@@ -202,7 +203,6 @@
 							</FlyoutBase.AttachedFlyout>
 						</Grid>
 
-						<!--  Children  -->
 						<ItemsRepeater
 							x:Name="ChildrenPresenter"
 							Grid.Row="2"
@@ -217,7 +217,6 @@
 								<StackLayout />
 							</ItemsRepeater.Layout>
 						</ItemsRepeater>
-
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ExpansionStates">
 								<VisualState x:Name="NoExpansion">

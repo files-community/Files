@@ -14,14 +14,13 @@
 
 	<UserControl.Resources>
 		<ResourceDictionary>
-
 			<wctconverters:EmptyObjectToObjectConverter
 				x:Key="EmptyObjectToVisibilityConverter"
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
-
 		</ResourceDictionary>
 	</UserControl.Resources>
+
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition
@@ -39,7 +38,6 @@
 			Grid.ColumnSpan="3"
 			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}" />
 
-		<!--  Light Dismiss Layer  -->
 		<Grid
 			x:Name="PaneLightDismissLayer"
 			Grid.Row="1"
@@ -53,7 +51,6 @@
 			Tapped="PaneLightDismissLayer_Tapped"
 			Visibility="Collapsed" />
 
-		<!--  Pane  -->
 		<Grid
 			x:Name="PaneColumnGrid"
 			Grid.Row="1"
@@ -62,11 +59,13 @@
 			Canvas.ZIndex="10"
 			ContextRequested="PaneColumnGrid_ContextRequested"
 			XYFocusKeyboardNavigation="Enabled">
+
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
+
 			<Grid.RenderTransform>
 				<CompositeTransform x:Name="PaneColumnGridTransform" />
 			</Grid.RenderTransform>
@@ -74,7 +73,7 @@
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="0,8,0,0"
+					Padding="2,8,0,2"
 					HorizontalScrollMode="Disabled"
 					VerticalScrollBarVisibility="Auto"
 					XYFocusKeyboardNavigation="Enabled">
@@ -116,7 +115,6 @@
 
 		</Grid>
 
-		<!--  Sizer  -->
 		<Border
 			x:Name="SidebarResizer"
 			Grid.Row="1"
@@ -129,7 +127,7 @@
 			Background="Transparent"
 			BorderBrush="Transparent"
 			Canvas.ZIndex="100"
-			CornerRadius="2,2,2,2"
+			CornerRadius="2,2,0,0"
 			DoubleTapped="SidebarResizer_DoubleTapped"
 			ManipulationCompleted="SidebarResizer_ManipulationCompleted"
 			ManipulationDelta="SidebarResizer_ManipulationDelta"
@@ -148,7 +146,6 @@
 				UseSystemFocusVisuals="True" />
 		</Border>
 
-		<!--  Content  -->
 		<Grid
 			x:Name="ContentPresenter"
 			Grid.Row="1"
@@ -164,9 +161,7 @@
 				TabFocusNavigation="Local" />
 
 		</Grid>
-
 		<VisualStateManager.VisualStateGroups>
-
 			<VisualStateGroup x:Name="DisplayModes">
 				<VisualState x:Name="Expanded">
 					<VisualState.Setters>
