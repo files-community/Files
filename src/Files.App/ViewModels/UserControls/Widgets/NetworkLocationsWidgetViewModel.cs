@@ -93,7 +93,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new() { NavPathParam = path });
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextFlyoutItemModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive =
 				Items.Where(x =>
