@@ -97,12 +97,6 @@
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="ShellBackgroundFocusState">
-				<VisualState x:Name="SinglePaneState">
-					<VisualState.Setters>
-						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.BackgroundBrush}" />
-						<Setter Target="RootGrid.BorderThickness" Value="1" />
-					</VisualState.Setters>
-				</VisualState>
 				<VisualState x:Name="ShellBackgroundFocusOnState">
 					<VisualState.Setters>
 						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.BackgroundBrush}" />
