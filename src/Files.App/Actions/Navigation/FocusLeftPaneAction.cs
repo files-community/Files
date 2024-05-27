@@ -16,9 +16,6 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.Left, KeyModifiers.CtrlShift);
 
-		public RichGlyph Glyph
-			=> new("\uE89F");
-
 		public bool IsExecutable
 			=> context.IsMultiPaneActive;
 
