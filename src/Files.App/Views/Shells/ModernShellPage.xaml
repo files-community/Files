@@ -13,13 +13,6 @@
 	Loaded="Page_Loaded"
 	mc:Ignorable="d">
 
-	<local:BaseShellPage.Resources>
-		<ResourceDictionary>
-			<wctconverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-		</ResourceDictionary>
-	</local:BaseShellPage.Resources>
-
 	<local:BaseShellPage.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="V"
@@ -28,7 +21,18 @@
 			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
 
-	<Grid HorizontalAlignment="Stretch" wct:UIElementExtensions.ClipToBounds="True">
+	<Grid
+		x:Name="RootGrid"
+		wct:UIElementExtensions.ClipToBounds="True"
+		x:FieldModifier="public"
+		Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+		BackgroundSizing="InnerBorderEdge"
+		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+		BorderThickness="1"
+		CornerRadius="8">
+		<Grid.Shadow>
+			<ThemeShadow x:Name="ShellContentThemeShadow" x:FieldModifier="public" />
+		</Grid.Shadow>
 
 		<Border
 			x:Name="BackIcon"
@@ -72,11 +76,22 @@
 
 		<Frame
 			x:Name="ItemDisplayFrame"
-			HorizontalAlignment="Stretch"
 			x:FieldModifier="public"
-			BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-			BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
 			Navigated="ItemDisplayFrame_Navigated" />
 
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="ShellBackgroundFocusState">
+				<VisualState x:Name="ShellBackgroundFocusOnState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.BackgroundBrush}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBackgroundFocusOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.SecondaryBackgroundBrush}" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </local:BaseShellPage>
