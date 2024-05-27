@@ -369,7 +369,7 @@ namespace Files.App.Views
 			var activePane = isLeftPane ? PaneLeft : PaneRight;
 			if (ActivePane != activePane)
 				ActivePane = activePane;
-	
+
 			// Add theme shadow to the active pane
 			if (isLeftPane)
 			{
