@@ -22,6 +22,7 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
+			<SolidColorBrush x:Key="CommandBarBackground" Color="Transparent" />
 			<SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
 			<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
 
