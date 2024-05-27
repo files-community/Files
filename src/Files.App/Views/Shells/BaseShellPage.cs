@@ -143,17 +143,9 @@ namespace Files.App.Views.Shells
 
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
 
+					// Update background to show off the focused shell page
 					if (!IsColumnView)
-					{
-						if (value)
-						{
-							VisualStateManager.GoToState(this, "ShellBackgroundFocusOnState", true);
-						}
-						else
-						{
-							VisualStateManager.GoToState(this, "ShellBackgroundFocusOffState", true);
-						}
-					}
+						VisualStateManager.GoToState(this, value ? "ShellBackgroundFocusOnState" : "ShellBackgroundFocusOffState", true);
 				}
 			}
 		}
