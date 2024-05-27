@@ -133,11 +133,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid
-		Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
-		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-		BorderThickness="1"
-		CornerRadius="8">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" />
