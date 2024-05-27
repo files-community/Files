@@ -37,11 +37,11 @@
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
 				<!--  Styles for the custom icons  -->
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PathIcons.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/PathIcons.xaml" />
 				<ResourceDictionary Source="ms-appx:///UserControls/SideBar/SideBarControls.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/App.Theme.TextBlockStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/ShimmerStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/MenuFlyoutSubItemWithImageStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/App.Theme.TextBlockStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/ShimmerStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/MenuFlyoutSubItemWithImageStyle.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">
