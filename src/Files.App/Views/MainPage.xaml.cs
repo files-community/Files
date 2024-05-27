@@ -554,11 +554,5 @@ namespace Files.App.Views
 				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
 			}
 		}
-
-		private void RootGrid_Loaded(object sender, RoutedEventArgs e)
-		{
-			// Cast shadow on the status bar
-			PageContentThemeShadow.Receivers.Add(StatusBar);
-		}
 	}
 }

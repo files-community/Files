@@ -3,11 +3,12 @@
 
 using System.Runtime.InteropServices;
 using System.Text;
-using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using static Vanara.PInvoke.AdvApi32;
-using static Vanara.PInvoke.Mpr;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.NetworkManagement.WNet;
+using Windows.Win32.Security.Credentials;
 
 namespace Files.App.Services
 {
@@ -180,7 +181,12 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public bool DisconnectNetworkDrive(ILocatableFolder drive)
 		{
-			return WNetCancelConnection2(drive.Path.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Succeeded;
+			return
+				PInvoke.WNetCancelConnection2W(
+					drive.Path.TrimEnd('\\'),
+					(uint)NET_USE_CONNECT_FLAGS.CONNECT_UPDATE_PROFILE,
+					true)
+				is WIN32_ERROR.NO_ERROR;
 		}
 
 		/// <inheritdoc/>
@@ -198,16 +204,18 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task<bool> AuthenticateNetworkShare(string path)
 		{
-			var netRes = new NETRESOURCE()
+			var netRes = new NETRESOURCEW() { dwType = NET_RESOURCE_TYPE.RESOURCETYPE_DISK };
+
+			unsafe
 			{
-				dwType = NETRESOURCEType.RESOURCETYPE_DISK,
-				lpRemoteName = path
-			};
+				fixed (char* lpcPath = path)
+					netRes.lpRemoteName = new PWSTR(lpcPath);
+			}
 
 			// If credentials are saved, this will return NO_ERROR
-			Win32Error connectionError = WNetAddConnection3(HWND.NULL, netRes, null, null, 0);
+			var res = (WIN32_ERROR)PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, null, null, 0);
 
-			if (connectionError == Win32Error.ERROR_LOGON_FAILURE || connectionError == Win32Error.ERROR_ACCESS_DENIED)
+			if (res == WIN32_ERROR.ERROR_LOGON_FAILURE || res == WIN32_ERROR.ERROR_ACCESS_DENIED)
 			{
 				var dialog = DynamicDialogFactory.GetFor_CredentialEntryDialog(path);
 				await dialog.ShowAsync();
@@ -215,22 +223,32 @@ namespace Files.App.Services
 
 				if (credentialsReturned is not null && credentialsReturned[1] != null)
 				{
-					connectionError = WNetAddConnection3(HWND.NULL, netRes, credentialsReturned[1], credentialsReturned[0], 0);
-					if (credentialsReturned[2] == "y" && connectionError == Win32Error.NO_ERROR)
+					res = (WIN32_ERROR)PInvoke.WNetAddConnection3W(new(nint.Zero), netRes, credentialsReturned[1], credentialsReturned[0], 0);
+					if (credentialsReturned[2] == "y" && res == WIN32_ERROR.NO_ERROR)
 					{
-						var creds = new CREDENTIAL
+						var creds = new CREDENTIALW()
 						{
-							TargetName = new StrPtrAuto(path.Substring(2)),
-							UserName = new StrPtrAuto(credentialsReturned[0]),
 							Type = CRED_TYPE.CRED_TYPE_DOMAIN_PASSWORD,
 							AttributeCount = 0,
 							Persist = CRED_PERSIST.CRED_PERSIST_ENTERPRISE
 						};
 
-						byte[] bPassword = Encoding.Unicode.GetBytes(credentialsReturned[1]);
-						creds.CredentialBlobSize = (uint)bPassword.Length;
-						creds.CredentialBlob = Marshal.StringToCoTaskMemUni(credentialsReturned[1]);
-						CredWrite(creds, 0);
+						unsafe
+						{
+							fixed (char* lpcTargetName = path.Substring(2))
+								creds.TargetName = new(lpcTargetName);
+
+							fixed (char* lpcUserName = credentialsReturned[0])
+								creds.UserName = new(lpcUserName);
+
+							byte[] bPassword = Encoding.Unicode.GetBytes(credentialsReturned[1]);
+							fixed (byte* lpCredentialBlob = bPassword)
+								creds.CredentialBlob = lpCredentialBlob;
+
+							creds.CredentialBlobSize = (uint)bPassword.Length;
+						}
+
+						PInvoke.CredWrite(creds, 0);
 					}
 				}
 				else
@@ -239,13 +257,13 @@ namespace Files.App.Services
 				}
 			}
 
-			if (connectionError == Win32Error.NO_ERROR)
+			if (res == WIN32_ERROR.NO_ERROR)
 			{
 				return true;
 			}
 			else
 			{
-				await DialogDisplayHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), connectionError.ToString().Split(":")[1].Trim());
+				await DialogDisplayHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), res.ToString());
 
 				return false;
 			}

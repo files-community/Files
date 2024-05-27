@@ -20,6 +20,7 @@ namespace Files.App.Helpers
 			var appThemeToolbarBackgroundColor = appearance.AppThemeToolbarBackgroundColor;
 			var appThemeSidebarBackgroundColor = appearance.AppThemeSidebarBackgroundColor;
 			var appThemeFileAreaBackgroundColor = appearance.AppThemeFileAreaBackgroundColor;
+			var appThemeFileAreaSecondaryBackgroundColor = appearance.AppThemeFileAreaSecondaryBackgroundColor;
 			var appThemeInfoPaneBackgroundColor = appearance.AppThemeInfoPaneBackgroundColor;
 			var appThemeFontFamily = appearance.AppThemeFontFamily;
 
@@ -78,6 +79,18 @@ namespace Files.App.Helpers
 				catch
 				{
 					appearance.AppThemeFileAreaBackgroundColor = ""; //reset to default
+				}
+			}
+
+			if (!string.IsNullOrWhiteSpace(appThemeFileAreaSecondaryBackgroundColor))
+			{
+				try
+				{
+					service.SetAppThemeFileAreaSecondaryBackgroundColor(ColorHelper.ToColor(appThemeFileAreaSecondaryBackgroundColor).FromWindowsColor());
+				}
+				catch
+				{
+					appearance.AppThemeFileAreaSecondaryBackgroundColor = ""; //reset to default
 				}
 			}
 
