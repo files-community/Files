@@ -16,7 +16,7 @@
 	<ContentDialog.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/NavigationViewItemButtonStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
