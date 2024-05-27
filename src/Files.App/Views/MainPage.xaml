@@ -343,58 +343,6 @@
 					</VisualState.StateTriggers>
 				</VisualState>
 			</VisualStateGroup>
-			<!--<VisualStateGroup x:Name="InfoPaneStates">
-				<VisualState x:Name="InfoPaneCollapsedState">
-					<VisualState.Setters>
-						<Setter Target="PaneRow.MinHeight" Value="0" />
-						<Setter Target="PaneRow.MaxHeight" Value="PositiveInfinity" />
-						<Setter Target="PaneRow.Height" Value="0" />
-						<Setter Target="PaneColumn.MinWidth" Value="0" />
-						<Setter Target="PaneColumn.MaxWidth" Value="PositiveInfinity" />
-						<Setter Target="PaneColumn.Width" Value="0" />
-					</VisualState.Setters>
-				</VisualState>
-				<VisualState x:Name="InfoPaneRightPlacedState">
-					<VisualState.Setters>
-						<Setter Target="PreviewPane.(Grid.Row)" Value="1" />
-						<Setter Target="PreviewPane.(Grid.Column)" Value="2" />
-
-						<Setter Target="PaneSplitter.(Grid.Row)" Value="1" />
-						<Setter Target="PaneSplitter.(Grid.Column)" Value="1" />
-						<Setter Target="PaneSplitter.Width" Value="2" />
-						<Setter Target="PaneSplitter.Height" Value="{x:Bind RootGrid.ActualHeight, Mode=OneWay}" />
-						<Setter Target="PaneSplitter.GripperCursor" Value="10" />
-
-						<Setter Target="PaneColumn.MinWidth" Value="{x:Bind PreviewPane.MinWidth, Mode=OneWay}" />
-						<Setter Target="PaneColumn.MaxWidth" Value="{x:Bind PreviewPane.MaxWidth, Mode=OneWay}" />
-						<Setter Target="PaneColumn.Width" Value="{x:Bind UserSettingsService.InfoPaneSettingsService.VerticalSizePx, Mode=OneWay}" />
-
-						<Setter Target="PaneRow.MinHeight" Value="0" />
-						<Setter Target="PaneRow.MaxHeight" Value="NaN" />
-						<Setter Target="PaneRow.Height" Value="0" />
-					</VisualState.Setters>
-				</VisualState>
-				<VisualState x:Name="InfoPaneBottomPlacedState">
-					<VisualState.Setters>
-						<Setter Target="PreviewPane.(Grid.Row)" Value="3" />
-						<Setter Target="PreviewPane.(Grid.Column)" Value="0" />
-
-						<Setter Target="PaneSplitter.(Grid.Row)" Value="2" />
-						<Setter Target="PaneSplitter.(Grid.Column)" Value="0" />
-						<Setter Target="PaneSplitter.Width" Value="{x:Bind RootGrid.ActualWidth, Mode=OneWay}" />
-						<Setter Target="PaneSplitter.Height" Value="2" />
-						<Setter Target="PaneSplitter.GripperCursor" Value="8" />
-
-						<Setter Target="PaneColumn.MinWidth" Value="0" />
-						<Setter Target="PaneColumn.MaxWidth" Value="NaN" />
-						<Setter Target="PaneColumn.Width" Value="0" />
-
-						<Setter Target="PaneRow.MinHeight" Value="{x:Bind PreviewPane.MinHeight, Mode=OneWay}" />
-						<Setter Target="PaneRow.MaxHeight" Value="{x:Bind PreviewPane.MaxHeight, Mode=OneWay}" />
-						<Setter Target="PaneRow.Height" Value="{x:Bind UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, Mode=OneWay}" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>-->
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </Page>
