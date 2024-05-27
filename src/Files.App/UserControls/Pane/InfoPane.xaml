@@ -369,7 +369,7 @@
 												<VisualState x:Name="Normal" />
 												<VisualState x:Name="PointerOver">
 													<VisualState.Setters>
-														<Setter Target="TagPill.Background" Value="{ThemeResource SubtleFillColorSecondary}" />
+														<Setter Target="TagPill.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
 													</VisualState.Setters>
 												</VisualState>
 											</VisualStateGroup>

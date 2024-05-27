@@ -337,7 +337,7 @@
 											VerticalAlignment="Center"
 											x:Load="{x:Bind IsFolder}"
 											FontSize="12"
-											Foreground="{ThemeResource TextFillColorSecondary}"
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 											Glyph="&#xE76C;" />
 
 									</StackPanel>
