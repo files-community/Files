@@ -326,23 +326,23 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		override public void StartRenameItems()
+		{
+			
+			StartRenameItems("ItemNameTextBox");
+			
+		}
+
 		override public void StartRenameItem()
 		{
+			
 			StartRenameItem("ItemNameTextBox");
 
-			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
-				return;
-
-			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			if (textBox is null || textBox.FindParent<Grid>() is null)
-				return;
-
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
-			if (IsRenamingItem)
+			if (IsRenamingItem || IsRenamingMultipleItems)
 			{
 				ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
@@ -354,10 +354,27 @@ namespace Files.App.Views.Layouts
 
 		protected override void EndRename(TextBox textBox)
 		{
+			if (textBox is not null)
+			{
+				textBox.LostFocus -= RenameTextBox_LostFocus;
+				textBox.KeyDown -= RenameTextBox_KeyDown;
+			}
 			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
 				Grid.SetColumnSpan(parent, 1);
 
-			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+			ListViewItem? listViewItem;
+
+			
+			listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+			
+			
+			if (listViewItem is null)
+			{	
+				IsRenamingMultipleItems = false;
+				IsRenamingItem = false;
+				return;
+			}
+			
 
 			if (textBox is null || listViewItem is null)
 			{
@@ -365,23 +382,21 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
+				listViewItem?.Focus(FocusState.Programmatic);
 				TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
 			// Unsubscribe from events
-			if (textBox is not null)
-			{
-				textBox!.LostFocus -= RenameTextBox_LostFocus;
-				textBox.KeyDown -= RenameTextBox_KeyDown;
-			}
+			
 
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
+			IsRenamingMultipleItems = false;
 
 			// Re-focus selected list item
-			listViewItem?.Focus(FocusState.Programmatic);
+			
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -404,7 +419,7 @@ namespace Files.App.Views.Layouts
 
 				await commands[hotKey].ExecuteAsync();
 			}
-			else if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
+			else if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown && !IsRenamingMultipleItems)
 			{
 				e.Handled = true;
 
@@ -509,6 +524,16 @@ namespace Files.App.Views.Layouts
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
 						if (textBox is not null)
 							await CommitRenameAsync(textBox);
+					}
+				}
+				if (IsRenamingMultipleItems)
+				{
+					ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+					if (listViewItem is not null)
+					{
+						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+						if (textBox is not null)
+							await CommitMultipleRenameAsync(textBox);
 					}
 				}
 				return;

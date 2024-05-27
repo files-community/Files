@@ -273,10 +273,10 @@ namespace Files.App.Helpers
 
 		public static async Task<bool> RenameFileItemsAsync(List<ListedItem> items, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
 		{
-			for (int i = 0; i < items.Count; i++)
+			var tasks = items.Select(async (item, i) =>
 			{
-				var item = items[i];
-				
+
+
 				if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 				{
 					newName = item.ItemNameRaw.Replace(
@@ -296,7 +296,7 @@ namespace Files.App.Helpers
 
 				if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
 				{
-					continue;
+					return true;
 				}
 
 				FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
@@ -307,15 +307,19 @@ namespace Files.App.Helpers
 				{
 					associatedInstance.ToolbarViewModel.CanGoForward = false;
 					await associatedInstance.RefreshIfNoWatcherExistsAsync();
-					
+					return true;
+
 				}
 				else
 				{
 					return false;
 				}
-			}
+			});
 
-			return true;
+			var results = await Task.WhenAll(tasks);
+			return results.All(x => x);
+
+
 		}
 
 		public static async Task CreateFileFromDialogResultTypeAsync(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)

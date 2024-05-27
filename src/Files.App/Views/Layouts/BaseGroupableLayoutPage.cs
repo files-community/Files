@@ -282,16 +282,18 @@ namespace Files.App.Views.Layouts
 			RenamingItems = SelectedItems; // Assume this method retrieves all selected items.
 			if (RenamingItems == null || RenamingItems.Count == 0)
 				return;
-			var lastItem = RenamingItems.Last();
-			int extensionLength = lastItem.FileExtension?.Length ?? 0;
+			RenamingItem = RenamingItems.Last();
+			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
 
-			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(lastItem) as ListViewItem;
+			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(RenamingItem) as ListViewItem;
 			if (listViewItem is null)
 				return;
 
 			TextBox? textBox = null;
 			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 			textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
+			if (textBox is null || textBlock is null)
+				return;
 			textBox!.Text = textBlock!.Text;
 			OldItemName = textBlock.Text;
 			textBlock.Visibility = Visibility.Collapsed;
@@ -306,13 +308,15 @@ namespace Files.App.Views.Layouts
 
 			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 
+
 			textBox.Focus(FocusState.Pointer);
+
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = lastItem.Name.Length;
+			int selectedTextLength = RenamingItem.Name.Length;
 
-			if (!lastItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+			if (!RenamingItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
@@ -359,6 +363,8 @@ namespace Files.App.Views.Layouts
 
 		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			Console.WriteLine($"Key pressed: {e.Key}");
+			Console.WriteLine($"EnterKey : {VirtualKey.Enter}");
 			var textBox = (TextBox)sender;
 			var isShiftPressed = (PInvoke.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 
@@ -431,6 +437,7 @@ namespace Files.App.Views.Layouts
 
 		protected bool TryStartRenameNextItem(ListedItem item)
 		{
+			
 			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
 			NextRenameIndex = 0;
 
@@ -444,6 +451,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			return false;
+			
+			
 		}
 
 		protected void SelectionCheckbox_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
