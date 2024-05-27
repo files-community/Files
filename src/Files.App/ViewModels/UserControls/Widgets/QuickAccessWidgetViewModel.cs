@@ -225,8 +225,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 			}
 
-			ContentPageContext.ShellPage!.NavigateWithArguments(
-				ContentPageContext.ShellPage!.InstanceViewModel.FolderSettings.GetLayoutType(path),
+			ContentPageContext.ShellPage?.NavigateWithArguments(
+				ContentPageContext.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(path),
 				new() { NavPathParam = path });
 		}
 
