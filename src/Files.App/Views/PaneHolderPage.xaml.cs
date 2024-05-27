@@ -347,7 +347,7 @@ namespace Files.App.Views
 			((UIElement)sender).GotFocus += Pane_GotFocus;
 			((UIElement)sender).RightTapped += Pane_RightTapped;
 
-			PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+			PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
 		}
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
@@ -370,18 +370,24 @@ namespace Files.App.Views
 			if (ActivePane != activePane)
 				ActivePane = activePane;
 
+			if (!IsRightPaneVisible && PaneLeft is not null)
+			{
+				PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+				return;
+			}
+
 			// Add theme shadow to the active pane
 			if (isLeftPane)
 			{
 				if (PaneRight is not null)
 					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
 				if (PaneLeft is not null)
-					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
 			}
 			else
 			{
 				if (PaneRight is not null)
-					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
 				if (PaneLeft is not null)
 					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
 			}
