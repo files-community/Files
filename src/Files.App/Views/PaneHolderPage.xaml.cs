@@ -373,9 +373,6 @@ namespace Files.App.Views
 			// Add theme shadow to the active pane
 			if (isLeftPane)
 			{
-				PaneRight?.ShellContentThemeShadow.Receivers.Remove(StatusBar);
-				PaneLeft?.ShellContentThemeShadow.Receivers.Add(StatusBar);
-
 				if (PaneRight is not null)
 					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
 				if (PaneLeft is not null)
@@ -383,9 +380,6 @@ namespace Files.App.Views
 			}
 			else
 			{
-				PaneRight?.ShellContentThemeShadow.Receivers.Add(StatusBar);
-				PaneLeft?.ShellContentThemeShadow.Receivers.Remove(StatusBar);
-
 				if (PaneRight is not null)
 					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 				if (PaneLeft is not null)
