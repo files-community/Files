@@ -245,17 +245,19 @@ namespace Files.App.Views
 		{
 			// NOTE: Can only close right pane at the moment
 			IsRightPaneVisible = false;
+
 			PaneLeft.Focus(FocusState.Programmatic);
+			SetShadow();
 		}
 
 		public void FocusLeftPane()
 		{
-			ActivePane = PaneLeft;
+			PaneLeft.Focus(FocusState.Programmatic);
 		}
 
 		public void FocusRightPane()
 		{
-			ActivePane = PaneRight;
+			PaneRight.Focus(FocusState.Programmatic);
 		}
 
 		// Override methods
