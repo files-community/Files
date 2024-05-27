@@ -105,7 +105,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			var options = drive?.Item.MenuOptions;
 
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<ContextFlyoutItemModel>()
 			{
 				new()
 				{
@@ -181,7 +181,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
+					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
 				new()
