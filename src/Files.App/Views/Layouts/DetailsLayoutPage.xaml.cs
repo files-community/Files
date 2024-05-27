@@ -444,7 +444,7 @@ namespace Files.App.Views.Layouts
 				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPageInstance);
 				e.Handled = true;
 			}
-			else if (e.Key == VirtualKey.Space)
+			else if (e.Key == VirtualKey.Space  && !IsRenamingMultipleItems)
 			{
 				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
