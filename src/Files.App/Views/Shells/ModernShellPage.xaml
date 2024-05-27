@@ -79,5 +79,19 @@
 			x:FieldModifier="public"
 			Navigated="ItemDisplayFrame_Navigated" />
 
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="ShellBackgroundFocusState">
+				<VisualState x:Name="ShellBackgroundFocusOnState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.BackgroundBrush}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBackgroundFocusOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.SecondaryBackgroundBrush}" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </local:BaseShellPage>

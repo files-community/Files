@@ -142,6 +142,18 @@ namespace Files.App.Views.Shells
 						_IsCurrentInstanceTCS = new();
 
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
+
+					if (!IsColumnView)
+					{
+						if (value)
+						{
+							VisualStateManager.GoToState(this, "ShellBackgroundFocusOnState", true);
+						}
+						else
+						{
+							VisualStateManager.GoToState(this, "ShellBackgroundFocusOffState", true);
+						}
+					}
 				}
 			}
 		}
