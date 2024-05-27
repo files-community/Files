@@ -46,6 +46,12 @@ namespace Files.App.Data.Contracts
 		void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor);
 
 		/// <summary>
+		/// Overrides the XAML resource for App.Theme.FileArea.SecondaryBackgroundBrush
+		/// </summary>
+		/// <param name="appThemeFileAreaSecondaryBackgroundColor"></param>
+		void SetAppThemeFileAreaSecondaryBackgroundColor(Color appThemeFileAreaSecondaryBackgroundColor);
+
+		/// <summary>
 		/// Overrides the XAML resource for App.Theme.InfoPane.BackgroundBrush
 		/// </summary>
 		/// <param name="appThemeInfoPaneBackgroundColor"></param>
