@@ -53,6 +53,11 @@ namespace Files.App.Services.Settings
 		String AppThemeFileAreaBackgroundColor { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value for the app theme file area background color for the inactive pane.
+		/// </summary>
+		String AppThemeFileAreaSecondaryBackgroundColor { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value for the app theme info pane background color.
 		/// </summary>
 		String AppThemeInfoPaneBackgroundColor { get; set; }

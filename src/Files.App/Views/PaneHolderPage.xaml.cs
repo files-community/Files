@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,6 +26,9 @@ namespace Files.App.Views
 		private bool _wasRightPaneVisible;
 
 		// Properties
+
+		private StatusBar StatusBar
+			=> ((Frame)MainWindow.Instance.Content).FindDescendant<StatusBar>()!;
 
 		public bool IsLeftPaneActive
 			=> ActivePane == PaneLeft;
@@ -342,6 +346,8 @@ namespace Files.App.Views
 		{
 			((UIElement)sender).GotFocus += Pane_GotFocus;
 			((UIElement)sender).RightTapped += Pane_RightTapped;
+
+			PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 		}
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
@@ -363,6 +369,22 @@ namespace Files.App.Views
 			var activePane = isLeftPane ? PaneLeft : PaneRight;
 			if (ActivePane != activePane)
 				ActivePane = activePane;
+
+			// Add theme shadow to the active pane
+			if (isLeftPane)
+			{
+				if (PaneRight is not null)
+					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+				if (PaneLeft is not null)
+					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+			}
+			else
+			{
+				if (PaneRight is not null)
+					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+				if (PaneLeft is not null)
+					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+			}
 		}
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
@@ -389,7 +411,7 @@ namespace Files.App.Views
 
 		private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			if (PaneRight is not null && PaneRight.ActualWidth <= 300)
+			if (PaneRight is not null && PaneRight.ActualWidth <= 100)
 				IsRightPaneVisible = false;
 
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
