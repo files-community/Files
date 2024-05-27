@@ -246,6 +246,16 @@ namespace Files.App.Views
 			PaneLeft.Focus(FocusState.Programmatic);
 		}
 
+		public void FocusLeftPane()
+		{
+			ActivePane = PaneLeft;
+		}
+
+		public void FocusRightPane()
+		{
+			ActivePane = PaneRight;
+		}
+
 		// Override methods
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -303,30 +313,6 @@ namespace Files.App.Views
 		private void MainWindow_SizeChanged(object sender, WindowSizeChangedEventArgs e)
 		{
 			WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
-		}
-
-		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-		{
-			args.Handled = true;
-			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
-			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-			var menu = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-
-			switch (c: ctrl, s: shift, m: menu, k: args.KeyboardAccelerator.Key)
-			{
-				case (true, true, false, VirtualKey.Left): // ctrl + shift + "<-" select left pane
-					ActivePane = PaneLeft;
-					break;
-
-				case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
-					if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-					{
-						NavParamsRight = new NavigationParams { NavPath = "Home" };
-					}
-					IsRightPaneVisible = true;
-					ActivePane = PaneRight;
-					break;
-			}
 		}
 
 		private void Pane_ContentChanged(object sender, TabBarItemParameter e)
