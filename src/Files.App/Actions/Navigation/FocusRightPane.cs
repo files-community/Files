@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "NavigationToolbarClosePane/Label".GetLocalizedResource();
+			=> "FocusRightPane".GetLocalizedResource();
 
 		public string Description
-			=> "ClosePaneDescription".GetLocalizedResource();
+			=> "FocusRightPaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Right, KeyModifiers.CtrlShift);
