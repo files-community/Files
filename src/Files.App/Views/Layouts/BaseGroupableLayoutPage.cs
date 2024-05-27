@@ -34,6 +34,7 @@ namespace Files.App.Views.Layouts
 
 		protected override ItemsControl ItemsControl => ListViewBase;
 
+		
 		// Constructor
 
 		public BaseGroupableLayoutPage() : base()
@@ -69,6 +70,7 @@ namespace Files.App.Views.Layouts
 			ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
 			ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
 			ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
+			ItemManipulationModel.StartRenameItemsInvoked += ItemManipulationModel_StartRenameItemsInvoked;
 			ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
 			ItemManipulationModel.ScrollToTopInvoked += ItemManipulationModel_ScrollToTopInvoked;
 			ItemManipulationModel.RefreshItemThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
@@ -88,6 +90,7 @@ namespace Files.App.Views.Layouts
 			ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
 			ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
 			ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
+			ItemManipulationModel.StartRenameItemsInvoked -= ItemManipulationModel_StartRenameItemsInvoked;
 			ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
 			ItemManipulationModel.ScrollToTopInvoked -= ItemManipulationModel_ScrollToTopInvoked;
 			ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
@@ -209,6 +212,12 @@ namespace Files.App.Views.Layouts
 			StartRenameItem();
 		}
 
+		protected virtual void ItemManipulationModel_StartRenameItemsInvoked(object? sender, EventArgs e)
+		{
+			StartRenameItems();
+		}
+
+
 		protected virtual void ZoomIn(object? sender, GroupOption option)
 		{
 			if (option == GroupOption.None)
@@ -267,6 +276,54 @@ namespace Files.App.Views.Layouts
 			IsRenamingItem = true;
 		}
 
+		protected virtual void StartRenameItems(string itemNameTextBox)
+		{	
+			
+			RenamingItems = SelectedItems; // Assume this method retrieves all selected items.
+			if (RenamingItems == null || RenamingItems.Count == 0)
+				return;
+			RenamingItem = RenamingItems.Last();
+			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+
+			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(RenamingItem) as ListViewItem;
+			if (listViewItem is null)
+				return;
+
+			TextBox? textBox = null;
+			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+			textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
+			if (textBox is null || textBlock is null)
+				return;
+			textBox!.Text = textBlock!.Text;
+			OldItemName = textBlock.Text;
+			textBlock.Visibility = Visibility.Collapsed;
+			textBox.Visibility = Visibility.Visible;
+
+			if (textBox.FindParent<Grid>() is null)
+			{
+				textBlock.Visibility = Visibility.Visible;
+				textBox.Visibility = Visibility.Collapsed;
+				return;
+			}
+
+			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+
+
+			textBox.Focus(FocusState.Pointer);
+
+			textBox.LostFocus += RenameTextBox_LostFocus;
+			textBox.KeyDown += RenameTextBox_KeyDown;
+
+			int selectedTextLength = RenamingItem.Name.Length;
+
+			if (!RenamingItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+				selectedTextLength -= extensionLength;
+
+			textBox.Select(0, selectedTextLength);
+			IsRenamingMultipleItems = true;
+
+		}
+
 		protected virtual async Task CommitRenameAsync(TextBox textBox)
 		{
 			EndRename(textBox);
@@ -275,13 +332,30 @@ namespace Files.App.Views.Layouts
 			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
 		}
 
+		protected virtual async Task CommitMultipleRenameAsync(TextBox textBox)
+		{
+			EndRename(textBox);
+			string newItemName = textBox.Text.Trim().TrimEnd('.');
+			await UIFilesystemHelpers.RenameFileItemsAsync(RenamingItems, newItemName, ParentShellPageInstance);
+			
+			
+		}
+
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
 			if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
-				await CommitRenameAsync(textBox);
+				if (!IsRenamingMultipleItems)
+				{
+					await CommitRenameAsync(textBox);
+				}
+				else
+				{
+					await CommitMultipleRenameAsync(textBox);
+				}
+				
 			}
 		}
 
@@ -289,6 +363,8 @@ namespace Files.App.Views.Layouts
 
 		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			Console.WriteLine($"Key pressed: {e.Key}");
+			Console.WriteLine($"EnterKey : {VirtualKey.Enter}");
 			var textBox = (TextBox)sender;
 			var isShiftPressed = (PInvoke.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 
@@ -302,7 +378,10 @@ namespace Files.App.Views.Layouts
 					break;
 				case VirtualKey.Enter:
 					textBox.LostFocus -= RenameTextBox_LostFocus;
-					await CommitRenameAsync(textBox);
+					if(!IsRenamingMultipleItems)
+						await CommitRenameAsync(textBox);
+					else
+						await CommitMultipleRenameAsync(textBox);
 					e.Handled = true;
 					break;
 				case VirtualKey.Up:
@@ -328,7 +407,14 @@ namespace Files.App.Views.Layouts
 
 					if (textBox.Text != OldItemName)
 					{
-						await CommitRenameAsync(textBox);
+						if (!IsRenamingMultipleItems)
+						{
+							await CommitRenameAsync(textBox);
+						}
+						else
+						{
+							await CommitMultipleRenameAsync(textBox);
+						}
 					}
 					else
 					{
@@ -351,6 +437,7 @@ namespace Files.App.Views.Layouts
 
 		protected bool TryStartRenameNextItem(ListedItem item)
 		{
+			
 			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
 			NextRenameIndex = 0;
 
@@ -364,6 +451,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			return false;
+			
+			
 		}
 
 		protected void SelectionCheckbox_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

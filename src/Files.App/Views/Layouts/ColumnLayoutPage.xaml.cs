@@ -124,10 +124,13 @@ namespace Files.App.Views.Layouts
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
-			if (NextRenameIndex != 0 && TryStartRenameNextItem(e))
-				return;
+			if (!IsRenamingMultipleItems)
+			{
+				if (NextRenameIndex != 0 && TryStartRenameNextItem(e))
+					return;
 
-			FileList?.SelectedItems.Add(e);
+				FileList?.SelectedItems.Add(e);
+			}
 		}
 
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
@@ -196,9 +199,14 @@ namespace Files.App.Views.Layouts
 			StartRenameItem("ListViewTextBoxItemName");
 		}
 
+		public override void StartRenameItems()
+		{
+			StartRenameItems("ListViewTextBoxItemName");
+		}
+
 		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
-			if (IsRenamingItem)
+			if (IsRenamingItem || IsRenamingMultipleItems)
 			{
 				await ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
@@ -212,6 +220,8 @@ namespace Files.App.Views.Layouts
 		{
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
+			
+			
 
 			// Unsubscribe from events
 			if (textBox is not null)
@@ -222,7 +232,18 @@ namespace Files.App.Views.Layouts
 
 			if (textBox is not null && textBox.Parent is not null)
 			{
-				ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+				ListViewItem? listViewItem;
+				if (!IsRenamingMultipleItems)
+				{
+					listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+				}
+				else
+				{
+					ListedItem lastItem = RenamingItems.LastOrDefault();
+					if (lastItem is null)
+						return;
+					listViewItem = FileList.ContainerFromItem(lastItem) as ListViewItem;
+				}
 				if (listViewItem is null)
 					return;
 
@@ -233,6 +254,7 @@ namespace Files.App.Views.Layouts
 				textBox!.Visibility = Visibility.Collapsed;
 				textBlock!.Visibility = Visibility.Visible;
 			}
+
 		}
 
 		public override void ResetItemOpacity()

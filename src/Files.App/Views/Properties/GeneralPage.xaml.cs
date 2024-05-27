@@ -150,6 +150,12 @@ namespace Files.App.Views.Properties
 								AppInstance?.FilesystemViewModel?.RefreshItems(null);
 							});
 						}
+						if (!GetNewName(out var newName))
+							continue;
+
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+							UIFilesystemHelpers.RenameFileItemAsync(fileOrFolder, ViewModel.ItemName, AppInstance, false)
+						);
 					}
 				}
 				return true;

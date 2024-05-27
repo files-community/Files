@@ -106,9 +106,15 @@ namespace Files.App.Views.Layouts
 		public IShellPage? ParentShellPageInstance { get; private set; }
 
 		public bool IsRenamingItem { get; set; }
+
+		public bool IsRenamingMultipleItems { get; set; }
+
 		public bool LockPreviewPaneContent { get; set; }
 
 		public ListedItem? RenamingItem { get; set; }
+
+		public List<ListedItem>? RenamingItems { get; set; }
+
 		public ListedItem? SelectedItem { get; private set; }
 
 		public string? OldItemName { get; set; }
@@ -1377,6 +1383,10 @@ namespace Files.App.Views.Layouts
 		}
 
 		virtual public void StartRenameItem()
+		{
+		}
+
+		virtual public void StartRenameItems()
 		{
 		}
 
