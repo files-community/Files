@@ -17,13 +17,13 @@
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Light">
-					<Thickness x:Key="Local.ActivePaneBorderThickness">1</Thickness>
+					<Thickness x:Key="Local.ActivePane.BorderThickness">1</Thickness>
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="Dark">
-					<Thickness x:Key="Local.ActivePaneBorderThickness">1</Thickness>
+					<Thickness x:Key="Local.ActivePane.BorderThickness">1</Thickness>
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="HighContrast">
-					<Thickness x:Key="Local.ActivePaneBorderThickness">3</Thickness>
+					<Thickness x:Key="Local.ActivePane.BorderThickness">3</Thickness>
 				</ResourceDictionary>
 			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>
@@ -100,7 +100,7 @@
 				<VisualState x:Name="ShellBackgroundFocusOnState">
 					<VisualState.Setters>
 						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.BackgroundBrush}" />
-						<Setter Target="RootGrid.BorderThickness" Value="{ThemeResource Local.ActivePaneBorderThickness}" />
+						<Setter Target="RootGrid.BorderThickness" Value="{ThemeResource Local.ActivePane.BorderThickness}" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="ShellBackgroundFocusOffState">
