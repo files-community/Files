@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "FocusLeftPaneDescription".GetLocalizedResource();
+			=> "FocusLeftPane".GetLocalizedResource();
 
 		public string Description
-			=> "FocusLeftPane".GetLocalizedResource();
+			=> "FocusLeftPaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Left, KeyModifiers.CtrlShift);
