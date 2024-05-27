@@ -52,12 +52,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid
-		x:Name="RootGrid"
-		Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
-		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-		BorderThickness="1"
-		CornerRadius="8">
+	<Grid x:Name="RootGrid">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
