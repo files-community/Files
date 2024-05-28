@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
-using Windows.System;
 
 namespace Files.App.Views
 {
@@ -365,12 +364,16 @@ namespace Files.App.Views
 			{
 				// Add theme shadow to the active pane
 				if (PaneRight is not null)
+				{
 					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 0 : 32);
-				if (PaneLeft is not null)
-					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 32 : 0);
+					VisualStateManager.GoToState(PaneLeft, IsLeftPaneActive ? "ShellBorderFocusOnState" : "ShellBorderFocusOffState", true);
+				}
 
-				VisualStateManager.GoToState(PaneLeft, IsLeftPaneActive ? "ShellBorderFocusOnState" : "ShellBorderFocusOffState", true);
-				VisualStateManager.GoToState(PaneRight, IsLeftPaneActive ? "ShellBorderFocusOffState" : "ShellBorderFocusOnState", true);
+				if (PaneLeft is not null)
+				{
+					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 32 : 0);
+					VisualStateManager.GoToState(PaneRight, IsLeftPaneActive ? "ShellBorderFocusOffState" : "ShellBorderFocusOnState", true);
+				}
 			}
 			else
 			{
