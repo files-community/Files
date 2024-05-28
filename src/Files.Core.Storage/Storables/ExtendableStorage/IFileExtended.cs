@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.Core.Storage.ExtendableStorage
+namespace Files.Core.Storage.Storables
 {
 	/// <summary>
 	/// Represents a file that provides additional options for its manipulation.

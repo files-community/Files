@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.Storage.NativeStorage
+namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IFile"/>
 	public class NativeFile : NativeStorable<FileInfo>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile
