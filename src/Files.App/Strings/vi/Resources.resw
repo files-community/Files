@@ -427,11 +427,11 @@
     <value>Tên khoản mục đã nhập không hợp lệ</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <value>{0, plural, other {# mục được chọn}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {item} other {items}}</value>
+    <value>{0, plural, other {mục}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -624,7 +624,7 @@
     <value>Tạo khoản mục mới</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Chọn loại cho khoản mục này bên dưới</value>
+    <value>Chọn loại khoản mục</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Tệp</value>
@@ -951,7 +951,7 @@
     <value>An toàn để ngắt kết nối phần cứng</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Thiết bị giờ có thể được ngắt kết nối khỏi máy tính một cách an toàn.</value>
+    <value>Thiết bị hiện có thể được ngắt kết nối khỏi máy tính.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
     <value>Xảy ra vấn đề khi ngắt kết nối thiết bị</value>
@@ -2678,6 +2678,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Đóng ngăn bên phải</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Chuyển đến ngăn bên trái</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Đặt tiêu điểm vào ngăn bên trái</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Chuyển đến ngăn bên phải</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Đặt tiêu điểm vào ngăn bên phải</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Chuyển đổi thanh bên</value>
   </data>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Tổ hợp phím này đã được sử dụng, vui lòng chọn một tổ hợp phím khác để tiếp tục.</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>Không thể sử dụng tổ hợp phím này, vui lòng chọn một tổ hợp phím khác.</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Tùy chỉnh</value>
   </data>
@@ -3822,6 +3837,9 @@
   <data name="BitmapFiles" xml:space="preserve">
     <value>Tệp Bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>Vị trí mạng</value>

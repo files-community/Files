@@ -190,6 +190,8 @@ namespace Files.App.Data.Commands
 		CloseSelectedTab,
 		OpenNewPane,
 		ClosePane,
+		FocusLeftPane,
+		FocusRightPane,
 
 		// Play
 		PlayAll,

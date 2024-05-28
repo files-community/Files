@@ -427,11 +427,11 @@
     <value>El nom de l'element especificat no és vàlid</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <value>{0, plural, one {# element seleccionat} other {# elements seleccionats}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {element} other {elements}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -2678,6 +2678,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Tanca el panell de la dreta</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Enfoca el panell esquerre</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Canvia el focus al panell esquerre</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Enfoca el panell dret</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Canvia el focus al panell dret</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Canvia la barra lateral</value>
   </data>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Aquesta vinculació de tecles ja s'està utilitzant, trieu una vinculació de tecles diferent per continuar.</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>La combinació de tecles escollida no es pot utilitzar. Torneu-ho a provar amb una combinació de tecles diferent.</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalitzat</value>
   </data>
@@ -3823,14 +3838,17 @@
     <value>Fitxers de mapa de bits</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Núm.</value>
+  </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>Network locations</value>
+    <value>Ubicacions de xarxa</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+    <value>No hi ha ubicacions de xarxa. Si no utilitzeu ubicacions de xarxa, podeu desactivar el giny.</value>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+    <value>Deshabilita</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
     <value>Edita al Bloc de notes</value>
