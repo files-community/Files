@@ -25,17 +25,6 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Page.KeyboardAccelerators>
-		<KeyboardAccelerator
-			Key="Left"
-			Invoked="KeyboardAccelerator_Invoked"
-			Modifiers="Control,Shift" />
-		<KeyboardAccelerator
-			Key="Right"
-			Invoked="KeyboardAccelerator_Invoked"
-			Modifiers="Control,Shift" />
-	</Page.KeyboardAccelerators>
-
 	<Grid x:Name="RootGrid">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition

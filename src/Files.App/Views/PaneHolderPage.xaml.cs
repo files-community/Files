@@ -157,6 +157,8 @@ namespace Files.App.Views
 					NotifyPropertyChanged(nameof(IsRightPaneActive));
 					NotifyPropertyChanged(nameof(ActivePaneOrColumn));
 					NotifyPropertyChanged(nameof(FilesystemHelpers));
+
+					SetShadow();
 				}
 			}
 		}
@@ -243,7 +245,19 @@ namespace Files.App.Views
 		{
 			// NOTE: Can only close right pane at the moment
 			IsRightPaneVisible = false;
+
 			PaneLeft.Focus(FocusState.Programmatic);
+			SetShadow();
+		}
+
+		public void FocusLeftPane()
+		{
+			PaneLeft.Focus(FocusState.Programmatic);
+		}
+
+		public void FocusRightPane()
+		{
+			PaneRight.Focus(FocusState.Programmatic);
 		}
 
 		// Override methods
@@ -305,30 +319,6 @@ namespace Files.App.Views
 			WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 		}
 
-		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-		{
-			args.Handled = true;
-			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
-			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-			var menu = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-
-			switch (c: ctrl, s: shift, m: menu, k: args.KeyboardAccelerator.Key)
-			{
-				case (true, true, false, VirtualKey.Left): // ctrl + shift + "<-" select left pane
-					ActivePane = PaneLeft;
-					break;
-
-				case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
-					if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-					{
-						NavParamsRight = new NavigationParams { NavPath = "Home" };
-					}
-					IsRightPaneVisible = true;
-					ActivePane = PaneRight;
-					break;
-			}
-		}
-
 		private void Pane_ContentChanged(object sender, TabBarItemParameter e)
 		{
 			TabBarItemParameter = new()
@@ -346,8 +336,6 @@ namespace Files.App.Views
 		{
 			((UIElement)sender).GotFocus += Pane_GotFocus;
 			((UIElement)sender).RightTapped += Pane_RightTapped;
-
-			PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 		}
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
@@ -369,22 +357,30 @@ namespace Files.App.Views
 			var activePane = isLeftPane ? PaneLeft : PaneRight;
 			if (ActivePane != activePane)
 				ActivePane = activePane;
+		}
 
-			// Add theme shadow to the active pane
-			if (isLeftPane)
+		private void SetShadow()
+		{
+			if (IsMultiPaneActive)
 			{
-				if (PaneRight is not null)
-					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
-				if (PaneLeft is not null)
-					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+				// Add theme shadow to the active pane
+				if (IsLeftPaneActive)
+				{
+					if (PaneRight is not null)
+						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+					if (PaneLeft is not null)
+						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+				}
+				else
+				{
+					if (PaneRight is not null)
+						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+					if (PaneLeft is not null)
+						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+				}
 			}
 			else
-			{
-				if (PaneRight is not null)
-					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
-				if (PaneLeft is not null)
-					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
-			}
+				PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 		}
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
