@@ -47,11 +47,11 @@
 						<ResourceDictionary x:Key="Light">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
-							<SolidColorBrush x:Key="App.Theme.Toolbar.BackgroundBrush" Color="{StaticResource LayerFillColorDefault}" />
+							<SolidColorBrush x:Key="App.Theme.Toolbar.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
 							<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="#C0FCFCFC" />
 							<SolidColorBrush x:Key="App.Theme.FileArea.SecondaryBackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
-							<SolidColorBrush x:Key="App.Theme.InfoPane.BackgroundBrush" Color="{StaticResource LayerFillColorDefault}" />
+							<SolidColorBrush x:Key="App.Theme.InfoPane.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
 
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
