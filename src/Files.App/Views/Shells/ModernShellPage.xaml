@@ -113,7 +113,7 @@
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
-			
+
 			<VisualStateGroup x:Name="ShellBackgroundFocusState">
 				<VisualState x:Name="ShellBackgroundFocusOnState">
 					<VisualState.Setters>
