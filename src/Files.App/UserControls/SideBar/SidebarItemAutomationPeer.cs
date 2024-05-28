@@ -105,14 +105,23 @@ namespace Files.App.UserControls.Sidebar
 
 		private IList GetOwnerCollection()
 		{
-			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Item?.Children is IList list)
-			{
+			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent &&
+				parent.Item?.Children is IList list)
 				return list;
-			}
-			if (Owner?.Owner is not null && Owner.Owner.ViewModel.SidebarItems is IList items)
+
+			if (Owner?.Owner is not null &&
+				Owner.Owner.PaneMenuItemSource is IList<INavigationControlItem> menuItems)
 			{
-				return items;
+				if (Owner.Owner.PaneFooterItemSource is IList<INavigationControlItem> footerItems)
+				{
+					return menuItems.Concat(footerItems).ToList();
+				}
+				else
+				{
+					return menuItems.ToList();
+				}
 			}
+
 			return new List<object>();
 		}
 	}
