@@ -261,6 +261,7 @@
 					x:Name="TerminalControl"
 					Grid.Row="4"
 					Grid.ColumnSpan="3"
+                    Margin="0,4,0,4"
 					Content="{x:Bind ViewModel.ActiveTerminal, Mode=OneWay}"
 					Visibility="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
 
