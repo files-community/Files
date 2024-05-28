@@ -67,6 +67,22 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(ISidebarViewModel), typeof(SidebarView), new PropertyMetadata(null));
 
+		public object PaneMenuItemSource
+		{
+			get => (object)GetValue(PaneMenuItemSourceProperty);
+			set => SetValue(PaneMenuItemSourceProperty, value);
+		}
+		public static readonly DependencyProperty PaneMenuItemSourceProperty =
+			DependencyProperty.Register(nameof(PaneMenuItemSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
+
+		public object PaneFooterItemSource
+		{
+			get => (object)GetValue(PaneFooterItemSourceProperty);
+			set => SetValue(PaneFooterItemSourceProperty, value);
+		}
+		public static readonly DependencyProperty PaneFooterItemSourceProperty =
+			DependencyProperty.Register(nameof(PaneFooterItemSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
+
 		public INavigationControlItem SelectedItem
 		{
 			get => (INavigationControlItem)GetValue(SelectedItemProperty);

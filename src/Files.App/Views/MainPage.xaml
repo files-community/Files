@@ -212,28 +212,10 @@
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
 			Loaded="SidebarControl_Loaded"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
+			PaneFooterItemSource="{x:Bind SidebarAdaptiveViewModel.SidebarPaneFooterItems, Mode=OneWay}"
+			PaneMenuItemSource="{x:Bind SidebarAdaptiveViewModel.SidebarItems, Mode=OneWay}"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
-
-			<sidebar:SidebarView.PaneFooter>
-				<sidebar:SidebarItem
-					x:Name="SettingsButton"
-					AutomationProperties.AutomationId="Settings"
-					Item="{x:Bind SidebarAdaptiveViewModel.FooterSettingsItem, Mode=OneWay}"
-					Text="{x:Bind SidebarAdaptiveViewModel.FooterSettingsItem.Text, Mode=OneWay}"
-					TooltipText="{x:Bind SidebarAdaptiveViewModel.FooterSettingsItem.ToolTip, Mode=OneWay}">
-					<sidebar:SidebarItem.Icon>
-						<AnimatedIcon>
-							<AnimatedIcon.Source>
-								<animatedvisuals:AnimatedSettingsVisualSource />
-							</AnimatedIcon.Source>
-							<AnimatedIcon.FallbackIconSource>
-								<SymbolIconSource Symbol="Setting" />
-							</AnimatedIcon.FallbackIconSource>
-						</AnimatedIcon>
-					</sidebar:SidebarItem.Icon>
-				</sidebar:SidebarItem>
-			</sidebar:SidebarView.PaneFooter>
 
 			<!--  Inner Content  -->
 			<sidebar:SidebarView.InnerContent>

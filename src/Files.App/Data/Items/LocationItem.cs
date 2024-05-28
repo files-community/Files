@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.AnimatedVisuals;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
@@ -61,8 +62,12 @@ namespace Files.App.Data.Items
 		public object? Children => ChildItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
 
-		public FrameworkElement? IconSource
-			=> new ImageIconSource() { ImageSource = icon }.CreateIconElement();
+		public bool IsSettingsButton { get; set; }
+
+		public FrameworkElement? IconSource =>
+			IsSettingsButton
+				? new AnimatedIconSource() { Source = new AnimatedSettingsVisualSource(), FallbackIconSource = new SymbolIconSource() { Symbol = Symbol.Setting } }.CreateIconElement()
+				: new ImageIconSource() { ImageSource = icon }.CreateIconElement();
 
 		public bool SelectsOnInvoked { get; set; } = true;
 

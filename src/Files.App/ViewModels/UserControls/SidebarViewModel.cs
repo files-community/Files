@@ -43,8 +43,7 @@ namespace Files.App.ViewModels.UserControls
 		private INavigationControlItem rightClickedItem;
 
 		public BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; private set; } = [];
-
-		public INavigationControlItem FooterSettingsItem { get; private set; }
+		public BulkConcurrentObservableCollection<INavigationControlItem> SidebarPaneFooterItems { get; private set; } = [];
 
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -275,15 +274,18 @@ namespace Files.App.ViewModels.UserControls
 
 		private void CreateItemSettingsAsync()
 		{
-			FooterSettingsItem = new LocationItem()
+			var settingsItem = new LocationItem()
 			{
 				Text = "Settings".GetLocalizedResource(),
 				Path = "Settings",
 				Section = SectionType.Footer,
+				IsSettingsButton = true,
 				IsHeader = true,
 				MenuOptions = new ContextMenuOptions { IsLocationItem = true, },
 				SelectsOnInvoked = false,
 			};
+
+			SidebarPaneFooterItems.Add(settingsItem);
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)

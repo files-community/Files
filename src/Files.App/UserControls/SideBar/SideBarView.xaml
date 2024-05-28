@@ -85,7 +85,7 @@
 						ElementPrepared="MenuItemsHost_ElementPrepared"
 						IsTabStop="True"
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
+						ItemsSource="{x:Bind PaneMenuItemSource, Mode=OneWay}"
 						VerticalCacheLength="100"
 						XYFocusKeyboardNavigation="Enabled">
 						<ItemsRepeater.Layout>
@@ -103,14 +103,17 @@
 				Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
 				Visibility="Collapsed" />
 
-			<ContentPresenter
-				x:Name="PaneFooterContentPresenter"
+			<ItemsRepeater
+				x:Name="PaneFooterItemsRepeater"
 				Grid.Row="2"
 				Margin="0,4"
-				AutomationProperties.AccessibilityView="Raw"
-				Content="{x:Bind PaneFooter}"
+				AutomationProperties.AccessibilityView="Content"
+				AutomationProperties.Name="SidebarPaneFooterItems"
+				ElementPrepared="MenuItemsHost_ElementPrepared"
 				IsTabStop="True"
-				Visibility="Collapsed"
+				ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
+				ItemsSource="{x:Bind PaneFooterItemSource, Mode=OneWay}"
+				VerticalCacheLength="5"
 				XYFocusKeyboardNavigation="Enabled" />
 
 		</Grid>
