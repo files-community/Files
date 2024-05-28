@@ -27,7 +27,7 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/DefaultGridSplitterStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<x:Boolean x:Key="True">True</x:Boolean>
@@ -219,7 +219,6 @@
 			<sidebar:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
-					Loaded="RootGrid_Loaded"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
 					SizeChanged="RootGrid_SizeChanged">
 					<Grid.RowDefinitions>
@@ -236,7 +235,7 @@
 						<ColumnDefinition
 							x:Name="ContentColumn"
 							Width="*"
-							MinWidth="100" />
+							MinWidth="208" />
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>
@@ -267,17 +266,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
-						Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
-						BackgroundSizing="InnerBorderEdge"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="1"
-						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}"
-						CornerRadius="8"
-						Translation="0,0,8">
-						<ContentPresenter.Shadow>
-							<ThemeShadow x:Name="PageContentThemeShadow" />
-						</ContentPresenter.Shadow>
-					</ContentPresenter>
+						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
 					<!--  Preview Pane Splitter  -->
 					<toolkit:GridSplitter

@@ -18,10 +18,11 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/ToolbarButtonStyle.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/ToolbarButtonStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
+			<SolidColorBrush x:Key="CommandBarBackground" Color="Transparent" />
 			<SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
 			<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
 

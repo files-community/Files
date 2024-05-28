@@ -14,7 +14,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/StatusCenterStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/StatusCenterStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>

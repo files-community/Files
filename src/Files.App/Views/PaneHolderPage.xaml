@@ -17,45 +17,21 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/DefaultGridSplitterStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-
-			<ResourceDictionary.ThemeDictionaries>
-				<ResourceDictionary x:Key="Light">
-					<SolidColorBrush x:Key="PaneBorderBrush" Color="#FAF9F8" />
-				</ResourceDictionary>
-				<ResourceDictionary x:Key="Dark">
-					<SolidColorBrush x:Key="PaneBorderBrush" Color="#323130" />
-				</ResourceDictionary>
-				<ResourceDictionary x:Key="HighContrast">
-					<SolidColorBrush x:Key="PaneBorderBrush" Color="{ThemeResource SystemColorWindowColor}" />
-				</ResourceDictionary>
-			</ResourceDictionary.ThemeDictionaries>
-
-			<SolidColorBrush x:Key="PaneSelectedBorderBrush" Color="{ThemeResource SystemAccentColorLight1}" />
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Page.KeyboardAccelerators>
-		<KeyboardAccelerator
-			Key="Left"
-			Invoked="KeyboardAccelerator_Invoked"
-			Modifiers="Control,Shift" />
-		<KeyboardAccelerator
-			Key="Right"
-			Invoked="KeyboardAccelerator_Invoked"
-			Modifiers="Control,Shift" />
-	</Page.KeyboardAccelerators>
-
 	<Grid x:Name="RootGrid">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition
 				x:Name="LeftColumn"
 				Width="*"
-				MinWidth="300" />
+				MinWidth="100" />
+			<ColumnDefinition x:Name="SizerColumnDefinition" Width="Auto" />
 			<ColumnDefinition
 				x:Name="RightColumn"
 				Width="0"
@@ -70,89 +46,39 @@
 			NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
 			PaneHolder="{x:Bind}" />
 
-		<!--  Pane Right  -->
-		<Border
-			x:Name="PaneRightBorder"
-			Grid.Column="1"
-			x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}">
-			<shellpages:ModernShellPage
-				x:Name="PaneRight"
-				ContentChanged="Pane_ContentChanged"
-				Loaded="Pane_Loaded"
-				NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
-				PaneHolder="{x:Bind}" />
-		</Border>
-
-		<!--  Pane Resizing Splitter  -->
+		<!--  Sizer  -->
 		<toolkit:GridSplitter
 			x:Name="PaneResizer"
 			Grid.Column="1"
-			Width="5"
-			MinWidth="5"
-			HorizontalAlignment="Left"
+			Width="4"
+			x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
 			Background="Transparent"
 			Canvas.ZIndex="150"
 			DoubleTapped="PaneResizer_OnDoubleTapped"
-			Foreground="Transparent"
-			GripperForeground="Transparent"
 			IsTabStop="False"
 			Loaded="PaneResizer_Loaded"
 			ManipulationCompleted="PaneResizer_ManipulationCompleted"
 			ManipulationStarted="PaneResizer_ManipulationStarted"
+			Opacity="0"
 			ResizeBehavior="BasedOnAlignment"
-			ResizeDirection="Auto"
-			Style="{StaticResource DefaultGridSplitterStyle}">
-			<toolkit:GridSplitter.RenderTransform>
-				<TranslateTransform X="0" />
-			</toolkit:GridSplitter.RenderTransform>
-		</toolkit:GridSplitter>
+			Style="{StaticResource DefaultGridSplitterStyle}" />
+
+		<!--  Pane Right  -->
+		<shellpages:ModernShellPage
+			x:Name="PaneRight"
+			Grid.Column="2"
+			x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
+			ContentChanged="Pane_ContentChanged"
+			Loaded="Pane_Loaded"
+			NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
+			PaneHolder="{x:Bind}" />
 
 		<i:Interaction.Behaviors>
-			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderBrush"
-					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="{StaticResource PaneSelectedBorderBrush}" />
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderThickness"
-					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="0,0,0,2" />
-			</icore:DataTriggerBehavior>
-			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderBrush"
-					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderThickness"
-					TargetObject="{Binding ElementName=PaneLeft}"
-					Value="0,0,0,0" />
-			</icore:DataTriggerBehavior>
-			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderBrush"
-					TargetObject="{Binding ElementName=PaneRight}"
-					Value="{StaticResource PaneSelectedBorderBrush}" />
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderThickness"
-					TargetObject="{Binding ElementName=PaneRight}"
-					Value="0,0,0,2" />
-			</icore:DataTriggerBehavior>
-			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderBrush"
-					TargetObject="{Binding ElementName=PaneRight}"
-					Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				<icore:ChangePropertyAction
-					PropertyName="CurrentInstanceBorderThickness"
-					TargetObject="{Binding ElementName=PaneRight}"
-					Value="0,0,0,0" />
-			</icore:DataTriggerBehavior>
 			<icore:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="True">
 				<icore:ChangePropertyAction
 					PropertyName="MinWidth"
 					TargetObject="{Binding ElementName=RightColumn}"
-					Value="290" />
+					Value="100" />
 				<icore:ChangePropertyAction
 					PropertyName="Width"
 					TargetObject="{Binding ElementName=RightColumn}"

@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,6 +26,9 @@ namespace Files.App.Views
 		private bool _wasRightPaneVisible;
 
 		// Properties
+
+		private StatusBar StatusBar
+			=> ((Frame)MainWindow.Instance.Content).FindDescendant<StatusBar>()!;
 
 		public bool IsLeftPaneActive
 			=> ActivePane == PaneLeft;
@@ -153,6 +157,8 @@ namespace Files.App.Views
 					NotifyPropertyChanged(nameof(IsRightPaneActive));
 					NotifyPropertyChanged(nameof(ActivePaneOrColumn));
 					NotifyPropertyChanged(nameof(FilesystemHelpers));
+
+					SetShadow();
 				}
 			}
 		}
@@ -239,7 +245,19 @@ namespace Files.App.Views
 		{
 			// NOTE: Can only close right pane at the moment
 			IsRightPaneVisible = false;
+
 			PaneLeft.Focus(FocusState.Programmatic);
+			SetShadow();
+		}
+
+		public void FocusLeftPane()
+		{
+			PaneLeft.Focus(FocusState.Programmatic);
+		}
+
+		public void FocusRightPane()
+		{
+			PaneRight.Focus(FocusState.Programmatic);
 		}
 
 		// Override methods
@@ -301,30 +319,6 @@ namespace Files.App.Views
 			WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 		}
 
-		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-		{
-			args.Handled = true;
-			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
-			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-			var menu = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-
-			switch (c: ctrl, s: shift, m: menu, k: args.KeyboardAccelerator.Key)
-			{
-				case (true, true, false, VirtualKey.Left): // ctrl + shift + "<-" select left pane
-					ActivePane = PaneLeft;
-					break;
-
-				case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
-					if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-					{
-						NavParamsRight = new NavigationParams { NavPath = "Home" };
-					}
-					IsRightPaneVisible = true;
-					ActivePane = PaneRight;
-					break;
-			}
-		}
-
 		private void Pane_ContentChanged(object sender, TabBarItemParameter e)
 		{
 			TabBarItemParameter = new()
@@ -365,6 +359,30 @@ namespace Files.App.Views
 				ActivePane = activePane;
 		}
 
+		private void SetShadow()
+		{
+			if (IsMultiPaneActive)
+			{
+				// Add theme shadow to the active pane
+				if (IsLeftPaneActive)
+				{
+					if (PaneRight is not null)
+						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+					if (PaneLeft is not null)
+						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+				}
+				else
+				{
+					if (PaneRight is not null)
+						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+					if (PaneLeft is not null)
+						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+				}
+			}
+			else
+				PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+		}
+
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
 		{
 			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)
@@ -389,7 +407,7 @@ namespace Files.App.Views
 
 		private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			if (PaneRight is not null && PaneRight.ActualWidth <= 300)
+			if (PaneRight is not null && PaneRight.ActualWidth <= 100)
 				IsRightPaneVisible = false;
 
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
