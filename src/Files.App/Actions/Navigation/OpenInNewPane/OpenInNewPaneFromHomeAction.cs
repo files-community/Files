@@ -7,7 +7,10 @@ namespace Files.App.Actions
 	{
 		public override bool IsExecutable =>
 			HomePageContext.IsAnyItemRightClicked &&
-			HomePageContext.RightClickedItem is not null;
+			HomePageContext.RightClickedItem is not null &&
+			HomePageContext.RightClickedItem is WidgetFileTagCardItem fileTagItem
+				? fileTagItem.IsFolder
+				: true;
 
 		public override bool IsAccessibleGlobally
 			=> false;
