@@ -427,11 +427,11 @@
     <value>指定された項目名は無効です</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <value>{0, plural, other {# 個の項目を選択}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {アイテム} other {アイテム}}</value>
+    <value>{0, plural, other {個の項目}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -1374,10 +1374,10 @@
     <value>{0}年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
-    <value>{0} 項目</value>
+    <value>{0} 個の項目</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
-    <value>{0} 項目</value>
+    <value>{0} 個の項目</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
     <value>閉じたタブを再度開く</value>
@@ -2678,6 +2678,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>右ペインを閉じる</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus left pane</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Switch focus to the left pane</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus right pane</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Switch focus to the right pane</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>
   </data>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>このキーの割り当ては既に使用されています。別のキーを割り当ててください。</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>選択したキーの割り当ては使用できません。異なるキーの割り当てを使用して再度試してください。</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>カスタマイズされています</value>
   </data>
@@ -3822,6 +3837,9 @@
   <data name="BitmapFiles" xml:space="preserve">
     <value>ビットマップ ファイル</value>
     <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>ネットワークの場所</value>

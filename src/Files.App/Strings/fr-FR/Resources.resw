@@ -431,7 +431,7 @@
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {objet} other {objets}}</value>
+    <value>{0, plural, one {élément} other {éléments}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -1206,7 +1206,7 @@
     <value>Définir comme emplacement de sauvegarde par défaut</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
-    <value>Pas d'emplacement</value>
+    <value>Pas d'emplacements</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Le champ ne peut pas être vide !</value>
@@ -1425,7 +1425,7 @@
     <value>Modifier</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Autorisation pour {0}</value>
+    <value>Autorisations pour {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lire et exécuter</value>
@@ -1971,7 +1971,7 @@
     <value>Adapter la largeur des colonnes</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Disposition adaptative</value>
+    <value>Adaptatif</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptatif (Ctrl+Maj+7)</value>
@@ -2001,19 +2001,19 @@
     <value>Définir par défaut</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Colonne date</value>
+    <value>Date</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
     <value>Date de création</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Colonne taille</value>
+    <value>Taille</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Colonne étiquette</value>
+    <value>Étiquette</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Colonne type</value>
+    <value>Type</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Écran de verrouillage</value>
@@ -2241,7 +2241,7 @@
     <value>Options du menu contextuel</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Afficher les extensions de fichier</value>
+    <value>Afficher les extensions de fichiers</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Afficher les éléments masqués</value>
@@ -2358,7 +2358,7 @@
     <value>Afficher/Masquer les éléments cachés</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Afficher/Masquer les extensions de fichier</value>
+    <value>Afficher/Masquer les extensions de fichiers</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Activer le volet d’aperçu pour afficher les aperçus des fichiers</value>
@@ -2678,6 +2678,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Fermer le panneau de droite</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus sur le volet gauche</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Basculer le focus sur le volet gauche</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus sur le volet droit</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Basculer le focus sur le volet droit</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Afficher la barre latérale</value>
   </data>
@@ -2872,7 +2884,7 @@
     <value>Basculer la sélection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Afficher un avertissement lors du changement d'extension de fichier</value>
+    <value>Afficher un avertissement lors du changement d'extensions de fichier</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
     <value>Ce PC</value>
@@ -2920,7 +2932,7 @@
     <value>Afficher les cases à cocher lors de la sélection des éléments</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Se placer sur la barre de chemin</value>
+    <value>Focus sur la barre de chemin</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Créer un nouvel élément</value>
@@ -3200,7 +3212,7 @@
     <value>Branche actuelle</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Colonne chemin</value>
+    <value>Chemin</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Trier les éléments par chemin</value>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Cette liaison de clé est déjà utilisée, veuillez choisir une autre liaison pour continuer.</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>Le raccourci clavier choisi ne peut pas être utilisé, veuillez réessayer avec un autre raccourci clavier.</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Personnalisé</value>
   </data>
@@ -3823,11 +3838,14 @@
     <value>Fichiers Bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
+  </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>Localisations réseau</value>
+    <value>Emplacements réseau</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>Il n'y a pas d'emplacement réseau. Si vous n'utilisez pas d'emplacement réseau, vous pouvez désactiver le widget.</value>
+    <value>Il n'y a pas d'emplacements réseau. Si vous n'utilisez pas d'emplacements réseau, vous pouvez désactiver le widget.</value>
   </data>
   <data name="Disable" xml:space="preserve">
     <value>Désactiver</value>
