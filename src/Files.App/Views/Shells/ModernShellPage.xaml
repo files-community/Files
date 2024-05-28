@@ -13,6 +13,22 @@
 	Loaded="Page_Loaded"
 	mc:Ignorable="d">
 
+	<local:BaseShellPage.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<Thickness x:Key="Local.ActivePane.BorderThickness">1</Thickness>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<Thickness x:Key="Local.ActivePane.BorderThickness">1</Thickness>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="HighContrast">
+					<Thickness x:Key="Local.ActivePane.BorderThickness">3</Thickness>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</local:BaseShellPage.Resources>
+
 	<local:BaseShellPage.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="V"
@@ -80,6 +96,24 @@
 			Navigated="ItemDisplayFrame_Navigated" />
 
 		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="ShellBorderFocusState">
+				<VisualState x:Name="ShellBorderFocusOnState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="{ThemeResource Local.ActivePane.BorderThickness}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBorderFocusOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBorderDualPaneOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
 			<VisualStateGroup x:Name="ShellBackgroundFocusState">
 				<VisualState x:Name="ShellBackgroundFocusOnState">
 					<VisualState.Setters>

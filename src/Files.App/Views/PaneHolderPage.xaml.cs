@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
-using Windows.System;
 
 namespace Files.App.Views
 {
@@ -364,23 +363,24 @@ namespace Files.App.Views
 			if (IsMultiPaneActive)
 			{
 				// Add theme shadow to the active pane
-				if (IsLeftPaneActive)
+				if (PaneRight is not null)
 				{
-					if (PaneRight is not null)
-						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
-					if (PaneLeft is not null)
-						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 0 : 32);
+					VisualStateManager.GoToState(PaneLeft, IsLeftPaneActive ? "ShellBorderFocusOnState" : "ShellBorderFocusOffState", true);
 				}
-				else
+
+				if (PaneLeft is not null)
 				{
-					if (PaneRight is not null)
-						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
-					if (PaneLeft is not null)
-						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 32 : 0);
+					VisualStateManager.GoToState(PaneRight, IsLeftPaneActive ? "ShellBorderFocusOffState" : "ShellBorderFocusOnState", true);
 				}
 			}
 			else
+			{
 				PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+
+				VisualStateManager.GoToState(PaneLeft, "ShellBorderDualPaneOffState", true);
+			}
 		}
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
