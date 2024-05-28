@@ -425,7 +425,9 @@ namespace Files.App.Views
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
 			PaneLeft?.Dispose();
 			PaneRight?.Dispose();
-			PaneResizer.DoubleTapped -= PaneResizer_OnDoubleTapped;
+
+			if (PaneResizer is not null)
+				PaneResizer.DoubleTapped -= PaneResizer_OnDoubleTapped;
 		}
 	}
 }
