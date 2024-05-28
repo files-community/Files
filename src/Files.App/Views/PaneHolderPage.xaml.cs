@@ -364,26 +364,13 @@ namespace Files.App.Views
 			if (IsMultiPaneActive)
 			{
 				// Add theme shadow to the active pane
-				if (IsLeftPaneActive)
-				{
-					if (PaneRight is not null)
-						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
-					if (PaneLeft is not null)
-						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+				if (PaneRight is not null)
+					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 0 : 32);
+				if (PaneLeft is not null)
+					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 32 : 0);
 
-					VisualStateManager.GoToState(PaneLeft, "ShellBorderFocusOnState", true);
-					VisualStateManager.GoToState(PaneRight, "ShellBorderFocusOffState", true);
-				}
-				else
-				{
-					if (PaneRight is not null)
-						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
-					if (PaneLeft is not null)
-						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
-
-					VisualStateManager.GoToState(PaneRight, "ShellBorderFocusOnState", true);
-					VisualStateManager.GoToState(PaneLeft, "ShellBorderFocusOffState", true);
-				}
+				VisualStateManager.GoToState(PaneLeft, IsLeftPaneActive ? "ShellBorderFocusOnState" : "ShellBorderFocusOffState", true);
+				VisualStateManager.GoToState(PaneRight, IsLeftPaneActive ? "ShellBorderFocusOffState" : "ShellBorderFocusOnState", true);
 			}
 			else
 			{
