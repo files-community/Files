@@ -18,6 +18,10 @@ namespace Files.App.Data.Contracts
 
 		public void CloseActivePane();
 
+		public void FocusLeftPane();
+
+		public void FocusRightPane();
+
 		public bool IsLeftPaneActive { get; }
 
 		public bool IsRightPaneActive { get; }
