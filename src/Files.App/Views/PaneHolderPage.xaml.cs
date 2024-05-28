@@ -370,6 +370,9 @@ namespace Files.App.Views
 						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
 					if (PaneLeft is not null)
 						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
+
+					VisualStateManager.GoToState(PaneLeft, "ShellBorderFocusOnState", true);
+					VisualStateManager.GoToState(PaneRight, "ShellBorderFocusOffState", true);
 				}
 				else
 				{
@@ -377,10 +380,17 @@ namespace Files.App.Views
 						PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
 					if (PaneLeft is not null)
 						PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 0);
+
+					VisualStateManager.GoToState(PaneRight, "ShellBorderFocusOnState", true);
+					VisualStateManager.GoToState(PaneLeft, "ShellBorderFocusOffState", true);
 				}
 			}
 			else
+			{
 				PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+
+				VisualStateManager.GoToState(PaneLeft, "ShellBorderDualPaneOffState", true);
+			}
 		}
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
