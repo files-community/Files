@@ -50,11 +50,12 @@
 			<ThemeShadow x:Name="ShellContentThemeShadow" x:FieldModifier="public" />
 		</Grid.Shadow>
 
+		<!--  Swipe Backward Icon  -->
 		<Border
 			x:Name="BackIcon"
 			Width="48"
 			Height="48"
-			Margin="-1,0,0,0"
+			Margin="-4,0,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			wct:VisualExtensions.NormalizedCenterPoint="0.5,0.5"
@@ -70,11 +71,12 @@
 				Glyph="&#xE72B;" />
 		</Border>
 
+		<!--  Swipe Forward Icon  -->
 		<Border
 			x:Name="ForwardIcon"
 			Width="48"
 			Height="48"
-			Margin="1,0,0,0"
+			Margin="0,0,-4,0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Center"
 			wct:VisualExtensions.NormalizedCenterPoint="0.5,0.5"
@@ -90,6 +92,7 @@
 				Symbol="Forward" />
 		</Border>
 
+		<!--  Shell Frame  -->
 		<Frame
 			x:Name="ItemDisplayFrame"
 			x:FieldModifier="public"
