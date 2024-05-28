@@ -96,17 +96,33 @@
 			Navigated="ItemDisplayFrame_Navigated" />
 
 		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="ShellBorderFocusState">
+				<VisualState x:Name="ShellBorderFocusOnState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="{ThemeResource Local.ActivePane.BorderThickness}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBorderFocusOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBorderDualPaneOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+			
 			<VisualStateGroup x:Name="ShellBackgroundFocusState">
 				<VisualState x:Name="ShellBackgroundFocusOnState">
 					<VisualState.Setters>
 						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.BackgroundBrush}" />
-						<Setter Target="RootGrid.BorderThickness" Value="{ThemeResource Local.ActivePane.BorderThickness}" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="ShellBackgroundFocusOffState">
 					<VisualState.Setters>
 						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.SecondaryBackgroundBrush}" />
-						<Setter Target="RootGrid.BorderThickness" Value="1" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
