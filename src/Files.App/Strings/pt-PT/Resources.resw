@@ -2678,6 +2678,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Fechar painel à direita</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus left pane</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Switch focus to the left pane</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus right pane</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Switch focus to the right pane</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Mostrar/ocultar barra lateral</value>
   </data>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Esta combinação de teclas já está a ser utilizada. Escolha uma combinação de teclas diferente para continuar.</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>Não pode utilizar a associação de teclas escolhida. Por favor escolha outra associação.</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizado</value>
   </data>
@@ -3823,19 +3838,22 @@
     <value>Ficheiros Bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
+  </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>Locais de rede</value>
+    <value>Localizações de rede</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>Não há nenhum local de rede. Se você não usar locais de rede, você pode desativar o widget.</value>
+    <value>Não existem localizações de rede. Se não quiser usar localizações de rede, pode desativar o widget.</value>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Desligado</value>
+    <value>Desativar</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
     <value>Editar no Notepad</value>
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
-    <value>Editar o arquivo selecionado no Notepad</value>
+    <value>Editar ficheiro no Notepad</value>
   </data>
 </root>
