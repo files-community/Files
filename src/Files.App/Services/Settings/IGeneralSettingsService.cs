@@ -211,7 +211,7 @@ namespace Files.App.Services.Settings
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value that indicates whether the Settings button is visible in sidebar. DisplaySettingsButtonOnSidebar
+		/// Gets or sets a value that indicates whether the Settings button should be visible in the sidebar.
 		/// </summary>
 		bool DisplaySettingsButtonOnSidebar { get; set; }
 	}
