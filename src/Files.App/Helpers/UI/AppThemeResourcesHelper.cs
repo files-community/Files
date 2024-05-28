@@ -17,8 +17,11 @@ namespace Files.App.Helpers
 		{
 			var appThemeBackgroundColor = appearance.AppThemeBackgroundColor;
 			var appThemeAddressBarBackgroundColor = appearance.AppThemeAddressBarBackgroundColor;
+			var appThemeToolbarBackgroundColor = appearance.AppThemeToolbarBackgroundColor;
 			var appThemeSidebarBackgroundColor = appearance.AppThemeSidebarBackgroundColor;
 			var appThemeFileAreaBackgroundColor = appearance.AppThemeFileAreaBackgroundColor;
+			var appThemeFileAreaSecondaryBackgroundColor = appearance.AppThemeFileAreaSecondaryBackgroundColor;
+			var appThemeInfoPaneBackgroundColor = appearance.AppThemeInfoPaneBackgroundColor;
 			var appThemeFontFamily = appearance.AppThemeFontFamily;
 
 			try
@@ -27,11 +30,11 @@ namespace Files.App.Helpers
 			}
 			catch
 			{
-				appearance.AppThemeBackgroundColor = "#00000000"; //migrate to new default
+				appearance.AppThemeBackgroundColor = "#00000000"; // reset to default
 				service.SetAppThemeBackgroundColor(ColorHelper.ToColor("#00000000").FromWindowsColor());
 			}
 
-			if (!string.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+			if (!string.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor))
 			{
 				try
 				{
@@ -39,13 +42,23 @@ namespace Files.App.Helpers
 				}
 				catch
 				{
-					appearance.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
+					appearance.AppThemeAddressBarBackgroundColor = ""; // reset to default
 				}
 			}
-			else
-				appearance.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
 
-			if (!string.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeSidebarBackgroundColor != "#00000000")
+			if (!string.IsNullOrWhiteSpace(appThemeToolbarBackgroundColor))
+			{
+				try
+				{
+					service.SetAppThemeToolbarBackgroundColor(ColorHelper.ToColor(appThemeToolbarBackgroundColor).FromWindowsColor());
+				}
+				catch
+				{
+					appearance.AppThemeAddressBarBackgroundColor = ""; //reset to default
+				}
+			}
+
+			if (!string.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor))
 			{
 				try
 				{
@@ -53,13 +66,11 @@ namespace Files.App.Helpers
 				}
 				catch
 				{
-					appearance.AppThemeSidebarBackgroundColor = ""; //migrate to new default
+					appearance.AppThemeSidebarBackgroundColor = ""; //reset to default
 				}
 			}
-			else
-				appearance.AppThemeSidebarBackgroundColor = ""; //migrate to new default
 
-			if (!string.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeFileAreaBackgroundColor != "#00000000")
+			if (!string.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor))
 			{
 				try
 				{
@@ -67,11 +78,33 @@ namespace Files.App.Helpers
 				}
 				catch
 				{
-					appearance.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
+					appearance.AppThemeFileAreaBackgroundColor = ""; //reset to default
 				}
 			}
-			else
-				appearance.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
+
+			if (!string.IsNullOrWhiteSpace(appThemeFileAreaSecondaryBackgroundColor))
+			{
+				try
+				{
+					service.SetAppThemeFileAreaSecondaryBackgroundColor(ColorHelper.ToColor(appThemeFileAreaSecondaryBackgroundColor).FromWindowsColor());
+				}
+				catch
+				{
+					appearance.AppThemeFileAreaSecondaryBackgroundColor = ""; //reset to default
+				}
+			}
+
+			if (!string.IsNullOrWhiteSpace(appThemeInfoPaneBackgroundColor))
+			{
+				try
+				{
+					service.SetAppThemeInfoPaneBackgroundColor(ColorHelper.ToColor(appThemeInfoPaneBackgroundColor).FromWindowsColor());
+				}
+				catch
+				{
+					appearance.AppThemeInfoPaneBackgroundColor = ""; //reset to default
+				}
+			}
 
 			if (appThemeFontFamily != Constants.Appearance.StandardFont)
 				service.SetAppThemeFontFamily(appThemeFontFamily);

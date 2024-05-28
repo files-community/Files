@@ -142,6 +142,10 @@ namespace Files.App.Views.Shells
 						_IsCurrentInstanceTCS = new();
 
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
+
+					// Update background to show off the focused shell page
+					if (!IsColumnView)
+						VisualStateManager.GoToState(this, value ? "ShellBackgroundFocusOnState" : "ShellBackgroundFocusOffState", true);
 				}
 			}
 		}
@@ -149,19 +153,6 @@ namespace Files.App.Views.Shells
 		public virtual bool IsCurrentPane => IsCurrentInstance;
 
 		public virtual Task WhenIsCurrent() => _IsCurrentInstanceTCS.Task;
-
-		public SolidColorBrush CurrentInstanceBorderBrush
-		{
-			get => (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty);
-			set => SetValue(CurrentInstanceBorderBrushProperty, value);
-		}
-
-		public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
-		   DependencyProperty.Register(
-			nameof(CurrentInstanceBorderBrush),
-			typeof(SolidColorBrush),
-			typeof(ModernShellPage),
-			new PropertyMetadata(null));
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -239,9 +230,7 @@ namespace Files.App.Views.Shells
 			if (ContentPage is null)
 				return;
 
-			var directoryItemCountLocalization = (FilesystemViewModel.FilesAndFolders.Count == 1)
-				? "ItemCount/Text".GetLocalizedResource()
-				: "ItemsCount/Text".GetLocalizedResource();
+			var directoryItemCountLocalization = "Items".GetLocalizedFormatResource(FilesystemViewModel.FilesAndFolders.Count);
 
 			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
 					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
@@ -363,11 +352,11 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_TextChanged(ISearchBoxViewModel sender, SearchBoxTextChangedEventArgs e)
 		{
-			FilesystemViewModel.FilesAndFoldersFilter = sender.Query;
-			await FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
-
 			if (e.Reason != SearchBoxTextChangeReason.UserInput)
 				return;
+
+			FilesystemViewModel.FilesAndFoldersFilter = sender.Query;
+			await FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 
 			if (!string.IsNullOrWhiteSpace(sender.Query))
 			{

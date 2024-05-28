@@ -27,7 +27,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
 
 				<ResourceDictionary>
 					<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -137,10 +137,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid
-		HorizontalAlignment="Stretch"
-		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-		BorderThickness="0,0,0,1">
+	<Grid HorizontalAlignment="Stretch">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" />
@@ -372,7 +369,7 @@
 												<VisualState x:Name="Normal" />
 												<VisualState x:Name="PointerOver">
 													<VisualState.Setters>
-														<Setter Target="TagPill.Background" Value="{ThemeResource SubtleFillColorSecondary}" />
+														<Setter Target="TagPill.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
 													</VisualState.Setters>
 												</VisualState>
 											</VisualStateGroup>

@@ -97,6 +97,7 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
 		IRichCommand OpenCommandPalette { get; }
+		IRichCommand EditInNotepad { get; }
 
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }
@@ -171,6 +172,8 @@ namespace Files.App.Data.Commands
 		IRichCommand CloseSelectedTab { get; }
 		IRichCommand OpenNewPane { get; }
 		IRichCommand ClosePane { get; }
+		IRichCommand FocusLeftPane { get; }
+		IRichCommand FocusRightPane { get; }
 
 		IRichCommand OpenInNewPaneAction { get; }
 		IRichCommand OpenInNewPaneFromHomeAction { get; }

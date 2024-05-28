@@ -19,7 +19,7 @@
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<ResourceDictionary.ThemeDictionaries>
@@ -596,7 +596,7 @@
 			<controls:SettingsBlockControl
 				x:Name="CleanupDriveBlockControl"
 				Title="{helpers:ResourceString Name=CleanupDrive}"
-				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.CleanupVisibility, Mode=OneWay}"
 				ButtonCommand="{x:Bind ViewModel.CleanupDriveCommand}"
 				IsClickable="True">
 

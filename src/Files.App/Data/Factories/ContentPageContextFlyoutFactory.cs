@@ -22,6 +22,7 @@ namespace Files.App.Data.Factories
 		private static readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private static readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private static IStorageArchiveService StorageArchiveService { get; } = Ioc.Default.GetRequiredService<IStorageArchiveService>();
 
 		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
 		{
@@ -518,7 +519,7 @@ namespace Files.App.Data.Factories
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.CompressIntoZip).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.CompressIntoSevenZip).Build(),
 					],
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && CompressHelper.CanCompress(selectedItems)
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && StorageArchiveService.CanCompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
@@ -535,7 +536,7 @@ namespace Files.App.Data.Factories
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.DecompressArchiveHere).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.DecompressArchiveToChildFolder).Build(),
 					],
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && CompressHelper.CanDecompress(selectedItems)
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && StorageArchiveService.CanDecompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -589,6 +590,7 @@ namespace Files.App.Data.Factories
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.EditInNotepad).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Loading".GetLocalizedResource(),

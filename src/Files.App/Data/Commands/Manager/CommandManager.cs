@@ -111,6 +111,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand OpenCommandPalette => commands[CommandCodes.OpenCommandPalette];
+		public IRichCommand EditInNotepad => commands[CommandCodes.EditInNotepad];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
@@ -190,6 +191,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
 		public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
 		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
+		public IRichCommand FocusLeftPane => commands[CommandCodes.FocusLeftPane];
+		public IRichCommand FocusRightPane => commands[CommandCodes.FocusRightPane];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
@@ -291,6 +294,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.OpenCommandPalette] = new OpenCommandPaletteAction(),
+			[CommandCodes.EditInNotepad] = new EditInNotepadAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
@@ -370,6 +374,8 @@ namespace Files.App.Data.Commands
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
 			[CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
 			[CommandCodes.ClosePane] = new ClosePaneAction(),
+			[CommandCodes.FocusLeftPane] = new FocusLeftPaneAction(),
+			[CommandCodes.FocusRightPane] = new FocusRightPaneAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),

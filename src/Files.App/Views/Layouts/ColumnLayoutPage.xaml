@@ -317,7 +317,8 @@
 											VerticalAlignment="Center"
 											x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
 											x:Phase="2"
-											Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
+											Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}"
+											ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}" />
 
 										<!--  Tag  -->
 										<Ellipse
@@ -336,7 +337,7 @@
 											VerticalAlignment="Center"
 											x:Load="{x:Bind IsFolder}"
 											FontSize="12"
-											Foreground="{ThemeResource TextFillColorSecondary}"
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 											Glyph="&#xE76C;" />
 
 									</StackPanel>

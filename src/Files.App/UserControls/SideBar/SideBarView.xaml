@@ -99,7 +99,7 @@
 			Grid.RowSpan="2"
 			Grid.Column="2"
 			MinWidth="4"
-			Margin="0,8,0,0"
+			Margin="0,60,0,40"
 			HorizontalAlignment="Left"
 			AllowFocusOnInteraction="True"
 			Background="Transparent"
@@ -128,17 +128,16 @@
 			x:Name="ContentPresenter"
 			Grid.Row="1"
 			Grid.Column="2"
-			Margin="2,0,0,0"
-			HorizontalAlignment="Stretch"
-			Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
-			BackgroundSizing="InnerBorderEdge"
-			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-			BorderThickness="1,1,0,0"
-			CornerRadius="8,0,0,0">
+			Margin="2,0,8,0"
+			HorizontalAlignment="Stretch">
+
+			<!--  Content  -->
 			<Border
+				x:Name="Content"
 				VerticalAlignment="Stretch"
 				Child="{x:Bind InnerContent, Mode=OneWay}"
 				TabFocusNavigation="Local" />
+
 		</Grid>
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="DisplayModes">
@@ -158,9 +157,8 @@
 						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
-						<Setter Target="ContentPresenter.Margin" Value="0,0,0,0" />
+						<Setter Target="ContentPresenter.Margin" Value="8,0,8,0" />
 						<!--  Specific to collapsed pane  -->
 						<Setter Target="PaneColumnGridTransform.TranslateX" Value="{StaticResource SidebarNegativeOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Visibility" Value="Collapsed" />
@@ -176,9 +174,8 @@
 						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
-						<Setter Target="ContentPresenter.Margin" Value="0,0,0,0" />
+						<Setter Target="ContentPresenter.Margin" Value="8,0,8,0" />
 						<!--  Specific to expanded pane  -->
 						<Setter Target="PaneLightDismissLayer.Visibility" Value="Visible" />
 						<Setter Target="PaneColumnGrid.Shadow">

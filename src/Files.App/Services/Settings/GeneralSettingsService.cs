@@ -97,6 +97,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowNetworkLocationsWidget
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool ShowFileTagsWidget
 		{
 			get => Get(false);
@@ -118,6 +124,12 @@ namespace Files.App.Services.Settings
 		public bool DrivesWidgetExpanded
 		{
 			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool NetworkLocationsWidgetExpanded
+		{
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -151,7 +163,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ShowNetworkDrivesSection
+		public bool ShowNetworkSection
 		{
 			get => Get(true);
 			set => Set(value);
@@ -263,13 +275,15 @@ namespace Files.App.Services.Settings
 				case nameof(ShowQuickAccessWidget):
 				case nameof(ShowRecentFilesWidget):
 				case nameof(ShowDrivesWidget):
+				case nameof(ShowNetworkLocationsWidget):
 				case nameof(FoldersWidgetExpanded):
 				case nameof(RecentFilesWidgetExpanded):
 				case nameof(DrivesWidgetExpanded):
+				case nameof(NetworkLocationsWidgetExpanded):
 				case nameof(ShowPinnedSection):
 				case nameof(ShowLibrarySection):
 				case nameof(ShowCloudDrivesSection):
-				case nameof(ShowNetworkDrivesSection):
+				case nameof(ShowNetworkSection):
 				case nameof(ShowWslSection):
 				case nameof(ShowFileTagsSection):
 				case nameof(MoveShellExtensionsToSubMenu):

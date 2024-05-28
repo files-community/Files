@@ -192,9 +192,10 @@ namespace Files.App.Helpers
 					.AddSingleton<IResourcesService, ResourcesService>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
-					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<INetworkService, NetworkService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
+					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
@@ -207,6 +208,7 @@ namespace Files.App.Helpers
 					.AddTransient<HomeViewModel>()
 					.AddSingleton<QuickAccessWidgetViewModel>()
 					.AddSingleton<DrivesWidgetViewModel>()
+					.AddSingleton<NetworkLocationsWidgetViewModel>()
 					.AddSingleton<FileTagsWidgetViewModel>()
 					.AddSingleton<RecentFilesWidgetViewModel>()
 					// Utilities

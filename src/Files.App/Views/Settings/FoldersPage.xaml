@@ -12,7 +12,7 @@
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+		<ResourceDictionary Source="/Styles/RightAlignedToggleSwitchStyle.xaml" />
 	</Page.Resources>
 
 	<Page.DataContext>

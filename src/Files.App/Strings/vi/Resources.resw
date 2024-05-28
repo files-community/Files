@@ -367,7 +367,7 @@
     <value>Thư mục bạn cố truy cập có thể đã bị di chuyển hoặc xóa bỏ.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Bạn đã xóa thư mục này?</value>
+    <value>Thư mục không tồn tại</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
     <value>Tệp bạn cố truy cập hiện đang được sử dụng bởi {0}</value>
@@ -426,17 +426,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Tên khoản mục đã nhập không hợp lệ</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>mục được chọn</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# item selected} other {# items selected}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>mục được chọn</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>mục</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>mục</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Có</value>
@@ -892,7 +888,7 @@
     <value>Tốc độ bit mã hóa video</value>
   </data>
   <data name="Compression" xml:space="preserve">
-    <value>Nén</value>
+    <value>Phương thức nén</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
     <value>Chiều rộng khung hình</value>
@@ -1082,9 +1078,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Bỏ ghim khỏi thanh bên</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Ổ lưu trữ mạng</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Mạng</value>
@@ -3795,5 +3788,54 @@
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
     <value>Căn dọc</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Acrylic nhẹ</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Hiện ở mọi vị trí</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Công cụ nhà phát triển</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Cấu hình nút "Mở IDE" trên thanh trạng thái</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Hiện ở các kho lưu trữ Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Phần mở rộng ứng dụng</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Tệp ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Tệp Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Tệp Bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Vị trí mạng</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Hiện không có vị trí mạng nào. Bạn có thể tắt tiện ích này nếu không sử dụng tính năng.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Tắt</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Chỉnh sửa bằng Notepad</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Chỉnh sửa tệp đã chọn bằng Notepad</value>
   </data>
 </root>
