@@ -113,13 +113,9 @@ namespace Files.App.UserControls.Sidebar
 				Owner.Owner.PaneMenuItemSource is IList<INavigationControlItem> menuItems)
 			{
 				if (Owner.Owner.PaneFooterItemSource is IList<INavigationControlItem> footerItems)
-				{
 					return menuItems.Concat(footerItems).ToList();
-				}
 				else
-				{
 					return menuItems.ToList();
-				}
 			}
 
 			return new List<object>();
