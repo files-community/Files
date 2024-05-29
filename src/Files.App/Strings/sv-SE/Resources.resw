@@ -2678,6 +2678,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Stäng höger ruta</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus left pane</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Switch focus to the left pane</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus right pane</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Switch focus to the right pane</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Växla sidofältet</value>
   </data>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Denna nyckelbindning används redan, välj en annan nyckelbindning för att fortsätta.</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Anpassad</value>
   </data>
@@ -3822,6 +3837,9 @@
   <data name="BitmapFiles" xml:space="preserve">
     <value>Bitmap filer</value>
     <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>Nätverkets platser</value>

@@ -340,7 +340,7 @@
     <value>设为锁屏背景</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>设置为此应用背景</value>
+    <value>设置为应用程序背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>该项目无法删除</value>
@@ -427,11 +427,11 @@
     <value>指定的项目名称无效</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# 项目选择} other {# 项目选择}}</value>
+    <value>{0, plural, other {选中 # 个项目}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {项目} other {项目}}</value>
+    <value>{0, plural, other {个项目}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -2460,7 +2460,7 @@
     <value>设置所选图片为锁屏背景</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>设置所选图片为此应用背景</value>
+    <value>设置所选图片为此应用程序的背景</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>安装所选字体</value>
@@ -2677,6 +2677,18 @@
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>关闭右侧标签页</value>
+  </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus left pane</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Switch focus to the left pane</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus right pane</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Switch focus to the right pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>打开/关闭侧边栏</value>
@@ -3264,7 +3276,7 @@
     <value>Files 正在以管理员身份运行</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>由于 Windows 和 WinAppSdk 的限制，当以管理员身份运行 Files 时，拖动和拖放不可用。 若要启用拖放， 你可以从开始菜单中打开 UAC（用户帐户控制）设置，选择第三个保护等级并重启 Windows，以解除这一限制。 否则，您可继续使用 Files，但无法使用拖放。</value>
+    <value>由于 Windows 和 WinAppSdk 的限制，当以管理员身份运行 Files 时，拖动和拖放不可用。 若要启用拖放， 你可以从开始菜单中打开 UAC（用户帐户控制）设置，选择第三个保护等级并重启 Windows，以解除这一限制。 否则，你可以继续使用 Files，但无法使用拖放。</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>当窗口关闭后保持应用程序后台运行</value>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>此按键绑定已被使用，请选择一个不同的按键绑定以继续。</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>所选的按键绑定无法使用，请用其他按键绑定重试。</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>自定义</value>
   </data>
@@ -3823,11 +3838,14 @@
     <value>位图文件</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>小键盘</value>
+  </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>网络位置</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>没有网络位置。如果你未使用任何网络位置，你可以禁用该小组件。</value>
+    <value>没有网络位置。如果你不使用网络位置，可以禁用该小组件。</value>
   </data>
   <data name="Disable" xml:space="preserve">
     <value>禁用</value>

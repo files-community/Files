@@ -175,6 +175,8 @@ namespace Files.App.Data.Commands
 		IRichCommand CloseSelectedTab { get; }
 		IRichCommand OpenNewPane { get; }
 		IRichCommand ClosePane { get; }
+		IRichCommand FocusLeftPane { get; }
+		IRichCommand FocusRightPane { get; }
     
 		IRichCommand PlayAll { get; }
 

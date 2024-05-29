@@ -815,17 +815,10 @@ namespace Files.App.ViewModels.UserControls
 
 		private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
 		{
-			var trimmedInput = currentInput.Trim();
-			var fileName = trimmedInput;
-			var arguments = string.Empty;
-			if (trimmedInput.Contains(' '))
-			{
-				var positionOfBlank = trimmedInput.IndexOf(' ');
-				fileName = trimmedInput.Substring(0, positionOfBlank);
-				arguments = currentInput.Substring(currentInput.IndexOf(' '));
-			}
-
-			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
+			var args = CommandLineParser.SplitArguments(currentInput);
+			return await LaunchHelper.LaunchAppAsync(
+				args.FirstOrDefault("").Trim('"'), string.Join(' ', args.Skip(1)), workingDir
+			);
 		}
 
 		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage)

@@ -27,10 +27,7 @@
 			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
 
-	<Grid
-		x:Name="RootGrid"
-		BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-		BorderThickness="0,0,0,2">
+	<Grid x:Name="RootGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />

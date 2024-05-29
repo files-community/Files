@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.Services.Settings
+namespace Files.App.Data.Contracts
 {
 	public interface IAppearanceSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
@@ -51,6 +51,11 @@ namespace Files.App.Services.Settings
 		/// Gets or sets a value for the app theme file area background color.
 		/// </summary>
 		String AppThemeFileAreaBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme file area background color for the inactive pane.
+		/// </summary>
+		String AppThemeFileAreaSecondaryBackgroundColor { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value for the app theme info pane background color.

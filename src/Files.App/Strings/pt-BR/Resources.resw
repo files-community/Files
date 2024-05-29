@@ -2678,6 +2678,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Fechar painel à direita</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus left pane</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Switch focus to the left pane</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus right pane</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Switch focus to the right pane</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Mostrar/ocultar barra lateral</value>
   </data>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Esta combinação de tecla já está sendo utilizada, por favor escolha uma combinação de tecla diferente para continuar.</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>A chave vinculada que você escolheu não pode ser usada, por favor tente novamente utilizando uma chave vinculativa diferente.</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Personalizado</value>
   </data>
@@ -3822,6 +3837,9 @@
   <data name="BitmapFiles" xml:space="preserve">
     <value>Arquivos Bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>Locais de rede</value>
