@@ -539,7 +539,10 @@
 					ToolTipService.Placement="Bottom"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
 					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
-					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
+					<AnimatedIcon
+						x:Name="SettingAnimatedIcon"
+						Height="16"
+						Foreground="{ThemeResource ThemeIcon.IconBaseBrush}">
 						<AnimatedIcon.Source>
 							<animatedvisuals:AnimatedSettingsVisualSource />
 						</AnimatedIcon.Source>
