@@ -17,31 +17,31 @@
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
-						Color="#DB202020" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
-						Color="#DB202020" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconBasePictureBrush"
 						Opacity=".40"
-						Color="#DB202020" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconBaseHalfBrush"
 						Opacity=".50"
-						Color="#DB202020" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconBaseStrongBrush"
 						Opacity=".70"
-						Color="#DB202020" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconAltHalfBrush"
 						Opacity="0.40"
-						Color="#66F0F0F0" />
+						Color="{StaticResource App.Theme.IconAltBrush}" />
 					<SolidColorBrush
 						x:Key="IconAltStrongBrush"
 						Opacity="0.70"
-						Color="#66F0F0F0" />
+						Color="{StaticResource App.Theme.IconAltBrush}" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="Dark">
 					<SolidColorBrush x:Key="App.Theme.IconBaseBrush" Color="#D8F0F0F0" />
@@ -57,31 +57,31 @@
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
-						Color="#D8F0F0F0" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
-						Color="#D8F0F0F0" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconBasePictureBrush"
 						Opacity=".40"
-						Color="#D8F0F0F0" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconBaseHalfBrush"
 						Opacity=".50"
-						Color="#D8F0F0F0" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconBaseStrongBrush"
 						Opacity=".70"
-						Color="#D8F0F0F0" />
+						Color="{StaticResource App.Theme.IconBaseBrush}" />
 					<SolidColorBrush
 						x:Key="IconAltHalfBrush"
 						Opacity="0.40"
-						Color="#66202020" />
+						Color="{StaticResource App.Theme.IconAltBrush}" />
 					<SolidColorBrush
 						x:Key="IconAltStrongBrush"
 						Opacity="0.70"
-						Color="#66202020" />
+						Color="{StaticResource App.Theme.IconAltBrush}" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="HighContrast">
 					<SolidColorBrush x:Key="App.Theme.IconBaseBrush" Color="{StaticResource SystemColorButtonTextColor}" />
