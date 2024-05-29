@@ -427,11 +427,11 @@
     <value>Zadaný název položky je neplatný</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {vybráno # položek} other {# položek}}</value>
+    <value>{0, plural, one {# položka vybrána} few {# položky vybrány} other {# položek vybráno}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {položka} other {položky}}</value>
+    <value>{0, plural, one {položka} few {položky} other {položek}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -2678,6 +2678,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Zavřít pravý panel</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Přepnout na levý panel</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Změna přepnutí se na levý panel</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Přepnout na pravý panel</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Změna přepnutí se na pravý panel</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Skrýt/Zobrazit postranní panel</value>
   </data>
@@ -3736,6 +3748,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Tato klávesová zkratka je již používána, vyberte prosím jinou klávesovou zkratku, abyste mohli pokračovat.</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>Vámi zvolenou kombinaci kláves nelze použít, zkuste prosím použít jinou kombinaci kláves.</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Přizpůsobeno</value>
   </data>
@@ -3790,7 +3805,7 @@
     <value>Vertikální zarovnání</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
-    <value>Slabě akrylová</value>
+    <value>Slabý akryl</value>
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">
@@ -3823,8 +3838,11 @@
     <value>Soubory bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
+  </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>Síť</value>
+    <value>Síťová umístění</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
     <value>Neexistují žádná síťová umístění. Pokud síťová umístění nepoužíváte, můžete widget vypnout.</value>

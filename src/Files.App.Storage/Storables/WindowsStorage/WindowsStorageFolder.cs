@@ -4,7 +4,7 @@
 using System.Runtime.CompilerServices;
 using Windows.Storage;
 
-namespace Files.App.Storage.WindowsStorage
+namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IFolder"/>
 	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove

@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.Services.Settings
+namespace Files.App.Data.Contracts
 {
 	public interface IAppearanceSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
