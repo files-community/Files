@@ -73,7 +73,6 @@
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="2,8,0,2"
 					HorizontalScrollMode="Disabled"
 					VerticalScrollBarVisibility="Auto"
 					XYFocusKeyboardNavigation="Enabled">
@@ -106,14 +105,13 @@
 			<ItemsRepeater
 				x:Name="PaneFooterItemsRepeater"
 				Grid.Row="2"
-				Margin="0,4"
+				Margin="0,8"
 				AutomationProperties.AccessibilityView="Content"
 				AutomationProperties.Name="SidebarPaneFooterItems"
 				ElementPrepared="MenuItemsHost_ElementPrepared"
 				IsTabStop="True"
 				ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
 				ItemsSource="{x:Bind PaneFooterItemSource, Mode=OneWay}"
-				VerticalCacheLength="5"
 				XYFocusKeyboardNavigation="Enabled" />
 
 		</Grid>
@@ -164,6 +162,7 @@
 				TabFocusNavigation="Local" />
 
 		</Grid>
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="DisplayModes">
 				<VisualState x:Name="Expanded">
@@ -198,6 +197,7 @@
 				<VisualState x:Name="MinimalExpanded">
 					<VisualState.Setters>
 						<!--  Minimal mode setters  -->
+						<Setter Target="MenuItemsHost.Margin" Value="0,16" />
 						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
@@ -391,14 +391,14 @@
 			<VisualStateGroup x:Name="PaneFooterStates">
 				<VisualState x:Name="PaneFooterNormal">
 					<VisualState.Setters>
-						<Setter Target="PaneFooterDivider.Visibility" Value="{x:Bind PaneFooter, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}" />
-						<Setter Target="PaneFooterContentPresenter.Visibility" Value="{x:Bind PaneFooter, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}" />
+						<Setter Target="PaneFooterDivider.Visibility" Value="{x:Bind PaneFooterItemSource, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}" />
+						<Setter Target="PaneFooterItemsRepeater.Visibility" Value="{x:Bind PaneFooterItemSource, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="PaneFooterEmpty">
 					<VisualState.Setters>
-						<Setter Target="PaneFooterDivider.Visibility" Value="{x:Bind PaneFooter, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}" />
-						<Setter Target="PaneFooterContentPresenter.Visibility" Value="{x:Bind PaneFooter, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}" />
+						<Setter Target="PaneFooterDivider.Visibility" Value="{x:Bind PaneFooterItemSource, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}" />
+						<Setter Target="PaneFooterItemsRepeater.Visibility" Value="{x:Bind PaneFooterItemSource, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

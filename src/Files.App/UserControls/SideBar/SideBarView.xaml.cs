@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
-using System.Diagnostics.Eventing.Reader;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
@@ -76,7 +75,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			VisualStateManager.GoToState(
 				this,
-				PaneFooter is SidebarItem list ? "PaneFooterNormal" : "PaneFooterEmpty",
+				PaneFooterItemSource is IList list && list.Count is not 0 ? "PaneFooterNormal" : "PaneFooterEmpty",
 				true);
 		}
 
