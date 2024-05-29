@@ -390,6 +390,7 @@
 					Grid.Column="1"
 					Margin="12"
 					FontSize="16"
+					Foreground="{ThemeResource App.Theme.IconBaseBrush}"
 					Glyph="&#xE70D;" />
 			</Grid>
 
@@ -424,7 +425,10 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey, Mode=OneWay}"
 					Visibility="Collapsed">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
+					<FontIcon
+						FontSize="14"
+						Foreground="{ThemeResource App.Theme.IconBaseBrush}"
+						Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
 
 				<!--  Status Center  -->
