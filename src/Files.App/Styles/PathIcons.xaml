@@ -17,31 +17,31 @@
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
-						Color="#E0000000" />
+						Color="#DB202020" />
 					<SolidColorBrush
 						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
-						Color="#E0000000" />
+						Color="#DB202020" />
 					<SolidColorBrush
 						x:Key="IconBasePictureBrush"
 						Opacity=".40"
-						Color="#E0000000" />
+						Color="#DB202020" />
 					<SolidColorBrush
 						x:Key="IconBaseHalfBrush"
 						Opacity=".50"
-						Color="#E0000000" />
+						Color="#DB202020" />
 					<SolidColorBrush
 						x:Key="IconBaseStrongBrush"
 						Opacity=".70"
-						Color="#E0000000" />
+						Color="#DB202020" />
 					<SolidColorBrush
 						x:Key="IconAltHalfBrush"
 						Opacity="0.40"
-						Color="#72FFFFFF" />
+						Color="#66F0F0F0" />
 					<SolidColorBrush
 						x:Key="IconAltStrongBrush"
 						Opacity="0.70"
-						Color="#72FFFFFF" />
+						Color="#66F0F0F0" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="Dark">
 					<SolidColorBrush x:Key="ThemeIcon.IconBaseBrush" Color="#D8F0F0F0" />
@@ -57,31 +57,31 @@
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
-						Color="#E0FFFFFF" />
+						Color="#D8F0F0F0" />
 					<SolidColorBrush
 						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
-						Color="#E0FFFFFF" />
+						Color="#D8F0F0F0" />
 					<SolidColorBrush
 						x:Key="IconBasePictureBrush"
 						Opacity=".40"
-						Color="#E0FFFFFF" />
+						Color="#D8F0F0F0" />
 					<SolidColorBrush
 						x:Key="IconBaseHalfBrush"
 						Opacity=".50"
-						Color="#E0FFFFFF" />
+						Color="#D8F0F0F0" />
 					<SolidColorBrush
 						x:Key="IconBaseStrongBrush"
 						Opacity=".70"
-						Color="#E0FFFFFF" />
+						Color="#D8F0F0F0" />
 					<SolidColorBrush
 						x:Key="IconAltHalfBrush"
 						Opacity="0.40"
-						Color="#72000000" />
+						Color="#66202020" />
 					<SolidColorBrush
 						x:Key="IconAltStrongBrush"
 						Opacity="0.70"
-						Color="#72000000" />
+						Color="#66202020" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="HighContrast">
 					<SolidColorBrush x:Key="ThemeIcon.IconBaseBrush" Color="{StaticResource SystemColorButtonTextColor}" />
