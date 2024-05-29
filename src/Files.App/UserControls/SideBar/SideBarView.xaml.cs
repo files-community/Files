@@ -117,7 +117,6 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{
-			UpdateDisplayMode();
 			UpdateOpenPaneLengthColumn();
 			PaneColumnGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
 		}
