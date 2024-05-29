@@ -30,7 +30,6 @@ namespace Files.App.UserControls.Sidebar
 		public SidebarView()
 		{
 			InitializeComponent();
-			UpdateDisplayMode();
 		}
 
 		internal void UpdateSelectedItemContainer(SidebarItem container)
