@@ -339,9 +339,7 @@ namespace Files.App.Views
 		}
 
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			((UIElement)sender).Focus(FocusState.Pointer);
-		}
+			=> ((UIElement)sender).Focus(FocusState.Pointer);
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
 		{
