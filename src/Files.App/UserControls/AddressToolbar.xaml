@@ -542,7 +542,7 @@
 					<AnimatedIcon
 						x:Name="SettingAnimatedIcon"
 						Height="16"
-						Foreground="{ThemeResource ThemeIcon.IconBaseBrush}">
+						Foreground="{ThemeResource App.Theme.IconBaseBrush}">
 						<AnimatedIcon.Source>
 							<animatedvisuals:AnimatedSettingsVisualSource />
 						</AnimatedIcon.Source>
