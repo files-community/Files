@@ -1235,8 +1235,8 @@
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Move</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be moved</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One items will be moved} other {# items will be moved}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Move {0, plural, one {item} other {items}}</value>
@@ -1261,9 +1261,6 @@
   </data>
   <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
     <value>One item will be deleted</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>One item will be moved</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanently delete</value>

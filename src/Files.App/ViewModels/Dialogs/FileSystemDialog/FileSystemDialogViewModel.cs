@@ -137,13 +137,14 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 			ApplyConflictOptionToAll(FileNameConflictResolveOptionType.Skip);
 		}
 
-		public static FileSystemDialogViewModel GetDialogViewModel(FileSystemDialogMode dialogMode, (bool deletePermanently, bool IsDeletePermanentlyEnabled) deleteOption, FilesystemOperationType operationType, List<BaseFileSystemDialogItemViewModel> nonConflictingItems, List<BaseFileSystemDialogItemViewModel> conflictingItems, int countItems)
+		public static FileSystemDialogViewModel GetDialogViewModel(FileSystemDialogMode dialogMode, (bool deletePermanently, bool IsDeletePermanentlyEnabled) deleteOption, FilesystemOperationType operationType, List<BaseFileSystemDialogItemViewModel> nonConflictingItems, List<BaseFileSystemDialogItemViewModel> conflictingItems)
 		{
 			var titleText = string.Empty;
 			var descriptionText = string.Empty;
 			var primaryButtonText = string.Empty;
 			var secondaryButtonText = string.Empty;
 			var isInDeleteMode = false;
+			var totalCount = nonConflictingItems.Count + conflictingItems.Count;
 
 			if (dialogMode.ConflictsExist)
 			{
@@ -163,7 +164,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 						: string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count);
 				}
 
-				titleText = "ConflictingItemsDialogTitle".GetLocalizedFormatResource(countItems);
+				titleText = "ConflictingItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 				primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".ToLocalized();
 				secondaryButtonText = "Cancel".ToLocalized();
 			}
@@ -173,9 +174,9 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 				{
 					case FilesystemOperationType.Copy:
 						{
-							titleText = "CopyItemsDialogTitle".GetLocalizedFormatResource(countItems);
+							titleText = "CopyItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 
-							descriptionText = "CopyItemsDialogSubtitle".GetLocalizedFormatResource(nonConflictingItems.Count + conflictingItems.Count);
+							descriptionText = "CopyItemsDialogSubtitle".GetLocalizedFormatResource(totalCount);
 							primaryButtonText = "Copy".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
 
@@ -184,12 +185,9 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 
 					case FilesystemOperationType.Move:
 						{
-							titleText = "MoveItemsDialogTitle".GetLocalizedFormatResource(countItems);
+							titleText = "MoveItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 
-							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
-								? "MoveItemsDialogSubtitleSingle".ToLocalized()
-								: string.Format("MoveItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
-
+							descriptionText = "MoveItemsDialogSubtitle".GetLocalizedFormatResource(totalCount);
 							primaryButtonText = "MoveItemsDialogPrimaryButtonText".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
 
@@ -198,9 +196,9 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 
 					case FilesystemOperationType.Delete:
 						{
-							titleText = "DeleteItemsDialogTitle".GetLocalizedFormatResource(countItems);
+							titleText = "DeleteItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 
-							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
+							descriptionText = (totalCount == 1)
 								? "DeleteItemsDialogSubtitleSingle".ToLocalized()
 								: string.Format("DeleteItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count);
 
