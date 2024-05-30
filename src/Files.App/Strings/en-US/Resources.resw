@@ -385,28 +385,16 @@
     <value>Read-only</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} days ago</value>
-  </data>
-  <data name="DayAgo" xml:space="preserve">
-    <value>{0} day ago</value>
+    <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} hours ago</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>{0} hour ago</value>
+    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} minutes ago</value>
-  </data>
-  <data name="MinuteAgo" xml:space="preserve">
-    <value>{0} minute ago</value>
+    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} seconds ago</value>
-  </data>
-  <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Now</value>
