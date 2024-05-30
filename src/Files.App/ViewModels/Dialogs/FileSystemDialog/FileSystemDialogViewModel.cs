@@ -187,7 +187,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 
 					case FilesystemOperationType.Move:
 						{
-							titleText = "MoveItemsDialogTitle".ToLocalized();
+							titleText = "MoveItemsDialogTitle".GetLocalizedFormatResource(countItems);
 
 							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
 								? "MoveItemsDialogSubtitleSingle".ToLocalized()

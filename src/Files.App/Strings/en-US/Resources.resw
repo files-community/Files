@@ -1242,7 +1242,7 @@
     <value>{0} items will be moved</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move item(s)</value>
+    <value>Move {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be deleted</value>
