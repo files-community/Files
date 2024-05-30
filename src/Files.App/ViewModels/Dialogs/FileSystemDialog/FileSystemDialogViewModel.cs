@@ -163,7 +163,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 						: string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count);
 				}
 
-				titleText = "ConflictingItemsDialogTitle".ToLocalized();
+				titleText = "ConflictingItemsDialogTitle".GetLocalizedFormatResource(countItems);
 				primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".ToLocalized();
 				secondaryButtonText = "Cancel".ToLocalized();
 			}

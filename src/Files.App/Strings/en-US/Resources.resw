@@ -1254,7 +1254,7 @@
     <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting file name(s)</value>
+    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>There is one conflicting file name, and {0} outgoing item(s).</value>
