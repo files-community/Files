@@ -201,7 +201,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 
 					case FilesystemOperationType.Delete:
 						{
-							titleText = "DeleteItemsDialogTitle".ToLocalized();
+							titleText = "DeleteItemsDialogTitle".GetLocalizedFormatResource(countItems);
 
 							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
 								? "DeleteItemsDialogSubtitleSingle".ToLocalized()
