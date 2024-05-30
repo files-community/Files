@@ -198,10 +198,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 						{
 							titleText = "DeleteItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 
-							descriptionText = (totalCount == 1)
-								? "DeleteItemsDialogSubtitleSingle".ToLocalized()
-								: string.Format("DeleteItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count);
-
+							descriptionText = "DeleteItemsDialogSubtitle".GetLocalizedFormatResource(totalCount);
 							primaryButtonText = "Delete".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
 
