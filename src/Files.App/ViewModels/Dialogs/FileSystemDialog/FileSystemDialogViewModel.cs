@@ -3,6 +3,7 @@
 
 using Files.App.Data.Enums;
 using Files.Shared.Extensions;
+using System.Text;
 
 namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 {
@@ -148,23 +149,15 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 
 			if (dialogMode.ConflictsExist)
 			{
-				// Subtitle text
-				if (conflictingItems.Count > 1)
-				{
-					var descriptionLocalized = (nonConflictingItems.Count > 0)
-						? "ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts".ToLocalized()
-						: "ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".ToLocalized();
-
-					descriptionText = string.Format(descriptionLocalized, conflictingItems.Count, nonConflictingItems.Count);
-				}
-				else
-				{
-					descriptionText = (nonConflictingItems.Count > 0)
-						? string.Format("ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count)
-						: string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count);
-				}
-
 				titleText = "ConflictingItemsDialogTitle".GetLocalizedFormatResource(totalCount);
+
+				var descriptionLocalized = new StringBuilder();
+				descriptionLocalized.Append("ConflictingItemsDialogSubtitleConflicts".GetLocalizedFormatResource(conflictingItems.Count));
+
+				if (nonConflictingItems.Count > 0)
+					descriptionLocalized.Append("ConflictingItemsDialogSubtitleConflictsNonConflicts".GetLocalizedFormatResource(nonConflictingItems.Count));
+
+				descriptionText = descriptionLocalized.ToString();
 				primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".ToLocalized();
 				secondaryButtonText = "Cancel".ToLocalized();
 			}
