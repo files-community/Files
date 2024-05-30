@@ -40,6 +40,7 @@ namespace Files.App.Extensions
 					formatted = string.Format($"{{0:#,##0}}", value);
 					return true;
 				}
+
 				formatted = null;
 				return false;
 			}
