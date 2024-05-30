@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Dispatching;
 using System.IO;
+using System.Text;
 using Windows.Storage.FileProperties;
 using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
@@ -121,14 +122,16 @@ namespace Files.App.ViewModels.Properties
 
 		public void SetItemsCountString()
 		{
+			var resourceText = new StringBuilder();
+			resourceText.Append("PropertiesFilesAndFoldersCountString".GetLocalizedFormatResource(ViewModel.FilesCount, ViewModel.FoldersCount));
+
 			if (ViewModel.LocationsCount > 0)
 			{
-				ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesFoldersAndLocationsCountString".GetLocalizedResource(), ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount);
+				resourceText.Append(' ');
+				resourceText.Append("PropertiesLocationsCountString".GetLocalizedFormatResource(ViewModel.LocationsCount));
 			}
-			else
-			{
-				ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesAndFoldersCountString".GetLocalizedResource(), ViewModel.FilesCount, ViewModel.FoldersCount);
-			}
+
+			ViewModel.FilesAndFoldersCountString = resourceText.ToString();
 		}
 	}
 }
