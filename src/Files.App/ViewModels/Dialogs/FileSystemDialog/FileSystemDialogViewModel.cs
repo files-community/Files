@@ -175,10 +175,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 						{
 							titleText = "CopyItemsDialogTitle".GetLocalizedFormatResource(countItems);
 
-							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
-								? "CopyItemsDialogSubtitleSingle".ToLocalized()
-								: string.Format("CopyItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
-
+							descriptionText = "CopyItemsDialogSubtitle".GetLocalizedFormatResource(nonConflictingItems.Count + conflictingItems.Count);
 							primaryButtonText = "Copy".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
 

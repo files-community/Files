@@ -1226,9 +1226,6 @@
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be copied</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Copy {0, plural, one {item} other {items}}</value>
   </data>
@@ -1259,8 +1256,8 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>There is one conflicting file name, and {0} outgoing item(s).</value>
   </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>One item will be copied</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
     <value>One item will be deleted</value>

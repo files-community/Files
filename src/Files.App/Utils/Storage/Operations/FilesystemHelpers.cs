@@ -125,8 +125,7 @@ namespace Files.App.Utils.Storage
 					(canBeSentToBin ? permanently : true, canBeSentToBin),
 					FilesystemOperationType.Delete,
 					incomingItems,
-					[],
-					source.Count());
+					[]);
 
 				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -690,8 +689,7 @@ namespace Files.App.Utils.Storage
 					(false, false),
 					operationType,
 					incomingItems.Except(conflictingItems).ToList(), // TODO: Could be optimized
-					conflictingItems,
-					source.Count());
+					conflictingItems);
 
 				var result = await dialogService.ShowDialogAsync(dialogViewModel);
 				itemsResult = dialogViewModel.GetItemsResult();
