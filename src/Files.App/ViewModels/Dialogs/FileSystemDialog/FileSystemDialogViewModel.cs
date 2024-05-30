@@ -173,7 +173,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 				{
 					case FilesystemOperationType.Copy:
 						{
-							titleText = "CopyItemsDialogTitle".ToLocalized();
+							titleText = "CopyItemsDialogTitle".GetLocalizedFormatResource(countItems);
 
 							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
 								? "CopyItemsDialogSubtitleSingle".ToLocalized()
