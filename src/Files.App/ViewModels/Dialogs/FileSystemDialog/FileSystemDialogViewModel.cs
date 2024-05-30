@@ -157,6 +157,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 				if (nonConflictingItems.Count > 0)
 					descriptionLocalized.Append("ConflictingItemsDialogSubtitleConflictsNonConflicts".GetLocalizedFormatResource(nonConflictingItems.Count));
 
+				descriptionLocalized.Append('.');
 				descriptionText = descriptionLocalized.ToString();
 				primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".ToLocalized();
 				secondaryButtonText = "Cancel".ToLocalized();
