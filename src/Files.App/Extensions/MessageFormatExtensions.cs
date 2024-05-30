@@ -36,7 +36,7 @@ namespace Files.App.Extensions
 			{
 				if (style is not null && style == string.Empty)
 				{
-					// Format the number with commas as thousands separators
+					// Format the number '{0, number}'
 					formatted = string.Format($"{{0:#,##0}}", value);
 					return true;
 				}
