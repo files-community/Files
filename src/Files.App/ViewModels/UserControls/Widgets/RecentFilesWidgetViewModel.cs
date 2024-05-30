@@ -82,7 +82,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenWith" },
 					Tag = "OpenWithPlaceholder",
 				},
-				 new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAdmin).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAnotherUser).Build(),
 				new()
 				{
