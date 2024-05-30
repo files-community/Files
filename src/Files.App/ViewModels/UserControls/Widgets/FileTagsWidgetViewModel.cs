@@ -13,6 +13,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
+		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		// Properties
 
 		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = [];
@@ -111,6 +113,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAdmin).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAnotherUser).Build(),
 				new()
 				{
 					Text = "PinFolderToSidebar".GetLocalizedResource(),

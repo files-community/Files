@@ -14,6 +14,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// </summary>
 	public sealed class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
+		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		// Fields
 
 		private readonly SemaphoreSlim _refreshRecentFilesSemaphore;
@@ -80,6 +82,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenWith" },
 					Tag = "OpenWithPlaceholder",
 				},
+				 new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAdmin).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAnotherUser).Build(),
 				new()
 				{
 					Text = "RecentItemRemove/Text".GetLocalizedResource(),
