@@ -26,7 +26,7 @@ namespace Files.App.Extensions
 		private static readonly CultureInfo _locale = new(AppLanguageHelper.PreferredLanguage.Code);
 
 		/// <summary>
-		/// Custom value formatters for the message formatter.
+		/// Gets custom value formatters for the message formatter.
 		/// This class is used to customize the formatting of specific value types.
 		/// </summary>
 		private static readonly CustomValueFormatters _customFormatter = new()
