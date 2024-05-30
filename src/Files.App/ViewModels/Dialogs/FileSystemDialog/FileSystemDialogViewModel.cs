@@ -137,7 +137,7 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 			ApplyConflictOptionToAll(FileNameConflictResolveOptionType.Skip);
 		}
 
-		public static FileSystemDialogViewModel GetDialogViewModel(FileSystemDialogMode dialogMode, (bool deletePermanently, bool IsDeletePermanentlyEnabled) deleteOption, FilesystemOperationType operationType, List<BaseFileSystemDialogItemViewModel> nonConflictingItems, List<BaseFileSystemDialogItemViewModel> conflictingItems)
+		public static FileSystemDialogViewModel GetDialogViewModel(FileSystemDialogMode dialogMode, (bool deletePermanently, bool IsDeletePermanentlyEnabled) deleteOption, FilesystemOperationType operationType, List<BaseFileSystemDialogItemViewModel> nonConflictingItems, List<BaseFileSystemDialogItemViewModel> conflictingItems, int countItems)
 		{
 			var titleText = string.Empty;
 			var descriptionText = string.Empty;
