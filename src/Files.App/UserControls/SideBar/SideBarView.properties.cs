@@ -23,6 +23,14 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty InnerContentProperty =
 			DependencyProperty.Register(nameof(InnerContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
+		public UIElement PaneFooter
+		{
+			get { return (UIElement)GetValue(PaneFooterProperty); }
+			set { SetValue(PaneFooterProperty, value); }
+		}
+		public static readonly DependencyProperty PaneFooterProperty =
+			DependencyProperty.Register(nameof(PaneFooter), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null, OnPropertyChanged));
+
 		public bool IsPaneOpen
 		{
 			get { return (bool)GetValue(IsPaneOpenProperty); }
@@ -65,7 +73,7 @@ namespace Files.App.UserControls.Sidebar
 			set => SetValue(PaneMenuItemSourceProperty, value);
 		}
 		public static readonly DependencyProperty PaneMenuItemSourceProperty =
-			DependencyProperty.Register(nameof(PaneMenuItemSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null, OnPropertyChanged));
+			DependencyProperty.Register(nameof(PaneMenuItemSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
 
 		public object PaneFooterItemSource
 		{
@@ -73,7 +81,7 @@ namespace Files.App.UserControls.Sidebar
 			set => SetValue(PaneFooterItemSourceProperty, value);
 		}
 		public static readonly DependencyProperty PaneFooterItemSourceProperty =
-			DependencyProperty.Register(nameof(PaneFooterItemSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null, OnPropertyChanged));
+			DependencyProperty.Register(nameof(PaneFooterItemSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
 
 		public INavigationControlItem SelectedItem
 		{
@@ -99,7 +107,7 @@ namespace Files.App.UserControls.Sidebar
 			{
 				control.UpdateMinimalMode();
 			}
-			else if (e.Property == PaneFooterItemSourceProperty)
+			else if (e.Property == PaneFooterProperty)
 			{
 				control.UpdatePaneFooterVisibility();
 			}

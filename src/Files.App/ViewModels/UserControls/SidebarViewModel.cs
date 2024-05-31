@@ -22,7 +22,6 @@ namespace Files.App.ViewModels.UserControls
 	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
-		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -233,12 +232,10 @@ namespace Files.App.ViewModels.UserControls
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			WindowContext.PropertyChanged += WindowContext_PropertyChanged;
 
 			CreateItemHomeAsync();
 
-			if (UserSettingsService.GeneralSettingsService.DisplaySettingsButtonOnSidebar &&
-				WindowContext.IsCompactOverlay is false)
+			if (UserSettingsService.GeneralSettingsService.DisplaySettingsButtonOnSidebar)
 				CreateItemSettingsAsync();
 
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -270,20 +267,6 @@ namespace Files.App.ViewModels.UserControls
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
 
-		private void WindowContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IWindowContext.IsCompactOverlay):
-					if (WindowContext.IsCompactOverlay)
-						SidebarPaneFooterItems = null;
-					else if (WindowContext.IsCompactOverlay is false &&
-						UserSettingsService.GeneralSettingsService.DisplaySettingsButtonOnSidebar)
-						CreateItemSettingsAsync();
-					break;
-			}
-		}
-
 		private Task<LocationItem> CreateItemHomeAsync()
 		{
 			return CreateSectionAsync(SectionType.Home);
@@ -291,14 +274,10 @@ namespace Files.App.ViewModels.UserControls
 
 		private void CreateItemSettingsAsync()
 		{
-			SidebarPaneFooterItems ??= [];
-			SidebarPaneFooterItems.Clear();
-
 			var settingsItem = new LocationItem()
 			{
 				Text = "Settings".GetLocalizedResource(),
 				Path = "Settings",
-				ToolTip = Commands.OpenSettings.LabelWithHotKey,
 				Section = SectionType.Footer,
 				IsSettingsButton = true,
 				IsHeader = true,
