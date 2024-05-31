@@ -335,14 +335,11 @@ namespace Files.App.Views
 		{
 			((UIElement)sender).GotFocus += Pane_GotFocus;
 			((UIElement)sender).RightTapped += Pane_RightTapped;
-			((UIElement)sender).Tapped += Pane_Tapped;
+			((UIElement)sender).PointerPressed += Pane_PointerPressed;
 		}
 
-		private void Pane_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			if (e.PointerDeviceType == PointerDeviceType.Touch)
-				(sender as UIElement)?.Focus(FocusState.Pointer);
-		}
+		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
+			=> (sender as UIElement)?.Focus(FocusState.Pointer);
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
 		{
