@@ -3,8 +3,6 @@
 
 using Microsoft.UI.Dispatching;
 using System.IO;
-using System.Resources;
-using System.Text;
 using Windows.Storage.FileProperties;
 using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
