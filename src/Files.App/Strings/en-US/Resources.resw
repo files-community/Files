@@ -455,7 +455,7 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
   </data>
-  <data name="PropertiesFilesAndFoldersAndLocationsCountString" xml:space="preserve">
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
     <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
