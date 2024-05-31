@@ -6,7 +6,7 @@ using FluentFTP;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Storage.Storables
+namespace Files.App.Storage.FtpStorage
 {
 	public sealed class FtpStorageFolder : FtpStorable, ILocatableFolder, IModifiableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
 	{

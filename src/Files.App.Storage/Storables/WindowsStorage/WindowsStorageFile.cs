@@ -4,7 +4,7 @@
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Storage.Storables
+namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IFile"/>
 	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile

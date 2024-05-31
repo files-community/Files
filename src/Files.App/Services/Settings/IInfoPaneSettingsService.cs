@@ -3,7 +3,7 @@
 
 using System.ComponentModel;
 
-namespace Files.App.Data.Contracts
+namespace Files.App.Services.Settings
 {
 	public interface IInfoPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{

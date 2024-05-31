@@ -3,7 +3,7 @@
 
 using Windows.Storage;
 
-namespace Files.App.Storage.Storables
+namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IStorageService"/>
 	internal sealed class WindowsStorageService : IStorageService

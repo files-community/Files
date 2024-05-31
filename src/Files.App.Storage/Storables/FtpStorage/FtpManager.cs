@@ -3,7 +3,7 @@
 
 using System.Net;
 
-namespace Files.App.Storage.Storables
+namespace Files.App.Storage.FtpStorage
 {
 	public static class FtpManager
 	{

@@ -3,7 +3,7 @@
 
 using Files.App.Services.PreviewPopupProviders;
 
-namespace Files.App.Services.PreviewPopupProviders
+namespace Files.App.Services
 {
 	/// <inheritdoc cref="IPreviewPopupService"/>
 	internal sealed class PreviewPopupService : ObservableObject, IPreviewPopupService

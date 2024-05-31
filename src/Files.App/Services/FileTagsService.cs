@@ -3,7 +3,7 @@
 
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
-using Files.Core.Storage.Storables;
+using Files.Core.Storage.LocatableStorage;
 using System.Runtime.CompilerServices;
 
 namespace Files.App.Services

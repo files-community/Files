@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.Core.Storage.Storables
+namespace Files.Core.Storage
 {
 	/// <summary>
 	/// Represents a file on the file system.

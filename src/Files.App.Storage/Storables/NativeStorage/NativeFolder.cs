@@ -4,7 +4,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Storage.Storables
+namespace Files.App.Storage.NativeStorage
 {
 	/// <inheritdoc cref="IFolder"/>
 	public class NativeFolder : NativeStorable<DirectoryInfo>, ILocatableFolder, IModifiableFolder, IMutableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
