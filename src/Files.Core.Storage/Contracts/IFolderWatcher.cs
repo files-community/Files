@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.MutableStorage;
+using Files.Core.Storage.Storables;
 using System.Collections.Specialized;
 
 namespace Files.Core.Storage.Contracts

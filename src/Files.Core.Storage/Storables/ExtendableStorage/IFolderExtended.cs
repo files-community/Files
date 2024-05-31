@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Core.Storage.ExtendableStorage
+namespace Files.Core.Storage.Storables
 {
 	/// <summary>
 	/// Extends existing <see cref="IFolder"/> interface with additional functionality.
