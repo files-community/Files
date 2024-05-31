@@ -83,7 +83,7 @@
 							CornerRadius="{ThemeResource ControlCornerRadius}"
 							IsTabStop="True"
 							TabFocusNavigation="Once"
-							ToolTipService.ToolTip="{Binding ToolTip, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+							ToolTipService.ToolTip="{Binding TooltipText, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
 							UseSystemFocusVisuals="True">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="IconColumn" Width="40" />
@@ -159,15 +159,6 @@
 									<RotateTransform x:Name="ExpandCollapseChevronRotateTransform" Angle="0" />
 								</AnimatedIcon.RenderTransform>
 							</AnimatedIcon>
-
-							<FontIcon
-								x:Name="ExpanderIcon"
-								Grid.Column="2"
-								Margin="8,0,14,0"
-								AutomationProperties.AccessibilityView="Raw"
-								FontSize="8"
-								Glyph="&#xE70E;"
-								Visibility="Collapsed" />
 
 							<FlyoutBase.AttachedFlyout>
 								<Flyout x:Name="ChildrenFlyout" Placement="Right">

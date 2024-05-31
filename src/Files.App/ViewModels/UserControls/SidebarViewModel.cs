@@ -281,6 +281,7 @@ namespace Files.App.ViewModels.UserControls
 				Section = SectionType.Footer,
 				IsSettingsButton = true,
 				IsHeader = true,
+				ToolTip = Commands.OpenSettings.LabelWithHotKey,
 				MenuOptions = new ContextMenuOptions { IsLocationItem = true, },
 				SelectsOnInvoked = false,
 			};
