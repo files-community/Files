@@ -7,90 +7,94 @@
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Light">
-					<SolidColorBrush x:Key="Local.IconBaseBrush" Color="#AB000000" />
-					<SolidColorBrush x:Key="Local.IconAltBrush" Color="#72FFFFFF" />
-					<SolidColorBrush x:Key="Local.IconAltAccentBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
-					<SolidColorBrush x:Key="Local.IconDisabledBrush" Color="{StaticResource ControlStrongFillColorDisabled}" />
-					<StaticResource x:Key="Local.IconAccentFillColor" ResourceKey="AccentFillColorDefaultBrush" />
-					<StaticResource x:Key="Local.IconAccentStrokeColor" ResourceKey="AccentFillColorDefaultBrush" />
-					<SolidColorBrush x:Key="Local.AccentContrastFillColorBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
+					<Color x:Key="App.Theme.IconBaseColor">#DB202020</Color>
+					<Color x:Key="App.Theme.IconAltColor">#66F0F0F0</Color>
+					<SolidColorBrush x:Key="App.Theme.IconBaseBrush" Color="{StaticResource App.Theme.IconBaseColor}" />
+					<SolidColorBrush x:Key="App.Theme.IconAltBrush" Color="{StaticResource App.Theme.IconAltColor}" />
+					<SolidColorBrush x:Key="App.Theme.IconAltAccentBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
+					<SolidColorBrush x:Key="App.Theme.IconDisabledBrush" Color="{StaticResource ControlStrongFillColorDisabled}" />
+					<StaticResource x:Key="App.Theme.IconAccentFillColor" ResourceKey="AccentFillColorDefaultBrush" />
+					<StaticResource x:Key="App.Theme.IconAccentStrokeColor" ResourceKey="AccentFillColorDefaultBrush" />
+					<SolidColorBrush x:Key="App.Theme.AccentContrastFillColorBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
-						Color="#E0000000" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
-						Color="#E0000000" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconBasePictureBrush"
 						Opacity=".40"
-						Color="#E0000000" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconBaseHalfBrush"
 						Opacity=".50"
-						Color="#E0000000" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconBaseStrongBrush"
 						Opacity=".70"
-						Color="#E0000000" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconAltHalfBrush"
 						Opacity="0.40"
-						Color="#72FFFFFF" />
+						Color="{StaticResource App.Theme.IconAltColor}" />
 					<SolidColorBrush
 						x:Key="IconAltStrongBrush"
 						Opacity="0.70"
-						Color="#72FFFFFF" />
+						Color="{StaticResource App.Theme.IconAltColor}" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="Dark">
-					<SolidColorBrush x:Key="Local.IconBaseBrush" Color="#ABFFFFFF" />
-					<SolidColorBrush x:Key="Local.IconAltBrush" Color="#72000000" />
-					<SolidColorBrush x:Key="Local.IconDisabledBrush" Color="{StaticResource ControlStrongFillColorDisabled}" />
-					<StaticResource x:Key="Local.IconAccentFillColor" ResourceKey="AccentFillColorDefaultBrush" />
-					<StaticResource x:Key="Local.IconAccentStrokeColor" ResourceKey="AccentFillColorDefaultBrush" />
-					<SolidColorBrush x:Key="Local.AccentContrastFillColorBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
+					<Color x:Key="App.Theme.IconBaseColor">#D8F0F0F0</Color>
+					<Color x:Key="App.Theme.IconAltColor">#66202020</Color>
+					<SolidColorBrush x:Key="App.Theme.IconBaseBrush" Color="{StaticResource App.Theme.IconBaseColor}" />
+					<SolidColorBrush x:Key="App.Theme.IconAltBrush" Color="{StaticResource App.Theme.IconAltColor}" />
+					<SolidColorBrush x:Key="App.Theme.IconDisabledBrush" Color="{StaticResource ControlStrongFillColorDisabled}" />
+					<StaticResource x:Key="App.Theme.IconAccentFillColor" ResourceKey="AccentFillColorDefaultBrush" />
+					<StaticResource x:Key="App.Theme.IconAccentStrokeColor" ResourceKey="AccentFillColorDefaultBrush" />
+					<SolidColorBrush x:Key="App.Theme.AccentContrastFillColorBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
 					<SolidColorBrush
-						x:Key="Local.IconAltAccentBrush"
+						x:Key="App.Theme.IconAltAccentBrush"
 						Opacity=".40"
 						Color="{StaticResource SystemColorButtonTextColor}" />
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
-						Color="#E0FFFFFF" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
-						Color="#E0FFFFFF" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconBasePictureBrush"
 						Opacity=".40"
-						Color="#E0FFFFFF" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconBaseHalfBrush"
 						Opacity=".50"
-						Color="#E0FFFFFF" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconBaseStrongBrush"
 						Opacity=".70"
-						Color="#E0FFFFFF" />
+						Color="{StaticResource App.Theme.IconBaseColor}" />
 					<SolidColorBrush
 						x:Key="IconAltHalfBrush"
 						Opacity="0.40"
-						Color="#72000000" />
+						Color="{StaticResource App.Theme.IconAltColor}" />
 					<SolidColorBrush
 						x:Key="IconAltStrongBrush"
 						Opacity="0.70"
-						Color="#72000000" />
+						Color="{StaticResource App.Theme.IconAltColor}" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="HighContrast">
-					<SolidColorBrush x:Key="Local.IconBaseBrush" Color="{StaticResource SystemColorButtonTextColor}" />
-					<SolidColorBrush x:Key="Local.IconAltBrush" Color="Transparent" />
-					<SolidColorBrush x:Key="Local.IconAltAccentBrush" Color="Transparent" />
-					<SolidColorBrush x:Key="Local.IconDisabledBrush" Color="{StaticResource SystemColorGrayTextColor}" />
-					<SolidColorBrush x:Key="Local.IconAccentFillColor" Color="Transparent" />
-					<SolidColorBrush x:Key="Local.IconAccentStrokeColor" Color="{StaticResource SystemColorButtonTextColor}" />
-					<SolidColorBrush x:Key="Local.AccentContrastFillColorBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
+					<SolidColorBrush x:Key="App.Theme.IconBaseBrush" Color="{StaticResource SystemColorButtonTextColor}" />
+					<SolidColorBrush x:Key="App.Theme.IconAltBrush" Color="Transparent" />
+					<SolidColorBrush x:Key="App.Theme.IconAltAccentBrush" Color="Transparent" />
+					<SolidColorBrush x:Key="App.Theme.IconDisabledBrush" Color="{StaticResource SystemColorGrayTextColor}" />
+					<SolidColorBrush x:Key="App.Theme.IconAccentFillColor" Color="Transparent" />
+					<SolidColorBrush x:Key="App.Theme.IconAccentStrokeColor" Color="{StaticResource SystemColorButtonTextColor}" />
+					<SolidColorBrush x:Key="App.Theme.AccentContrastFillColorBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
 					<SolidColorBrush x:Key="IconBaseFadedBrush" Color="{StaticResource SystemColorButtonTextColor}" />
 					<SolidColorBrush x:Key="IconBaseSubtleBrush" Color="{StaticResource SystemColorButtonTextColor}" />
 					<SolidColorBrush x:Key="IconBasePictureBrush" Color="{StaticResource SystemColorButtonTextColor}" />
@@ -126,36 +130,36 @@
 									<Path
 										x:Name="Path1"
 										Data="M13.5 9.5V14C13.5 14.8284 12.8284 15.5 12 15.5H4C3.17157 15.5 2.5 14.8284 2.5 14V9.5H13.5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M4 0.5C3.17157 0.5 2.5 1.17157 2.5 2V9.5H13.5V2C13.5 1.17157 12.8284 0.5 12 0.5H4Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".50" />
 									<Path
 										x:Name="Path3"
 										Data="M5.5 5C6.32843 5 7 4.32843 7 3.5C7 2.67157 6.32843 2 5.5 2C4.67157 2 4 2.67157 4 3.5C4 4.32843 4.67157 5 5.5 5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path4"
 										Data="M4.5 7C4.22386 7 4 7.22386 4 7.5C4 7.77614 4.22386 8 4.5 8H11.5C11.7761 8 12 7.77614 12 7.5C12 7.22386 11.7761 7 11.5 7H4.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path5"
 										Data="M8.5 3C8.22386 3 8 3.22386 8 3.5C8 3.77614 8.22386 4 8.5 4H11.5C11.7761 4 12 3.77614 12 3.5C12 3.22386 11.7761 3 11.5 3H8.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path6"
 										Data="M8 12.5C8 12.2239 8.22386 12 8.5 12H11.5C11.7761 12 12 12.2239 12 12.5C12 12.7761 11.7761 13 11.5 13H8.5C8.22386 13 8 12.7761 8 12.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path7"
 										Data="M4 0C2.89543 0 2 0.895431 2 2V14C2 15.1046 2.89543 16 4 16H12C13.1046 16 14 15.1046 14 14V2C14 0.895431 13.1046 0 12 0H4ZM3 2C3 1.44772 3.44772 1 4 1H12C12.5523 1 13 1.44772 13 2V9H3V2ZM3 10V14C3 14.5523 3.44772 15 4 15H12C12.5523 15 13 14.5523 13 14V10H3Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path8"
 										Data="M7 12.5C7 13.3284 6.32843 14 5.5 14C4.67157 14 4 13.3284 4 12.5C4 11.6716 4.67157 11 5.5 11C6.32843 11 7 11.6716 7 12.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".50" />
 								</Grid>
 
@@ -232,19 +236,19 @@
 									<Path
 										x:Name="Path1"
 										Data="M8.41399 1.29289C8.60152 1.10536 8.85588 1 9.12109 1H12.9998C13.5521 1 13.9998 1.44772 13.9998 2V5.87868C13.9998 6.1439 13.8944 6.39825 13.7069 6.58579L8.20688 12.0858C7.81636 12.4763 7.18319 12.4763 6.79267 12.0858L2.91399 8.20711C2.52346 7.81658 2.52346 7.18342 2.91399 6.79289L8.41399 1.29289ZM11.5 4.5C12.0523 4.5 12.5 4.05228 12.5 3.5C12.5 2.94772 12.0523 2.5 11.5 2.5C10.9477 2.5 10.5 2.94772 10.5 3.5C10.5 4.05228 10.9477 4.5 11.5 4.5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M11.5 4.5C12.0523 4.5 12.5 4.05228 12.5 3.5C12.5 2.94772 12.0523 2.5 11.5 2.5C10.9477 2.5 10.5 2.94772 10.5 3.5C10.5 4.05228 10.9477 4.5 11.5 4.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M7.70688 0.585786C8.08195 0.210714 8.59066 0 9.12109 0H12.9998C14.1043 0 14.9998 0.895431 14.9998 2V5.87868C14.9998 6.40911 14.7891 6.91782 14.414 7.29289L8.91399 12.7929C8.13294 13.5739 6.86661 13.5739 6.08556 12.7929L2.20688 8.91421C1.42583 8.13317 1.42583 6.86684 2.20688 6.08579L7.70688 0.585786ZM9.12109 1C8.85588 1 8.60152 1.10536 8.41399 1.29289L2.91399 6.79289C2.52346 7.18342 2.52346 7.81658 2.91399 8.20711L6.79267 12.0858C7.18319 12.4763 7.81636 12.4763 8.20688 12.0858L13.7069 6.58579C13.8944 6.39825 13.9998 6.1439 13.9998 5.87868V2C13.9998 1.44772 13.5521 1 12.9998 1H9.12109Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M1.68825 9.8098C1.51125 10.4763 1.68413 11.2165 2.20688 11.7392L4.67135 14.2037C6.23344 15.7658 8.7661 15.7658 10.3282 14.2037L14.414 10.1179C14.7891 9.74283 14.9998 9.23412 14.9998 8.70369V8.12132L9.62109 13.5C8.44952 14.6716 6.55003 14.6716 5.37845 13.5L1.68825 9.8098Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -268,19 +272,19 @@
 									<Path
 										x:Name="Path1"
 										Data="M2.72037 6.7794L4.67008 8.72911C5.07982 9.13885 5.5932 9.42952 6.15535 9.57006L7.65326 9.94454C9.03705 10.2905 10.2905 9.03704 9.94454 7.65326L9.57006 6.15535C9.42952 5.5932 9.13885 5.07981 8.72911 4.67008L6.7794 2.72037L7.70688 1.79289C7.89442 1.60536 8.14877 1.5 8.41399 1.5H12.9998C13.8282 1.5 14.4998 2.17157 14.4998 3V7.58579C14.4998 7.851 14.3944 8.10536 14.2069 8.29289L8.31043 14.1893C7.72465 14.7751 6.7749 14.7751 6.18911 14.1893L1.81043 9.81066C1.22465 9.22487 1.22465 8.27513 1.81043 7.68934L2.72037 6.7794Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M3.19258 0.54776L8.02201 5.37719C8.30359 5.65876 8.50334 6.01157 8.59992 6.39789L8.9744 7.89579C9.13725 8.5472 8.5472 9.13725 7.89579 8.9744L6.39789 8.59992C6.01157 8.50334 5.65876 8.30358 5.37719 8.02201L0.54776 3.19258C-0.182587 2.46223 -0.182587 1.27811 0.54776 0.54776C1.27811 -0.182587 2.46223 -0.182587 3.19258 0.54776Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path3"
 										Data="M7.13248 3.0744L7.91399 2.29289C8.10152 2.10536 8.35588 2 8.62109 2H13.073C13.6253 2 14.073 2.44772 14.073 3V7.37426C14.073 7.64122 13.9663 7.89709 13.7766 8.08491L7.95863 13.8446C7.56755 14.2318 6.93712 14.2302 6.54798 13.8411L2.16399 9.45711C1.77346 9.06658 1.77346 8.43342 2.16399 8.04289L3.07345 7.13343L2.36634 6.42632L1.45688 7.33579C0.675831 8.11684 0.675832 9.38317 1.45688 10.1642L5.84088 14.5482C6.61915 15.3265 7.88 15.3297 8.66218 14.5553L14.4801 8.79556C14.8595 8.41993 15.073 7.90818 15.073 7.37426V3C15.073 1.89543 14.1776 1 13.073 1H8.62109C8.09066 1 7.58195 1.21071 7.20688 1.58579L6.42538 2.36729L7.13248 3.0744Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M12.4998 4.5C12.4998 5.05228 12.0521 5.5 11.4998 5.5C10.9475 5.5 10.4998 5.05228 10.4998 4.5C10.4998 3.94772 10.9475 3.5 11.4998 3.5C12.0521 3.5 12.4998 3.94772 12.4998 4.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -304,19 +308,19 @@
 									<Path
 										x:Name="Path1"
 										Data="M0 12.25C0 13.7688 1.23122 15 2.75 15H10.25C11.7688 15 13 13.7688 13 12.25V8H12V12.25C12 13.2165 11.2165 14 10.25 14H2.75C1.7835 14 1 13.2165 1 12.25V5.75C1 4.7835 1.7835 4 2.75 4H6V3H2.75C1.23122 3 0 4.23122 0 5.75V12.25Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M8.5 7C7.67157 7 7 6.32843 7 5.5V1.5C7 0.671573 7.67157 0 8.5 0H14.5C15.3284 0 16 0.671573 16 1.5V5.5C16 6.32843 15.3284 7 14.5 7H8.5ZM8 1.75C8 1.33579 8.33579 1 8.75 1H14.25C14.6642 1 15 1.33579 15 1.75V5.25C15 5.66421 14.6642 6 14.25 6H8.75C8.33579 6 8 5.66421 8 5.25V1.75Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path3"
 										Data="M6 9.70711L3.35355 12.3536C3.15829 12.5488 2.84171 12.5488 2.64645 12.3536C2.45118 12.1583 2.45118 11.8417 2.64645 11.6464L5.29289 9H3.5C3.22386 9 3 8.77614 3 8.5C3 8.22386 3.22386 8 3.5 8H6.5C6.77614 8 7 8.22386 7 8.5V11.5C7 11.7761 6.77614 12 6.5 12C6.22386 12 6 11.7761 6 11.5V9.70711Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path4"
 										Data="M8 1.75C8 1.33579 8.33579 1 8.75 1H14.25C14.6642 1 15 1.33579 15 1.75V5.25C15 5.66421 14.6642 6 14.25 6H8.75C8.33579 6 8 5.66421 8 5.25V1.75Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}"
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}"
 										Opacity=".40" />
 								</Grid>
 
@@ -341,15 +345,15 @@
 									<Path
 										x:Name="Path1"
 										Data="M2.75 15C1.23122 15 0 13.7688 0 12.25V5.75C0 4.23122 1.23122 3 2.75 3H6V4H2.75C1.7835 4 1 4.7835 1 5.75V12.25C1 13.2165 1.7835 14 2.75 14H10.25C11.2165 14 12 13.2165 12 12.25V8H13V12.25C13 13.7688 11.7688 15 10.25 15H2.75Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}" />
 									<Path
 										x:Name="Path2"
 										Data="M6.14645 8.14645L3.5 10.7929L3.5 9C3.5 8.72386 3.27614 8.5 3 8.5C2.72386 8.5 2.5 8.72386 2.5 9L2.5 12C2.5 12.2761 2.72386 12.5 3 12.5H6C6.27614 12.5 6.5 12.2761 6.5 12C6.5 11.7239 6.27614 11.5 6 11.5H4.20711L6.85355 8.85355C7.04882 8.65829 7.04882 8.34171 6.85355 8.14645C6.65829 7.95118 6.34171 7.95118 6.14645 8.14645Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}" />
 									<Path
 										x:Name="Path3"
 										Data="M8.5 7C7.67157 7 7 6.32843 7 5.5V1.5C7 0.671573 7.67157 0 8.5 0H14.5C15.3284 0 16 0.671573 16 1.5V5.5C16 6.32843 15.3284 7 14.5 7H8.5ZM8 1.75C8 1.33579 8.33579 1 8.75 1H14.25C14.6642 1 15 1.33579 15 1.75V5.25C15 5.66421 14.6642 6 14.25 6H8.75C8.33579 6 8 5.66421 8 5.25V1.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -376,7 +380,7 @@
 									<Path
 										x:Name="Path1"
 										Data="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z"
-										Fill="{ThemeResource Local.IconAltAccentBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltAccentBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15ZM8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
@@ -384,7 +388,7 @@
 									<Path
 										x:Name="Path3"
 										Data="M4 8C4 7.72386 4.22386 7.5 4.5 7.5H7.5V4.5C7.5 4.22386 7.72386 4 8 4C8.27614 4 8.5 4.22386 8.5 4.5V7.5H11.5C11.7761 7.5 12 7.72386 12 8C12 8.27614 11.7761 8.5 11.5 8.5H8.5V11.5C8.5 11.7761 8.27614 12 8 12C7.72386 12 7.5 11.7761 7.5 11.5V8.5H4.5C4.22386 8.5 4 8.27614 4 8Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -393,8 +397,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -417,11 +421,11 @@
 									<Path
 										x:Name="Path1"
 										Data="M3.92065 0.229682C3.77132 -0.00260291 3.46197 -0.0698544 3.22968 0.0794716C2.9974 0.228798 2.93015 0.538155 3.07947 0.77044L7.57947 7.77044C7.7288 8.00272 8.03815 8.06998 8.27044 7.92065C8.50272 7.77132 8.56998 7.46197 8.42065 7.22968L8.41752 7.22481L8.59765 7.49501L12.9206 0.77044C13.0699 0.538155 13.0027 0.228798 12.7704 0.0794716C12.5381 -0.0698544 12.2287 -0.00260291 12.0794 0.229682L8.00003 6.57538L3.92065 0.229682Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M8.00005 7C8.16723 7 8.32335 7.08355 8.41608 7.22265L10.5255 10.3868C10.9609 10.1405 11.4641 10 12 10C13.6569 10 15 11.3431 15 13C15 14.6569 13.6569 16 12 16C10.3431 16 9 14.6569 9 13C9 12.2414 9.28159 11.5485 9.74595 11.0202L8.00005 8.40139L6.25411 11.0203C6.71844 11.5486 7 12.2414 7 13C7 14.6569 5.65685 16 4 16C2.34315 16 1 14.6569 1 13C1 11.3431 2.34315 10 4 10C4.53597 10 5.03912 10.1406 5.47459 10.3868L7.58403 7.22265C7.67676 7.08355 7.83288 7 8.00005 7ZM6 13C6 14.1046 5.10457 15 4 15C2.89543 15 2 14.1046 2 13C2 11.8954 2.89543 11 4 11C5.10457 11 6 11.8954 6 13ZM14 13C14 14.1046 13.1046 15 12 15C10.8954 15 10 14.1046 10 13C10 11.8954 10.8954 11 12 11C13.1046 11 14 11.8954 14 13Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -429,8 +433,8 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -450,16 +454,16 @@
 									<Path
 										x:Name="Path1"
 										Data="M3.44531 15C3.11719 15 2.80469 14.9349 2.50781 14.8047C2.21094 14.6693 1.95052 14.4922 1.72656 14.2734C1.50781 14.0495 1.33073 13.7891 1.19531 13.4922C1.0651 13.1953 1 12.8828 1 12.5547V6.44531C1 6.11719 1.0651 5.80469 1.19531 5.50781C1.33073 5.21094 1.50781 4.95312 1.72656 4.73438C1.95052 4.51042 2.21094 4.33333 2.50781 4.20312C2.80469 4.06771 3.11719 4 3.44531 4H5V5H3.5C3.29688 5 3.10417 5.03906 2.92188 5.11719C2.73958 5.19531 2.57812 5.30469 2.4375 5.44531C2.30208 5.58073 2.19531 5.73958 2.11719 5.92188C2.03906 6.10417 2 6.29688 2 6.5V12.5C2 12.7031 2.03906 12.8958 2.11719 13.0781C2.19531 13.2604 2.30208 13.4219 2.4375 13.5625C2.57812 13.6979 2.73958 13.8047 2.92188 13.8828C3.10417 13.9609 3.29688 14 3.5 14H7.5C7.66146 14 7.8151 13.9766 7.96094 13.9297C8.10677 13.8828 8.24219 13.8151 8.36719 13.7266C8.49219 13.638 8.60156 13.5339 8.69531 13.4141C8.78906 13.2891 8.86198 13.151 8.91406 13H9.95312C9.89583 13.2865 9.78906 13.5521 9.63281 13.7969C9.48177 14.0417 9.29688 14.2526 9.07812 14.4297C8.85938 14.6068 8.61458 14.7474 8.34375 14.8516C8.07292 14.9505 7.79167 15 7.5 15H3.44531Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M12.5 11C12.7031 11 12.8958 10.9609 13.0781 10.8828C13.2604 10.8047 13.4193 10.6979 13.5547 10.5625C13.6953 10.4219 13.8047 10.2604 13.8828 10.0781C13.9609 9.89583 14 9.70312 14 9.5V3.5C14 3.29688 13.9609 3.10417 13.8828 2.92188C13.8047 2.73958 13.6953 2.58073 13.5547 2.44531C13.4193 2.30469 13.2604 2.19531 13.0781 2.11719C12.8958 2.03906 12.7031 2 12.5 2H8.5C8.29687 2 8.10417 2.03906 7.92187 2.11719C7.73958 2.19531 7.57812 2.30469 7.4375 2.44531C7.30208 2.58073 7.19531 2.73958 7.11719 2.92188C7.03906 3.10417 7 3.29688 7 3.5V9.5C7 9.70312 7.03906 9.89583 7.11719 10.0781C7.19531 10.2604 7.30208 10.4219 7.4375 10.5625C7.57812 10.6979 7.73958 10.8047 7.92187 10.8828C8.10417 10.9609 8.29687 11 8.5 11H12.5Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}"
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}"
 										Opacity=".40" />
 									<Path
 										x:Name="Path3"
 										Data="M8.44531 12C8.11719 12 7.80469 11.9349 7.50781 11.8047C7.21094 11.6693 6.95052 11.4922 6.72656 11.2734C6.50781 11.0495 6.33073 10.7891 6.19531 10.4922C6.0651 10.1953 6 9.88281 6 9.55469V3.44531C6 3.11719 6.0651 2.80469 6.19531 2.50781C6.33073 2.21094 6.50781 1.95312 6.72656 1.73438C6.95052 1.51042 7.21094 1.33333 7.50781 1.20312C7.80469 1.06771 8.11719 1 8.44531 1H12.5547C12.8828 1 13.1953 1.06771 13.4922 1.20312C13.7891 1.33333 14.0469 1.51042 14.2656 1.73438C14.4896 1.95312 14.6667 2.21094 14.7969 2.50781C14.9323 2.80469 15 3.11719 15 3.44531V9.55469C15 9.88281 14.9323 10.1953 14.7969 10.4922C14.6667 10.7891 14.4896 11.0495 14.2656 11.2734C14.0469 11.4922 13.7891 11.6693 13.4922 11.8047C13.1953 11.9349 12.8828 12 12.5547 12H8.44531ZM12.5 11C12.7031 11 12.8958 10.9609 13.0781 10.8828C13.2604 10.8047 13.4193 10.6979 13.5547 10.5625C13.6953 10.4219 13.8047 10.2604 13.8828 10.0781C13.9609 9.89583 14 9.70312 14 9.5V3.5C14 3.29688 13.9609 3.10417 13.8828 2.92188C13.8047 2.73958 13.6953 2.58073 13.5547 2.44531C13.4193 2.30469 13.2604 2.19531 13.0781 2.11719C12.8958 2.03906 12.7031 2 12.5 2H8.5C8.29688 2 8.10417 2.03906 7.92188 2.11719C7.73958 2.19531 7.57812 2.30469 7.4375 2.44531C7.30208 2.58073 7.19531 2.73958 7.11719 2.92188C7.03906 3.10417 7 3.29688 7 3.5V9.5C7 9.70312 7.03906 9.89583 7.11719 10.0781C7.19531 10.2604 7.30208 10.4219 7.4375 10.5625C7.57812 10.6979 7.73958 10.8047 7.92188 10.8828C8.10417 10.9609 8.29688 11 8.5 11H12.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -467,9 +471,9 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -492,39 +496,39 @@
 									<Path
 										x:Name="Path1"
 										Data="M13.0009 3.5C13.0009 3.22386 12.7771 3 12.5009 3C12.2248 3 12.0009 3.22386 12.0009 3.5C12.0009 3.77614 12.2248 4 12.5009 4C12.7771 4 13.0009 3.77614 13.0009 3.5Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}"
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}"
 										Opacity=".15" />
 									<Path
 										x:Name="Path2"
 										Data="M14 1H2C1.73478 1 1.48043 1.10536 1.29289 1.29289C1.10536 1.48043 1 1.73478 1 2V10C1 10.2652 1.10536 10.5196 1.29289 10.7071C1.34434 10.7586 1.40081 10.8038 1.46116 10.8424L5.94959 6.43203C6.53318 5.85859 7.46864 5.85859 8.05222 6.43203L12.701 11H14C14.2652 11 14.5196 10.8946 14.7071 10.7071C14.8946 10.5196 15 10.2652 15 10V2C15 1.73478 14.8946 1.48043 14.7071 1.29289C14.5196 1.10536 14.2652 1 14 1ZM14.0009 3.5C14.0009 4.32843 13.3293 5 12.5009 5C11.6725 5 11.0009 4.32843 11.0009 3.5C11.0009 2.67157 11.6725 2 12.5009 2C13.3293 2 14.0009 2.67157 14.0009 3.5Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}"
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}"
 										Opacity=".15" />
 									<Path
 										x:Name="Path3"
 										Data="M11.2742 11L7.35135 7.14531C7.15682 6.95417 6.845 6.95417 6.65047 7.14531L2.72756 11H2.73633L6.64945 7.14707C6.84406 6.95545 7.15644 6.95545 7.35105 7.14707L11.2642 11H11.2742Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}"
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}"
 										Opacity=".15" />
 									<Path
 										x:Name="Path4"
 										Data="M14 3.5C14 4.32843 13.3284 5 12.5 5C11.6716 5 11 4.32843 11 3.5C11 2.67157 11.6716 2 12.5 2C13.3284 2 14 2.67157 14 3.5Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M2.73633 11H11.2642L7.35105 7.14707C7.15644 6.95545 6.84406 6.95545 6.64945 7.14707L2.73633 11Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}"
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}"
 										Opacity=".60" />
 									<Path
 										x:Name="Path6"
 										Data="M1.30078 11L5.94959 6.43203C6.53318 5.85859 7.46864 5.85859 8.05222 6.43203L12.701 11H11.2742L7.35135 7.14531C7.15682 6.95417 6.845 6.95417 6.65047 7.14531L2.72756 11H1.30078Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path7"
 										Data="M12.5009 5C13.3293 5 14.0009 4.32843 14.0009 3.5C14.0009 2.67157 13.3293 2 12.5009 2C11.6725 2 11.0009 2.67157 11.0009 3.5C11.0009 4.32843 11.6725 5 12.5009 5ZM12.5009 3C12.7771 3 13.0009 3.22386 13.0009 3.5C13.0009 3.77614 12.7771 4 12.5009 4C12.2248 4 12.0009 3.77614 12.0009 3.5C12.0009 3.22386 12.2248 3 12.5009 3Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path8"
 										Data="M3.5 16C3.36739 16 3.24021 15.9473 3.14645 15.8536C3.05268 15.7598 3 15.6326 3 15.5C3 15.3674 3.05268 15.2402 3.14645 15.1464C3.24021 15.0527 3.36739 15 3.5 15H6V12H2C1.46957 12 0.960859 11.7893 0.585786 11.4142C0.210714 11.0391 0 10.5304 0 10V2C0 1.46957 0.210714 0.960859 0.585786 0.585786C0.960859 0.210714 1.46957 0 2 0H14C14.5304 0 15.0391 0.210714 15.4142 0.585786C15.7893 0.960859 16 1.46957 16 2V10C16 10.5304 15.7893 11.0391 15.4142 11.4142C15.0391 11.7893 14.5304 12 14 12H10V15H12.5C12.6326 15 12.7598 15.0527 12.8536 15.1464C12.9473 15.2402 13 15.3674 13 15.5C13 15.6326 12.9473 15.7598 12.8536 15.8536C12.7598 15.9473 12.6326 16 12.5 16H3.5ZM2 1H14C14.2652 1 14.5196 1.10536 14.7071 1.29289C14.8946 1.48043 15 1.73478 15 2V10C15 10.2652 14.8946 10.5196 14.7071 10.7071C14.5196 10.8946 14.2652 11 14 11H2C1.73478 11 1.48043 10.8946 1.29289 10.7071C1.10536 10.5196 1 10.2652 1 10V2C1 1.73478 1.10536 1.48043 1.29289 1.29289C1.48043 1.10536 1.73478 1 2 1ZM7 12V15H9V12H7Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -552,20 +556,20 @@
 									<Path
 										x:Name="Path1"
 										Data="M2.5 2H4.08535C4.29127 2.5826 4.84689 3 5.5 3H8.5C9.15311 3 9.70873 2.5826 9.91465 2H11.5C11.7761 2 12 2.22386 12 2.5V3.5C12 3.77614 12.2239 4 12.5 4C12.7761 4 13 3.77614 13 3.5V2.5C13 1.67157 12.3284 1 11.5 1H9.91465C9.70873 0.417404 9.15311 0 8.5 0H5.5C4.84689 0 4.29127 0.417404 4.08535 1H2.5C1.67157 1 1 1.67157 1 2.5V14.5C1 15.3284 1.67157 16 2.5 16H5.5C5.77614 16 6 15.7761 6 15.5C6 15.2239 5.77614 15 5.5 15H2.5C2.22386 15 2 14.7761 2 14.5V2.5C2 2.22386 2.22386 2 2.5 2ZM5.5 2C5.22386 2 5 1.77614 5 1.5C5 1.22386 5.22386 1 5.5 1H8.5C8.77614 1 9 1.22386 9 1.5C9 1.77614 8.77614 2 8.5 2H5.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M8 6.5C8 6.22386 8.22386 6 8.5 6H13.5C13.7761 6 14 6.22386 14 6.5V14.5C14 14.7761 13.7761 15 13.5 15H8.5C8.22386 15 8 14.7761 8 14.5V6.5Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}"
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}"
 										Opacity=".40" />
 									<Path
 										x:Name="Path3"
 										Data="M8.5 5C7.67157 5 7 5.67157 7 6.5V14.5C7 15.3284 7.67157 16 8.5 16H13.5C14.3284 16 15 15.3284 15 14.5V6.5C15 5.67157 14.3284 5 13.5 5H8.5ZM8 6.5C8 6.22386 8.22386 6 8.5 6H13.5C13.7761 6 14 6.22386 14 6.5V14.5C14 14.7761 13.7761 15 13.5 15H8.5C8.22386 15 8 14.7761 8 14.5V6.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path4"
 										Data="M2.5 2H4.08535C4.29127 2.5826 4.84689 3 5.5 3H8.5C9.15311 3 9.70873 2.5826 9.91465 2H11.5C11.7761 2 12 2.22386 12 2.5V4H8.5C7.11929 4 6 5.11929 6 6.5V15H2.5C2.22386 15 2 14.7761 2 14.5V2.5C2 2.22386 2.22386 2 2.5 2Z"
-										Fill="{ThemeResource Local.IconAltAccentBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltAccentBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -573,9 +577,9 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path4.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -599,27 +603,27 @@
 									<Path
 										x:Name="Path1"
 										Data="M13 3V2H13.5C14.8807 2 16 3.11929 16 4.5V11.5C16 12.8807 14.8807 14 13.5 14H13V13H13.5C14.3284 13 15 12.3284 15 11.5V4.5C15 3.67157 14.3284 3 13.5 3H13Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M10 3V2H2.5C1.11929 2 0 3.11929 0 4.5V11.5C0 12.8807 1.11929 14 2.5 14H10V13H2.5C1.67157 13 1 12.3284 1 11.5V4.5C1 3.67157 1.67157 3 2.5 3H10Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M10 3H2.5C1.67157 3 1 3.67157 1 4.5V11.5C1 12.3284 1.67157 13 2.5 13H10V3Z"
-										Fill="{ThemeResource Local.IconAltAccentBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltAccentBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M13 13H13.5C14.3284 13 15 12.3284 15 11.5V4.5C15 3.67157 14.3284 3 13.5 3H13V13Z"
-										Fill="{ThemeResource Local.IconAltAccentBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltAccentBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M9 0.5C9 0.223858 9.22386 0 9.5 0H13.5C13.7761 0 14 0.223858 14 0.5C14 0.776142 13.7761 1 13.5 1H12V15H13.5C13.7761 15 14 15.2239 14 15.5C14 15.7761 13.7761 16 13.5 16H9.5C9.22386 16 9 15.7761 9 15.5C9 15.2239 9.22386 15 9.5 15H11V1H9.5C9.22386 1 9 0.776142 9 0.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path6"
 										Data="M3 7C2.44772 7 2 7.44772 2 8C2 8.55229 2.44772 9 3 9H8C8.55228 9 9 8.55229 9 8C9 7.44772 8.55228 7 8 7H3Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -627,12 +631,12 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path3.Fill" Value="Transparent" />
 												<Setter Target="Path4.Fill" Value="Transparent" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -655,15 +659,15 @@
 									<Path
 										x:Name="Path1"
 										Data="M9.37748 2.43384C9.37748 2.19424 9.18324 2 8.94363 2H3.5C2.11929 2 1 3.11929 1 4.5V12.5C1 13.8807 2.11929 15 3.5 15H11.5C12.8807 15 14 13.8807 14 12.5V12.0002C14 11.1133 12.9312 10.6653 12.2988 11.2872L12.0308 11.5507C11.0634 12.5021 9.55207 11.8474 9.3915 10.6352L9.38712 10.6022L9.37748 10.4542V9.49039C8.11438 9.7935 6.85775 10.478 5.59855 11.6024C4.4707 12.6094 2.84449 11.6027 3.01197 10.2291C3.27798 8.04747 3.98128 6.23935 5.19651 4.9287C6.19896 3.84754 7.49036 3.16911 9.01053 2.87033C9.22073 2.82902 9.37748 2.64806 9.37748 2.43384Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M3.5 2C2.11929 2 1 3.11929 1 4.5V12.5C1 13.8807 2.11929 15 3.5 15H11.5C12.8807 15 14 13.8807 14 12.5V11.5C14 11.2239 13.7761 11 13.5 11C13.2239 11 13 11.2239 13 11.5V12.5C13 13.3284 12.3284 14 11.5 14H3.5C2.67157 14 2 13.3284 2 12.5V4.5C2 3.67157 2.67157 3 3.5 3H7.5C7.77614 3 8 2.77614 8 2.5C8 2.22386 7.77614 2 7.5 2H3.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M10.3776 3.70757V1.57782C10.3776 1.09805 10.9078 0.839639 11.268 1.10864L11.3297 1.16165L15.8268 5.58283C16.0367 5.78916 16.0558 6.12058 15.8841 6.34968L15.8269 6.41512L11.3298 10.8377C10.992 11.1699 10.4429 10.9566 10.3829 10.5039L10.3776 10.4216V8.32611L10.1199 8.34926C8.31965 8.54174 6.59416 9.37283 4.93261 10.8564C4.54318 11.2042 3.94067 10.8754 4.00472 10.3501C4.50344 6.25989 6.59039 4.00547 10.153 3.72268L10.3776 3.70757Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -672,8 +676,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -696,23 +700,23 @@
 									<Path
 										x:Name="Path1"
 										Data="M12.4247 4L11.238 12.7027C11.1366 13.4459 10.5018 14 9.75172 14H6.24329C5.49318 14 4.85839 13.4459 4.75704 12.7027L3.57031 4C28.8139 4 -12.8189 4 12.4247 4Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M3.7657 12.8378L2.56055 4H3.5698L4.75653 12.7027C4.85788 13.4459 5.49267 14 6.24277 14H9.75121C10.5013 14 11.1361 13.4459 11.2375 12.7027L12.4242 4H13.4334L12.2283 12.8378C12.0594 14.0765 11.0014 15 9.75121 15H6.24277C4.9926 15 3.93461 14.0765 3.7657 12.8378Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M6.49706 6C6.7732 6 6.99706 6.22386 6.99706 6.5V11.5C6.99706 11.7761 6.7732 12 6.49706 12C6.22091 12 5.99706 11.7761 5.99706 11.5V6.5C5.99706 6.22386 6.22091 6 6.49706 6Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M9.99706 6.5C9.99706 6.22386 9.7732 6 9.49706 6C9.22091 6 8.99706 6.22386 8.99706 6.5V11.5C8.99706 11.7761 9.22091 12 9.49706 12C9.7732 12 9.99706 11.7761 9.99706 11.5V6.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M8 1C6.89543 1 6 1.89543 6 3H2C1.72386 3 1.5 3.22386 1.5 3.5C1.5 3.77614 1.72386 4 2 4H14C14.2761 4 14.5 3.77614 14.5 3.5C14.5 3.22386 14.2761 3 14 3H10C10 1.89543 9.10457 1 8 1ZM8 2C8.55228 2 9 2.44772 9 3H7C7 2.44772 7.44772 2 8 2Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -721,10 +725,10 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -747,19 +751,19 @@
 									<Path
 										x:Name="Path1"
 										Data="M12.1468 6.03763L12.4247 4H3.57031L4.75704 12.7027C4.85839 13.4459 5.49318 14 6.24329 14H6.59971C6.21628 13.2499 6 12.4002 6 11.5C6 8.46243 8.46243 6 11.5 6C11.7188 6 11.9347 6.01278 12.1468 6.03763Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M8 1C6.89543 1 6 1.89543 6 3H2C1.72386 3 1.5 3.22386 1.5 3.5C1.5 3.77614 1.72386 4 2 4H2.56055L3.7657 12.8378C3.93461 14.0765 4.9926 15 6.24277 15H7.25716C7.00353 14.6929 6.78261 14.3578 6.59971 14H6.24277C5.49267 14 4.85788 13.4459 4.75653 12.7027L3.5698 4H12.4242L12.1463 6.03758C12.4836 6.07706 12.8116 6.14705 13.1273 6.24473L13.4334 4H14C14.2761 4 14.5 3.77614 14.5 3.5C14.5 3.22386 14.2761 3 14 3H10C10 1.89543 9.10457 1 8 1ZM8 2C8.55228 2 9 2.44772 9 3H7C7 2.44772 7.44772 2 8 2Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M11.5 16C13.9853 16 16 13.9853 16 11.5C16 9.01472 13.9853 7 11.5 7C9.01472 7 7 9.01472 7 11.5C7 13.9853 9.01472 16 11.5 16Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}" />
 									<Path
 										x:Name="Path4"
 										Data="M10.6036 9.60355L9.70711 10.5H11.25C12.7688 10.5 14 11.7312 14 13.25V13.5C14 13.7761 13.7761 14 13.5 14C13.2239 14 13 13.7761 13 13.5V13.25C13 12.2835 12.2165 11.5 11.25 11.5H9.70711L10.6036 12.3964C10.7988 12.5917 10.7988 12.9083 10.6036 13.1036C10.4083 13.2988 10.0917 13.2988 9.89645 13.1036L8.14433 11.3514C8.09744 11.304 8.06198 11.2495 8.03794 11.1914C8.01349 11.1324 8 11.0678 8 11C8 10.9322 8.01349 10.8676 8.03794 10.8086C8.06234 10.7496 8.09851 10.6944 8.14645 10.6464L9.89645 8.89645C10.0917 8.70118 10.4083 8.70118 10.6036 8.89645C10.7988 9.09171 10.7988 9.40829 10.6036 9.60355Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -768,8 +772,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path4.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -793,23 +797,23 @@
 									<Path
 										x:Name="Path1"
 										Data="M9.08676 0.380298C8.48005 0.631493 7.92876 0.999736 7.46438 1.464C7.00011 1.92839 6.63187 2.47968 6.38067 3.08639C6.12948 3.6931 6.00025 4.34334 6.00038 5V5.008C6.00598 5.38944 6.05564 5.76896 6.14838 6.139L0.769376 11.519C0.401503 11.8859 0.15078 12.3537 0.0489546 12.8632C-0.0528703 13.3727 -0.00121608 13.9009 0.197376 14.381C0.362914 14.78 0.624304 15.1321 0.958395 15.406C1.29249 15.6798 1.68896 15.8671 2.11271 15.9512C2.28198 15.9847 2.45351 16.0014 2.62483 16.0014C2.45416 16.0013 2.28329 15.9846 2.11467 15.9512C1.69092 15.8671 1.29444 15.6798 0.960348 15.406C0.626257 15.1321 0.364867 14.78 0.199329 14.381C0.000737041 13.9009 -0.0509172 13.3727 0.0509077 12.8632C0.152733 12.3537 0.403457 11.8859 0.771329 11.519L6.15033 6.139C6.0576 5.76896 6.00793 5.38944 6.00233 5.008V5C6.00221 4.34334 6.13143 3.6931 6.38263 3.08639C6.63382 2.47968 7.00207 1.92839 7.46633 1.464C7.93072 0.999736 8.482 0.631493 9.08871 0.380298C9.69485 0.129341 10.3444 0.000122304 11.0005 8.67775e-08C10.3438 -0.000122248 9.69347 0.129103 9.08676 0.380298Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M12.0014 5.29202L12.0023 5.293L14.6563 2.639C14.712 2.58336 14.7801 2.54166 14.8549 2.51729C14.9047 2.50107 14.9567 2.49283 15.0087 2.49273C14.956 2.49262 14.9034 2.50086 14.853 2.51729C14.7781 2.54166 14.7101 2.58336 14.6544 2.639L12.0014 5.29202Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M10.9953 10C10.6132 9.99455 10.233 9.94489 9.86233 9.852C10.2325 9.94463 10.6118 9.99456 10.9934 10H10.9953Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M8.17461 2.17086C8.92421 1.42164 9.9405 1.00053 11.0003 1C11.3813 1.0025 11.7599 1.0601 12.1243 1.171L9.64833 3.646C9.60177 3.69245 9.56482 3.74762 9.53962 3.80837C9.51441 3.86911 9.50144 3.93423 9.50144 4C9.50144 4.06577 9.51441 4.13089 9.53962 4.19163C9.56482 4.25238 9.60177 4.30755 9.64833 4.354L11.6483 6.354C11.7421 6.44774 11.8692 6.50039 12.0018 6.50039C12.1344 6.50039 12.2616 6.44774 12.3553 6.354L14.8313 3.878C14.9423 4.24245 14.9999 4.62105 15.0023 5.002C15.0018 6.06183 14.5807 7.07812 13.8315 7.82772C13.0822 8.57732 12.0662 8.99894 11.0063 9C10.6193 8.995 10.2363 8.932 9.86833 8.815C9.78106 8.78712 9.6878 8.78375 9.59874 8.80526C9.50968 8.82678 9.42825 8.87235 9.36333 8.937L3.77533 14.525C3.58636 14.7141 3.35366 14.8537 3.09786 14.9315C2.84205 15.0092 2.57103 15.0226 2.30878 14.9706C2.04653 14.9186 1.80116 14.8027 1.59438 14.6333C1.38761 14.4638 1.22582 14.2459 1.12333 13.999C1.00063 13.7015 0.96886 13.3743 1.03205 13.0587C1.09523 12.7431 1.25053 12.4533 1.47833 12.226L7.06433 6.639C7.12915 6.57419 7.17491 6.4928 7.19661 6.40374C7.2183 6.31468 7.21509 6.22136 7.18733 6.134C7.07033 5.766 7.00833 5.383 7.00233 4.996C7.00339 3.93617 7.42501 2.92009 8.17461 2.17086Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M7.46633 1.464C7.93072 0.999736 8.482 0.631492 9.08871 0.380298C9.69543 0.129103 10.3457 -0.000122335 11.0023 8.69007e-08H11.0053C11.7824 0.00486834 12.5473 0.192599 13.2383 0.548C13.3083 0.584011 13.3688 0.636041 13.4149 0.699856C13.461 0.763672 13.4914 0.837469 13.5036 0.915241C13.5158 0.993013 13.5094 1.07256 13.485 1.14742C13.4607 1.22227 13.419 1.29031 13.3633 1.346L10.7093 4L12.0023 5.293L14.6563 2.639C14.712 2.58336 14.7801 2.54166 14.8549 2.51729C14.9298 2.49292 15.0093 2.48657 15.0871 2.49875C15.1649 2.51093 15.2387 2.5413 15.3025 2.5874C15.3663 2.63349 15.4183 2.694 15.4543 2.764C15.8097 3.455 15.9975 4.21997 16.0023 4.997V5C16.0023 6.32608 15.4755 7.59785 14.5379 8.53553C13.6002 9.47322 12.3284 10 11.0023 10H10.9953C10.6132 9.99455 10.233 9.94489 9.86233 9.852L4.48433 15.231C4.17901 15.5366 3.80303 15.7622 3.38969 15.8879C2.97635 16.0135 2.53842 16.0352 2.11467 15.9512C1.69092 15.8671 1.29444 15.6798 0.960348 15.406C0.626257 15.1321 0.364867 14.78 0.199329 14.381C0.000737041 13.9009 -0.0509172 13.3727 0.0509077 12.8632C0.152733 12.3537 0.403457 11.8859 0.771329 11.519L6.15033 6.139C6.0576 5.76896 6.00793 5.38944 6.00233 5.008V5C6.00221 4.34334 6.13143 3.6931 6.38263 3.08639C6.63382 2.47968 7.00207 1.92839 7.46633 1.464ZM11.0003 1C9.9405 1.00053 8.92421 1.42164 8.17461 2.17086C7.42501 2.92009 7.00339 3.93617 7.00233 4.996C7.00833 5.383 7.07033 5.766 7.18733 6.134C7.21509 6.22136 7.2183 6.31468 7.19661 6.40374C7.17491 6.4928 7.12915 6.57419 7.06433 6.639L1.47833 12.226C1.25053 12.4533 1.09523 12.7431 1.03205 13.0587C0.96886 13.3743 1.00063 13.7015 1.12333 13.999C1.22582 14.2459 1.38761 14.4638 1.59438 14.6333C1.80116 14.8027 2.04653 14.9186 2.30878 14.9706C2.57103 15.0226 2.84205 15.0092 3.09786 14.9315C3.35366 14.8537 3.58636 14.7141 3.77533 14.525L9.36333 8.937C9.42825 8.87235 9.50968 8.82678 9.59874 8.80526C9.6878 8.78375 9.78106 8.78712 9.86833 8.815C10.2363 8.932 10.6193 8.995 11.0063 9C12.0662 8.99894 13.0822 8.57732 13.8315 7.82772C14.5807 7.07812 15.0018 6.06183 15.0023 5.002C14.9999 4.62105 14.9423 4.24245 14.8313 3.878L12.3553 6.354C12.2616 6.44774 12.1344 6.50039 12.0018 6.50039C11.8692 6.50039 11.7421 6.44774 11.6483 6.354L9.64833 4.354C9.60177 4.30755 9.56482 4.25238 9.53962 4.19163C9.51441 4.13089 9.50144 4.06577 9.50144 4C9.50144 3.93423 9.51441 3.86911 9.53962 3.80837C9.56482 3.74762 9.60177 3.69245 9.64833 3.646L12.1243 1.171C11.7599 1.0601 11.3813 1.0025 11.0003 1Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -821,7 +825,7 @@
 												<Setter Target="Path2.Fill" Value="Transparent" />
 												<Setter Target="Path3.Fill" Value="Transparent" />
 												<Setter Target="Path4.Fill" Value="Transparent" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -844,7 +848,7 @@
 									<Path
 										x:Name="Path1"
 										Data="M5 11V12.5C5 13.8807 6.11929 15 7.5 15H12.5C13.8807 15 15 13.8807 15 12.5V7.5C15 6.11929 13.8807 5 12.5 5H11V8.5C11 9.88071 9.88071 11 8.5 11H5Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M5 11V12.5C5 13.8807 6.11929 15 7.5 15H12.5C13.8807 15 15 13.8807 15 12.5V7.5C15 6.11929 13.8807 5 12.5 5H11V6H12.5C13.3284 6 14 6.67157 14 7.5V12.5C14 13.3284 13.3284 14 12.5 14H7.5C6.67157 14 6 13.3284 6 12.5V11H5Z"
@@ -852,11 +856,11 @@
 									<Path
 										x:Name="Path3"
 										Data="M8.5 1H2.5C1.67157 1 1 1.67157 1 2.5V8.5C1 9.32843 1.67157 10 2.5 10H8.5C9.32843 10 10 9.32843 10 8.5V2.5C10 1.67157 9.32843 1 8.5 1Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path4"
 										Data="M8.39775 3.60225C8.61742 3.82192 8.61742 4.17808 8.39775 4.39775L4.89775 7.89775C4.67808 8.11742 4.32192 8.11742 4.10225 7.89775L2.60225 6.39775C2.38258 6.17808 2.38258 5.82192 2.60225 5.60225C2.82192 5.38258 3.17808 5.38258 3.39775 5.60225L4.5 6.7045L7.60225 3.60225C7.82192 3.38258 8.17808 3.38258 8.39775 3.60225Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -865,8 +869,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path4.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -894,7 +898,7 @@
 									<Path
 										x:Name="Path2"
 										Data="M4.85355 2.14645C4.65829 1.95118 4.34171 1.95118 4.14645 2.14645L0.146447 6.14645C-0.0488155 6.34171 -0.0488155 6.65829 0.146447 6.85355C0.341709 7.04882 0.658291 7.04882 0.853553 6.85355L4 3.70711V13.5C4 13.7761 4.22386 14 4.5 14C4.77614 14 5 13.7761 5 13.5V3.70711L8.14645 6.85355C8.34171 7.04882 8.65829 7.04882 8.85355 6.85355C9.04882 6.65829 9.04882 6.34171 8.85355 6.14645L4.85355 2.14645Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -902,8 +906,8 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -926,23 +930,23 @@
 									<Path
 										x:Name="Path1"
 										Data="M11.5 6H12V6.02276C11.8344 6.00765 11.6676 6 11.5 6Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M6.60101 14H4.5C3.67157 14 3 13.3284 3 12.5V2.5C3 1.67157 3.67157 1 4.5 1H7V4.5C7 5.32843 7.67157 6 8.5 6H11.5C10.0413 6 8.64236 6.57946 7.61091 7.61091C6.57946 8.64236 6 10.0413 6 11.5C6 12.3773 6.20958 13.2329 6.60101 14Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M2 2.5C2 1.11929 3.11929 0 4.5 0H7.17157C7.83461 0 8.4705 0.263392 8.93934 0.732233L12.2678 4.06066C12.7366 4.5295 13 5.16539 13 5.82843V6.20849C12.6747 6.11625 12.34 6.05378 12 6.02276V6H8.5C7.67157 6 7 5.32843 7 4.5V1H4.5C3.67157 1 3 1.67157 3 2.5V12.5C3 13.3284 3.67157 14 4.5 14H6.60101C6.78188 14.3544 7.00156 14.69 7.25734 15H4.5C3.11929 15 2 13.8807 2 12.5V2.5ZM8.5 5H11.7929L8 1.20711V4.5C8 4.77614 8.22386 5 8.5 5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M7 11.5C7 10.3065 7.47411 9.16193 8.31802 8.31802C9.16193 7.47411 10.3065 7 11.5 7C12.6935 7 13.8381 7.47411 14.682 8.31802C15.5259 9.16193 16 10.3065 16 11.5C16 12.6935 15.5259 13.8381 14.682 14.682C13.8381 15.5259 12.6935 16 11.5 16C10.3065 16 9.16193 15.5259 8.31802 14.682C7.47411 13.8381 7 12.6935 7 11.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path5"
 										Data="M12.9992 12.5C12.9992 12.6326 13.0519 12.7598 13.1457 12.8536C13.2394 12.9473 13.3666 13 13.4992 13C13.6318 13 13.759 12.9473 13.8528 12.8536C13.9465 12.7598 13.9992 12.6326 13.9992 12.5V9.5C13.9992 9.36739 13.9465 9.24021 13.8528 9.14645C13.759 9.05268 13.6318 9 13.4992 9H10.4992C10.3666 9 10.2394 9.05268 10.1457 9.14645C10.0519 9.24021 9.99921 9.36739 9.99921 9.5C9.99921 9.63261 10.0519 9.75979 10.1457 9.85355C10.2394 9.94732 10.3666 10 10.4992 10H12.2352L9.61721 12.618C9.5159 12.7193 9.45898 12.8567 9.45898 13C9.45898 13.1433 9.5159 13.2807 9.61721 13.382C9.71853 13.4833 9.85594 13.5402 9.99921 13.5402C10.1425 13.5402 10.2799 13.4833 10.3812 13.382L12.9992 10.764V12.5Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -952,8 +956,8 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path5.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -977,19 +981,19 @@
 									<Path
 										x:Name="Path1"
 										Data="M3.49609 2H6.99609V3.5C6.99609 4.32843 7.66767 5 8.49609 5H13.9961V6.59952C13.2297 6.20905 12.3752 6 11.499 6C10.0403 6 8.64139 6.57946 7.60994 7.61091C6.57849 8.64236 5.99902 10.0413 5.99902 11.5C5.99902 12.3773 6.2086 13.2329 6.60004 14H3.49609C2.66767 14 1.99609 13.3284 1.99609 12.5V3.5C1.99609 2.67157 2.66767 2 3.49609 2Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M3.49609 1C2.11538 1 0.996094 2.11929 0.996094 3.5V12.5C0.996094 13.8807 2.11538 15 3.49609 15H7.25636C7.00059 14.69 6.7809 14.3544 6.60004 14H3.49609C2.66767 14 1.99609 13.3284 1.99609 12.5V3.5C1.99609 2.67157 2.66767 2 3.49609 2H6.99609V3.5C6.99609 4.32843 7.66767 5 8.49609 5H13.9961V6.59952C14.3505 6.7801 14.686 6.99948 14.9961 7.25492V3.5C14.9961 2.11929 13.8768 1 12.4961 1H3.49609ZM13.9961 3.5V4H8.49609C8.21995 4 7.99609 3.77614 7.99609 3.5V2H12.4961C13.3245 2 13.9961 2.67157 13.9961 3.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M7 11.5C7 10.3065 7.47411 9.16193 8.31802 8.31802C9.16193 7.47411 10.3065 7 11.5 7C12.6935 7 13.8381 7.47411 14.682 8.31802C15.5259 9.16193 16 10.3065 16 11.5C16 12.6935 15.5259 13.8381 14.682 14.682C13.8381 15.5259 12.6935 16 11.5 16C10.3065 16 9.16193 15.5259 8.31802 14.682C7.47411 13.8381 7 12.6935 7 11.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path4"
 										Data="M12.9992 12.5C12.9992 12.6326 13.0519 12.7598 13.1457 12.8536C13.2394 12.9473 13.3666 13 13.4992 13C13.6318 13 13.759 12.9473 13.8528 12.8536C13.9465 12.7598 13.9992 12.6326 13.9992 12.5V9.5C13.9992 9.36739 13.9465 9.24021 13.8528 9.14645C13.759 9.05268 13.6318 9 13.4992 9H10.4992C10.3666 9 10.2394 9.05268 10.1457 9.14645C10.0519 9.24021 9.99921 9.36739 9.99921 9.5C9.99921 9.63261 10.0519 9.75979 10.1457 9.85355C10.2394 9.94732 10.3666 10 10.4992 10H12.2352L9.61721 12.618C9.5159 12.7193 9.45898 12.8567 9.45898 13C9.45898 13.1433 9.5159 13.2807 9.61721 13.382C9.71853 13.4833 9.85594 13.5402 9.99921 13.5402C10.1425 13.5402 10.2799 13.4833 10.3812 13.382L12.9992 10.764V12.5Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -998,8 +1002,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path4.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -1023,23 +1027,23 @@
 									<Path
 										x:Name="Path1"
 										Data="M11.5 6H2V12C2 13.1046 2.89543 14 4 14H6.60101C6.20958 13.2329 6 12.3773 6 11.5C6 10.0413 6.57946 8.64236 7.61091 7.61091C8.64236 6.57946 10.0413 6 11.5 6Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M11.5 6C12.3773 6 13.2329 6.20958 14 6.60101V6H11.5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M1 4C1 2.34315 2.34315 1 4 1H12C13.6569 1 15 2.34315 15 4V7.25734C14.69 7.00156 14.3544 6.78188 14 6.60101V6H2V12C2 13.1046 2.89543 14 4 14H6.60101C6.78188 14.3544 7.00156 14.69 7.25734 15H4C2.34315 15 1 13.6569 1 12V4ZM2 5H14V4C14 2.89543 13.1046 2 12 2H4C2.89543 2 2 2.89543 2 4V5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M7 11.5C7 10.3065 7.47411 9.16193 8.31802 8.31802C9.16193 7.47411 10.3065 7 11.5 7C12.6935 7 13.8381 7.47411 14.682 8.31802C15.5259 9.16193 16 10.3065 16 11.5C16 12.6935 15.5259 13.8381 14.682 14.682C13.8381 15.5259 12.6935 16 11.5 16C10.3065 16 9.16193 15.5259 8.31802 14.682C7.47411 13.8381 7 12.6935 7 11.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path5"
 										Data="M12.9992 12.5C12.9992 12.6326 13.0519 12.7598 13.1457 12.8536C13.2394 12.9473 13.3666 13 13.4992 13C13.6318 13 13.759 12.9473 13.8528 12.8536C13.9465 12.7598 13.9992 12.6326 13.9992 12.5V9.5C13.9992 9.36739 13.9465 9.24021 13.8528 9.14645C13.759 9.05268 13.6318 9 13.4992 9H10.4992C10.3666 9 10.2394 9.05268 10.1457 9.14645C10.0519 9.24021 9.99921 9.36739 9.99921 9.5C9.99921 9.63261 10.0519 9.75979 10.1457 9.85355C10.2394 9.94732 10.3666 10 10.4992 10H12.2352L9.61721 12.618C9.5159 12.7193 9.45898 12.8567 9.45898 13C9.45898 13.1433 9.5159 13.2807 9.61721 13.382C9.71853 13.4833 9.85594 13.5402 9.99921 13.5402C10.1425 13.5402 10.2799 13.4833 10.3812 13.382L12.9992 10.764V12.5Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1049,8 +1053,8 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path5.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -1074,23 +1078,23 @@
 									<Path
 										x:Name="Path1"
 										Data="M11.5 6H2V12C2 13.1046 2.89543 14 4 14H6.60101C6.20958 13.2329 6 12.3773 6 11.5C6 10.0413 6.57946 8.64236 7.61091 7.61091C8.64236 6.57946 10.0413 6 11.5 6Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M11.5 6C12.3773 6 13.2329 6.20958 14 6.60101V6H11.5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M1 4C1 2.34315 2.34315 1 4 1H12C13.6569 1 15 2.34315 15 4V7.25734C14.69 7.00156 14.3544 6.78188 14 6.60101V6H2V12C2 13.1046 2.89543 14 4 14H6.60101C6.78188 14.3544 7.00156 14.69 7.25734 15H4C2.34315 15 1 13.6569 1 12V4ZM2 5H14V4C14 2.89543 13.1046 2 12 2H4C2.89543 2 2 2.89543 2 4V5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M7 11.5C7 10.3065 7.47411 9.16193 8.31802 8.31802C9.16193 7.47411 10.3065 7 11.5 7C12.6935 7 13.8381 7.47411 14.682 8.31802C15.5259 9.16193 16 10.3065 16 11.5C16 12.6935 15.5259 13.8381 14.682 14.682C13.8381 15.5259 12.6935 16 11.5 16C10.3065 16 9.16193 15.5259 8.31802 14.682C7.47411 13.8381 7 12.6935 7 11.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path5"
 										Data="M11.5 9C11.6326 9 11.7598 9.05268 11.8536 9.14645C11.9473 9.24021 12 9.36739 12 9.5V11H13.5C13.6326 11 13.7598 11.0527 13.8536 11.1464C13.9473 11.2402 14 11.3674 14 11.5C14 11.6326 13.9473 11.7598 13.8536 11.8536C13.7598 11.9473 13.6326 12 13.5 12H12V13.5C12 13.6326 11.9473 13.7598 11.8536 13.8536C11.7598 13.9473 11.6326 14 11.5 14C11.3674 14 11.2402 13.9473 11.1464 13.8536C11.0527 13.7598 11 13.6326 11 13.5V12H9.5C9.36739 12 9.24021 11.9473 9.14645 11.8536C9.05268 11.7598 9 11.6326 9 11.5C9 11.3674 9.05268 11.2402 9.14645 11.1464C9.24021 11.0527 9.36739 11 9.5 11H11V9.5C11 9.36739 11.0527 9.24021 11.1464 9.14645C11.2402 9.05268 11.3674 9 11.5 9Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1100,8 +1104,8 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path5.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -1125,23 +1129,23 @@
 									<Path
 										x:Name="Path1"
 										Data="M6 5H14V6.60101C13.2329 6.20958 12.3773 6 11.5 6C10.0413 6 8.64236 6.57946 7.61091 7.61091C6.57946 8.64236 6 10.0413 6 11.5V5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M6.60101 14H6V11.5C6 12.3773 6.20958 13.2329 6.60101 14Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M12 1C13.6569 1 15 2.34315 15 4V7.25734C14.69 7.00156 14.3544 6.78188 14 6.60101V5H6V14H6.60101C6.78188 14.3544 7.00156 14.69 7.25734 15H4C2.34315 15 1 13.6569 1 12V4C1 2.34315 2.34315 1 4 1H12ZM14 4C14 2.89543 13.1046 2 12 2H4C2.89543 2 2 2.89543 2 4H14ZM5 14V5H2V12C2 13.1046 2.89543 14 4 14H5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M7 11.5C7 10.3065 7.47411 9.16193 8.31802 8.31802C9.16193 7.47411 10.3065 7 11.5 7C12.6935 7 13.8381 7.47411 14.682 8.31802C15.5259 9.16193 16 10.3065 16 11.5C16 12.6935 15.5259 13.8381 14.682 14.682C13.8381 15.5259 12.6935 16 11.5 16C10.3065 16 9.16193 15.5259 8.31802 14.682C7.47411 13.8381 7 12.6935 7 11.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path5"
 										Data="M12 9.5C12 9.22386 11.7761 9 11.5 9C11.2239 9 11 9.22386 11 9.5V11H9.5C9.22386 11 9 11.2239 9 11.5C9 11.7761 9.22386 12 9.5 12H11V13.5C11 13.7761 11.2239 14 11.5 14C11.7761 14 12 13.7761 12 13.5V12H13.5C13.7761 12 14 11.7761 14 11.5C14 11.2239 13.7761 11 13.5 11H12V9.5Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1151,8 +1155,8 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path5.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -1176,43 +1180,43 @@
 									<Path
 										x:Name="Path1"
 										Data="M2 2H4V4H2V2Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M2 7H4V9H2V7Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M4 12H2V14H4V12Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M1.29289 1.29289C1.10536 1.48043 1 1.73478 1 2V4C1 4.26522 1.10536 4.51957 1.29289 4.70711C1.48043 4.89464 1.73478 5 2 5H4C4.26522 5 4.51957 4.89464 4.70711 4.70711C4.89464 4.51957 5 4.26522 5 4V2C5 1.73478 4.89464 1.48043 4.70711 1.29289C4.51957 1.10536 4.26522 1 4 1H2C1.73478 1 1.48043 1.10536 1.29289 1.29289ZM2 2H4V4H2V2Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M1.29289 6.29289C1.10536 6.48043 1 6.73478 1 7V9C1 9.26522 1.10536 9.51957 1.29289 9.70711C1.48043 9.89464 1.73478 10 2 10H4C4.26522 10 4.51957 9.89464 4.70711 9.70711C4.89464 9.51957 5 9.26522 5 9V7C5 6.73478 4.89464 6.48043 4.70711 6.29289C4.51957 6.10536 4.26522 6 4 6H2C1.73478 6 1.48043 6.10536 1.29289 6.29289ZM2 7H4V9H2V7Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path6"
 										Data="M1.29289 11.2929C1.10536 11.4804 1 11.7348 1 12V14C1 14.2652 1.10536 14.5196 1.29289 14.7071C1.48043 14.8946 1.73478 15 2 15H4C4.26522 15 4.51957 14.8946 4.70711 14.7071C4.89464 14.5196 5 14.2652 5 14V12C5 11.7348 4.89464 11.4804 4.70711 11.2929C4.51957 11.1054 4.26522 11 4 11H2C1.73478 11 1.48043 11.1054 1.29289 11.2929ZM2 12H4V14H2V12Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path7"
 										Data="M6.14645 2.14645C6.24021 2.05268 6.36739 2 6.5 2H14.5C14.6326 2 14.7598 2.05268 14.8536 2.14645C14.9473 2.24021 15 2.36739 15 2.5C15 2.63261 14.9473 2.75979 14.8536 2.85355C14.7598 2.94732 14.6326 3 14.5 3H6.5C6.36739 3 6.24021 2.94732 6.14645 2.85355C6.05268 2.75979 6 2.63261 6 2.5C6 2.36739 6.05268 2.24021 6.14645 2.14645Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path8"
 										Data="M6.14645 7.14645C6.24021 7.05268 6.36739 7 6.5 7H7.92C7.553 7.292 7.223 7.628 6.938 8H6.5C6.36739 8 6.24021 7.94732 6.14645 7.85355C6.05268 7.75979 6 7.63261 6 7.5C6 7.36739 6.05268 7.24021 6.14645 7.14645Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path9"
 										Data="M7 11.5C7 10.3065 7.47411 9.16193 8.31802 8.31802C9.16193 7.47411 10.3065 7 11.5 7C12.6935 7 13.8381 7.47411 14.682 8.31802C15.5259 9.16193 16 10.3065 16 11.5C16 12.6935 15.5259 13.8381 14.682 14.682C13.8381 15.5259 12.6935 16 11.5 16C10.3065 16 9.16193 15.5259 8.31802 14.682C7.47411 13.8381 7 12.6935 7 11.5Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}" />
 									<Path
 										x:Name="Path10"
 										Data="M12.9992 12.5C12.9992 12.6326 13.0519 12.7598 13.1457 12.8536C13.2394 12.9473 13.3666 13 13.4992 13C13.6318 13 13.759 12.9473 13.8528 12.8536C13.9465 12.7598 13.9992 12.6326 13.9992 12.5V9.5C13.9992 9.36739 13.9465 9.24021 13.8528 9.14645C13.759 9.05268 13.6318 9 13.4992 9H10.4992C10.3666 9 10.2394 9.05268 10.1457 9.14645C10.0519 9.24021 9.99921 9.36739 9.99921 9.5C9.99921 9.63261 10.0519 9.75979 10.1457 9.85355C10.2394 9.94732 10.3666 10 10.4992 10H12.2352L9.61721 12.618C9.5159 12.7193 9.45898 12.8567 9.45898 13C9.45898 13.1433 9.5159 13.2807 9.61721 13.382C9.71853 13.4833 9.85594 13.5402 9.99921 13.5402C10.1425 13.5402 10.2799 13.4833 10.3812 13.382L12.9992 10.764V12.5Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1222,12 +1226,12 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path7.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path8.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path9.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path7.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path8.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path9.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path10.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -1248,15 +1252,15 @@
 									<Path
 										x:Name="Path1"
 										Data="M9 14H4C2.89543 14 2 13.1046 2 12V5H9V14Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M14 5H10V14H12C13.1046 14 14 13.1046 14 12V5Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}" />
 									<Path
 										x:Name="Path3"
 										Data="M15 4C15 2.34315 13.6569 1 12 1H4C2.34315 1 1 2.34315 1 4V12C1 13.6569 2.34315 15 4 15H12C13.6569 15 15 13.6569 15 12V4ZM12 2C13.1046 2 14 2.89543 14 4H2C2 2.89543 2.89543 2 4 2H12ZM10 5H14V12C14 13.1046 13.1046 14 12 14H10V5ZM9 5V14H4C2.89543 14 2 13.1046 2 12V5H9Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1265,8 +1269,8 @@
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="Disabled" />
@@ -1290,15 +1294,15 @@
 									<Path
 										x:Name="Path1"
 										Data="M3 4.04346C2.83142 4.07712 2.66736 4.13034 2.50781 4.20312C2.21094 4.33333 1.95052 4.51041 1.72656 4.73437C1.50781 4.95312 1.33073 5.21093 1.19531 5.50781C1.0651 5.80468 1 6.11718 1 6.44531V12.5547C1 12.8828 1.0651 13.1953 1.19531 13.4922C1.33073 13.7891 1.50781 14.0495 1.72656 14.2734C1.95052 14.4922 2.21094 14.6693 2.50781 14.8047C2.80469 14.9349 3.11719 15 3.44531 15H9.5C9.79167 15 10.0729 14.9505 10.3438 14.8516C10.6146 14.7474 10.8594 14.6068 11.0781 14.4297C11.2969 14.2526 11.4818 14.0417 11.6328 13.7969C11.7891 13.5521 11.8958 13.2865 11.9531 13H10.9141C10.862 13.151 10.7891 13.2891 10.6953 13.4141C10.6016 13.5338 10.4922 13.638 10.3672 13.7266C10.2422 13.8151 10.1068 13.8828 9.96094 13.9297C9.8151 13.9766 9.66146 14 9.5 14H3.5C3.29688 14 3.10417 13.9609 2.92188 13.8828C2.73958 13.8047 2.57812 13.6979 2.4375 13.5625C2.30208 13.4219 2.19531 13.2604 2.11719 13.0781C2.03906 12.8958 2 12.7031 2 12.5V6.49999C2 6.29687 2.03906 6.10416 2.11719 5.92187C2.19531 5.73958 2.30208 5.58072 2.4375 5.44531C2.57812 5.30468 2.73958 5.19531 2.92188 5.11718C2.94771 5.10611 2.97375 5.09582 3 5.08632V4.04346Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M6.44531 12C6.11719 12 5.80469 11.9349 5.50781 11.8047C5.21094 11.6693 4.95052 11.4922 4.72656 11.2734C4.50781 11.0495 4.33073 10.7891 4.19531 10.4922C4.0651 10.1953 4 9.88281 4 9.55469V3.44531C4 3.11719 4.0651 2.80469 4.19531 2.50781C4.33073 2.21094 4.50781 1.95312 4.72656 1.73438C4.95052 1.51042 5.21094 1.33333 5.50781 1.20312C5.80469 1.06771 6.11719 1 6.44531 1H12.5547C12.8828 1 13.1953 1.06771 13.4922 1.20312C13.7891 1.33333 14.0469 1.51042 14.2656 1.73438C14.4896 1.95312 14.6667 2.21094 14.7969 2.50781C14.9323 2.80469 15 3.11719 15 3.44531V9.55469C15 9.88281 14.9323 10.1953 14.7969 10.4922C14.6667 10.7891 14.4896 11.0495 14.2656 11.2734C14.0469 11.4922 13.7891 11.6693 13.4922 11.8047C13.1953 11.9349 12.8828 12 12.5547 12H6.44531Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path3"
 										Data="M5.36316 4.01997C5.4906 3.98356 5.62727 3.99924 5.74316 4.06355C5.85904 4.12787 5.94464 4.23557 5.98116 4.36297L6.98116 8.36297C7.0175 8.49054 7.00167 8.62732 6.93715 8.74321C6.87264 8.85911 6.76473 8.94463 6.63716 8.98097C6.50959 9.0173 6.37281 9.00147 6.25692 8.93696C6.14102 8.87245 6.0555 8.76454 6.01916 8.63697L5.01916 4.63697C5.00115 4.5738 4.99577 4.50771 5.00331 4.44246C5.01085 4.37721 5.03118 4.31409 5.06312 4.2567C5.09507 4.19931 5.13801 4.14877 5.18949 4.10798C5.24097 4.06719 5.29999 4.03795 5.36316 4.01997ZM8.36316 4.01997C8.4906 3.98356 8.62727 3.99924 8.74316 4.06355C8.85904 4.12787 8.94464 4.23557 8.98116 4.36297L9.98116 8.36297C10.0175 8.49054 10.0017 8.62732 9.93715 8.74321C9.87264 8.85911 9.76473 8.94463 9.63716 8.98097C9.50959 9.0173 9.37281 9.00147 9.25692 8.93696C9.14102 8.87245 9.0555 8.76454 9.01916 8.63697L8.01916 4.63697C8.00115 4.5738 7.99576 4.50771 8.00331 4.44246C8.01085 4.37721 8.03118 4.31409 8.06312 4.2567C8.09507 4.19931 8.13801 4.14877 8.18949 4.10798C8.24097 4.06719 8.29999 4.03795 8.36316 4.01997ZM14.0002 8.24997C14.0002 8.44888 13.9211 8.63965 13.7805 8.7803C13.6398 8.92095 13.4491 8.99997 13.2502 8.99997C13.0512 8.99997 12.8605 8.92095 12.7198 8.7803C12.5792 8.63965 12.5002 8.44888 12.5002 8.24997C12.5002 8.05106 12.5792 7.86029 12.7198 7.71964C12.8605 7.57899 13.0512 7.49997 13.2502 7.49997C13.4491 7.49997 13.6398 7.57899 13.7805 7.71964C13.9211 7.86029 14.0002 8.05106 14.0002 8.24997Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1306,8 +1310,8 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path3.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -1331,11 +1335,11 @@
 									<Path
 										x:Name="Path1"
 										Data="M7.91399 2.29289C8.10152 2.10536 8.35588 2 8.62109 2H13.0728C13.6251 2 14.0728 2.44772 14.0728 3V7.37426C14.0728 7.64122 13.966 7.89709 13.7763 8.08491L7.95841 13.8446C7.76366 14.0375 7.50956 14.1339 7.25545 14.134C6.99936 14.1341 6.74328 14.0364 6.54798 13.8411L2.16399 9.45711C1.77346 9.06658 1.77346 8.43342 2.16399 8.04289L7.91399 2.29289ZM12.4998 4.5C12.4998 5.05228 12.0521 5.5 11.4998 5.5C10.9475 5.5 10.4998 5.05228 10.4998 4.5C10.4998 3.94772 10.9475 3.5 11.4998 3.5C12.0521 3.5 12.4998 3.94772 12.4998 4.5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M11.5 5.5C12.0523 5.5 12.5 5.05228 12.5 4.5C12.5 3.94772 12.0523 3.5 11.5 3.5C10.9477 3.5 10.5 3.94772 10.5 4.5C10.5 5.05228 10.9477 5.5 11.5 5.5ZM7.20711 1.58579C7.58218 1.21071 8.09089 1 8.62132 1H13.0732C14.1778 1 15.0732 1.89543 15.0732 3V7.37426C15.0732 7.90818 14.8598 8.41993 14.4803 8.79556L8.66241 14.5553C7.88023 15.3297 6.61938 15.3265 5.8411 14.5482L1.45711 10.1642C0.676058 9.38317 0.676058 8.11684 1.45711 7.33579L7.20711 1.58579ZM8.62132 2C8.3561 2 8.10175 2.10536 7.91421 2.29289L2.16421 8.04289C1.77369 8.43342 1.77369 9.06658 2.16421 9.45711L6.54821 13.8411C6.93735 14.2302 7.56777 14.2318 7.95886 13.8446L13.7768 8.08491C13.9665 7.89709 14.0732 7.64122 14.0732 7.37426V3C14.0732 2.44772 13.6255 2 13.0732 2H8.62132Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1344,7 +1348,7 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1367,15 +1371,15 @@
 									<Path
 										x:Name="Path1"
 										Data="M2.29289 2.29289C2.10536 2.48043 2 2.73478 2 3V13C2 13.2652 2.10536 13.5196 2.29289 13.7071C2.48043 13.8946 2.73478 14 3 14H13C13.2652 14 13.5196 13.8946 13.7071 13.7071C13.8946 13.5196 14 13.2652 14 13V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.73478 2 2.48043 2.10536 2.29289 2.29289Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M1.58579 1.58579C1.96086 1.21071 2.46957 1 3 1H13C13.5304 1 14.0391 1.21071 14.4142 1.58579C14.7893 1.96086 15 2.46957 15 3V13C15 13.5304 14.7893 14.0391 14.4142 14.4142C14.0391 14.7893 13.5304 15 13 15H3C2.46957 15 1.96086 14.7893 1.58579 14.4142C1.21071 14.0391 1 13.5304 1 13C1 9.42935 1 3 1 3C1 2.46957 1.21071 1.96086 1.58579 1.58579ZM2.29289 2.29289C2.10536 2.48043 2 2.73478 2 3V13C2 13.2652 2.10536 13.5196 2.29289 13.7071C2.48043 13.8946 2.73478 14 3 14H13C13.2652 14 13.5196 13.8946 13.7071 13.7071C13.8946 13.5196 14 13.2652 14 13V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.73478 2 2.48043 2.10536 2.29289 2.29289Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M6.00063 4.5C6.00063 4.36739 6.05331 4.24021 6.14708 4.14645C6.24085 4.05268 6.36802 4 6.50063 4H11.5006C11.6332 4 11.7604 4.05268 11.8542 4.14645C11.948 4.24021 12.0006 4.36739 12.0006 4.5V9.5C12.0006 9.63261 11.948 9.75979 11.8542 9.85355C11.7604 9.94732 11.6332 10 11.5006 10C11.368 10 11.2408 9.94732 11.1471 9.85355C11.0533 9.75979 11.0006 9.63261 11.0006 9.5V5.707L4.85463 11.854C4.76075 11.9479 4.63341 12.0006 4.50063 12.0006C4.36786 12.0006 4.24052 11.9479 4.14663 11.854C4.05275 11.7601 4 11.6328 4 11.5C4 11.3672 4.05275 11.2399 4.14663 11.146L10.2936 5H6.50063C6.36802 5 6.24085 4.94732 6.14708 4.85355C6.05331 4.75979 6.00063 4.63261 6.00063 4.5Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1384,8 +1388,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1408,24 +1412,24 @@
 									<Path
 										x:Name="Path1"
 										Data="M1.43934 2.43934C1.15804 2.72064 1 3.10218 1 3.5V4H4.894C5.19013 3.99997 5.47962 3.91228 5.726 3.748L6.283 3.377L5.7 2.6C5.56028 2.41371 5.3791 2.2625 5.17082 2.15836C4.96254 2.05422 4.73287 2 4.5 2H2.5C2.10218 2 1.72064 2.15804 1.43934 2.43934Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 									<Path
 										x:Name="Path2"
 										Data="M4.894 5H1V10.5C1 10.8978 1.15804 11.2794 1.43934 11.5607C1.72064 11.842 2.10218 12 2.5 12H6.02242C6.00758 11.8353 6 11.6685 6 11.5C6 8.46243 8.46243 6 11.5 6C11.6685 6 11.8353 6.00758 12 6.02242V5.5C12 5.10218 11.842 4.72064 11.5607 4.43934C11.2794 4.15804 10.8978 4 10.5 4H7.151L6.281 4.58C5.87027 4.85387 5.38766 5.00001 4.894 5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M0.732233 1.73223C1.20107 1.26339 1.83696 1 2.5 1H4.5C4.88811 1 5.2709 1.09036 5.61803 1.26393C5.96517 1.4375 6.26713 1.68951 6.5 2L7.25 3H10.5C11.163 3 11.7989 3.26339 12.2678 3.73223C12.7366 4.20107 13 4.83696 13 5.5V6.20703C12.6777 6.11588 12.3434 6.05337 12 6.02242V5.5C12 5.10218 11.842 4.72064 11.5607 4.43934C11.2794 4.15804 10.8978 4 10.5 4H7.151L6.281 4.58C5.87027 4.85387 5.38766 5.00001 4.894 5H1V10.5C1 10.8978 1.15804 11.2794 1.43934 11.5607C1.72064 11.842 2.10218 12 2.5 12H6.02242C6.05337 12.3434 6.11588 12.6777 6.20703 13H2.5C1.83696 13 1.20107 12.7366 0.732233 12.2678C0.263392 11.7989 0 11.163 0 10.5V3.5C0 2.83696 0.263392 2.20107 0.732233 1.73223ZM1.43934 2.43934C1.15804 2.72064 1 3.10218 1 3.5V4H4.894C5.19013 3.99997 5.47962 3.91228 5.726 3.748L6.283 3.377L5.7 2.6C5.56028 2.41371 5.3791 2.2625 5.17082 2.15836C4.96254 2.05422 4.73287 2 4.5 2H2.5C2.10218 2 1.72064 2.15804 1.43934 2.43934Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M11.5 7C13.9853 7 16 9.01472 16 11.5C16 13.9853 13.9853 16 11.5 16C9.01472 16 7 13.9853 7 11.5C7 9.01472 9.01472 7 11.5 7Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 									<Path
 										x:Name="Path5"
 										Data="M11.5 9C11.6326 9 11.7598 9.05268 11.8536 9.14645C11.9473 9.24021 12 9.36739 12 9.5V11H13.5C13.6326 11 13.7598 11.0527 13.8536 11.1464C13.9473 11.2402 14 11.3674 14 11.5C14 11.6326 13.9473 11.7598 13.8536 11.8536C13.7598 11.9473 13.6326 12 13.5 12H12V13.5C12 13.6326 11.9473 13.7598 11.8536 13.8536C11.7598 13.9473 11.6326 14 11.5 14C11.3674 14 11.2402 13.9473 11.1464 13.8536C11.0527 13.7598 11 13.6326 11 13.5V12H9.5C9.36739 12 9.24021 11.9473 9.14645 11.8536C9.05268 11.7598 9 11.6326 9 11.5C9 11.3674 9.05268 11.2402 9.14645 11.1464C9.24021 11.0527 9.36739 11 9.5 11H11V9.5C11 9.36739 11.0527 9.24021 11.1464 9.14645C11.2402 9.05268 11.3674 9 11.5 9Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}" />
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1433,10 +1437,10 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path5.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
@@ -1461,15 +1465,15 @@
 									<Path
 										x:Name="Path1"
 										Data="M7.99984 2.00989L6.01984 6.02389L1.58984 6.66789L4.79484 9.79189L4.03784 14.2039L7.07081 12.6098C6.94389 11.7115 7.43745 10.7652 8.39895 10.433L9.50068 10.0524L10.303 8.40545C10.9478 7.08155 12.5464 6.64041 13.7545 7.30728L14.4108 6.66789L10.5008 6.09889L9.98084 6.02389L7.99984 2.00989Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M7.99988 2.00989L6.01988 6.02389L1.58988 6.66789L4.79488 9.79189L4.03788 14.2039L7.07081 12.6098C7.11672 12.9347 7.24379 13.2532 7.45923 13.5342L3.60688 15.5599C3.53488 15.5989 3.45488 15.6189 3.37388 15.6189C3.30106 15.6184 3.22921 15.6022 3.16329 15.5713C3.09737 15.5403 3.03896 15.4954 2.99208 15.4397C2.9452 15.384 2.91098 15.3188 2.89178 15.2485C2.87258 15.1783 2.86886 15.1047 2.88088 15.0329L3.71988 10.1409L0.165879 6.67589C0.0993201 6.61074 0.0522804 6.5283 0.0300615 6.43785C0.00784266 6.34741 0.0113279 6.25255 0.0401244 6.16398C0.0689209 6.07541 0.121884 5.99664 0.193044 5.93655C0.264205 5.87646 0.350734 5.83744 0.442879 5.82389L5.35488 5.10889L7.55188 0.658893C7.5921 0.574871 7.65539 0.504023 7.73436 0.454621C7.81333 0.405218 7.90473 0.3793 7.99788 0.379893V0.380893C8.09148 0.38005 8.1834 0.405708 8.26303 0.454901C8.34266 0.504095 8.40674 0.574816 8.44788 0.658893L10.6449 5.10989L15.5569 5.82389C15.649 5.83744 15.7356 5.87646 15.8067 5.93655C15.8779 5.99664 15.9308 6.07541 15.9596 6.16398C15.9884 6.25255 15.9919 6.34741 15.9697 6.43785C15.9475 6.5283 15.9004 6.61074 15.8339 6.67589L14.5313 7.94552L14.3182 7.73248C14.1452 7.55948 13.9553 7.41809 13.7546 7.30729L14.4109 6.66789L10.5009 6.09889L9.98088 6.02389L7.99988 2.00989Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M15.5382 10.3666L13.6111 8.4396C12.8825 7.71102 11.6532 7.91706 11.202 8.84338L10.3997 10.4904C10.2836 10.7286 10.0777 10.9111 9.8272 10.9976L8.72547 11.3782C8.02732 11.6194 7.82259 12.5082 8.34489 13.0305L9.29256 13.9782L8 15.2709V15.9778H8.70729L9.99966 14.6853L10.9473 15.6329C11.4695 16.1552 12.3584 15.9505 12.5995 15.2523L12.9801 14.1506C13.0667 13.9001 13.2491 13.6942 13.4874 13.5781L15.1344 12.7758C16.0608 12.3246 16.2668 11.0952 15.5382 10.3666Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1478,8 +1482,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1503,33 +1507,33 @@
 									<Path
 										x:Name="Path1"
 										Data="M5.40613 6.1131L1.58984 6.66789L4.79484 9.79189L4.03784 14.2039L7.07081 12.6098C6.94389 11.7115 7.43745 10.7652 8.39895 10.433L9.38532 10.0923L5.40613 6.1131Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M10.3802 8.25892C11.0683 7.04974 12.5921 6.66565 13.7545 7.30728L14.4108 6.66789L10.5008 6.09889L9.98084 6.02389L7.99984 2.00989L6.72191 4.60061L10.3802 8.25892Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M4.52301 5.22998L0.442879 5.82389C0.350734 5.83744 0.264205 5.87646 0.193044 5.93655C0.121884 5.99664 0.0689209 6.07541 0.0401244 6.16398C0.0113279 6.25255 0.00784266 6.34741 0.0300615 6.43785C0.0522804 6.5283 0.0993201 6.61074 0.165879 6.67589L3.71988 10.1409L2.88088 15.0329C2.86886 15.1047 2.87258 15.1783 2.89178 15.2485C2.91098 15.3188 2.9452 15.384 2.99208 15.4397C3.03896 15.4954 3.09737 15.5403 3.16329 15.5713C3.22921 15.6022 3.30106 15.6184 3.37388 15.6189C3.45488 15.6189 3.53488 15.5989 3.60688 15.5599L7.45923 13.5342C7.24379 13.2532 7.11672 12.9347 7.07081 12.6098L4.03788 14.2039L4.79488 9.79189L1.58988 6.66789L5.40614 6.11311L4.52301 5.22998Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M6.72193 4.60064L7.99988 2.00989L9.98088 6.02389L10.5009 6.09889L14.4109 6.66789L13.7546 7.30729C13.9553 7.41809 14.1452 7.55948 14.3182 7.73248L14.5313 7.94552L15.8339 6.67589C15.9004 6.61074 15.9475 6.5283 15.9697 6.43785C15.9919 6.34741 15.9884 6.25255 15.9596 6.16398C15.9308 6.07541 15.8779 5.99664 15.8067 5.93655C15.7356 5.87646 15.649 5.83744 15.5569 5.82389L10.6449 5.10989L8.44788 0.658893C8.40674 0.574816 8.34266 0.504095 8.26303 0.454901C8.1834 0.405708 8.09148 0.38005 7.99788 0.380893V0.379893C7.90473 0.3793 7.81333 0.405218 7.73436 0.454621C7.65539 0.504023 7.5921 0.574871 7.55188 0.658893L5.97472 3.85342L6.72193 4.60064Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M10.5292 10.2246L10.3997 10.4904C10.2836 10.7286 10.0777 10.9111 9.8272 10.9976L8.72547 11.3782C8.02732 11.6194 7.82259 12.5082 8.34489 13.0305L9.29256 13.9782L8 15.2709V15.9778H8.70729L9.99966 14.6853L10.9473 15.6329C11.4695 16.1552 12.3584 15.9505 12.5995 15.2523L12.9801 14.1506C13.0667 13.9001 13.2491 13.6942 13.4874 13.5781L13.8326 13.41L10.5292 10.2246Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".40" />
 									<Path
 										x:Name="Path6"
 										Data="M14.9749 12.8536L15.1344 12.7758C16.0608 12.3246 16.2668 11.0952 15.5382 10.3666L13.6111 8.4396C12.8825 7.71102 11.6532 7.91706 11.202 8.84338L11.1242 9.00294L14.9749 12.8536Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".40" />
 									<Path
 										x:Name="Path7"
 										Data="M0.146447 0.146447C0.341709 -0.0488155 0.658291 -0.0488155 0.853553 0.146447L15.8536 15.1464C16.0488 15.3417 16.0488 15.6583 15.8536 15.8536C15.6583 16.0488 15.3417 16.0488 15.1464 15.8536C7.11629 7.8234 3.97578 4.68289 0.146447 0.853553C-0.0488155 0.658291 -0.0488155 0.341709 0.146447 0.146447Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1539,11 +1543,11 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path7.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path7.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1566,28 +1570,28 @@
 									<Path
 										x:Name="Path1"
 										Data="M1 3.5C1 3.10218 1.15804 2.72064 1.43934 2.43934C1.72064 2.15804 2.10218 2 2.5 2H5.5C5.73287 2 5.96254 2.05422 6.17082 2.15836C6.3791 2.2625 6.56028 2.41371 6.7 2.6L7.283 3.377L6.726 3.748C6.47962 3.91228 6.19013 3.99997 5.894 4H1V3.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".40" />
 									<Path
 										x:Name="Path2"
 										Data="M9 4H8.151L7.281 4.58C6.87027 4.85387 6.38766 5.00001 5.894 5H1V12.5C1 12.8978 1.15804 13.2794 1.43934 13.5607C1.72064 13.842 2.10218 14 2.5 14H10V13.9142C9.79105 13.8403 9.59904 13.7204 9.43934 13.5607C9.15803 13.2794 9 12.8978 9 12.5C9 12.1022 9.15803 11.7206 9.43934 11.4393C9.59904 11.2796 9.79105 11.1597 10 11.0858V9.91421C9.79105 9.84033 9.59904 9.72036 9.43934 9.56066C9.15803 9.27935 9 8.89782 9 8.5C9 8.10218 9.15803 7.72065 9.43934 7.43934C9.46846 7.41021 9.49866 7.38241 9.52984 7.35597C9.18983 6.98734 9 6.50346 9 6V4Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M13 14V11.9142C13.209 11.8403 13.401 11.7204 13.5607 11.5607C13.842 11.2794 14 10.8978 14 10.5C14 10.1022 13.842 9.72065 13.5607 9.43934C13.401 9.27964 13.209 9.15967 13 9.08579V7.73206C13.1501 7.6454 13.2895 7.53889 13.4142 7.41421C13.7893 7.03914 14 6.53043 14 6V4.08579C14.209 4.15967 14.401 4.27964 14.5607 4.43934C14.842 4.72064 15 5.10218 15 5.5V12.5C15 12.8978 14.842 13.2794 14.5607 13.5607C14.2794 13.842 13.8978 14 13.5 14H13Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M0.732233 1.73223C1.20107 1.26339 1.83696 1 2.5 1H5.5C5.88811 1 6.2709 1.09036 6.61803 1.26393C6.96517 1.4375 7.26713 1.68951 7.5 2L8.25 3H9.26794C9.09391 3.30145 9 3.64588 9 4H8.151L7.281 4.58C6.87027 4.85387 6.38766 5.00001 5.894 5H1V12.5C1 12.8978 1.15804 13.2794 1.43934 13.5607C1.72064 13.842 2.10218 14 2.5 14H10V14.5C10 14.672 10.0295 14.8409 10.0858 15H2.5C1.83696 15 1.20107 14.7366 0.732233 14.2678C0.263392 13.7989 0 13.163 0 12.5V3.5C0 2.83696 0.263392 2.20107 0.732233 1.73223ZM1.43934 2.43934C1.15804 2.72064 1 3.10218 1 3.5V4H5.894C6.19013 3.99997 6.47962 3.91228 6.726 3.748L7.283 3.377L6.7 2.6C6.56028 2.41371 6.3791 2.2625 6.17082 2.15836C5.96254 2.05422 5.73287 2 5.5 2H2.5C2.10218 2 1.72064 2.15804 1.43934 2.43934Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M12.9142 15H13.5C14.163 15 14.7989 14.7366 15.2678 14.2678C15.7366 13.7989 16 13.163 16 12.5V5.5C16 4.83696 15.7366 4.20107 15.2678 3.73223C14.8555 3.31997 14.3141 3.06656 13.7386 3.0114C13.9084 3.31012 14 3.65034 14 4V4.08579C14.209 4.15967 14.401 4.27964 14.5607 4.43934C14.842 4.72064 15 5.10218 15 5.5V12.5C15 12.8978 14.842 13.2794 14.5607 13.5607C14.2794 13.842 13.8978 14 13.5 14H13V14.5C13 14.672 12.9705 14.8409 12.9142 15Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path6"
 										Data="M10 4C10 3.73478 10.1054 3.48043 10.2929 3.29289C10.4804 3.10536 10.7348 3 11 3H12C12.2652 3 12.5196 3.10536 12.7071 3.29289C12.8946 3.48043 13 3.73478 13 4V6C13 6.26522 12.8946 6.51957 12.7071 6.70711C12.5196 6.89464 12.2652 7 12 7V10H12.5C12.6326 10 12.7598 10.0527 12.8536 10.1464C12.9473 10.2402 13 10.3674 13 10.5C13 10.6326 12.9473 10.7598 12.8536 10.8536C12.7598 10.9473 12.6326 11 12.5 11H12V14.5C12 14.6326 11.9473 14.7598 11.8536 14.8536C11.7598 14.9473 11.6326 15 11.5 15C11.3674 15 11.2402 14.9473 11.1464 14.8536C11.0527 14.7598 11 14.6326 11 14.5V13H10.5C10.3674 13 10.2402 12.9473 10.1464 12.8536C10.0527 12.7598 10 12.6326 10 12.5C10 12.3674 10.0527 12.2402 10.1464 12.1464C10.2402 12.0527 10.3674 12 10.5 12H11V9H10.5C10.3674 9 10.2402 8.94732 10.1464 8.85355C10.0527 8.75979 10 8.63261 10 8.5C10 8.36739 10.0527 8.24021 10.1464 8.14645C10.2402 8.05268 10.3674 8 10.5 8H11V7C10.7348 7 10.4804 6.89464 10.2929 6.70711C10.1054 6.51957 10 6.26522 10 6V4ZM12 4H11V6H12V4Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1595,12 +1599,12 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
 												<Setter Target="Path3.Fill" Value="Transparent" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1623,24 +1627,24 @@
 									<Path
 										x:Name="Path1"
 										Data="M11.0007 7.01081V7.00034C11.0007 6.62945 10.8998 6.28213 10.7238 5.98438L7.20991 9.4983C6.93264 9.77557 6.93263 10.2251 7.20991 10.5024L10.7238 14.0163C10.8998 13.7186 11.0007 13.3712 11.0007 13.0003L11.0007 9.95073C10.3541 9.78297 9.85484 9.20411 9.85484 8.48077C9.85484 7.75744 10.3541 7.17857 11.0007 7.01081Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".40" />
 									<Path
 										x:Name="Path2"
 										Data="M5.81163 5H3C1.89543 5 1 5.89543 1 7V13C1 14.1046 1.89543 15 3 15L9 15C9.37091 15 9.71824 14.899 10.016 14.7231L6.50207 11.2092C5.83427 10.5414 5.83427 9.45865 6.50207 8.79085L10.016 5.27692C9.76052 5.12595 9.46856 5.03019 9.15651 5.00603C9.09441 5.28149 8.95422 5.54311 8.73595 5.75604C8.19182 6.28685 7.35292 6.33098 6.75828 5.90057L6.72854 5.87904L6.61281 5.78157L5.81163 5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M4.78653 4H3C1.34315 4 0 5.34315 0 7V13C0 14.6569 1.34315 16 3 16L9 16C10.6569 16 12 14.6569 12 13L12 9.99449C11.9142 9.99815 11.8281 10 11.7419 10H11.3871C11.2543 10 11.1244 9.98288 11 9.95054L11 13C11 13.3709 10.899 13.7182 10.7231 14.016L7.20918 10.502C6.9319 10.2248 6.9319 9.77523 7.20918 9.49796L10.7231 5.98403C10.899 6.28179 11 6.6291 11 7V7.011C11.1244 6.97866 11.2543 6.96154 11.3871 6.96154H11.7419C11.8296 6.96154 11.9155 6.95807 11.9996 6.95139C11.9782 5.60266 11.0667 4.47012 9.82683 4.11539H9.08703C9.19992 4.39958 9.22308 4.71077 9.15651 5.00604C9.46856 5.03019 9.76052 5.12595 10.016 5.27692L6.50207 8.79085C5.83427 9.45865 5.83427 10.5414 6.50207 11.2092L10.016 14.7231C9.71824 14.899 9.37091 15 9 15L3 15C1.89543 15 1 14.1046 1 13L1 7C1 5.89543 1.89543 5 3 5L5.81163 5L4.78653 4Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M4.49661 7.49751C4.49661 8.04842 4.05001 8.49502 3.4991 8.49502C2.94819 8.49502 2.50159 8.04842 2.50159 7.49751C2.50159 6.9466 2.94819 6.5 3.4991 6.5C4.05001 6.5 4.49661 6.9466 4.49661 7.49751Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M11.3871 9C11.0931 9 10.8548 8.76753 10.8548 8.48077C10.8548 8.19401 11.0931 7.96154 11.3871 7.96154H11.7419C13.5057 7.96154 14.9355 6.87669 14.9355 5.53846C14.9355 4.24079 13.591 3.18136 11.9013 3.11835L11.7419 3.11538H6.81748L8.03765 4.30593C8.24551 4.5087 8.24551 4.83746 8.03765 5.04023C7.84869 5.22457 7.55299 5.24132 7.34462 5.0905L7.28493 5.04023L5.1559 2.9633C4.94804 2.76053 4.94804 2.43177 5.1559 2.229L7.28493 0.152079L7.34462 0.101805C7.55299 -0.0490176 7.84869 -0.0322587 8.03765 0.152079C8.24551 0.354851 8.24551 0.683609 8.03765 0.886381L6.81819 2.07692H11.7419C14.0936 2.07692 16 3.62671 16 5.53846C16 7.45022 14.0936 9 11.7419 9H11.3871Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1648,11 +1652,11 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1675,24 +1679,24 @@
 									<Path
 										x:Name="Path1"
 										Data="M5 9.95073C5.64659 9.78297 6.14589 9.20411 6.14589 8.48077C6.14589 7.75744 5.64659 7.17857 5 7.01082V6.99966C5 6.62876 5.10096 6.28144 5.2769 5.98369L8.79083 9.49761C9.0681 9.77488 9.0681 10.2244 8.79083 10.5017L5.2769 14.0156C5.10096 13.7179 5 13.3706 5 12.9997V9.95073Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".40" />
 									<Path
 										x:Name="Path2"
 										Data="M6.84386 5.00603C6.90596 5.28149 7.04615 5.54311 7.26443 5.75604C7.80855 6.28685 8.64745 6.33098 9.24209 5.90057L9.27183 5.87904L9.38757 5.78157L10.1887 5H13.0004C14.1049 5 15.0004 5.89543 15.0004 7V13C15.0004 14.1046 14.1049 15 13.0004 15H7.00037C6.62946 15 6.28214 14.899 5.98438 14.7231L9.49831 11.2092C10.1661 10.5414 10.1661 9.45864 9.4983 8.79085L5.98438 5.27692C6.23985 5.12595 6.53182 5.03019 6.84386 5.00603Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M4.00039 6.95139C4.02181 5.60266 4.93328 4.47012 6.17317 4.11539H6.91297C6.80009 4.39958 6.77692 4.71076 6.84349 5.00603C6.53145 5.03019 6.23948 5.12595 5.984 5.27692L9.49793 8.79085C10.1657 9.45864 10.1657 10.5414 9.49793 11.2092L5.984 14.7231C6.28176 14.899 6.62909 15 7 15H13C14.1046 15 15 14.1046 15 13V7C15 5.89543 14.1046 5 13 5L10.1884 5L11.2135 4H13C14.6569 4 16 5.34315 16 7V13C16 14.6569 14.6569 16 13 16H7C5.34314 16 4 14.6569 4 13V9.99449C4.08582 9.99815 4.17187 10 4.25806 10H4.6129C4.74572 10 4.87559 9.98288 5 9.95054L5 13C5 13.3709 5.10096 13.7182 5.2769 14.016L8.79083 10.502C9.0681 10.2248 9.0681 9.77523 8.79082 9.49795L5.2769 5.98403C5.10096 6.28178 5 6.6291 5 7V7.011C4.87559 6.97866 4.74572 6.96154 4.6129 6.96154H4.25806C4.17043 6.96154 4.08447 6.95807 4.00039 6.95139Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M11.5034 12.5025C11.5034 11.9516 11.95 11.505 12.5009 11.505C13.0518 11.505 13.4984 11.9516 13.4984 12.5025C13.4984 13.0534 13.0518 13.5 12.5009 13.5C11.95 13.5 11.5034 13.0534 11.5034 12.5025Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M4.6129 9C4.90686 9 5.14516 8.76753 5.14516 8.48077C5.14516 8.19401 4.90686 7.96154 4.6129 7.96154H4.25806C2.49432 7.96154 1.06452 6.87669 1.06452 5.53846C1.06452 4.24079 2.40897 3.18136 4.09867 3.11835L4.25806 3.11538H9.18252L7.96235 4.30593C7.75449 4.5087 7.75449 4.83746 7.96235 5.04023C8.15131 5.22457 8.44701 5.24132 8.65538 5.0905L8.71507 5.04023L10.8441 2.9633C11.052 2.76053 11.052 2.43177 10.8441 2.229L8.71507 0.152079L8.65538 0.101805C8.44701 -0.0490176 8.15131 -0.0322587 7.96235 0.152079C7.75449 0.354851 7.75449 0.683609 7.96235 0.886381L9.18181 2.07692H4.25806C1.9064 2.07692 0 3.62671 0 5.53846C0 7.45022 1.9064 9 4.25806 9H4.6129Z"
-										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1700,11 +1704,11 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1728,11 +1732,11 @@
 									<Path
 										x:Name="Path1"
 										Data="M3 2.5C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5H3Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M1 4C1 2.89543 1.89543 2 3 2H13C14.1046 2 15 2.89543 15 4V12C15 13.1046 14.1046 14 13 14H3C1.89543 14 1 13.1046 1 12V4ZM3 3C2.44772 3 2 3.44772 2 4V12C2 12.5523 2.44772 13 3 13H13C13.5523 13 14 12.5523 14 12V4C14 3.44772 13.5523 3 13 3H3ZM5.5 4C5.77614 4 6 4.22386 6 4.5V11.5C6 11.7761 5.77614 12 5.5 12C5.22386 12 5 11.7761 5 11.5V4.5C5 4.22386 5.22386 4 5.5 4ZM11 4.5C11 4.22386 10.7761 4 10.5 4C10.2239 4 10 4.22386 10 4.5V11.5C10 11.7761 10.2239 12 10.5 12C10.7761 12 11 11.7761 11 11.5V4.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1761,19 +1765,19 @@
 									<Path
 										x:Name="Path1"
 										Data="M3.70386,6.75C3.70386,6.05964,4.2635,5.5,4.95386,5.5L23.4505,5.5C24.1408,5.5,24.7005,6.05965,24.7005,6.75L24.7005,21.2501C24.7005,21.9404,24.1408,22.5001,23.4505,22.5001L4.95386,22.5001C4.2635,22.5001,3.70386,21.9404,3.70386,21.2501L3.70386,6.75z M9.19995,7.75C9.19995,7.33579 9.53574,7 9.94995,7 10.3642,7 10.7,7.33579 10.7,7.75L10.7,20.25C10.7,20.6642 10.3642,21 9.94995,21 9.53574,21 9.19995,20.6642 9.19995,20.25L9.19995,7.75z M17.2,7.75C17.2,7.33579 17.5357,7 17.95,7 18.3642,7 18.7,7.33579 18.7,7.75L18.7,20.25C18.7,20.6642 18.3642,21 17.95,21 17.5357,21 17.2,20.6642 17.2,20.25L17.2,7.75z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M4.95386,4C3.43507,4,2.20386,5.23122,2.20386,6.75L2.20386,21.2501C2.20386,22.7688,3.43508,24.0001,4.95386,24.0001L23.4505,24.0001C24.9693,24.0001,26.2005,22.7688,26.2005,21.2501L26.2005,6.75C26.2005,5.23122,24.9692,4,23.4505,4L4.95386,4z M3.70386,6.75C3.70386,6.05964,4.2635,5.5,4.95386,5.5L23.4505,5.5C24.1408,5.5,24.7005,6.05965,24.7005,6.75L24.7005,21.2501C24.7005,21.9404,24.1408,22.5001,23.4505,22.5001L4.95386,22.5001C4.2635,22.5001,3.70386,21.9404,3.70386,21.2501L3.70386,6.75z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M9.19995,7.75C9.19995,7.33579 9.53574,7 9.94995,7 10.3642,7 10.7,7.33579 10.7,7.75L10.7,20.25C10.7,20.6642 10.3642,21 9.94995,21 9.53574,21 9.19995,20.6642 9.19995,20.25L9.19995,7.75z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="F1 M29,28z M0,0z M17.2,7.75C17.2,7.33579 17.5357,7 17.95,7 18.3642,7 18.7,7.33579 18.7,7.75L18.7,20.25C18.7,20.6642 18.3642,21 17.95,21 17.5357,21 17.2,20.6642 17.2,20.25L17.2,7.75z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1783,9 +1787,9 @@
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1809,37 +1813,37 @@
 									<Path
 										x:Name="Path1"
 										Data="M4.33141 3.79527C4.14197 3.62688 3.85649 3.62688 3.66705 3.79527L1.94907 5.32236C1.84715 5.41296 1.78665 5.54126 1.78159 5.67754C1.77654 5.81381 1.82737 5.94624 1.9223 6.04414C2.19433 6.32468 2.57674 6.5 2.99922 6.5H4.99922C5.42171 6.5 5.80412 6.32468 6.07616 6.04413C6.17109 5.94623 6.22191 5.8138 6.21686 5.67753C6.2118 5.54125 6.15131 5.41296 6.04939 5.32236L4.33141 3.79527Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 									<Path
 										x:Name="Path2"
 										Data="M4.33141 11.7953C4.14197 11.6269 3.85649 11.6269 3.66705 11.7953L1.94907 13.3224C1.84715 13.413 1.78665 13.5413 1.78159 13.6775C1.77654 13.8138 1.82737 13.9462 1.9223 14.0441C2.19433 14.3247 2.57674 14.5 2.99923 14.5H4.99923C5.42171 14.5 5.80413 14.3247 6.07616 14.0441C6.17109 13.9462 6.22192 13.8138 6.21686 13.6775C6.21181 13.5413 6.15131 13.413 6.04939 13.3224L4.33141 11.7953Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 									<Path
 										x:Name="Path3"
 										Data="M3 1.5C2.17157 1.5 1.5 2.17157 1.5 3V4.6088C1.5 4.8057 1.61556 4.98427 1.79517 5.06492C1.97479 5.14558 2.18502 5.11332 2.33218 4.98251L4.00001 3.5L5.66782 4.9825C5.81498 5.11331 6.02521 5.14558 6.20483 5.06492C6.38444 4.98426 6.5 4.80569 6.5 4.6088V3C6.5 2.17157 5.82843 1.5 5 1.5H3Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M3 9.5C2.17157 9.5 1.5 10.1716 1.5 11V12.6088C1.5 12.8057 1.61556 12.9843 1.79517 13.0649C1.97479 13.1456 2.18502 13.1133 2.33218 12.9825L4.00001 11.5L5.66782 12.9825C5.81498 13.1133 6.02521 13.1456 6.20483 13.0649C6.38444 12.9843 6.5 12.8057 6.5 12.6088V11C6.5 10.1716 5.82843 9.5 5 9.5H3Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M1 3C1 1.89543 1.89543 1 3 1H5C6.10457 1 7 1.89543 7 3V5C7 6.10457 6.10457 7 5 7H3C1.89543 7 1 6.10457 1 5V3ZM3 2C2.44772 2 2 2.44772 2 3V4.6088L3.66782 3.1263C3.85727 2.9579 4.14274 2.9579 4.33219 3.1263L6 4.6088V3C6 2.44772 5.55228 2 5 2H3ZM3 6C2.71829 6 2.46378 5.88351 2.28203 5.69607L4.00001 4.16898L5.71798 5.69607C5.53622 5.88351 5.28172 6 5 6H3Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path6"
 										Data="M1 11C1 9.89543 1.89543 9 3 9H5C6.10457 9 7 9.89543 7 11V13C7 14.1046 6.10457 15 5 15H3C1.89543 15 1 14.1046 1 13V11ZM3 10C2.44772 10 2 10.4477 2 11V12.6088L3.66782 11.1263C3.85727 10.9579 4.14274 10.9579 4.33219 11.1263L6 12.6088V11C6 10.4477 5.55228 10 5 10H3ZM5.71798 13.6961L4.00001 12.169L2.28203 13.6961C2.46378 13.8835 2.71829 14 3 14H5C5.28172 14 5.53622 13.8835 5.71798 13.6961Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path7"
 										Data="M9.5 4C9.22386 4 9 4.22386 9 4.5C9 4.77614 9.22386 5 9.5 5H14.5C14.7761 5 15 4.77614 15 4.5C15 4.22386 14.7761 4 14.5 4H9.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path8"
 										Data="M9 11.5C9 11.2239 9.22386 11 9.5 11H14.5C14.7761 11 15 11.2239 15 11.5C15 11.7761 14.7761 12 14.5 12H9.5C9.22386 12 9 11.7761 9 11.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1868,27 +1872,27 @@
 									<Path
 										x:Name="Path1"
 										Data="M5.25 4C4.55964 4 4 4.55964 4 5.25V9.75C4 10.4404 4.55964 11 5.25 11H9.75C10.4404 11 11 10.4404 11 9.75V5.25C11 4.55964 10.4404 4 9.75 4H5.25Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M5.25 17C4.55964 17 4 17.5596 4 18.25V22.75C4 23.4404 4.55964 24 5.25 24H9.75C10.4404 24 11 23.4404 11 22.75V18.25C11 17.5596 10.4404 17 9.75 17H5.25Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="F0 M29,28z M0,0z M10.1501,16C11.3928,16,12.4001,17.0074,12.4001,18.25L12.4001,22.75C12.4001,23.9926,11.3928,25,10.1501,25L5.65015,25C4.40751,25,3.40015,23.9926,3.40015,22.75L3.40015,18.25C3.40015,17.0074,4.40751,16,5.65015,16L10.1501,16z M10.1501,17.5L5.65015,17.5C5.23593,17.5,4.90015,17.8358,4.90015,18.25L4.90015,22.75C4.90015,23.1642,5.23593,23.5,5.65015,23.5L10.1501,23.5C10.5644,23.5,10.9001,23.1642,10.9001,22.75L10.9001,18.25C10.9001,17.8358,10.5644,17.5,10.1501,17.5z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="F0 M29,28z M0,0z M10.1501,3C11.3928,3,12.4001,4.00736,12.4001,5.25L12.4001,9.75C12.4001,10.9926,11.3928,12,10.1501,12L5.65015,12C4.40751,12,3.40015,10.9926,3.40015,9.75L3.40015,5.25C3.40015,4.00736,4.40751,3,5.65015,3L10.1501,3z M10.1501,4.5L5.65015,4.5C5.23593,4.5,4.90015,4.83579,4.90015,5.25L4.90015,9.75C4.90015,10.1642,5.23593,10.5,5.65015,10.5L10.1501,10.5C10.5644,10.5,10.9001,10.1642,10.9001,9.75L10.9001,5.25C10.9001,4.83579,10.5644,4.5,10.1501,4.5z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="F1 M29,28z M0,0z M14.4001,7.25C14.4001,6.83579,14.7359,6.5,15.1501,6.5L24.6501,6.5C25.0644,6.5 25.4001,6.83579 25.4001,7.25 25.4001,7.66421 25.0644,8 24.6501,8L15.1501,8C14.7359,8,14.4001,7.66421,14.4001,7.25z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path6"
 										Data="F1 M29,28z M0,0z M15.1501,19.5C14.7359,19.5 14.4001,19.8358 14.4001,20.25 14.4001,20.6642 14.7359,21 15.1501,21L24.6501,21C25.0644,21 25.4001,20.6642 25.4001,20.25 25.4001,19.8358 25.0644,19.5 24.6501,19.5L15.1501,19.5z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1899,10 +1903,10 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1926,28 +1930,28 @@
 									<Path
 										x:Name="Path1"
 										Data="M4.88315 8.88388C4.395 8.39572 3.60354 8.39572 3.11538 8.88388L1.38669 10.6126C1.26035 10.7389 1.21103 10.9231 1.25731 11.0957C1.3036 11.2682 1.43846 11.403 1.61107 11.4491C1.73544 11.4824 1.86568 11.5 1.99927 11.5H5.99927C6.13285 11.5 6.26309 11.4824 6.38746 11.4491C6.56007 11.403 6.69493 11.2682 6.74122 11.0957C6.78751 10.9231 6.73818 10.7389 6.61184 10.6126L4.88315 8.88388Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 									<Path
 										x:Name="Path2"
 										Data="M2 4.5C1.17157 4.5 0.5 5.17157 0.5 6V10C0.5 10.1336 0.517586 10.2638 0.550846 10.3882C0.597006 10.5608 0.731767 10.6957 0.904344 10.742C1.07692 10.7882 1.26108 10.7389 1.38743 10.6126L3.11612 8.88388C3.60427 8.39573 4.39573 8.39573 4.88388 8.88388L6.61258 10.6126C6.73892 10.7389 6.92308 10.7882 7.09566 10.742C7.26823 10.6957 7.40299 10.5608 7.44915 10.3882C7.48241 10.2638 7.5 10.1336 7.5 10V6C7.5 5.17157 6.82843 4.5 6 4.5H2Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M6.25 6.5C6.25 6.91421 5.91421 7.25 5.5 7.25C5.08579 7.25 4.75 6.91421 4.75 6.5C4.75 6.08579 5.08579 5.75 5.5 5.75C5.91421 5.75 6.25 6.08579 6.25 6.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M2 4C0.895431 4 0 4.89543 0 6V10C0 11.1046 0.895431 12 2 12H6C7.10457 12 8 11.1046 8 10V6C8 4.89543 7.10457 4 6 4H2ZM1 6C1 5.44772 1.44772 5 2 5H6C6.55228 5 7 5.44772 7 6V10C7 10.0896 6.98822 10.1764 6.96613 10.259L5.23744 8.53033C4.55402 7.84691 3.44598 7.84691 2.76256 8.53033L1.03387 10.259C1.01178 10.1764 1 10.0896 1 10V6ZM1.74098 10.9661L3.46967 9.23744C3.76256 8.94454 4.23744 8.94454 4.53033 9.23744L6.25902 10.9661C6.17641 10.9882 6.08958 11 6 11H2C1.91042 11 1.82359 10.9882 1.74098 10.9661Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M10 6.5C10 6.22386 10.2239 6 10.5 6H15.5C15.7761 6 16 6.22386 16 6.5C16 6.77614 15.7761 7 15.5 7H10.5C10.2239 7 10 6.77614 10 6.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path6"
 										Data="M10 9.5C10 9.22386 10.2239 9 10.5 9H15.5C15.7761 9 16 9.22386 16 9.5C16 9.77614 15.7761 10 15.5 10H10.5C10.2239 10 10 9.77614 10 9.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1976,19 +1980,19 @@
 									<Path
 										x:Name="Path1"
 										Data="M5.25 10C4.55964 10 4 10.5596 4 11.25V15.75C4 16.4404 4.55964 17 5.25 17H9.75C10.4404 17 11 16.4404 11 15.75V11.25C11 10.5596 10.4404 10 9.75 10H5.25Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M12 11.25C12 10.0074 10.9926 9 9.75 9H5.25C4.00736 9 3 10.0074 3 11.25V15.75C3 16.9926 4.00736 18 5.25 18H9.75C10.9926 18 12 16.9926 12 15.75V11.25ZM5.25 10.5H9.75C10.1642 10.5 10.5 10.8358 10.5 11.25V15.75C10.5 16.1642 10.1642 16.5 9.75 16.5H5.25C4.83579 16.5 4.5 16.1642 4.5 15.75V11.25C4.5 10.8358 4.83579 10.5 5.25 10.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M14.75 10.5C14.3358 10.5 14 10.8358 14 11.25C14 11.6642 14.3358 12 14.75 12H24.25C24.6642 12 25 11.6642 25 11.25C25 10.8358 24.6642 10.5 24.25 10.5H14.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M14.75 14.5C14.3358 14.5 14 14.8358 14 15.25C14 15.6642 14.3358 16 14.75 16H21.25C21.6642 16 22 15.6642 22 15.25C22 14.8358 21.6642 14.5 21.25 14.5H14.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -1998,9 +2002,9 @@
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2024,37 +2028,37 @@
 									<Path
 										x:Name="Path1"
 										Data="M4.33141 5.79527C4.14197 5.62688 3.85649 5.62688 3.66705 5.79527L1.94907 7.32236C1.84715 7.41296 1.78665 7.54126 1.78159 7.67754C1.77654 7.81381 1.82737 7.94624 1.9223 8.04414C2.19433 8.32468 2.57674 8.5 2.99922 8.5H4.99922C5.42171 8.5 5.80412 8.32468 6.07616 8.04413C6.17109 7.94623 6.22191 7.8138 6.21686 7.67753C6.2118 7.54125 6.15131 7.41296 6.04939 7.32236L4.33141 5.79527Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 									<Path
 										x:Name="Path2"
 										Data="M12.3314 5.79527C12.142 5.62688 11.8565 5.62688 11.667 5.79527L9.94907 7.32236C9.84715 7.41296 9.78665 7.54126 9.7816 7.67754C9.77654 7.81381 9.82737 7.94624 9.9223 8.04414C10.1943 8.32468 10.5767 8.5 10.9992 8.5H12.9992C13.4217 8.5 13.8041 8.32468 14.0762 8.04413C14.1711 7.94623 14.2219 7.8138 14.2169 7.67753C14.2118 7.54125 14.1513 7.41296 14.0494 7.32236L12.3314 5.79527Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 									<Path
 										x:Name="Path3"
 										Data="M3 3.5C2.17157 3.5 1.5 4.17157 1.5 5V6.6088C1.5 6.8057 1.61556 6.98427 1.79517 7.06492C1.97479 7.14558 2.18502 7.11332 2.33218 6.98251L4.00001 5.5L5.66782 6.9825C5.81498 7.11331 6.02521 7.14558 6.20483 7.06492C6.38444 6.98426 6.5 6.80569 6.5 6.6088V5C6.5 4.17157 5.82843 3.5 5 3.5H3Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M11 3.5C10.1716 3.5 9.5 4.17157 9.5 5V6.60881C9.5 6.8057 9.61555 6.98427 9.79517 7.06493C9.97479 7.14558 10.185 7.11332 10.3322 6.98251L12 5.5L13.6678 6.9825C13.815 7.11331 14.0252 7.14557 14.2048 7.06491C14.3844 6.98426 14.5 6.80569 14.5 6.60879V5C14.5 4.17157 13.8284 3.5 13 3.5H11Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M1 5C1 3.89543 1.89543 3 3 3H5C6.10457 3 7 3.89543 7 5V7C7 8.10457 6.10457 9 5 9H3C1.89543 9 1 8.10457 1 7V5ZM3 4C2.44772 4 2 4.44772 2 5V6.6088L3.66782 5.1263C3.85727 4.9579 4.14274 4.9579 4.33219 5.1263L6 6.6088V5C6 4.44772 5.55228 4 5 4H3ZM3 8C2.71829 8 2.46378 7.88351 2.28203 7.69607L4.00001 6.16898L5.71798 7.69607C5.53622 7.88351 5.28172 8 5 8H3Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path6"
 										Data="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7C15 8.10457 14.1046 9 13 9H11C9.89543 9 9 8.10457 9 7V5ZM11 4C10.4477 4 10 4.44772 10 5V6.60881L11.6678 5.1263C11.8573 4.9579 12.1427 4.9579 12.3322 5.1263L14 6.60879V5C14 4.44772 13.5523 4 13 4H11ZM13.718 7.69607L12 6.16898L10.282 7.69607C10.4638 7.88351 10.7183 8 11 8H13C13.2817 8 13.5362 7.88351 13.718 7.69607Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path7"
 										Data="M1.5 12C1.22386 12 1 12.2239 1 12.5C1 12.7761 1.22386 13 1.5 13H6.5C6.77614 13 7 12.7761 7 12.5C7 12.2239 6.77614 12 6.5 12H1.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path8"
 										Data="M9 12.5C9 12.2239 9.22386 12 9.5 12H14.5C14.7761 12 15 12.2239 15 12.5C15 12.7761 14.7761 13 14.5 13H9.5C9.22386 13 9 12.7761 9 12.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2083,11 +2087,11 @@
 									<Path
 										x:Name="Path1"
 										Data="M9.75 17.5H5.25C4.83579 17.5 4.5 17.8358 4.5 18.25V22.75C4.5 23.1642 4.83579 23.5 5.25 23.5H9.75C10.1642 23.5 10.5 23.1642 10.5 22.75V18.25C10.5 17.8358 10.1642 17.5 9.75 17.5ZM22.75 17.5H18.25C17.8358 17.5 17.5 17.8358 17.5 18.25V22.75C17.5 23.1642 17.8358 23.5 18.25 23.5H22.75C23.1642 23.5 23.5 23.1642 23.5 22.75V18.25C23.5 17.8358 23.1642 17.5 22.75 17.5ZM9.75 4.5H5.25C4.83579 4.5 4.5 4.83579 4.5 5.25V9.75C4.5 10.1642 4.83579 10.5 5.25 10.5H9.75C10.1642 10.5 10.5 10.1642 10.5 9.75V5.25C10.5 4.83579 10.1642 4.5 9.75 4.5ZM22.75 4.5H18.25C17.8358 4.5 17.5 4.83579 17.5 5.25V9.75C17.5 10.1642 17.8358 10.5 18.25 10.5H22.75C23.1642 10.5 23.5 10.1642 23.5 9.75V5.25C23.5 4.83579 23.1642 4.5 22.75 4.5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M9.75 16C10.9926 16 12 17.0074 12 18.25V22.75C12 23.9926 10.9926 25 9.75 25H5.25C4.00736 25 3 23.9926 3 22.75V18.25C3 17.0074 4.00736 16 5.25 16H9.75ZM22.75 16C23.9926 16 25 17.0074 25 18.25V22.75C25 23.9926 23.9926 25 22.75 25H18.25C17.0074 25 16 23.9926 16 22.75V18.25C16 17.0074 17.0074 16 18.25 16H22.75ZM9.75 17.5H5.25C4.83579 17.5 4.5 17.8358 4.5 18.25V22.75C4.5 23.1642 4.83579 23.5 5.25 23.5H9.75C10.1642 23.5 10.5 23.1642 10.5 22.75V18.25C10.5 17.8358 10.1642 17.5 9.75 17.5ZM22.75 17.5H18.25C17.8358 17.5 17.5 17.8358 17.5 18.25V22.75C17.5 23.1642 17.8358 23.5 18.25 23.5H22.75C23.1642 23.5 23.5 23.1642 23.5 22.75V18.25C23.5 17.8358 23.1642 17.5 22.75 17.5ZM9.75 3C10.9926 3 12 4.00736 12 5.25V9.75C12 10.9926 10.9926 12 9.75 12H5.25C4.00736 12 3 10.9926 3 9.75V5.25C3 4.00736 4.00736 3 5.25 3H9.75ZM22.75 3C23.9926 3 25 4.00736 25 5.25V9.75C25 10.9926 23.9926 12 22.75 12H18.25C17.0074 12 16 10.9926 16 9.75V5.25C16 4.00736 17.0074 3 18.25 3H22.75ZM9.75 4.5H5.25C4.83579 4.5 4.5 4.83579 4.5 5.25V9.75C4.5 10.1642 4.83579 10.5 5.25 10.5H9.75C10.1642 10.5 10.5 10.1642 10.5 9.75V5.25C10.5 4.83579 10.1642 4.5 9.75 4.5ZM22.75 4.5H18.25C17.8358 4.5 17.5 4.83579 17.5 5.25V9.75C17.5 10.1642 17.8358 10.5 18.25 10.5H22.75C23.1642 10.5 23.5 10.1642 23.5 9.75V5.25C23.5 4.83579 23.1642 4.5 22.75 4.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2097,7 +2101,7 @@
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2121,7 +2125,7 @@
 									<Path
 										Name="Path1"
 										Data="M6.5 3H1.5C1.22386 3 1 3.22386 1 3.5C1 3.77614 1.22386 4 1.5 4H6.5C6.77614 4 7 3.77614 7 3.5C7 3.22386 6.77614 3 6.5 3ZM9.5 3H14.5C14.7761 3 15 3.22386 15 3.5C15 3.77614 14.7761 4 14.5 4H9.5C9.22386 4 9 3.77614 9 3.5C9 3.22386 9.22386 3 9.5 3ZM1.5 6H6.5C6.77614 6 7 6.22386 7 6.5C7 6.77614 6.77614 7 6.5 7H1.5C1.22386 7 1 6.77614 1 6.5C1 6.22386 1.22386 6 1.5 6ZM14.5 6H9.5C9.22386 6 9 6.22386 9 6.5C9 6.77614 9.22386 7 9.5 7H14.5C14.7761 7 15 6.77614 15 6.5C15 6.22386 14.7761 6 14.5 6ZM9.5 9H14.5C14.7761 9 15 9.22386 15 9.5C15 9.77614 14.7761 10 14.5 10H9.5C9.22386 10 9 9.77614 9 9.5C9 9.22386 9.22386 9 9.5 9ZM6.5 9H1.5C1.22386 9 1 9.22386 1 9.5C1 9.77614 1.22386 10 1.5 10H6.5C6.77614 10 7 9.77614 7 9.5C7 9.22386 6.77614 9 6.5 9ZM1.5 12H6.5C6.77614 12 7 12.2239 7 12.5C7 12.7761 6.77614 13 6.5 13H1.5C1.22386 13 1 12.7761 1 12.5C1 12.2239 1.22386 12 1.5 12ZM14.5 12H9.5C9.22386 12 9 12.2239 9 12.5C9 12.7761 9.22386 13 9.5 13H14.5C14.7761 13 15 12.7761 15 12.5C15 12.2239 14.7761 12 14.5 12Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2150,7 +2154,7 @@
 									<Path
 										Name="Path1"
 										Data="M3 6.25C3 5.83579 3.33579 5.5 3.75 5.5H12.25C12.6642 5.5 13 5.83579 13 6.25C13 6.66421 12.6642 7 12.25 7H3.75C3.33579 7 3 6.66421 3 6.25ZM3 11.25C3 10.8358 3.33579 10.5 3.75 10.5H12.25C12.6642 10.5 13 10.8358 13 11.25C13 11.6642 12.6642 12 12.25 12H3.75C3.33579 12 3 11.6642 3 11.25ZM3 16.25C3 15.8358 3.33579 15.5 3.75 15.5H12.25C12.6642 15.5 13 15.8358 13 16.25C13 16.6642 12.6642 17 12.25 17H3.75C3.33579 17 3 16.6642 3 16.25ZM3 21.25C3 20.8358 3.33579 20.5 3.75 20.5H12.25C12.6642 20.5 13 20.8358 13 21.25C13 21.6642 12.6642 22 12.25 22H3.75C3.33579 22 3 21.6642 3 21.25ZM15 6.25C15 5.83579 15.3358 5.5 15.75 5.5H24.25C24.6642 5.5 25 5.83579 25 6.25C25 6.66421 24.6642 7 24.25 7H15.75C15.3358 7 15 6.66421 15 6.25ZM15 11.25C15 10.8358 15.3358 10.5 15.75 10.5H24.25C24.6642 10.5 25 10.8358 25 11.25C25 11.6642 24.6642 12 24.25 12H15.75C15.3358 12 15 11.6642 15 11.25ZM15 16.25C15 15.8358 15.3358 15.5 15.75 15.5H24.25C24.6642 15.5 25 15.8358 25 16.25C25 16.6642 24.6642 17 24.25 17H15.75C15.3358 17 15 16.6642 15 16.25ZM15 21.25C15 20.8358 15.3358 20.5 15.75 20.5H24.25C24.6642 20.5 25 20.8358 25 21.25C25 21.6642 24.6642 22 24.25 22H15.75C15.3358 22 15 21.6642 15 21.25Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2159,7 +2163,7 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2183,50 +2187,50 @@
 									<Path
 										Name="Path1"
 										Data="M5 2.75H7C7.69036 2.75 8.25 3.30964 8.25 4V6C8.25 6.69036 7.69036 7.25 7 7.25H5C4.30964 7.25 3.75 6.69036 3.75 6V4C3.75 3.30964 4.30964 2.75 5 2.75Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".80" />
 
 									<Path
 										Name="Path2"
 										Data="M7 11.75H5C4.30964 11.75 3.75 12.3096 3.75 13V15C3.75 15.6904 4.30964 16.25 5 16.25H7C7.69036 16.25 8.25 15.6904 8.25 15V13C8.25 12.3096 7.69036 11.75 7 11.75Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".80" />
 
 									<Path
 										Name="Path3"
 										Data="M5 20.75H7C7.69036 20.75 8.25 21.3096 8.25 22V24C8.25 24.6904 7.69036 25.25 7 25.25H5C4.30964 25.25 3.75 24.6904 3.75 24V22C3.75 21.3096 4.30964 20.75 5 20.75Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".80" />
 
 									<Path
 										Name="Path4"
 										Data="M5 2C3.89543 2 3 2.89543 3 4V6C3 7.10457 3.89543 8 5 8H7C8.10457 8 9 7.10457 9 6V4C9 2.89543 8.10457 2 7 2H5ZM7 3.5H5C4.72386 3.5 4.5 3.72386 4.5 4V6C4.5 6.27614 4.72386 6.5 5 6.5H7C7.27614 6.5 7.5 6.27614 7.5 6V4C7.5 3.72386 7.27614 3.5 7 3.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path5"
 										Data="M3 13C3 11.8954 3.89543 11 5 11H7C8.10457 11 9 11.8954 9 13V15C9 16.1046 8.10457 17 7 17H5C3.89543 17 3 16.1046 3 15V13ZM5 12.5H7C7.27614 12.5 7.5 12.7239 7.5 13V15C7.5 15.2761 7.27614 15.5 7 15.5H5C4.72386 15.5 4.5 15.2761 4.5 15V13C4.5 12.7239 4.72386 12.5 5 12.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path6"
 										Data="M3 22C3 20.8954 3.89543 20 5 20H7C8.10457 20 9 20.8954 9 22V24C9 25.1046 8.10457 26 7 26H5C3.89543 26 3 25.1046 3 24V22ZM5 21.5H7C7.27614 21.5 7.5 21.7239 7.5 22V24C7.5 24.2761 7.27614 24.5 7 24.5H5C4.72386 24.5 4.5 24.2761 4.5 24V22C4.5 21.7239 4.72386 21.5 5 21.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path7"
 										Data="M12.75 4C12.3358 4 12 4.33579 12 4.75C12 5.16421 12.3358 5.5 12.75 5.5H24.25C24.6642 5.5 25 5.16421 25 4.75C25 4.33579 24.6642 4 24.25 4H12.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path8"
 										Data="M12 13.75C12 13.3358 12.3358 13 12.75 13H24.25C24.6642 13 25 13.3358 25 13.75C25 14.1642 24.6642 14.5 24.25 14.5H12.75C12.3358 14.5 12 14.1642 12 13.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path9"
 										Data="M12.75 22C12.3358 22 12 22.3358 12 22.75C12 23.1642 12.3358 23.5 12.75 23.5H24.25C24.6642 23.5 25 23.1642 25 22.75C25 22.3358 24.6642 22 24.25 22H12.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2235,15 +2239,15 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path7.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path8.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path9.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path7.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path8.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path9.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2267,34 +2271,34 @@
 									<Path
 										Name="Path1"
 										Data="M6.25 8C5.55964 8 5 8.55964 5 9.25V12.75C5 13.4404 5.55964 14 6.25 14H9.75C10.4404 14 11 13.4404 11 12.75V9.25C11 8.55964 10.4404 8 9.75 8H6.25Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".80" />
 
 									<Path
 										Name="Path2"
 										Data="M18.25 8C17.5596 8 17 8.55964 17 9.25V12.75C17 13.4404 17.5596 14 18.25 14H21.75C22.4404 14 23 13.4404 23 12.75V9.25C23 8.55964 22.4404 8 21.75 8H18.25Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".80" />
 
 									<Path
 										Name="Path3"
 										Data="M12 9.25C12 8.00736 10.9926 7 9.75 7H6.25C5.00736 7 4 8.00736 4 9.25V12.75C4 13.9926 5.00736 15 6.25 15H9.75C10.9926 15 12 13.9926 12 12.75V9.25ZM6.25 8.5H9.75C10.1642 8.5 10.5 8.83579 10.5 9.25V12.75C10.5 13.1642 10.1642 13.5 9.75 13.5H6.25C5.83579 13.5 5.5 13.1642 5.5 12.75V9.25C5.5 8.83579 5.83579 8.5 6.25 8.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path4"
 										Data="M24 9.25C24 8.00736 22.9926 7 21.75 7H18.25C17.0074 7 16 8.00736 16 9.25V12.75C16 13.9926 17.0074 15 18.25 15H21.75C22.9926 15 24 13.9926 24 12.75V9.25ZM18.25 8.5H21.75C22.1642 8.5 22.5 8.83579 22.5 9.25V12.75C22.5 13.1642 22.1642 13.5 21.75 13.5H18.25C17.8358 13.5 17.5 13.1642 17.5 12.75V9.25C17.5 8.83579 17.8358 8.5 18.25 8.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path5"
 										Data="M3 19.25C3 18.8358 3.33579 18.5 3.75 18.5H12.25C12.6642 18.5 13 18.8358 13 19.25C13 19.6642 12.6642 20 12.25 20H3.75C3.33579 20 3 19.6642 3 19.25Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path6"
 										Data="M15.75 18.5C15.3358 18.5 15 18.8358 15 19.25C15 19.6642 15.3358 20 15.75 20H24.25C24.6642 20 25 19.6642 25 19.25C25 18.8358 24.6642 18.5 24.25 18.5H15.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2303,12 +2307,12 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2332,34 +2336,34 @@
 									<Path
 										Name="Path1"
 										Data="M10.5 5.5C9.94772 5.5 9.5 5.94771 9.5 6.5V13.068C9.5 13.2703 9.62182 13.4526 9.80866 13.53C9.9955 13.6074 10.2106 13.5646 10.3536 13.4216L12.7626 11.0126C13.446 10.3291 14.554 10.3291 15.2374 11.0126L17.6464 13.4216C17.7894 13.5646 18.0045 13.6074 18.1913 13.53C18.3782 13.4526 18.5 13.2703 18.5 13.068V6.5C18.5 5.94772 18.0523 5.5 17.5 5.5H10.5Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".80" />
 
 									<Path
 										Name="Path2"
 										Data="M17.1643 13.6464L14.884 11.3661C14.3959 10.878 13.6044 10.878 13.1162 11.3661L10.8359 13.6464C10.6929 13.7894 10.6501 14.0045 10.7275 14.1913C10.8049 14.3782 10.9872 14.5 11.1895 14.5H16.8108C17.013 14.5 17.1953 14.3782 17.2727 14.1913C17.3501 14.0045 17.3073 13.7894 17.1643 13.6464Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 
 									<Path
 										Name="Path3"
 										Data="M16 7C15.4477 7 15 7.44772 15 8C15 8.55228 15.4477 9 16 9C16.5523 9 17 8.55228 17 8C17 7.44772 16.5523 7 16 7Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path4"
 										Data="M8.5 6.25C8.5 5.2835 9.2835 4.5 10.25 4.5H17.75C18.7165 4.5 19.5 5.2835 19.5 6.25V13.75C19.5 14.7165 18.7165 15.5 17.75 15.5H10.25C9.2835 15.5 8.5 14.7165 8.5 13.75V6.25ZM12.409 10.659L10 13.068V6.5C10 6.22386 10.2239 6 10.5 6H17.5C17.7761 6 18 6.22386 18 6.5V13.068L15.591 10.659C14.7123 9.78033 13.2877 9.78033 12.409 10.659ZM14.5303 11.7197L16.8107 14H11.1893L13.4697 11.7197C13.7626 11.4268 14.2374 11.4268 14.5303 11.7197Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path5"
 										Data="M6.75 18C6.33579 18 6 18.3358 6 18.75C6 19.1642 6.33579 19.5 6.75 19.5H21.25C21.6642 19.5 22 19.1642 22 18.75C22 18.3358 21.6642 18 21.25 18H6.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path6"
 										Data="M8 22.75C8 22.3358 8.33579 22 8.75 22H19.25C19.6642 22 20 22.3358 20 22.75C20 23.1642 19.6642 23.5 19.25 23.5H8.75C8.33579 23.5 8 23.1642 8 22.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2368,13 +2372,13 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
 												<Setter Target="Path2.Opacity" Value=".20" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2398,29 +2402,29 @@
 									<Path
 										Name="Path1"
 										Data="M9.75 5C8.50736 5 7.5 6.00736 7.5 7.25V15.75C7.5 16.0175 7.54691 16.2752 7.63337 16.5146L7.8966 17.2432L12.7799 12.4967C13.4227 11.8717 14.4262 11.8382 15.1073 12.3963L15.2268 12.5036L20.1026 17.2439L20.3662 16.5158C20.4529 16.2761 20.5 16.018 20.5 15.75V7.25C20.5 6.00736 19.4926 5 18.25 5H9.75Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".80" />
 
 									<Path
 										Name="Path2"
 										Data="M14.8703 12.8552C14.4334 12.4304 13.7643 12.3884 13.2808 12.7282L13.2645 12.7397L13.1417 12.8414L8.24219 17.6063L9.00411 17.8736C9.23795 17.9556 9.48891 18 9.74917 18H18.2492C18.5094 18 18.7604 17.9556 18.9942 17.8736L19.7562 17.6062L14.8703 12.8552Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 
 									<Path
 										Name="Path3"
 										Data="M17.7497 9.00045C17.7497 8.31048 17.1904 7.75116 16.5004 7.75116C15.8105 7.75116 15.2512 8.31048 15.2512 9.00045C15.2512 9.69041 15.8105 10.2497 16.5004 10.2497C17.1904 10.2497 17.7497 9.69041 17.7497 9.00045Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path4"
 										Data="M21.5 7.25C21.5 5.45507 20.0449 4 18.25 4H9.75C7.95507 4 6.5 5.45507 6.5 7.25V15.75C6.5 17.5449 7.95507 19 9.75 19H18.25C20.0449 19 21.5 17.5449 21.5 15.75V7.25ZM13.477 13.2137L13.5691 13.1373C13.859 12.9335 14.2606 12.959 14.5226 13.2137L18.8295 17.4018C18.6481 17.4654 18.4531 17.5 18.25 17.5H9.75C9.54688 17.5 9.35185 17.4654 9.17047 17.4018L13.477 13.2137ZM9.75 5.5H18.25C19.2165 5.5 20 6.2835 20 7.25V15.75C20 15.9592 19.9633 16.1597 19.896 16.3457L15.5682 12.1382L15.4335 12.0172C14.5572 11.2913 13.261 11.3316 12.4313 12.1382L8.10363 16.3447C8.03656 16.159 8 15.9588 8 15.75V7.25C8 6.2835 8.7835 5.5 9.75 5.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path5"
 										Data="M4 23.25C4 22.8358 4.33579 22.5 4.75 22.5H23.25C23.6642 22.5 24 22.8358 24 23.25C24 23.6642 23.6642 24 23.25 24H4.75C4.33579 24 4 23.6642 4 23.25Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2429,12 +2433,12 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
 												<Setter Target="Path2.Opacity" Value=".20" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2458,30 +2462,30 @@
 									<Path
 										Name="Path1"
 										Data="M7.75 3C6.50736 3 5.5 4.00736 5.5 5.25V17.75C5.5 18.0166 5.54657 18.2733 5.63244 18.512L5.89619 19.2449L12.7753 12.5087C13.4209 11.8763 14.4344 11.844 15.1172 12.412L15.2311 12.5154L22.103 19.2456L22.3671 18.5133C22.4533 18.2743 22.5 18.017 22.5 17.75V5.25C22.5 4.00736 21.4926 3 20.25 3H7.75Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".80" />
 
 									<Path
 										Name="Path2"
 										Data="M14.8737 12.8659C14.4316 12.4329 13.7492 12.394 13.2633 12.7482L13.2486 12.759L13.1373 12.8532L6.24414 19.6058L7.00161 19.8726C7.23618 19.9552 7.48803 20 7.74926 20H20.2493C20.5105 20 20.7623 19.9552 20.9969 19.8726L21.7544 19.6058L14.8737 12.8659Z"
-										Fill="{ThemeResource Local.IconBaseBrush}"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}"
 										Opacity=".30" />
 
 
 									<Path
 										Name="Path3"
 										Data="M18.7497 8.00045C18.7497 7.31048 18.1904 6.75116 17.5004 6.75116C16.8105 6.75116 16.2512 7.31048 16.2512 8.00045C16.2512 8.69041 16.8105 9.24974 17.5004 9.24974C18.1904 9.24974 18.7497 8.69041 18.7497 8.00045Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path4"
 										Data="M23.5 5.25C23.5 3.45507 22.0449 2 20.25 2H7.75C5.95507 2 4.5 3.45507 4.5 5.25V17.75C4.5 19.5449 5.95507 21 7.75 21H20.25C22.0449 21 23.5 19.5449 23.5 17.75V5.25ZM14.5246 13.2231L20.8315 19.4011C20.6496 19.4651 20.4539 19.5 20.25 19.5H7.75C7.54613 19.5 7.3504 19.4651 7.16845 19.4011L13.475 13.2231L13.5586 13.1523C13.8499 12.9399 14.2595 12.9635 14.5246 13.2231ZM7.75 3.5H20.25C21.2165 3.5 22 4.2835 22 5.25V17.75C22 17.9584 21.9636 18.1583 21.8967 18.3437L15.5741 12.1515L15.4457 12.0349C14.5673 11.2967 13.2585 11.3355 12.4254 12.1515L6.1029 18.3427C6.0363 18.1576 6 17.958 6 17.75V5.25C6 4.2835 6.7835 3.5 7.75 3.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 
 									<Path
 										Name="Path5"
 										Data="M4.75 24.5C4.33579 24.5 4 24.8358 4 25.25C4 25.6642 4.33579 26 4.75 26H23.25C23.6642 26 24 25.6642 24 25.25C24 24.8358 23.6642 24.5 23.25 24.5H4.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Canvas>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2490,12 +2494,12 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
 												<Setter Target="Path2.Opacity" Value=".20" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2523,7 +2527,7 @@
 									<Path
 										x:Name="Path2"
 										Data="M4.5 0C3.11929 0 2 1.11929 2 2.5V13.5C2 14.8807 3.11929 16 4.5 16H11.5C12.8807 16 14 14.8807 14 13.5V5.82843C14 5.16539 13.7366 4.5295 13.2678 4.06066L9.93934 0.732233C9.4705 0.263392 8.83461 0 8.17157 0H4.5ZM3 2.5C3 1.67157 3.67157 1 4.5 1H8V4.5C8 5.32843 8.67157 6 9.5 6H13V13.5C13 14.3284 12.3284 15 11.5 15H4.5C3.67157 15 3 14.3284 3 13.5V2.5ZM12.7505 5H9.5C9.22386 5 9 4.77614 9 4.5V1.24951C9.08295 1.30446 9.16082 1.36793 9.23223 1.43934L12.5607 4.76777C12.6321 4.83918 12.6955 4.91705 12.7505 5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M9.5 4.99999H12.7929L9 1.20709V4.49999C9 4.77613 9.22386 4.99999 9.5 4.99999Z"
@@ -2532,7 +2536,7 @@
 									<Path
 										x:Name="Path4"
 										Data="M4 8C4 7.44772 4.44772 7 5 7H6C6.55228 7 7 7.44772 7 8V9C7 9.55228 6.55228 10 6 10H5C4.44772 10 4 9.55228 4 9V8ZM4 12C4 11.4477 4.44772 11 5 11H6C6.55228 11 7 11.4477 7 12V13C7 13.5523 6.55228 14 6 14H5C4.44772 14 4 13.5523 4 13V12ZM8 12.5C8 12.2239 8.22386 12 8.5 12H11.5C11.7761 12 12 12.2239 12 12.5C12 12.7761 11.7761 13 11.5 13H8.5C8.22386 13 8 12.7761 8 12.5ZM8 8.5C8 8.22386 8.22386 8 8.5 8H11.5C11.7761 8 12 8.22386 12 8.5C12 8.77614 11.7761 9 11.5 9H8.5C8.22386 9 8 8.77614 8 8.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2541,10 +2545,10 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2572,11 +2576,11 @@
 									<Path
 										x:Name="Path2"
 										Data="M7.72265 0.0839749C7.8906 -0.0279916 8.1094 -0.0279916 8.27735 0.0839749C10.2155 1.3761 12.3117 2.1823 14.5707 2.50503C14.817 2.54021 15 2.75117 15 3V7.5C15 11.3913 12.693 14.2307 8.17949 15.9667C8.06396 16.0111 7.93604 16.0111 7.82051 15.9667C3.30699 14.2307 1 11.3913 1 7.5V3C1 2.75117 1.18297 2.54021 1.42929 2.50503C3.68833 2.1823 5.78446 1.3761 7.72265 0.0839749ZM7.59914 1.34583C5.85275 2.39606 3.98541 3.09055 2 3.42787V7.5C2 10.892 3.96795 13.3634 8 14.9632C12.0321 13.3634 14 10.892 14 7.5V3.42787C12.0146 3.09055 10.1473 2.39606 8.40086 1.34583L8 1.09715L7.59914 1.34583Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M9.5 7C9.5 7.65311 9.0826 8.20873 8.5 8.41465V10.5C8.5 10.7761 8.27614 11 8 11C7.72386 11 7.5 10.7761 7.5 10.5V8.41465C6.9174 8.20873 6.5 7.65311 6.5 7C6.5 6.17157 7.17157 5.5 8 5.5C8.82843 5.5 9.5 6.17157 9.5 7Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2585,9 +2589,9 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2615,11 +2619,11 @@
 									<Path
 										x:Name="Path2"
 										Data="M3.5 1C2.11929 1 1 2.11929 1 3.5V10.5C1 11.8807 2.11929 13 3.5 13H5.5C5.77614 13 6 12.7761 6 12.5V12H3.5C2.67157 12 2 11.3284 2 10.5V5H12V6H12.5C12.7761 6 13 5.77614 13 5.5V3.5C13 2.11929 11.8807 1 10.5 1H3.5ZM12 4H2V3.5C2 2.67157 2.67157 2 3.5 2H10.5C11.3284 2 12 2.67157 12 3.5V4Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M9 7.5C9 7.22386 9.22386 7 9.5 7C9.77614 7 10 7.22386 10 7.5V9H12V7.5C12 7.22386 12.2239 7 12.5 7C12.7761 7 13 7.22386 13 7.5V9H14.5C14.7761 9 15 9.22386 15 9.5C15 9.77614 14.7761 10 14.5 10H13V12H14.5C14.7761 12 15 12.2239 15 12.5C15 12.7761 14.7761 13 14.5 13H13V14.5C13 14.7761 12.7761 15 12.5 15C12.2239 15 12 14.7761 12 14.5V13H10V14.5C10 14.7761 9.77614 15 9.5 15C9.22386 15 9 14.7761 9 14.5V13H7.5C7.22386 13 7 12.7761 7 12.5C7 12.2239 7.22386 12 7.5 12H9V10H7.5C7.22386 10 7 9.77614 7 9.5C7 9.22386 7.22386 9 7.5 9H9V7.5ZM12 10V12H10V10H12Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2628,9 +2632,9 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2658,11 +2662,11 @@
 									<Path
 										x:Name="Path2"
 										Data="M1.58579 1.58579C1.96086 1.21071 2.46957 1 3 1H13C13.5304 1 14.0391 1.21071 14.4142 1.58579C14.7893 1.96086 15 2.46957 15 3V13C15 13.5304 14.7893 14.0391 14.4142 14.4142C14.0391 14.7893 13.5304 15 13 15H3C2.46957 15 1.96086 14.7893 1.58579 14.4142C1.21071 14.0391 1 13.5304 1 13C1 9.42935 1 3 1 3C1 2.46957 1.21071 1.96086 1.58579 1.58579ZM2.29289 2.29289C2.10536 2.48043 2 2.73478 2 3V13C2 13.2652 2.10536 13.5196 2.29289 13.7071C2.48043 13.8946 2.73478 14 3 14H13C13.2652 14 13.5196 13.8946 13.7071 13.7071C13.8946 13.5196 14 13.2652 14 13V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.73478 2 2.48043 2.10536 2.29289 2.29289Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M6.00063 4.5C6.00063 4.36739 6.05331 4.24021 6.14708 4.14645C6.24085 4.05268 6.36802 4 6.50063 4H11.5006C11.6332 4 11.7604 4.05268 11.8542 4.14645C11.948 4.24021 12.0006 4.36739 12.0006 4.5V9.5C12.0006 9.63261 11.948 9.75979 11.8542 9.85355C11.7604 9.94732 11.6332 10 11.5006 10C11.368 10 11.2408 9.94732 11.1471 9.85355C11.0533 9.75979 11.0006 9.63261 11.0006 9.5V5.707L4.85463 11.854C4.76075 11.9479 4.63341 12.0006 4.50063 12.0006C4.36786 12.0006 4.24052 11.9479 4.14663 11.854C4.05275 11.7601 4 11.6328 4 11.5C4 11.3672 4.05275 11.2399 4.14663 11.146L10.2936 5H6.50063C6.36802 5 6.24085 4.94732 6.14708 4.85355C6.05331 4.75979 6.00063 4.63261 6.00063 4.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2671,9 +2675,9 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2706,15 +2710,15 @@
 									<Path
 										x:Name="Path3"
 										Data="M1 3V9C1 10.105 1.895 11 3 11H11C12.105 11 13 10.105 13 9V4C13 2.895 12.105 2 11 2H6.175L5.062 1.11C4.973 1.039 4.863 1 4.75 1H3C1.895 1 1 1.895 1 3ZM2 3C2 2.448 2.448 2 3 2H4.575L5.443 2.694L4.557 3.499H2V3ZM6.593 3H11C11.552 3 12 3.448 12 4V9C12 9.552 11.552 10 11 10H3C2.448 10 2 9.552 2 9V4.5H4.75C4.874 4.5 4.994 4.454 5.086 4.37L6.593 3Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M14 4.27002V9.00002C14 10.65 12.65 12 11 12H3.27002C3.62002 12.6 4.26002 13 5.00002 13H11C13.21 13 15 11.21 15 9.00002V6.00002C15 5.26002 14.6 4.62002 14 4.27002Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M0.5 14C0.223858 14 0 14.2239 0 14.5C0 14.7761 0.223858 15 0.5 15H15.5C15.7761 15 16 14.7761 16 14.5C16 14.2239 15.7761 14 15.5 14H0.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2723,11 +2727,11 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2755,11 +2759,11 @@
 									<Path
 										x:Name="Path2"
 										Data="M16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16C12.4183 16 16 12.4183 16 8ZM1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M8.49206 6.91012C8.44972 6.67688 8.24557 6.5 8.00011 6.5C7.72397 6.5 7.50011 6.72386 7.50011 7V11.5022L7.50817 11.592C7.55051 11.8253 7.75465 12.0022 8.00011 12.0022C8.27626 12.0022 8.50011 11.7783 8.50011 11.5022V7L8.49206 6.91012ZM8.79883 4.75C8.79883 4.33579 8.46304 4 8.04883 4C7.63461 4 7.29883 4.33579 7.29883 4.75C7.29883 5.16421 7.63461 5.5 8.04883 5.5C8.46304 5.5 8.79883 5.16421 8.79883 4.75Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2768,9 +2772,9 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentStrokeColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentStrokeColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2817,15 +2821,15 @@
 									<Path
 										x:Name="Path6"
 										Data="M5.93238 0.210162C5.70151 0.073102 5.43713 0 5.16667 0H2.5L2.33562 0.00531769C1.03154 0.0899613 0 1.17452 0 2.5V10.5L0.00531769 10.6644C0.0899613 11.9685 1.17452 13 2.5 13H6.38195C6.14443 12.7346 6 12.3842 6 12H2.5L2.35554 11.9931C1.59489 11.9204 1 11.2797 1 10.5V4.499L5.07143 4.5L5.22435 4.49219C5.57838 4.45592 5.90991 4.2946 6.15763 4.03449L7.617 2.5H12.5L12.6445 2.50687C13.0303 2.54374 13.3735 2.72679 13.6181 3H14.792C14.4062 2.11705 13.5252 1.5 12.5 1.5H7.667L6.06667 0.3L5.93238 0.210162ZM2.5 1H5.16667L5.24701 1.0065C5.32632 1.01941 5.40176 1.05132 5.46667 1.1L6.694 2.021L5.4335 3.34483L5.37274 3.39902C5.28655 3.46411 5.1809 3.5 5.07143 3.5L1 3.499V2.5L1.00687 2.35554C1.07955 1.59489 1.7203 1 2.5 1Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path7"
 										Data="M7 4.50195C7 4.22581 7.22386 4.00195 7.5 4.00195H15.5C15.7761 4.00195 16 4.22581 16 4.50195V10.4999C16 11.6045 15.1046 12.4999 14 12.4999H13.4979V14.0001C13.4979 15.1041 12.6029 15.999 11.4989 15.999C10.395 15.999 9.5 15.1041 9.5 14.0001V12.4999H9C7.89543 12.4999 7 11.6045 7 10.4999V4.50195ZM8 5.00195V8.99991H15V5.00195C12.5873 5.00195 12.8409 5.00195 8 5.00195ZM8 9.99994V10.4999C8 11.0522 8.44772 11.4999 9 11.4999H10C10.2761 11.4999 10.5 11.7238 10.5 11.9999V14.0001C10.5 14.5518 10.9472 14.999 11.4989 14.999C12.0506 14.999 12.4979 14.5518 12.4979 14.0001V11.9999C12.4979 11.7238 12.7217 11.4999 12.9979 11.4999H14C14.5523 11.4999 15 11.0522 15 10.4999V9.99994H8Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path8"
 										Data="M10 5.00195V5H15V5.00195H14V6.49795C14 6.77409 13.7761 6.99795 13.5 6.99795C13.2239 6.99795 13 6.77409 13 6.49795V5.00195H12V5.50403C12 5.78018 11.7761 6.00403 11.5 6.00403C11.2239 6.00403 11 5.78018 11 5.50403V5.00195H10Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2835,13 +2839,13 @@
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path7.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path8.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path7.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path8.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2874,11 +2878,11 @@
 									<Path
 										x:Name="Path3"
 										Data="M1 3.5C1 2.11929 2.11929 1 3.5 1H12.5C13.8807 1 15 2.11929 15 3.5V12.5C15 13.8807 13.8807 15 12.5 15H3.5C2.11929 15 1 13.8807 1 12.5V3.5ZM3.5 2C2.67157 2 2 2.67157 2 3.5V4H14V3.5C14 2.67157 13.3284 2 12.5 2H3.5ZM14 5H2V12.5C2 13.3284 2.67157 14 3.5 14H12.5C13.3284 14 14 13.3284 14 12.5V5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M11.3467 7.13976C11.5457 7.33125 11.5517 7.64778 11.3602 7.84673L7.51027 11.8467C7.41601 11.9447 7.28595 12 7.15002 12C7.0141 12 6.88403 11.9447 6.78978 11.8467L5.13975 10.1324C4.94826 9.93339 4.95431 9.61687 5.15327 9.42537C5.35223 9.23388 5.66876 9.23993 5.86025 9.4389L7.15003 10.779L10.6398 7.15327C10.8313 6.95431 11.1478 6.94826 11.3467 7.13976Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2887,10 +2891,10 @@
 										<VisualState x:Name="Disabled" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource Local.IconAccentFillColor}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource Local.AccentContrastFillColorBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource App.Theme.IconAccentFillColor}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource App.Theme.AccentContrastFillColorBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -2910,15 +2914,15 @@
 									<Path
 										x:Name="Path1"
 										Data="M1 2.5C1 1.67157 1.67157 1 2.5 1C3.32843 1 4 1.67157 4 2.5C4 3.32843 3.32843 4 2.5 4C1.67157 4 1 3.32843 1 2.5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M10 2.5C10 1.67157 10.6716 1 11.5 1C12.3284 1 13 1.67157 13 2.5C13 3.32843 12.3284 4 11.5 4C10.6716 4 10 3.32843 10 2.5Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M5 2.5C5 3.70948 4.14112 4.71836 3 4.94999V7.26756C3.29417 7.09739 3.63571 7 4 7H10C10.5523 7 11 6.55228 11 6V4.94999C9.85888 4.71836 9 3.70948 9 2.5C9 1.11929 10.1193 0 11.5 0C12.8807 0 14 1.11929 14 2.5C14 3.70948 13.1411 4.71836 12 4.94999V6C12 7.10457 11.1046 8 10 8H4C3.44772 8 3 8.44772 3 9V11.05C4.14112 11.2816 5 12.2905 5 13.5C5 14.8807 3.88071 16 2.5 16C1.11929 16 0 14.8807 0 13.5C0 12.2905 0.85888 11.2816 2 11.05V4.94999C0.85888 4.71836 0 3.70948 0 2.5C0 1.11929 1.11929 0 2.5 0C3.88071 0 5 1.11929 5 2.5ZM2.5 1C1.67157 1 1 1.67157 1 2.5C1 3.32843 1.67157 4 2.5 4C3.32843 4 4 3.32843 4 2.5C4 1.67157 3.32843 1 2.5 1ZM11.5 4C12.3284 4 13 3.32843 13 2.5C13 1.67157 12.3284 1 11.5 1C10.6716 1 10 1.67157 10 2.5C10 3.32843 10.6716 4 11.5 4ZM1 13.5C1 12.6716 1.67157 12 2.5 12C3.32843 12 4 12.6716 4 13.5C4 14.3284 3.32843 15 2.5 15C1.67157 15 1 14.3284 1 13.5Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2943,11 +2947,11 @@
 									<Path
 										x:Name="Path1"
 										Data="M1.29293 7.2929C0.902357 7.68337 0.902357 8.31646 1.29293 8.70693L7.2946 14.7071C7.49673 14.9092 7.76387 15.0067 8.02872 14.9996C8.27558 14.993 8.52046 14.8955 8.70886 14.7071L14.7105 8.70694C15.1011 8.31646 15.1011 7.68338 14.7105 7.2929L8.70886 1.29273C8.50788 1.0918 8.24263 0.994265 7.97927 1.00013C7.73087 1.00569 7.48415 1.10322 7.2946 1.29273L6.14703 2.44001L6.85319 3.14618C7.049 3.05247 7.26831 3 7.49988 3C8.3283 3 8.99988 3.67157 8.99988 4.5C8.99988 4.73157 8.9474 4.95088 8.8537 5.14669L10.8532 7.14618C11.049 7.05247 11.2683 7 11.4999 7C12.3283 7 12.9999 7.67157 12.9999 8.5C12.9999 9.32843 12.3283 10 11.4999 10C10.6714 10 9.99988 9.32843 9.99988 8.5C9.99988 8.26842 10.0524 8.04909 10.1461 7.85327L8.1466 5.8538C8.09903 5.87657 8.05006 5.89691 7.99988 5.91465V10.0854C8.58247 10.2913 8.99988 10.8469 8.99988 11.5C8.99988 12.3284 8.3283 13 7.49988 13C6.67145 13 5.99988 12.3284 5.99988 11.5C5.99988 10.8469 6.41728 10.2913 6.99988 10.0854V5.91465C6.41728 5.70873 5.99988 5.15311 5.99988 4.5C5.99988 4.26842 6.05235 4.04909 6.14607 3.85327L5.43983 3.14703L1.29293 7.2929Z"
-										Fill="{ThemeResource Local.IconAltBrush}" />
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M0.585859 6.58588C-0.195287 7.36683 -0.195286 8.633 0.58586 9.41395L6.58753 15.4141C7.36867 16.1951 8.63516 16.1951 9.41631 15.4141L15.418 9.41395C16.1991 8.633 16.1991 7.36683 15.418 6.58588L9.41631 0.585713C8.63516 -0.195238 7.36867 -0.195237 6.58752 0.585714L0.585859 6.58588ZM1.29306 8.70693C0.902482 8.31646 0.902482 7.68337 1.29305 7.2929L5.43996 3.14703L6.1462 3.85327C6.05248 4.04909 6 4.26842 6 4.5C6 5.15311 6.4174 5.70873 7 5.91465V10.0854C6.4174 10.2913 6 10.8469 6 11.5C6 12.3284 6.67157 13 7.5 13C8.32843 13 9 12.3284 9 11.5C9 10.8469 8.5826 10.2913 8 10.0854V5.91465C8.05019 5.89691 8.09915 5.87657 8.14673 5.8538L10.1462 7.85327C10.0525 8.04909 10 8.26842 10 8.5C10 9.32843 10.6716 10 11.5 10C12.3284 10 13 9.32843 13 8.5C13 7.67157 12.3284 7 11.5 7C11.2684 7 11.0491 7.05247 10.8533 7.14618L8.85382 5.14669C8.94753 4.95088 9 4.73157 9 4.5C9 3.67157 8.32843 3 7.5 3C7.26843 3 7.04913 3.05247 6.85331 3.14618L6.14715 2.44001L7.29472 1.29273C7.68529 0.902256 8.31854 0.902256 8.70911 1.29273L14.7108 7.2929C15.1013 7.68337 15.1013 8.31646 14.7108 8.70693L8.70911 14.7071C8.31854 15.0976 7.68529 15.0976 7.29472 14.7071L1.29306 8.70693Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -2972,16 +2976,16 @@
 									<Path
 										x:Name="Path1"
 										Data="M8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2Z"
-										Fill="{ThemeResource Local.AccentContrastFillColorBrush}"
+										Fill="{ThemeResource App.Theme.AccentContrastFillColorBrush}"
 										Opacity=".50" />
 									<Path
 										x:Name="Path2"
 										Data="M8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2ZM1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8Z"
-										Fill="{ThemeResource Local.IconBaseBrush}" />
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data=" M10.9621 5.30861C10.938 5.25051 10.9026 5.19602 10.8557 5.14857L10.8514 5.14433C10.7611 5.05509 10.637 5 10.5 5H6.5C6.22386 5 6 5.22386 6 5.5C6 5.77614 6.22386 6 6.5 6H9.29289L5.14645 10.1464C4.95118 10.3417 4.95118 10.6583 5.14645 10.8536C5.34171 11.0488 5.65829 11.0488 5.85355 10.8536L10 6.70711V9.5C10 9.77614 10.2239 10 10.5 10C10.7761 10 11 9.77614 11 9.5V5.50035L11 5.497C10.9996 5.43287 10.987 5.3688 10.9621 5.30861Z"
-										Fill="{ThemeResource Local.IconAccentFillColor}" />
+										Fill="{ThemeResource App.Theme.IconAccentFillColor}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
