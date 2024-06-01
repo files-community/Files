@@ -552,6 +552,16 @@
 					</AnimatedIcon>
 				</Button>
 
+				<!--  Show The Files App Settings Dialog  -->
+				<Button
+					x:Name="OpenUITestsWindowButton"
+					AutomationProperties.AutomationId="OpenUITestsWindowButton"
+					AutomationProperties.Name="Open UITests"
+					Click="OpenUITestsWindowButton_Click"
+					Style="{StaticResource AddressToolbarButtonStyle}">
+					<uc:ThemedIcon />
+				</Button>
+
 			</StackPanel>
 
 			<!--  Status Center TeachingTip  -->

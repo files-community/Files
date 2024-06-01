@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
+using Microsoft.UI.System;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -17,6 +18,8 @@ namespace Files.App.Services
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private UISettings UISettings { get; } = new();
+
+		private ThemeSettings ThemeSettings { get; }
 
 		/// <inheritdoc/>
 		public ElementTheme AppThemeMode
@@ -51,6 +54,9 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public event EventHandler? AppThemeModeChanged;
 
+		/// <inheritdoc/>
+		public event EventHandler<bool>? IsHighContrastChanged;
+
 		/// <summary>
 		/// Initializes an instance of <see cref="AppThemeModeService"/>.
 		/// </summary>
@@ -61,6 +67,10 @@ namespace Files.App.Services
 
 			// Registering to color changes, so that we can notice when changed system theme mode
 			UISettings.ColorValuesChanged += UISettings_ColorValuesChanged;
+
+			var windowId = MainWindow.Instance.AppWindow.Id;
+			ThemeSettings = ThemeSettings.CreateForWindowId(windowId);
+			ThemeSettings.Changed += (s, e) => { IsHighContrastChanged?.Invoke(this, s.HighContrast); };
 		}
 
 		/// <inheritdoc/>

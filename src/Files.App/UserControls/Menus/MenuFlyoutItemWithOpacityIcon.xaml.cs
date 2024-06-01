@@ -4,10 +4,9 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-// The User Control element template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
+	[Obsolete("Use MenuFlyoutItemEx")]
 	public sealed partial class MenuFlyoutItemWithOpacityIcon: MenuFlyoutItem
 	{
 		public Style OpacityStyle

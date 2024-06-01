@@ -39,7 +39,7 @@
         <DefineConstants>TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <Optimize>true</Optimize>
     </PropertyGroup>
-  
+
     <ItemGroup>
         <Manifest Include="app.manifest" />
         <Content Update="Assets\Resources\**">
@@ -134,5 +134,5 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
     </ItemGroup>
-  
+
 </Project>

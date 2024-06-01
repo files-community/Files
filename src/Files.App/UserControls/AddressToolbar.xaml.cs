@@ -150,5 +150,11 @@ namespace Files.App.UserControls
 			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
 				args.Handled = true;
 		}
+
+		private void OpenUITestsWindowButton_Click(object sender, RoutedEventArgs e)
+		{
+			var window = new UITestsWindow();
+			window.Activate();
+		}
 	}
 }
