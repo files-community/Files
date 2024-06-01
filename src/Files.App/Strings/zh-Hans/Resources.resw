@@ -340,7 +340,7 @@
     <value>设为锁屏背景</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>设置为此应用背景</value>
+    <value>设置为应用程序背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>该项目无法删除</value>
@@ -427,11 +427,11 @@
     <value>指定的项目名称无效</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# 项目选择} other {# 项目选择}}</value>
+    <value>{0, plural, other {选中 # 个项目}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {项目} other {项目}}</value>
+    <value>{0, plural, other {个项目}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -1226,47 +1226,38 @@
   <data name="Copy" xml:space="preserve">
     <value>复制</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 项将被复制</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>复制项目</value>
+    <value>Copy {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>删除项目</value>
+    <value>Delete {0, plural, one {item} other {items}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>移动</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>将移动 {0} 个项目</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>移动项目</value>
+    <value>Move {0, plural, one {item} other {items}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>将删除 {0} 个项目</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>继续</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>有 {0} 个冲突的文件名，已完成 {1} 项。</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {, and one outgoing item} other {, and # outgoing items}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>文件名有冲突</value>
+    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>有一个冲突的文件名，已完成 {0} 项。</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将复制一项</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将删除 1 个项目</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将移动一项</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>永久删除</value>
@@ -1279,12 +1270,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>生成新名称</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>有 {0} 个冲突的文件名。</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>有一个冲突的文件名。</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>用选中的项目创建文件夹</value>
@@ -2460,7 +2445,7 @@
     <value>设置所选图片为锁屏背景</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>设置所选图片为此应用背景</value>
+    <value>设置所选图片为此应用程序的背景</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>安装所选字体</value>
@@ -2677,6 +2662,18 @@
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>关闭右侧标签页</value>
+  </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus left pane</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Switch focus to the left pane</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus right pane</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Switch focus to the right pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>打开/关闭侧边栏</value>
@@ -3264,7 +3261,7 @@
     <value>Files 正在以管理员身份运行</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>由于 Windows 和 WinAppSdk 的限制，当以管理员身份运行 Files 时，拖动和拖放不可用。 若要启用拖放， 你可以从开始菜单中打开 UAC（用户帐户控制）设置，选择第三个保护等级并重启 Windows，以解除这一限制。 否则，您可继续使用 Files，但无法使用拖放。</value>
+    <value>由于 Windows 和 WinAppSdk 的限制，当以管理员身份运行 Files 时，拖动和拖放不可用。 若要启用拖放， 你可以从开始菜单中打开 UAC（用户帐户控制）设置，选择第三个保护等级并重启 Windows，以解除这一限制。 否则，你可以继续使用 Files，但无法使用拖放。</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>当窗口关闭后保持应用程序后台运行</value>
@@ -3736,6 +3733,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>此按键绑定已被使用，请选择一个不同的按键绑定以继续。</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>所选的按键绑定无法使用，请用其他按键绑定重试。</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>自定义</value>
   </data>
@@ -3823,11 +3823,14 @@
     <value>位图文件</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>小键盘</value>
+  </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>网络位置</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>没有网络位置。如果你未使用任何网络位置，你可以禁用该小组件。</value>
+    <value>没有网络位置。如果你不使用网络位置，可以禁用该小组件。</value>
   </data>
   <data name="Disable" xml:space="preserve">
     <value>禁用</value>

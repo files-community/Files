@@ -51,7 +51,7 @@ namespace Files.App.ViewModels.Previews
 
 			folderCount = (int)zipFile.FilesCount - fileCount;
 
-			string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalizedResource(), zipFile.FilesCount, fileCount, folderCount);
+			string propertyItemCount = "DetailsArchiveItems".GetLocalizedFormatResource(zipFile.FilesCount, fileCount, folderCount);
 			details.Add(GetFileProperty("PropertyItemCount", propertyItemCount));
 			details.Add(GetFileProperty("PropertyUncompressedSize", totalSize.ToLongSizeString()));
 

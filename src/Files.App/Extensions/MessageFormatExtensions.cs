@@ -26,10 +26,32 @@ namespace Files.App.Extensions
 		private static readonly CultureInfo _locale = new(AppLanguageHelper.PreferredLanguage.Code);
 
 		/// <summary>
-		/// Message formatter with caching enabled, using the current UI culture's two-letter ISO language name.
-		/// It is initialized with the options to use cache and the two-letter ISO language name of the current UI culture.
+		/// Gets custom value formatters for the message formatter.
+		/// This class is used to customize the formatting of specific value types.
 		/// </summary>
-		private static readonly MessageFormatter _formatter = new(useCache: true, locale: _locale.TwoLetterISOLanguageName);
+		private static readonly CustomValueFormatters _customFormatter = new()
+		{
+			// Custom formatting for number values.
+			Number = (CultureInfo _, object? value, string? style, out string? formatted) =>
+			{
+				if (style is not null && style == string.Empty)
+				{
+					// Format the number '{0, number}'
+					formatted = string.Format($"{{0:#,##0}}", value);
+					return true;
+				}
+
+				formatted = null;
+				return false;
+			}
+		};
+
+		/// <summary>
+		/// Message formatter with caching enabled, using the current UI culture's two-letter ISO language name.
+		/// It is initialized with the options to use cache and the two-letter ISO language name of the current UI culture,
+		/// and a custom value formatter for number values.
+		/// </summary>
+		private static readonly MessageFormatter _formatter = new(useCache: true, locale: _locale.TwoLetterISOLanguageName, customValueFormatter: _customFormatter);
 
 		/// <summary>
 		/// Creates a dictionary for format pairs with a string key.

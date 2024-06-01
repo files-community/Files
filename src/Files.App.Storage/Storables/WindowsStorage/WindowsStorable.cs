@@ -4,7 +4,7 @@
 using Files.Shared.Helpers;
 using Windows.Storage;
 
-namespace Files.App.Storage.WindowsStorage
+namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IStorable"/>
 	public abstract class WindowsStorable<TStorage> : ILocatableStorable, INestedStorable

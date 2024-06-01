@@ -5,7 +5,7 @@ using Files.Shared.Helpers;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Storage.NativeStorage
+namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IStorageService"/>
 	public sealed class NativeStorageService : IStorageService

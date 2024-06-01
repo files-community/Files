@@ -1226,47 +1226,38 @@
   <data name="Copy" xml:space="preserve">
     <value>Kopyala</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} öğe kopyalanacak</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Öğeleri kopyala</value>
+    <value>Copy {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Ögeleri sil</value>
+    <value>Delete {0, plural, one {item} other {items}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Hareket</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} öğe taşınacak</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Öğeleri taşı</value>
+    <value>Move {0, plural, one {item} other {items}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} öge silinecek</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Devam</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>{0} çakışan dosya adı ve {1} giden öğe var.</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {, and one outgoing item} other {, and # outgoing items}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Çakışan dosya adları</value>
+    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Çakışan bir dosya adı ve {0} giden öğe var.</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Bir öğe kopyalanacak</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Bir öge silinecek</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Bir öğe taşınacak</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Kalıcı olarak sil</value>
@@ -1279,12 +1270,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Yeni ad oluştur</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>{0} çakışan dosya adı var.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Çakışan bir dosya adı var.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Seçimle klasör oluştur</value>
@@ -2678,6 +2663,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Sağ bölmeyi kapat</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus left pane</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Switch focus to the left pane</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus right pane</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Switch focus to the right pane</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Kenar çubuğunu değiştir</value>
   </data>
@@ -3736,6 +3733,9 @@
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
     <value>Bu tuş ataması zaten kullanılıyor. Devam etmek için lütfen farklı bir tuş ataması seçin.</value>
   </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
+  </data>
   <data name="Customized" xml:space="preserve">
     <value>Özelleştirilmiş</value>
   </data>
@@ -3822,6 +3822,9 @@
   <data name="BitmapFiles" xml:space="preserve">
     <value>Bitmap Files</value>
     <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>Network locations</value>
