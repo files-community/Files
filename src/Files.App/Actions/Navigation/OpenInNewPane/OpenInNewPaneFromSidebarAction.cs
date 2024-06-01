@@ -14,10 +14,10 @@ namespace Files.App.Actions
 
 		public override async Task ExecuteAsync(object? parameter = null)
 		{
-			if (await DriveHelpers.CheckEmptyDrive(HomePageContext.RightClickedItem!.Path))
+			if (await DriveHelpers.CheckEmptyDrive(SidebarContext.RightClickedItem!.Path))
 				return;
 
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(HomePageContext.RightClickedItem!.Path ?? string.Empty);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(SidebarContext.RightClickedItem!.Path ?? string.Empty);
 		}
 
 		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
