@@ -15,6 +15,11 @@ namespace Files.App.Data.Contracts
 		public event EventHandler? AppThemeModeChanged;
 
 		/// <summary>
+		/// Gets invoked when whether High Contrast mode is enabled.
+		/// </summary>
+		public event EventHandler<bool>? IsHighContrastChanged;
+
+		/// <summary>
 		/// Gets or sets application theme mode.
 		/// </summary>
 		public ElementTheme AppThemeMode { get; set; }
