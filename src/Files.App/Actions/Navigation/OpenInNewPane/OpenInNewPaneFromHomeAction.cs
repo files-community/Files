@@ -17,6 +17,9 @@ namespace Files.App.Actions
 
 		public override async Task ExecuteAsync(object? parameter = null)
 		{
+			if (HomePageContext.RightClickedItem is null)
+				return;
+
 			if (await DriveHelpers.CheckEmptyDrive(HomePageContext.RightClickedItem!.Path))
 				return;
 
