@@ -154,6 +154,7 @@
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="8,0,8,0" />
+						<!--  Specific to Collapsed State  -->
 						<Setter Target="PaneColumnGridTransform.TranslateX" Value="{StaticResource SidebarNegativeOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
@@ -169,6 +170,7 @@
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="8,0,8,0" />
+						<!--  Specific to Expanded State  -->
 						<Setter Target="PaneLightDismissLayer.Visibility" Value="Visible" />
 						<Setter Target="PaneColumnGrid.Shadow">
 							<Setter.Value>
