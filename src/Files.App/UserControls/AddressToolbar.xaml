@@ -248,10 +248,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon
-						FontSize="14"
-						Foreground="{ThemeResource App.Theme.IconBaseBrush}"
-						Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -265,10 +262,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon
-						FontSize="14"
-						Foreground="{ThemeResource App.Theme.IconBaseBrush}"
-						Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -282,10 +276,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon
-						FontSize="14"
-						Foreground="{ThemeResource App.Theme.IconBaseBrush}"
-						Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -298,10 +289,7 @@
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon
-						FontSize="14"
-						Foreground="{ThemeResource App.Theme.IconBaseBrush}"
-						Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
 
@@ -390,7 +378,6 @@
 					Grid.Column="1"
 					Margin="12"
 					FontSize="16"
-					Foreground="{ThemeResource App.Theme.IconBaseBrush}"
 					Glyph="&#xE70D;" />
 			</Grid>
 
@@ -425,10 +412,7 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey, Mode=OneWay}"
 					Visibility="Collapsed">
-					<FontIcon
-						FontSize="14"
-						Foreground="{ThemeResource App.Theme.IconBaseBrush}"
-						Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
 
 				<!--  Status Center  -->
@@ -555,10 +539,7 @@
 					ToolTipService.Placement="Bottom"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
 					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
-					<AnimatedIcon
-						x:Name="SettingAnimatedIcon"
-						Height="16"
-						Foreground="{ThemeResource App.Theme.IconBaseBrush}">
+					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
 						<AnimatedIcon.Source>
 							<animatedvisuals:AnimatedSettingsVisualSource />
 						</AnimatedIcon.Source>

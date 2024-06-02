@@ -31,6 +31,10 @@
 				<Setter Target="HighContrastAdjustment" Value="None" />
 			</Style>
 
+			<Style TargetType="FontIcon">
+				<Setter Target="Foreground" Value="{ThemeResource App.Theme.IconBaseBrush}" />
+			</Style>
+
 			<Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="uc:ComboBoxEx" />
 
 			<ResourceDictionary.MergedDictionaries>
