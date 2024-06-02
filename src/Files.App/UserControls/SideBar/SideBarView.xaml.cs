@@ -15,7 +15,6 @@ namespace Files.App.UserControls.Sidebar
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
 	{
-
 		private const double COMPACT_MAX_WIDTH = 200;
 
 		public event EventHandler<object>? ItemInvoked;
@@ -111,7 +110,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateOpenPaneLengthColumn()
 		{
-			DisplayColumn.Width = new GridLength(OpenPaneLength);
+			PaneColumnDefinition.Width = new GridLength(OpenPaneLength);
 		}
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
