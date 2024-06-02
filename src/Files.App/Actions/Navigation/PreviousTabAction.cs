@@ -1,6 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+
 namespace Files.App.Actions
 {
 	internal sealed class PreviousTabAction : ObservableObject, IAction
@@ -26,14 +29,18 @@ namespace Files.App.Actions
 			multitaskingContext.PropertyChanged += MultitaskingContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (App.AppModel.TabStripSelectedIndex is 0)
 				App.AppModel.TabStripSelectedIndex = multitaskingContext.TabCount - 1;
 			else
 				App.AppModel.TabStripSelectedIndex--;
 
-			return Task.CompletedTask;
+			// Small delay for the UI to load
+			await Task.Delay(500);
+
+			// Refocus on the file list
+			(multitaskingContext.CurrentTabItem.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 		}
 
 		private void MultitaskingContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
