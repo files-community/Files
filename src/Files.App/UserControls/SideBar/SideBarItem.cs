@@ -61,7 +61,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			HookupOwners();
 
-			if (GetTemplateChild("RootPanel") is Grid grid)
+			if (GetTemplateChild("ElementGrid") is Grid grid)
 			{
 				grid.PointerEntered += ItemGrid_PointerEntered;
 				grid.PointerExited += ItemGrid_PointerExited;
