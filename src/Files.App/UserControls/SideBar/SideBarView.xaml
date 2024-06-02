@@ -62,7 +62,7 @@
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="2,8,0,2"
+					Padding="0,8,0,0"
 					HorizontalScrollMode="Disabled"
 					VerticalScrollBarVisibility="Auto"
 					XYFocusKeyboardNavigation="Enabled">
@@ -139,6 +139,7 @@
 				TabFocusNavigation="Local" />
 
 		</Grid>
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="DisplayModes">
 				<VisualState x:Name="Expanded" />

@@ -74,7 +74,7 @@
 							x:Name="ElementGrid"
 							Grid.Row="0"
 							Height="28"
-							Margin="4,0"
+							Margin="8,0"
 							HorizontalAlignment="Stretch"
 							Background="{ThemeResource SubtleFillColorTransparentBrush}"
 							BackgroundSizing="InnerBorderEdge"
@@ -85,13 +85,16 @@
 							ToolTipService.ToolTip="{Binding ToolTip, Mode=OneWay}"
 							UseSystemFocusVisuals="True">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition x:Name="IconColumn" Width="40" />
+								<ColumnDefinition Width="3" />
+								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
+							<!--  Selection Rectangle  -->
 							<Rectangle
 								x:Name="SelectionIndicator"
+								Grid.Column="0"
 								Width="3"
 								Height="16"
 								HorizontalAlignment="Left"
@@ -102,18 +105,23 @@
 								RadiusX="2"
 								RadiusY="2" />
 
+							<!--  Icon  -->
 							<ContentPresenter
 								x:Name="IconPresenter"
+								Grid.Column="1"
 								Width="16"
 								Height="16"
+								Margin="8,0,0,0"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
 								AutomationProperties.AccessibilityView="Raw"
 								Content="{Binding Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+
+							<!--  Text  -->
 							<TextBlock
 								x:Name="ItemNameTextBlock"
-								Grid.Column="1"
-								Margin="0,0,0,2"
+								Grid.Column="2"
+								Margin="12,0,12,2"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
 								AutomationProperties.AccessibilityView="Raw"
@@ -121,6 +129,7 @@
 								LineHeight="16"
 								Text="{Binding Text, Mode=OneWay}" />
 
+							<!--  Decorator  -->
 							<ContentPresenter
 								x:Name="ItemDecoratorPresenter"
 								Grid.Column="3"
@@ -132,6 +141,7 @@
 								Content="{Binding Decorator, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
 								Visibility="Collapsed" />
 
+							<!--  Chevron  -->
 							<AnimatedIcon
 								x:Name="ExpandCollapseChevron"
 								Grid.Column="3"
@@ -158,15 +168,7 @@
 								</AnimatedIcon.RenderTransform>
 							</AnimatedIcon>
 
-							<FontIcon
-								x:Name="ExpanderIcon"
-								Grid.Column="2"
-								Margin="8,0,14,0"
-								AutomationProperties.AccessibilityView="Raw"
-								FontSize="8"
-								Glyph="&#xE70E;"
-								Visibility="Collapsed" />
-
+							<!--  Overflow  -->
 							<FlyoutBase.AttachedFlyout>
 								<Flyout x:Name="ChildrenFlyout" Placement="Right">
 									<Flyout.FlyoutPresenterStyle>
@@ -196,6 +198,7 @@
 							</FlyoutBase.AttachedFlyout>
 						</Grid>
 
+						<!--  Children  -->
 						<ItemsRepeater
 							x:Name="ChildrenPresenter"
 							Grid.Row="2"
@@ -210,6 +213,7 @@
 								<StackLayout />
 							</ItemsRepeater.Layout>
 						</ItemsRepeater>
+
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ExpansionStates">
 								<VisualState x:Name="NoExpansion">
@@ -221,7 +225,7 @@
 								<VisualState x:Name="NoChildren">
 									<VisualState.Setters>
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="IconColumn.Width" Value="8" />
+										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,0,0" />
 										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
@@ -232,8 +236,8 @@
 									<VisualState.Setters>
 										<Setter Target="ChildrenPresenter.Visibility" Value="Visible" />
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="IconColumn.Width" Value="8" />
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
+										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,0,0" />
 										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
@@ -242,8 +246,8 @@
 								<VisualState x:Name="Collapsed">
 									<VisualState.Setters>
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="IconColumn.Width" Value="8" />
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
+										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,0,0" />
 										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
@@ -305,11 +309,11 @@
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconPresenter" Storyboard.TargetProperty="Visibility">
 												<DiscreteObjectKeyFrame Value="Collapsed" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconColumn" Storyboard.TargetProperty="MaxWidth">
-												<DiscreteObjectKeyFrame Value="8" />
-											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpandCollapseChevron" Storyboard.TargetProperty="Visibility">
 												<DiscreteObjectKeyFrame Value="Visible" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="Margin">
+												<DiscreteObjectKeyFrame Value="8,0,0,0" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="FontWeight">
 												<DiscreteObjectKeyFrame Value="Semibold" />
