@@ -2,11 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -260,33 +261,12 @@ namespace Files.App
 				{
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
-						var toastContent = new ToastContent()
-						{
-							Visual = new()
-							{
-								BindingGeneric = new ToastBindingGeneric()
-								{
-									Children =
-								{
-									new AdaptiveText()
-									{
-										Text = "BackgroundRunningNotificationHeader".GetLocalizedResource()
-									},
-									new AdaptiveText()
-									{
-										Text = "BackgroundRunningNotificationBody".GetLocalizedResource()
-									}
-								},
-								}
-							},
-							ActivationType = ToastActivationType.Protocol
-						};
+						var toastContent = new AppNotificationBuilder()
+							.AddText("BackgroundRunningNotificationHeader".GetLocalizedResource())
+							.AddText("BackgroundRunningNotificationBody".GetLocalizedResource())
+							.BuildNotification();
 
-						// Create the toast notification
-						var toastNotification = new ToastNotification(toastContent.GetXml());
-
-						// And send the notification
-						ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+						AppNotificationManager.Default.Show(toastContent);
 
 						userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
 					});

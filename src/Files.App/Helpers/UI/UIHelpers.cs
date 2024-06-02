@@ -1,10 +1,11 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
 using System.IO;
 using Windows.UI.Notifications;
 
@@ -42,37 +43,14 @@ namespace Files.App.Helpers
 
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
-					var toastContent = new ToastContent()
-					{
-						Visual = new ToastVisual()
-						{
-							BindingGeneric = new ToastBindingGeneric()
-							{
-								Children =
-							{
-								new AdaptiveText()
-								{
-									Text = "EjectNotificationHeader".GetLocalizedResource()
-								},
-								new AdaptiveText()
-								{
-									Text = "EjectNotificationBody".GetLocalizedResource()
-								}
-							},
-								Attribution = new ToastGenericAttributionText()
-								{
-									Text = "SettingsAboutAppName".GetLocalizedResource()
-								}
-							}
-						},
-						ActivationType = ToastActivationType.Protocol
-					};
+					var toastContent = new AppNotificationBuilder()
+						.AddText("EjectNotificationHeader".GetLocalizedResource())
+						.AddText("EjectNotificationBody".GetLocalizedResource())
+						.SetAttributionText("SettingsAboutAppName".GetLocalizedResource())
+						.BuildNotification();
 
-					// Create the toast notification
-					var toastNotif = new ToastNotification(toastContent.GetXml());
 
-					// And send the notification
-					ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+					AppNotificationManager.Default.Show(toastContent);
 				});
 			}
 			else if (!result)

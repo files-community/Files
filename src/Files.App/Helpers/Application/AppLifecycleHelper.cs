@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.Notifications;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.Storables;
@@ -19,6 +18,8 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Notifications;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using Microsoft.Windows.AppNotifications.Builder;
+using Microsoft.Windows.AppNotifications;
 
 namespace Files.App.Helpers
 {
@@ -304,47 +305,15 @@ namespace Files.App.Helpers
 
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var toastContent = new ToastContent()
-				{
-					Visual = new()
-					{
-						BindingGeneric = new ToastBindingGeneric()
-						{
-							Children =
-						{
-							new AdaptiveText()
-							{
-								Text = "ExceptionNotificationHeader".GetLocalizedResource()
-							},
-							new AdaptiveText()
-							{
-								Text = "ExceptionNotificationBody".GetLocalizedResource()
-							}
-						},
-							AppLogoOverride = new()
-							{
-								Source = "ms-appx:///Assets/error.png"
-							}
-						}
-					},
-					Actions = new ToastActionsCustom()
-					{
-						Buttons =
-					{
-						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.ExternalUrl.BugReportUrl)
-						{
-							ActivationType = ToastActivationType.Protocol
-						}
-					}
-					},
-					ActivationType = ToastActivationType.Protocol
-				};
+				var toastContent = new AppNotificationBuilder()
+					.AddText("ExceptionNotificationHeader".GetLocalizedResource())
+					.AddText("ExceptionNotificationBody".GetLocalizedResource())
+					.SetAppLogoOverride(new Uri("ms-appx:///Assets/error.png"))
+					.AddButton(new AppNotificationButton("ExceptionNotificationReportButton".GetLocalizedResource())
+						.SetInvokeUri(new Uri(Constants.ExternalUrl.BugReportUrl)))
+					.BuildNotification();
 
-				// Create the toast notification
-				var toastNotification = new ToastNotification(toastContent.GetXml());
-
-				// And send the notification
-				ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+				AppNotificationManager.Default.Show(toastContent);
 			});
 
 			// Restart the app
