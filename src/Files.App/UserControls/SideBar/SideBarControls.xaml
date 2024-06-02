@@ -51,7 +51,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:SidebarItem">
-					<Grid x:Name="RootPanel" Padding="0,2">
+					<Grid x:Name="RootPanel" Padding="4,2">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
@@ -74,7 +74,6 @@
 							x:Name="ElementGrid"
 							Grid.Row="0"
 							Height="28"
-							Margin="8,0"
 							HorizontalAlignment="Stretch"
 							Background="{ThemeResource SubtleFillColorTransparentBrush}"
 							BackgroundSizing="InnerBorderEdge"
@@ -202,6 +201,7 @@
 						<ItemsRepeater
 							x:Name="ChildrenPresenter"
 							Grid.Row="2"
+							Margin="-4,2"
 							HorizontalAlignment="Stretch"
 							local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 							AutomationProperties.AccessibilityView="Content"
@@ -225,7 +225,7 @@
 								<VisualState x:Name="NoChildren">
 									<VisualState.Setters>
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,0,0" />
+										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
 										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
@@ -234,10 +234,11 @@
 
 								<VisualState x:Name="Expanded">
 									<VisualState.Setters>
+										<Setter Target="RootPanel.Margin" Value="0,0,0,16" />
 										<Setter Target="ChildrenPresenter.Visibility" Value="Visible" />
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
-										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,0,0" />
+										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
 										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
@@ -247,7 +248,7 @@
 									<VisualState.Setters>
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
-										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,0,0" />
+										<Setter Target="ItemNameTextBlock.Margin" Value="8,0,12,0" />
 										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
@@ -270,6 +271,9 @@
 													KeyTime="0:0:0.35"
 													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 											</DoubleAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootPanel" Storyboard.TargetProperty="Margin">
+												<DiscreteObjectKeyFrame Value="0,0,0,16" />
+											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
 
@@ -313,7 +317,7 @@
 												<DiscreteObjectKeyFrame Value="Visible" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="Margin">
-												<DiscreteObjectKeyFrame Value="8,0,0,0" />
+												<DiscreteObjectKeyFrame Value="8,0,12,0" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="FontWeight">
 												<DiscreteObjectKeyFrame Value="Semibold" />
@@ -436,7 +440,7 @@
 								<VisualState x:Name="NonCompact" />
 								<VisualState x:Name="Compact">
 									<VisualState.Setters>
-										<Setter Target="RootPanel.MaxWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
+										<Setter Target="RootPanel.Width" Value="48" />
 										<Setter Target="ItemNameTextBlock.Visibility" Value="Collapsed" />
 										<Setter Target="ItemDecoratorPresenter.Width" Value="0" />
 									</VisualState.Setters>

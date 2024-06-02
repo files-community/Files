@@ -68,7 +68,7 @@
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
 						x:Name="MenuItemsHost"
-						Margin="0,0,0,16"
+						Margin="4,0,4,16"
 						AutomationProperties.AccessibilityView="Content"
 						AutomationProperties.Name="Sidebar pane"
 						ElementPrepared="MenuItemsHost_ElementPrepared"
@@ -76,11 +76,7 @@
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
 						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
 						VerticalCacheLength="100"
-						XYFocusKeyboardNavigation="Enabled">
-						<ItemsRepeater.Layout>
-							<StackLayout x:Name="MenuItemsHostLayout" Spacing="12" />
-						</ItemsRepeater.Layout>
-					</ItemsRepeater>
+						XYFocusKeyboardNavigation="Enabled" />
 				</ScrollViewer>
 			</ItemsRepeaterScrollHost>
 
@@ -105,7 +101,7 @@
 			Background="Transparent"
 			BorderBrush="Transparent"
 			Canvas.ZIndex="100"
-			CornerRadius="2,2,0,0"
+			CornerRadius="2"
 			DoubleTapped="SidebarResizer_DoubleTapped"
 			ManipulationCompleted="SidebarResizer_ManipulationCompleted"
 			ManipulationDelta="SidebarResizer_ManipulationDelta"
