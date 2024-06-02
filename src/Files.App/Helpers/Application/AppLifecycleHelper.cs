@@ -16,10 +16,7 @@ using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Notifications;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
-using Microsoft.Windows.AppNotifications.Builder;
-using Microsoft.Windows.AppNotifications;
 
 namespace Files.App.Helpers
 {
@@ -305,15 +302,7 @@ namespace Files.App.Helpers
 
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var toastContent = new AppNotificationBuilder()
-					.AddText("ExceptionNotificationHeader".GetLocalizedResource())
-					.AddText("ExceptionNotificationBody".GetLocalizedResource())
-					.SetAppLogoOverride(new Uri("ms-appx:///Assets/error.png"))
-					.AddButton(new AppNotificationButton("ExceptionNotificationReportButton".GetLocalizedResource())
-						.SetInvokeUri(new Uri(Constants.ExternalUrl.BugReportUrl)))
-					.BuildNotification();
-
-				AppNotificationManager.Default.Show(toastContent);
+				NotificationHelpers.ShowUnhandledExceptionToast();
 			});
 
 			// Restart the app

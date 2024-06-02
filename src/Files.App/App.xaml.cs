@@ -6,12 +6,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
-using Microsoft.Windows.AppNotifications;
-using Microsoft.Windows.AppNotifications.Builder;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Notifications;
 
 namespace Files.App
 {
@@ -261,12 +258,7 @@ namespace Files.App
 				{
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
-						var toastContent = new AppNotificationBuilder()
-							.AddText("BackgroundRunningNotificationHeader".GetLocalizedResource())
-							.AddText("BackgroundRunningNotificationBody".GetLocalizedResource())
-							.BuildNotification();
-
-						AppNotificationManager.Default.Show(toastContent);
+						NotificationHelpers.ShowBackgroundRunningToast();
 
 						userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
 					});

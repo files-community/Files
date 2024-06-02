@@ -4,10 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.Windows.AppNotifications;
-using Microsoft.Windows.AppNotifications.Builder;
 using System.IO;
-using Windows.UI.Notifications;
 
 namespace Files.App.Helpers
 {
@@ -43,14 +40,7 @@ namespace Files.App.Helpers
 
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
-					var toastContent = new AppNotificationBuilder()
-						.AddText("EjectNotificationHeader".GetLocalizedResource())
-						.AddText("EjectNotificationBody".GetLocalizedResource())
-						.SetAttributionText("SettingsAboutAppName".GetLocalizedResource())
-						.BuildNotification();
-
-
-					AppNotificationManager.Default.Show(toastContent);
+					NotificationHelpers.ShowDriveEjectToast();
 				});
 			}
 			else if (!result)
