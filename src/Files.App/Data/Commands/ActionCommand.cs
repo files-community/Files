@@ -176,6 +176,7 @@ namespace Files.App.Data.Commands
 					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanging(nameof(IsOn));
+					OnPropertyChanging(nameof(LabelWithHotKey));
 					break;
 				case nameof(IAction.IsExecutable):
 					OnPropertyChanging(nameof(IsExecutable));
