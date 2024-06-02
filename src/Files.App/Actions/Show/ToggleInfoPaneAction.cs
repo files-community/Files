@@ -8,7 +8,10 @@ namespace Files.App.Actions
 		private readonly InfoPaneViewModel viewModel;
 
 		public string Label
-			=> "ToggleInfoPane".GetLocalizedResource();
+			=> "ToggleInfoPane".GetLocalizedFormatResource();
+
+		public string LabelSpec
+			=> "ToggleInfoPane".GetLocalizedFormatResource(!IsOn);
 
 		public string Description
 			=> "ToggleInfoPaneDescription".GetLocalizedResource();

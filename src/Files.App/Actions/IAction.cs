@@ -11,6 +11,12 @@ namespace Files.App.Actions
 		string Label { get; }
 
 		/// <summary>
+		/// A label for display in context menus and toolbars where a different representation of the label is required.
+		/// </summary>
+		string LabelSpec
+			=> Label;
+
+		/// <summary>
 		/// A brief description of what the action does.
 		/// It will be used as the command name in the command palette.
 		/// </summary>
