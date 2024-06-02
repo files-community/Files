@@ -57,19 +57,21 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
+						<!--  Drag Target Indicator  -->
 						<Rectangle
 							x:Name="DragTargetIndicator"
 							Grid.ColumnSpan="3"
-							Height="4"
+							Height="2"
 							Margin="4,-2"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
 							AutomationProperties.AccessibilityView="Raw"
-							Fill="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+							Fill="{ThemeResource AccentFillColorDefaultBrush}"
 							RadiusX="4"
 							RadiusY="4"
 							Visibility="Collapsed" />
 
+						<!--  Focusable Visual  -->
 						<Grid
 							x:Name="ElementGrid"
 							Grid.Row="0"
@@ -215,7 +217,9 @@
 						</ItemsRepeater>
 
 						<VisualStateManager.VisualStateGroups>
+
 							<VisualStateGroup x:Name="ExpansionStates">
+
 								<VisualState x:Name="NoExpansion">
 									<VisualState.Setters>
 										<Setter Target="ItemDecoratorPresenter.Visibility" Value="Visible" />
@@ -244,6 +248,7 @@
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
+
 								<VisualState x:Name="Collapsed">
 									<VisualState.Setters>
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
@@ -446,6 +451,7 @@
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
+
 						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
