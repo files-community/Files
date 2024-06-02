@@ -445,7 +445,7 @@
 								<VisualState x:Name="NonCompact" />
 								<VisualState x:Name="Compact">
 									<VisualState.Setters>
-										<Setter Target="RootPanel.Width" Value="48" />
+										<Setter Target="RootPanel.MaxWidth" Value="48" />
 										<Setter Target="ItemNameTextBlock.Visibility" Value="Collapsed" />
 										<Setter Target="ItemDecoratorPresenter.Width" Value="0" />
 									</VisualState.Setters>
