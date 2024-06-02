@@ -19,13 +19,13 @@ global using SystemIO = global::System.IO;
 
 global using global::Files.Core.Storage;
 global using global::Files.Core.Storage.Contracts;
-global using global::Files.Core.Storage.DirectStorage;
+global using global::Files.Core.Storage.Storables;
 global using global::Files.Core.Storage.Enums;
 global using global::Files.Core.Storage.EventArguments;
-global using global::Files.Core.Storage.ExtendableStorage;
 global using global::Files.Core.Storage.Extensions;
-global using global::Files.Core.Storage.LocatableStorage;
-global using global::Files.Core.Storage.ModifiableStorage;
-global using global::Files.Core.Storage.MutableStorage;
-global using global::Files.Core.Storage.NestedStorage;
 global using global::Files.Core.Storage.StorageEnumeration;
+
+// Files.App.Storage
+
+global using global::Files.App.Storage;
+global using global::Files.App.Storage.Storables;

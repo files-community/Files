@@ -40,19 +40,6 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		public Thickness CurrentInstanceBorderThickness
-		{
-			get => (Thickness)GetValue(CurrentInstanceBorderThicknessProperty);
-			set => SetValue(CurrentInstanceBorderThicknessProperty, value);
-		}
-
-		public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
-			DependencyProperty.Register(
-				nameof(CurrentInstanceBorderThickness),
-				typeof(Thickness),
-				typeof(ModernShellPage),
-				new PropertyMetadata(null));
-
 		public ModernShellPage() : base(new CurrentInstanceViewModel())
 		{
 			InitializeComponent();

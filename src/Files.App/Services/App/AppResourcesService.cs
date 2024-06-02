@@ -43,6 +43,18 @@ namespace Files.App.Services
 		{
 			Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor.ToWindowsColor();
 		}
+		
+		/// <inheritdoc/>
+		public void SetAppThemeFileAreaSecondaryBackgroundColor(Color appThemeFileAreaSecondaryBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.FileArea.SecondaryBackgroundBrush"] = appThemeFileAreaSecondaryBackgroundColor.ToWindowsColor();
+		}
+
+		/// <inheritdoc/>
+		public void SetAppThemeInfoPaneBackgroundColor(Color appThemeInfoPaneBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.InfoPane.BackgroundBrush"] = appThemeInfoPaneBackgroundColor.ToWindowsColor();
+		}
 
 		/// <inheritdoc/>
 		public void SetAppThemeFontFamily(string contentControlThemeFontFamily)

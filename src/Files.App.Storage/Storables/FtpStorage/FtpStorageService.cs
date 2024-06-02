@@ -4,7 +4,7 @@
 using FluentFTP;
 using System.IO;
 
-namespace Files.App.Storage.FtpStorage
+namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IFtpStorageService"/>
 	public sealed class FtpStorageService : IFtpStorageService

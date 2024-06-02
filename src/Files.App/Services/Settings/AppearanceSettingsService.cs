@@ -70,6 +70,20 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
+		public String AppThemeFileAreaSecondaryBackgroundColor
+		{
+			get => Get("");
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public String AppThemeInfoPaneBackgroundColor
+		{
+			get => Get("");
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
 		public String AppThemeFontFamily
 		{
 			get => Get("Segoe UI Variable");
@@ -127,6 +141,8 @@ namespace Files.App.Services.Settings
 				case nameof(AppThemeToolbarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):
 				case nameof(AppThemeFileAreaBackgroundColor):
+				case nameof(AppThemeFileAreaSecondaryBackgroundColor):
+				case nameof(AppThemeInfoPaneBackgroundColor):
 				case nameof(AppThemeBackdropMaterial):
 				case nameof(AppThemeBackgroundImageFit):
 				case nameof(AppThemeBackgroundImageOpacity):

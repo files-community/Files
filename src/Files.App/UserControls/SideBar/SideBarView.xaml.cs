@@ -119,9 +119,6 @@ namespace Files.App.UserControls.Sidebar
 			UpdateDisplayMode();
 			UpdateOpenPaneLengthColumn();
 			PaneColumnGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
-			
-			// Cast shadow on the footer
-			ContentThemeShadow.Receivers.Add(ContentFooterPresenter);
 		}
 
 		private void SidebarResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)

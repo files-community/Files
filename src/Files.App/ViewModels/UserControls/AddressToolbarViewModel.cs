@@ -720,30 +720,30 @@ namespace Files.App.ViewModels.UserControls
 
 			var isFtp = FtpHelpers.IsFtpPath(currentInput);
 
-			currentInput = NormalizePathInput(currentInput, isFtp);
+			var normalizedInput = NormalizePathInput(currentInput, isFtp);
 
-			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
+			if (currentSelectedPath == normalizedInput || string.IsNullOrWhiteSpace(normalizedInput))
 				return;
 
-			if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
+			if (normalizedInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
 			{
-				if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
 					SavePathToHistory("Home");
 					shellPage.NavigateHome();
 				}
 				else
 				{
-					currentInput = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
-					if (currentSelectedPath == currentInput)
+					normalizedInput = StorageFileExtensions.GetResolvedPath(normalizedInput, isFtp);
+					if (currentSelectedPath == normalizedInput)
 						return;
 
-					var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentInput));
+					var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
 
-					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
+					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(normalizedInput, item));
+					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
 					{
-						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
@@ -754,18 +754,18 @@ namespace Files.App.ViewModels.UserControls
 							}
 							return;
 						}
-						var pathToNavigate = resFolder.Result?.Path ?? currentInput;
+						var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
 						SavePathToHistory(pathToNavigate);
 						shellPage.NavigateToPath(pathToNavigate);
 					}
 					else if (isFtp)
 					{
-						SavePathToHistory(currentInput);
-						shellPage.NavigateToPath(currentInput);
+						SavePathToHistory(normalizedInput);
+						shellPage.NavigateToPath(normalizedInput);
 					}
 					else // Not a folder or inaccessible
 					{
-						var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(currentInput, item));
+						var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(normalizedInput, item));
 						if (resFile)
 						{
 							var pathToInvoke = resFile.Result.Path;
@@ -815,17 +815,10 @@ namespace Files.App.ViewModels.UserControls
 
 		private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
 		{
-			var trimmedInput = currentInput.Trim();
-			var fileName = trimmedInput;
-			var arguments = string.Empty;
-			if (trimmedInput.Contains(' '))
-			{
-				var positionOfBlank = trimmedInput.IndexOf(' ');
-				fileName = trimmedInput.Substring(0, positionOfBlank);
-				arguments = currentInput.Substring(currentInput.IndexOf(' '));
-			}
-
-			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
+			var args = CommandLineParser.SplitArguments(currentInput);
+			return await LaunchHelper.LaunchAppAsync(
+				args.FirstOrDefault("").Trim('"'), string.Join(' ', args.Skip(1)), workingDir
+			);
 		}
 
 		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage)

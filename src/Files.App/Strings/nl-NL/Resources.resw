@@ -843,7 +843,7 @@
     <value>Laatste auteur</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>Revisienummer:</value>
+    <value>Revisienummer</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
     <value>Versie</value>
@@ -1226,47 +1226,38 @@
   <data name="Copy" xml:space="preserve">
     <value>Kopiëren</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items zullen worden gekopieerd</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Item(s) kopiëren</value>
+    <value>Copy {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Item(s) verwijderen</value>
+    <value>Delete {0, plural, one {item} other {items}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Verplaatsen</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items zullen worden verplaatst</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Item(s) verplaatsen</value>
+    <value>Move {0, plural, one {item} other {items}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items zullen worden verwijderd</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Doorgaan</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Er zijn {0} conflicterende itemnamen en {1} uitgaand(e) item(s).</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {, and one outgoing item} other {, and # outgoing items}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicterende bestandsnaam/-namen</value>
+    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Er is een conflicterende itemnaam en {0} uitgaand(e) item(s).</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Eén item zal worden gekopieerd</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Eén item zal worden verwijderd</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Eén item zal worden verplaatst</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanent verwijderen</value>
@@ -1279,12 +1270,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Nieuwe naam genereren</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>Er zijn {0} conflicterende itemnamen.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Er is een conflicterende itemnaam.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Maak map met selectie</value>
@@ -2678,6 +2663,18 @@
   <data name="ClosePaneDescription" xml:space="preserve">
     <value>Rechterpaneel sluiten</value>
   </data>
+  <data name="FocusLeftPane" xml:space="preserve">
+    <value>Focus linker paneel</value>
+  </data>
+  <data name="FocusLeftPaneDescription" xml:space="preserve">
+    <value>Verander focus naar linker paneel</value>
+  </data>
+  <data name="FocusRightPane" xml:space="preserve">
+    <value>Focus rechter paneel</value>
+  </data>
+  <data name="FocusRightPaneDescription" xml:space="preserve">
+    <value>Verander focus naar rechter paneel</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Zijbalk in-/uitschakelen</value>
   </data>
@@ -2846,7 +2843,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>VolgNummer</value>
+    <value>VolgendNummer</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
@@ -3731,10 +3728,13 @@
     <value>Kies een actie</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Weet u zeker dat u de standaard sleutelbindingen wilt herstellen? Deze actie kan niet ongedaan worden gemaakt.</value>
+    <value>Weet u zeker dat u de standaard sneltoetsen wilt herstellen? Deze actie kan niet ongedaan gemaakt worden.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>Deze koppeling wordt al gebruikt, kies een andere koppeling om door te gaan.</value>
+    <value>Deze sneltoets is al in gebruik, kies een andere koppeling om door te gaan.</value>
+  </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>De sneltoets die u koos kan niet worden gebruikt, gelieve opnieuw te proberen met een andere sneltoets.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Aangepast</value>
@@ -3822,6 +3822,9 @@
   <data name="BitmapFiles" xml:space="preserve">
     <value>Bitmap bestanden</value>
     <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Numeriek</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>Netwerk locaties</value>
