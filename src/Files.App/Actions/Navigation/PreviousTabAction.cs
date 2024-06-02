@@ -36,7 +36,10 @@ namespace Files.App.Actions
 			else
 				App.AppModel.TabStripSelectedIndex--;
 
+			// Small delay for the UI to load
 			await Task.Delay(500);
+
+			// Refocus on the file list
 			(multitaskingContext.CurrentTabItem.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 		}
 
