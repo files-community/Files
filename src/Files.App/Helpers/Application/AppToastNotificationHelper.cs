@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers
+namespace Files.App.Helpers.Application
 {
-	internal static class NotificationHelpers
+	internal static class AppToastNotificationHelper
 	{
 		public static void ShowUnhandledExceptionToast()
 		{

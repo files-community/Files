@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
+using Files.App.Helpers.Application;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -258,7 +259,7 @@ namespace Files.App
 				{
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
-						NotificationHelpers.ShowBackgroundRunningToast();
+						AppToastNotificationHelper.ShowBackgroundRunningToast();
 
 						userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
 					});

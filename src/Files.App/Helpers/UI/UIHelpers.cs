@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Helpers.Application;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -40,7 +41,7 @@ namespace Files.App.Helpers
 
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
-					NotificationHelpers.ShowDriveEjectToast();
+					AppToastNotificationHelper.ShowDriveEjectToast();
 				});
 			}
 			else if (!result)

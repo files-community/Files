@@ -17,6 +17,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using Files.App.Helpers.Application;
 
 namespace Files.App.Helpers
 {
@@ -302,7 +303,7 @@ namespace Files.App.Helpers
 
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				NotificationHelpers.ShowUnhandledExceptionToast();
+				AppToastNotificationHelper.ShowUnhandledExceptionToast();
 			});
 
 			// Restart the app
