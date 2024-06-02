@@ -128,7 +128,9 @@
 								AutomationProperties.AccessibilityView="Raw"
 								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								LineHeight="16"
-								Text="{Binding Text, Mode=OneWay}" />
+								Text="{Binding Text, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
 
 							<!--  Decorator  -->
 							<ContentPresenter
