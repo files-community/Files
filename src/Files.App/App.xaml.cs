@@ -90,13 +90,13 @@ namespace Files.App
 				var host = AppLifecycleHelper.ConfigureHost();
 				Ioc.Default.ConfigureServices(host.Services);
 
-#if STORE || STABLE || PREVIEW
-				// Configure AppCenter
-				AppLifecycleHelper.ConfigureAppCenter();
-#endif
-
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
+
+#if STORE || STABLE || PREVIEW
+				// Configure Exceptionless
+				AppLifecycleHelper.ConfigureExceptionless();
+#endif
 
 				if (isStartupTask && !isLeaveAppRunning)
 				{

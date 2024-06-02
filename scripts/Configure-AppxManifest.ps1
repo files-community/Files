@@ -7,7 +7,7 @@ param(
     [string]$Publisher = "",
     [string]$WorkingDir = "",
     [string]$SecretBingMapsKey = "",
-    [string]$SecretAppCenter = "",
+    [string]$SecretExceptionless = "",
     [string]$SecretGitHubOAuthClientId = ""
 )
 
@@ -71,7 +71,7 @@ Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
 
 Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
 {
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "appcenter.secret", "$SecretAppCenter" }) |
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "exceptionless.secret", "$SecretExceptionless" }) |
     Set-Content $_ -NoNewline
 }
 

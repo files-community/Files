@@ -3,7 +3,7 @@
 
 using Files.App.Dialogs;
 using LibGit2Sharp;
-using Microsoft.AppCenter.Analytics;
+using Exceptionless;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -172,7 +172,7 @@ namespace Files.App.Utils.Git
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
 		{
-			Analytics.TrackEvent("Triggered git checkout");
+			ExceptionlessClient.Default.SubmitFeatureUsage("Triggered git checkout");
 
 			if (string.IsNullOrWhiteSpace(repositoryPath) || !Repository.IsValid(repositoryPath))
 				return false;
@@ -244,7 +244,7 @@ namespace Files.App.Utils.Git
 
 		public static async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
 		{
-			Analytics.TrackEvent("Triggered create git branch");
+			ExceptionlessClient.Default.SubmitFeatureUsage("Triggered create git branch");
 
 			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
 			var loadBranchesTask = viewModel.LoadBranches();
@@ -274,7 +274,7 @@ namespace Files.App.Utils.Git
 
 		public static async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
 		{
-			Analytics.TrackEvent("Triggered delete git branch");
+			ExceptionlessClient.Default.SubmitFeatureUsage("Triggered delete git branch");
 
 			if (string.IsNullOrWhiteSpace(repositoryPath) ||
 				string.IsNullOrWhiteSpace(activeBranch) ||

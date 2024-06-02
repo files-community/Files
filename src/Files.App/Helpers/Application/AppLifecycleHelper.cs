@@ -1,13 +1,12 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services.DateTimeFormatter;
-using Files.App.Services.Settings;
-using Files.App.Storage.Storables;
+using CommunityToolkit.WinUI.Helpers;
+using Exceptionless;
+using Files.App.Helpers.Application;
+using Files.App.Services.SizeProvider;
 using Files.App.Storage.Storables;
 using Files.App.ViewModels.Settings;
-using Files.App.Services.SizeProvider;
-using Files.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -17,7 +16,6 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
-using Files.App.Helpers.Application;
 
 namespace Files.App.Helpers
 {
@@ -109,23 +107,26 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Configures AppCenter service, such as Analytics and Crash Report.
+		/// Configures Exceptionless service, such as Analytics and Crash Report.
 		/// </summary>
-		public static void ConfigureAppCenter()
+		public static void ConfigureExceptionless()
 		{
+			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			try
 			{
-				if (!Microsoft.AppCenter.AppCenter.Configured)
+				if (!ExceptionlessClient.Default.Configuration.IsValid)
 				{
-					Microsoft.AppCenter.AppCenter.Start(
-						Constants.AutomatedWorkflowInjectionKeys.AppCenterSecret,
-						typeof(Microsoft.AppCenter.Analytics.Analytics),
-						typeof(Microsoft.AppCenter.Crashes.Crashes));
+					ExceptionlessClient.Default.Configuration.UseSessions();
+					ExceptionlessClient.Default.Configuration.SetUserIdentity(generalSettingsService.UserId, generalSettingsService.UserId);
+					ExceptionlessClient.Default.Configuration.SetVersion($"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}");
+					ExceptionlessClient.Default.Configuration.IncludePrivateInformation = false;
+					ExceptionlessClient.Default.Startup(Constants.AutomatedWorkflowInjectionKeys.ExceptionlessSecret);
 				}
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, "Failed to start AppCenter service.");
+				App.Logger.LogWarning(ex, "Failed to start Exceptionless service.");
 			}
 		}
 
@@ -259,6 +260,15 @@ namespace Files.App.Helpers
 
 			if (ex is not null)
 			{
+				// Create ID to reference crash
+				var referenceId = Guid.NewGuid().ToString();
+
+				ex.ToExceptionless()
+					.SetReferenceId(referenceId)
+					.Submit();
+
+				ExceptionlessClient.Default.ProcessQueueAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+
 				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 
 				if (ex.Message is not null)
@@ -281,6 +291,10 @@ namespace Files.App.Helpers
 					formattedException.AppendLine("--- INNER ---");
 					formattedException.AppendLine(ex.InnerException.ToString());
 				}
+
+				// Add crash reference to log
+				formattedException.AppendLine("--- REFERENCE ID ---");
+				formattedException.AppendLine(referenceId);
 			}
 			else
 			{

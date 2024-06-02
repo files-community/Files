@@ -1,8 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.AppCenter.Analytics;
-
 namespace Files.App.Services.Settings
 {
 	internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
@@ -329,42 +327,6 @@ namespace Files.App.Services.Settings
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			switch (e.SettingName)
-			{
-				case nameof(SyncFolderPreferencesAcrossDirectories):
-				case nameof(DefaultLayoutMode):
-				case nameof(DefaultSortOption):
-				case nameof(DefaultDirectorySortDirection):
-				case nameof(DefaultSortDirectoriesAlongsideFiles):
-				case nameof(DefaultSortFilesFirst):
-				case nameof(DefaultGroupOption):
-				case nameof(DefaultDirectoryGroupDirection):
-				case nameof(DefaultGroupByDateUnit):
-				case nameof(GitStatusColumnWidth):
-				case nameof(GitLastCommitDateColumnWidth):
-				case nameof(GitLastCommitMessageColumnWidth):
-				case nameof(GitCommitAuthorColumnWidth):
-				case nameof(GitLastCommitShaColumnWidth):
-				case nameof(TagColumnWidth):
-				case nameof(NameColumnWidth):
-				case nameof(DateModifiedColumnWidth):
-				case nameof(TypeColumnWidth):
-				case nameof(DateCreatedColumnWidth):
-				case nameof(SizeColumnWidth):
-				case nameof(ShowDateColumn):
-				case nameof(ShowDateCreatedColumn):
-				case nameof(ShowTypeColumn):
-				case nameof(ShowSizeColumn):
-				case nameof(ShowGitStatusColumn):
-				case nameof(ShowGitLastCommitDateColumn):
-				case nameof(ShowGitLastCommitMessageColumn):
-				case nameof(ShowGitCommitAuthorColumn):
-				case nameof(ShowGitLastCommitShaColumn):
-				case nameof(ShowFileTagColumn):
-					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
-					break;
-			}
-
 			base.RaiseOnSettingChangedEvent(sender, e);
 		}
 	}

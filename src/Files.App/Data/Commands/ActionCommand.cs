@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Exceptionless;
 using Files.App.Actions;
-using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -141,7 +141,7 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				Analytics.TrackEvent($"Triggered {Code} action");
+				ExceptionlessClient.Default.SubmitFeatureUsage($"Triggered {Code} action");
 				return Action.ExecuteAsync(parameter);
 			}
 
