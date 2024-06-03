@@ -1820,8 +1820,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>No reduced color</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Third party libraries</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>

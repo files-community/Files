@@ -181,20 +181,105 @@
 			</local:SettingsBlockControl>
 
 			<!--  Third Party Licenses  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
-				HorizontalAlignment="Stretch"
-				Click="ThirdPartyLicenses_Click">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLibraries}">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE90F;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
-					<ScrollViewer Height="400">
-						<controls:MarkdownTextBlock
-							Margin="10"
-							Background="Transparent"
-							LinkClicked="MarkdownTextBlock_LinkClicked"
-							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					<ScrollViewer MaxHeight="400">
+						<controls:AdaptiveGridView
+							Margin="60,12,12,12"
+							DesiredWidth="240"
+							IsItemClickEnabled="False"
+							ItemHeight="10"
+							SelectionMode="None">
+							<controls:AdaptiveGridView.Transitions>
+								<TransitionCollection />
+							</controls:AdaptiveGridView.Transitions>
+							<controls:AdaptiveGridView.Items>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/omar/ByteSize" UnderlineStyle="None">ByteSize</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/CommunityToolkit/dotnet" UnderlineStyle="None">CommunityToolkit.Mvvm</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/DiscUtils/DiscUtils" UnderlineStyle="None">DiscUtils.Udf</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/robinrodricks/FluentFTP" UnderlineStyle="None">FluentFTP</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/rickyah/ini-parser" UnderlineStyle="None">INI File Parser</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/libgit2/libgit2sharp" UnderlineStyle="None">libgit2sharp</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/mbdavid/LiteDB" UnderlineStyle="None">LiteDB</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/beto-rodriguez/LiveCharts2" UnderlineStyle="None">LiveChartsCore.SkiaSharpView.WinUI</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/jeffijoe/messageformat.net" UnderlineStyle="None">MessageFormat</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/dotnet/efcore" UnderlineStyle="None">Microsoft.Data.Sqlite.Core</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/dotnet/runtime" UnderlineStyle="None">Microsoft.Extensions.DependencyInjection</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/dotnet/runtime" UnderlineStyle="None">Microsoft.Extensions.Hosting</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/dotnet/runtime" UnderlineStyle="None">Microsoft.Extensions.Logging</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/files-community/SevenZipSharp" UnderlineStyle="None">SevenZipSharp</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://sourceforge.net/projects/sevenzip" UnderlineStyle="None">7 zip</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/ericsink/SQLitePCL.raw" UnderlineStyle="None">SQLitePCLRaw</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/microsoft/WindowsAppSDK" UnderlineStyle="None">Microsoft.WindowsAppSDK</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/microsoft/Win2D" UnderlineStyle="None">Microsoft.Graphics.Win2D</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/CommunityToolkit/WindowsCommunityToolkit" UnderlineStyle="None">CommunityToolkit.WinUI.UI.Behaviors</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/CommunityToolkit/WindowsCommunityToolkit" UnderlineStyle="None">CommunityToolkit.WinUI.UI.Controls</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/mono/taglib-sharp" UnderlineStyle="None">TagLibSharp</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/Tulpep/Active-Directory-Object-Picker" UnderlineStyle="None">Tulpep.ActiveDirectoryObjectPicker</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/dotMorten/WinUIEx" UnderlineStyle="None">WinUIEx</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/dahall/Vanara" UnderlineStyle="None">Vanara</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/PowerShell/MMI" UnderlineStyle="None">Microsoft.Management.Infrastructure</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/microsoft/CsWin32" UnderlineStyle="None">Microsoft.Windows.CsWin32</Hyperlink>
+								</TextBlock>
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="https://github.com/microsoft/CsWinRT" UnderlineStyle="None">Microsoft.Windows.CsWinRT</Hyperlink>
+								</TextBlock>
+							</controls:AdaptiveGridView.Items>
+						</controls:AdaptiveGridView>
 					</ScrollViewer>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
