@@ -291,7 +291,22 @@ namespace Files.App.Helpers
 				}
 				else
 				{
+					
+					int new_name_extension = newName.LastIndexOf('.');
+					if (new_name_extension != -1)
+					{
+						string newName_no_extension = newName.Substring(0, new_name_extension);
+						newName = string.Concat(newName_no_extension, item.FileExtension);
+
+					}
+					else
+					{
+						newName = string.Concat(newName, item.FileExtension);
+					}
+					
 					newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
+
+
 				}
 
 				if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))

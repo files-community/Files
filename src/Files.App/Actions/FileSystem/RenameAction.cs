@@ -34,15 +34,8 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{	
-			if (context.SelectedItems.Count == 1)
-			{
-				context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
-			}
-			else
-			{
-				context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItems();
-			}
-
+			
+			context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
 			return Task.CompletedTask;
 		}
 

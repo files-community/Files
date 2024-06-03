@@ -199,11 +199,6 @@ namespace Files.App.Views.Layouts
 			StartRenameItem("ListViewTextBoxItemName");
 		}
 
-		public override void StartRenameItems()
-		{
-			StartRenameItems("ListViewTextBoxItemName");
-		}
-
 		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
 			if (IsRenamingItem || IsRenamingMultipleItems)
@@ -219,11 +214,7 @@ namespace Files.App.Views.Layouts
 		protected override void EndRename(TextBox textBox)
 		{
 			FileNameTeachingTip.IsOpen = false;
-			IsRenamingItem = false;
 			
-			
-
-			// Unsubscribe from events
 			if (textBox is not null)
 			{
 				textBox!.LostFocus -= RenameTextBox_LostFocus;
@@ -233,17 +224,7 @@ namespace Files.App.Views.Layouts
 			if (textBox is not null && textBox.Parent is not null)
 			{
 				ListViewItem? listViewItem;
-				if (!IsRenamingMultipleItems)
-				{
-					listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-				}
-				else
-				{
-					ListedItem lastItem = RenamingItems.LastOrDefault();
-					if (lastItem is null)
-						return;
-					listViewItem = FileList.ContainerFromItem(lastItem) as ListViewItem;
-				}
+				listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 				if (listViewItem is null)
 					return;
 

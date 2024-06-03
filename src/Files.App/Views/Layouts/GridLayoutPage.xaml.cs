@@ -283,96 +283,20 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		override public void StartRenameItems()
-		{
-			RenamingItems = SelectedItems;
-			if (RenamingItems == null || RenamingItems.Count == 0)
-				return;
-			RenamingItem = RenamingItems.Last();
-			
-
-			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-
-			if (FileList.ContainerFromItem(RenamingItem) is not GridViewItem gridViewItem)
-				return;
-
-			if (gridViewItem.FindDescendant("ItemName") is not TextBlock textBlock)
-				return;
-
-			TextBox? textBox = null;
-
-			// Handle layout differences between tiles browser and photo album
-			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
-			{
-				if (gridViewItem.FindDescendant("EditPopup") is not Popup popup)
-					return;
-
-				textBox = popup.Child as TextBox;
-				if (textBox is null)
-					return;
-
-				textBox.Text = textBlock.Text;
-				textBlock.Opacity = 0;
-				popup.IsOpen = true;
-				OldItemName = textBlock.Text;
-			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
-			{
-				textBox = gridViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
-				if (textBox is null)
-					return;
-
-				textBox.Text = textBlock.Text;
-				OldItemName = textBlock.Text;
-				textBlock.Visibility = Visibility.Collapsed;
-				textBox.Visibility = Visibility.Visible;
-
-				if (textBox.FindParent<Grid>() is null)
-				{
-					textBlock.Visibility = Visibility.Visible;
-					textBox.Visibility = Visibility.Collapsed;
-					return;
-				}
-			}
-			else
-			{
-				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-				if (textBox is null)
-					return;
-
-				textBox.Text = textBlock.Text;
-				OldItemName = textBlock.Text;
-				textBlock.Visibility = Visibility.Collapsed;
-				textBox.Visibility = Visibility.Visible;
-
-				if (textBox.FindParent<Grid>() is null)
-				{
-					textBlock.Visibility = Visibility.Visible;
-					textBox.Visibility = Visibility.Collapsed;
-					return;
-				}
-			}
-
-			textBox.Focus(FocusState.Pointer);
-			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
-
-			int selectedTextLength = RenamingItem.Name.Length;
-			if (!RenamingItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
-				selectedTextLength -= extensionLength;
-
-			textBox.Select(0, selectedTextLength);
-			IsRenamingMultipleItems = true;
-		}
-
 		override public void StartRenameItem()
 		{
-			var selecteditems = SelectedItems;
-			if(selecteditems.Count > 1)
+			bool multipleRenameFlag = false;
+			if (SelectedItems.Count > 1)
 			{
-				return;
+				RenamingItem = SelectedItems.Last();
+				RenamingItems = SelectedItems;
+				multipleRenameFlag = true;
 			}
-			RenamingItem = SelectedItem;
+			else 
+			{ 				
+				RenamingItem = SelectedItem;
+			}
+			
 			if (RenamingItem is null || FolderSettings is null)
 				return;
 
@@ -447,7 +371,15 @@ namespace Files.App.Views.Layouts
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
-			IsRenamingItem = true;
+			if(multipleRenameFlag)
+			{
+				IsRenamingMultipleItems = true;
+			}
+			else
+			{
+				IsRenamingItem = true;
+			}
+			
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
@@ -499,8 +431,7 @@ namespace Files.App.Views.Layouts
 			}
 
 			FileNameTeachingTip.IsOpen = false;
-			IsRenamingItem = false;
-			IsRenamingMultipleItems = false;
+			
 
 			// Re-focus selected list item
 			gridViewItem?.Focus(FocusState.Programmatic);

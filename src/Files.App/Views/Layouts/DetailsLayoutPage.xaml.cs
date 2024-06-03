@@ -326,13 +326,6 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		override public void StartRenameItems()
-		{
-			
-			StartRenameItems("ItemNameTextBox");
-			
-		}
-
 		override public void StartRenameItem()
 		{
 			
@@ -392,8 +385,7 @@ namespace Files.App.Views.Layouts
 			
 
 			FileNameTeachingTip.IsOpen = false;
-			IsRenamingItem = false;
-			IsRenamingMultipleItems = false;
+			
 
 			// Re-focus selected list item
 			
@@ -516,7 +508,7 @@ namespace Files.App.Views.Layouts
 			var item = clickedItem?.DataContext as ListedItem;
 			if (item is null)
 			{
-				if (IsRenamingItem && RenamingItem is not null)
+				if ((IsRenamingItem && RenamingItem is not null) || (IsRenamingMultipleItems && RenamingItem is not null))
 				{
 					ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 					if (listViewItem is not null)
@@ -526,16 +518,7 @@ namespace Files.App.Views.Layouts
 							await CommitRenameAsync(textBox);
 					}
 				}
-				if (IsRenamingMultipleItems)
-				{
-					ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-					if (listViewItem is not null)
-					{
-						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						if (textBox is not null)
-							await CommitMultipleRenameAsync(textBox);
-					}
-				}
+				
 				return;
 			}
 
