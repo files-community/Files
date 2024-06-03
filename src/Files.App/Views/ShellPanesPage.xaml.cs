@@ -14,7 +14,7 @@ namespace Files.App.Views
 	/// <summary>
 	/// Represents <see cref="Page"/> that holds multiple panes.
 	/// </summary>
-	public sealed partial class PaneHolderPage : Page, IPanesPage, ITabBarItemContent
+	public sealed partial class ShellPanesPage : Page, IShellPanesPage, ITabBarItemContent
 	{
 		// Dependency injections
 
@@ -75,11 +75,13 @@ namespace Files.App.Views
 
 					if (value)
 					{
+						// Collapse right pane
 						_wasRightPaneVisible = IsRightPaneVisible;
 						IsRightPaneVisible = false;
 					}
 					else if (_wasRightPaneVisible)
 					{
+						// Show right pane if window gets larger
 						IsRightPaneVisible = true;
 						_wasRightPaneVisible = false;
 					}
@@ -212,13 +214,13 @@ namespace Files.App.Views
 
 		// Events
 
-		public static event EventHandler<PaneHolderPage>? CurrentInstanceChanged;
+		public static event EventHandler<ShellPanesPage>? CurrentInstanceChanged;
 		public event EventHandler<TabBarItemParameter>? ContentChanged;
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		// Constructor
 
-		public PaneHolderPage()
+		public ShellPanesPage()
 		{
 			InitializeComponent();
 
@@ -227,8 +229,6 @@ namespace Files.App.Views
 			ActivePane = PaneLeft;
 			_WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;
-
-			// TODO?: Fallback or an error can occur when failing to get NavigationViewCompactPaneLength value
 		}
 
 		// Public methods
@@ -288,7 +288,7 @@ namespace Files.App.Views
 
 			TabBarItemParameter = new()
 			{
-				InitialPageType = typeof(PaneHolderPage),
+				InitialPageType = typeof(ShellPanesPage),
 				NavigationParameter = new PaneNavigationArguments()
 				{
 					LeftPaneNavPathParam = NavParamsLeft?.NavPath,
@@ -322,7 +322,7 @@ namespace Files.App.Views
 		{
 			TabBarItemParameter = new()
 			{
-				InitialPageType = typeof(PaneHolderPage),
+				InitialPageType = typeof(ShellPanesPage),
 				NavigationParameter = new PaneNavigationArguments()
 				{
 					LeftPaneNavPathParam = PaneLeft.TabBarItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,

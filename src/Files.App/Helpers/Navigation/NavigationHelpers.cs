@@ -18,12 +18,12 @@ namespace Files.App.Helpers
 
 		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), path, focusNewTab);
+			return AddNewTabByPathAsync(typeof(ShellPanesPage), path, focusNewTab);
 		}
 
 		public static Task AddNewTabAsync()
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
+			return AddNewTabByPathAsync(typeof(ShellPanesPage), "Home", true);
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, bool focusNewTab, int atIndex = -1)

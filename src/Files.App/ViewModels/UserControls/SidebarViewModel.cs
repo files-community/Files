@@ -30,8 +30,8 @@ namespace Files.App.ViewModels.UserControls
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
 
-		private IPanesPage paneHolder;
-		public IPanesPage PaneHolder
+		private IShellPanesPage paneHolder;
+		public IShellPanesPage PaneHolder
 		{
 			get => paneHolder;
 			set => SetProperty(ref paneHolder, value);

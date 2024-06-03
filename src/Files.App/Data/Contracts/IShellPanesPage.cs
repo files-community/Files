@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Contracts
 {
-	public interface IPanesPage : IDisposable, INotifyPropertyChanged
+	public interface IShellPanesPage : IDisposable, INotifyPropertyChanged
 	{
 		public IShellPage? ActivePane { get; set; }
 
