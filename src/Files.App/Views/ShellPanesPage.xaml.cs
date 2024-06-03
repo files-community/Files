@@ -47,7 +47,7 @@ namespace Files.App.Views
 			=> GetPaneCount() > 1;
 
 		public bool IsMultiPaneEnabled
-			=> AppModel.IsMainWindowClosed ? false : MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
+			=> !AppModel.IsMainWindowClosed && MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
 
 		public IShellPage ActivePaneOrColumn
 		{
@@ -191,7 +191,7 @@ namespace Files.App.Views
 
 						//RootGrid.ColumnDefinitions[2].MinWidth = 100;
 						//RootGrid.ColumnDefinitions[2].Width = new(1, GridUnitType.Star);
-						RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
+						//RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
 					}
 					else
 					{
@@ -199,7 +199,7 @@ namespace Files.App.Views
 
 						//RootGrid.ColumnDefinitions[2].MinWidth = 0;
 						//RootGrid.ColumnDefinitions[2].Width = new(0);
-						RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
+						//RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
 					}
 				}
 			}
@@ -334,8 +334,11 @@ namespace Files.App.Views
 			// Hook event
 			page.ContentChanged += Pane_ContentChanged;
 			page.Loaded += Pane_Loaded;
+
+			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
+		// TODO: Shift column index for when to close left pane
 		private void RemovePane(int index = -1)
 		{
 			if (index is -1)
@@ -345,9 +348,15 @@ namespace Files.App.Views
 			var childIndex = index * 2 - 1;
 			childIndex = childIndex >= 0 ? childIndex : 0;
 
-			// Remove sizer and pane
+			// Remove sizer and pane from children
 			RootGrid.Children.RemoveAt(childIndex);
 			RootGrid.Children.RemoveAt(childIndex);
+
+			// Remove sizer and pane from column definitions
+			RootGrid.ColumnDefinitions.RemoveAt(childIndex);
+			RootGrid.ColumnDefinitions.RemoveAt(childIndex);
+
+			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
 		private void SetShadow()
@@ -490,8 +499,8 @@ namespace Files.App.Views
 
 		private void Sizer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			var sizerColumns = RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 1);
-			sizerColumns?.ForEach(x => x.Width = new GridLength(1, GridUnitType.Star));
+			var paneColumns = RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0);
+			paneColumns?.ForEach(x => x.Width = new GridLength(1, GridUnitType.Star));
 		}
 
 		private void Sizer_Loaded(object sender, RoutedEventArgs e)
