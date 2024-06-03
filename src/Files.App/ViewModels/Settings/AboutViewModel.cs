@@ -11,6 +11,9 @@ using Windows.System;
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents view model of <see cref="Views.Settings.AboutPage"/>.
+	/// </summary>
 	public sealed class AboutViewModel : ObservableObject
 	{
 		// Dependency injections
@@ -44,6 +47,9 @@ namespace Files.App.ViewModels.Settings
 
 		// Constructor
 
+		/// <summary>
+		/// Initializes an instance of <see cref="AboutViewModel"/> class.
+		/// </summary>
 		public AboutViewModel()
 		{
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
