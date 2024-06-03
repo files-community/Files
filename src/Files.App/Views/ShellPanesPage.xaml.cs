@@ -185,8 +185,8 @@ namespace Files.App.Views
 					{
 						AddPane();
 
-						RootGrid.ColumnDefinitions[2].MinWidth = 100;
-						RootGrid.ColumnDefinitions[2].Width = new(1, GridUnitType.Star);
+						//RootGrid.ColumnDefinitions[2].MinWidth = 100;
+						//RootGrid.ColumnDefinitions[2].Width = new(1, GridUnitType.Star);
 						RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
 					}
 					else
@@ -274,24 +274,23 @@ namespace Files.App.Views
 			// Adding new pane is not the first time
 			if (RootGrid.Children.Count is not 0)
 			{
-				var sizer = new GridSplitter();
+				var sizer = new GridSplitter() { IsTabStop = false };
+				Canvas.SetZIndex(sizer, 150);
 				sizer.DoubleTapped += PaneResizer_OnDoubleTapped;
 				sizer.Loaded += PaneResizer_Loaded;
 				sizer.ManipulationCompleted += PaneResizer_ManipulationCompleted;
 				sizer.ManipulationStarted += PaneResizer_ManipulationStarted;
 
 				// Add column definition for sizer
-				RootGrid.ColumnDefinitions.Add(new());
+				RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
 
 				// Add sizer
 				RootGrid.Children.Add(sizer);
 				sizer.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
-
-				// TODO: Set binding to the sizer and previous pane
 			}
 
 			// Add column definition for new pane
-			RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
+			RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
 
 			// Add new pane
 			var page = new ModernShellPage() { PaneHolder = this };
