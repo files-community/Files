@@ -16,10 +16,6 @@ namespace Files.App.ViewModels.Settings
 	/// </summary>
 	public sealed class AboutViewModel : ObservableObject
 	{
-		// Dependency injections
-
-		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-
 		// Properties
 
 		public string Version
