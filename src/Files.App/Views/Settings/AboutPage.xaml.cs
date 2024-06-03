@@ -13,17 +13,5 @@ namespace Files.App.Views.Settings
 		{
 			InitializeComponent();
 		}
-
-		private async void ThirdPartyLicenses_Click(object sender, bool e)
-		{
-			if (e && string.IsNullOrEmpty(ViewModel.ThirdPartyNotices))
-				await ViewModel.LoadThirdPartyNoticesAsync();
-		}
-
-		private async void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
-		{
-			if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri? link))
-				await Launcher.LaunchUriAsync(link);
-		}
 	}
 }

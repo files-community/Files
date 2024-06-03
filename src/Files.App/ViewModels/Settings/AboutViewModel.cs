@@ -13,7 +13,22 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed class AboutViewModel : ObservableObject
 	{
-		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		// Dependency injections
+
+		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+
+		// Properties
+
+		public string Version
+			=> string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+
+		public string AppName
+			=> Package.Current.DisplayName;
+
+		public PackageVersion AppVersion
+			=> Package.Current.Id.Version;
+
+		// Commands
 
 		public ICommand CopyAppVersionCommand { get; }
 		public ICommand CopyWindowsVersionCommand { get; }
@@ -27,12 +42,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand OpenPrivacyPolicyCommand { get; }
 		public ICommand OpenCrowdinCommand { get; }
 
-		private string _ThirdPartyNotices = string.Empty;
-		public string ThirdPartyNotices
-		{
-			get => _ThirdPartyNotices;
-			set => SetProperty(ref _ThirdPartyNotices, value);
-		}
+		// Constructor
 
 		public AboutViewModel()
 		{
@@ -48,6 +58,8 @@ namespace Files.App.ViewModels.Settings
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
 			OpenCrowdinCommand = new AsyncRelayCommand(DoOpenCrowdin);
 		}
+
+		// Methods
 
 		private async Task<bool> OpenLogLocation()
 		{
@@ -95,7 +107,6 @@ namespace Files.App.ViewModels.Settings
 			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.PrivacyPolicyUrl)).AsTask();
 		}
 
-
 		public Task DoOpenCrowdin()
 		{
 			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.CrowdinUrl)).AsTask();
@@ -128,12 +139,6 @@ namespace Files.App.ViewModels.Settings
 			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.SupportUsUrl)).AsTask();
 		}
 
-		public async Task LoadThirdPartyNoticesAsync()
-		{
-			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(Constants.DocsPath.ThirdPartyNoticePath));
-			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
-		}
-
 		public string GetAppVersion()
 		{
 			return string.Format($"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
@@ -151,16 +156,5 @@ namespace Files.App.ViewModels.Settings
 			query["windows_version"] = GetWindowsVersion();
 			return query.ToString() ?? string.Empty;
 		}
-
-		public string Version
-		{
-			get
-			{
-				return string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
-			}
-		}
-
-		public string AppName => Package.Current.DisplayName;
-		public PackageVersion AppVersion => Package.Current.Id.Version;
 	}
 }
