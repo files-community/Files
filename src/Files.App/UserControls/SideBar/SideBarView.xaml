@@ -21,7 +21,7 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<!--  Background  -->
+		<!--  Background For Both Pane And Content  -->
 		<Border
 			x:Name="PaneBackground"
 			Grid.Row="1"
