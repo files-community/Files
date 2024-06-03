@@ -820,7 +820,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
-			PaneHolder.OpenPathInNewPane(rightClickedItem.Path);
+			PaneHolder.OpenSecondaryPane(rightClickedItem.Path);
 		}
 
 		private async Task OpenInNewTabAsync()

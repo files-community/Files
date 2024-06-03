@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,36 +31,29 @@ namespace Files.App.Views
 			=> ((Frame)MainWindow.Instance.Content).FindDescendant<StatusBar>()!;
 
 		public bool IsLeftPaneActive
-			=> ActivePane == PaneLeft;
+			=> ActivePane == (GetPane(0) as IShellPage);
 
 		public bool IsRightPaneActive
-			=> ActivePane == PaneRight;
+			=> ActivePane == (GetPane(1) as IShellPage);
 
 		public IFilesystemHelpers FilesystemHelpers
-			=> ActivePane?.FilesystemHelpers;
+			=> ActivePane?.FilesystemHelpers!;
 
 		public bool IsMultiPaneActive
-			=> IsRightPaneVisible;
+			=> GetPaneCount() > 1;
 
 		public bool IsMultiPaneEnabled
-		{
-			get
-			{
-				if (App.AppModel.IsMainWindowClosed)
-					return false;
-				else
-					return MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
-			}
-		}
+			=> App.AppModel.IsMainWindowClosed ? false : MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
 
 		public IShellPage ActivePaneOrColumn
 		{
 			get
 			{
-				if (ActivePane is not null && ActivePane.IsColumnView)
-					return (ActivePane.SlimContentPage as ColumnsLayoutPage).ActiveColumnShellPage;
+				// Active shell is column view
+				if (ActivePane is not null && ActivePane.IsColumnView && ActivePane.SlimContentPage is ColumnsLayoutPage columnLayoutPage)
+					return columnLayoutPage.ActiveColumnShellPage;
 
-				return ActivePane ?? PaneLeft;
+				return ActivePane ?? GetPane(0)!;
 			}
 		}
 
@@ -100,8 +94,7 @@ namespace Files.App.Views
 				if (_TabBarItemParameter != value)
 				{
 					_TabBarItemParameter = value;
-
-					ContentChanged?.Invoke(this, value);
+					ContentChanged?.Invoke(this, value!);
 				}
 			}
 		}
@@ -115,8 +108,10 @@ namespace Files.App.Views
 				if (_NavParamsLeft != value)
 				{
 					_NavParamsLeft = value;
-
 					NotifyPropertyChanged(nameof(NavParamsLeft));
+
+					if (GetPane(0) is ModernShellPage page)
+						page.NavParams = value!;
 				}
 			}
 		}
@@ -130,8 +125,10 @@ namespace Files.App.Views
 				if (_NavParamsRight != value)
 				{
 					_NavParamsRight = value;
-
 					NotifyPropertyChanged(nameof(NavParamsRight));
+
+					if (GetPane(1) is ModernShellPage page)
+						page.NavParams = value!;
 				}
 			}
 		}
@@ -146,10 +143,12 @@ namespace Files.App.Views
 				{
 					_ActivePane = value;
 
-					PaneLeft.IsCurrentInstance = false;
+					// Reset
+					if (GetPane(0) is ModernShellPage firstShellPage)
+						firstShellPage.IsCurrentInstance = false;
+					if (GetPane(1) is ModernShellPage secondShellPage)
+						secondShellPage.IsCurrentInstance = false;
 
-					if (PaneRight is not null)
-						PaneRight.IsCurrentInstance = false;
 					if (ActivePane is not null)
 						ActivePane.IsCurrentInstance = IsCurrentInstance;
 
@@ -175,12 +174,29 @@ namespace Files.App.Views
 					_IsRightPaneVisible = value;
 					if (!_IsRightPaneVisible)
 					{
-						ActivePane = PaneLeft;
-						Pane_ContentChanged(null, null);
+						ActivePane = GetPane(0);
+						Pane_ContentChanged(null!, null!);
 					}
 
 					NotifyPropertyChanged(nameof(IsRightPaneVisible));
 					NotifyPropertyChanged(nameof(IsMultiPaneActive));
+
+					if (value)
+					{
+						AddPane();
+
+						RootGrid.ColumnDefinitions[2].MinWidth = 100;
+						RootGrid.ColumnDefinitions[2].Width = new(1, GridUnitType.Star);
+						RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
+					}
+					else
+					{
+						RemovePane((RootGrid.Children.Count - 1) / 2);
+
+						//RootGrid.ColumnDefinitions[2].MinWidth = 0;
+						//RootGrid.ColumnDefinitions[2].Width = new(0);
+						RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
+					}
 				}
 			}
 		}
@@ -195,10 +211,12 @@ namespace Files.App.Views
 					return;
 
 				_IsCurrentInstance = value;
-				PaneLeft.IsCurrentInstance = false;
 
-				if (PaneRight is not null)
-					PaneRight.IsCurrentInstance = false;
+				// Reset
+				if (GetPane(0) is ModernShellPage firstShellPage)
+					firstShellPage.IsCurrentInstance = false;
+				if (GetPane(1) is ModernShellPage secondShellPage)
+					secondShellPage.IsCurrentInstance = false;
 
 				if (ActivePane is not null)
 				{
@@ -224,39 +242,107 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
+			// Initialize the default pane
+			AddPane();
 
-			ActivePane = PaneLeft;
+			// Set default values
+			ActivePane = GetPane(0);
 			_WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;
+
+			MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
 		}
 
 		// Public methods
 
-		public void OpenPathInNewPane(string path)
+		public ModernShellPage? GetPane(int index = -1)
 		{
-			IsRightPaneVisible = true;
-			NavParamsRight = new() { NavPath = path };
-			ActivePane = PaneRight;
+			if (index is -1 || RootGrid.Children.Count - 1 < index)
+				return null;
+
+			var shellPage = RootGrid.Children[index * 2] as ModernShellPage;
+			return shellPage;
 		}
 
-		public void CloseActivePane()
+		public int GetPaneCount()
 		{
-			// NOTE: Can only close right pane at the moment
+			return (RootGrid.Children.Count + 1) / 2;
+		}
+
+		public void AddPane()
+		{
+			// Adding new pane is not the first time
+			if (RootGrid.Children.Count is not 0)
+			{
+				var sizer = new GridSplitter();
+				sizer.DoubleTapped += PaneResizer_OnDoubleTapped;
+				sizer.Loaded += PaneResizer_Loaded;
+				sizer.ManipulationCompleted += PaneResizer_ManipulationCompleted;
+				sizer.ManipulationStarted += PaneResizer_ManipulationStarted;
+
+				// Add column definition for sizer
+				RootGrid.ColumnDefinitions.Add(new());
+
+				// Add sizer
+				RootGrid.Children.Add(sizer);
+				sizer.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
+
+				// TODO: Set binding to the sizer and previous pane
+			}
+
+			// Add column definition for new pane
+			RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
+
+			// Add new pane
+			var page = new ModernShellPage() { PaneHolder = this };
+			RootGrid.Children.Add(page);
+			page.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
+
+			// Hook event
+			page.ContentChanged += Pane_ContentChanged;
+			page.Loaded += Pane_Loaded;
+		}
+
+		public void RemovePane(int index = -1)
+		{
+			if (index is -1)
+				return;
+
+			// Get proper position of sizer that resides with the pane that is wanted to be removed
+			var childIndex = index * 2 - 1;
+			childIndex = childIndex >= 0 ? childIndex : 0;
+
+			// Remove sizer and pane
+			RootGrid.Children.RemoveAt(childIndex);
+			RootGrid.Children.RemoveAt(childIndex);
+		}
+
+		public void OpenSecondaryPane(string path)
+		{
+			// Add right pane within this property's setter
+			IsRightPaneVisible = true;
+
+			NavParamsRight = new() { NavPath = path };
+			ActivePane = GetPane(1);
+		}
+
+		public void CloseSecondaryPane()
+		{
+			// Remove right pane within this property's setter
 			IsRightPaneVisible = false;
 
-			PaneLeft.Focus(FocusState.Programmatic);
+			GetPane(0)?.Focus(FocusState.Programmatic);
 			SetShadow();
 		}
 
 		public void FocusLeftPane()
 		{
-			PaneLeft.Focus(FocusState.Programmatic);
+			GetPane(0)?.Focus(FocusState.Programmatic);
 		}
 
 		public void FocusRightPane()
 		{
-			PaneRight.Focus(FocusState.Programmatic);
+			GetPane(1)?.Focus(FocusState.Programmatic);
 		}
 
 		// Override methods
@@ -303,13 +389,11 @@ namespace Files.App.Views
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
 		{
-			// TODO: Remove
 			return ActivePane?.TabItemDragOver(sender, e) ?? Task.CompletedTask;
 		}
 
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
-			// TODO: Remove
 			return ActivePane?.TabItemDrop(sender, e) ?? Task.CompletedTask;
 		}
 
@@ -318,15 +402,15 @@ namespace Files.App.Views
 			WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 		}
 
-		private void Pane_ContentChanged(object sender, TabBarItemParameter e)
+		private void Pane_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			TabBarItemParameter = new()
 			{
 				InitialPageType = typeof(ShellPanesPage),
 				NavigationParameter = new PaneNavigationArguments()
 				{
-					LeftPaneNavPathParam = PaneLeft.TabBarItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,
-					RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabBarItemParameter?.NavigationParameter as string : null
+					LeftPaneNavPathParam = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,
+					RightPaneNavPathParam = IsRightPaneVisible ? GetPane(1)?.TabBarItemParameter?.NavigationParameter as string : null
 				}
 			};
 		}
@@ -339,27 +423,32 @@ namespace Files.App.Views
 		}
 
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
-			=> (sender as UIElement)?.Focus(FocusState.Pointer);
+		{
+			(sender as UIElement)?.Focus(FocusState.Pointer);
+		}
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
 		{
-			var isLeftPane = sender == PaneLeft;
-			if (isLeftPane && (PaneRight?.SlimContentPage?.IsItemSelected ?? false))
+			var isLeftPane = sender == (GetPane(0) as IShellPage);
+
+			// Clear selection in left pane
+			if (isLeftPane && GetPane(1) is ModernShellPage secondShellPage && (secondShellPage.SlimContentPage?.IsItemSelected ?? false))
 			{
-				PaneRight.SlimContentPage.LockPreviewPaneContent = true;
-				PaneRight.SlimContentPage.ItemManipulationModel.ClearSelection();
-				PaneRight.SlimContentPage.LockPreviewPaneContent = false;
+				secondShellPage.SlimContentPage.LockPreviewPaneContent = true;
+				secondShellPage.SlimContentPage.ItemManipulationModel.ClearSelection();
+				secondShellPage.SlimContentPage.LockPreviewPaneContent = false;
 			}
-			else if (!isLeftPane && (PaneLeft?.SlimContentPage?.IsItemSelected ?? false))
+			// Clear selection in right pane
+			else if (!isLeftPane && GetPane(0) is ModernShellPage firstShellPage && (firstShellPage.SlimContentPage?.IsItemSelected ?? false))
 			{
-				PaneLeft.SlimContentPage.LockPreviewPaneContent = true;
-				PaneLeft.SlimContentPage.ItemManipulationModel.ClearSelection();
-				PaneLeft.SlimContentPage.LockPreviewPaneContent = false;
+				firstShellPage.SlimContentPage.LockPreviewPaneContent = true;
+				firstShellPage.SlimContentPage.ItemManipulationModel.ClearSelection();
+				firstShellPage.SlimContentPage.LockPreviewPaneContent = false;
 			}
 
-			var activePane = isLeftPane ? PaneLeft : PaneRight;
-			if (ActivePane != activePane)
-				ActivePane = activePane;
+			var newActivePane = isLeftPane ? GetPane(0) : GetPane(1);
+			if (ActivePane != (newActivePane as IShellPage))
+				ActivePane = newActivePane;
 		}
 
 		private void SetShadow()
@@ -367,23 +456,24 @@ namespace Files.App.Views
 			if (IsMultiPaneActive)
 			{
 				// Add theme shadow to the active pane
-				if (PaneRight is not null)
+				if (GetPane(1) is ModernShellPage rightShellPage)
 				{
-					PaneRight.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 0 : 32);
-					VisualStateManager.GoToState(PaneLeft, IsLeftPaneActive ? "ShellBorderFocusOnState" : "ShellBorderFocusOffState", true);
+					rightShellPage.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 0 : 32);
+					VisualStateManager.GoToState(GetPane(0), IsLeftPaneActive ? "ShellBorderFocusOnState" : "ShellBorderFocusOffState", true);
 				}
 
-				if (PaneLeft is not null)
+				if (GetPane(0) is ModernShellPage leftShellPage)
 				{
-					PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 32 : 0);
-					VisualStateManager.GoToState(PaneRight, IsLeftPaneActive ? "ShellBorderFocusOffState" : "ShellBorderFocusOnState", true);
+					leftShellPage.RootGrid.Translation = new System.Numerics.Vector3(0, 0, IsLeftPaneActive ? 32 : 0);
+					VisualStateManager.GoToState(GetPane(1), IsLeftPaneActive ? "ShellBorderFocusOffState" : "ShellBorderFocusOnState", true);
 				}
 			}
 			else
 			{
-				PaneLeft.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
+				if (GetPane(0) is ModernShellPage leftShellPage)
+					leftShellPage.RootGrid.Translation = new System.Numerics.Vector3(0, 0, 8);
 
-				VisualStateManager.GoToState(PaneLeft, "ShellBorderDualPaneOffState", true);
+				VisualStateManager.GoToState(GetPane(0), "ShellBorderDualPaneOffState", true);
 			}
 		}
 
@@ -395,13 +485,14 @@ namespace Files.App.Views
 
 		private void PaneResizer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			LeftColumn.Width = new GridLength(1, GridUnitType.Star);
-			RightColumn.Width = new GridLength(1, GridUnitType.Star);
+			var sizerColumns = RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 1);
+			sizerColumns?.ForEach(x => x.Width = new GridLength(1, GridUnitType.Star));
 		}
 
 		private void PaneResizer_Loaded(object sender, RoutedEventArgs e)
 		{
-			PaneResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			if (sender is GridSplitter sizer)
+				sizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void PaneResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -411,7 +502,7 @@ namespace Files.App.Views
 
 		private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			if (PaneRight is not null && PaneRight.ActualWidth <= 100)
+			if (GetPane(1) is ModernShellPage secondShellPage && secondShellPage.ActualWidth <= 100)
 				IsRightPaneVisible = false;
 
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
@@ -427,11 +518,15 @@ namespace Files.App.Views
 		public void Dispose()
 		{
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
-			PaneLeft?.Dispose();
-			PaneRight?.Dispose();
+			GetPane(0)?.Dispose();
+			GetPane(1)?.Dispose();
 
-			if (PaneResizer is not null)
-				PaneResizer.DoubleTapped -= PaneResizer_OnDoubleTapped;
+			var sizerColumns = RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 1)?.Cast<GridSplitter>();
+			if (sizerColumns is not null)
+			{
+				foreach (var item in sizerColumns)
+					item.DoubleTapped -= PaneResizer_OnDoubleTapped;
+			}
 		}
 	}
 }

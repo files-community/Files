@@ -265,7 +265,7 @@ namespace Files.App.Helpers
 			if (associatedInstance is null || listedItem is null)
 				return;
 
-			associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+			associatedInstance.PaneHolder?.OpenSecondaryPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 		}
 
 		public static Task LaunchNewWindowAsync()
