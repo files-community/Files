@@ -45,6 +45,8 @@ namespace Files.App.Utils
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
+				if (IsImage && ImageWidth > 0 && ImageHeight > 0)
+					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensions".GetLocalizedResource()}: {DimensionsDisplay}");
 				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
 
@@ -326,6 +328,30 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
+		private int imageWidth;
+		public int ImageWidth
+		{
+			get => imageWidth;
+			set
+			{
+				SetProperty(ref imageWidth, value);
+				OnPropertyChanged(nameof(DimensionsDisplay));
+			}
+		}
+
+		private int imageHeight;
+		public int ImageHeight
+		{
+			get => imageHeight;
+			set
+			{
+				SetProperty(ref imageHeight, value);
+				OnPropertyChanged(nameof(DimensionsDisplay));
+			}
+		}
+
+		public string DimensionsDisplay => IsImage ? $"{ImageWidth} \u00D7 {ImageHeight}" : string.Empty;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListedItem" /> class.
 		/// </summary>
@@ -374,6 +400,7 @@ namespace Files.App.Utils
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
+		public virtual bool IsImage => FileExtensionHelpers.IsImageFile(ItemPath);
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
