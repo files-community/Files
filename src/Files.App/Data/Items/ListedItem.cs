@@ -45,7 +45,7 @@ namespace Files.App.Utils
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
-				if (IsImage && ImageWidth > 0 && ImageHeight > 0)
+				if (!string.IsNullOrWhiteSpace(DimensionsDisplay))
 					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensions".GetLocalizedResource()}: {DimensionsDisplay}");
 				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
