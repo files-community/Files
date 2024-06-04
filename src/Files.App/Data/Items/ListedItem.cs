@@ -350,7 +350,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public string DimensionsDisplay => IsImage ? $"{ImageWidth} \u00D7 {ImageHeight}" : string.Empty;
+		public string DimensionsDisplay => IsImage && ImageWidth > 0 && ImageHeight > 0 ? $"{ImageWidth} \u00D7 {ImageHeight}" : string.Empty;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListedItem" /> class.
