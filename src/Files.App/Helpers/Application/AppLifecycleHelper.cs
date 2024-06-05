@@ -111,6 +111,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void ConfigureSentry()
 		{
+			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			SentrySdk.Init(options =>
 			{
 				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
@@ -124,6 +126,15 @@ namespace Files.App.Helpers
 					EnableCodeLocations = true
 				};
 			});
+
+			SentrySdk.ConfigureScope(scope =>
+			{
+				scope.User = new SentryUser
+				{
+					Id = generalSettingsService.UserId
+				};
+			});
+
 		}
 
 		/// <summary>
