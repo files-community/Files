@@ -63,6 +63,5 @@ namespace Files.App.UserControls.Widgets
 				}
 			}
 		}
-
 	}
 }
