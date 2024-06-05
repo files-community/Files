@@ -1053,7 +1053,7 @@
     <value>Toggle the details pane to view basic file properties</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>{0, select, 1 {Show} 0 {Hide} other {Toggle}} info pane</value>
+    <value>{0, select, 1 {Show} 0 {Hide} other {Toggle}} the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Toggle the info pane to view the detail/preview panes</value>
