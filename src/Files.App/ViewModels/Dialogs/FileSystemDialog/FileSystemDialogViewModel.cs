@@ -151,14 +151,10 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 			{
 				titleText = "ConflictingItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 
-				var descriptionLocalized = new StringBuilder();
-				descriptionLocalized.Append("ConflictingItemsDialogSubtitleConflicts".GetLocalizedFormatResource(conflictingItems.Count));
+				descriptionText = nonConflictingItems.Count > 0
+					? "ConflictingItemsDialogSubtitleConflictsNonConflicts".GetLocalizedFormatResource(conflictingItems.Count, nonConflictingItems.Count)
+					: "ConflictingItemsDialogSubtitleConflicts".GetLocalizedFormatResource(conflictingItems.Count);
 
-				if (nonConflictingItems.Count > 0)
-					descriptionLocalized.Append("ConflictingItemsDialogSubtitleConflictsNonConflicts".GetLocalizedFormatResource(nonConflictingItems.Count));
-
-				descriptionLocalized.Append('.');
-				descriptionText = descriptionLocalized.ToString();
 				primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".ToLocalized();
 				secondaryButtonText = "Cancel".ToLocalized();
 			}

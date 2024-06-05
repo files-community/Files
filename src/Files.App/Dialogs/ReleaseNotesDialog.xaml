@@ -69,7 +69,9 @@
 			HorizontalScrollMode="Auto"
 			VerticalScrollMode="Auto">
 			<controls:MarkdownTextBlock
+				x:Name="ReleaseNotesMarkdownTextBlock"
 				Background="Transparent"
+				LinkClicked="ReleaseNotesMarkdownTextBlock_LinkClicked"
 				ListGutterWidth="16"
 				Text="{x:Bind ViewModel.ReleaseNotesMadrkdown, Mode=OneWay}" />
 		</ScrollViewer>

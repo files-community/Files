@@ -385,28 +385,16 @@
     <value>Solo lectura</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>Hace {0} días</value>
-  </data>
-  <data name="DayAgo" xml:space="preserve">
-    <value>Hace {0} día</value>
+    <value>{0, plural, one {hace # día} other {hace # días}}</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>Hace {0} horas</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>Hace {0} hora</value>
+    <value>{0, plural, one {hace # hora} other {hace # horas}}</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>Hace {0} minutos</value>
-  </data>
-  <data name="MinuteAgo" xml:space="preserve">
-    <value>Hace {0} minuto</value>
+    <value>{0, plural, one {hace # minuto} other {hace # minutos}}</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>Hace {0} segundos</value>
-  </data>
-  <data name="OneSecondAgo" xml:space="preserve">
-    <value>Hace 1 segundo</value>
+    <value>{0, plural, one {hace # segundo} other {hace # segundos}}</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Ahora</value>
@@ -465,10 +453,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} Archivos, {1:#,##0} Carpetas</value>
+    <value>{0, number} {0, plural, one {archivo} other {archivos}}, {1, number} {1, plural, one {carpeta} other {carpetas}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} archivos, {1:#,##0} carpetas de {2:#,##0} ubicaciones</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} {0, plural, one {archivo} other {archivos}}, {1, number} {1, plural, one {carpeta} other {carpetas}} desde {2, number} {2, plural, one {ubicación} other {ubicaciones}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Ejecutar como otro usuario</value>
@@ -1227,37 +1215,37 @@
     <value>Copiar</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}}</value>
+    <value>Copia {0, plural, one {elemento} other {elementos}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}}</value>
+    <value>Elimina {0, plural, one {elemento} other {elementos}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Mover</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
+    <value>{0, plural, one {Un elemento será movido} other {# elementos serán movidos}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move {0, plural, one {item} other {items}}</value>
+    <value>Mueve {0, plural, one {elemento} other {elementos}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
+    <value>{0, plural, one {Un elemento será eliminado} other {# elementos serán eliminados}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Continuar</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+    <value>{0, plural, one {Hay un nombre de archivo en conflicto} other {Hay # nombres de archivo en conflicto}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {, and one outgoing item} other {, and # outgoing items}}</value>
+    <value>{0, plural, one {Hay un nombre de archivo en conflicto} other {Hay # nombres de archivo en conflicto}}, y {1, plural, one {un elemento saliente} other {# elementos salientes}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
+    <value>Conflicto {0, plural, one {elemento} other {elementos}}</value>
   </data>
   <data name="CopyItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
+    <value>{0, plural, one {Un elemento será copiado} other {# elementos serán copiados}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Eliminar permanentemente</value>
@@ -1601,8 +1589,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Descarga el elemento de la nube y carga la vista previa.</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} elementos ({1} archivos, {2} carpetas)</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, one {# elemento} other {# elementos}} ({1, plural, one {# archivo} other {# archivos}}, {2, plural, one {# carpeta} other {# carpetas}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Tamaño sin comprimir</value>
@@ -2664,16 +2652,16 @@
     <value>Cerrar panel derecho</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
-    <value>Focus left pane</value>
+    <value>Enfocar panel izquierdo</value>
   </data>
   <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Switch focus to the left pane</value>
+    <value>Cambiar foco al panel izquierdo</value>
   </data>
   <data name="FocusRightPane" xml:space="preserve">
-    <value>Focus right pane</value>
+    <value>Enfocar panel derecho</value>
   </data>
   <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Switch focus to the right pane</value>
+    <value>Cambiar foco al panel derecho</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Ocultar/mostrar barra lateral</value>
