@@ -34,6 +34,7 @@ namespace Files.App.UserControls.Widgets
 			if (items.Count > 0)
 			{
 				var storageItems = new List<IStorageItem>();
+				var fileContents = new List<string>();
 
 				foreach (var item in items)
 				{
@@ -43,6 +44,11 @@ namespace Files.App.UserControls.Widgets
 						var file = await StorageFile.GetFileFromPathAsync(item.RecentPath);
 						if (file != null)
 							storageItems.Add(file);
+
+						// Read the file text content
+						var fileContent = await FileIO.ReadTextAsync(file);
+						fileContents.Add(fileContent);
+
 					}
 					catch (Exception)
 					{
@@ -57,6 +63,14 @@ namespace Files.App.UserControls.Widgets
 					DataPackage dataPackage = new DataPackage();
 					dataPackage.SetStorageItems(storageItems);
 					e.Data.SetDataProvider(StandardDataFormats.StorageItems, request => request.SetData(storageItems));
+
+					if (fileContents.Count> 0)
+					{
+						// Create a new data package and set the file contents as text
+						dataPackage.SetText(string.Join("\n", fileContents));
+						e.Data.SetDataProvider(StandardDataFormats.Text, request => request.SetData(string.Join("\n", fileContents)));
+
+					}
 
 					// Set the requested operation to Copy if dragging outside the application
 					e.Data.RequestedOperation = DataPackageOperation.Copy;
