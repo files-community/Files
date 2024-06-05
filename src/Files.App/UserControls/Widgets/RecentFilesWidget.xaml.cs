@@ -29,7 +29,9 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void RecentFilesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		    =>	ViewModel.BuildItemContextMenu(e.OriginalSource, e);
+		{
+  			ViewModel.BuildItemContextMenu(e.OriginalSource, e);
+		}
 
 		private async void RecentFilesListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
