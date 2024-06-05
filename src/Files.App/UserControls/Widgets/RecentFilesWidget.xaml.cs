@@ -64,10 +64,7 @@ namespace Files.App.UserControls.Widgets
 					// Create a new data package and set the storage items
 					DataPackage dataPackage = new DataPackage();
 					dataPackage.SetStorageItems(storageItems);
-					e.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
-					{
-						request.SetData(storageItems);
-					});
+					e.Data.SetDataProvider(StandardDataFormats.StorageItems, request => request.SetData(storageItems));
 
 					// Set the requested operation to Copy if dragging outside the application
 					e.Data.RequestedOperation = DataPackageOperation.Copy;
