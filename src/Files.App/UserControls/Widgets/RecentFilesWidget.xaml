@@ -37,12 +37,12 @@
 			x:Name="RecentFilesListView"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
+			DragItemsStarting="RecentFilesListView_DragItemsStarting"
 			IsItemClickEnabled="True"
 			IsRightTapEnabled="True"
 			ItemClick="RecentFilesListView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-			DragItemsStarting="RecentFilesListView_DragItemsStarting"
 			RightTapped="RecentFilesListView_RightTapped"
 			SelectionMode="None">
 
