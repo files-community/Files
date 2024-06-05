@@ -1,3 +1,6 @@
+// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -26,7 +29,9 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void RecentFilesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		=>	ViewModel.BuildItemContextMenu(e.OriginalSource, e);
+		{
+			ViewModel.BuildItemContextMenu(e.OriginalSource, e);
+		}
 
 		private async void RecentFilesListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
@@ -77,6 +82,5 @@ namespace Files.App.UserControls.Widgets
 				}
 			}
 		}
-
 	}
 }
