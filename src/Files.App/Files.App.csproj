@@ -70,7 +70,6 @@
         <PackageReference Include="ByteSize" Version="2.1.2" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
-        <PackageReference Include="Exceptionless" Version="6.0.4" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
         <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
@@ -82,6 +81,7 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+        <PackageReference Include="Sentry" Version="4.7.0" />
         <PackageReference Include="SevenZipSharp" Version="1.0.2" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />

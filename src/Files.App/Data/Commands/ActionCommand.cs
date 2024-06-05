@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Exceptionless;
+using Sentry;
 using Files.App.Actions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -141,7 +141,7 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				ExceptionlessClient.Default.SubmitFeatureUsage($"Triggered {Code} action");
+				SentrySdk.Metrics.Increment($"Triggered {Code} action");
 				return Action.ExecuteAsync(parameter);
 			}
 

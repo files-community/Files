@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using Exceptionless;
 using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
 using Files.App.Storage.Storables;
@@ -10,6 +9,7 @@ using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sentry;
 using System.IO;
 using System.Text;
 using Windows.ApplicationModel;
@@ -107,27 +107,22 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Configures Exceptionless service, such as Analytics and Crash Report.
+		/// Configures Sentry service, such as Analytics and Crash Report.
 		/// </summary>
-		public static void ConfigureExceptionless()
+		public static void ConfigureSentry()
 		{
-			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-
-			try
+			SentrySdk.Init(options =>
 			{
-				if (!ExceptionlessClient.Default.Configuration.IsValid)
+				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
+				options.AutoSessionTracking = true;
+				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+				options.TracesSampleRate = 1.0;
+				options.ProfilesSampleRate = 1.0;
+				options.ExperimentalMetrics = new ExperimentalMetricsOptions
 				{
-					ExceptionlessClient.Default.Configuration.UseSessions();
-					ExceptionlessClient.Default.Configuration.SetUserIdentity(generalSettingsService.UserId, generalSettingsService.UserId);
-					ExceptionlessClient.Default.Configuration.SetVersion($"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}");
-					ExceptionlessClient.Default.Configuration.IncludePrivateInformation = false;
-					ExceptionlessClient.Default.Startup(Constants.AutomatedWorkflowInjectionKeys.ExceptionlessSecret);
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, "Failed to start Exceptionless service.");
-			}
+					EnableCodeLocations = true
+				};
+			});
 		}
 
 		/// <summary>
@@ -260,14 +255,7 @@ namespace Files.App.Helpers
 
 			if (ex is not null)
 			{
-				// Create ID to reference crash
-				var referenceId = Guid.NewGuid().ToString();
-
-				ex.ToExceptionless()
-					.SetReferenceId(referenceId)
-					.Submit();
-
-				ExceptionlessClient.Default.ProcessQueueAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+				SentrySdk.CaptureException(ex);
 
 				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 
@@ -291,10 +279,6 @@ namespace Files.App.Helpers
 					formattedException.AppendLine("--- INNER ---");
 					formattedException.AppendLine(ex.InnerException.ToString());
 				}
-
-				// Add crash reference to log
-				formattedException.AppendLine("--- REFERENCE ID ---");
-				formattedException.AppendLine(referenceId);
 			}
 			else
 			{

@@ -26,7 +26,7 @@ namespace Files.App
 
 			public const string BingMapsSecret = "bingmapskey.secret";
 
-			public const string ExceptionlessSecret = "exceptionless.secret";
+			public const string SentrySecret = "sentry.secret";
 		}
 
 		public static class KnownImageFormats

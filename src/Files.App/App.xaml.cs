@@ -94,8 +94,8 @@ namespace Files.App
 				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
 
 #if STORE || STABLE || PREVIEW
-				// Configure Exceptionless
-				AppLifecycleHelper.ConfigureExceptionless();
+				// Configure Sentry
+				AppLifecycleHelper.ConfigureSentry();
 #endif
 
 				if (isStartupTask && !isLeaveAppRunning)
