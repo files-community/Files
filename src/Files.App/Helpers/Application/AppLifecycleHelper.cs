@@ -118,6 +118,7 @@ namespace Files.App.Helpers
 				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
 				options.TracesSampleRate = 1.0;
 				options.ProfilesSampleRate = 1.0;
+				options.Environment = AppEnvironment == AppEnvironment.Preview ? "preview" : "production";
 				options.ExperimentalMetrics = new ExperimentalMetricsOptions
 				{
 					EnableCodeLocations = true
