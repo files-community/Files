@@ -4,7 +4,6 @@
 using System.IO;
 using System.Windows.Input;
 using Windows.Storage;
-using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -14,7 +13,7 @@ namespace Files.App.ViewModels.Dialogs
 
 		private readonly IStorageFile archive;
 
-		public StorageFolder DestinationFolder { get; private set; }
+		public BaseStorageFolder DestinationFolder { get; private set; }
 
 		private string destinationFolderPath;
 		public string DestinationFolderPath
@@ -64,7 +63,7 @@ namespace Files.App.ViewModels.Dialogs
 		{
 			CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
 
-			DestinationFolder = await StorageHelpers.ToStorageItem<StorageFolder>(filePath);
+			DestinationFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(filePath);
 			DestinationFolderPath = (DestinationFolder is not null) ? DestinationFolder.Path : DefaultDestinationFolderPath();
 		}
 
