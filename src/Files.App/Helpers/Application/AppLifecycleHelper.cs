@@ -116,8 +116,8 @@ namespace Files.App.Helpers
 				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
 				options.AutoSessionTracking = true;
 				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
-				options.TracesSampleRate = 1.0;
-				options.ProfilesSampleRate = 1.0;
+				options.TracesSampleRate = 0.80;
+				options.ProfilesSampleRate = 0.40;
 				options.Environment = AppEnvironment == AppEnvironment.Preview ? "preview" : "production";
 				options.ExperimentalMetrics = new ExperimentalMetricsOptions
 				{
