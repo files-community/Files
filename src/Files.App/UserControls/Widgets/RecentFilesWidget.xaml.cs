@@ -15,7 +15,6 @@ namespace Files.App.UserControls.Widgets
 		public RecentFilesWidget()
 		{
 			InitializeComponent();
-			AddDragAndDropSupport();
 		}
 
 		private void RecentFilesListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -28,13 +27,6 @@ namespace Files.App.UserControls.Widgets
 
 		private void RecentFilesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		=>	ViewModel.BuildItemContextMenu(e.OriginalSource, e);
-
-		private void AddDragAndDropSupport()
-		{
-			RecentFilesListView.CanDragItems = true;
-			// Registering event handlers for drag
-			RecentFilesListView.DragItemsStarting += RecentFilesListView_DragItemsStarting;
-		}
 
 		private async void RecentFilesListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
