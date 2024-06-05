@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls
+namespace Files.App.UserControls.StatusCenter
 {
 	public sealed partial class StatusCenter : UserControl
 	{
