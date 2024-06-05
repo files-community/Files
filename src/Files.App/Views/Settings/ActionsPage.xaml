@@ -265,7 +265,7 @@
 										Style="{StaticResource CaptionTextBlockStyle}"
 										Text="{x:Bind CommandDescription}"
 										TextTrimming="CharacterEllipsis"
-										TextWrapping="NoWrap" />
+										TextWrapping="WrapWholeWords" />
 								</StackPanel>
 
 								<!--  Key Binding Control  -->

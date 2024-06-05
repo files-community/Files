@@ -175,7 +175,35 @@ namespace Files.App.Data.Models
 
 				foreach (string directory in directories)
 				{
-					await compressor.CompressDirectoryAsync(directory, ArchivePath, Password);
+					try
+					{
+						await compressor.CompressDirectoryAsync(directory, ArchivePath, Password);
+					}
+					catch (SevenZipInvalidFileNamesException)
+					{
+						// The directory has no files, so we need to create entries manually
+						var fileDictionary = new Dictionary<string, string>();
+						AddEntry(fileDictionary, directory, "");
+
+						compressor.CompressFileDictionary(fileDictionary, ArchivePath, Password);
+
+						static void AddEntry(IDictionary<string, string> fileDictionary, string directory, string entryPrefix)
+						{
+							DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+
+							DirectoryInfo[] directories = directoryInfo.GetDirectories();
+							if (directories.Length == 0)
+							{
+								fileDictionary.Add(entryPrefix + directoryInfo.Name, null);
+							}
+							else
+							{
+								entryPrefix += directoryInfo.Name + Path.DirectorySeparatorChar;
+								foreach (DirectoryInfo directoryInfo2 in directories)
+									AddEntry(fileDictionary, directoryInfo2.FullName, entryPrefix);
+							}
+						}
+					}
 
 					compressor.CompressionMode = CompressionMode.Append;
 				}
