@@ -150,6 +150,7 @@ namespace Files.App.Data.Models
 		public ContextFlyoutItemModel(ContextFlyoutItemType type = ContextFlyoutItemType.Item)
 		{
 			ItemType = type;
+			ShowItem = true;
 		}
 
 		/// <summary>
@@ -168,7 +169,6 @@ namespace Files.App.Data.Models
 			IsEnabled = richCommand.IsExecutable;
 			IsChecked = richCommand.IsOn;
 			ItemType = type;
-			ShowItem = richCommand.IsExecutable;
 			IsHidden = false;
 			ShowInRecycleBin = true;
 			ShowInSearchPage = true;

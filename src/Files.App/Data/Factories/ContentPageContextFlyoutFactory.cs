@@ -211,9 +211,8 @@ namespace Files.App.Data.Factories
 							],
 						},
 						new(ContextFlyoutItemType.Toggle, Commands.GroupByFolderPath),
-						new()
+						new(ContextFlyoutItemType.Separator)
 						{
-							ItemType = ContextFlyoutItemType.Separator,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,

@@ -1057,7 +1057,6 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new(ContextFlyoutItemType.Separator)
 				{
-					ShowItem = true,
 					Tag = "OverflowSeparator",
 					IsHidden = !options.ShowShellItems,
 				},
@@ -1069,7 +1068,6 @@ namespace Files.App.ViewModels.UserControls
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
-					ShowItem = true,
 					IsHidden = !options.ShowShellItems,
 				}
 			}.Where(x => x.ShowItem).ToList();

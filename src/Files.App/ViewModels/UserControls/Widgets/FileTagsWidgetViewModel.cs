@@ -145,7 +145,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
-					ShowItem = true,
 				},
 				new()
 				{
@@ -155,7 +154,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
-					ShowItem = true,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
