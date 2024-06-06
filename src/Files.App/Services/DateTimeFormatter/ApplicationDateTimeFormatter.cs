@@ -29,19 +29,16 @@ namespace Files.App.Services.DateTimeFormatter
 			var elapsed = now - offset;
 
 			// Select label based on elapsed time
-			if (elapsed.TotalDays >= 7)
-				return ToString(offset, "D");
-			else if (elapsed.TotalDays >= 1)
-				return "DaysAgo".GetLocalizedFormatResource(elapsed.Days);
-			else if (elapsed.TotalHours >= 1)
-				return "HoursAgo".GetLocalizedFormatResource(elapsed.Hours);
-			else if (elapsed.TotalMinutes >= 1)
-				return "MinutesAgo".GetLocalizedFormatResource(elapsed.Minutes);
-
-			// Return "Now" or "Seconds Ago" based on elapsed seconds
-			return elapsed.TotalSeconds >= 1
-				? "SecondsAgo".GetLocalizedFormatResource(elapsed.Seconds)
-				: "Now".GetLocalizedFormatResource();
+			return elapsed switch
+			{
+				{ TotalDays: >= 7 } => ToString(offset, "D"),
+				{ TotalDays: >= 1 } => "DaysAgo".GetLocalizedFormatResource(elapsed.Days),
+				{ TotalHours: >= 1 } => "HoursAgo".GetLocalizedFormatResource(elapsed.Hours),
+				{ TotalMinutes: >= 1 } => "MinutesAgo".GetLocalizedFormatResource(elapsed.Minutes),
+				{ TotalSeconds: >= 1 } => "SecondsAgo".GetLocalizedFormatResource(elapsed.Seconds),
+				{ TotalSeconds: >= 0 } => "Now".GetLocalizedFormatResource(),
+				_ => ToString(offset, "D"),
+			};
 		}
 
 		/// <summary>
