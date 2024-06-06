@@ -25,8 +25,7 @@ namespace Files.App.Services.DateTimeFormatter
 			if (offset.Year is <= 1601 or >= 9999)
 				return " ";
 
-			var now = DateTimeOffset.Now;
-			var elapsed = now - offset;
+			var elapsed = DateTimeOffset.Now - offset;
 
 			// Select label based on elapsed time
 			return elapsed switch
@@ -52,8 +51,7 @@ namespace Files.App.Services.DateTimeFormatter
 			if (offset.Year is <= 1601 or >= 9999)
 				return " ";
 
-			var now = DateTimeOffset.Now;
-			var elapsed = now - offset;
+			var elapsed = DateTimeOffset.Now - offset;
 			var date = ToString(offset, "D");
 			var time = ToString(offset, "t");
 
