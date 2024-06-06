@@ -56,8 +56,8 @@ namespace Files.App.UserControls.StatusCenter
 
 			Init();
 
+			// added *after* first load
 			Points.CollectionChanged += PointsChanged;
-			// added after first load
 			this.Loaded += OnLoaded;
 		}
 
@@ -81,7 +81,6 @@ namespace Files.App.UserControls.StatusCenter
 
 		private void Init()
 		{
-			// TODO: it doesn't work the first time you open the flyout
 			compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 			rootVisual = compositor.CreateContainerVisual();
 			rootVisual.Size = this.ActualSize;
@@ -135,18 +134,20 @@ namespace Files.App.UserControls.StatusCenter
 			initialized = true;
 		}
 
+		float YValue(float y) => height - (y / highestValue) * (height - 40f) - 4;
+
 		void UpdateGraph()
 		{
 			var geometry = CreatePathFromPoints();
 			graphShape.Geometry = geometry;
 
-			var lineAnim = compositor.CreateScalarKeyFrameAnimation();
+			using var lineAnim = compositor.CreateScalarKeyFrameAnimation();
 			lineAnim.InsertExpressionKeyFrame(0f, "this.StartingValue");
-			lineAnim.InsertKeyFrame(1f, height - (Points[^1].Y / highestValue) * (height - 40f) - 4, compositor.CreateLinearEasingFunction());
+			lineAnim.InsertKeyFrame(1f, YValue(Points[^1].Y), compositor.CreateLinearEasingFunction());
 			lineAnim.Duration = TimeSpan.FromMilliseconds(72);
 			line.StartAnimation("Offset.Y", lineAnim);
 
-			var clipAnim = compositor.CreateScalarKeyFrameAnimation();
+			using var clipAnim = compositor.CreateScalarKeyFrameAnimation();
 			clipAnim.InsertExpressionKeyFrame(0f, "this.StartingValue");
 			clipAnim.InsertKeyFrame(1f, width - (width * Points[^1].X / 100f) - 1, compositor.CreateLinearEasingFunction());
 			clipAnim.Duration = TimeSpan.FromMilliseconds(72);
@@ -155,29 +156,26 @@ namespace Files.App.UserControls.StatusCenter
 
 		CompositionPathGeometry CreatePathFromPoints()
 		{
-			var pathBuilder = new CanvasPathBuilder(null);
+			using var pathBuilder = new CanvasPathBuilder(null);
 			pathBuilder.BeginFigure(0f, height);
 			for (int i = 0; i < Points.Count; i++)
 			{
 				if (Points[i].Y > highestValue)
 					highestValue = Points[i].Y;
 				// no smooth curve for now. a little ugly but maybe for the best performance-wise, we'll see before this gets merged
-				pathBuilder.AddLine(width * Points[i].X / 100f, height - (Points[i].Y / highestValue) * (height - 40f) - 4);
+				pathBuilder.AddLine(width * Points[i].X / 100f, YValue(Points[i].Y));
 			}
 			// little extra part so that steep lines don't get cut off
-			pathBuilder.AddLine(width * Points[^1].X / 100f + 2, height - (Points[^1].Y / highestValue) * (height - 40f) - 4);
+			pathBuilder.AddLine(width * Points[^1].X / 100f + 2, YValue(Points[^1].Y));
 			pathBuilder.AddLine(width * Points[^1].X / 100f + 2, height);
 			pathBuilder.EndFigure(CanvasFigureLoop.Closed);
 			var geometry = compositor.CreatePathGeometry();
 			geometry.Path = new CompositionPath(CanvasGeometry.CreatePath(pathBuilder));
 			return geometry;
 		}
-
 		private void UserControl_ActualThemeChanged(FrameworkElement sender, object args)
 		{
 
 		}
-
-		
 	}
 }
