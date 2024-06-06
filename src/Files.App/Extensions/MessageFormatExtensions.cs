@@ -1,7 +1,9 @@
-﻿using Jeffijoe.MessageFormat;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Jeffijoe.MessageFormat;
 using Microsoft.Extensions.Logging;
 using Microsoft.Windows.ApplicationModel.Resources;
-using System.Globalization;
 
 namespace Files.App.Extensions
 {
@@ -41,7 +43,7 @@ namespace Files.App.Extensions
 		/// <summary>
 		/// Lazy initialization of message formatter with caching disabled.
 		/// </summary>
-		private static readonly Lazy<MessageFormatter> _formatter =new(() => new MessageFormatter(
+		private static readonly Lazy<MessageFormatter> _formatter = new(() => new MessageFormatter(
 			useCache: false,
 			locale: _locale.Value.TwoLetterISOLanguageName,
 			customValueFormatter: _customFormatter.Value));
