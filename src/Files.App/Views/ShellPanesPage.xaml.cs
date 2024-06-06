@@ -188,18 +188,10 @@ namespace Files.App.Views
 					if (value)
 					{
 						AddPane();
-
-						//RootGrid.ColumnDefinitions[2].MinWidth = 100;
-						//RootGrid.ColumnDefinitions[2].Width = new(1, GridUnitType.Star);
-						//RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
 					}
 					else
 					{
 						RemovePane((RootGrid.Children.Count - 1) / 2);
-
-						//RootGrid.ColumnDefinitions[2].MinWidth = 0;
-						//RootGrid.ColumnDefinitions[2].Width = new(0);
-						//RootGrid.ColumnDefinitions[0].Width = new(1, GridUnitType.Star);
 					}
 				}
 			}
