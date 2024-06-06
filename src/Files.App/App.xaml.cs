@@ -90,13 +90,13 @@ namespace Files.App
 				var host = AppLifecycleHelper.ConfigureHost();
 				Ioc.Default.ConfigureServices(host.Services);
 
-				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
-
 #if STORE || STABLE || PREVIEW
 				// Configure Sentry
 				AppLifecycleHelper.ConfigureSentry();
 #endif
+
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
 
 				if (isStartupTask && !isLeaveAppRunning)
 				{

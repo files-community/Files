@@ -111,8 +111,6 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void ConfigureSentry()
 		{
-			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-
 			SentrySdk.Init(options =>
 			{
 				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
@@ -126,15 +124,6 @@ namespace Files.App.Helpers
 					EnableCodeLocations = true
 				};
 			});
-
-			SentrySdk.ConfigureScope(scope =>
-			{
-				scope.User = new SentryUser
-				{
-					Id = generalSettingsService.UserId
-				};
-			});
-
 		}
 
 		/// <summary>
@@ -258,6 +247,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
 		{
+			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			StringBuilder formattedException = new()
 			{
 				Capacity = 200
@@ -267,6 +258,13 @@ namespace Files.App.Helpers
 
 			if (ex is not null)
 			{
+				SentrySdk.CaptureException(ex, scope =>
+				{
+					scope.User.Id = generalSettingsService.UserId;
+					scope.Level = SentryLevel.Fatal;
+				});
+
+
 				SentrySdk.CaptureException(ex);
 
 				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
