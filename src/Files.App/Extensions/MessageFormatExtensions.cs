@@ -1,10 +1,7 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
-
-using Jeffijoe.MessageFormat;
+﻿using Jeffijoe.MessageFormat;
+using Microsoft.Extensions.Logging;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Globalization;
-using Microsoft.Extensions.Logging;
 
 namespace Files.App.Extensions
 {
@@ -14,44 +11,40 @@ namespace Files.App.Extensions
 	public static class MessageFormatExtensions
 	{
 		/// <summary>
-		/// Resource map for accessing localized strings.
-		/// It is initialized with the main resource map of the application's resources and the subtree "Resources".
+		/// Lazy initialization of resource map for accessing localized strings.
 		/// </summary>
-		private static readonly ResourceMap _resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
+		private static readonly Lazy<ResourceMap> _resourcesTree = new(() => new ResourceManager().MainResourceMap.TryGetSubtree("Resources"));
 
 		/// <summary>
-		/// CultureInfo based on the application's primary language override.
-		/// It is initialized with the selected language of the application.
+		/// Lazy initialization of CultureInfo based on the application's primary language override.
 		/// </summary>
-		private static readonly CultureInfo _locale = new(AppLanguageHelper.PreferredLanguage.Code);
+		private static readonly Lazy<CultureInfo> _locale = new(() => new CultureInfo(AppLanguageHelper.PreferredLanguage.Code));
 
 		/// <summary>
-		/// Gets custom value formatters for the message formatter.
-		/// This class is used to customize the formatting of specific value types.
+		/// Lazy initialization of custom value formatters for the message formatter.
 		/// </summary>
-		private static readonly CustomValueFormatters _customFormatter = new()
+		private static readonly Lazy<CustomValueFormatters> _customFormatter = new(() => new CustomValueFormatters
 		{
-			// Custom formatting for number values.
 			Number = (CultureInfo _, object? value, string? style, out string? formatted) =>
 			{
 				if (style is not null && style == string.Empty)
 				{
-					// Format the number '{0, number}'
-					formatted = string.Format($"{{0:#,##0}}", value);
+					formatted = string.Format(CultureInfo.InvariantCulture, "{0:#,##0}", value);
 					return true;
 				}
 
 				formatted = null;
 				return false;
 			}
-		};
+		});
 
 		/// <summary>
-		/// Message formatter with caching enabled, using the current UI culture's two-letter ISO language name.
-		/// It is initialized with the options to use cache and the two-letter ISO language name of the current UI culture,
-		/// and a custom value formatter for number values.
+		/// Lazy initialization of message formatter with caching disabled.
 		/// </summary>
-		private static readonly MessageFormatter _formatter = new(useCache: false, locale: _locale.TwoLetterISOLanguageName, customValueFormatter: _customFormatter);
+		private static readonly Lazy<MessageFormatter> _formatter =new(() => new MessageFormatter(
+			useCache: false,
+			locale: _locale.Value.TwoLetterISOLanguageName,
+			customValueFormatter: _customFormatter.Value));
 
 		/// <summary>
 		/// Creates a dictionary for format pairs with a string key.
@@ -59,7 +52,8 @@ namespace Files.App.Extensions
 		/// <param name="key">The key for the format pair.</param>
 		/// <param name="value">The value for the format pair.</param>
 		/// <returns>A dictionary containing the format pair.</returns>
-		public static IReadOnlyDictionary<string, object?> ToFormatPairs(this string key, object value) => new Dictionary<string, object?> { [key] = value };
+		public static IReadOnlyDictionary<string, object?> ToFormatPairs(this string key, object value)
+			=> new Dictionary<string, object?>(1) { [key] = value };
 
 		/// <summary>
 		/// Creates a dictionary for format pairs with an integer key.
@@ -67,7 +61,8 @@ namespace Files.App.Extensions
 		/// <param name="key">The key for the format pair.</param>
 		/// <param name="value">The value for the format pair.</param>
 		/// <returns>A dictionary containing the format pair.</returns>
-		public static IReadOnlyDictionary<string, object?> ToFormatPairs(this int key, object value) => new Dictionary<string, object?> { [key.ToString()] = value };
+		public static IReadOnlyDictionary<string, object?> ToFormatPairs(this int key, object value)
+			=> new Dictionary<string, object?>(1) { [key.ToString(CultureInfo.InvariantCulture)] = value };
 
 		/// <summary>
 		/// Retrieves a localized resource string, formatting it with the provided pairs.
@@ -77,14 +72,14 @@ namespace Files.App.Extensions
 		/// <returns>The formatted localized resource string.</returns>
 		public static string GetLocalizedFormatResource(this string resourceKey, IReadOnlyDictionary<string, object?> pairs)
 		{
-			var value = _resourcesTree?.TryGetValue(resourceKey)?.ValueAsString;
+			var value = _resourcesTree.Value?.TryGetValue(resourceKey)?.ValueAsString;
 
 			if (value is null)
 				return string.Empty;
 
 			try
 			{
-				value = _formatter.FormatMessage(value, pairs);
+				value = _formatter.Value.FormatMessage(value, pairs);
 			}
 			catch
 			{
@@ -103,29 +98,39 @@ namespace Files.App.Extensions
 		/// <returns>The formatted localized resource string.</returns>
 		public static string GetLocalizedFormatResource(this string resourceKey, params IReadOnlyDictionary<string, object?>[] pairs)
 		{
-			var mergedPairs = pairs.SelectMany(dict => dict).ToDictionary(pair => pair.Key, pair => pair.Value);
+			var totalSize = pairs.Sum(dict => dict.Count);
+			var mergedPairs = new Dictionary<string, object?>(totalSize);
+
+			foreach (var dict in pairs)
+				foreach (var pair in dict)
+					mergedPairs[pair.Key] = pair.Value;
+
 			return GetLocalizedFormatResource(resourceKey, mergedPairs);
 		}
 
 		/// <summary>
-		/// Converts multiple values to a dictionary with their indices as keys and retrieves a localized resource string, formatting it with the created pairs.
+		/// Converts multiple values to a dictionary with their indices as keys and retrieves a localized resource string,
+		/// formatting it with the created pairs.
 		/// </summary>
 		/// <param name="resourceKey">The key for the resource string.</param>
 		/// <param name="values">An array of values to use when formatting the resource string.</param>
 		/// <returns>The formatted localized resource string.</returns>
 		public static string GetLocalizedFormatResource(this string resourceKey, params object[] values)
 		{
-			var pairs = values.Select((value, index) => new KeyValuePair<string, object?>(index.ToString(), value))
-							  .ToDictionary(pair => pair.Key, pair => pair.Value);
+			var pairs = new Dictionary<string, object?>(values.Length);
+
+			for (var i = 0; i < values.Length; i++)
+				pairs[i.ToString(CultureInfo.InvariantCulture)] = values[i];
+
 			return GetLocalizedFormatResource(resourceKey, pairs);
 		}
 
-		//TODO: Could replace `GetLocalizedResource()` in the future
 		/// <summary>
 		/// Retrieves a localized resource string without any format pairs.
 		/// </summary>
 		/// <param name="resourceKey">The key for the resource string.</param>
 		/// <returns>The localized resource string.</returns>
-		public static string GetLocalizedFormatResource(this string resourceKey) => GetLocalizedFormatResource(resourceKey, new Dictionary<string, object?>());
+		public static string GetLocalizedFormatResource(this string resourceKey)
+			=> GetLocalizedFormatResource(resourceKey, new Dictionary<string, object?>(1) { ["0"] = "" });
 	}
 }
