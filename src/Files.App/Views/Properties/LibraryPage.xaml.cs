@@ -1,22 +1,10 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Utils;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage.Pickers;
-using Windows.Storage;
 
 namespace Files.App.Views.Properties
 {
@@ -107,7 +95,7 @@ namespace Files.App.Views.Properties
 			if (!result)
 				return;
 
-			var folder = await StorageHelpers.ToStorageItem<StorageFile>(filePath);
+			var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(filePath);
 			if (folder is not null && !Folders.Any((f) => string.Equals(folder.Path, f.Path, StringComparison.OrdinalIgnoreCase)))
 			{
 				bool isDefault = Folders.Count == 0;
