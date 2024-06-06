@@ -14,7 +14,7 @@ using Windows.UI;
 
 namespace Files.App.UserControls.StatusCenter
 {
-	public sealed partial class SpeedGraph : UserControl
+	public sealed partial class SpeedGraph : Control
 	{
 		public ObservableCollection<Vector2> Points
 		{
@@ -43,10 +43,13 @@ namespace Files.App.UserControls.StatusCenter
 		
 		public SpeedGraph()
 		{ 
-			this.InitializeComponent();
+			// TODO: unhook
+			this.SizeChanged += OnSizeChanged;
+			this.Unloaded += UserControl_Unloaded;
+			this.ActualThemeChanged += UserControl_ActualThemeChanged;
 		}
 
-		private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			if (initialized)
 				return;
