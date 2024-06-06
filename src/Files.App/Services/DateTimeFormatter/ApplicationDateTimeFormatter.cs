@@ -15,10 +15,10 @@ namespace Files.App.Services.DateTimeFormatter
 			=> "Application".GetLocalizedFormatResource();
 
 		/// <summary>
-		/// Converts the provided DateTimeOffset to a short label.
+		/// Converts the provided <see cref="DateTimeOffset"/> to a short label.
 		/// </summary>
-		/// <param name="offset">The DateTimeOffset to convert.</param>
-		/// <returns>The short label representation of the provided DateTimeOffset.</returns>
+		/// <param name="offset">The <see cref="DateTimeOffset"/> to convert.</param>
+		/// <returns>The short label representation of the provided <see cref="DateTimeOffset"/>.</returns>
 		public override string ToShortLabel(DateTimeOffset offset)
 		{
 			// Check if the year is out of the valid range
@@ -45,10 +45,10 @@ namespace Files.App.Services.DateTimeFormatter
 		}
 
 		/// <summary>
-		/// Converts the provided DateTimeOffset to a long label.
+		/// Converts the provided <see cref="DateTimeOffset"/> to a long label.
 		/// </summary>
-		/// <param name="offset">The DateTimeOffset to convert.</param>
-		/// <returns>The long label representation of the provided DateTimeOffset.</returns>
+		/// <param name="offset">The <see cref="DateTimeOffset"/> to convert.</param>
+		/// <returns>The long label representation of the provided <see cref="DateTimeOffset"/>.</returns>
 		public override string ToLongLabel(DateTimeOffset offset)
 		{
 			// Check if the year is out of the valid range
