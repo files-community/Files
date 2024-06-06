@@ -9,7 +9,4 @@
 	xmlns:numerics="using:System.Numerics"
 	Loaded="UserControl_Loaded"
 	Unloaded="UserControl_Unloaded"
-	mc:Ignorable="d">
-
-	<Grid x:Name="graphRoot" />
-</UserControl>
+	mc:Ignorable="d" />
