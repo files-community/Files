@@ -141,7 +141,7 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				SentrySdk.Metrics.Increment($"Triggered {Code} action");
+				SentrySdk.Metrics.Increment($"Triggered action", tags: new Dictionary<string, string> { { "Command", Command.ToString() } });
 				return Action.ExecuteAsync(parameter);
 			}
 
