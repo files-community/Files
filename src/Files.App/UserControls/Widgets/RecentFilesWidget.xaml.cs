@@ -69,7 +69,7 @@ namespace Files.App.UserControls.Widgets
 					dataPackage.SetStorageItems(storageItems);
 					e.Data.SetDataProvider(StandardDataFormats.StorageItems, request => request.SetData(storageItems));
 
-					if (fileContents.Count> 0)
+					if (fileContents.Count > 0)
 					{
 						// Create a new data package and set the file contents as text
 						dataPackage.SetText(string.Join("\n", fileContents));
