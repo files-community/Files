@@ -11,7 +11,7 @@ namespace Files.App.Data.Enums
 		/// <summary>
 		/// Button type.
 		/// </summary>
-		Button,
+		Item,
 
 		/// <summary>
 		/// Separator type.

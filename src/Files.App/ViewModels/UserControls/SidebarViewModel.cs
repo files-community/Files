@@ -963,11 +963,11 @@ namespace Files.App.ViewModels.UserControls
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
-				new(ContextFlyoutItemType.Button,Commands.EmptyRecycleBin)
+				new(ContextFlyoutItemType.Item,Commands.EmptyRecycleBin)
 				{
 					ShowItem = options.ShowEmptyRecycleBin,
 				},
-				new(ContextFlyoutItemType.Button, Commands.RestoreAllRecycleBin)
+				new(ContextFlyoutItemType.Item, Commands.RestoreAllRecycleBin)
 				{
 					ShowItem = options.ShowEmptyRecycleBin,
 				},

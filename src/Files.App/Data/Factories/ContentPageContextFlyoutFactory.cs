@@ -223,7 +223,7 @@ namespace Files.App.Data.Factories
 						new(ContextFlyoutItemType.Toggle, Commands.GroupDescending),
 					],
 				},
-				new(ContextFlyoutItemType.Button, Commands.RefreshItems)
+				new(ContextFlyoutItemType.Item, Commands.RefreshItems)
 				{
 					ShowItem = !itemsSelected,
 				},
@@ -245,21 +245,21 @@ namespace Files.App.Data.Factories
 					ShowItem = !itemsSelected,
 					ShowInFtpPage = true
 				},
-				new(ContextFlyoutItemType.Button, Commands.FormatDrive),
-				new(ContextFlyoutItemType.Button, Commands.EmptyRecycleBin)
+				new(ContextFlyoutItemType.Item, Commands.FormatDrive),
+				new(ContextFlyoutItemType.Item, Commands.EmptyRecycleBin)
 				{
 					ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
 				},
-				new(ContextFlyoutItemType.Button, Commands.RestoreAllRecycleBin)
+				new(ContextFlyoutItemType.Item, Commands.RestoreAllRecycleBin)
 				{
 					ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
 				},
-				new(ContextFlyoutItemType.Button, Commands.RestoreRecycleBin)
+				new(ContextFlyoutItemType.Item, Commands.RestoreRecycleBin)
 				{
 					ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin && itemsSelected,
 				},
-				new(ContextFlyoutItemType.Button, Commands.OpenItem),
-				new(ContextFlyoutItemType.Button, Commands.OpenItemWithApplicationPicker)
+				new(ContextFlyoutItemType.Item, Commands.OpenItem),
+				new(ContextFlyoutItemType.Item, Commands.OpenItemWithApplicationPicker)
 				{
 					Tag = "OpenWith",
 				},
@@ -285,10 +285,10 @@ namespace Files.App.Data.Factories
 					ShowInSearchPage = true,
 					ShowItem = itemsSelected && showOpenItemWith
 				},
-				new(ContextFlyoutItemType.Button, Commands.OpenFileLocation),
-				new(ContextFlyoutItemType.Button, Commands.OpenDirectoryInNewTabAction),
-				new(ContextFlyoutItemType.Button, Commands.OpenInNewWindowItemAction),
-				new(ContextFlyoutItemType.Button, Commands.OpenDirectoryInNewPaneAction),
+				new(ContextFlyoutItemType.Item, Commands.OpenFileLocation),
+				new(ContextFlyoutItemType.Item, Commands.OpenDirectoryInNewTabAction),
+				new(ContextFlyoutItemType.Item, Commands.OpenInNewWindowItemAction),
+				new(ContextFlyoutItemType.Item, Commands.OpenDirectoryInNewPaneAction),
 				new()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
@@ -296,26 +296,26 @@ namespace Files.App.Data.Factories
 					ShowInSearchPage = true,
 					Items =
 					[
-						new(ContextFlyoutItemType.Button, Commands.SetAsWallpaperBackground),
-						new(ContextFlyoutItemType.Button, Commands.SetAsLockscreenBackground),
-						new(ContextFlyoutItemType.Button, Commands.SetAsSlideshowBackground),
-						new(ContextFlyoutItemType.Button, Commands.SetAsAppBackground),
+						new(ContextFlyoutItemType.Item, Commands.SetAsWallpaperBackground),
+						new(ContextFlyoutItemType.Item, Commands.SetAsLockscreenBackground),
+						new(ContextFlyoutItemType.Item, Commands.SetAsSlideshowBackground),
+						new(ContextFlyoutItemType.Item, Commands.SetAsAppBackground),
 					]
 				},
-				new(ContextFlyoutItemType.Button, Commands.RotateLeft)
+				new(ContextFlyoutItemType.Item, Commands.RotateLeft)
 				{
 					ShowItem = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
 								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
 				},
-				new(ContextFlyoutItemType.Button, Commands.RotateRight)
+				new(ContextFlyoutItemType.Item, Commands.RotateRight)
 				{
 					ShowItem = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
 								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
 				},
-				new(ContextFlyoutItemType.Button, Commands.RunAsAdmin),
-				new(ContextFlyoutItemType.Button, Commands.RunAsAnotherUser),
+				new(ContextFlyoutItemType.Item, Commands.RunAsAdmin),
+				new(ContextFlyoutItemType.Item, Commands.RunAsAnotherUser),
 				new(ContextFlyoutItemType.Separator)
 				{
 					ShowInSearchPage = true,
@@ -323,70 +323,70 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					ShowItem = itemsSelected
 				},
-				new(ContextFlyoutItemType.Button, Commands.CutItem)
+				new(ContextFlyoutItemType.Item, Commands.CutItem)
 				{
 					IsPrimary = true,
 				},
-				new(ContextFlyoutItemType.Button, Commands.CopyItem)
+				new(ContextFlyoutItemType.Item, Commands.CopyItem)
 				{
 					IsPrimary = true,
 				},
-				new(ContextFlyoutItemType.Button, Commands.PasteItemToSelection)
+				new(ContextFlyoutItemType.Item, Commands.PasteItemToSelection)
 				{
 					IsPrimary = true,
 					ShowItem = true,
 				},
-				new(ContextFlyoutItemType.Button, Commands.CopyPath)
+				new(ContextFlyoutItemType.Item, Commands.CopyPath)
 				{
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCopyPath
 						&& itemsSelected
 						&&!currentInstanceViewModel.IsPageTypeRecycleBin,
 				},
-				new(ContextFlyoutItemType.Button, Commands.CreateFolderWithSelection)
+				new(ContextFlyoutItemType.Item, Commands.CreateFolderWithSelection)
 				{
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected
 				},
-				new(ContextFlyoutItemType.Button, Commands.CreateShortcut)
+				new(ContextFlyoutItemType.Item, Commands.CreateShortcut)
 				{
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCreateShortcut
 						&& itemsSelected
 						&& (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
 				},
-				new(ContextFlyoutItemType.Button, Commands.Rename)
+				new(ContextFlyoutItemType.Item, Commands.Rename)
 				{
 					IsPrimary = true,
 					ShowItem = itemsSelected
 				},
-				new(ContextFlyoutItemType.Button, Commands.ShareItem)
+				new(ContextFlyoutItemType.Item, Commands.ShareItem)
 				{
 					IsPrimary = true
 				},
-				new(ContextFlyoutItemType.Button, ModifiableCommands.DeleteItem)
+				new(ContextFlyoutItemType.Item, ModifiableCommands.DeleteItem)
 				{
 					ShowItem = itemsSelected,
 					IsPrimary = true,
 				},
-				new(ContextFlyoutItemType.Button, Commands.OpenProperties)
+				new(ContextFlyoutItemType.Item, Commands.OpenProperties)
 				{
 					IsPrimary = true,
 					ShowItem = Commands.OpenProperties.IsExecutable
 				},
-				new(ContextFlyoutItemType.Button, Commands.OpenParentFolder),
-				new(ContextFlyoutItemType.Button, Commands.PinFolderToSidebar)
+				new(ContextFlyoutItemType.Item, Commands.OpenParentFolder),
+				new(ContextFlyoutItemType.Item, Commands.PinFolderToSidebar)
 				{
 					ShowItem = Commands.PinFolderToSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
 				},
-				new(ContextFlyoutItemType.Button, Commands.UnpinFolderFromSidebar)
+				new(ContextFlyoutItemType.Item, Commands.UnpinFolderFromSidebar)
 				{
 					ShowItem = Commands.UnpinFolderFromSidebar.IsExecutable && UserSettingsService.GeneralSettingsService.ShowPinnedSection,
 				},
-				new(ContextFlyoutItemType.Button, Commands.PinToStart)
+				new(ContextFlyoutItemType.Item, Commands.PinToStart)
 				{
 					ShowItem = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable || (x is ShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && !x.IsItemPinnedToStart),
 					ShowOnShift = true,
 				},
-				new(ContextFlyoutItemType.Button, Commands.UnpinFromStart)
+				new(ContextFlyoutItemType.Item, Commands.UnpinFromStart)
 				{
 					ShowItem = selectedItems.All(x => (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable|| (x is ShortcutItem shortcutItem && FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath))) && !x.IsArchive && x.IsItemPinnedToStart),
 					ShowOnShift = true,
@@ -401,9 +401,9 @@ namespace Files.App.Data.Factories
 					},
 					Items =
 					[
-						new(ContextFlyoutItemType.Button, Commands.CompressIntoArchive),
-						new(ContextFlyoutItemType.Button, Commands.CompressIntoZip),
-						new(ContextFlyoutItemType.Button, Commands.CompressIntoSevenZip),
+						new(ContextFlyoutItemType.Item, Commands.CompressIntoArchive),
+						new(ContextFlyoutItemType.Item, Commands.CompressIntoZip),
+						new(ContextFlyoutItemType.Item, Commands.CompressIntoSevenZip),
 					],
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && StorageArchiveService.CanCompress(selectedItems)
 				},
@@ -417,10 +417,10 @@ namespace Files.App.Data.Factories
 					},
 					Items =
 					[
-						new(ContextFlyoutItemType.Button, Commands.DecompressArchive),
-						new(ContextFlyoutItemType.Button, Commands.DecompressArchiveHereSmart),
-						new(ContextFlyoutItemType.Button, Commands.DecompressArchiveHere),
-						new(ContextFlyoutItemType.Button, Commands.DecompressArchiveToChildFolder),
+						new(ContextFlyoutItemType.Item, Commands.DecompressArchive),
+						new(ContextFlyoutItemType.Item, Commands.DecompressArchiveHereSmart),
+						new(ContextFlyoutItemType.Item, Commands.DecompressArchiveHere),
+						new(ContextFlyoutItemType.Item, Commands.DecompressArchiveToChildFolder),
 					],
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && StorageArchiveService.CanDecompress(selectedItems)
 				},
@@ -478,7 +478,7 @@ namespace Files.App.Data.Factories
 					ShowInSearchPage = true,
 					ShowItem = true,
 				},
-				new(ContextFlyoutItemType.Button, Commands.EditInNotepad),
+				new(ContextFlyoutItemType.Item, Commands.EditInNotepad),
 				new()
 				{
 					Text = "Loading".GetLocalizedResource(),
@@ -500,7 +500,7 @@ namespace Files.App.Data.Factories
 		{
 			var list = new List<ContextFlyoutItemModel>()
 			{
-				new(ContextFlyoutItemType.Button, Commands.CreateFolder),
+				new(ContextFlyoutItemType.Item, Commands.CreateFolder),
 				new()
 				{
 					Text = "File".GetLocalizedResource(),
@@ -511,7 +511,7 @@ namespace Files.App.Data.Factories
 					ShowInZipPage = true,
 					IsEnabled = canCreateFileInPage
 				},
-				new(ContextFlyoutItemType.Button, Commands.CreateShortcutFromDialog)
+				new(ContextFlyoutItemType.Item, Commands.CreateShortcutFromDialog)
 				{
 					ShowItem = true,
 				},

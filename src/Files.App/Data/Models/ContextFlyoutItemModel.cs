@@ -147,7 +147,7 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public bool IsHidden { get; set; }
 
-		public ContextFlyoutItemModel(ContextFlyoutItemType type = ContextFlyoutItemType.Button)
+		public ContextFlyoutItemModel(ContextFlyoutItemType type = ContextFlyoutItemType.Item)
 		{
 			ItemType = type;
 		}
