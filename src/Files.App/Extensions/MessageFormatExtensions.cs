@@ -122,7 +122,9 @@ namespace Files.App.Extensions
 			var pairs = new Dictionary<string, object?>(values.Length);
 
 			for (var i = 0; i < values.Length; i++)
-				pairs[i.ToString(CultureInfo.InvariantCulture)] = values[i];
+				pairs[i.ToString(CultureInfo.InvariantCulture)] = (values[i] is bool b) 
+					? (b ? 1 : 0) // Convert boolean values to 0 or 1
+					: values[i];
 
 			return GetLocalizedFormatResource(resourceKey, pairs);
 		}
