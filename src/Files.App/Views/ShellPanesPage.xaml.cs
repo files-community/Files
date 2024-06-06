@@ -395,13 +395,15 @@ namespace Files.App.Views
 					NavPath = paneArgs.LeftPaneNavPathParam,
 					SelectItem = paneArgs.LeftPaneSelectItemParam
 				};
+
+				// Creates a secondary pane
+				IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
+
 				NavParamsRight = new()
 				{
 					NavPath = paneArgs.RightPaneNavPathParam,
 					SelectItem = paneArgs.RightPaneSelectItemParam
 				};
-
-				IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
 			}
 
 			TabBarItemParameter = new()
