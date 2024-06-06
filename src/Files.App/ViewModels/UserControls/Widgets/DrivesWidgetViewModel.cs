@@ -168,7 +168,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new(ContextFlyoutItemType.Separator)
 				{
-					ItemType = ContextFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					ShowItem = true,
 				},
