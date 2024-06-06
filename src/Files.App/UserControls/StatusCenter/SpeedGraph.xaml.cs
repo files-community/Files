@@ -19,22 +19,22 @@ namespace Files.App.UserControls.StatusCenter
 		public ObservableCollection<Vector2> Points
 		{
 			get => (ObservableCollection<Vector2>)GetValue(PointsProperty);
-			set
-			{
-				highestValue = 0;
-				SetValue(PointsProperty, value);
-			}
+			set => SetValue(PointsProperty, value);
 		}
 		
 		public static readonly DependencyProperty PointsProperty =
 			DependencyProperty.Register(nameof(Points), typeof(ObservableCollection<Vector2>), typeof(SpeedGraph), null);
 
 		Compositor compositor;
+
 		ContainerVisual rootVisual;
-		ShapeVisual graphVisual;
+
 		CompositionSpriteShape graphShape;
-		SpriteVisual line;
 		InsetClip graphClip;
+
+		SpriteVisual line;
+
+		bool initialized;
 
 		float width;
 		float height;
@@ -46,55 +46,20 @@ namespace Files.App.UserControls.StatusCenter
 			this.InitializeComponent();
 		}
 
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			// is it a bad idea to recreate these on every load?
-			// TODO: it doesn't work the first time you open the flyout
-			var temp = ElementCompositionPreview.GetElementVisual(this);
-			compositor = temp.Compositor;
-			rootVisual = compositor.CreateContainerVisual();
-			rootVisual.Size = temp.Size;
-			ElementCompositionPreview.SetElementChildVisual(this, rootVisual);
+			if (initialized)
+				return;
 
-			width = rootVisual.Size.X;
-			height = rootVisual.Size.Y;
+			Init();
 
-			var accentColor = (App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush)!.Color;
+			Points.CollectionChanged += PointsChanged;
+			// added after first load
+			this.Loaded += OnLoaded;
+		}
 
-			var bgVisual = compositor.CreateSpriteVisual();
-			bgVisual.Size = rootVisual.Size;
-			bgVisual.Brush = compositor.CreateColorBrush(Color.FromArgb(0x15, accentColor.R, accentColor.G, accentColor.B));
-
-			graphVisual = compositor.CreateShapeVisual();
-			graphVisual.Size = rootVisual.Size;
-
-			graphShape = compositor.CreateSpriteShape();
-			var gradientFill = compositor.CreateLinearGradientBrush();
-			gradientFill.StartPoint = new(0.5f, 0f);
-			gradientFill.EndPoint = new(0.5f, 1f);
-			gradientFill.ColorStops.Add(compositor.CreateColorGradientStop(0f, Color.FromArgb(0x70, accentColor.R, accentColor.G, accentColor.B)));
-			gradientFill.ColorStops.Add(compositor.CreateColorGradientStop(1f, Color.FromArgb(0x06, accentColor.R, accentColor.G, accentColor.B)));
-			graphShape.FillBrush = gradientFill;
-			graphShape.StrokeBrush = compositor.CreateColorBrush(accentColor);
-			graphShape.StrokeThickness = 1f;
-			graphVisual.Shapes.Add(graphShape);
-
-			var container = compositor.CreateContainerVisual();
-			container.Size = rootVisual.Size;
-			container.Children.InsertAtBottom(bgVisual);
-			container.Children.InsertAtBottom(graphVisual);
-			rootVisual.Children.InsertAtBottom(container);
-
-			graphClip = compositor.CreateInsetClip();
-			graphClip.RightInset = width;
-			container.Clip = graphClip;
-
-			line = compositor.CreateSpriteVisual();
-			line.Size = new Vector2(width, 1.5f);
-			line.Brush = compositor.CreateColorBrush(accentColor);
-			rootVisual.Children.InsertAtTop(line);
-
-			// if it gets unloaded and reloaded because of the flyout closing
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
 			if (Points.Count > 0)
 				UpdateGraph();
 
@@ -103,16 +68,68 @@ namespace Files.App.UserControls.StatusCenter
 
 		private void UserControl_Unloaded(object sender, RoutedEventArgs e)
 		{
-			rootVisual.Children.RemoveAll();
-			graphVisual = null!;
-			graphShape = null!;
-			graphClip = null!;
 			Points.CollectionChanged -= PointsChanged;
 		}
 
 		private void PointsChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			UpdateGraph();
+		}
+
+		private void Init()
+		{
+			// TODO: it doesn't work the first time you open the flyout
+			compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+			rootVisual = compositor.CreateContainerVisual();
+			rootVisual.Size = this.ActualSize;
+			ElementCompositionPreview.SetElementChildVisual(this, rootVisual);
+
+			width = rootVisual.Size.X;
+			height = rootVisual.Size.Y;
+
+			var accentColor = (App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush)!.Color;
+
+			var backgroundBrush = compositor.CreateColorBrush(accentColor with { A = 0x15 });
+
+			var graphFillBrush = compositor.CreateLinearGradientBrush();
+			graphFillBrush.StartPoint = new(0.5f, 0f);
+			graphFillBrush.EndPoint = new(0.5f, 1f);
+			graphFillBrush.ColorStops.Add(compositor.CreateColorGradientStop(0f, accentColor with { A = 0x70 }));
+			graphFillBrush.ColorStops.Add(compositor.CreateColorGradientStop(1f, accentColor with { A = 0x06 }));
+
+			var graphStrokeBrush = compositor.CreateColorBrush(accentColor);
+
+			var bgVisual = compositor.CreateSpriteVisual();
+			bgVisual.Size = rootVisual.Size;
+			bgVisual.Brush = backgroundBrush;
+
+			var graphVisual = compositor.CreateShapeVisual();
+			graphVisual.Size = rootVisual.Size;
+			graphShape = compositor.CreateSpriteShape();
+			graphShape.FillBrush = graphFillBrush;
+			graphShape.StrokeBrush = graphStrokeBrush;
+			graphShape.StrokeThickness = 1f;
+			graphVisual.Shapes.Add(graphShape);
+
+			var container = compositor.CreateContainerVisual();
+			container.Size = rootVisual.Size;
+			container.Children.InsertAtBottom(bgVisual);
+			container.Children.InsertAtBottom(graphVisual);
+
+			graphClip = compositor.CreateInsetClip();
+			graphClip.RightInset = width;
+			container.Clip = graphClip;
+
+			rootVisual.Children.InsertAtBottom(container);
+
+			line = compositor.CreateSpriteVisual();
+			line.Size = new(width, 1.5f);
+			line.Brush = graphStrokeBrush;
+			rootVisual.Children.InsertAtTop(line);
+
+			highestValue = 0;
+
+			initialized = true;
 		}
 
 		void UpdateGraph()
@@ -128,14 +145,14 @@ namespace Files.App.UserControls.StatusCenter
 
 			var clipAnim = compositor.CreateScalarKeyFrameAnimation();
 			clipAnim.InsertExpressionKeyFrame(0f, "this.StartingValue");
-			clipAnim.InsertKeyFrame(1f, width - (width * Points[^1].X / 100f) - 2, compositor.CreateLinearEasingFunction());
+			clipAnim.InsertKeyFrame(1f, width - (width * Points[^1].X / 100f) - 1, compositor.CreateLinearEasingFunction());
 			clipAnim.Duration = TimeSpan.FromMilliseconds(72);
 			graphClip.StartAnimation("RightInset", clipAnim);
 		}
 
 		CompositionPathGeometry CreatePathFromPoints()
 		{
-			using var pathBuilder = new CanvasPathBuilder(null);
+			var pathBuilder = new CanvasPathBuilder(null);
 			pathBuilder.BeginFigure(0f, height);
 			for (int i = 0; i < Points.Count; i++)
 			{
@@ -145,12 +162,19 @@ namespace Files.App.UserControls.StatusCenter
 				pathBuilder.AddLine(width * Points[i].X / 100f, height - (Points[i].Y / highestValue) * (height - 40f) - 4);
 			}
 			// little extra part so that steep lines don't get cut off
-			pathBuilder.AddLine(width * Points[^1].X / 100f + 3, height - (Points[^1].Y / highestValue) * (height - 40f) - 4);
-			pathBuilder.AddLine(width * Points[^1].X / 100f + 3, height);
+			pathBuilder.AddLine(width * Points[^1].X / 100f + 2, height - (Points[^1].Y / highestValue) * (height - 40f) - 4);
+			pathBuilder.AddLine(width * Points[^1].X / 100f + 2, height);
 			pathBuilder.EndFigure(CanvasFigureLoop.Closed);
 			var geometry = compositor.CreatePathGeometry();
 			geometry.Path = new CompositionPath(CanvasGeometry.CreatePath(pathBuilder));
 			return geometry;
 		}
+
+		private void UserControl_ActualThemeChanged(FrameworkElement sender, object args)
+		{
+
+		}
+
+		
 	}
 }

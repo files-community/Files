@@ -6,7 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UserControls.StatusCenter"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:numerics="using:System.Numerics"
-	Loaded="UserControl_Loaded"
+	ActualThemeChanged="UserControl_ActualThemeChanged"
+	SizeChanged="UserControl_SizeChanged"
 	Unloaded="UserControl_Unloaded"
 	mc:Ignorable="d" />
