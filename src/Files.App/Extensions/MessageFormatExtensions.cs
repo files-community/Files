@@ -105,7 +105,9 @@ namespace Files.App.Extensions
 
 			foreach (var dict in pairs)
 				foreach (var pair in dict)
-					mergedPairs[pair.Key] = pair.Value;
+					mergedPairs[pair.Key] = (pair.Value is bool b)
+						? (b ? 1 : 0) // Convert boolean values to 1 or 0
+						: pair.Value;
 
 			return GetLocalizedFormatResource(resourceKey, mergedPairs);
 		}
@@ -123,7 +125,7 @@ namespace Files.App.Extensions
 
 			for (var i = 0; i < values.Length; i++)
 				pairs[i.ToString(CultureInfo.InvariantCulture)] = (values[i] is bool b) 
-					? (b ? 1 : 0) // Convert boolean values to 0 or 1
+					? (b ? 1 : 0) // Convert boolean values to 1 or 0
 					: values[i];
 
 			return GetLocalizedFormatResource(resourceKey, pairs);
