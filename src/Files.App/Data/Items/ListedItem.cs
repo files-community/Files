@@ -359,7 +359,7 @@ namespace Files.App.Utils
 					isImageFile &&
 					imageWidth > 0 &&
 					imageHeight > 0
-						? $"{imageWidth} \uE711 {imageHeight}"
+						? $"{imageWidth} \u00D7 {imageHeight}"
 						: string.Empty;
 			}
 		}

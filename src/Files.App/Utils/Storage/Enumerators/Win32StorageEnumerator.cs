@@ -397,8 +397,6 @@ namespace Files.App.Utils.Storage
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,
-						ImageHeight = imageHeight,
-						ImageWidth = imageWidth
 					};
 				}
 			}
