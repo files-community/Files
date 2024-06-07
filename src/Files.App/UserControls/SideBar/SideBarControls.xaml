@@ -86,9 +86,13 @@
 							ToolTipService.ToolTip="{Binding ToolTip, Mode=OneWay}"
 							UseSystemFocusVisuals="True">
 							<Grid.ColumnDefinitions>
+								<!--  Selection Indicator  -->
 								<ColumnDefinition Width="3" />
+								<!--  Icon  -->
 								<ColumnDefinition Width="Auto" />
+								<!--  Text  -->
 								<ColumnDefinition Width="*" />
+								<!--  Decorator -->
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
