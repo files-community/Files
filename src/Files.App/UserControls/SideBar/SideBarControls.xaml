@@ -228,6 +228,13 @@
 									</VisualState.Setters>
 								</VisualState>
 
+								<VisualState x:Name="NoExpansionWithPadding">
+									<VisualState.Setters>
+										<Setter Target="RootPanel.Margin" Value="0,0,0,16" />
+										<Setter Target="ItemDecoratorPresenter.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+
 								<VisualState x:Name="NoChildren">
 									<VisualState.Setters>
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
