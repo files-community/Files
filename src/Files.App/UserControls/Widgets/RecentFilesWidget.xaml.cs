@@ -41,6 +41,7 @@ namespace Files.App.UserControls.Widgets
 				var storageItems = new List<IStorageItem>();
 				var fileContents = new List<string>();
 
+
 				foreach (var item in items)
 				{
 					try
@@ -78,9 +79,11 @@ namespace Files.App.UserControls.Widgets
 					}
 
 					// Set the requested operation to Copy if dragging outside the application
-					e.Data.RequestedOperation = DataPackageOperation.Copy;
+					e.Data.RequestedOperation = DataPackageOperation.Copy | DataPackageOperation.Link;
 				}
 			}
 		}
+
+
 	}
 }
