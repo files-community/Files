@@ -19,7 +19,11 @@ namespace Files.App.UserControls.StatusCenter
 		public ObservableCollection<Vector2> Points
 		{
 			get => (ObservableCollection<Vector2>)GetValue(PointsProperty);
-			set => SetValue(PointsProperty, value);
+			set
+			{
+				highestValue = 0;
+				SetValue(PointsProperty, value);
+			}
 		}
 		
 		public static readonly DependencyProperty PointsProperty =
