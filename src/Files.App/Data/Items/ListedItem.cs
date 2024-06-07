@@ -412,7 +412,6 @@ namespace Files.App.Utils
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
-		public virtual bool IsImage => FileExtensionHelpers.IsImageFile(ItemPath);
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);

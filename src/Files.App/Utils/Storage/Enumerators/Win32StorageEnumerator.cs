@@ -396,7 +396,7 @@ namespace Files.App.Utils.Storage
 						ItemType = itemType,
 						ItemPath = itemPath,
 						FileSize = itemSize,
-						FileSizeBytes = itemSizeBytes,
+						FileSizeBytes = itemSizeBytes
 					};
 				}
 			}
