@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using CommunityToolkit.WinUI.Notifications;
+using Files.App.Helpers.Application;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,7 +10,6 @@ using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Notifications;
 
 namespace Files.App
 {
@@ -260,33 +259,7 @@ namespace Files.App
 				{
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
-						var toastContent = new ToastContent()
-						{
-							Visual = new()
-							{
-								BindingGeneric = new ToastBindingGeneric()
-								{
-									Children =
-								{
-									new AdaptiveText()
-									{
-										Text = "BackgroundRunningNotificationHeader".GetLocalizedResource()
-									},
-									new AdaptiveText()
-									{
-										Text = "BackgroundRunningNotificationBody".GetLocalizedResource()
-									}
-								},
-								}
-							},
-							ActivationType = ToastActivationType.Protocol
-						};
-
-						// Create the toast notification
-						var toastNotification = new ToastNotification(toastContent.GetXml());
-
-						// And send the notification
-						ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+						AppToastNotificationHelper.ShowBackgroundRunningToast();
 
 						userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
 					});

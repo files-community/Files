@@ -385,28 +385,16 @@
     <value>Només lectura</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>Fa {0} dies</value>
-  </data>
-  <data name="DayAgo" xml:space="preserve">
-    <value>Fa {0} dia</value>
+    <value>{0, plural, one {fa # dia} other {fa # dies}}</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>Fa {0} hores</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>Fa {0} hora</value>
+    <value>{0, plural, one {fa # hora} other {fa # hores}}</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>Fa {0} minuts</value>
-  </data>
-  <data name="MinuteAgo" xml:space="preserve">
-    <value>Fa {0} minut</value>
+    <value>{0, plural, one {fa # minut} other {fa # minuts}}</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>Fa {0} segons</value>
-  </data>
-  <data name="OneSecondAgo" xml:space="preserve">
-    <value>Fa 1 segon</value>
+    <value>{0, plural, one {fa # segon} other {fa # segons}}</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Ara</value>
@@ -465,10 +453,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} fitxers, {1:#,##0} carpetes</value>
+    <value>{0, number} {0, plural, one {fitxer} other {fitxers}}, {1, number} {1, plural, one {carpeta} other {carpetes}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} fitxers, {1:#,##0} carpetes de {2:#,##0} ubicacions</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} {0, plural, one {fitxer} other {fitxers}}, {1, number} {1, plural, one {carpeta} other {carpetes}} de {2, number} {2, plural, one {ubicació} other {ubicacions}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Executa com un altre usuari</value>
@@ -1226,47 +1214,38 @@
   <data name="Copy" xml:space="preserve">
     <value>Copia</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Es copiaran {0} elements</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copia el/els element(s)</value>
+    <value>Copia {0, plural, one {element} other {elements}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Elimina el/els element(s)</value>
+    <value>Suprimeix {0, plural, one {element} other {elements}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Mou</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Es mouran {0} elements</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Es mourà un element} other {Es mouran # elements}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Mou el/els element(s)</value>
+    <value>Mou {0, plural, one {element} other {elements}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se suprimiran {0} elements.</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Se suprimirà un element} other {Se suprimiran # elements}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Continua</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Hi ha {0} nom(s) de fitxer(s) en conflicte i {1} element(s) sortint(s).</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {Hi ha un nom de fitxer en conflicte} other {Hi ha # noms de fitxers en conflicte}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {Hi ha un fitxer en conflicte} other {Hi ha # fitxers en conflicte}}, i {1, plural, one {un element sortint} other {# elements sortint}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Nom(s) de fitxer(s) en conflicte</value>
+    <value>En conflicte {0, plural, one {nom del fitxer} other {noms de fitxers}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Hi ha un nom de fitxer en conflicte i {0} element(s) sortint(s).</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Es copiarà un element</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Se suprimirà un element</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Es mourà un element</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Es copiarà un element} other {Es copiaran # elements}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Suprimeix-ho permanentment</value>
@@ -1279,12 +1258,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Genera un nom nou</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>Hi ha {0} nom(s) de fitxer(s) en conflicte.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Hi ha un nom de fitxer en conflicte.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Crea una carpeta amb selecció</value>
@@ -1616,8 +1589,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Baixa l'element del núvol i carrega la vista prèvia</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} elements ({1} fitxers, {2} carpetes)</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, one {# element} other {# elements}} ({1, plural, one {# fitxer} other {# fitxers}}, {2, plural, one {# carpeta} other {# carpetes}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Mida sense comprimir</value>

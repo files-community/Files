@@ -385,28 +385,16 @@
     <value>Pouze pro čtení</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>před {0} dny</value>
-  </data>
-  <data name="DayAgo" xml:space="preserve">
-    <value>před {0} dnem</value>
+    <value>Před {0, plural, one {# dnem} other {# dny}}</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>před {0} hodinami</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>před {0} hodinou</value>
+    <value>Před {0, plural, one {# hodinou} other {# hodinami}}</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>před {0} minutami</value>
-  </data>
-  <data name="MinuteAgo" xml:space="preserve">
-    <value>před {0} minutou</value>
+    <value>Před {0, plural, one {# minutou} other {# minutami}}</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>před {0} sekundami</value>
-  </data>
-  <data name="OneSecondAgo" xml:space="preserve">
-    <value>Před vteřinou</value>
+    <value>Před {0, plural, one {# sekundou} other {# sekundami}}</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Nyní</value>
@@ -465,10 +453,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} souborů, {1:#,##0} složek</value>
+    <value>{0, number} {0, plural, one {soubor} few {soubory} other {souborů}}, {1, number} {1, plural, one {složka} few {složky} other {složek}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} souborů, {1:#,##0} složek z {2:#,##0} umístění</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} {0, plural, one {soubor} few {soubory} other {souborů}}, {1, number} {1, plural, one {složka} few {složky} other {složek}} {2, plural, one {z} few {ze} other {z}} {2, number} umístění</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Spustit jako jiný uživatel</value>
@@ -1226,47 +1214,38 @@
   <data name="Copy" xml:space="preserve">
     <value>Kopírovat</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} položek bude zkopírováno</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Kopírovat položku(y)</value>
+    <value>Zkopírovat {0, plural, one {položku} few {položky} other {položek}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Smazat položku(y)</value>
+    <value>Smazat {0, plural, one {položku} other {položky}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Přesunout</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} položek bude přesunuto</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Jedna položka bude přesunuta} few {# položky budou přesunuty} other {# položek bude přesunuto}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Přesunout položku(y)</value>
+    <value>Přesunout {0, plural, one {položku} other {položky}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} položek bude odstraněno</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Jedna položka bude smazána} few {# položky budou smazány} other {# položek bude smazáno}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Pokračovat</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Je zde {0} konfliktních názvů souborů, a {1} odchozí položka(y).</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {Existuje jeden konfliktní název položky} few {Existují # konfliktní názvy položek} other {Existuje # konfliktních názvů položek}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {Existuje jeden konfliktní název položky} few {Existují # konfliktní názvy položek} other {Existuje # konfliktních názvů položek}}, a {1, plural, one {jedna položka} few {# položky} other {# položek}} bez konfliktu</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Konfliktní název(y) souborů</value>
+    <value>Konflikt {0, plural, one {názvu souboru} other {názvů souborů}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Je zde jeden konfliktní název souboru a {0} odchozí položka(y).</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Jedna položka bude zkopírována</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Jedna položka bude odstraněna</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Jedna položka bude přesunuta</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Jedna položka bude zkopírována} few {# položky budou zkopírovány} other {# položek bude zkopírováno}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Trvale odstranit</value>
@@ -1279,12 +1258,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generovat nové jméno</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>Je tu {0} konfliktních názvů souborů.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Je tu jeden konfliktní název souboru.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Vytvořit složku s výběrem</value>
@@ -1616,8 +1589,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Stáhne položku z cloudu a načte náhled</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} položek ({1} souborů, {2} složek)</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, one {# položka} few {# položky} other {# položek}} ({1, plural, one {# soubor} few {# soubory} other {# souborů}}, {2, plural, one {# složka} few {# složky} other {# složek}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Nekomprimovaná velikost</value>

@@ -385,28 +385,16 @@
     <value>Lecture seule</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>Il y a {0} jours</value>
-  </data>
-  <data name="DayAgo" xml:space="preserve">
-    <value>Il y a {0} jour</value>
+    <value>{0, plural, one {Il y a # jour} other {Il y a # jours}}</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>Il y a {0} heures</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>Il y a {0} heure</value>
+    <value>{0, plural, one {Il y a # heure} other {Il y a # heures}}</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>Il y a {0} minutes</value>
-  </data>
-  <data name="MinuteAgo" xml:space="preserve">
-    <value>Il y a {0} minute</value>
+    <value>{0, plural, one {Il y a # minute} other {Il y a # minutes}}</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>Il y a {0} secondes</value>
-  </data>
-  <data name="OneSecondAgo" xml:space="preserve">
-    <value>Il y a 1 seconde</value>
+    <value>{0, plural, one {Il y a # seconde} other {Il y a # secondes}}</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Maintenant</value>
@@ -465,10 +453,10 @@
     <value>o</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} fichiers, {1:#,##0} dossiers</value>
+    <value>{0, number} {0, plural, one {fichier} other {fichiers}}, {1, number} {1, plural, one {dossier} other {dossiers}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} fichiers, {1:#,##0} dossiers dans {2:#,##0} emplacements</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} {0, plural, one {fichier} other {fichiers}}, {1, number} {1, plural, one {dossier} other {dossiers}} de {2, number} {2, plural, one {emplacement} other {emplacements}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Exécuter en tant qu'autre utilisateur</value>
@@ -684,7 +672,7 @@
     <value>Date de modification</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Profondeur de couleur</value>
+    <value>Profondeur de bits</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Dimensions</value>
@@ -795,7 +783,7 @@
     <value>Date de sortie</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>Titre de la série</value>
+    <value>Nom de la série</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
     <value>Numéro de saison</value>
@@ -900,7 +888,7 @@
     <value>Orientation</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Noyau</value>
+    <value>Cœur</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Image</value>
@@ -978,7 +966,7 @@
     <value>Effacer toutes les propriétés</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>Vérifiez le statut des opérations de fichier ici</value>
+    <value>Vérifiez le statut des opérations de fichiers ici</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Centre de statut</value>
@@ -1203,7 +1191,7 @@
     <value>Emplacements :</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
-    <value>Définir comme emplacement de sauvegarde par défaut</value>
+    <value>Définir comme chemin de sauvegarde par défaut</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Pas d'emplacements</value>
@@ -1226,47 +1214,38 @@
   <data name="Copy" xml:space="preserve">
     <value>Copier</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} éléments seront copiés</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copier le(s) élément(s)</value>
+    <value>Copier {0, plural, one {l'élément} other {les éléments}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Supprimer le(s) élément(s)</value>
+    <value>Supprimer {0, plural, one {l'élément} other {les éléments}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Déplacer</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} éléments seront déplacés</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {1 élément sera déplacé} other {# éléments seront déplacés}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Déplacer le(s) élément(s)</value>
+    <value>Déplacer {0, plural, one {l'élément} other {les éléments}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} éléments seront supprimés</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {1 élément sera supprimé} other {# éléments seront supprimés}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Continuer</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Il y a {0} noms de fichiers en conflit et {1} élément(s) sortant(s).</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {Il y a 1 nom de fichier en conflit} other {Il y a # noms de fichiers en conflit}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {Il y a 1 nom de fichier en conflit} other {Il y a # noms de fichiers en conflit}}, et {1, plural, one {1 élément sortant} other {# éléments sortants}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Nom(s) de fichier(s) en conflit</value>
+    <value>En conflit {0, plural, one {avec un nom de fichier} other {avec des noms de fichiers}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Il y a un nom de fichier en conflit et {0} élément(s) sortant(s).</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Un élément sera copié</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Un élément sera supprimé</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Un élément sera déplacé</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {1 élément sera copié} other {# éléments seront copiés}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Effacer définitivement</value>
@@ -1279,12 +1258,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Générer un nouveau nom</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>Il y a {0} noms de fichiers en conflit.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Il y a un nom de fichier en conflit.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Créer un dossier avec la sélection</value>
@@ -1616,8 +1589,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Télécharger l'élément depuis le cloud et charger l'aperçu</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} éléments ({1} fichiers et {2} dossiers)</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, one {# élément} other {# éléments}} ({1, plural, one {# fichier} other {# fichiers}}, {2, plural, one {# dossier} other {# dossiers}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Taille décompressée</value>
@@ -2786,7 +2759,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Print" xml:space="preserve">
-    <value>Impression</value>
+    <value>Imprimer</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
@@ -3240,7 +3213,7 @@
     <value>Commande invalide</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' n'est pas reconnu(e) comme une commande.</value>
+    <value>'{0}' n'est pas reconnu comme une commande.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
     <value>Commande non exécutable</value>
