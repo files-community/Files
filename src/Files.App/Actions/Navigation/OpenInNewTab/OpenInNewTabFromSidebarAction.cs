@@ -6,8 +6,10 @@ namespace Files.App.Actions
 	internal sealed class OpenInNewTabFromSidebarAction : BaseOpenInNewTabAction
 	{
 		public override bool IsExecutable =>
+			UserSettingsService.GeneralSettingsService.ShowOpenInNewTab &&
 			SidebarContext.IsItemRightClicked &&
-			SidebarContext.RightClickedItem is not null;
+			SidebarContext.RightClickedItem is not null &&
+			SidebarContext.RightClickedItem.MenuOptions.IsLocationItem;
 
 		public override bool IsAccessibleGlobally
 			=> false;

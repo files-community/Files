@@ -9,6 +9,7 @@ namespace Files.App.Actions
 			=> HotKey.None;
 
 		public override bool IsExecutable =>
+			UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow &&
 			HomePageContext.IsAnyItemRightClicked &&
 			HomePageContext.RightClickedItem is not null &&
 			HomePageContext.RightClickedItem is WidgetFileTagCardItem fileTagItem

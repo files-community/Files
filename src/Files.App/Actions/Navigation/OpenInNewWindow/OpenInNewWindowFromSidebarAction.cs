@@ -9,8 +9,10 @@ namespace Files.App.Actions
 			=> HotKey.None;
 
 		public override bool IsExecutable =>
+			UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow &&
 			SidebarContext.IsItemRightClicked &&
-			SidebarContext.RightClickedItem is not null;
+			SidebarContext.RightClickedItem is not null &&
+			SidebarContext.RightClickedItem.MenuOptions.IsLocationItem;
 
 		public override bool IsAccessibleGlobally
 			=> false;
