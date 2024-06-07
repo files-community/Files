@@ -12,9 +12,9 @@ namespace Files.App.Actions
 			UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow &&
 			HomePageContext.IsAnyItemRightClicked &&
 			HomePageContext.RightClickedItem is not null &&
-			HomePageContext.RightClickedItem is WidgetFileTagCardItem fileTagItem
+			(HomePageContext.RightClickedItem is WidgetFileTagCardItem fileTagItem
 				? fileTagItem.IsFolder
-				: true;
+				: true);
 
 		public override bool IsAccessibleGlobally
 			=> false;
