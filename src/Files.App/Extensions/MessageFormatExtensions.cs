@@ -51,7 +51,7 @@ namespace Files.App.Extensions
 		/// It is initialized with the options to use cache and the two-letter ISO language name of the current UI culture,
 		/// and a custom value formatter for number values.
 		/// </summary>
-		private static readonly MessageFormatter _formatter = new(useCache: true, locale: _locale.TwoLetterISOLanguageName, customValueFormatter: _customFormatter);
+		private static readonly MessageFormatter _formatter = new(useCache: false, locale: _locale.TwoLetterISOLanguageName, customValueFormatter: _customFormatter);
 
 		/// <summary>
 		/// Creates a dictionary for format pairs with a string key.
