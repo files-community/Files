@@ -27,6 +27,8 @@ namespace Files.App.ViewModels.Settings
 		public PackageVersion AppVersion
 			=> Package.Current.Id.Version;
 
+		public ObservableCollection<OpenSourceLibraryItem> OpenSourceLibraries { get; }
+
 		// Commands
 
 		public ICommand CopyAppVersionCommand { get; }
@@ -48,6 +50,35 @@ namespace Files.App.ViewModels.Settings
 		/// </summary>
 		public AboutViewModel()
 		{
+			OpenSourceLibraries =
+			[
+				new ("https://github.com/omar/ByteSize", "ByteSize"),
+				new ("https://github.com/CommunityToolkit/dotnet", "CommunityToolkit.Mvvm"),
+				new ("https://github.com/DiscUtils/DiscUtils", "DiscUtils.Udf"),
+				new ("https://github.com/robinrodricks/FluentFTP", "FluentFTP"),
+				new ("https://github.com/rickyah/ini-parser", "INI File Parser"),
+				new ("https://github.com/libgit2/libgit2sharp", "libgit2sharp"),
+				new ("https://github.com/mbdavid/LiteDB", "LiteDB"),
+				new ("https://github.com/beto-rodriguez/LiveCharts2", "LiveCharts2"),
+				new ("https://github.com/jeffijoe/messageformat.net", "MessageFormat"),
+				new ("https://github.com/dotnet/efcore", "EF Core for SQLite"),
+				new ("https://github.com/dotnet/runtime", "Microsoft.Extensions"),
+				new ("https://github.com/files-community/SevenZipSharp", "SevenZipSharp"),
+				new ("https://sourceforge.net/projects/sevenzip", "7zip"),
+				new ("https://github.com/ericsink/SQLitePCL.raw", "PCL for SQLite"),
+				new ("https://github.com/microsoft/WindowsAppSDK", "WindowsAppSDK"),
+				new ("https://github.com/microsoft/microsoft-ui-xaml", "WinUI 3"),
+				new ("https://github.com/microsoft/Win2D", "Win2D"),
+				new ("https://github.com/CommunityToolkit/WindowsCommunityToolkit", "Windows Community Toolkit 7.x"),
+				new ("https://github.com/mono/taglib-sharp", "TagLibSharp"),
+				new ("https://github.com/Tulpep/Active-Directory-Object-Picker", "ActiveDirectoryObjectPicker"),
+				new ("https://github.com/dotMorten/WinUIEx", "WinUIEx"),
+				new ("https://github.com/dahall/Vanara", "Vanara"),
+				new ("https://github.com/PowerShell/MMI", "MMI"),
+				new ("https://github.com/microsoft/CsWin32", "CsWin32"),
+				new ("https://github.com/microsoft/CsWinRT", "CsWinRT"),
+			];
+
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
 			CopyWindowsVersionCommand = new RelayCommand(CopyWindowsVersion);
 			SupportUsCommand = new AsyncRelayCommand(SupportUs);
