@@ -6,6 +6,7 @@ using Files.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using Windows.Storage;
@@ -328,29 +329,40 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
-		private int imageWidth;
-		public int ImageWidth
+		public string DimensionsDisplay
 		{
-			get => imageWidth;
-			set
+			get
 			{
-				SetProperty(ref imageWidth, value);
-				OnPropertyChanged(nameof(DimensionsDisplay));
+				int imageHeight = 0;
+				int imageWidth = 0;
+
+				var isImageFile = FileExtensionHelpers.IsImageFile(FileExtension);
+				if (isImageFile)
+				{
+					try
+					{
+						// TODO: Consider to use 'System.Kind' instead.
+						using FileStream fileStream = new(ItemPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+						using Image image = Image.FromStream(fileStream, false, false);
+
+						if (image is not null)
+						{
+							imageHeight = image.Height;
+							imageWidth = image.Width;
+						}
+					}
+					catch { }
+				}
+
+
+				return
+					isImageFile &&
+					imageWidth > 0 &&
+					imageHeight > 0
+						? $"{imageWidth} \uE711 {imageHeight}"
+						: string.Empty;
 			}
 		}
-
-		private int imageHeight;
-		public int ImageHeight
-		{
-			get => imageHeight;
-			set
-			{
-				SetProperty(ref imageHeight, value);
-				OnPropertyChanged(nameof(DimensionsDisplay));
-			}
-		}
-
-		public string DimensionsDisplay => IsImage && ImageWidth > 0 && ImageHeight > 0 ? $"{ImageWidth} \u00D7 {ImageHeight}" : string.Empty;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListedItem" /> class.
