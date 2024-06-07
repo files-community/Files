@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Sentry;
@@ -141,7 +141,7 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				SentrySdk.Metrics.Increment($"Triggered action", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
+				SentrySdk.Metrics.Increment("actions", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
 				return Action.ExecuteAsync(parameter);
 			}
 
