@@ -41,19 +41,23 @@ namespace Files.App.UserControls.Widgets
 				var storageItems = new List<IStorageItem>();
 				var fileContents = new List<string>();
 
-
 				foreach (var item in items)
 				{
 					try
 					{
-						// Attempt to get the file from its path
+						// Attempt to get the file from its path and read the file text content
 						var file = await StorageFile.GetFileFromPathAsync(item.RecentPath);
 						if (file != null)
+						{
 							storageItems.Add(file);
 
-						// Read the file text content
-						var fileContent = await FileIO.ReadTextAsync(file);
-						fileContents.Add(fileContent);
+							//Attempt to read the file text content
+							var fileContent = await FileIO.ReadTextAsync(file);
+							if (!string.IsNullOrEmpty(fileContent))
+							{
+								fileContents.Add(fileContent);
+							}
+						}
 
 					}
 					catch (Exception)
@@ -73,12 +77,12 @@ namespace Files.App.UserControls.Widgets
 					if (fileContents.Count > 0)
 					{
 						// Create a new data package and set the file contents as text
-						dataPackage.SetText(string.Join("\n", fileContents));
-						e.Data.SetDataProvider(StandardDataFormats.Text, request => request.SetData(string.Join("\n", fileContents)));
-
+						var text = string.Join("\n", fileContents);
+						dataPackage.SetText(text);
+						e.Data.SetDataProvider(StandardDataFormats.Text, request => request.SetData(text));
 					}
 
-					// Set the requested operation to Copy if dragging outside the application
+					// Set the requested operation to Copy and Link if alt pressed if dragging outside the application
 					e.Data.RequestedOperation = DataPackageOperation.Copy | DataPackageOperation.Link;
 				}
 			}
