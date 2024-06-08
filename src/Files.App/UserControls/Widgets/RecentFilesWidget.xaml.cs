@@ -60,7 +60,7 @@ namespace Files.App.UserControls.Widgets
 						}
 
 					}
-					catch (Exception)
+					catch
 					{
 						// Handle the case where the file might not be accessible or does not exist
 						e.Cancel = true;
@@ -87,7 +87,5 @@ namespace Files.App.UserControls.Widgets
 				}
 			}
 		}
-
-
 	}
 }
