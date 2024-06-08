@@ -45,20 +45,18 @@ namespace Files.App.UserControls.Widgets
 				{
 					try
 					{
-						// Attempt to get the file from its path and read the file text content
+						// Attempt to get the file from its path 
 						var file = await StorageFile.GetFileFromPathAsync(item.RecentPath);
 						if (file != null)
 						{
 							storageItems.Add(file);
-
-							//Attempt to read the file text content
-							var fileContent = await FileIO.ReadTextAsync(file);
-							if (!string.IsNullOrEmpty(fileContent))
-							{
-								fileContents.Add(fileContent);
-							}
+							
+							// Attempt to check if the file have text content
+							var (hasContent, content) = await TryReadFileContentAsync(file);
+							if(hasContent)
+								fileContents.Add(content); 
+							
 						}
-
 					}
 					catch
 					{
@@ -85,6 +83,25 @@ namespace Files.App.UserControls.Widgets
 					// Set the requested operation to Copy and Link if alt pressed if dragging outside the application
 					e.Data.RequestedOperation = DataPackageOperation.Copy | DataPackageOperation.Link;
 				}
+			}
+		}
+
+		private async Task<(bool success, string content)> TryReadFileContentAsync(StorageFile file)
+		{
+			const long MaxFileSizeInBytes = 50 * 1024 * 1024; // 50 MB file size limit
+
+			try
+			{
+				var properties = await file.GetBasicPropertiesAsync();
+				if (properties.Size > MaxFileSizeInBytes)
+					return (false, null);
+
+				var fileContent = await FileIO.ReadTextAsync(file);
+				return (!string.IsNullOrEmpty(fileContent), fileContent);
+			}
+			catch
+			{
+				return (false, null);
 			}
 		}
 	}
