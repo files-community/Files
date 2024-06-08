@@ -17,7 +17,6 @@ namespace Files.App.UserControls.TabBar
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
 
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-		private readonly IMultiPanesContext MultiPanesContext = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
 		private readonly DispatcherTimer tabHoverTimer = new();
 
@@ -112,8 +111,6 @@ namespace Files.App.UserControls.TabBar
 
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
-			var activePane = MultiPanesContext.ActivePane;
-
 			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
@@ -121,8 +118,6 @@ namespace Files.App.UserControls.TabBar
 
 		private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
 		{
-			var activePane = MultiPanesContext.ActivePane;
-
 			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDragOver(sender, e);
 			if (e.AcceptedOperation != DataPackageOperation.None)
 			{

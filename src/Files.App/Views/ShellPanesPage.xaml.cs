@@ -327,6 +327,10 @@ namespace Files.App.Views
 			page.ContentChanged += Pane_ContentChanged;
 			page.Loaded += Pane_Loaded;
 
+			// Reset width of every column
+			foreach (var column in RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0))
+				column.Width = new(1, GridUnitType.Star);
+
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
