@@ -1,23 +1,22 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services.DateTimeFormatter;
-using Files.App.Services.Settings;
-using Files.App.Storage.Storables;
+using CommunityToolkit.WinUI.Helpers;
+using Files.App.Helpers.Application;
+using Files.App.Services.SizeProvider;
 using Files.App.Storage.Storables;
 using Files.App.ViewModels.Settings;
-using Files.App.Services.SizeProvider;
-using Files.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sentry;
+using Sentry.Protocol;
 using System.IO;
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
-using Files.App.Helpers.Application;
 
 namespace Files.App.Helpers
 {
@@ -109,24 +108,25 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Configures AppCenter service, such as Analytics and Crash Report.
+		/// Configures Sentry service, such as Analytics and Crash Report.
 		/// </summary>
-		public static void ConfigureAppCenter()
+		public static void ConfigureSentry()
 		{
-			try
+			SentrySdk.Init(options =>
 			{
-				if (!Microsoft.AppCenter.AppCenter.Configured)
+				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
+				options.AutoSessionTracking = true;
+				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+				options.TracesSampleRate = 0.80;
+				options.ProfilesSampleRate = 0.40;
+				options.Environment = AppEnvironment == AppEnvironment.Preview ? "preview" : "production";
+				options.ExperimentalMetrics = new ExperimentalMetricsOptions
 				{
-					Microsoft.AppCenter.AppCenter.Start(
-						Constants.AutomatedWorkflowInjectionKeys.AppCenterSecret,
-						typeof(Microsoft.AppCenter.Analytics.Analytics),
-						typeof(Microsoft.AppCenter.Crashes.Crashes));
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, "Failed to start AppCenter service.");
-			}
+					EnableCodeLocations = true
+				};
+
+				options.DisableWinUiUnhandledExceptionIntegration();
+			});
 		}
 
 		/// <summary>
@@ -250,6 +250,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
 		{
+			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			StringBuilder formattedException = new()
 			{
 				Capacity = 200
@@ -259,6 +261,17 @@ namespace Files.App.Helpers
 
 			if (ex is not null)
 			{
+				ex.Data[Mechanism.HandledKey] = false;
+				ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
+
+				SentrySdk.CaptureException(ex, scope =>
+				{
+					scope.User.Id = generalSettingsService.UserId;
+				});
+
+
+				SentrySdk.CaptureException(ex);
+
 				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 
 				if (ex.Message is not null)

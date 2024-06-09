@@ -91,8 +91,8 @@ namespace Files.App
 				Ioc.Default.ConfigureServices(host.Services);
 
 #if STORE || STABLE || PREVIEW
-				// Configure AppCenter
-				AppLifecycleHelper.ConfigureAppCenter();
+				// Configure Sentry
+				AppLifecycleHelper.ConfigureSentry();
 #endif
 
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
