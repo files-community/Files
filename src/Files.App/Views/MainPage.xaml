@@ -266,7 +266,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
-						Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}" />
+						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
 					<!--  Preview Pane Splitter  -->
 					<toolkit:GridSplitter
