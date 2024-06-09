@@ -53,9 +53,8 @@ namespace Files.App.UserControls.Widgets
 							
 							// Attempt to check if the file have text content
 							var (hasContent, content) = await TryReadFileContentAsync(file);
-							if(hasContent)
+							if (hasContent)
 								fileContents.Add(content); 
-							
 						}
 					}
 					catch
