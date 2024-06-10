@@ -4,6 +4,7 @@
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using Files.App.Actions;
+using Microsoft.Extensions.Logging;
 
 namespace Files.App.Data.Commands
 {
@@ -420,9 +421,43 @@ namespace Files.App.Data.Commands
 				}
 			}
 
-			_allKeyBindings = commands.Values
-				.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
-				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+			try
+			{
+				_allKeyBindings = commands.Values
+					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
+					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+			}
+			catch (ArgumentException)
+			{
+				// The keys are not necessarily all different because they can be set manually in text editor
+				// ISSUE: https://github.com/files-community/Files/issues/15331
+
+				var raw = commands.Values.SelectMany(x => x.HotKeys).Select(x => x.LocalizedLabel);
+				var excepts = raw.Except(raw.Distinct()).Distinct();
+
+				foreach (var duplicatedKey in excepts)
+				{
+					if (!string.IsNullOrEmpty(duplicatedKey))
+					{
+						var occurrences = commands.Values.Where(x => x.HotKeyText?.Contains(duplicatedKey) ?? false).OfType<ActionCommand>().ToList();
+
+						// Leave the first occurrence
+						for (int index = 1; index < occurrences.Count; index++)
+							occurrences[index].RestoreKeyBindings();
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogError(ex, "The app is using default key bindings because of a serious error.");
+
+				foreach (var command in commands.Values.OfType<ActionCommand>())
+					command.RestoreKeyBindings();
+
+				_allKeyBindings = commands.Values
+					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
+					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+			}
 		}
 
 		public static HotKeyCollection GetDefaultKeyBindings(IAction action)
