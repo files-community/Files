@@ -160,6 +160,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
+					.AddSingleton<ISidebarContext, SidebarContext>()
 					// Services
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<IDialogService, DialogService>()

@@ -108,6 +108,10 @@ namespace Files.App.Data.Commands
 		public bool IsExecutable
 			=> Action.IsExecutable;
 
+		/// <inheritdoc/>
+		public bool IsAccessibleGlobally
+			=> Action.IsAccessibleGlobally;
+
 		public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
 		{
 			Code = code;

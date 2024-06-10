@@ -696,7 +696,6 @@ namespace Files.App.ViewModels.UserControls
 			};
 
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			itemContextMenuFlyout.Closed += (sender, e) => RightClickedItemChanged?.Invoke(this, null);
 
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
@@ -971,32 +970,9 @@ namespace Files.App.ViewModels.UserControls
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab",
-					},
-					Command = OpenInNewTabCommand,
-					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow",
-					},
-					Command = OpenInNewWindowCommand,
-					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewPane".GetLocalizedResource(),
-					Command = OpenInNewPaneCommand,
-					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabFromSidebarAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowFromSidebarAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebarAction).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "PinFolderToSidebar".GetLocalizedResource(),
