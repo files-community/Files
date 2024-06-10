@@ -21,7 +21,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
-			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.CanSelectedItemBeManipulated ?? false);
+			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false);
 
 		public BaseRotateAction()
 		{
