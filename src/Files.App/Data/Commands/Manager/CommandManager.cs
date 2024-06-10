@@ -454,17 +454,19 @@ namespace Files.App.Data.Commands
 				_allKeyBindings = commands.Values
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+
+				App.Logger.LogError(ex, "The app is temporarily using default key for some commands bindings because of a serious error of assigning custom keys.");
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogError(ex, "The app is using default key bindings because of a serious error.");
-
 				foreach (var command in commands.Values.OfType<ActionCommand>())
 					command.RestoreKeyBindings();
 
 				_allKeyBindings = commands.Values
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+
+				App.Logger.LogError(ex, "The app is temporarily using default key bindings for all because of a serious error of assigning custom keys.");
 			}
 		}
 
