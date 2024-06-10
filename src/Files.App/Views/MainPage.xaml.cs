@@ -481,64 +481,6 @@ namespace Files.App.Views
 			}
 		}
 
-		private bool lockFlag = false;
-		//private string[] dropableArchiveTypes = { "zip", "rar", "7z", "tar" };
-
-		private async void HorizontalMultitaskingControlAddButton_Drop(object sender, DragEventArgs e)
-		{
-			if (lockFlag || !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-				return;
-
-			lockFlag = true;
-
-			var items = (await FilesystemHelpers.GetDraggedStorageItems(e.DataView))
-				.Where(x => x.ItemType is FilesystemItemType.Directory
-				//|| dropableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
-				);
-
-			var deferral = e.GetDeferral();
-			try
-			{
-				foreach (var item in items)
-					await NavigationHelpers.OpenPathInNewTab(item.Path, true);
-
-				deferral.Complete();
-			}
-			catch { }
-			lockFlag = false;
-		}
-
-		private async void HorizontalMultitaskingControlAddButton_DragOver(object sender, DragEventArgs e)
-		{
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-
-			bool hasValidDraggedItems =
-				(await FilesystemHelpers.GetDraggedStorageItems(e.DataView)).Any(x => x.ItemType is FilesystemItemType.Directory
-				//|| dropableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
-				);
-
-			if (!hasValidDraggedItems)
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-
-			try
-			{
-				e.Handled = true;
-				var deferral = e.GetDeferral();
-				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = string.Format("OpenInNewTab".GetLocalizedResource());
-				e.AcceptedOperation = DataPackageOperation.Link;
-				deferral.Complete();
-			}
-			catch { }
-		}
-
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
 
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
