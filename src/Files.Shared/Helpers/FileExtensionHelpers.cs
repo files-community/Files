@@ -40,7 +40,7 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwise, <c>false</c>.</returns>
-		public static bool IsManipulateableImageFile(string? fileExtensionToCheck)
+		public static bool IsCompatibleToSetAsWindowsWallpaper(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif");
 		}

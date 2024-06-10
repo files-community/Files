@@ -546,7 +546,7 @@ namespace Files.App.Data.Models
 		public void CheckAllFileExtensions(List<string> itemExtensions)
 		{
 			// Checks if all the item extensions are image extensions of some kind.
-			CanSelectedItemBeManipulated = itemExtensions.TrueForAll(FileExtensionHelpers.IsManipulateableImageFile);
+			CanSelectedItemBeManipulated = itemExtensions.TrueForAll(FileExtensionHelpers.IsCompatibleToSetAsWindowsWallpaper);
 			// Checks if there is only one selected item and if it's a shortcut.
 			IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
 		}
