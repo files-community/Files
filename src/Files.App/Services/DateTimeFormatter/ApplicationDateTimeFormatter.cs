@@ -6,7 +6,7 @@ using System.Text;
 namespace Files.App.Services.DateTimeFormatter
 {
 	/// <summary>
-	/// Application-specific implementation of the DateTimeFormatter.
+	/// Represents service for application-specific <see cref=“DateTimeOffset”/> formatter.
 	/// </summary>
 	internal sealed class ApplicationDateTimeFormatter : AbstractDateTimeFormatter
 	{
