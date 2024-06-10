@@ -33,7 +33,7 @@ namespace Files.App.Services.DateTimeFormatter
 			return elapsed switch
 			{
 				{ TotalDays: >= 7 } => ToString(offset, "D"),
-				{ TotalDays: >= 2 } => "DaysAgo_Plural".GetLocalizedResource(),
+				{ TotalDays: >= 2 } => string.Format("DaysAgo_Plural".GetLocalizedResource(), elapsed.Days),
 				{ TotalDays: >= 1 } => "DaysAgo_Singular".GetLocalizedResource(),
 				{ TotalHours: >= 2 } => string.Format("HoursAgo_Plural".GetLocalizedResource(), elapsed.Hours),
 				{ TotalHours: >= 1 } => "HoursAgo_Singular".GetLocalizedResource(),
