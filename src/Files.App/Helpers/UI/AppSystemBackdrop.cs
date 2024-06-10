@@ -55,7 +55,6 @@ namespace Files.App.Helpers
 			this.target = null!;
 			this.root = null!;
 
-
 			try
 			{
 				controller?.RemoveSystemBackdropTarget(disconnectedTarget);
