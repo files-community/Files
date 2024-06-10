@@ -429,7 +429,7 @@ namespace Files.App.Data.Commands
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 			}
-			catch (ArgumentException)
+			catch (ArgumentException ex)
 			{
 				// The keys are not necessarily all different because they can be set manually in text editor
 				// ISSUE: https://github.com/files-community/Files/issues/15331
