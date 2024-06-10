@@ -257,7 +257,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null || item.Path is null)
 				return;
 
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Path);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(item.Path);
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)

@@ -209,5 +209,10 @@ namespace Files.App.Data.Contracts
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating a random user ID.
+		/// </summary>
+		string UserId { get; set; }
 	}
 }

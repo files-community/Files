@@ -91,8 +91,8 @@ namespace Files.App
 				Ioc.Default.ConfigureServices(host.Services);
 
 #if STORE || STABLE || PREVIEW
-				// Configure AppCenter
-				AppLifecycleHelper.ConfigureAppCenter();
+				// Configure Sentry
+				AppLifecycleHelper.ConfigureSentry();
 #endif
 
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -216,7 +216,7 @@ namespace Files.App
 				if (instance is null)
 					return;
 
-				var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+				var items = (instance.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 				if (items is null)
 					return;
 

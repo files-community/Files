@@ -168,7 +168,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void ExecuteOpenInNewPaneCommand(WidgetCardItem? item)
 		{
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item?.Path ?? string.Empty);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(item?.Path ?? string.Empty);
 		}
 
 		private void ExecuteOpenFileLocationCommand(WidgetCardItem? item)

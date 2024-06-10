@@ -22,7 +22,7 @@ namespace Files.App.Actions
 			if (await DriveHelpers.CheckEmptyDrive(SidebarContext.RightClickedItem!.Path))
 				return;
 
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(SidebarContext.RightClickedItem!.Path ?? string.Empty);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(SidebarContext.RightClickedItem!.Path ?? string.Empty);
 		}
 
 		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
