@@ -3,7 +3,7 @@
 
 using Files.App.Data.Items;
 using Files.App.Helpers;
-using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;

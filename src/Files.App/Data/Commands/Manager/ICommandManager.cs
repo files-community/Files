@@ -166,16 +166,25 @@ namespace Files.App.Data.Commands
 		IRichCommand CloseTabsToTheRightSelected { get; }
 		IRichCommand CloseOtherTabsCurrent { get; }
 		IRichCommand CloseOtherTabsSelected { get; }
-		IRichCommand OpenDirectoryInNewPaneAction { get; }
-		IRichCommand OpenDirectoryInNewTabAction { get; }
-		IRichCommand OpenInNewWindowItemAction { get; }
 		IRichCommand ReopenClosedTab { get; }
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
 		IRichCommand OpenNewPane { get; }
 		IRichCommand ClosePane { get; }
-    
+		IRichCommand FocusLeftPane { get; }
+		IRichCommand FocusRightPane { get; }
+
+		IRichCommand OpenInNewPaneAction { get; }
+		IRichCommand OpenInNewPaneFromHomeAction { get; }
+		IRichCommand OpenInNewPaneFromSidebarAction { get; }
+		IRichCommand OpenInNewTabAction { get; }
+		IRichCommand OpenInNewTabFromHomeAction { get; }
+		IRichCommand OpenInNewTabFromSidebarAction { get; }
+		IRichCommand OpenInNewWindowAction { get; }
+		IRichCommand OpenInNewWindowFromHomeAction { get; }
+		IRichCommand OpenInNewWindowFromSidebarAction { get; }
+
 		IRichCommand PlayAll { get; }
 
 		IRichCommand GitFetch { get; }

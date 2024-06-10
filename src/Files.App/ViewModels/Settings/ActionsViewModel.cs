@@ -111,7 +111,7 @@ namespace Files.App.ViewModels.Settings
 				{
 					var defaultKeyBindings = command.DefaultHotKeys;
 
-					if (command is NoneCommand)
+					if (command is NoneCommand || (command is IRichCommand richCommand && !richCommand.IsAccessibleGlobally))
 						continue;
 
 					AllActionItems.Add(new()

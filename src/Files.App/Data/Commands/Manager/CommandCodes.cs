@@ -181,15 +181,25 @@ namespace Files.App.Data.Commands
 		CloseTabsToTheRightSelected,
 		CloseOtherTabsCurrent,
 		CloseOtherTabsSelected,
-		OpenDirectoryInNewPane,
-		OpenDirectoryInNewTab,
-		OpenInNewWindowItem,
 		ReopenClosedTab,
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
 		OpenNewPane,
 		ClosePane,
+		FocusLeftPane,
+		FocusRightPane,
+
+		// OpenInNew
+		OpenInNewPane,
+		OpenInNewPaneFromHome,
+		OpenInNewPaneFromSidebar,
+		OpenInNewTab,
+		OpenInNewTabFromHome,
+		OpenInNewTabFromSidebar,
+		OpenInNewWindow,
+		OpenInNewWindowFromHome,
+		OpenInNewWindowFromSidebar,
 
 		// Play
 		PlayAll,

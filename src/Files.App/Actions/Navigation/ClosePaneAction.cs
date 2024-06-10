@@ -31,7 +31,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage!.PaneHolder.CloseActivePane();
+			context.ShellPage!.PaneHolder.CloseSecondaryPane();
 
 			return Task.CompletedTask;
 		}

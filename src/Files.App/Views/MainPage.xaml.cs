@@ -178,7 +178,7 @@ namespace Files.App.Views
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			var navArgs = e.CurrentInstance.TabBarItemParameter?.NavigationParameter;
-			if (e.CurrentInstance is IPanesPage currentInstance)
+			if (e.CurrentInstance is IShellPanesPage currentInstance)
 			{
 				SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
@@ -553,12 +553,6 @@ namespace Files.App.Views
 			{
 				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
 			}
-		}
-
-		private void RootGrid_Loaded(object sender, RoutedEventArgs e)
-		{
-			// Cast shadow on the status bar
-			PageContentThemeShadow.Receivers.Add(StatusBar);
 		}
 	}
 }

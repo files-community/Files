@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.ViewModels
 {
@@ -159,7 +160,7 @@ namespace Files.App.ViewModels
 						UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 					{
 						foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
-							await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path, true);
+							await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
 					}
 					else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 						UserSettingsService.GeneralSettingsService.LastSessionTabList is not null)
@@ -193,7 +194,7 @@ namespace Files.App.ViewModels
 								UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 						{
 							foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
-								await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path, true);
+								await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
 						}
 						else if (UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
 							UserSettingsService.GeneralSettingsService.LastSessionTabList is not null &&
@@ -210,9 +211,9 @@ namespace Files.App.ViewModels
 				}
 
 				if (parameter is string navArgs)
-					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs, true);
+					await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), navArgs, true);
 				else if (parameter is PaneNavigationArguments paneArgs)
-					await NavigationHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneArgs);
+					await NavigationHelpers.AddNewTabByParamAsync(typeof(ShellPanesPage), paneArgs);
 				else if (parameter is TabBarItemParameter tabArgs)
 					await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 			}
@@ -228,9 +229,9 @@ namespace Files.App.ViewModels
 
 		// Command methods
 
-		private void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)
+		private async void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			int indexToSelect = e!.KeyboardAccelerator.Key switch
+			var indexToSelect = e!.KeyboardAccelerator.Key switch
 			{
 				VirtualKey.Number1 => 0,
 				VirtualKey.Number2 => 1,
@@ -246,7 +247,15 @@ namespace Files.App.ViewModels
 
 			// Only select the tab if it is in the list
 			if (indexToSelect < AppInstances.Count)
+			{
 				App.AppModel.TabStripSelectedIndex = indexToSelect;
+
+				// Small delay for the UI to load
+				await Task.Delay(500);
+
+				// Refocus on the file list
+				(SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+			}
 
 			e.Handled = true;
 		}

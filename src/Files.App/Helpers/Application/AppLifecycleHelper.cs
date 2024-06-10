@@ -1,23 +1,21 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.Notifications;
-using Files.App.Services.DateTimeFormatter;
-using Files.App.Services.Settings;
-using Files.App.Storage.FtpStorage;
-using Files.App.Storage.NativeStorage;
-using Files.App.ViewModels.Settings;
+using CommunityToolkit.WinUI.Helpers;
+using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
-using Files.Core.Storage;
+using Files.App.Storage.Storables;
+using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sentry;
+using Sentry.Protocol;
 using System.IO;
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Notifications;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App.Helpers
@@ -110,24 +108,25 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Configures AppCenter service, such as Analytics and Crash Report.
+		/// Configures Sentry service, such as Analytics and Crash Report.
 		/// </summary>
-		public static void ConfigureAppCenter()
+		public static void ConfigureSentry()
 		{
-			try
+			SentrySdk.Init(options =>
 			{
-				if (!Microsoft.AppCenter.AppCenter.Configured)
+				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
+				options.AutoSessionTracking = true;
+				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+				options.TracesSampleRate = 0.80;
+				options.ProfilesSampleRate = 0.40;
+				options.Environment = AppEnvironment == AppEnvironment.Preview ? "preview" : "production";
+				options.ExperimentalMetrics = new ExperimentalMetricsOptions
 				{
-					Microsoft.AppCenter.AppCenter.Start(
-						Constants.AutomatedWorkflowInjectionKeys.AppCenterSecret,
-						typeof(Microsoft.AppCenter.Analytics.Analytics),
-						typeof(Microsoft.AppCenter.Crashes.Crashes));
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, "Failed to start AppCenter service.");
-			}
+					EnableCodeLocations = true
+				};
+
+				options.DisableWinUiUnhandledExceptionIntegration();
+			});
 		}
 
 		/// <summary>
@@ -161,6 +160,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
+					.AddSingleton<ISidebarContext, SidebarContext>()
 					// Services
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<IDialogService, DialogService>()
@@ -185,7 +185,6 @@ namespace Files.App.Helpers
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
-					.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
@@ -237,7 +236,7 @@ namespace Files.App.Helpers
 				{
 					var defaultArg = new TabBarItemParameter()
 					{
-						InitialPageType = typeof(PaneHolderPage),
+						InitialPageType = typeof(ShellPanesPage),
 						NavigationParameter = "Home"
 					};
 
@@ -252,6 +251,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
 		{
+			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			StringBuilder formattedException = new()
 			{
 				Capacity = 200
@@ -261,6 +262,17 @@ namespace Files.App.Helpers
 
 			if (ex is not null)
 			{
+				ex.Data[Mechanism.HandledKey] = false;
+				ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
+
+				SentrySdk.CaptureException(ex, scope =>
+				{
+					scope.User.Id = generalSettingsService.UserId;
+				});
+
+
+				SentrySdk.CaptureException(ex);
+
 				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 
 				if (ex.Message is not null)
@@ -305,47 +317,7 @@ namespace Files.App.Helpers
 
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var toastContent = new ToastContent()
-				{
-					Visual = new()
-					{
-						BindingGeneric = new ToastBindingGeneric()
-						{
-							Children =
-						{
-							new AdaptiveText()
-							{
-								Text = "ExceptionNotificationHeader".GetLocalizedResource()
-							},
-							new AdaptiveText()
-							{
-								Text = "ExceptionNotificationBody".GetLocalizedResource()
-							}
-						},
-							AppLogoOverride = new()
-							{
-								Source = "ms-appx:///Assets/error.png"
-							}
-						}
-					},
-					Actions = new ToastActionsCustom()
-					{
-						Buttons =
-					{
-						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.ExternalUrl.BugReportUrl)
-						{
-							ActivationType = ToastActivationType.Protocol
-						}
-					}
-					},
-					ActivationType = ToastActivationType.Protocol
-				};
-
-				// Create the toast notification
-				var toastNotification = new ToastNotification(toastContent.GetXml());
-
-				// And send the notification
-				ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+				AppToastNotificationHelper.ShowUnhandledExceptionToast();
 			});
 
 			// Restart the app

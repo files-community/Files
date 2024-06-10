@@ -15,8 +15,17 @@
 
 	<local:BaseShellPage.Resources>
 		<ResourceDictionary>
-			<wctconverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<Thickness x:Key="Local.ActivePane.BorderThickness">1</Thickness>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<Thickness x:Key="Local.ActivePane.BorderThickness">1</Thickness>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="HighContrast">
+					<Thickness x:Key="Local.ActivePane.BorderThickness">3</Thickness>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>
 	</local:BaseShellPage.Resources>
 
@@ -28,13 +37,25 @@
 			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
 
-	<Grid HorizontalAlignment="Stretch" wct:UIElementExtensions.ClipToBounds="True">
+	<Grid
+		x:Name="RootGrid"
+		wct:UIElementExtensions.ClipToBounds="True"
+		x:FieldModifier="public"
+		Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+		BackgroundSizing="InnerBorderEdge"
+		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+		BorderThickness="1"
+		CornerRadius="8">
+		<Grid.Shadow>
+			<ThemeShadow x:Name="ShellContentThemeShadow" x:FieldModifier="public" />
+		</Grid.Shadow>
 
+		<!--  Swipe Backward Icon  -->
 		<Border
 			x:Name="BackIcon"
 			Width="48"
 			Height="48"
-			Margin="-1,0,0,0"
+			Margin="-4,0,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			wct:VisualExtensions.NormalizedCenterPoint="0.5,0.5"
@@ -50,11 +71,12 @@
 				Glyph="&#xE72B;" />
 		</Border>
 
+		<!--  Swipe Forward Icon  -->
 		<Border
 			x:Name="ForwardIcon"
 			Width="48"
 			Height="48"
-			Margin="1,0,0,0"
+			Margin="0,0,-4,0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Center"
 			wct:VisualExtensions.NormalizedCenterPoint="0.5,0.5"
@@ -70,13 +92,43 @@
 				Symbol="Forward" />
 		</Border>
 
+		<!--  Shell Frame  -->
 		<Frame
 			x:Name="ItemDisplayFrame"
-			HorizontalAlignment="Stretch"
 			x:FieldModifier="public"
-			BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-			BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
 			Navigated="ItemDisplayFrame_Navigated" />
 
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="ShellBorderFocusState">
+				<VisualState x:Name="ShellBorderFocusOnState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="{ThemeResource Local.ActivePane.BorderThickness}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBorderFocusOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBorderDualPaneOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.BorderThickness" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
+			<VisualStateGroup x:Name="ShellBackgroundFocusState">
+				<VisualState x:Name="ShellBackgroundFocusOnState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.BackgroundBrush}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="ShellBackgroundFocusOffState">
+					<VisualState.Setters>
+						<Setter Target="RootGrid.Background" Value="{ThemeResource App.Theme.FileArea.SecondaryBackgroundBrush}" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </local:BaseShellPage>
