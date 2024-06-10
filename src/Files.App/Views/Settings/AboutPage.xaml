@@ -187,17 +187,8 @@
 					<FontIcon Glyph="&#xE90F;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
-					<controls:AdaptiveGridView
-						Margin="54,12,12,12"
-						DesiredWidth="240"
-						IsItemClickEnabled="False"
-						ItemHeight="10"
-						ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}"
-						SelectionMode="None">
-						<controls:AdaptiveGridView.Transitions>
-							<TransitionCollection />
-						</controls:AdaptiveGridView.Transitions>
-						<controls:AdaptiveGridView.ItemTemplate>
+					<ItemsRepeater Margin="54,12,12,12" ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
+						<ItemsRepeater.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
 								<TextBlock Margin="4,0" VerticalAlignment="Center">
 									<Hyperlink NavigateUri="{x:Bind Url}" UnderlineStyle="None">
@@ -205,9 +196,17 @@
 									</Hyperlink>
 								</TextBlock>
 							</DataTemplate>
-						</controls:AdaptiveGridView.ItemTemplate>
-					</controls:AdaptiveGridView>
-
+						</ItemsRepeater.ItemTemplate>
+						<ItemsRepeater.Layout>
+							<UniformGridLayout
+								ItemsStretch="Fill"
+								MaximumRowsOrColumns="6"
+								MinColumnSpacing="8"
+								MinItemWidth="200"
+								MinRowSpacing="8"
+								Orientation="Horizontal" />
+						</ItemsRepeater.Layout>
+					</ItemsRepeater>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
