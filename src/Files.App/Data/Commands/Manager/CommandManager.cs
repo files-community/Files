@@ -392,16 +392,18 @@ namespace Files.App.Data.Commands
 		/// </summary>
 		private void OverwriteKeyBindings()
 		{
+			var allCommands = commands.Values.OfType<ActionCommand>();
+
 			if (ActionsSettingsService.ActionsV2 is null)
 			{
-				foreach (var command in commands.Values.OfType<ActionCommand>())
+				foreach (var command in allCommands)
 				{
 					command.RestoreKeyBindings();
 				}
 			}
 			else
 			{
-				foreach (var command in commands.Values.OfType<ActionCommand>())
+				foreach (var command in allCommands)
 				{
 					var customizedKeyBindings = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
 
@@ -432,20 +434,26 @@ namespace Files.App.Data.Commands
 				// The keys are not necessarily all different because they can be set manually in text editor
 				// ISSUE: https://github.com/files-community/Files/issues/15331
 
-				var raw = commands.Values.SelectMany(x => x.HotKeys).Select(x => x.LocalizedLabel);
-				var excepts = raw.Except(raw.Distinct()).Distinct();
+				var flat = commands.Values.SelectMany(x => x.HotKeys).Select(x => x.LocalizedLabel);
+				var duplicates = flat.GroupBy(x => x).Where(x => x.Count() > 1).Select(group => group.Key);
 
-				foreach (var duplicatedKey in excepts)
+				foreach (var item in duplicates)
 				{
-					if (!string.IsNullOrEmpty(duplicatedKey))
+					if (!string.IsNullOrEmpty(item))
 					{
-						var occurrences = commands.Values.Where(x => x.HotKeyText?.Contains(duplicatedKey) ?? false).OfType<ActionCommand>().ToList();
+						var occurrences = allCommands.Where(x => x.HotKeys.Select(x => x.LocalizedLabel).Contains(item));
 
-						// Leave the first occurrence
-						for (int index = 1; index < occurrences.Count; index++)
-							occurrences[index].RestoreKeyBindings();
+						// Restore the defaults for all occurrences
+						for (int index = 0; index < occurrences.Count(); index++)
+						{
+							occurrences.ElementAt(index).RestoreKeyBindings();
+						}
 					}
 				}
+
+				_allKeyBindings = commands.Values
+					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
+					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 			}
 			catch (Exception ex)
 			{
