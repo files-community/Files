@@ -59,7 +59,7 @@ namespace Files.App.Helpers
 			{
 				controller?.RemoveSystemBackdropTarget(disconnectedTarget);
 			}
-			catch (ObjectDisposedException)
+			finally
 			{
 				// Ignore errors when the controller is already disposed
 			}
