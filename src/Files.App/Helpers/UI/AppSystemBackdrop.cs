@@ -55,16 +55,16 @@ namespace Files.App.Helpers
 			this.target = null!;
 			this.root = null!;
 
+			// Ignore errors when the controller is already disposed
 			try
 			{
 				controller?.RemoveSystemBackdropTarget(disconnectedTarget);
 			}
 			finally
 			{
-				// Ignore errors when the controller is already disposed
+				controller?.Dispose();
 			}
 
-			controller?.Dispose();
 			userSettingsService.OnSettingChangedEvent -= OnSettingChanged;
 		}
 
