@@ -4,7 +4,7 @@
 namespace Files.App.Data.Contexts
 {
 	/// <summary>
-	/// Represents context for <see cref="PaneHolderPage"/>, which manages multiple panes.
+	/// Represents context for <see cref="ShellPanesPage"/>, which manages multiple panes.
 	/// </summary>
 	public interface IMultiPanesContext
 	{

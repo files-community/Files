@@ -73,16 +73,16 @@ jobs:
       env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
 
-    - name: Inject the AppCenter token
+    - name: Inject the Sentry token
       shell: pwsh
       run: |
         Get-ChildItem "$env:WORKING_DIR\src" -Include *.cs -recurse | ForEach-Object -Process `
         { `
-          (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "appcenter.secret", "$env:APP_CENTER_SECRET" }) | `
+          (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "sentry.secret", "$env:SENTRY_SECRET" }) | `
           Set-Content $_ -NoNewline `
         }
       env:
-        APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
+        SENTRY_SECRET: ${{ secrets.SENTRY_SECRET }}
 
     - name: Inject the GitHub OAuth client ID
       run: |

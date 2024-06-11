@@ -217,7 +217,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null || await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
 
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Item.Path);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(item.Item.Path);
 		}
 
 		private Task ExecuteMapNetworkDriveCommand()

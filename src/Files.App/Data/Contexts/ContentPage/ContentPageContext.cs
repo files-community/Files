@@ -128,8 +128,8 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IPanesPage.IsMultiPaneEnabled):
-				case nameof(IPanesPage.IsMultiPaneActive):
+				case nameof(IShellPanesPage.IsMultiPaneEnabled):
+				case nameof(IShellPanesPage.IsMultiPaneActive):
 					OnPropertyChanged(e.PropertyName);
 					break;
 			}

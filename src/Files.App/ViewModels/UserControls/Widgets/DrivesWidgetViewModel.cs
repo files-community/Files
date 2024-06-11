@@ -91,29 +91,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
-				new()
-				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel() { OpacityIconStyle = "ColorIconOpenInNewTab" },
-					Command = OpenInNewTabCommand,
-					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
-				},
-				new()
-				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel() { OpacityIconStyle = "ColorIconOpenInNewWindow" },
-					Command = OpenInNewWindowCommand,
-					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
-				},
-				new()
-				{
-					Text = "OpenInNewPane".GetLocalizedResource(),
-					Command = OpenInNewPaneCommand,
-					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction).Build(),
 				new()
 				{
 					Text = "PinFolderToSidebar".GetLocalizedResource(),
@@ -196,7 +176,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null || await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
 
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item.Item.Path);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(item.Item.Path);
 		}
 
 		private void ExecuteFormatDriveCommand(WidgetDriveCardItem? item)

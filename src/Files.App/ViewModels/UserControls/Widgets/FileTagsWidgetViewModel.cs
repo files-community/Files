@@ -73,6 +73,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction).Build(),
 				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
@@ -82,34 +85,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewTab" },
-					Command = OpenInNewTabCommand,
-					CommandParameter = item,
-					ShowItem = isFolder
-				},
-				new()
-				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new() { OpacityIconStyle = "ColorIconOpenInNewWindow" },
-					Command = OpenInNewWindowCommand,
-					CommandParameter = item,
-					ShowItem = isFolder
-				},
-				new()
-				{
 					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item,
 					ShowItem = !isFolder
-				},
-				new()
-				{
-					Text = "OpenInNewPane".GetLocalizedResource(),
-					Command = OpenInNewPaneCommand,
-					CommandParameter = item,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
 				new()
 				{
@@ -188,7 +168,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void ExecuteOpenInNewPaneCommand(WidgetCardItem? item)
 		{
-			ContentPageContext.ShellPage!.PaneHolder?.OpenPathInNewPane(item?.Path ?? string.Empty);
+			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(item?.Path ?? string.Empty);
 		}
 
 		private void ExecuteOpenFileLocationCommand(WidgetCardItem? item)
