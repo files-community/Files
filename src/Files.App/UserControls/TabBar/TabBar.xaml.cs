@@ -302,7 +302,7 @@ namespace Files.App.UserControls.TabBar
 			SelectedTabItemChanged?.Invoke(null, null);
 		}
 
-		private async void HorizontalMultitaskingControlAddButton_Drop(object sender, DragEventArgs e)
+		private async void TabBarAddNewTabButton_Drop(object sender, DragEventArgs e)
 		{
 			if (_lockDropOperation || !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 				return;
@@ -326,7 +326,7 @@ namespace Files.App.UserControls.TabBar
 			_lockDropOperation = false;
 		}
 
-		private async void HorizontalMultitaskingControlAddButton_DragOver(object sender, DragEventArgs e)
+		private async void TabBarAddNewTabButton_DragOver(object sender, DragEventArgs e)
 		{
 			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
