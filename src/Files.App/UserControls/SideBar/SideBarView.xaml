@@ -14,20 +14,21 @@
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition
-				x:Name="DisplayColumn"
+				x:Name="PaneColumnDefinition"
 				Width="240"
 				MaxWidth="480" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<!--  This is the background for the sidebar pane and sidebar content  -->
+		<!--  Background For Both Pane And Content  -->
 		<Border
 			x:Name="PaneBackground"
 			Grid.Row="1"
 			Grid.ColumnSpan="3"
 			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}" />
 
+		<!--  Pane Dismiss Layer  -->
 		<Grid
 			x:Name="PaneLightDismissLayer"
 			Grid.Row="1"
@@ -41,6 +42,7 @@
 			Tapped="PaneLightDismissLayer_Tapped"
 			Visibility="Collapsed" />
 
+		<!--  Pane  -->
 		<Grid
 			x:Name="PaneColumnGrid"
 			Grid.Row="1"
@@ -49,26 +51,25 @@
 			Canvas.ZIndex="10"
 			ContextRequested="PaneColumnGrid_ContextRequested"
 			XYFocusKeyboardNavigation="Enabled">
-
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-
 			<Grid.RenderTransform>
 				<CompositeTransform x:Name="PaneColumnGridTransform" />
 			</Grid.RenderTransform>
 
+			<!--  Menu Items  -->
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="2,8,0,2"
+					Padding="0,8,0,0"
 					HorizontalScrollMode="Disabled"
 					VerticalScrollBarVisibility="Auto"
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
 						x:Name="MenuItemsHost"
-						Margin="0,0,0,16"
+						Margin="4,0,4,16"
 						AutomationProperties.AccessibilityView="Content"
 						AutomationProperties.Name="Sidebar pane"
 						ElementPrepared="MenuItemsHost_ElementPrepared"
@@ -76,14 +77,11 @@
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
 						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
 						VerticalCacheLength="100"
-						XYFocusKeyboardNavigation="Enabled">
-						<ItemsRepeater.Layout>
-							<StackLayout x:Name="MenuItemsHostLayout" Spacing="12" />
-						</ItemsRepeater.Layout>
-					</ItemsRepeater>
+						XYFocusKeyboardNavigation="Enabled" />
 				</ScrollViewer>
 			</ItemsRepeaterScrollHost>
 
+			<!--  Footer Items  -->
 			<ContentPresenter
 				Grid.Row="1"
 				HorizontalAlignment="Stretch"
@@ -91,8 +89,10 @@
 				HorizontalContentAlignment="Stretch"
 				VerticalContentAlignment="Stretch"
 				Content="{x:Bind Footer, Mode=OneWay}" />
+
 		</Grid>
 
+		<!--  Sizer  -->
 		<Border
 			x:Name="SidebarResizer"
 			Grid.Row="1"
@@ -105,7 +105,7 @@
 			Background="Transparent"
 			BorderBrush="Transparent"
 			Canvas.ZIndex="100"
-			CornerRadius="2,2,0,0"
+			CornerRadius="2"
 			DoubleTapped="SidebarResizer_DoubleTapped"
 			ManipulationCompleted="SidebarResizer_ManipulationCompleted"
 			ManipulationDelta="SidebarResizer_ManipulationDelta"
@@ -124,33 +124,28 @@
 				UseSystemFocusVisuals="True" />
 		</Border>
 
-		<Grid
+		<!--  Content  -->
+		<ContentPresenter
 			x:Name="ContentPresenter"
 			Grid.Row="1"
 			Grid.Column="2"
 			Margin="2,0,8,0"
-			HorizontalAlignment="Stretch">
+			VerticalAlignment="Stretch"
+			Content="{x:Bind InnerContent, Mode=OneWay}"
+			TabFocusNavigation="Local" />
 
-			<!--  Content  -->
-			<Border
-				x:Name="Content"
-				VerticalAlignment="Stretch"
-				Child="{x:Bind InnerContent, Mode=OneWay}"
-				TabFocusNavigation="Local" />
-
-		</Grid>
 		<VisualStateManager.VisualStateGroups>
+
 			<VisualStateGroup x:Name="DisplayModes">
 				<VisualState x:Name="Expanded" />
 				<VisualState x:Name="Compact">
 					<VisualState.Setters>
-						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarCompactOpenPaneLength}" />
+						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarCompactOpenPaneLength}" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalCollapsed">
 					<VisualState.Setters>
-						<!--  Minimal mode setters  -->
-						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarOpenPaneLength}" />
+						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderThickness" Value="0,1,1,0" />
@@ -159,15 +154,14 @@
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="8,0,8,0" />
-						<!--  Specific to collapsed pane  -->
+						<!--  Specific to Collapsed State  -->
 						<Setter Target="PaneColumnGridTransform.TranslateX" Value="{StaticResource SidebarNegativeOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalExpanded">
 					<VisualState.Setters>
-						<!--  Minimal mode setters  -->
-						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarOpenPaneLength}" />
+						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderThickness" Value="0,1,1,0" />
@@ -176,7 +170,7 @@
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="ContentPresenter.Margin" Value="8,0,8,0" />
-						<!--  Specific to expanded pane  -->
+						<!--  Specific to Expanded State  -->
 						<Setter Target="PaneLightDismissLayer.Visibility" Value="Visible" />
 						<Setter Target="PaneColumnGrid.Shadow">
 							<Setter.Value>
@@ -187,7 +181,6 @@
 				</VisualState>
 
 				<VisualStateGroup.Transitions>
-					<!--  From compact  -->
 					<VisualTransition From="Compact" To="MinimalCollapsed">
 						<Storyboard>
 							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
@@ -209,13 +202,12 @@
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
 								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 							</ObjectAnimationUsingKeyFrames>
-							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DisplayColumn" Storyboard.TargetProperty="MaxWidth">
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnDefinition" Storyboard.TargetProperty="MaxWidth">
 								<DiscreteObjectKeyFrame Value="{StaticResource SidebarCompactOpenPaneLength}" />
 							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
 					</VisualTransition>
 
-					<!--  From expanded  -->
 					<VisualTransition From="Expanded" To="MinimalCollapsed">
 						<Storyboard>
 							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
@@ -240,7 +232,6 @@
 						</Storyboard>
 					</VisualTransition>
 
-					<!--  From minimal collapsed  -->
 					<VisualTransition From="MinimalCollapsed" To="Compact">
 						<Storyboard>
 							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
@@ -259,7 +250,7 @@
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Margin)">
 								<DiscreteObjectKeyFrame Value="2,0,0,0" />
 							</ObjectAnimationUsingKeyFrames>
-							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DisplayColumn" Storyboard.TargetProperty="Width">
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnDefinition" Storyboard.TargetProperty="Width">
 								<DiscreteObjectKeyFrame Value="{StaticResource SidebarCompactOpenPaneLength}" />
 							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
@@ -308,7 +299,6 @@
 						</Storyboard>
 					</VisualTransition>
 
-					<!--  From minimal expanded  -->
 					<VisualTransition From="MinimalExpanded" To="MinimalCollapsed">
 						<Storyboard>
 							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
@@ -355,6 +345,7 @@
 					</Storyboard>
 				</VisualState>
 			</VisualStateGroup>
+
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </UserControl>

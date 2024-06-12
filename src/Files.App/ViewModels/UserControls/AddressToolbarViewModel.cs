@@ -523,7 +523,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath, true);
+					await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), itemTappedPath, true);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -835,6 +835,7 @@ namespace Files.App.ViewModels.UserControls
 						var searchText = sender.Text.Substring(1).Trim();
 						suggestions = Commands.Where(command =>
 							command.IsExecutable &&
+							command.IsAccessibleGlobally &&
 							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
 							command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
 						.Select(command => new NavigationBarSuggestionItem()

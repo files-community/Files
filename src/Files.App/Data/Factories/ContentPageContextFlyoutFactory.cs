@@ -399,13 +399,13 @@ namespace Files.App.Data.Factories
 					ShowItem = itemsSelected && showOpenItemWith
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenFileLocation).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenDirectoryInNewTabAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowItemAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenDirectoryInNewPaneAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneAction).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
-					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false),
+					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false),
 					ShowInSearchPage = true,
 					Items =
 					[
@@ -419,13 +419,13 @@ namespace Files.App.Data.Factories
 				{
 					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
-								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
+								&& (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RotateRight)
 				{
 					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
-								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
+								&& (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAnotherUser).Build(),

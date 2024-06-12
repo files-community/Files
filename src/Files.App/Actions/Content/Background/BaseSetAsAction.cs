@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			context.ShellPage is not null &&
 			context.PageType != ContentPageTypes.RecycleBin &&
 			context.PageType != ContentPageTypes.ZipFolder &&
-			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
+			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false);
 
 		public BaseSetAsAction()
 		{

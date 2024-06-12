@@ -530,7 +530,7 @@ namespace Files.App.Data.Models
 		}
 
 		private bool isSelectedItemImage = false;
-		public bool IsSelectedItemImage
+		public bool IsCompatibleToSetAsWindowsWallpaper
 		{
 			get => isSelectedItemImage;
 			set => SetProperty(ref isSelectedItemImage, value);
@@ -546,7 +546,7 @@ namespace Files.App.Data.Models
 		public void CheckAllFileExtensions(List<string> itemExtensions)
 		{
 			// Checks if all the item extensions are image extensions of some kind.
-			IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsImageFile(itemExtension));
+			IsCompatibleToSetAsWindowsWallpaper = itemExtensions.TrueForAll(FileExtensionHelpers.IsCompatibleToSetAsWindowsWallpaper);
 			// Checks if there is only one selected item and if it's a shortcut.
 			IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
 		}
