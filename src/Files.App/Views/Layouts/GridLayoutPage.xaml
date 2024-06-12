@@ -728,18 +728,14 @@
 	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+
 		<!--  Empty Indicator  -->
 		<uc:FolderEmptyIndicator
-			Grid.Row="3"
 			Margin="0,125,0,0"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Top"
 			Canvas.ZIndex="0"
-			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
+			EmptyTextType="{x:Bind ParentShellPageInstance.ShellViewModel.EmptyTextType, Mode=OneWay}" />
 
 		<!--  Invalid Item Name Tip  -->
 		<TeachingTip
@@ -752,7 +748,6 @@
 		<!--  Grouping/Ungrouping  -->
 		<SemanticZoom
 			x:Name="RootGridZoom"
-			Grid.Row="1"
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
