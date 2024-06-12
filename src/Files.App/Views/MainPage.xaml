@@ -139,7 +139,7 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<!--  Tab Control (Lazy Load)  -->
+			<!--  Tab Control  -->
 			<tabbar:TabBar
 				x:Name="TabControl"
 				HorizontalContentAlignment="Stretch"
@@ -173,7 +173,7 @@
 				</tabbar:TabBar.FooterElement>
 			</tabbar:TabBar>
 
-			<!--  Address Bar (Lazy Load)  -->
+			<!--  Address Bar  -->
 			<uc:AddressToolbar
 				x:Name="NavToolbar"
 				Grid.Row="1"
@@ -236,7 +236,7 @@
 						<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<!--  File Navigation Toolbar (Lazy Load)  -->
+					<!--  File Navigation Toolbar  -->
 					<uc:InnerNavigationToolbar
 						x:Name="InnerNavigationToolbar"
 						Grid.Row="0"
@@ -256,7 +256,7 @@
 						HorizontalContentAlignment="Stretch"
 						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
-					<!--  Preview Pane Splitter (Lazy Load)  -->
+					<!--  Preview Pane Splitter  -->
 					<toolkit:GridSplitter
 						x:Name="PaneSplitter"
 						Grid.Row="1"
@@ -268,7 +268,7 @@
 						ResizeBehavior="BasedOnAlignment"
 						Style="{StaticResource DefaultGridSplitterStyle}" />
 
-					<!--  Info Pane (Lazy Load)  -->
+					<!--  Info Pane  -->
 					<uc:InfoPane
 						x:Name="InfoPane"
 						Grid.Row="1"
@@ -278,7 +278,7 @@
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
 
-					<!--  Status Bar (Lazy Load)  -->
+					<!--  Status Bar  -->
 					<uc:StatusBar
 						x:Name="StatusBar"
 						Grid.Row="4"
