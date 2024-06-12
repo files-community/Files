@@ -33,10 +33,12 @@ namespace Files.App.UserControls.StatusCenter
 
 		ContainerVisual rootVisual;
 
-		CompositionSpriteShape graphShape;
+		CompositionPathGeometry graphGeometry;
 		InsetClip graphClip;
 
 		SpriteVisual line;
+
+		LinearEasingFunction linearEasing;
 
 		bool initialized;
 
@@ -90,8 +92,9 @@ namespace Files.App.UserControls.StatusCenter
 			rootVisual.Size = this.ActualSize;
 			ElementCompositionPreview.SetElementChildVisual(this, rootVisual);
 
-			width = rootVisual.Size.X;
-			height = rootVisual.Size.Y;
+			var size = rootVisual.Size;
+			width = size.X;
+			height = size.Y;
 
 			var accentColor = (App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush)!.Color;
 
@@ -105,21 +108,23 @@ namespace Files.App.UserControls.StatusCenter
 
 			var graphStrokeBrush = compositor.CreateColorBrush(accentColor);
 
-			var bgVisual = compositor.CreateSpriteVisual();
-			bgVisual.Size = rootVisual.Size;
-			bgVisual.Brush = backgroundBrush;
+			var container = compositor.CreateSpriteVisual();
+			container.Size = rootVisual.Size;
+			// container is also the graph background
+			container.Brush = backgroundBrush;
 
 			var graphVisual = compositor.CreateShapeVisual();
 			graphVisual.Size = rootVisual.Size;
-			graphShape = compositor.CreateSpriteShape();
+			var graphShape = compositor.CreateSpriteShape();
 			graphShape.FillBrush = graphFillBrush;
 			graphShape.StrokeBrush = graphStrokeBrush;
 			graphShape.StrokeThickness = 1f;
+
+			graphGeometry = compositor.CreatePathGeometry();
+			graphShape.Geometry = graphGeometry;
+
 			graphVisual.Shapes.Add(graphShape);
 
-			var container = compositor.CreateContainerVisual();
-			container.Size = rootVisual.Size;
-			container.Children.InsertAtBottom(bgVisual);
 			container.Children.InsertAtBottom(graphVisual);
 
 			graphClip = compositor.CreateInsetClip();
@@ -135,6 +140,8 @@ namespace Files.App.UserControls.StatusCenter
 
 			highestValue = 0;
 
+			linearEasing = compositor.CreateLinearEasingFunction();
+
 			initialized = true;
 		}
 
@@ -142,23 +149,23 @@ namespace Files.App.UserControls.StatusCenter
 
 		void UpdateGraph()
 		{
-			var geometry = CreatePathFromPoints();
-			graphShape.Geometry = geometry;
+			var path = CreatePathFromPoints();
+			graphGeometry.Path = path;
 
 			using var lineAnim = compositor.CreateScalarKeyFrameAnimation();
 			lineAnim.InsertExpressionKeyFrame(0f, "this.StartingValue");
-			lineAnim.InsertKeyFrame(1f, YValue(Points[^1].Y), compositor.CreateLinearEasingFunction());
+			lineAnim.InsertKeyFrame(1f, YValue(Points[^1].Y), linearEasing);
 			lineAnim.Duration = TimeSpan.FromMilliseconds(72);
 			line.StartAnimation("Offset.Y", lineAnim);
 
 			using var clipAnim = compositor.CreateScalarKeyFrameAnimation();
 			clipAnim.InsertExpressionKeyFrame(0f, "this.StartingValue");
-			clipAnim.InsertKeyFrame(1f, width - (width * Points[^1].X / 100f) - 1, compositor.CreateLinearEasingFunction());
+			clipAnim.InsertKeyFrame(1f, width - (width * Points[^1].X / 100f) - 1, linearEasing);
 			clipAnim.Duration = TimeSpan.FromMilliseconds(72);
 			graphClip.StartAnimation("RightInset", clipAnim);
 		}
 
-		CompositionPathGeometry CreatePathFromPoints()
+		CompositionPath CreatePathFromPoints()
 		{
 			using var pathBuilder = new CanvasPathBuilder(null);
 			pathBuilder.BeginFigure(0f, height);
@@ -173,9 +180,8 @@ namespace Files.App.UserControls.StatusCenter
 			pathBuilder.AddLine(width * Points[^1].X / 100f + 2, YValue(Points[^1].Y));
 			pathBuilder.AddLine(width * Points[^1].X / 100f + 2, height);
 			pathBuilder.EndFigure(CanvasFigureLoop.Closed);
-			var geometry = compositor.CreatePathGeometry();
-			geometry.Path = new CompositionPath(CanvasGeometry.CreatePath(pathBuilder));
-			return geometry;
+			var path = new CompositionPath(CanvasGeometry.CreatePath(pathBuilder));
+			return path;
 		}
 		private void UserControl_ActualThemeChanged(FrameworkElement sender, object args)
 		{

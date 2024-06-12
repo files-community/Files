@@ -372,9 +372,6 @@ namespace Files.App.Utils.StatusCenter
 					break;
 			}
 
-			bool isSamePoint = false;
-
-			// Add a new point
 			// 'debounce' updates a bit so the graph isn't too noisy
 			if (SpeedGraphValues.Count == 0 || (point.X - SpeedGraphValues[^1].X) > 0.5)
 				SpeedGraphValues?.Add(point);
