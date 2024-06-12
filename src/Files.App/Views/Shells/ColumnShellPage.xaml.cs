@@ -76,19 +76,19 @@ namespace Files.App.Views.Shells
 
 		protected override void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			ShellViewModel = new ShellViewModel(InstanceViewModel?.FolderSettings);
-			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
+			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.PaneHolder;
 
 			base.Page_Loaded(sender, e);
 
-			NotifyPropertyChanged(nameof(ShellViewModel));
+			NotifyPropertyChanged(nameof(FilesystemViewModel));
 		}
 
 		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -102,10 +102,10 @@ namespace Files.App.Views.Shells
 		{
 			ContentPage = await GetContentOrNullAsync();
 
-			if (!AddressToolbarViewModel.SearchBox.WasQuerySubmitted)
+			if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
 			{
-				AddressToolbarViewModel.SearchBox.Query = string.Empty;
-				AddressToolbarViewModel.IsSearchBoxVisible = false;
+				ToolbarViewModel.SearchBox.Query = string.Empty;
+				ToolbarViewModel.IsSearchBoxVisible = false;
 			}
 
 			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnLayoutPage))
@@ -139,15 +139,15 @@ namespace Files.App.Views.Shells
 			{
 				// Ctrl + V, Paste
 				case (true, false, false, true, VirtualKey.V):
-					if (!AddressToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !AddressToolbarViewModel.SearchHasFocus)
-						await UIFilesystemHelpers.PasteItemAsync(ShellViewModel.WorkingDirectory, this);
+					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
+						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
 					break;
 			}
 		}
 
 		public override void Back_Click()
 		{
-			AddressToolbarViewModel.CanGoBack = false;
+			ToolbarViewModel.CanGoBack = false;
 			if (ItemDisplayFrame.CanGoBack)
 				base.Back_Click();
 			else
@@ -156,7 +156,7 @@ namespace Files.App.Views.Shells
 
 		public override void Forward_Click()
 		{
-			AddressToolbarViewModel.CanGoForward = false;
+			ToolbarViewModel.CanGoForward = false;
 			if (ItemDisplayFrame.CanGoForward)
 				base.Forward_Click();
 			else
@@ -165,7 +165,7 @@ namespace Files.App.Views.Shells
 
 		public override void Up_Click()
 		{
-			if (!AddressToolbarViewModel.CanNavigateToParent)
+			if (!ToolbarViewModel.CanNavigateToParent)
 				return;
 
 			this.FindAscendant<ColumnsLayoutPage>()?.NavigateUp();
@@ -191,13 +191,13 @@ namespace Files.App.Views.Shells
 
 		public void SubmitSearch(string query)
 		{
-			ShellViewModel.CancelSearch();
+			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			ItemDisplayFrame.Navigate(typeof(ColumnLayoutPage), new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
-				SearchPathParam = ShellViewModel.WorkingDirectory,
+				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
 			});
 

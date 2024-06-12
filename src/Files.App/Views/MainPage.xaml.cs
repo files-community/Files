@@ -185,8 +185,8 @@ namespace Files.App.Views
 			}
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments)?.LeftPaneNavPathParam);
 
-			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.LayoutPage?.StatusBarViewModel is not null)
-				SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.LayoutPage.StatusBarViewModel.ShowLocals = true;
+			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.StatusBarViewModel is not null)
+				SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.SlimContentPage.StatusBarViewModel.ShowLocals = true;
 
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
@@ -210,18 +210,18 @@ namespace Files.App.Views
 		{
 			if (StatusBar is not null)
 			{
-				StatusBar.StatusBarViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.LayoutPage?.StatusBarViewModel;
-				StatusBar.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.LayoutPage?.SelectedItemsPropertiesViewModel;
+				StatusBar.StatusBarViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.StatusBarViewModel;
+				StatusBar.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel;
 			}
 		}
 
 		private void UpdateNavToolbarProperties()
 		{
 			if (NavToolbar is not null)
-				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.AddressToolbarViewModel;
+				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 
 			if (InnerNavigationToolbar is not null)
-				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.AddressToolbarViewModel;
+				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)

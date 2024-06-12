@@ -31,7 +31,7 @@ namespace Files.App.Actions
 		{
 			if (context.SelectedItems.Count > 0)
 			{
-				foreach (StandardStorageItem listedItem in context.ShellPage?.LayoutPage.SelectedItems)
+				foreach (StandardStorageItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
 				{
 					IStorable storable = listedItem.IsFolder switch
 					{
@@ -43,7 +43,7 @@ namespace Files.App.Actions
 			}
 			else
 			{
-				var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
+				var currentFolder = context.ShellPage.FilesystemViewModel.CurrentFolder;
 				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
 
 				await StartMenuService.UnpinAsync(folder);

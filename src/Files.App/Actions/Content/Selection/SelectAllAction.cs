@@ -30,14 +30,14 @@ namespace Files.App.Actions
 				if (page is null)
 					return false;
 
-				int itemCount = page.ShellViewModel.FilesAndFolders.Count;
+				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
 				int selectedItemCount = context.SelectedItems.Count;
 				if (itemCount == selectedItemCount)
 					return false;
 
-				bool isCommandPaletteOpen = page.AddressToolbarViewModel.IsCommandPaletteOpen;
-				bool isEditing = page.AddressToolbarViewModel.IsEditModeEnabled;
-				bool isRenaming = page.LayoutPage?.IsRenamingItem ?? false;
+				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
+				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
+				bool isRenaming = page.SlimContentPage?.IsRenamingItem ?? false;
 
 				return isCommandPaletteOpen || (!isEditing && !isRenaming);
 			}
@@ -50,7 +50,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage?.LayoutPage?.ItemManipulationModel?.SelectAllItems();
+			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.SelectAllItems();
 
 			return Task.CompletedTask;
 		}

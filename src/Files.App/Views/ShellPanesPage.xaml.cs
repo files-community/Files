@@ -54,7 +54,7 @@ namespace Files.App.Views
 			get
 			{
 				// Active shell is column view
-				if (ActivePane is not null && ActivePane.IsColumnView && ActivePane.LayoutPage is ColumnsLayoutPage columnLayoutPage)
+				if (ActivePane is not null && ActivePane.IsColumnView && ActivePane.SlimContentPage is ColumnsLayoutPage columnLayoutPage)
 					return columnLayoutPage.ActiveColumnShellPage;
 
 				return ActivePane ?? GetPane(0)!;
@@ -470,18 +470,18 @@ namespace Files.App.Views
 			var isLeftPane = sender == (GetPane(0) as IShellPage);
 
 			// Clear selection in left pane
-			if (isLeftPane && GetPane(1) is ModernShellPage secondShellPage && (secondShellPage.LayoutPage?.IsItemSelected ?? false))
+			if (isLeftPane && GetPane(1) is ModernShellPage secondShellPage && (secondShellPage.SlimContentPage?.IsItemSelected ?? false))
 			{
-				secondShellPage.LayoutPage.LockPreviewPaneContent = true;
-				secondShellPage.LayoutPage.ItemManipulationModel.ClearSelection();
-				secondShellPage.LayoutPage.LockPreviewPaneContent = false;
+				secondShellPage.SlimContentPage.LockPreviewPaneContent = true;
+				secondShellPage.SlimContentPage.ItemManipulationModel.ClearSelection();
+				secondShellPage.SlimContentPage.LockPreviewPaneContent = false;
 			}
 			// Clear selection in right pane
-			else if (!isLeftPane && GetPane(0) is ModernShellPage firstShellPage && (firstShellPage.LayoutPage?.IsItemSelected ?? false))
+			else if (!isLeftPane && GetPane(0) is ModernShellPage firstShellPage && (firstShellPage.SlimContentPage?.IsItemSelected ?? false))
 			{
-				firstShellPage.LayoutPage.LockPreviewPaneContent = true;
-				firstShellPage.LayoutPage.ItemManipulationModel.ClearSelection();
-				firstShellPage.LayoutPage.LockPreviewPaneContent = false;
+				firstShellPage.SlimContentPage.LockPreviewPaneContent = true;
+				firstShellPage.SlimContentPage.ItemManipulationModel.ClearSelection();
+				firstShellPage.SlimContentPage.LockPreviewPaneContent = false;
 			}
 
 			var newActivePane = isLeftPane ? GetPane(0) : GetPane(1);
@@ -491,7 +491,7 @@ namespace Files.App.Views
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
 		{
-			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.LayoutPage is not ColumnsLayoutPage)
+			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)
 				((UIElement)sender).Focus(FocusState.Programmatic);
 		}
 

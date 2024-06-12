@@ -50,13 +50,13 @@ namespace Files.App.Helpers
 
 			if (string.IsNullOrEmpty(workingDirectory))
 			{
-				workingDirectory = associatedInstance.ShellViewModel.WorkingDirectory;
+				workingDirectory = associatedInstance.FilesystemViewModel.WorkingDirectory;
 			}
 
 			var application = applicationPaths.FirstOrDefault();
 			if (string.IsNullOrEmpty(workingDirectory))
 			{
-				workingDirectory = associatedInstance?.ShellViewModel?.WorkingDirectory;
+				workingDirectory = associatedInstance?.FilesystemViewModel?.WorkingDirectory;
 			}
 
 			if (runAsAdmin)

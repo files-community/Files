@@ -50,7 +50,7 @@ namespace Files.App.Utils.Storage
 
 			object item;
 
-			var page = associatedInstance.LayoutPage;
+			var page = associatedInstance.SlimContentPage;
 
 			// Item(s) selected
 			if (page is not null && page.IsItemSelected)
@@ -64,7 +64,7 @@ namespace Files.App.Utils.Storage
 			else
 			{
 				// Instance's current folder
-				var folder = associatedInstance.ShellViewModel?.CurrentFolder;
+				var folder = associatedInstance.FilesystemViewModel?.CurrentFolder;
 				if (folder is null)
 					return;
 

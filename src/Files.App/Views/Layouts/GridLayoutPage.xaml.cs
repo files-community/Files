@@ -138,7 +138,7 @@ namespace Files.App.Views.Layouts
 			// Set ItemTemplate
 			SetItemTemplate();
 			SetItemContainerStyle();
-			FileList.ItemsSource ??= ParentShellPageInstance.ShellViewModel.FilesAndFolders;
+			FileList.ItemsSource ??= ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -443,7 +443,7 @@ namespace Files.App.Views.Layouts
 
 				if (ctrlPressed && !shiftPressed)
 				{
-					var folders = ParentShellPageInstance?.LayoutPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
+					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
 					foreach (StandardStorageItem? folder in folders)
 					{
 						if (folder is not null)
@@ -462,7 +462,7 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!ParentShellPageInstance.AddressToolbarViewModel.IsEditModeEnabled)
+				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -508,21 +508,21 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
 			foreach (StandardStorageItem listedItem in filesAndFolders)
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 			}
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
@@ -699,7 +699,7 @@ namespace Files.App.Views.Layouts
 		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
 		private bool ShouldDisableScrollingWhenDragAndDrop =>
 			FolderSettings?.LayoutMode is FolderLayoutModes.GridView or FolderLayoutModes.TilesView &&
-			(ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false);
+			(ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false);
 
 		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{

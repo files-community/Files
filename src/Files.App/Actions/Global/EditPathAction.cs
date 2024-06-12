@@ -27,7 +27,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is not null)
-				context.ShellPage.AddressToolbarViewModel.IsEditModeEnabled = true;
+				context.ShellPage.ToolbarViewModel.IsEditModeEnabled = true;
 
 			return Task.CompletedTask;
 		}

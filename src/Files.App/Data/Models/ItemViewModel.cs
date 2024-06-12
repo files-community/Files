@@ -23,9 +23,9 @@ using static Files.App.Helpers.Win32Helper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
-	public sealed class ShellViewModel : ObservableObject, IDisposable
+	public sealed class ItemViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
@@ -470,7 +470,7 @@ namespace Files.App.ViewModels
 
 		public bool HasNoWatcher { get; private set; }
 
-		public ShellViewModel(LayoutPreferencesManager folderSettingsViewModel)
+		public ItemViewModel(LayoutPreferencesManager folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
 			filesAndFolders = [];

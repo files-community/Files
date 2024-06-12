@@ -33,7 +33,7 @@ namespace Files.App.Actions
 		{
 			NavigationHelpers.OpenInSecondaryPane(
 				ContentPageContext.ShellPage,
-				ContentPageContext.ShellPage.LayoutPage.SelectedItems.FirstOrDefault());
+				ContentPageContext.ShellPage.SlimContentPage.SelectedItems.FirstOrDefault());
 
 			return Task.CompletedTask;
 		}

@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			var page = context.ShellPage?.LayoutPage;
+			var page = context.ShellPage?.SlimContentPage;
 
 			if (page?.ItemContextMenuFlyout.IsOpen ?? false)
 				page.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
@@ -47,7 +47,7 @@ namespace Files.App.Actions
 
 		private void OpenPropertiesFromItemContextMenuFlyout(object? _, object e)
 		{
-			var page = context.ShellPage?.LayoutPage;
+			var page = context.ShellPage?.SlimContentPage;
 			if (page is not null)
 				page.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
 			
@@ -56,7 +56,7 @@ namespace Files.App.Actions
 
 		private void OpenPropertiesFromBaseContextMenuFlyout(object? _, object e)
 		{
-			var page = context.ShellPage?.LayoutPage;
+			var page = context.ShellPage?.SlimContentPage;
 			if (page is not null)
 				page.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
 			

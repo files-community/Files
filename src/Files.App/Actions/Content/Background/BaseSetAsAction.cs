@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			context.ShellPage is not null &&
 			context.PageType != ContentPageTypes.RecycleBin &&
 			context.PageType != ContentPageTypes.ZipFolder &&
-			(context.ShellPage?.LayoutPage?.SelectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false);
+			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false);
 
 		public BaseSetAsAction()
 		{
@@ -38,9 +38,9 @@ namespace Files.App.Actions
 				case nameof(IContentPageContext.SelectedItem):
 				case nameof(IContentPageContext.SelectedItems):
 					{
-						if (context.ShellPage is not null && context.ShellPage.LayoutPage is not null)
+						if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
 						{
-							var viewModel = context.ShellPage.LayoutPage.SelectedItemsPropertiesViewModel;
+							var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
 							var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
 
 							viewModel.CheckAllFileExtensions(extensions);

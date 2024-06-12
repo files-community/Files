@@ -80,7 +80,7 @@ namespace Files.App.Views.Properties
 
 			bool SaveDrive(DriveItem drive)
 			{
-				var fsVM = AppInstance.ShellViewModel;
+				var fsVM = AppInstance.FilesystemViewModel;
 				if (!GetNewName(out var newName) || fsVM is null)
 					return false;
 
@@ -101,7 +101,7 @@ namespace Files.App.Views.Properties
 
 			async Task<bool> SaveLibraryAsync(LibraryItem library)
 			{
-				var fsVM = AppInstance.ShellViewModel;
+				var fsVM = AppInstance.FilesystemViewModel;
 				if (!GetNewName(out var newName) || fsVM is null || !App.LibraryManager.CanCreateLibrary(newName).result)
 					return false;
 
@@ -125,7 +125,7 @@ namespace Files.App.Views.Properties
 			async Task<bool> SaveCombinedAsync(IList<StandardStorageItem> fileOrFolders)
 			{
 				// Handle the visibility attribute for multiple files
-				var itemMM = AppInstance?.LayoutPage?.ItemManipulationModel;
+				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
 				if (itemMM is not null) // null on homepage
 				{
 					foreach (var fileOrFolder in fileOrFolders)
@@ -147,7 +147,7 @@ namespace Files.App.Views.Properties
 
 							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
-								AppInstance?.ShellViewModel?.RefreshItems(null);
+								AppInstance?.FilesystemViewModel?.RefreshItems(null);
 							});
 						}
 					}
@@ -158,7 +158,7 @@ namespace Files.App.Views.Properties
 			async Task<bool> SaveBaseAsync(StandardStorageItem item)
 			{
 				// Handle the visibility attribute for a single file
-				var itemMM = AppInstance?.LayoutPage?.ItemManipulationModel;
+				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
 				if (itemMM is not null && ViewModel.IsHiddenEditedValue is not null) // null on homepage
 				{
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -175,7 +175,7 @@ namespace Files.App.Views.Properties
 
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
-						AppInstance?.ShellViewModel?.RefreshItems(null);
+						AppInstance?.FilesystemViewModel?.RefreshItems(null);
 					});
 				}
 

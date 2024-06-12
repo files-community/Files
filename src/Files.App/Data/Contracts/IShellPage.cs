@@ -5,19 +5,19 @@ namespace Files.App.Data.Contracts
 {
 	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
-		ShellViewModel ShellViewModel { get; }
+		ItemViewModel FilesystemViewModel { get; }
 
 		CurrentInstanceViewModel InstanceViewModel { get; }
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }
 
-		IBaseLayoutPage LayoutPage { get; }
+		IBaseLayoutPage SlimContentPage { get; }
 
 		Type CurrentPageType { get; }
 
 		IFilesystemHelpers FilesystemHelpers { get; }
 
-		AddressToolbarViewModel AddressToolbarViewModel { get; }
+		AddressToolbarViewModel ToolbarViewModel { get; }
 
 		bool CanNavigateBackward { get; }
 

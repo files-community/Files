@@ -128,40 +128,40 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async Task ReloadSelectedItemIconAsync()
 		{
-			if (ParentShellPageInstance?.LayoutPage?.SelectedItem is null)
+			if (ParentShellPageInstance?.SlimContentPage?.SelectedItem is null)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			ParentShellPageInstance.LayoutPage.SelectedItem.ItemPropertiesInitialized = false;
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
-			await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.LayoutPage.SelectedItem);
+			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem);
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None &&
-				ParentShellPageInstance.LayoutPage.SelectedItem is GitItem gitItem)
+			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None &&
+				ParentShellPageInstance.SlimContentPage.SelectedItem is GitItem gitItem)
 			{
-				await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+				await ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
 			}
 		}
 
 		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
-			if (ParentShellPageInstance?.LayoutPage?.SelectedItems is null)
+			if (ParentShellPageInstance?.SlimContentPage?.SelectedItems is null)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
-			foreach (var selectedItem in ParentShellPageInstance.LayoutPage.SelectedItems)
+			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
+				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
 			}
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
 			{
-				await Task.WhenAll(ParentShellPageInstance.LayoutPage.SelectedItems.Select(item =>
+				await Task.WhenAll(ParentShellPageInstance.SlimContentPage.SelectedItems.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
