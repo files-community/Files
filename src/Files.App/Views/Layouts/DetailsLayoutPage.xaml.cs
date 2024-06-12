@@ -156,13 +156,13 @@ namespace Files.App.Views.Layouts
 				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
 			}
 
-			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			ParentShellPage.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ParentShellPage.ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -189,7 +189,7 @@ namespace Files.App.Views.Layouts
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			ParentShellPage.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
 		}
 
@@ -386,7 +386,7 @@ namespace Files.App.Views.Layouts
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null || IsRenamingItem)
+			if (ParentShellPage is null || IsRenamingItem)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -410,7 +410,7 @@ namespace Files.App.Views.Layouts
 
 				if (ctrlPressed && !shiftPressed)
 				{
-					var folders = ParentShellPageInstance?.LayoutPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
+					var folders = ParentShellPage?.LayoutPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
 					if (folders is not null)
 					{
 						foreach (ListedItem folder in folders)
@@ -421,17 +421,17 @@ namespace Files.App.Views.Layouts
 				{
 					var selectedFolder = SelectedItems?.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder);
 					if (selectedFolder is not null)
-						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolder);
+						NavigationHelpers.OpenInSecondaryPane(ParentShellPage, selectedFolder);
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
-				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPageInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPage);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!ParentShellPageInstance.AddressToolbarViewModel.IsEditModeEnabled)
+				if (!ParentShellPage.AddressToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -446,7 +446,7 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Down)
 			{
-				if (isHeaderFocused && !ParentShellPageInstance.AddressToolbarViewModel.IsEditModeEnabled)
+				if (isHeaderFocused && !ParentShellPage.AddressToolbarViewModel.IsEditModeEnabled)
 				{
 					var selectIndex = FileList.SelectedIndex < 0 ? 0 : FileList.SelectedIndex;
 					if (FileList.ContainerFromIndex(selectIndex) is ListViewItem item)
@@ -466,27 +466,27 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPage is null)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			ParentShellPage.ShellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = ParentShellPage.ShellViewModel.FilesAndFolders.ToList();
 
 			await Task.WhenAll(filesAndFolders.Select(listedItem =>
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					return ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					return ParentShellPage.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 				else
 					return Task.CompletedTask;
 			}));
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ParentShellPage.ShellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return ParentShellPage.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
@@ -644,7 +644,7 @@ namespace Files.App.Views.Layouts
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			ParentShellPage.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -886,7 +886,7 @@ namespace Files.App.Views.Layouts
 			if (tagName is null)
 				return;
 
-			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}");
+			ParentShellPage?.SubmitSearch($"tag:{tagName}");
 		}
 
 		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)

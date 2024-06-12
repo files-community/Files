@@ -77,13 +77,13 @@ namespace Files.App.Views.Layouts
 					NavPathParam = column.NavPathParam
 				});
 				navigationArguments.NavPathParam = column.NavPathParam;
-				ParentShellPageInstance.TabBarItemParameter.NavigationParameter = column.NavPathParam;
+				ParentShellPage.TabBarItemParameter.NavigationParameter = column.NavPathParam;
 			}
 		}
 
 		private void ContentChanged(IShellPage p)
 		{
-			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabBarItemParameter);
+			(ParentShellPage as ModernShellPage)?.RaiseContentChanged(p, p.TabBarItemParameter);
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -138,7 +138,7 @@ namespace Files.App.Views.Layouts
 
 		protected override void InitializeCommandsViewModel()
 		{
-			CommandsViewModel = new BaseLayoutViewModel(ParentShellPageInstance, ItemManipulationModel);
+			CommandsViewModel = new BaseLayoutViewModel(ParentShellPage, ItemManipulationModel);
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -217,7 +217,7 @@ namespace Files.App.Views.Layouts
 					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
 					{
 						navigationArguments.NavPathParam = s.ShellViewModel.WorkingDirectory;
-						ParentShellPageInstance.TabBarItemParameter.NavigationParameter = s.ShellViewModel.WorkingDirectory;
+						ParentShellPage.TabBarItemParameter.NavigationParameter = s.ShellViewModel.WorkingDirectory;
 					}
 				});
 			}
@@ -279,12 +279,12 @@ namespace Files.App.Views.Layouts
 
 		public void NavigateBack()
 		{
-			(ParentShellPageInstance as ModernShellPage)?.Back_Click();
+			(ParentShellPage as ModernShellPage)?.Back_Click();
 		}
 
 		public void NavigateForward()
 		{
-			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
+			(ParentShellPage as ModernShellPage)?.Forward_Click();
 		}
 
 		public void NavigateUp()
@@ -295,9 +295,9 @@ namespace Files.App.Views.Layouts
 			{
 				var workingDirectory = ((ColumnHost.ActiveBlades?.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel.WorkingDirectory;
 				if (workingDirectory is null || string.Equals(workingDirectory, GetPathRoot(workingDirectory), StringComparison.OrdinalIgnoreCase))
-					ParentShellPageInstance?.NavigateHome();
+					ParentShellPage?.NavigateHome();
 				else
-					ParentShellPageInstance?.NavigateToPath(GetParentDir(workingDirectory));
+					ParentShellPage?.NavigateToPath(GetParentDir(workingDirectory));
 			}
 		}
 
@@ -351,7 +351,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
 			{
-				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutPage), navArgs);
+				ParentShellPage?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutPage), navArgs);
 				return;
 			}
 
@@ -361,7 +361,7 @@ namespace Files.App.Views.Layouts
 
 			if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
 			{
-				ParentShellPageInstance?.NavigateToPath(navigationPath, sourcePageType, navArgs);
+				ParentShellPage?.NavigateToPath(navigationPath, sourcePageType, navArgs);
 				return;
 			}
 
@@ -369,7 +369,7 @@ namespace Files.App.Views.Layouts
 			var (lastCommonItemIndex, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
 			if (relativeIndex < 0 || destComponents.Count - (lastCommonItemIndex + 1) > 1) // Going above parent or too deep down
 			{
-				ParentShellPageInstance?.NavigateToPath(navigationPath, sourcePageType, navArgs);
+				ParentShellPage?.NavigateToPath(navigationPath, sourcePageType, navArgs);
 			}
 			else
 			{
@@ -412,11 +412,11 @@ namespace Files.App.Views.Layouts
 				}
 			}
 
-			if (ParentShellPageInstance is null)
+			if (ParentShellPage is null)
 				return;
 
-			if (NormalizePath(ParentShellPageInstance.ShellViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
-				ParentShellPageInstance.NavigateToPath(e.ItemPath);
+			if (NormalizePath(ParentShellPage.ShellViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
+				ParentShellPage.NavigateToPath(e.ItemPath);
 			else
 				DismissOtherBlades(0);
 		}
@@ -432,7 +432,7 @@ namespace Files.App.Views.Layouts
 					return activeInstance ?? shellPages.Last();
 				}
 
-				return ParentShellPageInstance;
+				return ParentShellPage;
 			}
 		}
 

@@ -638,8 +638,8 @@ namespace Files.App.Views.Shells
 					var columnCanNavigateForward = false;
 					if (LayoutPage is ColumnsLayoutPage browser)
 					{
-						columnCanNavigateBackward = browser.ParentShellPageInstance?.CanNavigateBackward ?? false;
-						columnCanNavigateForward = browser.ParentShellPageInstance?.CanNavigateForward ?? false;
+						columnCanNavigateBackward = browser.ParentShellPage?.CanNavigateBackward ?? false;
+						columnCanNavigateForward = browser.ParentShellPage?.CanNavigateForward ?? false;
 					}
 					AddressToolbarViewModel.CanGoBack = ItemDisplay.CanGoBack || columnCanNavigateBackward;
 					AddressToolbarViewModel.CanGoForward = ItemDisplay.CanGoForward || columnCanNavigateForward;

@@ -138,7 +138,7 @@ namespace Files.App.Views.Layouts
 			// Set ItemTemplate
 			SetItemTemplate();
 			SetItemContainerStyle();
-			FileList.ItemsSource ??= ParentShellPageInstance.ShellViewModel.FilesAndFolders;
+			FileList.ItemsSource ??= ParentShellPage.ShellViewModel.FilesAndFolders;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -420,7 +420,7 @@ namespace Files.App.Views.Layouts
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null || IsRenamingItem)
+			if (ParentShellPage is null || IsRenamingItem)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -443,7 +443,7 @@ namespace Files.App.Views.Layouts
 
 				if (ctrlPressed && !shiftPressed)
 				{
-					var folders = ParentShellPageInstance?.LayoutPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
+					var folders = ParentShellPage?.LayoutPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
 					foreach (ListedItem? folder in folders)
 					{
 						if (folder is not null)
@@ -452,17 +452,17 @@ namespace Files.App.Views.Layouts
 				}
 				else if (ctrlPressed && shiftPressed)
 				{
-					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
+					NavigationHelpers.OpenInSecondaryPane(ParentShellPage, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
-				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPageInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPage);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!ParentShellPageInstance.AddressToolbarViewModel.IsEditModeEnabled)
+				if (!ParentShellPage.AddressToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -505,24 +505,24 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPage is null)
 				return;
 
-			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			ParentShellPage.ShellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = ParentShellPage.ShellViewModel.FilesAndFolders.ToList();
 			foreach (ListedItem listedItem in filesAndFolders)
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					await ParentShellPage.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 			}
 
-			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ParentShellPage.ShellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+						return ParentShellPage.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
@@ -699,7 +699,7 @@ namespace Files.App.Views.Layouts
 		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
 		private bool ShouldDisableScrollingWhenDragAndDrop =>
 			FolderSettings?.LayoutMode is FolderLayoutModes.GridView or FolderLayoutModes.TilesView &&
-			(ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false);
+			(ParentShellPage?.ShellViewModel.FilesAndFolders.IsGrouped ?? false);
 
 		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
