@@ -31,11 +31,11 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.SlimContentPage is not null)
+			if (context.ShellPage?.LayoutPage is not null)
 			{
-				var path = context.ShellPage.SlimContentPage.SelectedItems is not null
-					? context.ShellPage.SlimContentPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + current)
-					: context.ShellPage.FilesystemViewModel.WorkingDirectory;
+				var path = context.ShellPage.LayoutPage.SelectedItems is not null
+					? context.ShellPage.LayoutPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + current)
+					: context.ShellPage.ShellViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);

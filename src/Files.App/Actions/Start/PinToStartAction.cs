@@ -33,9 +33,9 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItems.Count > 0 && context.ShellPage?.SlimContentPage?.SelectedItems is not null)
+			if (context.SelectedItems.Count > 0 && context.ShellPage?.LayoutPage?.SelectedItems is not null)
 			{
-				foreach (StandardStorageItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
+				foreach (StandardStorageItem listedItem in context.ShellPage.LayoutPage.SelectedItems)
 				{
 					IStorable storable = listedItem.IsFolder switch
 					{
@@ -45,9 +45,9 @@ namespace Files.App.Actions
 					await StartMenuService.PinAsync(storable, listedItem.Name);
 				}
 			}
-			else if (context.ShellPage?.FilesystemViewModel?.CurrentFolder is not null)
+			else if (context.ShellPage?.ShellViewModel?.CurrentFolder is not null)
 			{
-				var currentFolder = context.ShellPage.FilesystemViewModel.CurrentFolder;
+				var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
 				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
 
 				await StartMenuService.PinAsync(folder, currentFolder.Name);

@@ -216,7 +216,7 @@ namespace Files.App
 				if (instance is null)
 					return;
 
-				var items = (instance.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+				var items = (instance.TabItemContent as ShellPanesPage)?.ActivePane?.LayoutPage?.SelectedItems;
 				if (items is null)
 					return;
 

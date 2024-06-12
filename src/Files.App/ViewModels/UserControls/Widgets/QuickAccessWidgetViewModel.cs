@@ -282,10 +282,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				if (!string.Equals(item.Item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				{
-					BaseStorageFolder matchingStorageFolder = await ContentPageContext.ShellPage!.FilesystemViewModel.GetFolderFromPathAsync(item.Item.Path);
+					BaseStorageFolder matchingStorageFolder = await ContentPageContext.ShellPage!.ShellViewModel.GetFolderFromPathAsync(item.Item.Path);
 					if (matchingStorageFolder is not null)
 					{
-						var syncStatus = await ContentPageContext.ShellPage!.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+						var syncStatus = await ContentPageContext.ShellPage!.ShellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 						listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 					}
 				}

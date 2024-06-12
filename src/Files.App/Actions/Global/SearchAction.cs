@@ -34,7 +34,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage!.ToolbarViewModel.SwitchSearchBoxVisibility();
+			context.ShellPage!.AddressToolbarViewModel.SwitchSearchBoxVisibility();
 
 			return Task.CompletedTask;
 		}

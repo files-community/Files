@@ -44,16 +44,16 @@ namespace Files.App.Views.Shells
 		{
 			InitializeComponent();
 
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel.FolderSettings);
-			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			ShellViewModel = new ShellViewModel(InstanceViewModel.FolderSettings);
+			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
-			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
-			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
+			AddressToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
+			AddressToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
@@ -67,12 +67,12 @@ namespace Files.App.Views.Shells
 
 		protected override void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
 		{
-			if (FilesystemViewModel is null)
+			if (ShellViewModel is null)
 				return;
 
-			LayoutPreferencesManager.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+			LayoutPreferencesManager.SetLayoutPreferencesForPath(ShellViewModel.WorkingDirectory, e.LayoutPreference);
 			if (e.IsAdaptiveLayoutUpdateRequired)
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders.ToList());
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, ShellViewModel.WorkingDirectory, ShellViewModel.FilesAndFolders.ToList());
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -138,13 +138,13 @@ namespace Files.App.Views.Shells
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
-			if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
+			if (!AddressToolbarViewModel.SearchBox.WasQuerySubmitted)
 			{
-				ToolbarViewModel.SearchBox.Query = string.Empty;
-				ToolbarViewModel.IsSearchBoxVisible = false;
+				AddressToolbarViewModel.SearchBox.Query = string.Empty;
+				AddressToolbarViewModel.IsSearchBoxVisible = false;
 			}
 
-			ToolbarViewModel.UpdateAdditionalActions();
+			AddressToolbarViewModel.UpdateAdditionalActions();
 			if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutPage))
 				|| ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage))
 			{
@@ -181,8 +181,8 @@ namespace Files.App.Views.Shells
 			{
 				// Ctrl + V, Paste
 				case (true, false, false, true, VirtualKey.V):
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
-						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
+					if (!AddressToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !AddressToolbarViewModel.SearchHasFocus)
+						await UIFilesystemHelpers.PasteItemAsync(ShellViewModel.WorkingDirectory, this);
 					break;
 			}
 		}
@@ -203,7 +203,7 @@ namespace Files.App.Views.Shells
 
 		public override void Back_Click()
 		{
-			ToolbarViewModel.CanGoBack = false;
+			AddressToolbarViewModel.CanGoBack = false;
 			if (!ItemDisplayFrame.CanGoBack)
 				return;
 
@@ -212,7 +212,7 @@ namespace Files.App.Views.Shells
 
 		public override void Forward_Click()
 		{
-			ToolbarViewModel.CanGoForward = false;
+			AddressToolbarViewModel.CanGoForward = false;
 			if (!ItemDisplayFrame.CanGoForward)
 				return;
 
@@ -221,14 +221,14 @@ namespace Files.App.Views.Shells
 
 		public override void Up_Click()
 		{
-			if (!ToolbarViewModel.CanNavigateToParent)
+			if (!AddressToolbarViewModel.CanNavigateToParent)
 				return;
 
-			ToolbarViewModel.CanNavigateToParent = false;
-			if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
+			AddressToolbarViewModel.CanNavigateToParent = false;
+			if (string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory))
 				return;
 
-			bool isPathRooted = string.Equals(FilesystemViewModel.WorkingDirectory, PathNormalization.GetPathRoot(FilesystemViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
+			bool isPathRooted = string.Equals(ShellViewModel.WorkingDirectory, PathNormalization.GetPathRoot(ShellViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
 			if (isPathRooted)
 			{
 				ItemDisplayFrame.Navigate(
@@ -242,13 +242,13 @@ namespace Files.App.Views.Shells
 			}
 			else
 			{
-				string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
+				string parentDirectoryOfPath = ShellViewModel.WorkingDirectory.TrimEnd('\\', '/');
 
 				var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\", StringComparison.Ordinal);
 				if (lastSlashIndex == -1)
 					lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
 				if (lastSlashIndex != -1)
-					parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
+					parentDirectoryOfPath = ShellViewModel.WorkingDirectory.Remove(lastSlashIndex);
 				if (parentDirectoryOfPath.EndsWith(':'))
 					parentDirectoryOfPath += '\\';
 
@@ -266,7 +266,7 @@ namespace Files.App.Views.Shells
 
 		public override void Dispose()
 		{
-			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
+			AddressToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
 			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
 			_navigationInteractionTracker.Dispose();
 
@@ -287,7 +287,7 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
-			FilesystemViewModel.FilesAndFoldersFilter = null;
+			ShellViewModel.FilesAndFoldersFilter = null;
 
 			if (sourcePageType is null && !string.IsNullOrEmpty(navigationPath))
 				sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
@@ -302,9 +302,9 @@ namespace Files.App.Views.Shells
 			else
 			{
 				if ((string.IsNullOrEmpty(navigationPath) ||
-					string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
+					string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory) ||
 					navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-						FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+						ShellViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
 						StringComparison.OrdinalIgnoreCase)) &&
 					(TabBarItemParameter?.NavigationParameter is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
@@ -338,7 +338,7 @@ namespace Files.App.Views.Shells
 					transition);
 			}
 
-			ToolbarViewModel.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
+			AddressToolbarViewModel.PathControlDisplayText = ShellViewModel.WorkingDirectory;
 		}
 	}
 }

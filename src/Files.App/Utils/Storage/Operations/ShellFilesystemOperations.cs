@@ -385,7 +385,7 @@ namespace Files.App.Utils.Storage
 
 				foreach (var item in deleteResult.Items)
 				{
-					await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item.Source);
+					await _associatedInstance.ShellViewModel.RemoveFileOrFolderAsync(item.Source);
 				}
 
 				var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);

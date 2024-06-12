@@ -114,7 +114,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task RestoreSelectionRecycleBinAsync(IShellPage associatedInstance)
 		{
-			var items = associatedInstance.SlimContentPage.SelectedItems;
+			var items = associatedInstance.LayoutPage.SelectedItems;
 			if (items == null) 
 				return;
 			var ConfirmEmptyBinDialog = new ContentDialog()
@@ -153,7 +153,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task RestoreItemAsync(IShellPage associatedInstance)
 		{
-			var selected = associatedInstance.SlimContentPage.SelectedItems;
+			var selected = associatedInstance.LayoutPage.SelectedItems;
 			if (selected == null) 
 				return;
 			var items = selected.ToList().Where(x => x is StandardRecycleBinItem).Select((item) => new
@@ -168,7 +168,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task DeleteItemAsync(IShellPage associatedInstance)
 		{
-			var selected = associatedInstance.SlimContentPage.SelectedItems;
+			var selected = associatedInstance.LayoutPage.SelectedItems;
 			if (selected == null) 
 				return;
 			var items = selected.ToList().Select((item) => StorageHelpers.FromPathAndType(
