@@ -31,7 +31,7 @@ namespace Files.App.Actions
 		{
 			if (context.SelectedItems.Count > 0)
 			{
-				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
+				foreach (StandardStorageItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
 				{
 					IStorable storable = listedItem.IsFolder switch
 					{

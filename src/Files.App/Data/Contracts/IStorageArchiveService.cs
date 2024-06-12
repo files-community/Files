@@ -15,14 +15,14 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="items">Items to check if they can be compressed.</param>
 		/// <returns>True if can be compressed; otherwise, false.</returns>
-		bool CanCompress(IReadOnlyList<ListedItem> items);
+		bool CanCompress(IReadOnlyList<StandardStorageItem> items);
 
 		/// <summary>
 		/// Gets the value that indicates whether specified items can be decompressed.
 		/// </summary>
 		/// <param name="items">Items to check if they can be decompressed.</param>
 		/// <returns>True if can be decompressed; otherwise, false.</returns>
-		bool CanDecompress(IReadOnlyList<ListedItem> items);
+		bool CanDecompress(IReadOnlyList<StandardStorageItem> items);
 
 		/// <summary>
 		/// Compresses the specified items.
@@ -45,7 +45,7 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="items">Item names to generate archive file name.</param>
 		/// <returns></returns>
-		string GenerateArchiveNameFromItems(IReadOnlyList<ListedItem> items);
+		string GenerateArchiveNameFromItems(IReadOnlyList<StandardStorageItem> items);
 
 		/// <summary>
 		/// Gets the value that indicates whether the archive file is encrypted.

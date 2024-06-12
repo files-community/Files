@@ -42,10 +42,10 @@ namespace Files.App.Views.Layouts
 
 		// Abstract methods
 
-		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e);
-		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, StandardStorageItem e);
+		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, StandardStorageItem e);
 		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
-		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, StandardStorageItem e);
 		protected abstract void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e);
 		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
 		protected abstract void EndRename(TextBox textBox);
@@ -196,8 +196,8 @@ namespace Files.App.Views.Layouts
 				return;
 			}
 
-			List<ListedItem> newSelectedItems = GetAllItems()
-				.Cast<ListedItem>()
+			List<StandardStorageItem> newSelectedItems = GetAllItems()
+				.Cast<StandardStorageItem>()
 				.Except(SelectedItems)
 				.ToList();
 
@@ -217,7 +217,7 @@ namespace Files.App.Views.Layouts
 
 		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			SelectedItems = ListViewBase.SelectedItems.Cast<StandardStorageItem>().Where(x => x is not null).ToList();
 		}
 
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
@@ -349,7 +349,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected bool TryStartRenameNextItem(ListedItem item)
+		protected bool TryStartRenameNextItem(StandardStorageItem item)
 		{
 			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
 			NextRenameIndex = 0;

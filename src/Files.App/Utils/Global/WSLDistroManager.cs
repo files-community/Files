@@ -49,7 +49,7 @@ namespace Files.App.Utils
 						}
 						distros.Add(distro);
 					}
-					DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
+					DataChanged?.Invoke(SidebarSectionKind.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
 				}
 			}
 			catch (Exception)

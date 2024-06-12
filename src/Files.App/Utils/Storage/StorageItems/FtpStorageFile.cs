@@ -299,7 +299,7 @@ namespace Files.App.Utils.Storage
 			public override DateTimeOffset DateCreated { get; }
 			public override DateTimeOffset DateModified { get; }
 
-			public FtpFileBasicProperties(FtpItem item)
+			public FtpFileBasicProperties(StandardFtpItem item)
 			{
 				Size = (ulong)item.FileSizeBytes;
 				DateCreated = item.ItemDateCreatedReal;

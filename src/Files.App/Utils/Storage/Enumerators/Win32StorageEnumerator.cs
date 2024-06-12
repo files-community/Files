@@ -18,17 +18,17 @@ namespace Files.App.Utils.Storage
 
 		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
-		public static async Task<List<ListedItem>> ListEntries(
+		public static async Task<List<StandardStorageItem>> ListEntries(
 			string path,
 			IntPtr hFile,
 			Win32PInvoke.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction
+			Func<List<StandardStorageItem>, Task> intermediateAction
 		)
 		{
 			var sampler = new IntervalSampler(500);
-			var tempList = new List<ListedItem>();
+			var tempList = new List<StandardStorageItem>();
 			var count = 0;
 
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -105,13 +105,13 @@ namespace Files.App.Utils.Storage
 			return tempList;
 		}
 
-		private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
+		private static IEnumerable<StandardStorageItem> EnumAdsForPath(string itemPath, StandardStorageItem main)
 		{
 			foreach (var ads in Win32Helper.GetAlternateStreams(itemPath))
 				yield return GetAlternateStream(ads, main);
 		}
 
-		public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
+		public static StandardStorageItem GetAlternateStream((string Name, long Size) ads, StandardStorageItem main)
 		{
 			string itemType = "File".GetLocalizedResource();
 			string itemFileExtension = null;
@@ -143,7 +143,7 @@ namespace Files.App.Utils.Storage
 			};
 		}
 
-		public static async Task<ListedItem> GetFolder(
+		public static async Task<StandardStorageItem> GetFolder(
 			Win32PInvoke.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
@@ -202,7 +202,7 @@ namespace Files.App.Utils.Storage
 			}
 			else
 			{
-				return new ListedItem(null)
+				return new StandardStorageItem()
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemNameRaw = itemName,
@@ -220,7 +220,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static async Task<ListedItem> GetFile(
+		public static async Task<StandardStorageItem> GetFile(
 			Win32PInvoke.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
@@ -381,7 +381,7 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					return new ListedItem(null)
+					return new StandardStorageItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						FileExtension = itemFileExtension,

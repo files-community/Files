@@ -260,7 +260,7 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem)
+		public static void OpenInSecondaryPane(IShellPage associatedInstance, StandardStorageItem listedItem)
 		{
 			if (associatedInstance is null || listedItem is null)
 				return;
@@ -298,7 +298,7 @@ namespace Files.App.Helpers
 			if (opened)
 				return;
 
-			foreach (ListedItem item in selectedItems)
+			foreach (StandardStorageItem item in selectedItems)
 			{
 				var type = item.PrimaryItemAttribute == StorageItemTypes.Folder
 					? FilesystemItemType.Directory

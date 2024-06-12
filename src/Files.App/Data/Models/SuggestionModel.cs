@@ -62,7 +62,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public SuggestionModel(ListedItem item)
+		public SuggestionModel(StandardStorageItem item)
 		{
 			LoadFileIcon = item.LoadFileIcon;
 			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;

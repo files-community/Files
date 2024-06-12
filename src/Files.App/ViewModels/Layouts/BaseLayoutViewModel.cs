@@ -54,7 +54,7 @@ namespace Files.App.ViewModels.Layouts
 		{
 			// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed &&
-				e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } &&
+				e.OriginalSource is FrameworkElement { DataContext: StandardStorageItem Item } &&
 				Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 			{
 				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = false;

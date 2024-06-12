@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref imageSource, value);
 		}
 
-		public ImagePreviewViewModel(ListedItem item)
+		public ImagePreviewViewModel(StandardStorageItem item)
 			: base(item)
 		{
 		}

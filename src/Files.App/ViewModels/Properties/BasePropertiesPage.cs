@@ -54,7 +54,7 @@ namespace Files.App.ViewModels.Properties
 				});
 			}
 			// Storage objects (multi-selected)
-			else if (np.Parameter is List<ListedItem> items)
+			else if (np.Parameter is List<StandardStorageItem> items)
 			{
 				// Selection only contains files
 				if (items.All(item => item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive))
@@ -70,7 +70,7 @@ namespace Files.App.ViewModels.Properties
 					BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
 			}
 			// A storage object
-			else if (np.Parameter is ListedItem item)
+			else if (np.Parameter is StandardStorageItem item)
 			{
 				// File or Archive
 				if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)

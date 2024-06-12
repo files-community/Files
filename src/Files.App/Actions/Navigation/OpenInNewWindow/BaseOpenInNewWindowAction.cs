@@ -45,9 +45,9 @@ namespace Files.App.Actions
 			if (ContentPageContext.ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;
 
-			List<ListedItem> items = ContentPageContext.ShellPage.SlimContentPage.SelectedItems;
+			List<StandardStorageItem> items = ContentPageContext.ShellPage.SlimContentPage.SelectedItems;
 
-			foreach (ListedItem listedItem in items)
+			foreach (StandardStorageItem listedItem in items)
 			{
 				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
 				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");

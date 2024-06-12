@@ -55,7 +55,7 @@ namespace Files.App.Helpers
 						}
 
 						// FTP don't support cut, fallback to copy
-						if (listedItem is not FtpItem)
+						if (listedItem is not StandardFtpItem)
 						{
 							_ = dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
 							{
@@ -63,7 +63,7 @@ namespace Files.App.Helpers
 								listedItem.Opacity = Constants.UI.DimItemOpacity;
 							});
 						}
-						if (listedItem is FtpItem ftpItem)
+						if (listedItem is StandardFtpItem ftpItem)
 						{
 							if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
 								items.Add(await ftpItem.ToStorageItem());
@@ -160,7 +160,7 @@ namespace Files.App.Helpers
 							banner.Progress.Report();
 						}
 
-						if (listedItem is FtpItem ftpItem)
+						if (listedItem is StandardFtpItem ftpItem)
 						{
 							if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
 								items.Add(await ftpItem.ToStorageItem());
@@ -235,7 +235,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
+		public static async Task<bool> RenameFileItemAsync(StandardStorageItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
 		{
 			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 			{
@@ -365,20 +365,20 @@ namespace Files.App.Helpers
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="isHidden"></param>
-		public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, ItemManipulationModel itemManipulationModel)
+		public static void SetHiddenAttributeItem(StandardStorageItem item, bool isHidden, ItemManipulationModel itemManipulationModel)
 		{
 			item.IsHiddenItem = isHidden;
 			itemManipulationModel.RefreshItemsOpacity();
 		}
 
-		public static async Task CreateShortcutAsync(IShellPage? associatedInstance, IReadOnlyList<ListedItem> selectedItems)
+		public static async Task CreateShortcutAsync(IShellPage? associatedInstance, IReadOnlyList<StandardStorageItem> selectedItems)
 		{
 			var currentPath = associatedInstance?.FilesystemViewModel.WorkingDirectory;
 
 			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
 				currentPath = library.DefaultSaveFolder;
 
-			foreach (ListedItem selectedItem in selectedItems)
+			foreach (StandardStorageItem selectedItem in selectedItems)
 			{
 				var fileName = FilesystemHelpers.GetShortcutNamingPreference(selectedItem.Name);
 				var filePath = Path.Combine(currentPath ?? string.Empty, fileName);

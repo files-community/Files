@@ -10,7 +10,7 @@ namespace Files.App.ViewModels.Previews
 	{
 		public IRandomAccessStream Stream { get; set; }
 
-		public RichTextPreviewViewModel(ListedItem item) : base(item) { }
+		public RichTextPreviewViewModel(StandardStorageItem item) : base(item) { }
 
 		public static bool ContainsExtension(string extension)
 			=> extension is ".rtf";

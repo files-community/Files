@@ -44,7 +44,7 @@ namespace Files.App.Data.Models
 		private Task? gitProcessQueueAction;
 
 		// Files and folders list for manipulating
-		private ConcurrentCollection<ListedItem> filesAndFolders;
+		private ConcurrentCollection<StandardStorageItem> filesAndFolders;
 		private readonly IWindowsJumpListService jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -54,12 +54,12 @@ namespace Files.App.Data.Models
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
-		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
+		public BulkConcurrentObservableCollection<StandardStorageItem> FilesAndFolders { get; }
 
 		private LayoutPreferencesManager folderSettings = null;
 
-		private ListedItem? currentFolder;
-		public ListedItem? CurrentFolder
+		private StandardStorageItem? currentFolder;
+		public StandardStorageItem? CurrentFolder
 		{
 			get => currentFolder;
 			private set => SetProperty(ref currentFolder, value);
@@ -109,7 +109,7 @@ namespace Files.App.Data.Models
 
 		public event EventHandler GitDirectoryUpdated;
 
-		public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
+		public event EventHandler<List<StandardStorageItem>> OnSelectionRequestedEvent;
 
 		public string WorkingDirectory { get; private set; }
 
@@ -651,7 +651,7 @@ namespace Files.App.Data.Models
 			loadPropsCTS = new CancellationTokenSource();
 		}
 
-		public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
+		public void CancelExtendedPropertiesLoadingForItem(StandardStorageItem item)
 		{
 			itemLoadQueue.TryUpdate(item.ItemPath, true, false);
 		}
@@ -744,7 +744,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
+		private Task RequestSelectionAsync(List<StandardStorageItem> itemsToSelect)
 		{
 			// Don't notify if there weren't listed items
 			if (itemsToSelect is null || itemsToSelect.IsEmpty())
@@ -763,7 +763,7 @@ namespace Files.App.Data.Models
 				if (filesAndFolders.Count == 0)
 					return;
 
-				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders.ToList(), folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
+				filesAndFolders = new ConcurrentCollection<StandardStorageItem>(SortingHelper.OrderFileList(filesAndFolders.ToList(), folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection,
 					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst));
 			}
 
@@ -922,7 +922,7 @@ namespace Files.App.Data.Models
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
+		private async Task LoadThumbnailAsync(StandardStorageItem item, CancellationToken cancellationToken)
 		{
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
@@ -1033,7 +1033,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private static void SetFileTag(ListedItem item)
+		private static void SetFileTag(StandardStorageItem item)
 		{
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags ?? []);
@@ -1041,7 +1041,7 @@ namespace Files.App.Data.Models
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
-		public async Task LoadExtendedItemPropertiesAsync(ListedItem item)
+		public async Task LoadExtendedItemPropertiesAsync(StandardStorageItem item)
 		{
 			if (item is null)
 				return;
@@ -1060,7 +1060,7 @@ namespace Files.App.Data.Models
 				var wasSyncStatusLoaded = false;
 				var loadGroupHeaderInfo = false;
 				ImageSource? groupImage = null;
-				GroupedCollection<ListedItem>? gp = null;
+				GroupedCollection<StandardStorageItem>? gp = null;
 
 				try
 				{
@@ -1215,7 +1215,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool CheckElevationRights(ListedItem item)
+		private bool CheckElevationRights(StandardStorageItem item)
 		{
 			if (item.SyncStatusUI.LoadSyncStatus)
 				return false;
@@ -1292,7 +1292,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private async Task<ImageSource?> GetItemTypeGroupIcon(ListedItem item, BaseStorageFile? matchingStorageItem = null)
+		private async Task<ImageSource?> GetItemTypeGroupIcon(StandardStorageItem item, BaseStorageFile? matchingStorageItem = null)
 		{
 			ImageSource? groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
@@ -1573,7 +1573,7 @@ namespace Files.App.Data.Models
 			if (enumFromStorageFolder)
 			{
 				var basicProps = await rootFolder?.GetBasicPropertiesAsync();
-				var currentFolder = library ?? new ListedItem(rootFolder?.FolderRelativeId ?? string.Empty)
+				var currentFolder = library ?? new StandardStorageItem()
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
@@ -1633,7 +1633,7 @@ namespace Files.App.Data.Models
 				var isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
 				var opacity = isHidden ? Constants.UI.DimItemOpacity : 1d;
 
-				var currentFolder = library ?? new ListedItem(null)
+				var currentFolder = library ?? new StandardStorageItem()
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
@@ -1678,7 +1678,7 @@ namespace Files.App.Data.Models
 				{
 					await Task.Run(async () =>
 					{
-						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
+						List<StandardStorageItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
 							await OrderFilesAndFoldersAsync();
@@ -1720,7 +1720,7 @@ namespace Files.App.Data.Models
 
 			await Task.Run(async () =>
 			{
-				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
+				List<StandardStorageItem> finalList = await UniversalStorageEnumerator.ListEntries(
 					rootFolder,
 					currentStorageFolder,
 					cancellationToken,
@@ -2099,7 +2099,7 @@ namespace Files.App.Data.Models
 			var updateQueue = new Queue<string>();
 
 			var anyEdits = false;
-			ListedItem? lastItemAdded = null;
+			StandardStorageItem? lastItemAdded = null;
 			var rand = Guid.NewGuid();
 
 			// Call when any edits have occurred
@@ -2196,7 +2196,7 @@ namespace Files.App.Data.Models
 			Debug.WriteLine("aProcessQueueAction done: {0}", rand);
 		}
 
-		public Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
+		public Task<StandardStorageItem> AddFileOrFolderFromShellFile(ShellFileItem item)
 		{
 			return
 				item.IsFolder ?
@@ -2204,7 +2204,7 @@ namespace Files.App.Data.Models
 				UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
 		}
 
-		private async Task AddFileOrFolderAsync(ListedItem? item)
+		private async Task AddFileOrFolderAsync(StandardStorageItem? item)
 		{
 			if (item is null)
 				return;
@@ -2236,7 +2236,7 @@ namespace Files.App.Data.Models
 			enumFolderSemaphore.Release();
 		}
 
-		private async Task<ListedItem?> AddFileOrFolderAsync(string fileOrFolderPath)
+		private async Task<StandardStorageItem?> AddFileOrFolderAsync(string fileOrFolderPath)
 		{
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 			var additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
@@ -2263,7 +2263,7 @@ namespace Files.App.Data.Models
 				return null;
 			}
 
-			ListedItem listedItem;
+			StandardStorageItem listedItem;
 
 			// FILE_ATTRIBUTE_DIRECTORY
 			if ((findData.dwFileAttributes & 0x10) > 0)
@@ -2276,7 +2276,7 @@ namespace Files.App.Data.Models
 			return listedItem;
 		}
 
-		private async Task<(ListedItem Item, CloudDriveSyncStatus? SyncStatus, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus)
+		private async Task<(StandardStorageItem Item, CloudDriveSyncStatus? SyncStatus, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(StandardStorageItem item, bool hasSyncStatus)
 		{
 			IStorageItem? storageItem = null;
 			if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -2355,7 +2355,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public async Task<ListedItem?> RemoveFileOrFolderAsync(string path)
+		public async Task<StandardStorageItem?> RemoveFileOrFolderAsync(string path)
 		{
 			try
 			{
@@ -2392,7 +2392,7 @@ namespace Files.App.Data.Models
 			return null;
 		}
 
-		public async Task AddSearchResultsToCollectionAsync(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
+		public async Task AddSearchResultsToCollectionAsync(ObservableCollection<StandardStorageItem> searchItems, string currentSearchPath)
 		{
 			filesAndFolders.Clear();
 			filesAndFolders.AddRange(searchItems);
@@ -2416,17 +2416,17 @@ namespace Files.App.Data.Models
 
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
-			var results = new List<ListedItem>();
+			var results = new List<StandardStorageItem>();
 			search.SearchTick += async (s, e) =>
 			{
-				filesAndFolders = new ConcurrentCollection<ListedItem>(results);
+				filesAndFolders = new ConcurrentCollection<StandardStorageItem>(results);
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			};
 
 			await search.SearchAsync(results, searchCTS.Token);
 
-			filesAndFolders = new ConcurrentCollection<ListedItem>(results);
+			filesAndFolders = new ConcurrentCollection<StandardStorageItem>(results);
 
 			await OrderFilesAndFoldersAsync();
 			await ApplyFilesAndFoldersChangesAsync();
@@ -2451,8 +2451,8 @@ namespace Files.App.Data.Models
 					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
 				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
 					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
-				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal);
+				if (item is Utils.StandardRecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.DateDeleted)))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.DateDeleted = recycleBinItem.DateDeleted);
 				if (item is GitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
 					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);
 			});

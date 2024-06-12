@@ -46,7 +46,7 @@ namespace Files.App.Services
 				Text = "Network".GetLocalizedResource(),
 				Path = Constants.UserEnvironmentPaths.NetworkFolderPath,
 				Type = DriveType.Network,
-				ItemType = NavigationControlItemType.Drive,
+				ItemType = SidebarItemKind.Drive,
 			};
 
 			networkItem.MenuOptions = new ContextMenuOptions()
@@ -73,7 +73,7 @@ namespace Files.App.Services
 					Path = item.FilePath,
 					DeviceID = item.FilePath,
 					Type = DriveType.Network,
-					ItemType = NavigationControlItemType.Drive,
+					ItemType = SidebarItemKind.Drive,
 				};
 
 				networkItem.MenuOptions = new ContextMenuOptions()
@@ -124,7 +124,7 @@ namespace Files.App.Services
 					Path = item.TargetPath,
 					DeviceID = item.FilePath,
 					Type = DriveType.Network,
-					ItemType = NavigationControlItemType.Drive,
+					ItemType = SidebarItemKind.Drive,
 				};
 
 				networkItem.MenuOptions = new ContextMenuOptions()

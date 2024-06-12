@@ -5,20 +5,20 @@ using Files.App.UserControls.Sidebar;
 
 namespace Files.App.Data.Contracts
 {
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface ISidebarItem : IComparable<ISidebarItem>, INotifyPropertyChanged, ISidebarItemModel
 	{
 		public new string Text { get; }
 
 		public string Path { get; }
 
-		public SectionType Section { get; }
+		public SidebarSectionKind Section { get; }
 
-		public NavigationControlItemType ItemType { get; }
+		public SidebarItemKind ItemType { get; }
 
 		public ContextMenuOptions MenuOptions { get; }
 	}
 
-	public enum NavigationControlItemType
+	public enum SidebarItemKind
 	{
 		Drive,
 		LinuxDistro,
@@ -26,7 +26,7 @@ namespace Files.App.Data.Contracts
 		FileTag
 	}
 
-	public enum SectionType
+	public enum SidebarSectionKind
 	{
 		Home,
 		Pinned,

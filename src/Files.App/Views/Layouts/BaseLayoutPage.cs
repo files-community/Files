@@ -64,9 +64,9 @@ namespace Files.App.Views.Layouts
 
 		private bool shiftPressed;
 
-		private ListedItem? dragOverItem = null;
-		private ListedItem? hoveredItem = null;
-		private ListedItem? preRenamingItem = null;
+		private StandardStorageItem? dragOverItem = null;
+		private StandardStorageItem? hoveredItem = null;
+		private StandardStorageItem? preRenamingItem = null;
 
 		// Properties
 
@@ -108,8 +108,8 @@ namespace Files.App.Views.Layouts
 		public bool IsRenamingItem { get; set; }
 		public bool LockPreviewPaneContent { get; set; }
 
-		public ListedItem? RenamingItem { get; set; }
-		public ListedItem? SelectedItem { get; private set; }
+		public StandardStorageItem? RenamingItem { get; set; }
+		public StandardStorageItem? SelectedItem { get; private set; }
 
 		public string? OldItemName { get; set; }
 
@@ -179,14 +179,14 @@ namespace Files.App.Views.Layouts
 					value = jumpString;
 				if (value != string.Empty)
 				{
-					ListedItem? jumpedToItem = null;
-					ListedItem? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
+					StandardStorageItem? jumpedToItem = null;
+					StandardStorageItem? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
 
 					// Select first matching item after currently selected item
 					if (previouslySelectedItem is not null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList()
+						IEnumerable<StandardStorageItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList()
 							.SkipWhile(x => x != previouslySelectedItem)
 							.Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
 							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
@@ -196,7 +196,7 @@ namespace Files.App.Views.Layouts
 					if (jumpedToItem is null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList()
+						IEnumerable<StandardStorageItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList()
 							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
@@ -216,8 +216,8 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private List<ListedItem>? selectedItems = [];
-		public List<ListedItem>? SelectedItems
+		private List<StandardStorageItem>? selectedItems = [];
+		public List<StandardStorageItem>? SelectedItems
 		{
 			get => selectedItems;
 			internal set
@@ -314,13 +314,13 @@ namespace Files.App.Views.Layouts
 			jumpTimer.Stop();
 		}
 
-		protected IEnumerable<ListedItem>? GetAllItems()
+		protected IEnumerable<StandardStorageItem>? GetAllItems()
 		{
 			var items = CollectionViewSource.IsSourceGrouped
-				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) // add all items from each group to the new list
-				: CollectionViewSource.Source as IEnumerable<ListedItem>;
+				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<StandardStorageItem>>)?.SelectMany(g => g) // add all items from each group to the new list
+				: CollectionViewSource.Source as IEnumerable<StandardStorageItem>;
 
-			return items ?? new List<ListedItem>();
+			return items ?? new List<StandardStorageItem>();
 		}
 
 		public virtual void ResetItemOpacity()
@@ -336,12 +336,12 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected ListedItem? GetItemFromElement(object element)
+		protected StandardStorageItem? GetItemFromElement(object element)
 		{
 			if (element is not ContentControl item || !CanGetItemFromElement(element))
 				return null;
 
-			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
+			return (item.DataContext as StandardStorageItem) ?? (item.Content as StandardStorageItem) ?? (ItemsControl.ItemFromContainer(item) as StandardStorageItem);
 		}
 
 		protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -491,7 +491,7 @@ namespace Files.App.Views.Layouts
 					navigationArguments.SelectItems is not null &&
 					navigationArguments.SelectItems.Any())
 				{
-					List<ListedItem> listedItemsToSelect =
+					List<StandardStorageItem> listedItemsToSelect =
 					[
 						.. ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.ToList().Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)),
 					];
@@ -570,7 +570,7 @@ namespace Files.App.Views.Layouts
 				}
 
 				// Workaround for item sometimes not getting selected
-				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: ListedItem li })
+				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: StandardStorageItem li })
 					ItemManipulationModel.SetSelectedItem(li);
 
 				if (IsItemSelected)
@@ -971,7 +971,7 @@ namespace Files.App.Views.Layouts
 		{
 			try
 			{
-				var shellItemList = SafetyExtensions.IgnoreExceptions(() => e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
+				var shellItemList = SafetyExtensions.IgnoreExceptions(() => e.Items.OfType<StandardStorageItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
 				if (shellItemList?[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
@@ -987,7 +987,7 @@ namespace Files.App.Views.Layouts
 				else
 				{
 					// Only support IStorageItem capable paths
-					var storageItemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
+					var storageItemList = e.Items.OfType<StandardStorageItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
 					e.Data.SetStorageItems(storageItemList, false);
 				}
 			}
@@ -1152,7 +1152,7 @@ namespace Files.App.Views.Layouts
 
 		private void RefreshItem(SelectorItem container, object item, bool inRecycleQueue, ContainerContentChangingEventArgs args)
 		{
-			if (item is not ListedItem listedItem)
+			if (item is not StandardStorageItem listedItem)
 				return;
 
 			if (inRecycleQueue)
@@ -1228,7 +1228,7 @@ namespace Files.App.Views.Layouts
 							found++;
 
 						if (found != 0 && !selectedItems.Contains(ItemsControl.Items[i]))
-							ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
+							ItemManipulationModel.AddSelectedItem((StandardStorageItem)ItemsControl.Items[i]);
 					}
 				}
 				// Avoid resetting the selection if multiple items are selected
@@ -1257,7 +1257,7 @@ namespace Files.App.Views.Layouts
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
 
-		protected void InitializeDrag(UIElement container, ListedItem item)
+		protected void InitializeDrag(UIElement container, StandardStorageItem item)
 		{
 			if (item is null)
 				return;
@@ -1329,7 +1329,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			// According to the docs this isn't necessary, but it would crash otherwise
-			var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+			var destination = e.DestinationItem.Item as GroupedCollection<StandardStorageItem>;
 
 			e.DestinationItem.Item = destination?.FirstOrDefault();
 		}
@@ -1361,7 +1361,7 @@ namespace Files.App.Views.Layouts
 			if (items is null)
 				return;
 
-			foreach (ListedItem listedItem in items)
+			foreach (StandardStorageItem listedItem in items)
 			{
 				if (listedItem.IsHiddenItem)
 					listedItem.Opacity = Constants.UI.DimItemOpacity;
@@ -1382,7 +1382,7 @@ namespace Files.App.Views.Layouts
 
 		public void CheckRenameDoubleClick(object clickedItem)
 		{
-			if (clickedItem is ListedItem item)
+			if (clickedItem is StandardStorageItem item)
 			{
 				if (item == preRenamingItem)
 				{

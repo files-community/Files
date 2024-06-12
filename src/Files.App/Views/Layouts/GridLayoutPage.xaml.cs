@@ -84,7 +84,7 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
-		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, StandardStorageItem e)
 		{
 			FileList.ScrollIntoView(e);
 		}
@@ -106,7 +106,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, StandardStorageItem e)
 		{
 			if ((NextRenameIndex != 0 && TryStartRenameNextItem(e)) || (!FileList?.Items.Contains(e) ?? true))
 				return;
@@ -114,7 +114,7 @@ namespace Files.App.Views.Layouts
 			FileList!.SelectedItems.Add(e);
 		}
 
-		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, StandardStorageItem e)
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
@@ -392,7 +392,7 @@ namespace Files.App.Views.Layouts
 					popup.IsOpen = false;
 
 				if (textBlock is not null)
-					textBlock.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
+					textBlock.Opacity = (textBlock.DataContext as StandardStorageItem)!.Opacity;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView || FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
@@ -444,7 +444,7 @@ namespace Files.App.Views.Layouts
 				if (ctrlPressed && !shiftPressed)
 				{
 					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
-					foreach (ListedItem? folder in folders)
+					foreach (StandardStorageItem? folder in folders)
 					{
 						if (folder is not null)
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath, false);
@@ -510,7 +510,7 @@ namespace Files.App.Views.Layouts
 
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
-			foreach (ListedItem listedItem in filesAndFolders)
+			foreach (StandardStorageItem listedItem in filesAndFolders)
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
@@ -535,7 +535,7 @@ namespace Files.App.Views.Layouts
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
-			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+			var item = (e.OriginalSource as FrameworkElement)?.DataContext as StandardStorageItem;
 			if (item is null)
 				return;
 
@@ -587,7 +587,7 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is StandardStorageItem item &&
 				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				await Commands.OpenItem.ExecuteAsync();
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
@@ -599,7 +599,7 @@ namespace Files.App.Views.Layouts
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox &&
-				checkBox.DataContext is ListedItem item &&
+				checkBox.DataContext is StandardStorageItem item &&
 				!FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Add(item);
 		}
@@ -607,7 +607,7 @@ namespace Files.App.Views.Layouts
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox &&
-				checkBox.DataContext is ListedItem item &&
+				checkBox.DataContext is StandardStorageItem item &&
 				FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Remove(item);
 		}
@@ -676,7 +676,7 @@ namespace Files.App.Views.Layouts
 
 		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
+			if (sender is FrameworkElement element && element.DataContext is StandardStorageItem item)
 				// Reassign values to update date display
 				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}

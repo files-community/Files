@@ -30,7 +30,7 @@ namespace Files.App.ViewModels.Previews
 
 		public ObservableCollection<PageViewModel> Pages { get; } = [];
 
-		public PDFPreviewViewModel(ListedItem item)
+		public PDFPreviewViewModel(StandardStorageItem item)
 			: base(item)
 		{
 		}

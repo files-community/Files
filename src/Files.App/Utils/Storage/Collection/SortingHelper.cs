@@ -7,10 +7,10 @@ namespace Files.App.Utils.Storage
 {
 	public static class SortingHelper
 	{
-		private static object OrderByNameFunc(ListedItem item)
+		private static object OrderByNameFunc(StandardStorageItem item)
 			=> item.Name;
 
-		public static Func<ListedItem, object>? GetSortFunc(SortOption directorySortOption)
+		public static Func<StandardStorageItem, object>? GetSortFunc(SortOption directorySortOption)
 		{
 			return directorySortOption switch
 			{
@@ -22,23 +22,23 @@ namespace Files.App.Utils.Storage
 				SortOption.SyncStatus => item => item.SyncStatusString,
 				SortOption.FileTag => item => item.FileTags?.FirstOrDefault(),
 				SortOption.Path => item => item.ItemPath,
-				SortOption.OriginalFolder => item => (item as RecycleBinItem)?.ItemOriginalFolder,
-				SortOption.DateDeleted => item => (item as RecycleBinItem)?.ItemDateDeletedReal,
+				SortOption.OriginalFolder => item => (item as StandardRecycleBinItem)?.OriginalParentFolderPath,
+				SortOption.DateDeleted => item => (item as StandardRecycleBinItem)?.DateDeleted,
 				_ => null,
 			};
 		}
 
-		public static IEnumerable<ListedItem> OrderFileList(IList<ListedItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection,
+		public static IEnumerable<StandardStorageItem> OrderFileList(IList<StandardStorageItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection,
 			bool sortDirectoriesAlongsideFiles, bool sortFilesFirst)
 		{
 			var orderFunc = GetSortFunc(directorySortOption);
 			var naturalStringComparer = NaturalStringComparer.GetForProcessor();
 
 			// Function to prioritize folders (if sortFilesFirst is false) or files (if sortFilesFirst is true)
-			bool PrioritizeFilesOrFolders(ListedItem listedItem)
+			bool PrioritizeFilesOrFolders(StandardStorageItem listedItem)
 				=> (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsShortcut || listedItem.IsArchive) ^ sortFilesFirst;
 
-			IOrderedEnumerable<ListedItem> ordered;
+			IOrderedEnumerable<StandardStorageItem> ordered;
 
 			if (directorySortDirection == SortDirection.Ascending)
 			{

@@ -28,7 +28,7 @@ namespace Files.App.Views.Layouts
 
 		// Fields
 
-		private ListedItem? _nextItemToSelect;
+		private StandardStorageItem? _nextItemToSelect;
 
 		// Properties
 
@@ -91,7 +91,7 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
-		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, StandardStorageItem e)
 		{
 			FileList.ScrollIntoView(e);
 			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * RowHeight, null, true); // Scroll to index * item height
@@ -112,7 +112,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, StandardStorageItem e)
 		{
 			if (NextRenameIndex != 0)
 			{
@@ -123,7 +123,7 @@ namespace Files.App.Views.Layouts
 				FileList!.SelectedItems.Add(e);
 		}
 
-		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, StandardStorageItem e)
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
@@ -314,7 +314,7 @@ namespace Files.App.Views.Layouts
 
 		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			SelectedItems = FileList.SelectedItems.Cast<StandardStorageItem>().Where(x => x is not null).ToList();
 
 			if (e != null)
 			{
@@ -413,7 +413,7 @@ namespace Files.App.Views.Layouts
 					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
 					if (folders is not null)
 					{
-						foreach (ListedItem folder in folders)
+						foreach (StandardStorageItem folder in folders)
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath, false);
 					}
 				}
@@ -498,7 +498,7 @@ namespace Files.App.Views.Layouts
 			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var item = clickedItem?.DataContext as ListedItem;
+			var item = clickedItem?.DataContext as StandardStorageItem;
 			if (item is null)
 			{
 				if (IsRenamingItem && RenamingItem is not null)
@@ -554,7 +554,7 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is StandardStorageItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				await Commands.OpenItem.ExecuteAsync();
@@ -675,19 +675,19 @@ namespace Files.App.Views.Layouts
 			var maxItemLength = columnToResize switch
 			{
 				1 => 40, // Check all items columns
-				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(), // git
-				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitMessage?.Length ?? 0).Max(), // git
-				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(), // git
-				7 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitSha?.Length ?? 0).Max(), // git
-				8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
-				9 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemPath?.Length ?? 0).Max(), // path column
-				10 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-				11 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-				12 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-				13 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-				14 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
-				15 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
+				2 => FileList.Items.Cast<StandardStorageItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
+				4 => FileList.Items.Cast<StandardStorageItem>().Select(x => (x as GitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(), // git
+				5 => FileList.Items.Cast<StandardStorageItem>().Select(x => (x as GitItem)?.GitLastCommitMessage?.Length ?? 0).Max(), // git
+				6 => FileList.Items.Cast<StandardStorageItem>().Select(x => (x as GitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(), // git
+				7 => FileList.Items.Cast<StandardStorageItem>().Select(x => (x as GitItem)?.GitLastCommitSha?.Length ?? 0).Max(), // git
+				8 => FileList.Items.Cast<StandardStorageItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
+				9 => FileList.Items.Cast<StandardStorageItem>().Select(x => x.ItemPath?.Length ?? 0).Max(), // path column
+				10 => FileList.Items.Cast<StandardStorageItem>().Select(x => (x as StandardRecycleBinItem)?.OriginalPath?.Length ?? 0).Max(), // original path column
+				11 => FileList.Items.Cast<StandardStorageItem>().Select(x => (x as StandardRecycleBinItem)?.DateDeletedHumanized?.Length ?? 0).Max(), // date deleted column
+				12 => FileList.Items.Cast<StandardStorageItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+				13 => FileList.Items.Cast<StandardStorageItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+				14 => FileList.Items.Cast<StandardStorageItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+				15 => FileList.Items.Cast<StandardStorageItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
 				_ => 20 // cloud status column
 			};
 
@@ -833,13 +833,13 @@ namespace Files.App.Views.Layouts
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
+			if (sender is CheckBox checkBox && checkBox.DataContext is StandardStorageItem item && !FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Add(item);
 		}
 
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+			if (sender is CheckBox checkBox && checkBox.DataContext is StandardStorageItem item && FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Remove(item);
 		}
 
@@ -904,7 +904,7 @@ namespace Files.App.Views.Layouts
 			var parent = (sender as FontIcon)?.Parent as StackPanel;
 			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
 
-			if (tagName is null || parent?.DataContext is not ListedItem item)
+			if (tagName is null || parent?.DataContext is not StandardStorageItem item)
 				return;
 
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;

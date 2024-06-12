@@ -20,7 +20,7 @@ namespace Files.App.Helpers
 	{
 		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<StandardStorageItem>? selectedItems, CancellationToken cancellationToken)
 		{
 			bool IsItemSelected = selectedItems?.Count > 0;
 
@@ -240,7 +240,7 @@ namespace Files.App.Helpers
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var shellMenuItems = await ContentPageContextFlyoutFactory.GetItemContextShellCommandsAsync(
 					workingDir: null,
-					[new ListedItem(null) { ItemPath = path }],
+					[new StandardStorageItem() { ItemPath = path }],
 					shiftPressed: shiftPressed,
 					showOpenMenu: false,
 					default);

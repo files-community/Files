@@ -36,8 +36,8 @@ namespace Files.App.ViewModels.UserControls
 		/// Current selected item in the file list.
 		/// TODO see about removing this and accessing it from the page context instead
 		/// </summary>
-		private ListedItem? selectedItem;
-		public ListedItem? SelectedItem
+		private StandardStorageItem? selectedItem;
+		public StandardStorageItem? SelectedItem
 		{
 			get => selectedItem;
 			set
@@ -124,7 +124,7 @@ namespace Files.App.ViewModels.UserControls
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
 
-					ListedItem? tempSelectedItem = null;
+					StandardStorageItem? tempSelectedItem = null;
 					if (contentPageContext.SelectedItems.Count == 1)
 						tempSelectedItem = contentPageContext.SelectedItems.First();
 
@@ -180,7 +180,7 @@ namespace Files.App.ViewModels.UserControls
 			PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
 
-		private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
+		private async Task<UserControl> GetBuiltInPreviewControlAsync(StandardStorageItem item, bool downloadItem)
 		{
 			ShowCloudItemButton = false;
 
@@ -449,9 +449,9 @@ namespace Files.App.ViewModels.UserControls
 
 		private void SelectedItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(ListedItem.HasTags))
+			if (e.PropertyName is nameof(StandardStorageItem.HasTags))
 				OnPropertyChanged(nameof(LoadTagsList));
-			else if (e.PropertyName is nameof(ListedItem.FileTagsUI))
+			else if (e.PropertyName is nameof(StandardStorageItem.FileTagsUI))
 				UpdateTagsItems();
 		}
 
@@ -461,7 +461,7 @@ namespace Files.App.ViewModels.UserControls
 
 			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
 
-			Items.Add(new FlyoutItem(new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem })));
+			Items.Add(new FlyoutItem(new Files.App.UserControls.Menus.FileTagsContextMenu(new List<StandardStorageItem>() { SelectedItem })));
 		}
 
 		public void Dispose()

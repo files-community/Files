@@ -53,7 +53,7 @@ namespace Files.App.Actions
 				? context.SelectedItems.All(IsPinnable)
 				: context.Folder is not null && IsPinnable(context.Folder);
 
-			bool IsPinnable(ListedItem item)
+			bool IsPinnable(StandardStorageItem item)
 			{
 				return
 					item.PrimaryItemAttribute is StorageItemTypes.Folder &&

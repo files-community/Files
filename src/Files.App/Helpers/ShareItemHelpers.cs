@@ -16,12 +16,12 @@ namespace Files.App.Helpers
 {
 	public static class ShareItemHelpers
 	{
-		public static bool IsItemShareable(ListedItem item)
+		public static bool IsItemShareable(StandardStorageItem item)
 			=> !item.IsHiddenItem &&
 				(!item.IsShortcut || item.IsLinkItem) &&
 				(item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive);
 
-		public static async Task ShareItemsAsync(IEnumerable<ListedItem> itemsToShare)
+		public static async Task ShareItemsAsync(IEnumerable<StandardStorageItem> itemsToShare)
 		{
 			if (itemsToShare is null)
 				return;
@@ -57,7 +57,7 @@ namespace Files.App.Helpers
 				List<IStorageItem> items = [];
 				DataRequest dataRequest = args.Request;
 
-				foreach (ListedItem item in itemsToShare)
+				foreach (StandardStorageItem item in itemsToShare)
 				{
 					if (item is ShortcutItem shItem)
 					{

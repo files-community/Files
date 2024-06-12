@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed class ShellPreviewViewModel : BasePreviewModel
 	{
-		public ShellPreviewViewModel(ListedItem item)
+		public ShellPreviewViewModel(StandardStorageItem item)
 			: base(item)
 		{
 		}

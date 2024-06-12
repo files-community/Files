@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.Previews
 	{
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public ListedItem Item { get; }
+		public StandardStorageItem Item { get; }
 
 		private BitmapImage fileImage;
 		public BitmapImage FileImage
@@ -28,12 +28,12 @@ namespace Files.App.ViewModels.Previews
 		/// </summary>
 		public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
 
-		public BasePreviewModel(ListedItem item) : base()
+		public BasePreviewModel(StandardStorageItem item) : base()
 			=> Item = item;
 
 		public delegate void LoadedEventHandler(object sender, EventArgs e);
 
-		public static Task LoadDetailsOnlyAsync(ListedItem item, List<FileProperty> details = null)
+		public static Task LoadDetailsOnlyAsync(StandardStorageItem item, List<FileProperty> details = null)
 		{
 			var temp = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
 			return temp.LoadAsync();
@@ -131,7 +131,7 @@ namespace Files.App.ViewModels.Previews
 
 		private sealed class DetailsOnlyPreviewModel : BasePreviewModel
 		{
-			public DetailsOnlyPreviewModel(ListedItem item) : base(item) { }
+			public DetailsOnlyPreviewModel(StandardStorageItem item) : base(item) { }
 
 			public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync() => Task.FromResult(DetailsFromPreview);
 		}

@@ -111,7 +111,7 @@ namespace Files.App.Utils.Library
 					libraries.AddRange(libs);
 				}
 			}
-			DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			DataChanged?.Invoke(SidebarSectionKind.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		public bool TryGetLibrary(string path, out LibraryLocationItem library)
@@ -159,7 +159,7 @@ namespace Files.App.Utils.Library
 				{
 					libraries.Add(newLib);
 				}
-				DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
+				DataChanged?.Invoke(SidebarSectionKind.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
 				return true;
 			}
 			return false;
@@ -244,7 +244,7 @@ namespace Files.App.Utils.Library
 					{
 						libraries[libraries.IndexOf(libItem)] = newLib;
 					}
-					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib, libItem));
+					DataChanged?.Invoke(SidebarSectionKind.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib, libItem));
 				}
 				return newLib;
 			}
@@ -397,7 +397,7 @@ namespace Files.App.Utils.Library
 					{
 						libraries.Remove(changedLibrary);
 					}
-					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedLibrary));
+					DataChanged?.Invoke(SidebarSectionKind.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedLibrary));
 				}
 				// library is null in case it was deleted
 				if (library is not null && !Libraries.Any(x => x.Path == library1?.FullPath))
@@ -407,7 +407,7 @@ namespace Files.App.Utils.Library
 					{
 						libraries.Add(libItem);
 					}
-					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, libItem));
+					DataChanged?.Invoke(SidebarSectionKind.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, libItem));
 				}
 
 				library?.Dispose();

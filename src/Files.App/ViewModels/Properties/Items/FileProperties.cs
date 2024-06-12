@@ -9,13 +9,13 @@ namespace Files.App.ViewModels.Properties
 {
 	public sealed class FileProperties : BaseProperties, IFileProperties
 	{
-		public ListedItem Item { get; }
+		public StandardStorageItem Item { get; }
 
 		public FileProperties(
 			SelectedItemsPropertiesViewModel viewModel,
 			CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher,
-			ListedItem item,
+			StandardStorageItem item,
 			IShellPage instance)
 		{
 			ViewModel = viewModel;
@@ -37,7 +37,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemName = Item.Name;
 			ViewModel.OriginalItemName = Item.Name;
 			ViewModel.ItemType = Item.ItemType;
-			ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
+			ViewModel.ItemLocation = (Item as StandardRecycleBinItem)?.OriginalParentFolderPath ??
 				(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
 			ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
 			ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;

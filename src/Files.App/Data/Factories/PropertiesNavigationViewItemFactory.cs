@@ -72,7 +72,7 @@ namespace Files.App.Data.Factories
 			PropertiesNavigationViewItems.Add(customizationItem);
 			PropertiesNavigationViewItems.Add(compatibilityItem);
 
-			if (item is List<ListedItem> listedItems)
+			if (item is List<StandardStorageItem> listedItems)
 			{
 				var firstFileExtension = listedItems.FirstOrDefault()?.FileExtension;
 				var commonFileExt = listedItems.All(x => x.FileExtension == firstFileExtension) ? firstFileExtension : null;
@@ -91,7 +91,7 @@ namespace Files.App.Data.Factories
 				PropertiesNavigationViewItems.Remove(customizationItem);
 				PropertiesNavigationViewItems.Remove(hashesItem);
 			}
-			else if (item is ListedItem listedItem)
+			else if (item is StandardStorageItem listedItem)
 			{
 				var isShortcut = listedItem.IsShortcut;
 				var isLibrary = listedItem.IsLibrary;

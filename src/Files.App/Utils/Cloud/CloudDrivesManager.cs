@@ -93,7 +93,7 @@ namespace Files.App.Utils.Cloud
 				}
 
 				DataChanged?.Invoke(
-					SectionType.CloudDrives,
+					SidebarSectionKind.CloudDrives,
 					new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem)
 				);
 			}

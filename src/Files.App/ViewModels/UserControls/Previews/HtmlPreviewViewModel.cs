@@ -7,7 +7,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed class HtmlPreviewViewModel : BasePreviewModel
 	{
-		public HtmlPreviewViewModel(ListedItem item)
+		public HtmlPreviewViewModel(StandardStorageItem item)
 			: base(item)
 		{
 		}

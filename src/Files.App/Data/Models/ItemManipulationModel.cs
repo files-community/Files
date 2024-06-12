@@ -13,15 +13,15 @@ namespace Files.App.Data.Models
 
 		public event EventHandler InvertSelectionInvoked;
 
-		public event EventHandler<ListedItem> AddSelectedItemInvoked;
+		public event EventHandler<StandardStorageItem> AddSelectedItemInvoked;
 
-		public event EventHandler<ListedItem> RemoveSelectedItemInvoked;
+		public event EventHandler<StandardStorageItem> RemoveSelectedItemInvoked;
 
 		public event EventHandler FocusSelectedItemsInvoked;
 
 		public event EventHandler StartRenameItemInvoked;
 
-		public event EventHandler<ListedItem> ScrollIntoViewInvoked;
+		public event EventHandler<StandardStorageItem> ScrollIntoViewInvoked;
 
 		public event EventHandler ScrollToTopInvoked;
 
@@ -53,39 +53,39 @@ namespace Files.App.Data.Models
 			InvertSelectionInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
-		public void AddSelectedItem(ListedItem item)
+		public void AddSelectedItem(StandardStorageItem item)
 		{
 			AddSelectedItemInvoked?.Invoke(this, item);
 		}
 
-		public void AddSelectedItems(List<ListedItem> items)
+		public void AddSelectedItems(List<StandardStorageItem> items)
 		{
-			foreach (ListedItem item in items)
+			foreach (StandardStorageItem item in items)
 			{
 				AddSelectedItem(item);
 			}
 		}
 
-		public void RemoveSelectedItem(ListedItem item)
+		public void RemoveSelectedItem(StandardStorageItem item)
 		{
 			RemoveSelectedItemInvoked?.Invoke(this, item);
 		}
 
-		public void RemoveSelectedItems(List<ListedItem> items)
+		public void RemoveSelectedItems(List<StandardStorageItem> items)
 		{
-			foreach (ListedItem item in items)
+			foreach (StandardStorageItem item in items)
 			{
 				RemoveSelectedItem(item);
 			}
 		}
 
-		public void SetSelectedItem(ListedItem item)
+		public void SetSelectedItem(StandardStorageItem item)
 		{
 			ClearSelection();
 			AddSelectedItem(item);
 		}
 
-		public void SetSelectedItems(List<ListedItem> items)
+		public void SetSelectedItems(List<StandardStorageItem> items)
 		{
 			ClearSelection();
 			AddSelectedItems(items);
@@ -101,7 +101,7 @@ namespace Files.App.Data.Models
 			StartRenameItemInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
-		public void ScrollIntoView(ListedItem item)
+		public void ScrollIntoView(StandardStorageItem item)
 		{
 			ScrollIntoViewInvoked?.Invoke(this, item);
 		}

@@ -8,7 +8,7 @@ namespace Files.App.Data.Contexts
 {
 	internal sealed class ContentPageContext : ObservableObject, IContentPageContext
 	{
-		private static readonly IReadOnlyList<ListedItem> emptyItems = Enumerable.Empty<ListedItem>().ToImmutableList();
+		private static readonly IReadOnlyList<StandardStorageItem> emptyItems = Enumerable.Empty<StandardStorageItem>().ToImmutableList();
 
 		private readonly IMultiPanesContext context = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
@@ -21,15 +21,15 @@ namespace Files.App.Data.Contexts
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
 
-		public ListedItem? Folder => ShellPage?.FilesystemViewModel?.CurrentFolder;
+		public StandardStorageItem? Folder => ShellPage?.FilesystemViewModel?.CurrentFolder;
 
 		public bool HasItem => ShellPage?.ToolbarViewModel?.HasItem ?? false;
 
 		public bool HasSelection => SelectedItems.Count is not 0;
-		public ListedItem? SelectedItem => SelectedItems.Count is 1 ? SelectedItems[0] : null;
+		public StandardStorageItem? SelectedItem => SelectedItems.Count is 1 ? SelectedItems[0] : null;
 
-		private IReadOnlyList<ListedItem> selectedItems = emptyItems;
-		public IReadOnlyList<ListedItem> SelectedItems => selectedItems;
+		private IReadOnlyList<StandardStorageItem> selectedItems = emptyItems;
+		public IReadOnlyList<StandardStorageItem> SelectedItems => selectedItems;
 
 		public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
 
@@ -226,9 +226,9 @@ namespace Files.App.Data.Contexts
 		private void UpdateSelectedItems()
 		{
 			bool oldHasSelection = HasSelection;
-			ListedItem? oldSelectedItem = SelectedItem;
+			StandardStorageItem? oldSelectedItem = SelectedItem;
 
-			IReadOnlyList<ListedItem> items = ShellPage?.ToolbarViewModel?.SelectedItems?.AsReadOnly() ?? emptyItems;
+			IReadOnlyList<StandardStorageItem> items = ShellPage?.ToolbarViewModel?.SelectedItems?.AsReadOnly() ?? emptyItems;
 			if (SetProperty(ref selectedItems, items, nameof(SelectedItems)))
 			{
 				if (HasSelection != oldHasSelection)

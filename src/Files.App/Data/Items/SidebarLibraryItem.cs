@@ -13,7 +13,7 @@ namespace Files.App.Data.Items
 
 		public LibraryLocationItem(ShellLibraryItem shellLibrary)
 		{
-			Section = SectionType.Library;
+			Section = SidebarSectionKind.Library;
 			MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,

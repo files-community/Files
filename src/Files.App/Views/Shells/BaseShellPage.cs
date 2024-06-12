@@ -218,7 +218,7 @@ namespace Files.App.Views.Shells
 			InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
 		}
 
-		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
+		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<StandardStorageItem> e)
 		{
 			// Set focus since selection might occur before the UI finishes updating
 			ContentPage.ItemManipulationModel.FocusFileList();

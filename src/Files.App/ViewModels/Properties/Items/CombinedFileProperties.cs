@@ -11,7 +11,7 @@ namespace Files.App.ViewModels.Properties
 			SelectedItemsPropertiesViewModel viewModel,
 			CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher,
-			List<ListedItem> listedItems,
+			List<StandardStorageItem> listedItems,
 			IShellPage instance)
 			: base(viewModel, tokenSource, coreDispatcher, listedItems, instance) { }
 

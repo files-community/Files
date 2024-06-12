@@ -7,7 +7,7 @@ namespace Files.App.ViewModels.Previews
 {
 	internal sealed class ShortcutPreviewViewModel : BasePreviewModel
 	{
-		public ShortcutPreviewViewModel(ListedItem item) : base(item) { }
+		public ShortcutPreviewViewModel(StandardStorageItem item) : base(item) { }
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{

@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref textValue, value);
 		}
 
-		public MarkdownPreviewViewModel(ListedItem item)
+		public MarkdownPreviewViewModel(StandardStorageItem item)
 			: base(item)
 		{
 		}

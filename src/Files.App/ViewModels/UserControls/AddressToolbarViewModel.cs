@@ -998,9 +998,9 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref hasItem, value);
 		}
 
-		private List<ListedItem>? selectedItems;
+		private List<StandardStorageItem>? selectedItems;
 
-		public List<ListedItem> SelectedItems
+		public List<StandardStorageItem> SelectedItems
 		{
 			get => selectedItems;
 			set

@@ -11,16 +11,16 @@ namespace Files.App.Utils.Storage
 {
 	public static class UniversalStorageEnumerator
 	{
-		public static async Task<List<ListedItem>> ListEntries(
+		public static async Task<List<StandardStorageItem>> ListEntries(
 			BaseStorageFolder rootFolder,
 			StorageFolderWithPath currentStorageFolder,
 			CancellationToken cancellationToken,
 			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction,
+			Func<List<StandardStorageItem>, Task> intermediateAction,
 			Dictionary<string, BitmapImage> defaultIconPairs = null)
 		{
 			var sampler = new IntervalSampler(500);
-			var tempList = new List<ListedItem>();
+			var tempList = new List<StandardStorageItem>();
 			uint count = 0;
 			var firstRound = true;
 
@@ -166,7 +166,7 @@ namespace Files.App.Utils.Storage
 			return tempList;
 		}
 
-		public static async Task<ListedItem> AddFolderAsync(
+		public static async Task<StandardStorageItem> AddFolderAsync(
 			BaseStorageFolder folder,
 			StorageFolderWithPath currentStorageFolder,
 			CancellationToken cancellationToken)
@@ -198,7 +198,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (folder is BinStorageFolder binFolder)
 				{
-					return new RecycleBinItem(folder.FolderRelativeId)
+					return new StandardRecycleBinItem(folder.FolderRelativeId)
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = folder.DisplayName,
@@ -212,13 +212,13 @@ namespace Files.App.Utils.Storage
 						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
 						FileSize = basicProperties.Size.ToSizeString(),
 						FileSizeBytes = (long)basicProperties.Size,
-						ItemDateDeletedReal = binFolder.DateDeleted,
-						ItemOriginalPath = binFolder.OriginalPath,
+						DateDeleted = binFolder.DateDeleted,
+						OriginalPath = binFolder.OriginalPath,
 					};
 				}
 				else
 				{
-					return new ListedItem(folder.FolderRelativeId)
+					return new StandardStorageItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = folder.DisplayName,
@@ -239,7 +239,7 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		public static async Task<ListedItem> AddFileAsync(
+		public static async Task<StandardStorageItem> AddFileAsync(
 			BaseStorageFile file,
 			StorageFolderWithPath currentStorageFolder,
 			CancellationToken cancellationToken)
@@ -298,7 +298,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (file is BinStorageFile binFile)
 				{
-					return new RecycleBinItem(file.FolderRelativeId)
+					return new StandardRecycleBinItem(file.FolderRelativeId)
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						FileExtension = itemFileExtension,
@@ -313,13 +313,13 @@ namespace Files.App.Utils.Storage
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = (long)itemSizeBytes,
-						ItemDateDeletedReal = binFile.DateDeleted,
-						ItemOriginalPath = binFile.OriginalPath
+						DateDeleted = binFile.DateDeleted,
+						OriginalPath = binFile.OriginalPath
 					};
 				}
 				else
 				{
-					return new ListedItem(file.FolderRelativeId)
+					return new StandardStorageItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						FileExtension = itemFileExtension,

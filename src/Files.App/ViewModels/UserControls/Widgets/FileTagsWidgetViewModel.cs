@@ -152,7 +152,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				flyout!.Closed -= flyoutClosed;
 
-				ListedItem listedItem = new(null!)
+				StandardStorageItem listedItem = new()
 				{
 					ItemPath = (item.Item as WidgetFileTagCardItem)?.Path ?? string.Empty,
 					ItemNameRaw = (item.Item as WidgetFileTagCardItem)?.Name ?? string.Empty,

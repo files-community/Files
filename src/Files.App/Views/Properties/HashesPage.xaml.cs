@@ -26,7 +26,7 @@ namespace Files.App.Views.Properties
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var np = (PropertiesPageNavigationParameter)e.Parameter;
-			if (np.Parameter is ListedItem listedItem)
+			if (np.Parameter is StandardStorageItem listedItem)
 				HashesViewModel = new(listedItem);
 
 			base.OnNavigatedTo(e);

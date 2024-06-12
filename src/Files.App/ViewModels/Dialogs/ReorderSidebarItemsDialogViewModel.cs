@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.Dialogs
 		public ICommand PrimaryButtonCommand { get; private set; }
 
 		public ObservableCollection<LocationItem> SidebarPinnedFolderItems = new(App.QuickAccessManager.Model._PinnedFolderItems
-			.Where(x => x is LocationItem loc && loc.Section is SectionType.Pinned && !loc.IsHeader)
+			.Where(x => x is LocationItem loc && loc.Section is SidebarSectionKind.Pinned && !loc.IsHeader)
 			.Cast<LocationItem>());
 
 		public ReorderSidebarItemsDialogViewModel() 

@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref codeLanguage, value);
 		}
 
-		public CodePreviewViewModel(ListedItem item)
+		public CodePreviewViewModel(StandardStorageItem item)
 			: base(item)
 		{
 		}

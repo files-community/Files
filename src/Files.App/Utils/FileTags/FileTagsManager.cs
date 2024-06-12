@@ -34,7 +34,7 @@ namespace Files.App.Utils.FileTags
 		{
 			lock (fileTags)
 				fileTags.Clear();
-			DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			DataChanged?.Invoke(SidebarSectionKind.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			await UpdateFileTagsAsync();
 		}
@@ -61,7 +61,7 @@ namespace Files.App.Utils.FileTags
 						}
 						fileTags.Add(tagItem);
 					}
-					DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, tagItem));
+					DataChanged?.Invoke(SidebarSectionKind.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, tagItem));
 				}
 			}
 			catch (Exception ex)

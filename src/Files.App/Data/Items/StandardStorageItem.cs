@@ -11,22 +11,31 @@ using System.IO;
 using System.Text;
 using Windows.Storage;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-
 namespace Files.App.Utils
 {
-	public class ListedItem : ObservableObject, IGroupableItem
+	/// <summary>
+	/// Represents storage item to be displayed on UI with necessary storage properties.
+	/// </summary>
+	// TODO: Add required keyword
+	public class StandardStorageItem : ObservableObject, IGroupableItem
 	{
-		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		// Dependency injections
 
-		protected static IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
+		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		protected IDateTimeFormatter DateTimeFormatter { get; } = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+		protected IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
 
-		protected static readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		// Properties
 
-		protected static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+		/// <summary>
+		/// Gets type of this storage item.
+		/// </summary>
+		public StorableKind StorableKind { get; }
 
-		public bool IsHiddenItem { get; set; } = false;
+		public bool IsHiddenItem { get; set; }
 
+		[Obsolete("Do not use furthermore. Use StorableKind instead.")]
 		public StorageItemTypes PrimaryItemAttribute { get; set; }
 
 		private volatile int itemPropertiesInitialized = 0;
@@ -57,7 +66,7 @@ namespace Files.App.Utils
 
 		public string FolderRelativeId { get; set; }
 
-		public bool ContainsFilesOrFolders { get; set; } = true;
+		public bool HasChildren { get; set; } = true;
 
 		private bool needsPlaceholderGlyph = true;
 		public bool NeedsPlaceholderGlyph
@@ -123,7 +132,7 @@ namespace Files.App.Utils
 
 		public IList<TagViewModel>? FileTagsUI
 		{
-			get => fileTagsSettingsService.GetTagsByIds(FileTags);
+			get => FileTagsSettingsService.GetTagsByIds(FileTags);
 		}
 
 		private Uri customIconSource;
@@ -292,7 +301,7 @@ namespace Files.App.Utils
 			get => itemDateModifiedReal;
 			set
 			{
-				ItemDateModified = dateTimeFormatter.ToShortLabel(value);
+				ItemDateModified = DateTimeFormatter.ToShortLabel(value);
 				itemDateModifiedReal = value;
 				OnPropertyChanged(nameof(ItemDateModified));
 			}
@@ -304,7 +313,7 @@ namespace Files.App.Utils
 			get => itemDateCreatedReal;
 			set
 			{
-				ItemDateCreated = dateTimeFormatter.ToShortLabel(value);
+				ItemDateCreated = DateTimeFormatter.ToShortLabel(value);
 				itemDateCreatedReal = value;
 				OnPropertyChanged(nameof(ItemDateCreated));
 			}
@@ -316,7 +325,7 @@ namespace Files.App.Utils
 			get => itemDateAccessedReal;
 			set
 			{
-				ItemDateAccessed = dateTimeFormatter.ToShortLabel(value);
+				ItemDateAccessed = DateTimeFormatter.ToShortLabel(value);
 				itemDateAccessedReal = value;
 				OnPropertyChanged(nameof(ItemDateAccessed));
 			}
@@ -364,15 +373,6 @@ namespace Files.App.Utils
 			}
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ListedItem" /> class.
-		/// </summary>
-		/// <param name="folderRelativeId"></param>
-		public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
-
-		// Parameterless constructor for JsonConvert
-		public ListedItem() { }
-
 		private ObservableCollection<FileProperty> fileDetails;
 		public ObservableCollection<FileProperty> FileDetails
 		{
@@ -404,11 +404,11 @@ namespace Files.App.Utils
 		}
 
 		public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
-		public bool IsRecycleBinItem => this is RecycleBinItem;
+		public bool IsRecycleBinItem => this is StandardRecycleBinItem;
 		public bool IsShortcut => this is ShortcutItem;
 		public bool IsLibrary => this is LibraryItem;
 		public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
-		public bool IsFtpItem => this is FtpItem;
+		public bool IsFtpItem => this is StandardFtpItem;
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
@@ -426,11 +426,22 @@ namespace Files.App.Utils
 		}
 
 		// This is a hack used because x:Bind casting did not work properly
-		public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
+		public StandardRecycleBinItem AsRecycleBinItem => this as StandardRecycleBinItem;
 
 		public GitItem AsGitItem => this as GitItem;
 
 		public string Key { get; set; }
+
+		// Constructor
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StandardStorageItem" /> class.
+		/// </summary>
+		public StandardStorageItem()
+		{
+		}
+
+		// Methods
 
 		/// <summary>
 		/// Manually check if a folder path contains child items,
@@ -438,78 +449,13 @@ namespace Files.App.Utils
 		/// </summary>
 		public void UpdateContainsFilesFolders()
 		{
-			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
+			HasChildren = FolderHelpers.CheckForFilesFolders(ItemPath);
 		}
 	}
 
-	public sealed class RecycleBinItem : ListedItem
+	public sealed class ShortcutItem : StandardStorageItem
 	{
-		public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
-		{
-		}
-
-		public string ItemDateDeleted { get; private set; }
-
-		public DateTimeOffset ItemDateDeletedReal
-		{
-			get => itemDateDeletedReal;
-			set
-			{
-				ItemDateDeleted = dateTimeFormatter.ToShortLabel(value);
-				itemDateDeletedReal = value;
-			}
-		}
-
-		private DateTimeOffset itemDateDeletedReal;
-
-		// For recycle bin elements (path + name)
-		public string ItemOriginalPath { get; set; }
-
-		// For recycle bin elements (path)
-		public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
-
-		public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
-	}
-
-	public sealed class FtpItem : ListedItem
-	{
-		public FtpItem(FtpListItem item, string folder) : base(null)
-		{
-			var isFile = item.Type == FtpObjectType.File;
-			ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
-			ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
-			ItemNameRaw = item.Name;
-			FileExtension = Path.GetExtension(item.Name);
-			ItemPath = PathNormalization.Combine(folder, item.Name);
-			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
-			ItemPropertiesInitialized = false;
-
-			var itemType = isFile ? "File".GetLocalizedResource() : "Folder".GetLocalizedResource();
-			if (isFile && Name.Contains('.', StringComparison.Ordinal))
-			{
-				itemType = FileExtension.Trim('.') + " " + itemType;
-			}
-
-			ItemType = itemType;
-			FileSizeBytes = item.Size;
-			ContainsFilesOrFolders = !isFile;
-			FileImage = null;
-			FileSize = isFile ? FileSizeBytes.ToSizeString() : null;
-			Opacity = 1;
-			IsHiddenItem = false;
-		}
-
-		public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
-		{
-			StorageItemTypes.File => await new FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
-			StorageItemTypes.Folder => new FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
-			_ => throw new InvalidDataException(),
-		};
-	}
-
-	public sealed class ShortcutItem : ListedItem
-	{
-		public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
+		public ShortcutItem(string folderRelativeId) : base()
 		{
 		}
 
@@ -531,9 +477,9 @@ namespace Files.App.Utils
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
 	}
 
-	public sealed class ZipItem : ListedItem
+	public sealed class ZipItem : StandardStorageItem
 	{
-		public ZipItem(string folderRelativeId) : base(folderRelativeId)
+		public ZipItem(string folderRelativeId) : base()
 		{
 		}
 
@@ -555,9 +501,9 @@ namespace Files.App.Utils
 		{ }
 	}
 
-	public sealed class LibraryItem : ListedItem
+	public sealed class LibraryItem : StandardStorageItem
 	{
-		public LibraryItem(LibraryLocationItem library) : base(null)
+		public LibraryItem(LibraryLocationItem library) : base()
 		{
 			ItemPath = library.Path;
 			ItemNameRaw = library.Text;
@@ -582,7 +528,7 @@ namespace Files.App.Utils
 		public ReadOnlyCollection<string> Folders { get; }
 	}
 
-	public sealed class AlternateStreamItem : ListedItem
+	public sealed class AlternateStreamItem : StandardStorageItem
 	{
 		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
 		public string MainStreamName => Path.GetFileName(MainStreamPath);
@@ -602,7 +548,7 @@ namespace Files.App.Utils
 		}
 	}
 
-	public sealed class GitItem : ListedItem
+	public sealed class GitItem : StandardStorageItem
 	{
 		private volatile int statusPropertiesInitialized = 0;
 		public bool StatusPropertiesInitialized
@@ -639,7 +585,7 @@ namespace Files.App.Utils
 			set
 			{
 				SetProperty(ref _GitLastCommitDate, value);
-				GitLastCommitDateHumanized = value is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
+				GitLastCommitDateHumanized = value is DateTimeOffset dto ? DateTimeFormatter.ToShortLabel(dto) : "";
 			}
 		}
 

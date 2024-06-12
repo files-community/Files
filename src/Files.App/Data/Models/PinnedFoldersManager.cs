@@ -18,10 +18,10 @@ namespace Files.App.Data.Models
 
 		public List<string> PinnedFolders { get; set; } = [];
 
-		public readonly List<INavigationControlItem> _PinnedFolderItems = [];
+		public readonly List<ISidebarItem> _PinnedFolderItems = [];
 
 		[JsonIgnore]
-		public IReadOnlyList<INavigationControlItem> PinnedFolderItems
+		public IReadOnlyList<ISidebarItem> PinnedFolderItems
 		{
 			get
 			{
@@ -56,7 +56,7 @@ namespace Files.App.Data.Models
 		/// </summary>
 		/// <param name="locationItem">The location item</param>
 		/// <returns>Index of the item</returns>
-		public int IndexOfItem(INavigationControlItem locationItem)
+		public int IndexOfItem(ISidebarItem locationItem)
 		{
 			lock (_PinnedFolderItems)
 			{
@@ -83,7 +83,7 @@ namespace Files.App.Data.Models
 			}
 
 			locationItem.Path = path;
-			locationItem.Section = SectionType.Pinned;
+			locationItem.Section = SidebarSectionKind.Pinned;
 			locationItem.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
@@ -147,12 +147,12 @@ namespace Files.App.Data.Models
 				if (_PinnedFolderItems.Any(x => x.Path == locationItem.Path))
 					return;
 
-				var lastItem = _PinnedFolderItems.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
+				var lastItem = _PinnedFolderItems.LastOrDefault(x => x.ItemType is SidebarItemKind.Location);
 				insertIndex = lastItem is not null ? _PinnedFolderItems.IndexOf(lastItem) + 1 : 0;
 				_PinnedFolderItems.Insert(insertIndex, locationItem);
 			}
 
-			DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
+			DataChanged?.Invoke(SidebarSectionKind.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
 		/// <summary>
@@ -179,12 +179,12 @@ namespace Files.App.Data.Models
 					{
 						_PinnedFolderItems.Remove(item);
 					}
-					DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+					DataChanged?.Invoke(SidebarSectionKind.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 
 			// Remove unpinned items from sidebar
-			DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			DataChanged?.Invoke(SidebarSectionKind.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)

@@ -37,7 +37,7 @@ namespace Files.App.Actions
 
 		public virtual async Task ExecuteAsync(object? parameter = null)
 		{
-			foreach (ListedItem listedItem in ContentPageContext.SelectedItems)
+			foreach (StandardStorageItem listedItem in ContentPageContext.SelectedItems)
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{

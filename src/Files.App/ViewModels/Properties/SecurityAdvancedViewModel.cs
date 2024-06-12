@@ -128,7 +128,7 @@ namespace Files.App.ViewModels.Properties
 
 			switch (parameter.Parameter)
 			{
-				case ListedItem listedItem:
+				case StandardStorageItem listedItem:
 					_path = listedItem.ItemPath;
 					_isFolder = listedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !listedItem.IsShortcut;
 					break;
@@ -137,7 +137,7 @@ namespace Files.App.ViewModels.Properties
 					_isFolder = true;
 					break;
 				default:
-					var defaultlistedItem = (ListedItem)parameter.Parameter;
+					var defaultlistedItem = (StandardStorageItem)parameter.Parameter;
 					_path = defaultlistedItem.ItemPath;
 					_isFolder = defaultlistedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !defaultlistedItem.IsShortcut;
 					break;

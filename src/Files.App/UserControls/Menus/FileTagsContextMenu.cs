@@ -14,9 +14,9 @@ namespace Files.App.UserControls.Menus
 		private IFileTagsSettingsService FileTagsSettingsService { get; } =
 			Ioc.Default.GetService<IFileTagsSettingsService>();
 
-		public IEnumerable<ListedItem> SelectedItems { get; }
+		public IEnumerable<StandardStorageItem> SelectedItems { get; }
 
-		public FileTagsContextMenu(IEnumerable<ListedItem> selectedItems)
+		public FileTagsContextMenu(IEnumerable<StandardStorageItem> selectedItems)
 		{
 			SetValue(MenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
 				.Select(tag => new MenuFlyoutFactoryItemViewModel(() =>
@@ -69,7 +69,7 @@ namespace Files.App.UserControls.Menus
 			commonFileTags.OfType<ToggleMenuFlyoutItem>().ForEach(x => x.IsChecked = true);
 		}
 
-		private void RemoveFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel removed)
+		private void RemoveFileTag(IEnumerable<StandardStorageItem> selectedListedItems, TagViewModel removed)
 		{
 			foreach (var selectedItem in selectedListedItems)
 			{
@@ -82,7 +82,7 @@ namespace Files.App.UserControls.Menus
 			}
 		}
 
-		private void AddFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel added)
+		private void AddFileTag(IEnumerable<StandardStorageItem> selectedListedItems, TagViewModel added)
 		{
 			foreach (var selectedItem in selectedListedItems)
 			{

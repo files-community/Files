@@ -15,7 +15,7 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref textValue, value);
 		}
 
-		public TextPreviewViewModel(ListedItem item)
+		public TextPreviewViewModel(StandardStorageItem item)
 			: base(item)
 		{
 		}
@@ -44,7 +44,7 @@ namespace Files.App.ViewModels.Previews
 			return details;
 		}
 
-		public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
+		public static async Task<TextPreview> TryLoadAsTextAsync(StandardStorageItem item)
 		{
 			string extension = item.FileExtension?.ToLowerInvariant();
 			if (ExcludedExtensions(extension) || item.FileSizeBytes is 0 or > Constants.PreviewPane.TryLoadAsTextSizeLimit)

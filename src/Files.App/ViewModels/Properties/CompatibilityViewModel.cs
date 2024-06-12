@@ -79,7 +79,7 @@ namespace Files.App.ViewModels.Properties
 
 		// Constructor
 
-		public CompatibilityViewModel(ListedItem item)
+		public CompatibilityViewModel(StandardStorageItem item)
 		{
 			ItemPath = item is ShortcutItem shortcutItem ? shortcutItem.TargetPath : item.ItemPath;
 

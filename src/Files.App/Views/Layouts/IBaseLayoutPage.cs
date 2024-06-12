@@ -19,9 +19,9 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		bool LockPreviewPaneContent { get; set; }
 
-		List<ListedItem>? SelectedItems { get; }
+		List<StandardStorageItem>? SelectedItems { get; }
 
-		ListedItem? SelectedItem { get; }
+		StandardStorageItem? SelectedItem { get; }
 
 		ItemManipulationModel ItemManipulationModel { get; }
 

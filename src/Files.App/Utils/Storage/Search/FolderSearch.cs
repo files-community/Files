@@ -68,7 +68,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public Task SearchAsync(IList<ListedItem> results, CancellationToken token)
+		public Task SearchAsync(IList<StandardStorageItem> results, CancellationToken token)
 		{
 			try
 			{
@@ -93,7 +93,7 @@ namespace Files.App.Utils.Storage
 			return Task.CompletedTask;
 		}
 
-		private async Task AddItemsForHomeAsync(IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsForHomeAsync(IList<StandardStorageItem> results, CancellationToken token)
 		{
 			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
 			{
@@ -108,9 +108,9 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public async Task<ObservableCollection<ListedItem>> SearchAsync()
+		public async Task<ObservableCollection<StandardStorageItem>> SearchAsync()
 		{
-			ObservableCollection<ListedItem> results = [];
+			ObservableCollection<StandardStorageItem> results = [];
 			try
 			{
 				var token = CancellationToken.None;
@@ -135,7 +135,7 @@ namespace Files.App.Utils.Storage
 			return results;
 		}
 
-		private async Task SearchAsync(BaseStorageFolder folder, IList<ListedItem> results, CancellationToken token)
+		private async Task SearchAsync(BaseStorageFolder folder, IList<StandardStorageItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
 			uint index = 0;
@@ -176,7 +176,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private async Task AddItemsForLibraryAsync(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsForLibraryAsync(LibraryLocationItem library, IList<StandardStorageItem> results, CancellationToken token)
 		{
 			foreach (var folder in library.Folders)
 			{
@@ -184,7 +184,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
+		private async Task SearchTagsAsync(string folder, IList<StandardStorageItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
 			var tags = AQSQuery.Substring("tag:".Length)?.Split(',').Where(t => !string.IsNullOrWhiteSpace(t))
@@ -257,7 +257,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsAsync(string folder, IList<StandardStorageItem> results, CancellationToken token)
 		{
 			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
 			{
@@ -281,7 +281,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<ListedItem> results, CancellationToken token)
+		private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<StandardStorageItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
 			(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
@@ -341,9 +341,9 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private ListedItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
+		private StandardStorageItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
 		{
-			ListedItem listedItem = null;
+			StandardStorageItem listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
 			if (!isFolder)
@@ -356,7 +356,7 @@ namespace Files.App.Utils.Storage
 					itemType = itemFileExtension.Trim('.') + " " + itemType;
 				}
 
-				listedItem = new ListedItem(null)
+				listedItem = new StandardStorageItem()
 				{
 					PrimaryItemAttribute = StorageItemTypes.File,
 					ItemNameRaw = findData.cFileName,
@@ -372,7 +372,7 @@ namespace Files.App.Utils.Storage
 			{
 				if (findData.cFileName != "." && findData.cFileName != "..")
 				{
-					listedItem = new ListedItem(null)
+					listedItem = new StandardStorageItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = findData.cFileName,
@@ -400,16 +400,16 @@ namespace Files.App.Utils.Storage
 			return listedItem;
 		}
 
-		private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
+		private async Task<StandardStorageItem> GetListedItemAsync(IStorageItem item)
 		{
-			ListedItem listedItem = null;
+			StandardStorageItem listedItem = null;
 			if (item.IsOfType(StorageItemTypes.Folder))
 			{
 				var folder = item.AsBaseStorageFolder();
 				var props = await folder.GetBasicPropertiesAsync();
 				if (folder is BinStorageFolder binFolder)
 				{
-					listedItem = new RecycleBinItem(null)
+					listedItem = new StandardRecycleBinItem(null)
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = folder.DisplayName,
@@ -420,13 +420,13 @@ namespace Files.App.Utils.Storage
 						Opacity = 1,
 						FileSize = props.Size.ToSizeString(),
 						FileSizeBytes = (long)props.Size,
-						ItemDateDeletedReal = binFolder.DateDeleted,
-						ItemOriginalPath = binFolder.OriginalPath
+						DateDeleted = binFolder.DateDeleted,
+						OriginalPath = binFolder.OriginalPath
 					};
 				}
 				else
 				{
-					listedItem = new ListedItem(null)
+					listedItem = new StandardStorageItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = folder.DisplayName,
@@ -454,7 +454,7 @@ namespace Files.App.Utils.Storage
 
 				if (file is BinStorageFile binFile)
 				{
-					listedItem = new RecycleBinItem(null)
+					listedItem = new StandardRecycleBinItem(null)
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						ItemNameRaw = file.Name,
@@ -468,13 +468,13 @@ namespace Files.App.Utils.Storage
 						ItemType = itemType,
 						NeedsPlaceholderGlyph = false,
 						Opacity = 1,
-						ItemDateDeletedReal = binFile.DateDeleted,
-						ItemOriginalPath = binFile.OriginalPath
+						DateDeleted = binFile.DateDeleted,
+						OriginalPath = binFile.OriginalPath
 					};
 				}
 				else
 				{
-					listedItem = new ListedItem(null)
+					listedItem = new StandardStorageItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						ItemNameRaw = file.Name,

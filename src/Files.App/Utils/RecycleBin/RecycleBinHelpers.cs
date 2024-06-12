@@ -156,12 +156,12 @@ namespace Files.App.Utils.RecycleBin
 			var selected = associatedInstance.SlimContentPage.SelectedItems;
 			if (selected == null) 
 				return;
-			var items = selected.ToList().Where(x => x is RecycleBinItem).Select((item) => new
+			var items = selected.ToList().Where(x => x is StandardRecycleBinItem).Select((item) => new
 			{
 				Source = StorageHelpers.FromPathAndType(
 					item.ItemPath,
 					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
-				Dest = ((RecycleBinItem)item).ItemOriginalPath
+				Dest = ((StandardRecycleBinItem)item).OriginalPath
 			});
 			await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
 		}

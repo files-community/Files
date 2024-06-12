@@ -29,7 +29,7 @@ namespace Files.App.Utils.Storage
 
 		private VirtualStorageItem() { }
 
-		public static VirtualStorageItem FromListedItem(ListedItem item)
+		public static VirtualStorageItem FromListedItem(StandardStorageItem item)
 		{
 			return new VirtualStorageItem()
 			{

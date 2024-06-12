@@ -15,13 +15,13 @@ namespace Files.App.ViewModels.Properties
 {
 	internal class CombinedProperties : BaseProperties
 	{
-		public List<ListedItem> List { get; }
+		public List<StandardStorageItem> List { get; }
 
 		public CombinedProperties(
 			SelectedItemsPropertiesViewModel viewModel,
 			CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher,
-			List<ListedItem> listedItems,
+			List<StandardStorageItem> listedItems,
 			IShellPage instance)
 		{
 			ViewModel = viewModel;
@@ -48,7 +48,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalizedResource();
 				}
 
-				var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
+				var itemsPath = List.Select(Item => (Item as StandardRecycleBinItem)?.OriginalParentFolderPath ??
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
 
 				if (itemsPath.Distinct().Count() == 1)

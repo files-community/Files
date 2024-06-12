@@ -96,7 +96,7 @@ namespace Files.App.Views.Layouts
 			openedFolderPresenter = null;
 		}
 
-		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, StandardStorageItem e)
 		{
 			try
 			{
@@ -122,7 +122,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, StandardStorageItem e)
 		{
 			if (NextRenameIndex != 0 && TryStartRenameNextItem(e))
 				return;
@@ -130,7 +130,7 @@ namespace Files.App.Views.Layouts
 			FileList?.SelectedItems.Add(e);
 		}
 
-		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, StandardStorageItem e)
 		{
 			FileList?.SelectedItems.Remove(e);
 		}
@@ -158,7 +158,7 @@ namespace Files.App.Views.Layouts
 
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
+			if (args.Item is StandardStorageItem item && columnsOwner?.OwnerPath is string ownerPath
 				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
 			{
 				SetFolderBackground(args.ItemContainer as ListViewItem, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
@@ -415,7 +415,7 @@ namespace Files.App.Views.Layouts
 
 			var clickedItem = e.OriginalSource as FrameworkElement;
 
-			if (clickedItem?.DataContext is ListedItem item)
+			if (clickedItem?.DataContext is StandardStorageItem item)
 			{
 				switch (item.PrimaryItemAttribute)
 				{
@@ -458,7 +458,7 @@ namespace Files.App.Views.Layouts
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+			var item = (e.OriginalSource as FrameworkElement)?.DataContext as StandardStorageItem;
 
 			// Allow for Ctrl+Shift selection
 			if (ctrlPressed || shiftPressed)
@@ -498,7 +498,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private void CheckDoubleClick(ListedItem item)
+		private void CheckDoubleClick(StandardStorageItem item)
 		{
 			doubleClickTimer.Debounce(() =>
 			{
@@ -527,7 +527,7 @@ namespace Files.App.Views.Layouts
 
 		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
+			if (sender is FrameworkElement element && element.DataContext is StandardStorageItem item)
 				// Reassign values to update date display
 				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}

@@ -122,7 +122,7 @@ namespace Files.App.Views.Properties
 				return false;
 			}
 
-			async Task<bool> SaveCombinedAsync(IList<ListedItem> fileOrFolders)
+			async Task<bool> SaveCombinedAsync(IList<StandardStorageItem> fileOrFolders)
 			{
 				// Handle the visibility attribute for multiple files
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
@@ -155,7 +155,7 @@ namespace Files.App.Views.Properties
 				return true;
 			}
 
-			async Task<bool> SaveBaseAsync(ListedItem item)
+			async Task<bool> SaveBaseAsync(StandardStorageItem item)
 			{
 				// Handle the visibility attribute for a single file
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;

@@ -272,7 +272,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				flyout!.Closed -= flyoutClosed;
 
-				ListedItem listedItem = new(null!)
+				StandardStorageItem listedItem = new()
 				{
 					ItemPath = item.Item.Path,
 					ItemNameRaw = item.Item.Text,

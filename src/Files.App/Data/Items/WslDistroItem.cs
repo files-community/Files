@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Items
 {
-	public sealed class WslDistroItem : ObservableObject, INavigationControlItem
+	public sealed class WslDistroItem : ObservableObject, ISidebarItem
 	{
 		public string Text { get; set; }
 
@@ -20,8 +20,8 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public NavigationControlItemType ItemType
-			=> NavigationControlItemType.LinuxDistro;
+		public SidebarItemKind ItemType
+			=> SidebarItemKind.LinuxDistro;
 
 		private Uri icon;
 		public Uri Icon
@@ -34,7 +34,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public SectionType Section { get; set; }
+		public SidebarSectionKind Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
 
@@ -61,6 +61,6 @@ namespace Files.App.Data.Items
 			};
 		}
 
-		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+		public int CompareTo(ISidebarItem other) => Text.CompareTo(other.Text);
 	}
 }

@@ -16,7 +16,7 @@ namespace Files.App.Services
 		private IThreadingService ThreadingService { get; } = Ioc.Default.GetRequiredService<IThreadingService>();
 
 		/// <inheritdoc/>
-		public bool CanCompress(IReadOnlyList<ListedItem> items)
+		public bool CanCompress(IReadOnlyList<StandardStorageItem> items)
 		{
 			return
 				CanDecompress(items) is false ||
@@ -24,7 +24,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool CanDecompress(IReadOnlyList<ListedItem> items)
+		public bool CanDecompress(IReadOnlyList<StandardStorageItem> items)
 		{
 			return
 				items.Any() &&
@@ -185,7 +185,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public string GenerateArchiveNameFromItems(IReadOnlyList<ListedItem> items)
+		public string GenerateArchiveNameFromItems(IReadOnlyList<StandardStorageItem> items)
 		{
 			if (!items.Any())
 				return string.Empty;

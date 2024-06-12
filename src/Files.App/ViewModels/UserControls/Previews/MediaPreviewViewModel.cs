@@ -18,7 +18,7 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref source, value);
 		}
 
-		public MediaPreviewViewModel(ListedItem item) : base(item) { }
+		public MediaPreviewViewModel(StandardStorageItem item) : base(item) { }
 
 		public void TogglePlayback()
 			=> TogglePlaybackRequested?.Invoke(this, null);

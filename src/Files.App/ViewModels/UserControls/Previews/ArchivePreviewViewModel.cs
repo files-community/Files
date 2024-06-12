@@ -9,7 +9,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed class ArchivePreviewViewModel : BasePreviewModel
 	{
-		public ArchivePreviewViewModel(ListedItem item)
+		public ArchivePreviewViewModel(StandardStorageItem item)
 			: base(item)
 		{
 		}
