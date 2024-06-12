@@ -30,9 +30,9 @@ namespace Files.App.Actions
 				if (page is null)
 					return false;
 
-				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
-				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
-				bool isRenaming = page.SlimContentPage.IsRenamingItem;
+				bool isCommandPaletteOpen = page.AddressToolbarViewModel.IsCommandPaletteOpen;
+				bool isEditing = page.AddressToolbarViewModel.IsEditModeEnabled;
+				bool isRenaming = page.LayoutPage.IsRenamingItem;
 
 				return isCommandPaletteOpen || (!isEditing && !isRenaming);
 			}
@@ -45,7 +45,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.ClearSelection();
+			context.ShellPage?.LayoutPage?.ItemManipulationModel?.ClearSelection();
 
 			return Task.CompletedTask;
 		}

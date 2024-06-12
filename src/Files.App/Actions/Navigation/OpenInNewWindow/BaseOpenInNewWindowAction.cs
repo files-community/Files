@@ -29,7 +29,7 @@ namespace Files.App.Actions
 
 		public virtual bool IsExecutable =>
 			ContentPageContext.ShellPage is not null &&
-			ContentPageContext.ShellPage.SlimContentPage is not null &&
+			ContentPageContext.ShellPage.LayoutPage is not null &&
 			ContentPageContext.SelectedItems.Count is not 0 &&
 			ContentPageContext.SelectedItems.Count <= 5 &&
 			ContentPageContext.SelectedItems.Count(x => x.IsFolder) == ContentPageContext.SelectedItems.Count &&
@@ -42,10 +42,10 @@ namespace Files.App.Actions
 
 		public virtual async Task ExecuteAsync(object? parameter = null)
 		{
-			if (ContentPageContext.ShellPage?.SlimContentPage?.SelectedItems is null)
+			if (ContentPageContext.ShellPage?.LayoutPage?.SelectedItems is null)
 				return;
 
-			List<ListedItem> items = ContentPageContext.ShellPage.SlimContentPage.SelectedItems;
+			List<ListedItem> items = ContentPageContext.ShellPage.LayoutPage.SelectedItems;
 
 			foreach (ListedItem listedItem in items)
 			{

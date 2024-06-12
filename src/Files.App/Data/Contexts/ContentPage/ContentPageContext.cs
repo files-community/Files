@@ -12,7 +12,7 @@ namespace Files.App.Data.Contexts
 
 		private readonly IMultiPanesContext context = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
-		private ItemViewModel? filesystemViewModel;
+		private ShellViewModel? filesystemViewModel;
 
 		public IShellPage? ShellPage => context?.ActivePaneOrColumn;
 
@@ -21,9 +21,9 @@ namespace Files.App.Data.Contexts
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
 
-		public ListedItem? Folder => ShellPage?.FilesystemViewModel?.CurrentFolder;
+		public ListedItem? Folder => ShellPage?.ShellViewModel?.CurrentFolder;
 
-		public bool HasItem => ShellPage?.ToolbarViewModel?.HasItem ?? false;
+		public bool HasItem => ShellPage?.AddressToolbarViewModel?.HasItem ?? false;
 
 		public bool HasSelection => SelectedItems.Count is not 0;
 		public ListedItem? SelectedItem => SelectedItems.Count is 1 ? SelectedItems[0] : null;
@@ -31,15 +31,15 @@ namespace Files.App.Data.Contexts
 		private IReadOnlyList<ListedItem> selectedItems = emptyItems;
 		public IReadOnlyList<ListedItem> SelectedItems => selectedItems;
 
-		public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
+		public bool CanRefresh => ShellPage is not null && ShellPage.AddressToolbarViewModel.CanRefresh;
 
-		public bool CanGoBack => ShellPage is not null && ShellPage.ToolbarViewModel.CanGoBack;
+		public bool CanGoBack => ShellPage is not null && ShellPage.AddressToolbarViewModel.CanGoBack;
 
-		public bool CanGoForward => ShellPage is not null && ShellPage.ToolbarViewModel.CanGoForward;
+		public bool CanGoForward => ShellPage is not null && ShellPage.AddressToolbarViewModel.CanGoForward;
 
-		public bool CanNavigateToParent => ShellPage is not null && ShellPage.ToolbarViewModel.CanNavigateToParent;
+		public bool CanNavigateToParent => ShellPage is not null && ShellPage.AddressToolbarViewModel.CanNavigateToParent;
 
-		public bool IsSearchBoxVisible => ShellPage is not null && ShellPage.ToolbarViewModel.IsSearchBoxVisible;
+		public bool IsSearchBoxVisible => ShellPage is not null && ShellPage.AddressToolbarViewModel.IsSearchBoxVisible;
 
 		public bool CanCreateItem => GetCanCreateItem();
 
@@ -51,7 +51,7 @@ namespace Files.App.Data.Contexts
 
 		public bool CanExecuteGitAction => IsGitRepository && !GitHelpers.IsExecutingGitAction;
 
-		public string? SolutionFilePath => ShellPage?.FilesystemViewModel?.SolutionFilePath;
+		public string? SolutionFilePath => ShellPage?.ShellViewModel?.SolutionFilePath;
 
 		public ContentPageContext()
 		{
@@ -74,7 +74,7 @@ namespace Files.App.Data.Contexts
 				page.PropertyChanged -= Page_PropertyChanged;
 				page.ContentChanged -= Page_ContentChanged;
 				page.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
-				page.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
+				page.AddressToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
 
 				if (page.PaneHolder is not null)
 					page.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
@@ -93,13 +93,13 @@ namespace Files.App.Data.Contexts
 				page.PropertyChanged += Page_PropertyChanged;
 				page.ContentChanged += Page_ContentChanged;
 				page.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
-				page.ToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
+				page.AddressToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
 				
 				if (page.PaneHolder is not null)
 					page.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			}
 
-			filesystemViewModel = ShellPage?.FilesystemViewModel;
+			filesystemViewModel = ShellPage?.ShellViewModel;
 			if (filesystemViewModel is not null)
 				filesystemViewModel.PropertyChanged += FilesystemViewModel_PropertyChanged;
 
@@ -178,10 +178,10 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(ItemViewModel.CurrentFolder):
+				case nameof(ShellViewModel.CurrentFolder):
 					OnPropertyChanged(nameof(Folder));
 					break;
-				case nameof(ItemViewModel.SolutionFilePath):
+				case nameof(ShellViewModel.SolutionFilePath):
 					OnPropertyChanged(nameof(SolutionFilePath));
 					break;
 			}
@@ -228,7 +228,7 @@ namespace Files.App.Data.Contexts
 			bool oldHasSelection = HasSelection;
 			ListedItem? oldSelectedItem = SelectedItem;
 
-			IReadOnlyList<ListedItem> items = ShellPage?.ToolbarViewModel?.SelectedItems?.AsReadOnly() ?? emptyItems;
+			IReadOnlyList<ListedItem> items = ShellPage?.AddressToolbarViewModel?.SelectedItems?.AsReadOnly() ?? emptyItems;
 			if (SetProperty(ref selectedItems, items, nameof(SelectedItems)))
 			{
 				if (HasSelection != oldHasSelection)

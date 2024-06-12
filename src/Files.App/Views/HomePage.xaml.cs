@@ -42,20 +42,20 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
 			AppInstance.InstanceViewModel.GitRepositoryPath = null;
 			AppInstance.InstanceViewModel.IsGitRepository = false;
-			AppInstance.ToolbarViewModel.CanRefresh = true;
-			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
-			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
-			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
+			AppInstance.AddressToolbarViewModel.CanRefresh = true;
+			AppInstance.AddressToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
+			AppInstance.AddressToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
+			AppInstance.AddressToolbarViewModel.CanNavigateToParent = false;
 
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
-			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
+			AppInstance.AddressToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+			AppInstance.AddressToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
 			// Set path of working directory empty
-			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
 
-			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
+			AppInstance.LayoutPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 
-			AppInstance.ToolbarViewModel.PathComponents.Clear();
+			AppInstance.AddressToolbarViewModel.PathComponents.Clear();
 
 			string componentLabel =
 				parameters?.NavPathParam == "Home"
@@ -71,7 +71,7 @@ namespace Files.App.Views
 				Path = tag,
 			};
 
-			AppInstance.ToolbarViewModel.PathComponents.Add(item);
+			AppInstance.AddressToolbarViewModel.PathComponents.Add(item);
 
 			base.OnNavigatedTo(e);
 		}
@@ -83,18 +83,18 @@ namespace Files.App.Views
 
 		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
-			AppInstance.ToolbarViewModel.CanRefresh = false;
+			AppInstance.AddressToolbarViewModel.CanRefresh = false;
 
 			await Task.WhenAll(ViewModel.WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
 
-			AppInstance.ToolbarViewModel.CanRefresh = true;
+			AppInstance.AddressToolbarViewModel.CanRefresh = true;
 		}
 
 		// Disposer
 
 		public void Dispose()
 		{
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+			AppInstance.AddressToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 			ViewModel?.Dispose();
 		}
 	}

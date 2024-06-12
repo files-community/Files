@@ -20,8 +20,8 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.SelectedItems.Count == 1 &&
-			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
-			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
+			(!context.ShellPage?.AddressToolbarViewModel?.IsEditModeEnabled ?? false) &&
+			(!context.ShellPage?.LayoutPage?.IsRenamingItem ?? false);
 
 		public LaunchPreviewPopupAction()
 		{

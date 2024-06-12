@@ -22,7 +22,7 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.ShellPage is not null &&
 			IsPageTypeValid() &&
-			context.ShellPage.SlimContentPage is not null &&
+			context.ShellPage.LayoutPage is not null &&
 			IsSelectionValid();
 
 		public RenameAction()
@@ -34,7 +34,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
+			context.ShellPage?.LayoutPage?.ItemManipulationModel.StartRenameItem();
 
 			return Task.CompletedTask;
 		}

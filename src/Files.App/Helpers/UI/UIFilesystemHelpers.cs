@@ -27,12 +27,12 @@ namespace Files.App.Helpers
 			};
 			ConcurrentBag<IStorageItem> items = [];
 
-			if (associatedInstance.SlimContentPage.IsItemSelected)
+			if (associatedInstance.LayoutPage.IsItemSelected)
 			{
 				// First, reset DataGrid Rows that may be in "cut" command mode
-				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+				associatedInstance.LayoutPage.ItemManipulationModel.RefreshItemsOpacity();
 
-				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
+				var itemsCount = associatedInstance.LayoutPage.SelectedItems!.Count;
 
 				var banner = itemsCount > 50 ? StatusCenterHelper.AddCard_Prepare() : null;
 
@@ -46,7 +46,7 @@ namespace Files.App.Helpers
 						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
 					}
 
-					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
+					await associatedInstance.LayoutPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
 						if (banner is not null)
 						{
@@ -70,7 +70,7 @@ namespace Files.App.Helpers
 						}
 						else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
 						{
-							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+							var result = await associatedInstance.ShellViewModel.GetFileFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
 
 							if (!result)
@@ -78,7 +78,7 @@ namespace Files.App.Helpers
 						}
 						else
 						{
-							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+							var result = await associatedInstance.ShellViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
 
 							if (!result)
@@ -90,7 +90,7 @@ namespace Files.App.Helpers
 				{
 					if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
 					{
-						string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
+						string[] filePaths = associatedInstance.LayoutPage.SelectedItems.Select(x => x.ItemPath).ToArray();
 
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
 
@@ -99,7 +99,7 @@ namespace Files.App.Helpers
 						return;
 					}
 
-					associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+					associatedInstance.LayoutPage.ItemManipulationModel.RefreshItemsOpacity();
 
 					_statusCenterViewModel.RemoveItem(banner);
 
@@ -136,11 +136,11 @@ namespace Files.App.Helpers
 			};
 			ConcurrentBag<IStorageItem> items = [];
 
-			if (associatedInstance.SlimContentPage.IsItemSelected)
+			if (associatedInstance.LayoutPage.IsItemSelected)
 			{
-				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+				associatedInstance.LayoutPage.ItemManipulationModel.RefreshItemsOpacity();
 
-				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
+				var itemsCount = associatedInstance.LayoutPage.SelectedItems!.Count;
 
 				var banner = itemsCount > 50 ? StatusCenterHelper.AddCard_Prepare() : null;
 
@@ -152,7 +152,7 @@ namespace Files.App.Helpers
 						banner.Progress.ItemsCount = items.Count;
 						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
 					}
-					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
+					await associatedInstance.LayoutPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
 						if (banner is not null)
 						{
@@ -167,7 +167,7 @@ namespace Files.App.Helpers
 						}
 						else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
 						{
-							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+							var result = await associatedInstance.ShellViewModel.GetFileFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
 
 							if (!result)
@@ -175,7 +175,7 @@ namespace Files.App.Helpers
 						}
 						else
 						{
-							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+							var result = await associatedInstance.ShellViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
 
 							if (!result)
@@ -187,7 +187,7 @@ namespace Files.App.Helpers
 				{
 					if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
 					{
-						string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
+						string[] filePaths = associatedInstance.LayoutPage.SelectedItems.Select(x => x.ItemPath).ToArray();
 
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
 
@@ -230,7 +230,7 @@ namespace Files.App.Helpers
 			if (packageView && packageView.Result is not null)
 			{
 				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
-				associatedInstance.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
+				associatedInstance.LayoutPage?.ItemManipulationModel?.RefreshItemsOpacity();
 				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
 		}
@@ -263,7 +263,7 @@ namespace Files.App.Helpers
 
 			if (renamed == ReturnResult.Success)
 			{
-				associatedInstance.ToolbarViewModel.CanGoForward = false;
+				associatedInstance.AddressToolbarViewModel.CanGoForward = false;
 				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 				return true;
 			}
@@ -281,9 +281,9 @@ namespace Files.App.Helpers
 		{
 			string? currentPath = null;
 
-			if (associatedInstance.SlimContentPage is not null)
+			if (associatedInstance.LayoutPage is not null)
 			{
-				currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+				currentPath = associatedInstance.ShellViewModel.WorkingDirectory;
 				if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 					!library.IsEmpty &&
 					library.Folders.Count == 1) // TODO: handle libraries with multiple folders
@@ -343,7 +343,7 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+				var items = associatedInstance.LayoutPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 					item.ItemPath,
 					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 				var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
@@ -373,7 +373,7 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutAsync(IShellPage? associatedInstance, IReadOnlyList<ListedItem> selectedItems)
 		{
-			var currentPath = associatedInstance?.FilesystemViewModel.WorkingDirectory;
+			var currentPath = associatedInstance?.ShellViewModel.WorkingDirectory;
 
 			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
 				currentPath = library.DefaultSaveFolder;
@@ -393,7 +393,7 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
-			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			var currentPath = associatedInstance.ShellViewModel.WorkingDirectory;
 			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 				!library.IsEmpty)
 			{

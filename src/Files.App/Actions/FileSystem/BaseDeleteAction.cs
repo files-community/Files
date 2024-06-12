@@ -13,7 +13,7 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			context.HasSelection &&
-			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false) &&
+			(!context.ShellPage?.LayoutPage?.IsRenamingItem ?? false) &&
 			UIHelpers.CanShowDialog;
 
 		public BaseDeleteAction()
@@ -37,7 +37,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is IShellPage shellPage)
 			{
 				await shellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
-				await shellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
+				await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
 		}
 

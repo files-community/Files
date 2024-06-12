@@ -21,7 +21,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
-			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false);
+			(context.ShellPage?.LayoutPage?.SelectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false);
 
 		public BaseRotateAction()
 		{
@@ -35,7 +35,7 @@ namespace Files.App.Actions
 		{
 			await Task.WhenAll(context.SelectedItems.Select(image => BitmapHelper.RotateAsync(PathNormalization.NormalizePath(image.ItemPath), Rotation)));
 
-			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
+			context.ShellPage?.LayoutPage?.ItemManipulationModel?.RefreshItemsThumbnail();
 
 			await _infoPaneViewModel.UpdateSelectedItemPreviewAsync();
 		}
@@ -52,9 +52,9 @@ namespace Files.App.Actions
 		{
 			if (e.PropertyName is nameof(IContentPageContext.SelectedItem))
 			{
-				if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
+				if (context.ShellPage is not null && context.ShellPage.LayoutPage is not null)
 				{
-					var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
+					var viewModel = context.ShellPage.LayoutPage.SelectedItemsPropertiesViewModel;
 					var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
 
 					viewModel.CheckAllFileExtensions(extensions);
