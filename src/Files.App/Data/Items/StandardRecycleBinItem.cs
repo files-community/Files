@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils
+namespace Files.App.Data.Items
 {
 	/// <summary>
 	/// Represents standard item resides in Recycle Bin on Windows to be shown on UI.
@@ -39,7 +39,7 @@ namespace Files.App.Utils
 			get => _DateDeleted;
 			set
 			{
-				DateDeletedHumanized = dateTimeFormatter.ToShortLabel(value);
+				DateDeletedHumanized = DateTimeFormatter.ToShortLabel(value);
 				_DateDeleted = value;
 			}
 		}
@@ -47,8 +47,7 @@ namespace Files.App.Utils
 		/// <summary>
 		/// Initializes an instance of <see cref="StandardRecycleBinItem"/> class.
 		/// </summary>
-		/// <param name="folderRelativeId"></param>
-		public StandardRecycleBinItem(string folderRelativeId) : base()
+		public StandardRecycleBinItem() : base()
 		{
 		}
 	}

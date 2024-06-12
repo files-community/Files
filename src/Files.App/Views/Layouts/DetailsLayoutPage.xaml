@@ -6,8 +6,8 @@
 	xmlns:behaviors="using:Files.App.Data.Behaviors"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:datamodels="using:Files.App.Data.Models"
-	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
@@ -891,7 +891,7 @@
 
 					<!--  Item Template  -->
 					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="filesystem:ListedItem">
+						<DataTemplate x:DataType="dataitems:StandardStorageItem">
 							<UserControl>
 								<StackPanel
 									Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"
@@ -1178,7 +1178,7 @@
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
-										Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
+										Text="{x:Bind AsRecycleBinItem.OriginalPath, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Deleted Date  -->
@@ -1192,7 +1192,7 @@
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
-										Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
+										Text="{x:Bind AsRecycleBinItem.DateDeletedHumanized, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Modified Date  -->

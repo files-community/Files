@@ -1094,7 +1094,6 @@ namespace Files.App.Data.Models
 
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
-									item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
 									item.ItemType = itemType;
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
@@ -1139,7 +1138,6 @@ namespace Files.App.Data.Models
 
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
-									item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
 									item.ItemType = itemType;
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
@@ -2451,7 +2449,7 @@ namespace Files.App.Data.Models
 					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
 				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
 					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
-				if (item is Utils.StandardRecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.DateDeleted)))
+				if (item is StandardRecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.DateDeleted)))
 					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.DateDeleted = recycleBinItem.DateDeleted);
 				if (item is GitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
 					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);

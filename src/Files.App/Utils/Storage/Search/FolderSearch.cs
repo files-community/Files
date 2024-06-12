@@ -409,7 +409,7 @@ namespace Files.App.Utils.Storage
 				var props = await folder.GetBasicPropertiesAsync();
 				if (folder is BinStorageFolder binFolder)
 				{
-					listedItem = new StandardRecycleBinItem(null)
+					listedItem = new StandardRecycleBinItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = folder.DisplayName,
@@ -454,7 +454,7 @@ namespace Files.App.Utils.Storage
 
 				if (file is BinStorageFile binFile)
 				{
-					listedItem = new StandardRecycleBinItem(null)
+					listedItem = new StandardRecycleBinItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						ItemNameRaw = file.Name,

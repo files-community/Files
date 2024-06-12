@@ -6,7 +6,7 @@
 	xmlns:cloud="using:Files.App.Utils.Cloud"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:filesystem="using:Files.App.Utils"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
@@ -91,7 +91,7 @@
 		<SolidColorBrush x:Key="GridViewItemPointerOverBorderBrush" Color="Transparent" />
 
 		<!--  Grid View  -->
-		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="filesystem:ListedItem">
+		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="dataitems:StandardStorageItem">
 			<UserControl>
 				<Grid
 					x:Name="GridViewBrowserListedItem"
@@ -268,7 +268,7 @@
 		</DataTemplate>
 
 		<!--  List View  -->
-		<DataTemplate x:Name="ListViewBrowserTemplate" x:DataType="filesystem:ListedItem">
+		<DataTemplate x:Name="ListViewBrowserTemplate" x:DataType="dataitems:StandardStorageItem">
 			<UserControl>
 				<Grid
 					x:Name="FilesRootGrid"
@@ -424,7 +424,7 @@
 		</DataTemplate>
 
 		<!--  Tiles View  -->
-		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="filesystem:ListedItem">
+		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="dataitems:StandardStorageItem">
 			<UserControl>
 				<Grid
 					Width="{Binding ElementName=PageRoot, Path=ItemWidthTilesView, Mode=OneWay}"

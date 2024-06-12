@@ -3,7 +3,6 @@
 
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
-using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Drawing;
@@ -11,7 +10,7 @@ using System.IO;
 using System.Text;
 using Windows.Storage;
 
-namespace Files.App.Utils
+namespace Files.App.Data.Items
 {
 	/// <summary>
 	/// Represents storage item to be displayed on UI with necessary storage properties.
@@ -63,8 +62,6 @@ namespace Files.App.Utils
 				return tooltipBuilder.ToString();
 			}
 		}
-
-		public string FolderRelativeId { get; set; }
 
 		public bool HasChildren { get; set; } = true;
 
@@ -173,10 +170,10 @@ namespace Files.App.Utils
 		}
 
 		// This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
-		public string SyncStatusString
-		{
-			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalizedResource() : SyncStatusUI.SyncStatusString;
-		}
+		public string SyncStatusString =>
+			string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString)
+				? "CloudDriveSyncStatus_Unknown".GetLocalizedResource()
+				: SyncStatusUI.SyncStatusString;
 
 		private BitmapImage fileImage;
 		public BitmapImage FileImage
@@ -426,10 +423,10 @@ namespace Files.App.Utils
 		}
 
 		// This is a hack used because x:Bind casting did not work properly
-		public StandardRecycleBinItem AsRecycleBinItem => this as StandardRecycleBinItem;
+		public StandardRecycleBinItem? AsRecycleBinItem => this as StandardRecycleBinItem;
+		public GitItem? AsGitItem => this as GitItem;
 
-		public GitItem AsGitItem => this as GitItem;
-
+		/// <inheritdoc/>
 		public string Key { get; set; }
 
 		// Constructor

@@ -6,7 +6,7 @@
 	xmlns:cloud="using:Files.App.Utils.Cloud"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:filesystem="using:Files.App.Utils"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -202,7 +202,7 @@
 					Tapped="FileList_ItemTapped">
 
 					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="filesystem:ListedItem">
+						<DataTemplate x:DataType="dataitems:StandardStorageItem">
 							<Grid
 								x:Name="FilesRootGrid"
 								Height="{Binding RowHeight, ElementName=PageRoot, Mode=OneWay}"

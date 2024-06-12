@@ -198,7 +198,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (folder is BinStorageFolder binFolder)
 				{
-					return new StandardRecycleBinItem(folder.FolderRelativeId)
+					return new StandardRecycleBinItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = folder.DisplayName,
@@ -298,7 +298,7 @@ namespace Files.App.Utils.Storage
 				}
 				else if (file is BinStorageFile binFile)
 				{
-					return new StandardRecycleBinItem(file.FolderRelativeId)
+					return new StandardRecycleBinItem()
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						FileExtension = itemFileExtension,
