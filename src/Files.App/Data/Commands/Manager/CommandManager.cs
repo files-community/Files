@@ -396,10 +396,7 @@ namespace Files.App.Data.Commands
 
 			if (ActionsSettingsService.ActionsV2 is null)
 			{
-				foreach (var command in allCommands)
-				{
-					command.RestoreKeyBindings();
-				}
+				allCommands.ForEach(x => x.RestoreKeyBindings());
 			}
 			else
 			{
@@ -409,10 +406,12 @@ namespace Files.App.Data.Commands
 
 					if (customizedKeyBindings.IsEmpty())
 					{
+						// Could not find customized key bindings for the command
 						command.RestoreKeyBindings();
 					}
 					else if (customizedKeyBindings.Count == 1 && customizedKeyBindings[0].KeyBinding == string.Empty)
 					{
+						// Do not assign any key binding even though there're default keys pre-defined
 						command.OverwriteKeyBindings(HotKeyCollection.Empty);
 					}
 					else
@@ -425,6 +424,7 @@ namespace Files.App.Data.Commands
 
 			try
 			{
+				// Set collection of a set of command code and key bindings to dictionary
 				_allKeyBindings = commands.Values
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
@@ -444,29 +444,27 @@ namespace Files.App.Data.Commands
 						var occurrences = allCommands.Where(x => x.HotKeys.Select(x => x.LocalizedLabel).Contains(item));
 
 						// Restore the defaults for all occurrences
-						for (int index = 0; index < occurrences.Count(); index++)
-						{
-							occurrences.ElementAt(index).RestoreKeyBindings();
-						}
+						occurrences.ForEach(x => x.RestoreKeyBindings());
 					}
 				}
 
+				// Set collection of a set of command code and key bindings to dictionary
 				_allKeyBindings = commands.Values
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 
-				App.Logger.LogError(ex, "The app is temporarily using default key for some commands bindings because of a serious error of assigning custom keys.");
+				App.Logger.LogWarning(ex, "The app found some keys in different commands are duplicated and are using default key bindings for those commands.");
 			}
 			catch (Exception ex)
 			{
-				foreach (var command in commands.Values.OfType<ActionCommand>())
-					command.RestoreKeyBindings();
+				allCommands.ForEach(x => x.RestoreKeyBindings());
 
+				// Set collection of a set of command code and key bindings to dictionary
 				_allKeyBindings = commands.Values
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 
-				App.Logger.LogError(ex, "The app is temporarily using default key bindings for all because of a serious error of assigning custom keys.");
+				App.Logger.LogWarning(ex, "The app is temporarily using default key bindings for all because of a serious error of assigning custom keys.");
 			}
 		}
 
