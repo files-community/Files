@@ -9,7 +9,7 @@ namespace Files.App.Data.Items
 	{
 		public const string EXTENSION = ".library-ms";
 
-		public static readonly string LibrariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
+		public static readonly string LibrariesPath = Win32PInvoke.GetFolderFromKnownFolderGUID(new Guid("1B3EA5DC-B587-4786-B4EF-BD1DC332AEAE"));
 
 		/// <summary>
 		/// Full path of library file.<br/>

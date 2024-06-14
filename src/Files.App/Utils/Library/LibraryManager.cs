@@ -46,10 +46,6 @@ namespace Files.App.Utils.Library
 			if (librariesWatcher is not null)
 				return;
 
-			// Create the Libraries folder if it doesn't exist
-			if (!Directory.Exists(ShellLibraryItem.LibrariesPath))
-				Directory.CreateDirectory(ShellLibraryItem.LibrariesPath);
-
 			librariesWatcher = new FileSystemWatcher
 			{
 				Path = ShellLibraryItem.LibrariesPath,
