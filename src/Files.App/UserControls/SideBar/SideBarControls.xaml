@@ -234,7 +234,7 @@
 
 								<VisualState x:Name="NoExpansionWithPadding">
 									<VisualState.Setters>
-										<Setter Target="RootPanel.Margin" Value="0,0,0,16" />
+										<Setter Target="RootPanel.Margin" Value="0,0,0,12" />
 										<Setter Target="ItemDecoratorPresenter.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
@@ -251,7 +251,7 @@
 
 								<VisualState x:Name="Expanded">
 									<VisualState.Setters>
-										<Setter Target="RootPanel.Margin" Value="0,0,0,16" />
+										<Setter Target="RootPanel.Margin" Value="0,0,0,12" />
 										<Setter Target="ChildrenPresenter.Visibility" Value="Visible" />
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
@@ -290,7 +290,7 @@
 													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 											</DoubleAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootPanel" Storyboard.TargetProperty="Margin">
-												<DiscreteObjectKeyFrame Value="0,0,0,16" />
+												<DiscreteObjectKeyFrame Value="0,0,0,12" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
