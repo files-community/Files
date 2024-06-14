@@ -178,7 +178,7 @@ namespace Files.App.Views
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			var navArgs = e.CurrentInstance.TabBarItemParameter?.NavigationParameter;
-			if (e.CurrentInstance is IPanesPage currentInstance)
+			if (e.CurrentInstance is IShellPanesPage currentInstance)
 			{
 				SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
@@ -337,12 +337,12 @@ namespace Files.App.Views
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
 			if (!App.AppModel.IsMainWindowClosed)
-				PreviewPane?.ViewModel.UpdateDateDisplay();
+				InfoPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			switch (PreviewPane?.Position)
+			switch (InfoPane?.Position)
 			{
 				case PreviewPanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
 					UserSettingsService.InfoPaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
@@ -369,7 +369,7 @@ namespace Files.App.Views
 		/// </summary>
 		private void UpdatePositioning()
 		{
-			if (PreviewPane is null || !ViewModel.ShouldPreviewPaneBeActive)
+			if (InfoPane is null || !ViewModel.ShouldPreviewPaneBeActive)
 			{
 				PaneRow.MinHeight = 0;
 				PaneRow.MaxHeight = double.MaxValue;
@@ -380,8 +380,8 @@ namespace Files.App.Views
 			}
 			else
 			{
-				PreviewPane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
-				switch (PreviewPane.Position)
+				InfoPane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
+				switch (InfoPane.Position)
 				{
 					case PreviewPanePositions.None:
 						PaneRow.MinHeight = 0;
@@ -390,24 +390,24 @@ namespace Files.App.Views
 						PaneColumn.Width = new GridLength(0);
 						break;
 					case PreviewPanePositions.Right:
-						InfoPaneContainer.SetValue(Grid.RowProperty, 1);
-						InfoPaneContainer.SetValue(Grid.ColumnProperty, 2);
+						InfoPane.SetValue(Grid.RowProperty, 1);
+						InfoPane.SetValue(Grid.ColumnProperty, 2);
 						PaneSplitter.SetValue(Grid.RowProperty, 1);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
 						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-						PaneColumn.MinWidth = PreviewPane.MinWidth;
-						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
+						PaneColumn.MinWidth = InfoPane.MinWidth;
+						PaneColumn.MaxWidth = InfoPane.MaxWidth;
 						PaneColumn.Width = new GridLength(UserSettingsService.InfoPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
 						PaneRow.MinHeight = 0;
 						PaneRow.MaxHeight = double.MaxValue;
 						PaneRow.Height = new GridLength(0);
 						break;
 					case PreviewPanePositions.Bottom:
-						InfoPaneContainer.SetValue(Grid.RowProperty, 3);
-						InfoPaneContainer.SetValue(Grid.ColumnProperty, 0);
+						InfoPane.SetValue(Grid.RowProperty, 3);
+						InfoPane.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.SetValue(Grid.RowProperty, 2);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
@@ -417,8 +417,8 @@ namespace Files.App.Views
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
-						PaneRow.MinHeight = PreviewPane.MinHeight;
-						PaneRow.MaxHeight = PreviewPane.MaxHeight;
+						PaneRow.MinHeight = InfoPane.MinHeight;
+						PaneRow.MaxHeight = InfoPane.MaxHeight;
 						PaneRow.Height = new GridLength(UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
 						break;
 				}
@@ -427,13 +427,13 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			switch (PreviewPane?.Position)
+			switch (InfoPane?.Position)
 			{
 				case PreviewPanePositions.Right:
-					UserSettingsService.InfoPaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
+					UserSettingsService.InfoPaneSettingsService.VerticalSizePx = InfoPane.ActualWidth;
 					break;
 				case PreviewPanePositions.Bottom:
-					UserSettingsService.InfoPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
+					UserSettingsService.InfoPaneSettingsService.HorizontalSizePx = InfoPane.ActualHeight;
 					break;
 			}
 

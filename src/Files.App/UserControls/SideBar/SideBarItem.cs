@@ -21,6 +21,9 @@ namespace Files.App.UserControls.Sidebar
 		public bool IsGroupHeader => Item?.Children is not null;
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 
+		// TODO: Do not use localized text for comparison
+		public bool IsHomeItem => Item?.Text == "Home".GetLocalizedResource();
+
 		private bool hasChildSelection => selectedChildItem != null;
 		private bool isPointerOver = false;
 		private bool isClicking = false;
@@ -320,7 +323,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (Item?.Children is null || !CollapseEnabled)
 			{
-				VisualStateManager.GoToState(this, "NoExpansion", useAnimations);
+				VisualStateManager.GoToState(this, IsHomeItem ? "NoExpansionWithPadding" : "NoExpansion", useAnimations);
 			}
 			else if (!HasChildren)
 			{

@@ -10,8 +10,6 @@
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
-	d:DesignHeight="40"
-	d:DesignWidth="400"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
@@ -55,7 +53,13 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid x:Name="RootGrid">
+	<Grid
+		x:Name="RootGrid"
+		Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
+		BackgroundSizing="InnerBorderEdge"
+		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+		BorderThickness="1"
+		CornerRadius="8">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />

@@ -96,20 +96,20 @@ jobs:
       TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
       overWrite: true
 
-# Injects the AppCenter token to the project
+# Injects the Sentry token to the project
   - task: PowerShell@2
-    displayName: 'Inject AppCenter token'
+    displayName: 'Inject Sentry token'
     inputs:
       targetType: 'inline'
       script: |
         gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "$(appcenter.secret)"}) | Set-Content $_ -NoNewline
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "sentry.secret", "$(sentry.secret)"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 
 # Injects the GitHub token to the project
   - task: PowerShell@2
-    displayName: 'Inject AppCenter token'
+    displayName: 'Inject GitHub token'
     inputs:
       targetType: 'inline'
       script: |

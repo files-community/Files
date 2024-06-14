@@ -25,6 +25,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		protected IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 		protected DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		protected INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
+		protected ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		// Fields
 
@@ -69,7 +70,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 
 			_flyoutItemPath = item.Path;
 

@@ -92,8 +92,8 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected IPanesPage _PaneHolder;
-		public IPanesPage PaneHolder
+		protected IShellPanesPage _PaneHolder;
+		public IShellPanesPage PaneHolder
 		{
 			get => _PaneHolder;
 			set

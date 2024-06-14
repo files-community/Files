@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Contracts
 {
-	public interface IPanesPage : IDisposable, INotifyPropertyChanged
+	public interface IShellPanesPage : IDisposable, INotifyPropertyChanged
 	{
 		public IShellPage? ActivePane { get; set; }
 
@@ -14,9 +14,9 @@ namespace Files.App.Data.Contracts
 
 		public TabBarItemParameter? TabBarItemParameter { get; set; }
 
-		public void OpenPathInNewPane(string path);
+		public void OpenSecondaryPane(string path);
 
-		public void CloseActivePane();
+		public void CloseSecondaryPane();
 
 		public void FocusLeftPane();
 

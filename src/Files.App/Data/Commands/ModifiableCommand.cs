@@ -75,6 +75,10 @@ namespace Files.App.Data.Commands
 		public bool IsExecutable
 			=> BaseCommand.IsExecutable;
 
+		/// <inheritdoc/>
+		public bool IsAccessibleGlobally
+			=> BaseCommand.IsAccessibleGlobally;
+
 		public ModifiableCommand(IRichCommand baseCommand, Dictionary<KeyModifiers, IRichCommand> modifiedCommands)
 		{
 			BaseCommand = baseCommand;
