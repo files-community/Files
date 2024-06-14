@@ -54,7 +54,17 @@ namespace Files.App.Helpers
 			base.OnTargetDisconnected(disconnectedTarget);
 			this.target = null!;
 			this.root = null!;
-			controller?.RemoveSystemBackdropTarget(disconnectedTarget);
+
+
+			try
+			{
+				controller?.RemoveSystemBackdropTarget(disconnectedTarget);
+			}
+			catch (ObjectDisposedException)
+			{
+				// Ignore errors when the controller is already disposed
+			}
+
 			controller?.Dispose();
 			userSettingsService.OnSettingChangedEvent -= OnSettingChanged;
 		}

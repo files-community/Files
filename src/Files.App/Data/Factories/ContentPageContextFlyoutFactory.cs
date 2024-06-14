@@ -405,7 +405,7 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
-					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false),
+					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false),
 					ShowInSearchPage = true,
 					Items =
 					[
@@ -419,13 +419,13 @@ namespace Files.App.Data.Factories
 				{
 					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
-								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
+								&& (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RotateRight)
 				{
 					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
-								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
+								&& (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAnotherUser).Build(),

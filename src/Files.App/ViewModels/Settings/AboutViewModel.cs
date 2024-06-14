@@ -11,9 +11,25 @@ using Windows.System;
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents view model of <see cref="Views.Settings.AboutPage"/>.
+	/// </summary>
 	public sealed class AboutViewModel : ObservableObject
 	{
-		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		// Properties
+
+		public string Version
+			=> string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+
+		public string AppName
+			=> Package.Current.DisplayName;
+
+		public PackageVersion AppVersion
+			=> Package.Current.Id.Version;
+
+		public ObservableCollection<OpenSourceLibraryItem> OpenSourceLibraries { get; }
+
+		// Commands
 
 		public ICommand CopyAppVersionCommand { get; }
 		public ICommand CopyWindowsVersionCommand { get; }
@@ -27,15 +43,42 @@ namespace Files.App.ViewModels.Settings
 		public ICommand OpenPrivacyPolicyCommand { get; }
 		public ICommand OpenCrowdinCommand { get; }
 
-		private string _ThirdPartyNotices = string.Empty;
-		public string ThirdPartyNotices
-		{
-			get => _ThirdPartyNotices;
-			set => SetProperty(ref _ThirdPartyNotices, value);
-		}
+		// Constructor
 
+		/// <summary>
+		/// Initializes an instance of <see cref="AboutViewModel"/> class.
+		/// </summary>
 		public AboutViewModel()
 		{
+			OpenSourceLibraries =
+			[
+				new ("https://github.com/omar/ByteSize", "ByteSize"),
+				new ("https://github.com/CommunityToolkit/dotnet", "CommunityToolkit.Mvvm"),
+				new ("https://github.com/DiscUtils/DiscUtils", "DiscUtils.Udf"),
+				new ("https://github.com/robinrodricks/FluentFTP", "FluentFTP"),
+				new ("https://github.com/rickyah/ini-parser", "INI File Parser"),
+				new ("https://github.com/libgit2/libgit2sharp", "libgit2sharp"),
+				new ("https://github.com/mbdavid/LiteDB", "LiteDB"),
+				new ("https://github.com/beto-rodriguez/LiveCharts2", "LiveCharts2"),
+				new ("https://github.com/jeffijoe/messageformat.net", "MessageFormat"),
+				new ("https://github.com/dotnet/efcore", "EF Core for SQLite"),
+				new ("https://github.com/dotnet/runtime", "Microsoft.Extensions"),
+				new ("https://github.com/files-community/SevenZipSharp", "SevenZipSharp"),
+				new ("https://sourceforge.net/projects/sevenzip", "7zip"),
+				new ("https://github.com/ericsink/SQLitePCL.raw", "PCL for SQLite"),
+				new ("https://github.com/microsoft/WindowsAppSDK", "WindowsAppSDK"),
+				new ("https://github.com/microsoft/microsoft-ui-xaml", "WinUI 3"),
+				new ("https://github.com/microsoft/Win2D", "Win2D"),
+				new ("https://github.com/CommunityToolkit/WindowsCommunityToolkit", "Windows Community Toolkit 7.x"),
+				new ("https://github.com/mono/taglib-sharp", "TagLibSharp"),
+				new ("https://github.com/Tulpep/Active-Directory-Object-Picker", "ActiveDirectoryObjectPicker"),
+				new ("https://github.com/dotMorten/WinUIEx", "WinUIEx"),
+				new ("https://github.com/dahall/Vanara", "Vanara"),
+				new ("https://github.com/PowerShell/MMI", "MMI"),
+				new ("https://github.com/microsoft/CsWin32", "CsWin32"),
+				new ("https://github.com/microsoft/CsWinRT", "CsWinRT"),
+			];
+
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
 			CopyWindowsVersionCommand = new RelayCommand(CopyWindowsVersion);
 			SupportUsCommand = new AsyncRelayCommand(SupportUs);
@@ -48,6 +91,8 @@ namespace Files.App.ViewModels.Settings
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
 			OpenCrowdinCommand = new AsyncRelayCommand(DoOpenCrowdin);
 		}
+
+		// Methods
 
 		private async Task<bool> OpenLogLocation()
 		{
@@ -95,7 +140,6 @@ namespace Files.App.ViewModels.Settings
 			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.PrivacyPolicyUrl)).AsTask();
 		}
 
-
 		public Task DoOpenCrowdin()
 		{
 			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.CrowdinUrl)).AsTask();
@@ -128,12 +172,6 @@ namespace Files.App.ViewModels.Settings
 			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.SupportUsUrl)).AsTask();
 		}
 
-		public async Task LoadThirdPartyNoticesAsync()
-		{
-			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(Constants.DocsPath.ThirdPartyNoticePath));
-			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
-		}
-
 		public string GetAppVersion()
 		{
 			return string.Format($"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
@@ -151,16 +189,5 @@ namespace Files.App.ViewModels.Settings
 			query["windows_version"] = GetWindowsVersion();
 			return query.ToString() ?? string.Empty;
 		}
-
-		public string Version
-		{
-			get
-			{
-				return string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
-			}
-		}
-
-		public string AppName => Package.Current.DisplayName;
-		public PackageVersion AppVersion => Package.Current.Id.Version;
 	}
 }
