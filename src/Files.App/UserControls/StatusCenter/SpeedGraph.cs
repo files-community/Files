@@ -1,5 +1,4 @@
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,7 +6,6 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.Specialized;
 using System.Numerics;
-using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -38,6 +36,11 @@ namespace Files.App.UserControls.StatusCenter
 
 		SpriteVisual line;
 
+		CompositionColorBrush backgroundBrush;
+		CompositionColorGradientStop graphFillBottom;
+		CompositionColorGradientStop graphFillTop;
+		CompositionColorBrush graphStrokeBrush;
+
 		LinearEasingFunction linearEasing;
 
 		bool initialized;
@@ -46,13 +49,16 @@ namespace Files.App.UserControls.StatusCenter
 		float height;
 
 		float highestValue;
+
+		IAppThemeModeService themeModeService;
 		
 		public SpeedGraph()
-		{ 
-			// TODO: unhook
+		{
+			compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+			themeModeService = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+
 			this.SizeChanged += OnSizeChanged;
-			this.Unloaded += UserControl_Unloaded;
-			this.ActualThemeChanged += UserControl_ActualThemeChanged;
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -60,34 +66,59 @@ namespace Files.App.UserControls.StatusCenter
 			if (initialized)
 				return;
 
-			Init();
+			InitGraph();
+
+			this.SizeChanged -= OnSizeChanged;
 
 			// added *after* first load
-			Points.CollectionChanged += PointsChanged;
 			this.Loaded += OnLoaded;
+			this.Unloaded += OnUnloaded;
+			Points.CollectionChanged += OnPointsChanged;
+			this.ActualThemeChanged += OnThemeChanged;
+			themeModeService.AppThemeModeChanged += OnAppThemeModeChanged;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			if (Points.Count > 0)
+			{
+				SetGraphColors();
 				UpdateGraph();
+			}
 
-			Points.CollectionChanged += PointsChanged;
+			this.Unloaded += OnUnloaded;
+			Points.CollectionChanged += OnPointsChanged;
+			this.ActualThemeChanged += OnThemeChanged;
+			themeModeService.AppThemeModeChanged += OnAppThemeModeChanged;
 		}
 
-		private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
-			Points.CollectionChanged -= PointsChanged;
+			this.Unloaded -= OnUnloaded;
+			Points.CollectionChanged -= OnPointsChanged;
+			this.ActualThemeChanged -= OnThemeChanged;
+			themeModeService.AppThemeModeChanged -= OnAppThemeModeChanged;
 		}
 
-		private void PointsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private void OnPointsChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			UpdateGraph();
 		}
 
-		private void Init()
+		private void OnAppThemeModeChanged(object? sender, EventArgs e)
 		{
-			compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+			if (initialized)
+				SetGraphColors();
+		}
+
+		private void OnThemeChanged(FrameworkElement sender, object args)
+		{
+			if (initialized)
+				SetGraphColors();
+		}
+
+		private void InitGraph()
+		{
 			rootVisual = compositor.CreateContainerVisual();
 			rootVisual.Size = this.ActualSize;
 			ElementCompositionPreview.SetElementChildVisual(this, rootVisual);
@@ -96,17 +127,30 @@ namespace Files.App.UserControls.StatusCenter
 			width = size.X;
 			height = size.Y;
 
+			var rootClip = compositor.CreateRectangleClip();
+			rootClip.Top = 1.5f;
+			rootClip.Left = 1.5f;
+			rootClip.Bottom = height - 1.5f;
+			rootClip.Right = width - 2f;			// i fear i might be a victim of DPI scaling here
+			rootClip.TopLeftRadius = new(4f);
+			rootClip.TopRightRadius = new(4f);
+			rootClip.BottomLeftRadius = new(4f);
+			rootClip.BottomRightRadius = new(4f);
+			rootVisual.Clip = rootClip;
+
 			var accentColor = (App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush)!.Color;
 
-			var backgroundBrush = compositor.CreateColorBrush(accentColor with { A = 0x15 });
+			backgroundBrush = compositor.CreateColorBrush(accentColor with { A = 0x0f });
 
 			var graphFillBrush = compositor.CreateLinearGradientBrush();
 			graphFillBrush.StartPoint = new(0.5f, 0f);
 			graphFillBrush.EndPoint = new(0.5f, 1f);
-			graphFillBrush.ColorStops.Add(compositor.CreateColorGradientStop(0f, accentColor with { A = 0x70 }));
-			graphFillBrush.ColorStops.Add(compositor.CreateColorGradientStop(1f, accentColor with { A = 0x06 }));
+			graphFillTop = compositor.CreateColorGradientStop(0f, accentColor with { A = 0x7f });
+			graphFillBottom = compositor.CreateColorGradientStop(1f, accentColor with { A = 0x0f });
+			graphFillBrush.ColorStops.Add(graphFillBottom);
+			graphFillBrush.ColorStops.Add(graphFillTop);
 
-			var graphStrokeBrush = compositor.CreateColorBrush(accentColor);
+			graphStrokeBrush = compositor.CreateColorBrush(accentColor);
 
 			var container = compositor.CreateSpriteVisual();
 			container.Size = rootVisual.Size;
@@ -136,6 +180,7 @@ namespace Files.App.UserControls.StatusCenter
 			line = compositor.CreateSpriteVisual();
 			line.Size = new(width, 1.5f);
 			line.Brush = graphStrokeBrush;
+			line.Offset = new(0f, height - 4f, 0);
 			rootVisual.Children.InsertAtTop(line);
 
 			highestValue = 0;
@@ -145,7 +190,7 @@ namespace Files.App.UserControls.StatusCenter
 			initialized = true;
 		}
 
-		float YValue(float y) => height - (y / highestValue) * (height - 40f) - 4;
+		float YValue(float y) => height - (y / highestValue) * (height - 48f) - 4;
 
 		void UpdateGraph()
 		{
@@ -183,9 +228,17 @@ namespace Files.App.UserControls.StatusCenter
 			var path = new CompositionPath(CanvasGeometry.CreatePath(pathBuilder));
 			return path;
 		}
-		private void UserControl_ActualThemeChanged(FrameworkElement sender, object args)
-		{
 
+		void SetGraphColors()
+		{
+			var accentColor = (App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush)!.Color;
+
+			backgroundBrush.Color = accentColor with { A = 0x0f };
+
+			graphFillTop.Color = accentColor with { A = 0x7f };
+			graphFillBottom.Color = accentColor with { A = 0x0f };
+
+			graphStrokeBrush.Color = accentColor;
 		}
 	}
 }
