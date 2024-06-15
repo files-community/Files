@@ -21,11 +21,12 @@ namespace Files.App
 		// The following constants will be replaced with actual values by the Files CI workflow
 		public static class AutomatedWorkflowInjectionKeys
 		{
-			public const string AppCenterSecret = "appcenter.secret";
 
 			public const string GitHubClientId = "githubclientid.secret";
 
 			public const string BingMapsSecret = "bingmapskey.secret";
+
+			public const string SentrySecret = "sentry.secret";
 		}
 
 		public static class KnownImageFormats

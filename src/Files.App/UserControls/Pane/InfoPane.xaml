@@ -15,10 +15,6 @@
 	xmlns:usercontrols="using:Files.App.UserControls"
 	x:Name="Root"
 	MinWidth="90"
-	HorizontalAlignment="Stretch"
-	VerticalAlignment="Stretch"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
 	AutomationProperties.Name="{helpers:ResourceString Name=SelectedFilePreviewPane/AutomationProperties/Name}"
 	SizeChanged="Root_SizeChanged"
 	Unloaded="Root_Unloaded"
@@ -137,7 +133,12 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid HorizontalAlignment="Stretch">
+	<Grid
+		Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
+		BackgroundSizing="InnerBorderEdge"
+		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+		BorderThickness="1"
+		CornerRadius="8">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" />
