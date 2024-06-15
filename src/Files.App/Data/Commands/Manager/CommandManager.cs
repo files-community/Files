@@ -443,8 +443,21 @@ namespace Files.App.Data.Commands
 					{
 						var occurrences = allCommands.Where(x => x.HotKeys.Select(x => x.LocalizedLabel).Contains(item));
 
-						// Restore the defaults for all occurrences
+						// Restore the defaults for all occurrences in our cache
 						occurrences.ForEach(x => x.RestoreKeyBindings());
+
+						// Get all customized key bindings from user settings json
+						var actions =
+							ActionsSettingsService.ActionsV2 is not null
+								? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
+								: [];
+
+						// Remove the duplicated key binding from user settings JSON file
+						var occurrencesInJson = actions.Where(x => x.KeyBinding.Contains(item));
+						occurrencesInJson.ForEach(x => actions.Remove(x));
+
+						// Reset
+						ActionsSettingsService.ActionsV2 = actions;
 					}
 				}
 
