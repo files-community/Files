@@ -3,8 +3,10 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
 using System.Collections.Specialized;
 using System.Numerics;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -234,9 +236,16 @@ namespace Files.App.UserControls.StatusCenter
 			var accentColor = themeModeService.DefaultAccentColor;
 
 			var veryLightColor = accentColor with { A = 0x0f };
+
+			var slightlyDarkerColor = this.ActualTheme switch
+			{
+				ElementTheme.Light => accentColor with { A = 0x55 },
+				_ => accentColor with { A = 0x7f }
+			};
+
 			backgroundBrush.Color = veryLightColor;
 
-			graphFillTop.Color = accentColor with { A = 0x7f };
+			graphFillTop.Color = slightlyDarkerColor;
 			graphFillBottom.Color = veryLightColor;
 
 			graphStrokeBrush.Color = accentColor;
