@@ -29,7 +29,6 @@ namespace Files.App.UserControls.Sidebar
 		public SidebarView()
 		{
 			InitializeComponent();
-			UpdateDisplayMode();
 		}
 
 		internal void UpdateSelectedItemContainer(SidebarItem container)
@@ -116,7 +115,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{
-			UpdateOpenPaneLengthColumn();
+			UpdateDisplayMode();
 			PaneColumnGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
 		}
 

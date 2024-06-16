@@ -13,7 +13,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(DisplayModeProperty, value); }
 		}
 		public static readonly DependencyProperty DisplayModeProperty =
-			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarView), new PropertyMetadata(SidebarDisplayMode.Minimal, OnPropertyChanged));
+			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarView), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
 
 		public UIElement InnerContent
 		{
