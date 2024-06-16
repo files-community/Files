@@ -3,7 +3,6 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
-using Microsoft.UI.Xaml.Media;
 using System.Collections.Specialized;
 using System.Numerics;
 
@@ -107,6 +106,7 @@ namespace Files.App.UserControls.StatusCenter
 
 		private void OnAppThemeModeChanged(object? sender, EventArgs e)
 		{
+			// this seemingly doesn't fire? leaving it here in case it does in the future (if it's ever used outside of the flyout)
 			if (initialized)
 				SetGraphColors();
 		}
@@ -131,26 +131,28 @@ namespace Files.App.UserControls.StatusCenter
 			rootClip.Top = 1.5f;
 			rootClip.Left = 1.5f;
 			rootClip.Bottom = height - 1.5f;
-			rootClip.Right = width - 2f;			// i fear i might be a victim of DPI scaling here
+			rootClip.Right = width - 2f;
 			rootClip.TopLeftRadius = new(4f);
 			rootClip.TopRightRadius = new(4f);
 			rootClip.BottomLeftRadius = new(4f);
 			rootClip.BottomRightRadius = new(4f);
 			rootVisual.Clip = rootClip;
 
-			var accentColor = (App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush)!.Color;
-
-			backgroundBrush = compositor.CreateColorBrush(accentColor with { A = 0x0f });
+			backgroundBrush = compositor.CreateColorBrush();
 
 			var graphFillBrush = compositor.CreateLinearGradientBrush();
 			graphFillBrush.StartPoint = new(0.5f, 0f);
 			graphFillBrush.EndPoint = new(0.5f, 1f);
-			graphFillTop = compositor.CreateColorGradientStop(0f, accentColor with { A = 0x7f });
-			graphFillBottom = compositor.CreateColorGradientStop(1f, accentColor with { A = 0x0f });
+			graphFillTop = compositor.CreateColorGradientStop();
+			graphFillTop.Offset = 0f;
+			graphFillBottom = compositor.CreateColorGradientStop();
+			graphFillBottom.Offset = 1f;
 			graphFillBrush.ColorStops.Add(graphFillBottom);
 			graphFillBrush.ColorStops.Add(graphFillTop);
 
-			graphStrokeBrush = compositor.CreateColorBrush(accentColor);
+			graphStrokeBrush = compositor.CreateColorBrush();
+
+			SetGraphColors();
 
 			var container = compositor.CreateSpriteVisual();
 			container.Size = rootVisual.Size;
@@ -198,13 +200,11 @@ namespace Files.App.UserControls.StatusCenter
 			graphGeometry.Path = path;
 
 			using var lineAnim = compositor.CreateScalarKeyFrameAnimation();
-			lineAnim.InsertExpressionKeyFrame(0f, "this.StartingValue");
 			lineAnim.InsertKeyFrame(1f, YValue(Points[^1].Y), linearEasing);
 			lineAnim.Duration = TimeSpan.FromMilliseconds(72);
 			line.StartAnimation("Offset.Y", lineAnim);
 
 			using var clipAnim = compositor.CreateScalarKeyFrameAnimation();
-			clipAnim.InsertExpressionKeyFrame(0f, "this.StartingValue");
 			clipAnim.InsertKeyFrame(1f, width - (width * Points[^1].X / 100f) - 1, linearEasing);
 			clipAnim.Duration = TimeSpan.FromMilliseconds(72);
 			graphClip.StartAnimation("RightInset", clipAnim);
@@ -231,12 +231,13 @@ namespace Files.App.UserControls.StatusCenter
 
 		void SetGraphColors()
 		{
-			var accentColor = (App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush)!.Color;
+			var accentColor = themeModeService.DefaultAccentColor;
 
-			backgroundBrush.Color = accentColor with { A = 0x0f };
+			var veryLightColor = accentColor with { A = 0x0f };
+			backgroundBrush.Color = veryLightColor;
 
 			graphFillTop.Color = accentColor with { A = 0x7f };
-			graphFillBottom.Color = accentColor with { A = 0x0f };
+			graphFillBottom.Color = veryLightColor;
 
 			graphStrokeBrush.Color = accentColor;
 		}
