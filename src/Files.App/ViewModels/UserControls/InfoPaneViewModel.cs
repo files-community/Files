@@ -6,6 +6,7 @@ using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Sentry;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
@@ -13,6 +14,7 @@ namespace Files.App.ViewModels.UserControls
 	public sealed class InfoPaneViewModel : ObservableObject, IDisposable
 	{
 		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
+		private IGeneralSettingsService generalSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
@@ -136,12 +138,27 @@ namespace Files.App.ViewModels.UserControls
 
 					SelectedItem = tempSelectedItem;
 
-					if (!App.AppModel.IsMainWindowClosed)
+					try
 					{
-						var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
-						if (shouldUpdatePreview == true)
-							_ = UpdateSelectedItemPreviewAsync();
+						if (!App.AppModel.IsMainWindowClosed)
+						{
+							var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
+							if (shouldUpdatePreview == true)
+								_ = UpdateSelectedItemPreviewAsync();
+						}
 					}
+					catch (Exception ex)
+					{
+						// Handle exception in case WinUI Windows is closed
+						// (see https://github.com/files-community/Files/issues/15599)
+
+						SentrySdk.CaptureException(ex, scope =>
+						{
+							scope.User.Id = generalSettingsService.UserId;
+							scope.Level = SentryLevel.Warning;
+						});
+					}
+
 					break;
 			}
 		}
