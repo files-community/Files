@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Sentry;
 using System.Data;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -25,6 +26,7 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page
 	{
+		private IGeneralSettingsService generalSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		public IUserSettingsService UserSettingsService { get; }
 
 		public ICommandManager Commands { get; }
@@ -442,14 +444,28 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
-			var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
-			var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-			var isBigEnough = !App.AppModel.IsMainWindowClosed &&
-				(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
+			try
+			{
+				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+				var isBigEnough = !App.AppModel.IsMainWindowClosed &&
+					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
-			ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
-			ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
-			ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+				ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
+				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
+				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+			}
+			catch (Exception ex)
+			{
+				// Handle exception in case WinUI Windows is closed
+				// (see https://github.com/files-community/Files/issues/15599)
+
+				SentrySdk.CaptureException(ex, scope =>
+				{
+					scope.User.Id = generalSettingsService.UserId;
+					scope.Level = SentryLevel.Warning;
+				});
+			}			
 
 			UpdatePositioning();
 		}
