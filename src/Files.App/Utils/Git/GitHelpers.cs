@@ -617,7 +617,7 @@ namespace Files.App.Utils.Git
 					viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
 					viewModel.LoginConfirmed = true;
 				}
-				catch (SocketException ex)
+				catch (Exception ex)
 				{
 					_logger.LogWarning(ex.Message);
 					dialog.Hide();
