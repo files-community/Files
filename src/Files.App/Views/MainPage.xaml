@@ -145,33 +145,7 @@
 				HorizontalContentAlignment="Stretch"
 				x:Load="False"
 				Loaded="HorizontalMultitaskingControl_Loaded"
-				TabIndex="0">
-				<tabbar:TabBar.FooterElement>
-					<!--  Height is not divisble by four in order to properly align the button  -->
-					<Button
-						x:Name="HorizontalMultitaskingControlAddButton"
-						Width="30"
-						Height="30"
-						Padding="8"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Center"
-						AllowDrop="True"
-						AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
-						Background="Transparent"
-						BorderThickness="0"
-						Command="{x:Bind Commands.NewTab}"
-						DragOver="HorizontalMultitaskingControlAddButton_DragOver"
-						Drop="HorizontalMultitaskingControlAddButton_Drop"
-						ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
-						<Button.Content>
-							<FontIcon
-								x:Name="HorizontalMultitaskingControlAddButtonIcon"
-								FontSize="12"
-								Glyph="&#xE710;" />
-						</Button.Content>
-					</Button>
-				</tabbar:TabBar.FooterElement>
-			</tabbar:TabBar>
+				TabIndex="0" />
 
 			<!--  Address Bar  -->
 			<uc:AddressToolbar
