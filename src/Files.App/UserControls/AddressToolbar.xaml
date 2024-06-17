@@ -16,6 +16,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:ucs="using:Files.App.UserControls.StatusCenter"
 	x:Name="NavToolbar"
 	Height="50"
 	d:DesignHeight="50"
@@ -481,7 +482,7 @@
 								</Style>
 							</Flyout.FlyoutPresenterStyle>
 
-							<uc:StatusCenter
+							<ucs:StatusCenter
 								x:Name="OngoingTasksControl"
 								Width="400"
 								MinHeight="300"

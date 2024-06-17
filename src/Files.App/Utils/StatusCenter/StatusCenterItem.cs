@@ -2,14 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Windows.Input;
-using SkiaSharp;
-using LiveChartsCore;
-using LiveChartsCore.Drawing;
-using LiveChartsCore.Kernel.Sketches;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
-using LiveChartsCore.Defaults;
 using Microsoft.UI.Xaml.Media;
+using System.Numerics;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -161,22 +155,6 @@ namespace Files.App.Utils.StatusCenter
 
 		public string? SubHeaderStringResource { get; private set; }
 
-		public ObservableCollection<ObservablePoint>? SpeedGraphValues { get; private set; }
-
-		public ObservableCollection<ObservablePoint>? SpeedGraphBackgroundValues { get; private set; }
-
-		public ObservableCollection<ISeries>? SpeedGraphSeries { get; private set; }
-
-		public ObservableCollection<ISeries>? SpeedGraphBackgroundSeries { get; private set; }
-
-		public ObservableCollection<ICartesianAxis>? SpeedGraphXAxes { get; private set; }
-
-		public ObservableCollection<ICartesianAxis>? SpeedGraphYAxes { get; private set; }
-
-		public ObservableCollection<ICartesianAxis>? SpeedGraphBackgroundXAxes { get; private set; }
-
-		public ObservableCollection<ICartesianAxis>? SpeedGraphBackgroundYAxes { get; private set; }
-
 		public double IconBackgroundCircleBorderOpacity { get; private set; }
 
 		public CancellationToken CancellationToken
@@ -188,6 +166,8 @@ namespace Files.App.Utils.StatusCenter
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
 		private readonly CancellationTokenSource? _operationCancellationToken;
+
+		public readonly ObservableCollection<Vector2> SpeedGraphValues;
 
 		public ICommand CancelCommand { get; }
 
@@ -218,7 +198,6 @@ namespace Files.App.Utils.StatusCenter
 			IconBackgroundCircleBorderOpacity = 1;
 			AnimatedIconState = "NormalOff";
 			SpeedGraphValues = [];
-			SpeedGraphBackgroundValues = [];
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 			Message = "ProcessingItems".GetLocalizedResource();
 			Source = source;
@@ -227,108 +206,6 @@ namespace Files.App.Utils.StatusCenter
 			// Get the graph color
 			if (App.Current.Resources["App.Theme.FillColorAttentionBrush"] is not SolidColorBrush accentBrush)
 				return;
-
-			// Initialize graph background fill series
-			SpeedGraphBackgroundSeries =
-			[
-				new LineSeries<ObservablePoint>
-				{
-					Values = SpeedGraphBackgroundValues,
-					GeometrySize = 0d,
-					DataPadding = new(0, 0),
-					IsHoverable = false,
-					
-					// Stroke
-					Stroke = new SolidColorPaint(
-						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40),
-						0.1f),
-
-					// Fill under the stroke
-					Fill = new LinearGradientPaint(
-						[
-							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40)
-						],
-						new(0f, 0f),
-						new(0f, 0f)),
-				}
-			];
-
-			// Initialize graph series
-			SpeedGraphSeries =
-			[
-				new LineSeries<ObservablePoint>
-				{
-					Values = SpeedGraphValues,
-					GeometrySize = 0d,
-					DataPadding = new(0, 0),
-					IsHoverable = false,
-
-					// Stroke
-					Stroke = new SolidColorPaint(
-						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B),
-						1f),
-
-					// Fill under the stroke
-					Fill = new LinearGradientPaint(
-						[
-							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 50),
-							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 10)
-						],
-						new(0f, 0f),
-						new(0f, 0f),
-						[0.1f, 1.0f]),
-				},
-			];
-
-			// Initialize X axes of the graph background fill
-			SpeedGraphBackgroundXAxes =
-			[
-				new Axis
-				{
-					Padding = new Padding(0, 0),
-					Labels = new List<string>(),
-					MaxLimit = 100,
-					ShowSeparatorLines = false,
-				}
-			];
-
-			// Initialize X axes of the graph
-			SpeedGraphXAxes =
-			[
-				new Axis
-				{
-					Padding = new Padding(0, 0),
-					Labels = new List<string>(),
-					MaxLimit = 100,
-					ShowSeparatorLines = false,
-				}
-			];
-
-			// Initialize Y axes of the graph background fill
-			SpeedGraphBackgroundYAxes =
-			[
-				new Axis
-				{
-					Padding = new Padding(0, 0),
-					Labels = new List<string>(),
-					ShowSeparatorLines = false,
-					MaxLimit = 100,
-				}
-			];
-
-			// Initialize Y axes of the graph
-			SpeedGraphYAxes =
-			[
-				new Axis
-				{
-					Padding = new Padding(0, 0),
-					Labels = new List<string>(),
-					ShowSeparatorLines = false,
-				}
-			];
-
-			SpeedGraphXAxes[0].SharedWith = SpeedGraphBackgroundXAxes;
-			SpeedGraphBackgroundXAxes[0].SharedWith = SpeedGraphXAxes;
 
 			// Set icon and initialize string resources
 			switch (FileSystemOperationReturnResult)
@@ -450,7 +327,7 @@ namespace Files.App.Utils.StatusCenter
 			OnPropertyChanged(nameof(HeaderTooltip));
 
 			// Graph item point
-			ObservablePoint point;
+			Vector2 point;
 
 			// Set speed text and percentage
 			switch (value.TotalSize, value.ItemsCount)
@@ -461,7 +338,7 @@ namespace Files.App.Utils.StatusCenter
 
 					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 
-					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
+					point = new((float)(value.ProcessedSize * 100.0 / value.TotalSize), (float)value.ProcessingSizeSpeed);
 
 					break;
 				// In progress, displaying processed size
@@ -470,7 +347,7 @@ namespace Files.App.Utils.StatusCenter
 
 					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 
-					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
+					point = new((float)(value.ProcessedSize * 100.0 / value.TotalSize), (float)value.ProcessingSizeSpeed);
 
 					break;
 				// In progress, displaying items count
@@ -479,11 +356,11 @@ namespace Files.App.Utils.StatusCenter
 
 					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items/s";
 
-					point = new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed);
+					point = new((float)(value.ProcessedItemsCount * 100.0 / value.ItemsCount), (float)value.ProcessingItemsCountSpeed);
 
 					break;
 				default:
-					point = new(ProgressPercentage, value.ProcessingItemsCountSpeed);
+					point = new(ProgressPercentage, (float)value.ProcessingItemsCountSpeed);
 
 					SpeedText = (value.ProcessedSize, value.ProcessedItemsCount) switch
 					{
@@ -495,24 +372,9 @@ namespace Files.App.Utils.StatusCenter
 					break;
 			}
 
-			bool isSamePoint = false;
-
-			// Remove the point that has the same X position
-			if (SpeedGraphValues?.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
-			{
-				SpeedGraphValues.Remove(existingPoint);
-				isSamePoint = true;
-			}
-
-			// Add a new background fill point
-			if (!isSamePoint)
-			{
-				ObservablePoint newPoint = new(point.X, 100);
-				SpeedGraphBackgroundValues?.Add(newPoint);
-			}
-
-			// Add a new point
-			SpeedGraphValues?.Add(point);
+			// 'debounce' updates a bit so the graph isn't too noisy
+			if (SpeedGraphValues.Count == 0 || (point.X - SpeedGraphValues[^1].X) > 0.5)
+				SpeedGraphValues?.Add(point);
 
 			// Add percentage to the header
 			if (!IsIndeterminateProgress)

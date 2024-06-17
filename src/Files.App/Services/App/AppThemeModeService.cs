@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -32,6 +33,19 @@ namespace Files.App.Services
 
 				SetAppThemeMode();
 			}
+		}
+
+		/// <inheritdoc/>
+		public Color DefaultAccentColor
+		{
+			get => AppThemeMode switch
+			{
+				// these values are from the definition of AccentFillColorDefaultBrush in generic.xaml
+				// will have to be updated if WinUI changes in the future
+				ElementTheme.Light => (Color)(App.Current.Resources["SystemAccentColorDark1"]),
+				ElementTheme.Dark => (Color)(App.Current.Resources["SystemAccentColorLight2"]),
+				ElementTheme.Default or _ => (App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush)!.Color
+			};
 		}
 
 		/// <inheritdoc/>
@@ -99,7 +113,7 @@ namespace Files.App.Services
 			}
 			catch (Exception ex)
 			{
-   				App.Logger.LogWarning(ex, "Failed to change theme mode of the app.");
+				App.Logger.LogWarning(ex, "Failed to change theme mode of the app.");
 			}
 		}
 
