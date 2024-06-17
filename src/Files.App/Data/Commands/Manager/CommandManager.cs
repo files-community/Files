@@ -453,8 +453,7 @@ namespace Files.App.Data.Commands
 								: [];
 
 						// Remove the duplicated key binding from user settings JSON file
-						var occurrencesInJson = actions.Where(x => x.KeyBinding.Contains(item));
-						occurrencesInJson.ForEach(x => actions.Remove(x));
+						actions.RemoveAll(x => x.KeyBinding.Contains(item));
 
 						// Reset
 						ActionsSettingsService.ActionsV2 = actions;
