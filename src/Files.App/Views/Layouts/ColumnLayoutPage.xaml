@@ -309,16 +309,19 @@
 								<Grid Grid.Column="2">
 									<StackPanel Orientation="Horizontal" Spacing="4">
 										<!--  Cloud Status  -->
-										<uc:OpacityIcon
+										<Border
 											x:Name="CloudDriveSyncStatusGlyph"
-											Width="16"
-											Height="16"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
 											x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
 											x:Phase="2"
-											Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}"
-											ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}" />
+											Background="Transparent"
+											ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}">
+											<uc:OpacityIcon
+												Width="16"
+												Height="16"
+												Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
+										</Border>
 
 										<!--  Tag  -->
 										<Ellipse
