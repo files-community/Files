@@ -454,6 +454,8 @@ namespace Files.App.Views
 				ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
 				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
 				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+
+				UpdatePositioning();
 			}
 			catch (Exception ex)
 			{
@@ -468,8 +470,6 @@ namespace Files.App.Views
 
 				App.Logger.LogWarning(ex, ex.Message);
 			}
-
-			UpdatePositioning();
 		}
 
 		private async void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
