@@ -4,6 +4,7 @@
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Sentry;
@@ -157,6 +158,8 @@ namespace Files.App.ViewModels.UserControls
 							scope.User.Id = generalSettingsService.UserId;
 							scope.Level = SentryLevel.Warning;
 						});
+
+						App.Logger.LogError(ex, ex.Message);
 					}
 
 					break;

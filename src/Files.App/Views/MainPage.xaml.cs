@@ -465,7 +465,9 @@ namespace Files.App.Views
 					scope.User.Id = generalSettingsService.UserId;
 					scope.Level = SentryLevel.Warning;
 				});
-			}			
+
+				App.Logger.LogError(ex, ex.Message);
+			}
 
 			UpdatePositioning();
 		}
