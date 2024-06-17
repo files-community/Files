@@ -502,5 +502,22 @@ namespace Files.App.Helpers
 			string pszRootPath,
 			ref SHQUERYRBINFO pSHQueryRBInfo
 		);
+
+		[DllImport("shell32.dll")]
+		static extern int SHGetKnownFolderPath(
+			[MarshalAs(UnmanagedType.LPStruct)] Guid rfid,
+			uint dwFlags,
+			IntPtr hToken,
+			out IntPtr pszPath
+		);
+
+		public static string GetFolderFromKnownFolderGUID(Guid guid)
+		{
+			IntPtr pPath;
+			SHGetKnownFolderPath(guid, 0, IntPtr.Zero, out pPath);
+			string path = Marshal.PtrToStringUni(pPath);
+			System.Runtime.InteropServices.Marshal.FreeCoTaskMem(pPath);
+			return path;
+		}
 	}
 }
