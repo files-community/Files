@@ -466,7 +466,7 @@ namespace Files.App.Views
 					scope.Level = SentryLevel.Warning;
 				});
 
-				App.Logger.LogError(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			UpdatePositioning();
