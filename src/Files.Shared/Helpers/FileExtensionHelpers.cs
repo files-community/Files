@@ -32,9 +32,19 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwise, <c>false</c>.</returns>
 		public static bool IsImageFile(string? fileExtensionToCheck)
 		{
+			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".webp");
+		}
+
+		/// <summary>
+		/// Checks if the file can be set as wallpaper.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwise, <c>false</c>.</returns>
+		public static bool IsCompatibleToSetAsWindowsWallpaper(string? fileExtensionToCheck)
+		{
 			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif");
 		}
-		
+
 		/// <summary>
 		/// Check if the file extension is an audio file.
 		/// </summary>

@@ -39,19 +39,6 @@ namespace Files.App.UserControls.TabBar
 			set => SetValue(FooterElementProperty, value);
 		}
 
-		public static readonly DependencyProperty TabStripVisibilityProperty =
-			DependencyProperty.Register(
-				nameof(TabStripVisibility),
-				typeof(Visibility),
-				typeof(TabBar),
-				new PropertyMetadata(Visibility.Visible));
-
-		public Visibility TabStripVisibility
-		{
-			get => (Visibility)GetValue(TabStripVisibilityProperty);
-			set => SetValue(TabStripVisibilityProperty, value);
-		}
-
 		// Dragging makes the app crash when run as admin.
 		// For more information:
 		// - https://github.com/files-community/Files/issues/12390

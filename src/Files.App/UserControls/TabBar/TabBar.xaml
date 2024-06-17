@@ -83,8 +83,7 @@
 			TabItemsChanged="TabView_TabItemsChanged"
 			TabItemsSource="{x:Bind Items, Mode=OneWay}"
 			TabStripDragOver="TabView_TabStripDragOver"
-			TabStripDrop="TabView_TabStripDrop"
-			Visibility="{x:Bind TabStripVisibility, Mode=OneWay}">
+			TabStripDrop="TabView_TabStripDrop">
 
 			<!--  Item Template  -->
 			<TabView.TabItemTemplate>

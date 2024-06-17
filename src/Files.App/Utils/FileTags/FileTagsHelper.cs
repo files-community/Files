@@ -80,7 +80,7 @@ namespace Files.App.Utils.FileTags
 					}
 					else
 					{
-						dbInstance.SetTags(null, file.Frn, []);
+						dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, []);
 					}
 				}
 				else

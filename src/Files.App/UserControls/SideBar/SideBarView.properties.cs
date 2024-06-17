@@ -78,6 +78,14 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty SelectedItemProperty =
 			DependencyProperty.Register(nameof(SelectedItem), typeof(ISidebarItemModel), typeof(SidebarView), new PropertyMetadata(null));
 
+		public object MenuItemsSource
+		{
+			get => (object)GetValue(MenuItemsSourceProperty);
+			set => SetValue(MenuItemsSourceProperty, value);
+		}
+		public static readonly DependencyProperty MenuItemsSourceProperty =
+			DependencyProperty.Register(nameof(MenuItemsSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
+
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
 			if (sender is not SidebarView control) return;
