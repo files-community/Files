@@ -469,12 +469,12 @@
 							x:Name="CloudDriveSyncStatusGlyph"
 							x:Phase="2"
 							Background="Transparent"
-							Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}"
+							ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}"
 							Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
 							<uc:OpacityIcon
 								Width="16"
 								Height="16"
-								ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}" />
+								Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
 						</Border>
 					</StackPanel>
 
