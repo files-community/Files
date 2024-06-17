@@ -227,7 +227,7 @@
 							<!--  Graph  -->
 							<Grid
 								x:Name="MainGraphCartesianChartClipGrid"
-								Height="128"
+								Height="88"
 								Margin="4,4,4,12"
 								VerticalAlignment="Top"
 								BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
