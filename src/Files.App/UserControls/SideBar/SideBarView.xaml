@@ -75,7 +75,7 @@
 						ElementPrepared="MenuItemsHost_ElementPrepared"
 						IsTabStop="True"
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
+						ItemsSource="{x:Bind MenuItemsSource, Mode=OneWay}"
 						VerticalCacheLength="100"
 						XYFocusKeyboardNavigation="Enabled" />
 				</ScrollViewer>
