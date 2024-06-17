@@ -159,7 +159,7 @@ namespace Files.App.ViewModels.UserControls
 							scope.Level = SentryLevel.Warning;
 						});
 
-						App.Logger.LogError(ex, ex.Message);
+						App.Logger.LogWarning(ex, ex.Message);
 					}
 
 					break;
