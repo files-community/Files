@@ -387,14 +387,38 @@
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 hari yang lalu</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>{0} hari yang lalu</value>
+  </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 jam yang lalu</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>{0} jam yang lalu</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
   </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 menit yang lalu</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>{0} menit yang lalu</value>
+  </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>1 detik yang lalu</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} detik yang lalu</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Sekarang</value>
@@ -1820,8 +1844,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Tidak ada pengurangan warna</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Lisensi pihak ketiga</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Aplikasi pihak ketiga</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Opsi ini mengubah registri sistem dan dapat memiliki efek samping yang tidak terduga pada perangkat Anda. Lanjutkan dengan risiko Anda sendiri.</value>
@@ -3815,13 +3839,13 @@
     <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>Network locations</value>
+    <value>Lokasi jaringan</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+    <value>Tidak ada lokasi jaringan. Jika tidak menggunakan lokasi jaringan, widget bisa dinonaktifkan.</value>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+    <value>Nonaktifkan</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
     <value>Edit di Notepad</value>
