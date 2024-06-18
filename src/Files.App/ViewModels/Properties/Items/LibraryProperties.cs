@@ -62,7 +62,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.LoadFileIcon = true;
 			}
 
-			BaseStorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
+			BaseStorageFile libraryFile = await AppInstance.ShellViewModel.GetFileFromPathAsync(Library.ItemPath);
 			if (libraryFile is not null)
 			{
 				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
@@ -79,7 +79,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					foreach (var path in Library.Folders)
 					{
-						BaseStorageFolder folder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(path);
+						BaseStorageFolder folder = await AppInstance.ShellViewModel.GetFolderFromPathAsync(path);
 						if (!string.IsNullOrEmpty(folder.Path))
 						{
 							storageFolders.Add(folder);

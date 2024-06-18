@@ -131,15 +131,15 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance?.SlimContentPage?.SelectedItem is null)
 				return;
 
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
-			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem);
+			await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem);
 
-			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None &&
+			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None &&
 				ParentShellPageInstance.SlimContentPage.SelectedItem is GitItem gitItem)
 			{
-				await ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+				await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 			}
 		}
 
@@ -148,20 +148,20 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance?.SlimContentPage?.SelectedItems is null)
 				return;
 
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
 
 			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
+				await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
 			}
 
-			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(ParentShellPageInstance.SlimContentPage.SelectedItems.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));

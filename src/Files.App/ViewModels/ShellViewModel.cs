@@ -12,20 +12,21 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 using Vanara.Windows.Shell;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.App.Helpers.Win32PInvoke;
-using static Files.App.Helpers.Win32Helper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Data.Models
+namespace Files.App.ViewModels
 {
-	public sealed class ItemViewModel : ObservableObject, IDisposable
+	/// <summary>
+	/// Represents view model of <see cref="IShellPage"/>.
+	/// </summary>
+	public sealed class ShellViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
@@ -470,7 +471,7 @@ namespace Files.App.Data.Models
 
 		public bool HasNoWatcher { get; private set; }
 
-		public ItemViewModel(LayoutPreferencesManager folderSettingsViewModel)
+		public ShellViewModel(LayoutPreferencesManager folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
 			filesAndFolders = [];
