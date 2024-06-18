@@ -58,7 +58,6 @@ namespace Files.App.ViewModels.Settings
 				new ("https://github.com/robinrodricks/FluentFTP", "FluentFTP"),
 				new ("https://github.com/rickyah/ini-parser", "INI File Parser"),
 				new ("https://github.com/libgit2/libgit2sharp", "libgit2sharp"),
-				new ("https://github.com/mbdavid/LiteDB", "LiteDB"),
 				new ("https://github.com/beto-rodriguez/LiveCharts2", "LiveCharts2"),
 				new ("https://github.com/jeffijoe/messageformat.net", "MessageFormat"),
 				new ("https://github.com/dotnet/efcore", "EF Core for SQLite"),

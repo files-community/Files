@@ -1,12 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using LiteDB;
 using Microsoft.Win32;
-using System.IO;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
-using Windows.Storage;
 using static Files.App.Helpers.LayoutPreferencesDatabaseItemRegistry;
 using static Files.App.Helpers.RegistryHelpers;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -16,26 +13,6 @@ namespace Files.App.Helpers
 	public sealed class LayoutPreferencesDatabase
 	{
 		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\v1\LayoutPreferences";
-
-		private readonly static string LayoutSettingsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
-		private const string LayoutSettingsCollectionName = "layoutprefs";
-
-		static LayoutPreferencesDatabase()
-		{
-			if (File.Exists(LayoutSettingsDbPath))
-			{
-				using (var database = new LiteDatabase(new ConnectionString(LayoutSettingsDbPath)
-				{
-					Connection = ConnectionType.Direct,
-					Upgrade = true
-				}))
-				{
-					ImportCore(database.GetCollection<LayoutPreferencesDatabaseItem>(LayoutSettingsCollectionName).FindAll().ToArray());
-				}
-
-				File.Delete(LayoutSettingsDbPath);
-			}
-		}
 
 		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn)
 		{

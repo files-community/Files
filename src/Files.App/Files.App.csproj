@@ -69,7 +69,6 @@
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
         <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-        <PackageReference Include="LiteDB" Version="5.0.20" />
         <PackageReference Include="MessageFormat" Version="7.1.0" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.6" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
