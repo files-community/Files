@@ -142,10 +142,10 @@
     <value>Kích cỡ:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Kích cỡ trên đĩa:</value>
+    <value>Kích cỡ trên ổ đĩa:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Kích cỡ không nén:</value>
+    <value>Kích cỡ chưa nén:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Không thể thực hiện hành động này</value>
@@ -313,13 +313,13 @@
     <value>Tệp mới</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>Thư mục này trống.</value>
+    <value>Thư mục này đang trống.</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Quay lại</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Tiến</value>
+    <value>Tiến tới</value>
   </data>
   <data name="Up" xml:space="preserve">
     <value>Lùi về</value>
@@ -337,7 +337,7 @@
     <value>Khoản mục đã tồn tại</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Hình nền màn hình khóa</value>
+    <value>Đặt làm hình nền màn hình khóa</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
     <value>Đặt làm hình nền ứng dụng</value>
@@ -367,7 +367,7 @@
     <value>Thư mục bạn cố truy cập có thể đã bị di chuyển hoặc xóa bỏ.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Thư mục không tồn tại</value>
+    <value>Có lẽ bạn đã xóa thư mục này?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
     <value>Tệp bạn cố truy cập hiện đang được sử dụng bởi {0}</value>
@@ -387,14 +387,38 @@
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, other {# ngày trước}}</value>
   </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 ngày trước</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>{0} ngày trước</value>
+  </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, other {# giờ trước}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 giờ trước</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>{0} giờ trước</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, other {# phút trước}}</value>
   </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 phút trước</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>{0} phút trước</value>
+  </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0, plural, other {# giây trước}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>1 giây trước</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} giây trước</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Vừa xong</value>
@@ -456,7 +480,7 @@
     <value>{0, number} {0, plural, other {tệp}}, {1, number} {1, plural, other {thư mục}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number} {0, plural, other {tệp}}, {1, number} {1, plural, other {thư mục}} từ {2, number} {2, plural, other {vị trí}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Chạy với vai trò là người dùng khác</value>
@@ -1239,7 +1263,7 @@
     <value>{0, plural, other {Có # tên tệp xung đột}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}, and {1, plural, one {one outgoing item} other {# outgoing items}}</value>
+    <value>{0, plural, other {Có # tên tệp xung đột}} và {1, plural, other {# mục đang chờ}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Xung đột {0, plural, other {tên tệp}}</value>
@@ -1820,8 +1844,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Không sử dụng chế độ giảm màu</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Giấy phép bên thứ ba</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Thư viện bên thứ ba</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Tùy chọn này sửa đổi các khóa registry của hệ thống và có thể gây ra vấn đề trên thiết bị của bạn. Vui lòng cân nhắc trước khi bật tùy chọn.</value>
@@ -1968,7 +1992,7 @@
     <value>Đặt làm hình nền</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Hình nền màn hình chính</value>
+    <value>Đặt làm hình nền màn hình chính</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Đặt làm mặc định</value>
@@ -3701,7 +3725,7 @@
     <value>Bố cục</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Tác vụ</value>
+    <value>Phím tắt tác vụ</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Lệnh</value>
