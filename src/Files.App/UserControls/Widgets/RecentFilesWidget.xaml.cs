@@ -39,8 +39,6 @@ namespace Files.App.UserControls.Widgets
 			if (items.Count > 0)
 			{
 				var storageItems = new List<IStorageItem>();
-				var fileContents = new List<string>();
-
 				foreach (var item in items)
 				{
 					try
@@ -50,11 +48,6 @@ namespace Files.App.UserControls.Widgets
 						if (file != null)
 						{
 							storageItems.Add(file);
-							
-							// Attempt to check if the file have text content
-							var (hasContent, content) = await TryReadFileContentAsync(file);
-							if (hasContent)
-								fileContents.Add(content); 
 						}
 					}
 					catch
@@ -71,36 +64,9 @@ namespace Files.App.UserControls.Widgets
 					dataPackage.SetStorageItems(storageItems);
 					e.Data.SetDataProvider(StandardDataFormats.StorageItems, request => request.SetData(storageItems));
 
-					if (fileContents.Count > 0)
-					{
-						// Create a new data package and set the file contents as text
-						var text = string.Join("\n", fileContents);
-						dataPackage.SetText(text);
-						e.Data.SetDataProvider(StandardDataFormats.Text, request => request.SetData(text));
-					}
-
 					// Set the requested operation to Copy and Link if alt pressed if dragging outside the application
 					e.Data.RequestedOperation = DataPackageOperation.Copy | DataPackageOperation.Link;
 				}
-			}
-		}
-
-		private async Task<(bool success, string content)> TryReadFileContentAsync(StorageFile file)
-		{
-			const long MaxFileSizeInBytes = 50 * 1024 * 1024; // 50 MB file size limit
-
-			try
-			{
-				var properties = await file.GetBasicPropertiesAsync();
-				if (properties.Size > MaxFileSizeInBytes)
-					return (false, null);
-
-				var fileContent = await FileIO.ReadTextAsync(file);
-				return (!string.IsNullOrEmpty(fileContent), fileContent);
-			}
-			catch
-			{
-				return (false, null);
 			}
 		}
 	}
