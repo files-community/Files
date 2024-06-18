@@ -512,7 +512,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Move tab here</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -3856,7 +3856,7 @@
   <data name="PropertyDimensionsColon" xml:space="preserve">
     <value>Dimensions:</value>
   </data>
-  <data name="syncStatusColumn/HeaderColon" xml:space="preserve">
+  <data name="StatusWithColon" xml:space="preserve">
     <value>Status:</value>
   </data>
 </root>
