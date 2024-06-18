@@ -119,7 +119,8 @@ namespace Files.App.ViewModels.UserControls
 			GitBranchDisplayName =
 				isGitRepository &&
 				head is not null &&
-				!ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults
+				ContentPageContext.ShellPage is not null &&
+				!ContentPageContext.ShellPage.InstanceViewModel.IsPageTypeSearchResults
 					? head.Name
 					: null;
 

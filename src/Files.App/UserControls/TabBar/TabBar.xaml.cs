@@ -22,6 +22,10 @@ namespace Files.App.UserControls.TabBar
 
 		private TabViewItem? hoveredTabViewItem;
 
+		private bool _lockDropOperation = false;
+
+		//private string[] _droppableArchiveTypes = { "zip", "rar", "7z", "tar" };
+
 		public static readonly DependencyProperty FooterElementProperty =
 			DependencyProperty.Register(
 				nameof(FooterElement),
@@ -33,19 +37,6 @@ namespace Files.App.UserControls.TabBar
 		{
 			get => (UIElement)GetValue(FooterElementProperty);
 			set => SetValue(FooterElementProperty, value);
-		}
-
-		public static readonly DependencyProperty TabStripVisibilityProperty =
-			DependencyProperty.Register(
-				nameof(TabStripVisibility),
-				typeof(Visibility),
-				typeof(TabBar),
-				new PropertyMetadata(Visibility.Visible));
-
-		public Visibility TabStripVisibility
-		{
-			get => (Visibility)GetValue(TabStripVisibilityProperty);
-			set => SetValue(TabStripVisibilityProperty, value);
 		}
 
 		// Dragging makes the app crash when run as admin.
@@ -296,6 +287,60 @@ namespace Files.App.UserControls.TabBar
 		private void TabItemContextMenu_Closing(object sender, object e)
 		{
 			SelectedTabItemChanged?.Invoke(null, null);
+		}
+
+		private async void TabBarAddNewTabButton_Drop(object sender, DragEventArgs e)
+		{
+			if (_lockDropOperation || !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+				return;
+
+			_lockDropOperation = true;
+
+			//|| _droppableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
+			var items = (await FilesystemHelpers.GetDraggedStorageItems(e.DataView))
+				.Where(x => x.ItemType is FilesystemItemType.Directory);
+
+			var deferral = e.GetDeferral();
+			try
+			{
+				foreach (var item in items)
+					await NavigationHelpers.OpenPathInNewTab(item.Path, true);
+
+				deferral.Complete();
+			}
+			catch { }
+
+			_lockDropOperation = false;
+		}
+
+		private async void TabBarAddNewTabButton_DragOver(object sender, DragEventArgs e)
+		{
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			//|| _droppableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
+			bool hasValidDraggedItems =
+				(await FilesystemHelpers.GetDraggedStorageItems(e.DataView)).Any(x => x.ItemType is FilesystemItemType.Directory);
+
+			if (!hasValidDraggedItems)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			try
+			{
+				e.Handled = true;
+				var deferral = e.GetDeferral();
+				e.DragUIOverride.IsCaptionVisible = true;
+				e.DragUIOverride.Caption = string.Format("OpenInNewTab".GetLocalizedResource());
+				e.AcceptedOperation = DataPackageOperation.Link;
+				deferral.Complete();
+			}
+			catch { }
 		}
 
 		public override DependencyObject ContainerFromItem(ITabBarItem item)

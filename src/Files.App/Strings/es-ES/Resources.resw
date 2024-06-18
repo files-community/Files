@@ -387,14 +387,38 @@
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {hace # día} other {hace # días}}</value>
   </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>Hace 1 día</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>Hace {0} días</value>
+  </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {hace # hora} other {hace # horas}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>Hace 1 hora</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>Hace {0} horas</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, one {hace # minuto} other {hace # minutos}}</value>
   </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>Hace 1 minuto</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>Hace {0} minutos</value>
+  </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0, plural, one {hace # segundo} other {hace # segundos}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>Hace 1 segundo</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>Hace {0} segundos</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Ahora</value>
@@ -1820,8 +1844,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Color sin reducción</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Licencias de terceros</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Bibliotecas de terceros</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso de que se produzca un problema como resultado. Continuar con esta opción es un reconocimiento de los riesgos que implica esta acción.</value>
@@ -2226,7 +2250,7 @@
     <value>Ayuda</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Cambiar a pantalla completa</value>
+    <value>Entrar/Salir de pantalla completa</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>¿Está seguro que desea eliminar esta etiqueta?</value>
@@ -2313,7 +2337,7 @@
     <value>Abrir la página de ayuda en línea en el navegador</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Cambiar a pantalla completa</value>
+    <value>Entrar/Salir de pantalla completa</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Entrar en superposición compacta</value>
@@ -2869,13 +2893,13 @@
     <value>Sin etiquetar</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Mueve a la pestaña anterior</value>
+    <value>Mover a la pestaña anterior</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Mueve a la siguiente pestaña</value>
+    <value>Mover a la siguiente pestaña</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Cierra la pestaña actual</value>
+    <value>Cerrar la pestaña actual</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Editar ruta</value>
@@ -3586,13 +3610,13 @@
     <value>Ordenar archivos y carpetas a la vez</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Ordenar primero los archivos</value>
+    <value>Ordenar con archivos al principio</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
     <value>Ordenar con archivos al principio por delante de las carpetas</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Ordenar primero las carpetas</value>
+    <value>Ordenar con carpetas al principio</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
     <value>Ordenar con carpetas al principio por delante de los archivos</value>

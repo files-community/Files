@@ -387,14 +387,38 @@
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {hace # día} other {hace # días}}</value>
   </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>Hace 1 día</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>Hace {0} días</value>
+  </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {hace # hora} other {hace # horas}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>Hace 1 hora</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>Hace {0} horas</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, one {hace # minuto} other {hace # minutos}}</value>
   </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>Hace 1 minuto</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>Hace {0} minutos</value>
+  </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0, plural, one {hace # segundo} other {hace # segundos}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>Hace 1 segundo</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>Hace {0} segundos</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Ahora</value>
@@ -1820,8 +1844,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Color sin reducción</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Licencias de terceros</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Bibliotecas de terceros</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso de que se produzca un problema como resultado. Continuar con esta opción es un reconocimiento de los riesgos que implica esta acción.</value>

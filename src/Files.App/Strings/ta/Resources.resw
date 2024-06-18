@@ -387,14 +387,38 @@
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 day ago</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>{0} days ago</value>
+  </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 hour ago</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>{0} hours ago</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
   </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 minute ago</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>{0} minutes ago</value>
+  </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>1 second ago</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} seconds ago</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>இப்போது</value>
@@ -1683,7 +1707,7 @@
     <value>{0}'இல் இணைப்பை உருவாக்கு</value>
   </data>
   <data name="Columns" xml:space="preserve">
-    <value>நெடுவரிசைகள்</value>
+    <value>Columns</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>டைல்கள்</value>
@@ -1701,10 +1725,10 @@
     <value>Item size column</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>பரிசோதனை-வசதி அறிகுறிகள்</value>
+    <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>உதவியும் ஆதரவும்</value>
+    <value>Help and support</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>வசதி கோரிக்கை சமர்ப்பி</value>
@@ -1820,8 +1844,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>No reduced color</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>மூன்றாம்-தரப்பு உரிமங்கள்</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Third party libraries</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
@@ -1878,7 +1902,7 @@
     <value>{0}'இற்கு பிரித்தெடு</value>
   </data>
   <data name="RunScript" xml:space="preserve">
-    <value>சிறுநிரலை இயக்கு</value>
+    <value>Run script</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>PowerShell'உடன் இயக்கு</value>
@@ -2043,10 +2067,10 @@
     <value>காப்பகத்தை உருவாக்கு</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>உருவாக்கு</value>
+    <value>Create</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>{0}-ஐ உருவாக்கு</value>
+    <value>Create {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
     <value>ஒரு பேரை உள்ளிடுங்கள்</value>
@@ -2205,7 +2229,7 @@
     <value>புது குறிக்குழு</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>புது குறிக்குழுவை உருவக்கு</value>
+    <value>Create new tag</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>ஏற்றுது...</value>
@@ -2932,16 +2956,16 @@
     <value>Redo the last file operation</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>இருப்பிடம்:</value>
+    <value>Location:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
     <value>மாதத்தால் உருப்படிகளைக் குழுப்படுத்து</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>ஆண்டால் உருப்படிகளைக் குழுப்படுத்து</value>
+    <value>Group items by year</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>மாதம்</value>
+    <value>Month</value>
   </data>
   <data name="Day" xml:space="preserve">
     <value>நாள்</value>
@@ -3001,7 +3025,7 @@
     <value>'{0}'-இல் என் மாற்றங்களை விடு</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>என் மாற்றங்களை நிராகரி</value>
+    <value>Discard my changes</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
     <value>'{0}'-கு எனது மாற்றங்களைக் கொண்டு வா</value>
@@ -3131,7 +3155,7 @@
     <value>{0} outgoing / {1} incoming commits</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>GitHub-உடன் இணை</value>
+    <value>Connect to GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
     <value>Enter the following code at the link below to start working with GitHub repositories.</value>
@@ -3143,7 +3167,7 @@
     <value>கோப்புறையை VS Code-இல் திற</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>தற்போதய கோப்புறையை Visual Studio-இல் திற</value>
+    <value>Open the current directory in Visual Studio Code</value>
   </data>
   <data name="OpenRepoInVSCode" xml:space="preserve">
     <value>களஞ்சியத்தை VS Code-இல் திற</value>
@@ -3152,7 +3176,7 @@
     <value>Open the root of the Git repo in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
-    <value>குறியீட்டை நகலெடு</value>
+    <value>Copy code</value>
   </data>
   <data name="Added" xml:space="preserve">
     <value>Added</value>
@@ -3176,31 +3200,31 @@
     <value>களஞ்சியத்தை துவங்கிவை</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>ஒரு Git களஞ்சியத்தை துவங்கு</value>
+    <value>Initialize a Git repository</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>தொலைநிலை-களஞ்சியப் பேர்</value>
+    <value>Remote Repository Name</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>தற்போதய கிளை</value>
+    <value>Current Branch</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
     <value>Path column</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>பாதையால் உருப்படிகளை வரிசைப்படுத்து</value>
+    <value>Sort items by path</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Open directory in new pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>கோப்புறையை புது தாவலில் திற</value>
+    <value>Open directory in new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>கோப்புறையை புது சாளரத்தில் திற</value>
+    <value>Open directory in new window</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>எல்லாவற்றையும் திற</value>
+    <value>Open all</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
@@ -3210,10 +3234,10 @@
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>செல்லாத கட்டளை</value>
+    <value>Invalid command</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' கட்டளையாய் அறியப்படவில்லை.</value>
+    <value>'{0}' is not recognized as a command.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
     <value>Command not executable</value>
@@ -3334,7 +3358,7 @@
     <value>அழிப்பு முடிக்கப்பட்டது</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>பேர்:</value>
+    <value>Name:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
     <value>{0} of {1} processed</value>
@@ -3344,19 +3368,19 @@
     <value>உருப்படிகள்</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
-    <value>இந்த கோப்புறையை Git களஞ்சியமாய் Files-ஆல் துவங்கிவைக்க முடியவில்லை.</value>
+    <value>Files can't initialize this directory as a Git repository.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
     <value>Contributing Artist</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>பக்கத்தை சேர்</value>
+    <value>Add page</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processing items...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>வேகம்:</value>
+    <value>Speed:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3519,7 +3543,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>மறுசுழற்சி கூடையை வெறுமையப்பதில் பிழை</value>
+    <value>Error emptying Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
@@ -3535,7 +3559,7 @@
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>பதிவிறக்கப்பட்ட கோப்புறையைத் தடைநீக்கு</value>
+    <value>Unblock downloaded file</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
     <value>No ongoing file operations</value>
@@ -3550,22 +3574,22 @@
     <value>Failed to set the background wallpaper</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Git கிளையை நீக்கு</value>
+    <value>Delete Git branch</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
     <value>Are you sure you want to permanently delete "{0}" branch?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
-    <value>GitHub-உடன் இணைக்கப்பட்டிருக்கு</value>
+    <value>Connected to GitHub</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>வெளியேறு</value>
+    <value>Logout</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
-    <value>GitHub-உடன் இணை</value>
+    <value>Connect to GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>உள்நுழை</value>
+    <value>Login</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
     <value>Tags are currently only compatible on drives formatted as NTFS.</value>
@@ -3577,7 +3601,7 @@
     <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>இங்கு பிரித்தெடு (திறன்)</value>
+    <value>Extract here (Smart)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
     <value>Sort files and folders together</value>
@@ -3586,13 +3610,13 @@
     <value>Sort files and folders together</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>கோப்புகளை முதலில் வரிசைப்படுத்து</value>
+    <value>Sort files first</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>கோப்புகளை முதலிலும் கோப்புறைகளை பிறகும் வரிசைப்படுத்து</value>
+    <value>Sort files first then folders</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>கோப்புறைகளை முதலில் வரிசைப்படுத்து</value>
+    <value>Sort folders first</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
     <value>Sort folders first then files</value>
@@ -3607,7 +3631,7 @@
     <value>Restart</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>வெளியேறு</value>
+    <value>Quit</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
     <value>Failed to share items</value>
@@ -3616,10 +3640,10 @@
     <value>Scroll to previous folder when navigating up</value>
   </data>
   <data name="NewWindowDescription" xml:space="preserve">
-    <value>புது சாளரத்தை திற</value>
+    <value>Open new window</value>
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
-    <value>ஆல்ப உறையை மாற்று</value>
+    <value>Change album cover</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Failed to rename item</value>

@@ -870,7 +870,7 @@
 								HorizontalContentAlignment="Left"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="SyncStatus"
-								Header="{helpers:ResourceString Name=syncStatusColumn/Header}"
+								Header="{helpers:ResourceString Name=Status}"
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
@@ -1255,6 +1255,7 @@
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
+										Background="Transparent"
 										ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<uc:OpacityIcon

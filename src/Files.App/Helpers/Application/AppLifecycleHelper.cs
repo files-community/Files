@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
 using Files.App.Storage.Storables;
+using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -138,6 +139,7 @@ namespace Files.App.Helpers
 				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
 				.ConfigureLogging(builder => builder
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
+					.AddProvider(new SentryLoggerProvider())
 					.SetMinimumLevel(LogLevel.Information))
 				.ConfigureServices(services => services
 					// Settings services
@@ -264,14 +266,6 @@ namespace Files.App.Helpers
 			{
 				ex.Data[Mechanism.HandledKey] = false;
 				ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
-
-				SentrySdk.CaptureException(ex, scope =>
-				{
-					scope.User.Id = generalSettingsService.UserId;
-				});
-
-
-				SentrySdk.CaptureException(ex);
 
 				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 

@@ -132,7 +132,8 @@
 			Source="{x:Bind ViewModel.AppThemeBackgroundImageSource, Mode=OneWay}"
 			Stretch="{x:Bind ViewModel.AppThemeBackgroundImageFit, Mode=OneWay}" />
 
-		<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
+		<!--  Header Area  -->
+		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
@@ -141,41 +142,10 @@
 			<!--  Tab Control  -->
 			<tabbar:TabBar
 				x:Name="TabControl"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
-				x:FieldModifier="public"
 				x:Load="False"
 				Loaded="HorizontalMultitaskingControl_Loaded"
-				TabIndex="0"
-				TabStripVisibility="Visible"
-				Visibility="Visible">
-				<tabbar:TabBar.FooterElement>
-					<!--  Height is not divisble by four in order to properly align the button  -->
-					<Button
-						x:Name="HorizontalMultitaskingControlAddButton"
-						Width="30"
-						Height="30"
-						Padding="8"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Center"
-						AllowDrop="True"
-						AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
-						Background="Transparent"
-						BorderThickness="0"
-						Command="{x:Bind Commands.NewTab}"
-						DragOver="HorizontalMultitaskingControlAddButton_DragOver"
-						Drop="HorizontalMultitaskingControlAddButton_Drop"
-						ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
-						<Button.Content>
-							<FontIcon
-								x:Name="HorizontalMultitaskingControlAddButtonIcon"
-								FontSize="12"
-								Glyph="&#xE710;" />
-						</Button.Content>
-					</Button>
-				</tabbar:TabBar.FooterElement>
-			</tabbar:TabBar>
+				TabIndex="0" />
 
 			<!--  Address Bar  -->
 			<uc:AddressToolbar
@@ -203,7 +173,7 @@
 				Visibility="Collapsed" />
 		</Grid>
 
-		<!--  Root  -->
+		<!--  Content Area  -->
 		<sidebar:SidebarView
 			x:Name="SidebarControl"
 			Grid.Row="1"
@@ -211,6 +181,7 @@
 			HorizontalContentAlignment="Stretch"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
 			Loaded="SidebarControl_Loaded"
+			MenuItemsSource="{x:Bind SidebarAdaptiveViewModel.SidebarItems, Mode=OneWay}"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
@@ -241,30 +212,22 @@
 					</Grid.ColumnDefinitions>
 
 					<!--  File Navigation Toolbar  -->
-					<Border
+					<uc:InnerNavigationToolbar
+						x:Name="InnerNavigationToolbar"
 						Grid.Row="0"
 						Grid.ColumnSpan="3"
 						Margin="0,0,0,4"
-						Background="{ThemeResource App.Theme.Toolbar.BackgroundBrush}"
-						BackgroundSizing="InnerBorderEdge"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="1"
-						CornerRadius="8">
-						<uc:InnerNavigationToolbar
-							x:Name="InnerNavigationToolbar"
-							x:Load="False"
-							Loaded="NavToolbar_Loaded"
-							ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
-							ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
-							TabIndex="2" />
-					</Border>
+						x:Load="False"
+						Loaded="NavToolbar_Loaded"
+						ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
+						ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
+						TabIndex="2" />
 
 					<!--  Page Content  -->
 					<ContentPresenter
 						x:Name="PageContent"
 						Grid.Row="1"
 						Grid.Column="0"
-						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
 						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
@@ -280,23 +243,15 @@
 						ResizeBehavior="BasedOnAlignment"
 						Style="{StaticResource DefaultGridSplitterStyle}" />
 
-					<!--  Preview Pane  -->
-					<Border
-						x:Name="InfoPaneContainer"
+					<!--  Info Pane  -->
+					<uc:InfoPane
+						x:Name="InfoPane"
 						Grid.Row="1"
 						Grid.Column="2"
+						HorizontalContentAlignment="Stretch"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
-						Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
-						BackgroundSizing="InnerBorderEdge"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="1"
-						CornerRadius="8">
-						<uc:InfoPane
-							x:Name="PreviewPane"
-							HorizontalContentAlignment="Stretch"
-							Loaded="PreviewPane_Loaded"
-							Unloaded="PreviewPane_Unloaded" />
-					</Border>
+						Loaded="PreviewPane_Loaded"
+						Unloaded="PreviewPane_Unloaded" />
 
 					<!--  Status Bar  -->
 					<uc:StatusBar
@@ -306,6 +261,7 @@
 						x:Load="False"
 						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
 						Visibility="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+
 				</Grid>
 			</sidebar:SidebarView.InnerContent>
 		</sidebar:SidebarView>

@@ -83,8 +83,7 @@
 			TabItemsChanged="TabView_TabItemsChanged"
 			TabItemsSource="{x:Bind Items, Mode=OneWay}"
 			TabStripDragOver="TabView_TabStripDragOver"
-			TabStripDrop="TabView_TabStripDrop"
-			Visibility="{x:Bind TabStripVisibility, Mode=OneWay}">
+			TabStripDrop="TabView_TabStripDrop">
 
 			<!--  Item Template  -->
 			<TabView.TabItemTemplate>
@@ -112,8 +111,27 @@
 						<ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
 					</Grid.ColumnDefinitions>
 
-					<!--  Footer Element e.g. Add New Tab Button  -->
-					<ContentPresenter Grid.Column="0" Content="{x:Bind FooterElement, Mode=OneWay}" />
+					<!--  Height is not divisble by four in order to properly align the button  -->
+					<Button
+						x:Name="TabBarAddNewTabButton"
+						Grid.Column="0"
+						Width="30"
+						Height="30"
+						Padding="8"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						AllowDrop="True"
+						AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
+						Background="Transparent"
+						BorderThickness="0"
+						Command="{x:Bind Commands.NewTab}"
+						DragOver="TabBarAddNewTabButton_DragOver"
+						Drop="TabBarAddNewTabButton_Drop"
+						ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
+						<Button.Content>
+							<FontIcon FontSize="12" Glyph="&#xE710;" />
+						</Button.Content>
+					</Button>
 
 					<!--  Left Side Drag Area  -->
 					<Rectangle

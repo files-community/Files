@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Sentry;
 using System.Data;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -25,6 +26,7 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page
 	{
+		private IGeneralSettingsService generalSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		public IUserSettingsService UserSettingsService { get; }
 
 		public ICommandManager Commands { get; }
@@ -337,12 +339,12 @@ namespace Files.App.Views
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
 			if (!App.AppModel.IsMainWindowClosed)
-				PreviewPane?.ViewModel.UpdateDateDisplay();
+				InfoPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			switch (PreviewPane?.Position)
+			switch (InfoPane?.Position)
 			{
 				case PreviewPanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
 					UserSettingsService.InfoPaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
@@ -369,7 +371,7 @@ namespace Files.App.Views
 		/// </summary>
 		private void UpdatePositioning()
 		{
-			if (PreviewPane is null || !ViewModel.ShouldPreviewPaneBeActive)
+			if (InfoPane is null || !ViewModel.ShouldPreviewPaneBeActive)
 			{
 				PaneRow.MinHeight = 0;
 				PaneRow.MaxHeight = double.MaxValue;
@@ -380,8 +382,8 @@ namespace Files.App.Views
 			}
 			else
 			{
-				PreviewPane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
-				switch (PreviewPane.Position)
+				InfoPane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
+				switch (InfoPane.Position)
 				{
 					case PreviewPanePositions.None:
 						PaneRow.MinHeight = 0;
@@ -390,24 +392,24 @@ namespace Files.App.Views
 						PaneColumn.Width = new GridLength(0);
 						break;
 					case PreviewPanePositions.Right:
-						InfoPaneContainer.SetValue(Grid.RowProperty, 1);
-						InfoPaneContainer.SetValue(Grid.ColumnProperty, 2);
+						InfoPane.SetValue(Grid.RowProperty, 1);
+						InfoPane.SetValue(Grid.ColumnProperty, 2);
 						PaneSplitter.SetValue(Grid.RowProperty, 1);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
 						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-						PaneColumn.MinWidth = PreviewPane.MinWidth;
-						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
+						PaneColumn.MinWidth = InfoPane.MinWidth;
+						PaneColumn.MaxWidth = InfoPane.MaxWidth;
 						PaneColumn.Width = new GridLength(UserSettingsService.InfoPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
 						PaneRow.MinHeight = 0;
 						PaneRow.MaxHeight = double.MaxValue;
 						PaneRow.Height = new GridLength(0);
 						break;
 					case PreviewPanePositions.Bottom:
-						InfoPaneContainer.SetValue(Grid.RowProperty, 3);
-						InfoPaneContainer.SetValue(Grid.ColumnProperty, 0);
+						InfoPane.SetValue(Grid.RowProperty, 3);
+						InfoPane.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.SetValue(Grid.RowProperty, 2);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
@@ -417,8 +419,8 @@ namespace Files.App.Views
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
-						PaneRow.MinHeight = PreviewPane.MinHeight;
-						PaneRow.MaxHeight = PreviewPane.MaxHeight;
+						PaneRow.MinHeight = InfoPane.MinHeight;
+						PaneRow.MaxHeight = InfoPane.MaxHeight;
 						PaneRow.Height = new GridLength(UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
 						break;
 				}
@@ -427,13 +429,13 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			switch (PreviewPane?.Position)
+			switch (InfoPane?.Position)
 			{
 				case PreviewPanePositions.Right:
-					UserSettingsService.InfoPaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
+					UserSettingsService.InfoPaneSettingsService.VerticalSizePx = InfoPane.ActualWidth;
 					break;
 				case PreviewPanePositions.Bottom:
-					UserSettingsService.InfoPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
+					UserSettingsService.InfoPaneSettingsService.HorizontalSizePx = InfoPane.ActualHeight;
 					break;
 			}
 
@@ -442,16 +444,26 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
-			var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
-			var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-			var isBigEnough = !App.AppModel.IsMainWindowClosed &&
-				(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
+			try
+			{
+				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+				var isBigEnough = !App.AppModel.IsMainWindowClosed &&
+					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
-			ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
-			ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
-			ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+				ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
+				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
+				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
-			UpdatePositioning();
+				UpdatePositioning();
+			}
+			catch (Exception ex)
+			{
+				// Handle exception in case WinUI Windows is closed
+				// (see https://github.com/files-community/Files/issues/15599)
+
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		private async void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -479,64 +491,6 @@ namespace Files.App.Views
 						Focus(FocusState.Keyboard);
 					break;
 			}
-		}
-
-		private bool lockFlag = false;
-		//private string[] dropableArchiveTypes = { "zip", "rar", "7z", "tar" };
-
-		private async void HorizontalMultitaskingControlAddButton_Drop(object sender, DragEventArgs e)
-		{
-			if (lockFlag || !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-				return;
-
-			lockFlag = true;
-
-			var items = (await FilesystemHelpers.GetDraggedStorageItems(e.DataView))
-				.Where(x => x.ItemType is FilesystemItemType.Directory
-				//|| dropableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
-				);
-
-			var deferral = e.GetDeferral();
-			try
-			{
-				foreach (var item in items)
-					await NavigationHelpers.OpenPathInNewTab(item.Path, true);
-
-				deferral.Complete();
-			}
-			catch { }
-			lockFlag = false;
-		}
-
-		private async void HorizontalMultitaskingControlAddButton_DragOver(object sender, DragEventArgs e)
-		{
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-
-			bool hasValidDraggedItems =
-				(await FilesystemHelpers.GetDraggedStorageItems(e.DataView)).Any(x => x.ItemType is FilesystemItemType.Directory
-				//|| dropableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
-				);
-
-			if (!hasValidDraggedItems)
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-
-			try
-			{
-				e.Handled = true;
-				var deferral = e.GetDeferral();
-				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = string.Format("OpenInNewTab".GetLocalizedResource());
-				e.AcceptedOperation = DataPackageOperation.Link;
-				deferral.Complete();
-			}
-			catch { }
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();

@@ -217,7 +217,7 @@
     <value>Görünüm</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Arka plan rengi</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Gelişmiş</value>
@@ -340,7 +340,7 @@
     <value>Kilit ekranı arka planı olarak ayarla</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Uygulama arka planı olarak ayarla</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Bu öge silinemedi</value>
@@ -385,16 +385,40 @@
     <value>Salt okunur</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# day ago} other {# days ago}}</value>
+    <value>{0, plural, one {# gün önce} other {# gün önce}}</value>
+  </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 day ago</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>{0} days ago</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+    <value>{0, plural, one {# saat önce} other {# saat önce}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 hour ago</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>{0} hours ago</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
+    <value>{0, plural, one {# dakika önce} other {# dakika önce}}</value>
+  </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 minute ago</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>{0} minutes ago</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+    <value>{0, plural, one {# saniye önce} other {# saniye önce}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>1 second ago</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} seconds ago</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Şimdi</value>
@@ -453,10 +477,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
+    <value>{0, number} {0, plural, one {dosya} other {dosya}}, {1, number} {1, plural, one {klasör} other {klasör}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{2, number} {2, plural, one {konumdan} other {konumdan}} {0, number} {0, plural, one {dosya} other {dosya}}, {1, number} {1, plural, one {klasör} other {klasör}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Farklı kullanıcı olarak çalıştır</value>
@@ -582,7 +606,7 @@
     <value>Öge adı geçersiz</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Belirtilen öge adı olabilecek en uzun ad sınırını aşıyor. Lütfen yeni adı kontrol edip tekrar deneyin.</value>
+    <value>Belirtilen öge adı olabilecek en uzun ad sınırını aşıyor. Lütfen yeni adı kontrol edip yeniden deneyin.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Öge adı çok uzun</value>
@@ -870,10 +894,10 @@
     <value>Kodlama Bit Hızı</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Ses Kodlama Bit Hızı</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Video Kodlama Bit Hızı</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Sıkıştırma</value>
@@ -1023,7 +1047,7 @@
     <value>Yeni bölmede aç</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Dosyalar &amp; klasörler</value>
+    <value>Dosyalar ve klasörler</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ayrıntılar Görünümü (Ctrl+Shift+1)</value>
@@ -1215,37 +1239,37 @@
     <value>Kopyala</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Öğeyi} other {Öğeleri}} kopyala</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Öğeyi} other {Öğeleri}} sil</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Hareket</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
+    <value>{0, plural, one {1 öğe taşınacak} other {# öğe taşınacak}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Öğeyi} other {Öğeleri}} taşı</value>
   </data>
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
+    <value>{0, plural, one {1 öğe silinecek} other {# öğe silinecek}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Devam</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+    <value>{0, plural, one {Çakışan 1 dosya adı var} other {Çakışan # dosya adı var}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}, and {1, plural, one {one outgoing item} other {# outgoing items}}</value>
+    <value>{0, plural, one {Çakışan 1 dosya adı} other {Çakışan # dosya adı}} ve {1, plural, one {1 giden öğe var} other {# giden öğe var}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
+    <value>Çakışan {0, plural, one {dosya adı} other {dosya adları}}</value>
   </data>
   <data name="CopyItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
+    <value>{0, plural, one {1 öğe kopyalanacak} other {# öğe kopyalanacak}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Kalıcı olarak sil</value>
@@ -1269,7 +1293,7 @@
     <value>Değiştirilme tarihi:</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
-    <value>Bununla aç</value>
+    <value>Şununla aç:</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Dosya simgesi</value>
@@ -1590,7 +1614,7 @@
     <value>Öğeyi buluttan indirir ve önizlemeyi yükler</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
+    <value>{0, plural, one {# öğe} other {# öğe}} ({1, plural, one {# dosya} other {# dosya}}, {2, plural, one {# klasör} other {# klasör}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Sıkıştırılmamış boyut</value>
@@ -1820,8 +1844,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Azaltılmış renk yok</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Üçüncü parti lisanslar</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Third party libraries</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Bu seçenek sistem kayıt defterini değiştirir ve aygıtınızda beklenmeyen yan etkilere neden olabilir. Kendi sorumluluğunuzda devam edin.</value>
@@ -2265,7 +2289,7 @@
     <value>İşlem sırasında hata oluştu</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>Hash hesaplanamadı, lütfen dosyayı kapatın ve tekrar deneyin.</value>
+    <value>Hash hesaplanamadı, lütfen dosyayı kapatın ve yeniden deneyin.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hash'ler çevrimiçi dosyalar için kullanılamaz</value>
@@ -2433,7 +2457,7 @@
     <value>Seçili resmi kilit ekranı arka planı olarak ayarla</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as the app background</value>
+    <value>Seçili resmi uygulama arka planı olarak ayarla</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Seçili yazı tip(ler)ini yükle</value>
@@ -2652,16 +2676,16 @@
     <value>Sağ bölmeyi kapat</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
-    <value>Focus left pane</value>
+    <value>Sol panele odaklan</value>
   </data>
   <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Switch focus to the left pane</value>
+    <value>Odağı sol panele geçir</value>
   </data>
   <data name="FocusRightPane" xml:space="preserve">
-    <value>Focus right pane</value>
+    <value>Sağ panele odaklan</value>
   </data>
   <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Switch focus to the right pane</value>
+    <value>Odağı sağ panele geçir</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Kenar çubuğunu değiştir</value>
@@ -2905,7 +2929,7 @@
     <value>Öğeleri seçerken onay kutularını göster</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Odak yolu çubuğu</value>
+    <value>Yol çubuğuna odaklan</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Yeni öğe oluştur</value>
@@ -3249,7 +3273,7 @@
     <value>Files yönetici olarak çalışıyor</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
+    <value>Windows ile WinAppSdk arasındaki bir kısıtlamadan ötürü sürükle ve bırak, Files yönetici olarak çalışırken kullanılamaz. Sürükle ve bırakı kullanmak istiyorsanız, geçici bir çözüm olarak Başlat Menüsünden UAC'ı (Kullanıcı Hesap Denetimi) başlatın ve üçüncü düzeyi seçin, ardından Windows'u yeniden başlatın. Aksi hâlde Files'ı sürükle ve bırak olmadan kullanmaya devam edebilirsiniz.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Penceresi kapatıldığında uygulamayı arka planda çalışır durumda bırak</value>
@@ -3722,7 +3746,7 @@
     <value>Bu tuş ataması zaten kullanılıyor. Devam etmek için lütfen farklı bir tuş ataması seçin.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
-    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
+    <value>Seçtiğiniz tuş ataması kullanılamaz, lütfen başka bir tuş ataması kullanarak yeniden deneyin.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Özelleştirilmiş</value>
@@ -3778,55 +3802,55 @@
     <value>Dikey hizalama</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
-    <value>Thin Acrylic</value>
+    <value>İnce Akrilik</value>
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">
-    <value>Show for all locations</value>
+    <value>Tüm konumlar için göster</value>
     <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
   </data>
   <data name="DevTools" xml:space="preserve">
-    <value>Developer tools</value>
+    <value>Geliştirici araçları</value>
   </data>
   <data name="DisplayOpenIDE" xml:space="preserve">
-    <value>Configure the "Open IDE" button on the status bar</value>
+    <value>Durum çubuğundaki "IDE'yi Aç" düğmesini yapılandır</value>
   </data>
   <data name="GitRepos" xml:space="preserve">
-    <value>Show for Git repos</value>
+    <value>Git repoları için göster</value>
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
-    <value>Application extension</value>
+    <value>Uygulama uzantısı</value>
     <comment>This is the friendly name for DLL files.</comment>
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
-    <value>ICO File</value>
+    <value>ICO Dosyası</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
-    <value>Zip File</value>
+    <value>Zip Dosyası</value>
     <comment>This is the friendly name for ZIP files.</comment>
   </data>
   <data name="BitmapFiles" xml:space="preserve">
-    <value>Bitmap Files</value>
+    <value>Bit Eşlem Resmi Dosyaları</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
-    <value>Num</value>
+    <value>Sayı</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>Network locations</value>
+    <value>Ağ konumları</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+    <value>Herhangi bir ağ konumu yok. Ağ konumlarını kullanmıyorsanız araç takımını devre dışı bırakabilirsiniz.</value>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+    <value>Devre dışı bırak</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
-    <value>Edit in Notepad</value>
+    <value>Not Defteri'nde düzenle</value>
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
-    <value>Edit the selected file in Notepad</value>
+    <value>Seçili dosyayı Not Defteri'nde düzenle</value>
   </data>
 </root>
