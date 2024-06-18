@@ -39,7 +39,7 @@
         <DefineConstants>TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <Optimize>true</Optimize>
     </PropertyGroup>
-
+  
     <ItemGroup>
         <Manifest Include="app.manifest" />
         <Content Include="7z.dll">
@@ -69,10 +69,9 @@
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
         <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-        <PackageReference Include="LiteDB" Version="5.0.19" />
-        <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1.2" />
+        <PackageReference Include="LiteDB" Version="5.0.20" />
         <PackageReference Include="MessageFormat" Version="7.1.0" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.4" />
+        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.6" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
@@ -135,5 +134,5 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
     </ItemGroup>
-
+  
 </Project>
