@@ -462,12 +462,6 @@ namespace Files.App.Views
 				// Handle exception in case WinUI Windows is closed
 				// (see https://github.com/files-community/Files/issues/15599)
 
-				SentrySdk.CaptureException(ex, scope =>
-				{
-					scope.User.Id = generalSettingsService.UserId;
-					scope.Level = SentryLevel.Warning;
-				});
-
 				App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
