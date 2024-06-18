@@ -385,16 +385,40 @@
     <value>Skrivebeskyttet</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# day ago} other {# days ago}}</value>
+    <value>{0, plural, one {# dag siden} other {# dage siden}}</value>
+  </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 dag siden</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>{0} dage siden</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+    <value>{0, plural, one {# time siden} other {# timer siden}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 time siden</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>{0} timer siden</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
+    <value>{0, plural, one {# minut siden} other {# minutter siden}}</value>
+  </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 minut siden</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>{0} minutter siden</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+    <value>{0, plural, one {# sekund siden} other {# sekunder siden}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>1 sekund siden</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} sekunder siden</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Nu</value>
@@ -415,11 +439,11 @@
     <value>Det angivne emnenavn er ugyldigt</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# element valgt} other {# emner valgt}}</value>
+    <value>{0, plural, one {# element valgt} other {# elementer valgt}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {element} other {varer}}</value>
+    <value>{0, plural, one {element} other {elementer}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -453,10 +477,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
+    <value>{0, number} {0, plural, one {fil} other {filer}}, {1, number} {1, plural, one {mappe} other {mapper}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number} {0, plural, one {fil} other {filer}}, {1, number} {1, plural, one {mappe} other {mapper}} fra {2, number} {2, plural, one {lokation} other {lokationer}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Kør som anden bruger</value>
@@ -1215,28 +1239,28 @@
     <value>Kopiér</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}}</value>
+    <value>Kopiér {0, plural, one {element} other {elementer}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}}</value>
+    <value>Slet {0, plural, one {element} other {elementer}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Flyt</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
+    <value>{0, plural, one {Ét element flyttes} other {# elementer flyttes}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move {0, plural, one {item} other {items}}</value>
+    <value>Flyt {0, plural, one {element} other {elementer}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
+    <value>{0, plural, one {Ét element slettes} other {# elementer slettes}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Fortsæt</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+    <value>{0, plural, one {Der er ét filnavn i konflikt} other {Der er # filnavne i konflikt}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
     <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}, and {1, plural, one {one outgoing item} other {# outgoing items}}</value>
@@ -1245,7 +1269,7 @@
     <value>Conflicting {0, plural, one {file name} other {file names}}</value>
   </data>
   <data name="CopyItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
+    <value>{0, plural, one {Ét element kopieres} other {# elementer kopieres}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Slet permanent</value>
@@ -1590,7 +1614,7 @@
     <value>Downloader emner fra cloud og indlæser forhåndsvisningen</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
+    <value>{0, plural, one {# element} other {# elementer}} ({1, plural, one {# fil} other {# filer}}, {2, plural, one {# mappe} other {# mapper}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Ukomprimeret størrelse</value>
@@ -1820,8 +1844,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Ingen farvereducering</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Tredjepartslicenser</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Tredjepartsbiblioteker</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Denne indstilling ændrer systemregistreringsdatabasen og kan medføre uventet enhedsadfærd. Fortsæt på egen risiko.</value>
@@ -3722,7 +3746,7 @@
     <value>Denne tastetilknytning bruges allerede. Vælg en anden tastetilknytningerne for at fortsætte.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
-    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
+    <value>Den valgte tastebinding kan ikke bruges. Prøv venligst igen med en anden tastebinding.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Tilpasset</value>
@@ -3815,18 +3839,18 @@
     <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>Netværks placeringer</value>
+    <value>Netværkslokationer</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>Der er ingen netværksplaceringer. Hvis du ikke bruger netværksplaceringer, kan du deaktivere widget.</value>
+    <value>Der er ingen netværkslokationer. Hvis du ikke bruger netværkslokationer, kan du deaktivere widgetten.</value>
   </data>
   <data name="Disable" xml:space="preserve">
     <value>Deaktivér</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
-    <value>Rediger i notesblok</value>
+    <value>Rediger i Notesblok</value>
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
-    <value>Rediger den valgte fil i Notepad</value>
+    <value>Rediger den valgte fil i Notesblok</value>
   </data>
 </root>
