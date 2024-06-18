@@ -47,9 +47,9 @@ namespace Files.App.Utils
 				if (!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
 				if (!string.IsNullOrWhiteSpace(DimensionsDisplay))
-					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensions".GetLocalizedResource()}: {DimensionsDisplay}");
+					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {DimensionsDisplay}");
 				if (SyncStatusUI.LoadSyncStatus)
-					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
+					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/HeaderColon".GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
 				return tooltipBuilder.ToString();
 			}
