@@ -387,14 +387,38 @@
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 day ago</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>{0} days ago</value>
+  </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 hour ago</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>{0} hours ago</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
   </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 minute ago</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>{0} minutes ago</value>
+  </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>1 second ago</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} seconds ago</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Teraz</value>
@@ -1822,8 +1846,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>No reduced color</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Licencie tretích strán</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Third party libraries</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Toto nastavenie upravuje systémové súbory a môže mať neočakávané vedľajšie účinky na vaše zariadenie. Vývojári nenesú žiadnu zodpovednosť v prípade, že sa v dôsledku toho vyskytne problém. Pokračovanie v tejto možnosti znamená uznanie rizík spojených s touto akciou.</value>
