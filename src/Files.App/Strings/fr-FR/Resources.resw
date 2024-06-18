@@ -387,14 +387,38 @@
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {Il y a # jour} other {Il y a # jours}}</value>
   </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>Il y a 1 jour</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
+    <value>Il y a {0} jours</value>
+  </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {Il y a # heure} other {Il y a # heures}}</value>
+  </data>
+	<data name="HoursAgo_Singular" xml:space="preserve">
+    <value>Il y a 1 heure</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
+    <value>Il y a {0} heures</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, one {Il y a # minute} other {Il y a # minutes}}</value>
   </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>Il y a 1 minute</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
+    <value>Il y a {0} minutes</value>
+  </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0, plural, one {Il y a # seconde} other {Il y a # secondes}}</value>
+  </data>
+  <data name="SecondsAgo_Singular" xml:space="preserve">
+    <value>Il y a 1 seconde</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>Il y a {0} secondes</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Maintenant</value>
@@ -1710,7 +1734,7 @@
     <value>Soumettre une demande de fonctionnalité</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Envoyer un rapport de bug</value>
+    <value>Soumettre un rapport de bug</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Définir Files comme explorateur de fichiers par défaut</value>
@@ -1820,8 +1844,8 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Aucune réduction de couleur</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Licences tierces</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Bibliothèques tierces</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Cette option modifie le registre système et peut avoir des effets secondaires inattendus sur votre système. Continuez à vos propres risques.</value>
@@ -2343,10 +2367,10 @@
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copier le chemin des éléments sélectionnés dans le presse-papier</value>
+    <value>Copier le chemin des éléments sélectionnés dans le presse-papiers</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copier le chemin des éléments sélectionnés entre guillemets dans le presse-papier</value>
+    <value>Copier le chemin des éléments sélectionnés entre guillemets dans le presse-papiers</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Couper le(s) élément(s) dans le presse-papiers</value>
@@ -3249,7 +3273,7 @@
     <value>Files est exécuté en tant qu'administrateur</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>En raison d'une limitation avec Windows et WinAppSdk, le glisser-déposer n'est pas disponible lors de l'exécution de Files en tant qu'administrateur. Si vous souhaitez utiliser le glisser-déposer, vous pouvez contourner cette limitation en ouvrant l'UAC (contrôle du compte utilisateur) à partir du menu Démarrer et en sélectionnant le troisième niveau, puis en redémarrant Windows. Sinon, vous pouvez continuer à utiliser Files sans glisser-déposer.</value>
+    <value>En raison d'une limitation avec Windows et WinAppSdk, le glisser-déposer n'est pas disponible lors de l'exécution de Files en tant qu'administrateur. Si vous souhaitez utiliser le glisser-déposer, vous pouvez contourner cette limitation en ouvrant l'UAC (contrôle de compte d'utilisateur) à partir du menu Démarrer et en sélectionnant le troisième niveau, puis en redémarrant Windows. Sinon, vous pouvez continuer à utiliser Files sans glisser-déposer.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Laisser l'application s'exécuter en arrière-plan lorsque la fenêtre est fermée</value>

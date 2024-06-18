@@ -1,4 +1,4 @@
-<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -19,10 +19,10 @@
 
     <ItemGroup>
         <PackageReference Include="Appium.WebDriver" Version="4.4.5" />
-        <PackageReference Include="Axe.Windows" Version="2.3.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.3.1" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.3.1" />
+        <PackageReference Include="Axe.Windows" Version="2.4.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.4.3" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
     </ItemGroup>
 
 </Project>
