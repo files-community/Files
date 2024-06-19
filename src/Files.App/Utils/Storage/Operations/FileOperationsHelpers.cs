@@ -778,11 +778,11 @@ namespace Files.App.Utils.Storage
 				string psScript = $@"
 					$FilePath = '{filePath}'
 					$IconFile = '{iconFile}'
-					$IconIndex = {iconIndex}
+					$IconIndex = '{iconIndex}'
 
 					$Shell = New-Object -ComObject WScript.Shell
 					$Shortcut = $Shell.CreateShortcut($FilePath)
-					$Shortcut.IconLocation = `$IconFile, $IconIndex
+					$Shortcut.IconLocation = `$IconFile, $IconIndex`
 					$Shortcut.Save()
 				";
 
