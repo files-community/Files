@@ -3859,4 +3859,7 @@
   <data name="StatusWithColon" xml:space="preserve">
     <value>Status:</value>
   </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Show toolbar</value>
+  </data>
 </root>
