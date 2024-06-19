@@ -246,7 +246,7 @@
 			<!--  Show toolbar  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xEB41;" />
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.WebAsset}" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
