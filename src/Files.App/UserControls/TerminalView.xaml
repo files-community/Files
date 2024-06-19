@@ -12,7 +12,10 @@
 	Unloaded="TerminalView_Unloaded"
 	mc:Ignorable="d">
 
-	<Border x:Name="RootGrid">
+	<Border
+		x:Name="RootGrid"
+		Padding="0,8,0,8"
+		CornerRadius="8">
 
 		<WebView2
 			x:Name="WebViewControl"
