@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using Sentry;
+using Sentry.Protocol;
 
 namespace Files.App.Utils.Logger
 {
@@ -21,7 +22,8 @@ namespace Files.App.Utils.Logger
 
 		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
 		{
-			if (exception is null)
+			// Unhandled exceptions are captured in AppLifecycleHelper.HandleAppUnhandledException
+			if (exception is null || exception.Data[Mechanism.HandledKey] is false)
 				return;
 
 			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
