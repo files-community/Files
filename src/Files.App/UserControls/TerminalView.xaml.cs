@@ -3,6 +3,7 @@ using Files.App.Utils.Terminal;
 using Files.App.Utils.Terminal.ConPTY;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
 using System.IO;
 using System.Text;
@@ -154,6 +155,7 @@ namespace Files.App.UserControls
 			var theme = provider.GetPreInstalledThemes().First(x => x.Id == _profile.TerminalThemeId);
 
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
+			RootGrid.Background = new SolidColorBrush(ColorHelpers.FromHex(theme.Colors.Background));
 
 			var size = await CreateXtermViewAsync(options, theme.Colors,
 				keyBindings.Values.SelectMany(k => k)).ConfigureAwait(false);
@@ -448,6 +450,7 @@ namespace Files.App.UserControls
 			var theme = new DefaultValueProvider().GetPreInstalledThemes().First(x => x.Id == _profile.TerminalThemeId);
 
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
+			RootGrid.Background = new SolidColorBrush(ColorHelpers.FromHex(theme.Colors.Background));
 
 			var serializedTheme = JsonSerializer.Serialize(theme.Colors, serializerSettings);
 			await ExecuteScriptAsync($"changeTheme('{serializedTheme}')");
