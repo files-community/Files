@@ -782,11 +782,9 @@ namespace Files.App.Utils.Storage
 
 					$Shell = New-Object -ComObject WScript.Shell
 					$Shortcut = $Shell.CreateShortcut($FilePath)
-					$Shortcut.IconLocation = `""$IconFile, $IconIndex`""
+					$Shortcut.IconLocation = ""$IconFile, $IconIndex""
 					$Shortcut.Save()
 				";
-
-				var base64EncodedScript = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(psScript));
 
 				_ = Win32Helper.RunPowershellCommandAsync(psScript, true);
 
