@@ -786,7 +786,22 @@ namespace Files.App.Utils.Storage
 					$Shortcut.Save()
 				";
 
-				_ = Win32Helper.RunPowershellCommandAsync(psScript, true);
+				var base64EncodedScript = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(psScript));
+
+				ProcessStartInfo startInfo = new ProcessStartInfo()
+				{
+					FileName = "powershell.exe",
+					Arguments = $"-NoProfile -EncodedCommand {base64EncodedScript}",
+					Verb = "runas",
+					CreateNoWindow = true,
+					WindowStyle = ProcessWindowStyle.Hidden,
+					UseShellExecute = true
+				};
+
+				// Start the process
+				Process process = new Process() { StartInfo = startInfo };
+				process.Start();
+				process.WaitForExit();
 
 				return true;
 			}
