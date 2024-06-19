@@ -4,7 +4,6 @@
 using Files.App.Utils.Storage.Operations;
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
-using Microsoft.Win32;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -492,7 +491,7 @@ namespace Files.App.Utils.Storage
 						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
 						HResult = (int)e.Result
 					});
-					
+
 					UpdateFileTagsDb(e, "move");
 				};
 
@@ -580,10 +579,10 @@ namespace Files.App.Utils.Storage
 					{
 						using ShellItem shi = new(fileToCopyPath[i]);
 						using ShellFolder shd = new(Path.GetDirectoryName(copyDestination[i]));
-						
+
 						var fileName = GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]);
 						// Perform a copy operation
-						op.QueueCopyOperation(shi, shd, fileName);						
+						op.QueueCopyOperation(shi, shd, fileName);
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -623,7 +622,7 @@ namespace Files.App.Utils.Storage
 						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
 						HResult = (int)e.Result
 					});
-					
+
 					UpdateFileTagsDb(e, "copy");
 				};
 
@@ -772,6 +771,25 @@ namespace Files.App.Utils.Storage
 				using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
 				link.IconLocation = new IconLocation(iconFile, iconIndex);
 				link.SaveAs(filePath); // Overwrite if exists
+				return true;
+			}
+			catch (UnauthorizedAccessException)
+			{
+				string psScript = $@"
+					$FilePath = '{filePath}'
+					$IconFile = '{iconFile}'
+					$IconIndex = {iconIndex}
+
+					$Shell = New-Object -ComObject WScript.Shell
+					$Shortcut = $Shell.CreateShortcut($FilePath)
+					$Shortcut.IconLocation = `$IconFile, $IconIndex
+					$Shortcut.Save()
+				";
+
+				var base64EncodedScript = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(psScript));
+
+				_ = Win32Helper.RunPowershellCommandAsync(base64EncodedScript, true);
+
 				return true;
 			}
 			catch (Exception ex)
@@ -1023,7 +1041,7 @@ namespace Files.App.Utils.Storage
 		private static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck, string? filePathToCopy)
 		{
 			if (filePathToCheck == null)
-				return null;			
+				return null;
 
 			if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy || filePathToCheck == filePathToCopy)
 				return Path.GetFileName(filePathToCheck);
@@ -1039,6 +1057,6 @@ namespace Files.App.Utils.Storage
 				index++;
 
 			return Path.GetFileName(genFilePath(index));
-		}		
+		}
 	}
 }
