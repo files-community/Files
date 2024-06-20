@@ -50,6 +50,8 @@
 			<ThemeShadow x:Name="ShellContentThemeShadow" x:FieldModifier="public" />
 		</Grid.Shadow>
 
+		<Image Source="{x:Bind FilesystemViewModel.FolderBackgroundImageSource, Mode=OneWay}" Stretch="UniformToFill"/>
+
 		<!--  Swipe Backward Icon  -->
 		<Border
 			x:Name="BackIcon"

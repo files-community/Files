@@ -12,14 +12,12 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 using Vanara.Windows.Shell;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.App.Helpers.Win32PInvoke;
-using static Files.App.Helpers.Win32Helper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -70,6 +68,13 @@ namespace Files.App.Data.Models
 		{
 			get => _SolutionFilePath;
 			private set => SetProperty(ref _SolutionFilePath, value);
+		}
+
+		private ImageSource? _FolderBackgroundImageSource;
+		public ImageSource? FolderBackgroundImageSource
+		{
+			get => _FolderBackgroundImageSource;
+			private set => SetProperty(ref _FolderBackgroundImageSource, value);
 		}
 
 		private GitProperties _EnabledGitProperties;
@@ -1002,7 +1007,8 @@ namespace Files.App.Data.Models
 			if (loadNonCachedThumbnail)
 			{
 				// Get non-cached thumbnail asynchronously
-				_ = Task.Run(async () => {
+				_ = Task.Run(async () =>
+				{
 					await loadThumbnailSemaphore.WaitAsync(cancellationToken);
 					try
 					{
@@ -1185,7 +1191,8 @@ namespace Files.App.Data.Models
 						// Try loading thumbnail for cloud files in case they weren't cached the first time
 						if (item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown)
 						{
-							_ = Task.Run(async () => {
+							_ = Task.Run(async () =>
+							{
 								await Task.Delay(500);
 								cts.Token.ThrowIfCancellationRequested();
 								await LoadThumbnailAsync(item, cts.Token);
@@ -1690,6 +1697,7 @@ namespace Files.App.Data.Models
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForBackgroundImage, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
 					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
@@ -1748,6 +1756,29 @@ namespace Files.App.Data.Models
 			SolutionFilePath = filesAndFolders.ToList().AsParallel()
 				.Where(item => FileExtensionHelpers.HasExtension(item.FileExtension, ".sln"))
 				.FirstOrDefault()?.ItemPath;
+		}
+
+		public void CheckForBackgroundImage()
+		{
+			FolderBackgroundImageSource = null;
+
+			var iniPath = Path.Combine(WorkingDirectory, "desktop.ini");
+			if (!File.Exists(iniPath))
+				return;
+
+			string[] lines = File.ReadAllLines(iniPath);
+			foreach (var line in lines)
+			{
+				if (line.StartsWith("IconArea_Image", StringComparison.OrdinalIgnoreCase))
+				{
+					string[] keyValue = line.Split('=');
+					if (keyValue.Length == 2)
+					{
+						FolderBackgroundImageSource = new BitmapImage(new Uri(keyValue[1].Trim(), UriKind.RelativeOrAbsolute));
+						break;
+					}
+				}
+			}
 		}
 
 		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
