@@ -870,7 +870,7 @@
 								HorizontalContentAlignment="Left"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="SyncStatus"
-								Header="{helpers:ResourceString Name=syncStatusColumn/Header}"
+								Header="{helpers:ResourceString Name=Status}"
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
