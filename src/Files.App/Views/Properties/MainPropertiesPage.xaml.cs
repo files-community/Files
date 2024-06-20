@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.UI;
 using Microsoft.UI.Input;
+using WinUIEx;
 
 namespace Files.App.Views.Properties
 {
@@ -54,6 +55,8 @@ namespace Files.App.Views.Properties
 			base.OnNavigatedTo(e);
 
 			MainPropertiesViewModel = new(Window, MainContentFrame, BaseProperties, parameter);
+
+			Win32Helper.BringToForegroundEx(new(parameter.Window.GetWindowHandle()));
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
