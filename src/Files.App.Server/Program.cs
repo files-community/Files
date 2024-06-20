@@ -21,7 +21,7 @@ class Program
 	{
 		AppDomain.CurrentDomain.FirstChanceException += OnFirstChanceException;
 
-		nint cookie = 0;
+		RO_REGISTRATION_COOKIE cookie = default;
 
 		_ = PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_MULTITHREADED);
 
@@ -42,11 +42,18 @@ class Program
 
 		unsafe
 		{
-			var callbacks = Enumerable.Repeat((nint)(delegate* unmanaged[Stdcall]<void*, void**, int>)&Helpers.GetActivationFactory, classIds.Length).ToArray();
-
-			if (PInvoke.RoRegisterActivationFactories(classIds, callbacks, out cookie) is HRESULT hr && hr.Value != 0)
+			delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory**, HRESULT>[] callbacks = new delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory**, HRESULT>[classIds.Length];
+			for (int i = 0; i < callbacks.Length; i++)
 			{
-				Marshal.ThrowExceptionForHR(hr);
+				callbacks[i] = &Helpers.GetActivationFactory;
+			}
+
+			fixed (delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory**, HRESULT>* pCallbacks = callbacks)
+			{
+				if (PInvoke.RoRegisterActivationFactories(classIds, pCallbacks, out cookie) is HRESULT hr && hr.Value != 0)
+				{
+					Marshal.ThrowExceptionForHR(hr);
+				}
 			}
 		}
 
