@@ -267,6 +267,12 @@ namespace Files.App.Helpers
 				ex.Data[Mechanism.HandledKey] = false;
 				ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
 
+				SentrySdk.CaptureException(ex, scope =>
+				{
+					scope.User.Id = generalSettingsService?.UserId;
+					scope.Level = SentryLevel.Fatal;
+				});
+
 				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 
 				if (ex.Message is not null)
