@@ -46,9 +46,7 @@ namespace Files.App.UserControls.Widgets
 						// Attempt to get the file from its path 
 						var file = await StorageFile.GetFileFromPathAsync(item.RecentPath);
 						if (file != null)
-						{
 							storageItems.Add(file);
-						}
 					}
 					catch
 					{
