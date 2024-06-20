@@ -47,7 +47,20 @@ namespace Files.App.Views
 			=> GetPaneCount() > 1;
 
 		public bool IsMultiPaneEnabled
-			=> !AppModel.IsMainWindowClosed && MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
+		{
+			get
+			{
+				try
+				{
+					return !AppModel.IsMainWindowClosed && MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
+
+				}
+				catch (Exception)
+				{
+					return true;
+				}
+			}
+		}
 
 		public IShellPage ActivePaneOrColumn
 		{
