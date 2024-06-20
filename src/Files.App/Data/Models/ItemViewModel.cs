@@ -77,21 +77,21 @@ namespace Files.App.Data.Models
 			get => _FolderBackgroundImageSource;
 			private set => SetProperty(ref _FolderBackgroundImageSource, value);
 		}
-		
+
 		private float _FolderBackgroundImageOpacity = 1f;
 		public float FolderBackgroundImageOpacity
 		{
 			get => _FolderBackgroundImageOpacity;
 			private set => SetProperty(ref _FolderBackgroundImageOpacity, value);
 		}
-		
+
 		private Stretch _FolderBackgroundImageFit = Stretch.UniformToFill;
 		public Stretch FolderBackgroundImageFit
 		{
 			get => _FolderBackgroundImageFit;
 			private set => SetProperty(ref _FolderBackgroundImageFit, value);
 		}
-		
+
 		private VerticalAlignment _FolderBackgroundImageVerticalAlignment = VerticalAlignment.Center;
 		public VerticalAlignment FolderBackgroundImageVerticalAlignment
 		{
@@ -1789,56 +1789,49 @@ namespace Files.App.Data.Models
 
 		public void CheckForBackgroundImage()
 		{
-			// Reset to default values
-			FolderBackgroundImageSource = null;
-			FolderBackgroundImageOpacity = 1f;
-			FolderBackgroundImageFit = Stretch.UniformToFill;
-			FolderBackgroundImageVerticalAlignment = VerticalAlignment.Center;
-			FolderBackgroundImageHorizontalAlignment = HorizontalAlignment.Center;
-
 			var iniPath = Path.Combine(WorkingDirectory, "desktop.ini");
 			if (!File.Exists(iniPath))
 				return;
 
-			foreach (var line in File.ReadLines(iniPath))
-			{
-				if (line.StartsWith("Files_BackgroundImage", StringComparison.OrdinalIgnoreCase))
+			// Read data
+			var lines = File.ReadLines(iniPath);
+			var keys = lines.Select(line => line.Split('='))
+								.Where(parts => parts.Length == 2)
+								.ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
+
+			// Image source
+			if (keys.TryGetValue("Files_BackgroundImage", out var backgroundImage))
+				FolderBackgroundImageSource = new BitmapImage
 				{
-					var keyValue = line.Split('=');
-					if (keyValue.Length == 2)
-					{
-						FolderBackgroundImageSource = new BitmapImage
-						{
-							UriSource = new Uri(keyValue[1].Trim(), UriKind.RelativeOrAbsolute),
-							CreateOptions = BitmapCreateOptions.IgnoreImageCache
-						};
-					}
-				}
-				else if (line.StartsWith("Files_BackgroundOpacity", StringComparison.OrdinalIgnoreCase))
-				{
-					var keyValue = line.Split('=');
-					if (keyValue.Length == 2)
-						FolderBackgroundImageOpacity = float.Parse(keyValue[1].Trim());
-				}
-				else if (line.StartsWith("Files_BackgroundFit", StringComparison.OrdinalIgnoreCase))
-				{
-					var keyValue = line.Split('=');
-					if (keyValue.Length == 2)
-						FolderBackgroundImageFit = (Stretch)Enum.Parse(typeof(Stretch), keyValue[1].Trim());
-				}
-				else if (line.StartsWith("Files_BackgroundVerticalAlignment", StringComparison.OrdinalIgnoreCase))
-				{
-					var keyValue = line.Split('=');
-					if (keyValue.Length == 2)
-						FolderBackgroundImageVerticalAlignment = (VerticalAlignment)Enum.Parse(typeof(VerticalAlignment), keyValue[1].Trim());
-				}
-				else if (line.StartsWith("Files_BackgroundHorizontalAlignment", StringComparison.OrdinalIgnoreCase))
-				{
-					var keyValue = line.Split('=');
-					if (keyValue.Length == 2)
-						FolderBackgroundImageHorizontalAlignment = (HorizontalAlignment)Enum.Parse(typeof(HorizontalAlignment), keyValue[1].Trim());
-				}
-			}
+					UriSource = new Uri(backgroundImage, UriKind.RelativeOrAbsolute),
+					CreateOptions = BitmapCreateOptions.IgnoreImageCache
+				};
+			else
+				FolderBackgroundImageSource = null;
+
+			// Opacity
+			if (keys.TryGetValue("Files_BackgroundOpacity", out var backgroundOpacity) && float.TryParse(backgroundOpacity, out var opacity))
+				FolderBackgroundImageOpacity = opacity;
+			else
+				FolderBackgroundImageOpacity = 1f;
+
+			// Stretch
+			if (keys.TryGetValue("Files_BackgroundFit", out var backgroundFit) && Enum.TryParse<Stretch>(backgroundFit, out var fit))
+				FolderBackgroundImageFit = fit;
+			else
+				FolderBackgroundImageFit = Stretch.UniformToFill;
+
+			// VerticalAlignment
+			if (keys.TryGetValue("Files_BackgroundVerticalAlignment", out var verticalAlignment) && Enum.TryParse<VerticalAlignment>(verticalAlignment, out var vAlignment))
+				FolderBackgroundImageVerticalAlignment = vAlignment;
+			else
+				FolderBackgroundImageVerticalAlignment = VerticalAlignment.Center;
+
+			// HorizontalAlignment
+			if (keys.TryGetValue("Files_BackgroundHorizontalAlignment", out var horizontalAlignment) && Enum.TryParse<HorizontalAlignment>(horizontalAlignment, out var hAlignment))
+				FolderBackgroundImageHorizontalAlignment = hAlignment;
+			else
+				FolderBackgroundImageHorizontalAlignment = HorizontalAlignment.Center;
 		}
 
 		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
