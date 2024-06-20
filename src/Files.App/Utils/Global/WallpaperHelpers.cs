@@ -19,8 +19,13 @@ namespace Files.App.Utils
 				{
 					// Set the desktop background
 					var wallpaper = (Shell32.IDesktopWallpaper)new Shell32.DesktopWallpaper();
-					wallpaper.GetMonitorDevicePathAt(0, out var monitorId);
-					wallpaper.SetWallpaper(monitorId, filePath);
+					var monitorCount = wallpaper.GetMonitorDevicePathCount();
+
+					for (uint i = 0; i < monitorCount; i++)
+					{
+						wallpaper.GetMonitorDevicePathAt(i, out var monitorId);
+						wallpaper.SetWallpaper(monitorId, filePath);
+					}
 				}
 				else if (type == WallpaperType.LockScreen)
 				{
