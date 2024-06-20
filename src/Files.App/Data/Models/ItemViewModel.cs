@@ -1760,30 +1760,28 @@ namespace Files.App.Data.Models
 
 		public void CheckForBackgroundImage()
 		{
-			FolderBackgroundImageSource = null;
-
 			var iniPath = Path.Combine(WorkingDirectory, "desktop.ini");
-			if (!File.Exists(iniPath))
-				return;
-
-			string[] lines = File.ReadAllLines(iniPath);
-			foreach (var line in lines)
+			if (File.Exists(iniPath))
 			{
-				if (line.StartsWith("IconArea_Image", StringComparison.OrdinalIgnoreCase))
+				foreach (var line in File.ReadLines(iniPath))
 				{
-					string[] keyValue = line.Split('=');
-					if (keyValue.Length == 2)
+					if (line.StartsWith("IconArea_Image", StringComparison.OrdinalIgnoreCase))
 					{
-						FolderBackgroundImageSource = new BitmapImage
+						var keyValue = line.Split('=');
+						if (keyValue.Length == 2)
 						{
-							UriSource = new Uri(keyValue[1].Trim(), UriKind.RelativeOrAbsolute),
-							CreateOptions = BitmapCreateOptions.IgnoreImageCache
-						}; 
-						
-						break;
+							FolderBackgroundImageSource = new BitmapImage
+							{
+								UriSource = new Uri(keyValue[1].Trim(), UriKind.RelativeOrAbsolute),
+								CreateOptions = BitmapCreateOptions.IgnoreImageCache
+							};
+							break;
+						}
 					}
 				}
 			}
+			else
+				FolderBackgroundImageSource = null;
 		}
 
 		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
