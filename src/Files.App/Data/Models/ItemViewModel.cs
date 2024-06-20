@@ -76,6 +76,13 @@ namespace Files.App.Data.Models
 			get => _FolderBackgroundImageSource;
 			private set => SetProperty(ref _FolderBackgroundImageSource, value);
 		}
+		
+		private float _FolderBackgroundImageOpacity = 1f;
+		public float FolderBackgroundImageOpacity
+		{
+			get => _FolderBackgroundImageOpacity;
+			private set => SetProperty(ref _FolderBackgroundImageOpacity, value);
+		}
 
 		private GitProperties _EnabledGitProperties;
 		public GitProperties EnabledGitProperties
@@ -1760,28 +1767,37 @@ namespace Files.App.Data.Models
 
 		public void CheckForBackgroundImage()
 		{
+			// Reset to default values
+			FolderBackgroundImageSource = null;
+			FolderBackgroundImageOpacity = 1f;
+
 			var iniPath = Path.Combine(WorkingDirectory, "desktop.ini");
-			if (File.Exists(iniPath))
+			if (!File.Exists(iniPath))
+				return;
+
+			foreach (var line in File.ReadLines(iniPath))
 			{
-				foreach (var line in File.ReadLines(iniPath))
+				if (line.StartsWith("Files_BackgroundImage", StringComparison.OrdinalIgnoreCase))
 				{
-					if (line.StartsWith("Files_BackgroundImage", StringComparison.OrdinalIgnoreCase))
+					var keyValue = line.Split('=');
+					if (keyValue.Length == 2)
 					{
-						var keyValue = line.Split('=');
-						if (keyValue.Length == 2)
+						FolderBackgroundImageSource = new BitmapImage
 						{
-							FolderBackgroundImageSource = new BitmapImage
-							{
-								UriSource = new Uri(keyValue[1].Trim(), UriKind.RelativeOrAbsolute),
-								CreateOptions = BitmapCreateOptions.IgnoreImageCache
-							};
-							break;
-						}
+							UriSource = new Uri(keyValue[1].Trim(), UriKind.RelativeOrAbsolute),
+							CreateOptions = BitmapCreateOptions.IgnoreImageCache
+						};
 					}
 				}
+				else if (line.StartsWith("Files_BackgroundOpacity", StringComparison.OrdinalIgnoreCase))
+				{
+					var keyValue = line.Split('=');
+					if (keyValue.Length == 2)
+						FolderBackgroundImageOpacity = float.Parse(keyValue[1].Trim());
+
+					break;
+				}
 			}
-			else
-				FolderBackgroundImageSource = null;
 		}
 
 		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
