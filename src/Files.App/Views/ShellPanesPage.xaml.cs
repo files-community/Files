@@ -360,7 +360,7 @@ namespace Files.App.Views
 					RootGrid.Children.RemoveAt(0);
 					RootGrid.ColumnDefinitions.RemoveAt(0);
 					RootGrid.Children[0].SetValue(Grid.ColumnProperty, 0);
-					NavParamsLeft = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
+					_NavParamsLeft = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
 					IsRightPaneVisible = false;
 					ActivePane = GetPane(0);
 				}
