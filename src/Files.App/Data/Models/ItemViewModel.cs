@@ -5,6 +5,7 @@ using Files.App.Services.SizeProvider;
 using Files.Shared.Helpers;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -82,6 +83,27 @@ namespace Files.App.Data.Models
 		{
 			get => _FolderBackgroundImageOpacity;
 			private set => SetProperty(ref _FolderBackgroundImageOpacity, value);
+		}
+		
+		private Stretch _FolderBackgroundImageFit = Stretch.UniformToFill;
+		public Stretch FolderBackgroundImageFit
+		{
+			get => _FolderBackgroundImageFit;
+			private set => SetProperty(ref _FolderBackgroundImageFit, value);
+		}
+		
+		private VerticalAlignment _FolderBackgroundImageVerticalAlignment = VerticalAlignment.Center;
+		public VerticalAlignment FolderBackgroundImageVerticalAlignment
+		{
+			get => _FolderBackgroundImageVerticalAlignment;
+			private set => SetProperty(ref _FolderBackgroundImageVerticalAlignment, value);
+		}
+
+		private HorizontalAlignment _FolderBackgroundImageHorizontalAlignment = HorizontalAlignment.Center;
+		public HorizontalAlignment FolderBackgroundImageHorizontalAlignment
+		{
+			get => _FolderBackgroundImageHorizontalAlignment;
+			private set => SetProperty(ref _FolderBackgroundImageHorizontalAlignment, value);
 		}
 
 		private GitProperties _EnabledGitProperties;
@@ -553,7 +575,7 @@ namespace Files.App.Data.Models
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		private async void FolderSizeProvider_SizeChanged(object? sender, SizeChangedEventArgs e)
+		private async void FolderSizeProvider_SizeChanged(object? sender, Services.SizeProvider.SizeChangedEventArgs e)
 		{
 			try
 			{
@@ -1770,6 +1792,9 @@ namespace Files.App.Data.Models
 			// Reset to default values
 			FolderBackgroundImageSource = null;
 			FolderBackgroundImageOpacity = 1f;
+			FolderBackgroundImageFit = Stretch.UniformToFill;
+			FolderBackgroundImageVerticalAlignment = VerticalAlignment.Center;
+			FolderBackgroundImageHorizontalAlignment = HorizontalAlignment.Center;
 
 			var iniPath = Path.Combine(WorkingDirectory, "desktop.ini");
 			if (!File.Exists(iniPath))
@@ -1794,8 +1819,24 @@ namespace Files.App.Data.Models
 					var keyValue = line.Split('=');
 					if (keyValue.Length == 2)
 						FolderBackgroundImageOpacity = float.Parse(keyValue[1].Trim());
-
-					break;
+				}
+				else if (line.StartsWith("Files_BackgroundFit", StringComparison.OrdinalIgnoreCase))
+				{
+					var keyValue = line.Split('=');
+					if (keyValue.Length == 2)
+						FolderBackgroundImageFit = (Stretch)Enum.Parse(typeof(Stretch), keyValue[1].Trim());
+				}
+				else if (line.StartsWith("Files_BackgroundVerticalAlignment", StringComparison.OrdinalIgnoreCase))
+				{
+					var keyValue = line.Split('=');
+					if (keyValue.Length == 2)
+						FolderBackgroundImageVerticalAlignment = (VerticalAlignment)Enum.Parse(typeof(VerticalAlignment), keyValue[1].Trim());
+				}
+				else if (line.StartsWith("Files_BackgroundHorizontalAlignment", StringComparison.OrdinalIgnoreCase))
+				{
+					var keyValue = line.Split('=');
+					if (keyValue.Length == 2)
+						FolderBackgroundImageHorizontalAlignment = (HorizontalAlignment)Enum.Parse(typeof(HorizontalAlignment), keyValue[1].Trim());
 				}
 			}
 		}

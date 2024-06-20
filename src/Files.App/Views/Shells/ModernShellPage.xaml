@@ -51,9 +51,11 @@
 		</Grid.Shadow>
 
 		<Image
+			HorizontalAlignment="{x:Bind FilesystemViewModel.FolderBackgroundImageHorizontalAlignment, Mode=OneWay}"
+			VerticalAlignment="{x:Bind FilesystemViewModel.FolderBackgroundImageVerticalAlignment, Mode=OneWay}"
 			Opacity="{x:Bind FilesystemViewModel.FolderBackgroundImageOpacity, Mode=OneWay}"
 			Source="{x:Bind FilesystemViewModel.FolderBackgroundImageSource, Mode=OneWay}"
-			Stretch="UniformToFill" />
+			Stretch="{x:Bind FilesystemViewModel.FolderBackgroundImageFit, Mode=OneWay}" />
 
 		<!--  Swipe Backward Icon  -->
 		<Border
