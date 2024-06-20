@@ -55,6 +55,8 @@ namespace Files.App.Helpers
 
 			if (runAsAdmin)
 			{
+				// TODO In the long run, we should consider modifying HandleApplicationLaunch to handle this correctly.
+
 				ProcessStartInfo startInfo = new ProcessStartInfo
 				{
 					FileName = application,
