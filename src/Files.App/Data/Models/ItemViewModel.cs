@@ -1765,7 +1765,7 @@ namespace Files.App.Data.Models
 			{
 				foreach (var line in File.ReadLines(iniPath))
 				{
-					if (line.StartsWith("IconArea_Image", StringComparison.OrdinalIgnoreCase))
+					if (line.StartsWith("Files_BackgroundImage", StringComparison.OrdinalIgnoreCase))
 					{
 						var keyValue = line.Split('=');
 						if (keyValue.Length == 2)
