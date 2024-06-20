@@ -336,7 +336,6 @@ namespace Files.App.Views
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
-		// TODO: Shift column index for when to close left pane
 		private void RemovePane(int index = -1)
 		{
 			if (index is -1)
@@ -361,8 +360,9 @@ namespace Files.App.Views
 					RootGrid.Children.RemoveAt(0);
 					RootGrid.ColumnDefinitions.RemoveAt(0);
 					RootGrid.Children[0].SetValue(Grid.ColumnProperty, 0);
-					NavParamsLeft = new() { NavPath = NavParamsRight?.NavPath ?? string.Empty };
+					NavParamsLeft = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
 					IsRightPaneVisible = false;
+					ActivePane = GetPane(0);
 				}
 			}
 			else
