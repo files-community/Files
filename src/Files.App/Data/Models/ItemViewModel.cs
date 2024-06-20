@@ -1774,7 +1774,12 @@ namespace Files.App.Data.Models
 					string[] keyValue = line.Split('=');
 					if (keyValue.Length == 2)
 					{
-						FolderBackgroundImageSource = new BitmapImage(new Uri(keyValue[1].Trim(), UriKind.RelativeOrAbsolute));
+						FolderBackgroundImageSource = new BitmapImage
+						{
+							UriSource = new Uri(keyValue[1].Trim(), UriKind.RelativeOrAbsolute),
+							CreateOptions = BitmapCreateOptions.IgnoreImageCache
+						}; 
+						
 						break;
 					}
 				}
