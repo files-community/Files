@@ -1807,7 +1807,10 @@ namespace Files.App.Data.Models
 					CreateOptions = BitmapCreateOptions.IgnoreImageCache
 				};
 			else
+			{
 				FolderBackgroundImageSource = null;
+				return;
+			}
 
 			// Opacity
 			if (keys.TryGetValue("Files_BackgroundOpacity", out var backgroundOpacity) && float.TryParse(backgroundOpacity, out var opacity))
