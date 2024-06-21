@@ -107,7 +107,6 @@
         <PackageReference Include="Microsoft.Management.Infrastructure" />
         <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>

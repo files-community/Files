@@ -4,9 +4,9 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-using Newtonsoft.Json;
 using System.Reflection;
 using System.Text;
+using System.Text.Encodings.Web;
 using Windows.Foundation;
 
 namespace Files.App.Extensions
@@ -36,14 +36,14 @@ namespace Files.App.Extensions
 
 		private struct MethodWebMessage
 		{
-			public string Id { get; set; }
+			public long Id { get; set; }
 			public string Method { get; set; }
 			public string Args { get; set; }
 		}
 
 		private struct PropertyWebMessage
 		{
-			public string Id { get; set; }
+			public long Id { get; set; }
 			public string Property { get; set; }
 			public PropertyAction Action { get; set; }
 			public string Value { get; set; }
@@ -101,14 +101,16 @@ namespace Files.App.Extensions
 
 			var handler = (WebViewMessageReceivedHandler)(async (_, e) =>
 			{
-				var message = JsonConvert.DeserializeObject<WebMessage>(e.TryGetWebMessageAsString());
+				var message = JsonSerializer.Deserialize<WebMessage>(e.TryGetWebMessageAsString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 				if (message.Guid == methodsGuid)
 				{
-					var methodMessage = JsonConvert.DeserializeObject<MethodWebMessage>(e.TryGetWebMessageAsString());
+
+					var methodMessage = JsonSerializer.Deserialize<MethodWebMessage>(e.TryGetWebMessageAsString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 					var method = methods[methodMessage.Method];
 					try
 					{
-						var result = method.Invoke(@object, JsonConvert.DeserializeObject<object[]>(methodMessage.Args));
+						var args = JsonSerializer.Deserialize<JsonElement[]>(methodMessage.Args).Zip(method.GetParameters(), (val, args) => new { val, args.ParameterType }).Select(item => item.val.Deserialize(item.ParameterType));
+						var result = method.Invoke(@object, args.ToArray());
 						if (result is object)
 						{
 							var resultType = result.GetType();
@@ -152,19 +154,19 @@ namespace Files.App.Extensions
 								result = await task;
 							}
 						}
-						var json = JsonConvert.SerializeObject(result);
+						var json = JsonSerializer.Serialize(result, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }); ;
 						await webview.ExecuteScriptAsync($@"{name}._callbacks.get({methodMessage.Id}).accept(JSON.parse({json})); {name}._callbacks.delete({methodMessage.Id});");
 					}
 					catch (Exception ex)
 					{
-						var json = JsonConvert.SerializeObject(ex, new JsonSerializerSettings() { Error = (_, e) => e.ErrorContext.Handled = true });
+						var json = JsonSerializer.Serialize(ex, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
 						await webview.ExecuteScriptAsync($@"{name}._callbacks.get({methodMessage.Id}).reject(JSON.parse({json})); {name}._callbacks.delete({methodMessage.Id});");
 						//throw;
 					}
 				}
 				else if (message.Guid == propertiesGuid)
 				{
-					var propertyMessage = JsonConvert.DeserializeObject<PropertyWebMessage>(e.TryGetWebMessageAsString());
+					var propertyMessage = JsonSerializer.Deserialize<PropertyWebMessage>(e.TryGetWebMessageAsString(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 					var property = properties[propertyMessage.Property];
 					try
 					{
@@ -175,17 +177,17 @@ namespace Files.App.Extensions
 						}
 						else
 						{
-							var value = JsonConvert.DeserializeObject(propertyMessage.Value, property.PropertyType);
+							var value = JsonSerializer.Deserialize(propertyMessage.Value, property.PropertyType);
 							property.SetValue(@object, value);
 							result = new object();
 						}
 
-						var json = JsonConvert.SerializeObject(result);
+						var json = JsonSerializer.Serialize(result, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
 						await webview.ExecuteScriptAsync($@"{name}._callbacks.get({propertyMessage.Id}).accept(JSON.parse({json})); {name}._callbacks.delete({propertyMessage.Id});");
 					}
 					catch (Exception ex)
 					{
-						//var json = JsonConvert.SerializeObject(ex, new JsonSerializerSettings() { Error = (_, e) => e.ErrorContext.Handled = true });
+						//var json = JsonSerializer.Serialize(ex, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
 						//await webview.ExecuteScriptAsync($@"{name}._callbacks.get({propertyMessage.Id}).reject(JSON.parse({json})); {name}._callbacks.delete({propertyMessage.Id});");
 						//throw;
 					}
@@ -198,7 +200,7 @@ namespace Files.App.Extensions
 
 		public static async Task<string> InvokeScriptAsync(this WebView2 webview, string function, params object[] args)
 		{
-			var array = JsonConvert.SerializeObject(args);
+			var array = JsonSerializer.Serialize(args, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
 			string result = null;
 			// Tested and checked: this dispatch is required, even though the web view is in a different process
 			await webview.DispatcherQueue.EnqueueAsync(async () =>
@@ -207,7 +209,7 @@ namespace Files.App.Extensions
 				try
 				{
 					result = await webview.ExecuteScriptAsync(script).AsTask();
-					result = JsonConvert.DeserializeObject<string>(result);
+					result = JsonSerializer.Deserialize<string>(result);
 				}
 				catch (Exception ex)
 				{
