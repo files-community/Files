@@ -96,5 +96,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value for the app background image Horizontal Alignment.
 		/// </summary>
 		HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value whether the toolbar should be displayed.
+		/// </summary>
+		bool ShowToolbar { get; set; }
 	}
 }

@@ -3859,4 +3859,8 @@
   <data name="StatusWithColon" xml:space="preserve">
     <value>Status:</value>
   </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Show Toolbar</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
 </root>
