@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Controls;
+
 namespace Files.App.Data.Contexts
 {
 	/// <summary>
@@ -12,6 +14,11 @@ namespace Files.App.Data.Contexts
 		/// Gets the last sidebar right clicked item
 		/// </summary>
 		INavigationControlItem? RightClickedItem { get; }
+
+		/// <summary>
+		/// The last opened sidebar item's context menu instance
+		/// </summary>
+		CommandBarFlyout? ItemContextFlyoutMenu { get; }
 
 		/// <summary>
 		/// Gets the value that indicates whether any item has been right clicked

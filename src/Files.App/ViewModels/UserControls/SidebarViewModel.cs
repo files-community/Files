@@ -26,6 +26,8 @@ namespace Files.App.ViewModels.UserControls
 	{
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
@@ -70,7 +72,7 @@ namespace Files.App.ViewModels.UserControls
 		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
 
 		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
-		public static event EventHandler<INavigationControlItem?>? RightClickedItemChanged;
+		public static event EventHandler<SidebarRightClickedItemChangedEventArgs>? RightClickedItemChanged;
 
 		private readonly SectionType[] SectionOrder =
 			[
@@ -262,7 +264,7 @@ namespace Files.App.ViewModels.UserControls
 			OpenInNewPaneCommand = new AsyncRelayCommand(OpenInNewPaneAsync);
 			EjectDeviceCommand = new AsyncRelayCommand(EjectDeviceAsync);
 			FormatDriveCommand = new RelayCommand(FormatDrive);
-			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
+			OpenPropertiesCommand = new RelayCommand(OpenProperties);
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
 
@@ -687,38 +689,36 @@ namespace Files.App.ViewModels.UserControls
 				SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(items));
 			}
 
-			rightClickedItem = item;
-			RightClickedItemChanged?.Invoke(this, item);
-
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
 				Placement = FlyoutPlacementMode.Full
 			};
 
+			// Hook events
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
+			// Notify of the change on right clicked item
+			rightClickedItem = item;
+			RightClickedItemChanged?.Invoke(this, new(item, itemContextMenuFlyout));
+
+			// Get items for the flyout
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
+			// Set max width of the flyout
 			secondaryElements
 				.OfType<FrameworkElement>()
 				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
+			// Add menu items to the secondary flyout
 			secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
 
-			if (item.MenuOptions.ShowShellItems)
-				itemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
-
+			// Show the flyout
 			itemContextMenuFlyout.ShowAt(sidebarItem, new() { Position = args.Position });
-		}
 
-		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
-		{
-			if (sender is not CommandBarFlyout itemContextMenuFlyout)
-				return;
-
-			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
+			// Load shell menu items
+			if (item.MenuOptions.ShowShellItems)
+				_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
 		}
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
@@ -884,40 +884,61 @@ namespace Files.App.ViewModels.UserControls
 			var result = await dialogService.ShowDialogAsync(dialog);
 		}
 
-		private void OpenProperties(CommandBarFlyout menu)
+		private void OpenProperties()
 		{
+			var flyout = SidebarContext.ItemContextFlyoutMenu;
+
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = async (s, e) =>
 			{
-				menu.Closed -= flyoutClosed;
-				if (rightClickedItem is DriveItem)
-					FilePropertiesHelpers.OpenPropertiesWindow(rightClickedItem, PaneHolder.ActivePane);
-				else if (rightClickedItem is LibraryLocationItem library)
-					FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), PaneHolder.ActivePane);
-				else if (rightClickedItem is LocationItem locationItem)
+				flyout!.Closed -= flyoutClosed;
+
+				switch (rightClickedItem)
 				{
-					var listedItem = new ListedItem(null!)
-					{
-						ItemPath = locationItem.Path,
-						ItemNameRaw = locationItem.Text,
-						PrimaryItemAttribute = StorageItemTypes.Folder,
-						ItemType = "Folder".GetLocalizedResource(),
-					};
-
-					if (!string.Equals(locationItem.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-					{
-						BaseStorageFolder matchingStorageFolder = await PaneHolder.ActivePane.FilesystemViewModel.GetFolderFromPathAsync(locationItem.Path);
-						if (matchingStorageFolder is not null)
+					case DriveItem drive:
 						{
-							var syncStatus = await PaneHolder.ActivePane.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
-							listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+							FilePropertiesHelpers.OpenPropertiesWindow(rightClickedItem, ContentPageContext.ShellPage!);
+							break;
 						}
-					}
+					case LibraryLocationItem library:
+						{
+							FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), ContentPageContext.ShellPage!);
+							break;
+						}
+					case LocationItem locationItem:
+						{
+							var listedItem = new ListedItem(null!)
+							{
+								ItemPath = locationItem.Path,
+								ItemNameRaw = locationItem.Text,
+								PrimaryItemAttribute = StorageItemTypes.Folder,
+								ItemType = "Folder".GetLocalizedResource(),
+							};
 
-					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, PaneHolder.ActivePane);
+							if (string.Equals(
+									locationItem.Path,
+									Constants.UserEnvironmentPaths.RecycleBinPath,
+									StringComparison.OrdinalIgnoreCase) is false)
+							{
+								BaseStorageFolder matchingStorageFolder =
+									await ContentPageContext.ShellPage!.FilesystemViewModel.GetFolderFromPathAsync(locationItem.Path);
+
+								if (matchingStorageFolder is not null)
+								{
+									var syncStatus = await ContentPageContext.ShellPage!.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+									listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+								}
+							}
+
+							FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
+
+							break;
+						}
+
 				}
 			};
-			menu.Closed += flyoutClosed;
+
+			flyout!.Closed += flyoutClosed;
 		}
 
 		private async Task EjectDeviceAsync()
@@ -1028,7 +1049,6 @@ namespace Files.App.ViewModels.UserControls
 						OpacityIconStyle = "ColorIconProperties",
 					},
 					Command = OpenPropertiesCommand,
-					CommandParameter = menu,
 					ShowItem = options.ShowProperties
 				},
 				new ContextMenuFlyoutItemViewModel()
