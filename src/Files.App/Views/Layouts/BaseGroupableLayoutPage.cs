@@ -209,10 +209,9 @@ namespace Files.App.Views.Layouts
 			StartRenameItem();
 		}
 
-		protected virtual void ZoomIn(object? sender, GroupOption option)
+		protected override void ZoomIn()
 		{
-			if (option == GroupOption.None)
-				RootZoom.IsZoomedInViewActive = true;
+			RootZoom.IsZoomedInViewActive = true;
 		}
 
 		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)

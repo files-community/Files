@@ -129,8 +129,6 @@ namespace Files.App.Views.Layouts
 
 			currentIconSize = FolderSettings.GetRoundedIconSize();
 
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
