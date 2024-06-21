@@ -1314,6 +1314,8 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
+				ZoomIn();
+
 				var newSource = new CollectionViewSource()
 				{
 					IsSourceGrouped = false,
@@ -1321,6 +1323,10 @@ namespace Files.App.Views.Layouts
 				};
 				CollectionViewSource = newSource;
 			}
+		}
+
+		protected virtual void ZoomIn()
+		{
 		}
 
 		protected void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
