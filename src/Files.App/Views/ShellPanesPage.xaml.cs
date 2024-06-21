@@ -344,10 +344,10 @@ namespace Files.App.Views
 			// Get proper position of sizer that resides with the pane that is wanted to be removed
 			var childIndex = index * 2 - 1;
 			childIndex = childIndex >= 0 ? childIndex : 0;
-			if (childIndex + 1 > RootGrid.Children.Count)
+			if (childIndex >= RootGrid.Children.Count)
 				return;
 
-			if (childIndex is 0)
+			if (childIndex == 0)
 			{
 				var wasMultiPaneActive = IsMultiPaneActive;
 
