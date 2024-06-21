@@ -78,10 +78,16 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				return
-					Repository.IsValid(path)
-						? path
-						: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
+				if (Repository.IsValid(path))
+					return path;
+				else
+				{
+					var parentDir = PathNormalization.GetParentDir(path);
+					if (parentDir == path)
+						return null;
+					else
+						return GetGitRepositoryPath(parentDir, root);
+				}
 			}
 			catch (Exception ex) when (ex is LibGit2SharpException or EncoderFallbackException)
 			{
