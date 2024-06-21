@@ -242,6 +242,17 @@
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+
+			<!--  Show toolbar  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.WebAsset}" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
+					IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
 </Page>
