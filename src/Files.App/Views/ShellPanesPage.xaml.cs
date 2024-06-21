@@ -53,11 +53,10 @@ namespace Files.App.Views
 				try
 				{
 					return !AppModel.IsMainWindowClosed && MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
-
 				}
-				catch (Exception)
+				catch
 				{
-					return true;
+					return false;
 				}
 			}
 		}
