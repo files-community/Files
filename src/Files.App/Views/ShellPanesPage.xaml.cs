@@ -47,7 +47,19 @@ namespace Files.App.Views
 			=> GetPaneCount() > 1;
 
 		public bool IsMultiPaneEnabled
-			=> !AppModel.IsMainWindowClosed && MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
+		{
+			get
+			{
+				try
+				{
+					return !AppModel.IsMainWindowClosed && MainWindow.Instance.Bounds.Width > Constants.UI.MultiplePaneWidthThreshold;
+				}
+				catch
+				{
+					return false;
+				}
+			}
+		}
 
 		public IShellPage ActivePaneOrColumn
 		{
@@ -176,14 +188,6 @@ namespace Files.App.Views
 				if (value != _IsRightPaneVisible)
 				{
 					_IsRightPaneVisible = value;
-					if (!_IsRightPaneVisible)
-					{
-						ActivePane = GetPane(0);
-						Pane_ContentChanged(null!, null!);
-					}
-
-					NotifyPropertyChanged(nameof(IsRightPaneVisible));
-					NotifyPropertyChanged(nameof(IsMultiPaneActive));
 
 					if (value)
 					{
@@ -191,8 +195,16 @@ namespace Files.App.Views
 					}
 					else
 					{
-						RemovePane((RootGrid.Children.Count - 1) / 2);
+						if (GetPaneCount() != 1)
+						{
+							ActivePane = GetPane(0);
+							Pane_ContentChanged(null!, null!);
+							RemovePane((RootGrid.Children.Count - 1) / 2);
+						}
 					}
+
+					NotifyPropertyChanged(nameof(IsRightPaneVisible));
+					NotifyPropertyChanged(nameof(IsMultiPaneActive));
 				}
 			}
 		}
@@ -260,10 +272,12 @@ namespace Files.App.Views
 			ActivePane = GetPane(1);
 		}
 
-		public void CloseSecondaryPane()
+		public void CloseActivePane()
 		{
-			// Remove right pane within this property's setter
-			IsRightPaneVisible = false;
+			if (ActivePane == (IShellPage)GetPane(0))
+				RemovePane(0);
+			else
+				IsRightPaneVisible = false;
 
 			GetPane(0)?.Focus(FocusState.Programmatic);
 			SetShadow();
@@ -334,7 +348,6 @@ namespace Files.App.Views
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
-		// TODO: Shift column index for when to close left pane
 		private void RemovePane(int index = -1)
 		{
 			if (index is -1)
@@ -343,14 +356,35 @@ namespace Files.App.Views
 			// Get proper position of sizer that resides with the pane that is wanted to be removed
 			var childIndex = index * 2 - 1;
 			childIndex = childIndex >= 0 ? childIndex : 0;
+			if (childIndex >= RootGrid.Children.Count)
+				return;
 
-			// Remove sizer and pane from children
-			RootGrid.Children.RemoveAt(childIndex);
-			RootGrid.Children.RemoveAt(childIndex);
+			if (childIndex == 0)
+			{
+				var wasMultiPaneActive = IsMultiPaneActive;
 
-			// Remove sizer and pane from column definitions
-			RootGrid.ColumnDefinitions.RemoveAt(childIndex);
-			RootGrid.ColumnDefinitions.RemoveAt(childIndex);
+				// Remove sizer and pane
+				RootGrid.Children.RemoveAt(0);
+				RootGrid.ColumnDefinitions.RemoveAt(0);
+
+				if (wasMultiPaneActive)
+				{
+					RootGrid.Children.RemoveAt(0);
+					RootGrid.ColumnDefinitions.RemoveAt(0);
+					RootGrid.Children[0].SetValue(Grid.ColumnProperty, 0);
+					_NavParamsLeft = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
+					IsRightPaneVisible = false;
+					ActivePane = GetPane(0);
+				}
+			}
+			else
+			{
+				// Remove sizer and pane
+				RootGrid.Children.RemoveAt(childIndex);
+				RootGrid.Children.RemoveAt(childIndex);
+				RootGrid.ColumnDefinitions.RemoveAt(childIndex);
+				RootGrid.ColumnDefinitions.RemoveAt(childIndex);
+			}
 
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}

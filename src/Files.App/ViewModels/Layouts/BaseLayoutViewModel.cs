@@ -105,11 +105,11 @@ namespace Files.App.ViewModels.Layouts
 
 				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-				var pwd = _associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
+				var pwd = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
 				var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
 
 				// As long as one file doesn't already belong to this folder
-				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.FilesystemViewModel.WorkingDirectory))
+				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -150,7 +150,7 @@ namespace Files.App.ViewModels.Layouts
 						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Copy;
 					}
-					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.FilesystemViewModel.WorkingDirectory))
+					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.ShellViewModel.WorkingDirectory))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
 						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
@@ -177,7 +177,7 @@ namespace Files.App.ViewModels.Layouts
 
 				try
 				{
-					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
 					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 				}
 				finally

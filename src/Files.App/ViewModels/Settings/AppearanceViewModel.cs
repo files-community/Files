@@ -276,5 +276,19 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		public bool ShowToolbar
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowToolbar;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowToolbar)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowToolbar = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
 	}
 }

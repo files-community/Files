@@ -47,11 +47,11 @@ namespace Files.App.Helpers
 		public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
 		{
 			if (string.IsNullOrEmpty(workingDirectory))
-				workingDirectory = associatedInstance.FilesystemViewModel.WorkingDirectory;
+				workingDirectory = associatedInstance.ShellViewModel.WorkingDirectory;
 
 			var application = applicationPaths.FirstOrDefault();
 			if (string.IsNullOrEmpty(workingDirectory))
-				workingDirectory = associatedInstance?.FilesystemViewModel?.WorkingDirectory;
+				workingDirectory = associatedInstance?.ShellViewModel?.WorkingDirectory;
 
 			if (runAsAdmin)
 			{

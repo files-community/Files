@@ -906,10 +906,10 @@ namespace Files.App.ViewModels.UserControls
 
 					if (!string.Equals(locationItem.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 					{
-						BaseStorageFolder matchingStorageFolder = await PaneHolder.ActivePane.FilesystemViewModel.GetFolderFromPathAsync(locationItem.Path);
+						BaseStorageFolder matchingStorageFolder = await PaneHolder.ActivePane.ShellViewModel.GetFolderFromPathAsync(locationItem.Path);
 						if (matchingStorageFolder is not null)
 						{
-							var syncStatus = await PaneHolder.ActivePane.FilesystemViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
+							var syncStatus = await PaneHolder.ActivePane.ShellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 							listedItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 						}
 					}

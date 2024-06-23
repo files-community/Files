@@ -70,7 +70,7 @@ namespace Files.App.Helpers
 						}
 						else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
 						{
-							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+							var result = await associatedInstance.ShellViewModel.GetFileFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
 
 							if (!result)
@@ -78,7 +78,7 @@ namespace Files.App.Helpers
 						}
 						else
 						{
-							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+							var result = await associatedInstance.ShellViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
 
 							if (!result)
@@ -167,7 +167,7 @@ namespace Files.App.Helpers
 						}
 						else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
 						{
-							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+							var result = await associatedInstance.ShellViewModel.GetFileFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
 
 							if (!result)
@@ -175,7 +175,7 @@ namespace Files.App.Helpers
 						}
 						else
 						{
-							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+							var result = await associatedInstance.ShellViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
 
 							if (!result)
@@ -283,7 +283,7 @@ namespace Files.App.Helpers
 
 			if (associatedInstance.SlimContentPage is not null)
 			{
-				currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+				currentPath = associatedInstance.ShellViewModel.WorkingDirectory;
 				if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 					!library.IsEmpty &&
 					library.Folders.Count == 1) // TODO: handle libraries with multiple folders
@@ -373,7 +373,7 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutAsync(IShellPage? associatedInstance, IReadOnlyList<ListedItem> selectedItems)
 		{
-			var currentPath = associatedInstance?.FilesystemViewModel.WorkingDirectory;
+			var currentPath = associatedInstance?.ShellViewModel.WorkingDirectory;
 
 			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
 				currentPath = library.DefaultSaveFolder;
@@ -393,7 +393,7 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
-			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			var currentPath = associatedInstance.ShellViewModel.WorkingDirectory;
 			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 				!library.IsEmpty)
 			{
