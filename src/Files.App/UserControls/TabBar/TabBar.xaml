@@ -58,13 +58,70 @@
 		</ResourceDictionary>
 	</local:BaseTabBar.Resources>
 
-	<Border
+	<!--  TODO: Use TitleBar of WinAppSdk 1.6 when available  -->
+	<Grid
 		x:Name="TitlebarArea"
 		HorizontalAlignment="Stretch"
 		x:FieldModifier="public"
 		Background="Transparent">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<!--  Header Button  -->
+		<Button
+			Width="32"
+			Height="32"
+			Margin="4,4,0,-4"
+			Padding="0"
+			Background="Transparent"
+			BorderThickness="0">
+			<FontIcon FontSize="14" Glyph="&#xEA3A;" />
+
+			<Button.Flyout>
+				<MenuFlyout Placement="BottomEdgeAlignedLeft">
+					<MenuFlyoutItem Text="New window">
+						<MenuFlyoutItem.Icon>
+							<FontIcon Glyph="&#xEA3A;" />
+						</MenuFlyoutItem.Icon>
+					</MenuFlyoutItem>
+					<MenuFlyoutItem Text="Enter compact overlay">
+						<MenuFlyoutItem.Icon>
+							<FontIcon Glyph="&#xEA3A;" />
+						</MenuFlyoutItem.Icon>
+					</MenuFlyoutItem>
+					<MenuFlyoutSubItem Text="Arrange panes">
+						<MenuFlyoutSubItem.Icon>
+							<FontIcon Glyph="&#xEA3A;" />
+						</MenuFlyoutSubItem.Icon>
+
+						<MenuFlyoutSubItem.Items>
+							<MenuFlyoutItem Text="Arrange vertically">
+								<MenuFlyoutItem.Icon>
+									<FontIcon Glyph="&#xEA3A;" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
+							<MenuFlyoutItem Text="Arrange horizontally">
+								<MenuFlyoutItem.Icon>
+									<FontIcon Glyph="&#xEA3A;" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
+						</MenuFlyoutSubItem.Items>
+					</MenuFlyoutSubItem>
+					<MenuFlyoutItem Text="Close active pane">
+						<MenuFlyoutItem.Icon>
+							<FontIcon Glyph="&#xEA3A;" />
+						</MenuFlyoutItem.Icon>
+					</MenuFlyoutItem>
+				</MenuFlyout>
+			</Button.Flyout>
+		</Button>
+
+		<!--  TabBar + Draggable Right Padding  -->
 		<TabView
 			x:Name="HorizontalTabView"
+			Grid.Column="1"
 			Margin="0,10,0,0"
 			Padding="0"
 			VerticalAlignment="Stretch"
@@ -146,6 +203,6 @@
 			</TabView.TabStripFooter>
 
 		</TabView>
-	</Border>
+	</Grid>
 
 </local:BaseTabBar>
