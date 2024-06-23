@@ -43,7 +43,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is null)
 				return;
 
-			string path = context.ShellPage.FilesystemViewModel.WorkingDirectory;
+			string path = context.ShellPage.ShellViewModel.WorkingDirectory;
 			await UIFilesystemHelpers.PasteItemAsync(path, context.ShellPage);
 		}
 

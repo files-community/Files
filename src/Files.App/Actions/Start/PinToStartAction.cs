@@ -45,9 +45,9 @@ namespace Files.App.Actions
 					await StartMenuService.PinAsync(storable, listedItem.Name);
 				}
 			}
-			else if (context.ShellPage?.FilesystemViewModel?.CurrentFolder is not null)
+			else if (context.ShellPage?.ShellViewModel?.CurrentFolder is not null)
 			{
-				var currentFolder = context.ShellPage.FilesystemViewModel.CurrentFolder;
+				var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
 				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
 
 				await StartMenuService.PinAsync(folder, currentFolder.Name);

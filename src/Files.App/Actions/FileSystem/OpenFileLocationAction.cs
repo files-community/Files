@@ -32,7 +32,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.FilesystemViewModel is null)
+			if (context.ShellPage?.ShellViewModel is null)
 				return;
 
 			var item = context.SelectedItem as ShortcutItem;
@@ -42,7 +42,7 @@ namespace Files.App.Actions
 
 			// Check if destination path exists
 			var folderPath = Path.GetDirectoryName(item.TargetPath);
-			var destFolder = await context.ShellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+			var destFolder = await context.ShellPage.ShellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 			if (destFolder)
 			{

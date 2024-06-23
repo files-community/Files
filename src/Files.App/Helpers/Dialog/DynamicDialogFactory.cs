@@ -324,7 +324,7 @@ namespace Files.App.Helpers
 				SecondaryButtonAction = (vm, e) =>
 				{
 					var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-					var item = context.ShellPage?.FilesystemViewModel.FilesAndFolders.FirstOrDefault(li => li.ItemPath.Equals(path));
+					var item = context.ShellPage?.ShellViewModel.FilesAndFolders.FirstOrDefault(li => li.ItemPath.Equals(path));
 
 					if (context.ShellPage is not null && item is not null)
 						FilePropertiesHelpers.OpenPropertiesWindow(item, context.ShellPage, PropertiesNavigationViewItemType.Security);
