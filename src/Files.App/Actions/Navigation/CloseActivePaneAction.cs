@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ClosePaneAction : ObservableObject, IAction
+	internal sealed class CloseActivePaneAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
-			=> "NavigationToolbarClosePane/Label".GetLocalizedResource();
+			=> "CloseActivePane".GetLocalizedResource();
 
 		public string Description
-			=> "ClosePaneDescription".GetLocalizedResource();
+			=> "CloseActivePaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.W, KeyModifiers.CtrlShift);
@@ -20,23 +20,20 @@ namespace Files.App.Actions
 			=> new("\uE89F");
 
 		public bool IsExecutable
-			=> context.IsMultiPaneActive;
+			=> ContentPageContext.IsMultiPaneActive;
 
-		public ClosePaneAction()
+		public CloseActivePaneAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage!.PaneHolder.CloseSecondaryPane();
-
+			ContentPageContext.ShellPage?.PaneHolder.CloseActivePane();
 			return Task.CompletedTask;
 		}
 
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

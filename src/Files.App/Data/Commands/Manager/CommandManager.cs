@@ -191,7 +191,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand NextTab => commands[CommandCodes.NextTab];
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
 		public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
-		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
+		public IRichCommand CloseActivePane => commands[CommandCodes.CloseActivePane];
 		public IRichCommand FocusLeftPane => commands[CommandCodes.FocusLeftPane];
 		public IRichCommand FocusRightPane => commands[CommandCodes.FocusRightPane];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
@@ -374,7 +374,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.NextTab] = new NextTabAction(),
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
 			[CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
-			[CommandCodes.ClosePane] = new ClosePaneAction(),
+			[CommandCodes.CloseActivePane] = new CloseActivePaneAction(),
 			[CommandCodes.FocusLeftPane] = new FocusLeftPaneAction(),
 			[CommandCodes.FocusRightPane] = new FocusRightPaneAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
