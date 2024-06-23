@@ -24,7 +24,7 @@ namespace Files.Core.SourceGenerator.Generators
 			_ = sb.AppendLine($"// Copyright (c) {DateTime.Now.Year} Files Community");
 			_ = sb.AppendLine("// Licensed under the MIT License. See the LICENSE.");
 			_ = sb.AppendLine();
-			_ = sb.AppendLine("namespace Files.App.Resources.Helpers");
+			_ = sb.AppendLine("namespace Files.App.Helpers");
 			_ = sb.AppendLine("{");
 			_ = sb.AppendLine("    public sealed partial class Strings");
 			_ = sb.AppendLine("    {");
