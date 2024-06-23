@@ -15,7 +15,7 @@ namespace Files.Core.SourceGenerator
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
 			var additionalFiles = context
-				.AdditionalTextsProvider.Where(af => af.Path.EndsWith("en-US\\Resources.resw"))
+				.AdditionalTextsProvider.Where(af => af.Path.Contains("en-US\\Resources"))
 				.Select((f, _) => new AdditionalTextWithHash(f, Guid.NewGuid()));
 
 			context.RegisterSourceOutput(additionalFiles, Execute);
