@@ -1,12 +1,9 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Immutable;
-using System.Linq;
-using Microsoft.CodeAnalysis;
 using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
 
-namespace Files.Core.SourceGenerator
+namespace Files.Core.SourceGenerator.Generators
 {
 	public abstract class TypeWithAttributeGenerator : IIncrementalGenerator
 	{

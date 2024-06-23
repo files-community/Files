@@ -1,11 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Core.SourceGenerator
+namespace Files.Core.SourceGenerator.Generators
 {
 	[Generator]
 	public sealed class RegistrySerializationGenerator : IIncrementalGenerator

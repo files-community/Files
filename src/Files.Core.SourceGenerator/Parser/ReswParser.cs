@@ -1,15 +1,10 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Xml.Linq;
+
 namespace Files.Core.SourceGenerator.Parser
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-    using Microsoft.CodeAnalysis;
-
-
     internal static class ReswParser
     {
         public static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)

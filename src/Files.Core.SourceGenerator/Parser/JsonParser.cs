@@ -1,12 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.SourceGenerator.Utils.LightJson;
-using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using Files.Core.SourceGenerator.Utilities.LightJson;
 
 namespace Files.Core.SourceGenerator.Parser
 {
@@ -14,7 +9,7 @@ namespace Files.Core.SourceGenerator.Parser
     {
         public static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)
         {
-            var stream = new StreamReader(file.Path).ReadToEnd();
+            var stream = new SystemIO.StreamReader(file.Path).ReadToEnd();
             var json = JsonValue.Parse(stream);
 
             var result = new List<Tuple<string, string?>>();
@@ -39,7 +34,7 @@ namespace Files.Core.SourceGenerator.Parser
 
                     foreach (var kvp in obj!)
                     {
-                        string key = string.IsNullOrEmpty(prefix) ? kvp.Key : $"{prefix}.{kvp.Key}";
+                        var key = string.IsNullOrEmpty(prefix) ? kvp.Key : $"{prefix}.{kvp.Key}";
 
                         if (kvp.Value.Type == JsonValueType.Object)
                             ProcessJsonObject(kvp.Value, key, result);
