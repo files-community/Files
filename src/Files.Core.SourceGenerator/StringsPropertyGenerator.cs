@@ -42,10 +42,7 @@ namespace Files.Core.SourceGenerator
 
             foreach (var key in ReadAllKeys(fileWithHash.File))
             {
-                if (key is null)
-                    continue;
-
-                AddKey(ref sb, key);
+                AddKey(ref sb, key.Item1, key.Item2);
             }
 
             _ = sb.AppendLine("    }");
@@ -56,9 +53,20 @@ namespace Files.Core.SourceGenerator
             ctx.AddSource($"Strings.Properties.{fileWithHash.Hash}.g.cs", sourceText);
         }
 
-        private void AddKey(ref StringBuilder sb, string key) => sb.AppendLine($"        public const string {KeyNameValidator(key)} = \"{key}\";");
+        private void AddKey(ref StringBuilder sb, string key, string? comment)
+        {
+			if (comment is not null)
+			{
+				sb.AppendLine();
+				sb.AppendLine("        /// <summary>");
+				sb.AppendLine($"        /// {comment}");
+				sb.AppendLine("        /// </summary>");
+			}
 
-        private IEnumerable<string> ReadAllKeys(AdditionalText file)
+            sb.AppendLine($@"        public const string {KeyNameValidator(key)} = ""{key}"";");
+        }
+
+        private IEnumerable<(string, string?)> ReadAllKeys(AdditionalText file)
         {
             return Path.GetExtension(file.Path) switch
             {

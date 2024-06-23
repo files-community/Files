@@ -8,17 +8,17 @@ using System.Xml.Linq;
 
 namespace Files.Core.SourceGenerator.Parser.Resw
 {
-    internal static class ReswParser
-    {
-        public static IEnumerable<string> GetKeys(AdditionalText file)
-        {
-            var document = XDocument.Load(file.Path);
-            var keys = document
-                .Descendants("data")
-                .Select(element => element.Attribute("name").Value)
-                .Where(key => key != null);
+	internal static class ReswParser
+	{
+		public static IEnumerable<(string, string?)> GetKeys(AdditionalText file)
+		{
+			var document = XDocument.Load(file.Path);
+			var keys = document
+				.Descendants("data")
+				.Select(element => (element.Attribute("name").Value, element.Element("comment")?.Value))
+				.Where(key => key.Item1 != null);
 
-            return keys ?? [];
-        }
-    }
+			return keys.OrderBy(k => k.Item1);
+		}
+	}
 }

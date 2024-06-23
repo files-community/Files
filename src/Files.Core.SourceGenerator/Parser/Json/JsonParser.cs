@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 
@@ -12,7 +13,7 @@ namespace Files.Core.SourceGenerator.Parser.Json
 {
     internal static class JsonParser
     {
-        public static IEnumerable<string> GetKeys(AdditionalText file)
+        public static IEnumerable<(string, string?)> GetKeys(AdditionalText file)
         {
             using var reader = new StreamReader(file.Path, Encoding.UTF8);
 
@@ -31,7 +32,7 @@ namespace Files.Core.SourceGenerator.Parser.Json
 
             var keys = new List<string>();
             GetKeysRecursive(data, string.Empty, ref keys);
-            return keys;
+            return keys.Select<string, (string, string?)>(k => (k, null)).OrderBy(k => k);
         }
 
         private static void GetKeysRecursive(in IDictionary<string, object> dict, in string parentKey, ref List<string> keys)
