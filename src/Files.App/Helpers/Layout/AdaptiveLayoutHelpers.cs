@@ -3,10 +3,8 @@
 
 using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
-using IniParser.Model;
 using Windows.Storage;
 using static Files.App.Constants.AdaptiveLayout;
-using IO = System.IO;
 
 namespace Files.App.Helpers
 {
@@ -14,6 +12,7 @@ namespace Files.App.Helpers
 	{
 		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 		private static ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
+		private static IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public static void ApplyAdaptativeLayout(LayoutPreferencesManager folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
@@ -47,38 +46,20 @@ namespace Files.App.Helpers
 
 		private static Layouts GetPathLayout(string path)
 		{
-			var iniPath = IO.Path.Combine(path, "desktop.ini");
+			var desktopIni = ContentPageContext.ShellPage!.ShellViewModel.DesktopIni;
 
-			var iniContents = Win32Helper.ReadStringFromFile(iniPath)?.Trim();
-			if (string.IsNullOrEmpty(iniContents))
-				return Layouts.None;
+			var viewStateSection = desktopIni.FirstOrDefault(x => x.SectionName == "ViewState");
+			if (viewStateSection is null)
+				return Layouts.Detail;
 
-			var parser = new IniParser.Parser.IniDataParser();
-			parser.Configuration.ThrowExceptionsOnError = false;
-			var data = parser.Parse(iniContents);
-			if (data is null)
-				return Layouts.None;
+			var viewMode = viewStateSection.Parameters?.FirstOrDefault(x => x.Key == "Mode").Value;
 
-			var viewModeSection = data.Sections.FirstOrDefault(IsViewState);
-			if (viewModeSection is null)
-				return Layouts.None;
-
-			var folderTypeKey = viewModeSection.Keys.FirstOrDefault(IsFolderType);
-			if (folderTypeKey is null)
-				return Layouts.None;
-
-			return folderTypeKey.Value switch
+			return viewMode switch
 			{
 				"Pictures" => Layouts.Grid,
 				"Videos" => Layouts.Grid,
 				_ => Layouts.Detail,
 			};
-
-			static bool IsViewState(SectionData data)
-				=> "ViewState".Equals(data.SectionName, StringComparison.OrdinalIgnoreCase);
-
-			static bool IsFolderType(KeyData data)
-				=> "FolderType".Equals(data.KeyName, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private static Layouts GetContentLayout(IList<ListedItem> filesAndFolders)
