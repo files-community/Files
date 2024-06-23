@@ -62,6 +62,8 @@ namespace Files.App
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
+			var t = Strings.Found;
+
 			_ = ActivateAsync();
 
 			async Task ActivateAsync()
