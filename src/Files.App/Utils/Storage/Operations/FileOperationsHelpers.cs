@@ -128,7 +128,7 @@ namespace Files.App.Utils.Storage
 					{
 						using var shi = new ShellItem(fileToDeletePath[i]);
 						using var file = SafetyExtensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
-						if (file.Properties.GetProperty<uint>(PKEY_FilePlaceholderStatus) == PS_CLOUDFILE_PLACEHOLDER)
+						if ((uint?)file.Properties.GetValueOrDefault(PKEY_FilePlaceholderStatus) == PS_CLOUDFILE_PLACEHOLDER)
 						{
 							// Online only files cannot be tried for deletion, so they are treated as to be permanently deleted.
 							shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -276,7 +276,7 @@ namespace Files.App.Utils.Storage
 					if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
 						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
 
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
 				};
@@ -286,7 +286,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
@@ -472,7 +472,7 @@ namespace Files.App.Utils.Storage
 
 				op.PreMoveItem += (s, e) =>
 				{
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
 				};
@@ -481,7 +481,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
@@ -603,7 +603,7 @@ namespace Files.App.Utils.Storage
 
 				op.PreCopyItem += (s, e) =>
 				{
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
 				};
@@ -612,7 +612,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
