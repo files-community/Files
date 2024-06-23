@@ -195,9 +195,9 @@ namespace Files.Core.SourceGenerator.Generators
 						queue.Enqueue(propertyType);
 						continue;
 					default:
-						if (!diagnostics.Any(d => d.Id == DiagnosticDescriptors.FSG1001.Id && d.Location.SourceSpan == propertyLocation[0].SourceSpan))
+						if (!diagnostics.Any(d => d.Id == Constants.DiagnosticDescriptors.FSG1001.Id && d.Location.SourceSpan == propertyLocation[0].SourceSpan))
 						{
-							diagnostics.Add(Diagnostic.Create(DiagnosticDescriptors.FSG1001, propertyLocation[0], $"{propertyType}{(emitNullBranch ? "?" : "")}"));
+							diagnostics.Add(Diagnostic.Create(Constants.DiagnosticDescriptors.FSG1001, propertyLocation[0], $"{propertyType}{(emitNullBranch ? "?" : "")}"));
 						}
 						break;
 				}
@@ -348,9 +348,9 @@ namespace Files.Core.SourceGenerator.Generators
 						queue.Enqueue(propertyType);
 						continue;
 					default:
-						if (!diagnostics.Any(d => d.Id == DiagnosticDescriptors.FSG1001.Id && d.Location.SourceSpan == propertyLocation[0].SourceSpan))
+						if (!diagnostics.Any(d => d.Id == Constants.DiagnosticDescriptors.FSG1001.Id && d.Location.SourceSpan == propertyLocation[0].SourceSpan))
 						{
-							diagnostics.Add(Diagnostic.Create(DiagnosticDescriptors.FSG1001, propertyLocation[0], $"{propertyType}{(emitNullBranch ? "?" : "")}"));
+							diagnostics.Add(Diagnostic.Create(Constants.DiagnosticDescriptors.FSG1001, propertyLocation[0], $"{propertyType}{(emitNullBranch ? "?" : "")}"));
 						}
 						break;
 				}
