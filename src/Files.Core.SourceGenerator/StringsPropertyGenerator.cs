@@ -1,20 +1,20 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.SourceGenerator.Data;
-using Files.Core.SourceGenerator.Parser.Json;
-using Files.Core.SourceGenerator.Parser.Resw;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
 namespace Files.Core.SourceGenerator
 {
-    [Generator(LanguageNames.CSharp)]
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using Files.Core.SourceGenerator.Data;
+    using Files.Core.SourceGenerator.Parser;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.Text;
+
+
+    [Generator]
     public sealed class StringsPropertyGenerator : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -23,7 +23,7 @@ namespace Files.Core.SourceGenerator
                 .AdditionalTextsProvider.Where(af => af.Path.Contains("en-US\\Resources"))
                 .Select((f, _) => new AdditionalTextWithHash(f, Guid.NewGuid()));
 
-            context.RegisterSourceOutput(additionalFiles, Execute);
+            context.RegisterSourceOutput(additionalFiles, this.Execute);
         }
 
         private void Execute(SourceProductionContext ctx, AdditionalTextWithHash fileWithHash)
@@ -35,14 +35,14 @@ namespace Files.Core.SourceGenerator
             _ = sb.AppendLine($"// Copyright (c) {DateTime.Now.Year} Files Community");
             _ = sb.AppendLine("// Licensed under the MIT License. See the LICENSE.");
             _ = sb.AppendLine();
-            _ = sb.AppendLine("namespace Files.App.Helpers");
+            _ = sb.AppendLine("namespace Files.App.Resources.Helpers");
             _ = sb.AppendLine("{");
             _ = sb.AppendLine("    public sealed partial class Strings");
             _ = sb.AppendLine("    {");
 
-            foreach (var key in ReadAllKeys(fileWithHash.File))
+            foreach (var key in this.ReadAllKeys(fileWithHash.File))
             {
-                AddKey(ref sb, key.Item1, key.Item2);
+                this.AddKey(ref sb, key.Item1, key.Item2);
             }
 
             _ = sb.AppendLine("    }");
@@ -55,24 +55,24 @@ namespace Files.Core.SourceGenerator
 
         private void AddKey(ref StringBuilder sb, string key, string? comment)
         {
-			if (comment is not null)
-			{
-				sb.AppendLine();
-				sb.AppendLine("        /// <summary>");
-				sb.AppendLine($"        /// {comment}");
-				sb.AppendLine("        /// </summary>");
-			}
+            if (comment is not null)
+            {
+                _ = sb.AppendLine();
+                _ = sb.AppendLine("        /// <summary>");
+                _ = sb.AppendLine($"        /// {comment}");
+                _ = sb.AppendLine("        /// </summary>");
+            }
 
-            sb.AppendLine($@"        public const string {KeyNameValidator(key)} = ""{key}"";");
+            _ = sb.AppendLine($@"        public const string {this.KeyNameValidator(key)} = ""{key}"";");
         }
 
-        private IEnumerable<(string, string?)> ReadAllKeys(AdditionalText file)
+        private IEnumerable<Tuple<string, string?>> ReadAllKeys(AdditionalText file)
         {
             return Path.GetExtension(file.Path) switch
             {
                 ".resw" => ReswParser.GetKeys(file),
                 ".json" => JsonParser.GetKeys(file),
-                _ => []
+                _ =>[]
             };
         }
 
@@ -81,7 +81,7 @@ namespace Files.Core.SourceGenerator
             return key
                 .Replace('+', 'P')
                 .Replace(' ', '_')
-                .Replace(".", "");
+                .Replace(".", string.Empty);
         }
     }
 }
