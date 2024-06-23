@@ -513,7 +513,7 @@ namespace Files.App.Views
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
 		{
-			if (sender != ActivePane)
+			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)
 				((UIElement)sender).Focus(FocusState.Programmatic);
 		}
 
