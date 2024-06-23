@@ -4,7 +4,7 @@
 namespace Files.Core.SourceGenerator.Generators
 {
 	[Generator]
-	public sealed class StringsPropertyGenerator : IIncrementalGenerator
+	internal sealed class StringsPropertyGenerator : IIncrementalGenerator
 	{
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
