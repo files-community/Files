@@ -8,6 +8,7 @@
 	xmlns:local="using:Files.App.UserControls.TabBar"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:root="using:Files.App"
+	xmlns:usercontrols="using:Files.App.UserControls"
 	mc:Ignorable="d">
 
 	<local:BaseTabBar.Resources>
@@ -71,49 +72,63 @@
 
 		<!--  Header Button  -->
 		<Button
-			Width="32"
-			Height="32"
-			Margin="4,4,0,-4"
+			Width="30"
+			Height="30"
+			Margin="4,4,-4,-4"
 			Padding="0"
+			AutomationProperties.Name="{helpers:ResourceString Name=TabActions}"
 			Background="Transparent"
-			BorderThickness="0">
-			<FontIcon FontSize="14" Glyph="&#xEA3A;" />
+			BorderThickness="0"
+			ToolTipService.ToolTip="{helpers:ResourceString Name=TabActions}">
+			<PathIcon Data="M3 0C1.34315 0 0 1.34315 0 3V12C0 13.6569 1.34315 15 3 15H12C13.6569 15 15 13.6569 15 12V3C15 1.34315 13.6569 0 12 0H3ZM1 3C1 1.89543 1.89543 1 3 1H12C13.1046 1 14 1.89543 14 3V4H5.5C4.67157 4 4 4.67157 4 5.5V14H3C1.89543 14 1 13.1046 1 12V3ZM5 14H12C13.1046 14 14 13.1046 14 12V5H5.5C5.22386 5 5 5.22386 5 5.5V14Z" Foreground="{ThemeResource App.Theme.IconBaseBrush}" />
 
 			<Button.Flyout>
 				<MenuFlyout Placement="BottomEdgeAlignedLeft">
-					<MenuFlyoutItem Text="New window">
-						<MenuFlyoutItem.Icon>
-							<FontIcon Glyph="&#xEA3A;" />
-						</MenuFlyoutItem.Icon>
-					</MenuFlyoutItem>
-					<MenuFlyoutItem Text="Enter compact overlay">
-						<MenuFlyoutItem.Icon>
-							<FontIcon Glyph="&#xEA3A;" />
-						</MenuFlyoutItem.Icon>
-					</MenuFlyoutItem>
-					<MenuFlyoutSubItem Text="Arrange panes">
-						<MenuFlyoutSubItem.Icon>
-							<FontIcon Glyph="&#xEA3A;" />
-						</MenuFlyoutSubItem.Icon>
+					<!--  New Window  -->
+					<usercontrols:MenuFlyoutItemWithOpacityIcon
+						Command="{x:Bind Commands.NewWindow}"
+						KeyboardAcceleratorTextOverride="{x:Bind Commands.NewWindow.HotKeyText, Mode=OneWay}"
+						OpacityStyle="{x:Bind Commands.NewWindow.OpacityStyle}"
+						Text="{x:Bind Commands.NewWindow.Label}" />
 
-						<MenuFlyoutSubItem.Items>
-							<MenuFlyoutItem Text="Arrange vertically">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Glyph="&#xEA3A;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-							<MenuFlyoutItem Text="Arrange horizontally">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Glyph="&#xEA3A;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-						</MenuFlyoutSubItem.Items>
-					</MenuFlyoutSubItem>
-					<MenuFlyoutItem Text="Close active pane">
+					<!--  Enter Compact Overlay  -->
+					<usercontrols:MenuFlyoutItemWithOpacityIcon
+						x:Name="EnterCompactOverlay"
+						x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
+						Command="{x:Bind Commands.EnterCompactOverlay}"
+						KeyboardAcceleratorTextOverride="{x:Bind Commands.EnterCompactOverlay.HotKeyText, Mode=OneWay}"
+						OpacityStyle="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}"
+						Text="{x:Bind Commands.EnterCompactOverlay.Label}" />
+
+					<!--  Exit Compact Overlay  -->
+					<usercontrols:MenuFlyoutItemWithOpacityIcon
+						x:Name="ExitCompactOverlay"
+						x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
+						Command="{x:Bind Commands.ExitCompactOverlay}"
+						KeyboardAcceleratorTextOverride="{x:Bind Commands.ExitCompactOverlay.HotKeyText, Mode=OneWay}"
+						OpacityStyle="{x:Bind Commands.ExitCompactOverlay.OpacityStyle}"
+						Text="{x:Bind Commands.ExitCompactOverlay.Label}" />
+
+					<!--  Open New Pane  -->
+					<usercontrols:MenuFlyoutItemWithOpacityIcon
+						x:Name="NewPane"
+						x:Load="{x:Bind Commands.OpenNewPane.IsExecutable, Mode=OneWay}"
+						Command="{x:Bind Commands.OpenNewPane, Mode=OneWay}"
+						KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenNewPane.HotKeyText, Mode=OneWay}"
+						OpacityStyle="{x:Bind Commands.OpenNewPane.OpacityStyle}"
+						Text="{x:Bind Commands.OpenNewPane.Label}" />
+
+					<!--  Close active pane  -->
+					<usercontrols:MenuFlyoutItemWithOpacityIcon
+						x:Name="CloseActivePane"
+						x:Load="{x:Bind Commands.CloseActivePane.IsExecutable, Mode=OneWay}"
+						Command="{x:Bind Commands.CloseActivePane}"
+						KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseActivePane.HotKeyText, Mode=OneWay}"
+						Text="{x:Bind Commands.CloseActivePane.Label}">
 						<MenuFlyoutItem.Icon>
-							<FontIcon Glyph="&#xEA3A;" />
+							<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.CloseActivePane.Glyph.BaseGlyph}" />
 						</MenuFlyoutItem.Icon>
-					</MenuFlyoutItem>
+					</usercontrols:MenuFlyoutItemWithOpacityIcon>
 				</MenuFlyout>
 			</Button.Flyout>
 		</Button>
