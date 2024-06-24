@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Commuta il riquadro informazioni per visualizzare i riquadri dettaglio/anteprima</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Attiva/disattiva la barra degli strumenti</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
   </data>

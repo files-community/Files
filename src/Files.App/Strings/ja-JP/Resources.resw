@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>詳細およびプレビューのための情報ウィンドウを表示するかどうかを切り替える</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>ツールバーの表示を切り替える</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
   </data>
@@ -3860,7 +3863,7 @@
     <value>状態:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>ツール バーを表示する</value>
+    <value>ツールバーを表示する</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

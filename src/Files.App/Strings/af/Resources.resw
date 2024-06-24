@@ -1083,6 +1083,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Wissel die inligtingvenster om die besonderhede-/voorskoupanele te sien</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorskou beskikbaar nie</value>
   </data>

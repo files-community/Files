@@ -555,7 +555,7 @@
     <value>Raccourci</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Raccourci internet</value>
+    <value>Raccourci Internet</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - raccourci</value>
@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Afficher le volet d'informations pour afficher les volets de détails/aperçu</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Afficher/Masquer la barre d'outils</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
   </data>
@@ -1602,7 +1605,7 @@
     <value>Langue</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
-    <value>Marques</value>
+    <value>Marques déposées</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Version du fichier</value>
@@ -1854,7 +1857,7 @@
     <value>Créer une bibliothèque</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Entrer le nom de la bibliothèque</value>
+    <value>Entrez le nom de la bibliothèque</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Calculer la taille des dossiers</value>
@@ -2073,7 +2076,7 @@
     <value>Créer {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Saisir un nom</value>
+    <value>Entrez un nom</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
     <value>Niveau de compression</value>
@@ -2145,7 +2148,7 @@
     <value>Créez des raccourcis vers des programmes locaux ou réseau, des fichiers, des dossiers, des ordinateurs ou des adresses Internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Saisissez la localisation de l'élément :</value>
+    <value>Entrez l'emplacement de l'élément :</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
     <value>Crée un raccourci</value>
@@ -2199,7 +2202,7 @@
     <value>Entrez vos identifiants afin de vous connecter à : {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Entrer les identifiants réseau</value>
+    <value>Entrez les identifiants réseau</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Se souvenir de mes identifiants</value>
@@ -2265,7 +2268,7 @@
     <value>Largeur</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Appliquer cette action pour tous les conflits</value>
+    <value>Appliquer cette action à tous les éléments en conflit</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
     <value>Ouvrir dans le Terminal Windows</value>
@@ -3224,7 +3227,7 @@
     <value>Ouvrir le dossier dans une nouvelle fenêtre</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Ouvrir tout</value>
+    <value>Tout ouvrir</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Ouvrir tous les éléments étiquetés</value>
@@ -3743,7 +3746,7 @@
     <value>Êtes-vous sûr de vouloir restaurer les raccourcis par défaut ? Cette action ne peut pas être annulée.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>Cette liaison de clé est déjà utilisée, veuillez choisir une autre liaison pour continuer.</value>
+    <value>Ce raccourci clavier est déjà utilisé. Veuillez choisir un autre raccourci pour continuer.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Le raccourci clavier choisi ne peut pas être utilisé, veuillez réessayer avec un autre raccourci clavier.</value>

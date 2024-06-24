@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Εναλλαγή του πλαισίου πληροφοριών για προβολή των παραθύρων λεπτομερειών/προεπισκόπησης</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Δεν υπάρχει διαθέσιμη προεπισκόπηση</value>
   </data>

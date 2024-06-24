@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Toggle the info pane to view the detail/preview panes</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Брзи преглед датотеке није доступан</value>
   </data>

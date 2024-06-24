@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Přepnout informační podokno pro zobrazení detailu/náhledu podoken</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Přepnout panel nástrojů</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Není dostupný žádný náhled</value>
   </data>
