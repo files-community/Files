@@ -5,7 +5,7 @@ namespace Files.App.Data.Contracts
 {
 	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
-		ItemViewModel FilesystemViewModel { get; }
+		ShellViewModel ShellViewModel { get; }
 
 		CurrentInstanceViewModel InstanceViewModel { get; }
 

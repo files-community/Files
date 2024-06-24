@@ -305,7 +305,7 @@ namespace Files.App.Views.Layouts
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
-				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				&& !ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
 				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
 			{
 				CloseFolder();

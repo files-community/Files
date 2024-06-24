@@ -51,7 +51,7 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
 			// Set path of working directory empty
-			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
 
 			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 

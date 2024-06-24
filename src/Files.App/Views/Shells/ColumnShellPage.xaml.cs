@@ -76,19 +76,19 @@ namespace Files.App.Views.Shells
 
 		protected override void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			ShellViewModel = new ShellViewModel(InstanceViewModel?.FolderSettings);
+			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.PaneHolder;
 
 			base.Page_Loaded(sender, e);
 
-			NotifyPropertyChanged(nameof(FilesystemViewModel));
+			NotifyPropertyChanged(nameof(ShellViewModel));
 		}
 
 		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -140,7 +140,7 @@ namespace Files.App.Views.Shells
 				// Ctrl + V, Paste
 				case (true, false, false, true, VirtualKey.V):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
-						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
+						await UIFilesystemHelpers.PasteItemAsync(ShellViewModel.WorkingDirectory, this);
 					break;
 			}
 		}
@@ -191,13 +191,13 @@ namespace Files.App.Views.Shells
 
 		public void SubmitSearch(string query)
 		{
-			FilesystemViewModel.CancelSearch();
+			ShellViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			ItemDisplayFrame.Navigate(typeof(ColumnLayoutPage), new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
-				SearchPathParam = FilesystemViewModel.WorkingDirectory,
+				SearchPathParam = ShellViewModel.WorkingDirectory,
 				SearchQuery = query,
 			});
 
