@@ -82,7 +82,7 @@ namespace Files.Core.SourceGenerator.Generators
 		/// <param name="type">The type symbol representing the object type.</param>
 		private void EmitBindValues(List<Diagnostic> diagnostics, StringBuilder sb, Queue<ITypeSymbol> queue, ITypeSymbol type)
 		{
-			_ = sb.AppendLine($"	public  static void BindValues(RegistryKey key, {type.Name} target, string prefix = \"\")");
+			_ = sb.AppendLine($"	internal  static void BindValues(RegistryKey key, {type.Name} target, string prefix = \"\")");
 			_ = sb.AppendLine("	{");
 
 			_ = sb.AppendLine(
@@ -246,7 +246,7 @@ namespace Files.Core.SourceGenerator.Generators
 		/// <param name="type">The type symbol representing the object type.</param>
 		private void EmitSaveValues(List<Diagnostic> diagnostics, StringBuilder sb, Queue<ITypeSymbol> queue, ITypeSymbol type)
 		{
-			_ = sb.AppendLine($"	public  static void SaveValues(RegistryKey key, {type.Name} source, string prefix = \"\")");
+			_ = sb.AppendLine($"	internal  static void SaveValues(RegistryKey key, {type.Name} source, string prefix = \"\")");
 			_ = sb.AppendLine("	{");
 
 			_ = sb.AppendLine(

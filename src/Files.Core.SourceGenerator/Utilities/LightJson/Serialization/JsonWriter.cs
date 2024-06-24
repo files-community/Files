@@ -3,22 +3,17 @@
 
 #nullable disable
 
-using Files.Core.SourceGenerator.Utilities.LightJson.Serialization;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using ErrorType = Files.Core.SourceGenerator.Utilities.LightJson.Serialization.JsonSerializationException.ErrorType;
 
 namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Diagnostics;
-	using System.Globalization;
-	using System.IO;
-	using Files.Core.SourceGenerator.Utilities.LightJson;
-	using ErrorType = JsonSerializationException.ErrorType;
-
 	/// <summary>
 	/// Represents a writer that can write string representations of JsonValues.
 	/// </summary>
-	public  sealed class JsonWriter : IDisposable
+	internal sealed class JsonWriter : IDisposable
 	{
 		private int indent;
 		private bool isNewLine;
@@ -34,7 +29,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JsonWriter"/> class.
 		/// </summary>
-		public  JsonWriter()
+		public JsonWriter()
 			: this(false)
 		{
 		}
@@ -45,7 +40,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <param name="pretty">
 		/// A value indicating whether the output of the writer should be human-readable.
 		/// </param>
-		public  JsonWriter(bool pretty)
+		public JsonWriter(bool pretty)
 		{
 			if (pretty)
 			{
@@ -61,7 +56,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// The string representing a indent in the output.
 		/// </value>
-		public  string IndentString { get; set; }
+		public string IndentString { get; set; }
 
 		/// <summary>
 		/// Gets or sets the string representing a space in the output.
@@ -69,7 +64,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// The string representing a space in the output.
 		/// </value>
-		public  string SpacingString { get; set; }
+		public string SpacingString { get; set; }
 
 		/// <summary>
 		/// Gets or sets the string representing a new line on the output.
@@ -77,7 +72,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// The string representing a new line on the output.
 		/// </value>
-		public  string NewLineString { get; set; }
+		public string NewLineString { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether JsonObject properties should be written in a deterministic order.
@@ -85,14 +80,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// A value indicating whether JsonObject properties should be written in a deterministic order.
 		/// </value>
-		public  bool SortObjects { get; set; }
+		public bool SortObjects { get; set; }
 
 		/// <summary>
 		/// Returns a string representation of the given JsonValue.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to serialize.</param>
 		/// <returns>The serialized value.</returns>
-		public  string Serialize(JsonValue jsonValue)
+		public string Serialize(JsonValue jsonValue)
 		{
 			Initialize();
 
@@ -104,20 +99,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <summary>
 		/// Releases all the resources used by this object.
 		/// </summary>
-		public  void Dispose()
-		{
-			if (writer != null)
-			{
-				writer.Dispose();
-			}
-		}
+		public void Dispose() => writer?.Dispose();
 
 		private void Initialize()
 		{
 			indent = 0;
 			isNewLine = true;
 			writer = new StringWriter();
-			renderingCollections = new HashSet<IEnumerable<JsonValue>>();
+			renderingCollections = [];
 		}
 
 		private void Write(string text)
@@ -158,7 +147,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		{
 			Write("\"");
 
-			for (int i = 0; i < text.Length; i += 1)
+			for (var i = 0; i < text.Length; i += 1)
 			{
 				var currentChar = text[i];
 
@@ -214,10 +203,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 			}
 		}
 
-		private void WriteSpacing()
-		{
-			Write(SpacingString);
-		}
+		private void WriteSpacing() => Write(SpacingString);
 
 		private void WriteLine()
 		{
@@ -239,10 +225,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 			}
 		}
 
-		private void RemoveRenderingCollection(IEnumerable<JsonValue> value)
-		{
-			renderingCollections.Remove(value);
-		}
+		private void RemoveRenderingCollection(IEnumerable<JsonValue> value) => renderingCollections.Remove(value);
 
 		private void Render(JsonValue value)
 		{

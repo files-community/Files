@@ -1,36 +1,31 @@
 ﻿// Copyright (c) Tunnel Vision Laboratories, LLC. All Rights Reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System.Diagnostics;
+
 #nullable disable
 
 namespace Files.Core.SourceGenerator.Utilities.LightJson
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Diagnostics;
-
 	/// <summary>
 	/// Represents an ordered collection of JsonValues.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
 	[DebuggerTypeProxy(typeof(JsonArrayDebugView))]
-	public  sealed class JsonArray : IEnumerable<JsonValue>
+	internal sealed class JsonArray : IEnumerable<JsonValue>
 	{
 		private readonly IList<JsonValue> items;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JsonArray"/> class.
 		/// </summary>
-		public  JsonArray()
-		{
-			items = new List<JsonValue>();
-		}
+		public JsonArray() => items = [];
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JsonArray"/> class, adding the given values to the collection.
 		/// </summary>
 		/// <param name="values">The values to be added to this collection.</param>
-		public  JsonArray(params JsonValue[] values)
+		public JsonArray(params JsonValue[] values)
 			: this()
 		{
 			if (values == null)
@@ -48,13 +43,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets the number of values in this collection.
 		/// </summary>
 		/// <value>The number of values in this collection.</value>
-		public  int Count
-		{
-			get
-			{
-				return items.Count;
-			}
-		}
+		public int Count => items.Count;
 
 		/// <summary>
 		/// Gets or sets the value at the given index.
@@ -63,24 +52,11 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <remarks>
 		/// <para>The getter will return JsonValue.Null if the given index is out of range.</para>
 		/// </remarks>
-		public  JsonValue this[int index]
+		public JsonValue this[int index]
 		{
-			get
-			{
-				if (index >= 0 && index < items.Count)
-				{
-					return items[index];
-				}
-				else
-				{
-					return JsonValue.Null;
-				}
-			}
+			get => index >= 0 && index < items.Count ? items[index] : JsonValue.Null;
 
-			set
-			{
-				items[index] = value;
-			}
+			set => items[index] = value;
 		}
 
 		/// <summary>
@@ -88,7 +64,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// </summary>
 		/// <param name="value">The value to be added.</param>
 		/// <returns>Returns this collection.</returns>
-		public  JsonArray Add(JsonValue value)
+		public JsonArray Add(JsonValue value)
 		{
 			items.Add(value);
 			return this;
@@ -100,7 +76,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <param name="index">The index where the given value will be inserted.</param>
 		/// <param name="value">The value to be inserted into this collection.</param>
 		/// <returns>Returns this collection.</returns>
-		public  JsonArray Insert(int index, JsonValue value)
+		public JsonArray Insert(int index, JsonValue value)
 		{
 			items.Insert(index, value);
 			return this;
@@ -111,7 +87,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// </summary>
 		/// <param name="index">The index of the value to be removed.</param>
 		/// <returns>Return this collection.</returns>
-		public  JsonArray Remove(int index)
+		public JsonArray Remove(int index)
 		{
 			items.RemoveAt(index);
 			return this;
@@ -121,7 +97,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Clears the contents of this collection.
 		/// </summary>
 		/// <returns>Returns this collection.</returns>
-		public  JsonArray Clear()
+		public JsonArray Clear()
 		{
 			items.Clear();
 			return this;
@@ -132,56 +108,41 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// </summary>
 		/// <param name="item">The item to locate in the JsonArray.</param>
 		/// <returns>Returns true if the item is found; otherwise, false.</returns>
-		public  bool Contains(JsonValue item)
-		{
-			return items.Contains(item);
-		}
+		public bool Contains(JsonValue item) => items.Contains(item);
 
 		/// <summary>
 		/// Determines the index of the given item in this JsonArray.
 		/// </summary>
 		/// <param name="item">The item to locate in this JsonArray.</param>
 		/// <returns>The index of the item, if found. Otherwise, returns -1.</returns>
-		public  int IndexOf(JsonValue item)
-		{
-			return items.IndexOf(item);
-		}
+		public int IndexOf(JsonValue item) => items.IndexOf(item);
 
 		/// <summary>
 		/// Returns an enumerator that iterates through the collection.
 		/// </summary>
 		/// <returns>The enumerator that iterates through the collection.</returns>
-		public  IEnumerator<JsonValue> GetEnumerator()
-		{
-			return items.GetEnumerator();
-		}
+		public IEnumerator<JsonValue> GetEnumerator() => items.GetEnumerator();
 
 		/// <summary>
 		/// Returns an enumerator that iterates through the collection.
 		/// </summary>
 		/// <returns>The enumerator that iterates through the collection.</returns>
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
 		private class JsonArrayDebugView
 		{
 			private readonly JsonArray jsonArray;
 
-			public  JsonArrayDebugView(JsonArray jsonArray)
-			{
-				this.jsonArray = jsonArray;
-			}
+			public JsonArrayDebugView(JsonArray jsonArray) => this.jsonArray = jsonArray;
 
 			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-			public  JsonValue[] Items
+			public JsonValue[] Items
 			{
 				get
 				{
 					var items = new JsonValue[jsonArray.Count];
 
-					for (int i = 0; i < jsonArray.Count; i += 1)
+					for (var i = 0; i < jsonArray.Count; i += 1)
 					{
 						items[i] = jsonArray[i];
 					}

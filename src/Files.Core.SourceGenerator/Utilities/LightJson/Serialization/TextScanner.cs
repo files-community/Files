@@ -3,17 +3,15 @@
 
 #nullable disable
 
-using Files.Core.SourceGenerator.Utilities.LightJson.Serialization;
+using System.IO;
+using ErrorType = Files.Core.SourceGenerator.Utilities.LightJson.Serialization.JsonParseException.ErrorType;
 
 namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 {
-	using System.IO;
-	using ErrorType = JsonParseException.ErrorType;
-
 	/// <summary>
 	/// Represents a text scanner that reads one character at a time.
 	/// </summary>
-	public  sealed class TextScanner
+	internal sealed class TextScanner
 	{
 		private readonly TextReader reader;
 		private TextPosition position;
@@ -22,28 +20,19 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// Initializes a new instance of the <see cref="TextScanner"/> class.
 		/// </summary>
 		/// <param name="reader">The TextReader to read the text.</param>
-		public  TextScanner(TextReader reader)
-		{
-			this.reader = reader;
-		}
+		public TextScanner(TextReader reader) => this.reader = reader;
 
 		/// <summary>
 		/// Gets the position of the scanner within the text.
 		/// </summary>
 		/// <value>The position of the scanner within the text.</value>
-		public  TextPosition Position
-		{
-			get
-			{
-				return position;
-			}
-		}
+		public TextPosition Position => position;
 
 		/// <summary>
 		/// Reads the next character in the stream without changing the current position.
 		/// </summary>
 		/// <returns>The next character in the stream.</returns>
-		public  char Peek()
+		public char Peek()
 			=> (char)Peek(throwAtEndOfFile: true);
 
 		/// <summary>
@@ -53,27 +42,22 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// reached; otherwise, <see langword="false"/>.</param>
 		/// <returns>The next character in the stream, or -1 if the end of the file is reached with
 		/// <paramref name="throwAtEndOfFile"/> set to <see langword="false"/>.</returns>
-		public  int Peek(bool throwAtEndOfFile)
+		public int Peek(bool throwAtEndOfFile)
 		{
 			var next = reader.Peek();
 
-			if (next == -1 && throwAtEndOfFile)
-			{
-				throw new JsonParseException(
+			return next == -1 && throwAtEndOfFile
+				? throw new JsonParseException(
 					ErrorType.IncompleteMessage,
-					position);
-			}
-			else
-			{
-				return next;
-			}
+					position)
+				: next;
 		}
 
 		/// <summary>
 		/// Reads the next character in the stream, advancing the text position.
 		/// </summary>
 		/// <returns>The next character in the stream.</returns>
-		public  char Read()
+		public char Read()
 		{
 			var next = reader.Read();
 
@@ -102,14 +86,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <summary>
 		/// Advances the scanner to next non-whitespace character.
 		/// </summary>
-		public  void SkipWhitespace()
+		public void SkipWhitespace()
 		{
 			while (true)
 			{
-				char next = Peek();
+				var next = Peek();
 				if (char.IsWhiteSpace(next))
 				{
-					Read();
+					_ = Read();
 					continue;
 				}
 				else if (next == '/')
@@ -129,7 +113,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// If the characters do not match, an exception will be thrown.
 		/// </summary>
 		/// <param name="next">The expected character.</param>
-		public  void Assert(char next)
+		public void Assert(char next)
 		{
 			var errorPosition = position;
 			if (Read() != next)
@@ -146,7 +130,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// If the strings do not match, an exception will be thrown.
 		/// </summary>
 		/// <param name="next">The expected string.</param>
-		public  void Assert(string next)
+		public void Assert(string next)
 		{
 			for (var i = 0; i < next.Length; i += 1)
 			{
@@ -157,7 +141,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		private void SkipComment()
 		{
 			// First character is the first slash
-			Read();
+			_ = Read();
 			switch (Peek())
 			{
 				case '/':
@@ -179,7 +163,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		private void SkipLineComment()
 		{
 			// First character is the second '/' of the opening '//'
-			Read();
+			_ = Read();
 
 			while (true)
 			{
@@ -187,7 +171,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 				{
 					case '\n':
 						// Reached the end of the line
-						Read();
+						_ = Read();
 						return;
 
 					case -1:
@@ -195,7 +179,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 						return;
 
 					default:
-						Read();
+						_ = Read();
 						continue;
 				}
 			}
@@ -204,20 +188,20 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		private void SkipBlockComment()
 		{
 			// First character is the '*' of the opening '/*'
-			Read();
+			_ = Read();
 
-			bool foundStar = false;
+			var foundStar = false;
 			while (true)
 			{
 				switch (reader.Peek())
 				{
 					case '*':
-						Read();
+						_ = Read();
 						foundStar = true;
 						continue;
 
 					case '/':
-						Read();
+						_ = Read();
 						if (foundStar)
 						{
 							return;
@@ -233,7 +217,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 						return;
 
 					default:
-						Read();
+						_ = Read();
 						foundStar = false;
 						continue;
 				}

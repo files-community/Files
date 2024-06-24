@@ -3,11 +3,8 @@
 
 #nullable disable
 
-using System;
 using System.Globalization;
 using System.IO;
-using System.Text;
-using Files.Core.SourceGenerator.Utilities.LightJson;
 using ErrorType = Files.Core.SourceGenerator.Utilities.LightJson.Serialization.JsonParseException.ErrorType;
 
 namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
@@ -15,7 +12,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	/// <summary>
 	/// Represents a reader that can read JsonValues.
 	/// </summary>
-	public  sealed class JsonReader
+	internal sealed class JsonReader
 	{
 		private readonly TextScanner scanner;
 
@@ -26,14 +23,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// </summary>
 		/// <param name="reader">The TextReader used to read a JSON message.</param>
 		/// <returns>The parsed <see cref="JsonValue"/>.</returns>
-		public  static JsonValue Parse(TextReader reader) => reader == null ? throw new ArgumentNullException(nameof(reader)) : new JsonReader(reader).Parse();
+		public static JsonValue Parse(TextReader reader) => reader == null ? throw new ArgumentNullException(nameof(reader)) : new JsonReader(reader).Parse();
 
 		/// <summary>
 		/// Creates a JsonValue by reader the JSON message in the given string.
 		/// </summary>
 		/// <param name="source">The string containing the JSON message.</param>
 		/// <returns>The parsed <see cref="JsonValue"/>.</returns>
-		public  static JsonValue Parse(string source)
+		public static JsonValue Parse(string source)
 		{
 			if (source == null)
 			{
@@ -52,23 +49,20 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 
 			var next = scanner.Peek();
 
-			if (char.IsNumber(next))
-			{
-				return ReadNumber();
-			}
-
-			return next switch
-			{
-				'{' => (JsonValue)ReadObject(),
-				'[' => (JsonValue)ReadArray(),
-				'"' => (JsonValue)ReadString(),
-				'-' => ReadNumber(),
-				't' or 'f' => ReadBoolean(),
-				'n' => ReadNull(),
-				_ => throw new JsonParseException(
-										ErrorType.InvalidOrUnexpectedCharacter,
-										scanner.Position),
-			};
+			return char.IsNumber(next)
+				? ReadNumber()
+				: next switch
+				{
+					'{' => (JsonValue)ReadObject(),
+					'[' => (JsonValue)ReadArray(),
+					'"' => (JsonValue)ReadString(),
+					'-' => ReadNumber(),
+					't' or 'f' => ReadBoolean(),
+					'n' => ReadNull(),
+					_ => throw new JsonParseException(
+											ErrorType.InvalidOrUnexpectedCharacter,
+											scanner.Position),
+				};
 		}
 
 		private JsonValue ReadNull()
@@ -167,36 +161,19 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 					errorPosition = scanner.Position;
 					c = scanner.Read();
 
-					switch (char.ToLower(c))
+					_ = char.ToLower(c) switch
 					{
-						case '"':
-						case '\\':
-						case '/':
-							_ = builder.Append(c);
-							break;
-						case 'b':
-							_ = builder.Append('\b');
-							break;
-						case 'f':
-							_ = builder.Append('\f');
-							break;
-						case 'n':
-							_ = builder.Append('\n');
-							break;
-						case 'r':
-							_ = builder.Append('\r');
-							break;
-						case 't':
-							_ = builder.Append('\t');
-							break;
-						case 'u':
-							_ = builder.Append(ReadUnicodeLiteral());
-							break;
-						default:
-							throw new JsonParseException(
-								ErrorType.InvalidOrUnexpectedCharacter,
-								errorPosition);
-					}
+						'"' or '\\' or '/' => builder.Append(c),
+						'b' => builder.Append('\b'),
+						'f' => builder.Append('\f'),
+						'n' => builder.Append('\n'),
+						'r' => builder.Append('\r'),
+						't' => builder.Append('\t'),
+						'u' => builder.Append(ReadUnicodeLiteral()),
+						_ => throw new JsonParseException(
+														ErrorType.InvalidOrUnexpectedCharacter,
+														errorPosition),
+					};
 				}
 				else if (c == '"')
 				{
@@ -204,16 +181,11 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 				}
 				else
 				{
-					if (char.IsControl(c))
-					{
-						throw new JsonParseException(
+					_ = char.IsControl(c)
+						? throw new JsonParseException(
 							ErrorType.InvalidOrUnexpectedCharacter,
-							errorPosition);
-					}
-					else
-					{
-						_ = builder.Append(c);
-					}
+							errorPosition)
+						: builder.Append(c);
 				}
 			}
 
