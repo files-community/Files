@@ -62,8 +62,6 @@ namespace Files.App
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
-			var t = Strings.Key_Back;
-
 			_ = ActivateAsync();
 
 			async Task ActivateAsync()
