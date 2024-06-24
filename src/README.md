@@ -20,9 +20,9 @@ Name|Language|Built with|Description
 ---|---|---|---
 Files.App (Package)|*None*|[WinAppSdk](https://learn.microsoft.com/windows/apps/windows-app-sdk)|Packaging project with [WAP](https://learn.microsoft.com/windows/apps/get-started/intro-pack-dep-proc) for `Files.App` project on Windows.
 Files.App.BackgroundTasks|C#|[CsWinRT](https://learn.microsoft.com/windows/apps/develop/platform/csharp-winrt)|In-proc background service running on background on Windows.
-Files.App.Launcher|C++|[Win32 API](https://learn.microsoft.com/windows/win32/api)|Interface to launch Files via `Windows+E` or `explorer.exe` on Windows.
-Files.App.OpenDialog|C++|[Win32 API](https://learn.microsoft.com/windows/win32/api)|Interface to override `FileOpenDialog` common dialog on Windows.
-Files.App.SaveDialog|C++|[Win32 API](https://learn.microsoft.com/windows/win32/api)|Interface to override `FileSaveDialog` common dialog on Windows.
+Files.App.Launcher|C++|[Win32 API](https://learn.microsoft.com/windows/win32/api)|Entry point of a process to launch Files via `Windows+E` or `explorer.exe` on Windows. This process jacks the dialog via Windows Registry, shows Files window.
+Files.App.OpenDialog|C++|[Win32 API](https://learn.microsoft.com/windows/win32/api)|Entry point of a process to override `FileOpenDialog` common dialog on Windows. This process jacks the default dialog, shows Files dialog and recieves selected file path.
+Files.App.SaveDialog|C++|[Win32 API](https://learn.microsoft.com/windows/win32/api)|Entry point of a process to override `FileSaveDialog` common dialog on Windows. This process jacks the default dialog, shows Files dialog and recieves selected file path.
 Files.App.Server|C#|[CsWinRT](https://learn.microsoft.com/windows/apps/develop/platform/csharp-winrt)|Out-of-proc background service to safely continue ongoing tasks even after foreground processes are terminated. This service is supposed to be shared by multiple Files instances, so it can be interoperable using C#/WinRT projection on Windows.
 Files.App.Storage|C#|*None*|Implementation of Files Storage Layer on Windows.
 Files.App|C#|[WinAppSdk](https://learn.microsoft.com/windows/apps/windows-app-sdk)|Entry point and UI thread of Files on Windows.
