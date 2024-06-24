@@ -1,3 +1,4 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License.  -->
 # Files Tests
 
 ## Unit tests
