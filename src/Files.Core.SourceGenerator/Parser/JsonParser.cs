@@ -43,13 +43,15 @@ namespace Files.Core.SourceGenerator.Parser
 						result.Add(Tuple.Create(key, (string?)null));
 						continue;
 					}
+
+					goto ERR;
 				}
+
+				return;
 			}
-			else
-			{
-				throw new ArgumentOutOfRangeException($"Type '{json.Type}' is not supported in {nameof(JsonParser)}.");
-			}
+
+		ERR:
+			throw new ArgumentOutOfRangeException($"Type '{json.Type}' is not supported in {nameof(JsonParser)}.");
 		}
 	}
-
 }
