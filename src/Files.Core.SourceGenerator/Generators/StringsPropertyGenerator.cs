@@ -38,7 +38,7 @@ namespace Files.Core.SourceGenerator.Generators
 			_ = sb.AppendLine();
 			_ = sb.AppendLine("namespace Files.App.Helpers");
 			_ = sb.AppendLine("{");
-			_ = sb.AppendLine("    public  sealed partial class Strings");
+			_ = sb.AppendLine("    public sealed partial class Strings");
 			_ = sb.AppendLine("    {");
 
 			foreach (var key in ReadAllKeys(fileWithHash.File)) // Write all keys from file
@@ -76,7 +76,7 @@ namespace Files.Core.SourceGenerator.Generators
 				_ = buffer.AppendLine($"{tabString}/// </summary>");
 			}
 
-			_ = buffer.AppendLine($@"{tabString}public  const string {KeyNameValidator(key)} = ""{value ?? key}"";");
+			_ = buffer.AppendLine($@"{tabString}public const string {KeyNameValidator(key)} = ""{value ?? key}"";");
 		}
 
 		/// <summary>

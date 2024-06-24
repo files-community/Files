@@ -42,7 +42,7 @@ namespace Files.Core.SourceGenerator.Generators
 					_ = sb.AppendLine();
 				}
 
-				_ = sb.AppendLine($"public  sealed class {symbol.Name}Registry");
+				_ = sb.AppendLine($"public sealed class {symbol.Name}Registry");
 				_ = sb.AppendLine("{");
 				_ = sb.AppendLine();
 

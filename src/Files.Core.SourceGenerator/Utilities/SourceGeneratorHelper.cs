@@ -20,7 +20,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <summary>
 		/// Generate the following code
 		/// <code>
-		/// public  <paramref name="ctor" /> (...<paramref name="property" />.Type variable...)
+		/// public <paramref name="ctor" /> (...<paramref name="property" />.Type variable...)
 		/// {
 		///     <paramref name="property" />.Name = variable;
 		/// }
@@ -119,7 +119,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <summary>
 		/// Generate the following code
 		/// <code>
-		/// public  static readonly DependencyProperty <paramref name="fieldName" /> = <paramref name="registration" />;
+		/// public static readonly DependencyProperty <paramref name="fieldName" /> = <paramref name="registration" />;
 		/// </code>
 		/// </summary>
 		/// <returns>StaticFieldDeclaration</returns>
@@ -166,7 +166,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <summary>
 		/// Generate the following code
 		/// <code>
-		/// public  <paramref name="type" />&lt;<paramref name="isNullable" />&gt; <paramref name="propertyName" /> { <paramref name="getter" />; <paramref name="setter" />; }
+		/// public <paramref name="type" />&lt;<paramref name="isNullable" />&gt; <paramref name="propertyName" /> { <paramref name="getter" />; <paramref name="setter" />; }
 		/// </code>
 		/// </summary>
 		/// <returns>PropertyDeclaration</returns>
