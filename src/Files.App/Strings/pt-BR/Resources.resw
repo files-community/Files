@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Ative o painel de informações para visualizar os painéis\na visualização de detalhes</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Mostrar/Ocultar Barra de Ferramentas</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nenhuma visualização disponível</value>
   </data>
