@@ -72,19 +72,12 @@ namespace Files.Core.SourceGenerator.Generators
 
 			for (int i = 0; i < keySpan.Length; i++)
 			{
-				switch (keySpan[i])
+				resultSpan[i] = keySpan[i] switch
 				{
-					case '+':
-						resultSpan[i] = 'P';
-						break;
-					case ' ':
-					case '.':
-						resultSpan[i] = '_';
-						break;
-					default:
-						resultSpan[i] = keySpan[i];
-						break;
-				}
+					'+' => 'P',
+					' ' or '.' => '_',
+					_ => keySpan[i],
+				};
 			}
 
 			return resultSpan.ToString();
