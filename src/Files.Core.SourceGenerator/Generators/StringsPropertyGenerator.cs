@@ -31,7 +31,7 @@ namespace Files.Core.SourceGenerator.Generators
 
 			foreach (var key in ReadAllKeys(fileWithHash.File))
 			{
-				AddKey(ref sb, key.Item1, key.Item2);
+				AddKey(sb, key.Item1, key.Item2);
 			}
 
 			_ = sb.AppendLine("    }");
@@ -42,7 +42,7 @@ namespace Files.Core.SourceGenerator.Generators
 			ctx.AddSource($"Strings.Properties.{fileWithHash.Hash}.g.cs", sourceText);
 		}
 
-		private void AddKey(ref StringBuilder sb, string key, string? comment)
+		private void AddKey(StringBuilder sb, string key, string? comment)
 		{
 			if (comment is not null)
 			{
@@ -67,10 +67,28 @@ namespace Files.Core.SourceGenerator.Generators
 
 		private string KeyNameValidator(string key)
 		{
-			return key
-				.Replace('+', 'P')
-				.Replace(' ', '_')
-				.Replace(".", string.Empty);
+			Span<char> resultSpan = key.Length <= 256 ? stackalloc char[key.Length] : new char[key.Length];
+			var keySpan = key.AsSpan();
+
+			for (int i = 0; i < keySpan.Length; i++)
+			{
+				switch (keySpan[i])
+				{
+					case '+':
+						resultSpan[i] = 'P';
+						break;
+					case ' ':
+					case '.':
+						resultSpan[i] = '_';
+						break;
+					default:
+						resultSpan[i] = keySpan[i];
+						break;
+				}
+			}
+
+			return resultSpan.ToString();
 		}
+
 	}
 }

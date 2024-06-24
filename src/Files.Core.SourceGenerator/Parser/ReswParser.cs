@@ -12,10 +12,12 @@ namespace Files.Core.SourceGenerator.Parser
             var document = XDocument.Load(file.Path);
             var keys = document
                 .Descendants("data")
-                .Select(element => Tuple.Create(element.Attribute("name").Value, element.Element("comment")?.Value))
-                .Where(key => key.Item1 != null);
+                .Select(element => Tuple.Create(element.Attribute("name")?.Value, element.Element("comment")?.Value))
+                .Where(key => key.Item1 is not null) as IEnumerable<Tuple<string, string?>>;
 
-            return keys.OrderBy(k => k.Item1);
+            return keys is not null
+                ? keys.OrderBy(k => k.Item1)
+                : [];
         }
     }
 }
