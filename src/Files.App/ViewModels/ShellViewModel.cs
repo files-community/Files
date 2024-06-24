@@ -1803,7 +1803,7 @@ namespace Files.App.ViewModels
 								.ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
 
 			// Image source
-			if (keys.TryGetValue("Files_BackgroundImage", out var backgroundImage))
+			if (folderSettings.LayoutMode is not FolderLayoutModes.ColumnView && keys.TryGetValue("Files_BackgroundImage", out var backgroundImage))
 				FolderBackgroundImageSource = new BitmapImage
 				{
 					UriSource = new Uri(backgroundImage, UriKind.RelativeOrAbsolute),
