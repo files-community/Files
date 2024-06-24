@@ -196,7 +196,7 @@
     <value>À propos</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Libre de droits</value>
+    <value>Open source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Format de date</value>
@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {Il y a # heure} other {Il y a # heures}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>Il y a 1 heure</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,7 +512,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Déplacer l'onglet ici</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>Statut</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -555,7 +555,7 @@
     <value>Raccourci</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Raccourci internet</value>
+    <value>Raccourci Internet</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - raccourci</value>
@@ -843,7 +843,7 @@
     <value>URL du site de l'utilisateur</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
-    <value>Auteur</value>
+    <value>Éditeur</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
     <value>Année</value>
@@ -1026,7 +1026,7 @@
     <value>Enlever</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Ouvrir les onglets en mode double panneau</value>
+    <value>Ouvrir les onglets en mode double volet</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Afficher l'option pour ouvrir les dossiers dans un nouveau volet</value>
@@ -1068,7 +1068,7 @@
     <value>Nom désiré</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Afficher le volet de prévisualisation</value>
+    <value>Afficher le volet d'aperçu</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Afficher le volet des détails</value>
@@ -1081,6 +1081,9 @@
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Afficher le volet d'informations pour afficher les volets de détails/aperçu</value>
+  </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Afficher/Masquer la barre d'outils</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Remplacer toutes les autorisations des sous-éléments par des autorisations héritées de cet objet</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Fermer le panneau</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Fermer le volet actif</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Entrer en mode compact</value>
@@ -1602,7 +1605,7 @@
     <value>Langue</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
-    <value>Marques</value>
+    <value>Marques déposées</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Version du fichier</value>
@@ -1767,7 +1770,7 @@
     <value>Vider la corbeille</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
-    <value>Panneau latéral</value>
+    <value>Barre latérale</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Choisir une icône de dossier personnalisée</value>
@@ -1854,7 +1857,7 @@
     <value>Créer une bibliothèque</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Entrer le nom de la bibliothèque</value>
+    <value>Entrez le nom de la bibliothèque</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Calculer la taille des dossiers</value>
@@ -2073,7 +2076,7 @@
     <value>Créer {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Saisir un nom</value>
+    <value>Entrez un nom</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
     <value>Niveau de compression</value>
@@ -2145,7 +2148,7 @@
     <value>Créez des raccourcis vers des programmes locaux ou réseau, des fichiers, des dossiers, des ordinateurs ou des adresses Internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Saisissez la localisation de l'élément :</value>
+    <value>Entrez l'emplacement de l'élément :</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
     <value>Crée un raccourci</value>
@@ -2199,7 +2202,7 @@
     <value>Entrez vos identifiants afin de vous connecter à : {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Entrer les identifiants réseau</value>
+    <value>Entrez les identifiants réseau</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Se souvenir de mes identifiants</value>
@@ -2265,7 +2268,7 @@
     <value>Largeur</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Appliquer cette action pour tous les conflits</value>
+    <value>Appliquer cette action à tous les éléments en conflit</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
     <value>Ouvrir dans le Terminal Windows</value>
@@ -2328,7 +2331,7 @@
     <value>Vidéos</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Lancer la fenêtre de prévisualisation</value>
+    <value>Lancer la fenêtre d'aperçu</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Activer/désactiver le mode compact</value>
@@ -2478,7 +2481,7 @@
     <value>Exécuter le script PowerShell sélectionné</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Lancer la prévisualisation dans une fenêtre contextuelle</value>
+    <value>Lancer l'aperçu dans une fenêtre contextuelle</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Créer une archive avec le(s) élément(s) sélectionné(s)</value>
@@ -2670,10 +2673,10 @@
     <value>Fermer l'onglet actuel</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Ouvrir dans un nouveau panneau</value>
+    <value>Ouvrir dans un nouveau volet</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Fermer le panneau de droite</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Fermer le volet actif</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Focus sur le volet gauche</value>
@@ -3058,7 +3061,7 @@
     <value>Basé sur</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Passer à une nouvelle branche</value>
+    <value>Basculer vers une nouvelle branche</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Créer un dossier avec le(s) élément(s) sélectionné(s)</value>
@@ -3091,7 +3094,7 @@
     <value>Exécuter git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Prévisualisation</value>
+    <value>Aperçu</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
     <value>Statut Git</value>
@@ -3224,7 +3227,7 @@
     <value>Ouvrir le dossier dans une nouvelle fenêtre</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Ouvrir tout</value>
+    <value>Tout ouvrir</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Ouvrir tous les éléments étiquetés</value>
@@ -3743,7 +3746,7 @@
     <value>Êtes-vous sûr de vouloir restaurer les raccourcis par défaut ? Cette action ne peut pas être annulée.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>Cette liaison de clé est déjà utilisée, veuillez choisir une autre liaison pour continuer.</value>
+    <value>Ce raccourci clavier est déjà utilisé. Veuillez choisir un autre raccourci pour continuer.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Le raccourci clavier choisi ne peut pas être utilisé, veuillez réessayer avec un autre raccourci clavier.</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>Modifier le fichier sélectionné dans Bloc-notes</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensions :</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Statut :</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Afficher la barre d'outils</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

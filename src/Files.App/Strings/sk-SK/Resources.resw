@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1 hour ago</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,8 +512,8 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Presunúť priečinok sem</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>Stav</value>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Predvolené vo Windowse</value>
@@ -1084,6 +1084,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Prepnúť detail/náhlaď</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Žiaden náhľad k dispozícii</value>
   </data>
@@ -1585,8 +1588,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nahraďte všetky položky povolení podriadených objektov položkami zdedených povolení z tohto objektu</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Zavrieť panel</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Close active pane</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Zadajte kompaktné prekrytie</value>
@@ -2674,8 +2677,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Otvoriť nový panel</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Close active pane</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Focus left pane</value>
@@ -3854,5 +3857,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>Edit the selected file in Notepad</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensions:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Show Toolbar</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

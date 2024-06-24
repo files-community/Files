@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, other {# 小时前}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1 小时前</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,7 +512,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>移动标签页到此处</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>状态</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -1071,7 +1071,7 @@
     <value>显示/隐藏预览窗格</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>显示/隐藏详细信息窗格</value>
+    <value>显示/隐藏详细信息面板</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
     <value>切换到详细信息窗格以查看文件的基本属性</value>
@@ -1081,6 +1081,9 @@
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>打开信息窗格以查看详细信息/预览窗格</value>
+  </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>打开/关闭工具栏</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>没有预览</value>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>用来自该对象的可继承权限条目替换所有子对象权限条目</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>关闭面板</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>关闭活动窗格</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>进入精简模式</value>
@@ -2672,8 +2675,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>打开新面板</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>关闭右侧标签页</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>关闭活动窗格</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>聚焦到左侧窗格</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>在记事本中编辑选中的文件</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>分辨率:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>状态:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>显示工具栏</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

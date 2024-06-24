@@ -64,7 +64,7 @@ namespace Files.App.Utils.Storage
 			else
 			{
 				// Instance's current folder
-				var folder = associatedInstance.FilesystemViewModel?.CurrentFolder;
+				var folder = associatedInstance.ShellViewModel?.CurrentFolder;
 				if (folder is null)
 					return;
 

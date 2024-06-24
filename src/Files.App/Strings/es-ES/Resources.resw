@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {hace # hora} other {hace # horas}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>Hace 1 hora</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,7 +512,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Mover la pestaña aquí</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>Estado</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Mostrar/Ocultar panel de información para ver paneles detalles/vista previa</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Mostrar/Ocultar barra de herramientas</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
   </data>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Reemplazar todas las entradas de permisos de los objetos secundarios con entradas de permisos heredables de este objeto</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Cerrar panel</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Cerrar panel activo</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Entrar en superposición compacta</value>
@@ -2672,8 +2675,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Abrir nuevo panel</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Cerrar panel derecho</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Cierra el panel activo</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Enfocar panel izquierdo</value>
@@ -3719,7 +3722,7 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="DetailsView" xml:space="preserve">
-    <value>Vista detallada</value>
+    <value>Vista de detalles</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tipo de diseño</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>Editar el archivo seleccionado en el Bloc de notas</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensiones:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Estado:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Mostrar barra de herramientas</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

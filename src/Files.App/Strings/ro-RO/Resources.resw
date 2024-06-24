@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# oră în urmă} other {# ore în urmă}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1 hour ago</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,8 +512,8 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Mutați tabul aici</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>Statut</value>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Implicit Windows</value>
@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Comutați panoul de informații pentru a vizualiza panourile de detalii/previzualizare</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nicio previzualizare disponibilă</value>
   </data>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Înlocuiți toate intrările de permisiuni ale obiectului copil cu intrări de permisiuni moștenite de la acest obiect</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Închidere panou</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Close active pane</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Intrare în suprapunere compactă</value>
@@ -2672,8 +2675,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Deschideți un nou panou</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Închideți panoul din dreapta</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Close active pane</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Focalizare pe panoul stâng</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>Editați fișierul selectat în Notepad</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensions:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Show Toolbar</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

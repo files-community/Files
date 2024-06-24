@@ -35,7 +35,7 @@ namespace Files.App.Actions
 			if (sources.Length is not 0)
 			{
 				// Get the current directory path
-				directory = context.ShellPage.FilesystemViewModel.WorkingDirectory.Normalize();
+				directory = context.ShellPage.ShellViewModel.WorkingDirectory.Normalize();
 
 				// Get the library save folder if the folder is library item
 				if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)

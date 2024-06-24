@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, other {# giờ trước}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1 giờ trước</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,7 +512,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Di chuyển thẻ đến đây</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>Trạng thái</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện ngăn thông tin để xem chi tiết hoặc xem trước tệp</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Không có bản xem trước</value>
   </data>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Thay thế mọi quyền truy cập của đối tượng con bằng quyền được kế thừa từ đối tượng này</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Đóng ngăn</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Đóng ngăn hiện hoạt</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Bật chế độ thu gọn</value>
@@ -2672,8 +2675,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Mở ngăn mới</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Đóng ngăn bên phải</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Đóng ngăn hiện hoạt</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Chuyển đến ngăn bên trái</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>Chỉnh sửa tệp đã chọn bằng Notepad</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Kích thước:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Trạng thái:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Hiện thanh công cụ</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

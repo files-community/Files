@@ -361,7 +361,7 @@
     <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>រក​មិន​ឃើញ​ឯកសារទេ</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>The folder you are attempting to access may have been moved or deleted.</value>
@@ -376,7 +376,7 @@
     <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>ឯកសារកំពុងប្រើប្រាស់</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>ប្លង់</value>
@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1 hour ago</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,8 +512,8 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Move tab here</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>ស្ថានភាព</value>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Toggle the info pane to view the detail/preview panes</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No preview available</value>
   </data>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Close pane</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>បិទផ្ទាំងសកម្ម</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Enter compact overlay</value>
@@ -2672,8 +2675,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Open new pane</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>បិទផ្ទាំងសកម្ម</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Focus left pane</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>Edit the selected file in Notepad</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensions:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Show Toolbar</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

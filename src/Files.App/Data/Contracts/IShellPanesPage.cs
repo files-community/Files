@@ -16,7 +16,7 @@ namespace Files.App.Data.Contracts
 
 		public void OpenSecondaryPane(string path);
 
-		public void CloseSecondaryPane();
+		public void CloseActivePane();
 
 		public void FocusLeftPane();
 

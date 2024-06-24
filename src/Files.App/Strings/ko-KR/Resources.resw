@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, other {#시간 전}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1시간 전</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,8 +512,8 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>탭을 여기로 이동</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>상태</value>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows 기본값</value>
@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>세부정보/미리보기 패널을 보려면 정보 보기로 전환하세요</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>가능한 미리보기가 없습니다</value>
   </data>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>모든 하위 객체의 사용 권한 항목을 이 객체의 상속 가능한 사용 권한 항목으로 변경</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>분할 화면 닫기</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Close active pane</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>컴팩트 오버레이 시작</value>
@@ -2672,8 +2675,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>새 분할 화면 열기</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>오른쪽 분할 화면 닫기</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Close active pane</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>왼쪽 분할 화면에 포커스</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>선택한 파일 메모장에서 편집</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensions:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Show Toolbar</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

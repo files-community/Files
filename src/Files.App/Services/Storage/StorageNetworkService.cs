@@ -184,7 +184,7 @@ namespace Files.App.Services
 			return
 				PInvoke.WNetCancelConnection2W(
 					drive.Path.TrimEnd('\\'),
-					(uint)NET_USE_CONNECT_FLAGS.CONNECT_UPDATE_PROFILE,
+					NET_CONNECT_FLAGS.CONNECT_UPDATE_PROFILE,
 					true)
 				is WIN32_ERROR.NO_ERROR;
 		}

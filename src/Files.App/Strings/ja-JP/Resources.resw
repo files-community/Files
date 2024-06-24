@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, other {# 時間前}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1 時間前</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,7 +512,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>ここにタブを移動</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>状態</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>詳細およびプレビューのための情報ウィンドウを表示するかどうかを切り替える</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>ツールバーの表示を切り替える</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
   </data>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>すべての子オブジェクトのアクセス許可エントリを、このオブジェクトから継承可能なアクセス許可エントリに置き換えます</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>ペインを閉じる</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>現在のペインを閉じる</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを開始</value>
@@ -2672,8 +2675,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>新しいペインを開く</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>右ペインを閉じる</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>現在のペインを閉じる</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>左ペインに移動</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>選択したファイルをメモ帳で編集する</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>サイズ:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>状態:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>ツールバーを表示する</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

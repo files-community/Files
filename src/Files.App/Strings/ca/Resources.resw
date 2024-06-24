@@ -396,7 +396,7 @@
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {fa # hora} other {fa # hores}}</value>
   </data>
-	<data name="HoursAgo_Singular" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
     <value>Fa 1 hora</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
@@ -512,7 +512,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Mou la pestanya aquí</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>Estat</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Canvia el panell d'informació per veure els panells de detalls/vista prèvia</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Cap visualització prèvia disponible</value>
   </data>
@@ -1583,8 +1586,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Substitueix totes les entrades de permisos dels objectes secundaris per entrades de permisos heretables d'aquest objecte</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Tanca el panell</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Tanca el panell actiu</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Mode superposició compacta</value>
@@ -2672,8 +2675,8 @@
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Obre un panell nou</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Tanca el panell de la dreta</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Tanca el panell actiu</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Enfoca el panell esquerre</value>
@@ -3852,5 +3855,15 @@
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
     <value>Editeu el fitxer seleccionat al Bloc de notes</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensions:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Estat:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Mostra la barra d'eines</value>
+    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

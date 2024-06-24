@@ -37,7 +37,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is IShellPage shellPage)
 			{
 				await shellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
-				await shellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
+				await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
 		}
 
