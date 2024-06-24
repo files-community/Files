@@ -29,6 +29,7 @@ namespace Files.App.Data.Commands
 		IRichCommand TogglePreviewPane { get; }
 		IRichCommand ToggleDetailsPane { get; }
 		IRichCommand ToggleInfoPane { get; }
+		IRichCommand ToggleToolbar { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CopyPath { get; }
@@ -171,7 +172,7 @@ namespace Files.App.Data.Commands
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
 		IRichCommand OpenNewPane { get; }
-		IRichCommand ClosePane { get; }
+		IRichCommand CloseActivePane { get; }
 		IRichCommand FocusLeftPane { get; }
 		IRichCommand FocusRightPane { get; }
 

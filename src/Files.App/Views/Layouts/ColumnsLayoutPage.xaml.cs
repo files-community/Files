@@ -63,7 +63,7 @@ namespace Files.App.Views.Layouts
 
 			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
 			var nextBlade = ColumnHost.ActiveBlades.ToList().ElementAtOrDefault(nextBladeIndex);
-			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam;
+			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.ShellViewModel?.WorkingDirectory != column.NavPathParam;
 
 			if (nextBlade is null || arePathsDifferent)
 			{
@@ -216,8 +216,8 @@ namespace Files.App.Views.Layouts
 
 					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
 					{
-						navigationArguments.NavPathParam = s.FilesystemViewModel.WorkingDirectory;
-						ParentShellPageInstance.TabBarItemParameter.NavigationParameter = s.FilesystemViewModel.WorkingDirectory;
+						navigationArguments.NavPathParam = s.ShellViewModel.WorkingDirectory;
+						ParentShellPageInstance.TabBarItemParameter.NavigationParameter = s.ShellViewModel.WorkingDirectory;
 					}
 				});
 			}
@@ -293,7 +293,7 @@ namespace Files.App.Views.Layouts
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
 			else
 			{
-				var workingDirectory = ((ColumnHost.ActiveBlades?.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+				var workingDirectory = ((ColumnHost.ActiveBlades?.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel.WorkingDirectory;
 				if (workingDirectory is null || string.Equals(workingDirectory, GetPathRoot(workingDirectory), StringComparison.OrdinalIgnoreCase))
 					ParentShellPageInstance?.NavigateHome();
 				else
@@ -356,8 +356,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			var destPath = navArgs is not null ? navArgs.NavPathParam : navigationPath;
-			var columnPath = ((ColumnHost.ActiveBlades.ToList().LastOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-			var columnFirstPath = ((ColumnHost.ActiveBlades.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+			var columnPath = ((ColumnHost.ActiveBlades.ToList().LastOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel.WorkingDirectory;
+			var columnFirstPath = ((ColumnHost.ActiveBlades.ToList().FirstOrDefault()?.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel.WorkingDirectory;
 
 			if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
 			{
@@ -404,7 +404,7 @@ namespace Files.App.Views.Layouts
 				foreach (var item in ColumnHost.ActiveBlades.ToList())
 				{
 					if ((item.Content as Frame)?.Content is ColumnShellPage s &&
-						NormalizePath(s.FilesystemViewModel?.WorkingDirectory) == NormalizePath(e.ItemPath))
+						NormalizePath(s.ShellViewModel?.WorkingDirectory) == NormalizePath(e.ItemPath))
 					{
 						DismissOtherBlades(item);
 						return;
@@ -415,7 +415,7 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null)
 				return;
 
-			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
+			if (NormalizePath(ParentShellPageInstance.ShellViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
 				ParentShellPageInstance.NavigateToPath(e.ItemPath);
 			else
 				DismissOtherBlades(0);
@@ -466,7 +466,7 @@ namespace Files.App.Views.Layouts
 			{
 				// Get the index of the blade with the same path as the requested
 				var blade = ColumnHost.ActiveBlades.ToList().FirstOrDefault(b =>
-					column.NavPathParam.Equals(((b.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory));
+					column.NavPathParam.Equals(((b.Content as Frame)?.Content as ColumnShellPage)?.ShellViewModel?.WorkingDirectory));
 
 				if (blade is not null)
 					relativeIndex = ColumnHost.ActiveBlades.IndexOf(blade);

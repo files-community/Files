@@ -2,9 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Dialogs
 {
@@ -55,8 +55,18 @@ namespace Files.App.Dialogs
 
 		private void UpdateDialogLayout()
 		{
-			if (ViewModel.FileSystemDialogMode.ConflictsExist)
-				ContainerGrid.Width = MainWindow.Instance.Bounds.Width <= 700 ? MainWindow.Instance.Bounds.Width - 50 : 650;
+			try
+			{
+				if (ViewModel.FileSystemDialogMode.ConflictsExist)
+					ContainerGrid.Width = MainWindow.Instance.Bounds.Width <= 700 ? MainWindow.Instance.Bounds.Width - 50 : 650;
+			}
+			catch (Exception ex)
+			{
+				// Handle exception in case WinUI Windows is closed
+				// (see https://github.com/files-community/Files/issues/15599)
+
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		protected override void OnApplyTemplate()

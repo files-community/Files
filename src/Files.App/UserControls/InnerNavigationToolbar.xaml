@@ -1226,7 +1226,7 @@
 					</AppBarButton.Icon>
 				</AppBarButton>
 
-				<!--  Open Pane  -->
+				<!--  Open New Pane  -->
 				<AppBarButton
 					x:Name="NavToolbarNewPane"
 					x:Load="{x:Bind Commands.OpenNewPane.IsExecutable, Mode=OneWay}"
@@ -1236,15 +1236,15 @@
 					<local:OpacityIcon Style="{x:Bind Commands.OpenNewPane.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Close Pane  -->
+				<!--  Close Active Pane  -->
 				<AppBarButton
-					x:Name="NavToolbarClosePane"
-					x:Load="{x:Bind Commands.ClosePane.IsExecutable, Mode=OneWay}"
-					Command="{x:Bind Commands.ClosePane, Mode=OneWay}"
-					Label="{x:Bind Commands.ClosePane.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.ClosePane.LabelWithHotKey, Mode=OneWay}">
+					x:Name="NavToolbarCloseActivePane"
+					x:Load="{x:Bind Commands.CloseActivePane.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.CloseActivePane, Mode=OneWay}"
+					Label="{x:Bind Commands.CloseActivePane.Label}"
+					ToolTipService.ToolTip="{x:Bind Commands.CloseActivePane.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
-						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.ClosePane.Glyph.BaseGlyph}" />
+						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.CloseActivePane.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 

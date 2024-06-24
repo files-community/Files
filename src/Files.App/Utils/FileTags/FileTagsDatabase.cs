@@ -12,10 +12,14 @@ namespace Files.App.Utils.FileTags
 {
 	public sealed class FileTagsDatabase
 	{
-		private readonly static string FileTagsKey = @$"Software\Files Community\{Package.Current.Id.FullName}\v1\FileTags";
+		private static string? _FileTagsKey;
+		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(() => @$"Software\Files Community\{Package.Current.Id.FullName}\v1\FileTags");
 
 		public void SetTags(string filePath, ulong? frn, string[] tags)
 		{
+			if (FileTagsKey is null)
+				return;
+
 			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
 
 			if (tags is [])
@@ -47,6 +51,9 @@ namespace Files.App.Utils.FileTags
 
 		private TaggedFile? FindTag(string? filePath, ulong? frn)
 		{
+			if (FileTagsKey is null)
+				return null;
+
 			if (filePath is not null)
 			{
 				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
@@ -87,6 +94,9 @@ namespace Files.App.Utils.FileTags
 
 		public void UpdateTag(string oldFilePath, ulong? frn, string? newFilePath)
 		{
+			if (FileTagsKey is null)
+				return;
+
 			var tag = FindTag(oldFilePath, null);
 			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, oldFilePath));
 			SaveValues(filePathKey, null);
@@ -112,6 +122,9 @@ namespace Files.App.Utils.FileTags
 
 		public void UpdateTag(ulong oldFrn, ulong? frn, string? newFilePath)
 		{
+			if (FileTagsKey is null)
+				return;
+
 			var tag = FindTag(null, oldFrn);
 			using var frnKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, "FRN", oldFrn.ToString()));
 			SaveValues(frnKey, null);
@@ -143,7 +156,10 @@ namespace Files.App.Utils.FileTags
 		public IEnumerable<TaggedFile> GetAll()
 		{
 			var list = new List<TaggedFile>();
-			IterateKeys(list, FileTagsKey, 0);
+
+			if (FileTagsKey is not null)
+				IterateKeys(list, FileTagsKey, 0);
+
 			return list;
 		}
 
@@ -151,18 +167,20 @@ namespace Files.App.Utils.FileTags
 		{
 			folderPath = folderPath.Replace('/', '\\').TrimStart('\\');
 			var list = new List<TaggedFile>();
-			IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+
+			if (FileTagsKey is not null)
+				IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+
 			return list;
 		}
 
 		public void Import(string json)
 		{
-			var tags = JsonSerializer.Deserialize<TaggedFile[]>(json);
-			ImportCore(tags);
-		}
+			if (FileTagsKey is null)
+				return;
 
-		private static void ImportCore(TaggedFile[]? tags)
-		{
+			var tags = JsonSerializer.Deserialize<TaggedFile[]>(json);
+
 			Registry.CurrentUser.DeleteSubKeyTree(FileTagsKey, false);
 			if (tags is null)
 			{
@@ -183,7 +201,10 @@ namespace Files.App.Utils.FileTags
 		public string Export()
 		{
 			var list = new List<TaggedFile>();
-			IterateKeys(list, FileTagsKey, 0);
+
+			if (FileTagsKey is not null)
+				IterateKeys(list, FileTagsKey, 0);
+
 			return JsonSerializer.Serialize(list);
 		}
 
