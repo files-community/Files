@@ -1071,7 +1071,7 @@
     <value>显示/隐藏预览窗格</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>显示/隐藏详细信息窗格</value>
+    <value>显示/隐藏详细信息面板</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
     <value>切换到详细信息窗格以查看文件的基本属性</value>
@@ -1081,6 +1081,9 @@
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>打开信息窗格以查看详细信息/预览窗格</value>
+  </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>打开/关闭工具栏</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>没有预览</value>

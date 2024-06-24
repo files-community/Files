@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>صفحه اطلاعات برای مشاهده پنجره‌های جزئیات یا پیش‌نمایش می آورد</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>پیش نمایشی در دسترس نیست</value>
   </data>
