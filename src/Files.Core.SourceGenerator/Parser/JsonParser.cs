@@ -18,40 +18,40 @@ namespace Files.Core.SourceGenerator.Parser
 
 		private static void ProcessJsonObject(JsonValue json, string prefix, List<Tuple<string, string?>> result)
 		{
-			if (json.Type == JsonValueType.Object)
+			if (json.Type is not JsonValueType.Object)
+				return;
+
+			var obj = json.AsJsonObject;
+
+			if (obj.ContainsKey("text") && obj.ContainsKey("crowdinContext"))
 			{
-				var obj = json.AsJsonObject;
-
-				if (obj.ContainsKey("text") && obj.ContainsKey("crowdinContext"))
-				{
-					result.Add(Tuple.Create(prefix, (string?)obj["crowdinContext"].AsString));
+				if (string.IsNullOrEmpty(prefix))
 					return;
-				}
 
-				foreach (var kvp in obj)
-				{
-					var key = string.IsNullOrEmpty(prefix) ? kvp.Key : $"{prefix}_{kvp.Key}";
-
-					if (kvp.Value.Type == JsonValueType.Object)
-					{
-						ProcessJsonObject(kvp.Value, key, result);
-						continue;
-					}
-
-					if (kvp.Value.Type == JsonValueType.String)
-					{
-						result.Add(Tuple.Create(key, (string?)null));
-						continue;
-					}
-
-					goto ERR;
-				}
-
+				result.Add(Tuple.Create(prefix, (string?)obj["crowdinContext"].AsString));
 				return;
 			}
 
-		ERR:
-			throw new ArgumentOutOfRangeException($"Type '{json.Type}' is not supported in {nameof(JsonParser)}.");
+			foreach (var kvp in obj)
+			{
+				var key = string.IsNullOrEmpty(prefix) ? kvp.Key : $"{prefix}_{kvp.Key}";
+
+				switch (kvp.Value.Type)
+				{
+					case JsonValueType.Boolean:
+					case JsonValueType.Number:
+					case JsonValueType.String:
+						result.Add(Tuple.Create(key, (string?)null));
+						break;
+
+					case JsonValueType.Object:
+						ProcessJsonObject(kvp.Value, key, result);
+						break;
+
+					default:
+						break;
+				}
+			}
 		}
 	}
 }
