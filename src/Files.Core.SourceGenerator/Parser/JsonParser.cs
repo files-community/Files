@@ -42,7 +42,7 @@ namespace Files.Core.SourceGenerator.Parser
 
 			foreach (var kvp in obj)
 			{
-				var key = string.IsNullOrEmpty(prefix) ? kvp.Key : $"{prefix}_{kvp.Key}";
+				var key = string.IsNullOrEmpty(prefix) ? kvp.Key : $"{prefix}.{kvp.Key}";
 
 				switch (kvp.Value.Type)
 				{
