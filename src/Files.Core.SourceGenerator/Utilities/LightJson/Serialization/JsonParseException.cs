@@ -13,12 +13,12 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	/// <remarks>
 	/// <para>This exception is only intended to be thrown by LightJson.</para>
 	/// </remarks>
-	internal sealed class JsonParseException : Exception
+	public  sealed class JsonParseException : Exception
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JsonParseException"/> class.
 		/// </summary>
-		public JsonParseException()
+		public  JsonParseException()
 			: base(GetDefaultMessage(ErrorType.Unknown))
 		{
 		}
@@ -28,7 +28,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// </summary>
 		/// <param name="type">The error type that describes the cause of the error.</param>
 		/// <param name="position">The position in the text where the error occurred.</param>
-		public JsonParseException(ErrorType type, TextPosition position)
+		public  JsonParseException(ErrorType type, TextPosition position)
 			: this(GetDefaultMessage(type), type, position)
 		{
 		}
@@ -39,7 +39,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <param name="message">The message that describes the error.</param>
 		/// <param name="type">The error type that describes the cause of the error.</param>
 		/// <param name="position">The position in the text where the error occurred.</param>
-		public JsonParseException(string message, ErrorType type, TextPosition position)
+		public  JsonParseException(string message, ErrorType type, TextPosition position)
 			: base(message)
 		{
 			Type = type;
@@ -49,7 +49,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <summary>
 		/// Enumerates the types of errors that can occur when parsing a JSON message.
 		/// </summary>
-		public enum ErrorType : int
+		public  enum ErrorType : int
 		{
 			/// <summary>
 			/// Indicates that the cause of the error is unknown.
@@ -76,13 +76,13 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// Gets the text position where the error occurred.
 		/// </summary>
 		/// <value>The text position where the error occurred.</value>
-		public TextPosition Position { get; private set; }
+		public  TextPosition Position { get; private set; }
 
 		/// <summary>
 		/// Gets the type of error that caused the exception to be thrown.
 		/// </summary>
 		/// <value>The type of error that caused the exception to be thrown.</value>
-		public ErrorType Type { get; private set; }
+		public  ErrorType Type { get; private set; }
 
 		private static string GetDefaultMessage(ErrorType type)
 		{

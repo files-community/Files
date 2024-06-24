@@ -15,7 +15,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	/// <summary>
 	/// Represents a reader that can read JsonValues.
 	/// </summary>
-	internal sealed class JsonReader
+	public  sealed class JsonReader
 	{
 		private readonly TextScanner scanner;
 
@@ -26,14 +26,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// </summary>
 		/// <param name="reader">The TextReader used to read a JSON message.</param>
 		/// <returns>The parsed <see cref="JsonValue"/>.</returns>
-		public static JsonValue Parse(TextReader reader) => reader == null ? throw new ArgumentNullException(nameof(reader)) : new JsonReader(reader).Parse();
+		public  static JsonValue Parse(TextReader reader) => reader == null ? throw new ArgumentNullException(nameof(reader)) : new JsonReader(reader).Parse();
 
 		/// <summary>
 		/// Creates a JsonValue by reader the JSON message in the given string.
 		/// </summary>
 		/// <param name="source">The string containing the JSON message.</param>
 		/// <returns>The parsed <see cref="JsonValue"/>.</returns>
-		public static JsonValue Parse(string source)
+		public  static JsonValue Parse(string source)
 		{
 			if (source == null)
 			{

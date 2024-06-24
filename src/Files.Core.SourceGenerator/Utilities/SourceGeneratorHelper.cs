@@ -5,26 +5,29 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Files.Core.SourceGenerator.Utilities
 {
+	/// <summary>
+	/// Helper methods and constants for source code generation tasks.
+	/// </summary>
 	internal static class SourceGeneratorHelper
 	{
-		internal const string AttributeNamespace = $"{nameof(Files)}.App.Data.Attributes.";
-		internal const string DisableSourceGeneratorAttribute = AttributeNamespace + "DisableSourceGeneratorAttribute";
-		internal const string AssemblyName = $"{nameof(Files)}.{nameof(SourceGenerator)}.";
-		internal const string AssemblyVersion = "1.1.1";
+		public const string AttributeNamespace = $"{nameof(Files)}.App.Data.Attributes.";
+		public const string DisableSourceGeneratorAttribute = AttributeNamespace + "DisableSourceGeneratorAttribute";
+		public const string AssemblyName = $"{nameof(Files)}.{nameof(SourceGenerator)}.";
+		public const string AssemblyVersion = "1.1.1";
 
 		#region Abstract Syntax Tree Generate
 
 		/// <summary>
 		/// Generate the following code
 		/// <code>
-		/// public <paramref name="ctor" /> (...<paramref name="property" />.Type variable...)
+		/// public  <paramref name="ctor" /> (...<paramref name="property" />.Type variable...)
 		/// {
 		///     <paramref name="property" />.Name = variable;
 		/// }
 		/// </code>
 		/// </summary>
 		/// <returns></returns>
-		internal static ConstructorDeclarationSyntax GetDeclaration(IPropertySymbol property, ConstructorDeclarationSyntax ctor)
+		public static ConstructorDeclarationSyntax GetDeclaration(IPropertySymbol property, ConstructorDeclarationSyntax ctor)
 		{
 			var newName = property.Name[..1].ToLower() + property.Name[1..];
 			return ctor.AddParameterListParameters(
@@ -46,7 +49,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>TypeDeclaration</returns>
-		internal static TypeDeclarationSyntax GetDeclaration(string name, INamedTypeSymbol symbol, params MemberDeclarationSyntax[] member)
+		public static TypeDeclarationSyntax GetDeclaration(string name, INamedTypeSymbol symbol, params MemberDeclarationSyntax[] member)
 		{
 			TypeDeclarationSyntax typeDeclarationTemp = symbol.TypeKind switch
 			{
@@ -68,7 +71,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>ObjectCreationExpression</returns>
-		internal static ObjectCreationExpressionSyntax GetObjectCreationExpression(ExpressionSyntax defaultValueExpression) => ObjectCreationExpression(IdentifierName("global::Microsoft.UI.Xaml.PropertyMetadata"))
+		public static ObjectCreationExpressionSyntax GetObjectCreationExpression(ExpressionSyntax defaultValueExpression) => ObjectCreationExpression(IdentifierName("global::Microsoft.UI.Xaml.PropertyMetadata"))
 			.AddArgumentListArguments(Argument(defaultValueExpression));
 
 		/// <summary>
@@ -78,7 +81,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>MetadataCreation</returns>
-		internal static ObjectCreationExpressionSyntax GetMetadataCreation(ObjectCreationExpressionSyntax metadataCreation, string partialMethodName) => metadataCreation.AddArgumentListArguments(Argument(IdentifierName(partialMethodName)));
+		public static ObjectCreationExpressionSyntax GetMetadataCreation(ObjectCreationExpressionSyntax metadataCreation, string partialMethodName) => metadataCreation.AddArgumentListArguments(Argument(IdentifierName(partialMethodName)));
 
 		/// <summary>
 		/// Generate the following code
@@ -87,7 +90,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>Registration</returns>
-		internal static InvocationExpressionSyntax GetRegistration(string propertyName, ITypeSymbol type, ITypeSymbol specificClass, ExpressionSyntax metadataCreation) => InvocationExpression(MemberAccessExpression(
+		public static InvocationExpressionSyntax GetRegistration(string propertyName, ITypeSymbol type, ITypeSymbol specificClass, ExpressionSyntax metadataCreation) => InvocationExpression(MemberAccessExpression(
 				SyntaxKind.SimpleMemberAccessExpression, IdentifierName("global::Microsoft.UI.Xaml.DependencyProperty"), IdentifierName("Register")))
 			.AddArgumentListArguments(
 				Argument(NameOfExpression(propertyName)),
@@ -102,7 +105,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>NameOfExpression</returns>
-		internal static InvocationExpressionSyntax NameOfExpression(string name) => NameOfExpression(IdentifierName(name));
+		public static InvocationExpressionSyntax NameOfExpression(string name) => NameOfExpression(IdentifierName(name));
 
 		/// <summary>
 		/// Generate the following code
@@ -111,16 +114,16 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>NameOfExpression</returns>
-		internal static InvocationExpressionSyntax NameOfExpression(ExpressionSyntax expressionSyntax) => InvocationExpression(IdentifierName("nameof"), ArgumentList().AddArguments(Argument(expressionSyntax)));
+		public static InvocationExpressionSyntax NameOfExpression(ExpressionSyntax expressionSyntax) => InvocationExpression(IdentifierName("nameof"), ArgumentList().AddArguments(Argument(expressionSyntax)));
 
 		/// <summary>
 		/// Generate the following code
 		/// <code>
-		/// public static readonly DependencyProperty <paramref name="fieldName" /> = <paramref name="registration" />;
+		/// public  static readonly DependencyProperty <paramref name="fieldName" /> = <paramref name="registration" />;
 		/// </code>
 		/// </summary>
 		/// <returns>StaticFieldDeclaration</returns>
-		internal static FieldDeclarationSyntax GetStaticFieldDeclaration(string fieldName, ExpressionSyntax registration) => FieldDeclaration(VariableDeclaration(IdentifierName("global::Microsoft.UI.Xaml.DependencyProperty")))
+		public static FieldDeclarationSyntax GetStaticFieldDeclaration(string fieldName, ExpressionSyntax registration) => FieldDeclaration(VariableDeclaration(IdentifierName("global::Microsoft.UI.Xaml.DependencyProperty")))
 			.AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword), Token(SyntaxKind.ReadOnlyKeyword))
 			.AddDeclarationVariables(VariableDeclarator(fieldName).WithInitializer(EqualsValueClause(registration)));
 
@@ -131,7 +134,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>Getter</returns>
-		internal static AccessorDeclarationSyntax GetGetter(string fieldName, bool isNullable, ITypeSymbol type)
+		public static AccessorDeclarationSyntax GetGetter(string fieldName, bool isNullable, ITypeSymbol type)
 		{
 			ExpressionSyntax getProperty = InvocationExpression(GetThisMemberAccessExpression("GetValue"))
 				.AddArgumentListArguments(Argument(IdentifierName(fieldName)));
@@ -150,7 +153,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>Setter</returns>
-		internal static AccessorDeclarationSyntax GetSetter(string fieldName, bool isSetterPrivate)
+		public static AccessorDeclarationSyntax GetSetter(string fieldName, bool isSetterPrivate)
 		{
 			ExpressionSyntax setProperty = InvocationExpression(GetThisMemberAccessExpression("SetValue"))
 				.AddArgumentListArguments(Argument(IdentifierName(fieldName)), Argument(IdentifierName("value")));
@@ -163,16 +166,16 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <summary>
 		/// Generate the following code
 		/// <code>
-		/// public <paramref name="type" />&lt;<paramref name="isNullable" />&gt; <paramref name="propertyName" /> { <paramref name="getter" />; <paramref name="setter" />; }
+		/// public  <paramref name="type" />&lt;<paramref name="isNullable" />&gt; <paramref name="propertyName" /> { <paramref name="getter" />; <paramref name="setter" />; }
 		/// </code>
 		/// </summary>
 		/// <returns>PropertyDeclaration</returns>
-		internal static PropertyDeclarationSyntax GetPropertyDeclaration(string propertyName, bool isNullable, ITypeSymbol type, AccessorDeclarationSyntax getter, AccessorDeclarationSyntax setter)
+		public static PropertyDeclarationSyntax GetPropertyDeclaration(string propertyName, bool isNullable, ITypeSymbol type, AccessorDeclarationSyntax getter, AccessorDeclarationSyntax setter)
 			=> PropertyDeclaration(type.GetTypeSyntax(isNullable), propertyName)
 				.AddModifiers(Token(SyntaxKind.PublicKeyword))
 				.AddAccessorListAccessors(getter, setter);
 
-		internal static AttributeListSyntax[] GetAttributeForField(string generatorName) =>
+		public static AttributeListSyntax[] GetAttributeForField(string generatorName) =>
 			[
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
 					.AddArgumentListArguments(
@@ -181,7 +184,7 @@ namespace Files.Core.SourceGenerator.Utilities
 					))
 			];
 
-		internal static AttributeListSyntax[] GetAttributeForEvent(string generatorName) =>
+		public static AttributeListSyntax[] GetAttributeForEvent(string generatorName) =>
 			[
 				AttributeList().AddAttributes(
 					Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode")).AddArgumentListArguments(
@@ -191,7 +194,7 @@ namespace Files.Core.SourceGenerator.Utilities
 					Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))
 			];
 
-		internal static AttributeListSyntax[] GetAttributeForMethod(string generatorName) =>
+		public static AttributeListSyntax[] GetAttributeForMethod(string generatorName) =>
 			[
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
 					.AddArgumentListArguments(
@@ -212,7 +215,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>ClassDeclaration</returns>
-		internal static ClassDeclarationSyntax GetClassDeclaration(ISymbol specificType, IList<MemberDeclarationSyntax> members)
+		public static ClassDeclarationSyntax GetClassDeclaration(ISymbol specificType, IList<MemberDeclarationSyntax> members)
 		{
 			for (var i = 0; i < members.Count - 1; i++)
 				members[i] = members[i].WithTrailingTrivia(SyntaxTrivia(SyntaxKind.EndOfLineTrivia, "\n"));
@@ -231,7 +234,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>FileScopedNamespaceDeclaration</returns>
-		internal static FileScopedNamespaceDeclarationSyntax GetFileScopedNamespaceDeclaration(ISymbol specificClass, MemberDeclarationSyntax generatedClass)
+		public static FileScopedNamespaceDeclarationSyntax GetFileScopedNamespaceDeclaration(ISymbol specificClass, MemberDeclarationSyntax generatedClass)
 			=> FileScopedNamespaceDeclaration(ParseName(specificClass.ContainingNamespace.ToDisplayString()))
 				.AddMembers(generatedClass)
 				.WithNamespaceKeyword(Token(SyntaxKind.NamespaceKeyword)
@@ -246,7 +249,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>CompilationUnit</returns>
-		internal static CompilationUnitSyntax GetCompilationUnitWithUsings(MemberDeclarationSyntax generatedNamespace, IEnumerable<string> namespaces)
+		public static CompilationUnitSyntax GetCompilationUnitWithUsings(MemberDeclarationSyntax generatedNamespace, IEnumerable<string> namespaces)
 			=> CompilationUnit()
 				.AddMembers(generatedNamespace)
 				.AddUsings(namespaces.Select(ns => UsingDirective(ParseName(ns))).ToArray())
@@ -261,7 +264,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>CompilationUnit</returns>
-		internal static CompilationUnitSyntax GetCompilationUnit(MemberDeclarationSyntax generatedNamespace)
+		public static CompilationUnitSyntax GetCompilationUnit(MemberDeclarationSyntax generatedNamespace)
 			=> CompilationUnit()
 				.AddMembers(generatedNamespace)
 				.NormalizeWhitespace();
@@ -302,15 +305,25 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </summary>
 		/// <param name="n">tab</param>
 		/// <returns>4n*space</returns>
-		internal static string Spacing(int n)
+		public static string Spacing(int n)
 		{
-			var temp = "";
-			for (var i = 0; i < n; ++i)
-				temp += "    ";
-			return temp;
+			Span<char> spaces = stackalloc char[n * 4];
+			spaces.Fill(' ');
+
+			var sb = new StringBuilder(n * 4);
+			foreach (var c in spaces)
+				_ = sb.Append(c);
+
+			return sb.ToString();
 		}
 
-		internal static IEnumerable<IPropertySymbol> GetProperties(this ITypeSymbol typeSymbol, INamedTypeSymbol attribute)
+		/// <summary>
+		/// Retrieves properties of a specified type symbol that do not have an attribute indicating they should be ignored.
+		/// </summary>
+		/// <param name="typeSymbol">The type symbol whose properties are examined.</param>
+		/// <param name="attribute">The attribute symbol that indicates properties to ignore.</param>
+		/// <returns>An enumerable collection of property symbols.</returns>
+		public static IEnumerable<IPropertySymbol> GetProperties(this ITypeSymbol typeSymbol, INamedTypeSymbol attribute)
 		{
 			foreach (var member in typeSymbol.GetMembers())
 			{
@@ -324,19 +337,25 @@ namespace Files.Core.SourceGenerator.Utilities
 			}
 		}
 
-		internal static bool IgnoreAttribute(ISymbol symbol, INamedTypeSymbol attribute)
+		/// <summary>
+		/// Checks if a symbol has an attribute that should cause it to be ignored based on a specified attribute type.
+		/// </summary>
+		/// <param name="symbol">The symbol to check for the attribute.</param>
+		/// <param name="attribute">The attribute symbol indicating that the symbol should be ignored.</param>
+		/// <returns><c>true</c> if the symbol should be ignored based on the attribute; otherwise, <c>false</c>.</returns>
+		public static bool IgnoreAttribute(ISymbol symbol, INamedTypeSymbol attribute)
 		{
 			attribute = attribute is { IsGenericType: true, IsUnboundGenericType: false } ? attribute.ConstructUnboundGenericType() : attribute;
 			if (symbol.GetAttributes()
-				    .FirstOrDefault(propertyAttribute => propertyAttribute.AttributeClass!.ToDisplayString() is AttributeNamespace + "AttributeIgnoreAttribute")
-			    is { ConstructorArguments: [{ Kind: TypedConstantKind.Array }] args })
+					.FirstOrDefault(propertyAttribute => propertyAttribute.AttributeClass!.ToDisplayString() is AttributeNamespace + "AttributeIgnoreAttribute")
+				is { ConstructorArguments: [{ Kind: TypedConstantKind.Array }] args })
 				if (args[0].Values.Any(t =>
-				    {
-					    if (t.Value is not INamedTypeSymbol type)
-						    return false;
-					    type = type is { IsGenericType: true, IsUnboundGenericType: false } ? type.ConstructUnboundGenericType() : type;
-					    return SymbolEqualityComparer.Default.Equals(type, attribute);
-				    }))
+					{
+						if (t.Value is not INamedTypeSymbol type)
+							return false;
+						type = type is { IsGenericType: true, IsUnboundGenericType: false } ? type.ConstructUnboundGenericType() : type;
+						return SymbolEqualityComparer.Default.Equals(type, attribute);
+					}))
 					return true;
 			return false;
 		}
@@ -348,7 +367,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <param name="usedTypes">types that have been judged</param>
 		/// <param name="contextType">The class in which the context resides</param>
 		/// <param name="symbol">type's symbol</param>
-		internal static void UseNamespace(this HashSet<string> namespaces, HashSet<ITypeSymbol> usedTypes, INamedTypeSymbol contextType, ITypeSymbol symbol)
+		public static void UseNamespace(this HashSet<string> namespaces, HashSet<ITypeSymbol> usedTypes, INamedTypeSymbol contextType, ITypeSymbol symbol)
 		{
 			if (usedTypes.Contains(symbol))
 				return;
@@ -374,7 +393,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <br/>...
 		/// </summary>
 		/// <param name="namespaces">namespaces set</param>
-		internal static StringBuilder GenerateFileHeader(this HashSet<string> namespaces)
+		public static StringBuilder GenerateFileHeader(this HashSet<string> namespaces)
 		{
 			var stringBuilder = new StringBuilder().AppendLine("#nullable enable\n");
 			foreach (var s in namespaces)

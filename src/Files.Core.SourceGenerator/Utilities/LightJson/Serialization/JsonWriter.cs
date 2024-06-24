@@ -18,7 +18,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	/// <summary>
 	/// Represents a writer that can write string representations of JsonValues.
 	/// </summary>
-	internal sealed class JsonWriter : IDisposable
+	public  sealed class JsonWriter : IDisposable
 	{
 		private int indent;
 		private bool isNewLine;
@@ -34,7 +34,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JsonWriter"/> class.
 		/// </summary>
-		public JsonWriter()
+		public  JsonWriter()
 			: this(false)
 		{
 		}
@@ -45,7 +45,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <param name="pretty">
 		/// A value indicating whether the output of the writer should be human-readable.
 		/// </param>
-		public JsonWriter(bool pretty)
+		public  JsonWriter(bool pretty)
 		{
 			if (pretty)
 			{
@@ -61,7 +61,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// The string representing a indent in the output.
 		/// </value>
-		public string IndentString { get; set; }
+		public  string IndentString { get; set; }
 
 		/// <summary>
 		/// Gets or sets the string representing a space in the output.
@@ -69,7 +69,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// The string representing a space in the output.
 		/// </value>
-		public string SpacingString { get; set; }
+		public  string SpacingString { get; set; }
 
 		/// <summary>
 		/// Gets or sets the string representing a new line on the output.
@@ -77,7 +77,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// The string representing a new line on the output.
 		/// </value>
-		public string NewLineString { get; set; }
+		public  string NewLineString { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether JsonObject properties should be written in a deterministic order.
@@ -85,14 +85,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// A value indicating whether JsonObject properties should be written in a deterministic order.
 		/// </value>
-		public bool SortObjects { get; set; }
+		public  bool SortObjects { get; set; }
 
 		/// <summary>
 		/// Returns a string representation of the given JsonValue.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to serialize.</param>
 		/// <returns>The serialized value.</returns>
-		public string Serialize(JsonValue jsonValue)
+		public  string Serialize(JsonValue jsonValue)
 		{
 			Initialize();
 
@@ -104,7 +104,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <summary>
 		/// Releases all the resources used by this object.
 		/// </summary>
-		public void Dispose()
+		public  void Dispose()
 		{
 			if (writer != null)
 			{

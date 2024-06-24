@@ -1,13 +1,16 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Files.Core.SourceGenerator.Generators
 {
+	/// <summary>
+	/// Generates DependencyProperty fields and properties based on attributes applied to types.
+	/// </summary>
 	[Generator]
-	public sealed class DependencyPropertyGenerator : TypeWithAttributeGenerator
+	internal sealed class DependencyPropertyGenerator : TypeWithAttributeGenerator
 	{
 		internal override string AttributeName => "DependencyPropertyAttribute`1";
 

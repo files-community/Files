@@ -6,7 +6,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 	/// <summary>
 	/// Enumerates the types of Json values.
 	/// </summary>
-	internal enum JsonValueType : byte
+	public  enum JsonValueType : byte
 	{
 		/// <summary>
 		/// A null value.

@@ -13,14 +13,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
 	[DebuggerTypeProxy(typeof(JsonObjectDebugView))]
-	internal sealed class JsonObject : IEnumerable<KeyValuePair<string, JsonValue>>, IEnumerable<JsonValue>
+	public  sealed class JsonObject : IEnumerable<KeyValuePair<string, JsonValue>>, IEnumerable<JsonValue>
 	{
 		private readonly IDictionary<string, JsonValue> properties;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JsonObject"/> class.
 		/// </summary>
-		public JsonObject()
+		public  JsonObject()
 		{
 			properties = new Dictionary<string, JsonValue>();
 		}
@@ -29,7 +29,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets the number of properties in this JsonObject.
 		/// </summary>
 		/// <value>The number of properties in this JsonObject.</value>
-		public int Count
+		public  int Count
 		{
 			get
 			{
@@ -44,7 +44,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <remarks>
 		/// <para>The getter will return JsonValue.Null if the given key is not assosiated with any value.</para>
 		/// </remarks>
-		public JsonValue this[string key]
+		public  JsonValue this[string key]
 		{
 			get
 			{
@@ -72,7 +72,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <param name="key">The key of the property to be added.</param>
 		/// <remarks><para>Returns this JsonObject.</para></remarks>
 		/// <returns>The <see cref="JsonObject"/> that was added.</returns>
-		public JsonObject Add(string key)
+		public  JsonObject Add(string key)
 		{
 			return Add(key, JsonValue.Null);
 		}
@@ -83,7 +83,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <param name="key">The key of the property to be added.</param>
 		/// <param name="value">The value of the property to be added.</param>
 		/// <returns>Returns this JsonObject.</returns>
-		public JsonObject Add(string key, JsonValue value)
+		public  JsonObject Add(string key, JsonValue value)
 		{
 			properties.Add(key, value);
 			return this;
@@ -96,7 +96,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <returns>
 		/// Returns true if the given key is found and removed; otherwise, false.
 		/// </returns>
-		public bool Remove(string key)
+		public  bool Remove(string key)
 		{
 			return properties.Remove(key);
 		}
@@ -105,7 +105,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Clears the contents of this collection.
 		/// </summary>
 		/// <returns>Returns this JsonObject.</returns>
-		public JsonObject Clear()
+		public  JsonObject Clear()
 		{
 			properties.Clear();
 			return this;
@@ -121,7 +121,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <param name="oldKey">The name of the key to be changed.</param>
 		/// <param name="newKey">The new name of the key.</param>
 		/// <returns>Returns this JsonObject.</returns>
-		public JsonObject Rename(string oldKey, string newKey)
+		public  JsonObject Rename(string oldKey, string newKey)
 		{
 			if (oldKey == newKey)
 			{
@@ -145,7 +145,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// </summary>
 		/// <param name="key">The key to locate in this collection.</param>
 		/// <returns>Returns true if the key is found; otherwise, false.</returns>
-		public bool ContainsKey(string key)
+		public  bool ContainsKey(string key)
 		{
 			return properties.ContainsKey(key);
 		}
@@ -155,7 +155,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// </summary>
 		/// <param name="value">The value to locate in this collection.</param>
 		/// <returns>Returns true if the value is found; otherwise, false.</returns>
-		public bool Contains(JsonValue value)
+		public  bool Contains(JsonValue value)
 		{
 			return properties.Values.Contains(value);
 		}
@@ -164,7 +164,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Returns an enumerator that iterates through this collection.
 		/// </summary>
 		/// <returns>The enumerator that iterates through this collection.</returns>
-		public IEnumerator<KeyValuePair<string, JsonValue>> GetEnumerator()
+		public  IEnumerator<KeyValuePair<string, JsonValue>> GetEnumerator()
 		{
 			return properties.GetEnumerator();
 		}
@@ -191,13 +191,13 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		{
 			private readonly JsonObject jsonObject;
 
-			public JsonObjectDebugView(JsonObject jsonObject)
+			public  JsonObjectDebugView(JsonObject jsonObject)
 			{
 				this.jsonObject = jsonObject;
 			}
 
 			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-			public KeyValuePair[] Keys
+			public  KeyValuePair[] Keys
 			{
 				get
 				{
@@ -215,7 +215,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 			}
 
 			[DebuggerDisplay("{value.ToString(),nq}", Name = "{key}", Type = "JsonValue({Type})")]
-			public class KeyValuePair
+			public  class KeyValuePair
 			{
 #pragma warning disable IDE0052 // Remove unread private members
 				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -225,14 +225,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 				private readonly JsonValue value;
 
-				public KeyValuePair(string key, JsonValue value)
+				public  KeyValuePair(string key, JsonValue value)
 				{
 					this.key = key;
 					this.value = value;
 				}
 
 				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-				public object View
+				public  object View
 				{
 					get
 					{

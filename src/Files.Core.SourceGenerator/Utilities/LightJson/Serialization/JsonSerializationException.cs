@@ -13,12 +13,12 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	/// <remarks>
 	/// <para>This exception is only intended to be thrown by LightJson.</para>
 	/// </remarks>
-	internal sealed class JsonSerializationException : Exception
+	public  sealed class JsonSerializationException : Exception
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JsonSerializationException"/> class.
 		/// </summary>
-		public JsonSerializationException()
+		public  JsonSerializationException()
 			: base(GetDefaultMessage(ErrorType.Unknown))
 		{
 		}
@@ -27,7 +27,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// Initializes a new instance of the <see cref="JsonSerializationException"/> class with the given error type.
 		/// </summary>
 		/// <param name="type">The error type that describes the cause of the error.</param>
-		public JsonSerializationException(ErrorType type)
+		public  JsonSerializationException(ErrorType type)
 			: this(GetDefaultMessage(type), type)
 		{
 		}
@@ -38,7 +38,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// </summary>
 		/// <param name="message">The message that describes the error.</param>
 		/// <param name="type">The error type that describes the cause of the error.</param>
-		public JsonSerializationException(string message, ErrorType type)
+		public  JsonSerializationException(string message, ErrorType type)
 			: base(message)
 		{
 			Type = type;
@@ -47,7 +47,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <summary>
 		/// Enumerates the types of errors that can occur during serialization.
 		/// </summary>
-		public enum ErrorType
+		public  enum ErrorType
 		{
 			/// <summary>
 			/// Indicates that the cause of the error is unknown.
@@ -77,7 +77,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <value>
 		/// The type of error that caused the exception to be thrown.
 		/// </value>
-		public ErrorType Type { get; }
+		public  ErrorType Type { get; }
 
 		private static string GetDefaultMessage(ErrorType type)
 		{

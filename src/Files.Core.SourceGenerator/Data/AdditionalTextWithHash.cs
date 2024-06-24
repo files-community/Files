@@ -3,9 +3,17 @@
 
 namespace Files.Core.SourceGenerator.Data
 {
-	public readonly record struct AdditionalTextWithHash(AdditionalText File, Guid Hash)
+	/// <summary>
+	/// Represents an additional text file paired with a unique identifier (hash).
+	/// </summary>
+	/// <remarks>
+	/// This struct provides equality comparison based on the file path and hash value,
+	/// a hash code calculation, and a string representation of its file path and hash.
+	/// </remarks>
+	internal readonly record struct AdditionalTextWithHash(AdditionalText File, Guid Hash)
 	{
-		public bool Equals(AdditionalTextWithHash other) => File.Path.Equals(other.File.Path) && Hash.Equals(other.Hash);
+		public bool Equals(AdditionalTextWithHash other)
+			=> File.Path.Equals(other.File.Path) && Hash.Equals(other.Hash);
 
 		public override int GetHashCode()
 		{
@@ -15,6 +23,7 @@ namespace Files.Core.SourceGenerator.Data
 			}
 		}
 
-		public override string ToString() => $"{nameof(File)}: {File?.Path}, {nameof(Hash)}: {Hash}";
+		public override string ToString()
+			=> $"{nameof(File)}: {File?.Path}, {nameof(Hash)}: {Hash}";
 	}
 }

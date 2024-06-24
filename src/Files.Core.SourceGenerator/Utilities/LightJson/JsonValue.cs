@@ -16,12 +16,12 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 	/// </summary>
 	[DebuggerDisplay("{ToString(),nq}", Type = "JsonValue({Type})")]
 	[DebuggerTypeProxy(typeof(JsonValueDebugView))]
-	internal struct JsonValue
+	public  struct JsonValue
 	{
 		/// <summary>
 		/// Represents a null JsonValue.
 		/// </summary>
-		public static readonly JsonValue Null = new JsonValue(JsonValueType.Null, default, null);
+		public  static readonly JsonValue Null = new JsonValue(JsonValueType.Null, default, null);
 
 		private readonly JsonValueType type;
 		private readonly object reference;
@@ -31,7 +31,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Initializes a new instance of the <see cref="JsonValue"/> struct, representing a Boolean value.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(bool? value)
+		public  JsonValue(bool? value)
 		{
 			if (value.HasValue)
 			{
@@ -51,7 +51,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Initializes a new instance of the <see cref="JsonValue"/> struct, representing a Number value.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(double? value)
+		public  JsonValue(double? value)
 		{
 			if (value.HasValue)
 			{
@@ -71,7 +71,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Initializes a new instance of the <see cref="JsonValue"/> struct, representing a String value.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(string value)
+		public  JsonValue(string value)
 		{
 			if (value != null)
 			{
@@ -91,7 +91,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Initializes a new instance of the <see cref="JsonValue"/> struct, representing a JsonObject.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(JsonObject value)
+		public  JsonValue(JsonObject value)
 		{
 			if (value != null)
 			{
@@ -111,7 +111,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Initializes a new instance of the <see cref="JsonValue"/> struct, representing a Array reference value.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(JsonArray value)
+		public  JsonValue(JsonArray value)
 		{
 			if (value != null)
 			{
@@ -132,11 +132,11 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// </summary>
 		/// <param name="type">The Json type of the JsonValue.</param>
 		/// <param name="value">
-		/// The internal value of the JsonValue.
+		/// The public  value of the JsonValue.
 		/// This is used when the Json type is Number or Boolean.
 		/// </param>
 		/// <param name="reference">
-		/// The internal value reference of the JsonValue.
+		/// The public  value reference of the JsonValue.
 		/// This value is used when the Json type is String, JsonObject, or JsonArray.
 		/// </param>
 		private JsonValue(JsonValueType type, double value, object reference)
@@ -150,7 +150,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets the type of this JsonValue.
 		/// </summary>
 		/// <value>The type of this JsonValue.</value>
-		public JsonValueType Type
+		public  JsonValueType Type
 		{
 			get
 			{
@@ -162,7 +162,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this JsonValue is Null.
 		/// </summary>
 		/// <value>A value indicating whether this JsonValue is Null.</value>
-		public bool IsNull
+		public  bool IsNull
 		{
 			get
 			{
@@ -174,7 +174,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this JsonValue is a Boolean.
 		/// </summary>
 		/// <value>A value indicating whether this JsonValue is a Boolean.</value>
-		public bool IsBoolean
+		public  bool IsBoolean
 		{
 			get
 			{
@@ -186,7 +186,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this JsonValue is an Integer.
 		/// </summary>
 		/// <value>A value indicating whether this JsonValue is an Integer.</value>
-		public bool IsInteger
+		public  bool IsInteger
 		{
 			get
 			{
@@ -204,7 +204,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this JsonValue is a Number.
 		/// </summary>
 		/// <value>A value indicating whether this JsonValue is a Number.</value>
-		public bool IsNumber
+		public  bool IsNumber
 		{
 			get
 			{
@@ -216,7 +216,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this JsonValue is a String.
 		/// </summary>
 		/// <value>A value indicating whether this JsonValue is a String.</value>
-		public bool IsString
+		public  bool IsString
 		{
 			get
 			{
@@ -228,7 +228,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this JsonValue is a JsonObject.
 		/// </summary>
 		/// <value>A value indicating whether this JsonValue is a JsonObject.</value>
-		public bool IsJsonObject
+		public  bool IsJsonObject
 		{
 			get
 			{
@@ -240,7 +240,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this JsonValue is a JsonArray.
 		/// </summary>
 		/// <value>A value indicating whether this JsonValue is a JsonArray.</value>
-		public bool IsJsonArray
+		public  bool IsJsonArray
 		{
 			get
 			{
@@ -252,7 +252,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this JsonValue represents a DateTime.
 		/// </summary>
 		/// <value>A value indicating whether this JsonValue represents a DateTime.</value>
-		public bool IsDateTime
+		public  bool IsDateTime
 		{
 			get
 			{
@@ -264,7 +264,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets a value indicating whether this value is true or false.
 		/// </summary>
 		/// <value>This value as a Boolean type.</value>
-		public bool AsBoolean
+		public  bool AsBoolean
 		{
 			get
 			{
@@ -293,7 +293,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets this value as an Integer type.
 		/// </summary>
 		/// <value>This value as an Integer type.</value>
-		public int AsInteger
+		public  int AsInteger
 		{
 			get
 			{
@@ -318,7 +318,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets this value as a Number type.
 		/// </summary>
 		/// <value>This value as a Number type.</value>
-		public double AsNumber
+		public  double AsNumber
 		{
 			get
 			{
@@ -353,7 +353,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets this value as a String type.
 		/// </summary>
 		/// <value>This value as a String type.</value>
-		public string AsString
+		public  string AsString
 		{
 			get
 			{
@@ -380,7 +380,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets this value as an JsonObject.
 		/// </summary>
 		/// <value>This value as an JsonObject.</value>
-		public JsonObject AsJsonObject
+		public  JsonObject AsJsonObject
 		{
 			get
 			{
@@ -394,7 +394,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets this value as an JsonArray.
 		/// </summary>
 		/// <value>This value as an JsonArray.</value>
-		public JsonArray AsJsonArray
+		public  JsonArray AsJsonArray
 		{
 			get
 			{
@@ -408,7 +408,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets this value as a system.DateTime.
 		/// </summary>
 		/// <value>This value as a system.DateTime.</value>
-		public DateTime? AsDateTime
+		public  DateTime? AsDateTime
 		{
 			get
 			{
@@ -429,7 +429,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// Gets this (inner) value as a System.object.
 		/// </summary>
 		/// <value>This (inner) value as a System.object.</value>
-		public object AsObject
+		public  object AsObject
 		{
 			get
 			{
@@ -457,7 +457,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <exception cref="InvalidOperationException">
 		/// Thrown when this JsonValue is not a JsonObject.
 		/// </exception>
-		public JsonValue this[string key]
+		public  JsonValue this[string key]
 		{
 			get
 			{
@@ -491,7 +491,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// <exception cref="InvalidOperationException">
 		/// Thrown when this <see cref="JsonValue"/> is not a <see cref="JsonArray"/>.
 		/// </exception>
-		public JsonValue this[int index]
+		public  JsonValue this[int index]
 		{
 			get
 			{
@@ -806,7 +806,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// </summary>
 		/// <param name="text">The JSON-formatted string to be parsed.</param>
 		/// <returns>The <see cref="JsonValue"/> representing the parsed text.</returns>
-		public static JsonValue Parse(string text)
+		public  static JsonValue Parse(string text)
 		{
 			return JsonReader.Parse(text);
 		}
@@ -849,13 +849,13 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		{
 			private readonly JsonValue jsonValue;
 
-			public JsonValueDebugView(JsonValue jsonValue)
+			public  JsonValueDebugView(JsonValue jsonValue)
 			{
 				this.jsonValue = jsonValue;
 			}
 
 			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-			public JsonObject ObjectView
+			public  JsonObject ObjectView
 			{
 				get
 				{
@@ -871,7 +871,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 			}
 
 			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-			public JsonArray ArrayView
+			public  JsonArray ArrayView
 			{
 				get
 				{
@@ -886,7 +886,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 				}
 			}
 
-			public JsonValueType Type
+			public  JsonValueType Type
 			{
 				get
 				{
@@ -894,7 +894,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 				}
 			}
 
-			public object Value
+			public  object Value
 			{
 				get
 				{

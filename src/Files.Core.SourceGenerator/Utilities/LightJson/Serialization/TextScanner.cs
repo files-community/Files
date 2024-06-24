@@ -13,7 +13,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	/// <summary>
 	/// Represents a text scanner that reads one character at a time.
 	/// </summary>
-	internal sealed class TextScanner
+	public  sealed class TextScanner
 	{
 		private readonly TextReader reader;
 		private TextPosition position;
@@ -22,7 +22,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// Initializes a new instance of the <see cref="TextScanner"/> class.
 		/// </summary>
 		/// <param name="reader">The TextReader to read the text.</param>
-		public TextScanner(TextReader reader)
+		public  TextScanner(TextReader reader)
 		{
 			this.reader = reader;
 		}
@@ -31,7 +31,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// Gets the position of the scanner within the text.
 		/// </summary>
 		/// <value>The position of the scanner within the text.</value>
-		public TextPosition Position
+		public  TextPosition Position
 		{
 			get
 			{
@@ -43,7 +43,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// Reads the next character in the stream without changing the current position.
 		/// </summary>
 		/// <returns>The next character in the stream.</returns>
-		public char Peek()
+		public  char Peek()
 			=> (char)Peek(throwAtEndOfFile: true);
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// reached; otherwise, <see langword="false"/>.</param>
 		/// <returns>The next character in the stream, or -1 if the end of the file is reached with
 		/// <paramref name="throwAtEndOfFile"/> set to <see langword="false"/>.</returns>
-		public int Peek(bool throwAtEndOfFile)
+		public  int Peek(bool throwAtEndOfFile)
 		{
 			var next = reader.Peek();
 
@@ -73,7 +73,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// Reads the next character in the stream, advancing the text position.
 		/// </summary>
 		/// <returns>The next character in the stream.</returns>
-		public char Read()
+		public  char Read()
 		{
 			var next = reader.Read();
 
@@ -102,7 +102,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// <summary>
 		/// Advances the scanner to next non-whitespace character.
 		/// </summary>
-		public void SkipWhitespace()
+		public  void SkipWhitespace()
 		{
 			while (true)
 			{
@@ -129,7 +129,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// If the characters do not match, an exception will be thrown.
 		/// </summary>
 		/// <param name="next">The expected character.</param>
-		public void Assert(char next)
+		public  void Assert(char next)
 		{
 			var errorPosition = position;
 			if (Read() != next)
@@ -146,7 +146,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		/// If the strings do not match, an exception will be thrown.
 		/// </summary>
 		/// <param name="next">The expected string.</param>
-		public void Assert(string next)
+		public  void Assert(string next)
 		{
 			for (var i = 0; i < next.Length; i += 1)
 			{

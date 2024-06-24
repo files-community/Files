@@ -62,7 +62,7 @@ namespace Files.App
 		/// </summary>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
-			var t = Strings.KeyBack;
+			var t = Strings.Key_Back;
 
 			_ = ActivateAsync();
 

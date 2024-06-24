@@ -5,8 +5,16 @@ using Files.Core.SourceGenerator.Utilities.LightJson;
 
 namespace Files.Core.SourceGenerator.Parser
 {
+	/// <summary>
+	/// Provides methods to parse JSON files and extract keys with optional context information.
+	/// </summary>
 	internal static class JsonParser
 	{
+		/// <summary>
+		/// Retrieves all keys and optional context information from the specified JSON file.
+		/// </summary>
+		/// <param name="file">The additional text representing the JSON file.</param>
+		/// <returns>An enumerable of tuples where each tuple contains a key and its associated context.</returns>
 		public static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)
 		{
 			var jsonText = new SystemIO.StreamReader(file.Path).ReadToEnd();
