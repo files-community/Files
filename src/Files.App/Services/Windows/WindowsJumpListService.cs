@@ -46,7 +46,10 @@ namespace Files.App.Services
 						await instance.SaveAsync();
 					}
 				}
-				catch { }
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 		}
 
@@ -123,7 +126,7 @@ namespace Files.App.Services
 
 				if (path.StartsWith("\\\\SHELL", StringComparison.OrdinalIgnoreCase))
 					displayName = "ThisPC".GetLocalizedResource();
-				
+
 				if (path.EndsWith('\\'))
 				{
 					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
