@@ -11,12 +11,12 @@ namespace Files.Core.SourceGenerator
 		/// <summary>
 		/// Contains diagnostic descriptors used for error reporting.
 		/// </summary>
-		public class DiagnosticDescriptors
+		internal class DiagnosticDescriptors
 		{
 			/// <summary>
 			/// Diagnostic descriptor for unsupported types in Windows Registry.
 			/// </summary>
-			public static readonly DiagnosticDescriptor FSG1001 = new(
+			internal static readonly DiagnosticDescriptor FSG1001 = new(
 				nameof(FSG1001),
 				"Types that are not supported by Windows Registry",
 				"Type '{0}' is not supported by Windows Registry",
@@ -28,12 +28,12 @@ namespace Files.Core.SourceGenerator
 		/// <summary>
 		/// Contains constants related to DependencyProperty generation.
 		/// </summary>
-		public class DependencyPropertyGenerator
+		internal class DependencyPropertyGenerator
 		{
 			/// <summary>
 			/// The name of the attribute used for DependencyProperty.
 			/// </summary>
-			public static readonly string AttributeName = "DependencyPropertyAttribute";
+			internal static readonly string AttributeName = "DependencyPropertyAttribute";
 		}
 	}
 }

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Tunnel Vision Laboratories, LLC. All Rights Reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System.Diagnostics;
-
 #nullable disable
 
 namespace Files.Core.SourceGenerator.Utilities.LightJson
@@ -36,11 +34,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 		/// </remarks>
 		public JsonValue this[string key]
 		{
-			get
-			{
-
-				return properties.TryGetValue(key, out var value) ? value : JsonValue.Null;
-			}
+			get => properties.TryGetValue(key, out var value) ? value : JsonValue.Null;
 
 			set => properties[key] = value;
 		}
@@ -101,7 +95,6 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 				// Renaming to the same name just does nothing
 				return this;
 			}
-
 
 			if (properties.TryGetValue(oldKey, out var value))
 			{
@@ -186,20 +179,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson
 				}
 
 				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-				public object View
-				{
-					get
-					{
-						if (value.IsJsonObject)
-						{
-							return (JsonObject)value;
-						}
-						else
-						{
-							return value.IsJsonArray ? (JsonArray)value : (object)value;
-						}
-					}
-				}
+				public object View => value.IsJsonObject ? (JsonObject)value : value.IsJsonArray ? (JsonArray)value : (object)value;
 			}
 		}
 	}

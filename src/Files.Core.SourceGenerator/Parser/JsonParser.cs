@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.SourceGenerator.Utilities.LightJson;
-
 namespace Files.Core.SourceGenerator.Parser
 {
 	/// <summary>
@@ -15,7 +13,7 @@ namespace Files.Core.SourceGenerator.Parser
 		/// </summary>
 		/// <param name="file">The additional text representing the JSON file.</param>
 		/// <returns>An enumerable of tuples where each tuple contains a key and its associated context.</returns>
-		public static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)
+		internal static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)
 		{
 			var jsonText = new SystemIO.StreamReader(file.Path).ReadToEnd();
 			var json = JsonValue.Parse(jsonText);

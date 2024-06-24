@@ -15,7 +15,7 @@ namespace Files.Core.SourceGenerator.Parser
 		/// </summary>
 		/// <param name="file">The additional text representing the RESW file.</param>
 		/// <returns>An enumerable of tuples where each tuple contains a key and its associated comment.</returns>
-		public static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)
+		internal static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)
 		{
 			var document = XDocument.Load(file.Path);
 			var keys = document

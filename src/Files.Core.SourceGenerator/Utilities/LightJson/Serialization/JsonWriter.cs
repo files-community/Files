@@ -3,9 +3,6 @@
 
 #nullable disable
 
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using ErrorType = Files.Core.SourceGenerator.Utilities.LightJson.Serialization.JsonSerializationException.ErrorType;
 
 namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
@@ -17,7 +14,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	{
 		private int indent;
 		private bool isNewLine;
-		private TextWriter writer;
+		private SystemIO.TextWriter writer;
 
 		/// <summary>
 		/// A set of containing all the collection objects (JsonObject/JsonArray) being rendered.
@@ -105,7 +102,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 		{
 			indent = 0;
 			isNewLine = true;
-			writer = new StringWriter();
+			writer = new SystemIO.StringWriter();
 			renderingCollections = [];
 		}
 

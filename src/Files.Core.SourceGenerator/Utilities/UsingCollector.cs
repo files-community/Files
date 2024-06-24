@@ -14,7 +14,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// Initializes a new instance of the <see cref="UsingCollector"/> class with the specified set of namespaces.
 		/// </summary>
 		/// <param name="namespaces">The set to store collected namespaces.</param>
-		public UsingCollector(HashSet<string> namespaces) => _namespaces = namespaces;
+		internal UsingCollector(HashSet<string> namespaces) => _namespaces = namespaces;
 
 		/// <summary>
 		/// Visits a using directive node and adds the namespace to the set.

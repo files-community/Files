@@ -3,8 +3,6 @@
 
 #nullable disable
 
-using System.Globalization;
-using System.IO;
 using ErrorType = Files.Core.SourceGenerator.Utilities.LightJson.Serialization.JsonParseException.ErrorType;
 
 namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
@@ -16,14 +14,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	{
 		private readonly TextScanner scanner;
 
-		private JsonReader(TextReader reader) => scanner = new TextScanner(reader);
+		private JsonReader(SystemIO.TextReader reader) => scanner = new TextScanner(reader);
 
 		/// <summary>
 		/// Creates a JsonValue by using the given TextReader.
 		/// </summary>
 		/// <param name="reader">The TextReader used to read a JSON message.</param>
 		/// <returns>The parsed <see cref="JsonValue"/>.</returns>
-		public static JsonValue Parse(TextReader reader) => reader == null ? throw new ArgumentNullException(nameof(reader)) : new JsonReader(reader).Parse();
+		public static JsonValue Parse(SystemIO.TextReader reader) => reader == null ? throw new ArgumentNullException(nameof(reader)) : new JsonReader(reader).Parse();
 
 		/// <summary>
 		/// Creates a JsonValue by reader the JSON message in the given string.
@@ -37,7 +35,7 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 				throw new ArgumentNullException(nameof(source));
 			}
 
-			using var reader = new StringReader(source);
+			using var reader = new SystemIO.StringReader(source);
 			return Parse(reader);
 		}
 

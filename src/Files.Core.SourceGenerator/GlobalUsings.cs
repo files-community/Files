@@ -5,6 +5,11 @@
 // Files
 global using global::Files.Core.SourceGenerator.Data;
 global using global::Files.Core.SourceGenerator.Parser;
+global using global::Files.Core.SourceGenerator.Utilities;
+
+// LightJson
+global using global::Files.Core.SourceGenerator.Utilities.LightJson;
+global using global::Files.Core.SourceGenerator.Utilities.LightJson.Serialization;
 
 // Microsoft
 global using global::Microsoft.CodeAnalysis;
@@ -16,6 +21,8 @@ global using global::Microsoft.CodeAnalysis.Text;
 global using global::System;
 global using global::System.Collections.Generic;
 global using global::System.Collections.Immutable;
+global using global::System.Diagnostics;
+global using global::System.Globalization;
 global using global::System.Linq;
 global using global::System.Text;
 global using SystemIO = global::System.IO;

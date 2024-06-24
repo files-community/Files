@@ -3,7 +3,6 @@
 
 #nullable disable
 
-using System.IO;
 using ErrorType = Files.Core.SourceGenerator.Utilities.LightJson.Serialization.JsonParseException.ErrorType;
 
 namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
@@ -13,14 +12,14 @@ namespace Files.Core.SourceGenerator.Utilities.LightJson.Serialization
 	/// </summary>
 	internal sealed class TextScanner
 	{
-		private readonly TextReader reader;
+		private readonly SystemIO.TextReader reader;
 		private TextPosition position;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TextScanner"/> class.
 		/// </summary>
 		/// <param name="reader">The TextReader to read the text.</param>
-		public TextScanner(TextReader reader) => this.reader = reader;
+		public TextScanner(SystemIO.TextReader reader) => this.reader = reader;
 
 		/// <summary>
 		/// Gets the position of the scanner within the text.
