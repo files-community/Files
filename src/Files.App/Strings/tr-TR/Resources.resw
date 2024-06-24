@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Ayrıntı/önizleme bölmelerini görüntülemek için bilgi bölmesini açın</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Toggle the Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ön izleme yok</value>
   </data>
