@@ -531,9 +531,15 @@ namespace Files.App.ViewModels
 			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
+			folderSettings.LayoutModeChangeRequested += LayoutModeChangeRequested;
 			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreatedAsync;
 			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeletedAsync;
 			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequestedAsync;
+		}
+
+		private async void LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
+		{
+			await dispatcherQueue.EnqueueOrInvokeAsync(CheckForBackgroundImage, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
 		private async void RecycleBinRefreshRequestedAsync(object sender, FileSystemEventArgs e)
@@ -2560,6 +2566,7 @@ namespace Files.App.ViewModels
 			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
+			folderSettings.LayoutModeChangeRequested -= LayoutModeChangeRequested;
 		}
 	}
 
