@@ -191,10 +191,10 @@ namespace Files.App.Data.Commands
 		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
 		public IRichCommand NextTab => commands[CommandCodes.NextTab];
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
-		public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
 		public IRichCommand CloseActivePane => commands[CommandCodes.CloseActivePane];
-		public IRichCommand FocusLeftPane => commands[CommandCodes.FocusLeftPane];
-		public IRichCommand FocusRightPane => commands[CommandCodes.FocusRightPane];
+		public IRichCommand FocusOtherPane => commands[CommandCodes.FocusOtherPane];
+		public IRichCommand SplitPaneVertically => commands[CommandCodes.SplitPaneVertically];
+		public IRichCommand SplitPaneHorizontally => commands[CommandCodes.SplitPaneHorizontally];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
@@ -375,10 +375,10 @@ namespace Files.App.Data.Commands
 			[CommandCodes.PreviousTab] = new PreviousTabAction(),
 			[CommandCodes.NextTab] = new NextTabAction(),
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
-			[CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
 			[CommandCodes.CloseActivePane] = new CloseActivePaneAction(),
-			[CommandCodes.FocusLeftPane] = new FocusLeftPaneAction(),
-			[CommandCodes.FocusRightPane] = new FocusRightPaneAction(),
+			[CommandCodes.FocusOtherPane] = new FocusOtherPaneAction(),
+			[CommandCodes.SplitPaneVertically] = new SplitPaneVerticallyAction(),
+			[CommandCodes.SplitPaneHorizontally] = new SplitPaneHorizontallyAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),

@@ -18,9 +18,9 @@ namespace Files.App.Data.Contracts
 
 		public void CloseActivePane();
 
-		public void FocusLeftPane();
+		public void SplitCurrentPane();
 
-		public void FocusRightPane();
+		public void FocusOtherPane();
 
 		public bool IsLeftPaneActive { get; }
 

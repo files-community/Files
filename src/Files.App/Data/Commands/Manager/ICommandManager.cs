@@ -171,10 +171,11 @@ namespace Files.App.Data.Commands
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
-		IRichCommand OpenNewPane { get; }
+
 		IRichCommand CloseActivePane { get; }
-		IRichCommand FocusLeftPane { get; }
-		IRichCommand FocusRightPane { get; }
+		IRichCommand FocusOtherPane { get; }
+		IRichCommand SplitPaneVertically { get; }
+		IRichCommand SplitPaneHorizontally { get; }
 
 		IRichCommand OpenInNewPaneAction { get; }
 		IRichCommand OpenInNewPaneFromHomeAction { get; }

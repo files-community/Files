@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Close current tab</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Close active pane</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Focus left pane</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Focus other pane</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Switch focus to the left pane</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Focus right pane</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Switch focus to the right pane</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Switch focus to the non active pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Toggle the sidebar</value>
@@ -3868,5 +3859,17 @@
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
+  </data>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Split vertically</value>
+  </data>
+  <data name="SplitPaneVerticallyDescription" xml:space="preserve">
+    <value>Split current pane into two vertical panes</value>
+  </data>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Split horizontally</value>
+  </data>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Split current pane into two horizontally panes</value>
   </data>
 </root>

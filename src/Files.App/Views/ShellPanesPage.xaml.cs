@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -283,14 +282,21 @@ namespace Files.App.Views
 			SetShadow();
 		}
 
-		public void FocusLeftPane()
+		public void SplitCurrentPane()
 		{
-			GetPane(0)?.Focus(FocusState.Programmatic);
+			// Add right pane within this property's setter
+			IsRightPaneVisible = true;
+
+			NavParamsRight = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
+			ActivePane = GetPane(1);
 		}
 
-		public void FocusRightPane()
+		public void FocusOtherPane()
 		{
-			GetPane(1)?.Focus(FocusState.Programmatic);
+			if (ActivePane == (IShellPage)GetPane(0))
+				GetPane(1)?.Focus(FocusState.Programmatic);
+			else
+				GetPane(0)?.Focus(FocusState.Programmatic);
 		}
 
 		// Private methods
