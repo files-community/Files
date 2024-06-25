@@ -13,9 +13,19 @@ namespace Files.App.Extensions
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
 				if (dispatcher is not null)
-					return dispatcher.EnqueueAsync(function, priority);
-				else
-					return function();
+				{
+					try
+					{
+						return dispatcher.EnqueueAsync(function, priority);
+					}
+					catch (InvalidOperationException ex)
+					{
+						if (ex.Message is not "Failed to enqueue the operation")
+							throw;
+					}
+				}
+
+				return function();
 			}, App.Logger, typeof(COMException));
 		}
 
@@ -24,9 +34,19 @@ namespace Files.App.Extensions
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
 				if (dispatcher is not null)
-					return dispatcher.EnqueueAsync(function, priority);
-				else
-					return function();
+				{
+					try
+					{
+						return dispatcher.EnqueueAsync(function, priority);
+					}
+					catch (InvalidOperationException ex)
+					{
+						if (ex.Message is not "Failed to enqueue the operation")
+							throw;
+					}
+				}
+
+				return function();
 			}, App.Logger, typeof(COMException));
 		}
 
@@ -35,12 +55,20 @@ namespace Files.App.Extensions
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
 				if (dispatcher is not null)
-					return dispatcher.EnqueueAsync(function, priority);
-				else
 				{
-					function();
-					return Task.CompletedTask;
+					try
+					{
+						return dispatcher.EnqueueAsync(function, priority);
+					}
+					catch (InvalidOperationException ex)
+					{
+						if (ex.Message is not "Failed to enqueue the operation")
+							throw;
+					}
 				}
+
+				function();
+				return Task.CompletedTask;
 			}, App.Logger, typeof(COMException));
 		}
 
@@ -49,9 +77,19 @@ namespace Files.App.Extensions
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
 				if (dispatcher is not null)
-					return dispatcher.EnqueueAsync(function, priority);
-				else
-					return Task.FromResult(function());
+				{
+					try
+					{
+						return dispatcher.EnqueueAsync(function, priority);
+					}
+					catch (InvalidOperationException ex)
+					{
+						if (ex.Message is not "Failed to enqueue the operation")
+							throw;
+					}
+				}
+
+				return Task.FromResult(function());
 			}, App.Logger, typeof(COMException));
 		}
 
