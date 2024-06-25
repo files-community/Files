@@ -98,7 +98,6 @@
 							x:Name="EnterCompactOverlay"
 							x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
 							Command="{x:Bind Commands.EnterCompactOverlay}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.EnterCompactOverlay.HotKeyText, Mode=OneWay}"
 							OpacityStyle="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}"
 							Text="{x:Bind Commands.EnterCompactOverlay.Label}" />
 
