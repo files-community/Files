@@ -132,10 +132,10 @@ namespace Files.App.Services
 				var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
 				_updatePackages = updateList?.ToList();
 			}
-			catch (FileNotFoundException)
+			catch (Exception ex)
 			{
-				// Suppress the FileNotFoundException.
 				// GetAppAndOptionalStorePackageUpdatesAsync throws for unknown reasons.
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
 
