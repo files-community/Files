@@ -283,7 +283,18 @@ namespace Files.App.Views.Layouts
 
 		override public void StartRenameItem()
 		{
-			RenamingItem = SelectedItem;
+			bool multipleRenameFlag = false;
+			if (SelectedItems.Count > 1)
+			{
+				RenamingItem = SelectedItems.Last();
+				RenamingItems = SelectedItems;
+				multipleRenameFlag = true;
+			}
+			else 
+			{ 				
+				RenamingItem = SelectedItem;
+			}
+			
 			if (RenamingItem is null || FolderSettings is null)
 				return;
 
@@ -358,12 +369,20 @@ namespace Files.App.Views.Layouts
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
-			IsRenamingItem = true;
+			if(multipleRenameFlag)
+			{
+				IsRenamingMultipleItems = true;
+			}
+			else
+			{
+				IsRenamingItem = true;
+			}
+			
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
-			if (!IsRenamingItem)
+			if (!IsRenamingItem && !IsRenamingMultipleItems)
 				return;
 
 			ValidateItemNameInputTextAsync(textBox, args, (showError) =>
@@ -410,7 +429,7 @@ namespace Files.App.Views.Layouts
 			}
 
 			FileNameTeachingTip.IsOpen = false;
-			IsRenamingItem = false;
+			
 
 			// Re-focus selected list item
 			gridViewItem?.Focus(FocusState.Programmatic);
@@ -435,7 +454,7 @@ namespace Files.App.Views.Layouts
 
 				await commands[hotKey].ExecuteAsync();
 			}
-			else if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
+			else if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown && !IsRenamingMultipleItems)
 			{
 				e.Handled = true;
 
@@ -458,7 +477,7 @@ namespace Files.App.Views.Layouts
 				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPageInstance);
 				e.Handled = true;
 			}
-			else if (e.Key == VirtualKey.Space)
+			else if (e.Key == VirtualKey.Space && !IsRenamingMultipleItems)
 			{
 				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;

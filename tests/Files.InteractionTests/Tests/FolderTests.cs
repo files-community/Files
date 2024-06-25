@@ -29,6 +29,8 @@ namespace Files.InteractionTests.Tests
 
 			CopyPasteFolderTest();
 
+			RenameMultipleFoldersTest();
+
 			DeleteFolderTest();
 		}
 
@@ -118,28 +120,58 @@ namespace Files.InteractionTests.Tests
 			Thread.Sleep(3000);
 		}
 
+		private void RenameMultipleFoldersTest()
+		{
+			// Select the "New Folder" folder and clicks the "rename" button on the toolbar
+			TestHelper.InvokeButtonByName("Renamed Folder");
+
+			// Press the ctrl button 
+			var action = new Actions(SessionManager.Session);
+			action.SendKeys(Keys.Control).Perform();
+
+			// Select the "New Folder - Copy" folder and clicks the "rename" button on the toolbar
+			TestHelper.InvokeButtonByName("Renamed Folder - Copy");
+
+			// Release the ctrl button
+			action = new Actions(SessionManager.Session);
+			action.KeyUp(Keys.Control).Perform();
+
+			// Click the "Rename" button on the toolbar
+			TestHelper.InvokeButtonById("InnerNavigationToolbarRenameButton");
+
+			// Type the new name into the inline text box
+			action = new Actions(SessionManager.Session);
+			action.SendKeys("Multiple Folder").Perform();
+
+			// Press the enter button to save the new name
+			action = new Actions(SessionManager.Session);
+			action.SendKeys(Keys.Enter).Perform();
+
+			// Wait for the folder to be renamed
+			Thread.Sleep(3000);
+
+		}
+
 		/// <summary>
 		/// Tests deleting folders
 		/// </summary>
 		private void DeleteFolderTest()
 		{
 			// Select the "Renamed Folder" folder and clicks the "delete" button on the toolbar
-			TestHelper.InvokeButtonByName("Renamed Folder");
-			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
+			TestHelper.InvokeButtonByName("Multiple Folder");
 
-			// Wait for prompt to show
-			Thread.Sleep(3000);
-
-			// Check for accessibility issues in the confirm delete prompt
-			AxeHelper.AssertNoAccessibilityErrors();
-
-			// Press the enter key to confirm
+			// Press the ctrl button
 			var action = new Actions(SessionManager.Session);
-			action.SendKeys(Keys.Enter).Perform();
+			action.SendKeys(Keys.Control).Perform();
 
+			// Select the "Renamed Folder (2)" folder 
+			TestHelper.InvokeButtonByName("Multiple Folder (2)");
 
-			// Select the "Renamed Folder - Copy" folder and clicks the "delete" button on the toolbar
-			TestHelper.InvokeButtonByName("Renamed Folder - Copy");
+			// Release the ctrl button
+			action = new Actions(SessionManager.Session);
+			action.KeyUp(Keys.Control).Perform();
+
+			// Click the "Delete" button on the toolbar
 			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
 
 			// Wait for prompt to show

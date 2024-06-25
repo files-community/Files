@@ -124,10 +124,13 @@ namespace Files.App.Views.Layouts
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
-			if (NextRenameIndex != 0 && TryStartRenameNextItem(e))
-				return;
+			if (!IsRenamingMultipleItems)
+			{
+				if (NextRenameIndex != 0 && TryStartRenameNextItem(e))
+					return;
 
-			FileList?.SelectedItems.Add(e);
+				FileList?.SelectedItems.Add(e);
+			}
 		}
 
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
@@ -196,7 +199,7 @@ namespace Files.App.Views.Layouts
 
 		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
-			if (IsRenamingItem)
+			if (IsRenamingItem || IsRenamingMultipleItems)
 			{
 				await ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
@@ -209,9 +212,7 @@ namespace Files.App.Views.Layouts
 		protected override void EndRename(TextBox textBox)
 		{
 			FileNameTeachingTip.IsOpen = false;
-			IsRenamingItem = false;
-
-			// Unsubscribe from events
+			
 			if (textBox is not null)
 			{
 				textBox!.LostFocus -= RenameTextBox_LostFocus;
@@ -220,7 +221,8 @@ namespace Files.App.Views.Layouts
 
 			if (textBox is not null && textBox.Parent is not null)
 			{
-				ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+				ListViewItem? listViewItem;
+				listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 				if (listViewItem is null)
 					return;
 
@@ -231,6 +233,7 @@ namespace Files.App.Views.Layouts
 				textBox!.Visibility = Visibility.Collapsed;
 				textBlock!.Visibility = Visibility.Visible;
 			}
+
 		}
 
 		public override void ResetItemOpacity()

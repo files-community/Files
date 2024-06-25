@@ -33,15 +33,15 @@ namespace Files.App.Actions
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
-		{
+		{	
+			
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
-
 			return Task.CompletedTask;
 		}
 
 		private bool IsSelectionValid()
 		{
-			return context.HasSelection && context.SelectedItems.Count == 1;
+			return context.HasSelection && context.SelectedItems.Count != 0;
 		}
 
 		private bool IsPageTypeValid()

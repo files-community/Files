@@ -34,6 +34,7 @@ namespace Files.App.Views.Layouts
 
 		protected override ItemsControl ItemsControl => ListViewBase;
 
+		
 		// Constructor
 
 		public BaseGroupableLayoutPage() : base()
@@ -226,7 +227,17 @@ namespace Files.App.Views.Layouts
 
 		protected virtual void StartRenameItem(string itemNameTextBox)
 		{
-			RenamingItem = SelectedItem;
+			bool multipleRenameFlag = false;
+			if (SelectedItems.Count > 1)
+			{
+				RenamingItem = SelectedItems.Last();
+				RenamingItems = SelectedItems;
+				multipleRenameFlag = true;
+			}
+			else
+			{
+				RenamingItem = SelectedItem;
+			}
 			if (RenamingItem is null)
 				return;
 
@@ -263,15 +274,35 @@ namespace Files.App.Views.Layouts
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
-			IsRenamingItem = true;
+			if(multipleRenameFlag)
+			{
+				IsRenamingMultipleItems = true;
+			}
+			else
+			{
+				IsRenamingItem = true;
+			}
+			
 		}
+
+		
 
 		protected virtual async Task CommitRenameAsync(TextBox textBox)
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
+			if (!IsRenamingMultipleItems)
+			{
 
-			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
+				await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
+				IsRenamingItem = false;
+			}
+			else
+			{
+
+				await UIFilesystemHelpers.RenameFileItemsAsync(RenamingItems, newItemName, ParentShellPageInstance);
+				IsRenamingMultipleItems = false;
+			}
 		}
 
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -280,6 +311,7 @@ namespace Files.App.Views.Layouts
 			if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
+				
 				await CommitRenameAsync(textBox);
 			}
 		}
@@ -288,6 +320,8 @@ namespace Files.App.Views.Layouts
 
 		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			Console.WriteLine($"Key pressed: {e.Key}");
+			Console.WriteLine($"EnterKey : {VirtualKey.Enter}");
 			var textBox = (TextBox)sender;
 			var isShiftPressed = (PInvoke.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 
@@ -327,7 +361,9 @@ namespace Files.App.Views.Layouts
 
 					if (textBox.Text != OldItemName)
 					{
+						
 						await CommitRenameAsync(textBox);
+						
 					}
 					else
 					{
@@ -350,6 +386,7 @@ namespace Files.App.Views.Layouts
 
 		protected bool TryStartRenameNextItem(ListedItem item)
 		{
+			
 			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
 			NextRenameIndex = 0;
 
@@ -363,6 +400,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			return false;
+			
+			
 		}
 
 		protected void SelectionCheckbox_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
