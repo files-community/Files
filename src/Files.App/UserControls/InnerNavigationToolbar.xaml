@@ -1215,67 +1215,6 @@
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
 				<local:OpacityIcon IsSelected="{x:Bind Commands.ToggleInfoPane.IsOn, Mode=OneWay}" Style="{x:Bind Commands.ToggleInfoPane.OpacityStyle}" />
 			</AppBarToggleButton>
-
-			<!--  3 Dots Commands  -->
-			<CommandBar.SecondaryCommands>
-
-				<!--  Workaround to enable displaying OpacityIcons in the menu  -->
-				<AppBarButton Visibility="Collapsed">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE737;" />
-					</AppBarButton.Icon>
-				</AppBarButton>
-
-				<!--  Open New Pane  -->
-				<AppBarButton
-					x:Name="NavToolbarNewPane"
-					x:Load="{x:Bind Commands.OpenNewPane.IsExecutable, Mode=OneWay}"
-					Command="{x:Bind Commands.OpenNewPane, Mode=OneWay}"
-					Label="{x:Bind Commands.OpenNewPane.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.OpenNewPane.LabelWithHotKey, Mode=OneWay}">
-					<local:OpacityIcon Style="{x:Bind Commands.OpenNewPane.OpacityStyle}" />
-				</AppBarButton>
-
-				<!--  Close Active Pane  -->
-				<AppBarButton
-					x:Name="NavToolbarCloseActivePane"
-					x:Load="{x:Bind Commands.CloseActivePane.IsExecutable, Mode=OneWay}"
-					Command="{x:Bind Commands.CloseActivePane, Mode=OneWay}"
-					Label="{x:Bind Commands.CloseActivePane.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.CloseActivePane.LabelWithHotKey, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.CloseActivePane.Glyph.BaseGlyph}" />
-					</AppBarButton.Icon>
-				</AppBarButton>
-
-				<!--  New Window  -->
-				<AppBarButton
-					x:Name="NavToolbarNewWindow"
-					Command="{x:Bind Commands.NewWindow, Mode=OneWay}"
-					KeyboardAcceleratorTextOverride="{x:Bind Commands.NewWindow.HotKeyText, Mode=OneWay}"
-					Label="{x:Bind Commands.NewWindow.Label}">
-					<local:OpacityIcon Style="{x:Bind Commands.NewWindow.OpacityStyle}" />
-				</AppBarButton>
-
-				<!--  Exter Compact Overlay  -->
-				<AppBarButton
-					x:Name="NavToolbarEnterCompactOverlay"
-					x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
-					Command="{x:Bind Commands.EnterCompactOverlay}"
-					Label="{x:Bind Commands.EnterCompactOverlay.Label}">
-					<local:OpacityIcon Style="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}" />
-				</AppBarButton>
-
-				<!--  Exit Compact Overlay  -->
-				<AppBarButton
-					x:Name="NavToolbarExitCompactOverlay"
-					x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
-					Command="{x:Bind Commands.ExitCompactOverlay}"
-					Label="{x:Bind Commands.ExitCompactOverlay.Label}">
-					<local:OpacityIcon Style="{x:Bind Commands.ExitCompactOverlay.OpacityStyle}" />
-				</AppBarButton>
-
-			</CommandBar.SecondaryCommands>
 		</CommandBar>
 
 	</Grid>
