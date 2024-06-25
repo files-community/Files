@@ -1400,7 +1400,7 @@ namespace Files.App.Views.Layouts
 							tapDebounceTimer.Stop();
 						}
 					},
-					TimeSpan.FromMilliseconds(500));
+					TimeSpan.FromMilliseconds(1000));
 				}
 				else
 				{
