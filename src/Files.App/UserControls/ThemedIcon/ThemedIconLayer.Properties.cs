@@ -2,10 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Xaml.Shapes;
 
 namespace Files.App.UserControls
 {
@@ -24,9 +20,6 @@ namespace Files.App.UserControls
 				typeof(ThemedIconLayer),
 				new PropertyMetadata(ThemedIconLayerType.Base, (d, e) => ((ThemedIconLayer)d).OnLayerTypePropertyChanged((ThemedIconLayerType)e.OldValue, (ThemedIconLayerType)e.NewValue)));
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public string PathData
 		{
 			get => (string)GetValue(PathDataProperty);
@@ -40,9 +33,6 @@ namespace Files.App.UserControls
 				typeof(ThemedIconLayer),
 				new PropertyMetadata(string.Empty));
 
-		/// <summary>
-		/// Enum to choose from our icon states, Normal, Critical, Caution, Success, Neutral, Disabled
-		/// </summary>
 		public ThemedIconColorType IconState
 		{
 			get => (ThemedIconColorType)GetValue(IconStateProperty);

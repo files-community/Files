@@ -89,7 +89,7 @@ namespace Files.App.UserControls
 				new PropertyMetadata(false, null));
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the Icon should use Toggle colours.
+		/// Gets or sets a value indicating whether the Icon should use Toggle colors.
 		/// </summary>
 		public bool IsToggled
 		{

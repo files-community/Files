@@ -21,7 +21,7 @@ namespace Files.App.UserControls
 		private bool _isHighContrast = false;
 		private bool _isToggled = false;
 
-		ToggleButton ownerToggleButton;
+		ToggleButton? ownerToggleButton = null;
 
 		private ThemedIconColorType _defaultColorType = ThemedIconColorType.None;
 
@@ -32,22 +32,20 @@ namespace Files.App.UserControls
 
 		protected override void OnApplyTemplate()
 		{
-			// Initialize with default values.			
-
 			ownerToggleButton = this.FindAscendant<ToggleButton>();
+
 			if (ownerToggleButton != null)
 			{
 				ownerToggleButton.Checked += OwnerCheckedChanged;
 				ownerToggleButton.Unchecked += OwnerCheckedChanged;
 			}
+
 			OnToggleChanged(_isToggled);
 			OnFilledIconChanged();
 			OnOutlineIconChanged();
 			OnLayeredIconContentChanged();
 			OnIconTypeChanged();
 			OnIconStateChanged();
-
-			
 
 			// Get notified when whether the theme is High Contrast or not is changed.
 			AppThemeModeService.IsHighContrastChanged += (s, e) =>
@@ -64,32 +62,16 @@ namespace Files.App.UserControls
 		// Code to respond to owner checked changes
 		private void OwnerCheckedChanged(object sender, RoutedEventArgs e)
 		{
-			if (ownerToggleButton != null)
-			{
-				if (ownerToggleButton.IsChecked == true)
-				{
-					OnToggleChanged(true);
-				}
-				else
-				{
-					OnToggleChanged(false);
-				}
-			}
+			if (ownerToggleButton is null)
+				return;
+
+			OnToggleChanged(ownerToggleButton.IsChecked is true);
 		}
 
-		
-
 		// Code for handling the IsToggled property change.
-		private void OnToggleChanged(bool Bool)
+		private void OnToggleChanged(bool value)
 		{	
-			if (Bool == true)
-			{
-				_isToggled = true;
-			}
-			else
-			{
-				_isToggled = false;
-			}
+			_isToggled = value;
 
 			OnIconTypeChanged();
 			OnIconStateChanged();
@@ -145,16 +127,13 @@ namespace Files.App.UserControls
 					});
 			}
 		}
+
 		// Handles changes to the Icon Type and setting the correct Visual State.
 		private void OnIconTypeChanged()
 		{
-			// TODO: if (_isHighContrast) instead
-
 			// If Toggled, only show Filled Icon state.
 			if (_isToggled)
-			{
 				VisualStateManager.GoToState(this, FilledTypeStateName, true);
-			}
 
 			// If using Contrast mode, bypass Layered Icon state to go to Outline Visual State.
 			else if (UseContrast || _isHighContrast)

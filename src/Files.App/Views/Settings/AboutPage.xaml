@@ -9,7 +9,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:usercontrols="using:Files.App.UserControls"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
@@ -40,7 +40,7 @@
 					<Style
 						x:Key="IconTest"
 						BasedOn="{StaticResource TIcon_MoveTo}"
-						TargetType="usercontrols:ThemedIcon" />
+						TargetType="uc:ThemedIcon" />
 				</StackPanel.Resources>
 
 				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Layered, Filled, Outline" />
@@ -48,23 +48,23 @@
 				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Normal" />
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
-					<usercontrols:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 				</StackPanel>
 
 				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Disabled" />
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Layered"
 						IsEnabled="False"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Filled"
 						IsEnabled="False"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Outline"
 						IsEnabled="False"
 						Style="{StaticResource IconTest}" />
@@ -73,15 +73,15 @@
 				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Contrast" />
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Layered"
 						Style="{StaticResource IconTest}"
 						UseContrast="True" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Filled"
 						Style="{StaticResource IconTest}"
 						UseContrast="True" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Outline"
 						Style="{StaticResource IconTest}"
 						UseContrast="True" />
@@ -90,15 +90,15 @@
 				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Success" />
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Success"
 						IconType="Layered"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Success"
 						IconType="Filled"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Success"
 						IconType="Outline"
 						Style="{StaticResource IconTest}" />
@@ -107,15 +107,15 @@
 				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Caution" />
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Caution"
 						IconType="Layered"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Caution"
 						IconType="Filled"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Caution"
 						IconType="Outline"
 						Style="{StaticResource IconTest}" />
@@ -124,15 +124,15 @@
 				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Critical" />
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Critical"
 						IconType="Layered"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Critical"
 						IconType="Filled"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconState="Critical"
 						IconType="Outline"
 						Style="{StaticResource IconTest}" />
@@ -141,15 +141,15 @@
 				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Toggle" />
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Layered"
 						IsToggled="True"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Filled"
 						IsToggled="True"
 						Style="{StaticResource IconTest}" />
-					<usercontrols:ThemedIcon
+					<uc:ThemedIcon
 						IconType="Outline"
 						IsToggled="True"
 						Style="{StaticResource IconTest}" />
@@ -164,7 +164,7 @@
 						Padding="0"
 						AutomationProperties.AutomationId="Toggle1"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
-						<usercontrols:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
+						<uc:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 					</ToggleButton>
 					<ToggleButton
 						Width="32"
@@ -172,7 +172,7 @@
 						Padding="0"
 						AutomationProperties.AutomationId="Toggle2"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
-						<usercontrols:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
+						<uc:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
 					</ToggleButton>
 					<ToggleButton
 						Width="32"
@@ -180,7 +180,7 @@
 						Padding="0"
 						AutomationProperties.AutomationId="Toggle3"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
-						<usercontrols:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
+						<uc:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 					</ToggleButton>
 					<ToggleSwitch x:Name="TestToggleSwitch" />
 				</StackPanel>
