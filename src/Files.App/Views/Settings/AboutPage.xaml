@@ -142,16 +142,16 @@
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
 					<usercontrols:ThemedIcon
-						IsToggled="True"
 						IconType="Layered"
+						IsToggled="True"
 						Style="{StaticResource IconTest}" />
 					<usercontrols:ThemedIcon
-						IsToggled="True"
 						IconType="Filled"
+						IsToggled="True"
 						Style="{StaticResource IconTest}" />
 					<usercontrols:ThemedIcon
-						IsToggled="True"
 						IconType="Outline"
+						IsToggled="True"
 						Style="{StaticResource IconTest}" />
 				</StackPanel>
 
@@ -162,6 +162,7 @@
 						Width="32"
 						Height="32"
 						Padding="0"
+						AutomationProperties.AutomationId="Toggle1"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
 						<usercontrols:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 					</ToggleButton>
@@ -169,6 +170,7 @@
 						Width="32"
 						Height="32"
 						Padding="0"
+						AutomationProperties.AutomationId="Toggle2"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
 						<usercontrols:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
 					</ToggleButton>
@@ -176,6 +178,7 @@
 						Width="32"
 						Height="32"
 						Padding="0"
+						AutomationProperties.AutomationId="Toggle3"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
 						<usercontrols:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 					</ToggleButton>
