@@ -49,7 +49,7 @@ You can also use the preview version alongside the stable release to get early a
     - Git for Windows
 - [Windows App SDK 1.5](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#current-releases)
     
-#### 2. Clone the repository
+### 2. Clone the repository
 
 ```ps
 git clone https://github.com/files-community/Files
@@ -57,7 +57,7 @@ git clone https://github.com/files-community/Files
 
 This will create a local copy of the repository.
 
-#### 3. Build the project
+### 3. Build the project
 
 To build Files for development, open the `Files.sln` item in Visual Studio. Right-click on the `Files.Package` packaging project in solution explorer and select ‘Set as Startup item’.
 
