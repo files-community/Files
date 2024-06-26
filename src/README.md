@@ -9,6 +9,7 @@ We are actively working on refactoring, optimizing and improving performance and
 
 - Refactoring codebase
 - Package size reduction
+- Less 3rd-party dependency
 - Less than 1% crash rate
 - Robust file system operations
 - Robust file system accessing
