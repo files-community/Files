@@ -314,7 +314,7 @@
 			Orientation="Horizontal"
 			Spacing="4">
 
-			<Button
+			<!--<Button
 				x:Name="SyncFolderUp"
 				Height="24"
 				Padding="8,0,8,0"
@@ -340,7 +340,7 @@
 				<Button.Content>
 					<FontIcon FontSize="12" Glyph="&#xE74B;" />
 				</Button.Content>
-			</Button>
+			</Button>-->
 
 			<SplitButton
 				x:Name="ToggleTerminal"
