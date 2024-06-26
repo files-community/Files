@@ -39,7 +39,7 @@ You can also use the preview version alongside the stable release to get early a
 
 ## Building from source
   
-#### 1. Prerequisites
+### 1. Prerequisites
 
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the following individual components:
     - Windows 11 SDK (10.0.22621.0)
