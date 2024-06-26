@@ -37,7 +37,7 @@ You can also use the preview version alongside the stable release to get early a
     </picture></a>
 </p>
 
-### Building from source
+## Building from source
   
 #### 1. Prerequisites
 
