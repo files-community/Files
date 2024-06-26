@@ -93,7 +93,7 @@
 				<Button
 					Width="30"
 					Height="30"
-					Margin="4,0,-4,0"
+					Margin="4,0,-2,0"
 					Padding="0"
 					VerticalAlignment="Center"
 					AutomationProperties.Name="{helpers:ResourceString Name=TabActions}"
@@ -143,6 +143,7 @@
 									<uc:MenuFlyoutItemWithOpacityIcon
 										x:Name="AddHorizontalPaneTabActionButton"
 										Command="{x:Bind Commands.AddHorizontalPane, Mode=OneWay}"
+										KeyboardAcceleratorTextOverride="{x:Bind Commands.AddHorizontalPane.HotKeyText, Mode=OneWay}"
 										OpacityStyle="{x:Bind Commands.AddHorizontalPane.OpacityStyle}"
 										Text="{x:Bind Commands.AddHorizontalPane.Label}" />
 
@@ -150,6 +151,7 @@
 									<uc:MenuFlyoutItemWithOpacityIcon
 										x:Name="AddVerticalPaneTabActionButton"
 										Command="{x:Bind Commands.AddVerticalPane, Mode=OneWay}"
+										KeyboardAcceleratorTextOverride="{x:Bind Commands.AddVerticalPane.HotKeyText, Mode=OneWay}"
 										OpacityStyle="{x:Bind Commands.AddVerticalPane.OpacityStyle}"
 										Text="{x:Bind Commands.AddVerticalPane.Label}" />
 								</MenuFlyoutSubItem.Items>

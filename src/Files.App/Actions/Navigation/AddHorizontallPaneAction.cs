@@ -13,8 +13,8 @@ namespace Files.App.Actions
 		public string Description
 			=> "AddHorizontalPaneDescription".GetLocalizedResource();
 
-		//public HotKey HotKey
-		//	=> new(Keys.OemPlus, KeyModifiers.AltShift);
+		public HotKey HotKey
+			=> new(Keys.H, KeyModifiers.AltShift);
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconAddHorizontalPane");

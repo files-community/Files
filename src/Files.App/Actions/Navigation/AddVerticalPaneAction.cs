@@ -13,8 +13,8 @@ namespace Files.App.Actions
 		public string Description
 			=> "AddVerticalPaneDescription".GetLocalizedResource();
 
-		//public HotKey HotKey
-		//	=> new(Keys.OemPlus, KeyModifiers.AltShift);
+		public HotKey HotKey
+			=> new(Keys.V, KeyModifiers.AltShift);
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconAddVerticalPane");
