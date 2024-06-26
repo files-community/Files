@@ -310,7 +310,7 @@ namespace Files.App.Helpers
 
 			// Save the current tab list in case it was overwriten by another instance
 			SaveSessionTabs();
-			App.Logger.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
+			App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
 
 			if (!showToastNotification)
 				return;
