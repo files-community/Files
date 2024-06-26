@@ -38,32 +38,14 @@ You can also use the preview version alongside the stable release to get early a
 </p>
 
 ## Building from source
-  
-### 1. Prerequisites
 
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the following individual components:
-    - Windows 11 SDK (10.0.22621.0)
-    - .NET 8 SDK
-    - MSVC v143 - VS 2022 C++ x64/x86 or ARM64 build tools (latest)
-    - C++ ATL for latest v143 build tools (x86 & x64 or ARM64)
-    - Git for Windows
-- [Windows App SDK 1.5](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#current-releases)
-    
-### 2. Clone the repository
-
-```ps
-git clone https://github.com/files-community/Files
-```
-
-This will create a local copy of the repository.
+Instructions for building the source code can be found on our [documentation site](https://files.community/docs/contributing/building-from-source).
 
 ### 3. Build the project
 
 To build Files for development, open the `Files.sln` item in Visual Studio. Right-click on the `Files.Package` packaging project in solution explorer and select ‘Set as Startup item’.
 
-In the top pane, select the items which correspond to your desired build mode and the processor architecture of your device like below:
-![image](https://user-images.githubusercontent.com/39923744/148721296-2bd132d0-4a4d-4555-8f58-16b00b18ade3.png)
-  
+
 ## Contributing to Files
 
 Want to contribute to this project? Let us know with an [issue](https://github.com/files-community/Files/issues) that communicates your intent to create a [pull request](https://github.com/files-community/Files/pulls). Also, view our [contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
