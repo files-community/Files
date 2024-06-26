@@ -50,6 +50,13 @@
 			<ThemeShadow x:Name="ShellContentThemeShadow" x:FieldModifier="public" />
 		</Grid.Shadow>
 
+		<Image
+			HorizontalAlignment="{x:Bind ShellViewModel.FolderBackgroundImageHorizontalAlignment, Mode=OneWay}"
+			VerticalAlignment="{x:Bind ShellViewModel.FolderBackgroundImageVerticalAlignment, Mode=OneWay}"
+			Opacity="{x:Bind ShellViewModel.FolderBackgroundImageOpacity, Mode=OneWay}"
+			Source="{x:Bind ShellViewModel.FolderBackgroundImageSource, Mode=OneWay}"
+			Stretch="{x:Bind ShellViewModel.FolderBackgroundImageFit, Mode=OneWay}" />
+
 		<!--  Swipe Backward Icon  -->
 		<Border
 			x:Name="BackIcon"
