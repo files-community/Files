@@ -174,8 +174,8 @@ namespace Files.App.Data.Commands
 
 		IRichCommand CloseActivePane { get; }
 		IRichCommand FocusOtherPane { get; }
-		IRichCommand SplitPaneVertically { get; }
-		IRichCommand SplitPaneHorizontally { get; }
+		IRichCommand AddVerticalPane { get; }
+		IRichCommand AddHorizontalPane { get; }
 
 		IRichCommand OpenInNewPaneAction { get; }
 		IRichCommand OpenInNewPaneFromHomeAction { get; }

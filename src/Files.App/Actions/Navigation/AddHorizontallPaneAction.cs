@@ -3,27 +3,27 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class SplitPaneVerticallyAction : ObservableObject, IAction
+	internal sealed class AddHorizontalPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
-			=> "SplitPaneVertically".GetLocalizedResource();
+			=> "AddHorizontalPane".GetLocalizedResource();
 
 		public string Description
-			=> "SplitPaneVerticallyDescription".GetLocalizedResource();
+			=> "AddHorizontalPaneDescription".GetLocalizedResource();
 
 		//public HotKey HotKey
 		//	=> new(Keys.OemPlus, KeyModifiers.AltShift);
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconVerticalPane");
+			=> new(opacityStyle: "ColorIconAddHorizontalPane");
 
 		public bool IsExecutable =>
 			ContentPageContext.IsMultiPaneEnabled &&
 			!ContentPageContext.IsMultiPaneActive;
 
-		public SplitPaneVerticallyAction()
+		public AddHorizontalPaneAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 		}

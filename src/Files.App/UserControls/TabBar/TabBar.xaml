@@ -133,25 +133,25 @@
 								OpacityStyle="{x:Bind Commands.ExitCompactOverlay.OpacityStyle}"
 								Text="{x:Bind Commands.ExitCompactOverlay.Label}" />
 
-							<!--  Split Pane  -->
+							<!--  Add Pane  -->
 							<MenuFlyoutSubItem
 								x:Name="SplitPaneMenuItem"
-								x:Load="{x:Bind Commands.SplitPaneHorizontally.IsExecutable, Mode=OneWay}"
-								Text="Split panes">
+								x:Load="{x:Bind Commands.AddHorizontalPane.IsExecutable, Mode=OneWay}"
+								Text="{helpers:ResourceString Name=AddPane}">
 								<MenuFlyoutSubItem.Items>
 									<!--  Horizontal  -->
 									<uc:MenuFlyoutItemWithOpacityIcon
-										x:Name="SplitPaneHorizontallyTabActionButton"
-										Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneWay}"
-										OpacityStyle="{x:Bind Commands.SplitPaneHorizontally.OpacityStyle}"
-										Text="{x:Bind Commands.SplitPaneHorizontally.Label}" />
+										x:Name="AddHorizontalPaneTabActionButton"
+										Command="{x:Bind Commands.AddHorizontalPane, Mode=OneWay}"
+										OpacityStyle="{x:Bind Commands.AddHorizontalPane.OpacityStyle}"
+										Text="{x:Bind Commands.AddHorizontalPane.Label}" />
 
 									<!--  Vertical  -->
 									<uc:MenuFlyoutItemWithOpacityIcon
-										x:Name="SplitPaneVerticallyTabActionButton"
-										Command="{x:Bind Commands.SplitPaneVertically, Mode=OneWay}"
-										OpacityStyle="{x:Bind Commands.SplitPaneVertically.OpacityStyle}"
-										Text="{x:Bind Commands.SplitPaneVertically.Label}" />
+										x:Name="AddVerticalPaneTabActionButton"
+										Command="{x:Bind Commands.AddVerticalPane, Mode=OneWay}"
+										OpacityStyle="{x:Bind Commands.AddVerticalPane.OpacityStyle}"
+										Text="{x:Bind Commands.AddVerticalPane.Label}" />
 								</MenuFlyoutSubItem.Items>
 							</MenuFlyoutSubItem>
 

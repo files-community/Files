@@ -3860,16 +3860,19 @@
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
   </data>
-  <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Add vertical pane</value>
   </data>
-  <data name="SplitPaneVerticallyDescription" xml:space="preserve">
-    <value>Split current pane into two vertical panes</value>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Add a vertical pane</value>
   </data>
-  <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Add horizontal pane</value>
   </data>
-  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
-    <value>Split current pane into two horizontally panes</value>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Add a horizontal pane</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Add pane</value>
   </data>
 </root>

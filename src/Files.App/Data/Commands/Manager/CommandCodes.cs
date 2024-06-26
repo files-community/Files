@@ -190,8 +190,8 @@ namespace Files.App.Data.Commands
 		// Shell Panes
 		CloseActivePane,
 		FocusOtherPane,
-		SplitPaneVertically,
-		SplitPaneHorizontally,
+		AddVerticalPane,
+		AddHorizontalPane,
 
 		// OpenInNew
 		OpenInNewPane,

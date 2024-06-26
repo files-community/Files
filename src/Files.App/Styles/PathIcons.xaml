@@ -257,7 +257,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconVerticalPane" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIconAddHorizontalPane" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -285,7 +285,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconHorizontalPane" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIconAddVerticalPane" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
