@@ -41,10 +41,6 @@ You can also use the preview version alongside the stable release to get early a
 
 Instructions for building the source code can be found on our [documentation site](https://files.community/docs/contributing/building-from-source).
 
-### 3. Build the project
-
-To build Files for development, open the `Files.sln` item in Visual Studio. Right-click on the `Files.Package` packaging project in solution explorer and select ‘Set as Startup item’.
-
 
 ## Contributing to Files
 
