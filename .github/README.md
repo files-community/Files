@@ -23,7 +23,7 @@ You can also use the preview version alongside the stable release to get early a
 
 <p align="left">
   <!-- Store Badge -->
-  <a style="text-decoration:none" href="https://apps.microsoft.com/detail/9NGHP3DX8HDX?launch=true&mode=full" rel="nofollow">
+  <a style="text-decoration:none" href="https://apps.microsoft.com/detail/9NGHP3DX8HDX?launch=true&mode=full">
     <picture>
       <source media="(prefers-color-scheme: light)" srcset="../assets/StoreBadge-dark.png" width="220" />
       <img src="../assets/StoreBadge-light.png" width="220" />
