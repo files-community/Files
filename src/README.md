@@ -8,6 +8,7 @@ Please refer to https://github.com/files-community/Files/issues/4180 for our goa
 We are actively working on refactoring, optimizing and improving performance and codebase.
 
 - Refactoring codebase
+- Package size reduction
 - Less than 1% crash rate
 - Robust file system operations
 - Robust file system accessing
