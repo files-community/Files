@@ -30,7 +30,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			ContentPageContext.ShellPage!.PaneHolder.SplitCurrentPane();
+			ContentPageContext.ShellPage!.PaneHolder.AddHorizontalPane();
 
 			return Task.CompletedTask;
 		}

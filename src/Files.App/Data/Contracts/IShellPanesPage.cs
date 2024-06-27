@@ -18,7 +18,9 @@ namespace Files.App.Data.Contracts
 
 		public void CloseActivePane();
 
-		public void SplitCurrentPane();
+		public void AddHorizontalPane();
+
+		public void AddVerticalPane();
 
 		public void FocusOtherPane();
 

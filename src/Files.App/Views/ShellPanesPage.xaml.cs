@@ -282,7 +282,16 @@ namespace Files.App.Views
 			SetShadow();
 		}
 
-		public void SplitCurrentPane()
+		public void AddHorizontalPane()
+		{
+			// Add right pane within this property's setter
+			IsRightPaneVisible = true;
+
+			NavParamsRight = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
+			ActivePane = GetPane(1);
+		}
+		
+		public void AddVerticalPane()
 		{
 			// Add right pane within this property's setter
 			IsRightPaneVisible = true;
