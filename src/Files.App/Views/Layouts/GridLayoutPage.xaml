@@ -103,8 +103,7 @@
 					Background="Transparent"
 					IsRightTapEnabled="True"
 					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered"
-					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+					PointerEntered="Grid_PointerEntered">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
@@ -283,8 +282,7 @@
 					CornerRadius="{StaticResource ControlCornerRadius}"
 					IsRightTapEnabled="True"
 					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered"
-					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+					PointerEntered="Grid_PointerEntered">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
@@ -442,8 +440,7 @@
 					ColumnSpacing="4"
 					IsRightTapEnabled="True"
 					Loaded="Grid_Loaded"
-					PointerEntered="Grid_PointerEntered"
-					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+					PointerEntered="Grid_PointerEntered">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="68" />
