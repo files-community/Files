@@ -98,7 +98,10 @@
 					<local:OpacityIcon Style="{x:Bind Commands.AddItem.OpacityStyle}" />
 
 					<AppBarButton.Flyout>
-						<MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
+						<MenuFlyout
+							x:Name="NewEmptySpace"
+							Opening="NewEmptySpace_Opening"
+							Placement="BottomEdgeAlignedLeft">
 							<MenuFlyoutItem
 								x:Name="ToolbarNewFolderItem"
 								AccessKey="D"
