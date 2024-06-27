@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Mostrar/Ocultar panel de información con paneles de vista previa y detalles</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Mostrar/Ocultar barra de herramientas</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
   </data>
@@ -1584,7 +1587,7 @@
     <value>Reemplazar todos los permisos de objetos secundarios por permisos heredables de este objeto</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Cerrar panel activo</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Cambiar a modo superposición compacta</value>
@@ -2673,7 +2676,7 @@
     <value>Abrir nuevo panel</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Cierra el panel activo</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Enfocar panel izquierdo</value>
@@ -3860,7 +3863,7 @@
     <value>Estado:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
+    <value>Mostrar barra de herramientas</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
 </root>

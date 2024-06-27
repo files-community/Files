@@ -4,7 +4,7 @@
 using Files.App.Converters;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
-using System.Text.Json;
+using System.Collections.Concurrent;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -275,7 +275,7 @@ namespace Files.App.ViewModels.Properties
 			return value;
 		}
 
-		private static Dictionary<string, string> cachedPropertiesListFiles = [];
+		private static ConcurrentDictionary<string, string> cachedPropertiesListFiles = [];
 
 		/// <summary>
 		/// This function retrieves the list of properties to display from the PropertiesInformation.json
