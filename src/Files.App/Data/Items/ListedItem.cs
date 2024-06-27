@@ -46,8 +46,8 @@ namespace Files.App.Utils
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
-				//if (!string.IsNullOrWhiteSpace(DimensionsDisplay))
-				//	tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {DimensionsDisplay}");
+				if (!string.IsNullOrWhiteSpace(DimensionsDisplay))
+					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {DimensionsDisplay}");
 				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{"StatusWithColon".GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
@@ -329,42 +329,40 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
-		// TODO fix issue where this is fetched when opening a directory
-		// Also make sure it only fetches info for downloaded files in OneDrive
-		//public string DimensionsDisplay
-		//{
-		//	get
-		//	{
-		//		int imageHeight = 0;
-		//		int imageWidth = 0;
+		public string DimensionsDisplay
+		{
+			get
+			{
+				int imageHeight = 0;
+				int imageWidth = 0;
 
-		//		var isImageFile = FileExtensionHelpers.IsImageFile(FileExtension);
-		//		if (isImageFile)
-		//		{
-		//			try
-		//			{
-		//				// TODO: Consider to use 'System.Kind' instead.
-		//				using FileStream fileStream = new(ItemPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-		//				using Image image = Image.FromStream(fileStream, false, false);
+				var isImageFile = FileExtensionHelpers.IsImageFile(FileExtension);
+				if (isImageFile)
+				{
+					try
+					{
+						// TODO: Consider to use 'System.Kind' instead.
+						using FileStream fileStream = new(ItemPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+						using Image image = Image.FromStream(fileStream, false, false);
 
-		//				if (image is not null)
-		//				{
-		//					imageHeight = image.Height;
-		//					imageWidth = image.Width;
-		//				}
-		//			}
-		//			catch { }
-		//		}
+						if (image is not null)
+						{
+							imageHeight = image.Height;
+							imageWidth = image.Width;
+						}
+					}
+					catch { }
+				}
 
 
-		//		return
-		//			isImageFile &&
-		//			imageWidth > 0 &&
-		//			imageHeight > 0
-		//				? $"{imageWidth} \u00D7 {imageHeight}"
-		//				: string.Empty;
-		//	}
-		//}
+				return
+					isImageFile &&
+					imageWidth > 0 &&
+					imageHeight > 0
+						? $"{imageWidth} \u00D7 {imageHeight}"
+						: string.Empty;
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListedItem" /> class.
