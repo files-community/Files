@@ -162,7 +162,7 @@
 						Width="32"
 						Height="32"
 						Padding="0"
-						AutomationProperties.AutomationId="Toggle1"
+						AutomationProperties.Name="TestToggle1"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
 						<uc:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 					</ToggleButton>
@@ -170,7 +170,7 @@
 						Width="32"
 						Height="32"
 						Padding="0"
-						AutomationProperties.AutomationId="Toggle2"
+						AutomationProperties.Name="TestToggle2"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
 						<uc:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
 					</ToggleButton>
@@ -178,11 +178,11 @@
 						Width="32"
 						Height="32"
 						Padding="0"
-						AutomationProperties.AutomationId="Toggle3"
+						AutomationProperties.Name="TestToggle3"
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
 						<uc:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 					</ToggleButton>
-					<ToggleSwitch x:Name="TestToggleSwitch" AutomationProperties.AutomationId="TestToggleSwitch1" />
+					<ToggleSwitch x:Name="TestToggleSwitch" AutomationProperties.Name="TestToggleSwitch1" />
 				</StackPanel>
 
 			</StackPanel>
