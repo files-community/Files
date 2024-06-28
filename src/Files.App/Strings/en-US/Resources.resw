@@ -3866,6 +3866,9 @@
     <value>Show Toolbar</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
+  <data name="SettingsTerminalIntegration" xml:space="preserve">
+    <value>Enable Terminal integration</value>
+  </data>
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
   </data>

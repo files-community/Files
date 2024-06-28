@@ -178,6 +178,20 @@
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
 			</local:SettingsBlockControl>
+
+			<!--  Enable terminal integration  -->
+			<local:SettingsBlockControl
+				x:Name="TerminalIntegrationSettingsBlockControl"
+				Title="{helpers:ResourceString Name=SettingsTerminalIntegration}"
+				HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE756;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsTerminalIntegration}"
+					IsOn="{x:Bind ViewModel.IsTerminalIntegrationEnabled, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
 </Page>
