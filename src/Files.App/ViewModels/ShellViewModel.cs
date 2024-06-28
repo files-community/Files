@@ -1731,6 +1731,7 @@ namespace Files.App.ViewModels
 						});
 
 						filesAndFolders.AddRange(fileList);
+						FilesAndFoldersFilter = null;
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
