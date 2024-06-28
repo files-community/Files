@@ -29,7 +29,7 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="path">The path to open in the new pane.</param>
 		/// <param name="direction">The alignment direction.</param>
-		public void OpenSecondaryPane(string path = "", ShellPaneAlignmentDirection direction = ShellPaneAlignmentDirection.Horizontal)
+		public void OpenSecondaryPane(string path = "", ShellPaneAlignmentDirection direction = ShellPaneAlignmentDirection.Horizontal);
 
 		public void CloseActivePane();
 
