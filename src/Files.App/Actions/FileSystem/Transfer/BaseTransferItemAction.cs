@@ -65,10 +65,9 @@ namespace Files.App.Actions
 					{
 						if (type is DataPackageOperation.Move)
 						{
-							var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-							_ = dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
+							// Dim opacities accordingly
+							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							{
-								// Dim opacities accordingly
 								listedItem.Opacity = Constants.UI.DimItemOpacity;
 							});
 						}
@@ -89,7 +88,7 @@ namespace Files.App.Actions
 				if (standardObjectsOnly)
 					items = new ConcurrentBag<IStorageItem>(await items.ToStandardStorageItemsAsync());
 
-				if (items.IsEmpty is false)
+				if (items.IsEmpty)
 					return;
 
 				dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
