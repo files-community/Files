@@ -30,7 +30,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			ContentPageContext.ShellPage!.PaneHolder.AddVerticalPane();
+			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane("", ShellPaneAlignmentDirection.Vertical);
 
 			return Task.CompletedTask;
 		}

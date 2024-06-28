@@ -3,24 +3,35 @@
 
 namespace Files.App.Data.Contracts
 {
+	/// <summary>
+	/// Represents interface of <see cref="ShellPanesPage"/>.
+	/// </summary>
 	public interface IShellPanesPage : IDisposable, INotifyPropertyChanged
 	{
-		public IShellPage? ActivePane { get; set; }
+		/// <summary>
+		/// Gets the current focused shell pane.
+		/// </summary>
+		public IShellPage? ActivePane { get; }
 
-		// If column view, returns the last column shell page, otherwise returns the active pane normally
+		/// <summary>
+		/// Gets the current focused shell pane, or the last column when the focused shell pane layout type is <see cref="ColumnsLayoutPage"/>.
+		/// </summary>
 		public IShellPage? ActivePaneOrColumn { get; }
 
+		// TODO: Remove this our of this class
 		public IFilesystemHelpers? FilesystemHelpers { get; }
 
+		// TODO: Remove this our of this class
 		public TabBarItemParameter? TabBarItemParameter { get; set; }
 
-		public void OpenSecondaryPane(string path);
+		/// <summary>
+		/// Adds a new pane with path and pane addition direction if needed.
+		/// </summary>
+		/// <param name="path">The path to open in the new pane.</param>
+		/// <param name="direction">The alignment direction.</param>
+		public void OpenSecondaryPane(string path = "", ShellPaneAlignmentDirection direction = ShellPaneAlignmentDirection.Horizontal)
 
 		public void CloseActivePane();
-
-		public void AddHorizontalPane();
-
-		public void AddVerticalPane();
 
 		public void FocusOtherPane();
 
@@ -28,10 +39,8 @@ namespace Files.App.Data.Contracts
 
 		public bool IsRightPaneActive { get; }
 
-		// Another pane is shown
 		public bool IsMultiPaneActive { get; }
 
-		// Multi pane is enabled
 		public bool CanBeDualPane { get; }
 	}
 }

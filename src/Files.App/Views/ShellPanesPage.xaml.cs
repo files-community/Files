@@ -33,6 +33,8 @@ namespace Files.App.Views
 
 		// Properties
 
+		public ShellPaneAlignmentDirection CurrentPaneAlignmentDirection { get; private set; }
+
 		public bool IsLeftPaneActive
 			=> ActivePane == (GetPane(0) as IShellPage);
 
@@ -240,17 +242,23 @@ namespace Files.App.Views
 
 		// Public methods
 
-		public void OpenSecondaryPane(string path)
+		/// <inheritdoc/>
+		public void OpenSecondaryPane(string path = "", ShellPaneAlignmentDirection direction = ShellPaneAlignmentDirection.Horizontal)
 		{
-			AddPane();
+			AddPane(direction);
 
-			NavParamsRight = new() { NavPath = path };
-			ActivePane = GetPane(1);
+			NavParamsRight = new()
+			{
+				NavPath = string.IsNullOrEmpty(path)
+					? GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty
+					: path
+			};
 		}
 
+		/// <inheritdoc/>
 		public void CloseActivePane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0))
+			if (ActivePane == (IShellPage)GetPane(0)!)
 				RemovePane(0);
 			else
 				RemovePane(1);
@@ -259,25 +267,10 @@ namespace Files.App.Views
 			SetShadow();
 		}
 
-		public void AddHorizontalPane()
-		{
-			AddPane();
-
-			NavParamsRight = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
-			ActivePane = GetPane(1);
-		}
-		
-		public void AddVerticalPane()
-		{
-			AddPane();
-
-			NavParamsRight = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
-			ActivePane = GetPane(1);
-		}
-
+		/// <inheritdoc/>
 		public void FocusOtherPane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0))
+			if (ActivePane == (IShellPage)GetPane(0)!)
 				GetPane(1)?.Focus(FocusState.Programmatic);
 			else
 				GetPane(0)?.Focus(FocusState.Programmatic);
@@ -299,13 +292,21 @@ namespace Files.App.Views
 			return (RootGrid.Children.Count + 1) / 2;
 		}
 
-		private void AddPane()
+		private void AddPane(ShellPaneAlignmentDirection direction = ShellPaneAlignmentDirection.Horizontal)
 		{
 			// Adding new pane is not the first time
 			if (RootGrid.Children.Count is not 0)
 			{
+				// Re-align shell pane
+				if (CurrentPaneAlignmentDirection != direction)
+				{
+					// TODO: Add code
+
+					CurrentPaneAlignmentDirection = direction;
+				}
+
+				// Add sizer
 				var sizer = new GridSplitter() { IsTabStop = false };
-				Canvas.SetZIndex(sizer, 150);
 				sizer.DoubleTapped += Sizer_OnDoubleTapped;
 				sizer.Loaded += Sizer_Loaded;
 				sizer.ManipulationCompleted += Sizer_ManipulationCompleted;
@@ -334,6 +335,9 @@ namespace Files.App.Views
 			// Reset width of every column
 			foreach (var column in RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0))
 				column.Width = new(1, GridUnitType.Star);
+
+			// Focus
+			ActivePane = GetPane(GetPaneCount() - 1);
 
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
