@@ -32,6 +32,6 @@ namespace Files.App.Data.Contracts
 		public bool IsMultiPaneActive { get; }
 
 		// Multi pane is enabled
-		public bool IsMultiPaneEnabled { get; }
+		public bool CanBeDualPane { get; }
 	}
 }

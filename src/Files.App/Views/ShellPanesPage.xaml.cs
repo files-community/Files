@@ -45,7 +45,7 @@ namespace Files.App.Views
 		public bool IsMultiPaneActive
 			=> GetPaneCount() > 1;
 
-		public bool IsMultiPaneEnabled
+		public bool CanBeDualPane
 		{
 			get
 			{
@@ -84,18 +84,22 @@ namespace Files.App.Views
 
 					if (value)
 					{
-						// Collapse right pane
-						_wasRightPaneVisible = IsRightPaneVisible;
-						IsRightPaneVisible = false;
+						// Close pane
+						_wasRightPaneVisible = GetPaneCount() >= 2;
+
+						if (GetPaneCount() >= 2)
+							RemovePane(1);
 					}
 					else if (_wasRightPaneVisible)
 					{
-						// Show right pane back if window gets larger again
-						IsRightPaneVisible = true;
+						// Add back pane
+						if (GetPaneCount() == 1)
+							AddPane();
+
 						_wasRightPaneVisible = false;
 					}
 
-					NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+					NotifyPropertyChanged(nameof(CanBeDualPane));
 				}
 			}
 		}
@@ -178,36 +182,6 @@ namespace Files.App.Views
 			}
 		}
 
-		private bool _IsRightPaneVisible;
-		public bool IsRightPaneVisible
-		{
-			get => _IsRightPaneVisible;
-			set
-			{
-				if (value != _IsRightPaneVisible)
-				{
-					_IsRightPaneVisible = value;
-
-					if (value)
-					{
-						AddPane();
-					}
-					else
-					{
-						if (GetPaneCount() != 1)
-						{
-							ActivePane = GetPane(0);
-							Pane_ContentChanged(null!, null!);
-							RemovePane((RootGrid.Children.Count - 1) / 2);
-						}
-					}
-
-					NotifyPropertyChanged(nameof(IsRightPaneVisible));
-					NotifyPropertyChanged(nameof(IsMultiPaneActive));
-				}
-			}
-		}
-
 		private bool _IsCurrentInstance;
 		public bool IsCurrentInstance
 		{
@@ -255,7 +229,11 @@ namespace Files.App.Views
 			// Set default values
 			ActivePane = GetPane(0);
 			_WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
-			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;
+
+			// Open the secondary pane
+			if (CanBeDualPane &&
+				UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
+				AddPane();
 
 			MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
 		}
@@ -264,8 +242,7 @@ namespace Files.App.Views
 
 		public void OpenSecondaryPane(string path)
 		{
-			// Add right pane within this property's setter
-			IsRightPaneVisible = true;
+			AddPane();
 
 			NavParamsRight = new() { NavPath = path };
 			ActivePane = GetPane(1);
@@ -276,7 +253,7 @@ namespace Files.App.Views
 			if (ActivePane == (IShellPage)GetPane(0))
 				RemovePane(0);
 			else
-				IsRightPaneVisible = false;
+				RemovePane(1);
 
 			GetPane(0)?.Focus(FocusState.Programmatic);
 			SetShadow();
@@ -284,8 +261,7 @@ namespace Files.App.Views
 
 		public void AddHorizontalPane()
 		{
-			// Add right pane within this property's setter
-			IsRightPaneVisible = true;
+			AddPane();
 
 			NavParamsRight = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
 			ActivePane = GetPane(1);
@@ -293,8 +269,7 @@ namespace Files.App.Views
 		
 		public void AddVerticalPane()
 		{
-			// Add right pane within this property's setter
-			IsRightPaneVisible = true;
+			AddPane();
 
 			NavParamsRight = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
 			ActivePane = GetPane(1);
@@ -388,7 +363,6 @@ namespace Files.App.Views
 					RootGrid.ColumnDefinitions.RemoveAt(0);
 					RootGrid.Children[0].SetValue(Grid.ColumnProperty, 0);
 					_NavParamsLeft = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
-					IsRightPaneVisible = false;
 					ActivePane = GetPane(0);
 				}
 			}
@@ -449,8 +423,10 @@ namespace Files.App.Views
 					SelectItem = paneArgs.LeftPaneSelectItemParam
 				};
 
-				// Creates a secondary pane
-				IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
+				// Creates new pane
+				if (CanBeDualPane &&
+					paneArgs.RightPaneNavPathParam is not null)
+					AddPane();
 
 				NavParamsRight = new()
 				{
@@ -466,8 +442,8 @@ namespace Files.App.Views
 				{
 					LeftPaneNavPathParam = NavParamsLeft?.NavPath,
 					LeftPaneSelectItemParam = NavParamsLeft?.SelectItem,
-					RightPaneNavPathParam = IsRightPaneVisible ? NavParamsRight?.NavPath : null,
-					RightPaneSelectItemParam = IsRightPaneVisible ? NavParamsRight?.SelectItem : null,
+					RightPaneNavPathParam = GetPaneCount() >= 2 ? NavParamsRight?.NavPath : null,
+					RightPaneSelectItemParam = GetPaneCount() >= 2 ? NavParamsRight?.SelectItem : null,
 				}
 			};
 		}
@@ -497,7 +473,7 @@ namespace Files.App.Views
 				NavigationParameter = new PaneNavigationArguments()
 				{
 					LeftPaneNavPathParam = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,
-					RightPaneNavPathParam = IsRightPaneVisible ? GetPane(1)?.TabBarItemParameter?.NavigationParameter as string : null
+					RightPaneNavPathParam = GetPaneCount() >= 2 ? GetPane(1)?.TabBarItemParameter?.NavigationParameter as string : null
 				}
 			};
 		}
@@ -563,8 +539,9 @@ namespace Files.App.Views
 
 		private void Sizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			if (GetPane(1) is ModernShellPage secondShellPage && secondShellPage.ActualWidth <= 100)
-				IsRightPaneVisible = false;
+			if (GetPane(1) is ModernShellPage secondShellPage &&
+				secondShellPage.ActualWidth <= 100)
+				RemovePane(1);
 
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}

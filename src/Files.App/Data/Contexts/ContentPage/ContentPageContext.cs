@@ -43,7 +43,7 @@ namespace Files.App.Data.Contexts
 
 		public bool CanCreateItem => GetCanCreateItem();
 
-		public bool IsMultiPaneEnabled => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneEnabled;
+		public bool IsMultiPaneEnabled => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.CanBeDualPane;
 
 		public bool IsMultiPaneActive => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneActive;
 
@@ -128,7 +128,7 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IShellPanesPage.IsMultiPaneEnabled):
+				case nameof(IShellPanesPage.CanBeDualPane):
 				case nameof(IShellPanesPage.IsMultiPaneActive):
 					OnPropertyChanged(e.PropertyName);
 					break;
