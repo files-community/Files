@@ -182,7 +182,7 @@
 						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
 						<uc:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 					</ToggleButton>
-					<ToggleSwitch x:Name="TestToggleSwitch" />
+					<ToggleSwitch x:Name="TestToggleSwitch" AutomationProperties.AutomationId="TestToggleSwitch1" />
 				</StackPanel>
 
 			</StackPanel>
