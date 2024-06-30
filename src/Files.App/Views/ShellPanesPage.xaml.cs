@@ -612,7 +612,13 @@ namespace Files.App.Views
 		private void Sizer_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (sender is GridSplitter sizer)
-				sizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			{
+				sizer.ChangeCursor(
+					InputSystemCursor.Create(
+						GeneralSettingsService.ShellPaneAlignmentDirection is ShellPaneAlignmentDirection.Horizontal
+							? InputSystemCursorShape.SizeWestEast
+							: InputSystemCursorShape.SizeNorthSouth));
+			}
 		}
 
 		private void Sizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
