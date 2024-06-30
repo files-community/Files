@@ -13,9 +13,18 @@ namespace Files.App.Services
 			if (SystemIO.File.Exists(iniPath) is false)
 				return [];
 
-			var lines = SystemIO.File.ReadLines(iniPath)
-				.Where(line => line.StartsWith(';') is false && string.IsNullOrEmpty(line) is false)
-				.ToList();
+			var lines = Enumerable.Empty<string>().ToList();
+
+			try
+			{
+				lines = SystemIO.File.ReadLines(iniPath)
+					.Where(line => line.StartsWith(';') is false && string.IsNullOrEmpty(line) is false)
+					.ToList();
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return [];
+			}
 
 			// Get sections
 			var sections = lines
