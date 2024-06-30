@@ -176,6 +176,8 @@ namespace Files.App.Data.Commands
 		IRichCommand FocusOtherPane { get; }
 		IRichCommand AddVerticalPane { get; }
 		IRichCommand AddHorizontalPane { get; }
+		IRichCommand ArrangePanesVertically { get; }
+		IRichCommand ArrangePanesHorizontally { get; }
 
 		IRichCommand OpenInNewPaneAction { get; }
 		IRichCommand OpenInNewPaneFromHomeAction { get; }

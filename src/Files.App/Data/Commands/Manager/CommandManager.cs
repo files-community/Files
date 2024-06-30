@@ -195,6 +195,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand FocusOtherPane => commands[CommandCodes.FocusOtherPane];
 		public IRichCommand AddVerticalPane => commands[CommandCodes.AddVerticalPane];
 		public IRichCommand AddHorizontalPane => commands[CommandCodes.AddHorizontalPane];
+		public IRichCommand ArrangePanesVertically => commands[CommandCodes.ArrangePanesVertically];
+		public IRichCommand ArrangePanesHorizontally => commands[CommandCodes.ArrangePanesHorizontally];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
@@ -379,6 +381,8 @@ namespace Files.App.Data.Commands
 			[CommandCodes.FocusOtherPane] = new FocusOtherPaneAction(),
 			[CommandCodes.AddVerticalPane] = new AddVerticalPaneAction(),
 			[CommandCodes.AddHorizontalPane] = new AddHorizontalPaneAction(),
+			[CommandCodes.ArrangePanesVertically] = new ArrangePanesVerticallyAction(),
+			[CommandCodes.ArrangePanesHorizontally] = new ArrangePanesHorizontallyAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),

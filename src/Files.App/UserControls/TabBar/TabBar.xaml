@@ -163,6 +163,32 @@
 								</MenuFlyoutSubItem.Items>
 							</MenuFlyoutSubItem>
 
+							<!--  Arrange Panes  -->
+							<MenuFlyoutSubItem
+								x:Name="ArrangePanesMenuItem"
+								x:Load="{x:Bind Commands.CloseActivePane.IsExecutable, Mode=OneWay}"
+								Text="{helpers:ResourceString Name=ArrangePanes}">
+								<MenuFlyoutSubItem.Items>
+									<!--  Horizontal  -->
+									<uc:ToggleMenuFlyoutItemWithOpacityIcon
+										x:Name="ArrangePanesHorizontallyTabActionButton"
+										Command="{x:Bind Commands.ArrangePanesHorizontally, Mode=OneWay}"
+										IsChecked="{x:Bind Commands.ArrangePanesHorizontally.IsOn, Mode=OneWay}"
+										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesHorizontally.HotKeyText, Mode=OneWay}"
+										OpacityStyle="{x:Bind Commands.ArrangePanesHorizontally.OpacityStyle}"
+										Text="{x:Bind Commands.ArrangePanesHorizontally.Label}" />
+
+									<!--  Vertical  -->
+									<uc:ToggleMenuFlyoutItemWithOpacityIcon
+										x:Name="ArrangePanesVerticallyTabActionButton"
+										Command="{x:Bind Commands.ArrangePanesVertically, Mode=OneWay}"
+										IsChecked="{x:Bind Commands.ArrangePanesVertically.IsOn, Mode=OneWay}"
+										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesVertically.HotKeyText, Mode=OneWay}"
+										OpacityStyle="{x:Bind Commands.ArrangePanesVertically.OpacityStyle}"
+										Text="{x:Bind Commands.ArrangePanesVertically.Label}" />
+								</MenuFlyoutSubItem.Items>
+							</MenuFlyoutSubItem>
+
 							<!--  Close Active Pane  -->
 							<uc:MenuFlyoutItemWithOpacityIcon
 								x:Name="CloseActivePaneTabActionButton"

@@ -3872,10 +3872,25 @@
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
     <value>Add a horizontal pane</value>
   </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Arrange vertically</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Arrange panes vertically</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Arrange horizontally</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Arrange panes horizontally</value>
+  </data>
   <data name="AddPane" xml:space="preserve">
     <value>Add pane</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Show tab actions button in the title bar</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Arrange panes</value>
   </data>
 </root>

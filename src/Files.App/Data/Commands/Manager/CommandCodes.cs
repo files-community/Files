@@ -192,6 +192,8 @@ namespace Files.App.Data.Commands
 		FocusOtherPane,
 		AddVerticalPane,
 		AddHorizontalPane,
+		ArrangePanesVertically,
+		ArrangePanesHorizontally,
 
 		// OpenInNew
 		OpenInNewPane,
