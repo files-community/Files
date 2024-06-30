@@ -14,9 +14,12 @@ namespace Files.App.UserControls.TabBar
 {
 	public sealed partial class TabBar : BaseTabBar
 	{
-		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
+		// Dependency injections
 
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+
+		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
 
 		private readonly DispatcherTimer tabHoverTimer = new();
 

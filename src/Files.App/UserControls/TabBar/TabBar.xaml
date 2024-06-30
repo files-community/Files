@@ -9,6 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:root="using:Files.App"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	mc:Ignorable="d">
 
 	<local:BaseTabBar.Resources>
@@ -56,11 +57,14 @@
 					</MenuFlyout>
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
+
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
 		</ResourceDictionary>
 	</local:BaseTabBar.Resources>
 
 	<!--  TODO: Use TitleBar of WinAppSdk 1.6 when available  -->
-	<Grid
+	<Border
 		x:Name="TitlebarArea"
 		HorizontalAlignment="Stretch"
 		x:FieldModifier="public"
@@ -89,6 +93,7 @@
 			TabStripDragOver="TabView_TabStripDragOver"
 			TabStripDrop="TabView_TabStripDrop">
 
+			<!--  Header  -->
 			<TabView.TabStripHeader>
 				<Button
 					Width="30"
@@ -99,7 +104,8 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=TabActions}"
 					Background="Transparent"
 					BorderThickness="0"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=TabActions}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=TabActions}"
+					Visibility="{x:Bind AppearanceSettingsService.ShowTabActions, Converter={StaticResource ShowTabActions}, Mode=OneWay}">
 
 					<uc:OpacityIcon
 						Width="16"
@@ -171,6 +177,7 @@
 
 						</MenuFlyout>
 					</Button.Flyout>
+
 				</Button>
 			</TabView.TabStripHeader>
 
@@ -191,7 +198,7 @@
 				</DataTemplate>
 			</TabView.TabItemTemplate>
 
-			<!--  TabStrip Footer  -->
+			<!--  Footer  -->
 			<TabView.TabStripFooter>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -235,6 +242,6 @@
 			</TabView.TabStripFooter>
 
 		</TabView>
-	</Grid>
+	</Border>
 
 </local:BaseTabBar>
