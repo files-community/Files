@@ -3875,4 +3875,7 @@
   <data name="AddPane" xml:space="preserve">
     <value>Add pane</value>
   </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Show tab actions button in the title bar</value>
+  </data>
 </root>
