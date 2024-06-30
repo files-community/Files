@@ -8,6 +8,20 @@ namespace Files.App.Data.Contracts
 	/// </summary>
 	public interface IShellPanesPage : IDisposable, INotifyPropertyChanged
 	{
+		public bool IsLeftPaneActive { get; }
+
+		public bool IsRightPaneActive { get; }
+
+		public bool IsMultiPaneActive { get; }
+
+		public bool CanBeDualPane { get; }
+
+		// TODO: Remove this our of this class
+		public IFilesystemHelpers? FilesystemHelpers { get; }
+
+		// TODO: Remove this our of this class
+		public TabBarItemParameter? TabBarItemParameter { get; set; }
+
 		/// <summary>
 		/// Gets the current focused shell pane.
 		/// </summary>
@@ -18,29 +32,20 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		public IShellPage? ActivePaneOrColumn { get; }
 
-		// TODO: Remove this our of this class
-		public IFilesystemHelpers? FilesystemHelpers { get; }
-
-		// TODO: Remove this our of this class
-		public TabBarItemParameter? TabBarItemParameter { get; set; }
-
 		/// <summary>
 		/// Adds a new pane with path and pane addition direction if needed.
 		/// </summary>
 		/// <param name="path">The path to open in the new pane.</param>
-		/// <param name="direction">The alignment direction.</param>
-		public void OpenSecondaryPane(string path = "", ShellPaneAlignmentDirection direction = ShellPaneAlignmentDirection.Horizontal);
+		public void OpenSecondaryPane(string path = "");
 
+		/// <summary>
+		/// Closes the shell active/focused pane.
+		/// </summary>
 		public void CloseActivePane();
 
+		/// <summary>
+		/// Focuses the other pane.
+		/// </summary>
 		public void FocusOtherPane();
-
-		public bool IsLeftPaneActive { get; }
-
-		public bool IsRightPaneActive { get; }
-
-		public bool IsMultiPaneActive { get; }
-
-		public bool CanBeDualPane { get; }
 	}
 }

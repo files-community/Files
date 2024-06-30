@@ -6,6 +6,7 @@ namespace Files.App.Actions
 	internal sealed class AddHorizontalPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
 			=> "AddHorizontalPane".GetLocalizedResource();
@@ -30,6 +31,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
+			GeneralSettingsService.ShellPaneAlignmentDirection = ShellPaneAlignmentDirection.Horizontal;
 			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane();
 
 			return Task.CompletedTask;

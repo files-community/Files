@@ -267,6 +267,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public ShellPaneAlignmentDirection ShellPaneAlignmentDirection
+		{
+			get => Get(ShellPaneAlignmentDirection.Horizontal);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);
