@@ -1803,11 +1803,22 @@ namespace Files.App.ViewModels
 			if (!File.Exists(iniPath))
 				return;
 
+			var lines = Enumerable.Empty<string>();
+
 			// Read data
-			var lines = File.ReadLines(iniPath);
+			try
+			{
+				lines = File.ReadLines(iniPath);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				FolderBackgroundImageSource = null;
+				return;
+			}
+
 			var keys = lines.Select(line => line.Split('='))
-								.Where(parts => parts.Length == 2)
-								.ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
+					.Where(parts => parts.Length == 2)
+					.ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
 
 			// Image source
 			if (folderSettings.LayoutMode is not FolderLayoutModes.ColumnView && keys.TryGetValue("Files_BackgroundImage", out var backgroundImage))
