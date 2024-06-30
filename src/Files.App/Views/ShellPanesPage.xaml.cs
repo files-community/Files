@@ -349,11 +349,13 @@ namespace Files.App.Views
 				// Set to a new column
 				if (GeneralSettingsService.ShellPaneAlignmentDirection is ShellPaneAlignmentDirection.Horizontal)
 				{
+					sizer.ResizeDirection = GridSplitter.GridResizeDirection.Columns;
 					RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
 					sizer.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
 				}
 				else
 				{
+					sizer.ResizeDirection = GridSplitter.GridResizeDirection.Rows;
 					RootGrid.RowDefinitions.Add(new() { Height = new(4) });
 					sizer.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
 				}
@@ -615,7 +617,11 @@ namespace Files.App.Views
 
 		private void Sizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			this.ChangeCursor(
+				InputSystemCursor.Create(
+					GeneralSettingsService.ShellPaneAlignmentDirection is ShellPaneAlignmentDirection.Horizontal
+						? InputSystemCursorShape.SizeWestEast
+						: InputSystemCursorShape.SizeNorthSouth));
 		}
 
 		private void Sizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
