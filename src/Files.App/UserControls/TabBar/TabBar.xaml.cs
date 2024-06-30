@@ -43,13 +43,7 @@ namespace Files.App.UserControls.TabBar
 		}
 
 		public bool ShowTabActionsButton
-		{
-			get => AppearanceSettingsService.ShowTabActions;
-			set
-			{
-				AppearanceSettingsService.ShowTabActions = value;
-			}
-		}
+			=> AppearanceSettingsService.ShowTabActions;
 
 		// Dragging makes the app crash when run as admin.
 		// For more information:
@@ -88,6 +82,16 @@ namespace Files.App.UserControls.TabBar
 					: appWindow.TitleBar.RightInset;
 
 			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.ShowTabActions):
+						//OnPropertyChanged(nameof(ShowTabActionsButton));
+						break;
+				}
+			};
 		}
 
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
