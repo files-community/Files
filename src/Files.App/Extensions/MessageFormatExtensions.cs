@@ -115,7 +115,7 @@ namespace Files.App.Extensions
 		/// <returns>The formatted localized resource string.</returns>
 		public static string GetLocalizedFormatResource(this string resourceKey, params object[] values)
 		{
-			var pairs = values.Select((value, index) => new KeyValuePair<string, object?>(index.ToString(), value))
+			var pairs = values.Select((value, index) => new KeyValuePair<string, object?>(index.ToString(), (value is bool b) ? (b ? 1 : 0) : value))
 							  .ToDictionary(pair => pair.Key, pair => pair.Value);
 			return GetLocalizedFormatResource(resourceKey, pairs);
 		}
@@ -126,6 +126,6 @@ namespace Files.App.Extensions
 		/// </summary>
 		/// <param name="resourceKey">The key for the resource string.</param>
 		/// <returns>The localized resource string.</returns>
-		public static string GetLocalizedFormatResource(this string resourceKey) => GetLocalizedFormatResource(resourceKey, new Dictionary<string, object?>());
+		public static string GetLocalizedFormatResource(this string resourceKey) => GetLocalizedFormatResource(resourceKey, 0.ToFormatPairs(string.Empty));
 	}
 }
