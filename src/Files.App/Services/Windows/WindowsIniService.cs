@@ -20,7 +20,7 @@ namespace Files.App.Services
 			// Get sections
 			var sections = lines
 				.Where(line => line.StartsWith('[') && line.EndsWith(']'));
-			
+
 			// Get section line indexes
 			List<int> sectionLineIndexes = [];
 			foreach (var section in sections)

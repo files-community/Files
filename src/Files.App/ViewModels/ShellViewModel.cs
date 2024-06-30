@@ -1801,6 +1801,12 @@ namespace Files.App.ViewModels
 				.FirstOrDefault()?.ItemPath;
 		}
 
+		private void GetDesktopIniFileData()
+		{
+			var path = Path.Combine(WorkingDirectory, "desktop.ini");
+			DesktopIni = WindowsIniService.GetData(path);
+		}
+
 		public void CheckForBackgroundImage()
 		{
 			var filesAppSection = DesktopIni.FirstOrDefault(x => x.SectionName == "FilesApp");
@@ -1853,12 +1859,6 @@ namespace Files.App.ViewModels
 				FolderBackgroundImageHorizontalAlignment = hAlignment;
 			else
 				FolderBackgroundImageHorizontalAlignment = HorizontalAlignment.Center;
-		}
-
-		private void GetDesktopIniFileData()
-		{
-			var path = Path.Combine(WorkingDirectory, "desktop.ini");
-			DesktopIni = WindowsIniService.GetData(path);
 		}
 
 		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
