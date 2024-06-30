@@ -249,6 +249,7 @@
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.TabActions}" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
+					AutomationProperties.AutomationControlType="Custom"
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowTabActions}"
 					IsOn="{x:Bind ViewModel.ShowTabActions, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
