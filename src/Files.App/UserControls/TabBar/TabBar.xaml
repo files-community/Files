@@ -105,7 +105,7 @@
 					Background="Transparent"
 					BorderThickness="0"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=TabActions}"
-					Visibility="{x:Bind AppearanceSettingsService.ShowTabActions, Converter={StaticResource ShowTabActions}, Mode=OneWay}">
+					Visibility="{x:Bind ShowTabActionsButton, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
 					<uc:OpacityIcon
 						Width="16"

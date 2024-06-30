@@ -42,6 +42,15 @@ namespace Files.App.UserControls.TabBar
 			set => SetValue(FooterElementProperty, value);
 		}
 
+		public bool ShowTabActionsButton
+		{
+			get => AppearanceSettingsService.ShowTabActions;
+			set
+			{
+				AppearanceSettingsService.ShowTabActions = value;
+			}
+		}
+
 		// Dragging makes the app crash when run as admin.
 		// For more information:
 		// - https://github.com/files-community/Files/issues/12390
