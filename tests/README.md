@@ -7,7 +7,7 @@ Project: **Files.UnitTests**
 
 *Still not implemeneted yet.*
 
-## UI tests
+## Interaction tests
 
 Project: **Files.IntegerationTests**
 
