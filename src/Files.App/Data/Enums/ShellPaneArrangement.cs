@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Enums
 {
-	public enum ShellPaneAlignmentDirection
+	public enum ShellPaneArrangement
 	{
 		Horizontal,
 

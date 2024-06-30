@@ -267,9 +267,9 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public ShellPaneAlignmentDirection ShellPaneAlignmentDirection
+		public ShellPaneArrangement ShellPaneArrangement
 		{
-			get => Get(ShellPaneAlignmentDirection.Horizontal);
+			get => Get(ShellPaneArrangement.Horizontal);
 			set => Set(value);
 		}
 

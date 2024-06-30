@@ -31,7 +31,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			GeneralSettingsService.ShellPaneAlignmentDirection = ShellPaneAlignmentDirection.Vertical;
+			GeneralSettingsService.ShellPaneArrangement = ShellPaneArrangement.Vertical;
 			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane();
 
 			return Task.CompletedTask;

@@ -218,6 +218,6 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets or sets a value indicating <see cref="IShellPage"/> alignment direction.
 		/// </summary>
-		ShellPaneAlignmentDirection ShellPaneAlignmentDirection { get; set; }
+		ShellPaneArrangement ShellPaneArrangement { get; set; }
 	}
 }
