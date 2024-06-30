@@ -314,10 +314,15 @@ namespace Files.App.Views
 					{
 						foreach (var element in RootGrid.Children)
 						{
-							if (element is GridSplitter)
-								RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
-							else
+							if (element is GridSplitter splitter)
+							{
+								splitter.ResizeDirection = GridSplitter.GridResizeDirection.Columns;
 								RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
+							}
+							else
+							{
+								RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
+							}
 
 							element.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
 						}
@@ -326,10 +331,15 @@ namespace Files.App.Views
 					{
 						foreach (var element in RootGrid.Children)
 						{
-							if (element is GridSplitter)
-								RootGrid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star), MinHeight = 100d });
-							else
+							if (element is GridSplitter splitter)
+							{
+								splitter.ResizeDirection = GridSplitter.GridResizeDirection.Rows;
 								RootGrid.RowDefinitions.Add(new() { Height = new(4) });
+							}
+							else
+							{
+								RootGrid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star), MinHeight = 100d });
+							}
 
 							element.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
 						}
@@ -365,24 +375,25 @@ namespace Files.App.Views
 			var page = new ModernShellPage() { PaneHolder = this };
 			RootGrid.Children.Add(page);
 
-			// Set to a new column
 			if (GeneralSettingsService.ShellPaneAlignmentDirection is ShellPaneAlignmentDirection.Horizontal)
 			{
+				// Add a new definition
 				RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
 				page.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
 
-				// Reset width of every column
-				foreach (var column in RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0))
-					column.Width = new(1, GridUnitType.Star);
+				// Reset width of every definition
+				foreach (var definition in RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0))
+					definition.Width = new(1, GridUnitType.Star);
 			}
 			else
 			{
+				// Add a new definition
 				RootGrid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star), MinHeight = 100d });
 				page.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
 
-				// Reset width of every column
-				foreach (var column in RootGrid.RowDefinitions.Where(x => RootGrid.RowDefinitions.IndexOf(x) % 2 == 0))
-					column.Height = new(1, GridUnitType.Star);
+				// Reset width of every definition
+				foreach (var definition in RootGrid.RowDefinitions.Where(x => RootGrid.RowDefinitions.IndexOf(x) % 2 == 0))
+					definition.Height = new(1, GridUnitType.Star);
 			}
 
 			// Hook event
