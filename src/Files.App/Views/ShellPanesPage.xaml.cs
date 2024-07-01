@@ -320,7 +320,7 @@ namespace Files.App.Views
 			}
 
 			// Update the default cursor type on hover based on pane arrangement
-			foreach (var sizer in RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 1).Cast<GridSplitter>())
+			foreach (var sizer in GetSizers())
 			{
 				sizer?.ChangeCursor(
 					InputSystemCursor.Create(
@@ -365,6 +365,16 @@ namespace Files.App.Views
 		private int GetPaneCount()
 		{
 			return (RootGrid.Children.Count + 1) / 2;
+		}
+
+		private IEnumerable<ModernShellPage> GetPanes()
+		{
+			return RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 0).Cast<ModernShellPage>();
+		}
+
+		private IEnumerable<GridSplitter> GetSizers()
+		{
+			return RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 1).Cast<GridSplitter>();
 		}
 
 		private void AddPane(ShellPaneArrangement arrangement = ShellPaneArrangement.None)
@@ -598,6 +608,16 @@ namespace Files.App.Views
 			WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 		}
 
+		private void Pane_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (sender is UIElement element)
+			{
+				element.GotFocus += Pane_GotFocus;
+				element.RightTapped += Pane_RightTapped;
+				element.PointerPressed += Pane_PointerPressed;
+			}
+		}
+
 		private void Pane_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			TabBarItemParameter = new()
@@ -610,13 +630,6 @@ namespace Files.App.Views
 					ShellPaneArrangement = ShellPaneArrangement,
 				}
 			};
-		}
-
-		private void Pane_Loaded(object sender, RoutedEventArgs e)
-		{
-			((UIElement)sender).GotFocus += Pane_GotFocus;
-			((UIElement)sender).RightTapped += Pane_RightTapped;
-			((UIElement)sender).PointerPressed += Pane_PointerPressed;
 		}
 
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -654,6 +667,18 @@ namespace Files.App.Views
 				((UIElement)sender).Focus(FocusState.Programmatic);
 		}
 
+		private void Sizer_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (sender is GridSplitter sizer)
+			{
+				sizer.ChangeCursor(
+					InputSystemCursor.Create(
+						ShellPaneArrangement is ShellPaneArrangement.Horizontal
+							? InputSystemCursorShape.SizeWestEast
+							: InputSystemCursorShape.SizeNorthSouth));
+			}
+		}
+
 		private void Sizer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
@@ -665,18 +690,6 @@ namespace Files.App.Views
 			{
 				var definitions = RootGrid.RowDefinitions.Where(x => RootGrid.RowDefinitions.IndexOf(x) % 2 == 0);
 				definitions?.ForEach(x => x.Height = new GridLength(1, GridUnitType.Star));
-			}
-		}
-
-		private void Sizer_Loaded(object sender, RoutedEventArgs e)
-		{
-			if (sender is GridSplitter sizer)
-			{
-				sizer.ChangeCursor(
-					InputSystemCursor.Create(
-						ShellPaneArrangement is ShellPaneArrangement.Horizontal
-							? InputSystemCursorShape.SizeWestEast
-							: InputSystemCursorShape.SizeNorthSouth));
 			}
 		}
 
@@ -708,14 +721,25 @@ namespace Files.App.Views
 		public void Dispose()
 		{
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
-			GetPane(0)?.Dispose();
-			GetPane(1)?.Dispose();
 
-			var sizerColumns = RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 1)?.Cast<GridSplitter>();
-			if (sizerColumns is not null)
+			// Dispose panes
+			foreach (var pane in GetPanes())
 			{
-				foreach (var item in sizerColumns)
-					item.DoubleTapped -= Sizer_OnDoubleTapped;
+				pane.Loaded -= Pane_Loaded;
+				pane.ContentChanged -= Pane_ContentChanged;
+				pane.GotFocus -= Pane_GotFocus;
+				pane.RightTapped -= Pane_RightTapped;
+				pane.PointerPressed -= Pane_PointerPressed;
+				pane.Dispose();
+			}
+
+			// Dispose sizers
+			foreach (var sizer in GetSizers())
+			{
+				sizer.DoubleTapped -= Sizer_OnDoubleTapped;
+				sizer.Loaded -= Sizer_Loaded;
+				sizer.ManipulationCompleted -= Sizer_ManipulationCompleted;
+				sizer.ManipulationStarted -= Sizer_ManipulationStarted;
 			}
 		}
 	}
