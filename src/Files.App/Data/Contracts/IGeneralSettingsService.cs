@@ -214,10 +214,5 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating a random user ID.
 		/// </summary>
 		string UserId { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating <see cref="IShellPage"/> alignment direction.
-		/// </summary>
-		ShellPaneArrangement ShellPaneArrangement { get; set; }
 	}
 }

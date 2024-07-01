@@ -31,8 +31,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			GeneralSettingsService.ShellPaneArrangement = ShellPaneArrangement.Vertical;
-			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane();
+			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane(arrangement: ShellPaneArrangement.Vertical);
 
 			return Task.CompletedTask;
 		}

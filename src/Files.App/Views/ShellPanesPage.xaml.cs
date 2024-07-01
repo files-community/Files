@@ -14,11 +14,10 @@ namespace Files.App.Views
 	/// <summary>
 	/// Represents <see cref="Page"/> that holds multiple panes.
 	/// </summary>
-	public sealed partial class ShellPanesPage : Page, IShellPanesPage, ITabBarItemContent
+	public sealed partial class ShellPanesPage : Page, IShellPanesPage, ITabBarItemContent, INotifyPropertyChanged
 	{
 		// Dependency injections
 
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private AppModel AppModel { get; } = Ioc.Default.GetRequiredService<AppModel>();
 
@@ -70,6 +69,21 @@ namespace Files.App.Views
 					return columnLayoutPage.ActiveColumnShellPage;
 
 				return ActivePane ?? GetPane(0)!;
+			}
+		}
+
+		private ShellPaneArrangement _ShellPaneArrangement;
+		public ShellPaneArrangement ShellPaneArrangement
+		{
+			get => _ShellPaneArrangement;
+			set
+			{
+				if (_ShellPaneArrangement != value)
+				{
+					Pane_ContentChanged(null, null!);
+					_ShellPaneArrangement = value;
+					NotifyPropertyChanged(nameof(ShellPaneArrangement));
+				}
 			}
 		}
 
@@ -233,7 +247,7 @@ namespace Files.App.Views
 
 			// Open the secondary pane
 			if (CanBeDualPane &&
-				UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
+				GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
 				AddPane();
 
 			MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
@@ -242,9 +256,9 @@ namespace Files.App.Views
 		// Public methods
 
 		/// <inheritdoc/>
-		public void OpenSecondaryPane(string path = "")
+		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.Horizontal)
 		{
-			AddPane();
+			AddPane(arrangement);
 
 			NavParamsRight = new()
 			{
@@ -252,6 +266,53 @@ namespace Files.App.Views
 					? GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty
 					: path
 			};
+		}
+
+		/// <inheritdoc/>
+		public void ArrangePanes(ShellPaneArrangement arrangement = ShellPaneArrangement.Horizontal)
+		{
+			ShellPaneArrangement = arrangement;
+
+			// Clear definitions
+			RootGrid.RowDefinitions.Clear();
+			RootGrid.ColumnDefinitions.Clear();
+
+			if (ShellPaneArrangement == ShellPaneArrangement.Horizontal)
+			{
+				foreach (var element in RootGrid.Children)
+				{
+					if (element is GridSplitter splitter)
+					{
+						RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
+						splitter.Height = double.NaN;
+						splitter.Width = 2;
+					}
+					else
+					{
+						RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
+					}
+
+					element.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
+				}
+			}
+			else
+			{
+				foreach (var element in RootGrid.Children)
+				{
+					if (element is GridSplitter splitter)
+					{
+						RootGrid.RowDefinitions.Add(new() { Height = new(4) });
+						splitter.Height = 2;
+						splitter.Width = double.NaN;
+					}
+					else
+					{
+						RootGrid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star), MinHeight = 100d });
+					}
+
+					element.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
+				}
+			}
 		}
 
 		/// <inheritdoc/>
@@ -291,12 +352,14 @@ namespace Files.App.Views
 			return (RootGrid.Children.Count + 1) / 2;
 		}
 
-		private void AddPane()
+		private void AddPane(ShellPaneArrangement arrangement = ShellPaneArrangement.Horizontal)
 		{
+			ShellPaneArrangement = arrangement;
+
 			var currentPaneAlignmentDirection =
 				RootGrid.ColumnDefinitions.Count is 0
 					? RootGrid.RowDefinitions.Count is 0
-						? GeneralSettingsService.ShellPaneArrangement
+						? ShellPaneArrangement
 						: ShellPaneArrangement.Vertical
 					: ShellPaneArrangement.Horizontal;
 
@@ -304,49 +367,7 @@ namespace Files.App.Views
 			if (RootGrid.Children.Count is not 0)
 			{
 				// Re-align shell pane
-				if (GeneralSettingsService.ShellPaneArrangement != currentPaneAlignmentDirection)
-				{
-					// Clear definitions
-					RootGrid.RowDefinitions.Clear();
-					RootGrid.ColumnDefinitions.Clear();
-
-					if (GeneralSettingsService.ShellPaneArrangement == ShellPaneArrangement.Horizontal)
-					{
-						foreach (var element in RootGrid.Children)
-						{
-							if (element is GridSplitter splitter)
-							{
-								RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
-								splitter.Height = double.NaN;
-								splitter.Width = 2;
-							}
-							else
-							{
-								RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
-							}
-
-							element.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
-						}
-					}
-					else
-					{
-						foreach (var element in RootGrid.Children)
-						{
-							if (element is GridSplitter splitter)
-							{
-								RootGrid.RowDefinitions.Add(new() { Height = new(4) });
-								splitter.Height = 2;
-								splitter.Width = double.NaN;
-							}
-							else
-							{
-								RootGrid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star), MinHeight = 100d });
-							}
-
-							element.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
-						}
-					}
-				}
+				ArrangePanes(arrangement);
 
 				// Add sizer
 				var sizer = new GridSplitter() { IsTabStop = false };
@@ -359,7 +380,7 @@ namespace Files.App.Views
 				RootGrid.Children.Add(sizer);
 
 				// Set to a new column
-				if (GeneralSettingsService.ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
 				{
 					RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
 					sizer.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
@@ -379,7 +400,7 @@ namespace Files.App.Views
 			var page = new ModernShellPage() { PaneHolder = this };
 			RootGrid.Children.Add(page);
 
-			if (GeneralSettingsService.ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+			if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
 			{
 				// Add a new definition
 				RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
@@ -428,7 +449,7 @@ namespace Files.App.Views
 				// Remove sizer and pane
 				RootGrid.Children.RemoveAt(0);
 
-				if (GeneralSettingsService.ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
 					RootGrid.ColumnDefinitions.RemoveAt(0);
 				else
 					RootGrid.RowDefinitions.RemoveAt(0);
@@ -437,7 +458,7 @@ namespace Files.App.Views
 				{
 					RootGrid.Children.RemoveAt(0);
 
-					if (GeneralSettingsService.ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+					if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
 						RootGrid.ColumnDefinitions.RemoveAt(0);
 					else
 						RootGrid.RowDefinitions.RemoveAt(0);
@@ -453,7 +474,7 @@ namespace Files.App.Views
 				RootGrid.Children.RemoveAt(childIndex);
 				RootGrid.Children.RemoveAt(childIndex);
 
-				if (GeneralSettingsService.ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
 				{
 					RootGrid.ColumnDefinitions.RemoveAt(childIndex);
 					RootGrid.ColumnDefinitions.RemoveAt(childIndex);
@@ -523,6 +544,8 @@ namespace Files.App.Views
 					NavPath = paneArgs.RightPaneNavPathParam,
 					SelectItem = paneArgs.RightPaneSelectItemParam
 				};
+
+				ShellPaneArrangement = paneArgs.ShellPaneArrangement;
 			}
 
 			TabBarItemParameter = new()
@@ -534,6 +557,7 @@ namespace Files.App.Views
 					LeftPaneSelectItemParam = NavParamsLeft?.SelectItem,
 					RightPaneNavPathParam = GetPaneCount() >= 2 ? NavParamsRight?.NavPath : null,
 					RightPaneSelectItemParam = GetPaneCount() >= 2 ? NavParamsRight?.SelectItem : null,
+					ShellPaneArrangement = ShellPaneArrangement,
 				}
 			};
 		}
@@ -563,7 +587,8 @@ namespace Files.App.Views
 				NavigationParameter = new PaneNavigationArguments()
 				{
 					LeftPaneNavPathParam = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,
-					RightPaneNavPathParam = GetPaneCount() >= 2 ? GetPane(1)?.TabBarItemParameter?.NavigationParameter as string : null
+					RightPaneNavPathParam = GetPaneCount() >= 2 ? GetPane(1)?.TabBarItemParameter?.NavigationParameter as string : null,
+					ShellPaneArrangement = ShellPaneArrangement,
 				}
 			};
 		}
@@ -612,7 +637,7 @@ namespace Files.App.Views
 
 		private void Sizer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			if (GeneralSettingsService.ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+			if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
 			{
 				var definitions = RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0);
 				definitions?.ForEach(x => x.Width = new GridLength(1, GridUnitType.Star));
@@ -630,7 +655,7 @@ namespace Files.App.Views
 			{
 				sizer.ChangeCursor(
 					InputSystemCursor.Create(
-						GeneralSettingsService.ShellPaneArrangement is ShellPaneArrangement.Horizontal
+						ShellPaneArrangement is ShellPaneArrangement.Horizontal
 							? InputSystemCursorShape.SizeWestEast
 							: InputSystemCursorShape.SizeNorthSouth));
 			}
@@ -640,7 +665,7 @@ namespace Files.App.Views
 		{
 			this.ChangeCursor(
 				InputSystemCursor.Create(
-					GeneralSettingsService.ShellPaneArrangement is ShellPaneArrangement.Horizontal
+					ShellPaneArrangement is ShellPaneArrangement.Horizontal
 						? InputSystemCursorShape.SizeWestEast
 						: InputSystemCursorShape.SizeNorthSouth));
 		}

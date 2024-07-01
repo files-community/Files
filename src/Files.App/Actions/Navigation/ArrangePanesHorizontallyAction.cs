@@ -6,7 +6,7 @@ namespace Files.App.Actions
 	internal sealed class ArrangePanesHorizontallyAction : ObservableObject, IToggleAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private readonly IMultiPanesContext MultiPanesContext = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
 		public string Label
 			=> "ArrangePanesHorizontally".GetLocalizedResource();
@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconAddHorizontalPane");
 
 		public bool IsOn
-			=> GeneralSettingsService.ShellPaneArrangement == ShellPaneArrangement.Horizontal;
+			=> MultiPanesContext.ShellPaneArrangement is ShellPaneArrangement.Horizontal;
 
 		public bool IsExecutable =>
 			ContentPageContext.IsMultiPaneEnabled &&
@@ -27,11 +27,12 @@ namespace Files.App.Actions
 		public ArrangePanesHorizontallyAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+			MultiPanesContext.ShellPaneArrangementChanged += MultiPanesContext_ShellPaneArrangementChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			// Change direction
+			ContentPageContext.ShellPage!.PaneHolder.ArrangePanes();
 
 			return Task.CompletedTask;
 		}
@@ -45,6 +46,11 @@ namespace Files.App.Actions
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
+		}
+
+		private void MultiPanesContext_ShellPaneArrangementChanged(object? sender, EventArgs e)
+		{
+			OnPropertyChanged(nameof(IsOn));
 		}
 	}
 }

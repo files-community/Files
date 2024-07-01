@@ -267,12 +267,6 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public ShellPaneArrangement ShellPaneArrangement
-		{
-			get => Get(ShellPaneArrangement.Horizontal);
-			set => Set(value);
-		}
-
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);
