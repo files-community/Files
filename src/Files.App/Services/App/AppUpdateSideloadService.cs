@@ -150,13 +150,13 @@ namespace Files.App.Services
 			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
 			var destExeFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe");
 
-			if (Path.Exists(destExeFilePath))
+			if (File.Exists(destExeFilePath))
 			{
 				var hashEqual = false;
 				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256"));
 				var destHashFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe.sha256");
 
-				if (Path.Exists(destHashFilePath))
+				if (File.Exists(destHashFilePath))
 				{
 					using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
 					using var destStream = File.OpenRead(destHashFilePath);
