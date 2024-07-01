@@ -231,7 +231,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				try
 				{
-					return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out var value) ? 
+					return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out var value) ?
 						value.GetLocalizedResource() : null;
 				}
 				catch
@@ -312,24 +312,24 @@ namespace Files.App.ViewModels.Properties
 			}
 
 #if DEBUG
-            // This makes it much easier to debug issues with the property list
-            var keyValuePairs = new Dictionary<string, object>();
-            foreach (var prop in propsToGet)
-            {
-                object val = null;
-                try
-                {
-                    if (file.Properties is not null)
-                    {
-                        val = (await file.Properties.RetrievePropertiesAsync([prop])).First().Value;
-                    }
-                }
-                catch (ArgumentException e)
-                {
-                    Debug.WriteLine($"Unable to retrieve system file property {prop}.\n{e}");
-                }
-                keyValuePairs.Add(prop, val);
-            }
+			// This makes it much easier to debug issues with the property list
+			var keyValuePairs = new Dictionary<string, object>();
+			foreach (var prop in propsToGet)
+			{
+				object val = null;
+				try
+				{
+					if (file.Properties is not null)
+					{
+						val = (await file.Properties.RetrievePropertiesAsync([prop])).First().Value;
+					}
+				}
+				catch (ArgumentException e)
+				{
+					Debug.WriteLine($"Unable to retrieve system file property {prop}.\n{e}");
+				}
+				keyValuePairs.Add(prop, val);
+			}
 #else
             IDictionary<string, object> keyValuePairs = new Dictionary<string, object>();
             if (file.Properties is not null)
@@ -338,47 +338,47 @@ namespace Files.App.ViewModels.Properties
             }
 #endif
 
-            foreach (var prop in list)
-            {
-                if (!string.IsNullOrEmpty(prop.Property))
-                {
-                    prop.Value = keyValuePairs[prop.Property];
-                }
+			foreach (var prop in list)
+			{
+				if (!string.IsNullOrEmpty(prop.Property))
+				{
+					prop.Value = keyValuePairs[prop.Property];
+				}
 
-                prop.InitializeProperty();
-            }
+				prop.InitializeProperty();
+			}
 
-            return list;
-        }
+			return list;
+		}
 
-        /// <summary>
-        /// Since you can't serialize lambdas from a json file, define them here
-        /// </summary>
-        private static readonly Dictionary<string, Func<object, string>> DisplayFuncs = new Dictionary<string, Func<object, string>>()
-        {
-            { "DivideBy1000", input => (((uint) input)/1000).ToString() },
-            { "FormatDuration", input => TimeSpanToString(new TimeSpan(Convert.ToInt64(input)))},
-            { "Fraction" , input => ((double)input).ToFractions(2000)},
-            { "AddF" , input => $"f/{(double)input}"},
-            { "AddISO" , input => $"ISO-{(UInt16)input}"},
-            { "RoundDouble" , input => $"{Math.Round((double)input)}"},
-            { "UnitMM" , input => $"{(double)input} mm"},
-            { "FormatEncodingBitrate", FormatEncodingBitrate }
-        };
+		/// <summary>
+		/// Since you can't serialize lambdas from a json file, define them here
+		/// </summary>
+		private static readonly Dictionary<string, Func<object, string>> DisplayFuncs = new Dictionary<string, Func<object, string>>()
+		{
+			{ "DivideBy1000", input => (((uint) input)/1000).ToString() },
+			{ "FormatDuration", input => TimeSpanToString(new TimeSpan(Convert.ToInt64(input)))},
+			{ "Fraction" , input => ((double)input).ToFractions(2000)},
+			{ "AddF" , input => $"f/{(double)input}"},
+			{ "AddISO" , input => $"ISO-{(UInt16)input}"},
+			{ "RoundDouble" , input => $"{Math.Round((double)input)}"},
+			{ "UnitMM" , input => $"{(double)input} mm"},
+			{ "FormatEncodingBitrate", FormatEncodingBitrate }
+		};
 
-        private static string TimeSpanToString(TimeSpan t)
-            => t.Days > 0 ? (t.Days * 24 + t.Hours) + t.ToString("':'mm':'ss") : t.ToString("hh':'mm':'ss");
+		private static string TimeSpanToString(TimeSpan t)
+			=> t.Days > 0 ? (t.Days * 24 + t.Hours) + t.ToString("':'mm':'ss") : t.ToString("hh':'mm':'ss");
 
-        private static string FormatEncodingBitrate(object input)
-        {
-            // For cases when multiple files are selected and it has a string value
-            if (input.GetType() != typeof(uint))
-                return input?.ToString() ?? string.Empty;
+		private static string FormatEncodingBitrate(object input)
+		{
+			// For cases when multiple files are selected and it has a string value
+			if (input.GetType() != typeof(uint))
+				return input?.ToString() ?? string.Empty;
 
-            var sizes = new string[] { "bps", "kbps", "Mbps", "Gbps" };
-            var order = (int)Math.Floor(Math.Log((uint)input, 1000));
-            var readableSpeed = (uint)input / Math.Pow(1000, order);
-            return $"{readableSpeed:0.##} {sizes[order]}";
-        }
-    }
+			var sizes = new string[] { "bps", "kbps", "Mbps", "Gbps" };
+			var order = (int)Math.Floor(Math.Log((uint)input, 1000));
+			var readableSpeed = (uint)input / Math.Pow(1000, order);
+			return $"{readableSpeed:0.##} {sizes[order]}";
+		}
+	}
 }
