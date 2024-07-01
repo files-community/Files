@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.Win32;
@@ -276,12 +277,19 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			// This check allows the user to use the text box context menu without ending the rename
-			if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
+			try
 			{
-				TextBox textBox = (TextBox)e.OriginalSource;
-				await CommitRenameAsync(textBox);
+				// This check allows the user to use the text box context menu without ending the rename
+				if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
+				{
+					TextBox textBox = (TextBox)e.OriginalSource;
+					await CommitRenameAsync(textBox);
+				}
 			}
+			catch (COMException)
+			{
+
+			}			
 		}
 
 		// Methods

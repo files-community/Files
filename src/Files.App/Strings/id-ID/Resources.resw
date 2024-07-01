@@ -1082,6 +1082,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Aktifkan panel info untuk melihat detail/pratinjau panel</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Aktifkan Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pratinjau tidak tersedia</value>
   </data>
@@ -1584,7 +1587,7 @@
     <value>Ganti semua entri izin objek bawahan dengan entri izin yang dapat diwariskan dari objek ini</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Tutup panel aktif</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Masuk ke tampilan fleksibel</value>
@@ -2673,7 +2676,7 @@
     <value>Buka panel baru</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Tutup panel aktif</value>
   </data>
   <data name="FocusLeftPane" xml:space="preserve">
     <value>Fokus panel kiri</value>

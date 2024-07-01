@@ -443,7 +443,7 @@
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {Item} other {Items}}</value>
+    <value>{0, plural, one {Element} other {Elemente}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -477,10 +477,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number}{0, plural, one {Datei} other {Dateien}}{1, number}{1, plural, one {Ordner} other {Ordner}}</value>
+    <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number}{0, plural, one {Datei} other {Dateien}}{1, number}{1, plural, one {Ordner} other {Ordner}}{2, number}{2, plural, one {Ort} other {Orte}}</value>
+    <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}} from {2, number} {2, plural, one {Ort} other {Orte}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Als ein anderer Benutzer ausführen</value>
@@ -1081,6 +1081,9 @@
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Info-Bereich umschalten, um Detail-/Vorschaufenster anzuzeigen</value>
+  </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Symbolleiste umschalten</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Keine Vorschau verfügbar</value>
@@ -3848,10 +3851,10 @@
     <value>Deaktivieren</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
-    <value>Im Notizblock bearbeiten</value>
+    <value>Im Editor bearbeiten</value>
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
-    <value>Ausgewählte Datei im Notepad bearbeiten</value>
+    <value>Ausgewählte Datei im Editor bearbeiten</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
     <value>Abmessungen:</value>

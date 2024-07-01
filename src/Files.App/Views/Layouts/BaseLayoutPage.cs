@@ -1237,7 +1237,7 @@ namespace Files.App.Views.Layouts
 					ItemManipulationModel.SetSelectedItem(hoveredItem);
 				}
 			},
-			TimeSpan.FromMilliseconds(600), false);
+			TimeSpan.FromMilliseconds(1000), false);
 		}
 
 		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -1400,7 +1400,7 @@ namespace Files.App.Views.Layouts
 							tapDebounceTimer.Stop();
 						}
 					},
-					TimeSpan.FromMilliseconds(500));
+					TimeSpan.FromMilliseconds(1500));
 				}
 				else
 				{
