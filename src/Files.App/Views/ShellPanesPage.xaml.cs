@@ -80,9 +80,10 @@ namespace Files.App.Views
 			{
 				if (_ShellPaneArrangement != value)
 				{
-					Pane_ContentChanged(null, null!);
 					_ShellPaneArrangement = value;
+					ArrangePanes();
 					NotifyPropertyChanged(nameof(ShellPaneArrangement));
+					Pane_ContentChanged(null, null!);
 				}
 			}
 		}
@@ -256,7 +257,7 @@ namespace Files.App.Views
 		// Public methods
 
 		/// <inheritdoc/>
-		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.Horizontal)
+		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
 			AddPane(arrangement);
 
@@ -269,9 +270,10 @@ namespace Files.App.Views
 		}
 
 		/// <inheritdoc/>
-		public void ArrangePanes(ShellPaneArrangement arrangement = ShellPaneArrangement.Horizontal)
+		public void ArrangePanes(ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
-			ShellPaneArrangement = arrangement;
+			if (arrangement is not ShellPaneArrangement.None)
+				ShellPaneArrangement = arrangement;
 
 			// Clear definitions
 			RootGrid.RowDefinitions.Clear();
@@ -362,9 +364,10 @@ namespace Files.App.Views
 			return (RootGrid.Children.Count + 1) / 2;
 		}
 
-		private void AddPane(ShellPaneArrangement arrangement = ShellPaneArrangement.Horizontal)
+		private void AddPane(ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
-			ShellPaneArrangement = arrangement;
+			if (arrangement is not ShellPaneArrangement.None)
+				ShellPaneArrangement = arrangement;
 
 			var currentPaneAlignmentDirection =
 				RootGrid.ColumnDefinitions.Count is 0
@@ -555,7 +558,10 @@ namespace Files.App.Views
 					SelectItem = paneArgs.RightPaneSelectItemParam
 				};
 
-				ShellPaneArrangement = paneArgs.ShellPaneArrangement;
+				ShellPaneArrangement =
+					paneArgs.ShellPaneArrangement is ShellPaneArrangement.None
+						? ShellPaneArrangement.Horizontal
+						: paneArgs.ShellPaneArrangement;
 			}
 
 			TabBarItemParameter = new()

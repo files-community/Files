@@ -5,6 +5,8 @@ namespace Files.App.Data.Enums
 {
 	public enum ShellPaneArrangement
 	{
+		None,
+
 		Horizontal,
 
 		Vertical,
