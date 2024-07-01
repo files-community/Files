@@ -313,6 +313,16 @@ namespace Files.App.Views
 					element.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
 				}
 			}
+
+			// Update the default cursor type on hover based on pane arrangement
+			foreach (var sizer in RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 1).Cast<GridSplitter>())
+			{
+				sizer?.ChangeCursor(
+					InputSystemCursor.Create(
+						ShellPaneArrangement is ShellPaneArrangement.Horizontal
+							? InputSystemCursorShape.SizeWestEast
+							: InputSystemCursorShape.SizeNorthSouth));
+			}
 		}
 
 		/// <inheritdoc/>
