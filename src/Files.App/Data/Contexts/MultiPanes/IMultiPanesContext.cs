@@ -19,7 +19,7 @@ namespace Files.App.Data.Contexts
 		event EventHandler? ActivePaneChanged;
 
 		/// <summary>
-		/// Gets invoked when shell pane arrangement is changed.
+		/// Invoked when shell pane arrangement is changed.
 		/// </summary>
 		event EventHandler? ShellPaneArrangementChanged;
 
