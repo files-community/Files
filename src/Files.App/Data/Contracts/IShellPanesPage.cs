@@ -14,7 +14,7 @@ namespace Files.App.Data.Contracts
 
 		public bool IsMultiPaneActive { get; }
 
-		public bool CanBeDualPane { get; }
+		public bool IsMultiPaneAvailable { get; }
 
 		// TODO: Remove this our of this class
 		public IFilesystemHelpers? FilesystemHelpers { get; }

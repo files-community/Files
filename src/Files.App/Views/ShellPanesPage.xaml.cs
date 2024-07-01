@@ -45,7 +45,7 @@ namespace Files.App.Views
 		public bool IsMultiPaneActive
 			=> GetPaneCount() > 1;
 
-		public bool CanBeDualPane
+		public bool IsMultiPaneAvailable
 		{
 			get
 			{
@@ -115,7 +115,7 @@ namespace Files.App.Views
 						_wasRightPaneVisible = false;
 					}
 
-					NotifyPropertyChanged(nameof(CanBeDualPane));
+					NotifyPropertyChanged(nameof(IsMultiPaneAvailable));
 				}
 			}
 		}
@@ -247,7 +247,7 @@ namespace Files.App.Views
 			_WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 
 			// Open the secondary pane
-			if (CanBeDualPane &&
+			if (IsMultiPaneAvailable &&
 				GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
 				AddPane();
 
@@ -561,7 +561,7 @@ namespace Files.App.Views
 				};
 
 				// Creates new pane
-				if (CanBeDualPane &&
+				if (IsMultiPaneAvailable &&
 					paneArgs.RightPaneNavPathParam is not null)
 					AddPane();
 

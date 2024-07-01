@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconAddVerticalPane");
 
 		public bool IsExecutable =>
-			ContentPageContext.IsMultiPaneEnabled &&
+			ContentPageContext.IsMultiPaneAvailable &&
 			!ContentPageContext.IsMultiPaneActive;
 
 		public AddVerticalPaneAction()
@@ -40,7 +40,7 @@ namespace Files.App.Actions
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IContentPageContext.IsMultiPaneEnabled):
+				case nameof(IContentPageContext.IsMultiPaneAvailable):
 				case nameof(IContentPageContext.IsMultiPaneActive):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;

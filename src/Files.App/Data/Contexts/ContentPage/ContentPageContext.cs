@@ -43,7 +43,7 @@ namespace Files.App.Data.Contexts
 
 		public bool CanCreateItem => GetCanCreateItem();
 
-		public bool IsMultiPaneEnabled => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.CanBeDualPane;
+		public bool IsMultiPaneAvailable => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneAvailable;
 
 		public bool IsMultiPaneActive => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneActive;
 
@@ -116,7 +116,7 @@ namespace Files.App.Data.Contexts
 					OnPropertyChanged(nameof(PageLayoutType));
 					break;
 				case nameof(ShellPage.PaneHolder):
-					OnPropertyChanged(nameof(IsMultiPaneEnabled));
+					OnPropertyChanged(nameof(IsMultiPaneAvailable));
 					OnPropertyChanged(nameof(IsMultiPaneActive));
 					break;
 			}
@@ -128,7 +128,7 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IShellPanesPage.CanBeDualPane):
+				case nameof(IShellPanesPage.IsMultiPaneAvailable):
 				case nameof(IShellPanesPage.IsMultiPaneActive):
 					OnPropertyChanged(e.PropertyName);
 					break;
@@ -198,7 +198,7 @@ namespace Files.App.Data.Contexts
 			OnPropertyChanged(nameof(CanNavigateToParent));
 			OnPropertyChanged(nameof(CanRefresh));
 			OnPropertyChanged(nameof(CanCreateItem));
-			OnPropertyChanged(nameof(IsMultiPaneEnabled));
+			OnPropertyChanged(nameof(IsMultiPaneAvailable));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
 			OnPropertyChanged(nameof(IsGitRepository));
 			OnPropertyChanged(nameof(CanExecuteGitAction));
