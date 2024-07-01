@@ -206,7 +206,7 @@ namespace Files.App.ViewModels.Settings
 			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip" ];
 			CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 
-			if (filePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+			if (!filePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
 				filePath += ".zip";
 
 			try
