@@ -259,7 +259,10 @@ namespace Files.App.Views
 		/// <inheritdoc/>
 		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
-			AddPane(arrangement);
+			if (GetPaneCount() <= 1)
+			{
+				AddPane(arrangement);
+			}
 
 			NavParamsRight = new()
 			{
