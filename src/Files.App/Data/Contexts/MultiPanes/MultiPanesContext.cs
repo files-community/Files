@@ -105,6 +105,9 @@ namespace Files.App.Data.Contexts
 			_ActivePaneOrColumn = _mainPanesPage?.ActivePaneOrColumn;
 
 			ActivePaneChanged?.Invoke(this, EventArgs.Empty);
+
+			_ShellPaneArrangement = ActivePane?.PaneHolder.ShellPaneArrangement ?? ShellPaneArrangement.Horizontal;
+			ShellPaneArrangementChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
