@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Automation.Provider;
 
 namespace Files.App.UserControls.Sidebar
 {
-	class SidebarViewAutomationPeer : FrameworkElementAutomationPeer, ISelectionProvider
+	public sealed class SidebarViewAutomationPeer : FrameworkElementAutomationPeer, ISelectionProvider
 	{
 		public bool CanSelectMultiple => false;
 		public bool IsSelectionRequired => true;

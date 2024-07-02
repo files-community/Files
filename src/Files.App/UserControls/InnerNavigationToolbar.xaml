@@ -17,7 +17,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///Styles/ToolbarButtonStyle.xaml" />
-				<ResourceDictionary Source="ms-appx:///Styles/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<SolidColorBrush x:Key="CommandBarBackground" Color="Transparent" />

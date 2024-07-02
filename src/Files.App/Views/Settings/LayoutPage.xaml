@@ -17,7 +17,7 @@
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Page.Resources>
