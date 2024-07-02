@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Collections.Immutable;
+
 namespace Files.App.Data.Items
 {
 	/// <summary>
