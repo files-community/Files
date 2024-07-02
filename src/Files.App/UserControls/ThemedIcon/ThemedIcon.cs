@@ -40,6 +40,15 @@ namespace Files.App.UserControls
 				ownerToggleButton.Unchecked += OwnerCheckedChanged;
 			}
 
+			var control = this.FindAscendant<Control>();
+			if (control != null)
+			{
+				control.IsEnabledChanged += (s, e) =>
+				{
+					OnIconStateChanged();
+				};
+			}
+
 			OnToggleChanged(_isToggled);
 			OnFilledIconChanged();
 			OnOutlineIconChanged();
