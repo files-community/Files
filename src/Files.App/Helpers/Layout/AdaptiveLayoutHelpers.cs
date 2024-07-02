@@ -10,20 +10,17 @@ namespace Files.App.Helpers
 {
 	public static class AdaptiveLayoutHelpers
 	{
-		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 		private static ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 		private static IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public static void ApplyAdaptativeLayout(LayoutPreferencesManager folderSettings, string path, IList<ListedItem> filesAndFolders)
+		public static void ApplyAdaptativeLayout(LayoutPreferencesManager folderSettings, IList<ListedItem> filesAndFolders)
 		{
 			if (LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
-				return;
-			if (string.IsNullOrWhiteSpace(path))
 				return;
 			if (folderSettings.IsLayoutModeFixed || !folderSettings.IsAdaptiveLayoutEnabled)
 				return;
 
-			var layout = GetAdaptiveLayout(path, filesAndFolders);
+			var layout = GetAdaptiveLayout(filesAndFolders);
 			switch (layout)
 			{
 				case Layouts.Detail:
@@ -35,16 +32,16 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static Layouts GetAdaptiveLayout(string path, IList<ListedItem> filesAndFolders)
+		private static Layouts GetAdaptiveLayout(IList<ListedItem> filesAndFolders)
 		{
-			var pathLayout = GetPathLayout(path);
+			var pathLayout = GetPathLayout();
 			if (pathLayout is not Layouts.None)
 				return pathLayout;
 
 			return GetContentLayout(filesAndFolders);
 		}
 
-		private static Layouts GetPathLayout(string path)
+		private static Layouts GetPathLayout()
 		{
 			var desktopIni = ContentPageContext.ShellPage!.ShellViewModel.DesktopIni;
 
