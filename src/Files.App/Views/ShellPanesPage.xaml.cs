@@ -463,6 +463,7 @@ namespace Files.App.Views
 			if (childIndex >= RootGrid.Children.Count)
 				return;
 
+			// Left pane is being removed
 			if (childIndex == 0)
 			{
 				var wasMultiPaneActive = IsMultiPaneActive;
@@ -486,9 +487,11 @@ namespace Files.App.Views
 
 					RootGrid.Children[0].SetValue(Grid.ColumnProperty, 0);
 					_NavParamsLeft = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
+					_NavParamsRight = null;
 					ActivePane = GetPane(0);
 				}
 			}
+			// Right pane is being removed
 			else
 			{
 				// Remove sizer and pane
@@ -505,8 +508,11 @@ namespace Files.App.Views
 					RootGrid.RowDefinitions.RemoveAt(childIndex);
 					RootGrid.RowDefinitions.RemoveAt(childIndex);
 				}
+
+				_NavParamsRight = null;
 			}
 
+			Pane_ContentChanged(null, null!);
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
