@@ -41,13 +41,13 @@ namespace Files.App.Data.Contracts
 		/// Adds a new pane with path and pane addition direction if needed.
 		/// </summary>
 		/// <param name="path">The path to open in the new pane.</param>
-		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.Horizontal);
+		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.None);
 
 		/// <summary>
 		/// Arranges panes with the specified arrangement.
 		/// </summary>
 		/// <param name="arrangement">The arrangement to set.</param>
-		public void ArrangePanes(ShellPaneArrangement arrangement = ShellPaneArrangement.Horizontal);
+		public void ArrangePanes(ShellPaneArrangement arrangement = ShellPaneArrangement.None);
 
 		/// <summary>
 		/// Closes the shell active/focused pane.

@@ -249,7 +249,10 @@ namespace Files.App.Views
 			// Open the secondary pane
 			if (IsMultiPaneAvailable &&
 				GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
+			{
 				AddPane();
+				ShellPaneArrangement = GeneralSettingsService.ShellPaneArrangementOption;
+			}
 
 			MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
 		}
@@ -261,7 +264,7 @@ namespace Files.App.Views
 		{
 			if (GetPaneCount() <= 1)
 			{
-				AddPane(arrangement);
+				AddPane(arrangement is ShellPaneArrangement.None ? GeneralSettingsService.ShellPaneArrangementOption : arrangement);
 			}
 
 			NavParamsRight = new()
