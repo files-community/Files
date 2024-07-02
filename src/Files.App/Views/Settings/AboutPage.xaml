@@ -9,6 +9,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
@@ -26,6 +27,165 @@
 					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
+
+			<!--  SAMPLE (REMOVE WHEN GETS MERGED)  -->
+			<StackPanel
+				Padding="24"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
+				CornerRadius="8"
+				Orientation="Vertical"
+				Spacing="12">
+
+				<StackPanel.Resources>
+					<Style
+						x:Key="IconTest"
+						BasedOn="{StaticResource App.ThemedIcons.Properties}"
+						TargetType="uc:ThemedIcon" />
+				</StackPanel.Resources>
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Layered, Filled, Outline" />
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Normal" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<uc:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
+				</StackPanel>
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Disabled" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<uc:ThemedIcon
+						IconType="Layered"
+						IsEnabled="False"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconType="Filled"
+						IsEnabled="False"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconType="Outline"
+						IsEnabled="False"
+						Style="{StaticResource IconTest}" />
+				</StackPanel>
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Contrast" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<uc:ThemedIcon
+						IconType="Layered"
+						Style="{StaticResource IconTest}"
+						UseContrast="True" />
+					<uc:ThemedIcon
+						IconType="Filled"
+						Style="{StaticResource IconTest}"
+						UseContrast="True" />
+					<uc:ThemedIcon
+						IconType="Outline"
+						Style="{StaticResource IconTest}"
+						UseContrast="True" />
+				</StackPanel>
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Success" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<uc:ThemedIcon
+						IconState="Success"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconState="Success"
+						IconType="Filled"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconState="Success"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+				</StackPanel>
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Caution" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<uc:ThemedIcon
+						IconState="Caution"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconState="Caution"
+						IconType="Filled"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconState="Caution"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+				</StackPanel>
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Critical" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<uc:ThemedIcon
+						IconState="Critical"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconState="Critical"
+						IconType="Filled"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconState="Critical"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+				</StackPanel>
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Toggle" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<uc:ThemedIcon
+						IconType="Layered"
+						IsToggled="True"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconType="Filled"
+						IsToggled="True"
+						Style="{StaticResource IconTest}" />
+					<uc:ThemedIcon
+						IconType="Outline"
+						IsToggled="True"
+						Style="{StaticResource IconTest}" />
+				</StackPanel>
+
+				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Auto Toggle" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<ToggleButton
+						Width="32"
+						Height="32"
+						Padding="0"
+						AutomationProperties.Name="TestToggle1"
+						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
+						<uc:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
+					</ToggleButton>
+					<ToggleButton
+						Width="32"
+						Height="32"
+						Padding="0"
+						AutomationProperties.Name="TestToggle2"
+						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
+						<uc:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
+					</ToggleButton>
+					<ToggleButton
+						Width="32"
+						Height="32"
+						Padding="0"
+						AutomationProperties.Name="TestToggle3"
+						IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
+						<uc:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
+					</ToggleButton>
+					<ToggleSwitch x:Name="TestToggleSwitch" AutomationProperties.Name="TestToggleSwitch1" />
+				</StackPanel>
+
+			</StackPanel>
 
 			<!--  Title  -->
 			<TextBlock
