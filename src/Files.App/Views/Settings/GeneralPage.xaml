@@ -200,8 +200,11 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DefaultPaneArrangement}" HorizontalAlignment="Stretch" >
-							<uc:ComboBoxEx/>
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DefaultPaneArrangement}" HorizontalAlignment="Stretch">
+							<uc:ComboBoxEx
+								AutomationProperties.Name="{helpers:ResourceString Name=DefaultPaneArrangement}"
+								ItemsSource="{x:Bind ViewModel.ShellPaneArrangementTypes.Values}"
+								SelectedItem="{x:Bind ViewModel.SelectedShellPaneArrangementType, Mode=TwoWay}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
