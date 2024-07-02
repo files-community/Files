@@ -23,6 +23,7 @@ namespace Files.App.UserControls
 		private bool _isEnabled = true;
 
 		ToggleButton? ownerToggleButton = null;
+		AppBarToggleButton? ownerAppBarToggleButton = null;
 		Control? ownerControl = null;
 
 		private ThemedIconColorType _defaultColorType = ThemedIconColorType.None;
@@ -34,22 +35,7 @@ namespace Files.App.UserControls
 
 		protected override void OnApplyTemplate()
 		{
-			ownerToggleButton = this.FindAscendant<ToggleButton>();
-
-			if (ownerToggleButton != null)
-			{
-				ownerToggleButton.Checked += OwnerCheckedChanged;
-				ownerToggleButton.Unchecked += OwnerCheckedChanged;
-			}
-
-			ownerControl = this.FindAscendant<Control>();
-
-			if (ownerControl != null)
-			{
-				ownerControl.IsEnabledChanged += OwnerControl_IsEnabledChanged;
-			}
-
-			OnToggleChanged(_isToggled);
+			FindOwnerControl();
 			OnFilledIconChanged();
 			OnOutlineIconChanged();
 			OnLayeredIconContentChanged();
@@ -68,13 +54,56 @@ namespace Files.App.UserControls
 			base.OnApplyTemplate();
 		}
 
-		// Code to respond to owner checked changes
-		private void OwnerCheckedChanged(object sender, RoutedEventArgs e)
+
+		private void FindOwnerControl()
 		{
-			if (ownerToggleButton is null)
+			// Check if owner Control is a ToggleButton
+			ownerToggleButton = this.FindAscendant<ToggleButton>();
+
+			if (ownerToggleButton != null)
+			{
+				ownerToggleButton.Checked += OwnerControl_IsCheckedChanged;
+				ownerToggleButton.Unchecked += OwnerControl_IsCheckedChanged;
+
+				OnToggleChanged(ownerToggleButton.IsChecked is true);
+			}
+
+			// Check if owner Control is an AppBarToggleButton
+			ownerAppBarToggleButton = this.FindAscendant<AppBarToggleButton>();
+
+			if (ownerAppBarToggleButton != null)
+			{
+				ownerAppBarToggleButton.Checked += OwnerControl_IsCheckedChanged;
+				ownerAppBarToggleButton.Unchecked += OwnerControl_IsCheckedChanged;
+
+				OnToggleChanged(ownerAppBarToggleButton.IsChecked is true);
+			}
+
+			// Gets the owner Control
+			ownerControl = this.FindAscendant<Control>();
+			if (ownerControl != null)
+			{
+				ownerControl.IsEnabledChanged += OwnerControl_IsEnabledChanged;
+
+				OnEnabledChanged(ownerControl.IsEnabled);
+			}
+		}
+
+
+		// Code to respond to owner checked changes
+		private void OwnerControl_IsCheckedChanged(object sender, RoutedEventArgs e)
+		{
+			if (ownerToggleButton is null && ownerAppBarToggleButton is null)
 				return;
 
-			OnToggleChanged(ownerToggleButton.IsChecked is true);
+			if (ownerToggleButton is not null)
+			{
+				OnToggleChanged(ownerToggleButton.IsChecked is true);
+			}
+			else if (ownerAppBarToggleButton is not null)
+			{
+				OnToggleChanged(ownerAppBarToggleButton.IsChecked is true);
+			}
 		}
 
 		// Code to respond to owner control enabled changes
