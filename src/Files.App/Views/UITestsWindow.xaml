@@ -49,16 +49,16 @@
 					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Selector" />
 
 					<StackPanel Orientation="Horizontal" Spacing="12">
-						<uc:ComboBoxEx
-							x:Name="ThemedIconStyleSelectorComboBox"
-							MinWidth="100"
-							ItemsSource="{x:Bind ThemedIconStyleNames, Mode=OneWay}"
-							SelectedIndex="{x:Bind ThemedIconStyleIndex, Mode=OneWay}" />
-
 						<Button
 							x:Name="SelectionIteratorButton"
 							Click="SelectionIteratorButton_Click"
 							Content="Move next" />
+
+						<uc:ComboBoxEx
+							x:Name="ThemedIconStyleSelectorComboBox"
+							MinWidth="100"
+							ItemsSource="{x:Bind ThemedIconStyleNames, Mode=OneWay}"
+							SelectedIndex="{x:Bind ThemedIconStyleIndex, Mode=TwoWay}" />
 					</StackPanel>
 
 				</StackPanel>
