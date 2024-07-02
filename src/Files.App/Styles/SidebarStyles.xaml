@@ -1,6 +1,4 @@
-﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
-<!--  Licensed under the MIT License.  -->
-
+﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ResourceDictionary
 	x:Class="Files.App.UserControls.Sidebar.SidebarResources"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
