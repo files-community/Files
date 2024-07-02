@@ -18,7 +18,7 @@ namespace Files.App.Services
 			try
 			{
 				lines = SystemIO.File.ReadLines(iniPath)
-					.Where(line => line.StartsWith(';') is false && string.IsNullOrEmpty(line) is false)
+					.Where(line => !line.StartsWith(';') && !string.IsNullOrEmpty(line))
 					.ToList();
 			}
 			catch (UnauthorizedAccessException)
