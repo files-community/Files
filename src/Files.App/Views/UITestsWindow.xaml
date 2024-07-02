@@ -40,154 +40,37 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
+				<!--  Notice  -->
 				<TextBlock FontStyle="Italic" Text="This test UI is provided for ThemedIcons" />
 
+				<!--  Icon Selector  -->
 				<StackPanel Grid.Row="1" Spacing="12">
+
 					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Selector" />
 
-			<Button
-				x:Name="SelectionIteratorButton"
-				Click="SelectionIteratorButton_Click"
-				Content="Move next" />
-		</StackPanel>
+					<StackPanel Orientation="Horizontal" Spacing="12">
+						<uc:ComboBoxEx
+							x:Name="ThemedIconStyleSelectorComboBox"
+							MinWidth="100"
+							ItemsSource="{x:Bind ThemedIconStyleNames, Mode=OneWay}"
+							SelectedIndex="{x:Bind ThemedIconStyleIndex, Mode=OneWay}" />
 
-		<ScrollViewer Grid.Row="2">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				
-				<StackPanel
-					Grid.Column="0"
-					Padding="24"
-					CornerRadius="8"
-					Orientation="Vertical"
-					Spacing="12">
-				
-
-					
-
-					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="(Layered, Filled, Outline)" />
-
-					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Normal" />
-
-					<StackPanel Orientation="Horizontal" Spacing="16">
-						<uc:ThemedIcon IconType="Layered" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon IconType="Filled" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon IconType="Outline" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+						<Button
+							x:Name="SelectionIteratorButton"
+							Click="SelectionIteratorButton_Click"
+							Content="Move next" />
 					</StackPanel>
 
-					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Disabled" />
-
-					<StackPanel Orientation="Horizontal" Spacing="16">
-						<uc:ThemedIcon
-							IconType="Layered"
-							IsEnabled="False"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconType="Filled"
-							IsEnabled="False"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconType="Outline"
-							IsEnabled="False"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-					</StackPanel>
-
-					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Contrast" />
-
-					<StackPanel Orientation="Horizontal" Spacing="16">
-						<uc:ThemedIcon
-							IconType="Layered"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}"
-							UseContrast="True" />
-						<uc:ThemedIcon
-							IconType="Filled"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}"
-							UseContrast="True" />
-						<uc:ThemedIcon
-							IconType="Outline"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}"
-							UseContrast="True" />
-					</StackPanel>
-
-					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Success" />
-
-					<StackPanel Orientation="Horizontal" Spacing="16">
-						<uc:ThemedIcon
-							IconState="Success"
-							IconType="Layered"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconState="Success"
-							IconType="Filled"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconState="Success"
-							IconType="Outline"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-					</StackPanel>
-
-					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Caution" />
-
-					<StackPanel Orientation="Horizontal" Spacing="16">
-						<uc:ThemedIcon
-							IconState="Caution"
-							IconType="Layered"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconState="Caution"
-							IconType="Filled"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconState="Caution"
-							IconType="Outline"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-					</StackPanel>
-
-					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Critical" />
-
-					<StackPanel Orientation="Horizontal" Spacing="16">
-						<uc:ThemedIcon
-							IconState="Critical"
-							IconType="Layered"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconState="Critical"
-							IconType="Filled"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconState="Critical"
-							IconType="Outline"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-					</StackPanel>
-
-					<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Toggle" />
-
-					<StackPanel Orientation="Horizontal" Spacing="16">
-						<uc:ThemedIcon
-							IconType="Layered"
-							IsToggled="True"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconType="Filled"
-							IsToggled="True"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-						<uc:ThemedIcon
-							IconType="Outline"
-							IsToggled="True"
-							Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-					</StackPanel>
 				</StackPanel>
 
+				<!--  Main View  -->
 				<Grid Grid.Row="2" ColumnSpacing="100">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
+					<!--  Single  -->
 					<StackPanel Grid.Column="0" Spacing="12">
 
 						<TextBlock><Run FontWeight="Medium">Normal</Run>
@@ -308,6 +191,7 @@
 						</StackPanel>
 					</StackPanel>
 
+					<!--  On a Control  -->
 					<StackPanel Grid.Column="1" Spacing="12">
 
 						<TextBlock><Run FontWeight="Medium">On ToggleButton</Run>
@@ -392,28 +276,9 @@
 						</StackPanel>
 
 					</StackPanel>
+
 				</Grid>
 
-					<TextBlock
-						Margin="0,16,0,0"
-						Style="{StaticResource BodyStrongTextBlockStyle}"
-						Text="Add more examples" />
-
-					<StackPanel Orientation="Horizontal" Spacing="16">
-
-						<DropDownButton Content="Menu Flyout Example">
-							<DropDownButton.Flyout>
-								<MenuFlyout Placement="Bottom">
-									<uc:MenuFlyoutItemWithThemedIcon Text="Menu item" ThemedIconStyle="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-									<uc:MenuFlyoutItemWithThemedIcon IsEnabled="False" Text="Disabled menu item" ThemedIconStyle="{x:Bind ThemedIconStyle, Mode=OneWay}" />
-									<ToggleMenuFlyoutItem IsChecked="True" Text="Toggled menu item" />
-								</MenuFlyout>
-							</DropDownButton.Flyout>
-						</DropDownButton>
-
-					</StackPanel>
-
-				</StackPanel>
 			</Grid>
 		</ScrollViewer>
 
