@@ -10,6 +10,6 @@ namespace Files.App.Data.Items
 	{
 		public string SectionName { get; set; } = "";
 
-		public Dictionary<string, string>? Parameters { get; set; }
+		public IDictionary<string, string> Parameters { get; set; } = ImmutableDictionary<string, string>.Empty;
 	}
 }
