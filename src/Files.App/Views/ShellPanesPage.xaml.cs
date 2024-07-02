@@ -239,6 +239,8 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
+			ShellPaneArrangement = GeneralSettingsService.ShellPaneArrangementOption;
+
 			// Initialize the default pane
 			AddPane();
 
@@ -249,10 +251,7 @@ namespace Files.App.Views
 			// Open the secondary pane
 			if (IsMultiPaneAvailable &&
 				GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
-			{
 				AddPane();
-				ShellPaneArrangement = GeneralSettingsService.ShellPaneArrangementOption;
-			}
 
 			MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
 		}
@@ -564,7 +563,8 @@ namespace Files.App.Views
 				};
 
 				// Creates new pane
-				if (IsMultiPaneAvailable &&
+				if (GetPaneCount() is 1 &&
+					IsMultiPaneAvailable &&
 					paneArgs.RightPaneNavPathParam is not null)
 					AddPane();
 
