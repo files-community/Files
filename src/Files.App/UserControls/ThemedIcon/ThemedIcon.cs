@@ -207,14 +207,28 @@ namespace Files.App.UserControls
 			if (IsEnabled is false)
 			{
 				if (IconType == ThemedIconTypes.Layered)
-					VisualStateManager.GoToState(this, OutlineTypeStateName, true);
+					if (_isToggled)
+					{
+						VisualStateManager.GoToState(this, FilledTypeStateName, true);
+					}
+					else
+					{
+						VisualStateManager.GoToState(this, OutlineTypeStateName, true);
+					}
 
 				VisualStateManager.GoToState(this, NotEnabledStateName, true);
 			}
 			else if (_isEnabled is false)
 			{
 				if (IconType == ThemedIconTypes.Layered)
-					VisualStateManager.GoToState(this, OutlineTypeStateName, true);
+					if (_isToggled)
+					{
+						VisualStateManager.GoToState(this, FilledTypeStateName, true);
+					}
+					else
+					{
+						VisualStateManager.GoToState(this, OutlineTypeStateName, true);
+					}
 
 				VisualStateManager.GoToState(this, NotEnabledStateName, true);
 			}
