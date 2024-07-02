@@ -1818,7 +1818,7 @@ namespace Files.App.ViewModels
 
 			// Image source
 			var backgroundImage = filesAppSection.Parameters?.FirstOrDefault(x => x.Key == "Files_BackgroundImage").Value;
-			if (string.IsNullOrEmpty(backgroundImage) is true)
+			if (string.IsNullOrEmpty(backgroundImage))
 			{
 				FolderBackgroundImageSource = null;
 				return;

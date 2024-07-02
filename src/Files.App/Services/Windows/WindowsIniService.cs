@@ -10,7 +10,7 @@ namespace Files.App.Services
 		public List<IniSectionDataItem> GetData(string filePath)
 		{
 			var iniPath = SystemIO.Path.Combine(filePath);
-			if (SystemIO.File.Exists(iniPath) is false)
+			if (!SystemIO.File.Exists(iniPath))
 				return [];
 
 			var lines = Enumerable.Empty<string>().ToList();
@@ -18,7 +18,7 @@ namespace Files.App.Services
 			try
 			{
 				lines = SystemIO.File.ReadLines(iniPath)
-					.Where(line => line.StartsWith(';') is false && string.IsNullOrEmpty(line) is false)
+					.Where(line => !line.StartsWith(';') && !string.IsNullOrEmpty(line))
 					.ToList();
 			}
 			catch (UnauthorizedAccessException)
