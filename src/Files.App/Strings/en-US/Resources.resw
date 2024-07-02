@@ -3893,4 +3893,13 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Arrange panes</value>
   </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Default pane arrangement</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
 </root>
