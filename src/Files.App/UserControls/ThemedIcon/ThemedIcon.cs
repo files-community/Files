@@ -91,11 +91,6 @@ namespace Files.App.UserControls
 			if (GetTemplateChild(FilledPathIconViewBox) is not Viewbox filledViewBox)
 				return;
 
-			filledViewBox.Visibility =
-				string.IsNullOrEmpty(FilledIconData)
-					? Visibility.Collapsed
-					: Visibility.Visible;
-
 			SetPathData(FilledIconPath, FilledIconData ?? string.Empty, filledViewBox);
 		}
 
@@ -103,11 +98,6 @@ namespace Files.App.UserControls
 		{
 			if (GetTemplateChild(OutlinePathIconViewBox) is not Viewbox outlineViewBox)
 				return;
-
-			outlineViewBox.Visibility =
-				string.IsNullOrEmpty(OutlineIconData)
-					? Visibility.Collapsed
-					: Visibility.Visible;
 
 			SetPathData(OutlineIconPath, OutlineIconData ?? string.Empty, outlineViewBox);
 		}
@@ -118,11 +108,6 @@ namespace Files.App.UserControls
 				GetTemplateChild(LayeredPathCanvas) is not Canvas canvas ||
 				Layers is not ICollection<ThemedIconLayer> layers)
 				return;
-
-			layeredViewBox.Visibility =
-				layers.IsEmpty()
-					? Visibility.Collapsed
-					: Visibility.Visible;
 
 			foreach (var layer in layers)
 			{

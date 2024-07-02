@@ -39,7 +39,7 @@
 				<StackPanel.Resources>
 					<Style
 						x:Key="IconTest"
-						BasedOn="{StaticResource App.ThemedIcons.MoveTo}"
+						BasedOn="{StaticResource App.ThemedIcons.Properties}"
 						TargetType="uc:ThemedIcon" />
 				</StackPanel.Resources>
 
