@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -67,6 +68,21 @@ namespace Files.App.Views
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		private void ButtonTestEnabledStates_Click(object sender, RoutedEventArgs e)
+		{
+			if(AppBarButtonDisable.IsEnabled)
+				AppBarButtonDisable.IsEnabled = false;
+			else if(!AppBarButtonDisable.IsEnabled)
+				AppBarButtonDisable.IsEnabled = true;
+
+			if (AppBarButtonDisable2.IsEnabled)
+				AppBarButtonDisable2.IsEnabled = false;
+			else if (!AppBarButtonDisable2.IsEnabled)
+				AppBarButtonDisable2.IsEnabled = true;
+
+
 		}
 	}
 }

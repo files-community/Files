@@ -232,27 +232,58 @@
 
 							<AppBarButton Label="Layered" LabelPosition="Default">
 								<AppBarButton.Content>
-									<uc:ThemedIcon Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+									<uc:ThemedIcon IconType="Layered" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
 								</AppBarButton.Content>
 							</AppBarButton>
 
 							<AppBarToggleButton
 								IsChecked="True"
-								Label="Toggle"
+								Label="Layered Toggle"
 								LabelPosition="Default">
 								<AppBarToggleButton.Content>
-									<uc:ThemedIcon Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+									<uc:ThemedIcon IconType="Layered" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
 								</AppBarToggleButton.Content>
 							</AppBarToggleButton>
 
 							<AppBarButton
+								x:Name="AppBarButtonDisable"
 								IsEnabled="False"
 								Label="Disabled"
 								LabelPosition="Default">
 								<AppBarButton.Content>
-									<uc:ThemedIcon Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+									<uc:ThemedIcon IconType="Layered" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
 								</AppBarButton.Content>
 							</AppBarButton>
+
+							<AppBarButton Label="Outline" LabelPosition="Default">
+								<AppBarButton.Content>
+									<uc:ThemedIcon IconType="Outline" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+								</AppBarButton.Content>
+							</AppBarButton>
+
+							<AppBarToggleButton
+								IsChecked="True"
+								Label="Outline Toggle"
+								LabelPosition="Default">
+								<AppBarToggleButton.Content>
+									<uc:ThemedIcon  IconType="Outline" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+								</AppBarToggleButton.Content>
+							</AppBarToggleButton>
+
+							<AppBarButton
+								x:Name="AppBarButtonDisable2"
+								IsEnabled="False"
+								Label="Outline Disabled"
+								LabelPosition="Default">
+								<AppBarButton.Content>
+									<uc:ThemedIcon IconType="Outline" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+								</AppBarButton.Content>
+							</AppBarButton>
+
+							<Button
+								x:Name="ButtonTestEnabledStates"
+								Click="ButtonTestEnabledStates_Click"
+								Content="Check Enabled State" />
 
 						</StackPanel>
 

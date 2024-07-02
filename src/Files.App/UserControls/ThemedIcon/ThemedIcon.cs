@@ -20,8 +20,10 @@ namespace Files.App.UserControls
 
 		private bool _isHighContrast = false;
 		private bool _isToggled = false;
+		private bool _isEnabled = true;
 
 		ToggleButton? ownerToggleButton = null;
+		Control? ownerControl = null;
 
 		private ThemedIconColorType _defaultColorType = ThemedIconColorType.None;
 
@@ -40,13 +42,11 @@ namespace Files.App.UserControls
 				ownerToggleButton.Unchecked += OwnerCheckedChanged;
 			}
 
-			var control = this.FindAscendant<Control>();
-			if (control != null)
+			ownerControl = this.FindAscendant<Control>();
+
+			if (ownerControl != null)
 			{
-				control.IsEnabledChanged += (s, e) =>
-				{
-					OnIconStateChanged();
-				};
+				ownerControl.IsEnabledChanged += OwnerControl_IsEnabledChanged;
 			}
 
 			OnToggleChanged(_isToggled);
@@ -77,10 +77,28 @@ namespace Files.App.UserControls
 			OnToggleChanged(ownerToggleButton.IsChecked is true);
 		}
 
+		// Code to respond to owner control enabled changes
+		private void OwnerControl_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (ownerControl is null)
+				return;
+
+			OnEnabledChanged(ownerControl.IsEnabled);
+		}
+
 		// Code for handling the IsToggled property change.
 		private void OnToggleChanged(bool value)
 		{	
 			_isToggled = value;
+
+			OnIconTypeChanged();
+			OnIconStateChanged();
+		}
+
+		// Code for handling the IsToggled property change.
+		private void OnEnabledChanged(bool value)
+		{
+			_isEnabled = value;
 
 			OnIconTypeChanged();
 			OnIconStateChanged();
@@ -157,12 +175,23 @@ namespace Files.App.UserControls
 			}
 
 			// If the Icon is disabled, switch from Layered to Outline Visual State.
-			if (!IsEnabled)
+			if (IsEnabled is false)
 			{
 				if (IconType == ThemedIconTypes.Layered)
 					VisualStateManager.GoToState(this, OutlineTypeStateName, true);
 
 				VisualStateManager.GoToState(this, NotEnabledStateName, true);
+			}
+			else if (_isEnabled is false)
+			{
+				if (IconType == ThemedIconTypes.Layered)
+					VisualStateManager.GoToState(this, OutlineTypeStateName, true);
+
+				VisualStateManager.GoToState(this, NotEnabledStateName, true);
+			}
+			else 
+			{
+				VisualStateManager.GoToState(this, EnabledStateName, true);
 			}
 		}
 
