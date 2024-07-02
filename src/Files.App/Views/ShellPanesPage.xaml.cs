@@ -262,16 +262,9 @@ namespace Files.App.Views
 		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
 			if (GetPaneCount() <= 1)
-			{
 				AddPane(arrangement is ShellPaneArrangement.None ? GeneralSettingsService.ShellPaneArrangementOption : arrangement);
-			}
 
-			NavParamsRight = new()
-			{
-				NavPath = string.IsNullOrEmpty(path)
-					? GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty
-					: path
-			};
+			NavParamsRight = new() { NavPath = string.IsNullOrEmpty(path) ? "Home" : path };
 		}
 
 		/// <inheritdoc/>
