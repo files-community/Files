@@ -10,14 +10,8 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public class IniSectionDataItem
 	{
-		/// <summary>
-		/// Gets or sets the name of this item's section.
-		/// </summary>
 		public string SectionName { get; set; } = "";
 
-		/// <summary>
-		/// Gets or sets all parameters available in the section.
-		/// </summary>
 		public IDictionary<string, string> Parameters { get; set; } = ImmutableDictionary<string, string>.Empty;
 	}
 }
