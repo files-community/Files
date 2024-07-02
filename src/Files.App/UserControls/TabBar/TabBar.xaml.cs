@@ -27,10 +27,14 @@ namespace Files.App.UserControls.TabBar
 
 		private bool _lockDropOperation = false;
 
+		// Starting position when dragging a tab
 		private System.Drawing.Point dragStartPoint;
 
+		// Starting time when dragging a tab
 		private DateTimeOffset dragStartTime;
 
+		// Indicates if drag operation should be canceled.
+		// This value gets reset at the start of the drag operation
 		private bool isCancelingDragOperation;
 
 		//private string[] _droppableArchiveTypes = { "zip", "rar", "7z", "tar" };
