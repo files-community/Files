@@ -18,6 +18,8 @@
 				<Setter Target="Background" Value="Transparent" />
 				<Setter Target="Opacity" Value="0" />
 				<Setter Target="ResizeBehavior" Value="BasedOnAlignment" />
+				<Setter Target="HorizontalAlignment" Value="Stretch" />
+				<Setter Target="VerticalAlignment" Value="Stretch" />
 			</Style>
 		</ResourceDictionary>
 	</Page.Resources>

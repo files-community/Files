@@ -214,5 +214,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating a random user ID.
 		/// </summary>
 		string UserId { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default arrangement for Dual Pane.
+		/// </summary>
+		ShellPaneArrangement ShellPaneArrangementOption { get; set; }
 	}
 }

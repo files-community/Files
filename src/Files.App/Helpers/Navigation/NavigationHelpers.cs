@@ -105,7 +105,12 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					result = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+					result = await GetSelectedTabInfoAsync(
+						string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam)
+							? string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam)
+								? string.Empty
+								: paneArgs.RightPaneNavPathParam
+							: paneArgs.LeftPaneNavPathParam);
 				}
 			}
 			else if (navigationArg is string pathArgs)

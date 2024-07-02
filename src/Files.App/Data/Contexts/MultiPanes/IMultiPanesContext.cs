@@ -19,6 +19,11 @@ namespace Files.App.Data.Contexts
 		event EventHandler? ActivePaneChanged;
 
 		/// <summary>
+		/// Invoked when shell pane arrangement is changed.
+		/// </summary>
+		event EventHandler? ShellPaneArrangementChanged;
+
+		/// <summary>
 		/// Gets active pane.
 		/// </summary>
 		IShellPage? ActivePane { get; }
@@ -27,5 +32,10 @@ namespace Files.App.Data.Contexts
 		/// Gets active pane or column.
 		/// </summary>
 		IShellPage? ActivePaneOrColumn { get; }
+
+		/// <summary>
+		/// Gets current shell pane arrangement.
+		/// </summary>
+		ShellPaneArrangement ShellPaneArrangement { get; }
 	}
 }

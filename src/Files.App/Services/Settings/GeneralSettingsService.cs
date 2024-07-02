@@ -267,6 +267,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public ShellPaneArrangement ShellPaneArrangementOption
+		{
+			get => (ShellPaneArrangement)Get((long)ShellPaneArrangement.Horizontal);
+			set => Set((long)value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

@@ -12,11 +12,14 @@ using Windows.Win32;
 
 namespace Files.App.UserControls.TabBar
 {
-	public sealed partial class TabBar : BaseTabBar
+	public sealed partial class TabBar : BaseTabBar, INotifyPropertyChanged
 	{
-		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
+		// Dependency injections
 
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+
+		// Fields
 
 		private readonly DispatcherTimer tabHoverTimer = new();
 
@@ -24,20 +27,22 @@ namespace Files.App.UserControls.TabBar
 
 		private bool _lockDropOperation = false;
 
+		// Starting position when dragging a tab
+		private System.Drawing.Point dragStartPoint;
+
+		// Starting time when dragging a tab
+		private DateTimeOffset dragStartTime;
+
+		// Indicates if drag operation should be canceled.
+		// This value gets reset at the start of the drag operation
+		private bool isCancelingDragOperation;
+
 		//private string[] _droppableArchiveTypes = { "zip", "rar", "7z", "tar" };
 
-		public static readonly DependencyProperty FooterElementProperty =
-			DependencyProperty.Register(
-				nameof(FooterElement),
-				typeof(UIElement),
-				typeof(TabBar),
-				new PropertyMetadata(null));
+		// Properties
 
-		public UIElement FooterElement
-		{
-			get => (UIElement)GetValue(FooterElementProperty);
-			set => SetValue(FooterElementProperty, value);
-		}
+		public bool ShowTabActionsButton
+			=> AppearanceSettingsService.ShowTabActions;
 
 		// Dragging makes the app crash when run as admin.
 		// For more information:
@@ -49,17 +54,11 @@ namespace Files.App.UserControls.TabBar
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
-		/// <summary> Starting position when dragging a tab.</summary>
-		private System.Drawing.Point dragStartPoint;
+		// Events
 
-		/// <summary> Starting time when dragging a tab. </summary>
-		private DateTimeOffset dragStartTime;
+		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
 
-		/// <summary>
-		/// Indicates if drag operation should be canceled.
-		/// This value gets reset at the start of the drag operation
-		/// </summary>
-		private bool isCancelingDragOperation;
+		// Constructor
 
 		public TabBar()
 		{
@@ -76,6 +75,16 @@ namespace Files.App.UserControls.TabBar
 					: appWindow.TitleBar.RightInset;
 
 			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.ShowTabActions):
+						NotifyPropertyChanged(nameof(ShowTabActionsButton));
+						break;
+				}
+			};
 		}
 
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)

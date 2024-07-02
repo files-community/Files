@@ -97,7 +97,7 @@ namespace Files.App.UserControls.TabBar
 				TabItemContent.ContentChanged += TabItemContent_ContentChanged;
 		}
 
-		private void TabItemContent_ContentChanged(object sender, TabBarItemParameter e)
+		private void TabItemContent_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			_NavigationArguments = e;
 			ContentChanged?.Invoke(this, e);

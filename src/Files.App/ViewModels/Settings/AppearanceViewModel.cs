@@ -2,12 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System.Windows.Input;
-using Windows.Storage.Pickers;
-using Windows.UI.WindowManagement;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -285,6 +282,20 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.AppearanceSettingsService.ShowToolbar)
 				{
 					UserSettingsService.AppearanceSettingsService.ShowToolbar = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowTabActions
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowTabActions;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowTabActions)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowTabActions = value;
 
 					OnPropertyChanged();
 				}

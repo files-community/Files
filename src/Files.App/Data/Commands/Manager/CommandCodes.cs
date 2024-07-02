@@ -186,10 +186,14 @@ namespace Files.App.Data.Commands
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
-		OpenNewPane,
+
+		// Shell Panes
 		CloseActivePane,
-		FocusLeftPane,
-		FocusRightPane,
+		FocusOtherPane,
+		AddVerticalPane,
+		AddHorizontalPane,
+		ArrangePanesVertically,
+		ArrangePanesHorizontally,
 
 		// OpenInNew
 		OpenInNewPane,

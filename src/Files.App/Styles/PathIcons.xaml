@@ -123,6 +123,8 @@
 
 			<x:String x:Key="App.Theme.PathIcon.WebAsset">M 4.9219 18.75 C 4.4336 18.75 3.9665 18.6507 3.5205 18.4521 C 3.0745 18.2536 2.6839 17.9867 2.3486 17.6514 C 2.0133 17.3161 1.7464 16.9255 1.5479 16.4795 C 1.3493 16.0335 1.25 15.5664 1.25 15.0781 L 1.25 4.9219 C 1.25 4.4336 1.3493 3.9665 1.5479 3.5205 C 1.7464 3.0745 2.0133 2.6839 2.3486 2.3486 C 2.6839 2.0133 3.0745 1.7464 3.5205 1.5479 C 3.9665 1.3493 4.4336 1.25 4.9219 1.25 L 15.0781 1.25 C 15.5664 1.25 16.0335 1.3493 16.4795 1.5479 C 16.9255 1.7464 17.3161 2.0133 17.6514 2.3486 C 17.9867 2.6839 18.2536 3.0745 18.4521 3.5205 C 18.6507 3.9665 18.75 4.4336 18.75 4.9219 L 18.75 15.0781 C 18.75 15.5664 18.6507 16.0335 18.4521 16.4795 C 18.2536 16.9255 17.9867 17.3161 17.6514 17.6514 C 17.3161 17.9867 16.9255 18.2536 16.4795 18.4521 C 16.0335 18.6507 15.5664 18.75 15.0781 18.75 Z M 15.0488 17.5 C 15.3743 17.5 15.6852 17.4333 15.9814 17.2998 C 16.2777 17.1663 16.5381 16.9873 16.7627 16.7627 C 16.9873 16.5381 17.1663 16.2777 17.2998 15.9814 C 17.4333 15.6852 17.5 15.3743 17.5 15.0488 L 17.5 4.9512 C 17.5 4.6257 17.4333 4.3148 17.2998 4.0186 C 17.1663 3.7223 16.9873 3.4619 16.7627 3.2373 C 16.5381 3.0127 16.2777 2.8337 15.9814 2.7002 C 15.6852 2.5667 15.3743 2.5 15.0488 2.5 L 4.9512 2.5 C 4.6257 2.5 4.3148 2.5667 4.0186 2.7002 C 3.7223 2.8337 3.4619 3.0127 3.2373 3.2373 C 3.0127 3.4619 2.8337 3.7223 2.7002 4.0186 C 2.5667 4.3148 2.5 4.6257 2.5 4.9512 L 2.5 15.0488 C 2.5 15.3743 2.5667 15.6852 2.7002 15.9814 C 2.8337 16.2777 3.0127 16.5381 3.2373 16.7627 C 3.4619 16.9873 3.7223 17.1663 4.0186 17.2998 C 4.3148 17.4333 4.6257 17.5 4.9512 17.5 Z M 5.625 6.25 C 5.4557 6.25 5.3092 6.1882 5.1855 6.0645 C 5.0618 5.9408 5 5.7943 5 5.625 C 5 5.4557 5.0618 5.3092 5.1855 5.1855 C 5.3092 5.0618 5.4557 5 5.625 5 L 14.375 5 C 14.5443 5 14.6908 5.0618 14.8145 5.1855 C 14.9382 5.3092 15 5.4557 15 5.625 C 15 5.7943 14.9382 5.9408 14.8145 6.0645 C 14.6908 6.1882 14.5443 6.25 14.375 6.25 Z Z Z</x:String>
 
+			<x:String x:Key="App.Theme.PathIcon.TabActions">M3.2 0C1.43269 0 0 1.43269 0 3.2V12.8C0 14.5673 1.43269 16 3.2 16H12.8C14.5673 16 16 14.5673 16 12.8V3.2C16 1.43269 14.5673 0 12.8 0H3.2ZM1.06667 3.2C1.06667 2.02179 2.02179 1.06667 3.2 1.06667H12.8C13.9782 1.06667 14.9333 2.02179 14.9333 3.2V4.26667H5.86667C4.98301 4.26667 4.26667 4.98301 4.26667 5.86667V14.9333H3.2C2.02179 14.9333 1.06667 13.9782 1.06667 12.8V3.2ZM5.33333 14.9333H12.8C13.9782 14.9333 14.9333 13.9782 14.9333 12.8V5.33333H5.86667C5.57212 5.33333 5.33333 5.57212 5.33333 5.86667V14.9333Z</x:String>
+
 			<Style x:Key="ColorIconStatusCenter" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
@@ -215,6 +217,90 @@
 										x:Name="Path2"
 										Data="M3.5 12C3.22386 12 3 12.2239 3 12.5C3 12.7761 3.22386 13 3.5 13H12.5C12.7761 13 13 12.7761 13 12.5C13 12.2239 12.7761 12 12.5 12H3.5Z"
 										Fill="{ThemeResource TextFillColorTertiaryBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIconPaneFull" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M0.5 3C0.5 1.61929 1.61929 0.5 3 0.5H12C13.3807 0.5 14.5 1.61929 14.5 3V12C14.5 13.3807 13.3807 14.5 12 14.5H3C1.61929 14.5 0.5 13.3807 0.5 12V3Z"
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M3 0C1.34315 0 0 1.34315 0 3V12C0 13.6569 1.34315 15 3 15H12C13.6569 15 15 13.6569 15 12V3C15 1.34315 13.6569 0 12 0H3ZM1 3C1 1.89543 1.89543 1 3 1H12C13.1046 1 14 1.89543 14 3V4H5.5C4.67157 4 4 4.67157 4 5.5V14H3C1.89543 14 1 13.1046 1 12V3ZM5 14H12C13.1046 14 14 13.1046 14 12V5H5.5C5.22386 5 5 5.22386 5 5.5V14Z"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIconAddHorizontalPane" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M0.5 3C0.5 1.61929 1.61929 0.5 3 0.5H12C13.3807 0.5 14.5 1.61929 14.5 3V12C14.5 13.3807 13.3807 14.5 12 14.5H3C1.61929 14.5 0.5 13.3807 0.5 12V3Z"
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M3 0C1.34315 0 0 1.34315 0 3V12C0 13.6569 1.34315 15 3 15H12C13.6569 15 15 13.6569 15 12V3C15 1.34315 13.6569 0 12 0H3ZM1 3C1 1.89543 1.89543 1 3 1H7L7 14H3C1.89543 14 1 13.1046 1 12V3ZM8 14H12C13.1046 14 14 13.1046 14 12V3C14 1.89543 13.1046 1 12 1H8L8 14Z"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIconAddVerticalPane" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M0.5 3C0.5 1.61929 1.61929 0.5 3 0.5H12C13.3807 0.5 14.5 1.61929 14.5 3V12C14.5 13.3807 13.3807 14.5 12 14.5H3C1.61929 14.5 0.5 13.3807 0.5 12V3Z"
+										Fill="{ThemeResource App.Theme.IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M3 0C1.34315 0 0 1.34315 0 3V12C0 13.6569 1.34315 15 3 15H12C13.6569 15 15 13.6569 15 12V3C15 1.34315 13.6569 0 12 0H3ZM1 3C1 1.89543 1.89543 1 3 1H12C13.1046 1 14 1.89543 14 3V7L1 7V3ZM1 8V12C1 13.1046 1.89543 14 3 14H12C13.1046 14 14 13.1046 14 12V8L1 8Z"
+										Fill="{ThemeResource App.Theme.IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
