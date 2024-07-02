@@ -10,7 +10,7 @@
 
 			<!--  Empty  -->
 			<Style
-				x:Name="TIcon_Empty"
+				x:Key="App.ThemedIcons.Empty"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -35,7 +35,7 @@
 
 			<!--#region  Common Icons-->
 			<Style
-				x:Name="TIcon_NavForward"
+				x:Key="App.ThemedIcons.NavForward"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -56,7 +56,7 @@
 
 
 			<Style
-				x:Name="TIcon_NavUp"
+				x:Key="App.ThemedIcons.NavUp"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -77,7 +77,7 @@
 
 
 			<Style
-				x:Name="TIcon_NavBack"
+				x:Key="App.ThemedIcons.NavBack"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -98,7 +98,7 @@
 
 
 			<Style
-				x:Name="TIcon_Refresh"
+				x:Key="App.ThemedIcons.Refresh"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -119,7 +119,7 @@
 
 
 			<Style
-				x:Name="TIcon_Cut"
+				x:Key="App.ThemedIcons.Cut"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -141,7 +141,7 @@
 
 
 			<Style
-				x:Name="TIcon_Copy"
+				x:Key="App.ThemedIcons.Copy"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -168,7 +168,7 @@
 
 
 			<Style
-				x:Name="TIcon_Paste"
+				x:Key="App.ThemedIcons.Paste"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -195,7 +195,7 @@
 
 
 			<Style
-				x:Name="TIcon_PasteShortcut"
+				x:Key="App.ThemedIcons.PasteShortcut"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -219,7 +219,7 @@
 
 
 			<Style
-				x:Name="TIcon_CopyAsPath"
+				x:Key="App.ThemedIcons.CopyAsPath"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -242,7 +242,7 @@
 
 
 			<Style
-				x:Name="TIcon_Rename"
+				x:Key="App.ThemedIcons.Rename"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -265,7 +265,7 @@
 
 
 			<Style
-				x:Name="TIcon_Delete"
+				x:Key="App.ThemedIcons.Delete"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -288,7 +288,7 @@
 
 
 			<Style
-				x:Name="TIcon_RestoreDeleted"
+				x:Key="App.ThemedIcons.RestoreDeleted"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -312,7 +312,7 @@
 
 
 			<Style
-				x:Name="TIcon_SelectAll"
+				x:Key="App.ThemedIcons.SelectAll"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -338,7 +338,7 @@
 
 
 			<Style
-				x:Name="TIcon_SelectNone"
+				x:Key="App.ThemedIcons.SelectNone"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -360,7 +360,7 @@
 
 
 			<Style
-				x:Name="TIcon_SelectInvert"
+				x:Key="App.ThemedIcons.SelectInvert"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -387,7 +387,7 @@
 
 
 			<Style
-				x:Name="TIcon_SelectMode"
+				x:Key="App.ThemedIcons.SelectMode"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -415,7 +415,7 @@
 
 
 			<Style
-				x:Name="TIcon_SelectMultiple"
+				x:Key="App.ThemedIcons.SelectMultiple"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -437,7 +437,7 @@
 
 
 			<Style
-				x:Name="TIcon_Info"
+				x:Key="App.ThemedIcons.Info"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -460,7 +460,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties"
+				x:Key="App.ThemedIcons.Properties"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -482,7 +482,7 @@
 
 
 			<Style
-				x:Name="TIcon_TagEdit"
+				x:Key="App.ThemedIcons.TagEdit"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -505,7 +505,7 @@
 
 
 			<Style
-				x:Name="TIcon_Tag"
+				x:Key="App.ThemedIcons.Tag"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -527,7 +527,7 @@
 
 
 			<Style
-				x:Name="TIcon_TagMultiple"
+				x:Key="App.ThemedIcons.TagMultiple"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -549,7 +549,7 @@
 
 
 			<Style
-				x:Name="TIcon_CompactOverlay"
+				x:Key="App.ThemedIcons.CompactOverlay"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -575,7 +575,7 @@
 
 
 			<Style
-				x:Name="TIcon_CompactOverlayExit"
+				x:Key="App.ThemedIcons.CompactOverlayExit"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -601,7 +601,7 @@
 
 
 			<Style
-				x:Name="TIcon_Share"
+				x:Key="App.ThemedIcons.Share"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -627,7 +627,7 @@
 
 
 			<Style
-				x:Name="TIcon_File"
+				x:Key="App.ThemedIcons.File"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -649,7 +649,7 @@
 
 
 			<Style
-				x:Name="TIcon_Folder"
+				x:Key="App.ThemedIcons.Folder"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -675,7 +675,7 @@
 
 
 			<Style
-				x:Name="TIcon_Zip"
+				x:Key="App.ThemedIcons.Zip"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -702,7 +702,7 @@
 
 
 			<Style
-				x:Name="TIcon_Shortcut"
+				x:Key="App.ThemedIcons.Shortcut"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -725,7 +725,7 @@
 
 
 			<Style
-				x:Name="TIcon_URL"
+				x:Key="App.ThemedIcons.URL"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -748,7 +748,7 @@
 
 
 			<Style
-				x:Name="TIcon_CopyTo"
+				x:Key="App.ThemedIcons.CopyTo"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -772,7 +772,7 @@
 
 
 			<Style
-				x:Name="TIcon_MoveTo"
+				x:Key="App.ThemedIcons.MoveTo"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -800,7 +800,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings"
+				x:Key="App.ThemedIcons.Settings"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -823,7 +823,7 @@
 
 
 			<Style
-				x:Name="TIcon_More"
+				x:Key="App.ThemedIcons.More"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -845,7 +845,7 @@
 
 			<!--#region New Icons-->
 			<Style
-				x:Name="TIcon_New_Item"
+				x:Key="App.ThemedIcons.New_Item"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -868,7 +868,7 @@
 
 
 			<Style
-				x:Name="TIcon_New_File"
+				x:Key="App.ThemedIcons.New_File"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -892,7 +892,7 @@
 
 
 			<Style
-				x:Name="TIcon_New_Window"
+				x:Key="App.ThemedIcons.New_Window"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -916,7 +916,7 @@
 
 
 			<Style
-				x:Name="TIcon_New_Tab"
+				x:Key="App.ThemedIcons.New_Tab"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -940,7 +940,7 @@
 
 
 			<Style
-				x:Name="TIcon_New_Folder"
+				x:Key="App.ThemedIcons.New_Folder"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -967,7 +967,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_NewPane"
+				x:Key="App.ThemedIcons.NewPane"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -990,7 +990,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_NewTerminalPane"
+				x:Key="App.ThemedIcons.NewTerminalPane"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1015,7 +1015,7 @@
 
 			<!--#region Open Icons-->
 			<Style
-				x:Name="TIcon_Open"
+				x:Key="App.ThemedIcons.Open"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1038,7 +1038,7 @@
 
 
 			<Style
-				x:Name="TIcon_OpenInTerminal"
+				x:Key="App.ThemedIcons.OpenInTerminal"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1062,7 +1062,7 @@
 
 
 			<Style
-				x:Name="TIcon_OpenWith"
+				x:Key="App.ThemedIcons.OpenWith"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1086,7 +1086,7 @@
 
 
 			<Style
-				x:Name="TIcon_OpenFile"
+				x:Key="App.ThemedIcons.OpenFile"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1110,7 +1110,7 @@
 
 
 			<Style
-				x:Name="TIcon_OpenInWindow"
+				x:Key="App.ThemedIcons.OpenInWindow"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1134,7 +1134,7 @@
 
 
 			<Style
-				x:Name="TIcon_OpenInTab"
+				x:Key="App.ThemedIcons.OpenInTab"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1158,7 +1158,7 @@
 
 
 			<Style
-				x:Name="TIcon_OpenInPaneHorizontal"
+				x:Key="App.ThemedIcons.OpenInPaneHorizontal"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1182,7 +1182,7 @@
 
 
 			<Style
-				x:Name="TIcon_OpenInPaneVertical"
+				x:Key="App.ThemedIcons.OpenInPaneVertical"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1206,7 +1206,7 @@
 
 
 			<Style
-				x:Name="TIcon_RunAs_Elevated"
+				x:Key="App.ThemedIcons.RunAs_Elevated"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1229,7 +1229,7 @@
 
 
 			<Style
-				x:Name="TIcon_RunAs_User"
+				x:Key="App.ThemedIcons.RunAs_User"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1253,7 +1253,7 @@
 
 			<!--#region  Tab+Pane Management Icons-->
 			<Style
-				x:Name="TIcon_Panes_Vertical"
+				x:Key="App.ThemedIcons.Panes_Vertical"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1274,7 +1274,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Panes_Single"
+				x:Key="App.ThemedIcons.Panes_Single"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1295,7 +1295,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Panes_Horizontal"
+				x:Key="App.ThemedIcons.Panes_Horizontal"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1317,7 +1317,7 @@
 
 
 			<Style
-				x:Name="TIcon_Panes_Left"
+				x:Key="App.ThemedIcons.Panes_Left"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1340,7 +1340,7 @@
 
 
 			<Style
-				x:Name="TIcon_Panes_Right"
+				x:Key="App.ThemedIcons.Panes_Right"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1363,7 +1363,7 @@
 
 
 			<Style
-				x:Name="TIcon_Panes_Bottom"
+				x:Key="App.ThemedIcons.Panes_Bottom"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1386,7 +1386,7 @@
 
 
 			<Style
-				x:Name="TIcon_Panes_Top"
+				x:Key="App.ThemedIcons.Panes_Top"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1410,7 +1410,7 @@
 
 			<!--#region  Panel Icons-->
 			<Style
-				x:Name="TIcon_PanelLeft"
+				x:Key="App.ThemedIcons.PanelLeft"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1434,7 +1434,7 @@
 
 
 			<Style
-				x:Name="TIcon_PanelLeftClose"
+				x:Key="App.ThemedIcons.PanelLeftClose"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1463,7 +1463,7 @@
 
 
 			<Style
-				x:Name="TIcon_PanelRight"
+				x:Key="App.ThemedIcons.PanelRight"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1487,7 +1487,7 @@
 
 
 			<Style
-				x:Name="TIcon_PanelRightClose"
+				x:Key="App.ThemedIcons.PanelRightClose"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1516,7 +1516,7 @@
 
 
 			<Style
-				x:Name="TIcon_PanelBottom"
+				x:Key="App.ThemedIcons.PanelBottom"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1540,7 +1540,7 @@
 
 
 			<Style
-				x:Name="TIcon_PanelBottomClose"
+				x:Key="App.ThemedIcons.PanelBottomClose"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1570,7 +1570,7 @@
 
 			<!--#region  Favourite Icons-->
 			<Style
-				x:Name="TIcon_Favourite"
+				x:Key="App.ThemedIcons.Favourite"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1592,7 +1592,7 @@
 
 
 			<Style
-				x:Name="TIcon_FavouriteAdd"
+				x:Key="App.ThemedIcons.FavouriteAdd"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1616,7 +1616,7 @@
 
 
 			<Style
-				x:Name="TIcon_FavouritePin"
+				x:Key="App.ThemedIcons.FavouritePin"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1639,7 +1639,7 @@
 
 
 			<Style
-				x:Name="TIcon_FavouritePinRemove"
+				x:Key="App.ThemedIcons.FavouritePinRemove"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1667,7 +1667,7 @@
 
 			<!--#region  Status Icons-->
 			<Style
-				x:Name="TIcon_Status_Added"
+				x:Key="App.ThemedIcons.Status_Added"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1689,7 +1689,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Removed"
+				x:Key="App.ThemedIcons.Status_Removed"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1711,7 +1711,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Warning"
+				x:Key="App.ThemedIcons.Status_Warning"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1733,7 +1733,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Deleted"
+				x:Key="App.ThemedIcons.Status_Deleted"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1755,7 +1755,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Renamed"
+				x:Key="App.ThemedIcons.Status_Renamed"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1777,7 +1777,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Modified"
+				x:Key="App.ThemedIcons.Status_Modified"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1798,7 +1798,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Status_Protected"
+				x:Key="App.ThemedIcons.Status_Protected"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1820,7 +1820,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Locked"
+				x:Key="App.ThemedIcons.Status_Locked"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1842,7 +1842,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Hidden"
+				x:Key="App.ThemedIcons.Status_Hidden"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1867,7 +1867,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Syncing"
+				x:Key="App.ThemedIcons.Status_Syncing"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1888,7 +1888,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Cloud"
+				x:Key="App.ThemedIcons.Status_Cloud"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1910,7 +1910,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Unavailable"
+				x:Key="App.ThemedIcons.Status_Unavailable"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1932,7 +1932,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Available"
+				x:Key="App.ThemedIcons.Status_Available"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1953,7 +1953,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Ignored"
+				x:Key="App.ThemedIcons.Status_Ignored"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1975,7 +1975,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Tag_Partial_12"
+				x:Key="App.ThemedIcons.Status_Tag_Partial_12"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -1997,7 +1997,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Tag_12"
+				x:Key="App.ThemedIcons.Status_Tag_12"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2019,7 +2019,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_KeepOffline"
+				x:Key="App.ThemedIcons.Status_KeepOffline"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2041,7 +2041,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Tag_Partial_16"
+				x:Key="App.ThemedIcons.Status_Tag_Partial_16"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2063,7 +2063,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Tag_16"
+				x:Key="App.ThemedIcons.Status_Tag_16"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2085,7 +2085,7 @@
 
 
 			<Style
-				x:Name="TIcon_Status_Spacer"
+				x:Key="App.ThemedIcons.Status_Spacer"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2107,7 +2107,7 @@
 
 			<!--#region  Action Icons-->
 			<Style
-				x:Name="TIcon_Action_Copying"
+				x:Key="App.ThemedIcons.Action_Copying"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2129,7 +2129,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Action_Moving"
+				x:Key="App.ThemedIcons.Action_Moving"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2152,7 +2152,7 @@
 
 
 			<Style
-				x:Name="TIcon_Action_Extracting"
+				x:Key="App.ThemedIcons.Action_Extracting"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2174,7 +2174,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Action_Recycle"
+				x:Key="App.ThemedIcons.Action_Recycle"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2196,7 +2196,7 @@
 
 
 			<Style
-				x:Name="TIcon_Action_Delete"
+				x:Key="App.ThemedIcons.Action_Delete"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2218,7 +2218,7 @@
 
 
 			<Style
-				x:Name="TIcon_Action_Success"
+				x:Key="App.ThemedIcons.Action_Success"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2239,7 +2239,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Action_Paused"
+				x:Key="App.ThemedIcons.Action_Paused"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2260,7 +2260,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Action_ErrorInfo"
+				x:Key="App.ThemedIcons.Action_ErrorInfo"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2281,7 +2281,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Action_Eject"
+				x:Key="App.ThemedIcons.Action_Eject"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2302,7 +2302,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Action_Pinned"
+				x:Key="App.ThemedIcons.Action_Pinned"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2325,7 +2325,7 @@
 
 			<!--#region  Git Icons-->
 			<Style
-				x:Name="TIcon_Git_Pull"
+				x:Key="App.ThemedIcons.Git_Pull"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2345,7 +2345,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Git_Push"
+				x:Key="App.ThemedIcons.Git_Push"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2366,7 +2366,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_Git_Sync"
+				x:Key="App.ThemedIcons.Git_Sync"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2387,7 +2387,7 @@
 
 
 			<Style
-				x:Name="TIcon_Git_Commit"
+				x:Key="App.ThemedIcons.Git_Commit"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2408,7 +2408,7 @@
 
 
 			<Style
-				x:Name="TIcon_Git_Issue"
+				x:Key="App.ThemedIcons.Git_Issue"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2430,7 +2430,7 @@
 
 
 			<Style
-				x:Name="TIcon_Git_Branch"
+				x:Key="App.ThemedIcons.Git_Branch"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2452,7 +2452,7 @@
 
 
 			<Style
-				x:Name="TIcon_Git_BranchNew"
+				x:Key="App.ThemedIcons.Git_BranchNew"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2476,7 +2476,7 @@
 
 
 			<Style
-				x:Name="TIcon_Git_Stash"
+				x:Key="App.ThemedIcons.Git_Stash"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2498,7 +2498,7 @@
 
 
 			<Style
-				x:Name="TIcon_Git"
+				x:Key="App.ThemedIcons.Git"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2520,7 +2520,7 @@
 
 
 			<Style
-				x:Name="TIcon_Git_Compare"
+				x:Key="App.ThemedIcons.Git_Compare"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2544,7 +2544,7 @@
 
 			<!--#region  Size and Layout Icons-->
 			<Style
-				x:Name="TIcon_IconSize_Compact"
+				x:Key="App.ThemedIcons.IconSize_Compact"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2566,7 +2566,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconSize_Small"
+				x:Key="App.ThemedIcons.IconSize_Small"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2592,7 +2592,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconSize_Medium"
+				x:Key="App.ThemedIcons.IconSize_Medium"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2618,7 +2618,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconSize_Large"
+				x:Key="App.ThemedIcons.IconSize_Large"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2644,7 +2644,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconSize_ExtraLarge"
+				x:Key="App.ThemedIcons.IconSize_ExtraLarge"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2670,7 +2670,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_Tiles"
+				x:Key="App.ThemedIcons.IconLayout_Tiles"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2696,7 +2696,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_List"
+				x:Key="App.ThemedIcons.IconLayout_List"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2722,7 +2722,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_Columns"
+				x:Key="App.ThemedIcons.IconLayout_Columns"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2744,7 +2744,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_Details"
+				x:Key="App.ThemedIcons.IconLayout_Details"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2765,7 +2765,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_Auto"
+				x:Key="App.ThemedIcons.IconLayout_Auto"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2792,7 +2792,7 @@
 
 			<!--#region  Other 16px Icons-->
 			<Style
-				x:Name="TIcon_Grouping"
+				x:Key="App.ThemedIcons.Grouping"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2814,7 +2814,7 @@
 
 
 			<Style
-				x:Name="TIcon_Sorting"
+				x:Key="App.ThemedIcons.Sorting"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2836,7 +2836,7 @@
 
 
 			<Style
-				x:Name="TIcon_Filter"
+				x:Key="App.ThemedIcons.Filter"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2858,7 +2858,7 @@
 
 
 			<Style
-				x:Name="TIcon_Image_Rotate_CW"
+				x:Key="App.ThemedIcons.Image_Rotate_CW"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2885,7 +2885,7 @@
 
 
 			<Style
-				x:Name="TIcon_Image_Rotate_ACW"
+				x:Key="App.ThemedIcons.Image_Rotate_ACW"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2912,7 +2912,7 @@
 
 
 			<Style
-				x:Name="TIcon_Set_Wallpaper_16"
+				x:Key="App.ThemedIcons.Set_Wallpaper_16"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2950,7 +2950,7 @@
 
 
 			<Style
-				x:Name="TIcon_StatusCenter"
+				x:Key="App.ThemedIcons.StatusCenter"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2975,7 +2975,7 @@
 
 			<!--#region  Properties Dialog Sidebar Icons-->
 			<Style
-				x:Name="TIcon_Properties_General"
+				x:Key="App.ThemedIcons.Properties_General"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -2997,7 +2997,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_Security"
+				x:Key="App.ThemedIcons.Properties_Security"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3020,7 +3020,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_Info"
+				x:Key="App.ThemedIcons.Properties_Info"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3043,7 +3043,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_Compatability"
+				x:Key="App.ThemedIcons.Properties_Compatability"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3066,7 +3066,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_Shortcut"
+				x:Key="App.ThemedIcons.Properties_Shortcut"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3089,7 +3089,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_Signatures"
+				x:Key="App.ThemedIcons.Properties_Signatures"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3112,7 +3112,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_Certificates"
+				x:Key="App.ThemedIcons.Properties_Certificates"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3135,7 +3135,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_Hashes"
+				x:Key="App.ThemedIcons.Properties_Hashes"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3158,7 +3158,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_CustomiseFile"
+				x:Key="App.ThemedIcons.Properties_CustomiseFile"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3181,7 +3181,7 @@
 
 
 			<Style
-				x:Name="TIcon_Properties_CustomiseFolder"
+				x:Key="App.ThemedIcons.Properties_CustomiseFolder"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3209,7 +3209,7 @@
 
 			<!--#region  Settings Tab Sidebar Icons-->
 			<Style
-				x:Name="TIcon_Settings_General"
+				x:Key="App.ThemedIcons.Settings_General"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3231,7 +3231,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_Appearance"
+				x:Key="App.ThemedIcons.Settings_Appearance"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3253,7 +3253,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_Layout"
+				x:Key="App.ThemedIcons.Settings_Layout"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3275,7 +3275,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_FilesFolders"
+				x:Key="App.ThemedIcons.Settings_FilesFolders"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3301,7 +3301,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_KeyboardActions"
+				x:Key="App.ThemedIcons.Settings_KeyboardActions"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3323,7 +3323,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_Tags"
+				x:Key="App.ThemedIcons.Settings_Tags"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3345,7 +3345,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_DevTools"
+				x:Key="App.ThemedIcons.Settings_DevTools"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3371,7 +3371,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_Advanced"
+				x:Key="App.ThemedIcons.Settings_Advanced"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3397,7 +3397,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_About"
+				x:Key="App.ThemedIcons.Settings_About"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3423,7 +3423,7 @@
 
 
 			<Style
-				x:Name="TIcon_Settings_Experimental"
+				x:Key="App.ThemedIcons.Settings_Experimental"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3452,7 +3452,7 @@
 
 			<!--#region Settings Mono Icons-->
 			<Style
-				x:Name="TIcon_mono_Toolbar"
+				x:Key="App.ThemedIcons.mono_Toolbar"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3473,7 +3473,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Statusbar"
+				x:Key="App.ThemedIcons.mono_Statusbar"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3494,7 +3494,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_ContextMenu"
+				x:Key="App.ThemedIcons.mono_ContextMenu"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3515,7 +3515,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_BGColor"
+				x:Key="App.ThemedIcons.mono_BGColor"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3536,7 +3536,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Theme"
+				x:Key="App.ThemedIcons.mono_Theme"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3557,7 +3557,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_LayoutSync"
+				x:Key="App.ThemedIcons.mono_LayoutSync"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3578,7 +3578,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_EditColumns"
+				x:Key="App.ThemedIcons.mono_EditColumns"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3599,7 +3599,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_SettingsFile"
+				x:Key="App.ThemedIcons.mono_SettingsFile"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3620,7 +3620,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_FilesDefault"
+				x:Key="App.ThemedIcons.mono_FilesDefault"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3641,7 +3641,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Libraries"
+				x:Key="App.ThemedIcons.mono_Libraries"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3662,7 +3662,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_DualPane"
+				x:Key="App.ThemedIcons.mono_DualPane"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3683,7 +3683,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Language"
+				x:Key="App.ThemedIcons.mono_Language"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3704,7 +3704,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_TimeDate"
+				x:Key="App.ThemedIcons.mono_TimeDate"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3725,7 +3725,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Startup"
+				x:Key="App.ThemedIcons.mono_Startup"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3746,7 +3746,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Widgets"
+				x:Key="App.ThemedIcons.mono_Widgets"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3767,7 +3767,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_BackdropMaterial"
+				x:Key="App.ThemedIcons.mono_BackdropMaterial"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3788,7 +3788,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_BackgroundFolder"
+				x:Key="App.ThemedIcons.mono_BackgroundFolder"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3809,7 +3809,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_SetLayout"
+				x:Key="App.ThemedIcons.mono_SetLayout"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3830,7 +3830,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_FileExt"
+				x:Key="App.ThemedIcons.mono_FileExt"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3851,7 +3851,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Thumbnails"
+				x:Key="App.ThemedIcons.mono_Thumbnails"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3872,7 +3872,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Checkmarks"
+				x:Key="App.ThemedIcons.mono_Checkmarks"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3893,7 +3893,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_OpenItems"
+				x:Key="App.ThemedIcons.mono_OpenItems"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3914,7 +3914,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_FileExtWarning"
+				x:Key="App.ThemedIcons.mono_FileExtWarning"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3935,7 +3935,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_SelectHover"
+				x:Key="App.ThemedIcons.mono_SelectHover"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3956,7 +3956,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Click"
+				x:Key="App.ThemedIcons.mono_Click"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3977,7 +3977,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Scroll"
+				x:Key="App.ThemedIcons.mono_Scroll"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -3998,7 +3998,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_FolderSize"
+				x:Key="App.ThemedIcons.mono_FolderSize"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4019,7 +4019,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Edit"
+				x:Key="App.ThemedIcons.mono_Edit"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4040,7 +4040,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_OpenWith"
+				x:Key="App.ThemedIcons.mono_OpenWith"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4061,7 +4061,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Connections"
+				x:Key="App.ThemedIcons.mono_Connections"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4082,7 +4082,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Export"
+				x:Key="App.ThemedIcons.mono_Export"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4103,7 +4103,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Import"
+				x:Key="App.ThemedIcons.mono_Import"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4124,7 +4124,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_RunInBackground"
+				x:Key="App.ThemedIcons.mono_RunInBackground"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4145,7 +4145,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_OverflowMore"
+				x:Key="App.ThemedIcons.mono_OverflowMore"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4166,7 +4166,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_DeleteConfirm"
+				x:Key="App.ThemedIcons.mono_DeleteConfirm"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4187,7 +4187,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Git"
+				x:Key="App.ThemedIcons.mono_Git"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4208,7 +4208,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_FileOpen"
+				x:Key="App.ThemedIcons.mono_FileOpen"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4229,7 +4229,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Docs"
+				x:Key="App.ThemedIcons.mono_Docs"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4250,7 +4250,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Questions"
+				x:Key="App.ThemedIcons.mono_Questions"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4271,7 +4271,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Translate"
+				x:Key="App.ThemedIcons.mono_Translate"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4292,7 +4292,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_GitHub"
+				x:Key="App.ThemedIcons.mono_GitHub"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4313,7 +4313,7 @@
 
 
 			<Style
-				x:Name="TIcon_mono_Privacy"
+				x:Key="App.ThemedIcons.mono_Privacy"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4335,7 +4335,7 @@
 
 			<!--#region  Large 28px Layout and Size Icons-->
 			<Style
-				x:Name="TIcon_IconLayout_Grid_28"
+				x:Key="App.ThemedIcons.IconLayout_Grid_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4357,7 +4357,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_List_28"
+				x:Key="App.ThemedIcons.IconLayout_List_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4379,7 +4379,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_Details_28"
+				x:Key="App.ThemedIcons.IconLayout_Details_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4400,7 +4400,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_Tiles_28"
+				x:Key="App.ThemedIcons.IconLayout_Tiles_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4422,7 +4422,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconLayout_Columns_28"
+				x:Key="App.ThemedIcons.IconLayout_Columns_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4444,7 +4444,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconSize_Compact_28"
+				x:Key="App.ThemedIcons.IconSize_Compact_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4465,7 +4465,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_IconSize_Small_28"
+				x:Key="App.ThemedIcons.IconSize_Small_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4486,7 +4486,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_IconSize_Medium_28"
+				x:Key="App.ThemedIcons.IconSize_Medium_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4511,7 +4511,7 @@
 			</Style>
 
 			<Style
-				x:Name="TIcon_IconSize_Large_28"
+				x:Key="App.ThemedIcons.IconSize_Large_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
@@ -4537,7 +4537,7 @@
 
 
 			<Style
-				x:Name="TIcon_IconSize_ExtraLarge_28"
+				x:Key="App.ThemedIcons.IconSize_ExtraLarge_28"
 				BasedOn="{StaticResource DefaultThemedIconStyle}"
 				TargetType="local:ThemedIcon">
 
