@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class FocusRightPaneAction : ObservableObject, IAction
+	internal sealed class FocusOtherPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "FocusRightPane".GetLocalizedResource();
+			=> "FocusOtherPane".GetLocalizedResource();
 
 		public string Description
-			=> "FocusRightPaneDescription".GetLocalizedResource();
+			=> "FocusOtherPaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Right, KeyModifiers.CtrlShift);
@@ -19,7 +19,7 @@ namespace Files.App.Actions
 		public bool IsExecutable
 			=> context.IsMultiPaneActive;
 
-		public FocusRightPaneAction()
+		public FocusOtherPaneAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -28,7 +28,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage!.PaneHolder.FocusRightPane();
+			context.ShellPage!.PaneHolder.FocusOtherPane();
 
 			return Task.CompletedTask;
 		}
