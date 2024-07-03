@@ -175,7 +175,7 @@
     <value>Accédé :</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Supprimer tous les éléments</value>
+    <value>Effacer tous les éléments</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Entrez un chemin pour naviguer ou tapez "&gt;" pour ouvrir la palette de commandes</value>
@@ -969,7 +969,7 @@
     <value>Problème lors de l'éjection du périphérique</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Le périphérique est actuellement utilisé. Fermez tous les programmes, fenêtres, ou onglets qui peuvent utiliser le périphérique, et essayez à nouveau.</value>
+    <value>Cet appareil est actuellement utilisé. Fermez tous les programmes, fenêtres ou onglets qui pourraient utiliser l'appareil, puis réessayez.</value>
   </data>
   <data name="Eject" xml:space="preserve">
     <value>Éjecter</value>
@@ -1275,7 +1275,7 @@
     <value>{0, plural, one {1 élément sera copié} other {# éléments seront copiés}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Effacer définitivement</value>
+    <value>Supprimer définitivement</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Vitesse ISO</value>
@@ -1782,7 +1782,7 @@
     <value>Restaurer les valeurs par défaut</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Ouvrir l'onglet dans l'instance existante lors de l'ouverture de Files à partir d'une autre application</value>
+    <value>Ouvrir l'onglet dans une instance existante lors de l'ouverture de Files depuis une autre application</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Paramètres de démarrage</value>
@@ -1830,7 +1830,7 @@
     <value>Exécuter en tant qu'administrateur</value>
   </data>
   <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
-    <value>Lancer le dépannage de compatibilité</value>
+    <value>Exécuter le dépannage de compatibilité</value>
   </data>
   <data name="CompatibilityUseDPISettings" xml:space="preserve">
     <value>Utiliser les paramètres PPP du moniteur principal</value>
@@ -2430,7 +2430,7 @@
     <value>Inverser la sélection</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Annuler la sélection</value>
+    <value>Effacer la sélection d'éléments</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Activer/désactiver la sélection d'éléments</value>
@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Fermer l'onglet actuel</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Ouvrir dans un nouveau volet</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Fermer le volet actif</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Focus sur le volet gauche</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Focus other pane</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Basculer le focus sur le volet gauche</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Focus sur le volet droit</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Basculer le focus sur le volet droit</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Switch focus to the non active pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Afficher la barre latérale</value>
@@ -3082,10 +3073,10 @@
     <value>Traduire sur Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Récupérer</value>
+    <value>Fetch</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Tirer</value>
+    <value>Pull</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Exécuter git fetch</value>
@@ -3143,7 +3134,7 @@
     <value>Gérer les branches</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Envoyer</value>
+    <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
     <value>Exécuter git push</value>
@@ -3743,10 +3734,10 @@
     <value>Choisir une action</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les raccourcis par défaut ? Cette action ne peut pas être annulée.</value>
+    <value>Êtes-vous sûr de vouloir restaurer les raccourcis clavier par défaut ? Cette action est irréversible.</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>Ce raccourci clavier est déjà utilisé. Veuillez choisir un autre raccourci pour continuer.</value>
+    <value>Ce raccourci clavier est déjà utilisé, veuillez choisir un autre raccourci pour continuer.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>Le raccourci clavier choisi ne peut pas être utilisé, veuillez réessayer avec un autre raccourci clavier.</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Afficher la barre d'outils</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Menu des actions de l'onglet</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Add vertical pane</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Add a vertical pane</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Add horizontal pane</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Add a horizontal pane</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Arrange vertically</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Arrange panes vertically</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Arrange horizontally</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Arrange panes horizontally</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Add pane</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Show tab actions button in the title bar</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Arrange panes</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Default pane arrangement</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
   </data>
 </root>
