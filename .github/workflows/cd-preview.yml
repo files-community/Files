@@ -31,8 +31,8 @@ jobs:
       PLATFORM:                   '${{ matrix.platform }}'
       APPX_BUNDLE_PLATFORMS:      'x64|arm64'
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
-      ARTIFACTS_STAGING_DIR:      'artifacts' # D:\a\Files\Files\artifacts\
-      APPX_PACKAGE_DIR:           'artifacts\AppxPackages'
+      ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
+      APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages'
       PACKAGE_PROJECT_DIR:        'src\Files.App (Package)'
       PACKAGE_PROJECT_PATH:       'src\Files.App (Package)\Files.Package.wapproj'
       PACKAGE_MANIFEST_PATH:      'src\Files.App (Package)\Package.appxmanifest'
