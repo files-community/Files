@@ -1810,7 +1810,7 @@ namespace Files.App.ViewModels
 		public void CheckForBackgroundImage()
 		{
 			var filesAppSection = DesktopIni.FirstOrDefault(x => x.SectionName == "FilesApp");
-			if (filesAppSection is null || folderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
+			if (filesAppSection is null || folderSettings.LayoutMode is FolderLayoutModes.ColumnView)
 			{
 				FolderBackgroundImageSource = null;
 				return;
