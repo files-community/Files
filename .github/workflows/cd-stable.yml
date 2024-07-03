@@ -86,7 +86,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - name: Build & oackage Files
+    - name: Build & package Files
       shell: pwsh
       run: |
         msbuild "$env:PACKAGE_PROJECT_PATH" `
