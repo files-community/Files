@@ -127,7 +127,7 @@
     <value>Copiar la ruta entre comillas</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Navegar</value>
+    <value>Buscar</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Tamaño</value>
@@ -1320,7 +1320,7 @@
     <value>Fecha de modificación</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Carpeta original</value>
+    <value>Carpeta de origen</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descendente</value>
@@ -1671,7 +1671,7 @@
     <value>Desconocido</value>
   </data>
   <data name="EditTags" xml:space="preserve">
-    <value>Editar etiquetas</value>
+    <value>Etiquetas de edición</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Parte del conjunto</value>
@@ -1785,7 +1785,7 @@
     <value>Abrir pestaña en instancia existente al abrir Files desde otra aplicación</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>Ajustes de inicio</value>
+    <value>Configuración al iniciar</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Compatibilidad</value>
@@ -2028,7 +2028,7 @@
     <value>Comprimir</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
+    <value>Seleccionar archivos y carpetas al colocar el cursor encima de ellos</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>¿Está seguro de que desea restaurar todos los elementos de la papelera de reciclaje?</value>
@@ -2181,7 +2181,7 @@
     <value>Ver más</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Mostrar desplegable de etiquetas de edición</value>
+    <value>Mostrar menú Etiquetas de edición</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
     <value>Mostrar opciones de compresión</value>
@@ -2394,7 +2394,7 @@
     <value>Crear nuevo(s) acceso(s) directo(s) para elemento(s) seleccionado(s)</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Crea nuevo acceso directo para cualquier elemento</value>
+    <value>Crear nuevo acceso directo para cualquier elemento</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Vaciar papelera de reciclaje</value>
@@ -2514,7 +2514,7 @@
     <value>Abrir carpeta en Terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Abrir como administrador carpeta en Terminal</value>
+    <value>Abrir carpeta en Terminal como administrador</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Reducir el tamaño del elemento en la vista actual</value>
@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Cerrar pestaña actual</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Abrir nuevo panel</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Cierra el panel activo</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Enfocar panel izquierdo</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Focus other pane</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Cambiar foco al panel izquierdo</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Enfocar panel derecho</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Cambiar foco al panel derecho</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Switch focus to the non active pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Mostrar/Ocultar barra lateral</value>
@@ -3819,7 +3810,7 @@
     <value>Configurar el botón "Abrir IDE" en la barra de estado</value>
   </data>
   <data name="GitRepos" xml:space="preserve">
-    <value>Mostrar para repos de Git</value>
+    <value>Mostrar para repositorios Git</value>
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostrar barra de herramientas</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Menú de acciones de pestaña</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Add vertical pane</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Add a vertical pane</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Add horizontal pane</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Add a horizontal pane</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Arrange vertically</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Arrange panes vertically</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Arrange horizontally</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Arrange panes horizontally</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Add pane</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Show tab actions button in the title bar</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Arrange panes</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Default pane arrangement</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
   </data>
 </root>
