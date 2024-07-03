@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
 using Windows.ApplicationModel.DataTransfer;
@@ -99,6 +100,11 @@ namespace Files.App.Actions
 			catch (Exception ex)
 			{
 				dataPackage = default;
+
+				if (ex is not IOException)
+				{
+					App.Logger.LogWarning(ex, "Failed to process cutting/copying due to an unknown error.");
+				}
 
 				if ((FileSystemStatusCode)ex.HResult is FileSystemStatusCode.Unauthorized)
 				{
