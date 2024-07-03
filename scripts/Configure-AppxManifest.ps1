@@ -3,7 +3,7 @@
 
 param(
     [string]$Branch = "",
-    [string]$PackageProjectDir = "",
+    [string]$PackageManifestPath = "",
     [string]$Publisher = "",
     [string]$WorkingDir = "",
     [string]$SecretBingMapsKey = "",
@@ -11,7 +11,7 @@ param(
     [string]$SecretGitHubOAuthClientId = ""
 )
 
-[xml]$xmlDoc = Get-Content "$PackageProjectDir\Package.appxmanifest"
+[xml]$xmlDoc = Get-Content "$PackageManifestPath"
 $xmlDoc.Package.Identity.Publisher="$Publisher"
 
 if ($Branch -eq "Preview")
@@ -21,10 +21,10 @@ if ($Branch -eq "Preview")
     $xmlDoc.Package.Properties.DisplayName="Files - Preview"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
 
-    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process
-    {
-        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) |
-        Set-Content $_ -NoNewline
+    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
+    { `
+        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
+        Set-Content $_ -NoNewline `
     }
 }
 elseif ($Branch -eq "Stable")
@@ -34,10 +34,10 @@ elseif ($Branch -eq "Stable")
     $xmlDoc.Package.Properties.DisplayName="Files"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
 
-    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process
-    {
-        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) |
-        Set-Content $_ -NoNewline
+    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
+    { `
+        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
+        Set-Content $_ -NoNewline `
     }
 }
 elseif ($Branch -eq "Store")
@@ -54,29 +54,29 @@ elseif ($Branch -eq "Store")
     $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
     $xmlDoc.Package.Capabilities.RemoveChild($pm)
 
-    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process
-    {
-        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) |
-        Set-Content $_ -NoNewline
+    Get-ChildItem "$WorkingDir\src" -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
+    { `
+        (Get-Content $_ -Raw | ForEach -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
+        Set-Content $_ -NoNewline `
     }
 }
 
-$xmlDoc.Save("$PackageProjectDir\Package.appxmanifest")
+$xmlDoc.Save("$PackageManifestPath")
 
-Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
-{
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$SecretBingMapsKey" }) |
-    Set-Content $_ -NoNewline
+Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process `
+{ `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$SecretBingMapsKey" }) | `
+    Set-Content $_ -NoNewline `
 }
 
-Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
+Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process `
 {
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "sentry.secret", "$SecretSentry" }) |
-    Set-Content $_ -NoNewline
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "sentry.secret", "$SecretSentry" }) | `
+    Set-Content $_ -NoNewline `
 }
 
-Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process
-{
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$SecretGitHubOAuthClientId" }) |
-    Set-Content $_ -NoNewline
+Get-ChildItem "$WorkingDir\src" -Include *.cs -recurse | ForEach-Object -Process `
+{ `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$SecretGitHubOAuthClientId" }) | `
+    Set-Content $_ -NoNewline `
 }
