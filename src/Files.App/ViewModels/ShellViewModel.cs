@@ -1817,7 +1817,7 @@ namespace Files.App.ViewModels
 			}
 
 			// Image source
-			var backgroundImage = filesAppSection.Parameters?.FirstOrDefault(x => x.Key == "Files_BackgroundImage").Value;
+			var backgroundImage = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundImage").Value;
 			if (string.IsNullOrEmpty(backgroundImage))
 			{
 				FolderBackgroundImageSource = null;
@@ -1833,28 +1833,28 @@ namespace Files.App.ViewModels
 			}
 
 			// Opacity
-			var backgroundOpacity = filesAppSection.Parameters?.FirstOrDefault(x => x.Key == "Files_BackgroundOpacity").Value;
+			var backgroundOpacity = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundOpacity").Value;
 			if (float.TryParse(backgroundOpacity, out var opacity))
 				FolderBackgroundImageOpacity = opacity;
 			else
 				FolderBackgroundImageOpacity = 1f;
 
 			// Stretch
-			var backgroundFit = filesAppSection.Parameters?.FirstOrDefault(x => x.Key == "Files_BackgroundFit").Value;
+			var backgroundFit = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundFit").Value;
 			if (Enum.TryParse<Stretch>(backgroundFit, out var fit))
 				FolderBackgroundImageFit = fit;
 			else
 				FolderBackgroundImageFit = Stretch.UniformToFill;
 
 			// Vertical alignment
-			var verticalAlignment = filesAppSection.Parameters?.FirstOrDefault(x => x.Key == "Files_BackgroundVerticalAlignment").Value;
+			var verticalAlignment = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundVerticalAlignment").Value;
 			if (Enum.TryParse<VerticalAlignment>(verticalAlignment, out var vAlignment))
 				FolderBackgroundImageVerticalAlignment = vAlignment;
 			else
 				FolderBackgroundImageVerticalAlignment = VerticalAlignment.Center;
 
 			// Horizontal alignment
-			var horizontalAlignment = filesAppSection.Parameters?.FirstOrDefault(x => x.Key == "Files_BackgroundHorizontalAlignment").Value;
+			var horizontalAlignment = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundHorizontalAlignment").Value;
 			if (Enum.TryParse<HorizontalAlignment>(horizontalAlignment, out var hAlignment))
 				FolderBackgroundImageHorizontalAlignment = hAlignment;
 			else
