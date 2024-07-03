@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.UserControls
 {
-	[Obsolete("Use MenuFlyoutItemEx")]
 	public sealed partial class MenuFlyoutItemWithImage : MenuFlyoutItem
 	{
 		public BitmapImage BitmapIcon
