@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -15,11 +14,11 @@ namespace Files.App.Views
 	/// <summary>
 	/// Represents <see cref="Page"/> that holds multiple panes.
 	/// </summary>
-	public sealed partial class ShellPanesPage : Page, IShellPanesPage, ITabBarItemContent
+	public sealed partial class ShellPanesPage : Page, IShellPanesPage, ITabBarItemContent, INotifyPropertyChanged
 	{
 		// Dependency injections
 
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private AppModel AppModel { get; } = Ioc.Default.GetRequiredService<AppModel>();
 
 		// Constants
@@ -46,7 +45,7 @@ namespace Files.App.Views
 		public bool IsMultiPaneActive
 			=> GetPaneCount() > 1;
 
-		public bool IsMultiPaneEnabled
+		public bool IsMultiPaneAvailable
 		{
 			get
 			{
@@ -73,6 +72,22 @@ namespace Files.App.Views
 			}
 		}
 
+		private ShellPaneArrangement _ShellPaneArrangement;
+		public ShellPaneArrangement ShellPaneArrangement
+		{
+			get => _ShellPaneArrangement;
+			set
+			{
+				if (_ShellPaneArrangement != value)
+				{
+					_ShellPaneArrangement = value;
+					ArrangePanes();
+					NotifyPropertyChanged(nameof(ShellPaneArrangement));
+					Pane_ContentChanged(null, null!);
+				}
+			}
+		}
+
 		private bool _WindowIsCompact;
 		public bool WindowIsCompact
 		{
@@ -85,18 +100,22 @@ namespace Files.App.Views
 
 					if (value)
 					{
-						// Collapse right pane
-						_wasRightPaneVisible = IsRightPaneVisible;
-						IsRightPaneVisible = false;
+						// Close pane
+						_wasRightPaneVisible = GetPaneCount() >= 2;
+
+						if (GetPaneCount() >= 2)
+							RemovePane(1);
 					}
 					else if (_wasRightPaneVisible)
 					{
-						// Show right pane back if window gets larger again
-						IsRightPaneVisible = true;
+						// Add back pane
+						if (GetPaneCount() == 1)
+							AddPane();
+
 						_wasRightPaneVisible = false;
 					}
 
-					NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+					NotifyPropertyChanged(nameof(IsMultiPaneAvailable));
 				}
 			}
 		}
@@ -179,36 +198,6 @@ namespace Files.App.Views
 			}
 		}
 
-		private bool _IsRightPaneVisible;
-		public bool IsRightPaneVisible
-		{
-			get => _IsRightPaneVisible;
-			set
-			{
-				if (value != _IsRightPaneVisible)
-				{
-					_IsRightPaneVisible = value;
-
-					if (value)
-					{
-						AddPane();
-					}
-					else
-					{
-						if (GetPaneCount() != 1)
-						{
-							ActivePane = GetPane(0);
-							Pane_ContentChanged(null!, null!);
-							RemovePane((RootGrid.Children.Count - 1) / 2);
-						}
-					}
-
-					NotifyPropertyChanged(nameof(IsRightPaneVisible));
-					NotifyPropertyChanged(nameof(IsMultiPaneActive));
-				}
-			}
-		}
-
 		private bool _IsCurrentInstance;
 		public bool IsCurrentInstance
 		{
@@ -250,47 +239,111 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
+			ShellPaneArrangement = GeneralSettingsService.ShellPaneArrangementOption;
+
 			// Initialize the default pane
 			AddPane();
 
 			// Set default values
 			ActivePane = GetPane(0);
 			_WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
-			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;
+
+			// Open the secondary pane
+			if (IsMultiPaneAvailable &&
+				GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
+				AddPane();
 
 			MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
 		}
 
 		// Public methods
 
-		public void OpenSecondaryPane(string path)
+		/// <inheritdoc/>
+		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.None)
 		{
-			// Add right pane within this property's setter
-			IsRightPaneVisible = true;
+			if (GetPaneCount() <= 1)
+				AddPane(arrangement is ShellPaneArrangement.None ? GeneralSettingsService.ShellPaneArrangementOption : arrangement);
 
-			NavParamsRight = new() { NavPath = path };
-			ActivePane = GetPane(1);
+			NavParamsRight = new() { NavPath = string.IsNullOrEmpty(path) ? "Home" : path };
 		}
 
+		/// <inheritdoc/>
+		public void ArrangePanes(ShellPaneArrangement arrangement = ShellPaneArrangement.None)
+		{
+			if (arrangement is not ShellPaneArrangement.None)
+				ShellPaneArrangement = arrangement;
+
+			// Clear definitions
+			RootGrid.RowDefinitions.Clear();
+			RootGrid.ColumnDefinitions.Clear();
+
+			if (ShellPaneArrangement == ShellPaneArrangement.Horizontal)
+			{
+				foreach (var element in RootGrid.Children)
+				{
+					if (element is GridSplitter splitter)
+					{
+						RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
+						splitter.Height = double.NaN;
+						splitter.Width = 2;
+					}
+					else
+					{
+						RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
+					}
+
+					element.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
+				}
+			}
+			else
+			{
+				foreach (var element in RootGrid.Children)
+				{
+					if (element is GridSplitter splitter)
+					{
+						RootGrid.RowDefinitions.Add(new() { Height = new(4) });
+						splitter.Height = 2;
+						splitter.Width = double.NaN;
+					}
+					else
+					{
+						RootGrid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star), MinHeight = 100d });
+					}
+
+					element.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
+				}
+			}
+
+			// Update the default cursor type on hover based on pane arrangement
+			foreach (var sizer in GetSizers())
+			{
+				sizer?.ChangeCursor(
+					InputSystemCursor.Create(
+						ShellPaneArrangement is ShellPaneArrangement.Horizontal
+							? InputSystemCursorShape.SizeWestEast
+							: InputSystemCursorShape.SizeNorthSouth));
+			}
+		}
+
+		/// <inheritdoc/>
 		public void CloseActivePane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0))
+			if (ActivePane == (IShellPage)GetPane(0)!)
 				RemovePane(0);
 			else
-				IsRightPaneVisible = false;
+				RemovePane(1);
 
 			GetPane(0)?.Focus(FocusState.Programmatic);
 			SetShadow();
 		}
 
-		public void FocusLeftPane()
+		/// <inheritdoc/>
+		public void FocusOtherPane()
 		{
-			GetPane(0)?.Focus(FocusState.Programmatic);
-		}
-
-		public void FocusRightPane()
-		{
-			GetPane(1)?.Focus(FocusState.Programmatic);
+			if (ActivePane == (IShellPage)GetPane(0)!)
+				GetPane(1)?.Focus(FocusState.Programmatic);
+			else
+				GetPane(0)?.Focus(FocusState.Programmatic);
 		}
 
 		// Private methods
@@ -309,41 +362,92 @@ namespace Files.App.Views
 			return (RootGrid.Children.Count + 1) / 2;
 		}
 
-		private void AddPane()
+		private IEnumerable<ModernShellPage> GetPanes()
 		{
+			return RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 0).Cast<ModernShellPage>();
+		}
+
+		private IEnumerable<GridSplitter> GetSizers()
+		{
+			return RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 1).Cast<GridSplitter>();
+		}
+
+		private void AddPane(ShellPaneArrangement arrangement = ShellPaneArrangement.None)
+		{
+			if (arrangement is not ShellPaneArrangement.None)
+				ShellPaneArrangement = arrangement;
+
+			var currentPaneAlignmentDirection =
+				RootGrid.ColumnDefinitions.Count is 0
+					? RootGrid.RowDefinitions.Count is 0
+						? ShellPaneArrangement
+						: ShellPaneArrangement.Vertical
+					: ShellPaneArrangement.Horizontal;
+
 			// Adding new pane is not the first time
 			if (RootGrid.Children.Count is not 0)
 			{
+				// Re-align shell pane
+				ArrangePanes(arrangement);
+
+				// Add sizer
 				var sizer = new GridSplitter() { IsTabStop = false };
-				Canvas.SetZIndex(sizer, 150);
 				sizer.DoubleTapped += Sizer_OnDoubleTapped;
 				sizer.Loaded += Sizer_Loaded;
 				sizer.ManipulationCompleted += Sizer_ManipulationCompleted;
 				sizer.ManipulationStarted += Sizer_ManipulationStarted;
 
-				// Add column definition for sizer
-				RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
-
 				// Add sizer
 				RootGrid.Children.Add(sizer);
-				sizer.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
-			}
 
-			// Add column definition for new pane
-			RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
+				// Set to a new column
+				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+				{
+					RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
+					sizer.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
+					sizer.Height = double.NaN;
+					sizer.Width = 2;
+				}
+				else
+				{
+					RootGrid.RowDefinitions.Add(new() { Height = new(4) });
+					sizer.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
+					sizer.Height = 2;
+					sizer.Width = double.NaN;
+				}
+			}
 
 			// Add new pane
 			var page = new ModernShellPage() { PaneHolder = this };
 			RootGrid.Children.Add(page);
-			page.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
+
+			if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+			{
+				// Add a new definition
+				RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
+				page.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
+
+				// Reset width of every definition
+				foreach (var definition in RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0))
+					definition.Width = new(1, GridUnitType.Star);
+			}
+			else
+			{
+				// Add a new definition
+				RootGrid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star), MinHeight = 100d });
+				page.SetValue(Grid.RowProperty, RootGrid.RowDefinitions.Count - 1);
+
+				// Reset width of every definition
+				foreach (var definition in RootGrid.RowDefinitions.Where(x => RootGrid.RowDefinitions.IndexOf(x) % 2 == 0))
+					definition.Height = new(1, GridUnitType.Star);
+			}
 
 			// Hook event
 			page.ContentChanged += Pane_ContentChanged;
 			page.Loaded += Pane_Loaded;
 
-			// Reset width of every column
-			foreach (var column in RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0))
-				column.Width = new(1, GridUnitType.Star);
+			// Focus
+			ActivePane = GetPane(GetPaneCount() - 1);
 
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
@@ -359,33 +463,56 @@ namespace Files.App.Views
 			if (childIndex >= RootGrid.Children.Count)
 				return;
 
+			// Left pane is being removed
 			if (childIndex == 0)
 			{
 				var wasMultiPaneActive = IsMultiPaneActive;
 
 				// Remove sizer and pane
 				RootGrid.Children.RemoveAt(0);
-				RootGrid.ColumnDefinitions.RemoveAt(0);
+
+				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+					RootGrid.ColumnDefinitions.RemoveAt(0);
+				else
+					RootGrid.RowDefinitions.RemoveAt(0);
 
 				if (wasMultiPaneActive)
 				{
 					RootGrid.Children.RemoveAt(0);
-					RootGrid.ColumnDefinitions.RemoveAt(0);
+
+					if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+						RootGrid.ColumnDefinitions.RemoveAt(0);
+					else
+						RootGrid.RowDefinitions.RemoveAt(0);
+
 					RootGrid.Children[0].SetValue(Grid.ColumnProperty, 0);
 					_NavParamsLeft = new() { NavPath = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? string.Empty };
-					IsRightPaneVisible = false;
+					_NavParamsRight = null;
 					ActivePane = GetPane(0);
 				}
 			}
+			// Right pane is being removed
 			else
 			{
 				// Remove sizer and pane
 				RootGrid.Children.RemoveAt(childIndex);
 				RootGrid.Children.RemoveAt(childIndex);
-				RootGrid.ColumnDefinitions.RemoveAt(childIndex);
-				RootGrid.ColumnDefinitions.RemoveAt(childIndex);
+
+				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+				{
+					RootGrid.ColumnDefinitions.RemoveAt(childIndex);
+					RootGrid.ColumnDefinitions.RemoveAt(childIndex);
+				}
+				else
+				{
+					RootGrid.RowDefinitions.RemoveAt(childIndex);
+					RootGrid.RowDefinitions.RemoveAt(childIndex);
+				}
+
+				_NavParamsRight = null;
 			}
 
+			Pane_ContentChanged(null, null!);
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
@@ -434,14 +561,22 @@ namespace Files.App.Views
 					SelectItem = paneArgs.LeftPaneSelectItemParam
 				};
 
-				// Creates a secondary pane
-				IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
+				// Creates new pane
+				if (GetPaneCount() is 1 &&
+					IsMultiPaneAvailable &&
+					paneArgs.RightPaneNavPathParam is not null)
+					AddPane();
 
 				NavParamsRight = new()
 				{
 					NavPath = paneArgs.RightPaneNavPathParam,
 					SelectItem = paneArgs.RightPaneSelectItemParam
 				};
+
+				ShellPaneArrangement =
+					paneArgs.ShellPaneArrangement is ShellPaneArrangement.None
+						? ShellPaneArrangement.Horizontal
+						: paneArgs.ShellPaneArrangement;
 			}
 
 			TabBarItemParameter = new()
@@ -451,8 +586,9 @@ namespace Files.App.Views
 				{
 					LeftPaneNavPathParam = NavParamsLeft?.NavPath,
 					LeftPaneSelectItemParam = NavParamsLeft?.SelectItem,
-					RightPaneNavPathParam = IsRightPaneVisible ? NavParamsRight?.NavPath : null,
-					RightPaneSelectItemParam = IsRightPaneVisible ? NavParamsRight?.SelectItem : null,
+					RightPaneNavPathParam = GetPaneCount() >= 2 ? NavParamsRight?.NavPath : null,
+					RightPaneSelectItemParam = GetPaneCount() >= 2 ? NavParamsRight?.SelectItem : null,
+					ShellPaneArrangement = ShellPaneArrangement,
 				}
 			};
 		}
@@ -474,6 +610,16 @@ namespace Files.App.Views
 			WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
 		}
 
+		private void Pane_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (sender is UIElement element)
+			{
+				element.GotFocus += Pane_GotFocus;
+				element.RightTapped += Pane_RightTapped;
+				element.PointerPressed += Pane_PointerPressed;
+			}
+		}
+
 		private void Pane_ContentChanged(object? sender, TabBarItemParameter e)
 		{
 			TabBarItemParameter = new()
@@ -482,16 +628,10 @@ namespace Files.App.Views
 				NavigationParameter = new PaneNavigationArguments()
 				{
 					LeftPaneNavPathParam = GetPane(0)?.TabBarItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,
-					RightPaneNavPathParam = IsRightPaneVisible ? GetPane(1)?.TabBarItemParameter?.NavigationParameter as string : null
+					RightPaneNavPathParam = GetPaneCount() >= 2 ? GetPane(1)?.TabBarItemParameter?.NavigationParameter as string : null,
+					ShellPaneArrangement = ShellPaneArrangement,
 				}
 			};
-		}
-
-		private void Pane_Loaded(object sender, RoutedEventArgs e)
-		{
-			((UIElement)sender).GotFocus += Pane_GotFocus;
-			((UIElement)sender).RightTapped += Pane_RightTapped;
-			((UIElement)sender).PointerPressed += Pane_PointerPressed;
 		}
 
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -529,27 +669,46 @@ namespace Files.App.Views
 				((UIElement)sender).Focus(FocusState.Programmatic);
 		}
 
-		private void Sizer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-		{
-			var paneColumns = RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0);
-			paneColumns?.ForEach(x => x.Width = new GridLength(1, GridUnitType.Star));
-		}
-
 		private void Sizer_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (sender is GridSplitter sizer)
-				sizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			{
+				sizer.ChangeCursor(
+					InputSystemCursor.Create(
+						ShellPaneArrangement is ShellPaneArrangement.Horizontal
+							? InputSystemCursorShape.SizeWestEast
+							: InputSystemCursorShape.SizeNorthSouth));
+			}
+		}
+
+		private void Sizer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+			{
+				var definitions = RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0);
+				definitions?.ForEach(x => x.Width = new GridLength(1, GridUnitType.Star));
+			}
+			else
+			{
+				var definitions = RootGrid.RowDefinitions.Where(x => RootGrid.RowDefinitions.IndexOf(x) % 2 == 0);
+				definitions?.ForEach(x => x.Height = new GridLength(1, GridUnitType.Star));
+			}
 		}
 
 		private void Sizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			this.ChangeCursor(
+				InputSystemCursor.Create(
+					ShellPaneArrangement is ShellPaneArrangement.Horizontal
+						? InputSystemCursorShape.SizeWestEast
+						: InputSystemCursorShape.SizeNorthSouth));
 		}
 
 		private void Sizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			if (GetPane(1) is ModernShellPage secondShellPage && secondShellPage.ActualWidth <= 100)
-				IsRightPaneVisible = false;
+			if (GetPane(1) is ModernShellPage secondShellPage &&
+				secondShellPage.ActualWidth <= 100)
+				RemovePane(1);
 
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
@@ -564,14 +723,25 @@ namespace Files.App.Views
 		public void Dispose()
 		{
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
-			GetPane(0)?.Dispose();
-			GetPane(1)?.Dispose();
 
-			var sizerColumns = RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 1)?.Cast<GridSplitter>();
-			if (sizerColumns is not null)
+			// Dispose panes
+			foreach (var pane in GetPanes())
 			{
-				foreach (var item in sizerColumns)
-					item.DoubleTapped -= Sizer_OnDoubleTapped;
+				pane.Loaded -= Pane_Loaded;
+				pane.ContentChanged -= Pane_ContentChanged;
+				pane.GotFocus -= Pane_GotFocus;
+				pane.RightTapped -= Pane_RightTapped;
+				pane.PointerPressed -= Pane_PointerPressed;
+				pane.Dispose();
+			}
+
+			// Dispose sizers
+			foreach (var sizer in GetSizers())
+			{
+				sizer.DoubleTapped -= Sizer_OnDoubleTapped;
+				sizer.Loaded -= Sizer_Loaded;
+				sizer.ManipulationCompleted -= Sizer_ManipulationCompleted;
+				sizer.ManipulationStarted -= Sizer_ManipulationStarted;
 			}
 		}
 	}

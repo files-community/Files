@@ -85,6 +85,8 @@ namespace Files.App.ViewModels.Settings
 
 		public ObservableCollection<AppLanguageItem> AppLanguages => AppLanguageHelper.SupportedLanguages;
 
+		public Dictionary<ShellPaneArrangement, string> ShellPaneArrangementTypes { get; private set; } = [];
+
 		public GeneralViewModel()
 		{
 			ChangePageCommand = new RelayCommand(ChangePageAsync);
@@ -106,6 +108,11 @@ namespace Files.App.ViewModels.Settings
 				PagesOnStartupList = [];
 
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
+
+			// ShellPaneArrangement
+			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, "Horizontal".GetLocalizedResource());
+			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Vertical, "Vertical".GetLocalizedResource());
+			SelectedShellPaneArrangementType = ShellPaneArrangementTypes[UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption];
 
 			InitStartupSettingsRecentFoldersFlyout();
 		}
@@ -469,6 +476,19 @@ namespace Files.App.ViewModels.Settings
 				{
 					UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow = value;
 					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string selectedShellPaneArrangementType;
+		public string SelectedShellPaneArrangementType
+		{
+			get => selectedShellPaneArrangementType;
+			set
+			{
+				if (SetProperty(ref selectedShellPaneArrangementType, value))
+				{
+					UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption = ShellPaneArrangementTypes.First(e => e.Value == value).Key;
 				}
 			}
 		}

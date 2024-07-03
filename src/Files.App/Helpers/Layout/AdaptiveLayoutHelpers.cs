@@ -51,7 +51,7 @@ namespace Files.App.Helpers
 			if (viewStateSection is null)
 				return Layouts.None;
 
-			var viewMode = viewStateSection.Parameters?.FirstOrDefault(x => x.Key == "Mode").Value;
+			var viewMode = viewStateSection.Parameters.FirstOrDefault(x => x.Key == "Mode").Value;
 
 			return viewMode switch
 			{
