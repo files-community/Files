@@ -201,6 +201,12 @@
 										<Setter Target="PART_FilledPath.Fill" Value="{ThemeResource ThemedIconNeutralBrush}" />
 									</VisualState.Setters>
 								</VisualState>
+								<VisualState x:Name="Accent">
+									<VisualState.Setters>
+										<Setter Target="PART_OutlinePath.Fill" Value="{ThemeResource ThemedIconAccentBrush}" />
+										<Setter Target="PART_FilledPath.Fill" Value="{ThemeResource ThemedIconAccentBrush}" />
+									</VisualState.Setters>
+								</VisualState>
 								<VisualState x:Name="Toggle">
 									<VisualState.Setters>
 										<Setter Target="PART_OutlinePath.Fill" Value="{ThemeResource ThemedIconAccentContrastBrush}" />

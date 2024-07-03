@@ -23,6 +23,7 @@ namespace Files.App.UserControls
 	[TemplateVisualState(Name = CautionStateName, GroupName = IconColorStateGroupName)]
 	[TemplateVisualState(Name = SuccessStateName, GroupName = IconColorStateGroupName)]
 	[TemplateVisualState(Name = NeutralStateName, GroupName = IconColorStateGroupName)]
+	[TemplateVisualState(Name = AccentStateName, GroupName = IconColorStateGroupName)]
 	[TemplateVisualState(Name = ToggleStateName, GroupName = IconColorStateGroupName)]
 	[TemplateVisualState(Name = DisabledStateName, GroupName = IconColorStateGroupName)]
 	[TemplateVisualState(Name = HighContrastStateName, GroupName = IconColorStateGroupName)]
@@ -48,6 +49,7 @@ namespace Files.App.UserControls
 		internal const string CautionStateName = "Caution";
 		internal const string SuccessStateName = "Success";
 		internal const string NeutralStateName = "Neutral";
+		internal const string AccentStateName = "Accent";
 		internal const string ToggleStateName = "Toggle";
 		internal const string DisabledStateName = "Disabled";
 		internal const string HighContrastStateName = "HighContrast";

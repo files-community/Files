@@ -189,6 +189,25 @@
 								IsToggled="True"
 								Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
 						</StackPanel>
+
+						<TextBlock><Run FontWeight="Medium">Accent</Run>
+							<Run FontSize="12">(Layered, Filled, Outline)</Run></TextBlock>
+
+						<StackPanel Orientation="Horizontal" Spacing="16">
+							<uc:ThemedIcon
+								IconState="Accent"
+								IconType="Layered"
+								Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+							<uc:ThemedIcon
+								IconState="Accent"
+								IconType="Filled"
+								Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+							<uc:ThemedIcon
+								IconState="Accent"
+								IconType="Outline"
+								Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
+						</StackPanel>
+
 					</StackPanel>
 
 					<!--  On a Control  -->

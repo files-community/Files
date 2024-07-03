@@ -41,6 +41,11 @@ namespace Files.App.UserControls
 		Toggle,
 
 		/// <summary>
+		/// Icon state of <see cref="ThemedIcon"/> is Accent.
+		/// </summary>
+		Accent,
+
+		/// <summary>
 		/// Icon state of <see cref="ThemedIcon"/> is Disabled.
 		/// </summary>
 		Disabled,

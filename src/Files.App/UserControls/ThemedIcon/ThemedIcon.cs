@@ -204,6 +204,7 @@ namespace Files.App.UserControls
 			}
 
 			// If the Icon is disabled, switch from Layered to Outline Visual State.
+			// Also checking if the icon is Toggled, to use Filled instead of Outline.
 			if (IsEnabled is false)
 			{
 				if (IconType == ThemedIconTypes.Layered)
@@ -260,6 +261,7 @@ namespace Files.App.UserControls
 						ThemedIconColorType.Caution => CautionStateName,
 						ThemedIconColorType.Success => SuccessStateName,
 						ThemedIconColorType.Neutral => NeutralStateName,
+						ThemedIconColorType.Accent => AccentStateName,
 						_ => NormalStateName,
 					},
 					true);
