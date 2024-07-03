@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
-	[Obsolete("Use MenuFlyoutItemEx")]
 	public sealed partial class MenuFlyoutItemWithOpacityIcon: MenuFlyoutItem
 	{
 		public Style OpacityStyle
