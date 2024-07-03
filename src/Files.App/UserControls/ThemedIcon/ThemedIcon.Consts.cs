@@ -26,6 +26,7 @@ namespace Files.App.UserControls
 	[TemplateVisualState(Name = AccentStateName, GroupName = IconColorStateGroupName)]
 	[TemplateVisualState(Name = ToggleStateName, GroupName = IconColorStateGroupName)]
 	[TemplateVisualState(Name = DisabledStateName, GroupName = IconColorStateGroupName)]
+	[TemplateVisualState(Name = DisabledToggleStateName, GroupName = IconColorStateGroupName)]
 	[TemplateVisualState(Name = HighContrastStateName, GroupName = IconColorStateGroupName)]
 
 	// Icon IsEnabled Visual States
@@ -52,6 +53,7 @@ namespace Files.App.UserControls
 		internal const string AccentStateName = "Accent";
 		internal const string ToggleStateName = "Toggle";
 		internal const string DisabledStateName = "Disabled";
+		internal const string DisabledToggleStateName = "DisabledToggle";
 		internal const string HighContrastStateName = "HighContrast";
 
 		// "Enabled" Visual State Names

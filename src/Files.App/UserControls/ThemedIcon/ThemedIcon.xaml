@@ -15,6 +15,7 @@
 			<StaticResource x:Key="ThemedIconAccentBrush" ResourceKey="AccentFillColorDefaultBrush" />
 			<StaticResource x:Key="ThemedIconAccentContrastBrush" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
 			<StaticResource x:Key="ThemedIconDisabledBrush" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ThemedIconDisabledToggleBrush" ResourceKey="TextOnAccentFillColorDisabledBrush" />
 			<StaticResource x:Key="ThemedIconHighContrastBrush" ResourceKey="TextFillColorPrimary" />
 
 			<StaticResource x:Key="ThemedIconCriticalBrush" ResourceKey="SystemFillColorCritical" />
@@ -37,6 +38,7 @@
 			<StaticResource x:Key="ThemedIconAccentBrush" ResourceKey="AccentFillColorDefaultBrush" />
 			<StaticResource x:Key="ThemedIconAccentContrastBrush" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
 			<StaticResource x:Key="ThemedIconDisabledBrush" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ThemedIconDisabledToggleBrush" ResourceKey="TextOnAccentFillColorDisabledBrush" />
 			<StaticResource x:Key="ThemedIconHighContrastBrush" ResourceKey="TextFillColorPrimary" />
 
 			<StaticResource x:Key="ThemedIconCriticalBrush" ResourceKey="SystemFillColorCritical" />
@@ -59,6 +61,7 @@
 			<StaticResource x:Key="ThemedIconAccentBrush" ResourceKey="SystemColorHighlightColor" />
 			<StaticResource x:Key="ThemedIconAccentContrastBrush" ResourceKey="SystemColorHighlightTextColor" />
 			<StaticResource x:Key="ThemedIconDisabledBrush" ResourceKey="SystemColorGrayTextColor" />
+			<StaticResource x:Key="ThemedIconDisabledToggleBrush" ResourceKey="SystemColorGrayTextColor" />
 			<StaticResource x:Key="ThemedIconHighContrastBrush" ResourceKey="SystemColorButtonTextColor" />
 
 			<StaticResource x:Key="ThemedIconCriticalBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
@@ -223,6 +226,12 @@
 									<VisualState.Setters>
 										<Setter Target="PART_OutlinePath.Fill" Value="{ThemeResource ThemedIconDisabledBrush}" />
 										<Setter Target="PART_FilledPath.Fill" Value="{ThemeResource ThemedIconDisabledBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="DisabledToggle">
+									<VisualState.Setters>
+										<Setter Target="PART_OutlinePath.Fill" Value="{ThemeResource ThemedIconDisabledBrush}" />
+										<Setter Target="PART_FilledPath.Fill" Value="{ThemeResource ThemedIconDisabledToggleBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

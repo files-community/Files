@@ -241,12 +241,17 @@ namespace Files.App.UserControls
 
 		private void OnIconStateChanged()
 		{
-			// If the Icon IsToggled, we go to the Toggle Visual State
-			if (_isToggled)
+			// If the Icon IsToggled and IsEnabled, we go to the Toggle Visual State
+			if (_isToggled && _isEnabled)
 			{
 				VisualStateManager.GoToState(this, ToggleStateName, true);
 			}
-			// Else if in Contrast mode, we go direct to the HighContrast Visual State.
+			// Else if the Icon IsToggled and IsEnabled is false, we go to the DisabledToggle Visual State
+			else if (_isToggled && !_isEnabled)
+			{
+				VisualStateManager.GoToState(this, DisabledToggleStateName, true);
+			}
+			// if in Contrast mode, we go direct to the HighContrast Visual State.
 			else if (UseContrast || _isHighContrast)
 			{
 				VisualStateManager.GoToState(this, HighContrastStateName, true);
@@ -276,7 +281,14 @@ namespace Files.App.UserControls
 			}
 
 			if (IsEnabled is false)
-				VisualStateManager.GoToState(this, DisabledStateName, true);
+				if (_isToggled || IsToggled)
+				{
+					VisualStateManager.GoToState(this, DisabledToggleStateName, true);
+				}
+				else
+				{
+					VisualStateManager.GoToState(this, DisabledStateName, true);
+				}
 		}
 
 		private void SetPathData(string partName, string pathData, FrameworkElement element)
