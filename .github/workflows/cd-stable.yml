@@ -113,7 +113,7 @@ jobs:
         $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
         $fileContent | Set-Content $localFilePath
 
-    - name: Sign files with Azure Trusted Signing
+    - name: Sign Files with Azure Trusted Signing
       uses: azure/trusted-signing-action@v0.3.16
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
