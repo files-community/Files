@@ -43,11 +43,13 @@ namespace Files.App.Helpers
 
 		private static Layouts GetPathLayout()
 		{
-			var desktopIni = ContentPageContext.ShellPage!.ShellViewModel.DesktopIni;
+			var desktopIni = ContentPageContext.ShellPage?.ShellViewModel.DesktopIni;
+			if (desktopIni is null)
+				return Layouts.None;
 
 			var viewStateSection = desktopIni.FirstOrDefault(x => x.SectionName == "ViewState");
 			if (viewStateSection is null)
-				return Layouts.Detail;
+				return Layouts.None;
 
 			var viewMode = viewStateSection.Parameters?.FirstOrDefault(x => x.Key == "Mode").Value;
 
