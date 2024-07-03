@@ -18,11 +18,19 @@ namespace Files.App.Data.Contexts
 		public IShellPage? ActivePaneOrColumn
 			=> _ActivePaneOrColumn;
 
+		private ShellPaneArrangement _ShellPaneArrangement;
+		/// <inheritdoc/>
+		public ShellPaneArrangement ShellPaneArrangement
+			=> _ShellPaneArrangement;
+
 		/// <inheritdoc/>
 		public event EventHandler? ActivePaneChanging;
 
 		/// <inheritdoc/>
 		public event EventHandler? ActivePaneChanged;
+
+		/// <inheritdoc/>
+		public event EventHandler? ShellPaneArrangementChanged;
 
 		/// <summary>
 		/// Initializes an instance of <see cref="MultiPanesContext"/>.
@@ -55,6 +63,10 @@ namespace Files.App.Data.Contexts
 			{
 				case nameof(IShellPanesPage.ActivePaneOrColumn):
 					UpdateContent();
+					break;
+				case nameof(IShellPanesPage.ShellPaneArrangement):
+					_ShellPaneArrangement = ActivePane?.PaneHolder.ShellPaneArrangement ?? ShellPaneArrangement.Horizontal;
+					ShellPaneArrangementChanged?.Invoke(this, EventArgs.Empty);
 					break;
 			}
 		}
@@ -93,6 +105,9 @@ namespace Files.App.Data.Contexts
 			_ActivePaneOrColumn = _mainPanesPage?.ActivePaneOrColumn;
 
 			ActivePaneChanged?.Invoke(this, EventArgs.Empty);
+
+			_ShellPaneArrangement = ActivePane?.PaneHolder.ShellPaneArrangement ?? ShellPaneArrangement.Horizontal;
+			ShellPaneArrangementChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
