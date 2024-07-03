@@ -2673,23 +2673,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Close current tab</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Close active pane</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Focus left pane</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Focus other pane</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Switch focus to the left pane</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Focus right pane</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Switch focus to the right pane</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Switch focus to the non active pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Toggle the sidebar</value>
@@ -3866,5 +3857,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Show Toolbar</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Tab actions menu</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Add vertical pane</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Add a vertical pane</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Add horizontal pane</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Add a horizontal pane</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Arrange vertically</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Arrange panes vertically</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Arrange horizontally</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Arrange panes horizontally</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Add pane</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Show tab actions button in the title bar</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Arrange panes</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Default pane arrangement</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
   </data>
 </root>
