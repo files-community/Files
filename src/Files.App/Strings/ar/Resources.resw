@@ -385,40 +385,40 @@
     <value>للقراءة فقط</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# day ago} other {# days ago}}</value>
+    <value>{0, plural, zero {}one {#يوم مضت} two {# أيام مضت} few {# أيام مضت} many {# أيام مضت} other {# أيام مضت}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value>1 day ago</value>
+    <value>منذ يوم</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
-    <value>{0} days ago</value>
+    <value>منذ {0} أيّام</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+    <value>{0, plural, zero {}one {#ساعة مضت} two {# ساعات مضت} few {# ساعات مضت} many {# ساعات مضت} other {# ساعات مضت}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
-    <value>1 hour ago</value>
+    <value>منذ ساعة</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
-    <value>{0} hours ago</value>
+    <value>منذ {0} ساعات</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
+    <value>{0, plural, zero {}one {# دقيقة مضت} two {# دقائق مضت} few {# دقائق مضت} many {# دقائق مضت} other {# دقائق مضت}}</value>
   </data>
   <data name="MinutesAgo_Singular" xml:space="preserve">
-    <value>1 minute ago</value>
+    <value>منذ دقيقة</value>
   </data>
   <data name="MinutesAgo_Plural" xml:space="preserve">
-    <value>{0} minutes ago</value>
+    <value>منذ {0} دقائق</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+    <value>{0, plural, zero {}one {# منذ ثانية} two {# منذ ثوان} few {# منذ ثوان} many {# منذ ثوان} other {# منذ ثوان}}</value>
   </data>
   <data name="SecondsAgo_Singular" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>منذ ثانية</value>
   </data>
   <data name="SecondsAgo_Plural" xml:space="preserve">
-    <value>{0} seconds ago</value>
+    <value>منذ {0} من الثواني</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>الآن</value>
@@ -477,10 +477,10 @@
     <value>بايت</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
+    <value>{0, number} {0, plural, zero {}one {ملف} two {ملفات} few {ملفات} many {ملفات} other {ملفات}} {1, number} {1, plural, zero {}one {مجلد} two {مجلدات} few {مجلدات} many {مجلدات} other {مجلدات}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number} {0, plural, zero {}one {ملف} two {ملفات} few {ملفات} many {ملفات} other {ملفات}} {1, number} {1, plural, zero {}one {مجلد} two {مجلدات} few {مجلدات} many {مجلدات} other {مجلدات}} من {2, number} {2, plural, zero {}one {موقع} two {مواقع} few {مواقع} many {مواقع} other {مواقع}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>التشغيل كمستخدم آخر</value>
@@ -513,7 +513,7 @@
     <value>انقل علامة التبويب الى هنا</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>الحالة</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>اللغة الإفتراضية للنظام</value>
@@ -1083,7 +1083,7 @@
     <value>تبديل لوحة المعلومات لعرض لوحة التفاصيل/المعاينة</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle the Toolbar</value>
+    <value>تبديل شريط الأدوات</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>المعاينة غير متوفرة</value>
@@ -1242,37 +1242,38 @@
     <value>نسخ</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}}</value>
+    <value>نسخ {0, plural, zero {}one {عنصر} two {عناصر} few {عناصر} many {عناصر} other {عناصر}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}}</value>
+    <value>حذف {0, plural, zero {}one {العنصر} two {العناصر} few {العناصر} many {العناصر} other {العناصر}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>نقل</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
+    <value>{0, plural, zero {}one {سيتم نقل عنصر واحد} two {# سيتم نقل العناصر} few {# سيتم نقل العناصر} many {# سيتم نقل العناصر} other {# سيتم نقل العناصر}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move {0, plural, one {item} other {items}}</value>
+    <value>نقل العنصر {0, plural, zero {}one {} two {العناصر} few {العناصر} many {العناصر} other {العناصر}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
+    <value>{0, plural, zero {}one {سيتم حذف عنصر واحد} two {# سيتم حذف العناصر} few {# سيتم حذف العناصر} many {# سيتم حذف العناصر} other {# سيتم حذف العناصر}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>متابعة</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+    <value>{0, plural, zero {}one {هناك اسم واحد متضارب للملف} two {هناك # من أسماء الملفات المتضاربة} few {هناك # من أسماء الملفات المتضاربة} many {هناك # من أسماء الملفات المتضاربة} other {هناك # من أسماء الملفات المتضاربة}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}, and {1, plural, one {one outgoing item} other {# outgoing items}}</value>
+    <value>{0, plural, one {يوجد ملف واحد باسم متعارض} other {يوجد # ملفات بأسماء متعارضة}}, و{1, plural, one {عنصر صادر واحد} other {# عناصر صادرة}}
+```</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
+    <value>تضارب {0, plural, zero {}one {اسم الملف} two {أسماء الملفات} few {أسماء الملفات} many {أسماء الملفات} other {أسماء الملفات}}</value>
   </data>
   <data name="CopyItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
+    <value>{0, plural, zero {}one {سيتم نسخ عنصر واحد} two {# سيتم نسخ العناصر} few {# سيتم نسخ العناصر} many {# سيتم نسخ العناصر} other {# سيتم نسخ العناصر}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>حذف دائم</value>
@@ -1587,7 +1588,7 @@
     <value>استبدال جميع إدخالات صلاحيات الكائن الفرعي بإدخالات صلاحيات هذا الكائن</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>إغلاق اللوحة النشطة</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>ادخل وضع التراكب المضغوط</value>
@@ -1617,7 +1618,7 @@
     <value>يقوم بتحميل العنصر من السحابة ويحمل المعاينة</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
+    <value>{0, plural, zero {}one {# عنصر} two {# عناصر} few {# عناصر} many {# عناصر} other {# عناصر}} ({1, plural, zero {}one {# ملف} two {# ملفات} few {# ملفات} many {# ملفات} other {# ملفات}}! {2, plural, zero {}one {# مجلد} two {# مجلدات} few {# مجلدات} many {# مجلدات} other {# مجلدات}}</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>الحجم الغير مضغوط</value>
@@ -1848,7 +1849,7 @@
     <value>لا يوجد لون مخفض</value>
   </data>
   <data name="ThirdPartyLibraries" xml:space="preserve">
-    <value>Third party libraries</value>
+    <value>مكتبات الطرف الثالث</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>هذا الخيار يعدل سجل النظام ويمكن أن تكون له تأثيرات جانبية غير متوقعة على جهازك. تابع على مسؤوليتك الخاصة.</value>
@@ -2672,23 +2673,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>إغلاق علامة التبويب الحالية</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>فتح لوحة جديدة</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>إغلاق اللوحة النشطة</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Focus left pane</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Focus other pane</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Switch focus to the left pane</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Focus right pane</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Switch focus to the right pane</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Switch focus to the non active pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>تبديل الشريط الجانبي</value>
@@ -3857,13 +3849,58 @@
     <value>تحرير الملف المحدد في ملاحظات</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
-    <value>Dimensions:</value>
+    <value>الأبعاد:</value>
   </data>
   <data name="StatusWithColon" xml:space="preserve">
-    <value>Status:</value>
+    <value>الحالة:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
+    <value>عرض شريط الأدوات</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>قائمة إجراءات علامة التبويب</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Add vertical pane</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Add a vertical pane</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Add horizontal pane</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Add a horizontal pane</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Arrange vertically</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Arrange panes vertically</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Arrange horizontally</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Arrange panes horizontally</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Add pane</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Show tab actions button in the title bar</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Arrange panes</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Default pane arrangement</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
   </data>
 </root>

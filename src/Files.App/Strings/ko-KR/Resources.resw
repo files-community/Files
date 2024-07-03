@@ -513,7 +513,7 @@
     <value>탭을 여기로 이동</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>상태</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows 기본값</value>
@@ -1083,7 +1083,7 @@
     <value>세부정보/미리보기 패널을 보려면 정보 보기로 전환하세요</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle the Toolbar</value>
+    <value>도구 모음 전환</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>가능한 미리보기가 없습니다</value>
@@ -1587,7 +1587,7 @@
     <value>모든 하위 객체의 사용 권한 항목을 이 객체의 상속 가능한 사용 권한 항목으로 변경</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>활성 패널 닫기</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>컴팩트 오버레이 시작</value>
@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>현재 탭 닫기</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>새 분할 화면 열기</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>활성 패널 닫기</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>왼쪽 분할 화면에 포커스</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Focus other pane</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>포커스를 왼쪽 분할 화면으로 전환합니다</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>오른쪽 분할 화면에 포커스</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>포커스를 오른쪽 분할 화면으로 전환합니다</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Switch focus to the non active pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>사이드 바 전환</value>
@@ -3446,7 +3437,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <value>항목 {0}개를 "{1}"에서 "{2}"(으)로 복사 중</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3482,59 +3473,59 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <value>항목 {0}개를 "{1}"에서 삭제하는 작업을 취소했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0} item(s) from "{1}"</value>
+    <value>항목 {0}개를 "{1}"에서 삭제했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0} item(s) from "{1}"</value>
+    <value>항목 {0}개를 "{1}"에서 삭제하는 작업 중 오류가 발생했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0} item(s) from "{1}"</value>
+    <value>항목 {0}개를 "{1}"에서 삭제하는 데 실패했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0} item(s) from "{1}"</value>
+    <value>항목 {0}개를 "{1}"에서 삭제 중</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <value>항목 {0}개를 "{1}"(으)로 이동하는 작업을 취소했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>항목 {0}개를 "{1}"에서 "{2}"(으)로 이동하는 작업을 취소했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0} item(s) to "{1}"</value>
+    <value>항목 {0}개를 "{1}"(으)로 이동했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <value>항목 {0}개를 "{1}"에서 "{2}"(으)로 이동했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0} item(s) to "{1}"</value>
+    <value>항목 {0}개를 "{1}"(으)로 이동 중</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>항목 {0}개를 "{1}"에서 "{2}"(으)로 이동 중</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0} item(s) to "{1}"</value>
+    <value>항목 {0}개를 "{1}"(으)로 이동하는 작업 중 오류가 발생했습니다.</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <value>항목 {0}개를 "{1}"에서 "{2}"(으)로 이동하지 못했습니다.</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled emptying Recycle Bin</value>
+    <value>휴지통 비우는 작업을 취소했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
@@ -3546,23 +3537,23 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Error emptying Recycle Bin</value>
+    <value>휴지통을 비우는 작업 중 오류가 발생했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>Failed to empty Recycle Bin</value>
+    <value>휴지통을 비우는 데 실패했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing the operation...</value>
+    <value>작업 준비 중...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} item(s) processed</value>
+    <value>{0}/{1} 항목 처리 완료</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Unblock downloaded file</value>
+    <value>다운로드한 파일 차단 해제</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
     <value>진행 중인 작업 없음</value>
@@ -3595,7 +3586,7 @@
     <value>로그인</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>Tags are currently only compatible on drives formatted as NTFS.</value>
+    <value>파일 태그는 현재 NTFS로 포맷된 드라이브에서만 지원됩니다.</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
     <value>태그를 적용하는 중 오류가 발생했습니다.</value>
@@ -3616,19 +3607,19 @@
     <value>파일 우선 정렬</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>Sort files first then folders</value>
+    <value>파일을 우선 정렬한 다음 폴더를 정렬</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
     <value>폴더 우선 정렬</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Sort folders first then files</value>
+    <value>폴더를 우선 정렬한 다음 파일을 정렬</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
     <value>정렬 우선순위</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
-    <value>Failed to rotate the image</value>
+    <value>이미지 회전에 실패했습니다</value>
   </data>
   <data name="Restart" xml:space="preserve">
     <value>다시 시작하기</value>
@@ -3637,7 +3628,7 @@
     <value>나가기</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
-    <value>Failed to share items</value>
+    <value>항목 공유에 실패했습니다</value>
   </data>
   <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
     <value>상위 폴더로 이동 시 직전 폴더로 스크롤</value>
@@ -3649,13 +3640,13 @@
     <value>앨범 아트 변경하기</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
-    <value>Failed to rename item</value>
+    <value>항목 이름을 바꾸는 데 실패했습니다</value>
   </data>
   <data name="HigherPermissionsRequired" xml:space="preserve">
-    <value>Editing "{0}" requires additional permissions</value>
+    <value>"{0}"을(를) 편집하려면 추가 권한이 필요합니다</value>
   </data>
   <data name="EditPermissions" xml:space="preserve">
-    <value>Edit permissions</value>
+    <value>권한 편집</value>
   </data>
   <data name="BackgroundRunningNotificationBody" xml:space="preserve">
     <value>Files가 실행 성능 향상을 위해 백그라운드에서 실행 중입니다.</value>
@@ -3749,10 +3740,10 @@
     <value>이 키 조합은 이미 사용 중입니다. 다른 키 조합을 사용하세요.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
-    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
+    <value>선택한 키 조합은 사용할 수 없습니다. 다른 키 조합을 사용하세요.</value>
   </data>
   <data name="Customized" xml:space="preserve">
-    <value>Customized</value>
+    <value>사용자 정의됨</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>설정이 동기화된 상태에서는 적응형 보기를 사용할 수 없습니다. 기본 레이아웃이 자세히 보기로 변경되었습니다.</value>
@@ -3809,17 +3800,17 @@
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">
-    <value>Show for all locations</value>
+    <value>모든 경로에서 표시</value>
     <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
   </data>
   <data name="DevTools" xml:space="preserve">
-    <value>Developer tools</value>
+    <value>개발자 도구</value>
   </data>
   <data name="DisplayOpenIDE" xml:space="preserve">
-    <value>Configure the "Open IDE" button on the status bar</value>
+    <value>"IDE 열기" 버튼의 상태 표시줄 표시 여부 구성</value>
   </data>
   <data name="GitRepos" xml:space="preserve">
-    <value>Show for Git repos</value>
+    <value>Git 리포지토리에서 표시</value>
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
@@ -3842,13 +3833,13 @@
     <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>Network locations</value>
+    <value>네트워크 위치</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
+    <value>네트워크 위치가 없습니다. 네트워크 위치를 사용하지 않는다면, 위젯을 비활성화할 수 있습니다.</value>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+    <value>비활성화</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
     <value>메모장에서 편집</value>
@@ -3857,13 +3848,58 @@
     <value>선택한 파일 메모장에서 편집</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
-    <value>Dimensions:</value>
+    <value>사진 크기:</value>
   </data>
   <data name="StatusWithColon" xml:space="preserve">
-    <value>Status:</value>
+    <value>상태:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
+    <value>도구 모음 표시</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>탭 동작 메뉴</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Add vertical pane</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Add a vertical pane</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Add horizontal pane</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Add a horizontal pane</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Arrange vertically</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Arrange panes vertically</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Arrange horizontally</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Arrange panes horizontally</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Add pane</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Show tab actions button in the title bar</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Arrange panes</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Default pane arrangement</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
   </data>
 </root>
