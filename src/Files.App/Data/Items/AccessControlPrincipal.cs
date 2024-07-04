@@ -1,24 +1,24 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Text;
-using Vanara.PInvoke;
-using static Vanara.PInvoke.AdvApi32;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Security;
 
-namespace Files.App.Utils.Storage
+namespace Files.App.Data.Items
 {
 	/// <summary>
 	/// Represents a principal of an ACE or an owner of an ACL.
 	/// </summary>
-	public sealed class Principal : ObservableObject
+	public sealed class AccessControlPrincipal : ObservableObject
 	{
 		/// <summary>
 		/// Account type.
 		/// </summary>
-		public PrincipalType PrincipalType { get; private set; }
+		public AccessControlPrincipalType PrincipalType { get; private set; }
 
 		/// <summary>
-		/// Acount security identifier (SID).
+		/// Account security identifier (SID).
 		/// </summary>
 		public string? Sid { get; private set; }
 
@@ -43,8 +43,8 @@ namespace Files.App.Utils.Storage
 		public string Glyph
 			=> PrincipalType switch
 			{
-				PrincipalType.User => "\xE77B",
-				PrincipalType.Group => "\xE902",
+				AccessControlPrincipalType.User => "\xE77B",
+				AccessControlPrincipalType.Group => "\xE902",
 				_ => "\xE716",
 			};
 
@@ -66,26 +66,34 @@ namespace Files.App.Utils.Storage
 		public string FullNameHumanizedWithBrackes
 			=> string.IsNullOrEmpty(Domain) ? string.Empty : $"({Domain}\\{Name})";
 
-		public Principal(string sid)
+		public unsafe AccessControlPrincipal(string sid)
 		{
 			if (string.IsNullOrEmpty(sid))
 				return;
 
 			Sid = sid;
-			var lpSid = ConvertStringSidToSid(sid);
+			PSID lpSid = default;
+			SID_NAME_USE snu = default;
 
-			StringBuilder lpName = new(), lpDomain = new();
-			int cchName = 0, cchDomainName = 0;
+			fixed (char* cSid = sid)
+				PInvoke.ConvertStringSidToSid(new PCWSTR(cSid), &lpSid);
+
+			PWSTR lpName = default;
+			PWSTR lpDomain = default;
+			uint cchName = 0, cchDomainName = 0;
 
 			// Get size of account name and domain name
-			bool bResult = LookupAccountSid(null, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out _);
+			bool bResult = PInvoke.LookupAccountSid(new PCWSTR(), lpSid, lpName, &cchName, lpDomain, &cchDomainName, null);
 
 			// Ensure requested capacity
-			lpName.EnsureCapacity(cchName);
-			lpDomain.EnsureCapacity(cchDomainName);
+			fixed (char* cName = new char[cchName])
+				lpName = new(cName);
+
+			fixed (char* cDomain = new char[cchDomainName])
+				lpDomain = new(cDomain);
 
 			// Get account name and domain
-			bResult = LookupAccountSid(null, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out var snu);
+			bResult = PInvoke.LookupAccountSid(new PCWSTR(), lpSid, lpName, &cchName, lpDomain, &cchDomainName, &snu);
 			if(!bResult)
 				return;
 
@@ -96,24 +104,24 @@ namespace Files.App.Utils.Storage
 					(x == SID_NAME_USE.SidTypeAlias ||
 					x == SID_NAME_USE.SidTypeGroup ||
 					x == SID_NAME_USE.SidTypeWellKnownGroup)
-					=> PrincipalType.Group,
+					=> AccessControlPrincipalType.Group,
 
 				// User
 				SID_NAME_USE.SidTypeUser
-					=> PrincipalType.User,
+					=> AccessControlPrincipalType.User,
 
 				// Unknown
-				_ => PrincipalType.Unknown
+				_ => AccessControlPrincipalType.Unknown
 			};
-
-			lpDomain.Clear();
 
 			// Replace domain name with computer name if the account type is user or alias type
 			if (snu == SID_NAME_USE.SidTypeUser || snu == SID_NAME_USE.SidTypeAlias)
 			{
-				lpDomain = new(256, 256);
-				uint size = (uint)lpDomain.Capacity;
-				bResult = Kernel32.GetComputerName(lpDomain, ref size);
+				uint size = 256;
+				fixed (char* cDomain = new char[size])
+					lpDomain = new(cDomain);
+
+				bResult = PInvoke.GetComputerName(lpDomain, ref size);
 				if (!bResult)
 					return;
 			}

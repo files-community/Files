@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Storage
+namespace Files.App.Data.Items
 {
 	/// <summary>
 	/// Represents an access control entry (ACE).
@@ -17,7 +17,7 @@ namespace Files.App.Utils.Storage
 		/// The owner in the security descriptor (SD).
 		/// NULL if the security descriptor has no owner SID.
 		/// </summary>
-		public Principal Principal { get; set; }
+		public AccessControlPrincipal Principal { get; set; }
 
 		/// <summary>
 		/// Whether the ACE is inherited or not
@@ -336,16 +336,16 @@ namespace Files.App.Utils.Storage
 		{
 			AccessMaskItems = SecurityAdvancedAccessControlItemFactory.Initialize(this, AreAdvancedPermissionsShown, IsInherited, IsFolder);
 
-			//ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
-			//{
-			//	AccessControlType = Enum.Parse<AccessControlType>(x);
-			//});
+			ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
+			{
+				//AccessControlType = Enum.Parse<AccessControlType>(x);
+			});
 
-			//ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
-			//{
-			//	var parts = x.Split(',');
-			//	InheritanceFlags = Enum.Parse<AccessControlEntryFlags>(parts[0]);
-			//});
+			ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
+			{
+				//var parts = x.Split(',');
+				//InheritanceFlags = Enum.Parse<AccessControlEntryFlags>(parts[0]);
+			});
 
 			IsFolder = isFolder;
 			Principal = new(ownerSid);
@@ -401,6 +401,25 @@ namespace Files.App.Utils.Storage
 			{
 				DeniedAccessMaskFlags &= ~accessMask;
 			}
+		}
+
+		/// <summary>
+		/// Gets access control list (ACL) initialized with default data.
+		/// </summary>
+		/// <param name="isFolder"></param>
+		/// <param name="ownerSid"></param>
+		/// <returns>If the function succeeds, an instance of AccessControlList; otherwise, null.</returns>
+		public static AccessControlEntry GetDefault(bool isFolder, string ownerSid)
+		{
+			return new(
+				isFolder,
+				ownerSid,
+				AccessControlEntryType.Allow,
+				AccessMaskFlags.ReadAndExecute,
+				false,
+				isFolder
+					? AccessControlEntryFlags.ContainerInherit | AccessControlEntryFlags.ObjectInherit
+					: AccessControlEntryFlags.None);
 		}
 	}
 }
