@@ -47,6 +47,7 @@ namespace Files.App.ViewModels
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
+		private readonly IWindowsIniService WindowsIniService = Ioc.Default.GetRequiredService<IWindowsIniService>();
 		private readonly IWindowsJumpListService jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -153,6 +154,8 @@ namespace Files.App.ViewModels
 		public string? GitDirectory { get; private set; }
 
 		public bool IsValidGitDirectory { get; private set; }
+
+		public List<IniSectionDataItem> DesktopIni { get; private set; }
 
 		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
@@ -1443,7 +1446,7 @@ namespace Files.App.ViewModels
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
 				IsLoadingItems = false;
 
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, WorkingDirectory, filesAndFolders.ToList());
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, filesAndFolders.ToList());
 			}
 			finally
 			{
@@ -1736,6 +1739,7 @@ namespace Files.App.ViewModels
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						await dispatcherQueue.EnqueueOrInvokeAsync(GetDesktopIniFileData, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForBackgroundImage, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
@@ -1797,51 +1801,61 @@ namespace Files.App.ViewModels
 				.FirstOrDefault()?.ItemPath;
 		}
 
+		private void GetDesktopIniFileData()
+		{
+			var path = Path.Combine(WorkingDirectory, "desktop.ini");
+			DesktopIni = WindowsIniService.GetData(path);
+		}
+
 		public void CheckForBackgroundImage()
 		{
-			var iniPath = Path.Combine(WorkingDirectory, "desktop.ini");
-			if (!File.Exists(iniPath))
-				return;
-
-			// Read data
-			var lines = File.ReadLines(iniPath);
-			var keys = lines.Select(line => line.Split('='))
-								.Where(parts => parts.Length == 2)
-								.ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
-
-			// Image source
-			if (folderSettings.LayoutMode is not FolderLayoutModes.ColumnView && keys.TryGetValue("Files_BackgroundImage", out var backgroundImage))
-				FolderBackgroundImageSource = new BitmapImage
-				{
-					UriSource = new Uri(backgroundImage, UriKind.RelativeOrAbsolute),
-					CreateOptions = BitmapCreateOptions.IgnoreImageCache
-				};
-			else
+			var filesAppSection = DesktopIni.FirstOrDefault(x => x.SectionName == "FilesApp");
+			if (filesAppSection is null || folderSettings.LayoutMode is FolderLayoutModes.ColumnView)
 			{
 				FolderBackgroundImageSource = null;
 				return;
 			}
 
+			// Image source
+			var backgroundImage = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundImage").Value;
+			if (string.IsNullOrEmpty(backgroundImage))
+			{
+				FolderBackgroundImageSource = null;
+				return;
+			}
+			else
+			{
+				FolderBackgroundImageSource = new BitmapImage
+				{
+					UriSource = new Uri(backgroundImage, UriKind.RelativeOrAbsolute),
+					CreateOptions = BitmapCreateOptions.IgnoreImageCache
+				};
+			}
+
 			// Opacity
-			if (keys.TryGetValue("Files_BackgroundOpacity", out var backgroundOpacity) && float.TryParse(backgroundOpacity, out var opacity))
+			var backgroundOpacity = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundOpacity").Value;
+			if (float.TryParse(backgroundOpacity, out var opacity))
 				FolderBackgroundImageOpacity = opacity;
 			else
 				FolderBackgroundImageOpacity = 1f;
 
 			// Stretch
-			if (keys.TryGetValue("Files_BackgroundFit", out var backgroundFit) && Enum.TryParse<Stretch>(backgroundFit, out var fit))
+			var backgroundFit = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundFit").Value;
+			if (Enum.TryParse<Stretch>(backgroundFit, out var fit))
 				FolderBackgroundImageFit = fit;
 			else
 				FolderBackgroundImageFit = Stretch.UniformToFill;
 
-			// VerticalAlignment
-			if (keys.TryGetValue("Files_BackgroundVerticalAlignment", out var verticalAlignment) && Enum.TryParse<VerticalAlignment>(verticalAlignment, out var vAlignment))
+			// Vertical alignment
+			var verticalAlignment = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundVerticalAlignment").Value;
+			if (Enum.TryParse<VerticalAlignment>(verticalAlignment, out var vAlignment))
 				FolderBackgroundImageVerticalAlignment = vAlignment;
 			else
 				FolderBackgroundImageVerticalAlignment = VerticalAlignment.Center;
 
-			// HorizontalAlignment
-			if (keys.TryGetValue("Files_BackgroundHorizontalAlignment", out var horizontalAlignment) && Enum.TryParse<HorizontalAlignment>(horizontalAlignment, out var hAlignment))
+			// Horizontal alignment
+			var horizontalAlignment = filesAppSection.Parameters.FirstOrDefault(x => x.Key == "Files_BackgroundHorizontalAlignment").Value;
+			if (Enum.TryParse<HorizontalAlignment>(horizontalAlignment, out var hAlignment))
 				FolderBackgroundImageHorizontalAlignment = hAlignment;
 			else
 				FolderBackgroundImageHorizontalAlignment = HorizontalAlignment.Center;
