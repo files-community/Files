@@ -167,7 +167,7 @@ namespace Files.App.Utils.Cloud
 			// error if you try to call EnumerateArray on its Value.
 			if (googleDriveRegValJsonProperty.Value.ValueKind == JsonValueKind.Undefined)
 			{
-				App.Logger.LogWarning(
+				_logger.LogWarning(
 					"Root element of Google Drive registry value for value name `"
 						+ _googleDriveRegValName
 						+ "' was empty."
