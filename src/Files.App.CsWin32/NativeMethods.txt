@@ -121,3 +121,14 @@ WindowsDeleteString
 IPreviewHandler
 AssocQueryString
 GetModuleHandle
+SHEmptyRecycleBin
+SHFileOperation
+SHGetFolderPath
+SHGFP_TYPE
+SHGetKnownFolderItem
+SHQUERYRBINFO
+SHQueryRecycleBin
+FileOperation
+IFileOperation
+IShellItem2
+PSGetPropertyKeyFromName

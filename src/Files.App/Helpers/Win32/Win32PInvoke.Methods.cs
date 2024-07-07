@@ -497,12 +497,6 @@ namespace Files.App.Helpers
 			int dwFlags
 		);
 
-		[DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Unicode)]
-		public static extern int SHQueryRecycleBin(
-			string pszRootPath,
-			ref SHQUERYRBINFO pSHQueryRBInfo
-		);
-
 		[DllImport("shell32.dll")]
 		static extern int SHGetKnownFolderPath(
 			[MarshalAs(UnmanagedType.LPStruct)] Guid rfid,
@@ -510,6 +504,9 @@ namespace Files.App.Helpers
 			IntPtr hToken,
 			out IntPtr pszPath
 		);
+
+		[DllImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", CharSet = CharSet.Unicode, SetLastError = true)]
+		public static extern void SHUpdateRecycleBinIcon();
 
 		public static string GetFolderFromKnownFolderGUID(Guid guid)
 		{

@@ -1,5 +1,10 @@
 {
 	"$schema": "https://aka.ms/CsWin32.schema.json",
 	"allowMarshaling": false,
-	"public": true
+	"public": true,
+	"comInterop": {
+		"preserveSigMethods": [
+			"IEnumShellItems.Next"
+		]
+	}
 }
