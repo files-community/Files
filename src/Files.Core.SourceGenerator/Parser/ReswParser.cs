@@ -11,21 +11,24 @@ namespace Files.Core.SourceGenerator.Parser
 	internal static class ReswParser
 	{
 		/// <summary>
-		/// Retrieves all keys and optional comments from the specified RESW file.
+		/// Parses a RESW (Resource) file and extracts keys with optional comments.
 		/// </summary>
-		/// <param name="file">The additional text representing the RESW file.</param>
-		/// <returns>An enumerable of tuples where each tuple contains a key and its associated comment.</returns>
-		internal static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)
+		/// <param name="file">The <see cref="AdditionalText"/> representing the RESW file to parse.</param>
+		/// <returns>An <see cref="IEnumerable{ParserItem}"/> containing the extracted keys and their corresponding values and comments.</returns>
+		internal static IEnumerable<ParserItem> GetKeys(AdditionalText file)
 		{
 			var document = XDocument.Load(file.Path);
 			var keys = document
 				.Descendants("data")
-				.Select(element => Tuple.Create(element.Attribute("name")?.Value, element.Element("comment")?.Value))
-				.Where(key => key.Item1 is not null) as IEnumerable<Tuple<string, string?>>;
+				.Select(element => new ParserItem {
+					Key = element.Attribute("name")?.Value!,
+					Value = element.Element("value")?.Value ?? string.Empty,
+					Comment = element.Element("comment")?.Value })
+				.Where(item => !string.IsNullOrEmpty(item.Key));
 
 			return keys is not null
-				? keys.OrderBy(k => k.Item1)
-				: Enumerable.Empty<Tuple<string, string?>>();
+				? keys.OrderBy(item => item.Key)
+				: Enumerable.Empty<ParserItem>();
 		}
 	}
 }

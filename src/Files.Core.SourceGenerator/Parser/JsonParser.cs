@@ -11,20 +11,20 @@ namespace Files.Core.SourceGenerator.Parser
 	internal static class JsonParser
 	{
 		/// <summary>
-		/// Retrieves all keys and optional context information from the specified JSON file.
+		/// Parses a JSON file and extracts keys with optional context information.
 		/// </summary>
-		/// <param name="file">The additional text representing the JSON file.</param>
-		/// <returns>An enumerable of tuples where each tuple contains a key and its associated context.</returns>
-		internal static IEnumerable<Tuple<string, string?>> GetKeys(AdditionalText file)
+		/// <param name="file">The <see cref="AdditionalText"/> representing the JSON file to parse.</param>
+		/// <returns>An <see cref="IEnumerable{ParserItem}"/> containing the extracted keys and their associated values.</returns>
+		internal static IEnumerable<ParserItem> GetKeys(AdditionalText file)
 		{
 			var jsonText = new SystemIO.StreamReader(file.Path).ReadToEnd();
 			var json = JsonValue.Parse(jsonText);
-			var result = new List<Tuple<string, string?>>();
+			var result = new List<ParserItem>();
 			ProcessJsonObject(json, string.Empty, result);
-			return result.OrderBy(k => k.Item1);
+			return result.OrderBy(item => item.Key);
 		}
 
-		private static void ProcessJsonObject(JsonValue json, string prefix, List<Tuple<string, string?>> result)
+		private static void ProcessJsonObject(JsonValue json, string prefix, List<ParserItem> result)
 		{
 			if (json.Type is not JsonValueType.Object)
 				return;
@@ -36,7 +36,13 @@ namespace Files.Core.SourceGenerator.Parser
 				if (string.IsNullOrEmpty(prefix))
 					return;
 
-				result.Add(Tuple.Create(prefix, (string?)obj["crowdinContext"].AsString));
+				result.Add(new()
+				{
+					Key = prefix,
+					Value = obj["text"],
+					Comment = obj["crowdinContext"].AsString
+				});
+
 				return;
 			}
 
@@ -49,7 +55,11 @@ namespace Files.Core.SourceGenerator.Parser
 					case JsonValueType.Boolean:
 					case JsonValueType.Number:
 					case JsonValueType.String:
-						result.Add(Tuple.Create(key, (string?)null));
+						result.Add(new()
+						{
+							Key = key,
+							Value = kvp.Value.ToString()
+						});
 						break;
 
 					case JsonValueType.Object:
