@@ -4,6 +4,8 @@
 using Microsoft.Data.Sqlite;
 using System.IO;
 using Windows.Storage;
+using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 
 namespace Files.App.Utils.Cloud
 {
@@ -12,6 +14,16 @@ namespace Files.App.Utils.Cloud
 	/// </summary>
 	public sealed class GoogleDriveCloudDetector : AbstractCloudDetector
 	{
+		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+
+        private const string _googleDriveRegKeyName = @"Software\Google\DriveFS";
+
+        private const string _googleDriveRegValName = "PerAccountPreferences";
+
+        private const string _googleDriveRegValPropName = "value";
+
+        private const string _googleDriveRegValPropPropName = "mount_point_path";
+
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
 			// Google Drive's sync database can be in a couple different locations. Go find it.
@@ -76,11 +88,10 @@ namespace Files.App.Utils.Cloud
 
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["name"]?.ToString() ?? folder.Name;
-				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Google", "Drive File Stream", "drive_fs.ico");
 
 				App.AppModel.GoogleDrivePath = path;
 
-				StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
+				StorageFile? iconFile = await GetGoogleDriveIconFileAsync();
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
@@ -89,6 +100,124 @@ namespace Files.App.Utils.Cloud
 					IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
 				};
 			}
+
+			await foreach (var provider in GetGoogleDriveProvidersFromRegistryAsync())
+			{
+				yield return provider;
+			}
+		}
+
+        private JsonDocument? GetGoogleDriveRegValJson()
+        {
+            // This will be null if the key name is not found.
+            using var googleDriveRegKey = Registry.CurrentUser.OpenSubKey(_googleDriveRegKeyName);
+
+            if (googleDriveRegKey is null)
+            {
+                _logger.LogWarning(
+                    "Google Drive registry key for key name `"
+                        + _googleDriveRegKeyName
+                        + "' not found."
+                );
+                return null;
+            }
+
+            var googleDriveRegVal = googleDriveRegKey.GetValue(_googleDriveRegValName);
+
+            if (googleDriveRegVal is null)
+            {
+                _logger.LogWarning(
+                    "Google Drive registry value for value name `"
+                        + _googleDriveRegValName
+                        + "' not found."
+                );
+                return null;
+            }
+
+            JsonDocument? googleDriveRegValueJson = null;
+            try
+            {
+                googleDriveRegValueJson = JsonDocument.Parse(googleDriveRegVal.ToString() ?? "");
+            }
+            catch (JsonException je)
+            {
+                _logger.LogWarning(
+                    je,
+                    "Google Drive registry value for value name `"
+                        + _googleDriveRegValName
+                        + "' could not be parsed as a JsonDocument."
+                );
+            }
+
+            return googleDriveRegValueJson;
+        }
+
+		private async IAsyncEnumerable<ICloudProvider> GetGoogleDriveProvidersFromRegistryAsync()
+		{
+            var googleDriveRegValJson = GetGoogleDriveRegValJson();
+
+            if (googleDriveRegValJson is null)
+				yield break;
+
+			var googleDriveRegValJsonProperty = googleDriveRegValJson
+				.RootElement.EnumerateObject()
+				.FirstOrDefault();
+
+			// A default JsonProperty struct has an "Undefined" Value.ValueKind and throws an
+			// error if you try to call EnumerateArray on its Value.
+			if (googleDriveRegValJsonProperty.Value.ValueKind == JsonValueKind.Undefined)
+			{
+				App.Logger.LogWarning(
+					"Root element of Google Drive registry value for value name `"
+						+ _googleDriveRegValName
+						+ "' was empty."
+				);
+				yield break;
+			}
+
+			foreach (var item in googleDriveRegValJsonProperty.Value.EnumerateArray())
+			{
+				if (!item.TryGetProperty(_googleDriveRegValPropName, out var googleDriveRegValProp))
+					yield break;
+
+				if (!googleDriveRegValProp.TryGetProperty(_googleDriveRegValPropPropName,
+					    out var googleDriveRegValPropProp))
+					yield break;
+
+				var path = googleDriveRegValPropProp.GetString();
+				if (path is null)
+					yield break;
+
+				// If Google Drive is mounted as a drive, `path' will just be the drive letter.
+				if (path.Length == 1)
+				{
+					var temp = new DriveInfo(path);
+					path = temp.RootDirectory.Name;
+				}
+
+				App.AppModel.GoogleDrivePath = path;
+
+				var iconFile = await GetGoogleDriveIconFileAsync();
+
+				yield return new CloudProvider(CloudProviders.GoogleDrive)
+				{
+					Name = "Google Drive",
+					SyncFolder = path,
+					IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
+				};
+			}
+		}
+
+		private async Task<StorageFile?> GetGoogleDriveIconFileAsync()
+		{
+			var programFilesEnvVar = Environment.GetEnvironmentVariable("ProgramFiles");
+
+			if (programFilesEnvVar is null)
+				return null;
+
+			var iconPath = Path.Combine(programFilesEnvVar, "Google", "Drive File Stream", "drive_fs.ico");
+
+			return await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 		}
 	}
 }
