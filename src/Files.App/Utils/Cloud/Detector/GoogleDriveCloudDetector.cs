@@ -107,7 +107,7 @@ namespace Files.App.Utils.Cloud
 			}
 		}
 
-        private JsonDocument? GetGoogleDriveRegValJson()
+		private JsonDocument? GetGoogleDriveRegValJson()
         {
             // This will be null if the key name is not found.
             using var googleDriveRegKey = Registry.CurrentUser.OpenSubKey(_googleDriveRegKeyName);
@@ -188,12 +188,8 @@ namespace Files.App.Utils.Cloud
 				if (path is null)
 					yield break;
 
-				// If Google Drive is mounted as a drive, `path' will just be the drive letter.
-				if (path.Length == 1)
-				{
-					var temp = new DriveInfo(path);
-					path = temp.RootDirectory.Name;
-				}
+				if (!ValidatePath(ref path))
+					yield break;
 
 				App.AppModel.GoogleDrivePath = path;
 
@@ -218,6 +214,34 @@ namespace Files.App.Utils.Cloud
 			var iconPath = Path.Combine(programFilesEnvVar, "Google", "Drive File Stream", "drive_fs.ico");
 
 			return await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
+		}
+
+		private bool ValidatePath(ref string path)
+		{
+			// If Google Drive is mounted as a drive, `path' will just be the drive letter, and
+			// therefore needs to be reformatted as a valid path.
+
+			if (path.Length == 1)
+			{
+				DriveInfo temp;
+				try
+				{
+					temp = new DriveInfo(path);
+				}
+				catch (ArgumentException e)
+				{
+					_logger.LogWarning(e, "Could not resolve drive letter `" + path + "' to a valid drive.");
+					return false;
+				}
+
+				path = temp.RootDirectory.Name;
+			}
+
+			if (Directory.Exists(path))
+				return true;
+
+			_logger.LogWarning("Invalid Google Drive mount point path: " + path);
+			return false;
 		}
 	}
 }
