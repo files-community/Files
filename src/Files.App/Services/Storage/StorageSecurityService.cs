@@ -198,7 +198,7 @@ namespace Files.App.Services
 			if (!bResult)
 				return (WIN32_ERROR)Marshal.GetLastPInvokeError();
 
-			var cbNewDACL = aclSizeInfo.AclBytesInUse + aclSizeInfo.AclBytesFree + Marshal.SizeOf<ACCESS_ALLOWED_ACE>() * 2;
+			var cbNewDACL = aclSizeInfo.AclBytesInUse + aclSizeInfo.AclBytesFree + Marshal.SizeOf<ACCESS_ALLOWED_ACE>() + 1024;
 
 			pNewDACL = (ACL*)PInvoke.LocalAlloc(LOCAL_ALLOC_FLAGS.LPTR, (nuint)cbNewDACL);
 			if (pNewDACL == default)
