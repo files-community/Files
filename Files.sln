@@ -51,23 +51,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.App.Controls", "src\F
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Debug|arm64 = Debug|arm64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Preview|Any CPU = Preview|Any CPU
 		Preview|arm64 = Preview|arm64
 		Preview|x64 = Preview|x64
 		Preview|x86 = Preview|x86
-		Release|Any CPU = Release|Any CPU
 		Release|arm64 = Release|arm64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-		Stable|Any CPU = Stable|Any CPU
 		Stable|arm64 = Stable|arm64
 		Stable|x64 = Stable|x64
 		Stable|x86 = Stable|x86
-		Store|Any CPU = Store|Any CPU
 		Store|arm64 = Store|arm64
 		Store|x64 = Store|x64
 		Store|x86 = Store|x86
