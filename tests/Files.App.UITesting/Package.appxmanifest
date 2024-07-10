@@ -14,7 +14,7 @@
   <mp:PhoneIdentity PhoneProductId="45122b57-2262-4d19-9e39-d10f68ce8626" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Files.App.UITesting</DisplayName>
+    <DisplayName>Files.App.UITests</DisplayName>
     <PublisherDisplayName>mdta</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -33,8 +33,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Files.App.UITesting"
-        Description="Files.App.UITesting"
+        DisplayName="Files.App.UITests"
+        Description="Files.App.UITests"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
