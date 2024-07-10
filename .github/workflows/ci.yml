@@ -237,6 +237,12 @@ jobs:
           $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
           --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
 
+    - name: Remove artifacts
+      uses: c-hive/gha-remove-artifacts@v1.2.0
+      with:
+        age: 1 day
+        GITHUB_TOKEN: ${{ github.token }}
+
     # - name: Generate markdown from the tests result
     #   shell: pwsh
     #   run: |
