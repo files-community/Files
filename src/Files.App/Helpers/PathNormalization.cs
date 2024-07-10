@@ -48,7 +48,7 @@ namespace Files.App.Helpers
 					.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
 					.ToUpperInvariant();
 			}
-			catch (UriFormatException ex)
+			catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
 			{
 				App.Logger.LogWarning(ex, path);
 				return path;
