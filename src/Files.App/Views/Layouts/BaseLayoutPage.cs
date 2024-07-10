@@ -1114,6 +1114,12 @@ namespace Files.App.Views.Layouts
 			// Reset dragged over item
 			dragOverItem = null;
 
+			if (e.Modifiers == DragDropModifiers.RightButton)
+			{
+				// Show context menu... #1396
+				deferral.Complete();
+			}
+
 			var item = GetItemFromElement(sender);
 			if (item is not null)
 				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
