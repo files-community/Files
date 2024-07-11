@@ -99,16 +99,13 @@ jobs:
     steps:
 
     - name: Checkout the repository
-      uses: actions/checkout@v3
-
+      uses: actions/checkout@v4
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
-
+      uses: microsoft/setup-msbuild@v2
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.1.1
-
+      uses: NuGet/setup-nuget@v2
     - name: Setup .NET 8
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
@@ -178,7 +175,7 @@ jobs:
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Upload the packages to the Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
@@ -207,10 +204,10 @@ jobs:
       run: exit 1
 
     - name: Checkout the repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Download the packages from the Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.AUTOMATED_TESTS_ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
