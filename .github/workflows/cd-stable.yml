@@ -43,11 +43,11 @@ jobs:
     - name: Checkout the repository
       uses: actions/checkout@v4
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v2
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.1.1
+      uses: NuGet/setup-nuget@v2
     - name: Setup .NET 8
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
@@ -114,7 +114,7 @@ jobs:
         $fileContent | Set-Content $localFilePath
 
     - name: Sign Files with Azure Trusted Signing
-      uses: azure/trusted-signing-action@v0.3.16
+      uses: azure/trusted-signing-action@v0.3.20
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -131,12 +131,12 @@ jobs:
         timestamp-digest: SHA256
 
     - name: Login to Azure
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Upload to Azure blob storage
-      uses: azure/powershell@v1
+      uses: azure/powershell@v2
       with:
         inlineScript: |
           az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
@@ -146,7 +146,7 @@ jobs:
       run: 'az logout'
           
     - name: Upload the packages to GitHub Actions
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
