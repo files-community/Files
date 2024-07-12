@@ -45,6 +45,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files.App.SaveDialog.Win32"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files.App.OpenDialog.Win32", "src\Files.App.OpenDialog\Files.App.OpenDialog.Win32.vcxproj", "{B3FE3F3B-CECC-4918-B72B-5488C3774125}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.App.Win32", "src\Files.App.Win32\Files.App.Win32.csproj", "{591086C7-45AE-46DC-A245-10B44626DC40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|arm64 = Debug|arm64
@@ -64,6 +66,22 @@ Global
 		Store|x86 = Store|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Debug|arm64.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Debug|x64.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Debug|x64.Build.0 = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Debug|x86.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Preview|arm64.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Preview|x64.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Preview|x86.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Release|arm64.ActiveCfg = Release|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Release|x64.ActiveCfg = Release|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Release|x86.ActiveCfg = Release|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Stable|arm64.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Stable|x64.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Stable|x86.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Store|arm64.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Store|x64.ActiveCfg = Debug|x64
+		{591086C7-45AE-46DC-A245-10B44626DC40}.Store|x86.ActiveCfg = Debug|x64
 		{94F77692-D47C-48D8-A1A7-645192EF38A4}.Debug|arm64.ActiveCfg = Debug|arm64
 		{94F77692-D47C-48D8-A1A7-645192EF38A4}.Debug|arm64.Build.0 = Debug|arm64
 		{94F77692-D47C-48D8-A1A7-645192EF38A4}.Debug|x64.ActiveCfg = Debug|x64
@@ -506,6 +524,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{591086C7-45AE-46DC-A245-10B44626DC40} = {A188C26B-E731-4E0B-9D17-D21CEBD9B43F}
 		{A188C26B-E731-4E0B-9D17-D21CEBD9B43F} = {A74DCE98-A744-4D71-A2B1-7EE4FED0936B}
 		{9F36C2AD-005D-4EA5-A1F1-6BC42773FC85} = {A74DCE98-A744-4D71-A2B1-7EE4FED0936B}
 		{94F77692-D47C-48D8-A1A7-645192EF38A4} = {9F36C2AD-005D-4EA5-A1F1-6BC42773FC85}
