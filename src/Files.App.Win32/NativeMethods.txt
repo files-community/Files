@@ -62,10 +62,13 @@ IDCompositionDevice
 CLASS_E_CLASSNOTAVAILABLE
 E_INVALIDARG
 LRESULT
-
-
-// Check they are needed:
 WNDPROC
+
+
+// --------------------------------------------------
+// Check they are needed:
+// --------------------------------------------------
+
 WNDCLASSEXW
 RECT
 NOTIFYICONIDENTIFIER
@@ -78,7 +81,6 @@ LPARAM
 WM_LBUTTONUP
 WM_RBUTTONUP
 WM_DESTROY
-NET_USE_CONNECT_FLAGS
 NETRESOURCEW
 CREDENTIALW
 CONNECTDLGSTRUCTW
