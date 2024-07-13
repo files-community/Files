@@ -1738,9 +1738,9 @@ namespace Files.App.ViewModels
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 						{
-							CheckForSolutionFile();
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
 						},
@@ -1813,7 +1813,7 @@ namespace Files.App.ViewModels
 
 		public void CheckForBackgroundImage()
 		{
-			var filesAppSection = DesktopIni.FirstOrDefault(x => x.SectionName == "FilesApp");
+			var filesAppSection = DesktopIni?.FirstOrDefault(x => x.SectionName == "FilesApp");
 			if (filesAppSection is null || folderSettings.LayoutMode is FolderLayoutModes.ColumnView)
 			{
 				FolderBackgroundImageSource = null;
