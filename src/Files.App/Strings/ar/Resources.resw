@@ -2677,10 +2677,10 @@
     <value>إغلاق اللوحة النشطة</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>تركيز اللوحة الأخرى</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>تبديل التركيز إلى اللوحة غير النشطة</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>تبديل الشريط الجانبي</value>
@@ -3862,45 +3862,45 @@
     <value>قائمة إجراءات علامة التبويب</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>إضافة لوحة عمودية</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>إضافة لوحة عمودية</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>إضافة لوحة أفقية</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>إضافة لوحة أفقية</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>Arrange vertically</value>
+    <value>الترتيب عمودياً</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>Arrange panes vertically</value>
+    <value>ترتيب اللوحات عمودياً</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Arrange horizontally</value>
+    <value>الترتيب أفقياً</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>Arrange panes horizontally</value>
+    <value>ترتيب اللوحات أفقياً</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+    <value>إضافة لوحة</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
-    <value>Show tab actions button in the title bar</value>
+    <value>إظهار زر إجراءات علامة التبويب في شريط العنوان</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
-    <value>Arrange panes</value>
+    <value>ترتيب اللوحات</value>
   </data>
   <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+    <value>ترتيب اللوحة الافتراضي</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
+    <value>أفقي</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>Vertical</value>
+    <value>عمودي</value>
   </data>
 </root>
