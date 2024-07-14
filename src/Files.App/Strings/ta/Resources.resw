@@ -181,7 +181,7 @@
     <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>தேடு</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>நீங்கள் முன்பு அணுகிய கோப்புகளும் கோப்புறைகளும் இங்கு காட்டப்படும்</value>
@@ -244,7 +244,7 @@
     <value>பேர்</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>ஏறுவரிசை</value>
+    <value>ஏறு-வரிசை</value>
   </data>
   <data name="Paste" xml:space="preserve">
     <value>ஒட்டு</value>
@@ -456,7 +456,7 @@
     <value>மறுசுழற்சி கூடையை வெறுமையாக்கு</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>பைட்கள்</value>
+    <value>பைட்டுகள்</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>kB</value>
@@ -483,16 +483,16 @@
     <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>மற்றொரு பயனராக இயக்கு</value>
+    <value>வேற ஒரு பயனராய் இயக்கு</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>{0}'இன் எல்லா வகை</value>
+    <value>{0}-இன் எல்லா வகை</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>வெவ்வேறு வகைகள்</value>
+    <value>வேற-வேற வகைகள்</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>எல்லாம் {0}'இல்</value>
+    <value>எல்லாம் {0}-இல்</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>பயன்படுத்தப்பட்ட இடம்:</value>
@@ -510,10 +510,10 @@
     <value>சமீபத்திய</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>இங்கு தாவலை நகர்த்து</value>
+    <value>தாவலை இங்கு நகர்த்து</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>நிலை</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows இயல்புநிலை</value>
@@ -522,7 +522,7 @@
     <value>முடிவுகள் இல்லை</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>காட்ட எந்த உருப்படியையும் அணுக முடியவில்லை</value>
+    <value>காட்ட, எந்த உருப்படியையும் அணுக முடியவில்லை</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>{0}'இற்கு நகர்த்து</value>
@@ -1323,7 +1323,7 @@
     <value>அசல் கோப்புறை</value>
   </data>
   <data name="Descending" xml:space="preserve">
-    <value>இறங்குவரிசை</value>
+    <value>இறங்கு-வரிசை</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>மிகப்பெரிய</value>
@@ -1356,22 +1356,22 @@
     <value>இந்த வாரம் முதலில்</value>
   </data>
   <data name="LastWeek" xml:space="preserve">
-    <value>கடந்த வாரம்</value>
+    <value>போன வாரம்</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
     <value>இந்த மாதம் முதலில்</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
-    <value>கடந்த மாதம்</value>
+    <value>போன மாசம்</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
     <value>இந்த ஆண்டு முதலில்</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>கடந்த ஆண்டு</value>
+    <value>போன வருஷம்</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>{0}'ஆம் ஆண்டு</value>
+    <value>{0}-ஆம் வருஷம்</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} உருப்படி</value>
@@ -1383,7 +1383,7 @@
     <value>மூடிய தாவலை மீண்டும் திற</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>மறுபேரிடு</value>
+    <value>பேர் மாற்று</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>தனியுரிமை</value>
@@ -1731,7 +1731,7 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>உதவியும் ஆதரவும்</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>வசதி கோரிக்கை சமர்ப்பி</value>
@@ -2070,10 +2070,10 @@
     <value>காப்பகத்தை உருவாக்கு</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>
+    <value>உருவாக்கு</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>{0}-ஐ உருவாக்கு</value>
   </data>
   <data name="EnterName" xml:space="preserve">
     <value>ஒரு பேரை உள்ளிடுங்கள்</value>
@@ -2178,7 +2178,7 @@
     <value>Double click on a blank space to go up one directory</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>மேலும் காண்க</value>
+    <value>மேலும் பார்</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Show edit tags flyout</value>
@@ -2613,7 +2613,7 @@
     <value>நீக்கப்பட்ட தேதியால் உருப்படிகளைக் குழுப்படுத்து</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>கோப்புறை பாதையால் உருப்படிகளைக் குழுப்படுத்து</value>
+    <value>கோப்புறை பாதையால் உருப்படிகளை குழுப்படுத்து</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
     <value>Sort groups in ascending order</value>
@@ -2661,7 +2661,7 @@
     <value>தேர்ந்தெடுத்துள்ள தாவலை தவிர மற்றதை மூடு</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>கடைசியாக மூடிய தாவலை மீண்டும் திற</value>
+    <value>கடைசியாய் மூடிய தாவலை மீண்டும் திற</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Move to the previous tab</value>
@@ -2829,7 +2829,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>தேடு</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -2896,7 +2896,7 @@
     <value>தற்போதைய தாவலை மூடும்</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>பாதையைத் திருத்து</value>
+    <value>பாதையை திருத்து</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>Redo</value>
@@ -2932,16 +2932,16 @@
     <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>உருப்படியின் இருப்பிடத்தைத் திற</value>
+    <value>உருப்படியுடைய இருப்பிடத்தை திற</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>நிரந்தரமாக நீக்கு</value>
+    <value>நிரந்தரமாய் நீக்கு</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>உருப்படி(கள்)-ஐ நிரந்தரமாக நீக்கு</value>
+    <value>உருப்படி(கள்)-ஐ நிரந்தரமாய் நீக்கு</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>தேர்ந்தெடுத்துள்ள ஊடகக் கோப்புகளை இயக்கு</value>
+    <value>தேர்ந்தெடுத்து இருக்கின்ற ஊடகக் கோப்புகளை இயக்கு</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
     <value>Undo the last file operation</value>
@@ -2950,16 +2950,16 @@
     <value>Redo the last file operation</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>இருப்பிடம்:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>மாதத்தால் உருப்படிகளைக் குழுப்படுத்து</value>
+    <value>மாசத்தால் உருப்படிகளை குழுப்படுத்து</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
     <value>Group items by year</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>மாசம்</value>
   </data>
   <data name="Day" xml:space="preserve">
     <value>நாள்</value>
@@ -2971,7 +2971,7 @@
     <value>Toggle grouping unit</value>
   </data>
   <data name="Year" xml:space="preserve">
-    <value>ஆண்டு</value>
+    <value>வருஷம்</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
     <value>Group by date unit</value>
@@ -3013,7 +3013,7 @@
     <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>அனுமதிகளைக் காட்ட முடியவில்லை.</value>
+    <value>அனுமதிகளை காட்ட முடியவில்லை.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
     <value>'{0}'-இல் என் மாற்றங்களை விடு</value>
@@ -3022,7 +3022,7 @@
     <value>Discard my changes</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>'{0}'-கு எனது மாற்றங்களைக் கொண்டு வா</value>
+    <value>'{0}'-கு என் மாற்றங்களை கொண்டு வா</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
@@ -3070,7 +3070,7 @@
     <value>தொலைவுகள்</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Crowdin-இல் மொழிபெயருங்கள்</value>
+    <value>இங்லிஷில் இருந்து உங்கள் மொழிக்கு Crowdin-இல் மொழிபெயருங்கள்</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -3143,7 +3143,7 @@
     <value>ஒத்திசை</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>git pull-ஐ இயக்கி பிறகு git push-ஐ இயக்கு</value>
+    <value>git pull-ஐ இயக்கி, அப்புறம் git push-ஐ இயக்கு</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
     <value>{0} outgoing / {1} incoming commits</value>
@@ -3191,7 +3191,7 @@
     <value>Great! You are now authorized.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>களஞ்சியத்தை துவங்கிவை</value>
+    <value>களஞ்சியத்தை துவங்கி வை</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
     <value>Initialize a Git repository</value>
@@ -3218,7 +3218,7 @@
     <value>Open directory in new window</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>எல்லாம் திற</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
@@ -3246,7 +3246,7 @@
     <value>Open command palette</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>இல் தொடங்கு:</value>
+    <value>இங்கு தொடங்கு:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
     <value>BitLocker-ஐ துவங்கு</value>
@@ -3264,13 +3264,13 @@
     <value>இனிமேல் காட்டாதே</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>நீர்வாகியாக Files இயங்குது</value>
+    <value>Files நிர்வாகியாய் இயங்குகிறது</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>சாளரத்தை மூடிய பிறகும் நிரலை பின்புலத்தில் இயங்க விடு</value>
+    <value>சாளரத்தை மூடியதற்கு அப்புறமும் நிரலை பின்புலத்தில் இயங்க விடு</value>
   </data>
   <data name="Blue" xml:space="preserve">
     <value>நீலம்</value>
@@ -3349,7 +3349,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>அழிப்பு முடிக்கப்பட்டது</value>
+    <value>அழிப்பு முடிந்தது</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
     <value>Name:</value>
@@ -3374,7 +3374,7 @@
     <value>Processing items...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>வேகம்:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3719,7 +3719,7 @@
     <value>Layout type</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>செயல்கள்</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Commands</value>
@@ -3756,7 +3756,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>மையம்</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
