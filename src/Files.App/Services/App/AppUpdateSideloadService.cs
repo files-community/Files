@@ -5,7 +5,6 @@ using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
@@ -28,8 +27,13 @@ namespace Files.App.Services
 
 		private const string TEMPORARY_UPDATE_PACKAGE_NAME = "UpdatePackage.msix";
 
-		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
-
+		private ILogger? Logger
+		{
+			get
+			{
+				return Ioc.Default.GetRequiredService<ILogger<App>>();
+			}
+		}
 		private string PackageName { get; } = Package.Current.Id.Name;
 
 		private Version PackageVersion { get; } = new(
