@@ -6,12 +6,16 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UITests.UserControls"
+	Title="Files.App.Controls.UITests"
 	mc:Ignorable="d">
 
-	<StackPanel
-		HorizontalAlignment="Center"
-		VerticalAlignment="Center"
-		Orientation="Horizontal">
-		<Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-	</StackPanel>
+	<Window.SystemBackdrop>
+		<MicaBackdrop Kind="BaseAlt" />
+	</Window.SystemBackdrop>
+
+	<Grid>
+		<uc:ThemedIconsUC HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+	</Grid>
+
 </Window>

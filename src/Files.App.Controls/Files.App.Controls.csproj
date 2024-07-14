@@ -9,9 +9,88 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ThemedIcon\Styles\Icons.Action.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Common.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Favorite.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Git.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Misc16.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.New.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Open.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Panel.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Properties.Dialog.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Settings.Sidebar.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Settings.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.SizeLayout.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.SizeLayout28.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.Status.xaml" />
+    <None Remove="ThemedIcon\Styles\Icons.TabPane.xaml" />
+    <None Remove="ThemedIcon\ThemedIcon.xaml" />
+    <None Remove="ThemedIcon\ThemedIconLayer\ThemedIconLayer.xaml" />
+    <None Remove="Themes\Generic.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
       <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ThemedIcon\ThemedIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\ThemedIconLayer\ThemedIconLayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Action.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Common.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Favorite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Git.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Misc16.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.New.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Open.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Panel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Properties.Dialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Settings.Sidebar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Settings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.SizeLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.SizeLayout28.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.Status.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ThemedIcon\Styles\Icons.TabPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>

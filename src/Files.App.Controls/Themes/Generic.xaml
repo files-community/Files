@@ -1,0 +1,101 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<ResourceDictionary.ThemeDictionaries>
+
+		<ResourceDictionary x:Key="Default">
+			<Color x:Key="ThemedIconBaseColor">#DBF0F0F0</Color>
+			<Color x:Key="ThemedIconAltColor">#66161616</Color>
+
+			<StaticResource x:Key="ThemedIconBaseBrush" ResourceKey="ThemedIconBaseColor" />
+			<StaticResource x:Key="ThemedIconAltBrush" ResourceKey="ThemedIconAltColor" />
+			<StaticResource x:Key="ThemedIconAccentBrush" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="ThemedIconAccentContrastBrush" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ThemedIconDisabledBrush" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ThemedIconDisabledToggleBrush" ResourceKey="TextOnAccentFillColorDisabledBrush" />
+
+			<StaticResource x:Key="ThemedIconCriticalBrush" ResourceKey="SystemFillColorCritical" />
+			<StaticResource x:Key="ThemedIconCautionBrush" ResourceKey="SystemFillColorCaution" />
+			<StaticResource x:Key="ThemedIconSuccessBrush" ResourceKey="SystemFillColorSuccess" />
+			<StaticResource x:Key="ThemedIconNeutralBrush" ResourceKey="SystemFillColorSolidNeutral" />
+
+			<StaticResource x:Key="ThemedIconCriticalBackgroundBrush" ResourceKey="SystemFillColorCriticalBackgroundBrush" />
+			<StaticResource x:Key="ThemedIconCautionBackgroundBrush" ResourceKey="SystemFillColorCautionBackgroundBrush" />
+			<StaticResource x:Key="ThemedIconSuccessBackgroundBrush" ResourceKey="SystemFillColorSuccessBackgroundBrush" />
+			<StaticResource x:Key="ThemedIconNeutralBackgroundBrush" ResourceKey="SystemFillColorNeutralBackgroundBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Light">
+			<Color x:Key="ThemedIconBaseColor">#DB161616</Color>
+			<Color x:Key="ThemedIconAltColor">#66F0F0F0</Color>
+
+			<StaticResource x:Key="ThemedIconBaseBrush" ResourceKey="ThemedIconBaseColor" />
+			<StaticResource x:Key="ThemedIconAltBrush" ResourceKey="ThemedIconAltColor" />
+			<StaticResource x:Key="ThemedIconAccentBrush" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="ThemedIconAccentContrastBrush" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ThemedIconDisabledBrush" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ThemedIconDisabledToggleBrush" ResourceKey="TextOnAccentFillColorDisabledBrush" />
+
+			<StaticResource x:Key="ThemedIconCriticalBrush" ResourceKey="SystemFillColorCritical" />
+			<StaticResource x:Key="ThemedIconCautionBrush" ResourceKey="SystemFillColorCaution" />
+			<StaticResource x:Key="ThemedIconSuccessBrush" ResourceKey="SystemFillColorSuccess" />
+			<StaticResource x:Key="ThemedIconNeutralBrush" ResourceKey="SystemFillColorSolidNeutral" />
+
+			<StaticResource x:Key="ThemedIconCriticalBackgroundBrush" ResourceKey="SystemFillColorCriticalBackgroundBrush" />
+			<StaticResource x:Key="ThemedIconCautionBackgroundBrush" ResourceKey="SystemFillColorCautionBackgroundBrush" />
+			<StaticResource x:Key="ThemedIconSuccessBackgroundBrush" ResourceKey="SystemFillColorSuccessBackgroundBrush" />
+			<StaticResource x:Key="ThemedIconNeutralBackgroundBrush" ResourceKey="SystemFillColorNeutralBackgroundBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="HighContrast">
+			<Color x:Key="ThemedIconBaseColor">#FF000000</Color>
+			<Color x:Key="ThemedIconAltColor">#00000000</Color>
+
+			<StaticResource x:Key="ThemedIconBaseBrush" ResourceKey="SystemColorButtonTextColor" />
+			<StaticResource x:Key="ThemedIconAltBrush" ResourceKey="SystemColorButtonFaceColor" />
+			<StaticResource x:Key="ThemedIconAccentBrush" ResourceKey="SystemColorHighlightColor" />
+			<StaticResource x:Key="ThemedIconAccentContrastBrush" ResourceKey="SystemColorHighlightTextColor" />
+			<StaticResource x:Key="ThemedIconDisabledBrush" ResourceKey="SystemColorGrayTextColor" />
+			<StaticResource x:Key="ThemedIconDisabledToggleBrush" ResourceKey="SystemColorGrayTextColor" />
+
+			<StaticResource x:Key="ThemedIconCriticalBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ThemedIconCautionBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ThemedIconSuccessBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ThemedIconNeutralBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
+
+			<StaticResource x:Key="ThemedIconCriticalBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+			<StaticResource x:Key="ThemedIconCautionBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+			<StaticResource x:Key="ThemedIconSuccessBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+			<StaticResource x:Key="ThemedIconNeutralBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+		</ResourceDictionary>
+
+	</ResourceDictionary.ThemeDictionaries>
+
+	<ResourceDictionary.MergedDictionaries>
+		<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+		<!--#region THEMED ICON-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIcon.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIconLayer/ThemedIconLayer.xaml" />
+		<!--  Icon Style Sets  -->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Common.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.New.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Open.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.TabPane.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Panel.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Favorite.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Status.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Action.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Git.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.SizeLayout.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Misc16.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Properties.Dialog.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Settings.Sidebar.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Settings.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.SizeLayout28.xaml" />
+		<!--#endregion-->
+	</ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>
