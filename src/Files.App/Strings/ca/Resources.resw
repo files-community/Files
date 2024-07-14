@@ -2676,10 +2676,10 @@
     <value>Tanca el panell actiu</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>Enfoca un altre panell</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>Canvia el focus al panell no actiu</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Canvia la barra lateral</value>
@@ -3861,43 +3861,43 @@
     <value>Menú d'accions de la pestanya</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Afegeix panell vertical</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>Afegeix un panell vertical</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>Afegeix panell horitzontal</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>Afegeix un panell horitzontal</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>Arrange vertically</value>
+    <value>Organitza verticalment</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>Arrange panes vertically</value>
+    <value>Organitza els panells verticalment</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Arrange horizontally</value>
+    <value>Organitza horitzontalment</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>Arrange panes horizontally</value>
+    <value>Organitza els panells horitzontalment</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+    <value>Afegeix panell</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
-    <value>Show tab actions button in the title bar</value>
+    <value>Mostra el botó d'accions de la pestanya a la barra de títol</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
-    <value>Arrange panes</value>
+    <value>Organitza els panells</value>
   </data>
   <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+    <value>Organització per defecte dels panells</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
+    <value>Horitzontal</value>
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Vertical</value>
