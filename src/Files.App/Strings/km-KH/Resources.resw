@@ -166,7 +166,7 @@
     <value>បញ្ច្រាស់ការជ្រើសរើស​</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>ជម្រះការជ្រើសរើស</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>បាន​កែប្រែ</value>
@@ -268,7 +268,7 @@
     <value>ចែក​រំលែក​</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>កាត់</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>លុប</value>
@@ -415,10 +415,10 @@
     <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
   </data>
   <data name="SecondsAgo_Singular" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>១ វិនាទី​មុន</value>
   </data>
   <data name="SecondsAgo_Plural" xml:space="preserve">
-    <value>{0} seconds ago</value>
+    <value>{0} វិនាទី​មុន</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>ឥឡូវនេះ</value>
@@ -495,25 +495,25 @@
     <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Used space:</value>
+    <value>ទំហំ​ប្រើប្រាស់៖</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
     <value>ទំហំ​ទំនេរ៖</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>Capacity:</value>
+    <value>ទំហំផ្ទុក៖</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>File system:</value>
+    <value>ប្រព័ន្ធ​ឯកសារ</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>ថ្មីៗ</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>Move tab here</value>
+    <value>ផ្លាស់ប្តូរផ្ទាំងមកនេះ</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>ស្ថានភាព</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
