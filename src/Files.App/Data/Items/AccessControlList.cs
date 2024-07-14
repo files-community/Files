@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Storage
+namespace Files.App.Data.Items
 {
 	/// <summary>
 	/// Represents an access control list (ACL).
@@ -22,7 +22,7 @@ namespace Files.App.Utils.Storage
 		/// The owner in the security descriptor (SD).
 		/// NULL if the security descriptor has no owner SID.
 		/// </summary>
-		public Principal Owner { get; private set; }
+		public AccessControlPrincipal Owner { get; private set; }
 
 		/// <summary>
 		/// Validates an access control list (ACL).
@@ -34,7 +34,7 @@ namespace Files.App.Utils.Storage
 		/// </summary>
 		public ObservableCollection<AccessControlEntry> AccessControlEntries { get; private set; }
 
-		public AccessControlList(string path, bool isFolder, Principal owner, bool isValid)
+		public AccessControlList(string path, bool isFolder, AccessControlPrincipal owner, bool isValid)
 		{
 			Path = path;
 			IsFolder = isFolder;

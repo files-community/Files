@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Storage
+namespace Files.App.Data.Items
 {
 	/// <summary>
 	/// Represents an access mask details, such as its name and changeability.

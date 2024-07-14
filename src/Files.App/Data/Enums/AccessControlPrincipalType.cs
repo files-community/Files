@@ -1,15 +1,15 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Storage
+namespace Files.App.Data.Enums
 {
 	/// <summary>
 	/// Represents an ACL owner or an ACE principal type
 	/// </summary>
-	public enum PrincipalType
+	public enum AccessControlPrincipalType
 	{
 		/// <summary>
-		/// Unknwon principal type
+		/// Unknown principal type
 		/// </summary>
 		Unknown,
 
