@@ -480,7 +480,7 @@
     <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}} from {2, number} {2, plural, one {Ort} other {Orte}}</value>
+    <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}} von {2, number} {2, plural, one {Ort} other {Orten}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Als ein anderer Benutzer ausführen</value>
@@ -1077,7 +1077,7 @@
     <value>Umschalten des Detailfensters, um die grundlegenden Datei-Eigenschaften anzuzeigen</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Info-Fenster umschalten</value>
+    <value>Info-Panel umschalten</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Info-Bereich umschalten, um Detail-/Vorschaufenster anzuzeigen</value>
@@ -2676,10 +2676,10 @@
     <value>Aktives Panel schließen</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>Anderes Fenster fokussieren</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>Fokus auf das nicht aktive Fenster umschalten</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Seitenleiste umschalten</value>
@@ -3861,45 +3861,45 @@
     <value>Tab-Aktionen-Menü</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Vertikales Fenster hinzufügen</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>Vertikales Fenster hinzufügen</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>Horizontales Fenster hinzufügen</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>Horizontales Fenster hinzufügen</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>Arrange vertically</value>
+    <value>Vertikal anordnen</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>Arrange panes vertically</value>
+    <value>Fenster vertikal anordnen</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Arrange horizontally</value>
+    <value>Horizontal anordnen</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>Arrange panes horizontally</value>
+    <value>Fenster waagerecht anordnen</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+    <value>Fenster hinzufügen</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
-    <value>Show tab actions button in the title bar</value>
+    <value>Schaltfläche „Registerkartenaktionen“ in der Titelleiste anzeigen</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
-    <value>Arrange panes</value>
+    <value>Fenster anordnen</value>
   </data>
   <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+    <value>Standard-Anordnung der Fenster</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>Vertical</value>
+    <value>Vertikal</value>
   </data>
 </root>
