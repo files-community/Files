@@ -340,7 +340,7 @@
     <value>Imposta come sfondo della schermata di blocco</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Imposta come sfondo dell'app</value>
+    <value>Imposta come sfondo dell'applicazione</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Non è stato possibile eliminare questo elemento</value>
@@ -2676,10 +2676,10 @@
     <value>Chiudi pannello attivo</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>Imposta il focus sull'altro pannello</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>Cambia il focus al pannello non attivo</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Attiva o disattiva la barra laterale</value>
@@ -2920,7 +2920,7 @@
     <value>Sei sicuro/a di voler spostare questi file senza le loro proprietà?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Mostra le checkbox quando si selezionano gli elementi</value>
+    <value>Mostra caselle di spunta quando si selezionano gli elementi</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Apri la barra del percorso</value>
@@ -3861,45 +3861,45 @@
     <value>Menu azioni scheda</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Aggiungi pannello verticale</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>Aggiungi un pannello verticale</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>Aggiungi pannello orizzontale</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>Aggiungi un pannello orizzontale</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>Arrange vertically</value>
+    <value>Disponi verticalmente</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>Arrange panes vertically</value>
+    <value>Disponi i riquadri verticalmente</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Arrange horizontally</value>
+    <value>Disponi orizzontalmente</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>Arrange panes horizontally</value>
+    <value>Disponi i riquadri orizzontalmente</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+    <value>Aggiungi pannello</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
-    <value>Show tab actions button in the title bar</value>
+    <value>Mostra il pulsante delle azioni nella barra del titolo</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
-    <value>Arrange panes</value>
+    <value>Disponi riquadri</value>
   </data>
   <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+    <value>Disposizione predefinita pannello</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
+    <value>Orizzontale</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>Vertical</value>
+    <value>Verticale</value>
   </data>
 </root>

@@ -1083,7 +1083,7 @@
     <value>Az információs ablaktábla be- és kikapcsolása a részlet/előnézet ablaktáblák megtekintéséhez</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle the Toolbar</value>
+    <value>Eszköztár átállítása</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nincs elérhető előnézet</value>

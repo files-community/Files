@@ -2676,10 +2676,10 @@
     <value>Fermer le volet actif</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>Se focaliser sur un autre volet</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>Basculer le focus vers le volet inactif</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Afficher la barre latérale</value>
@@ -2923,7 +2923,7 @@
     <value>Afficher les cases à cocher lors de la sélection des éléments</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus sur la barre de chemin</value>
+    <value>Se focaliser sur la barre de chemin</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Créer un nouvel élément</value>
@@ -3861,40 +3861,40 @@
     <value>Menu des actions de l'onglet</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Ajouter un volet vertical</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>Ajouter un volet vertical</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>Ajouter un volet horizontal</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>Ajouter un volet horizontal</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>Arrange vertically</value>
+    <value>Arranger verticalement</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>Arrange panes vertically</value>
+    <value>Arranger les panneaux verticalement</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Arrange horizontally</value>
+    <value>Arranger horizontalement</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>Arrange panes horizontally</value>
+    <value>Arranger les panneaux horizontalement</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+    <value>Ajouter un volet</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
-    <value>Show tab actions button in the title bar</value>
+    <value>Afficher le bouton des actions de l'onglet dans la barre de titre</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
-    <value>Arrange panes</value>
+    <value>Arranger les panneaux</value>
   </data>
   <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+    <value>Arrangement par défaut du volet</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
