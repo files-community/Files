@@ -31,7 +31,6 @@ namespace Files.App.Controls
     // Icon IsEnabled Visual States
     [TemplateVisualState(Name = EnabledStateName, GroupName = EnabledStateGroupName)]
     [TemplateVisualState(Name = DisabledStateName, GroupName = EnabledStateGroupName)]
-
     public partial class ThemedIcon
     {
         // Visual State Group Names
