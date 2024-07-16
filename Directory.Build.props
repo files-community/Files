@@ -10,11 +10,13 @@
         <AssemblyCopyright>Copyright (c) 2024 Files Community</AssemblyCopyright>
         <AssemblyProduct>Files</AssemblyProduct>
         <NeutralLanguage>en-US</NeutralLanguage>
-        <Platforms>x86;x64;ARM64</Platforms>
+        <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <LangVersion>latest</LangVersion>
         <DefaultLanguage>en-US</DefaultLanguage>
-        <!-- <ApplicationIcon>../Files.App (Package)/Assets/AppTiles/Release/Logo.ico</ApplicationIcon> -->
+        <ApplicationIcon Condition="'$(Configuration)' == 'Debug' AND '$(Configuration)' == 'Release'">$(SolutionDir)/src/Files.App (Package)/Assets/AppTiles/Dev/Logo.ico</ApplicationIcon>
+        <ApplicationIcon Condition="'$(Configuration)' == 'Preview'">$(SolutionDir)/src/Files.App (Package)/Assets/AppTiles/Preview/Logo.ico</ApplicationIcon>
+        <ApplicationIcon Condition="'$(Configuration)' == 'Stable' AND '$(Configuration)' == 'Store'">$(SolutionDir)/src/Files.App (Package)/Assets/AppTiles/Release/Logo.ico</ApplicationIcon>
         <DefineConstants Condition="'$(Configuration)' == 'Debug'">TRACE;DEBUG;NETFX_CORE</DefineConstants>
         <DefineConstants Condition="'$(Configuration)' != 'Debug'">TRACE;RELEASE;NETFX_CORE</DefineConstants>
         <Optimize Condition="'$(Configuration)' != 'Debug'">true</Optimize>
