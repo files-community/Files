@@ -21,7 +21,7 @@ using std::endl;
 CComPtr<IFileSaveDialog> GetSystemDialog()
 {
 	WCHAR comdlg32Path[MAX_PATH];
-	ExpandEnvironmentStrings(L"%SYSTEMDRIVE%\\Windows\\System32\\comdlg32.dll", comdlg32Path, MAX_PATH - 1);
+	ExpandEnvironmentStringsW(L"%WINDIR%\\System32\\comdlg32.dll", comdlg32Path, MAX_PATH - 1);
 
 	HINSTANCE lib = CoLoadLibrary(comdlg32Path, false);
 	BOOL(WINAPI* dllGetClassObject)(REFCLSID, REFIID, LPVOID*) =
@@ -438,7 +438,7 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	PWSTR pszPath = NULL;
 	WCHAR szBuf[MAX_PATH];
 	TCHAR args[1024] = { 0 };
-	ExpandEnvironmentStrings(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\files.exe", szBuf, MAX_PATH - 1);
+	ExpandEnvironmentStringsW(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\files.exe", szBuf, MAX_PATH - 1);
 
 	HANDLE closeEvent = CreateEvent(NULL, FALSE, FALSE, TEXT("FILEDIALOG"));
 
