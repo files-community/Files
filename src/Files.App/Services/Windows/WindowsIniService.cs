@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.IO;
+
 namespace Files.App.Services
 {
 	/// <inheritdoc cref="IWindowsIniService"/>
@@ -9,19 +11,18 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public List<IniSectionDataItem> GetData(string filePath)
 		{
-			var iniPath = SystemIO.Path.Combine(filePath);
-			if (!SystemIO.File.Exists(iniPath))
+			if (!File.Exists(filePath))
 				return [];
 
 			var lines = Enumerable.Empty<string>().ToList();
 
 			try
 			{
-				lines = SystemIO.File.ReadLines(iniPath)
+				lines = File.ReadLines(filePath)
 					.Where(line => !line.StartsWith(';') && !string.IsNullOrEmpty(line))
 					.ToList();
 			}
-			catch (UnauthorizedAccessException)
+			catch (Exception ex) when (ex is UnauthorizedAccessException || ex is FileNotFoundException)
 			{
 				return [];
 			}
