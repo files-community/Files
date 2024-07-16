@@ -14,7 +14,7 @@
 		<MicaBackdrop Kind="BaseAlt" />
 	</Window.SystemBackdrop>
 
-	<Grid>
+	<Grid Background="{ThemeResource PageBackground}">
 		<uc:ThemedIconsUC HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 	</Grid>
 

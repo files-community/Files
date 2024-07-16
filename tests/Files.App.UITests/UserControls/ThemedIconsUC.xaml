@@ -5,16 +5,11 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:helpers="using:Files.App.Controls.Helpers"
 	xmlns:local="using:Files.App.UITests.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
-	<UserControl.Resources>
-		<helpers:BoolToIconTypeLayeredConverter x:Key="BoolToLayeredConverter" />
-		<helpers:BoolToIconTypeOutlineConverter x:Key="BoolToOutlineConverter" />
-	</UserControl.Resources>
 
-	<Grid x:Name="RootGrid" Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}">
+	<Grid x:Name="RootGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -51,7 +46,7 @@
 
 						<StackPanel Orientation="Horizontal" Spacing="16">
 							<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
-							<controls:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
+							<controls:ThemedIcon IsFilled="True" Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 						</StackPanel>
 
@@ -64,8 +59,8 @@
 								IsEnabled="False"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
-								IconType="Filled"
 								IsEnabled="False"
+								IsFilled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconType="Outline"
@@ -83,7 +78,7 @@
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconColorType="Success"
-								IconType="Filled"
+								IsFilled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconColorType="Success"
@@ -101,7 +96,7 @@
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconColorType="Caution"
-								IconType="Filled"
+								IsFilled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconColorType="Caution"
@@ -119,7 +114,7 @@
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconColorType="Critical"
-								IconType="Filled"
+								IsFilled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconColorType="Critical"
@@ -140,7 +135,7 @@
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconColorType="Accent"
-								IconType="Filled"
+								IsFilled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
 								IconColorType="Accent"
@@ -148,13 +143,38 @@
 								Style="{StaticResource IconTest}" />
 						</StackPanel>
 
+						<TextBlock><Run FontWeight="Medium">HighContrast Manual Toggle</Run>
+							<Run FontSize="12">(Layered, Filled, Outline)</Run></TextBlock>
+
+						<StackPanel
+							Margin="0,0,0,32"
+							Orientation="Horizontal"
+							Spacing="16">
+							<controls:ThemedIcon
+								IconType="Layered"
+								IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
+								Style="{StaticResource IconTest}" />
+							<controls:ThemedIcon
+								IsFilled="True"
+								IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
+								Style="{StaticResource IconTest}" />
+							<controls:ThemedIcon
+								IconType="Outline"
+								IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
+								Style="{StaticResource IconTest}" />
+							<ToggleSwitch x:Name="ContrastToggle" IsOn="True" />
+						</StackPanel>
+
+
+
+
 						<TextBlock><Run FontWeight="Medium">Toggle</Run>
 							<Run FontSize="12">(Layered, Filled, Outline)</Run></TextBlock>
 
 						<StackPanel
 							Padding="8"
 							HorizontalAlignment="Left"
-							Background="{ThemeResource AccentFillColorDefaultBrush}"
+							Background="{ThemeResource ToggleBackground}"
 							CornerRadius="{ThemeResource OverlayCornerRadius}"
 							Orientation="Horizontal"
 							Spacing="16">
@@ -163,7 +183,7 @@
 								IsToggled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
-								IconType="Filled"
+								IsFilled="True"
 								IsToggled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
@@ -179,7 +199,7 @@
 							Margin="0,0,0,32"
 							Padding="8"
 							HorizontalAlignment="Left"
-							Background="{ThemeResource AccentFillColorDisabledBrush}"
+							Background="{ThemeResource ToggleDisabledBackground}"
 							CornerRadius="{ThemeResource OverlayCornerRadius}"
 							Orientation="Horizontal"
 							Spacing="16">
@@ -189,8 +209,8 @@
 								IsToggled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
-								IconType="Filled"
 								IsEnabled="False"
+								IsFilled="True"
 								IsToggled="True"
 								Style="{StaticResource IconTest}" />
 							<controls:ThemedIcon
@@ -221,7 +241,7 @@
 								Padding="8"
 								AutomationProperties.Name="TestToggle2"
 								IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
-								<controls:ThemedIcon IconType="Filled" Style="{StaticResource IconTest}" />
+								<controls:ThemedIcon IsFilled="True" Style="{StaticResource IconTest}" />
 							</ToggleButton>
 							<ToggleButton
 								Padding="8"
@@ -248,7 +268,7 @@
 							Spacing="16">
 
 							<StackPanel Orientation="Horizontal" Spacing="16">
-								<AppBarButton Label="Layered" LabelPosition="Default">
+								<AppBarButton Label="Layered" LabelPosition="Default" HighContrastAdjustment="None">
 									<AppBarButton.Content>
 										<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 									</AppBarButton.Content>
@@ -257,7 +277,7 @@
 								<AppBarToggleButton
 									IsChecked="True"
 									Label="Layered Toggle"
-									LabelPosition="Default">
+									LabelPosition="Default" HighContrastAdjustment="None">
 									<AppBarToggleButton.Content>
 										<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 									</AppBarToggleButton.Content>
@@ -267,7 +287,7 @@
 									x:Name="AppBarButtonDisable"
 									IsEnabled="False"
 									Label="Disabled"
-									LabelPosition="Default">
+									LabelPosition="Default" HighContrastAdjustment="None">
 									<AppBarButton.Content>
 										<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 									</AppBarButton.Content>
@@ -277,7 +297,7 @@
 									IsChecked="True"
 									IsEnabled="False"
 									Label="Layered Toggled Disabled"
-									LabelPosition="Default">
+									LabelPosition="Default" HighContrastAdjustment="None">
 									<AppBarToggleButton.Content>
 										<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 									</AppBarToggleButton.Content>
@@ -285,7 +305,7 @@
 							</StackPanel>
 
 							<StackPanel Orientation="Horizontal" Spacing="16">
-								<AppBarButton Label="Outline" LabelPosition="Default">
+								<AppBarButton Label="Outline" LabelPosition="Default" HighContrastAdjustment="None">
 									<AppBarButton.Content>
 										<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 									</AppBarButton.Content>
@@ -294,7 +314,7 @@
 								<AppBarToggleButton
 									IsChecked="True"
 									Label="Outline Toggle"
-									LabelPosition="Default">
+									LabelPosition="Default" HighContrastAdjustment="None">
 									<AppBarToggleButton.Content>
 										<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 									</AppBarToggleButton.Content>
@@ -304,7 +324,7 @@
 									x:Name="AppBarButtonDisable2"
 									IsEnabled="False"
 									Label="Outline Disabled"
-									LabelPosition="Default">
+									LabelPosition="Default" HighContrastAdjustment="None">
 									<AppBarButton.Content>
 										<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 									</AppBarButton.Content>
@@ -314,7 +334,7 @@
 									IsChecked="True"
 									IsEnabled="False"
 									Label="Outline Toggled Disabled"
-									LabelPosition="Default">
+									LabelPosition="Default" HighContrastAdjustment="None">
 									<AppBarToggleButton.Content>
 										<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 									</AppBarToggleButton.Content>
@@ -328,25 +348,21 @@
 
 						</StackPanel>
 
-						<TextBlock><Run FontWeight="Medium">Bool Converter</Run>
-							<Run FontSize="12">(Outline to Filled/Layered to Filled)</Run></TextBlock>
+						<TextBlock><Run FontWeight="Medium">IsFilled Property Binding</Run></TextBlock>
 
 						<StackPanel Orientation="Horizontal" Spacing="16">
-							<controls:ThemedIcon IconType="{x:Bind ConverterToggle.IsOn, Converter={StaticResource BoolToOutlineConverter}, Mode=TwoWay}" Style="{StaticResource IconTest}" />
+							<controls:ThemedIcon
+								IconType="Layered"
+								IsFilled="{x:Bind FilledToggle.IsOn, Mode=TwoWay}"
+								Style="{StaticResource IconTest}" />
 
-							<controls:ThemedIcon IconType="{x:Bind ConverterToggle.IsOn, Converter={StaticResource BoolToLayeredConverter}, Mode=TwoWay}" Style="{StaticResource IconTest}" />
+							<controls:ThemedIcon
+								IconType="Outline"
+								IsFilled="{x:Bind FilledToggle.IsOn, Mode=TwoWay}"
+								Style="{StaticResource IconTest}" />
 						</StackPanel>
 
-						<TextBlock><Run FontWeight="Medium">Bool Converter Inverted</Run>
-							<Run FontSize="12">(Outline to Filled/Layered to Filled)</Run></TextBlock>
-
-						<StackPanel Orientation="Horizontal" Spacing="16">
-							<controls:ThemedIcon IconType="{x:Bind ConverterToggle.IsOn, Converter={StaticResource BoolToOutlineConverter}, ConverterParameter=Invert, Mode=TwoWay}" Style="{StaticResource IconTest}" />
-
-							<controls:ThemedIcon IconType="{x:Bind ConverterToggle.IsOn, Converter={StaticResource BoolToLayeredConverter}, ConverterParameter=Invert, Mode=TwoWay}" Style="{StaticResource IconTest}" />
-						</StackPanel>
-
-						<ToggleSwitch x:Name="ConverterToggle" IsOn="True" />
+						<ToggleSwitch x:Name="FilledToggle" IsOn="True" />
 
 					</StackPanel>
 

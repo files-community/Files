@@ -23,6 +23,7 @@ namespace Files.App.Controls
         bool _isHighContrast;
         bool _isToggled;
         bool _isEnabled;
+        bool _isFilled;
 
         ToggleButton? ownerToggleButton = null;
         AppBarToggleButton? ownerAppBarToggleButton = null;
@@ -38,8 +39,6 @@ namespace Files.App.Controls
             IsEnabledChanged -= OnIsEnabledChanged;
 
             base.OnApplyTemplate();
-
-            // AppThemeModeService.IsHighContrastChanged += ThemeSettings_OnHighContrastChanged;
 
             IsEnabledChanged += OnIsEnabledChanged;
 
@@ -200,6 +199,15 @@ namespace Files.App.Controls
             UpdateVisualStates();
         }
 
+        private void FilledChanged(bool value)
+        {
+            // Handles the IsToggled property change
+
+            _isFilled = value;
+
+            UpdateVisualStates();
+        }
+
         private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             // Handles for the derived control's IsEnabled property change
@@ -255,31 +263,30 @@ namespace Files.App.Controls
         {
             // Handles changes to the IconType and setting the correct Visual States.
 
-            // Handles the three IconType states, based on the ThemedIcon.IconType value
+            // Handles the two IconType states, based on the ThemedIcon.IconType value
             // as well as states derived from owner controls, and other properties
 
-            // We first check for isToggled and Filled icon types
+            // We first check for isToggled and isFilled icon types and states
             // Then we check for Contrast and Disabled states, to replace Layered with Outline and set EnabledStates
             // Finally we assigned Filled and Layered states, and default otherwise to Outline
 
-            if (_isToggled is true || IsToggled is true || IconType == ThemedIconTypes.Filled)
+            if (_isToggled is true || IsToggled is true || _isFilled is true || IsFilled is true)
             {
                 VisualStateManager.GoToState(this, FilledTypeStateName, true);
                 return;
             }
-            else if (_isHighContrast is true || _isEnabled is false || IsEnabled is false)
+            else if (_isHighContrast is true || IsHighContrast is true || _isEnabled is false || IsEnabled is false)
             {
                 VisualStateManager.GoToState(
                     this,
                     IconType switch
                     {
-                        ThemedIconTypes.Filled => FilledTypeStateName,
                         ThemedIconTypes.Layered => OutlineTypeStateName,
                         _ => OutlineTypeStateName,
                     },
                     true);
 
-                VisualStateManager.GoToState(this, NotEnabledStateName, true);
+                VisualStateManager.GoToState(this, DisabledStateName, true);
             }
             else
             {
@@ -287,7 +294,6 @@ namespace Files.App.Controls
                     this,
                     IconType switch
                     {
-                        ThemedIconTypes.Filled => FilledTypeStateName,
                         ThemedIconTypes.Layered => LayeredTypeStateName,
                         _ => OutlineTypeStateName,
                     },
@@ -315,11 +321,11 @@ namespace Files.App.Controls
             {
                 if (_isToggled is true || IsToggled is true)
                 {
-                    VisualStateManager.GoToState(this, DisabledToggleStateName, true);
+                    VisualStateManager.GoToState(this, DisabledToggleColorStateName, true);
                 }
                 else
                 {
-                    VisualStateManager.GoToState(this, DisabledStateName, true);
+                    VisualStateManager.GoToState(this, DisabledColorStateName, true);
                 }
             }
             else

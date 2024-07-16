@@ -9,8 +9,12 @@ namespace Files.App.Controls
     public partial class ThemedIcon : Control
     {
         //
-        //	Dependency Property Registration
+        //	DEPENDENCY PROPERTY REGISTRATION
         //
+
+        // *
+        // Path data string properties
+
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="FilledIconData"/> property.
         /// </summary>
@@ -30,6 +34,9 @@ namespace Files.App.Controls
                 typeof(string),
                 typeof(ThemedIcon),
                 new PropertyMetadata(string.Empty, (d, e) => ((ThemedIcon)d).OnOutlineIconPropertyChanged((string)e.OldValue, (string)e.NewValue)));
+
+        // *
+        // Enum properties
 
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="IconType"/> property.
@@ -51,6 +58,9 @@ namespace Files.App.Controls
                 typeof(ThemedIcon),
                 new PropertyMetadata(ThemedIconColorType.None, (d, e) => ((ThemedIcon)d).OnIconColorTypePropertyChanged((ThemedIconColorType)e.OldValue, (ThemedIconColorType)e.NewValue)));
 
+        // *
+        // Boolean properties
+
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="IsToggled"/> property.
         /// </summary>
@@ -60,6 +70,29 @@ namespace Files.App.Controls
                 typeof(bool),
                 typeof(ThemedIcon),
                 new PropertyMetadata(defaultValue: false, (d, e) => ((ThemedIcon)d).OnIsToggledPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
+
+        /// <summary>
+        /// The backing <see cref="DependencyProperty"/> for the <see cref="IsFilled"/> property.
+        /// </summary>
+        public static readonly DependencyProperty IsFilledProperty =
+            DependencyProperty.Register(
+                nameof(IsFilled),
+                typeof(bool),
+                typeof(ThemedIcon),
+                new PropertyMetadata(defaultValue: false, (d, e) => ((ThemedIcon)d).OnIsFilledPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
+
+        /// <summary>
+        /// The backing <see cref="DependencyProperty"/> for the <see cref="IsHighContrast"/> property.
+        /// </summary>
+        public static readonly DependencyProperty IsHighContrastProperty =
+            DependencyProperty.Register(
+                nameof(IsHighContrast),
+                typeof(bool),
+                typeof(ThemedIcon),
+                new PropertyMetadata(defaultValue: false, (d, e) => ((ThemedIcon)d).OnIsHighContrastPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
+
+        // *
+        // Layers
 
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="Layers"/> property.
@@ -72,8 +105,12 @@ namespace Files.App.Controls
                 new PropertyMetadata(null, (d, e) => ((ThemedIcon)d).OnLayersPropertyChanged((object)e.OldValue, (object)e.NewValue)));
 
         //
-        //	Public Properties
+        //	PUBLIC PROPERTIES
         //
+
+        // *
+        // Public path data string properties
+
         /// <summary>
         /// Gets or sets the Filled Icon Path data as a String
         /// </summary>
@@ -91,6 +128,9 @@ namespace Files.App.Controls
             get => (string)GetValue(OutlineIconDataProperty);
             set => SetValue(OutlineIconDataProperty, value);
         }
+
+        // *
+        // Public enum properties
 
         /// <summary>
         /// Gets or sets an Enum value to choose from our three icon types, Outline, Filled, Layered
@@ -111,6 +151,9 @@ namespace Files.App.Controls
             set => SetValue(IconColorTypeProperty, value);
         }
 
+        // *
+        // Public boolean properties
+
         /// <summary>
         /// Gets or sets a value indicating whether the Icon should use Toggled states.
         /// </summary>        
@@ -119,6 +162,27 @@ namespace Files.App.Controls
             get => (bool)GetValue(IsToggledProperty);
             set => SetValue(IsToggledProperty, value);
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Icon should use Filled states.
+        /// </summary>        
+        public bool IsFilled
+        {
+            get => (bool)GetValue(IsFilledProperty);
+            set => SetValue(IsFilledProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Icon is in HighContrast state.
+        /// </summary>        
+        public bool IsHighContrast
+        {
+            get => (bool)GetValue(IsHighContrastProperty);
+            set => SetValue(IsHighContrastProperty, value);
+        }
+
+        // *
+        // Public object properties
 
         /// <summary>
         /// Gets or sets the objects we use as Layers for the Layered Icon.
@@ -130,8 +194,12 @@ namespace Files.App.Controls
         }
 
         //
-        //	Property Change Events
+        //	PROPERTY CHANGE EVENTS
         //
+
+        //*
+        // Path data string changed events
+
         protected virtual void OnFilledIconPropertyChanged(string oldValue, string newValue)
         {
             FilledIconPathUpdate();
@@ -142,10 +210,8 @@ namespace Files.App.Controls
             OutlineIconPathUpdate();
         }
 
-        protected virtual void OnLayersPropertyChanged(object oldValue, object newValue)
-        {
-            LayeredIconContentUpdate();
-        }
+        //*
+        // Enum changed events
 
         protected virtual void OnIconTypePropertyChanged(ThemedIconTypes oldValue, ThemedIconTypes newValue)
         {
@@ -157,9 +223,30 @@ namespace Files.App.Controls
             UpdateIconColorTypeStates();
         }
 
+        //*
+        // Boolean changed events
+
         protected virtual void OnIsToggledPropertyChanged(bool oldValue, bool newValue)
         {
             ToggleChanged(newValue);
+        }
+
+        protected virtual void OnIsFilledPropertyChanged(bool oldValue, bool newValue)
+        {
+            FilledChanged(newValue);
+        }
+
+        protected virtual void OnIsHighContrastPropertyChanged(bool oldValue, bool newValue)
+        {
+            HighContrastChanged(newValue);
+        }
+
+        //*
+        // Object changed events
+
+        protected virtual void OnLayersPropertyChanged(object oldValue, object newValue)
+        {
+            LayeredIconContentUpdate();
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Files.App.Controls
     [TemplatePart(Name = LayeredPathCanvas, Type = typeof(Canvas))]
 
     // Icon Type Visual States
-    [TemplateVisualState(Name = OutlineTypeStateName, GroupName = IconTypeStateGroupName)]
-    [TemplateVisualState(Name = FilledTypeStateName, GroupName = IconTypeStateGroupName)]
+    [TemplateVisualState(Name = OutlineTypeStateName, GroupName = IconTypeStateGroupName)]    
     [TemplateVisualState(Name = LayeredTypeStateName, GroupName = IconTypeStateGroupName)]
+    [TemplateVisualState(Name = FilledTypeStateName, GroupName = IconTypeStateGroupName)]
 
     // Icon Color Visual States
     [TemplateVisualState(Name = NormalStateName, GroupName = IconColorStateGroupName)]
@@ -25,12 +25,12 @@ namespace Files.App.Controls
     [TemplateVisualState(Name = NeutralStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = AccentStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = ToggleStateName, GroupName = IconColorStateGroupName)]
-    [TemplateVisualState(Name = DisabledStateName, GroupName = IconColorStateGroupName)]
-    [TemplateVisualState(Name = DisabledToggleStateName, GroupName = IconColorStateGroupName)]
+    [TemplateVisualState(Name = DisabledColorStateName, GroupName = IconColorStateGroupName)]
+    [TemplateVisualState(Name = DisabledToggleColorStateName, GroupName = IconColorStateGroupName)]
 
     // Icon IsEnabled Visual States
     [TemplateVisualState(Name = EnabledStateName, GroupName = EnabledStateGroupName)]
-    [TemplateVisualState(Name = NotEnabledStateName, GroupName = EnabledStateGroupName)]
+    [TemplateVisualState(Name = DisabledStateName, GroupName = EnabledStateGroupName)]
 
     public partial class ThemedIcon
     {
@@ -52,12 +52,12 @@ namespace Files.App.Controls
         internal const string NeutralStateName = "Neutral";
         internal const string AccentStateName = "Accent";
         internal const string ToggleStateName = "Toggle";
-        internal const string DisabledStateName = "Disabled";
-        internal const string DisabledToggleStateName = "DisabledToggle";
+        internal const string DisabledColorStateName = "DisabledColor";
+        internal const string DisabledToggleColorStateName = "DisabledToggleColor";
 
         // "Enabled" Visual State Names
         internal const string EnabledStateName = "Enabled";
-        internal const string NotEnabledStateName = "NotEnabled";
+        internal const string DisabledStateName = "Disabled";
 
         // ViewBox Controls
         internal const string FilledPathIconViewBox = "PART_FilledIconViewBox";

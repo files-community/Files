@@ -14,11 +14,6 @@ namespace Files.App.Controls
         Outline,
 
         /// <summary>
-        /// Icon type of <see cref="ThemedIcon"/> is Filled.
-        /// </summary>
-        Filled,
-
-        /// <summary>
         /// Icon type of <see cref="ThemedIcon"/> is Layered.
         /// </summary>
         Layered,
