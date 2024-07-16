@@ -120,10 +120,7 @@
 						<TextBlock><Run FontWeight="Medium">Accent</Run>
 							<Run FontSize="12">(Layered, Filled, Outline)</Run></TextBlock>
 
-						<StackPanel
-							Margin="0,0,0,32"
-							Orientation="Horizontal"
-							Spacing="16">
+						<StackPanel Orientation="Horizontal" Spacing="16">
 							<controls:ThemedIcon
 								IconColorType="Accent"
 								IconType="Layered"
@@ -136,6 +133,49 @@
 								IconColorType="Accent"
 								IconType="Outline"
 								Style="{StaticResource IconTest}" />
+						</StackPanel>
+
+						<TextBlock><Run FontWeight="Medium">Custom</Run>
+							<Run FontSize="12">(Layered, Filled, Outline)</Run></TextBlock>
+
+						<StackPanel
+							Margin="0,0,0,32"
+							Orientation="Horizontal"
+							Spacing="16">
+							<controls:ThemedIcon
+								Foreground="Yellow"
+								IconColorType="Custom"
+								IconType="Layered"
+								Style="{StaticResource IconTest}">
+								<controls:ThemedIcon.Color>
+									<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+										<GradientStop Offset="0.0" Color="PaleVioletRed" />
+										<GradientStop Offset="1.0" Color="Red" />
+									</LinearGradientBrush>
+								</controls:ThemedIcon.Color>
+							</controls:ThemedIcon>
+							<controls:ThemedIcon
+								IconColorType="Custom"
+								IsFilled="True"
+								Style="{StaticResource IconTest}">
+								<controls:ThemedIcon.Color>
+									<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+										<GradientStop Offset="0.0" Color="PaleGoldenrod" />
+										<GradientStop Offset="1.0" Color="Orange" />
+									</LinearGradientBrush>
+								</controls:ThemedIcon.Color>
+							</controls:ThemedIcon>
+							<controls:ThemedIcon
+								IconColorType="Custom"
+								IconType="Outline"
+								Style="{StaticResource IconTest}">
+								<controls:ThemedIcon.Color>
+									<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+										<GradientStop Offset="0.0" Color="PaleTurquoise" />
+										<GradientStop Offset="1.0" Color="Teal" />
+									</LinearGradientBrush>
+								</controls:ThemedIcon.Color>
+							</controls:ThemedIcon>
 						</StackPanel>
 
 						<TextBlock><Run FontWeight="Medium">HighContrast Manual Toggle</Run>

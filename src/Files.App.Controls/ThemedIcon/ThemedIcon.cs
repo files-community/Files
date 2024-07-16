@@ -95,6 +95,8 @@ namespace Files.App.Controls
                         IconColorType = layer.IconColorType,
                         PathData = layer.PathData,
                         Opacity = layer.Opacity,
+                        LayerColor = this.Color,
+                        Foreground = this.Foreground
                     });
             }
         }
@@ -344,6 +346,7 @@ namespace Files.App.Controls
                             ThemedIconColorType.Success => SuccessStateName,
                             ThemedIconColorType.Neutral => NeutralStateName,
                             ThemedIconColorType.Accent => AccentStateName,
+                            ThemedIconColorType.Custom => CustomColorStateName,
                             _ => NormalStateName,
                         },
                         true);

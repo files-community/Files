@@ -22,6 +22,7 @@ namespace Files.App.Controls
     [TemplateVisualState(Name = CautionStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = SuccessStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = NeutralStateName, GroupName = IconLayerColorStateGroupName)]
+    [TemplateVisualState(Name = CustomColorStateName, GroupName = IconLayerColorStateGroupName)]
     #endregion
 
     #region Non Accent Contrasting Color States
@@ -29,6 +30,7 @@ namespace Files.App.Controls
     [TemplateVisualState(Name = CautionBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = SuccessBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = NeutralBGStateName, GroupName = IconLayerColorStateGroupName)]
+    [TemplateVisualState(Name = CustomColorBGStateName, GroupName = IconLayerColorStateGroupName)]
     #endregion
 
     public partial class ThemedIconLayer
@@ -51,11 +53,13 @@ namespace Files.App.Controls
         internal const string CautionStateName = "Caution";
         internal const string SuccessStateName = "Success";
         internal const string NeutralStateName = "Neutral";
+        internal const string CustomColorStateName = "Custom";
 
         internal const string CriticalBGStateName = "CriticalBG";
         internal const string CautionBGStateName = "CautionBG";
         internal const string SuccessBGStateName = "SuccessBG";
         internal const string NeutralBGStateName = "NeutralBG";
+        internal const string CustomColorBGStateName = "CustomBG";
         #endregion
     }
 }

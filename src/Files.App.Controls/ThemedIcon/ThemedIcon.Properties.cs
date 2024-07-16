@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
 {
@@ -30,6 +31,17 @@ namespace Files.App.Controls
                 typeof(string),
                 typeof(ThemedIcon),
                 new PropertyMetadata(string.Empty, (d, e) => ((ThemedIcon)d).OnOutlineIconPropertyChanged((string)e.OldValue, (string)e.NewValue)));
+
+        // Color properties
+        /// <summary>
+        /// The backing <see cref="DependencyProperty"/> for the <see cref="Color"/> property.
+        /// </summary>
+        public static readonly DependencyProperty ColorProperty =
+            DependencyProperty.Register(
+                nameof(Color),
+                typeof(Brush),
+                typeof(ThemedIcon),
+                new PropertyMetadata(null, (d, e) => ((ThemedIcon)d).OnColorPropertyChanged((Brush)e.OldValue, (Brush)e.NewValue)));
 
         // Enum properties
 
@@ -120,6 +132,17 @@ namespace Files.App.Controls
             set => SetValue(OutlineIconDataProperty, value);
         }
 
+        // Public color properties
+
+        /// <summary>
+        /// Gets or sets the Brush used for the Custom IconColorType
+        /// </summary>
+        public Brush Color
+        {
+            get => (Brush)GetValue(ColorProperty);
+            set => SetValue(ColorProperty, value);
+        }
+
         // Public enum properties
 
         /// <summary>
@@ -194,6 +217,12 @@ namespace Files.App.Controls
         {
             OutlineIconPathUpdate();
         }
+
+        // Color changed events
+        protected virtual void OnColorPropertyChanged(Brush oldValue, Brush newValue)
+        {
+            UpdateIconTypeStates();
+        }		
 
         // Enum changed events
 

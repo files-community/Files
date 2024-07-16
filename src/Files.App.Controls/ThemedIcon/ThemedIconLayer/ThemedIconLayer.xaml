@@ -5,6 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style x:Key="DefaultThemedIconLayerStyle" TargetType="local:ThemedIconLayer">
+		<Setter Property="Foreground" Value="{ThemeResource ThemedIconAccentContrastBrush}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ThemedIconLayer">
@@ -75,6 +76,16 @@
 								<VisualState x:Name="NeutralBG">
 									<VisualState.Setters>
 										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconNeutralBackgroundBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Custom">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LayerColor}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CustomBG">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

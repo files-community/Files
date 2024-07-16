@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
 {
@@ -27,6 +28,16 @@ namespace Files.App.Controls
                 typeof(string),
                 typeof(ThemedIconLayer),
                 new PropertyMetadata(string.Empty, (d, e) => ((ThemedIconLayer)d).OnLayerPathDataPropertyChanged((string)e.OldValue, (string)e.NewValue)));
+
+        /// <summary>
+        /// The backing <see cref="DependencyProperty"/> for the <see cref="LayerColor"/> property.
+        /// </summary>
+        public static readonly DependencyProperty LayerColorProperty =
+            DependencyProperty.Register(
+                nameof(LayerColor),
+                typeof(Brush),
+                typeof(ThemedIcon),
+                new PropertyMetadata(null, (d, e) => ((ThemedIconLayer)d).OnColorPropertyChanged((Brush)e.OldValue, (Brush)e.NewValue)));
 
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="IconColorType"/> property.
@@ -57,6 +68,16 @@ namespace Files.App.Controls
             get => (string)GetValue(PathDataProperty);
             set => SetValue(PathDataProperty, value);
         }
+
+        /// <summary>
+        /// Gets or sets the Brush used for the Custom IconColorType
+        /// </summary>
+        public Brush LayerColor
+        {
+            get => (Brush)GetValue(LayerColorProperty);
+            set => SetValue(LayerColorProperty, value);
+        }
+
         /// <summary>
         /// Gets or sets the Enum value for IconColorType of the layer
         /// </summary>
@@ -80,7 +101,12 @@ namespace Files.App.Controls
 
         protected virtual void OnIconColorTypePropertyChanged(ThemedIconColorType oldValue, ThemedIconColorType newValue)
         {
-            IconColorTypeChanged(newValue);
+            IconColorTypeChanged();
+        }
+
+        protected virtual void OnColorPropertyChanged(Brush oldValue, Brush newValue)
+        {
+            IconColorTypeChanged();
         }
         #endregion
     }

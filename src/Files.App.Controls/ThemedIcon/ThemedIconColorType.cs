@@ -39,5 +39,10 @@ namespace Files.App.Controls
         /// Icon color type of <see cref="ThemedIcon"/> is Accent.
         /// </summary>
         Accent,
+
+        /// <summary>
+        /// Icon color type of <see cref="ThemedIcon"/> is Custom.
+        /// </summary>
+        Custom
     }
 }

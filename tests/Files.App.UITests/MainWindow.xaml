@@ -35,9 +35,16 @@
 				Grid.Column="0"
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
-				IconColorType="Neutral"
+				IconColorType="Custom"
 				IsFilled="True"
-				Style="{StaticResource App.ThemedIcons.mono_FilesDefault}" />
+				Style="{StaticResource App.ThemedIcons.mono_FilesDefault}">
+				<controls:ThemedIcon.Color>
+					<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+						<GradientStop Offset="0.0" Color="Yellow" />
+						<GradientStop Offset="1.0" Color="DeepPink" />
+					</LinearGradientBrush>
+				</controls:ThemedIcon.Color>
+			</controls:ThemedIcon>
 
 			<TextBlock
 				Grid.Column="1"

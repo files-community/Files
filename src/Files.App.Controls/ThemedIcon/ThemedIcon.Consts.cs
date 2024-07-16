@@ -26,6 +26,7 @@ namespace Files.App.Controls
     [TemplateVisualState(Name = SuccessStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = NeutralStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = AccentStateName, GroupName = IconColorStateGroupName)]
+    [TemplateVisualState(Name = CustomColorStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = ToggleStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = DisabledColorStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = DisabledToggleColorStateName, GroupName = IconColorStateGroupName)]
@@ -57,6 +58,7 @@ namespace Files.App.Controls
         internal const string SuccessStateName = "Success";
         internal const string NeutralStateName = "Neutral";
         internal const string AccentStateName = "Accent";
+        internal const string CustomColorStateName = "Custom";
         internal const string ToggleStateName = "Toggle";
         internal const string DisabledColorStateName = "DisabledColor";
         internal const string DisabledToggleColorStateName = "DisabledToggleColor";

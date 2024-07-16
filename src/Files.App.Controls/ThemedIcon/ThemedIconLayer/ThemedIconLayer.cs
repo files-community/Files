@@ -35,7 +35,7 @@ namespace Files.App.Controls
             SetPathData(pathData ?? string.Empty);
         }
 
-        void IconColorTypeChanged(ThemedIconColorType iconColorType)
+        void IconColorTypeChanged()
         {
             UpdateIconLayerState();
         }
@@ -52,6 +52,7 @@ namespace Files.App.Controls
                     ThemedIconColorType.Caution => CautionStateName,
                     ThemedIconColorType.Success => SuccessStateName,
                     ThemedIconColorType.Neutral => NeutralStateName,
+                    ThemedIconColorType.Custom => CustomColorStateName,
                     _ => AccentStateName,
                 },
                 true);
@@ -66,6 +67,7 @@ namespace Files.App.Controls
                     ThemedIconColorType.Caution => CautionBGStateName,
                     ThemedIconColorType.Success => SuccessBGStateName,
                     ThemedIconColorType.Neutral => NeutralBGStateName,
+                    ThemedIconColorType.Custom => CustomColorBGStateName,
                     _ => AccentContrastStateName,
                 },
                 true);
