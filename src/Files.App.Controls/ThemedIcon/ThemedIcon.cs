@@ -240,6 +240,7 @@ namespace Files.App.Controls
         {
             _isEnabled = IsEnabled;
             _isToggled = IsToggled;
+            _isHighContrast = IsHighContrast;
         }
 
         private void UpdateIconStates()
