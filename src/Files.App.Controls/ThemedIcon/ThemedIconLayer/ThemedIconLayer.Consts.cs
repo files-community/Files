@@ -6,35 +6,42 @@ using Microsoft.UI.Xaml.Shapes;
 
 namespace Files.App.Controls
 {
-    // Template Parts
+    # region Template Parts
     [TemplatePart(Name = LayerPathPart, Type = typeof(Path))]
+    #endregion
 
-    // Icon Color Visual States
+    #region Icon Color Visual States
     [TemplateVisualState(Name = BaseStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = AltStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = AccentStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = AccentContrastStateName, GroupName = IconLayerColorStateGroupName)]
+    #endregion
 
-    // Non Accent Color States
+    #region Non Accent Color States
     [TemplateVisualState(Name = CriticalStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = CautionStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = SuccessStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = NeutralStateName, GroupName = IconLayerColorStateGroupName)]
+    #endregion
 
-    // Non Accent Contrasting Color States
+    #region Non Accent Contrasting Color States
     [TemplateVisualState(Name = CriticalBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = CautionBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = SuccessBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = NeutralBGStateName, GroupName = IconLayerColorStateGroupName)]
+    #endregion
+
     public partial class ThemedIconLayer
     {
-        // Path Control Part
+        #region Path Control Part
         internal const string LayerPathPart = "PART_LayerPath";
+        #endregion
 
-        // Visual State Group Names
+        #region Visual State Group Names
         internal const string IconLayerColorStateGroupName = "IconLayerColorStates";
+        #endregion
 
-        // Icon Color Type Visual State Names
+        #region Icon Color Type Visual State Names
         internal const string BaseStateName = "Base";
         internal const string AltStateName = "Alt";
         internal const string AccentStateName = "Accent";
@@ -49,5 +56,6 @@ namespace Files.App.Controls
         internal const string CautionBGStateName = "CautionBG";
         internal const string SuccessBGStateName = "SuccessBG";
         internal const string NeutralBGStateName = "NeutralBG";
+        #endregion
     }
 }

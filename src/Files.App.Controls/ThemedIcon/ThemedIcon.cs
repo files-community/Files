@@ -18,8 +18,6 @@ namespace Files.App.Controls
     /// </summary>
     public partial class ThemedIcon : Control
     {
-        // private IAppThemeModeService AppThemeModeService = Ioc.Default.GetRequiredService<IAppThemeModeService>();
-
         bool _isHighContrast;
         bool _isToggled;
         bool _isEnabled;

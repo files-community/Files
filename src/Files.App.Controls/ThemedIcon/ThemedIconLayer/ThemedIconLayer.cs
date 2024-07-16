@@ -25,11 +25,20 @@ namespace Files.App.Controls
             LayerPathDataChanged(PathData);
         }
 
-        void LayerTypeChanged(ThemedIconLayerType layerType) => UpdateIconLayerState();
+        void LayerTypeChanged(ThemedIconLayerType layerType)
+        {
+            UpdateIconLayerState();
+        }
 
-        void LayerPathDataChanged(string pathData) => SetPathData(pathData ?? string.Empty);
+        void LayerPathDataChanged(string pathData)
+        {
+            SetPathData(pathData ?? string.Empty);
+        }
 
-        void IconColorTypeChanged(ThemedIconColorType iconColorType) => UpdateIconLayerState();
+        void IconColorTypeChanged(ThemedIconColorType iconColorType)
+        {
+            UpdateIconLayerState();
+        }
 
         void UpdateIconLayerState()
         {
@@ -73,10 +82,11 @@ namespace Files.App.Controls
                     true);
             }
         }
-
-        // Code to take the PathData string, and convert it to an actual path
+  
         void SetPathData(string pathData)
         {
+            // Code to take the PathData string, and convert it to an actual path
+
             // If there is no Path Data, we just exit
             // If there is, we create a new Geometry and insert our Path Data string
             // We check the Template Part exists, and is the right type, and assign it's data

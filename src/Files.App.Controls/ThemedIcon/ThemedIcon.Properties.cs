@@ -8,11 +8,7 @@ namespace Files.App.Controls
 {
     public partial class ThemedIcon : Control
     {
-        //
-        //	DEPENDENCY PROPERTY REGISTRATION
-        //
-
-        // *
+        #region DEPENDENCY PROPERTY REGISTRATION
         // Path data string properties
 
         /// <summary>
@@ -35,7 +31,6 @@ namespace Files.App.Controls
                 typeof(ThemedIcon),
                 new PropertyMetadata(string.Empty, (d, e) => ((ThemedIcon)d).OnOutlineIconPropertyChanged((string)e.OldValue, (string)e.NewValue)));
 
-        // *
         // Enum properties
 
         /// <summary>
@@ -58,7 +53,6 @@ namespace Files.App.Controls
                 typeof(ThemedIcon),
                 new PropertyMetadata(ThemedIconColorType.None, (d, e) => ((ThemedIcon)d).OnIconColorTypePropertyChanged((ThemedIconColorType)e.OldValue, (ThemedIconColorType)e.NewValue)));
 
-        // *
         // Boolean properties
 
         /// <summary>
@@ -91,7 +85,6 @@ namespace Files.App.Controls
                 typeof(ThemedIcon),
                 new PropertyMetadata(defaultValue: false, (d, e) => ((ThemedIcon)d).OnIsHighContrastPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
 
-        // *
         // Layers
 
         /// <summary>
@@ -104,11 +97,9 @@ namespace Files.App.Controls
                 typeof(ThemedIcon),
                 new PropertyMetadata(null, (d, e) => ((ThemedIcon)d).OnLayersPropertyChanged((object)e.OldValue, (object)e.NewValue)));
 
-        //
-        //	PUBLIC PROPERTIES
-        //
+        #endregion
 
-        // *
+        #region PUBLIC PROPERTIES
         // Public path data string properties
 
         /// <summary>
@@ -129,7 +120,6 @@ namespace Files.App.Controls
             set => SetValue(OutlineIconDataProperty, value);
         }
 
-        // *
         // Public enum properties
 
         /// <summary>
@@ -151,7 +141,6 @@ namespace Files.App.Controls
             set => SetValue(IconColorTypeProperty, value);
         }
 
-        // *
         // Public boolean properties
 
         /// <summary>
@@ -181,7 +170,6 @@ namespace Files.App.Controls
             set => SetValue(IsHighContrastProperty, value);
         }
 
-        // *
         // Public object properties
 
         /// <summary>
@@ -192,12 +180,9 @@ namespace Files.App.Controls
             get => (object)GetValue(LayersProperty);
             set => SetValue(LayersProperty, value);
         }
+        #endregion
 
-        //
-        //	PROPERTY CHANGE EVENTS
-        //
-
-        //*
+        #region PROPERTY CHANGE EVENTS
         // Path data string changed events
 
         protected virtual void OnFilledIconPropertyChanged(string oldValue, string newValue)
@@ -210,7 +195,6 @@ namespace Files.App.Controls
             OutlineIconPathUpdate();
         }
 
-        //*
         // Enum changed events
 
         protected virtual void OnIconTypePropertyChanged(ThemedIconTypes oldValue, ThemedIconTypes newValue)
@@ -223,7 +207,6 @@ namespace Files.App.Controls
             UpdateIconColorTypeStates();
         }
 
-        //*
         // Boolean changed events
 
         protected virtual void OnIsToggledPropertyChanged(bool oldValue, bool newValue)
@@ -241,12 +224,12 @@ namespace Files.App.Controls
             HighContrastChanged(newValue);
         }
 
-        //*
         // Object changed events
 
         protected virtual void OnLayersPropertyChanged(object oldValue, object newValue)
         {
             LayeredIconContentUpdate();
         }
+        #endregion
     }
 }

@@ -7,9 +7,7 @@ namespace Files.App.Controls
 {
     public partial class ThemedIconLayer
     {
-        //
-        // Dependency Property Registration
-        //
+        #region DEPENDENCY PROPERTY REGISTRATION
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="LayerType"/> property.
         /// </summary>
@@ -39,10 +37,9 @@ namespace Files.App.Controls
                 typeof(ThemedIconColorType),
                 typeof(ThemedIconLayer),
                 new PropertyMetadata(ThemedIconColorType.Normal, (d, e) => ((ThemedIconLayer)d).OnIconColorTypePropertyChanged((ThemedIconColorType)e.OldValue, (ThemedIconColorType)e.NewValue)));
+        #endregion
 
-        //
-        // Public Properties
-        //
+        #region PUBLIC PROPERTIES
         /// <summary>
         /// Gets or sets the Enum value for LayerType of the layer
         /// </summary>
@@ -68,10 +65,9 @@ namespace Files.App.Controls
             get => (ThemedIconColorType)GetValue(IconColorTypeProperty);
             set => SetValue(IconColorTypeProperty, value);
         }
+        #endregion
 
-        //
-        // Dependency Property Changed events
-        //
+        #region PROPERTY CHANGE EVENTS
         protected virtual void OnLayerTypePropertyChanged(ThemedIconLayerType oldValue, ThemedIconLayerType newValue)
         {
             LayerTypeChanged(newValue);
@@ -86,5 +82,6 @@ namespace Files.App.Controls
         {
             IconColorTypeChanged(newValue);
         }
+        #endregion
     }
 }
