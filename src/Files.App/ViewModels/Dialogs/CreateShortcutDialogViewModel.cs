@@ -14,6 +14,9 @@ namespace Files.App.ViewModels.Dialogs
 		// User's working directory
 		public readonly string WorkingDirectory;
 
+		// Placeholder text of destination path textbox
+		public readonly string DestinationPlaceholder = $@"{Environment.GetEnvironmentVariable("SystemDrive")}\Users\";
+
 		// Tells whether destination path exists
 		public bool DestinationPathExists { get; set; }
 
