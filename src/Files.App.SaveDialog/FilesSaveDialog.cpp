@@ -20,7 +20,10 @@ using std::endl;
 
 CComPtr<IFileSaveDialog> GetSystemDialog()
 {
-	HINSTANCE lib = CoLoadLibrary(L"C:\\Windows\\System32\\comdlg32.dll", false);
+	WCHAR comdlg32Path[MAX_PATH];
+	ExpandEnvironmentStrings(L"%SYSTEMDRIVE%\\Windows\\System32\\comdlg32.dll", comdlg32Path, MAX_PATH - 1);
+
+	HINSTANCE lib = CoLoadLibrary(comdlg32Path, false);
 	BOOL(WINAPI* dllGetClassObject)(REFCLSID, REFIID, LPVOID*) =
 		(BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
 	CComPtr<IClassFactory> pClassFactory;

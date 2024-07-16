@@ -239,7 +239,7 @@ namespace Files.App.Data.Items
 				IsLocationItem = true,
 				ShowEjectDevice = item.IsRemovable,
 				ShowShellItems = true,
-				ShowFormatDrive = !(item.Type == DriveType.Network || string.Equals(root.Path, "C:\\", StringComparison.OrdinalIgnoreCase)),
+				ShowFormatDrive = !(item.Type == DriveType.Network || string.Equals(root.Path, $@"{Environment.GetEnvironmentVariable("SystemDrive")}\", StringComparison.OrdinalIgnoreCase)),
 				ShowProperties = true
 			};
 			item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
