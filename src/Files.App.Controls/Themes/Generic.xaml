@@ -58,17 +58,17 @@
 			<Color x:Key="ThemedIconBaseColor">#FF000000</Color>
 			<Color x:Key="ThemedIconAltColor">#00000000</Color>
 
-			<StaticResource x:Key="ThemedIconBaseBrush" ResourceKey="SystemColorButtonTextColor" />
-			<StaticResource x:Key="ThemedIconAltBrush" ResourceKey="SystemColorButtonFaceColor" />
-			<StaticResource x:Key="ThemedIconAccentBrush" ResourceKey="SystemColorHighlightColor" />
-			<StaticResource x:Key="ThemedIconAccentContrastBrush" ResourceKey="SystemColorHighlightTextColor" />
-			<StaticResource x:Key="ThemedIconDisabledBrush" ResourceKey="SystemColorGrayTextColor" />
-			<StaticResource x:Key="ThemedIconDisabledToggleBrush" ResourceKey="SystemColorHighlightTextColor" />
+			<StaticResource x:Key="ThemedIconBaseBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="ThemedIconAltBrush" ResourceKey="SystemColorButtonFaceColorBrush" />
+			<StaticResource x:Key="ThemedIconAccentBrush" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ThemedIconAccentContrastBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ThemedIconDisabledBrush" ResourceKey="SystemColorGrayTextColorBrush" />
+			<StaticResource x:Key="ThemedIconDisabledToggleBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
 
-			<StaticResource x:Key="ThemedIconCriticalBrush" ResourceKey="SystemColorHighlightColor" />
-			<StaticResource x:Key="ThemedIconCautionBrush" ResourceKey="SystemColorHighlightColor" />
-			<StaticResource x:Key="ThemedIconSuccessBrush" ResourceKey="SystemColorHighlightColor" />
-			<StaticResource x:Key="ThemedIconNeutralBrush" ResourceKey="SystemColorHighlightColor" />
+			<StaticResource x:Key="ThemedIconCriticalBrush" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ThemedIconCautionBrush" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ThemedIconSuccessBrush" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ThemedIconNeutralBrush" ResourceKey="SystemColorHighlightColorBrush" />
 
 			<StaticResource x:Key="ThemedIconCriticalBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
 			<StaticResource x:Key="ThemedIconCautionBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
