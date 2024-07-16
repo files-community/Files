@@ -39,9 +39,9 @@
 				IsFilled="True"
 				Style="{StaticResource App.ThemedIcons.mono_FilesDefault}">
 				<controls:ThemedIcon.Color>
-					<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-						<GradientStop Offset="0.0" Color="Yellow" />
-						<GradientStop Offset="1.0" Color="DeepPink" />
+					<LinearGradientBrush StartPoint="0.3,0.3" EndPoint="1,1">
+						<GradientStop Offset="0.0" Color="#9F75D3" />
+						<GradientStop Offset="1.0" Color="#8661C5" />
 					</LinearGradientBrush>
 				</controls:ThemedIcon.Color>
 			</controls:ThemedIcon>
