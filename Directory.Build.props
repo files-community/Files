@@ -3,7 +3,7 @@
 
     <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
         <Nullable>enable</Nullable>
-        <Configurations>Debug;Stable;Preview;Store</Configurations>
+        <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
         <Company>Files Community</Company>
         <Copyright>Copyright (c) 2024 Files Community.</Copyright>
         <AssemblyCompany>Files Community</AssemblyCompany>
