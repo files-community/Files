@@ -11,15 +11,14 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public List<IniSectionDataItem> GetData(string filePath)
 		{
-			var iniPath = Path.Combine(filePath);
-			if (!File.Exists(iniPath))
+			if (!File.Exists(filePath))
 				return [];
 
 			var lines = Enumerable.Empty<string>().ToList();
 
 			try
 			{
-				lines = File.ReadLines(iniPath)
+				lines = File.ReadLines(filePath)
 					.Where(line => !line.StartsWith(';') && !string.IsNullOrEmpty(line))
 					.ToList();
 			}
