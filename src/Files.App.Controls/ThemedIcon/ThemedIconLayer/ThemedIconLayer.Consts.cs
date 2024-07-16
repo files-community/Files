@@ -26,7 +26,6 @@ namespace Files.App.Controls
     [TemplateVisualState(Name = CautionBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = SuccessBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = NeutralBGStateName, GroupName = IconLayerColorStateGroupName)]
-
     public partial class ThemedIconLayer
     {
         // Path Control Part
