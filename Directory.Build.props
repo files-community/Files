@@ -14,9 +14,9 @@
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <LangVersion>latest</LangVersion>
         <DefaultLanguage>en-US</DefaultLanguage>
-        <ApplicationIcon Condition="'$(Configuration)' == 'Debug' AND '$(Configuration)' == 'Release'">$(SolutionDir)/src/Files.App (Package)/Assets/AppTiles/Dev/Logo.ico</ApplicationIcon>
+        <ApplicationIcon Condition="'$(Configuration)' == 'Debug' Or '$(Configuration)' == 'Release'">$(SolutionDir)/src/Files.App (Package)/Assets/AppTiles/Dev/Logo.ico</ApplicationIcon>
         <ApplicationIcon Condition="'$(Configuration)' == 'Preview'">$(SolutionDir)/src/Files.App (Package)/Assets/AppTiles/Preview/Logo.ico</ApplicationIcon>
-        <ApplicationIcon Condition="'$(Configuration)' == 'Stable' AND '$(Configuration)' == 'Store'">$(SolutionDir)/src/Files.App (Package)/Assets/AppTiles/Release/Logo.ico</ApplicationIcon>
+        <ApplicationIcon Condition="'$(Configuration)' == 'Stable' Or '$(Configuration)' == 'Store'">$(SolutionDir)/src/Files.App (Package)/Assets/AppTiles/Release/Logo.ico</ApplicationIcon>
         <DefineConstants Condition="'$(Configuration)' == 'Debug'">TRACE;DEBUG;NETFX_CORE</DefineConstants>
         <DefineConstants Condition="'$(Configuration)' != 'Debug'">TRACE;RELEASE;NETFX_CORE</DefineConstants>
         <Optimize Condition="'$(Configuration)' != 'Debug'">true</Optimize>
