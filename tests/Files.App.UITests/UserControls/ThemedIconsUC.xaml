@@ -268,16 +268,20 @@
 							Spacing="16">
 
 							<StackPanel Orientation="Horizontal" Spacing="16">
-								<AppBarButton Label="Layered" LabelPosition="Default" HighContrastAdjustment="None">
+								<AppBarButton
+									HighContrastAdjustment="None"
+									Label="Layered"
+									LabelPosition="Default">
 									<AppBarButton.Content>
 										<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 									</AppBarButton.Content>
 								</AppBarButton>
 
 								<AppBarToggleButton
+									HighContrastAdjustment="None"
 									IsChecked="True"
 									Label="Layered Toggle"
-									LabelPosition="Default" HighContrastAdjustment="None">
+									LabelPosition="Default">
 									<AppBarToggleButton.Content>
 										<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 									</AppBarToggleButton.Content>
@@ -285,19 +289,21 @@
 
 								<AppBarButton
 									x:Name="AppBarButtonDisable"
+									HighContrastAdjustment="None"
 									IsEnabled="False"
 									Label="Disabled"
-									LabelPosition="Default" HighContrastAdjustment="None">
+									LabelPosition="Default">
 									<AppBarButton.Content>
 										<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 									</AppBarButton.Content>
 								</AppBarButton>
 
 								<AppBarToggleButton
+									HighContrastAdjustment="None"
 									IsChecked="True"
 									IsEnabled="False"
 									Label="Layered Toggled Disabled"
-									LabelPosition="Default" HighContrastAdjustment="None">
+									LabelPosition="Default">
 									<AppBarToggleButton.Content>
 										<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
 									</AppBarToggleButton.Content>
@@ -305,16 +311,20 @@
 							</StackPanel>
 
 							<StackPanel Orientation="Horizontal" Spacing="16">
-								<AppBarButton Label="Outline" LabelPosition="Default" HighContrastAdjustment="None">
+								<AppBarButton
+									HighContrastAdjustment="None"
+									Label="Outline"
+									LabelPosition="Default">
 									<AppBarButton.Content>
 										<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 									</AppBarButton.Content>
 								</AppBarButton>
 
 								<AppBarToggleButton
+									HighContrastAdjustment="None"
 									IsChecked="True"
 									Label="Outline Toggle"
-									LabelPosition="Default" HighContrastAdjustment="None">
+									LabelPosition="Default">
 									<AppBarToggleButton.Content>
 										<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 									</AppBarToggleButton.Content>
@@ -322,19 +332,21 @@
 
 								<AppBarButton
 									x:Name="AppBarButtonDisable2"
+									HighContrastAdjustment="None"
 									IsEnabled="False"
 									Label="Outline Disabled"
-									LabelPosition="Default" HighContrastAdjustment="None">
+									LabelPosition="Default">
 									<AppBarButton.Content>
 										<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 									</AppBarButton.Content>
 								</AppBarButton>
 
 								<AppBarToggleButton
+									HighContrastAdjustment="None"
 									IsChecked="True"
 									IsEnabled="False"
 									Label="Outline Toggled Disabled"
-									LabelPosition="Default" HighContrastAdjustment="None">
+									LabelPosition="Default">
 									<AppBarToggleButton.Content>
 										<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
 									</AppBarToggleButton.Content>
