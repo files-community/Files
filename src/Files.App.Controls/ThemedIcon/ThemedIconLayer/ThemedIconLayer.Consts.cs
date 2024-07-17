@@ -2,11 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 
 namespace Files.App.Controls
 {
     // Template Parts
+    [TemplatePart(Name = LayerViewBoxPart, Type = typeof(Viewbox))]
     [TemplatePart(Name = LayerPathPart, Type = typeof(Path))]
 
     // Icon Color Visual States
@@ -30,11 +32,12 @@ namespace Files.App.Controls
     [TemplateVisualState(Name = CustomColorBGStateName, GroupName = IconLayerColorStateGroupName)]
 
     /// <summary>
-	/// Displays a layer of <see cref="ThemedIcon"/> for <see cref="ThemedIconTypes.Layered"/> icon type.
- 	/// </summary>
-	public partial class ThemedIconLayer
+    /// Displays a layer of <see cref="ThemedIcon"/> for <see cref="ThemedIconTypes.Layered"/> icon type.
+    /// </summary>
+    public partial class ThemedIconLayer
     {
         // Path Control Part
+        internal const string LayerViewBoxPart = "PART_LayerViewBox";
         internal const string LayerPathPart = "PART_LayerPath";
 
         // Visual State Group Names

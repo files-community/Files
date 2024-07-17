@@ -9,7 +9,11 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ThemedIconLayer">
-					<Grid>
+					<Viewbox
+						x:Name="PART_LayerViewBox"
+						Width="{TemplateBinding Width}"
+						Height="{TemplateBinding Height}"
+						Stretch="UniformToFill">
 						<Path
 							x:Name="PART_LayerPath"
 							Width="{TemplateBinding Width}"
@@ -91,7 +95,7 @@
 							</VisualStateGroup>
 
 						</VisualStateManager.VisualStateGroups>
-					</Grid>
+					</Viewbox>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

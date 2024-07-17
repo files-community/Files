@@ -69,6 +69,8 @@
 								x:Name="PART_LayerCanvas"
 								Width="{TemplateBinding Width}"
 								Height="{TemplateBinding Height}"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
 								UseLayoutRounding="False" />
 						</Viewbox>
 

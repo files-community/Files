@@ -36,7 +36,10 @@ namespace Files.App.Controls
 
         private void LayerPathDataChanged(string pathData)
         {
-            SetPathData(pathData ?? string.Empty);
+            if (GetTemplateChild(LayerViewBoxPart) is not Viewbox layerViewBox)
+                return;
+
+            SetPathData(pathData ?? string.Empty, layerViewBox);
         }
 
         private void IconColorTypeChanged()
@@ -89,7 +92,7 @@ namespace Files.App.Controls
             }
         }
   
-        void SetPathData(string pathData)
+        void SetPathData(string pathData, FrameworkElement element)
         {
             // Code to take the PathData string, and convert it to an actual path
 
@@ -104,7 +107,12 @@ namespace Files.App.Controls
                 $"<Geometry xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>{pathData}</Geometry>");
 
             if (GetTemplateChild(LayerPathPart) is Path path)
+            {
                 path.Data = geometry;
+                path.Width = element.Width;
+                path.Width = element.Height;
+            }
+
         }
     }
 }

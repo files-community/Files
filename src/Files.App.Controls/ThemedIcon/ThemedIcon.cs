@@ -10,6 +10,7 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace Files.App.Controls
 {
@@ -35,10 +36,12 @@ namespace Files.App.Controls
         protected override void OnApplyTemplate()
         {
             IsEnabledChanged -= OnIsEnabledChanged;
+            SizeChanged -= OnSizeChanged;
 
             base.OnApplyTemplate();
 
             IsEnabledChanged += OnIsEnabledChanged;
+            SizeChanged += OnSizeChanged;
 
             InitialIconStateValues();
             FindOwnerControlStates();
@@ -96,8 +99,10 @@ namespace Files.App.Controls
                         Opacity = layer.Opacity,
                         LayerColor = this.Color,
                         Foreground = this.Foreground,
-                        Width = this.Width,
-                        Height = this.Height
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch,
+                        Width = Width,
+                        Height = Height
                     });
             }
         }
@@ -214,6 +219,23 @@ namespace Files.App.Controls
             // Handles for the derived control's IsEnabled property change
 
             EnabledChanged((bool)e.NewValue);
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // Handles resizing of child layers when Width and Height properties change
+
+            double newWidth = e.NewSize.Width;
+            double newHeight = e.NewSize.Height;
+
+            if (GetTemplateChild(LayeredPathCanvas) is Canvas canvas)
+            {
+                foreach (var layer in canvas.Children.Cast<ThemedIconLayer>())
+                {
+                    layer.Width = newWidth;
+                    layer.Height = newHeight;
+                }
+            }
         }
 
         private void EnabledChanged(bool value)
