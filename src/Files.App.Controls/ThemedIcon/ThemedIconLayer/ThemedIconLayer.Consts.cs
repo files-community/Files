@@ -6,44 +6,41 @@ using Microsoft.UI.Xaml.Shapes;
 
 namespace Files.App.Controls
 {
-    # region Template Parts
+    // Template Parts
     [TemplatePart(Name = LayerPathPart, Type = typeof(Path))]
-    #endregion
 
-    #region Icon Color Visual States
+    // Icon Color Visual States
     [TemplateVisualState(Name = BaseStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = AltStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = AccentStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = AccentContrastStateName, GroupName = IconLayerColorStateGroupName)]
-    #endregion
 
-    #region Non Accent Color States
+    // Non Accent Color States
     [TemplateVisualState(Name = CriticalStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = CautionStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = SuccessStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = NeutralStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = CustomColorStateName, GroupName = IconLayerColorStateGroupName)]
-    #endregion
 
-    #region Non Accent Contrasting Color States
+    // Non Accent Contrasting Color States
     [TemplateVisualState(Name = CriticalBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = CautionBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = SuccessBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = NeutralBGStateName, GroupName = IconLayerColorStateGroupName)]
     [TemplateVisualState(Name = CustomColorBGStateName, GroupName = IconLayerColorStateGroupName)]
-    #endregion
 
-    public partial class ThemedIconLayer
+    /// <summary>
+	/// Displays a layer of <see cref="ThemedIcon"/> for <see cref="ThemedIconTypes.Layered"/> icon type.
+ 	/// </summary>
+	public partial class ThemedIconLayer
     {
-        #region Path Control Part
+        // Path Control Part
         internal const string LayerPathPart = "PART_LayerPath";
-        #endregion
 
-        #region Visual State Group Names
+        // Visual State Group Names
         internal const string IconLayerColorStateGroupName = "IconLayerColorStates";
-        #endregion
 
-        #region Icon Color Type Visual State Names
+        // Icon Color Type Visual State Names
         internal const string BaseStateName = "Base";
         internal const string AltStateName = "Alt";
         internal const string AccentStateName = "Accent";
@@ -60,6 +57,5 @@ namespace Files.App.Controls
         internal const string SuccessBGStateName = "SuccessBG";
         internal const string NeutralBGStateName = "NeutralBG";
         internal const string CustomColorBGStateName = "CustomBG";
-        #endregion
     }
 }
