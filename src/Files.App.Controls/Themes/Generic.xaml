@@ -82,7 +82,7 @@
 
 	<ResourceDictionary.MergedDictionaries>
 		<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-		<!--#region THEMED ICON-->
+		<!--#region ThemedIconStyles-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIcon.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIconLayer/ThemedIconLayer.xaml" />
 		<!--  Icon Style Sets  -->
