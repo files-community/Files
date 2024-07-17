@@ -3,7 +3,6 @@
 
 using System.Collections.Specialized;
 using System.IO;
-using System.Text.Json.Serialization;
 
 namespace Files.App.Data.Models
 {
@@ -189,7 +188,7 @@ namespace Files.App.Data.Models
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
 		{
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
+			App.QuickAccessManager.PinnedItemsWatcher!.EnableRaisingEvents = false;
 			await LoadAsync();
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
 			{
