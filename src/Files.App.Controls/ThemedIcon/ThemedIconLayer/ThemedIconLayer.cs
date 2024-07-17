@@ -15,9 +15,9 @@ namespace Files.App.Controls
     public partial class ThemedIconLayer : Control
     {
         public ThemedIconLayer()
-		{
-  			DefaultStyleKey = typeof(ThemedIconLayer);
-	 	}
+        {
+            DefaultStyleKey = typeof(ThemedIconLayer);
+        }
 
         protected override void OnApplyTemplate()
         {
@@ -49,32 +49,32 @@ namespace Files.App.Controls
             if (LayerType == ThemedIconLayerType.Accent)
             {
                 VisualStateManager.GoToState(
-                	this,
-                	IconColorType switch
-                	{
-                    	ThemedIconColorType.Critical => CriticalStateName,
-                    	ThemedIconColorType.Caution => CautionStateName,	
-                    	ThemedIconColorType.Success => SuccessStateName,	
-                    	ThemedIconColorType.Neutral => NeutralStateName,
-						ThemedIconColorType.Custom => CustomColorStateName,
-                    	_ => AccentStateName,
-            		},
+                    this,
+                    IconColorType switch
+                    {
+                        ThemedIconColorType.Critical => CriticalStateName,
+                        ThemedIconColorType.Caution => CautionStateName,	
+                        ThemedIconColorType.Success => SuccessStateName,	
+                        ThemedIconColorType.Neutral => NeutralStateName,
+                        ThemedIconColorType.Custom => CustomColorStateName,
+                        _ => AccentStateName,
+                    },
                 true);
             }
             else if (LayerType == ThemedIconLayerType.AccentContrast)
             {
                 VisualStateManager.GoToState(
-                	this,
-                	IconColorType switch
-                	{
-                    	ThemedIconColorType.Critical => CriticalBGStateName,
-                    	ThemedIconColorType.Caution => CautionBGStateName,
-                    	ThemedIconColorType.Success => SuccessBGStateName,
-                    	ThemedIconColorType.Neutral => NeutralBGStateName,
-                    	ThemedIconColorType.Custom => CustomColorBGStateName,
-                    	_ => AccentContrastStateName,
-                	},
-                	true);
+                    this,
+                    IconColorType switch
+                    {
+                        ThemedIconColorType.Critical => CriticalBGStateName,
+                        ThemedIconColorType.Caution => CautionBGStateName,
+                        ThemedIconColorType.Success => SuccessBGStateName,
+                        ThemedIconColorType.Neutral => NeutralBGStateName,
+                        ThemedIconColorType.Custom => CustomColorBGStateName,
+                        _ => AccentContrastStateName,
+                    },
+                    true);
             }
             else
             {

@@ -407,9 +407,48 @@
 								IconType="Outline"
 								IsFilled="{x:Bind FilledToggle.IsOn, Mode=TwoWay}"
 								Style="{StaticResource IconTest}" />
+
+							<ToggleSwitch x:Name="FilledToggle" IsOn="True" />
 						</StackPanel>
 
-						<ToggleSwitch x:Name="FilledToggle" IsOn="True" />
+						<TextBlock><Run FontWeight="Medium">Icon resizing test</Run></TextBlock>
+
+						<StackPanel
+							Margin="0,0,0,32"
+							Orientation="Vertical"
+							Spacing="16">
+
+							<NumberBox
+								x:Name="TestSize"
+								HorizontalAlignment="Left"
+								Maximum="64"
+								Minimum="16"
+								SpinButtonPlacementMode="Inline"
+								Value="16" />
+
+							<StackPanel Orientation="Horizontal" Spacing="{x:Bind TestSize.Value, Mode=TwoWay}">
+								<controls:ThemedIcon
+									Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+									Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+									IconType="Layered"
+									Style="{StaticResource IconTest}" />
+
+								<controls:ThemedIcon
+									Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+									Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+									IconType="Layered"
+									IsFilled="True"
+									Style="{StaticResource IconTest}" />
+
+								<controls:ThemedIcon
+									Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+									Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+									IconType="Outline"
+									Style="{StaticResource IconTest}" />
+							</StackPanel>
+						</StackPanel>
+
+
 
 					</StackPanel>
 

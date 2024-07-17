@@ -95,7 +95,9 @@ namespace Files.App.Controls
                         PathData = layer.PathData,
                         Opacity = layer.Opacity,
                         LayerColor = this.Color,
-                        Foreground = this.Foreground
+                        Foreground = this.Foreground,
+                        Width = this.Width,
+                        Height = this.Height
                     });
             }
         }
