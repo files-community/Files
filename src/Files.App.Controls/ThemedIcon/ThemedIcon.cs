@@ -18,14 +18,14 @@ namespace Files.App.Controls
     /// </summary>
     public partial class ThemedIcon : Control
     {
-        bool _isHighContrast;
-        bool _isToggled;
-        bool _isEnabled;
-        bool _isFilled;
+        private bool _isHighContrast;
+        private bool _isToggled;
+        private bool _isEnabled;
+        private bool _isFilled;
 
-        ToggleButton? ownerToggleButton = null;
-        AppBarToggleButton? ownerAppBarToggleButton = null;
-        Control? ownerControl = null;
+        private ToggleButton? ownerToggleButton = null;
+        private AppBarToggleButton? ownerAppBarToggleButton = null;
+        private Control? ownerControl = null;
 
         public ThemedIcon()
         {
@@ -87,8 +87,7 @@ namespace Files.App.Controls
 
             foreach (var layer in layers)
             {
-                canvas.Children
-                    .Add(
+                canvas.Children.Add(
                     new ThemedIconLayer()
                     {
                         LayerType = layer.LayerType,
@@ -318,6 +317,7 @@ namespace Files.App.Controls
             // Finally we act on all other Enabled states
             // We check for Toggled state
             // And update the IconColorType in the Layered Icon's Layers
+
             if (_isEnabled is false || IsEnabled is false)
             {
                 if (_isToggled is true || IsToggled is true)
@@ -341,7 +341,7 @@ namespace Files.App.Controls
                         this,
                         IconColorType switch
                         {
-                            ThemedIconColorType.Critical  => CriticalStateName,
+                            ThemedIconColorType.Critical => CriticalStateName,
                             ThemedIconColorType.Caution => CautionStateName,
                             ThemedIconColorType.Success => SuccessStateName,
                             ThemedIconColorType.Neutral => NeutralStateName,
@@ -356,7 +356,6 @@ namespace Files.App.Controls
                 {
                     foreach (var layer in canvas.Children.Cast<ThemedIconLayer>())
                         layer.IconColorType = IconColorType;
-                    
                 }
             }
         }
