@@ -10,6 +10,7 @@ namespace Files.App.Controls
     public partial class ThemedIcon : Control
     {
         #region DEPENDENCY PROPERTY REGISTRATION
+
         // Path data string properties
 
         /// <summary>
@@ -112,6 +113,7 @@ namespace Files.App.Controls
         #endregion
 
         #region PUBLIC PROPERTIES
+
         // Public path data string properties
 
         /// <summary>
@@ -158,7 +160,6 @@ namespace Files.App.Controls
         /// Gets or sets Enum values to choose from our icon states, Normal, Critical, Caution, Success, Neutral, Disabled
         /// </summary>
         public ThemedIconColorType IconColorType
-
         {
             get => (ThemedIconColorType)GetValue(IconColorTypeProperty);
             set => SetValue(IconColorTypeProperty, value);
@@ -203,9 +204,11 @@ namespace Files.App.Controls
             get => (object)GetValue(LayersProperty);
             set => SetValue(LayersProperty, value);
         }
+
         #endregion
 
         #region PROPERTY CHANGE EVENTS
+
         // Path data string changed events
 
         protected virtual void OnFilledIconPropertyChanged(string oldValue, string newValue)
@@ -259,6 +262,7 @@ namespace Files.App.Controls
         {
             LayeredIconContentUpdate();
         }
+
         #endregion
     }
 }
