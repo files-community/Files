@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_Grid_28"
+		x:Key="App.ThemedIcons.IconLayout.Grid.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -27,7 +27,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_List_28"
+		x:Key="App.ThemedIcons.IconLayout.List.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -49,7 +49,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_Details_28"
+		x:Key="App.ThemedIcons.IconLayout.Details.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -70,7 +70,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_Tiles_28"
+		x:Key="App.ThemedIcons.IconLayout.Tiles.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -92,7 +92,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_Columns_28"
+		x:Key="App.ThemedIcons.IconLayout.Columns.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -114,7 +114,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_Compact_28"
+		x:Key="App.ThemedIcons.IconSize.Compact.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -135,7 +135,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_Small_28"
+		x:Key="App.ThemedIcons.IconSize.Small.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -156,7 +156,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_Medium_28"
+		x:Key="App.ThemedIcons.IconSize.Medium.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -181,7 +181,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_Large_28"
+		x:Key="App.ThemedIcons.IconSize.Large.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -207,7 +207,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_ExtraLarge_28"
+		x:Key="App.ThemedIcons.IconSize.ExtraLarge.28"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

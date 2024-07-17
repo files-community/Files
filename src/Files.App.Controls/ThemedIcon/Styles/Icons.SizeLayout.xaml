@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_Compact"
+		x:Key="App.ThemedIcons.IconSize.Compact"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -27,7 +27,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_Small"
+		x:Key="App.ThemedIcons.IconSize.Small"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -53,7 +53,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_Medium"
+		x:Key="App.ThemedIcons.IconSize.Medium"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -79,7 +79,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_Large"
+		x:Key="App.ThemedIcons.IconSize.Large"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -105,7 +105,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconSize_ExtraLarge"
+		x:Key="App.ThemedIcons.IconSize.ExtraLarge"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

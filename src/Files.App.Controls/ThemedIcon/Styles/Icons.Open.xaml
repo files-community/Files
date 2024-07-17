@@ -196,7 +196,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.RunAs_Elevated"
+		x:Key="App.ThemedIcons.RunAs.Elevated"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -219,7 +219,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.RunAs_User"
+		x:Key="App.ThemedIcons.RunAs.User"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

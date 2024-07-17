@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.Git_Pull"
+		x:Key="App.ThemedIcons.Git.Pull"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -25,7 +25,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Git_Push"
+		x:Key="App.ThemedIcons.Git.Push"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -46,7 +46,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Git_Sync"
+		x:Key="App.ThemedIcons.Git.Sync"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -67,7 +67,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Git_Commit"
+		x:Key="App.ThemedIcons.Git.Commit"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -88,7 +88,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Git_Issue"
+		x:Key="App.ThemedIcons.Git.Issue"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -110,7 +110,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Git_Branch"
+		x:Key="App.ThemedIcons.Git.Branch"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -132,7 +132,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Git_BranchNew"
+		x:Key="App.ThemedIcons.Git.BranchNew"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -156,7 +156,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Git_Stash"
+		x:Key="App.ThemedIcons.Git.Stash"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -200,7 +200,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Git_Compare"
+		x:Key="App.ThemedIcons.Git.Compare"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

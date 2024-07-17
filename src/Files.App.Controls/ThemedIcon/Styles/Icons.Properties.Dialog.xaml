@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_General"
+		x:Key="App.ThemedIcons.Properties.General"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -27,7 +27,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_Security"
+		x:Key="App.ThemedIcons.Properties.Security"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -50,7 +50,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_Info"
+		x:Key="App.ThemedIcons.Properties.Info"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -73,7 +73,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_Compatability"
+		x:Key="App.ThemedIcons.Properties.Compatability"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -96,7 +96,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_Shortcut"
+		x:Key="App.ThemedIcons.Properties.Shortcut"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -119,7 +119,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_Signatures"
+		x:Key="App.ThemedIcons.Properties.Signatures"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -142,7 +142,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_Certificates"
+		x:Key="App.ThemedIcons.Properties.Certificates"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -165,7 +165,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_Hashes"
+		x:Key="App.ThemedIcons.Properties.Hashes"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -188,7 +188,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_CustomiseFile"
+		x:Key="App.ThemedIcons.Properties.CustomiseFile"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -211,7 +211,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties_CustomiseFolder"
+		x:Key="App.ThemedIcons.Properties.CustomiseFolder"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

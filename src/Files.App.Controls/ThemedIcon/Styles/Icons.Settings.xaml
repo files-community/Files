@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Toolbar"
+		x:Key="App.ThemedIcons.Settings.General.Toolbar"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -26,7 +26,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Statusbar"
+		x:Key="App.ThemedIcons.Settings.General.Statusbar"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -47,7 +47,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_ContextMenu"
+		x:Key="App.ThemedIcons.Settings.General.ContextMenu"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -68,7 +68,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_BGColor"
+		x:Key="App.ThemedIcons.Settings.General.BGColor"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -89,7 +89,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Theme"
+		x:Key="App.ThemedIcons.Settings.General.Theme"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -110,7 +110,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_LayoutSync"
+		x:Key="App.ThemedIcons.Settings.General.LayoutSync"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -131,7 +131,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_EditColumns"
+		x:Key="App.ThemedIcons.Settings.General.EditColumns"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -152,7 +152,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_SettingsFile"
+		x:Key="App.ThemedIcons.Settings.General.SettingsFile"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -173,7 +173,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_FilesDefault"
+		x:Key="App.ThemedIcons.Settings.General.FilesDefault"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -194,7 +194,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Libraries"
+		x:Key="App.ThemedIcons.Settings.General.Libraries"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -215,7 +215,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_DualPane"
+		x:Key="App.ThemedIcons.Settings.General.DualPane"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -236,7 +236,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Language"
+		x:Key="App.ThemedIcons.Settings.General.Language"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -257,7 +257,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_TimeDate"
+		x:Key="App.ThemedIcons.Settings.General.TimeDate"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -278,7 +278,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Startup"
+		x:Key="App.ThemedIcons.Settings.General.Startup"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -299,7 +299,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Widgets"
+		x:Key="App.ThemedIcons.Settings.General.Widgets"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -320,7 +320,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_BackdropMaterial"
+		x:Key="App.ThemedIcons.Settings.General.BackdropMaterial"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -341,7 +341,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_BackgroundFolder"
+		x:Key="App.ThemedIcons.Settings.General.BackgroundFolder"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -362,7 +362,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_SetLayout"
+		x:Key="App.ThemedIcons.Settings.General.SetLayout"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -383,7 +383,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_FileExt"
+		x:Key="App.ThemedIcons.Settings.General.FileExt"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -404,7 +404,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Thumbnails"
+		x:Key="App.ThemedIcons.Settings.General.Thumbnails"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -425,7 +425,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Checkmarks"
+		x:Key="App.ThemedIcons.Settings.General.Checkmarks"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -446,7 +446,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_OpenItems"
+		x:Key="App.ThemedIcons.Settings.General.OpenItems"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -467,7 +467,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_FileExtWarning"
+		x:Key="App.ThemedIcons.Settings.General.FileExtWarning"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -488,7 +488,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_SelectHover"
+		x:Key="App.ThemedIcons.Settings.General.SelectHover"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -509,7 +509,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Click"
+		x:Key="App.ThemedIcons.Settings.General.Click"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -530,7 +530,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Scroll"
+		x:Key="App.ThemedIcons.Settings.General.Scroll"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -551,7 +551,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_FolderSize"
+		x:Key="App.ThemedIcons.Settings.General.FolderSize"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -572,7 +572,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Edit"
+		x:Key="App.ThemedIcons.Settings.General.Edit"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -593,7 +593,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_OpenWith"
+		x:Key="App.ThemedIcons.Settings.General.OpenWith"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -614,7 +614,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Connections"
+		x:Key="App.ThemedIcons.Settings.General.Connections"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -635,7 +635,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Export"
+		x:Key="App.ThemedIcons.Settings.General.Export"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -656,7 +656,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Import"
+		x:Key="App.ThemedIcons.Settings.General.Import"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -677,7 +677,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_RunInBackground"
+		x:Key="App.ThemedIcons.Settings.General.RunInBackground"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -698,7 +698,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_OverflowMore"
+		x:Key="App.ThemedIcons.Settings.General.OverflowMore"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -719,7 +719,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_DeleteConfirm"
+		x:Key="App.ThemedIcons.Settings.General.DeleteConfirm"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -740,7 +740,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Git"
+		x:Key="App.ThemedIcons.Settings.General.Git"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -761,7 +761,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_FileOpen"
+		x:Key="App.ThemedIcons.Settings.General.FileOpen"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -782,7 +782,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Docs"
+		x:Key="App.ThemedIcons.Settings.General.Docs"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -803,7 +803,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Questions"
+		x:Key="App.ThemedIcons.Settings.General.Questions"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -824,7 +824,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Translate"
+		x:Key="App.ThemedIcons.Settings.General.Translate"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -845,7 +845,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_GitHub"
+		x:Key="App.ThemedIcons.Settings.General.GitHub"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -866,7 +866,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.mono_Privacy"
+		x:Key="App.ThemedIcons.Settings.General.Privacy"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

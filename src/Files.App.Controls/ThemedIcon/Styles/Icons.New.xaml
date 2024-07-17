@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.New_Item"
+		x:Key="App.ThemedIcons.New.Item"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -28,7 +28,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.New_File"
+		x:Key="App.ThemedIcons.New.File"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -52,7 +52,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.New_Window"
+		x:Key="App.ThemedIcons.New.Window"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -76,7 +76,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.New_Tab"
+		x:Key="App.ThemedIcons.New.Tab"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -100,7 +100,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.New_Folder"
+		x:Key="App.ThemedIcons.New.Folder"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

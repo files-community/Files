@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Copying"
+		x:Key="App.ThemedIcons.Actions.Copying"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -27,7 +27,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Moving"
+		x:Key="App.ThemedIcons.Actions.Moving"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -50,7 +50,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Extracting"
+		x:Key="App.ThemedIcons.Actions.Extracting"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -72,7 +72,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Recycle"
+		x:Key="App.ThemedIcons.Actions.Recycle"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -94,7 +94,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Delete"
+		x:Key="App.ThemedIcons.Actions.Delete"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -116,7 +116,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Success"
+		x:Key="App.ThemedIcons.Actions.Success"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -137,7 +137,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Paused"
+		x:Key="App.ThemedIcons.Actions.Paused"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -158,7 +158,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Action_ErrorInfo"
+		x:Key="App.ThemedIcons.Actions.ErrorInfo"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -179,7 +179,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Eject"
+		x:Key="App.ThemedIcons.Actions.Eject"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -200,7 +200,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Action_Pinned"
+		x:Key="App.ThemedIcons.Actions.Pinned"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

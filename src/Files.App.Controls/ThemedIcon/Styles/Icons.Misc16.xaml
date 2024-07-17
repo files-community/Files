@@ -71,7 +71,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Image_Rotate_CW"
+		x:Key="App.ThemedIcons.ImageRotate.CW"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -98,7 +98,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Image_Rotate_ACW"
+		x:Key="App.ThemedIcons.ImageRotate.ACW"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -125,7 +125,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Set_Wallpaper_16"
+		x:Key="App.ThemedIcons.SetWallpaper.16"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

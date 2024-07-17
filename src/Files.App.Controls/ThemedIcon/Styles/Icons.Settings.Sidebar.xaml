@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_General"
+		x:Key="App.ThemedIcons.Settings.General"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -27,7 +27,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_Appearance"
+		x:Key="App.ThemedIcons.Settings.Appearance"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -49,7 +49,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_Layout"
+		x:Key="App.ThemedIcons.Settings.Layout"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -71,7 +71,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_FilesFolders"
+		x:Key="App.ThemedIcons.Settings.FilesFolders"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -97,7 +97,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_KeyboardActions"
+		x:Key="App.ThemedIcons.Settings.KeyboardActions"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -119,7 +119,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_Tags"
+		x:Key="App.ThemedIcons.Settings.Tags"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -141,7 +141,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_DevTools"
+		x:Key="App.ThemedIcons.Settings.DevTools"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -167,7 +167,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_Advanced"
+		x:Key="App.ThemedIcons.Settings.Advanced"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -193,7 +193,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_About"
+		x:Key="App.ThemedIcons.Settings.About"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -219,7 +219,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Settings_Experimental"
+		x:Key="App.ThemedIcons.Settings.Experimental"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

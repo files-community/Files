@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.Panes_Vertical"
+		x:Key="App.ThemedIcons.Panes.Vertical"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -26,7 +26,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Panes_Single"
+		x:Key="App.ThemedIcons.Panes.Single"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -47,7 +47,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Panes_Horizontal"
+		x:Key="App.ThemedIcons.Panes.Horizontal"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -69,7 +69,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Panes_Left"
+		x:Key="App.ThemedIcons.Panes.Left"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -92,7 +92,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Panes_Right"
+		x:Key="App.ThemedIcons.Panes.Right"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -115,7 +115,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Panes_Bottom"
+		x:Key="App.ThemedIcons.Panes.Bottom"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -138,7 +138,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Panes_Top"
+		x:Key="App.ThemedIcons.Panes.Top"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

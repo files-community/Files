@@ -5,7 +5,7 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Added"
+		x:Key="App.ThemedIcons.Status.Added"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -27,7 +27,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Removed"
+		x:Key="App.ThemedIcons.Status.Removed"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -49,7 +49,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Warning"
+		x:Key="App.ThemedIcons.Status.Warning"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -71,7 +71,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Deleted"
+		x:Key="App.ThemedIcons.Status.Deleted"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -93,7 +93,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Renamed"
+		x:Key="App.ThemedIcons.Status.Renamed"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -115,7 +115,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Modified"
+		x:Key="App.ThemedIcons.Status.Modified"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -136,7 +136,7 @@
 	</Style>
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Protected"
+		x:Key="App.ThemedIcons.Status.Protected"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -158,7 +158,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Locked"
+		x:Key="App.ThemedIcons.Status.Locked"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -180,7 +180,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Hidden"
+		x:Key="App.ThemedIcons.Status.Hidden"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -205,7 +205,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Syncing"
+		x:Key="App.ThemedIcons.Status.Syncing"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -226,7 +226,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Cloud"
+		x:Key="App.ThemedIcons.Status.Cloud"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -248,7 +248,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Unavailable"
+		x:Key="App.ThemedIcons.Status.Unavailable"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -270,7 +270,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Available"
+		x:Key="App.ThemedIcons.Status.Available"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -291,7 +291,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Ignored"
+		x:Key="App.ThemedIcons.Status.Ignored"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -313,7 +313,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Tag_Partial_12"
+		x:Key="App.ThemedIcons.Status.Tag_Partial.12"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -335,7 +335,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Tag_12"
+		x:Key="App.ThemedIcons.Status.Tag.12"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -357,7 +357,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_KeepOffline"
+		x:Key="App.ThemedIcons.Status.KeepOffline"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -379,7 +379,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Tag_Partial_16"
+		x:Key="App.ThemedIcons.Status.Tag_Partial.16"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -401,7 +401,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Tag_16"
+		x:Key="App.ThemedIcons.Status.Tag.16"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -423,7 +423,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Status_Spacer"
+		x:Key="App.ThemedIcons.Status.Spacer"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
