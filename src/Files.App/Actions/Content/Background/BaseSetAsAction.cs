@@ -1,6 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation.Metadata;
+
 namespace Files.App.Actions
 {
 	internal abstract class BaseSetAsAction : ObservableObject, IAction
@@ -27,6 +30,21 @@ namespace Files.App.Actions
 		}
 
 		public abstract Task ExecuteAsync(object? parameter = null);
+
+		protected async void ShowErrorDialog(string message)
+		{
+			var errorDialog = new ContentDialog()
+			{
+				Title = "FailedToSetBackground".GetLocalizedResource(),
+				Content = message,
+				PrimaryButtonText = "OK".GetLocalizedResource(),
+			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				errorDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+			await errorDialog.TryShowAsync();
+		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{

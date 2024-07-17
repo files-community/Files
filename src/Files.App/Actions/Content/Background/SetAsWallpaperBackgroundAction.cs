@@ -5,6 +5,8 @@ namespace Files.App.Actions
 {
 	internal sealed class SetAsWallpaperBackgroundAction : BaseSetAsAction
 	{
+		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
+
 		public override string Label
 			=> "SetAsBackground".GetLocalizedResource();
 
@@ -20,10 +22,21 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItem is not null)
-				return WallpaperHelpers.SetAsBackgroundAsync(WallpaperType.Desktop, context.SelectedItem.ItemPath);
+			if (context.SelectedItem is null)
+				return Task.CompletedTask;
 
-			return Task.CompletedTask;
+			try
+			{
+				WindowsWallpaperService.SetDesktopWallpaper(context.SelectedItem.ItemPath);
+
+				return Task.CompletedTask;
+			}
+			catch (Exception ex)
+			{
+				ShowErrorDialog(ex.Message);
+
+				return Task.CompletedTask;
+			}
 		}
 	}
 }
