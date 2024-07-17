@@ -14,63 +14,67 @@ namespace Files.App.Controls
     /// </summary>
     public partial class ThemedIconLayer : Control
     {
-        public ThemedIconLayer() => DefaultStyleKey = typeof(ThemedIconLayer);
+        public ThemedIconLayer()
+		{
+  			DefaultStyleKey = typeof(ThemedIconLayer);
+	 	}
 
         protected override void OnApplyTemplate()
         {
             // Initialize with default values
+
             base.OnApplyTemplate();
 
             UpdateIconLayerState();
             LayerPathDataChanged(PathData);
         }
 
-        void LayerTypeChanged(ThemedIconLayerType layerType)
+        private void LayerTypeChanged(ThemedIconLayerType layerType)
         {
             UpdateIconLayerState();
         }
 
-        void LayerPathDataChanged(string pathData)
+        private void LayerPathDataChanged(string pathData)
         {
             SetPathData(pathData ?? string.Empty);
         }
 
-        void IconColorTypeChanged()
+        private void IconColorTypeChanged()
         {
             UpdateIconLayerState();
         }
 
-        void UpdateIconLayerState()
+        private void UpdateIconLayerState()
         {
             if (LayerType == ThemedIconLayerType.Accent)
             {
                 VisualStateManager.GoToState(
-                this,
-                IconColorType switch
-                {
-                    ThemedIconColorType.Critical => CriticalStateName,
-                    ThemedIconColorType.Caution => CautionStateName,
-                    ThemedIconColorType.Success => SuccessStateName,
-                    ThemedIconColorType.Neutral => NeutralStateName,
-                    ThemedIconColorType.Custom => CustomColorStateName,
-                    _ => AccentStateName,
-                },
+                	this,
+                	IconColorType switch
+                	{
+                    	ThemedIconColorType.Critical => CriticalStateName,
+                    	ThemedIconColorType.Caution => CautionStateName,	
+                    	ThemedIconColorType.Success => SuccessStateName,	
+                    	ThemedIconColorType.Neutral => NeutralStateName,
+						ThemedIconColorType.Custom => CustomColorStateName,
+                    	_ => AccentStateName,
+            		},
                 true);
             }
             else if (LayerType == ThemedIconLayerType.AccentContrast)
             {
                 VisualStateManager.GoToState(
-                this,
-                IconColorType switch
-                {
-                    ThemedIconColorType.Critical => CriticalBGStateName,
-                    ThemedIconColorType.Caution => CautionBGStateName,
-                    ThemedIconColorType.Success => SuccessBGStateName,
-                    ThemedIconColorType.Neutral => NeutralBGStateName,
-                    ThemedIconColorType.Custom => CustomColorBGStateName,
-                    _ => AccentContrastStateName,
-                },
-                true);
+                	this,
+                	IconColorType switch
+                	{
+                    	ThemedIconColorType.Critical => CriticalBGStateName,
+                    	ThemedIconColorType.Caution => CautionBGStateName,
+                    	ThemedIconColorType.Success => SuccessBGStateName,
+                    	ThemedIconColorType.Neutral => NeutralBGStateName,
+                    	ThemedIconColorType.Custom => CustomColorBGStateName,
+                    	_ => AccentContrastStateName,
+                	},
+                	true);
             }
             else
             {
