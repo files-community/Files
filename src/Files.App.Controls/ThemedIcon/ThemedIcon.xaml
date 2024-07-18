@@ -6,8 +6,7 @@
 
 	<Style x:Key="DefaultThemedIconStyle" TargetType="local:ThemedIcon">
 
-		<Setter Property="Width" Value="16" />
-		<Setter Property="Height" Value="16" />
+		<Setter Property="IconSize" Value="16" />
 
 		<Setter Property="OutlineIconData" Value="M8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2ZM1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8Z" />
 		<Setter Property="FilledIconData" Value="M8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1Z" />
@@ -47,8 +46,9 @@
 							UseLayoutRounding="False">
 							<Path
 								x:Name="PART_FilledPath"
-								Fill="{ThemeResource ThemedIconAccentBrush}"
-								Stretch="UniformToFill" />
+								Width="{TemplateBinding IconSize}"
+								Height="{TemplateBinding IconSize}"
+								Fill="{ThemeResource ThemedIconAccentBrush}" />
 						</Viewbox>
 
 						<!--  Outline  -->
@@ -60,8 +60,9 @@
 							UseLayoutRounding="False">
 							<Path
 								x:Name="PART_OutlinePath"
-								Fill="{ThemeResource ThemedIconBaseBrush}"
-								Stretch="UniformToFill" />
+								Width="{TemplateBinding IconSize}"
+								Height="{TemplateBinding IconSize}"
+								Fill="{ThemeResource ThemedIconBaseBrush}"/>
 						</Viewbox>
 
 						<!--  Layered (Rendered From Top to Bottom in The Visual Tree Order)  -->
@@ -198,8 +199,7 @@
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
-		<Setter Property="Width" Value="16" />
-		<Setter Property="Height" Value="16" />
+		<Setter Property="IconSize" Value="16" />
 
 		<Setter Property="OutlineIconData" Value="" />
 		<Setter Property="FilledIconData" Value="" />

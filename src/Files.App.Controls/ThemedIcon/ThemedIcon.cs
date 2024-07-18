@@ -118,8 +118,8 @@ namespace Files.App.Controls
             if (GetTemplateChild(partName) is Path path)
             {
                 path.Data = geometry;
-                path.Width = element.Width;
-                path.Height = element.Height;
+                path.Width = _iconSize;
+                path.Height = _iconSize;
             }
         }
 

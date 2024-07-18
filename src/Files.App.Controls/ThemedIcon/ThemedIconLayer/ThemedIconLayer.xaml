@@ -17,8 +17,8 @@
 						VerticalAlignment="Stretch">
 						<Path
 							x:Name="PART_LayerPath"
-							Width="{TemplateBinding Width}"
-							Height="{TemplateBinding Height}" />
+							Width="{TemplateBinding LayerSize}"
+							Height="{TemplateBinding LayerSize}" />
 
 						<VisualStateManager.VisualStateGroups>
 

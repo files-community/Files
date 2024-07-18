@@ -51,6 +51,7 @@ namespace Files.App.Controls
             _layerSize = value;
 
             LayerPathDataChanged(PathData);
+            UpdateIconLayerState();
         }
 
         private void IconColorTypeChanged()
