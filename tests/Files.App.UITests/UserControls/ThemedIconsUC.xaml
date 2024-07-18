@@ -9,7 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
-	<Grid x:Name="RootGrid">
+	<Grid x:Name="RootGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 		<Grid.Resources>
 			<Style
@@ -18,7 +18,7 @@
 				TargetType="controls:ThemedIcon" />
 		</Grid.Resources>
 
-		<ScrollViewer>
+		<ScrollViewer HorizontalContentAlignment="Left" VerticalContentAlignment="Top">
 			<Grid Padding="24,12,24,24" RowSpacing="12">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
@@ -424,7 +424,7 @@
 								Maximum="64"
 								Minimum="16"
 								SpinButtonPlacementMode="Inline"
-								Value="16" />
+								Value="48" />
 
 							<StackPanel Orientation="Horizontal" Spacing="{x:Bind TestSize.Value, Mode=TwoWay}">
 								<controls:ThemedIcon

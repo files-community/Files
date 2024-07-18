@@ -34,6 +34,7 @@ namespace Files.App.Controls
                 new PropertyMetadata(string.Empty, (d, e) => ((ThemedIcon)d).OnOutlineIconPropertyChanged((string)e.OldValue, (string)e.NewValue)));
 
         // Color properties
+
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="Color"/> property.
         /// </summary>
@@ -65,6 +66,15 @@ namespace Files.App.Controls
                 typeof(ThemedIconColorType),
                 typeof(ThemedIcon),
                 new PropertyMetadata(ThemedIconColorType.None, (d, e) => ((ThemedIcon)d).OnIconColorTypePropertyChanged((ThemedIconColorType)e.OldValue, (ThemedIconColorType)e.NewValue)));
+
+        // Double properties
+
+        public static readonly DependencyProperty IconSizeProperty =
+            DependencyProperty.Register(
+                nameof(IconSize),
+                typeof(double),
+                typeof(ThemedIcon),
+                new PropertyMetadata((double)16, (d, e) => ((ThemedIcon)d).OnIconSizePropertyChanged((double)e.OldValue, (double)e.NewValue)));
 
         // Boolean properties
 
@@ -165,6 +175,17 @@ namespace Files.App.Controls
             set => SetValue(IconColorTypeProperty, value);
         }
 
+        // Public double properties
+
+        // <summary>
+        /// Gets or sets a value indicating the Icon's design size.
+        /// </summary>        
+        public double IconSize
+        {
+            get => (double)GetValue(IconSizeProperty);
+            set => SetValue(IconSizeProperty, value);
+        }
+
         // Public boolean properties
 
         /// <summary>
@@ -237,6 +258,13 @@ namespace Files.App.Controls
         protected virtual void OnIconColorTypePropertyChanged(ThemedIconColorType oldValue, ThemedIconColorType newValue)
         {
             UpdateIconColorTypeStates();
+        }
+
+        // Double changed events
+        
+        protected virtual void OnIconSizePropertyChanged(double oldValue, double newValue)
+        {
+            IconSizePropertyChanged(newValue);
         }
 
         // Boolean changed events

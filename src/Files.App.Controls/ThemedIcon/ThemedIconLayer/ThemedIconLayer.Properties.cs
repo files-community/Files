@@ -30,6 +30,16 @@ namespace Files.App.Controls
                 new PropertyMetadata(string.Empty, (d, e) => ((ThemedIconLayer)d).OnLayerPathDataPropertyChanged((string)e.OldValue, (string)e.NewValue)));
 
         /// <summary>
+        /// The backing <see cref="DependencyProperty"/> for the <see cref="LayerSize"/> property.
+        /// </summary>
+        public static readonly DependencyProperty LayerSizeProperty =
+            DependencyProperty.Register(
+                nameof(LayerSize),
+                typeof(double),
+                typeof(ThemedIconLayer),
+                new PropertyMetadata((double)16, (d, e) => ((ThemedIconLayer)d).OnLayerSizePropertyChanged((double)e.OldValue, (double)e.NewValue)));
+
+        /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="LayerColor"/> property.
         /// </summary>
         public static readonly DependencyProperty LayerColorProperty =
@@ -69,6 +79,15 @@ namespace Files.App.Controls
             set => SetValue(PathDataProperty, value);
         }
 
+        // <summary>
+        /// Gets or sets a value indicating the Icon Layer's design size.
+        /// </summary>        
+        public double LayerSize
+        {
+            get => (double)GetValue(LayerSizeProperty);
+            set => SetValue(LayerSizeProperty, value);
+        }
+
         /// <summary>
         /// Gets or sets the Brush used for the Custom IconColorType
         /// </summary>
@@ -97,6 +116,11 @@ namespace Files.App.Controls
         protected virtual void OnLayerPathDataPropertyChanged(string oldValue, string newValue)
         {
             LayerPathDataChanged(newValue);
+        }
+
+        protected virtual void OnLayerSizePropertyChanged(double oldValue, double newValue)
+        {
+            LayerSizePropertyChanged(newValue);
         }
 
         protected virtual void OnIconColorTypePropertyChanged(ThemedIconColorType oldValue, ThemedIconColorType newValue)

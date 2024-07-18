@@ -9,11 +9,12 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ThemedIconLayer">
-					<Viewbox
-						x:Name="PART_LayerViewBox"
-						Width="{TemplateBinding Width}"
-						Height="{TemplateBinding Height}"
-						Stretch="UniformToFill">
+					<Canvas
+						x:Name="PART_LayerCanvas"
+						Width="{TemplateBinding LayerSize}"
+						Height="{TemplateBinding LayerSize}"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch">
 						<Path
 							x:Name="PART_LayerPath"
 							Width="{TemplateBinding Width}"
@@ -95,7 +96,7 @@
 							</VisualStateGroup>
 
 						</VisualStateManager.VisualStateGroups>
-					</Viewbox>
+					</Canvas>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

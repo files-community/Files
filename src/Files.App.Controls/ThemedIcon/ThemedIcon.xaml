@@ -45,7 +45,10 @@
 							Height="{TemplateBinding Height}"
 							Stretch="UniformToFill"
 							UseLayoutRounding="False">
-							<Path x:Name="PART_FilledPath" Fill="{ThemeResource ThemedIconAccentBrush}" />
+							<Path
+								x:Name="PART_FilledPath"
+								Fill="{ThemeResource ThemedIconAccentBrush}"
+								Stretch="UniformToFill" />
 						</Viewbox>
 
 						<!--  Outline  -->
@@ -55,7 +58,10 @@
 							Height="{TemplateBinding Height}"
 							Stretch="UniformToFill"
 							UseLayoutRounding="False">
-							<Path x:Name="PART_OutlinePath" Fill="{ThemeResource ThemedIconBaseBrush}" />
+							<Path
+								x:Name="PART_OutlinePath"
+								Fill="{ThemeResource ThemedIconBaseBrush}"
+								Stretch="UniformToFill" />
 						</Viewbox>
 
 						<!--  Layered (Rendered From Top to Bottom in The Visual Tree Order)  -->
@@ -67,8 +73,8 @@
 							UseLayoutRounding="False">
 							<Canvas
 								x:Name="PART_LayerCanvas"
-								Width="{TemplateBinding Width}"
-								Height="{TemplateBinding Height}"
+								Width="{TemplateBinding IconSize}"
+								Height="{TemplateBinding IconSize}"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
 								UseLayoutRounding="False" />

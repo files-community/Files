@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Shapes;
 namespace Files.App.Controls
 {
     // Template Parts
-    [TemplatePart(Name = LayerViewBoxPart, Type = typeof(Viewbox))]
+    [TemplatePart(Name = LayerCanvasPart, Type = typeof(Canvas))]
     [TemplatePart(Name = LayerPathPart, Type = typeof(Path))]
 
     // Icon Color Visual States
@@ -37,7 +37,7 @@ namespace Files.App.Controls
     public partial class ThemedIconLayer
     {
         // Path Control Part
-        internal const string LayerViewBoxPart = "PART_LayerViewBox";
+        internal const string LayerCanvasPart = "PART_LayerCanvas";
         internal const string LayerPathPart = "PART_LayerPath";
 
         // Visual State Group Names

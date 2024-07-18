@@ -14,6 +14,8 @@ namespace Files.App.Controls
     /// </summary>
     public partial class ThemedIconLayer : Control
     {
+        private double _layerSize;
+
         public ThemedIconLayer()
         {
             DefaultStyleKey = typeof(ThemedIconLayer);
@@ -36,10 +38,19 @@ namespace Files.App.Controls
 
         private void LayerPathDataChanged(string pathData)
         {
-            if (GetTemplateChild(LayerViewBoxPart) is not Viewbox layerViewBox)
+            if (GetTemplateChild(LayerCanvasPart) is not Canvas layerCanvas)
                 return;
 
-            SetPathData(pathData ?? string.Empty, layerViewBox);
+            SetPathData(pathData ?? string.Empty, layerCanvas);
+        }
+
+        private void LayerSizePropertyChanged(double value)
+        {
+            // Code to handle the design time Icon Size changing
+
+            _layerSize = value;
+
+            LayerPathDataChanged(PathData);
         }
 
         private void IconColorTypeChanged()

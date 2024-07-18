@@ -23,6 +23,7 @@ namespace Files.App.Controls
         private bool _isToggled;
         private bool _isEnabled;
         private bool _isFilled;
+        private double _iconSize;
 
         private ToggleButton? ownerToggleButton = null;
         private AppBarToggleButton? ownerAppBarToggleButton = null;
@@ -101,8 +102,10 @@ namespace Files.App.Controls
                         Foreground = this.Foreground,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch,
-                        Width = Width,
-                        Height = Height
+                        LayerSize = _iconSize,
+                        Width = layer.LayerSize,
+                        Height = layer.LayerSize
+
                     });
             }
         }
@@ -224,19 +227,17 @@ namespace Files.App.Controls
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Handles resizing of child layers when Width and Height properties change
-
-            double newWidth = e.NewSize.Width;
-            double newHeight = e.NewSize.Height;
-
-            if (GetTemplateChild(LayeredPathCanvas) is Canvas canvas)
-            {
-                foreach (var layer in canvas.Children.Cast<ThemedIconLayer>())
-                {
-                    layer.Width = newWidth;
-                    layer.Height = newHeight;
-                }
-            }
         }
+
+        private void IconSizePropertyChanged(double value)
+        {
+            // Code to handle the design time Icon Size changing
+
+            _iconSize = value;
+
+            UpdateVisualStates();
+        }
+
 
         private void EnabledChanged(bool value)
         {
@@ -266,6 +267,7 @@ namespace Files.App.Controls
             _isEnabled = IsEnabled;
             _isToggled = IsToggled;
             _isHighContrast = IsHighContrast;
+            _iconSize = IconSize;
         }
 
         private void UpdateIconStates()
