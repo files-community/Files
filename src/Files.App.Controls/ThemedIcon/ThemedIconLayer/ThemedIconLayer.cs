@@ -103,7 +103,7 @@ namespace Files.App.Controls
             }
         }
   
-        void SetPathData(string pathData, FrameworkElement element)
+        private void SetPathData(string pathData, FrameworkElement element)
         {
             // Code to take the PathData string, and convert it to an actual path
 

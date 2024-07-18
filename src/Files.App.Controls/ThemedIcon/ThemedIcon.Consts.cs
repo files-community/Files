@@ -6,20 +6,18 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Controls
 {
-    #region Template Parts
+    // Template Parts
     [TemplatePart(Name = FilledPathIconViewBox, Type = typeof(Viewbox))]
     [TemplatePart(Name = OutlinePathIconViewBox, Type = typeof(Viewbox))]
     [TemplatePart(Name = LayeredPathIconViewBox, Type = typeof(Viewbox))]
     [TemplatePart(Name = LayeredPathCanvas, Type = typeof(Canvas))]
-    #endregion
-
-    #region Icon Type Visual States
+    
+    // Icon Type Visual States
     [TemplateVisualState(Name = OutlineTypeStateName, GroupName = IconTypeStateGroupName)]    
     [TemplateVisualState(Name = LayeredTypeStateName, GroupName = IconTypeStateGroupName)]
     [TemplateVisualState(Name = FilledTypeStateName, GroupName = IconTypeStateGroupName)]
-    #endregion
 
-    #region Icon Color Visual States
+    // Icon Color Visual States
     [TemplateVisualState(Name = NormalStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = CriticalStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = CautionStateName, GroupName = IconColorStateGroupName)]
@@ -30,28 +28,24 @@ namespace Files.App.Controls
     [TemplateVisualState(Name = ToggleStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = DisabledColorStateName, GroupName = IconColorStateGroupName)]
     [TemplateVisualState(Name = DisabledToggleColorStateName, GroupName = IconColorStateGroupName)]
-    #endregion
 
-    #region Icon IsEnabled Visual States
+    // Icon IsEnabled Visual States
     [TemplateVisualState(Name = EnabledStateName, GroupName = EnabledStateGroupName)]
     [TemplateVisualState(Name = DisabledStateName, GroupName = EnabledStateGroupName)]
-    #endregion
 
     public partial class ThemedIcon
     {
-        #region Visual State Group Names
+        // Visual State Group Names
         internal const string IconTypeStateGroupName = "IconTypeStates";
         internal const string IconColorStateGroupName = "IconColorStates";
         internal const string EnabledStateGroupName = "EnabledStates";
-        #endregion
 
-        #region "Icon Type" Visual State Names
+        // "Icon Type" Visual State Names
         internal const string OutlineTypeStateName = "Outline";
         internal const string FilledTypeStateName = "Filled";
         internal const string LayeredTypeStateName = "Layered";
-        #endregion
 
-        #region "Icon State" Visual State Names
+        // "Icon State" Visual State Names
         internal const string NormalStateName = "Normal";
         internal const string CriticalStateName = "Critical";
         internal const string CautionStateName = "Caution";
@@ -62,23 +56,19 @@ namespace Files.App.Controls
         internal const string ToggleStateName = "Toggle";
         internal const string DisabledColorStateName = "DisabledColor";
         internal const string DisabledToggleColorStateName = "DisabledToggleColor";
-        #endregion
 
-        #region "Enabled" Visual State Names
+        // "Enabled" Visual State Names
         internal const string EnabledStateName = "Enabled";
         internal const string DisabledStateName = "Disabled";
-        #endregion
 
-        #region ViewBox Controls
+        // ViewBox Controls
         internal const string FilledPathIconViewBox = "PART_FilledIconViewBox";
         internal const string OutlinePathIconViewBox = "PART_OutlineIconViewBox";
         internal const string LayeredPathIconViewBox = "PART_LayeredIconViewBox";
         internal const string LayeredPathCanvas = "PART_LayerCanvas";
-        #endregion
 
-        #region Path Controls
+        // Path Controls
         internal const string FilledIconPath = "PART_FilledPath";
         internal const string OutlineIconPath = "PART_OutlinePath";
-        #endregion
     }
 }

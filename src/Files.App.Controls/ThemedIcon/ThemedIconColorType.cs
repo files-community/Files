@@ -4,7 +4,8 @@
 namespace Files.App.Controls
 {
     /// <summary>
-    /// Defines IconColorTypes for <see cref="ThemedIcon"/>.
+    /// Defines the IconColorTypes for <see cref="ThemedIcon"/> which sets the visual state
+    /// to use the correct brush values which match system signal colours.
     /// </summary>
     public enum ThemedIconColorType
     {
@@ -41,7 +42,8 @@ namespace Files.App.Controls
         Accent,
 
         /// <summary>
-        /// Icon color type of <see cref="ThemedIcon"/> is Custom.
+        /// Icon color type of <see cref="ThemedIcon"/> is Custom. Used in combination
+        /// with the IconColor and Foreground brushes.
         /// </summary>
         Custom
     }
