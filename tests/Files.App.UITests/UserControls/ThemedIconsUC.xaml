@@ -17,7 +17,7 @@
 		<Grid.Resources>
 			<Style
 				x:Key="IconTest"
-				BasedOn="{StaticResource App.ThemedIcons.IconSize.ExtraLarge}"
+				BasedOn="{StaticResource App.ThemedIcons.Settings.Experimental}"
 				TargetType="controls:ThemedIcon" />
 		</Grid.Resources>
 
