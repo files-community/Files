@@ -234,12 +234,12 @@ namespace Files.App.Controls
 
         protected virtual void OnFilledIconPropertyChanged(string oldValue, string newValue)
         {
-            FilledIconPathUpdate();
+            UpdateFilledIconPath();
         }
 
         protected virtual void OnOutlineIconPropertyChanged(string oldValue, string newValue)
         {
-            OutlineIconPathUpdate();
+            UpdateOutlineIconPath();
         }
 
         // Color changed events
@@ -288,7 +288,7 @@ namespace Files.App.Controls
 
         protected virtual void OnLayersPropertyChanged(object oldValue, object newValue)
         {
-            LayeredIconContentUpdate();
+            UpdateLayeredIconContent();
         }
 
         #endregion

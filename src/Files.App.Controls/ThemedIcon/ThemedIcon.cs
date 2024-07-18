@@ -54,36 +54,32 @@ namespace Files.App.Controls
         private void UpdateIconContent()
         {
             // Updates PathData and Layers
-
-            FilledIconPathUpdate();
-            OutlineIconPathUpdate();
-            LayeredIconContentUpdate();
+            UpdateFilledIconPath();
+            UpdateOutlineIconPath();
+            UpdateLayeredIconContent();
         }
 
-        private void FilledIconPathUpdate()
+        private void UpdateFilledIconPath()
         {
             // Updates Filled Icon from Path Data
-
             if (GetTemplateChild(FilledPathIconViewBox) is not Viewbox filledViewBox)
                 return;
 
             SetPathData(FilledIconPath, FilledIconData ?? string.Empty, filledViewBox);
         }
 
-        private void OutlineIconPathUpdate()
+        private void UpdateOutlineIconPath()
         {
             // Updates Outline Icon from Path Data
-
             if (GetTemplateChild(OutlinePathIconViewBox) is not Viewbox outlineViewBox)
                 return;
 
             SetPathData(OutlineIconPath, OutlineIconData ?? string.Empty, outlineViewBox);
         }
 
-        private void LayeredIconContentUpdate()
+        private void UpdateLayeredIconContent()
         {
             // Updates Layered Icon from it's Layers
-
             if (GetTemplateChild(LayeredPathIconViewBox) is not Viewbox layeredViewBox ||
                 GetTemplateChild(LayeredPathCanvas) is not Canvas canvas ||
                 Layers is not ICollection<ThemedIconLayer> layers)
@@ -113,7 +109,6 @@ namespace Files.App.Controls
         private void SetPathData(string partName, string pathData, FrameworkElement element)
         {
             // Updates PathData
-
             if (string.IsNullOrEmpty(pathData))
                 return;
 
@@ -130,6 +125,7 @@ namespace Files.App.Controls
 
         private void FindOwnerControlStates()
         {
+            /*
             // Finds the owner Control and it's Checked and Enabled state
 
             //
@@ -145,6 +141,7 @@ namespace Files.App.Controls
             // Hooks onto Event handlers when IsEnabledChanged runs
             // Runs the EnabledChanged event to set initial value
             //
+            */
 
             ownerToggleButton = this.FindAscendant<ToggleButton>();
 
@@ -179,7 +176,6 @@ namespace Files.App.Controls
         private void OwnerControl_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
             // Responds to owner checked changes
-
             if (ownerToggleButton is null && ownerAppBarToggleButton is null)
                 return;
 
@@ -192,7 +188,6 @@ namespace Files.App.Controls
         private void OwnerControl_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             // Responds to owner control enabled changes
-
             if (ownerControl is null)
                 return;
 
@@ -202,7 +197,6 @@ namespace Files.App.Controls
         private void ToggleChanged(bool value)
         {
             // Handles the IsToggled property change
-
             _isToggled = value;
 
             UpdateVisualStates();
@@ -211,7 +205,6 @@ namespace Files.App.Controls
         private void FilledChanged(bool value)
         {
             // Handles the IsToggled property change
-
             _isFilled = value;
 
             UpdateVisualStates();
@@ -220,7 +213,6 @@ namespace Files.App.Controls
         private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             // Handles for the derived control's IsEnabled property change
-
             EnabledChanged((bool)e.NewValue);
         }
 
@@ -232,7 +224,6 @@ namespace Files.App.Controls
         private void IconSizePropertyChanged(double value)
         {
             // Code to handle the design time Icon Size changing
-
             _iconSize = value;
 
             UpdateVisualStates();
@@ -242,7 +233,6 @@ namespace Files.App.Controls
         private void EnabledChanged(bool value)
         {
             // Handles the IsEnabled property change
-
             _isEnabled = value;
 
             UpdateVisualStates();
@@ -256,7 +246,6 @@ namespace Files.App.Controls
         private void HighContrastChanged(bool value)
         {
             // handles HighContrast property change
-
             _isHighContrast = value;
 
             UpdateVisualStates();
@@ -280,13 +269,13 @@ namespace Files.App.Controls
         private void UpdateVisualStates()
         {
             // Updates all Icon Visual States.
-
             UpdateIconTypeStates();
             UpdateIconColorTypeStates();
         }
 
         private void UpdateIconTypeStates()
         {
+            /*
             // Handles changes to the IconType and setting the correct Visual States.
 
             // Handles the two IconType states, based on the ThemedIcon.IconType value
@@ -295,6 +284,7 @@ namespace Files.App.Controls
             // We first check for isToggled and isFilled icon types and states
             // Then we check for Contrast and Disabled states, to replace Layered with Outline and set EnabledStates
             // Finally we assigned Filled and Layered states, and default otherwise to Outline
+            */
 
             if (_isToggled is true || IsToggled is true || _isFilled is true || IsFilled is true)
             {
@@ -331,6 +321,7 @@ namespace Files.App.Controls
 
         private void UpdateIconColorTypeStates()
         {
+            /*
             // Handles changes to the IconColorType and setting the correct Visual States.
 
             // We first check if the Icon is Disabled
@@ -343,6 +334,7 @@ namespace Files.App.Controls
             // Finally we act on all other Enabled states
             // We check for Toggled state
             // And update the IconColorType in the Layered Icon's Layers
+            */
 
             if (_isEnabled is false || IsEnabled is false)
             {
