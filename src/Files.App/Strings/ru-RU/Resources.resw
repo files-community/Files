@@ -513,7 +513,7 @@
     <value>Переместить вкладку</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>Статус</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Стандартный</value>
@@ -1587,7 +1587,7 @@
     <value>Заменить все записи разрешений дочернего объекта наследуемыми записями разрешений от этого объекта</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Закрыть текущую вкладку</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Войти в компактный режим</value>
@@ -1848,7 +1848,7 @@
     <value>Без уменьшения цвета</value>
   </data>
   <data name="ThirdPartyLibraries" xml:space="preserve">
-    <value>Third party libraries</value>
+    <value>Сторонние библиотеки</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Этот параметр изменяет реестр Windows и может иметь неожиданные побочные эффекты на вашем устройстве. Продолжайте на свой страх и риск.</value>
@@ -2673,13 +2673,13 @@
     <value>Закрыть текущую вкладку</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Закрыть текущую вкладку</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>Фокус на другую вкладку</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>Переключить фокус на неактивную вкладку</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Переключить панель</value>
@@ -3740,7 +3740,7 @@
     <value>Эта клавиша уже используется, выберите другую клавишу для продолжения.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
-    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
+    <value>Выбранная вами комбинация клавиш не может быть использована, пожалуйста, попробуйте другую комбинацию.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Настроенный</value>
@@ -3830,7 +3830,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
-    <value>Num</value>
+    <value>Номер</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>Местоположение сети</value>
@@ -3848,13 +3848,13 @@
     <value>Редактировать выбранный файл в Блокноте</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
-    <value>Dimensions:</value>
+    <value>Размеры:</value>
   </data>
   <data name="StatusWithColon" xml:space="preserve">
-    <value>Status:</value>
+    <value>Статус:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
+    <value>Показывать панель инструментов</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
