@@ -293,30 +293,23 @@ namespace Files.App.Controls
             }
             else if (_isHighContrast is true || IsHighContrast is true || _isEnabled is false || IsEnabled is false)
             {
-                VisualStateManager.GoToState(
-                    this,
-                    IconType switch
-                    {
-                        ThemedIconTypes.Layered => OutlineTypeStateName,
-                        _ => OutlineTypeStateName,
-                    },
-                    true);
-
+                VisualStateManager.GoToState(this, OutlineTypeStateName, true);
                 VisualStateManager.GoToState(this, DisabledStateName, true);
+                return;
             }
             else
             {
-                VisualStateManager.GoToState(
-                    this,
-                    IconType switch
-                    {
-                        ThemedIconTypes.Layered => LayeredTypeStateName,
-                        _ => OutlineTypeStateName,
-                    },
-                    true);
-
-                VisualStateManager.GoToState(this, EnabledStateName, true);
+                if (IconType == ThemedIconTypes.Layered)
+                {
+                    VisualStateManager.GoToState(this, LayeredTypeStateName, true);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(this, OutlineTypeStateName, true);
+                }
             }
+
+            VisualStateManager.GoToState(this, EnabledStateName, true);
         }
 
         private void UpdateIconColorTypeStates()

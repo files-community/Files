@@ -423,11 +423,12 @@
 
 							<NumberBox
 								x:Name="TestSize"
+								Width="240"
 								HorizontalAlignment="Left"
-								Maximum="64"
+								Maximum="80"
 								Minimum="16"
 								SpinButtonPlacementMode="Inline"
-								Value="48" />
+								Value="40" />
 
 							<StackPanel Orientation="Horizontal" Spacing="{x:Bind TestSize.Value, Mode=TwoWay}">
 								<controls:ThemedIcon
@@ -439,7 +440,6 @@
 								<controls:ThemedIcon
 									Width="{x:Bind TestSize.Value, Mode=TwoWay}"
 									Height="{x:Bind TestSize.Value, Mode=TwoWay}"
-									IconType="Layered"
 									IsFilled="True"
 									Style="{StaticResource IconTest}" />
 
@@ -449,9 +449,33 @@
 									IconType="Outline"
 									Style="{StaticResource IconTest}" />
 							</StackPanel>
+
+							<StackPanel
+								Margin="0,32,0,0"
+								Orientation="Horizontal"
+								Spacing="{x:Bind TestSize.Value, Mode=TwoWay}">
+								<controls:ThemedIcon
+									Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+									Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+									IsEnabled="False"
+									Style="{StaticResource IconTest}" />
+
+								<controls:ThemedIcon
+									Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+									Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+									IconColorType="Custom"
+									IconType="Layered"
+									Style="{StaticResource IconTest}">
+									<controls:ThemedIcon.Color>
+										<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+											<GradientStop Offset="0.0" Color="Cyan" />
+											<GradientStop Offset="1.0" Color="DeepPink" />
+										</LinearGradientBrush>
+									</controls:ThemedIcon.Color>
+								</controls:ThemedIcon>
+							</StackPanel>
+
 						</StackPanel>
-
-
 
 					</StackPanel>
 
