@@ -212,7 +212,7 @@ namespace Files.App.Controls
         public bool IsHighContrast
         {
             get => (bool)GetValue(IsHighContrastProperty);
-            set => SetValue(IsHighContrastProperty, value);
+            internal set => SetValue(IsHighContrastProperty, value);
         }
 
         // Public object properties
