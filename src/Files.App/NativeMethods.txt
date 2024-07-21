@@ -98,3 +98,8 @@ FindWindow
 SendMessage
 IsWindowVisible
 COPYDATASTRUCT
+SetWindowLongPtr
+GetDpiForWindow
+CallWindowProc
+MINMAXINFO
+SUBCLASSPROC
