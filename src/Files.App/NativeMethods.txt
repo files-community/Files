@@ -89,3 +89,8 @@ LocalAlloc
 InitializeAcl
 AddAce
 LocalFree
+IDesktopWallpaper
+DesktopWallpaper
+SHCreateShellItemArrayFromIDLists
+ILCreateFromPath
+CLSIDFromString
