@@ -34,8 +34,7 @@ namespace Files.App.Actions
 				ShowErrorDialog(ex.Message);
 			}
 
-				return Task.CompletedTask;
-			}
+			return Task.CompletedTask;
 		}
 	}
 }
