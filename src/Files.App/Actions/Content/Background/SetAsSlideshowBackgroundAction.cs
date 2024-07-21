@@ -5,6 +5,8 @@ namespace Files.App.Actions
 {
 	internal sealed class SetAsSlideshowBackgroundAction : BaseSetAsAction
 	{
+		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
+
 		public override string Label
 			=> "SetAsSlideshow".GetLocalizedResource();
 
@@ -21,7 +23,15 @@ namespace Files.App.Actions
 		public override Task ExecuteAsync(object? parameter = null)
 		{
 			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
-			WallpaperHelpers.SetSlideshow(paths);
+
+			try
+			{
+				WindowsWallpaperService.SetDesktopSlideshow(paths);
+			}
+			catch (Exception ex)
+			{
+				ShowErrorDialog(ex.Message);
+			}
 
 			return Task.CompletedTask;
 		}

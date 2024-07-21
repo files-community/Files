@@ -5,6 +5,8 @@ namespace Files.App.Actions
 {
 	internal sealed class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
+		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
+
 		public override string Label
 			=> "SetAsLockscreen".GetLocalizedResource();
 
@@ -20,10 +22,19 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItem is not null)
-				return WallpaperHelpers.SetAsBackgroundAsync(WallpaperType.LockScreen, context.SelectedItem.ItemPath);
+			if (context.SelectedItem is null)
+				return Task.CompletedTask;
 
-			return Task.CompletedTask;
+			try
+			{
+				return WindowsWallpaperService.SetLockScreenWallpaper(context.SelectedItem.ItemPath);
+			}
+			catch (Exception ex)
+			{
+				ShowErrorDialog(ex.Message);
+
+				return Task.CompletedTask;
+			}
 		}
 	}
 }
