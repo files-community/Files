@@ -1,11 +1,11 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
@@ -567,10 +567,14 @@ namespace Files.App.Views.Shells
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
 			HandleBackForwardRequest(previousPageContent);
 
-			if (previousPageContent.SourcePageType == typeof(HomePage))
-				ItemDisplay.GoBack(new EntranceNavigationTransitionInfo());
-			else
-				ItemDisplay.GoBack();
+			try
+			{
+				ItemDisplay.GoBack(new SuppressNavigationTransitionInfo());
+			}
+			catch (COMException ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		public virtual void Forward_Click()
@@ -578,7 +582,14 @@ namespace Files.App.Views.Shells
 			var incomingPageContent = ItemDisplay.ForwardStack[ItemDisplay.ForwardStack.Count - 1];
 			HandleBackForwardRequest(incomingPageContent);
 
-			ItemDisplay.GoForward();
+			try
+			{
+				ItemDisplay.GoForward();
+			}
+			catch (COMException ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		public void ResetNavigationStackLayoutMode()

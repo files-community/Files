@@ -1,12 +1,13 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.System;
 
 namespace Files.App.Views.Shells
@@ -87,30 +88,45 @@ namespace Files.App.Views.Shells
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
 		{
-			ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+			try
 			{
-				NavPathParam = e.ItemPath,
-				AssociatedTabInstance = this
-			});
+				ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+				{
+					NavPathParam = e.ItemPath,
+					AssociatedTabInstance = this
+				});
+			}
+			catch (COMException ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		protected override void OnNavigationParamsChanged()
 		{
 			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home")
 			{
-				ItemDisplayFrame.Navigate(
+				try
+				{
+					ItemDisplayFrame.Navigate(
 					typeof(HomePage),
 					new NavigationArguments()
 					{
 						NavPathParam = NavParams?.NavPath,
 						AssociatedTabInstance = this
 					}, new SuppressNavigationTransitionInfo());
+				}
+				catch (COMException ex)
+				{
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 			else
 			{
 				var isTagSearch = NavParams.NavPath.StartsWith("tag:");
-
-				ItemDisplayFrame.Navigate(
+				try
+				{
+					ItemDisplayFrame.Navigate(
 					InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
 					new NavigationArguments()
 					{
@@ -121,6 +137,11 @@ namespace Files.App.Views.Shells
 						SearchQuery = isTagSearch ? NavParams.NavPath : null,
 						AssociatedTabInstance = this
 					});
+				}
+				catch (COMException ex)
+				{
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 		}
 
@@ -231,14 +252,21 @@ namespace Files.App.Views.Shells
 			bool isPathRooted = string.Equals(ShellViewModel.WorkingDirectory, PathNormalization.GetPathRoot(ShellViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
 			if (isPathRooted)
 			{
-				ItemDisplayFrame.Navigate(
-					typeof(HomePage),
-					new NavigationArguments()
-					{
-						NavPathParam = "Home",
-						AssociatedTabInstance = this
-					},
-					new SuppressNavigationTransitionInfo());
+				try
+				{
+					ItemDisplayFrame.Navigate(
+										typeof(HomePage),
+										new NavigationArguments()
+										{
+											NavPathParam = "Home",
+											AssociatedTabInstance = this
+										},
+										new SuppressNavigationTransitionInfo());
+				}
+				catch (COMException ex)
+				{
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 			else
 			{
@@ -253,14 +281,22 @@ namespace Files.App.Views.Shells
 					parentDirectoryOfPath += '\\';
 
 				SelectSidebarItemFromPath();
-				ItemDisplayFrame.Navigate(
-					InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
-					new NavigationArguments()
-					{
-						NavPathParam = parentDirectoryOfPath,
-						AssociatedTabInstance = this
-					},
-					new SuppressNavigationTransitionInfo());
+
+				try
+				{
+					ItemDisplayFrame.Navigate(
+										InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
+										new NavigationArguments()
+										{
+											NavPathParam = parentDirectoryOfPath,
+											AssociatedTabInstance = this
+										},
+										new SuppressNavigationTransitionInfo());
+				}
+				catch (COMException ex)
+				{
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 		}
 
@@ -275,14 +311,21 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateHome()
 		{
-			ItemDisplayFrame.Navigate(
-				typeof(HomePage),
-				new NavigationArguments()
-				{
-					NavPathParam = "Home",
-					AssociatedTabInstance = this
-				},
-				new SuppressNavigationTransitionInfo());
+			try
+			{
+				ItemDisplayFrame.Navigate(
+					typeof(HomePage),
+					new NavigationArguments()
+					{
+						NavPathParam = "Home",
+						AssociatedTabInstance = this
+					},
+					new SuppressNavigationTransitionInfo());
+			}
+			catch (COMException ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
@@ -294,10 +337,17 @@ namespace Files.App.Views.Shells
 
 			if (navArgs is not null && navArgs.AssociatedTabInstance is not null)
 			{
-				ItemDisplayFrame.Navigate(
-					sourcePageType,
-					navArgs,
-					new SuppressNavigationTransitionInfo());
+				try
+				{
+					ItemDisplayFrame.Navigate(
+						sourcePageType,
+						navArgs,
+						new SuppressNavigationTransitionInfo());
+				}
+				catch (COMException ex)
+				{
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 			else
 			{
@@ -328,14 +378,21 @@ namespace Files.App.Views.Shells
 					transition = new SuppressNavigationTransitionInfo();
 				}
 
-				ItemDisplayFrame.Navigate(
-					sourcePageType,
-					new NavigationArguments()
-					{
-						NavPathParam = navigationPath,
-						AssociatedTabInstance = this
-					},
-					transition);
+				try
+				{
+					ItemDisplayFrame.Navigate(
+	sourcePageType,
+	new NavigationArguments()
+	{
+		NavPathParam = navigationPath,
+		AssociatedTabInstance = this
+	},
+	transition);
+				}
+				catch (COMException ex)
+				{
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 
 			ToolbarViewModel.PathControlDisplayText = ShellViewModel.WorkingDirectory;
