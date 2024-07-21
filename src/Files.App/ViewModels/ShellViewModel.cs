@@ -1729,7 +1729,6 @@ namespace Files.App.ViewModels
 						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
-							await OrderFilesAndFoldersAsync();
 							await ApplyFilesAndFoldersChangesAsync();
 						});
 
