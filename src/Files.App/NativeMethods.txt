@@ -93,3 +93,4 @@ IDesktopWallpaper
 DesktopWallpaper
 SHCreateShellItemArrayFromIDLists
 ILCreateFromPath
+CLSIDFromString

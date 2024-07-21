@@ -18,10 +18,11 @@ namespace Files.App.Services
 		public unsafe void SetDesktopWallpaper(string szPath)
 		{
 			PInvoke.CoCreateInstance(
-				typeof(DesktopWallpaper).GUID,
+				new Guid("{C2CF3110-460E-4fc1-B9D0-8A1C0C9CC4BD}"),
 				null,
-				CLSCTX.CLSCTX_INPROC_SERVER,
-				out IDesktopWallpaper desktopWallpaper);
+				CLSCTX.CLSCTX_LOCAL_SERVER,
+				out IDesktopWallpaper desktopWallpaper)
+			.ThrowOnFailure();
 
 			desktopWallpaper.GetMonitorDevicePathCount(out var dwMonitorCount);
 
@@ -41,10 +42,11 @@ namespace Files.App.Services
 		public unsafe void SetDesktopSlideshow(string[] aszPaths)
 		{
 			PInvoke.CoCreateInstance(
-				typeof(DesktopWallpaper).GUID,
+				new Guid("{C2CF3110-460E-4fc1-B9D0-8A1C0C9CC4BD}"),
 				null,
-				CLSCTX.CLSCTX_INPROC_SERVER,
-				out IDesktopWallpaper desktopWallpaper);
+				CLSCTX.CLSCTX_LOCAL_SERVER,
+				out IDesktopWallpaper desktopWallpaper)
+			.ThrowOnFailure();
 
 			var dwCount = (uint)aszPaths.Length;
 
