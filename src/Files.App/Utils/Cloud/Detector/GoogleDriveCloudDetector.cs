@@ -2,10 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Data.Sqlite;
-using System.IO;
-using Windows.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using System.IO;
+using Windows.Storage;
 
 namespace Files.App.Utils.Cloud
 {
@@ -26,6 +26,13 @@ namespace Files.App.Utils.Cloud
 
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
+
+			// TESTING
+			var rootsLogger = GetAltLogger("debugRoots");
+			var mediaLogger = GetAltLogger("debugMedia");
+			var yieldReturnLogger = GetAltLogger("debugYieldReturn");
+			var rootPrefTablesLogger = GetAltLogger("debugRootPrefTables");
+
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
 
@@ -70,6 +77,10 @@ namespace Files.App.Utils.Cloud
 
 				App.AppModel.GoogleDrivePath = path;
 
+				// TESTING
+				yieldReturnLogger.LogInformation("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (roots): ");
+				yieldReturnLogger.LogInformation("name=" + $"Google Drive ({title}); path=" + path);
+
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
 					Name = $"Google Drive ({title})",
@@ -93,6 +104,10 @@ namespace Files.App.Utils.Cloud
 
 				StorageFile? iconFile = await GetGoogleDriveIconFileAsync();
 
+				// TESTING
+				yieldReturnLogger.LogInformation("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (media): ");
+				yieldReturnLogger.LogInformation("name=" + title + "; path=" + path);
+
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
 					Name = title,
@@ -101,10 +116,50 @@ namespace Files.App.Utils.Cloud
 				};
 			}
 
+			// TESTING
+			await Inspect(database, "SELECT * FROM roots", "root_preferences db, roots table", rootsLogger);
+			await Inspect(database, "SELECT * FROM media", "root_preferences db, media table", mediaLogger);
+			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1",
+				"root_preferences db, all tables", rootPrefTablesLogger);
+
 			await foreach (var provider in GetGoogleDriveProvidersFromRegistryAsync())
 			{
+
+				// TESTING
+				yieldReturnLogger.LogInformation("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (registry): ");
+				yieldReturnLogger.LogInformation("name=" + provider.Name + "; path=" + provider.SyncFolder);
+
 				yield return provider;
 			}
+		}
+
+		// TESTING
+		private async Task Inspect(SqliteConnection database, string sqlCommand, string contentsOf, ILogger logger)
+		{
+			await using var cmdTablesAll =
+				new SqliteCommand(sqlCommand, database);
+			var reader = await cmdTablesAll.ExecuteReaderAsync();
+			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(j => reader.GetName(j)).ToList();
+			var i = 0;
+			logger.LogInformation("BEGIN LOGGING of " + contentsOf + " contents");
+			while (reader.Read())
+			{
+				var colVals = new object[reader.FieldCount];
+				reader.GetValues(colVals);
+				colVals.Select((val, j) => $"row {i}: column {j}: {colNamesList[j]}: {val}").ToList()
+					.ForEach(s => logger.LogInformation(s));
+				i++;
+			}
+			logger.LogInformation("END LOGGING of " + contentsOf + " contents");
+
+		}
+
+		private ILogger GetAltLogger(string filename)
+		{
+			var altLogPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, filename);
+			File.Delete(altLogPath);
+			var factory = new LoggerFactory().AddFile(altLogPath);
+			return factory.CreateLogger<App>();
 		}
 
 		private JsonDocument? GetGoogleDriveRegValJson()
