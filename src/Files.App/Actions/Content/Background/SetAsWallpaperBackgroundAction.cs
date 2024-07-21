@@ -28,12 +28,11 @@ namespace Files.App.Actions
 			try
 			{
 				WindowsWallpaperService.SetDesktopWallpaper(context.SelectedItem.ItemPath);
-
-				return Task.CompletedTask;
 			}
 			catch (Exception ex)
 			{
 				ShowErrorDialog(ex.Message);
+			}
 
 				return Task.CompletedTask;
 			}
