@@ -11,7 +11,7 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Sets desktop wallpaper using the specified image path.
 		/// </summary>
-		/// <param name="szPath">The image path to use to set as wallpaper.</param>
+		/// <param name="szPath">The image path to assign as the desktop wallpaper.</param>
 		void SetDesktopWallpaper(string szPath);
 
 		/// <summary>
