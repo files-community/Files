@@ -381,13 +381,13 @@ namespace Files.App.Views.Shells
 				try
 				{
 					ItemDisplayFrame.Navigate(
-	sourcePageType,
-	new NavigationArguments()
-	{
-		NavPathParam = navigationPath,
-		AssociatedTabInstance = this
-	},
-	transition);
+					sourcePageType,
+					new NavigationArguments()
+					{
+						NavPathParam = navigationPath,
+						AssociatedTabInstance = this
+					},
+					transition);
 				}
 				catch (COMException ex)
 				{
