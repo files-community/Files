@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "CreateShortcutDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconShortcut");
+			=> new(themedIconStyle: "App.ThemedIcons.URL");
 
 		public override bool IsExecutable =>
 			context.HasSelection &&

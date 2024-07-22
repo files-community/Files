@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "OpenPropertiesDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconProperties");
+			=> new(themedIconStyle: "App.ThemedIcons.Properties");
 
 		public HotKey HotKey
 			=> new(Keys.Enter, KeyModifiers.Alt);

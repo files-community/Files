@@ -39,7 +39,7 @@ namespace Files.App.Data.Commands
 		string Description { get; }
 
 		/// <summary>
-		/// Gets string glyph or opacity icon.
+		/// Gets string glyph or ThemedIcon style.
 		/// </summary>
 		RichGlyph Glyph { get; }
 
@@ -54,9 +54,9 @@ namespace Files.App.Data.Commands
 		FontIcon? FontIcon { get; }
 
 		/// <summary>
-		/// Gets the style of the opacity icon of this command.
+		/// Gets the commands ThemedIcon style.
 		/// </summary>
-		Style? OpacityStyle { get; }
+		Style? ThemedIconStyle { get; }
 
 		/// <summary>
 		/// Gets the value that indicates whether the hotkey is customized by user setting.

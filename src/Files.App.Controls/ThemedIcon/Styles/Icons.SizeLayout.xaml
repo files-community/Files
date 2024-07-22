@@ -131,7 +131,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_Tiles"
+		x:Key="App.ThemedIcons.IconLayout.Tiles"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -157,7 +157,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_List"
+		x:Key="App.ThemedIcons.IconLayout.List"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -183,7 +183,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_Columns"
+		x:Key="App.ThemedIcons.IconLayout.Columns"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -205,7 +205,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_Details"
+		x:Key="App.ThemedIcons.IconLayout.Details"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -226,7 +226,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.IconLayout_Auto"
+		x:Key="App.ThemedIcons.IconLayout.Auto"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

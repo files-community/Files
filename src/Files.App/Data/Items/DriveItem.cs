@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Controls;
 using Files.App.Storage.Storables;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -199,9 +200,9 @@ namespace Files.App.Data.Items
 				var itemDecorator = new Button()
 				{
 					Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
-					Content = new OpacityIcon()
+					Content = new ThemedIcon()
 					{
-						Style = Application.Current.Resources["ColorIconEject"] as Style,
+						Style = Application.Current.Resources["App.ThemedIcons.Actions.Eject"] as Style,
 						Height = 16,
 						Width = 16
 					}

@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> "OpenItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenFile");
+			=> new(themedIconStyle: "App.ThemedIcons.OpenFile");
 
 		public HotKey HotKey
 			=> new(Keys.Enter);
@@ -63,7 +63,7 @@ namespace Files.App.Actions
 			=> "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenWith");
+			=> new(themedIconStyle: "App.ThemedIcons.OpenWith");
 
 		public bool IsExecutable =>
 			context.HasSelection &&

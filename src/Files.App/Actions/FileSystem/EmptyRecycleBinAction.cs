@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "EmptyRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconDelete");
+			=> new(themedIconStyle: "App.ThemedIcons.Delete");
 
 		public override bool IsExecutable =>
 			UIHelpers.CanShowDialog &&

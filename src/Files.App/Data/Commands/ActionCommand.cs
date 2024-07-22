@@ -48,7 +48,7 @@ namespace Files.App.Data.Commands
 		public FontIcon? FontIcon { get; }
 
 		/// <inheritdoc/>
-		public Style? OpacityStyle { get; }
+		public Style? ThemedIconStyle { get; }
 
 		private bool isCustomHotKeys = false;
 		/// <inheritdoc/>
@@ -118,7 +118,7 @@ namespace Files.App.Data.Commands
 			Action = action;
 			Icon = action.Glyph.ToIcon();
 			FontIcon = action.Glyph.ToFontIcon();
-			OpacityStyle = action.Glyph.ToOpacityStyle();
+			ThemedIconStyle = action.Glyph.ToThemedIconStyle();
 			hotKeys = CommandManager.GetDefaultKeyBindings(action);
 			DefaultHotKeys = CommandManager.GetDefaultKeyBindings(action);
 

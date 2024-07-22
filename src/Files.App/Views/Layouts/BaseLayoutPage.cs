@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Controls;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels.Layouts;
@@ -739,9 +740,9 @@ namespace Files.App.Views.Layouts
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
 				Label = "EditTags".GetLocalizedResource(),
-				Content = new OpacityIcon()
+				Content = new ThemedIcon()
 				{
-					Style = (Style)Application.Current.Resources["ColorIconTag"],
+					Style = (Style)Application.Current.Resources["App.ThemedIcons.TagEdit"],
 				},
 				Flyout = fileTagsContextMenu
 			});
@@ -865,10 +866,10 @@ namespace Files.App.Views.Layouts
 					openWithOverflow.Visibility = Visibility.Visible;
 
 					// TODO delete this when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
-					openWithOverflow.Content = new OpacityIconModel()
+					openWithOverflow.Content = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconOpenWith"
-					}.ToOpacityIcon();
+						ThemedIconStyle = "App.ThemedIcons.OpenWith"
+					}.ToThemedIcon();
 					openWithOverflow.Label = "OpenWith".GetLocalizedResource();
 				}
 			}

@@ -117,28 +117,28 @@
 						<MenuFlyout Placement="BottomEdgeAlignedLeft">
 
 							<!--  New Window  -->
-							<uc:MenuFlyoutItemWithOpacityIcon
+							<uc:MenuFlyoutItemWithThemedIcon
 								x:Name="OpenNewWindowTabActionButton"
 								Command="{x:Bind Commands.NewWindow}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.NewWindow.HotKeyText, Mode=OneWay}"
-								OpacityStyle="{x:Bind Commands.NewWindow.OpacityStyle}"
-								Text="{x:Bind Commands.NewWindow.Label}" />
+								Text="{x:Bind Commands.NewWindow.Label}"
+								ThemedIconStyle="{x:Bind Commands.NewWindow.ThemedIconStyle}" />
 
 							<!--  Enter Compact Overlay  -->
-							<uc:MenuFlyoutItemWithOpacityIcon
+							<uc:MenuFlyoutItemWithThemedIcon
 								x:Name="EnterCompactOverlayTabActionButton"
 								x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
 								Command="{x:Bind Commands.EnterCompactOverlay}"
-								OpacityStyle="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}"
-								Text="{x:Bind Commands.EnterCompactOverlay.Label}" />
+								Text="{x:Bind Commands.EnterCompactOverlay.Label}"
+								ThemedIconStyle="{x:Bind Commands.EnterCompactOverlay.ThemedIconStyle}" />
 
 							<!--  Exit Compact Overlay  -->
-							<uc:MenuFlyoutItemWithOpacityIcon
+							<uc:MenuFlyoutItemWithThemedIcon
 								x:Name="ExitCompactOverlayTabActionButton"
 								x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
 								Command="{x:Bind Commands.ExitCompactOverlay}"
-								OpacityStyle="{x:Bind Commands.ExitCompactOverlay.OpacityStyle}"
-								Text="{x:Bind Commands.ExitCompactOverlay.Label}" />
+								Text="{x:Bind Commands.ExitCompactOverlay.Label}"
+								ThemedIconStyle="{x:Bind Commands.ExitCompactOverlay.ThemedIconStyle}" />
 
 							<!--  Add Pane  -->
 							<MenuFlyoutSubItem
@@ -147,20 +147,20 @@
 								Text="{helpers:ResourceString Name=AddPane}">
 								<MenuFlyoutSubItem.Items>
 									<!--  Horizontal  -->
-									<uc:MenuFlyoutItemWithOpacityIcon
+									<uc:MenuFlyoutItemWithThemedIcon
 										x:Name="AddHorizontalPaneTabActionButton"
 										Command="{x:Bind Commands.AddHorizontalPane, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.AddHorizontalPane.HotKeyText, Mode=OneWay}"
-										OpacityStyle="{x:Bind Commands.AddHorizontalPane.OpacityStyle}"
-										Text="{x:Bind Commands.AddHorizontalPane.Label}" />
+										Text="{x:Bind Commands.AddHorizontalPane.Label}"
+										ThemedIconStyle="{x:Bind Commands.AddHorizontalPane.ThemedIconStyle}" />
 
 									<!--  Vertical  -->
-									<uc:MenuFlyoutItemWithOpacityIcon
+									<uc:MenuFlyoutItemWithThemedIcon
 										x:Name="AddVerticalPaneTabActionButton"
 										Command="{x:Bind Commands.AddVerticalPane, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.AddVerticalPane.HotKeyText, Mode=OneWay}"
-										OpacityStyle="{x:Bind Commands.AddVerticalPane.OpacityStyle}"
-										Text="{x:Bind Commands.AddVerticalPane.Label}" />
+										Text="{x:Bind Commands.AddVerticalPane.Label}"
+										ThemedIconStyle="{x:Bind Commands.AddVerticalPane.ThemedIconStyle}" />
 								</MenuFlyoutSubItem.Items>
 							</MenuFlyoutSubItem>
 
@@ -171,36 +171,33 @@
 								Text="{helpers:ResourceString Name=ArrangePanes}">
 								<MenuFlyoutSubItem.Items>
 									<!--  Horizontal  -->
-									<uc:ToggleMenuFlyoutItemWithOpacityIcon
+									<uc:ToggleMenuFlyoutItemWithThemedIcon
 										x:Name="ArrangePanesHorizontallyTabActionButton"
 										Command="{x:Bind Commands.ArrangePanesHorizontally, Mode=OneWay}"
 										IsChecked="{x:Bind Commands.ArrangePanesHorizontally.IsOn, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesHorizontally.HotKeyText, Mode=OneWay}"
-										OpacityStyle="{x:Bind Commands.ArrangePanesHorizontally.OpacityStyle}"
-										Text="{x:Bind Commands.ArrangePanesHorizontally.Label}" />
+										Text="{x:Bind Commands.ArrangePanesHorizontally.Label}"
+										ThemedIconStyle="{x:Bind Commands.ArrangePanesHorizontally.ThemedIconStyle}" />
 
 									<!--  Vertical  -->
-									<uc:ToggleMenuFlyoutItemWithOpacityIcon
+									<uc:ToggleMenuFlyoutItemWithThemedIcon
 										x:Name="ArrangePanesVerticallyTabActionButton"
 										Command="{x:Bind Commands.ArrangePanesVertically, Mode=OneWay}"
 										IsChecked="{x:Bind Commands.ArrangePanesVertically.IsOn, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesVertically.HotKeyText, Mode=OneWay}"
-										OpacityStyle="{x:Bind Commands.ArrangePanesVertically.OpacityStyle}"
-										Text="{x:Bind Commands.ArrangePanesVertically.Label}" />
+										Text="{x:Bind Commands.ArrangePanesVertically.Label}"
+										ThemedIconStyle="{x:Bind Commands.ArrangePanesVertically.ThemedIconStyle}" />
 								</MenuFlyoutSubItem.Items>
 							</MenuFlyoutSubItem>
 
 							<!--  Close Active Pane  -->
-							<uc:MenuFlyoutItemWithOpacityIcon
+							<uc:MenuFlyoutItemWithThemedIcon
 								x:Name="CloseActivePaneTabActionButton"
 								x:Load="{x:Bind Commands.CloseActivePane.IsExecutable, Mode=OneWay}"
 								Command="{x:Bind Commands.CloseActivePane}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseActivePane.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.CloseActivePane.Label}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.CloseActivePane.Glyph.BaseGlyph}" />
-								</MenuFlyoutItem.Icon>
-							</uc:MenuFlyoutItemWithOpacityIcon>
+								Text="{x:Bind Commands.CloseActivePane.Label}"
+								ThemedIconStyle="{x:Bind Commands.CloseActivePane.ThemedIconStyle}" />
 
 						</MenuFlyout>
 					</Button.Flyout>

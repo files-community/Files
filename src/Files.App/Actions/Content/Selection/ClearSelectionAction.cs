@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "ClearSelectionDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new("\uE8E6");
+			=> new(themedIconStyle: "App.ThemedIcons.SelectNone");
 
 		public bool IsExecutable
 		{

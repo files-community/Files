@@ -432,12 +432,12 @@
 					<Grid Margin="-16">
 
 						<!-- Enable icon again if we add option to always display on the toolbar
-						<uc:OpacityIcon
+						<ThemedIcon
 							x:Name="StatusCenterIcon"
 							Width="16"
 							Height="16"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							Style="{StaticResource ColorIconStatusCenter}" />-->
+							Style="{StaticResource App.ThemedIcons.StatusCenter}" />-->
 
 						<ProgressRing
 							x:Name="MedianOperationProgressRing"
