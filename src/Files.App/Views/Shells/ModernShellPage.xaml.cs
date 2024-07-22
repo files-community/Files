@@ -87,7 +87,7 @@ namespace Files.App.Views.Shells
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
 		{
-			ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+			bool result = ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
 			{
 				NavPathParam = e.ItemPath,
 				AssociatedTabInstance = this
@@ -98,7 +98,7 @@ namespace Files.App.Views.Shells
 		{
 			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home")
 			{
-				ItemDisplayFrame.Navigate(
+				bool result = ItemDisplayFrame.Navigate(
 					typeof(HomePage),
 					new NavigationArguments()
 					{
@@ -110,7 +110,7 @@ namespace Files.App.Views.Shells
 			{
 				var isTagSearch = NavParams.NavPath.StartsWith("tag:");
 
-				ItemDisplayFrame.Navigate(
+				bool result = ItemDisplayFrame.Navigate(
 					InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
 					new NavigationArguments()
 					{
@@ -231,7 +231,7 @@ namespace Files.App.Views.Shells
 			bool isPathRooted = string.Equals(ShellViewModel.WorkingDirectory, PathNormalization.GetPathRoot(ShellViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
 			if (isPathRooted)
 			{
-				ItemDisplayFrame.Navigate(
+				bool result = ItemDisplayFrame.Navigate(
 					typeof(HomePage),
 					new NavigationArguments()
 					{
@@ -253,7 +253,7 @@ namespace Files.App.Views.Shells
 					parentDirectoryOfPath += '\\';
 
 				SelectSidebarItemFromPath();
-				ItemDisplayFrame.Navigate(
+				bool result = ItemDisplayFrame.Navigate(
 					InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
 					new NavigationArguments()
 					{
@@ -275,7 +275,7 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateHome()
 		{
-			ItemDisplayFrame.Navigate(
+			bool result = ItemDisplayFrame.Navigate(
 				typeof(HomePage),
 				new NavigationArguments()
 				{
@@ -294,7 +294,7 @@ namespace Files.App.Views.Shells
 
 			if (navArgs is not null && navArgs.AssociatedTabInstance is not null)
 			{
-				ItemDisplayFrame.Navigate(
+				bool result = ItemDisplayFrame.Navigate(
 					sourcePageType,
 					navArgs,
 					new SuppressNavigationTransitionInfo());
@@ -328,7 +328,7 @@ namespace Files.App.Views.Shells
 					transition = new SuppressNavigationTransitionInfo();
 				}
 
-				ItemDisplayFrame.Navigate(
+				bool result = ItemDisplayFrame.Navigate(
 					sourcePageType,
 					new NavigationArguments()
 					{

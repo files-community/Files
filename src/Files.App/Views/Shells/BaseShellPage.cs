@@ -5,8 +5,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -567,9 +565,7 @@ namespace Files.App.Views.Shells
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
 			HandleBackForwardRequest(previousPageContent);
 
-			if (previousPageContent.SourcePageType == typeof(HomePage))
-				ItemDisplay.GoBack(new EntranceNavigationTransitionInfo());
-			else
+			if (ItemDisplay.CanGoBack)
 				ItemDisplay.GoBack();
 		}
 
@@ -578,7 +574,8 @@ namespace Files.App.Views.Shells
 			var incomingPageContent = ItemDisplay.ForwardStack[ItemDisplay.ForwardStack.Count - 1];
 			HandleBackForwardRequest(incomingPageContent);
 
-			ItemDisplay.GoForward();
+			if (ItemDisplay.CanGoForward)
+				ItemDisplay.GoForward();
 		}
 
 		public void ResetNavigationStackLayoutMode()
