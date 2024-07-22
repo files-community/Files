@@ -106,6 +106,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Files.App.BackgroundTasks\Files.App.BackgroundTasks.csproj" />
+        <ProjectReference Include="..\Files.App.Controls\Files.App.Controls.csproj" />
         <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
         <ProjectReference Include="..\Files.Core.Storage\Files.Core.Storage.csproj" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
