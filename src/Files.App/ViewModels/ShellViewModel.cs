@@ -55,6 +55,7 @@ namespace Files.App.ViewModels
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
+		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -1268,9 +1269,7 @@ namespace Files.App.ViewModels
 			if (item.SyncStatusUI.LoadSyncStatus)
 				return false;
 
-			return item.IsShortcut
-				? ElevationHelpers.IsElevationRequired(((ShortcutItem)item).TargetPath)
-				: ElevationHelpers.IsElevationRequired(item.ItemPath);
+			return WindowsSecurityService.IsElevationRequired(item.IsShortcut ? ((ShortcutItem)item).TargetPath : item.ItemPath);
 		}
 
 		public async Task LoadGitPropertiesAsync(GitItem gitItem)
