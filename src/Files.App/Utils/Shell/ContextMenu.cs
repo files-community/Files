@@ -174,7 +174,7 @@ namespace Files.App.Utils.Shell
 
 		public static async Task WarmUpQueryContextMenuAsync()
 		{
-			using var cMenu = await GetContextMenuForFiles(new string[] { $@"{Environment.GetEnvironmentVariable("SystemDrive")}\" }, Shell32.CMF.CMF_NORMAL);
+			using var cMenu = await GetContextMenuForFiles(new string[] { $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\" }, Shell32.CMF.CMF_NORMAL);
 		}
 
 		private void EnumMenuItems(HMENU hMenu, List<Win32ContextMenuItem> menuItemsResult, bool loadSubenus = false)

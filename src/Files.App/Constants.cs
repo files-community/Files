@@ -234,6 +234,8 @@ namespace Files.App
 
 			public static readonly string TempPath = Environment.GetEnvironmentVariable("TEMP") ?? "";
 
+			public static readonly string SystemDrivePath = $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\" ?? @"C:\";
+
 			public static readonly string HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
 			public static readonly string SystemRootPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
