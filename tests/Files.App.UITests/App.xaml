@@ -8,9 +8,25 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-				<!--  Other merged dictionaries here  -->
+				<ResourceDictionary Source="ms-appx:///Files.App.Controls/Themes/Generic.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-			<!--  Other app resources here  -->
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Default">
+					<SolidColorBrush x:Key="PageBackground" Color="{ThemeResource LayerOnMicaBaseAltFillColorDefault}" />
+					<StaticResource x:Key="ToggleBackground" ResourceKey="AccentFillColorDefaultBrush" />
+					<SolidColorBrush x:Key="ToggleDisabledBackground" Color="{ThemeResource AccentFillColorDisabled}" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="PageBackground" Color="{ThemeResource LayerOnMicaBaseAltFillColorDefault}" />
+					<StaticResource x:Key="ToggleBackground" ResourceKey="AccentFillColorDefaultBrush" />
+					<SolidColorBrush x:Key="ToggleDisabledBackground" Color="{ThemeResource AccentFillColorDisabled}" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="HighContrast">
+					<SolidColorBrush x:Key="PageBackground" Color="{ThemeResource SystemColorWindowColor}" />
+					<SolidColorBrush x:Key="ToggleBackground" Color="{ThemeResource SystemColorHighlightColor}" />
+					<SolidColorBrush x:Key="ToggleDisabledBackground" Color="{ThemeResource SystemColorGrayTextColor}" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

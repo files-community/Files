@@ -35,6 +35,7 @@
 
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+				<ResourceDictionary Source="ms-appx:///Files.App.Controls/Themes/Generic.xaml" />
 
 				<!--  Styles for the custom icons  -->
 				<ResourceDictionary Source="ms-appx:///Styles/PathIcons.xaml" />

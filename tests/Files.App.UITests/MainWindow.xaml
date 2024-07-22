@@ -3,15 +3,66 @@
 	x:Class="Files.App.UITests.MainWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UITests.UserControls"
+	Title="Files.App.Controls.UITests"
 	mc:Ignorable="d">
 
-	<StackPanel
-		HorizontalAlignment="Center"
-		VerticalAlignment="Center"
-		Orientation="Horizontal">
-		<Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-	</StackPanel>
+	<Window.SystemBackdrop>
+		<MicaBackdrop Kind="BaseAlt" />
+	</Window.SystemBackdrop>
+
+	<Grid Background="{ThemeResource PageBackground}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Grid
+			x:Name="FauxTitleBar"
+			Grid.Row="0"
+			HorizontalAlignment="Stretch">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition x:Name="TitleIcon" Width="48" />
+				<ColumnDefinition x:Name="TitleText" Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<controls:ThemedIcon
+				Grid.Column="0"
+				Width="16"
+				Height="16"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				IconColorType="Custom"
+				IconSize="16"
+				IsFilled="True"
+				Style="{StaticResource App.ThemedIcons.Settings.General.FilesDefault}">
+				<controls:ThemedIcon.Color>
+					<LinearGradientBrush StartPoint="0.3,0.3" EndPoint="1,1">
+						<GradientStop Offset="0.0" Color="#9F75D3" />
+						<GradientStop Offset="1.0" Color="#8661C5" />
+					</LinearGradientBrush>
+				</controls:ThemedIcon.Color>
+			</controls:ThemedIcon>
+
+			<TextBlock
+				Grid.Column="1"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+				Style="{ThemeResource CaptionTextBlockStyle}"
+				Text="Files UI Tests" />
+
+		</Grid>
+
+		<uc:ThemedIconsUC
+			Grid.Row="1"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch" />
+	</Grid>
+
 </Window>

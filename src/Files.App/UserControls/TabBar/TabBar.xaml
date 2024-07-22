@@ -3,6 +3,7 @@
 	x:Class="Files.App.UserControls.TabBar.TabBar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.TabBar"
@@ -107,10 +108,10 @@
 					ToolTipService.ToolTip="{helpers:ResourceString Name=TabActions}"
 					Visibility="{x:Bind ShowTabActionsButton, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
-					<uc:OpacityIcon
+					<controls:ThemedIcon
 						Width="16"
 						Height="16"
-						Style="{StaticResource ColorIconPaneFull}" />
+						Style="{StaticResource App.ThemedIcons.Panes.Single}" />
 
 					<Button.Flyout>
 						<MenuFlyout Placement="BottomEdgeAlignedLeft">

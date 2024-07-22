@@ -45,9 +45,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files.App.SaveDialog.Win32"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files.App.OpenDialog.Win32", "src\Files.App.OpenDialog\Files.App.OpenDialog.Win32.vcxproj", "{B3FE3F3B-CECC-4918-B72B-5488C3774125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.App.UITests", "tests\Files.App.UITests\Files.App.UITests.csproj", "{6F5B1C76-6FA1-49C0-9AF5-672BEDF6900B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App.UITests", "tests\Files.App.UITests\Files.App.UITests.csproj", "{6F5B1C76-6FA1-49C0-9AF5-672BEDF6900B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.App.Controls", "src\Files.App.Controls\Files.App.Controls.csproj", "{83FF8729-CC76-43E2-976F-47F0A187FC7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App.Controls", "src\Files.App.Controls\Files.App.Controls.csproj", "{83FF8729-CC76-43E2-976F-47F0A187FC7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -550,7 +550,7 @@ Global
 		{6F5B1C76-6FA1-49C0-9AF5-672BEDF6900B}.Store|x86.ActiveCfg = Debug|x86
 		{6F5B1C76-6FA1-49C0-9AF5-672BEDF6900B}.Store|x86.Build.0 = Debug|x86
 		{6F5B1C76-6FA1-49C0-9AF5-672BEDF6900B}.Store|x86.Deploy.0 = Debug|x86
-		{83FF8729-CC76-43E2-976F-47F0A187FC7E}.Debug|arm64.ActiveCfg = Debug|x64
+		{83FF8729-CC76-43E2-976F-47F0A187FC7E}.Debug|arm64.ActiveCfg = Debug|ARM64
 		{83FF8729-CC76-43E2-976F-47F0A187FC7E}.Debug|x64.ActiveCfg = Debug|x64
 		{83FF8729-CC76-43E2-976F-47F0A187FC7E}.Debug|x64.Build.0 = Debug|x64
 		{83FF8729-CC76-43E2-976F-47F0A187FC7E}.Debug|x86.ActiveCfg = Debug|x64
