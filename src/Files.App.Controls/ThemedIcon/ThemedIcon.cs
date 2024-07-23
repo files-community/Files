@@ -39,6 +39,12 @@ namespace Files.App.Controls
             IsEnabledChanged -= OnIsEnabledChanged;
             SizeChanged -= OnSizeChanged;
 
+            if (GetTemplateChild(LayeredPathCanvas) is Canvas canvas)
+            { 
+                canvas.Children.Clear();
+            }
+
+
             base.OnApplyTemplate();
 
             IsEnabledChanged += OnIsEnabledChanged;
