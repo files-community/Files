@@ -25,13 +25,7 @@
 	</Page.Resources>
 
 	<ScrollViewer x:Name="RootScrollViewer">
-		<Grid
-			Padding="12,4,12,12"
-			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-			BorderThickness="1"
-			CornerRadius="4"
-			RowSpacing="4">
+		<Grid Padding="12,4,12,12" RowSpacing="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
