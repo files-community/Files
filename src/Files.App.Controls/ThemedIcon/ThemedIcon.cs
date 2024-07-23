@@ -39,12 +39,6 @@ namespace Files.App.Controls
             IsEnabledChanged -= OnIsEnabledChanged;
             SizeChanged -= OnSizeChanged;
 
-            if (GetTemplateChild(LayeredPathCanvas) is Canvas canvas)
-            { 
-                canvas.Children.Clear();
-            }
-
-
             base.OnApplyTemplate();
 
             IsEnabledChanged += OnIsEnabledChanged;
@@ -90,6 +84,8 @@ namespace Files.App.Controls
                 GetTemplateChild(LayeredPathCanvas) is not Canvas canvas ||
                 Layers is not ICollection<ThemedIconLayer> layers)
                 return;
+
+            canvas.Children.Clear();
 
             foreach (var layer in layers)
             {
