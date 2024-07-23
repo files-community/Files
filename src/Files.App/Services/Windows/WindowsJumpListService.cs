@@ -102,7 +102,7 @@ namespace Files.App.Services
 			}
 			finally
 			{
-				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+				SafetyExtensions.IgnoreExceptions(() => App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true);
 			}
 		}
 
