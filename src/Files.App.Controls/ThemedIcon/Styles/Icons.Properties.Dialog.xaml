@@ -236,7 +236,6 @@
 		</Setter>
 	</Style>
 
-
 	<Style
 		x:Key="App.ThemedIcons.Properties.Library"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
