@@ -234,13 +234,20 @@ namespace Files.App
 
 			public static readonly string TempPath = Environment.GetEnvironmentVariable("TEMP") ?? "";
 
-			public static readonly string SystemDrivePath = Environment.GetEnvironmentVariable("SystemDrive") ?? "C:";
-
 			public static readonly string HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
 			public static readonly string SystemRootPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
 			public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+
+			public static string SystemDrivePath
+			{
+				get
+				{
+					var systemDrive = Environment.GetEnvironmentVariable("SystemDrive");
+					return !string.IsNullOrEmpty(systemDrive) ? systemDrive : "C:";
+				}
+			}
 
 			public static Dictionary<string, string> ShellPlaces =
 				new()
