@@ -400,7 +400,34 @@ namespace Files.App.Helpers
 
 		public static async Task<bool> RunPowershellCommandAsync(string command, bool runAsAdmin)
 		{
-			using Process process = CreatePowershellProcess(command, runAsAdmin);
+			using Process process = CreatePowershellProcess(command, runAsAdmin, true);
+			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
+
+			try
+			{
+				process.Start();
+				await process.WaitForExitAsync(cts.Token);
+				return process.ExitCode == 0;
+			}
+			catch (OperationCanceledException)
+			{
+				return false;
+			}
+			catch (InvalidOperationException ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+				return false;
+			}
+			catch (Win32Exception)
+			{
+				// If user cancels UAC
+				return false;
+			}
+		}
+
+		public static async Task<bool> RunPowershellCommandForegroundAsync(string command, bool runAsAdmin)
+		{
+			using Process process = CreatePowershellProcess(command, runAsAdmin, false);
 			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
 			try
@@ -429,7 +456,7 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				using Process process = CreatePowershellProcess(command, runAsAdmin);
+				using Process process = CreatePowershellProcess(command, runAsAdmin, true);
 
 				process.Start();
 
@@ -860,7 +887,7 @@ namespace Files.App.Helpers
 			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
 		}
 
-		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
+		private static Process CreatePowershellProcess(string command, bool runAsAdmin, bool hidden)
 		{
 			Process process = new();
 
@@ -871,8 +898,11 @@ namespace Files.App.Helpers
 			}
 
 			process.StartInfo.FileName = "powershell.exe";
-			process.StartInfo.CreateNoWindow = true;
-			process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			if (hidden)
+			{
+				process.StartInfo.CreateNoWindow = true;
+				process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			}
 			process.StartInfo.Arguments = command;
 
 			return process;
