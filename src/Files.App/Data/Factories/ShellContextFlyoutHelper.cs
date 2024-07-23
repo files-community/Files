@@ -336,9 +336,9 @@ namespace Files.App.Helpers
 				{
 					await openWithItem.LoadSubMenuAction();
 
-					openWithItem.ThemedIcon = new ThemedIconModel()
+					openWithItem.ThemedIconModel = new ThemedIconModel()
 					{
-						ThemedIconStyle= "App.ThemedIcons.OpenWith",
+						ThemedIconStyle = "App.ThemedIcons.OpenWith",
 					};
 					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([openWithItem]);
 					var index = 0;

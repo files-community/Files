@@ -69,7 +69,7 @@ namespace Files.App.Data.Models
 			var glyph = command.Glyph;
 			if (!string.IsNullOrEmpty(glyph.ThemedIconStyle))
 			{
-				viewModel.ThemedIcon = new ThemedIconModel
+				viewModel.ThemedIconModel = new ThemedIconModel
 				{
 					ThemedIconStyle = glyph.ThemedIconStyle,
 				};

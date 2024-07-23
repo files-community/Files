@@ -138,9 +138,9 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SortBy".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						ThemedIconStyle= "App.ThemedIcons.Sorting",
+						ThemedIconStyle = "App.ThemedIcons.Sorting",
 					},
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
@@ -350,7 +350,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					ThemedIcon = new ThemedIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
 						ThemedIconStyle = Commands.AddItem.Glyph.ThemedIconStyle
 					},
@@ -381,9 +381,9 @@ namespace Files.App.Data.Factories
 				{
 					// TODO add back text and icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
 					//Text = "OpenWith".GetLocalizedResource(),
-					//ThemedIcon = new ThemedIconModel()
+					//ThemedIconModel = new ThemedIconModel()
 					//{
-					//	ThemedIconStyle= "ColorIconOpenWith"
+					//	ThemedIconStyle = "ColorIconOpenWith"
 					//},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
@@ -509,9 +509,9 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					ThemedIcon = new ThemedIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						ThemedIconStyle= "App.ThemedIcons.Zip",
+						ThemedIconStyle = "App.ThemedIcons.Zip",
 					},
 					Items =
 					[
@@ -525,9 +525,9 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Extract".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					ThemedIcon = new ThemedIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						ThemedIconStyle= "App.ThemedIcons.Zip",
+						ThemedIconStyle = "App.ThemedIcons.Zip",
 					},
 					Items =
 					[
@@ -580,7 +580,7 @@ namespace Files.App.Data.Factories
 				},
 				// Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
-				// unless there is at least one menu item with an icon that is not an ThemedIcon. (#12943)
+				// unless there is at least one menu item with an icon that is not an ThemedIconModel. (#12943)
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

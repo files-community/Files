@@ -976,9 +976,9 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "PinFolderToSidebar".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						ThemedIconStyle= "App.ThemedIcons.FavoritePin",
+						ThemedIconStyle = "App.ThemedIcons.FavoritePin",
 					},
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
@@ -986,9 +986,9 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						ThemedIconStyle= "App.ThemedIcons.FavoritePinRemove",
+						ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove",
 					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
@@ -1023,9 +1023,9 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						ThemedIconStyle= "App.ThemedIcons.Properties",
+						ThemedIconStyle = "App.ThemedIcons.Properties",
 					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = menu,

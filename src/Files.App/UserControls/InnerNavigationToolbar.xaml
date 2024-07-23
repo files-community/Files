@@ -540,21 +540,21 @@
 							Command="{x:Bind Commands.SelectAll}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.SelectAll.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.SelectAll.Label}"
-							ThemedIconStyle="{x:Bind Commands.SelectAll.ThemedIconStyle}" />
+							ThemedIconStyle ="{x:Bind Commands.SelectAll.ThemedIconStyle}" />
 						<local:MenuFlyoutItemWithThemedIcon
 							x:Name="InvertSelectionMFI"
 							AccessKey="I"
 							Command="{x:Bind Commands.InvertSelection}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.InvertSelection.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.InvertSelection.Label}"
-							ThemedIconStyle="{x:Bind Commands.InvertSelection.ThemedIconStyle}" />
+							ThemedIconStyle ="{x:Bind Commands.InvertSelection.ThemedIconStyle}" />
 						<local:MenuFlyoutItemWithThemedIcon
 							x:Name="ClearSelectionMFI"
 							AccessKey="C"
 							Command="{x:Bind Commands.ClearSelection}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.ClearSelection.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.ClearSelection.Label}"
-							ThemedIconStyle="{x:Bind Commands.ClearSelection.ThemedIconStyle}" />
+							ThemedIconStyle ="{x:Bind Commands.ClearSelection.ThemedIconStyle}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 

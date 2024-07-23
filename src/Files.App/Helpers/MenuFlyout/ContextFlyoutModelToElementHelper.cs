@@ -229,8 +229,8 @@ namespace Files.App.Helpers.ContextFlyouts
 				{
 					Source = item.BitmapIcon,
 				};
-			else if (item.ThemedIcon.IsValid)
-				content = item.ThemedIcon.ToThemedIcon();
+			else if (item.ThemedIconModel.IsValid)
+				content = item.ThemedIconModel.ToThemedIcon();
 			else if (item.ShowLoadingIndicator)
 				content = new ProgressRing()
 				{

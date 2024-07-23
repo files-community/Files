@@ -77,7 +77,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					ThemedIcon = new() { ThemedIconStyle= "App.ThemedIcons.OpenWith" },
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenWith" },
 					Tag = "OpenWithPlaceholder",
 				},
 				new()
@@ -109,7 +109,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					ThemedIcon = new() { ThemedIconStyle= "App.ThemedIcons.Properties" },
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},

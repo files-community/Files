@@ -11,7 +11,7 @@ namespace Files.App.Data.Items
 
 		public PropertiesNavigationViewItemType ItemType;
 
-		private Style _ThemedIconStyle= (Style)Application.Current.Resources["App.ThemedIcons.Properties"];
+		private Style _ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties"];
 		public Style ThemedIconStyle
 		{
 			get => _ThemedIconStyle;

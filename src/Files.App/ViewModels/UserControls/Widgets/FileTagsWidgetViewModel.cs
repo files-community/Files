@@ -79,7 +79,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
-					ThemedIcon = new() { ThemedIconStyle= "App.ThemedIcons.OpenWith" },
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenWith" },
 					Tag = "OpenWithPlaceholder",
 					ShowItem = !isFolder
 				},
@@ -94,7 +94,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "PinFolderToSidebar".GetLocalizedResource(),
-					ThemedIcon = new() { ThemedIconStyle= "App.ThemedIcons.FavoritePin" },
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.FavoritePin" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned && isFolder
@@ -102,7 +102,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
-					ThemedIcon = new() { ThemedIconStyle= "App.ThemedIcons.FavoritePinRemove" },
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove" },
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned && isFolder
@@ -116,7 +116,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					ThemedIcon = new() { ThemedIconStyle= "App.ThemedIcons.Properties" },
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item,
 					ShowItem = isFolder

@@ -110,7 +110,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel() { ThemedIconStyle= "App.ThemedIcons.OpenInTab" },
+					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.OpenInTab" },
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
@@ -118,7 +118,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel() { ThemedIconStyle= "App.ThemedIcons.OpenInWindow" },
+					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.OpenInWindow" },
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
@@ -133,7 +133,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "PinFolderToSidebar".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel() { ThemedIconStyle= "App.ThemedIcons.FavoritePin" },
+					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.FavoritePin" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
@@ -141,7 +141,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel() { ThemedIconStyle= "App.ThemedIcons.FavoritePinRemove" },
+					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove" },
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
@@ -163,7 +163,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					ThemedIcon = new ThemedIconModel() { ThemedIconStyle= "App.ThemedIcons.Properties" },
+					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.Properties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},

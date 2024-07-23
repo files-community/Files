@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -39,7 +40,7 @@ namespace Files.App.Data.Commands
 		string Description { get; }
 
 		/// <summary>
-		/// Gets string glyph or ThemedIcon style.
+		/// Gets string glyph or <see cref="ThemedIcon"/> style.
 		/// </summary>
 		RichGlyph Glyph { get; }
 
@@ -54,7 +55,7 @@ namespace Files.App.Data.Commands
 		FontIcon? FontIcon { get; }
 
 		/// <summary>
-		/// Gets the commands ThemedIcon style.
+		/// Gets the commands <see cref="ThemedIcon"/> style.
 		/// </summary>
 		Style? ThemedIconStyle { get; }
 

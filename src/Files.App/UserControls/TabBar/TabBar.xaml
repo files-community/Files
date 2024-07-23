@@ -122,7 +122,7 @@
 								Command="{x:Bind Commands.NewWindow}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.NewWindow.HotKeyText, Mode=OneWay}"
 								Text="{x:Bind Commands.NewWindow.Label}"
-								ThemedIconStyle="{x:Bind Commands.NewWindow.ThemedIconStyle}" />
+								ThemedIconStyle ="{x:Bind Commands.NewWindow.ThemedIconStyle}" />
 
 							<!--  Enter Compact Overlay  -->
 							<uc:MenuFlyoutItemWithThemedIcon
@@ -130,7 +130,7 @@
 								x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
 								Command="{x:Bind Commands.EnterCompactOverlay}"
 								Text="{x:Bind Commands.EnterCompactOverlay.Label}"
-								ThemedIconStyle="{x:Bind Commands.EnterCompactOverlay.ThemedIconStyle}" />
+								ThemedIconStyle ="{x:Bind Commands.EnterCompactOverlay.ThemedIconStyle}" />
 
 							<!--  Exit Compact Overlay  -->
 							<uc:MenuFlyoutItemWithThemedIcon
@@ -138,7 +138,7 @@
 								x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
 								Command="{x:Bind Commands.ExitCompactOverlay}"
 								Text="{x:Bind Commands.ExitCompactOverlay.Label}"
-								ThemedIconStyle="{x:Bind Commands.ExitCompactOverlay.ThemedIconStyle}" />
+								ThemedIconStyle ="{x:Bind Commands.ExitCompactOverlay.ThemedIconStyle}" />
 
 							<!--  Add Pane  -->
 							<MenuFlyoutSubItem
@@ -152,7 +152,7 @@
 										Command="{x:Bind Commands.AddHorizontalPane, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.AddHorizontalPane.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.AddHorizontalPane.Label}"
-										ThemedIconStyle="{x:Bind Commands.AddHorizontalPane.ThemedIconStyle}" />
+										ThemedIconStyle ="{x:Bind Commands.AddHorizontalPane.ThemedIconStyle}" />
 
 									<!--  Vertical  -->
 									<uc:MenuFlyoutItemWithThemedIcon
@@ -160,7 +160,7 @@
 										Command="{x:Bind Commands.AddVerticalPane, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.AddVerticalPane.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.AddVerticalPane.Label}"
-										ThemedIconStyle="{x:Bind Commands.AddVerticalPane.ThemedIconStyle}" />
+										ThemedIconStyle ="{x:Bind Commands.AddVerticalPane.ThemedIconStyle}" />
 								</MenuFlyoutSubItem.Items>
 							</MenuFlyoutSubItem>
 
@@ -177,7 +177,7 @@
 										IsChecked="{x:Bind Commands.ArrangePanesHorizontally.IsOn, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesHorizontally.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.ArrangePanesHorizontally.Label}"
-										ThemedIconStyle="{x:Bind Commands.ArrangePanesHorizontally.ThemedIconStyle}" />
+										ThemedIconStyle ="{x:Bind Commands.ArrangePanesHorizontally.ThemedIconStyle}" />
 
 									<!--  Vertical  -->
 									<uc:ToggleMenuFlyoutItemWithThemedIcon
@@ -186,7 +186,7 @@
 										IsChecked="{x:Bind Commands.ArrangePanesVertically.IsOn, Mode=OneWay}"
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesVertically.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.ArrangePanesVertically.Label}"
-										ThemedIconStyle="{x:Bind Commands.ArrangePanesVertically.ThemedIconStyle}" />
+										ThemedIconStyle ="{x:Bind Commands.ArrangePanesVertically.ThemedIconStyle}" />
 								</MenuFlyoutSubItem.Items>
 							</MenuFlyoutSubItem>
 
@@ -197,7 +197,7 @@
 								Command="{x:Bind Commands.CloseActivePane}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseActivePane.HotKeyText, Mode=OneWay}"
 								Text="{x:Bind Commands.CloseActivePane.Label}"
-								ThemedIconStyle="{x:Bind Commands.CloseActivePane.ThemedIconStyle}" />
+								ThemedIconStyle ="{x:Bind Commands.CloseActivePane.ThemedIconStyle}" />
 
 						</MenuFlyout>
 					</Button.Flyout>
