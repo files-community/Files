@@ -39,13 +39,13 @@ namespace Files.Core.SourceAnalyzer.CodeFixProviders
 
 			var diagnosticSpan = diagnostic.Location.SourceSpan;
 
-			SyntaxNode node = default!;
+			SyntaxNode? node = null;
 
 			if (root.FindNode(diagnosticSpan) is LiteralExpressionSyntax literalExpression)
 				node = literalExpression;
 
 			if (root.FindNode(diagnosticSpan) is InterpolatedStringTextSyntax interpolatedStringText)
-				node = interpolatedStringText.Parent!;
+				node = interpolatedStringText.Parent;
 
 			if (node is null)
 				return;
