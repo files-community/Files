@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> new(Keys.F2);
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconRename");
+			=> new(themedIconStyle: "App.ThemedIcons.Rename");
 
 		public bool IsExecutable =>
 			context.ShellPage is not null &&

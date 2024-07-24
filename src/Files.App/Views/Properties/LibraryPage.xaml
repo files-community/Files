@@ -26,6 +26,7 @@
 
 	<ScrollViewer x:Name="RootScrollViewer">
 		<Grid
+			Margin="12"
 			Padding="12,4,12,12"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

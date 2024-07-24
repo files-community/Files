@@ -45,7 +45,7 @@ namespace Files.App.Data.Items
 		{
 			get => new PathIconSource()
 			{
-				Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["ColorIconFilledTag"]),
+				Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["App.Theme.PathIcon.FilledTag"]),
 				Foreground = new SolidColorBrush(FileTag.Color.ToColor())
 			};
 		}

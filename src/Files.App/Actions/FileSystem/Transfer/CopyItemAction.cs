@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "CopyItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconCopy");
+			=> new(themedIconStyle: "App.ThemedIcons.Copy");
 
 		public HotKey HotKey
 			=> new(Keys.C, KeyModifiers.Ctrl);

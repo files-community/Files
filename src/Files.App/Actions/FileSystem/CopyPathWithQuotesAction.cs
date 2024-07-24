@@ -16,7 +16,7 @@ namespace Files.App.Actions
 			=> "CopyPathWithQuotesDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconCopyPath");
+			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 
 		public HotKey HotKey
 			=> new(Keys.C, KeyModifiers.CtrlAlt);

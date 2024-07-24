@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			=> "AddItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconNew");
+			=> new(themedIconStyle: "App.ThemedIcons.New.Item");
 
 		public HotKey HotKey
 			=> new(Keys.I, KeyModifiers.CtrlShift);
