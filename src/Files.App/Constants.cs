@@ -240,13 +240,14 @@ namespace Files.App
 
 			public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 
-			public static readonly string SystemDrivePath;
+			public static readonly string SystemDrivePath = "C:";
 
-			static UserEnvironmentPaths()
-			{
-				var systemDrive = Environment.GetEnvironmentVariable("SystemDrive");
-				SystemDrivePath = !string.IsNullOrEmpty(systemDrive) ? systemDrive : "C:";
-			}
+
+			//static UserEnvironmentPaths()
+			//{
+			//	var systemDrive = Environment.GetEnvironmentVariable("SystemDrive");
+			//	SystemDrivePath = !string.IsNullOrEmpty(systemDrive) ? systemDrive : "C:";
+			//}
 
 			public static Dictionary<string, string> ShellPlaces =
 				new()
