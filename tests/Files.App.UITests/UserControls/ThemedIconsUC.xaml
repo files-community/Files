@@ -17,7 +17,7 @@
 		<Grid.Resources>
 			<Style
 				x:Key="IconTest"
-				BasedOn="{StaticResource App.ThemedIcons.Properties.Library}"
+				BasedOn="{StaticResource App.ThemedIcons.IconSize.Medium.28}"
 				TargetType="controls:ThemedIcon" />
 		</Grid.Resources>
 
