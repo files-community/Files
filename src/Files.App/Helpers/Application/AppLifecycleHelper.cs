@@ -240,13 +240,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					var defaultArg = new TabBarItemParameter()
-					{
-						InitialPageType = typeof(ShellPanesPage),
-						NavigationParameter = "Home"
-					};
-
-					return defaultArg.Serialize();
+					return "";
 				}
 			})
 			.ToList();
