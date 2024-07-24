@@ -55,7 +55,7 @@ namespace Files.App.Services
 
 		public async Task<ILocatableFolder> GetPrimaryDriveAsync()
 		{
-			string cDrivePath = $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\";
+			string cDrivePath = $@"{Environment.GetEnvironmentVariable("SystemDrive")}\";
 			return new WindowsStorageFolder(await StorageFolder.GetFolderFromPathAsync(cDrivePath));
 		}
 
