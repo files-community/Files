@@ -195,7 +195,7 @@ namespace Files.App.Data.Items
 			get
 			{
 				if (!IsRemovable)
-					return null; // Removable items don't need the eject button
+					return null; // Non-removable items don't need the eject button
 
 				var itemDecorator = new Button()
 				{
@@ -203,8 +203,8 @@ namespace Files.App.Data.Items
 					Content = new ThemedIcon()
 					{
 						Style = Application.Current.Resources["App.ThemedIcons.Actions.Eject.12"] as Style,
-						Height = 16,
-						Width = 16
+						Height = 12,
+						Width = 12
 					}
 				};
 
