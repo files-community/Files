@@ -51,21 +51,18 @@ namespace Files.App.Utils.RecycleBin
 				if (drive.DriveType == SystemIO.DriveType.Network || !SystemIO.Directory.Exists(recyclePath))
 					continue;
 
-				SafetyExtensions.IgnoreExceptions(() =>
+				SystemIO.FileSystemWatcher watcher = new()
 				{
-					SystemIO.FileSystemWatcher watcher = new()
-					{
-						Path = recyclePath,
-						Filter = "*.*",
-						NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
-					};
+					Path = recyclePath,
+					Filter = "*.*",
+					NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
+				};
 
-					watcher.Created += RecycleBinWatcher_Changed;
-					watcher.Deleted += RecycleBinWatcher_Changed;
-					watcher.EnableRaisingEvents = true;
+				watcher.Created += RecycleBinWatcher_Changed;
+				watcher.Deleted += RecycleBinWatcher_Changed;
+				watcher.EnableRaisingEvents = true;
 
-					binWatchers.Add(watcher);
-				});
+				binWatchers.Add(watcher);
 			}
 		}
 
