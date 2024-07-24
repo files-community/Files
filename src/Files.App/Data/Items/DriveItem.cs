@@ -202,7 +202,7 @@ namespace Files.App.Data.Items
 					Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
 					Content = new ThemedIcon()
 					{
-						Style = Application.Current.Resources["App.ThemedIcons.Actions.Eject"] as Style,
+						Style = Application.Current.Resources["App.ThemedIcons.Actions.Eject.12"] as Style,
 						Height = 16,
 						Width = 16
 					}
