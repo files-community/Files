@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Core.SourceGenerator.Extensions;
 using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -69,7 +70,11 @@ namespace Files.Core.SourceGenerator.Generators
 				var generatedClass = GetClassDeclaration(typeSymbol, members);
 				var generatedNamespace = GetFileScopedNamespaceDeclaration(typeSymbol, generatedClass);
 				var compilationUnit = GetCompilationUnit(generatedNamespace);
-				return SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText().ToString();
+				return new StringBuilder()
+					.AppendFullHeader()
+					.AppendLine()
+					.AppendLine(SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText().ToString())
+					.ToString();
 			}
 
 			return null;
