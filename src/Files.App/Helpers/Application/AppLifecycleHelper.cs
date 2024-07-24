@@ -166,6 +166,7 @@ namespace Files.App.Helpers
 					// Services
 					.AddSingleton<IWindowsIniService, WindowsIniService>()
 					.AddSingleton<IWindowsWallpaperService, WindowsWallpaperService>()
+					.AddSingleton<IWindowsSecurityService, WindowsSecurityService>()
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<IDialogService, DialogService>()
 					.AddSingleton<ICommonDialogService, CommonDialogService>()
