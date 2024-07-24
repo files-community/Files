@@ -4,9 +4,9 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:security="using:Files.App.Utils.Storage"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	DataContext="{x:Bind SecurityViewModel, Mode=OneWay}"
@@ -135,7 +135,7 @@
 						SelectionMode="Single">
 
 						<ListView.ItemTemplate>
-							<DataTemplate x:DataType="security:AccessControlEntry">
+							<DataTemplate x:DataType="dataitems:AccessControlEntry">
 								<Grid ColumnSpacing="4">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />

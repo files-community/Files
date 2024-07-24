@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -103,7 +104,7 @@ namespace Files.App.Data.Items
 			{
 				if (Section == SectionType.Pinned)
 				{
-					return new OpacityIcon()
+					return new ThemedIcon()
 					{
 						Style = Application.Current.Resources["SidebarFavouritesPinnedIcon"] as Style
 					};

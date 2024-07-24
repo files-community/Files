@@ -22,7 +22,7 @@ namespace Files.App.Actions
 			=> "PasteItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconPaste");
+			=> new(themedIconStyle: "App.ThemedIcons.Paste");
 
 		public HotKey HotKey
 			=> new(Keys.V, KeyModifiers.Ctrl);

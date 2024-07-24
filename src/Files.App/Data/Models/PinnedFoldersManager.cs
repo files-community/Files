@@ -189,13 +189,11 @@ namespace Files.App.Data.Models
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
 		{
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 			await LoadAsync();
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
 			{
 				Reset = true
 			});
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
 		}
 
 		public async Task LoadAsync()

@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Cerrar pestaña actual</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Abrir nuevo panel</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Cierra el panel activo</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Enfocar panel izquierdo</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Enfocar otro panel</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Cambiar foco al panel izquierdo</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Enfocar panel derecho</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Cambiar foco al panel derecho</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Cambiar el enfoque al panel no activo</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Ocultar/mostrar barra lateral</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostrar barra de herramientas</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Menú de acciones de pestaña</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Añadir panel vertical</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Añadir un panel vertical</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Añadir panel horizontal</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Agregar un panel horizontal</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Organizar verticalmente</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Organizar los paneles verticalmente</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Organizar horizontalmente</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Organizar paneles horizontalmente</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Añadir panel</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Mostrar el botón de acciones de pestañas en la barra de título</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Organizar paneles</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Disposición predeterminada de paneles</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
   </data>
 </root>

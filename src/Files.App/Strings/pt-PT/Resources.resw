@@ -142,7 +142,7 @@
     <value>Tamanho:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Tamanho em disco:</value>
+    <value>Tamanho no disco:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Tamanho descomprimido:</value>
@@ -169,7 +169,7 @@
     <value>Limpar seleção</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Alterado:</value>
+    <value>Modificado:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
     <value>Acedido:</value>
@@ -220,7 +220,7 @@
     <value>Cor de fundo</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Avançado</value>
+    <value>Avançadas</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuar com a última sessão</value>
@@ -382,7 +382,7 @@
     <value>Esquema</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>Apenas leitura</value>
+    <value>Só de leitura</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {# dia atrás} other {# dias atrás}}</value>
@@ -675,7 +675,7 @@
     <value>Avaliação</value>
   </data>
   <data name="PropertyParsingPath" xml:space="preserve">
-    <value>Caminho do item</value>
+    <value>Localização do item</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Tipo de item</value>
@@ -693,7 +693,7 @@
     <value>Copyright</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>Data de alteração</value>
+    <value>Data de modificação</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
     <value>Profundidade de bits</value>
@@ -702,10 +702,10 @@
     <value>Dimensões</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>Tamanho horizontal</value>
+    <value>Largura</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>Tamanho vertical</value>
+    <value>Altura</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
     <value>Resolução horizontal</value>
@@ -1068,22 +1068,22 @@
     <value>Nome desejado</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Alternar painel de pré-visualização</value>
+    <value>Mostrar/ocultar painel de pré-visualização</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Alternar painel de detalhes</value>
+    <value>Mostrar/ocultar painel de detalhes</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
     <value>Alternar painel de detalhes para ver as propriedades básicas do ficheiro</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Alternar painel de informações</value>
+    <value>Mostrar/ocultar painel de informações</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Alternar painel de informações para ver os painéis detalhes ou de pré-visualização</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle the Toolbar</value>
+    <value>Mostrar/ocultar barra de ferramentas</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nenhuma pré-visualização disponível</value>
@@ -1266,7 +1266,7 @@
     <value>{0, plural, one {Existe 1 nome de ficheiro em conflito} other {Existem # nomes de ficheiro em conflito}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {1 nome de ficheiro em conflito} other {# nomes de ficheiro em conflito}}, and {1, plural, one {item em curso} other {# itens em curso}}</value>
+    <value>{0, plural, one {1 nome de ficheiro em conflito} other {# nomes de ficheiros em conflito}}, e {1, plural, one {item em curso} other {# itens em curso}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Conflito {0, plural, one {nome de ficheiro} other {nomes de ficheiro}}</value>
@@ -1293,7 +1293,7 @@
     <value>Tipo:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>Data de alteração:</value>
+    <value>Data de modificação:</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>Abrir com</value>
@@ -1317,7 +1317,7 @@
     <value>Ordenar</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Data de alteração</value>
+    <value>Data de modificação</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Pasta original</value>
@@ -1422,7 +1422,7 @@
     <value>Listar conteúdo da pasta</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Alterar</value>
+    <value>Modificar</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
     <value>Permissões para {0}</value>
@@ -1725,7 +1725,7 @@
     <value>Coluna Data de criação</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>Coluna Tamanho do item</value>
+    <value>Coluna tamanho do item</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
     <value>'Flags' de funcionalidades experimentais</value>
@@ -1776,7 +1776,7 @@
     <value>Escolha um ícone personalizado para a pasta</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value>Personalização</value>
+    <value>Personalizar</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurar predefinição</value>
@@ -1812,7 +1812,7 @@
     <value>Cores 8-bit (256)</value>
   </data>
   <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
-    <value>Desativar otimizações em ecrã completo</value>
+    <value>Desativar optimizações de ecrã inteiro</value>
   </data>
   <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
     <value>Executar com a resolução 640 x 480</value>
@@ -1878,7 +1878,7 @@
     <value>Mais detalhes</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
-    <value>Apenas leitura</value>
+    <value>Só de leitura</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
     <value>Limpar conteúdo da unidade</value>
@@ -1962,7 +1962,7 @@
     <value>Itens ocultos</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Personalizado</value>
+    <value>Personalizar</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Definir como apresentação do ambiente de trabalho</value>
@@ -2007,7 +2007,7 @@
     <value>Coluna Data de criação</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Coluna Tamanho</value>
+    <value>Coluna tamanho</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
     <value>Coluna Etiqueta</value>
@@ -2100,7 +2100,7 @@
     <value>Sem compressão</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Tamanho de separação</value>
+    <value>Tamanho de divisão</value>
   </data>
   <data name="Do not split" xml:space="preserve">
     <value>Não separar</value>
@@ -2253,7 +2253,7 @@
     <value>Ajuda</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Alternar ecrã completo</value>
+    <value>Ativar/desativar ecrã inteiro</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Tem a certeza de que deseja eliminar esta etiqueta?</value>
@@ -2334,13 +2334,13 @@
     <value>Abrir janela de pré-visualização</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Alternar modo de sobreposição compacta</value>
+    <value>Ativar/desativar modo de sobreposição compacta</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
     <value>Abrir página de ajuda no navegador</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Alternar ecrã completo</value>
+    <value>Ativa/desativa o ecrã inteiro</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Ativar modo de sobreposição compacta</value>
@@ -2349,19 +2349,19 @@
     <value>Desativar modo de sobreposição compacta</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Alternar modo de sobreposição compacta</value>
+    <value>Ativar/desativar modo de sobreposição compacta</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Ir para a caixa de pesquisa</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Alternar exibição de itens ocultos</value>
+    <value>Mostrar/ocultar itens ocultos</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Alternar exibição das extensões dos ficheiros</value>
+    <value>Ativar/desativar exibição das extensões dos ficheiros</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Alternar painel de pré-visualização para pré-visualizar os ficheiros</value>
+    <value>Alternar painel de pré-visualização de ficheiros</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Alternar exibição da barra lateral</value>
@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Fechar separador atual</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Abrir novo painel</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Fechar painel ativo</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Foco no painel à esquerda</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Foco no outro painel</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Trocar foco para o painel à esquerda</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Foco no painel à direita</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Trocar foco para o painel à direita</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Trocar foco para o painel inativo</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Mostrar/ocultar barra lateral</value>
@@ -3188,7 +3179,7 @@
     <value>Eliminado</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Alterado</value>
+    <value>Modificado</value>
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Não rastreado</value>
@@ -3857,7 +3848,7 @@
     <value>Editar ficheiro no Notepad</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
-    <value>Dimensão:</value>
+    <value>Dimensões:</value>
   </data>
   <data name="StatusWithColon" xml:space="preserve">
     <value>Estado:</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostrar barra de ferramentas</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Menu de ações em separadores</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Adicionar painel vertical</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Adicionar painel vertical</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Adicionar painel horizontal</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Adicionar painel horizontal</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Organizar verticalmente</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Organizar painéis verticalmente</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Organizar horizontalmente</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Organizar painéis horizontalmente</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Adicionar painel</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Mostrar botão para ações de separador na barra de título</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Organizar painéis</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Organização padrão dos painéis</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
   </data>
 </root>

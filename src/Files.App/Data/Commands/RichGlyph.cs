@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -15,27 +16,27 @@ namespace Files.App.Data.Commands
 
 		public string BaseGlyph { get; }
 		public string FontFamily { get; }
-		public string OpacityStyle { get; }
+		public string ThemedIconStyle { get; }
 
-		public RichGlyph(string baseGlyph = "", string fontFamily = "", string opacityStyle = "")
+		public RichGlyph(string baseGlyph = "", string fontFamily = "", string themedIconStyle = "")
 		{
 			BaseGlyph = baseGlyph;
 			FontFamily = fontFamily;
-			OpacityStyle = opacityStyle;
+			ThemedIconStyle = themedIconStyle;
 
-			IsNone = string.IsNullOrEmpty(baseGlyph) && string.IsNullOrEmpty(fontFamily) && string.IsNullOrEmpty(opacityStyle);
+			IsNone = string.IsNullOrEmpty(baseGlyph) && string.IsNullOrEmpty(fontFamily) && string.IsNullOrEmpty(themedIconStyle);
 		}
 
-		public void Deconstruct(out string baseGlyph, out string fontFamily, out string opacityStyle)
+		public void Deconstruct(out string baseGlyph, out string fontFamily, out string themedIconStyle)
 		{
 			baseGlyph = BaseGlyph;
 			fontFamily = FontFamily;
-			opacityStyle = OpacityStyle;
+			themedIconStyle = ThemedIconStyle;
 		}
 
 		public object? ToIcon()
 		{
-			return (object?)ToOpacityIcon() ?? ToFontIcon();
+			return (object?)ToThemedIcon() ?? ToFontIcon();
 		}
 
 		public FontIcon? ToFontIcon()
@@ -54,22 +55,22 @@ namespace Files.App.Data.Commands
 			return fontIcon;
 		}
 
-		public OpacityIcon? ToOpacityIcon()
+		public ThemedIcon? ToThemedIcon()
 		{
-			if (string.IsNullOrEmpty(OpacityStyle))
+			if (string.IsNullOrEmpty(ThemedIconStyle))
 				return null;
 
 			return new()
 			{
-				Style = (Style)Application.Current.Resources[OpacityStyle]
+				Style = (Style)Application.Current.Resources[ThemedIconStyle]
 			};
 		}
 
-		public Style? ToOpacityStyle()
+		public Style? ToThemedIconStyle()
 		{
-			if (string.IsNullOrEmpty(OpacityStyle))
+			if (string.IsNullOrEmpty(ThemedIconStyle))
 				return null;
-			return (Style)Application.Current.Resources[OpacityStyle];
+			return (Style)Application.Current.Resources[ThemedIconStyle];
 		}
 	}
 }

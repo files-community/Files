@@ -80,6 +80,8 @@ namespace Files.App.Services
 		{
 			try
 			{
+				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
+
 				if (JumpList.IsSupported())
 				{
 					var instance = await JumpList.LoadCurrentAsync();
@@ -97,6 +99,10 @@ namespace Files.App.Services
 			}
 			catch
 			{
+			}
+			finally
+			{
+				SafetyExtensions.IgnoreExceptions(() => App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true);
 			}
 		}
 

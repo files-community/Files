@@ -3,33 +3,60 @@
 
 namespace Files.App.Data.Contracts
 {
+	/// <summary>
+	/// Represents interface of <see cref="ShellPanesPage"/>.
+	/// </summary>
 	public interface IShellPanesPage : IDisposable, INotifyPropertyChanged
 	{
-		public IShellPage? ActivePane { get; set; }
-
-		// If column view, returns the last column shell page, otherwise returns the active pane normally
-		public IShellPage? ActivePaneOrColumn { get; }
-
-		public IFilesystemHelpers? FilesystemHelpers { get; }
-
-		public TabBarItemParameter? TabBarItemParameter { get; set; }
-
-		public void OpenSecondaryPane(string path);
-
-		public void CloseActivePane();
-
-		public void FocusLeftPane();
-
-		public void FocusRightPane();
-
 		public bool IsLeftPaneActive { get; }
 
 		public bool IsRightPaneActive { get; }
 
-		// Another pane is shown
 		public bool IsMultiPaneActive { get; }
 
-		// Multi pane is enabled
-		public bool IsMultiPaneEnabled { get; }
+		public bool IsMultiPaneAvailable { get; }
+
+		// TODO: Remove this our of this class
+		public IFilesystemHelpers? FilesystemHelpers { get; }
+
+		// TODO: Remove this our of this class
+		public TabBarItemParameter? TabBarItemParameter { get; set; }
+
+		/// <summary>
+		/// Gets current shell pane arrangement.
+		/// </summary>
+		public ShellPaneArrangement ShellPaneArrangement { get; }
+
+		/// <summary>
+		/// Gets the current focused shell pane.
+		/// </summary>
+		public IShellPage? ActivePane { get; }
+
+		/// <summary>
+		/// Gets the current focused shell pane, or the last column when the focused shell pane layout type is <see cref="ColumnsLayoutPage"/>.
+		/// </summary>
+		public IShellPage? ActivePaneOrColumn { get; }
+
+		/// <summary>
+		/// Adds a new pane with path and pane addition direction if needed.
+		/// </summary>
+		/// <param name="path">The path to open in the new pane.</param>
+		public void OpenSecondaryPane(string path = "", ShellPaneArrangement arrangement = ShellPaneArrangement.None);
+
+		/// <summary>
+		/// Arranges panes with the specified arrangement.
+		/// </summary>
+		/// <param name="arrangement">The arrangement to set.</param>
+		public void ArrangePanes(ShellPaneArrangement arrangement = ShellPaneArrangement.None);
+
+		/// <summary>
+		/// Closes the shell active/focused pane.
+		/// </summary>
+		public void CloseActivePane();
+
+		/// <summary>
+		/// Focuses the other pane.
+		/// </summary>
+		public void FocusOtherPane();
 	}
 }

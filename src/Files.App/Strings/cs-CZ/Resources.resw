@@ -954,7 +954,7 @@
     <value>Položka zástupce</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Disky</value>
+    <value>Zařízení a jednotky</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Přesunout sem</value>
@@ -1173,7 +1173,7 @@
     <value>Více možností...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Mapovat síťový disk</value>
+    <value>Připojit síťovou jednotku</value>
   </data>
   <data name="Pinned" xml:space="preserve">
     <value>Připnuto</value>
@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Zavřít aktuální kartu</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Otevřít nový panel</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Zavření aktivního panelu</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Přepnout na levý panel</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Přepnout se na jiný panel</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Změna přepnutí se na levý panel</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Přepnout na pravý panel</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Změna přepnutí se na pravý panel</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Přepnout se do neaktivního panelu</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Skrýt/Zobrazit postranní panel</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Zobrazit panel nástrojů</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Nabídka akcí</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Přidat vertikální panel</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Přidat vertikální panel</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Přidat horizontální panel</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Přidat horizontální panel</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Uspořádat vertikálně</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Uspořádání panelů vertikálně</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Uspořádání panelů vodorovně</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Uspořádání panelů vodorovně</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Přidat panel</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Zobrazit tlačítko nabídky akcí v záhlaví</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Uspořádání panelů</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Výchozí uspořádání panelu</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontálně</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertikálně</value>
   </data>
 </root>

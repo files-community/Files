@@ -319,7 +319,7 @@
     <value>Quay lại</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Tiến tới</value>
+    <value>Tiến</value>
   </data>
   <data name="Up" xml:space="preserve">
     <value>Lùi về</value>
@@ -337,10 +337,10 @@
     <value>Khoản mục đã tồn tại</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Đặt làm hình nền màn hình khóa</value>
+    <value>Hình nền màn hình khóa</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Đặt làm hình nền ứng dụng</value>
+    <value>Hình nền ứng dụng</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi không thể xóa khoản mục này</value>
@@ -495,10 +495,10 @@
     <value>Tất cả trong {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Không gian đã dùng:</value>
+    <value>Đã chiếm dụng:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>Không gian trống:</value>
+    <value>Còn trống:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
     <value>Dung lượng:</value>
@@ -612,7 +612,7 @@
     <value>Tên khoản mục quá dài</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Hiển thị thêm tùy chọn</value>
+    <value>Hiện thêm tùy chọn</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Ứng dụng cần khởi động lại để áp dụng các thay đổi, bạn có muốn khởi động lại ứng dụng không?</value>
@@ -891,7 +891,7 @@
     <value>Tốc độ khung hình</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Tốc độ mã hóa bit</value>
+    <value>Tốc độ bit mã hóa</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
     <value>Tốc độ bit mã hóa âm thanh</value>
@@ -969,7 +969,7 @@
     <value>Xảy ra vấn đề khi ngắt kết nối thiết bị</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Thiết bị này đang được sử dụng. Đóng các ứng dụng, cửa sổ, hoặc thẻ có thể đang sử dụng thiết bị và thử lại.</value>
+    <value>Thiết bị này đang được sử dụng. Đóng các chương trình, cửa sổ hoặc thẻ có khả năng đang truy cập thiết bị và thử lại.</value>
   </data>
   <data name="Eject" xml:space="preserve">
     <value>Gỡ bỏ</value>
@@ -1083,7 +1083,7 @@
     <value>Chuyển đổi ẩn/hiện ngăn thông tin để xem chi tiết hoặc xem trước tệp</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle the Toolbar</value>
+    <value>Bật/Tắt thanh công cụ</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Không có bản xem trước</value>
@@ -1245,7 +1245,7 @@
     <value>Sao chép {0, plural, other {khoản mục}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Xoá bỏ {0, plural, other {khoản mục}}</value>
+    <value>Xóa bỏ {0, plural, other {khoản mục}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Di chuyển</value>
@@ -1257,7 +1257,7 @@
     <value>Di chuyển {0, plural, other {khoản mục}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, other {# khoản mục sẽ bị xoá bỏ}}</value>
+    <value>{0, plural, other {# khoản mục sẽ bị xóa bỏ}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Tiếp tục</value>
@@ -1620,7 +1620,7 @@
     <value>{0, plural, other {# mục}} ({1, plural, other {# tệp}}, {2, plural, other {# thư mục}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Cỡ không nén</value>
+    <value>Kích cỡ chưa nén</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -1995,7 +1995,7 @@
     <value>Đặt làm hình nền</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Đặt làm hình nền màn hình chính</value>
+    <value>Hình nền màn hình chính</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Đặt làm mặc định</value>
@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Đóng thẻ hiện tại</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Mở ngăn mới</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Đóng ngăn hiện hoạt</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Chuyển đến ngăn bên trái</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Chuyển đến ngăn còn lại</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Đặt tiêu điểm vào ngăn bên trái</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Chuyển đến ngăn bên phải</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Đặt tiêu điểm vào ngăn bên phải</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Đặt tiêu điểm vào ngăn còn lại</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Bật/Tắt thanh bên</value>
@@ -2790,7 +2781,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
-    <value>Trợ giúp</value>
+    <value>Tr.giúp</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
@@ -3273,7 +3264,7 @@
     <value>Không hiện lại</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>Files đang chạy với quyền quản trị</value>
+    <value>Files đang chạy với quyền quản trị viên</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
     <value>Do giới hạn của Windows và WinAppSdk, tính năng kéo thả sẽ không khả dụng khi chạy Files với quyền quản trị viên. Để khắc phục, hãy mở cài đặt UAC (User Account Control) từ menu Bắt đầu, chọn mức thứ ba rồi khởi động lại máy. Lưu ý rằng bạn vẫn có thể tiếp tục sử dụng Files mà không cần tính năng này.</value>
@@ -3755,7 +3746,7 @@
     <value>Tùy chỉnh</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Tuỳ chọn bố cục tự động không khả dụng khi các thiết đặt được đồng bộ. Vì vậy, bố cục sẽ được đặt lại thành Chi tiết.</value>
+    <value>Tùy chọn bố cục tự động không khả dụng khi các thiết đặt được đồng bộ. Vì vậy, bố cục sẽ được đặt lại thành Chi tiết.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Hình nền</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Hiện thanh công cụ</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Menu tác vụ</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Thêm ngăn dọc</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Thêm ngăn theo chiều dọc</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Thêm ngăn ngang</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Thêm ngăn theo chiều ngang</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Bố trí dọc</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Bố trí ngăn theo chiều dọc</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Bố trí ngang</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Bố trí ngăn theo chiều ngang</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Thêm ngăn</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Hiện nút menu tác vụ trên thanh tiêu đề</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Bố trí ngăn</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Bố trí ngăn mặc định</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Ngang</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Dọc</value>
   </data>
 </root>

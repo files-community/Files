@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Tutup tab saat ini</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Buka panel baru</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Tutup panel aktif</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Fokus panel kiri</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Fokus panel lainnya</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Ubah fokus ke panel kiri</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Fokus panel kanan</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Ubah fokus ke panel kanan</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Ubah fokus ke panel yang tidak aktif</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Aktifkan sidebar</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Tampilkan Toolbar</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Aksi tab menu</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Tambah panel vertikal</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Tambahkan panel vertikal</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Tambahkan panel horizontal</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Tambahkan panel horizontal</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Susun secara vertikal</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Susun panel secara vertikal</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Susun secara horizontal</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Susun panel secara horizontal</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Tambahkan panel</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Tampilkan tombol aksi tab di title bar</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Susun panel</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Susunan panel default</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertikal</value>
   </data>
 </root>

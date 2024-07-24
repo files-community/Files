@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
@@ -126,7 +127,7 @@
 									Width="16"
 									Height="16"
 									VerticalAlignment="Center">
-									<uc:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle, Mode=OneWay}" />
+									<controls:ThemedIcon IsFilled="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind ThemedIconStyle, Mode=OneWay}" />
 								</Viewbox>
 
 								<!--  Label  -->

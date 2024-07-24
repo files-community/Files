@@ -3,19 +3,20 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.UserControls.TabBar
 {
 	/// <summary>
 	/// Represents base class for <see cref="TabBar"/>.
 	/// </summary>
-	public abstract class BaseTabBar : UserControl, ITabBar
+	public abstract class BaseTabBar : UserControl, ITabBar, INotifyPropertyChanged
 	{
 		protected ITabBarItemContent CurrentSelectedAppInstance;
 
 		public static event EventHandler<ITabBar>? OnLoaded;
-
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
@@ -86,6 +87,11 @@ namespace Files.App.UserControls.TabBar
 		protected void OnCurrentInstanceChanged(CurrentInstanceChangedEventArgs args)
 		{
 			CurrentInstanceChanged?.Invoke(this, args);
+		}
+
+		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		public void TabView_Loaded(object sender, RoutedEventArgs e)

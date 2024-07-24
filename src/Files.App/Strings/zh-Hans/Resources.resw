@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>关闭当前标签页</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>打开新面板</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>关闭活动窗格</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>聚焦到左侧窗格</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>切换焦点到其他窗格</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>切换焦点到左侧窗格</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>聚焦到右侧窗格</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>切换焦点到右侧窗格</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>切换焦点到非活动窗格</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>打开/关闭侧边栏</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>显示工具栏</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>标签操作菜单</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>添加垂直窗格</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>添加一个垂直窗格</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>添加水平窗格</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>添加一个水平窗格</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>垂直排列</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>垂直排列窗格</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>水平排列</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>水平排列窗格</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>添加窗格</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>在标题栏中显示标签操作按钮</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>排列面板</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>默认窗格排列方式</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>水平</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>垂直</value>
   </data>
 </root>

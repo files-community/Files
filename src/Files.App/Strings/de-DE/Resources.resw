@@ -480,7 +480,7 @@
     <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}} from {2, number} {2, plural, one {Ort} other {Orte}}</value>
+    <value>{0, number} {0, plural, one {Datei} other {Dateien}}, {1, number} {1, plural, one {Ordner} other {Ordner}} von {2, number} {2, plural, one {Ort} other {Orten}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Als ein anderer Benutzer ausführen</value>
@@ -1077,7 +1077,7 @@
     <value>Umschalten des Detailfensters, um die grundlegenden Datei-Eigenschaften anzuzeigen</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Info-Fenster umschalten</value>
+    <value>Info-Panel umschalten</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Info-Bereich umschalten, um Detail-/Vorschaufenster anzuzeigen</value>
@@ -1617,7 +1617,7 @@
     <value>Lädt die Datei aus der Cloud herunter und lädt die Vorschau.</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# Element} other {# Elemente}}{1, plural, one {# Datei} other {# Dateien}}{2, plural, one {# Ordner} other {# Ordner}}</value>
+    <value>{0, plural, one {# Element } other {# Elemente }}{1, plural, one {# Datei } other {# Dateien }}{2, plural, one {# Ordner} other {# Ordner}}</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Unkomprimierte Größe</value>
@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Aktuellen Tab schließen</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Neues Panel öffnen</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Aktives Panel schließen</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>Linken Bereich fokussieren</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Anderes Fenster fokussieren</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>Fokus zur linken Seite wechseln</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>Rechten Bereich fokussieren</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>Fokus zur rechten Seite wechseln</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Fokus auf das nicht aktive Fenster umschalten</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Seitenleiste umschalten</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>Symbolleiste anzeigen</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Tab-Aktionen-Menü</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Vertikales Fenster hinzufügen</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Vertikales Fenster hinzufügen</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Horizontales Fenster hinzufügen</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Horizontales Fenster hinzufügen</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Vertikal anordnen</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Fenster vertikal anordnen</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Horizontal anordnen</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Fenster waagerecht anordnen</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Fenster hinzufügen</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Schaltfläche „Registerkartenaktionen“ in der Titelleiste anzeigen</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Fenster anordnen</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Standard-Anordnung der Fenster</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertikal</value>
   </data>
 </root>

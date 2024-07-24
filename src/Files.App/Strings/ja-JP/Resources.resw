@@ -2672,23 +2672,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>現在のタブを閉じる</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>新しいペインを開く</value>
-  </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>現在のペインを閉じる</value>
   </data>
-  <data name="FocusLeftPane" xml:space="preserve">
-    <value>左ペインに移動</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>別のペインに移動</value>
   </data>
-  <data name="FocusLeftPaneDescription" xml:space="preserve">
-    <value>左ペインに移動する</value>
-  </data>
-  <data name="FocusRightPane" xml:space="preserve">
-    <value>右ペインに移動</value>
-  </data>
-  <data name="FocusRightPaneDescription" xml:space="preserve">
-    <value>右ペインに移動する</value>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>現在のペインでないペインに移動する</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>
@@ -3865,5 +3856,50 @@
   <data name="ShowToolbar" xml:space="preserve">
     <value>ツールバーを表示する</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>タブ操作メニュー</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>縦にペインを追加</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>縦にペインを追加する</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>横にペインを追加</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>横にペインを追加する</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>縦に配置</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>ペインを縦に配置する</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>横に配置</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>ペインを横に配置する</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>ペインを追加</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>タイトル バーにタブ操作ボタンを表示する</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>ペインの配置</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>デフォルトのペイン配置</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>横</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>縦</value>
   </data>
 </root>

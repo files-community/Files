@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -39,7 +40,7 @@ namespace Files.App.Data.Commands
 		string Description { get; }
 
 		/// <summary>
-		/// Gets string glyph or opacity icon.
+		/// Gets string glyph or <see cref="ThemedIcon"/> style.
 		/// </summary>
 		RichGlyph Glyph { get; }
 
@@ -54,9 +55,9 @@ namespace Files.App.Data.Commands
 		FontIcon? FontIcon { get; }
 
 		/// <summary>
-		/// Gets the style of the opacity icon of this command.
+		/// Gets the commands <see cref="ThemedIcon"/> style.
 		/// </summary>
-		Style? OpacityStyle { get; }
+		Style? ThemedIconStyle { get; }
 
 		/// <summary>
 		/// Gets the value that indicates whether the hotkey is customized by user setting.

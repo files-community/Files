@@ -1,6 +1,16 @@
 # Copyright (c) 2024 Files Community
 # Licensed under the MIT License. See the LICENSE.
 
+# Abstract:
+#  Deploys Files (Sideload).
+#
+# Workflow:
+#  1. Configure manifest, logo and secrets
+#  2. Restore, build and package Files
+#  3. Publish the appinstaller to files.community
+#  4. Sign the package
+#  5. Publish the package to Azure
+
 name: Files CD (Stable)
 
 on:
@@ -16,35 +26,37 @@ jobs:
         configuration: [Stable]
         platform: [x64]
     env:
-      SOLUTION_NAME: 'Files.sln'
-      PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
-      PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
-      TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
-      CONFIGURATION: ${{ matrix.configuration }}
-      PLATFORM: ${{ matrix.platform }}
-      APPX_BUNDLE_PLATFORMS: 'x64|arm64'
-      WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
-      ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
-      APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
+      SOLUTION_NAME:              'Files.sln'
+      CONFIGURATION:              '${{ matrix.configuration }}'
+      PLATFORM:                   '${{ matrix.platform }}'
+      APPX_BUNDLE_PLATFORMS:      'x64|arm64'
+      WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
+      ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
+      APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages'
+      PACKAGE_PROJECT_DIR:        'src\Files.App (Package)'
+      PACKAGE_PROJECT_PATH:       'src\Files.App (Package)\Files.Package.wapproj'
+      PACKAGE_MANIFEST_PATH:      'src\Files.App (Package)\Package.appxmanifest'
+      TEST_PROJECT_PATH:          'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+      APP_INSTALLER_SIDELOAD_URL: 'https://cdn.files.community/files/stable/'
 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v4
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v2
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.1.1
+      uses: NuGet/setup-nuget@v2
     - name: Setup .NET 8
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
-    - name: Configure the package manifest, logo sets, and secrets
+    - name: Configure the package manifest, logo, and secrets
       shell: pwsh
       run: |
         . './scripts/Configure-AppxManifest.ps1' `
           -Branch "$env:CONFIGURATION" `
-          -PackageProjectDir "$env:PACKAGE_PROJECT_DIR" `
+          -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
           -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
           -WorkingDir "$env:WORKING_DIR" `
           -SecretBingMapsKey "$env:SECRET_BINGMAPS_KEY" `
@@ -65,7 +77,7 @@ jobs:
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
-    - name: Restore ${{ env.SOLUTION_NAME  }}
+    - name: Restore Files
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
@@ -74,7 +86,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - name: Build ${{ env.SOLUTION_NAME }}
+    - name: Build & package Files
       shell: pwsh
       run: |
         msbuild "$env:PACKAGE_PROJECT_PATH" `
@@ -87,7 +99,7 @@ jobs:
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=Sideload `
         -p:GenerateAppInstallerFile=True `
-        -p:AppInstallerUri=https://cdn.files.community/files/stable/
+        -p:AppInstallerUri=$env:APP_INSTALLER_SIDELOAD_URL
 
     - name: Remove empty files from the packages
       shell: bash
@@ -101,8 +113,8 @@ jobs:
         $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
         $fileContent | Set-Content $localFilePath
 
-    - name: Sign files with Azure Trusted Signing
-      uses: azure/trusted-signing-action@v0.3.16
+    - name: Sign Files with Azure Trusted Signing
+      uses: azure/trusted-signing-action@v0.3.20
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -119,22 +131,22 @@ jobs:
         timestamp-digest: SHA256
 
     - name: Login to Azure
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Upload to Azure blob storage
-      uses: azure/powershell@v1
+      uses: azure/powershell@v2
       with:
         inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+          az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
         azPSVersion: "latest"
 
     - name: Logout from Azure
       run: 'az logout'
           
     - name: Upload the packages to GitHub Actions
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}

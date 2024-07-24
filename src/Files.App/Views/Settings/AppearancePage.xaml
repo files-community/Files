@@ -18,7 +18,7 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -241,6 +241,18 @@
 
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<!--  Show tab actions  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowTabActions}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.TabActions}" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.AutomationControlType="Custom"
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowTabActions}"
+					IsOn="{x:Bind ViewModel.ShowTabActions, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
 			<!--  Show toolbar  -->

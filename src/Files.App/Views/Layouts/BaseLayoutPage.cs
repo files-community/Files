@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Controls;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels.Layouts;
@@ -39,6 +40,7 @@ namespace Files.App.Views.Layouts
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+		protected readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		// ViewModels
 
@@ -82,10 +84,8 @@ namespace Files.App.Views.Layouts
 		public static AppModel AppModel
 			=> App.AppModel;
 
-		// NOTE: Dragging makes the app crash when run as admin. (#12390)
-		// For more information, visit https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
 		public bool AllowItemDrag
-			=> !ElevationHelpers.IsAppRunAsAdmin();
+			=> WindowContext.CanDragAndDrop;
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
@@ -739,9 +739,9 @@ namespace Files.App.Views.Layouts
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
 				Label = "EditTags".GetLocalizedResource(),
-				Content = new OpacityIcon()
+				Content = new ThemedIcon()
 				{
-					Style = (Style)Application.Current.Resources["ColorIconTag"],
+					Style = (Style)Application.Current.Resources["App.ThemedIcons.TagEdit"],
 				},
 				Flyout = fileTagsContextMenu
 			});
@@ -865,10 +865,10 @@ namespace Files.App.Views.Layouts
 					openWithOverflow.Visibility = Visibility.Visible;
 
 					// TODO delete this when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
-					openWithOverflow.Content = new OpacityIconModel()
+					openWithOverflow.Content = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconOpenWith"
-					}.ToOpacityIcon();
+						ThemedIconStyle = "App.ThemedIcons.OpenWith"
+					}.ToThemedIcon();
 					openWithOverflow.Label = "OpenWith".GetLocalizedResource();
 				}
 			}
