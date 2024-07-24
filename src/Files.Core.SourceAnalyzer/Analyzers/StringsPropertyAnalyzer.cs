@@ -41,7 +41,6 @@ namespace Files.Core.SourceAnalyzer.Analyzers
 		private static readonly LocalizableString _description = $"Detects string literals that can be replaced with constants from the {StringsClassName} class.";
 		private const string Category = "Refactoring";
 
-
 		/// <summary>
 		/// The rule that defines the diagnostic.
 		/// </summary>
@@ -114,7 +113,7 @@ namespace Files.Core.SourceAnalyzer.Analyzers
 					.ToFrozenDictionary();
 			}
 
-			
+
 			// Check if the literal value matches any of the constants
 			var match = Constants.FirstOrDefault(pair => pair.Value == literalValue);
 
