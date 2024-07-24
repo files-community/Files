@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Collections.Frozen;
+
 namespace Files.Core.SourceAnalyzer.Analyzers
 {
 	/// <summary>
@@ -27,12 +29,18 @@ namespace Files.Core.SourceAnalyzer.Analyzers
 		/// <summary>
 		/// The property name for the constant name in the diagnostic properties.
 		/// </summary>
-		public const string ConstantNameProperty = nameof(ConstantNameProperty);
+		internal const string ConstantNameProperty = nameof(ConstantNameProperty);
+
+		/// <summary>
+		/// Represents a collection of constant string names and their corresponding values.
+		/// </summary>
+		internal static FrozenDictionary<string, string?>? Constants { get; private set; } = null;
 
 		private static readonly LocalizableString _title = "String literal can be replaced with constant";
 		private static readonly LocalizableString _messageFormat = $"Replace '{{0}}' with '{StringsClassName}.{{1}}'";
 		private static readonly LocalizableString _description = $"Detects string literals that can be replaced with constants from the {StringsClassName} class.";
 		private const string Category = "Refactoring";
+
 
 		/// <summary>
 		/// The rule that defines the diagnostic.
@@ -87,23 +95,28 @@ namespace Files.Core.SourceAnalyzer.Analyzers
 			if (string.IsNullOrEmpty(literalValue))
 				return;
 
-			var semanticModel = context.SemanticModel;
-			var compilation = semanticModel.Compilation;
+			if (Constants is null)
+			{
+				var semanticModel = context.SemanticModel;
+				var compilation = semanticModel.Compilation;
 
-			// Get the type symbol for the Strings class
-			var stringsTypeSymbol = compilation.GetTypeByMetadataName(StringsMetadataName);
+				// Get the type symbol for the Strings class
+				var stringsTypeSymbol = compilation.GetTypeByMetadataName(StringsMetadataName);
 
-			if (stringsTypeSymbol == null)
-				return;
+				if (stringsTypeSymbol == null)
+					return;
 
-			// Extract constants from the Strings class
-			var constants = stringsTypeSymbol.GetMembers()
-				.OfType<IFieldSymbol>()
-				.Where(f => f.IsConst)
-				.ToDictionary(f => f.Name, f => f.ConstantValue?.ToString());
+				// Extract constants from the Strings class
+				Constants = stringsTypeSymbol.GetMembers()
+					.OfType<IFieldSymbol>()
+					.Where(f => f.IsConst)
+					.ToDictionary(f => f.Name, f => f.ConstantValue?.ToString())
+					.ToFrozenDictionary();
+			}
 
+			
 			// Check if the literal value matches any of the constants
-			var match = constants.FirstOrDefault(pair => pair.Value == literalValue);
+			var match = Constants.FirstOrDefault(pair => pair.Value == literalValue);
 
 			if (!match.Equals(default(KeyValuePair<string, string>)))
 			{
