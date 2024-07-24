@@ -50,7 +50,7 @@
 				Grid.Row="2"
 				Grid.Column="0"
 				HorizontalAlignment="Stretch"
-				PlaceholderText="{x:Bind ViewModel.DestinationPlaceholder, Mode=OneWay}"
+				PlaceholderText="C:\Users\"
 				Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<TextBox.Resources>
 					<TeachingTip
