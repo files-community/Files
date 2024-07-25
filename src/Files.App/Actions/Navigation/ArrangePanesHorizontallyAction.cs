@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "ArrangePanesHorizontallyDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(themedIconStyle: "App.ThemedIcons.Panes.Horizontal");
+			=> new(themedIconStyle: "App.ThemedIcons.Panes.Vertical");
 
 		public bool IsOn
 			=> MultiPanesContext.ShellPaneArrangement is ShellPaneArrangement.Horizontal;
