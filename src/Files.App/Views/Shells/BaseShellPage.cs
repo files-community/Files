@@ -567,9 +567,7 @@ namespace Files.App.Views.Shells
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
 			HandleBackForwardRequest(previousPageContent);
 
-			if (previousPageContent.SourcePageType == typeof(HomePage))
-				ItemDisplay.GoBack(new EntranceNavigationTransitionInfo());
-			else
+			if (ItemDisplay.CanGoBack)
 				ItemDisplay.GoBack();
 		}
 
@@ -578,7 +576,8 @@ namespace Files.App.Views.Shells
 			var incomingPageContent = ItemDisplay.ForwardStack[ItemDisplay.ForwardStack.Count - 1];
 			HandleBackForwardRequest(incomingPageContent);
 
-			ItemDisplay.GoForward();
+			if (ItemDisplay.CanGoForward)
+				ItemDisplay.GoForward();
 		}
 
 		public void ResetNavigationStackLayoutMode()
