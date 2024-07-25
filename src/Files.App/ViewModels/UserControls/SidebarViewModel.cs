@@ -397,7 +397,18 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "Pinned".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+			section.IsExpanded = section.Text switch
+			{
+				var text when text == "Pinned".GetLocalizedResource() => UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded,
+				var text when text == "SidebarLibraries".GetLocalizedResource() => UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded,
+				var text when text == "Drives".GetLocalizedResource() => UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded,
+				var text when text == "SidebarCloudDrives".GetLocalizedResource() => UserSettingsService.GeneralSettingsService.IsCloudDriveSectionExpanded,
+				var text when text == "Network".GetLocalizedResource() => UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded,
+				var text when text == "WSL".GetLocalizedResource() => UserSettingsService.GeneralSettingsService.IsWslSectionExpanded,
+				var text when text == "FileTags".GetLocalizedResource() => UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded,
+				_ => false
+			};
+
 			section.PropertyChanged += Section_PropertyChanged;
 		}
 
@@ -405,7 +416,30 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (sender is LocationItem section && e.PropertyName == nameof(section.IsExpanded))
 			{
-				Ioc.Default.GetRequiredService<SettingsViewModel>().Set(section.IsExpanded, $"section:{section.Text.Replace('\\', '_')}");
+				switch (section.Text)
+				{
+					case var text when text == "Pinned".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "SidebarLibraries".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "Drives".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "SidebarCloudDrives".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsCloudDriveSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "Network".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "WSL".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsWslSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "FileTags".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded = section.IsExpanded;
+						break;
+				}
 			}
 		}
 
