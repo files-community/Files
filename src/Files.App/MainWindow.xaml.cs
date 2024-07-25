@@ -62,10 +62,10 @@ namespace Files.App
 
 		public async Task InitializeApplicationAsync(object activatedEventArgs)
 		{
+			var rootFrame = EnsureWindowIsInitialized();
+
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
-
-			var rootFrame = EnsureWindowIsInitialized();
 
 			switch (activatedEventArgs)
 			{
