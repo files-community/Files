@@ -1,7 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.SourceGenerator.Extensions;
+using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
+using static Files.Core.SourceGenerator.Constants.DiagnosticDescriptors;
+using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
 
 namespace Files.Core.SourceGenerator.Generators
 {
@@ -11,6 +13,9 @@ namespace Files.Core.SourceGenerator.Generators
 	[Generator]
 	internal sealed class StringsPropertyGenerator : IIncrementalGenerator
 	{
+		// Static HashSet to track generated file names
+		private readonly HashSet<string> _generatedFileNames = [];
+
 		/// <summary>
 		/// Initializes the generator and registers source output based on resource files.
 		/// </summary>
@@ -18,8 +23,7 @@ namespace Files.Core.SourceGenerator.Generators
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
 			var additionalFiles = context
-				.AdditionalTextsProvider.Where(af => af.Path.Contains("en-US\\Resources"))
-				.Select((f, _) => new AdditionalTextWithHash(f, Guid.NewGuid()));
+				.AdditionalTextsProvider.Where(af => af.Path.Contains("en-US\\Resources"));
 
 			context.RegisterSourceOutput(additionalFiles, Execute);
 		}
@@ -28,23 +32,36 @@ namespace Files.Core.SourceGenerator.Generators
 		/// Executes the generation of string properties based on the provided file.
 		/// </summary>
 		/// <param name="ctx">The source production context.</param>
-		/// <param name="fileWithHash">The additional text file with its hash.</param>
-		private void Execute(SourceProductionContext ctx, AdditionalTextWithHash fileWithHash)
+		/// <param name="file">The additional text file with its hash.</param>
+		private void Execute(SourceProductionContext ctx, AdditionalText file)
 		{
-			var tabString = SourceGeneratorHelper.Spacing(1);
+			var fileName = SystemIO.Path.GetFileNameWithoutExtension(file.Path);
+
+			lock (_generatedFileNames)
+			{
+				if (_generatedFileNames.Contains(fileName))
+				{
+					ctx.ReportDiagnostic(Diagnostic.Create(FSG1003, Location.None, fileName));
+					return;
+				}
+
+				_ = _generatedFileNames.Add(fileName);
+			}
+
+			var tabString = Spacing(1);
 
 			var sb = new StringBuilder();
-			_ = sb.AppendFullHeader(fileWithHash.ToString());
+			_ = sb.AppendFullHeader(file.Path);
 			_ = sb.AppendLine();
-			_ = sb.AppendLine("namespace Files.App.Helpers");
+			_ = sb.AppendLine($"namespace {HelperNamespace.Remove(HelperNamespace.Length-1)}");
 			_ = sb.AppendLine("{");
 			_ = sb.AppendLine($"{tabString}/// <summary>");
 			_ = sb.AppendLine($"{tabString}/// Represents a collection of string resources used throughout the application.");
 			_ = sb.AppendLine($"{tabString}/// </summary>");
-			_ = sb.AppendLine($"{tabString}public sealed partial class Strings");
+			_ = sb.AppendLine($"{tabString}public sealed partial class {StringsClassName}");
 			_ = sb.AppendLine($"{tabString}{{");
 
-			foreach (var key in ReadAllKeys(fileWithHash.File)) // Write all keys from file
+			foreach (var key in ReadAllKeys(file)) // Write all keys from file
 				AddKey(
 					buffer: sb,
 					key: key.Key,
@@ -57,7 +74,7 @@ namespace Files.Core.SourceGenerator.Generators
 
 			var sourceText = SourceText.From(sb.ToString(), Encoding.UTF8);
 
-			ctx.AddSource($"Strings.Properties.{fileWithHash.Hash}.g.cs", sourceText);
+			ctx.AddSource($"{StringsClassName}.{fileName}.g.cs", sourceText);
 		}
 
 		/// <summary>
@@ -71,9 +88,9 @@ namespace Files.Core.SourceGenerator.Generators
 		/// <param name="tabPos">Position of the tab.</param>
 		private void AddKey(StringBuilder buffer, string key, string? comment = null, string? value = null, string? exampleValue = null, int tabPos = 2)
 		{
-			var tabString = SourceGeneratorHelper.Spacing(tabPos);
+			var tabString = Spacing(tabPos);
 
-			if (comment is not null || exampleValue  is not null)
+			if (comment is not null || exampleValue is not null)
 			{
 				_ = buffer.AppendLine();
 				_ = buffer.AppendLine($"{tabString}/// <summary>");

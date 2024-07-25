@@ -4,7 +4,9 @@
 
 // Files
 global using global::Files.Core.SourceGenerator.Analyzers;
+global using global::Files.Core.SourceGenerator.CodeFixProviders;
 global using global::Files.Core.SourceGenerator.Data;
+global using global::Files.Core.SourceGenerator.Extensions;
 global using global::Files.Core.SourceGenerator.Parser;
 global using global::Files.Core.SourceGenerator.Utilities;
 

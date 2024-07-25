@@ -35,6 +35,20 @@ namespace Files.Core.SourceGenerator
 				defaultSeverity: DiagnosticSeverity.Info,
 				isEnabledByDefault: true,
 				description: $"Detects string literals that can be replaced with constants from the {StringsPropertyGenerator.StringsClassName} class.");
+
+			/// <summary>
+			/// Diagnostic descriptor for a scenario where multiple files with the same name are detected.
+			/// </summary>
+			internal static readonly DiagnosticDescriptor FSG1003 = new(
+				id: nameof(FSG1003),
+				title: "Multiple files with the same name detected",
+				messageFormat: "Multiple files named '{0}' were detected. Ensure all generated localization string files have unique names.",
+				category: "FileGeneration",
+				defaultSeverity: DiagnosticSeverity.Error,
+				isEnabledByDefault: true,
+				description: "This diagnostic detects cases where multiple localization string files are being generated with the same name," +
+				"which can cause conflicts and overwrite issues.");
+
 		}
 
 		/// <summary>
