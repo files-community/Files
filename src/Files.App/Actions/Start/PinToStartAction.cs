@@ -37,12 +37,15 @@ namespace Files.App.Actions
 			{
 				foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
 				{
-					IStorable storable = listedItem.IsFolder switch
+					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
-						true => await StorageService.GetFolderAsync(listedItem.ItemPath),
-						_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
-					};
-					await StartMenuService.PinAsync(storable, listedItem.Name);
+						IStorable storable = listedItem.IsFolder switch
+						{
+							true => await StorageService.GetFolderAsync(listedItem.ItemPath),
+							_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
+						};
+						await StartMenuService.PinAsync(storable, listedItem.Name);
+					});					
 				}
 			}
 			else if (context.ShellPage?.ShellViewModel?.CurrentFolder is not null)
