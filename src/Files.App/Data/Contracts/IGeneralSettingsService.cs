@@ -166,7 +166,7 @@ namespace Files.App.Data.Contracts
 		bool ShowWslSection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the wsl section should be expanded.
+		/// Gets or sets a value indicating if the wsl section should be expanded. 
 		/// </summary>
 		bool IsWslSectionExpanded { get; set; }
 
