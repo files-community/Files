@@ -1811,6 +1811,12 @@ namespace Files.App.ViewModels
 
 		public void CheckForBackgroundImage()
 		{
+			if (WorkingDirectory == "Home")
+			{
+				FolderBackgroundImageSource = null;
+				return;
+			}
+
 			var filesAppSection = DesktopIni?.FirstOrDefault(x => x.SectionName == "FilesApp");
 			if (filesAppSection is null || folderSettings.LayoutMode is FolderLayoutModes.ColumnView)
 			{
