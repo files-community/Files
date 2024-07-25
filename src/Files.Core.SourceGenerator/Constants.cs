@@ -17,12 +17,24 @@ namespace Files.Core.SourceGenerator
 			/// Diagnostic descriptor for unsupported types in Windows Registry.
 			/// </summary>
 			internal static readonly DiagnosticDescriptor FSG1001 = new(
-				nameof(FSG1001),
-				"Types that are not supported by Windows Registry",
-				"Type '{0}' is not supported by Windows Registry",
-				"Design",
-				DiagnosticSeverity.Error,
-				true);
+				id: nameof(FSG1001),
+				title: "Types that are not supported by Windows Registry",
+				messageFormat: "Type '{0}' is not supported by Windows Registry",
+				category: "Design",
+				defaultSeverity: DiagnosticSeverity.Error,
+				isEnabledByDefault: true);
+
+			/// <summary>
+			/// Diagnostic descriptor for a refactoring suggestion to replace string literals with constants from the Strings class.
+			/// </summary>
+			internal static readonly DiagnosticDescriptor FSG1002 = new(
+				id: nameof(FSG1002),
+				title: "String literal can be replaced with constant",
+				messageFormat: $"Replace '{{0}}' with '{StringsPropertyGenerator.StringsClassName}.{{1}}'",
+				category: "Refactoring",
+				defaultSeverity: DiagnosticSeverity.Info,
+				isEnabledByDefault: true,
+				description: $"Detects string literals that can be replaced with constants from the {StringsPropertyGenerator.StringsClassName} class.");
 		}
 
 		/// <summary>
@@ -34,6 +46,29 @@ namespace Files.Core.SourceGenerator
 			/// The name of the attribute used for DependencyProperty.
 			/// </summary>
 			internal static readonly string AttributeName = "DependencyPropertyAttribute";
+		}
+
+		internal class StringsPropertyGenerator
+		{
+			/// <summary>
+			/// The name of the generated class that contains string constants.
+			/// </summary>
+			internal const string StringsClassName = "Strings";
+
+			/// <summary>
+			/// The fully qualified name of the generated metadata class that contains string constants.
+			/// </summary>
+			internal const string StringsMetadataName = $"{SourceGeneratorHelper.HelperNamespace}{StringsClassName}";
+
+			/// <summary>
+			/// The name of the property that represents the name of the constant.
+			/// </summary>
+			internal const string ConstantNameProperty = nameof(ConstantNameProperty);
+
+			/// <summary>
+			/// The title of the code fix provider that suggests replacing string literals with constants from the Strings class.
+			/// </summary>
+			internal const string CodeFixProviderTitle = $"Replace with constant from {StringsClassName}";
 		}
 	}
 }
