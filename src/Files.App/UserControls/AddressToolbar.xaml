@@ -5,7 +5,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,6 +12,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:items="using:Files.App.Data.Items"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
+	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
@@ -236,7 +236,7 @@
 
 			<!--  Page Navigation Actions  -->
 			<StackPanel
-				Grid.Row="1"
+				Grid.Column="0"
 				Orientation="Horizontal"
 				Spacing="4">
 				<Button
@@ -248,6 +248,7 @@
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
+					RightTapped="Back_RightTapped"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
@@ -262,10 +263,32 @@
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
+					RightTapped="Forward_RightTapped"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
+
+				<TeachingTip
+					x:Name="HistoryTeachingTip"
+					IsLightDismissEnabled="True"
+					PreferredPlacement="BottomRight">
+					<ListView
+						x:Name="HistoryListView"
+						Margin="-12,-8"
+						IsItemClickEnabled="True"
+						ItemClick="ListViewBase_ItemClick"
+						SelectionMode="None">
+						<ListView.ItemTemplate>
+							<DataTemplate x:DataType="local:HistoryItemViewModel">
+								<StackPanel Orientation="Horizontal" Spacing="8">
+									<Image Height="24" Source="ms-appx:///Assets/FolderIcon.png" />
+									<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+								</StackPanel>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</TeachingTip>
 
 				<Button
 					x:Name="Up"

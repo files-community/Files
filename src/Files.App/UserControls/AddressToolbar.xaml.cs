@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.System;
+using Microsoft.UI.Xaml.Navigation;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
 namespace Files.App.UserControls
@@ -149,6 +150,103 @@ namespace Files.App.UserControls
 			// Suppress access key invocation if any dialog is open
 			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
 				args.Handled = true;
+		}
+
+		public ObservableCollection<HistoryItemViewModel> HistoryItems { get; } = new();
+
+		private void Back_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			var shellPage = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage;
+			if (shellPage is null)
+				return;
+
+			AddHistoryItems(shellPage.BackwardStack, true);
+			HistoryTeachingTip.Target = Back;
+		}
+
+		private void Forward_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			var shellPage = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage;
+			if (shellPage is null)
+				return;
+
+			AddHistoryItems(shellPage.ForwardStack, false);
+			HistoryTeachingTip.Target = Forward;
+		}
+
+		private void AddHistoryItems(IEnumerable<PageStackEntry> items, bool isBackMode)
+		{
+			// This may not seem performant, however it's the most viable trade-off to make.
+			// Instead of constantly keeping track of back/forward stack and performing lookups
+			// (which may degrade performance), we only add items in bulk when it's needed.
+			// There's also a high chance the user might not use the feature at all in which case
+			// the former approach would just waste extra performance gain
+
+			HistoryListView.ItemsSource = null;
+			HistoryItems.Clear();
+
+			foreach (var item in items.Reverse())
+			{
+				HistoryItems.Add(new(item, isBackMode));
+			}
+
+			HistoryListView.ItemsSource = HistoryItems;
+			HistoryTeachingTip.IsOpen = true;
+		}
+
+		private void ListViewBase_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			if (e.ClickedItem is not HistoryItemViewModel itemViewModel)
+				return;
+
+			var shellPage = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage;
+			if (shellPage is null)
+				return;
+
+			if (itemViewModel.IsBackMode)
+			{
+				// Remove all entries after the target entry in the BackwardStack
+				while (shellPage.BackwardStack.Last() != itemViewModel.PageStackEntry)
+				{
+					shellPage.BackwardStack.RemoveAt(shellPage.BackwardStack.Count - 1);
+				}
+
+				// Navigate back
+				shellPage.Back_Click();
+			}
+			else
+			{
+				// Remove all entries before the target entry in the ForwardStack
+				while (shellPage.ForwardStack.First() != itemViewModel.PageStackEntry)
+				{
+					shellPage.ForwardStack.RemoveAt(0);
+				}
+
+				// Navigate forward
+				shellPage.Forward_Click();
+			}
+
+			HistoryTeachingTip.IsOpen = false;
+		}
+	}
+
+	public sealed partial class HistoryItemViewModel : ObservableObject
+	{
+		[ObservableProperty] private string? _Name;
+
+		public PageStackEntry PageStackEntry { get; }
+
+		public bool IsBackMode { get; }
+
+		public HistoryItemViewModel(PageStackEntry pageStackEntry, bool isBackMode)
+		{
+			PageStackEntry = pageStackEntry;
+			IsBackMode = isBackMode;
+
+			if (pageStackEntry.Parameter is not NavigationArguments args)
+				return;
+
+			Name = SystemIO.Path.GetFileName(args.NavPathParam);
 		}
 	}
 }
