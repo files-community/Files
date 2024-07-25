@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
 using static Files.Core.SourceGenerator.Constants.DiagnosticDescriptors;
+using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
 using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
 
 namespace Files.Core.SourceGenerator.Generators
@@ -40,10 +40,7 @@ namespace Files.Core.SourceGenerator.Generators
 			lock (_generatedFileNames)
 			{
 				if (_generatedFileNames.Contains(fileName))
-				{
 					ctx.ReportDiagnostic(Diagnostic.Create(FSG1003, Location.None, fileName));
-					return;
-				}
 
 				_ = _generatedFileNames.Add(fileName);
 			}
@@ -53,7 +50,7 @@ namespace Files.Core.SourceGenerator.Generators
 			var sb = new StringBuilder();
 			_ = sb.AppendFullHeader(file.Path);
 			_ = sb.AppendLine();
-			_ = sb.AppendLine($"namespace {HelperNamespace.Remove(HelperNamespace.Length-1)}");
+			_ = sb.AppendLine($"namespace {HelperNamespace.Remove(HelperNamespace.Length - 1)}");
 			_ = sb.AppendLine("{");
 			_ = sb.AppendLine($"{tabString}/// <summary>");
 			_ = sb.AppendLine($"{tabString}/// Represents a collection of string resources used throughout the application.");

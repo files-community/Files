@@ -41,20 +41,25 @@ namespace Files.Core.SourceGenerator.Analyzers
 		{
 			var literalValue = string.Empty;
 			Location locationValue = default!;
+			SyntaxNode? parent = null;
 
 			if (context.Node is InterpolatedStringTextSyntax interpolatedStringText)
 			{
 				literalValue = interpolatedStringText.TextToken.ValueText;
 				locationValue = interpolatedStringText.GetLocation();
+				parent = interpolatedStringText.Parent?.Parent;
 			}
 
 			if (context.Node is LiteralExpressionSyntax literalExpression)
 			{
 				literalValue = literalExpression.Token.ValueText;
 				locationValue = literalExpression.GetLocation();
+				parent = literalExpression.Parent;
 			}
 
-			if (string.IsNullOrEmpty(literalValue))
+			if (string.IsNullOrEmpty(literalValue) ||
+				parent is not MemberAccessExpressionSyntax memberAccessExpression ||
+				!LocalizedMethodNames.Contains(memberAccessExpression.Name.Identifier.Text))
 				return;
 
 			if (StringsConstants is null)

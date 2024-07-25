@@ -32,7 +32,7 @@ namespace Files.Core.SourceGenerator
 				title: "String literal can be replaced with constant",
 				messageFormat: $"Replace '{{0}}' with '{StringsPropertyGenerator.StringsClassName}.{{1}}'",
 				category: "Refactoring",
-				defaultSeverity: DiagnosticSeverity.Info,
+				defaultSeverity: DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
 				description: $"Detects string literals that can be replaced with constants from the {StringsPropertyGenerator.StringsClassName} class.");
 
@@ -78,6 +78,15 @@ namespace Files.Core.SourceGenerator
 			/// The name of the property that represents the name of the constant.
 			/// </summary>
 			internal const string ConstantNameProperty = nameof(ConstantNameProperty);
+
+			/// <summary>
+			/// A collection of method names that are considered localized methods.
+			/// These methods are used to identify string literals that can be replaced with constants from the Strings class.
+			/// </summary>
+			internal static HashSet<string> LocalizedMethodNames = [
+				/* TODO: Future use only this */ "ToLocalized",
+				/* TODO: Rewrite with ToLocalized */ "GetLocalizedResource",
+				/* TODO: Rewrite with ToLocalized */ "GetLocalizedFormatResource"];
 
 			/// <summary>
 			/// The title of the code fix provider that suggests replacing string literals with constants from the Strings class.
