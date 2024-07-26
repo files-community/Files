@@ -55,6 +55,7 @@ namespace Files.App.ViewModels
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
+		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -1268,9 +1269,7 @@ namespace Files.App.ViewModels
 			if (item.SyncStatusUI.LoadSyncStatus)
 				return false;
 
-			return item.IsShortcut
-				? ElevationHelpers.IsElevationRequired(((ShortcutItem)item).TargetPath)
-				: ElevationHelpers.IsElevationRequired(item.ItemPath);
+			return WindowsSecurityService.IsElevationRequired(item.IsShortcut ? ((ShortcutItem)item).TargetPath : item.ItemPath);
 		}
 
 		public async Task LoadGitPropertiesAsync(GitItem gitItem)
@@ -1310,10 +1309,10 @@ namespace Files.App.ViewModels
 								{
 									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
 									{
-										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
-										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
-										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
-										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Added"],
+										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
+										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Modified"],
+										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["App.ThemedIcons.Status.Removed"],
 										_ => null,
 									};
 									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
@@ -1812,6 +1811,12 @@ namespace Files.App.ViewModels
 
 		public void CheckForBackgroundImage()
 		{
+			if (WorkingDirectory == "Home")
+			{
+				FolderBackgroundImageSource = null;
+				return;
+			}
+
 			var filesAppSection = DesktopIni?.FirstOrDefault(x => x.SectionName == "FilesApp");
 			if (filesAppSection is null || folderSettings.LayoutMode is FolderLayoutModes.ColumnView)
 			{

@@ -22,7 +22,7 @@ namespace Files.App.Actions
 			=> new(Keys.Enter, KeyModifiers.CtrlAlt);
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenInNewWindow");
+			=> new(themedIconStyle: "App.ThemedIcons.OpenInWindow");
 
 		public virtual bool IsAccessibleGlobally
 			=> true;

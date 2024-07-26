@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "CreateFolderWithSelectionDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconNewFolder");
+			=> new(themedIconStyle: "App.ThemedIcons.New.Folder");
 
 		public bool IsExecutable =>
 			context.ShellPage is not null &&

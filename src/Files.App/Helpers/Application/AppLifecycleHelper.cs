@@ -166,6 +166,7 @@ namespace Files.App.Helpers
 					// Services
 					.AddSingleton<IWindowsIniService, WindowsIniService>()
 					.AddSingleton<IWindowsWallpaperService, WindowsWallpaperService>()
+					.AddSingleton<IWindowsSecurityService, WindowsSecurityService>()
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<IDialogService, DialogService>()
 					.AddSingleton<ICommonDialogService, CommonDialogService>()
@@ -239,13 +240,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					var defaultArg = new TabBarItemParameter()
-					{
-						InitialPageType = typeof(ShellPanesPage),
-						NavigationParameter = "Home"
-					};
-
-					return defaultArg.Serialize();
+					return "";
 				}
 			})
 			.ToList();

@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "UnpinFolderFromSidebarDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "Icons.Unpin.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.FavoritePinRemove");
 
 		public bool IsExecutable
 			=> GetIsExecutable();

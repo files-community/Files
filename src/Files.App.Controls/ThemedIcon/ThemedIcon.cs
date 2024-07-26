@@ -85,6 +85,8 @@ namespace Files.App.Controls
                 Layers is not ICollection<ThemedIconLayer> layers)
                 return;
 
+            canvas.Children.Clear();
+
             foreach (var layer in layers)
             {
                 canvas.Children.Add(

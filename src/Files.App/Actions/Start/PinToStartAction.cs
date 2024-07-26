@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			=> "PinToStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "Icons.Pin.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.FavoritePin");
 
 		public bool IsExecutable =>
 			context.ShellPage is not null;

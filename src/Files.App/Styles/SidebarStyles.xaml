@@ -3,6 +3,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:local="using:Files.App.UserControls.Sidebar"
 	xmlns:usercontrols="using:Files.App.UserControls">
 
@@ -27,12 +28,12 @@
 
 	<Style
 		x:Key="SidebarFavouritesPinnedIcon"
-		BasedOn="{StaticResource ColorIconPin}"
-		TargetType="usercontrols:OpacityIcon">
-		<Setter Target="MinWidth" Value="16" />
-		<Setter Target="Width" Value="16" />
-		<Setter Target="MinHeight" Value="16" />
-		<Setter Target="Height" Value="16" />
+		BasedOn="{StaticResource App.ThemedIcons.Actions.Pinned.12}"
+		TargetType="controls:ThemedIcon">
+		<Setter Target="MinWidth" Value="12" />
+		<Setter Target="Width" Value="12" />
+		<Setter Target="MinHeight" Value="12" />
+		<Setter Target="Height" Value="12" />
 		<Setter Target="Padding" Value="0" />
 	</Style>
 

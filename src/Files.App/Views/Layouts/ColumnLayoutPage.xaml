@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:cloud="using:Files.App.Utils.Cloud"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:filesystem="using:Files.App.Utils"
@@ -263,7 +264,10 @@
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
 										Visibility="{x:Bind IsShortcut}">
-										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
+										<controls:ThemedIcon
+											Width="12"
+											Height="12"
+											Style="{StaticResource App.ThemedIcons.Shortcut}" />
 									</Border>
 									<Image
 										x:Name="ShieldOverlay"
@@ -316,10 +320,10 @@
 											x:Phase="2"
 											Background="Transparent"
 											ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}">
-											<uc:OpacityIcon
+											<controls:ThemedIcon
 												Width="16"
 												Height="16"
-												Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
+												Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).ThemedIconStyle, Mode=OneWay}" />
 										</Border>
 
 										<!--  Tag  -->

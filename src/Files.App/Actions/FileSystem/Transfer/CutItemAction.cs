@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "CutItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconCut");
+			=> new(themedIconStyle: "App.ThemedIcons.Cut");
 
 		public HotKey HotKey
 			=> new(Keys.X, KeyModifiers.Ctrl);

@@ -47,7 +47,7 @@ namespace Files.App.Data.Commands
 			=> null;
 
 		/// <inheritdoc/>
-		public Style? OpacityStyle
+		public Style? ThemedIconStyle
 			=> null;
 
 		/// <inheritdoc/>

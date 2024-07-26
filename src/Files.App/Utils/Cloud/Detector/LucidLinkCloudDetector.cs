@@ -28,7 +28,7 @@ namespace Files.App.Utils.Cloud
 					string syncFolder = inner.GetProperty("filespaceName").GetString();
 
 					string[] orgNameFilespaceName = syncFolder.Split(".");
-					string path = Path.Combine($@"{Environment.GetEnvironmentVariable("SystemDrive")}\Volumes", orgNameFilespaceName[1], orgNameFilespaceName[0]);
+					string path = Path.Combine($@"{Constants.UserEnvironmentPaths.SystemDrivePath}\Volumes", orgNameFilespaceName[1], orgNameFilespaceName[0]);
 					string filespaceName = orgNameFilespaceName[0];
 
 					string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Lucid", "resources", "Logo.ico");

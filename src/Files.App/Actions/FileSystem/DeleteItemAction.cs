@@ -12,7 +12,7 @@ namespace Files.App.Actions
 			=> "DeleteItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconDelete");
+			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.Delete");
 
 		public HotKey HotKey
 			=> new(Keys.Delete);

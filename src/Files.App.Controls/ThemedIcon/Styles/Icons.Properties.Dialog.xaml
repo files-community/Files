@@ -188,7 +188,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties.CustomiseFile"
+		x:Key="App.ThemedIcons.Properties.CustomizeFile"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 
@@ -211,7 +211,7 @@
 
 
 	<Style
-		x:Key="App.ThemedIcons.Properties.CustomiseFolder"
+		x:Key="App.ThemedIcons.Properties.CustomizeFolder"
 		BasedOn="{StaticResource DefaultThemedIconStyle}"
 		TargetType="local:ThemedIcon">
 

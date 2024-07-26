@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> "OpenDirectoryInNewTabDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenInNewTab");
+			=> new(themedIconStyle: "App.ThemedIcons.OpenInTab");
 
 		public virtual bool IsAccessibleGlobally
 			=> true;

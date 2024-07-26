@@ -3,6 +3,7 @@
 	x:Class="Files.App.UserControls.Widgets.FileTagsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
@@ -66,7 +67,14 @@
 							ToolTipService.ToolTip="{helpers:ResourceString Name=ViewMore}">
 							<StackPanel Orientation="Horizontal" Spacing="8">
 								<!--  Tag Color  -->
-								<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+								<controls:ThemedIcon
+									Width="16"
+									Height="16"
+									VerticalAlignment="Center"
+									IconColorType="Custom"
+									IsFilled="True"
+									Style="{StaticResource App.ThemedIcons.Tag}"
+									Color="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 
 								<!--  Tag Name  -->
 								<TextBlock

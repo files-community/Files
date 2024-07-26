@@ -42,7 +42,7 @@ namespace Files.App.Data.Commands
 		public FontIcon? FontIcon => BaseCommand.FontIcon;
 
 		/// <inheritdoc/>
-		public Style? OpacityStyle => BaseCommand.OpacityStyle;
+		public Style? ThemedIconStyle => BaseCommand.ThemedIconStyle;
 
 		/// <inheritdoc/>
 		public bool IsCustomHotKeys => BaseCommand.IsCustomHotKeys;

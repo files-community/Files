@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "RotateRightDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconRotateRight");
+			=> new(themedIconStyle: "App.ThemedIcons.ImageRotate.CW");
 
 		protected override BitmapRotation Rotation
 			=> BitmapRotation.Clockwise90Degrees;

@@ -10,7 +10,7 @@ namespace Files.App.Utils.Storage
 	{
 		public static async Task OpenStorageSenseAsync(string path)
 		{
-			if (!path.StartsWith(Environment.GetEnvironmentVariable("SystemDrive"), StringComparison.OrdinalIgnoreCase)
+			if (!path.StartsWith(Constants.UserEnvironmentPaths.SystemDrivePath, StringComparison.OrdinalIgnoreCase)
 				&& ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				LaunchHelper.LaunchSettings("page=SettingsPageStorageSenseStorageOverview&target=SystemSettings_StorageSense_VolumeListLink");
