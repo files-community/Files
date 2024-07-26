@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			return Win32Helper.RunPowershellCommandAsync($"code \'{_context.ShellPage!.InstanceViewModel.GitRepositoryPath}\'", PowerShellOptions.Hidden);
+			return Win32Helper.RunPowershellCommandAsync($"code \'{_context.ShellPage!.InstanceViewModel.GitRepositoryPath}\'", PowerShellExecutionOptions.Hidden);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
