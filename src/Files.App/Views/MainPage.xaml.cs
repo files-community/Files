@@ -31,9 +31,6 @@ namespace Files.App.Views
 		public MainPageViewModel ViewModel { get; }
 		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
-		public static AppModel AppModel
-			=> App.AppModel;
-
 		private bool keyReleased = true;
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
@@ -106,15 +103,6 @@ namespace Files.App.Views
 
 			if (result == ContentDialogResult.Secondary)
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
-		}
-
-		// WINUI3
-		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-			return contentDialog;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
@@ -488,14 +476,6 @@ namespace Files.App.Views
 		{
 			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
-		}
-
-		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (SidebarControl.DisplayMode == SidebarDisplayMode.Minimal)
-			{
-				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
-			}
 		}
 	}
 }

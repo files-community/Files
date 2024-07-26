@@ -35,6 +35,7 @@
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+					<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
 
 					<Style
 						x:Key="AddressToolbarButtonStyle"
@@ -42,8 +43,8 @@
 						TargetType="Button">
 						<Setter Property="Padding" Value="0" />
 						<Setter Property="Background" Value="Transparent" />
-						<Setter Property="BorderBrush" Value="Transparent" />
-						<Setter Property="Width" Value="36" />
+						<Setter Property="BorderThickness" Value="0" />
+						<Setter Property="Width" Value="32" />
 						<Setter Property="Height" Value="32" />
 						<Setter Property="Foreground" Value="{ThemeResource App.Theme.IconBaseBrush}" />
 					</Style>
@@ -239,6 +240,28 @@
 				Grid.Row="1"
 				Orientation="Horizontal"
 				Spacing="4">
+
+				<ToggleButton
+					x:Name="SidebarPaneToggleButton"
+					Width="32"
+					Height="32"
+					Padding="0"
+					x:Load="{x:Bind IsSidebarPaneOpenToggleButtonVisible, Mode=OneWay}"
+					AutomationProperties.Name="ToggleSidebarPane"
+					Background="Transparent"
+					BorderThickness="0"
+					IsChecked="{x:Bind MainPageViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleSidebar}">
+					<AnimatedIcon Width="16">
+						<AnimatedIcon.Source>
+							<animatedvisuals:AnimatedGlobalNavigationButtonVisualSource />
+						</AnimatedIcon.Source>
+						<AnimatedIcon.FallbackIconSource>
+							<SymbolIconSource Symbol="GlobalNavigationButton" />
+						</AnimatedIcon.FallbackIconSource>
+					</AnimatedIcon>
+				</ToggleButton>
+
 				<Button
 					x:Name="Back"
 					x:FieldModifier="public"
@@ -250,7 +273,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="16" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -264,7 +287,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="16" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -278,7 +301,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="16" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -291,7 +314,7 @@
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="16" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
 
