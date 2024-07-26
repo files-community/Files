@@ -132,7 +132,7 @@ namespace Files.App.Utils.Shell
 				catch (Win32Exception ex) when (ex.NativeErrorCode == 50)
 				{
 					// ShellExecute return code 50 (ERROR_NOT_SUPPORTED) for some exes (#15179)
-					return Win32Helper.RunPowershellCommand($"\"{application}\"", false);
+					return Win32Helper.RunPowershellCommand($"\"{application}\"", PowerShellExecutionOptions.Hidden);
 				}
 				catch (Win32Exception)
 				{
