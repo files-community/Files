@@ -41,13 +41,13 @@ namespace Files.App.Services
 			{
 				return Win32Helper.RunPowershellCommand(
 					@$"Remove-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' | Out-Null",
-					true);
+					PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 			}
 
 			// Set the new one
 			return Win32Helper.RunPowershellCommand(
 				@$"New-ItemProperty -Path 'HKCU:\{_registrySubPath}' -Name '{filePath}' -Value '{options}' -PropertyType String -Force | Out-Null",
-				true);
+				PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 	}
 }
