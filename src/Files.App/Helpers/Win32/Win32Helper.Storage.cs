@@ -398,9 +398,9 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> RunPowershellCommandAsync(string command, bool runAsAdmin)
+		public static async Task<bool> RunPowershellCommandAsync(string command, PowerShellOptions options)
 		{
-			using Process process = CreatePowershellProcess(command, runAsAdmin, true);
+			using Process process = CreatePowershellProcess(command, options);
 			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
 			try
@@ -425,38 +425,11 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> RunPowershellCommandForegroundAsync(string command, bool runAsAdmin)
-		{
-			using Process process = CreatePowershellProcess(command, runAsAdmin, false);
-			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
-
-			try
-			{
-				process.Start();
-				await process.WaitForExitAsync(cts.Token);
-				return process.ExitCode == 0;
-			}
-			catch (OperationCanceledException)
-			{
-				return false;
-			}
-			catch (InvalidOperationException ex)
-			{
-				App.Logger.LogWarning(ex, ex.Message);
-				return false;
-			}
-			catch (Win32Exception)
-			{
-				// If user cancels UAC
-				return false;
-			}
-		}
-
-		public static bool RunPowershellCommand(string command, bool runAsAdmin)
+		public static bool RunPowershellCommand(string command, PowerShellOptions options)
 		{
 			try
 			{
-				using Process process = CreatePowershellProcess(command, runAsAdmin, true);
+				using Process process = CreatePowershellProcess(command, options);
 
 				process.Start();
 
@@ -571,24 +544,24 @@ namespace Files.App.Helpers
 		{
 			// Format requires elevation
 			int driveIndex = drive.ToUpperInvariant()[0] - 'A';
-			return RunPowershellCommandAsync($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+			return RunPowershellCommandAsync($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", PowerShellOptions.Elevated | PowerShellOptions.Hidden);
 		}
 
 		public static void SetVolumeLabel(string drivePath, string newLabel)
 		{
 			// Rename requires elevation
-			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{drivePath}', '{newLabel}')\"", true);
+			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{drivePath}', '{newLabel}')\"", PowerShellOptions.Elevated | PowerShellOptions.Hidden);
 		}
 
 		public static void SetNetworkDriveLabel(string driveName, string newLabel)
 		{
-			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace('{driveName}').Self.Name='{newLabel}'\"", false);
+			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace('{driveName}').Self.Name='{newLabel}'\"", PowerShellOptions.Hidden);
 		}
 
 		public static Task<bool> MountVhdDisk(string vhdPath)
 		{
 			// Mounting requires elevation
-			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
+			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", PowerShellOptions.Elevated | PowerShellOptions.Hidden);
 		}
 
 		public static Bitmap? GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -877,28 +850,28 @@ namespace Files.App.Helpers
 				if (psCommand.Length + appendCommand.Length > 32766)
 				{
 					// The command is too long to run at once, so run the command once up to this point.
-					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
+					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), PowerShellOptions.Elevated | PowerShellOptions.Hidden);
 					psCommand.Clear().Append("-command \"");
 				}
 
 				psCommand.Append(appendCommand);
 			}
 
-			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
+			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), PowerShellOptions.Elevated | PowerShellOptions.Hidden);
 		}
 
-		private static Process CreatePowershellProcess(string command, bool runAsAdmin, bool hidden)
+		private static Process CreatePowershellProcess(string command, PowerShellOptions options)
 		{
 			Process process = new();
 
-			if (runAsAdmin)
+			process.StartInfo.FileName = "powershell.exe";
+			if (options.HasFlag(PowerShellOptions.Elevated))
 			{
 				process.StartInfo.UseShellExecute = true;
 				process.StartInfo.Verb = "runas";
 			}
 
-			process.StartInfo.FileName = "powershell.exe";
-			if (hidden)
+			if (options.HasFlag(PowerShellOptions.Hidden))
 			{
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
