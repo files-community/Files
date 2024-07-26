@@ -62,7 +62,7 @@
 								x:Name="PART_OutlinePath"
 								Width="{TemplateBinding IconSize}"
 								Height="{TemplateBinding IconSize}"
-								Fill="{ThemeResource ThemedIconBaseBrush}"/>
+								Fill="{ThemeResource ThemedIconBaseBrush}" />
 						</Viewbox>
 
 						<!--  Layered (Rendered From Top to Bottom in The Visual Tree Order)  -->

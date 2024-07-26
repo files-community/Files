@@ -7,7 +7,6 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:uc="using:Files.App.UITests.UserControls"
 	Title="Files.App.Controls.UITests"
 	mc:Ignorable="d">
 
@@ -21,6 +20,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
+		<!--  Title bar  -->
 		<Grid
 			x:Name="FauxTitleBar"
 			Grid.Row="0"
@@ -59,10 +59,31 @@
 
 		</Grid>
 
-		<uc:ThemedIconsUC
+		<NavigationView
 			Grid.Row="1"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch" />
+			IsBackButtonVisible="Collapsed"
+			IsSettingsVisible="False"
+			OpenPaneLength="256"
+			SelectionChanged="NavigationView_SelectionChanged">
+
+			<NavigationView.MenuItems>
+				<NavigationViewItem Content="Controls">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE73A;" />
+					</NavigationViewItem.Icon>
+					<NavigationViewItem.MenuItems>
+						<NavigationViewItem Content="ThemedIcon" Tag="ThemedIconPage" />
+					</NavigationViewItem.MenuItems>
+				</NavigationViewItem>
+			</NavigationView.MenuItems>
+
+			<NavigationView.Content>
+				<ScrollViewer>
+					<Frame x:Name="MainFrame" />
+				</ScrollViewer>
+			</NavigationView.Content>
+
+		</NavigationView>
 	</Grid>
 
 </Window>
