@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
-
 namespace Files.App.Actions
 {
 	internal sealed class UnpinFromStartAction : IAction
@@ -41,15 +39,18 @@ namespace Files.App.Actions
 							_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
 						};
 						await StartMenuService.UnpinAsync(storable);
-					});					
+					});
 				}
 			}
 			else
 			{
-				var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
-				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
+				await SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
+					var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
 
-				await StartMenuService.UnpinAsync(folder);
+					await StartMenuService.UnpinAsync(folder);
+				});
 			}
 		}
 	}

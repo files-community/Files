@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Core.Storage;
-
 namespace Files.App.Actions
 {
 	internal sealed class PinToStartAction : IAction
@@ -45,15 +42,18 @@ namespace Files.App.Actions
 							_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
 						};
 						await StartMenuService.PinAsync(storable, listedItem.Name);
-					});					
+					});
 				}
 			}
 			else if (context.ShellPage?.ShellViewModel?.CurrentFolder is not null)
 			{
-				var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
-				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
+				await SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
+					var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
 
-				await StartMenuService.PinAsync(folder, currentFolder.Name);
+					await StartMenuService.PinAsync(folder, currentFolder.Name);
+				});
 			}
 		}
 	}
