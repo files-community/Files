@@ -53,13 +53,19 @@ namespace Files.App.Services
 				var sectionName = lines[sectionLineIndexes[index]].TrimStart('[').TrimEnd(']');
 
 				// Read data
-				var parameters = range
+				var rawParameters = range
 					// Split the lines into key and value
 					.Select(line => line.Split('='))
 					// Validate
-					.Where(parts => parts.Length == 2)
-					// Gather as dictionary
-					.ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
+					.Where(parts => parts.Length == 2);
+
+				Dictionary<string, string> parameters = [];
+
+				foreach (var rawParameter in rawParameters)
+				{
+					if (!parameters.ContainsKey(rawParameter[0]))
+						parameters.Add(rawParameter[0].Trim(), rawParameter[1].Trim());
+				}
 
 				dataItems.Add(new()
 				{
