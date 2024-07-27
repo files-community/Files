@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Remove="Views\MainPage.xaml" />
+    <None Remove="Views\MenuFlyoutItemExPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +33,11 @@
   <!--  Allows the Single-project MSIX Packaging Tools extension to be activated for this project even if the Windows App SDK Nuget package has not yet been restored.  -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\MenuFlyoutItemExPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\MainPage.xaml">

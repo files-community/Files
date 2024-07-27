@@ -16,7 +16,7 @@
 
 	<Grid Background="{ThemeResource PageBackground}">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="40" />
+			<RowDefinition Height="48" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
@@ -73,6 +73,7 @@
 					</NavigationViewItem.Icon>
 					<NavigationViewItem.MenuItems>
 						<NavigationViewItem Content="ThemedIcon" Tag="ThemedIconPage" />
+						<NavigationViewItem Content="MenuFlyoutItemEx" Tag="MenuFlyoutItemExPage" />
 					</NavigationViewItem.MenuItems>
 				</NavigationViewItem>
 			</NavigationView.MenuItems>

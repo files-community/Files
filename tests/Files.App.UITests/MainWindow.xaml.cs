@@ -24,7 +24,11 @@ namespace Files.App.UITests
 			switch (tag)
 			{
 				case "ThemedIconPage":
-					MainFrame.Navigate(typeof(ThemedIconPage));
+					MainFrame.Navigate(typeof(ThemedIconPage));					
+					break;
+
+				case "MenuFlyoutItemExPage":
+					MainFrame.Navigate( typeof( MenuFlyoutItemExPage ) );
 					break;
 			}
 		}
