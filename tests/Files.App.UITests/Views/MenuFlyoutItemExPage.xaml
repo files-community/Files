@@ -124,19 +124,19 @@
 				<DropDownButton Content="MenuEx Flyout">
 					<DropDownButton.Flyout>
 						<MenuFlyout Placement="Bottom">
-							<MenuFlyoutItem KeyboardAcceleratorTextOverride="Key Combo" Text="Standard Item">
+							<controls:MenuFlyoutItemEx KeyboardAcceleratorTextOverride="Key Combo" Text="Standard Item">
 								<MenuFlyoutItem.Icon>
 									<SymbolIcon Symbol="Send" />
 								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-							<MenuFlyoutItem
+							</controls:MenuFlyoutItemEx>
+							<controls:MenuFlyoutItemEx
 								IsEnabled="False"
 								KeyboardAcceleratorTextOverride="Key Combo"
 								Text="Standard Item Disabled">
 								<MenuFlyoutItem.Icon>
 									<SymbolIcon Symbol="MailReply" />
 								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
+							</controls:MenuFlyoutItemEx>
 
 							<MenuFlyoutSeparator />
 							<MenuFlyoutItem IsEnabled="False" Text="Radio Menu Items" />
