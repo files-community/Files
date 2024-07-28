@@ -193,7 +193,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsNetworkSectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
