@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.IO;
 using Windows.Storage;
+using Vanara.Windows.Shell;
 
 namespace Files.App.Utils.Cloud
 {
@@ -101,7 +102,7 @@ namespace Files.App.Utils.Cloud
 				if (string.IsNullOrWhiteSpace(path))
 					continue;
 
-				if (!AddMyDriveToPathAndValidate(ref path))
+				if (!AddMyDriveToPathAndValidate(ref path, invalidPathsLogger))
 				{ 
 					invalidPathsLogger.LogInformation("Validation failed for " + path + " (media)");
 					continue;
@@ -219,6 +220,7 @@ namespace Files.App.Utils.Cloud
 
 		private async IAsyncEnumerable<ICloudProvider> GetGoogleDriveProvidersFromRegistryAsync(ILogger invalidPathsLogger)
 		{
+			var registryLogger = GetAltLogger("debugRegistry.log");
             var googleDriveRegValJson = GetGoogleDriveRegValJson();
 
             if (googleDriveRegValJson is null)
@@ -240,6 +242,9 @@ namespace Files.App.Utils.Cloud
 				yield break;
 			}
 
+			// TESTING
+			registryLogger.LogInformation(googleDriveRegValJsonProperty.ToString());
+
 			foreach (var item in googleDriveRegValJsonProperty.Value.EnumerateArray())
 			{
 				if (!item.TryGetProperty(_googleDriveRegValPropName, out var googleDriveRegValProp))
@@ -253,7 +258,7 @@ namespace Files.App.Utils.Cloud
 				if (path is null)
 					continue;
 
-				if (!AddMyDriveToPathAndValidate(ref path))
+				if (!AddMyDriveToPathAndValidate(ref path, invalidPathsLogger))
 				{
 					invalidPathsLogger.LogInformation("Validation failed for " + path + " (media)");
 					continue;
@@ -284,7 +289,7 @@ namespace Files.App.Utils.Cloud
 			return await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 		}
 
-		private bool AddMyDriveToPathAndValidate(ref string path)
+		private bool AddMyDriveToPathAndValidate(ref string path, ILogger invalidPathsLogger)
 		{
 			// If Google Drive is mounted as a drive, then the path found in the registry will be
 			// *just* the drive letter (e.g. just "G" as opposed to "G:\"), and therefore must be
@@ -305,13 +310,27 @@ namespace Files.App.Utils.Cloud
 				path = temp.RootDirectory.Name;
 			}
 
-			path = Path.Combine(path, "My Drive");
+			using var shellFolderBase = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
+			var shellFolderBaseFirst = Environment.ExpandEnvironmentVariables((
+				                                                                  shellFolderBase?.FirstOrDefault(si =>
+					                                                                  si.Name?.Equals("My Drive") ??
+					                                                                  false) as ShellLink)
+			                                                                  ?.TargetPath ??
+			                                                                  "");
+			shellFolderBase?.ForEach(si => invalidPathsLogger.LogInformation(si.Name));
 
-			if (Directory.Exists(path))
-				return true;
-
-			_logger.LogWarning("Invalid Google Drive mount point path: " + path);
-			return false;
+			switch (shellFolderBaseFirst)
+			{
+				case "":
+					path = Path.Combine(path, "My Drive");
+					if (Directory.Exists(path))
+						return true;
+					_logger.LogWarning("Invalid Google Drive mount point path: " + path);
+					return false;
+				default:
+					path = shellFolderBaseFirst;
+					return true;
+			}
 		}
 	}
 }
