@@ -28,10 +28,11 @@ namespace Files.App.Utils.Cloud
 		{
 
 			// TESTING
-			var rootsLogger = GetAltLogger("debugRoots");
-			var mediaLogger = GetAltLogger("debugMedia");
-			var yieldReturnLogger = GetAltLogger("debugYieldReturn");
-			var rootPrefTablesLogger = GetAltLogger("debugRootPrefTables");
+			var rootsLogger = GetAltLogger("debugRoots.log");
+			var mediaLogger = GetAltLogger("debugMedia.log");
+			var yieldReturnLogger = GetAltLogger("debugYieldReturn.log");
+			var rootPrefTablesLogger = GetAltLogger("debugRootPrefTables.log");
+			var invalidPathsLogger = GetAltLogger("debugInvalidPaths.log");
 
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
@@ -63,6 +64,9 @@ namespace Files.App.Utils.Cloud
 				{
 					continue;
 				}
+
+				if ((long)reader["is_my_drive"] == 1)
+					continue;
 
 				// By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
 				// \\?\ indicates to Win32 that the filename may be longer than MAX_PATH (see MSDN).
@@ -97,6 +101,12 @@ namespace Files.App.Utils.Cloud
 				if (string.IsNullOrWhiteSpace(path))
 					continue;
 
+				if (!AddMyDriveToPathAndValidate(ref path))
+				{ 
+					invalidPathsLogger.LogInformation("Validation failed for " + path + " (media)");
+					continue;
+				}
+
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["name"]?.ToString() ?? folder.Name;
 
@@ -122,7 +132,7 @@ namespace Files.App.Utils.Cloud
 			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1",
 				"root_preferences db, all tables", rootPrefTablesLogger);
 
-			await foreach (var provider in GetGoogleDriveProvidersFromRegistryAsync())
+			await foreach (var provider in GetGoogleDriveProvidersFromRegistryAsync(invalidPathsLogger))
 			{
 
 				// TESTING
@@ -207,7 +217,7 @@ namespace Files.App.Utils.Cloud
             return googleDriveRegValueJson;
         }
 
-		private async IAsyncEnumerable<ICloudProvider> GetGoogleDriveProvidersFromRegistryAsync()
+		private async IAsyncEnumerable<ICloudProvider> GetGoogleDriveProvidersFromRegistryAsync(ILogger invalidPathsLogger)
 		{
             var googleDriveRegValJson = GetGoogleDriveRegValJson();
 
@@ -218,7 +228,7 @@ namespace Files.App.Utils.Cloud
 				.RootElement.EnumerateObject()
 				.FirstOrDefault();
 
-			// A default JsonProperty struct has an "Undefined" Value.ValueKind and throws an
+			// A default JsonProperty struct has an "Undefined" Value#ValueKind and throws an
 			// error if you try to call EnumerateArray on its Value.
 			if (googleDriveRegValJsonProperty.Value.ValueKind == JsonValueKind.Undefined)
 			{
@@ -233,18 +243,21 @@ namespace Files.App.Utils.Cloud
 			foreach (var item in googleDriveRegValJsonProperty.Value.EnumerateArray())
 			{
 				if (!item.TryGetProperty(_googleDriveRegValPropName, out var googleDriveRegValProp))
-					yield break;
+					continue;
 
 				if (!googleDriveRegValProp.TryGetProperty(_googleDriveRegValPropPropName,
 					    out var googleDriveRegValPropProp))
-					yield break;
+					continue;
 
 				var path = googleDriveRegValPropProp.GetString();
 				if (path is null)
-					yield break;
+					continue;
 
-				if (!ValidatePath(ref path))
-					yield break;
+				if (!AddMyDriveToPathAndValidate(ref path))
+				{
+					invalidPathsLogger.LogInformation("Validation failed for " + path + " (media)");
+					continue;
+				}
 
 				App.AppModel.GoogleDrivePath = path;
 
@@ -271,11 +284,11 @@ namespace Files.App.Utils.Cloud
 			return await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 		}
 
-		private bool ValidatePath(ref string path)
+		private bool AddMyDriveToPathAndValidate(ref string path)
 		{
-			// If Google Drive is mounted as a drive, `path' will just be the drive letter, and
-			// therefore needs to be reformatted as a valid path.
-
+			// If Google Drive is mounted as a drive, then the path found in the registry will be
+			// *just* the drive letter (e.g. just "G" as opposed to "G:\"), and therefore must be
+			// reformatted as a valid path.
 			if (path.Length == 1)
 			{
 				DriveInfo temp;
@@ -291,6 +304,8 @@ namespace Files.App.Utils.Cloud
 
 				path = temp.RootDirectory.Name;
 			}
+
+			path = Path.Combine(path, "My Drive");
 
 			if (Directory.Exists(path))
 				return true;
