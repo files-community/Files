@@ -34,14 +34,31 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-						<Viewbox
-							x:Name="IconRoot"
-							Width="16"
-							Height="16"
+						<Border
+							x:Name="PART_ThemedIconRoot"
+							Width="{TemplateBinding IconSize}"
+							Height="{TemplateBinding IconSize}"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							Visibility="Collapsed">
-							<ContentPresenter x:Name="IconContent" Content="{TemplateBinding Icon}" />
+							<local:ThemedIcon
+								x:Name="PART_ThemedIcon"
+								Width="{TemplateBinding IconSize}"
+								Height="{TemplateBinding IconSize}"
+								IconSize="{TemplateBinding IconSize}"
+								Style="{TemplateBinding ThemedIcon}" />
+						</Border>
+						<Viewbox
+							x:Name="IconRoot"
+							Width="{TemplateBinding IconSize}"
+							Height="{TemplateBinding IconSize}"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							Visibility="Collapsed">
+							<ContentPresenter
+								x:Name="IconContent"
+								Content="{TemplateBinding Icon}"
+								Visibility="Collapsed" />
 						</Viewbox>
 						<TextBlock
 							x:Name="TextBlock"
@@ -87,6 +104,7 @@
 										<Setter Target="LayoutRoot.Background" Value="{ThemeResource MenuFlyoutItemBackgroundDisabled}" />
 										<Setter Target="TextBlock.Foreground" Value="{ThemeResource MenuFlyoutItemForegroundDisabled}" />
 										<Setter Target="IconContent.Foreground" Value="{ThemeResource MenuFlyoutItemForegroundDisabled}" />
+										<Setter Target="PART_ThemedIcon.IsEnabled" Value="False" />
 										<Setter Target="KeyboardAcceleratorTextBlock.Foreground" Value="{ThemeResource MenuFlyoutItemKeyboardAcceleratorTextForegroundDisabled}" />
 									</VisualState.Setters>
 								</VisualState>
@@ -102,13 +120,16 @@
 									<VisualState.Setters>
 										<Setter Target="TextBlock.Margin" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}" />
 										<Setter Target="IconRoot.Visibility" Value="Visible" />
+										<Setter Target="PART_ThemedIconRoot.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckAndIconPlaceholder">
 									<VisualState.Setters>
 										<Setter Target="TextBlock.Margin" Value="{ThemeResource MenuFlyoutItemDoublePlaceholderThemeThickness}" />
 										<Setter Target="IconRoot.Margin" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}" />
+										<Setter Target="PART_ThemedIconRoot.Margin" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}" />
 										<Setter Target="IconRoot.Visibility" Value="Visible" />
+										<Setter Target="PART_ThemedIconRoot.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

@@ -14,11 +14,46 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Files.App.Controls
 {
-	public sealed class MenuFlyoutItemEx : MenuFlyoutItem
+	public partial class MenuFlyoutItemEx : MenuFlyoutItem
 	{
+		private bool _useThemedIcon;
+		private ThemedIcon _tIcon;
+		private Border _tIconRoot;
+
+
+
 		public MenuFlyoutItemEx()
 		{
 			this.DefaultStyleKey = typeof( MenuFlyoutItemEx );
+		}
+
+
+
+		protected override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+
+			this._tIcon = GetTemplateChild( ThemedIconPartName ) as ThemedIcon;
+		}
+
+
+
+		private void ThemedIconChanged(DependencyObject d, Style newStyle)
+		{
+			var control = (MenuFlyoutItemEx)d;
+
+			// Handles changes to the ThemedIcon's Style
+
+			if ( control._tIcon != null && control._tIconRoot != null )
+			{
+			}
+		}
+
+
+
+		private void IconSizeChanged(DependencyObject d , double newValue)
+		{
+			// Handle IconSize changes
 		}
 	}
 }
