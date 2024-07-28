@@ -175,7 +175,7 @@ namespace Files.App.Services.Settings
 
 		public bool ShowCloudDrivesSection
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
