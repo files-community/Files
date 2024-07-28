@@ -211,7 +211,7 @@ namespace Files.App.Services.Settings
 		}
 		public bool ShowFileTagsSection
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
