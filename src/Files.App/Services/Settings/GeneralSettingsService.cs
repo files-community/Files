@@ -157,7 +157,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsLibrarySectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -169,7 +169,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsDriveSectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -181,7 +181,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsCloudDriveSectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -193,7 +193,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsNetworkSectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -205,7 +205,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsWslSectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 
 		}
@@ -217,7 +217,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsFileTagsSectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
