@@ -152,7 +152,7 @@ namespace Files.App.Helpers
 					Constants.ImageRes.ShieldIcon
 				}, 16);
 
-			return imageResList.First();
+			return imageResList.FirstOrDefault();
 		}
 	}
 }
