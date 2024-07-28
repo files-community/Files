@@ -157,7 +157,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsLibrarySectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -205,13 +205,13 @@ namespace Files.App.Services.Settings
 
 		public bool IsWslSectionExpanded
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 
 		}
 		public bool ShowFileTagsSection
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
