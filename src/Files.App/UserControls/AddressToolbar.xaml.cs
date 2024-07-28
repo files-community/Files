@@ -154,27 +154,27 @@ namespace Files.App.UserControls
 
 		public ObservableCollection<HistoryItemViewModel> HistoryItems { get; } = new();
 
-		private void Back_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void Back_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var shellPage = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage;
 			if (shellPage is null)
 				return;
 
-			AddHistoryItems(shellPage.BackwardStack, true);
+			await AddHistoryItemsAsync(shellPage.BackwardStack, true);
 			HistoryTeachingTip.Target = Back;
 		}
 
-		private void Forward_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void Forward_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var shellPage = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage;
 			if (shellPage is null)
 				return;
 
-			AddHistoryItems(shellPage.ForwardStack, false);
+			await AddHistoryItemsAsync(shellPage.ForwardStack, false);
 			HistoryTeachingTip.Target = Forward;
 		}
 
-		private void AddHistoryItems(IEnumerable<PageStackEntry> items, bool isBackMode)
+		private async Task AddHistoryItemsAsync(IEnumerable<PageStackEntry> items, bool isBackMode)
 		{
 			// This may not seem performant, however it's the most viable trade-off to make.
 			// Instead of constantly keeping track of back/forward stack and performing lookups
@@ -187,7 +187,11 @@ namespace Files.App.UserControls
 
 			foreach (var item in items.Reverse())
 			{
-				HistoryItems.Add(new(item, isBackMode));
+				if (item.Parameter is not NavigationArguments args || args.NavPathParam is null)
+					continue;
+
+				var imageSource = await NavigationHelpers.GetIconForPathAsync(args.NavPathParam);
+				HistoryItems.Add(new(item, isBackMode, args.NavPathParam, imageSource));
 			}
 
 			HistoryListView.ItemsSource = HistoryItems;
@@ -233,20 +237,19 @@ namespace Files.App.UserControls
 	public sealed partial class HistoryItemViewModel : ObservableObject
 	{
 		[ObservableProperty] private string? _Name;
+		[ObservableProperty] private ImageSource? _ImageSource;
 
 		public PageStackEntry PageStackEntry { get; }
 
 		public bool IsBackMode { get; }
 
-		public HistoryItemViewModel(PageStackEntry pageStackEntry, bool isBackMode)
+		public HistoryItemViewModel(PageStackEntry pageStackEntry, bool isBackMode, string path, ImageSource? imageSource)
 		{
 			PageStackEntry = pageStackEntry;
 			IsBackMode = isBackMode;
 
-			if (pageStackEntry.Parameter is not NavigationArguments args)
-				return;
-
-			Name = SystemIO.Path.GetFileName(args.NavPathParam);
+			Name = SystemIO.Path.GetFileName(path);
+			ImageSource = imageSource;
 		}
 	}
 }

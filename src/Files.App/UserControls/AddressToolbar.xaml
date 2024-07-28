@@ -282,7 +282,7 @@
 						<ListView.ItemTemplate>
 							<DataTemplate x:DataType="local:HistoryItemViewModel">
 								<StackPanel Orientation="Horizontal" Spacing="8">
-									<Image Height="24" Source="ms-appx:///Assets/FolderIcon.png" />
+									<Image Height="24" Source="{x:Bind ImageSource, Mode=OneWay}" />
 									<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
 								</StackPanel>
 							</DataTemplate>
@@ -367,7 +367,6 @@
 									x:Name="RightAlignedKeyboardShortcut"
 									Grid.Column="1"
 									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
-
 							</Grid>
 						</StackPanel>
 					</DataTemplate>
