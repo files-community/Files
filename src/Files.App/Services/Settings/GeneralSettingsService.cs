@@ -181,7 +181,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsCloudDriveSectionExpanded
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
