@@ -157,7 +157,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsLibrarySectionExpanded
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
