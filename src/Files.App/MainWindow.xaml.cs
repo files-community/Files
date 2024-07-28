@@ -260,6 +260,7 @@ namespace Files.App
 					// (see https://github.com/files-community/Files/issues/15599)
 
 					App.Logger.LogWarning(ex, ex.Message);
+					return;
 				}
 
 				var paneNavigationArgs = new PaneNavigationArguments
