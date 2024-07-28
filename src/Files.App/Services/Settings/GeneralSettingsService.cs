@@ -169,7 +169,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsDriveSectionExpanded
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
