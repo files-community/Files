@@ -205,7 +205,7 @@ namespace Files.App.Services.Settings
 
 		public bool IsWslSectionExpanded
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 
 		}
