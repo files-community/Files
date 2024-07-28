@@ -1095,7 +1095,7 @@ namespace Files.App.Views.Layouts
 								Commands.OpenItem.ExecuteAsync();
 							}
 						},
-						TimeSpan.FromMilliseconds(1000), false);
+						TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan), false);
 					}
 				}
 			}
