@@ -58,8 +58,10 @@ namespace Files.App.Services
 					.Select(line => line.Split('='))
 					// Validate
 					.Where(parts => parts.Length == 2)
+					// Group by key to avoid duplicates
+					.GroupBy(parts => parts[0].Trim())
 					// Gather as dictionary
-					.ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
+					.ToDictionary(partsGroup => partsGroup.Key, partsGroup => partsGroup.Last()[1].Trim());
 
 				dataItems.Add(new()
 				{
