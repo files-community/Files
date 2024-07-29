@@ -127,8 +127,7 @@ namespace Files.App.Utils.Storage
 					{
 						using var shi = new ShellItem(fileToDeletePath[i]);
 						using var file = SafetyExtensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
-						var status = file.Properties.TryGetValue(PKEY_FilePlaceholderStatus, out var value) ? (uint?)value : null;
-						if (status == PS_CLOUDFILE_PLACEHOLDER)
+						if ((uint?)file.Properties.GetValueOrDefault(PKEY_FilePlaceholderStatus) == PS_CLOUDFILE_PLACEHOLDER)
 						{
 							// Online only files cannot be tried for deletion, so they are treated as to be permanently deleted.
 							shellOperationResult.Items.Add(new ShellOperationItemResult()
