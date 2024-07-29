@@ -102,7 +102,7 @@ namespace Files.App.Views
 				SecondaryButtonText = "DontShowAgain".ToLocalized()
 			};
 
-			var result = await runningAsAdminPrompt.TryShowAsync();
+			var result = await SetContentDialogRoot(runningAsAdminPrompt).TryShowAsync();
 
 			if (result == ContentDialogResult.Secondary)
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
