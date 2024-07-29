@@ -310,6 +310,8 @@ namespace Files.App.Utils.Cloud
 				path = temp.RootDirectory.Name;
 			}
 
+			// If `path` contains a shortcut named "My Drive", store its target in `shellFolderBaseFirst`.
+			// This happens when "My Drive syncing options" is set to "Mirror files".
 			using var shellFolderBase = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
 			var shellFolderBaseFirst = Environment.ExpandEnvironmentVariables((
 				                                                                  shellFolderBase?.FirstOrDefault(si =>
@@ -317,20 +319,21 @@ namespace Files.App.Utils.Cloud
 					                                                                  false) as ShellLink)
 			                                                                  ?.TargetPath ??
 			                                                                  "");
+
+			// TESTING
 			shellFolderBase?.ForEach(si => invalidPathsLogger.LogInformation(si.Name));
 
-			switch (shellFolderBaseFirst)
+			if (!string.IsNullOrEmpty(shellFolderBaseFirst))
 			{
-				case "":
-					path = Path.Combine(path, "My Drive");
-					if (Directory.Exists(path))
-						return true;
-					_logger.LogWarning("Invalid Google Drive mount point path: " + path);
-					return false;
-				default:
-					path = shellFolderBaseFirst;
-					return true;
+				path = shellFolderBaseFirst;
+				return true;
 			}
+
+			path = Path.Combine(path, "My Drive");
+			if (Directory.Exists(path))
+				return true;
+			_logger.LogWarning("Invalid Google Drive mount point path: " + path);
+			return false;
 		}
 	}
 }
