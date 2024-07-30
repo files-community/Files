@@ -51,6 +51,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand Redo => commands[CommandCodes.Redo];
 		public IRichCommand Undo => commands[CommandCodes.Undo];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
+		public IRichCommand ToggleDotFilesSetting => commands[CommandCodes.ToggleDotFilesSetting];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
 		public IRichCommand ToggleDetailsPane => commands[CommandCodes.ToggleDetailsPane];
@@ -237,6 +238,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.Redo] = new RedoAction(),
 			[CommandCodes.Undo] = new UndoAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
+			[CommandCodes.ToggleDotFilesSetting] = new ToggleDotFilesSettingAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
 			[CommandCodes.ToggleDetailsPane] = new ToggleDetailsPaneAction(),
