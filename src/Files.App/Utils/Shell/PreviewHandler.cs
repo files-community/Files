@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using Vanara.PInvoke;
 using Windows.UI;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.System.Com;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Shell
 {
@@ -12,12 +16,16 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	public sealed class PreviewHandler : IDisposable
 	{
+		// Fields
+
+		private static readonly Guid IPreviewHandlerIid = Guid.ParseExact("8895b1c6-b41f-4c1c-a562-0d564250836f", "d");
+
 		#region IPreviewHandlerFrame support
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct PreviewHandlerFrameInfo
 		{
-			public IntPtr AcceleratorTableHandle;
+			public nint AcceleratorTableHandle;
 			public uint AcceleratorEntryCount;
 		}
 
@@ -49,7 +57,7 @@ namespace Files.App.Utils.Shell
 
 			public HRESULT GetWindowContext(out PreviewHandlerFrameInfo pinfo)
 			{
-				pinfo.AcceleratorTableHandle = IntPtr.Zero;
+				pinfo.AcceleratorTableHandle = nint.Zero;
 				pinfo.AcceleratorEntryCount = 0;
 				if (disposed)
 					return HRESULT.E_FAIL;
@@ -72,7 +80,7 @@ namespace Files.App.Utils.Shell
 		interface IPreviewHandler
 		{
 			[PreserveSig]
-			HRESULT SetWindow(IntPtr hwnd, ref RECT prc);
+			HRESULT SetWindow(nint hwnd, ref RECT prc);
 			[PreserveSig]
 			HRESULT SetRect(ref RECT prc);
 			[PreserveSig]
@@ -82,7 +90,7 @@ namespace Files.App.Utils.Shell
 			[PreserveSig]
 			HRESULT SetFocus();
 			[PreserveSig]
-			HRESULT QueryFocus(out IntPtr phwnd);
+			HRESULT QueryFocus(out nint phwnd);
 			// TranslateAccelerator is not used here.
 		}
 
@@ -92,7 +100,7 @@ namespace Files.App.Utils.Shell
 			[PreserveSig]
 			HRESULT SetBackgroundColor(uint color);
 			[PreserveSig]
-			HRESULT SetFont(ref LOGFONT plf);
+			HRESULT SetFont(ref LOGFONTW plf);
 			[PreserveSig]
 			HRESULT SetTextColor(uint color);
 		}
@@ -119,7 +127,9 @@ namespace Files.App.Utils.Shell
 		nint hwnd;
 		IPreviewHandler previewHandler;
 		IPreviewHandlerVisuals visuals;
-		IntPtr pPreviewHandler;
+		nint pPreviewHandler;
+
+		// Initializer
 
 		public PreviewHandler(Guid clsid, nint frame)
 		{
@@ -128,6 +138,7 @@ namespace Files.App.Utils.Shell
 			shown = false;
 			comSite = new PreviewHandlerFrame(frame);
 			hwnd = frame;
+
 			try
 			{
 				SetupHandler(clsid);
@@ -138,52 +149,64 @@ namespace Files.App.Utils.Shell
 				if (previewHandler != null)
 					Marshal.ReleaseComObject(previewHandler);
 				previewHandler = null;
-				if (pPreviewHandler != IntPtr.Zero)
+				if (pPreviewHandler != nint.Zero)
 					Marshal.Release(pPreviewHandler);
-				pPreviewHandler = IntPtr.Zero;
+				pPreviewHandler = nint.Zero;
 				comSite.Dispose();
 				comSite = null;
 				throw;
 			}
 		}
 
-		static readonly Guid IPreviewHandlerIid = Guid.ParseExact("8895b1c6-b41f-4c1c-a562-0d564250836f", "d");
+		// Methods
 
-		void SetupHandler(Guid clsid)
+		unsafe void SetupHandler(Guid clsid)
 		{
-			IntPtr pph;
+			nint pph;
 			var iid = IPreviewHandlerIid;
 			var cannotCreate = "Cannot create class " + clsid.ToString() + " as IPreviewHandler.";
 			var cannotCast = "Cannot cast class " + clsid.ToString() + " as IObjectWithSite.";
 			var cannotSetSite = "Cannot set site to the preview handler object.";
-			// Important: manully calling CoCreateInstance is necessary.
+
+			// Important: manually calling CoCreateInstance is necessary.
 			// If we use Activator.CreateInstance(Type.GetTypeFromCLSID(...)),
 			// CLR will allow in-process server, which defeats isolation and
 			// creates strange bugs.
-			HRESULT hr = Win32PInvoke.CoCreateInstance(ref clsid, IntPtr.Zero, Win32PInvoke.ClassContext.LocalServer, ref iid, out pph);
+			HRESULT hr = PInvoke.CoCreateInstance(
+				clsid,
+				null,
+				CLSCTX.CLSCTX_LOCAL_SERVER,
+				ref iid,
+				out void* previewHandlerPtr);
+
+			object previewHandlerObject = *(IPreviewHandler*)previewHandlerPtr;
+
 			// See https://blogs.msdn.microsoft.com/adioltean/2005/06/24/when-cocreateinstance-returns-0x80080005-co_e_server_exec_failure/
 			// CO_E_SERVER_EXEC_FAILURE also tends to happen when debugging in Visual Studio.
 			// Moreover, to create the instance in a server at low integrity level, we need
 			// to use another thread with low mandatory label. We keep it simple by creating
 			// a same-integrity object.
 			//if (hr == HRESULT.CO_E_SERVER_EXEC_FAILURE)
-			//	hr = CoCreateInstance(ref clsid, IntPtr.Zero, ClassContext.LocalServer, ref iid, out pph);
+			//	hr = CoCreateInstance(ref clsid, nint.Zero, ClassContext.LocalServer, ref iid, out pph);
 			if ((int)hr < 0)
 				throw new COMException(cannotCreate, (int)hr);
-			pPreviewHandler = pph;
-			var previewHandlerObject = Marshal.GetUniqueObjectForIUnknown(pph);
-			previewHandler = previewHandlerObject as IPreviewHandler;
+
+			pPreviewHandler = new(previewHandlerPtr);
+			previewHandler = (IPreviewHandler)previewHandlerObject;
 			if (previewHandler == null)
 			{
 				Marshal.ReleaseComObject(previewHandlerObject);
 				throw new COMException(cannotCreate);
 			}
+
 			var objectWithSite = previewHandlerObject as IObjectWithSite;
 			if (objectWithSite == null)
 				throw new COMException(cannotCast);
+
 			hr = objectWithSite.SetSite(comSite);
 			if ((int)hr < 0)
 				throw new COMException(cannotSetSite, (int)hr);
+
 			visuals = previewHandlerObject as IPreviewHandlerVisuals;
 		}
 
@@ -200,7 +223,7 @@ namespace Files.App.Utils.Shell
 		interface IInitializeWithStreamNative
 		{
 			[PreserveSig]
-			HRESULT Initialize(IntPtr psi, STGM grfMode);
+			HRESULT Initialize(nint psi, STGM grfMode);
 		}
 
 		static readonly Guid IInitializeWithStreamIid = Guid.ParseExact("b824b49d-22ac-4161-ac8a-9916e8fa3f7f", "d");
@@ -218,7 +241,7 @@ namespace Files.App.Utils.Shell
 		interface IInitializeWithItem
 		{
 			[PreserveSig]
-			HRESULT Initialize(IntPtr psi, STGM grfMode);
+			HRESULT Initialize(nint psi, STGM grfMode);
 		}
 
 		static readonly Guid IInitializeWithItemIid = Guid.ParseExact("7f73be3f-fb79-493c-a6c7-7ee14e245841", "d");
@@ -237,15 +260,19 @@ namespace Files.App.Utils.Shell
 		{
 			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
 				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
+
 			var iws = previewHandler as IInitializeWithStream;
 			if (iws == null)
 				return false;
+
 			var hr = iws.Initialize(stream, mode);
 			if (hr == HRESULT.E_NOTIMPL)
 				return false;
 			if ((int)hr < 0)
 				throw new COMException("IInitializeWithStream.Initialize failed.", (int)hr);
+
 			init = true;
+
 			return true;
 		}
 
@@ -257,21 +284,26 @@ namespace Files.App.Utils.Shell
 		/// <param name="pStream">The native pointer to the IStream interface.</param>
 		/// <param name="mode">The storage mode.</param>
 		/// <returns>True or false, see InitWithStream(IStream, STGM).</returns>
-		public bool InitWithStream(IntPtr pStream, STGM mode)
+		public bool InitWithStream(nint pStream, STGM mode)
 		{
 			EnsureNotDisposed();
 			EnsureNotInitialized();
+
 			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
 				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
+
 			var iws = previewHandler as IInitializeWithStreamNative;
 			if (iws == null)
 				return false;
+
 			var hr = iws.Initialize(pStream, mode);
 			if (hr == HRESULT.E_NOTIMPL)
 				return false;
 			if ((int)hr < 0)
 				throw new COMException("IInitializeWithStream.Initialize failed.", (int)hr);
+
 			init = true;
+
 			return true;
 		}
 
@@ -283,21 +315,26 @@ namespace Files.App.Utils.Shell
 		/// <param name="psi">The native pointer to the IShellItem interface.</param>
 		/// <param name="mode">The storage mode.</param>
 		/// <returns>True or false, see InitWithStream(IStream, STGM).</returns>
-		public bool InitWithItem(IntPtr psi, STGM mode)
+		public bool InitWithItem(nint psi, STGM mode)
 		{
 			EnsureNotDisposed();
 			EnsureNotInitialized();
+
 			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
 				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
+
 			var iwi = previewHandler as IInitializeWithItem;
 			if (iwi == null)
 				return false;
+
 			var hr = iwi.Initialize(psi, mode);
 			if (hr == HRESULT.E_NOTIMPL)
 				return false;
 			if ((int)hr < 0)
 				throw new COMException("IInitializeWithItem.Initialize failed.", (int)hr);
+
 			init = true;
+
 			return true;
 		}
 
@@ -313,17 +350,22 @@ namespace Files.App.Utils.Shell
 		{
 			EnsureNotDisposed();
 			EnsureNotInitialized();
+
 			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
 				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
+
 			var iwf = previewHandler as IInitializeWithFile;
 			if (iwf == null)
 				return false;
+
 			var hr = iwf.Initialize(path, mode);
 			if (hr == HRESULT.E_NOTIMPL)
 				return false;
 			if ((int)hr < 0)
 				throw new COMException("IInitializeWithFile.Initialize failed.", (int)hr);
+
 			init = true;
+
 			return true;
 		}
 
@@ -335,7 +377,8 @@ namespace Files.App.Utils.Shell
 		public bool InitWithFileWithEveryWay(string path)
 		{
 			var exceptions = new List<Exception>();
-			var pobj = IntPtr.Zero;
+			var pobj = nint.Zero;
+
 			// Why should we try IStream first?
 			// Because that gives us the best security.
 			// If we initialize with string or IShellItem,
@@ -345,7 +388,7 @@ namespace Files.App.Utils.Shell
 			try
 			{
 				pobj = ItemStreamHelper.IStreamFromPath(path);
-				if (pobj != IntPtr.Zero
+				if (pobj != nint.Zero
 					&& InitWithStream(pobj, STGM.STGM_READ))
 					return true;
 			}
@@ -355,10 +398,12 @@ namespace Files.App.Utils.Shell
 			}
 			finally
 			{
-				if (pobj != IntPtr.Zero)
+				if (pobj != nint.Zero)
 					ItemStreamHelper.ReleaseObject(pobj);
-				pobj = IntPtr.Zero;
+
+				pobj = nint.Zero;
 			}
+
 			// Next try file because that could save us some P/Invokes.
 			try
 			{
@@ -369,12 +414,14 @@ namespace Files.App.Utils.Shell
 			{
 				exceptions.Add(ex);
 			}
+
 			try
 			{
 				pobj = ItemStreamHelper.IShellItemFromPath(path);
-				if (pobj != IntPtr.Zero
+				if (pobj != nint.Zero
 					&& InitWithItem(pobj, STGM.STGM_READ))
 					return true;
+
 				if (exceptions.Count == 0)
 					throw new NotSupportedException("The object cannot be initialized at all.");
 			}
@@ -384,10 +431,12 @@ namespace Files.App.Utils.Shell
 			}
 			finally
 			{
-				if (pobj != IntPtr.Zero)
+				if (pobj != nint.Zero)
 					ItemStreamHelper.ReleaseObject(pobj);
-				pobj = IntPtr.Zero;
+
+				pobj = nint.Zero;
 			}
+
 			throw new AggregateException(exceptions);
 		}
 
@@ -397,9 +446,12 @@ namespace Files.App.Utils.Shell
 		public bool ResetWindow()
 		{
 			EnsureNotDisposed();
+
 			//EnsureInitialized();
+
 			if (!init)
 				return false;
+
 			var hr = previewHandler.SetWindow(hwnd, new());
 			return (int)hr >= 0;
 		}
@@ -410,9 +462,12 @@ namespace Files.App.Utils.Shell
 		public bool ResetBounds(RECT previewerBounds)
 		{
 			EnsureNotDisposed();
+
 			//EnsureInitialized();
+
 			if (!init)
 				return false;
+
 			var hr = previewHandler.SetRect(previewerBounds);
 			return (int)hr >= 0;
 		}
@@ -444,7 +499,7 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		/// <param name="font">The LogFontW reference.</param>
 		/// <returns>Whether the call succeeds.</returns>
-		public bool SetFont(ref LOGFONT font)
+		public bool SetFont(ref LOGFONTW font)
 		{
 			var hr = visuals?.SetFont(ref font);
 			return hr.HasValue && (int)hr.Value >= 0;
@@ -456,12 +511,18 @@ namespace Files.App.Utils.Shell
 		public void DoPreview()
 		{
 			EnsureNotDisposed();
+
 			//EnsureInitialized();
+
 			if (!init)
 				return;
+
 			EnsureNotShown();
+
 			ResetWindow();
+
 			previewHandler.DoPreview();
+
 			shown = true;
 		}
 
@@ -471,9 +532,12 @@ namespace Files.App.Utils.Shell
 		public void Focus()
 		{
 			EnsureNotDisposed();
+
 			//EnsureInitialized();
+
 			if (!init)
 				return;
+
 			EnsureShown();
 			previewHandler.SetFocus();
 		}
@@ -482,17 +546,23 @@ namespace Files.App.Utils.Shell
 		/// Tells the preview handler to query focus.
 		/// </summary>
 		/// <returns>The focused window.</returns>
-		public IntPtr QueryFocus()
+		public nint QueryFocus()
 		{
 			EnsureNotDisposed();
+
 			//EnsureInitialized();
+
 			if (!init)
-				return IntPtr.Zero;
+				return nint.Zero;
+
 			EnsureShown();
-			IntPtr result;
+
+			nint result;
+
 			var hr = previewHandler.QueryFocus(out result);
 			if ((int)hr < 0)
-				return IntPtr.Zero;
+				return nint.Zero;
+
 			return result;
 		}
 
@@ -534,7 +604,7 @@ namespace Files.App.Utils.Shell
 				throw new InvalidOperationException("The preview handler must not be shown to call this method.");
 		}
 
-		#region IDisposable pattern
+		// Dispose
 
 		void Dispose(bool disposing)
 		{
@@ -572,8 +642,5 @@ namespace Files.App.Utils.Shell
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-
-		#endregion
-
 	}
 }
