@@ -252,7 +252,7 @@
 					BorderBrush="Transparent"
 					IsChecked="{x:Bind MainPageViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleSidebar}">
-					<AnimatedIcon Width="16">
+					<AnimatedIcon Width="14">
 						<AnimatedIcon.Source>
 							<animatedvisuals:AnimatedGlobalNavigationButtonVisualSource />
 						</AnimatedIcon.Source>
