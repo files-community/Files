@@ -243,13 +243,13 @@
 
 				<ToggleButton
 					x:Name="SidebarPaneToggleButton"
-					Width="32"
+					Width="36"
 					Height="32"
 					Padding="0"
 					x:Load="{x:Bind IsSidebarPaneOpenToggleButtonVisible, Mode=OneWay}"
 					AutomationProperties.Name="ToggleSidebarPane"
 					Background="Transparent"
-					BorderThickness="0"
+					BorderBrush="Transparent"
 					IsChecked="{x:Bind MainPageViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleSidebar}">
 					<AnimatedIcon Width="16">
