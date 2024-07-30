@@ -220,17 +220,21 @@ namespace Files.App.Views.Layouts
 		private List<ListedItem>? selectedItems = [];
 		public List<ListedItem>? SelectedItems
 		{
-			get {
+			get
+			{
 				if (!isSelectedItemsSorted)
 				{
 					var orderedItems = SortingHelper.OrderFileList(selectedItems, FolderSettings.DirectorySortOption, FolderSettings.DirectorySortDirection, FolderSettings.SortDirectoriesAlongsideFiles, FolderSettings.SortFilesFirst).ToList();
 					selectedItems = orderedItems;
 					isSelectedItemsSorted = true;
 				}
-				if (SelectedItem is null || !selectedItems!.Contains(SelectedItem))
-					return selectedItems;
-				else
-					return selectedItems.SkipWhile(x => x != SelectedItem).Concat(selectedItems.TakeWhile(x => x != SelectedItem)).ToList();
+
+				return SelectedItem is null || !selectedItems!.Contains(SelectedItem)
+					? selectedItems
+					: selectedItems
+						.SkipWhile(x => x != SelectedItem)
+						.Concat(selectedItems.TakeWhile(x => x != SelectedItem))
+						.ToList();
 			}
 			internal set
 			{
@@ -274,7 +278,6 @@ namespace Files.App.Views.Layouts
 
 					NotifyPropertyChanged(nameof(SelectedItems));
 				}
-				
 				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
 			}
 		}
@@ -1194,7 +1197,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+		protected void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (sender is not SelectorItem selectorItem)
 				return;
