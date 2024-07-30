@@ -13,10 +13,12 @@ namespace Files.App.Controls
 	[TemplateVisualState( Name = NormalStateName , GroupName = CommonStatesGroupName )]
 	[TemplateVisualState( Name = PointerOverStateName , GroupName = CommonStatesGroupName )]
 	[TemplateVisualState( Name = PressedStateName , GroupName = CommonStatesGroupName )]
+	[TemplateVisualState( Name = OpenedStateName , GroupName = CommonStatesGroupName )]
 	[TemplateVisualState( Name = DisabledStateName , GroupName = CommonStatesGroupName )]
 
 	public partial class ToolbarFlyoutButton : ToolbarButton
 	{
-
+		// CommonStates Visual State Names
+		internal const string OpenedStateName = "Opened";
 	}
 }

@@ -7,6 +7,6 @@ namespace Files.App.Controls
 {
 	public partial class ToolbarFlyoutButton : ToolbarButton
 	{
-
+		private bool _isOpened;
 	}
 }
