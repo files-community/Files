@@ -1,93 +1,116 @@
-﻿using Files.App.ViewModels.Properties;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.ViewModels.Properties;
 using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using System.Runtime.InteropServices;
-using System.Text;
-using Vanara.PInvoke;
 using Windows.Win32;
+using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Direct3D;
 using Windows.Win32.Graphics.Direct3D11;
 using Windows.Win32.Graphics.Dxgi;
 using Windows.Win32.Graphics.DirectComposition;
-using WinRT;
-using Windows.Win32;
 using Windows.Win32.Graphics.Dwm;
-using static Vanara.PInvoke.ShlwApi;
-using static Vanara.PInvoke.User32;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.WindowsAndMessaging;
+using WinRT;
+
+// Description: Feature is for evaluation purposes only and is subject to change or removal in future updates.
+// Justification: We have to use ContentExternalOutputLink for shell previews.
+#pragma warning disable CS8305
 
 namespace Files.App.ViewModels.Previews
 {
 	public sealed class ShellPreviewViewModel : BasePreviewModel
 	{
-		public ShellPreviewViewModel(ListedItem item)
-			: base(item)
+		PreviewHandler? currentHandler;
+		ContentExternalOutputLink? outputLink;
+		WNDCLASSEXW? wCls;
+		HWND hwnd = HWND.Null;
+		bool isOfficePreview = false;
+
+		public ShellPreviewViewModel(ListedItem item) : base(item)
 		{
 		}
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 			=> [];
 
-		private const string IPreviewHandlerIid = "{8895b1c6-b41f-4c1c-a562-0d564250836f}";
-		private static readonly Guid QueryAssociationsClsid = new Guid(0xa07034fd, 0x6caa, 0x4954, 0xac, 0x3f, 0x97, 0xa2, 0x72, 0x16, 0xf9, 0x8a);
-		private static readonly Guid IQueryAssociationsIid = Guid.ParseExact("c46ca590-3c3f-11d2-bee6-0000f805ca57", "d");
-
-		PreviewHandler? currentHandler;
-		ContentExternalOutputLink? outputLink;
-		WindowClass? wCls;
-		HWND hwnd = HWND.NULL;
-		bool isOfficePreview = false;
-
-		public static Guid? FindPreviewHandlerFor(string extension, IntPtr hwnd)
+		public static unsafe Guid? FindPreviewHandlerFor(string extension, nint hwnd)
 		{
 			if (string.IsNullOrEmpty(extension))
 				return null;
-			var hr = AssocCreate(QueryAssociationsClsid, IQueryAssociationsIid, out var queryAssoc);
-			if (!hr.Succeeded)
-				return null;
+
 			try
 			{
-				if (queryAssoc == null)
-					return null;
-				queryAssoc.Init(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, extension, IntPtr.Zero, hwnd);
-				var sb = new StringBuilder(128);
-				uint cch = 64;
-				queryAssoc.GetString(ASSOCF.ASSOCF_NOTRUNCATE, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, IPreviewHandlerIid, sb, ref cch);
-				Debug.WriteLine($"Preview handler for {extension}: {sb}");
-				return Guid.Parse(sb.ToString());
+				fixed (char* pszOutput = new char[1024])
+				{
+					PWSTR pwszOutput = new(pszOutput);
+					uint cchOutput = 512u;
+
+					// Try to find registered preview handler associated with specified extension name
+					var res = PInvoke.AssocQueryString(
+						ASSOCF.ASSOCF_NOTRUNCATE,
+						ASSOCSTR.ASSOCSTR_SHELLEXTENSION,
+						extension,
+						"{8895b1c6-b41f-4c1c-a562-0d564250836f}",
+						pszOutput,
+						ref cchOutput);
+
+					return Guid.Parse(pwszOutput.ToString());
+				}
 			}
 			catch
 			{
 				return null;
 			}
-			finally
-			{
-				Marshal.ReleaseComObject(queryAssoc);
-			}
 		}
 
 		public void SizeChanged(RECT size)
 		{
-			if (hwnd != HWND.NULL)
-				SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
+			if (hwnd != HWND.Null)
+				PInvoke.SetWindowPos(hwnd, (HWND)0, size.left, size.top, size.Width, size.Height, SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
+
 			if (currentHandler != null)
 				currentHandler.ResetBounds(new(0, 0, size.Width, size.Height));
+
 			if (outputLink is not null)
 				outputLink.PlacementVisual.Size = new(size.Width, size.Height);
 		}
 
-		private IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
+		private unsafe LRESULT WndProc(HWND hwnd, uint msg, WPARAM wParam, LPARAM lParam)
 		{
-			if (msg == (uint)WindowMessage.WM_CREATE)
+			//if (msg == 0x0081 /*WM_NCCREATE*/)
+			//{
+			//	try
+			//	{
+			//		var cp = Marshal.PtrToStructure<CREATESTRUCTW>(lParam).lpCreateParams;
+			//		var pCreateParams = new nint(cp);
+			//		if (pCreateParams != nint.Zero && GCHandle.FromIntPtr(pCreateParams).Target is IWindowInit wnd)
+			//			return wnd.InitWndProcOnNCCreate(
+			//				hwnd,
+			//				msg,
+			//				Marshal.GetFunctionPointerForDelegate(wndProc ?? throw new NullReferenceException()),
+			//				lParam);
+			//	}
+			//	catch { }
+			//}
+			//else
+			if (msg == 0x0001 /*WM_CREATE*/)
 			{
-				var clsid = FindPreviewHandlerFor(Item.FileExtension, hwnd.DangerousGetHandle());
+				var clsid = FindPreviewHandlerFor(Item.FileExtension, hwnd.Value);
+
 				isOfficePreview = new Guid?[] {
-					Guid.Parse("84F66100-FF7C-4fb4-B0C0-02CD7FB668FE"),
+					Guid.Parse("84F66100-FF7C-4fb4-B0C0-02CD7FB668FE"), // 
 					Guid.Parse("65235197-874B-4A07-BDC5-E65EA825B718"),
-					Guid.Parse("00020827-0000-0000-C000-000000000046") }.Contains(clsid);
+					Guid.Parse("00020827-0000-0000-C000-000000000046")
+				}.Contains(clsid);
+
 				try
 				{
-					currentHandler = new PreviewHandler(clsid.Value, hwnd.DangerousGetHandle());
+					currentHandler = new PreviewHandler(clsid.Value, hwnd.Value);
 					currentHandler.InitWithFileWithEveryWay(Item.ItemPath);
 					currentHandler.DoPreview();
 				}
@@ -96,7 +119,7 @@ namespace Files.App.ViewModels.Previews
 					UnloadPreview();
 				}
 			}
-			else if (msg == (uint)WindowMessage.WM_DESTROY)
+			else if (msg == 0x0002 /*WM_DESTROY*/)
 			{
 				if (currentHandler is not null)
 				{
@@ -104,21 +127,53 @@ namespace Files.App.ViewModels.Previews
 					currentHandler = null;
 				}
 			}
-			return DefWindowProc(hwnd, msg, wParam, lParam);
+
+			return PInvoke.DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
-		public void LoadPreview(UIElement presenter)
+		public unsafe void LoadPreview(UIElement presenter)
 		{
 			var parent = MainWindow.Instance.WindowHandle;
+			var hInst = PInvoke.GetModuleHandle(default(PWSTR));
+			var szClassName = $"{GetType().Name}-{Guid.NewGuid()}";
+			var szWindowName = $"Preview";
 
-			HINSTANCE hInst = Kernel32.GetModuleHandle();
-			wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
-			hwnd = CreateWindowEx(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
+			fixed (char* pszClassName = szClassName)
+			{
+				wCls = new WNDCLASSEXW
+				{
+					cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEXW)),
+					lpfnWndProc = new(WndProc),
+					hInstance = hInst,
+					lpszClassName = pszClassName,
+					style = 0,
+					hIcon = default,
+					hIconSm = default,
+					hCursor = default,
+					hbrBackground = default,
+					lpszMenuName = null,
+					cbClsExtra = 0,
+					cbWndExtra = 0,
+				};
+
+				fixed (char* pszWindowName = szWindowName)
+				{
+					hwnd = PInvoke.CreateWindowEx(
+						WINDOW_EX_STYLE.WS_EX_LAYERED | WINDOW_EX_STYLE.WS_EX_COMPOSITED,
+						wCls.Value.lpszClassName,
+						pszWindowName,
+						WINDOW_STYLE.WS_CHILD | WINDOW_STYLE.WS_CLIPSIBLINGS | WINDOW_STYLE.WS_VISIBLE,
+						0, 0, 0, 0,
+						new(parent),
+						HMENU.Null,
+						hInst);
+				}
+			}
 
 			_ = ChildWindowToXaml(parent, presenter);
 		}
 
-		private unsafe bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
+		private unsafe bool ChildWindowToXaml(nint parent, UIElement presenter)
 		{
 			D3D_DRIVER_TYPE[] driverTypes =
 			[
@@ -134,7 +189,7 @@ namespace Files.App.ViewModels.Previews
 				var hr = PInvoke.D3D11CreateDevice(
 					null,
 					driveType,
-					new(IntPtr.Zero),
+					new(nint.Zero),
 					D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 					null,
 					0,
@@ -149,13 +204,15 @@ namespace Files.App.ViewModels.Previews
 
 			if (d3d11Device is null)
 				return false;
+
 			IDXGIDevice dxgiDevice = (IDXGIDevice)d3d11Device;
 			if (PInvoke.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var compDevicePtr).Failed)
 				return false;
+
 			IDCompositionDevice compDevice = (IDCompositionDevice)compDevicePtr;
 
 			compDevice.CreateVisual(out var childVisual);
-			compDevice.CreateSurfaceFromHwnd(new(hwnd.DangerousGetHandle()), out var controlSurface);
+			compDevice.CreateSurfaceFromHwnd(hwnd, out var controlSurface);
 			childVisual.SetContent(controlSurface);
 			if (childVisual is null || controlSurface is null)
 				return false;
@@ -196,12 +253,13 @@ namespace Files.App.ViewModels.Previews
 
 		public void UnloadPreview()
 		{
-			if (hwnd != HWND.NULL)
-				DestroyWindow(hwnd);
-			if (outputLink is not null)
-				outputLink.Dispose();
+			if (hwnd != HWND.Null)
+				PInvoke.DestroyWindow(hwnd);
+
+			outputLink?.Dispose();
+
 			if (wCls is not null)
-				UnregisterClass(wCls.ClassName, Kernel32.GetModuleHandle());
+				PInvoke.UnregisterClass(wCls.Value.lpszClassName, PInvoke.GetModuleHandle(default(PWSTR)));
 		}
 
 		public void PointerEntered(bool onPreview)
@@ -220,12 +278,14 @@ namespace Files.App.ViewModels.Previews
 				}
 
 				if (isOfficePreview)
-					Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
+					PInvoke.SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, 0);
 			}
 			else
 			{
-				Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
-					(nint)(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED));
+				PInvoke.SetWindowLong(
+					hwnd,
+					WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+					(int)(WINDOW_EX_STYLE.WS_EX_LAYERED | WINDOW_EX_STYLE.WS_EX_COMPOSITED));
 
 				unsafe
 				{
