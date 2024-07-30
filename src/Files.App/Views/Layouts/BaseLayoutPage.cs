@@ -230,7 +230,8 @@ namespace Files.App.Views.Layouts
 				}
 				if (clickedItem is null || !selectedItems!.Contains(clickedItem))
 					return selectedItems;
-				return selectedItems.SkipWhile(x => x != clickedItem).Concat(selectedItems.TakeWhile(x => x != clickedItem)).ToList();
+				else
+					return selectedItems.SkipWhile(x => x != clickedItem).Concat(selectedItems.TakeWhile(x => x != clickedItem)).ToList();
 			}
 			internal set
 			{
@@ -1199,6 +1200,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (sender is not SelectorItem selectorItem)
 				return;
+
 			clickedItem = GetItemFromElement(sender);
 			if (selectorItem.IsSelected && e.KeyModifiers == VirtualKeyModifiers.Control)
 			{
