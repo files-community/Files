@@ -97,9 +97,9 @@
 			<!--  Header  -->
 			<TabView.TabStripHeader>
 				<Button
-					Width="32"
-					Height="32"
-					Margin="8,0,0,0"
+					Width="30"
+					Height="30"
+					Margin="4,0,-2,0"
 					Padding="0"
 					VerticalAlignment="Center"
 					AutomationProperties.Name="{helpers:ResourceString Name=TabActions}"

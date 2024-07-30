@@ -42,9 +42,8 @@
 						BasedOn="{StaticResource DefaultButtonStyle}"
 						TargetType="Button">
 						<Setter Property="Padding" Value="0" />
-						<Setter Property="Background" Value="Transparent" />
-						<Setter Property="BorderThickness" Value="0" />
-						<Setter Property="Width" Value="32" />
+						<Setter Property="BorderBrush" Value="Transparent" />
+						<Setter Property="Width" Value="36" />
 						<Setter Property="Height" Value="32" />
 						<Setter Property="Foreground" Value="{ThemeResource App.Theme.IconBaseBrush}" />
 					</Style>
@@ -273,7 +272,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="16" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -287,7 +286,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="16" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -301,7 +300,7 @@
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="16" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -314,7 +313,7 @@
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="16" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
 
