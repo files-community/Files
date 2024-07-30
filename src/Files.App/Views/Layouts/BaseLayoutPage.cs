@@ -1202,15 +1202,21 @@ namespace Files.App.Views.Layouts
 			if (sender is not SelectorItem selectorItem)
 				return;
 
-			SelectedItem = GetItemFromElement(sender);
-			if (selectorItem.IsSelected && e.KeyModifiers == VirtualKeyModifiers.Control)
+			if (selectorItem.IsSelected)
 			{
-				selectorItem.IsSelected = false;
+				if (e.KeyModifiers == VirtualKeyModifiers.Control)
+				{
+					selectorItem.IsSelected = false;
 
-				// Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
-				e.Handled = true;
+					// Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
+					e.Handled = true;
+				}
+				else
+				{
+					SelectedItem = GetItemFromElement(sender);
+				}
 			}
-			else if (!selectorItem.IsSelected && e.GetCurrentPoint(selectorItem).Properties.IsLeftButtonPressed)
+			else if (e.GetCurrentPoint(selectorItem).Properties.IsLeftButtonPressed)
 			{
 				selectorItem.IsSelected = true;
 			}
