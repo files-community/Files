@@ -35,7 +35,8 @@
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-					<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+					<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="AppBarButtonBackgroundPointerOver" />
+					<StaticResource x:Key="ToggleButtonBackgroundPointerOver" ResourceKey="AppBarButtonBackgroundPointerOver" />
 
 					<Style
 						x:Key="AddressToolbarButtonStyle"
