@@ -42,6 +42,7 @@
 						BasedOn="{StaticResource DefaultButtonStyle}"
 						TargetType="Button">
 						<Setter Property="Padding" Value="0" />
+						<Setter Property="Background" Value="Transparent" />
 						<Setter Property="BorderBrush" Value="Transparent" />
 						<Setter Property="Width" Value="36" />
 						<Setter Property="Height" Value="32" />
