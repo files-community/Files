@@ -66,7 +66,6 @@ namespace Files.App.Views.Layouts
 
 		private bool shiftPressed;
 
-		private ListedItem? clickedItem = null;
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
@@ -228,14 +227,13 @@ namespace Files.App.Views.Layouts
 					selectedItems = orderedItems;
 					isSelectedItemsSorted = true;
 				}
-				if (clickedItem is null || !selectedItems!.Contains(clickedItem))
+				if (SelectedItem is null || !selectedItems!.Contains(SelectedItem))
 					return selectedItems;
 				else
-					return selectedItems.SkipWhile(x => x != clickedItem).Concat(selectedItems.TakeWhile(x => x != clickedItem)).ToList();
+					return selectedItems.SkipWhile(x => x != SelectedItem).Concat(selectedItems.TakeWhile(x => x != SelectedItem)).ToList();
 			}
 			internal set
 			{
-				clickedItem = null;
 				if (value != selectedItems)
 				{
 					isSelectedItemsSorted = false;
@@ -276,7 +274,7 @@ namespace Files.App.Views.Layouts
 
 					NotifyPropertyChanged(nameof(SelectedItems));
 				}
-
+				
 				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
 			}
 		}
@@ -1201,7 +1199,7 @@ namespace Files.App.Views.Layouts
 			if (sender is not SelectorItem selectorItem)
 				return;
 
-			clickedItem = GetItemFromElement(sender);
+			SelectedItem = GetItemFromElement(sender);
 			if (selectorItem.IsSelected && e.KeyModifiers == VirtualKeyModifiers.Control)
 			{
 				selectorItem.IsSelected = false;
