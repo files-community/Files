@@ -1197,7 +1197,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (sender is not SelectorItem selectorItem)
 				return;
