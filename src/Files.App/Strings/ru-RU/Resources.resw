@@ -160,7 +160,7 @@
     <value>Пропустить</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Выделить Всё</value>
+    <value>Выделить всё</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Инвертировать выделение</value>
@@ -178,7 +178,7 @@
     <value>Очистить все</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Введите путь для навигации или введите "&gt;", чтобы открыть командную строку</value>
+    <value>Введите путь для навигации или введите «&gt;», чтобы открыть командную строку</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Поиск</value>
@@ -319,7 +319,7 @@
     <value>Назад</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Вперед</value>
+    <value>Вперёд</value>
   </data>
   <data name="Up" xml:space="preserve">
     <value>Вверх</value>
@@ -358,7 +358,7 @@
     <value>Не удается открыть свойства этого файла</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
-    <value>Файл, к которому Вы пытаетесь получить доступ, возможно, был перемещен или удален.</value>
+    <value>Файл, к которому Вы пытаетесь получить доступ, возможно, был перемещён или удалён.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Файл не найден</value>
@@ -385,7 +385,7 @@
     <value>Только чтение</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# день назад} few {# дней назад} many {# дней назад} other {# дней назад}}</value>
+    <value>{0, plural, one {# день назад} few {# дня назад} other {# дней назад}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
     <value>1 день назад</value>
@@ -394,7 +394,7 @@
     <value>{0} дней назад</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# час назад} few {# часов назад} many {# часов назад} other {# часов назад}}</value>
+    <value>{0, plural, one {# час назад} few {# часа назад} other {# часов назад}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1 час назад</value>
@@ -403,7 +403,7 @@
     <value>{0} часов назад</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0, plural, one {# минута назад} few {# минут назад} many {# минут назад} other {# минут назад}}</value>
+    <value>{0, plural, one {# минута назад} few {# минуты назад} other {# минут назад}}</value>
   </data>
   <data name="MinutesAgo_Singular" xml:space="preserve">
     <value>1 минуту назад</value>
@@ -412,7 +412,7 @@
     <value>{0} минут назад</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0, plural, one {# секунду назад} few {# секунд назад} many {# секунд назад} other {# секунд назад}}</value>
+    <value>{0, plural, one {# секунду назад} few {# секунды назад} other {# секунд назад}}</value>
   </data>
   <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>1 секунду назад</value>
@@ -430,7 +430,7 @@
     <value>{0} свободно из {1}</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Отправить в</value>
+    <value>Отправить</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
@@ -439,11 +439,11 @@
     <value>Указанное имя элемента недопустимо</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# элемент выбран} few {# предметов выбрано} many {# предметов выбрано} other {# предметов выбрано}}</value>
+    <value>{0, plural, one {# элемент выбран} few {# элемента выбрано} other {# элементов выбрано}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {предмет} few {предметы} many {предметы} other {предметы}}</value>
+    <value>{0, plural, one {элемент} few {элемента} many {элементов} other {элементы}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -477,10 +477,10 @@
     <value>Б</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
+    <value>{0, number} {0, plural, one {файл} few {файла} other {файлов}}, {1, number} {1, plural, one {папка} few {папки} other {папок}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number} {0, plural, one {файл} few {файла} other {файлов}}, {1, number} {1, plural, one {папка} few {папки} other {папок}} из {2, number} {2, plural, one {места} other {мест}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Запуск от имени другого пользователя</value>
@@ -513,7 +513,7 @@
     <value>Переместить вкладку</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>Статус</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Стандартный</value>
@@ -894,10 +894,10 @@
     <value>Скорость потока</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Аудио кодирование битрейт</value>
+    <value>Битрейт кодирования аудио</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Битрейт видео кодирования</value>
+    <value>Битрейт кодирования видео</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Сжатие</value>
@@ -1068,22 +1068,22 @@
     <value>Имя Коллекции</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Показать панель предварительного просмотра</value>
+    <value>Показать панель предпросмотра</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Показать панель подробного просмотра</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Показать панель деталей для просмотра основных свойств файла</value>
+    <value>Переключить панель подробного просмотра основных свойств файла</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
     <value>Показать информационную панель</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Переключить панель информации для просмотра панелей с подробностями / предварительным просмотром</value>
+    <value>Переключить информационную панель для просмотра панелей с подробностями/предпросмотром</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle the Toolbar</value>
+    <value>Показать панель инструментов</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Предпросмотр недоступен</value>
@@ -1236,43 +1236,43 @@
     <value>Библиотека с таким названием уже существует!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Открыть Контроль памяти</value>
+    <value>Открыть менеджер памяти</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Копировать</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}}</value>
+    <value>Копировать {0, plural, one {элемент} other {элеметы}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}}</value>
+    <value>Удалить {0, plural, one {элемент} other {элеметы}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Переместить</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
+    <value>{0, plural, one {Один элемент будет перенесён} few {# элемента будет перенесено} other {# элементов будет перенесено}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move {0, plural, one {item} other {items}}</value>
+    <value>Перенести {0, plural, one {элемент} other {элементы}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
+    <value>{0, plural, one {Один элемент будет удалён} few {# элемента будет удалено} other {# элементов будет удалено}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Продолжить</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+    <value>{0, plural, one {Присутствует один конфликт имени файлов} few {Присутствует # конфликта имён файлов} other {Присутствует # конфликтов имён файлов}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}, and {1, plural, one {one outgoing item} other {# outgoing items}}</value>
+    <value>{0, plural, one {Присутствует один конфликт имени файлов} few {Присутствует # конфликта имён файлов} other {Присутствует # конфликтов имён файлов}} и {1, plural, one {один исходящий элемент} few {# исходящих элемента} other {# исходящих элементов}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
+    <value>Конфликт {0, plural, one {имени файла} other {имён фалов}}</value>
   </data>
   <data name="CopyItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
+    <value>{0, plural, one {Один элемени будет скопирован} few {# элемента будет скопировано} other {# элементов будет скопировано}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Удалить безвозвратно</value>
@@ -1368,10 +1368,10 @@
     <value>Ранее в этом году</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Прошлый год</value>
+    <value>В прошлом год</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Год {0}</value>
+    <value>{0} год</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} элемент</value>
@@ -1497,7 +1497,7 @@
     <value>подпапки</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Унаследовано</value>
+    <value>Унаследованные</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Разрешения</value>
@@ -1587,7 +1587,7 @@
     <value>Заменить все записи разрешений дочернего объекта наследуемыми записями разрешений от этого объекта</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Закрыть текущую вкладку</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Войти в компактный режим</value>
@@ -1617,7 +1617,7 @@
     <value>Загружает объект из облака и загружает предварительный просмотр</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
+    <value>{0, plural, one {# элемент} few {# элемента} other {# элементов}} ({1, plural, one {# файл} few {# файла} other {# файлов}}, {2, plural, one {# папка} few {# папки} other {# папок}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Несжатый размер</value>
@@ -1689,7 +1689,7 @@
     <value>Ок</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Требуются учетные данные</value>
+    <value>Требуются учётные данные</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>Анонимно</value>
@@ -1746,7 +1746,7 @@
     <value>Иcпользовать Files как диалог для открытия файлов</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Тэг</value>
+    <value>Метка</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Открывать файлы и папки одним нажатием</value>
@@ -1782,7 +1782,7 @@
     <value>Сбросить до заводских</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Открывать вкладку в существующем экземпляре File при открытии из другого приложения</value>
+    <value>Открывать вкладку в существующем экземпляре Files при открытии из другого приложения</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Настройки запуска</value>
@@ -1848,7 +1848,7 @@
     <value>Без уменьшения цвета</value>
   </data>
   <data name="ThirdPartyLibraries" xml:space="preserve">
-    <value>Third party libraries</value>
+    <value>Сторонние библиотеки</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Этот параметр изменяет реестр Windows и может иметь неожиданные побочные эффекты на вашем устройстве. Продолжайте на свой страх и риск.</value>
@@ -2130,10 +2130,10 @@
     <value>Синхронизировать колонку статуса</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Группировка по</value>
+    <value>Группировка</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Сортировка по</value>
+    <value>Сортировка</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
     <value>Группировать в порядке убывания</value>
@@ -2145,7 +2145,7 @@
     <value>Создать новый ярлык</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Создавайте ярлыки для локальных или сетевых программ, файлов, папок, компьютеров и Интернет-адресов.</value>
+    <value>Создавайте ярлыки для локальных или сетевых программ, файлов, папок, компьютеров и интернет-адресов.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Введите местоположение элемента:</value>
@@ -2178,16 +2178,16 @@
     <value>Дважды нажмите на пустую область, чтобы перейти на одну папку назад</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>Показать еще</value>
+    <value>Показать ещё</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Показывать опцию редактирования Меток</value>
+    <value>Показывать опцию редактирования меток</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
     <value>Показать опции сжатия</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Показать отправить в меню</value>
+    <value>Показать опцию отправить</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Показывать опцию открытия папок в новой вкладке</value>
@@ -2226,13 +2226,13 @@
     <value>Никогда</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Цвет тэга</value>
+    <value>Цвет метки</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Новая метка</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Создать новую тэг</value>
+    <value>Создать новую метку</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Загрузка...</value>
@@ -2256,7 +2256,7 @@
     <value>Включить полноэкранный режим</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Вы уверены, что хотите удалить этот тэг?</value>
+    <value>Вы уверены, что хотите удалить эту метку?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Воспроизвести все</value>
@@ -2361,7 +2361,7 @@
     <value>Вкл/Выкл отображение скрытых элементов</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Переключить панель предварительного просмотра для просмотра превью файла</value>
+    <value>Переключить панель предпросмотра для просмотра превью файла</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Вкл/Выкл отображение боковой панели</value>
@@ -2391,7 +2391,7 @@
     <value>Создать папку</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Создать ярлык для выбранных элемент(-ов)</value>
+    <value>Создать ярлык для выбранных элемент(ов)</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Создать ярлык для любого элемента</value>
@@ -2400,7 +2400,7 @@
     <value>Очистить корзину</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Открыть меню "форматирование диска"</value>
+    <value>Открыть меню «Форматирование диска»</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Восстановить элемент(ы) из корзины</value>
@@ -2565,7 +2565,7 @@
     <value>Сортировать объекты по их статусу</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Сортировать элементы по тэгам</value>
+    <value>Сортировать элементы по меткам</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
     <value>Сортировать объекты по исходной папке</value>
@@ -2604,7 +2604,7 @@
     <value>Группировать объекты по их статусу</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Группировать элементы по тэгам</value>
+    <value>Группировать элементы по меткам</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
     <value>Группировать объекты по исходной папке</value>
@@ -2673,13 +2673,13 @@
     <value>Закрыть текущую вкладку</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Закрыть текущую вкладку</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>Фокус на другую вкладку</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>Переключить фокус на неактивную вкладку</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Переключить панель</value>
@@ -2884,7 +2884,7 @@
     <value>Корзина</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Без тегов</value>
+    <value>Без меток</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
     <value>Перемещает на предыдущую вкладку</value>
@@ -3004,7 +3004,7 @@
     <value>Группировать элементы по годам с даты изменения</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Нажмите 'Расширенные права' для продолжения.</value>
+    <value>Нажмите «Расширенные права» для продолжения.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
     <value>Вы должны иметь разрешение на чтение для просмотра свойств этого элемента.</value>
@@ -3088,7 +3088,7 @@
     <value>Предпросмотр</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>Статус git</value>
+    <value>Статус Git</value>
   </data>
   <data name="GitError" xml:space="preserve">
     <value>Ошибка с Git</value>
@@ -3218,7 +3218,7 @@
     <value>Открыть папку в новом окне</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Открыть всё</value>
+    <value>Открыть все</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Открыть все отмеченные элементы</value>
@@ -3586,10 +3586,10 @@
     <value>Вход</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>В настоящее время теги совместимы только с дисками, отформатированными в NTFS.</value>
+    <value>В настоящее время метки совместимы только с дисками, отформатированными в NTFS.</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
-    <value>Произошла ошибка при применении этого тега</value>
+    <value>Произошла ошибка при применении этой метки</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
     <value>Распаковать элементы из выбранных архивов в текущую папку для архива с одним элементом или в новую папку для архива с несколькими элементами</value>
@@ -3740,7 +3740,7 @@
     <value>Эта клавиша уже используется, выберите другую клавишу для продолжения.</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
-    <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
+    <value>Выбранная вами комбинация клавиш не может быть использована, пожалуйста, попробуйте другую комбинацию.</value>
   </data>
   <data name="Customized" xml:space="preserve">
     <value>Настроенный</value>
@@ -3830,7 +3830,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
-    <value>Num</value>
+    <value>Номер</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>Местоположение сети</value>
@@ -3848,58 +3848,58 @@
     <value>Редактировать выбранный файл в Блокноте</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
-    <value>Dimensions:</value>
+    <value>Размеры:</value>
   </data>
   <data name="StatusWithColon" xml:space="preserve">
-    <value>Status:</value>
+    <value>Статус:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
+    <value>Показывать панель инструментов</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
-    <value>Tab actions menu</value>
+    <value>Меню действий вкладки</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Добавить вертикальную панель</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>Добавить вертикальную панель</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>Добавить горизонтальную панель</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>Добавить горизонтальную панель</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>Arrange vertically</value>
+    <value>Расположить вертикально</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>Arrange panes vertically</value>
+    <value>Расположить панели вертикально</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Arrange horizontally</value>
+    <value>Расположить горизонтально</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>Arrange panes horizontally</value>
+    <value>Расположение панелей горизонтально</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+    <value>Добавить панель</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
-    <value>Show tab actions button in the title bar</value>
+    <value>Показать кнопку действий вкладки в заголовке</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
-    <value>Arrange panes</value>
+    <value>Организовать панели</value>
   </data>
   <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+    <value>Расположение панели по умолчанию</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
+    <value>Горизонтальный</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>Vertical</value>
+    <value>Вертикальный</value>
   </data>
 </root>
