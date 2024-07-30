@@ -35,8 +35,7 @@
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-					<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="AppBarButtonBackgroundPointerOver" />
-					<StaticResource x:Key="ToggleButtonBackgroundPointerOver" ResourceKey="AppBarButtonBackgroundPointerOver" />
+					<SolidColorBrush x:Key="AppBarButtonBackgroundPointerOver" Color="{ThemeResource ButtonBackgroundPointerOver}" />
 
 					<Style
 						x:Key="AddressToolbarButtonStyle"
@@ -44,7 +43,7 @@
 						TargetType="Button">
 						<Setter Property="Padding" Value="0" />
 						<Setter Property="Background" Value="Transparent" />
-						<Setter Property="BorderThickness" Value="0" />
+						<Setter Property="BorderBrush" Value="Transparent" />
 						<Setter Property="Width" Value="36" />
 						<Setter Property="Height" Value="32" />
 						<Setter Property="Foreground" Value="{ThemeResource App.Theme.IconBaseBrush}" />
@@ -250,7 +249,7 @@
 					x:Load="{x:Bind IsSidebarPaneOpenToggleButtonVisible, Mode=OneWay}"
 					AutomationProperties.Name="ToggleSidebarPane"
 					Background="Transparent"
-					BorderThickness="0"
+					BorderBrush="Transparent"
 					IsChecked="{x:Bind MainPageViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleSidebar}">
 					<AnimatedIcon Width="16">
