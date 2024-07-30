@@ -1812,7 +1812,7 @@
     <value>Cores 8-bit (256)</value>
   </data>
   <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
-    <value>Desativar optimizações de ecrã inteiro</value>
+    <value>Desativar otimizações de ecrã completo</value>
   </data>
   <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
     <value>Executar com a resolução 640 x 480</value>
@@ -2253,7 +2253,7 @@
     <value>Ajuda</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Ativar/desativar ecrã inteiro</value>
+    <value>Ativar/desativar ecrã completo</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Tem a certeza de que deseja eliminar esta etiqueta?</value>
@@ -2340,7 +2340,7 @@
     <value>Abrir página de ajuda no navegador</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Ativa/desativa o ecrã inteiro</value>
+    <value>Ativar/desativar ecrã completo</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Ativar modo de sobreposição compacta</value>
