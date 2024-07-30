@@ -105,7 +105,7 @@ namespace Files.App.Views
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
 		}
 
-		// WINUI3	
+		// WINUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
