@@ -25,6 +25,7 @@ namespace Files.App.Data.Commands
 		IRichCommand Undo { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
+		IRichCommand ToggleDotFilesSetting { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 		IRichCommand TogglePreviewPane { get; }
 		IRichCommand ToggleDetailsPane { get; }

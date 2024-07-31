@@ -20,6 +20,7 @@ namespace Files.App.Data.Commands
 
 		// Show
 		ToggleShowHiddenItems,
+		ToggleDotFilesSetting,
 		ToggleShowFileExtensions,
 		TogglePreviewPane,
 		ToggleDetailsPane,
