@@ -98,3 +98,4 @@ SHEmptyRecycleBin
 SHFileOperation
 SHGetFolderPath
 SHGFP_TYPE
+SHGetKnownFolderItem

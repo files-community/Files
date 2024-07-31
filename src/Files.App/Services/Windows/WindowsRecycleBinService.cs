@@ -71,49 +71,39 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public unsafe bool RestoreAllAsync()
 		{
-			// Get all items in the Recycle Bin
+			var recycleBinFolderKnownFolderId = new Guid(0xB7534046, 0x3ECB, 0x4C18, 0xBE, 0x4E, 0x64, 0xCD, 0x4C, 0xB7, 0xD6, 0xAC);
+			var shellItemGuid = typeof(IShellItem).GUID;
 
-			fixed (char* cRecycleBinFolderPath = new char[256])
-			{
-				PWSTR szRecycleBinFolderPath = new(cRecycleBinFolderPath);
-				PInvoke.SHGetFolderPath(HWND.Null, (int)0x000a /*CSIDL_BITBUCKET*/, HANDLE.Null, (uint)SHGFP_TYPE.SHGFP_TYPE_CURRENT, szRecycleBinFolderPath);
+			PInvoke.SHGetKnownFolderItem(
+				&recycleBinFolderKnownFolderId,
+				KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT,
+				HANDLE.Null,
+				&shellItemGuid,
+				out var recycleBinObject);
 
-				PInvoke.SHCreateItemFromParsingName(szRecycleBinFolderPath.ToString(), null, typeof(IShellItem).GUID, out var pRecycleBinShellItem);
+			IShellItem recycleBin = (IShellItem)recycleBinObject;
 
-				IShellItem recycleBinShellItem = (IShellItem)pRecycleBinShellItem;
+			Guid iid = typeof(IEnumShellItems).GUID;
+			recycleBin.BindToHandler(null, iid, iid, out object itemsObject);
+			IEnumShellItems items = (IEnumShellItems)itemsObject;
 
-				Guid bindIdEnumItemsGuid = new(0x94f60519, 0x2850, 0x4924, 0xaa, 0x5a, 0xd1, 0x5e, 0x84, 0x86, 0x80, 0x39);
+			//IShellItem item;
+			//while (items.Next(1, [item]) == HRESULT.S_OK)
+			//{
+			//	fixed (char* pszPath = item.Path + '\0')
+			//	{
+			//		PCZZWSTR pwszPath = new PCZZWSTR(pszPath);
 
-				recycleBinShellItem.BindToHandler(
-					null,
-					bindIdEnumItemsGuid,
-					typeof(IEnumShellItems).GUID,
-					out var pRecycleBinFolderEnumerable);
+			//		var fileOperationData = new SHFILEOPSTRUCTW
+			//		{
+			//			wFunc = 0x0003, /* FO_DELETE */
+			//			pFrom = pwszPath,
+			//			fFlags = 0x0004 | 0x0010 | 0x0400 | 0x0200, /* FOF_NO_UI == FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR */
+			//		};
 
-				IEnumShellItems recycleBinFolderEnumerable = (IEnumShellItems)pRecycleBinFolderEnumerable;
-
-				while (true)
-				{
-					//IShellItem spsi;
-					//recycleBinFolderEnumerable.Next(1, [spsi], null);
-					//if (spsi is null)
-					//	break;
-
-					//	fixed (char* pszPath = item.Path + '\0')
-					//	{
-					//		PCZZWSTR pwszPath = new PCZZWSTR(pszPath);
-
-					//		var fileOperationData = new SHFILEOPSTRUCTW
-					//		{
-					//			wFunc = 0x0003, /* FO_DELETE */
-					//			pFrom = pwszPath,
-					//			fFlags = 0x0004 | 0x0010 | 0x0400 | 0x0200, /* FOF_NO_UI == FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR */
-					//		};
-
-					//		PInvoke.SHFileOperation(ref fileOperationData);
-					//	}
-				}
-			}
+			//		PInvoke.SHFileOperation(ref fileOperationData);
+			//	}
+			//}
 
 			// Reset the icon.
 			Win32PInvoke.SHUpdateRecycleBinIcon();
