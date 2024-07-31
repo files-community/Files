@@ -94,3 +94,8 @@ DesktopWallpaper
 SHCreateShellItemArrayFromIDLists
 ILCreateFromPath
 CLSIDFromString
+SHEmptyRecycleBin
+SHFileOperation
+SHGetFolderPath
+SHGFP_TYPE
+SHGetKnownFolderItem

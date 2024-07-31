@@ -511,6 +511,9 @@ namespace Files.App.Helpers
 			out IntPtr pszPath
 		);
 
+		[DllImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", CharSet = CharSet.Unicode, SetLastError = true)]
+		public static extern void SHUpdateRecycleBinIcon();
+
 		public static string GetFolderFromKnownFolderGUID(Guid guid)
 		{
 			IntPtr pPath;

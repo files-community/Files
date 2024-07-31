@@ -501,8 +501,8 @@ namespace Files.App.Utils
 
 		public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
 		{
-			StorageItemTypes.File => await new FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
-			StorageItemTypes.Folder => new FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
+			StorageItemTypes.File => await new Utils.Storage.FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
+			StorageItemTypes.Folder => new Utils.Storage.FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
 			_ => throw new InvalidDataException(),
 		};
 	}

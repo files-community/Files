@@ -16,6 +16,7 @@ namespace Files.App.Utils.Storage
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly IWindowsRecycleBinService WindowsRecycleBinService = Ioc.Default.GetRequiredService<IWindowsRecycleBinService>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -198,7 +199,7 @@ namespace Files.App.Utils.Storage
 			var matches = dbInstance.GetAllUnderPath(folder)
 				.Where(x => tags.All(x.Tags.Contains));
 			if (string.IsNullOrEmpty(folder))
-				matches = matches.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.FilePath));
+				matches = matches.Where(x => !WindowsRecycleBinService.IsRecycled(x.FilePath));
 
 			foreach (var match in matches)
 			{
