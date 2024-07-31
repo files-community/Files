@@ -205,7 +205,6 @@ namespace Files.App.Helpers
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
-					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
@@ -240,13 +239,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					var defaultArg = new TabBarItemParameter()
-					{
-						InitialPageType = typeof(ShellPanesPage),
-						NavigationParameter = "Home"
-					};
-
-					return defaultArg.Serialize();
+					return "";
 				}
 			})
 			.ToList();

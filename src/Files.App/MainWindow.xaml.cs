@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
@@ -62,10 +63,10 @@ namespace Files.App
 
 		public async Task InitializeApplicationAsync(object activatedEventArgs)
 		{
+			var rootFrame = EnsureWindowIsInitialized();
+
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
-
-			var rootFrame = EnsureWindowIsInitialized();
 
 			switch (activatedEventArgs)
 			{
@@ -247,11 +248,26 @@ namespace Files.App
 				}
 
 				var generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
+
+				double boundsWidth = 0;
+				try
+				{
+					boundsWidth = Bounds.Width;
+				}
+				catch (Exception ex)
+				{
+					// Handle exception in case WinUI Windows is closed
+					// (see https://github.com/files-community/Files/issues/15599)
+
+					App.Logger.LogWarning(ex, ex.Message);
+					return;
+				}
+
 				var paneNavigationArgs = new PaneNavigationArguments
 				{
 					LeftPaneNavPathParam = payload,
 					LeftPaneSelectItemParam = selectItem,
-					RightPaneNavPathParam = Bounds.Width > Constants.UI.MultiplePaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
+					RightPaneNavPathParam = boundsWidth > Constants.UI.MultiplePaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())

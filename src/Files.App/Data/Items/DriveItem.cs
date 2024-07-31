@@ -195,16 +195,16 @@ namespace Files.App.Data.Items
 			get
 			{
 				if (!IsRemovable)
-					return null; // Removable items don't need the eject button
+					return null; // Non-removable items don't need the eject button
 
 				var itemDecorator = new Button()
 				{
 					Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
 					Content = new ThemedIcon()
 					{
-						Style = Application.Current.Resources["App.ThemedIcons.Actions.Eject"] as Style,
-						Height = 16,
-						Width = 16
+						Style = Application.Current.Resources["App.ThemedIcons.Actions.Eject.12"] as Style,
+						Height = 12,
+						Width = 12
 					}
 				};
 
@@ -322,15 +322,15 @@ namespace Files.App.Data.Items
 			if (Root is not null)
 			{
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
-				IconData ??= await thumbnail.ToByteArrayAsync();
+				IconData ??= thumbnail is not null ? await thumbnail.ToByteArrayAsync() : null;
 			}
 
 			if (string.Equals(DeviceID, "network-folder"))
-				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Network).IconData;
+				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Network)?.IconData;
 
-			IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
+			IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder)?.IconData;
 
-			Icon ??= await IconData.ToBitmapAsync();
+			Icon ??= IconData is not null ? await IconData.ToBitmapAsync() : null;
 		}
 
 		private string GetSizeString()

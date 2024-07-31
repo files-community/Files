@@ -61,7 +61,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			InitializeComponent();
 
-			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(1000);
+			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
 
 			var appWindow = MainWindow.Instance.AppWindow;

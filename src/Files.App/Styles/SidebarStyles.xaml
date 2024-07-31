@@ -28,12 +28,12 @@
 
 	<Style
 		x:Key="SidebarFavouritesPinnedIcon"
-		BasedOn="{StaticResource App.ThemedIcons.Actions.Pinned}"
+		BasedOn="{StaticResource App.ThemedIcons.Actions.Pinned.12}"
 		TargetType="controls:ThemedIcon">
-		<Setter Target="MinWidth" Value="16" />
-		<Setter Target="Width" Value="16" />
-		<Setter Target="MinHeight" Value="16" />
-		<Setter Target="Height" Value="16" />
+		<Setter Target="MinWidth" Value="12" />
+		<Setter Target="Width" Value="12" />
+		<Setter Target="MinHeight" Value="12" />
+		<Setter Target="Height" Value="12" />
 		<Setter Target="Padding" Value="0" />
 	</Style>
 

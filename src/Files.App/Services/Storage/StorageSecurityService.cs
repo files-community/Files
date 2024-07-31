@@ -59,7 +59,7 @@ namespace Files.App.Services
 			{
 				return Win32Helper.RunPowershellCommand(
 					$"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"",
-					true);
+					PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 			}
 
 			return true;
