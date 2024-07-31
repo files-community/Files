@@ -59,7 +59,7 @@
 
 		</Grid>
 
-		<uc:ThemedIconsUC
+		<uc:ToolbarUC
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch" />

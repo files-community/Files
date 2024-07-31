@@ -1,0 +1,215 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="ToolbarToggleButtonBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundDisabled" ResourceKey="SubtleFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundChecked" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedPointerOver" ResourceKey="AccentFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedPressed" ResourceKey="AccentFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedDisabled" ResourceKey="AccentFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlay" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayCheckedPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayCheckedPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundChecked" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedPointerOver" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedPressed" ResourceKey="TextOnAccentFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedDisabled" ResourceKey="TextOnAccentFillColorDisabled" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushPointerOver" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushPressed" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushChecked" ResourceKey="AccentControlElevationBorderBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedPointerOver" ResourceKey="AccentControlElevationBorderBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundChecked" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedPointerOver" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedPressed" ResourceKey="TextOnAccentFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedDisabled" ResourceKey="TextOnAccentFillColorDisabled" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedBackgroundThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedBorderThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledBackgroundThemeBrush" Color="#66FFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledBorderThemeBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledForegroundThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedForegroundThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPointerOverBackgroundThemeBrush" Color="#99FFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPointerOverBorderThemeBrush" Color="#99FFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedBackgroundThemeBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedBorderThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedForegroundThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonPointerOverBackgroundThemeBrush" Color="#21FFFFFF" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForeground" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundChecked" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="ToolbarToggleButtonBackground" ResourceKey="SystemColorButtonFaceColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundPressed" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundDisabled" ResourceKey="SystemColorWindowColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundChecked" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedDisabled" ResourceKey="SystemColorGrayTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlay" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayCheckedPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayCheckedPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundDisabled" ResourceKey="SystemColorGrayTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundChecked" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedPressed" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedDisabled" ResourceKey="SystemColorWindowColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushPointerOver" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushPressed" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushDisabled" ResourceKey="SystemColorGrayTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushChecked" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedPressed" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedDisabled" ResourceKey="SystemColorGrayTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundDisabled" ResourceKey="SystemColorGrayTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundChecked" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedPressed" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedDisabled" ResourceKey="SystemColorWindowColorBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedBackgroundThemeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedBorderThemeBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledBackgroundThemeBrush" Color="{ThemeResource SystemColorGrayTextColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledBorderThemeBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledForegroundThemeBrush" Color="{ThemeResource SystemColorButtonFaceColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedForegroundThemeBrush" Color="{ThemeResource SystemColorHighlightTextColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPointerOverBackgroundThemeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPointerOverBorderThemeBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedBackgroundThemeBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedBorderThemeBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedForegroundThemeBrush" Color="{ThemeResource SystemColorButtonFaceColor}" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonPointerOverBackgroundThemeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForeground" ResourceKey="SystemControlForegroundBaseMediumBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundPointerOver" ResourceKey="SystemControlHighlightAltBaseMediumBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundPressed" ResourceKey="SystemControlHighlightAltBaseMediumBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundChecked" ResourceKey="SystemControlForegroundBaseMediumBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedPointerOver" ResourceKey="SystemControlHighlightAltBaseMediumBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedPressed" ResourceKey="SystemControlHighlightAltBaseMediumBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="ToolbarToggleButtonBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundDisabled" ResourceKey="SubtleFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundChecked" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedPointerOver" ResourceKey="AccentFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedPressed" ResourceKey="AccentFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundCheckedDisabled" ResourceKey="AccentFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlay" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayCheckedPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBackgroundHighLightOverlayCheckedPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundChecked" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedPointerOver" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedPressed" ResourceKey="TextOnAccentFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonForegroundCheckedDisabled" ResourceKey="TextOnAccentFillColorDisabled" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushPointerOver" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushPressed" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushChecked" ResourceKey="AccentControlElevationBorderBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedPointerOver" ResourceKey="AccentControlElevationBorderBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundChecked" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedPointerOver" ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedPressed" ResourceKey="TextOnAccentFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonCheckGlyphForegroundCheckedDisabled" ResourceKey="TextOnAccentFillColorDisabled" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonOverflowLabelForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedBackgroundThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedBorderThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledBackgroundThemeBrush" Color="#66000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledBorderThemeBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedDisabledForegroundThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPointerOverBackgroundThemeBrush" Color="#99000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPointerOverBorderThemeBrush" Color="#99000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedBackgroundThemeBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedBorderThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedPressedForegroundThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonCheckedForegroundThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ToolbarToggleButtonPointerOverBackgroundThemeBrush" Color="#3D000000" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForeground" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundChecked" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToolbarToggleButtonKeyboardAcceleratorTextForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<Thickness x:Key="ToolbarToggleButtonBorderThemeThickness">1</Thickness>
+	<Thickness x:Key="ToolbarToggleButtonOverflowTextTouchMargin">0,9,0,12</Thickness>
+	<Thickness x:Key="ToolbarToggleButtonOverflowCheckTouchMargin">12,10,12,10</Thickness>
+	<Thickness x:Key="ToolbarToggleButtonOverflowCheckMargin">12,4,12,4</Thickness>
+	<Thickness x:Key="ToolbarToggleButtonTextLabelMargin">2,0,2,8</Thickness>
+	<Thickness x:Key="ToolbarToggleButtonTextLabelOnRightMargin">8,16,12,10</Thickness>
+	<Thickness x:Key="ToolbarToggleButtonOverflowTextLabelPadding">0,5,0,8</Thickness>
+
+</ResourceDictionary>

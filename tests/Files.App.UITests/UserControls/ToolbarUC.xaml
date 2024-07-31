@@ -1,0 +1,58 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<UserControl
+	x:Class="Files.App.UITests.UserControls.ToolbarUC"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.UserControls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+		<StackPanel
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			Orientation="Vertical"
+			Spacing="16">
+
+			<TextBlock Text="CommandBar" />
+
+			<CommandBar
+				Margin="0,0,0,32"
+				DefaultLabelPosition="Collapsed"
+				IsOpen="False">
+				<AppBarButton Icon="Add" Label="Add" />
+				<AppBarSeparator />
+				<AppBarButton Icon="Edit" Label="Edit" />
+				<AppBarButton Icon="Share" Label="Share" />
+				<CommandBar.SecondaryCommands>
+					<AppBarButton Icon="Setting" Label="Settings">
+						<AppBarButton.KeyboardAccelerators>
+							<KeyboardAccelerator Key="I" Modifiers="Control" />
+						</AppBarButton.KeyboardAccelerators>
+					</AppBarButton>
+				</CommandBar.SecondaryCommands>
+			</CommandBar>
+
+			<TextBlock Text="Toolbar" />
+
+			<controls:Toolbar DefaultLabelPosition="Collapsed" IsOpen="False">
+				<controls:ToolbarButton Icon="Add" Label="Add" />
+				<controls:ToolbarButton Icon="Edit" Label="Edit" />
+				<AppBarSeparator />
+				<controls:ToolbarButton Icon="Share" Label="Share" />
+				<controls:Toolbar.SecondaryCommands>
+					<controls:ToolbarButton Icon="Setting" Label="Settings">
+						<controls:ToolbarButton.KeyboardAccelerators>
+							<KeyboardAccelerator Key="I" Modifiers="Control" />
+						</controls:ToolbarButton.KeyboardAccelerators>
+					</controls:ToolbarButton>
+				</controls:Toolbar.SecondaryCommands>
+			</controls:Toolbar>
+
+		</StackPanel>
+
+	</Grid>
+</UserControl>

@@ -9,9 +9,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Toolbar\Toolbar.ThemeResources.xaml" />
+    <None Remove="Toolbar\Toolbar.xaml" />
+    <None Remove="Toolbar\ToolbarButton\ToolbarButton.ThemeResources.xaml" />
+    <None Remove="Toolbar\ToolbarButton\ToolbarButton.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
       <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Toolbar\ToolbarButton\ToolbarButton.ThemeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Toolbar\ToolbarButton\ToolbarButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Toolbar\Toolbar.ThemeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Toolbar\Toolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
 </Project>
