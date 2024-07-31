@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal sealed class ToggleDotFilesSettingAction : ObservableObject, IToggleAction
 	{
-		private readonly IFoldersSettingsService settings;
+		private readonly IFoldersSettingsService FoldersSettingsService;
 
 		public string Label
 			=> "ShowDotFiles".GetLocalizedResource();
@@ -14,18 +14,18 @@ namespace Files.App.Actions
 			=> "ToggleDotFilesSettingDescription".GetLocalizedResource();
 
 		public bool IsOn
-			=> settings.ShowDotFiles;
+			=> FoldersSettingsService.ShowDotFiles;
 
 		public ToggleDotFilesSettingAction()
 		{
-			settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+			FoldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-			settings.PropertyChanged += Settings_PropertyChanged;
+			FoldersSettingsService.PropertyChanged += Settings_PropertyChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			settings.ShowDotFiles = !settings.ShowDotFiles;
+			FoldersSettingsService.ShowDotFiles = !FoldersSettingsService.ShowDotFiles;
 
 			return Task.CompletedTask;
 		}
