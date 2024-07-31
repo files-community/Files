@@ -94,3 +94,7 @@ DesktopWallpaper
 SHCreateShellItemArrayFromIDLists
 ILCreateFromPath
 CLSIDFromString
+FindWindow
+SendMessage
+IsWindowVisible
+COPYDATASTRUCT
