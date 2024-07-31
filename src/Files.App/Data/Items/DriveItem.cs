@@ -322,15 +322,15 @@ namespace Files.App.Data.Items
 			if (Root is not null)
 			{
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
-				IconData ??= await thumbnail.ToByteArrayAsync();
+				IconData ??= thumbnail is not null ? await thumbnail.ToByteArrayAsync() : null;
 			}
 
 			if (string.Equals(DeviceID, "network-folder"))
-				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Network).IconData;
+				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Network)?.IconData;
 
-			IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
+			IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder)?.IconData;
 
-			Icon ??= await IconData.ToBitmapAsync();
+			Icon ??= IconData is not null ? await IconData.ToBitmapAsync() : null;
 		}
 
 		private string GetSizeString()
