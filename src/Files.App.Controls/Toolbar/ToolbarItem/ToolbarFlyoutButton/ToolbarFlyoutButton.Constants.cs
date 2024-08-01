@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarButton : AppBarButton
+	public partial class ToolbarFlyoutButton : DropDownButton
 	{
 	}
 }

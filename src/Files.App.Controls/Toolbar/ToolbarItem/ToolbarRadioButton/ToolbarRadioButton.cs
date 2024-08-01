@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
@@ -13,12 +13,11 @@ using System.Threading.Tasks;
 
 namespace Files.App.Controls
 {
-
-	public partial class ToolbarToggleButton : AppBarToggleButton
+	public partial class ToolbarRadioButton : RadioButton
 	{
-		public ToolbarToggleButton()
+		public ToolbarRadioButton()
 		{
-			this.DefaultStyleKey = typeof( ToolbarToggleButton );
+			this.DefaultStyleKey = typeof( ToolbarRadioButton );
 		}
 
 		protected override void OnApplyTemplate()

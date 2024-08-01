@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarButton : AppBarButton
+	public partial class ToolbarButton : Button
 	{
 		public ToolbarButton()
 		{

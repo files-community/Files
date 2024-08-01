@@ -1,0 +1,196 @@
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Controls.Primitives;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+
+namespace Files.App.Controls
+{
+	/// <summary>
+	/// An Abstract control to simplify items added to the Toolbar,
+	/// and map them to other controls dependant on their overflow
+	/// behaviour and state
+	/// </summary>
+	public partial class ToolbarItem : Control
+	{
+		public ToolbarItem()
+		{
+			DefaultStyleKey = typeof( ToolbarItem );
+		}
+
+
+
+		protected override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+		}
+
+
+		# region Update Item Properties
+
+		private void UpdateItemType(ToolbarItemTypes newItemType)
+		{
+			///
+			/// We want to intercept the Item Type that is set
+			/// and then ensure we choose the correct control to
+			/// map it to internally.
+			/// 
+			/// ToolbarItemTypes.Content
+			/// => ContentPresenter
+			/// 
+			/// ToolbarItemTypes.Button
+			/// => ToolbarButton
+			/// => FlyoutMenuItemEx
+			/// 
+			/// ToolbarItemTypes.Flyout
+			/// => ToolbarFlyoutButton
+			/// => MenuFlyoutSubItemEx
+			/// 
+			/// ToolbarItemTypes.Radio
+			/// => ToolbarRadioButton
+			/// => MenuFlyoutRadioItemEx
+			/// 
+			/// ToolbarItemTypes.Separator
+			/// => ToolbarSeparator
+			/// => MenuFlyoutSeparator
+			/// 
+			/// ToolbarItemTypes.Split
+			/// => ToolbarSplitButton
+			/// => MenuFlyoutSubItem => MenuFlyoutItem (for the split buttons main command)
+			/// 
+			/// ToolbarItemTypes.Toggle
+			/// => ToolbarToggleButton
+			/// => MenuFlyoutToggleItemEx
+			/// 
+		}
+
+
+
+		private void UpdateLabel(string newLabel)
+		{ 
+			///
+			/// Updates the internal item's Text or Label
+			/// property as it changes.
+			///
+		}
+
+
+
+		private void UpdateThemedIcon(Style newStyle)
+		{
+			///
+			/// Updates the internal item's ThemedIcon
+			/// Style as it changes.
+			///
+		}
+
+
+
+		private void UpdateKeyboardAcceleratorTextOverride(string newKeyboardAcceleratorText)
+		{
+			///
+			/// Updates the internal Overflow item's
+			/// KeyboardAcceleratorTextOverride string as it changes.
+			///
+		}
+
+
+
+		private void UpdateGroupName(string newGroupName)
+		{
+			///
+			/// Updates the internal Radio item's
+			/// GroupName string as it changes.
+			///
+		}
+
+
+
+		private void UpdateCommand(XamlUICommand newCommand)
+		{
+			///
+			/// Updates the internal item's
+			/// Command as it changes.
+			/// 
+			/// If the internal item is a Button, this will
+			/// set the Click event handler, otherwise we pass
+			/// it onto the overflow menu item's Command property.
+			///
+		}
+
+
+
+		private void UpdateCommandParameter(object newCommandParameter)
+		{
+			///
+			/// Updates the internal item's
+			/// CommandParameter as it changes.
+			/// 
+			/// Not sure if this is relevent to the buttons,
+			/// but we pass this onto the MenuFlyoutItemEx's 
+			/// CommandParameter property.
+			///
+		}
+
+
+
+		private void UpdateOverflowBehavior(OverflowBehaviors newOverflowBehavior)
+		{
+			///
+			/// When we get our ToolbarItem collection, we need to read their
+			/// OverflowBehavior value and decide if that item belongs in the
+			/// ToolbarItemList list, or in the ToolbarItemOverflowList list.
+			/// 
+			/// OverflowBehaviours.Auto
+			/// The ToolbarItem only moves to Overflow if
+			/// there is not enough space in the Toolbar.
+			/// 
+			/// OverflowBehaviours.Always
+			/// The ToolbarItem is placed in the Overflow
+			/// menu even if there is enough room in the Toolbar.
+			/// 
+			/// OverflowBehaviours.Never
+			/// The ToolbarItem is never placed in the Overflow
+			/// menu, even when there is insufficiant room, and so
+			/// does not display.
+			///
+		}
+
+		#endregion
+
+
+
+		#region Internal methods
+
+		///
+		/// Properties on this ToolbarItem control will be mapped
+		/// onto the other controls we use to handle these items
+		/// 
+		/// Label
+		/// => MenuItemEx.Text
+		/// => ToolbarButton.Label
+		///		  
+		/// ThemedIcon 
+		/// => MenuItemEx.ThemedIcon(Style)
+		/// => ToolbarButton.ThemedIcon(Style)
+		///
+		/// GroupName
+		/// => RadioMenuFlyoutItemEx.GroupName
+		/// => ToolbarRadioButton.GroupName
+		/// 
+		/// KeyboardAcceleratorTextOverride 
+		/// => MenuItemEx.KeyboardAcceleratorTextOverride
+		/// => ToolbarButton => Tooltip = Label + KeyboardAcceleratorTextOverride
+		/// 
+		/// Command
+		/// => MenuItemEx.Command
+		/// => ToolbarButton.Click event
+		/// => ToolbarSplitButton.Click event
+		/// => ToolbarToggleButton.OnToggle event
+		/// 
+
+		#endregion
+	}
+}

@@ -10,8 +10,8 @@
 		<!--#region Theme Dictionaries-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIcon.ThemeResources.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/Toolbar.ThemeResources.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarButton/ToolbarButton.ThemeResources.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarToggleButton/ToolbarToggleButton.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarItem/ToolbarButton/ToolbarButton.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarItem/ToolbarToggleButton/ToolbarToggleButton.ThemeResources.xaml" />
 		<!--#endregion-->
 
 		<!--#region ThemedIconStyles-->
@@ -37,8 +37,8 @@
 
 		<!--#region ToolbarButtons-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/Toolbar.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarButton/ToolbarButton.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarToggleButton/ToolbarToggleButton.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarItem/ToolbarButton/ToolbarButton.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarItem/ToolbarToggleButton/ToolbarToggleButton.xaml" />
 		<!--#endregion-->
 	</ResourceDictionary.MergedDictionaries>
 

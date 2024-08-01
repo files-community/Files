@@ -38,19 +38,29 @@
 
 			<TextBlock Text="Toolbar" />
 
-			<controls:Toolbar DefaultLabelPosition="Collapsed" IsOpen="False">
-				<controls:ToolbarButton Icon="Add" Label="Add" />
-				<controls:ToolbarButton Icon="Edit" Label="Edit" />
-				<AppBarSeparator />
-				<controls:ToolbarButton Icon="Share" Label="Share" />
-				<controls:Toolbar.SecondaryCommands>
-					<controls:ToolbarButton Icon="Setting" Label="Settings">
-						<controls:ToolbarButton.KeyboardAccelerators>
-							<KeyboardAccelerator Key="I" Modifiers="Control" />
-						</controls:ToolbarButton.KeyboardAccelerators>
-					</controls:ToolbarButton>
-				</controls:Toolbar.SecondaryCommands>
+			<controls:Toolbar
+				x:Name="testToolbar"
+				HorizontalAlignment="Stretch"
+				ToolbarSize="Medium">
+				<controls:Toolbar.Items>
+					<!--  Only one item can go here right now  -->
+				</controls:Toolbar.Items>
 			</controls:Toolbar>
+
+			<StackPanel Orientation="Horizontal" Spacing="16">
+
+				<TextBox
+					Width="240"
+					Header="Height"
+					IsReadOnly="True"
+					Text="{x:Bind testToolbar.ActualHeight.ToString(), Mode=OneWay}" />
+				<TextBox
+					Width="240"
+					Header="Width"
+					IsReadOnly="True"
+					Text="{x:Bind testToolbar.ActualWidth.ToString(), Mode=OneWay}" />
+
+			</StackPanel>
 
 		</StackPanel>
 

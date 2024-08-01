@@ -9,11 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection.Emit;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarToggleButton : AppBarToggleButton
+
+	public partial class ToolbarToggleButton : ToggleButton
 	{
+
 	}
 }
