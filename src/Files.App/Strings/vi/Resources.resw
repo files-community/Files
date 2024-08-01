@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện khoản mục bị ẩn</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Chuyển đổi ẩn/hiện tệp có tên bắt đầu bằng dấu chấm</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện phần mở rộng tệp</value>
   </data>
