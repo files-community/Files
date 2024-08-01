@@ -36,6 +36,7 @@ namespace Files.App.Utils.Logger
 			var level = logLevel switch
 			{
 				LogLevel.Debug => SentryLevel.Debug,
+				LogLevel.Information => SentryLevel.Info,
 				LogLevel.Warning => SentryLevel.Warning,
 				LogLevel.Error => SentryLevel.Error,
 				LogLevel.Critical => SentryLevel.Fatal,
