@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Afficher/Masquer les éléments cachés</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Afficher/Masquer les fichiers dont le nom commence par un point</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Afficher/Masquer les extensions de fichiers</value>
   </data>
