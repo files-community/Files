@@ -27,7 +27,7 @@ namespace Files.App.Utils.Logger
 			(
 				exception is null ||
 				exception.Data[Mechanism.HandledKey] is false ||
-				logLevel == LogLevel.Information
+				logLevel <= LogLevel.Information
 			)
 				return;
 
