@@ -274,7 +274,7 @@
     <value>Delete</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value/>
+    <value>Pin to Sidebar</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Welcome to Files!</value>
@@ -2356,6 +2356,9 @@
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Toggle whether to show hidden items</value>
+  </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Toggle whether to show file extensions</value>
