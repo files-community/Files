@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>切换隐藏项目显示</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>切换是否显示以英文句点 (.) 开头的项目</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>切换文件扩展名显示</value>
   </data>
