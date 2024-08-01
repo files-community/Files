@@ -9,7 +9,7 @@ namespace Files.App.Controls
 	public enum ToolbarItemTypes
 	{		
 		Button,
-		Content,		// Default type
+		Content,				// Default type
 		FlyoutButton,
 		RadioButton,			// Possibly add support for Radio Buttons using the GroupName
 		Separator,
