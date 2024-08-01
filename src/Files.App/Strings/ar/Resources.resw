@@ -2358,6 +2358,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>تبديل إذا كان سيتم عرض العناصر المخفية</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>تبديل ما إذا كان سيتم عرض نقاط الملفات</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>تبديل إذا كان سيتم عرض ملحقات الملف</value>
   </data>
