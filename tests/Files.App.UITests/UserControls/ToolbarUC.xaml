@@ -44,6 +44,7 @@
 				ToolbarSize="Medium">
 				<controls:Toolbar.Items>
 					<!--  Only one item can go here right now  -->
+					<controls:ToolbarItem ItemType="ToggleButton" OverflowBehavior="Auto" />
 				</controls:Toolbar.Items>
 			</controls:Toolbar>
 

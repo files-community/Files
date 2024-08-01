@@ -8,14 +8,15 @@ using Windows.Foundation;
 
 namespace Files.App.Controls.Primitives
 {
-	internal partial class ToolbarLayout : NonVirtualizingLayout
+	public partial class ToolbarLayout : NonVirtualizingLayout
 	{
 		private Size m_availableSize;
 
 
 
-		public ToolbarLayout(Toolbar toolbar)
+		public ToolbarLayout()
 		{
+
 		}
 
 		private int GetItemCount(NonVirtualizingLayoutContext context)

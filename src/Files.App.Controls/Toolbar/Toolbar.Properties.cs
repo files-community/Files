@@ -1,5 +1,6 @@
 ﻿using Files.App.Controls.Primitives;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Controls
 {
-	public partial class Toolbar
+	public partial class Toolbar : Control
 	{
 
 		#region Items (object)

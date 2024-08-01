@@ -2,7 +2,8 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:local="using:Files.App.Controls">
+	xmlns:local="using:Files.App.Controls"
+	xmlns:primitives="using:Files.App.Controls.Primitives">
 
 	<Style BasedOn="{StaticResource DefaultToolbarStyle}" TargetType="local:Toolbar" />
 
@@ -34,10 +35,21 @@
 								<ColumnDefinition x:Name="OverflowColumn" Width="Auto" />
 							</Grid.ColumnDefinitions>
 
+							<!--  Stack Panel is a placeholder to be replaced with the ItemsRepeater  -->
+							<ItemsRepeater x:Name="PART_ItemsRepeater" Visibility="Collapsed">
+								<ItemsRepeater.Layout>
+									<primitives:ToolbarLayout />
+								</ItemsRepeater.Layout>
+							</ItemsRepeater>
+
 							<StackPanel
+								x:Name="PART_StackPanel"
 								Grid.Column="0"
+								HorizontalAlignment="Left"
+								Background="#88FFFFFF"
 								Orientation="Horizontal"
-								Spacing="4">
+								Spacing="4"
+								Visibility="Visible">
 								<Border
 									Width="40"
 									Height="32"

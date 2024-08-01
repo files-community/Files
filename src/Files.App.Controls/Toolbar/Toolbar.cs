@@ -55,6 +55,11 @@ namespace Files.App.Controls
 
 
 
+		#region Dealing with Overflow and StackPanel Part sizing
+		#endregion
+
+
+
 		#region Add ToolbarItem to Lists
 
 		/// <summary>
