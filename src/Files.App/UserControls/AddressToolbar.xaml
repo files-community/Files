@@ -17,6 +17,7 @@
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:ucs="using:Files.App.UserControls.StatusCenter"
+	xmlns:vm="using:Files.App.ViewModels.UserControls"
 	x:Name="NavToolbar"
 	Height="50"
 	d:DesignHeight="50"
@@ -248,10 +249,25 @@
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
-					RightTapped="Back_RightTapped"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+					<Button.ContextFlyout>
+						<MenuFlyout
+							x:Name="BackHistoryFlyout"
+							Opening="BackHistoryFlyout_Opening"
+							Placement="BottomEdgeAlignedLeft"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
+							ScrollViewer.VerticalScrollMode="Auto">
+							<MenuFlyout.MenuFlyoutPresenterStyle>
+								<Style TargetType="MenuFlyoutPresenter">
+									<Setter Property="MaxHeight" Value="400" />
+									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+									<Setter Target="HighContrastAdjustment" Value="None" />
+								</Style>
+							</MenuFlyout.MenuFlyoutPresenterStyle>
+						</MenuFlyout>
+					</Button.ContextFlyout>
 				</Button>
 
 				<Button
@@ -263,48 +279,26 @@
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
-					RightTapped="Forward_RightTapped"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+					<Button.ContextFlyout>
+						<MenuFlyout
+							x:Name="ForwardHistoryFlyout"
+							Opening="ForwardHistoryFlyout_Opening"
+							Placement="BottomEdgeAlignedLeft"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
+							ScrollViewer.VerticalScrollMode="Auto">
+							<MenuFlyout.MenuFlyoutPresenterStyle>
+								<Style TargetType="MenuFlyoutPresenter">
+									<Setter Property="MaxHeight" Value="400" />
+									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+									<Setter Target="HighContrastAdjustment" Value="None" />
+								</Style>
+							</MenuFlyout.MenuFlyoutPresenterStyle>
+						</MenuFlyout>
+					</Button.ContextFlyout>
 				</Button>
-
-				<TeachingTip
-					x:Name="HistoryTeachingTip"
-					IsLightDismissEnabled="True"
-					PreferredPlacement="BottomRight">
-					<ListView
-						x:Name="HistoryListView"
-						Margin="-8,-8"
-						IsItemClickEnabled="True"
-						ItemClick="ListViewBase_ItemClick"
-						SelectionMode="None">
-						<ListView.ItemTemplate>
-							<DataTemplate x:DataType="local:HistoryItemViewModel">
-								<StackPanel Orientation="Horizontal" Spacing="8">
-									<Image Height="16" Source="{x:Bind ImageSource, Mode=OneWay}" />
-									<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-								</StackPanel>
-							</DataTemplate>
-						</ListView.ItemTemplate>
-
-						<!--  Item style  -->
-						<ListView.ItemContainerStyle>
-							<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-								<Setter Property="MinWidth" Value="1" />
-								<Setter Property="MinHeight" Value="32" />
-								<Setter Property="VerticalAlignment" Value="Center" />
-								<Setter Property="Padding" Value="8,0,4,0" />
-								<Setter Property="Margin" Value="-4,0" />
-							</Style>
-						</ListView.ItemContainerStyle>
-
-						<!--  Remove All Transitions  -->
-						<ListView.ItemContainerTransitions>
-							<TransitionCollection />
-						</ListView.ItemContainerTransitions>
-					</ListView>
-				</TeachingTip>
 
 				<Button
 					x:Name="Up"

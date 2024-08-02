@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Windows.Input;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,6 +17,8 @@ namespace Files.App.UserControls
 	public sealed partial class AddressToolbar : UserControl
 	{
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly ICommand historyItemClickedCommand;
+
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		// Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
@@ -56,7 +59,11 @@ namespace Files.App.UserControls
 
 		public StatusCenterViewModel? OngoingTasksViewModel { get; set; }
 
-		public AddressToolbar() => InitializeComponent();
+		public AddressToolbar()
+		{
+			InitializeComponent();
+			historyItemClickedCommand = new RelayCommand<ToolbarHistoryItemModel?>(HistoryItemClicked);
+		}
 
 		private void NavToolbar_Loading(FrameworkElement _, object e)
 		{
@@ -152,29 +159,25 @@ namespace Files.App.UserControls
 				args.Handled = true;
 		}
 
-		public ObservableCollection<HistoryItemViewModel> HistoryItems { get; } = new();
-
-		private async void Back_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void BackHistoryFlyout_Opening(object? sender, object e)
 		{
 			var shellPage = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage;
 			if (shellPage is null)
 				return;
 
-			await AddHistoryItemsAsync(shellPage.BackwardStack, true);
-			HistoryTeachingTip.Target = Back;
+			await AddHistoryItemsAsync(shellPage.BackwardStack, BackHistoryFlyout.Items, true);
 		}
 
-		private async void Forward_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void ForwardHistoryFlyout_Opening(object? sender, object e)
 		{
 			var shellPage = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage;
 			if (shellPage is null)
 				return;
 
-			await AddHistoryItemsAsync(shellPage.ForwardStack, false);
-			HistoryTeachingTip.Target = Forward;
+			await AddHistoryItemsAsync(shellPage.ForwardStack, ForwardHistoryFlyout.Items, false);
 		}
 
-		private async Task AddHistoryItemsAsync(IEnumerable<PageStackEntry> items, bool isBackMode)
+		private async Task AddHistoryItemsAsync(IEnumerable<PageStackEntry> items, IList<MenuFlyoutItemBase> destination, bool isBackMode)
 		{
 			// This may not seem performant, however it's the most viable trade-off to make.
 			// Instead of constantly keeping track of back/forward stack and performing lookups
@@ -182,35 +185,42 @@ namespace Files.App.UserControls
 			// There's also a high chance the user might not use the feature at all in which case
 			// the former approach would just waste extra performance gain
 
-			HistoryListView.ItemsSource = null;
-			HistoryItems.Clear();
-
+			destination.Clear();
 			foreach (var item in items.Reverse())
 			{
 				if (item.Parameter is not NavigationArguments args || args.NavPathParam is null)
 					continue;
 
 				var imageSource = await NavigationHelpers.GetIconForPathAsync(args.NavPathParam);
-				HistoryItems.Add(new(item, isBackMode, args.NavPathParam, imageSource));
-			}
+				var fileName = SystemIO.Path.GetFileName(args.NavPathParam);
 
-			HistoryListView.ItemsSource = HistoryItems;
-			HistoryTeachingTip.IsOpen = true;
+				// The fileName is empty if the path is (root) drive path
+				if (string.IsNullOrEmpty(fileName))
+					fileName = args.NavPathParam;
+
+				destination.Add(new MenuFlyoutItem()
+				{
+					Icon = new ImageIcon() { Source = imageSource },
+					Text = fileName,
+					Command = historyItemClickedCommand,
+					CommandParameter = new ToolbarHistoryItemModel(item, isBackMode)
+				});
+			}
 		}
 
-		private void ListViewBase_ItemClick(object sender, ItemClickEventArgs e)
+		private void HistoryItemClicked(ToolbarHistoryItemModel? itemModel)
 		{
-			if (e.ClickedItem is not HistoryItemViewModel itemViewModel)
+			if (itemModel is null)
 				return;
 
 			var shellPage = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage;
 			if (shellPage is null)
 				return;
 
-			if (itemViewModel.IsBackMode)
+			if (itemModel.IsBackMode)
 			{
 				// Remove all entries after the target entry in the BackwardStack
-				while (shellPage.BackwardStack.Last() != itemViewModel.PageStackEntry)
+				while (shellPage.BackwardStack.Last() != itemModel.PageStackEntry)
 				{
 					shellPage.BackwardStack.RemoveAt(shellPage.BackwardStack.Count - 1);
 				}
@@ -221,7 +231,7 @@ namespace Files.App.UserControls
 			else
 			{
 				// Remove all entries before the target entry in the ForwardStack
-				while (shellPage.ForwardStack.First() != itemViewModel.PageStackEntry)
+				while (shellPage.ForwardStack.First() != itemModel.PageStackEntry)
 				{
 					shellPage.ForwardStack.RemoveAt(0);
 				}
@@ -229,27 +239,6 @@ namespace Files.App.UserControls
 				// Navigate forward
 				shellPage.Forward_Click();
 			}
-
-			HistoryTeachingTip.IsOpen = false;
-		}
-	}
-
-	public sealed partial class HistoryItemViewModel : ObservableObject
-	{
-		[ObservableProperty] private string? _Name;
-		[ObservableProperty] private ImageSource? _ImageSource;
-
-		public PageStackEntry PageStackEntry { get; }
-
-		public bool IsBackMode { get; }
-
-		public HistoryItemViewModel(PageStackEntry pageStackEntry, bool isBackMode, string path, ImageSource? imageSource)
-		{
-			PageStackEntry = pageStackEntry;
-			IsBackMode = isBackMode;
-
-			Name = SystemIO.Path.GetFileName(path);
-			ImageSource = imageSource;
 		}
 	}
 }
