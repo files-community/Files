@@ -232,6 +232,7 @@
 					DragItemsStarting="FileList_DragItemsStarting"
 					DragOver="ItemsLayout_DragOver"
 					Drop="ItemsLayout_Drop"
+					GettingFocus="FileList_GettingFocus"
 					FocusVisualPrimaryThickness="0"
 					FocusVisualSecondaryThickness="0"
 					IsDoubleTapEnabled="True"

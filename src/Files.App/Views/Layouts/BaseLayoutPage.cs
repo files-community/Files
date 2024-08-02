@@ -1285,6 +1285,14 @@ namespace Files.App.Views.Layouts
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
 
+		protected void FileList_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+		{
+			// Refuse to gain focus if the file list is empty.
+			// Otherwise, it keeps stealing focus from the Properties window (#13697)
+			if (ParentShellPageInstance is null || ParentShellPageInstance.ShellViewModel.FilesAndFolders.Count == 0)
+				args.TryCancel();
+		}
+
 		protected void InitializeDrag(UIElement container, ListedItem item)
 		{
 			if (item is null)
