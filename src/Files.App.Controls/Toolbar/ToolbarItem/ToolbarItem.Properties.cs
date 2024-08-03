@@ -8,7 +8,7 @@ using Files.App.Controls.Primitives;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarItem : Control
+	public partial class ToolbarItem : FrameworkElement
 	{
 
 		#region ItemType (enum ToolbarItemTypes)
@@ -189,6 +189,40 @@ namespace Files.App.Controls
 			if ( newValue != oldValue )
 			{
 				ThemedIconChanged( newValue );
+			}
+		}
+
+		#endregion
+
+
+
+		#region IconSize (double)
+
+		public static readonly DependencyProperty IconSizeProperty =
+			DependencyProperty.Register(
+				nameof(IconSize),
+				typeof(double),
+				typeof(ToolbarItem),
+				new PropertyMetadata((double)16, (d, e) => ((ToolbarItem)d).OnIconSizePropertyChanged((double)e.OldValue, (double)e.NewValue)));
+
+
+
+		/// <summary>
+		/// Gets or sets a value indicating the Icon's design size.
+		/// </summary>        
+		public double IconSize
+		{
+			get => (double)GetValue( IconSizeProperty );
+			set => SetValue( IconSizeProperty , value );
+		}
+
+
+
+		protected virtual void OnIconSizePropertyChanged(double oldValue , double newValue)
+		{
+			if ( newValue != oldValue )
+			{
+				IconSizeChanged( newValue );
 			}
 		}
 

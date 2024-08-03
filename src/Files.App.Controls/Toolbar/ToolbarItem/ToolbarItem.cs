@@ -13,23 +13,8 @@ namespace Files.App.Controls
 	/// and map them to other controls dependant on their overflow
 	/// behaviour and state
 	/// </summary>
-	public partial class ToolbarItem : Control
+	public partial class ToolbarItem : FrameworkElement
 	{
-
-		public ToolbarItem()
-		{
-			DefaultStyleKey = typeof( ToolbarItem );
-		}
-
-
-
-		/// <inheritdoc/>
-		protected override void OnApplyTemplate()
-		{
-			base.OnApplyTemplate();
-		}
-
-
 
 		# region Update Item Properties
 
@@ -171,6 +156,20 @@ namespace Files.App.Controls
 			///
 		}
 
+
+
+		/// <summary>
+		/// Updates the ToolbarItem's IconSize double value
+		/// </summary>
+		/// <param name="newSize"></param>
+		private void UpdateIconSize(double newSize)
+		{
+			///
+			/// Updates the internal item's ThemedIcon
+			/// IconSize as it changes.
+			///
+		}
+
 		#endregion
 
 
@@ -236,6 +235,16 @@ namespace Files.App.Controls
 		private void CommandParameterChanged(object newCommandParameter)
 		{
 			UpdateCommandParameter( newCommandParameter );
+		}
+
+
+		/// <summary>
+		/// Invoked when the IconSize double property has changed.
+		/// </summary>
+		/// <param name="newSize"></param>
+		private void IconSizeChanged(double newSize)
+		{
+			UpdateIconSize( newSize );
 		}
 
 		#endregion

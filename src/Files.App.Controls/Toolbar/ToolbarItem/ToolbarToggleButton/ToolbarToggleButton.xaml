@@ -49,7 +49,12 @@
 							ContentTransitions="{TemplateBinding ContentTransitions}"
 							Visibility="Collapsed" />
 
-						<local:ThemedIcon x:Name="PART_ThemedIcon" Style="{TemplateBinding ThemedIcon}" Width="16" Height="16" />
+						<local:ThemedIcon
+							x:Name="PART_ThemedIcon"
+							Width="{TemplateBinding IconSize}"
+							Height="{TemplateBinding IconSize}"
+							IconSize="{TemplateBinding IconSize}"
+							Style="{TemplateBinding ThemedIcon}" />
 
 						<VisualStateManager.VisualStateGroups>
 

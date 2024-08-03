@@ -126,6 +126,20 @@ namespace Files.App.Controls
 			///
 		}
 
+
+
+		/// <summary>
+		/// Updates the ToolbarButton's ThemedIcon.IconSize double value
+		/// </summary>
+		/// <param name="newSize"></param>
+		private void UpdateIconSize(double newSize)
+		{
+			///
+			/// Updates the internal item's ThemedIcon
+			/// IconSize as it changes.
+			///
+		}
+
 		#endregion
 
 
@@ -150,6 +164,16 @@ namespace Files.App.Controls
 		private void ThemedIconChanged(Style newStyle)
 		{
 			UpdateThemedIcon( newStyle );
+		}
+
+
+		/// <summary>
+		/// Invoked when the IconSize double property has changed.
+		/// </summary>
+		/// <param name="newSize"></param>
+		private void IconSizeChanged(double newSize)
+		{ 
+			UpdateIconSize( newSize );
 		}
 
 		#endregion

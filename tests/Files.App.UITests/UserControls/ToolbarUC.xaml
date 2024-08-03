@@ -8,6 +8,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Loaded="UserControl_Loaded"
 	mc:Ignorable="d">
 
 	<Grid>
@@ -43,8 +44,32 @@
 			<controls:Toolbar
 				x:Name="testToolbar"
 				HorizontalAlignment="Stretch"
-				ItemsSource=""
-				ToolbarSize="Medium" />
+				ToolbarSize="Medium">
+
+				<controls:Toolbar.Items>
+					<controls:ToolbarItem IconSize="16" Label="Xaml Label 1" ThemedIcon="{StaticResource App.ThemedIcons.Cut}" />
+					<controls:ToolbarItem IconSize="16" Label="Xaml Label 2" ThemedIcon="{StaticResource App.ThemedIcons.Copy}" />
+					<controls:ToolbarItem IconSize="16" Label="Xaml Label 3" ThemedIcon="{StaticResource App.ThemedIcons.PanelLeft}" />
+				</controls:Toolbar.Items>
+				
+				<controls:Toolbar.ItemTemplate>
+					<DataTemplate x:DataType="controls:ToolbarItem">
+						<StackPanel Orientation="Vertical">
+							<TextBlock
+								FontSize="12"
+								Foreground="Black"
+								Text="{x:Bind Label}" />
+							<controls:ThemedIcon
+								Width="{x:Bind IconSize}"
+								Height="{x:Bind IconSize}"
+								IconSize="{x:Bind IconSize}"
+								Style="{x:Bind ThemedIcon}" />
+						</StackPanel>
+					</DataTemplate>
+				</controls:Toolbar.ItemTemplate>
+			</controls:Toolbar>
+
+
 
 			<StackPanel Orientation="Horizontal" Spacing="16">
 
@@ -70,12 +95,14 @@
 				<controls:ToolbarButton
 					MinWidth="40"
 					MinHeight="32"
+					IconSize="16"
 					Label="Button text"
 					ThemedIcon="{StaticResource App.ThemedIcons.RunAs.Elevated}" />
 
 				<controls:ToolbarButton
 					MinWidth="40"
 					MinHeight="32"
+					IconSize="16"
 					IsEnabled="False"
 					Label="Button text"
 					ThemedIcon="{StaticResource App.ThemedIcons.RunAs.Elevated}" />
@@ -83,6 +110,7 @@
 				<controls:ToolbarButton
 					MinWidth="40"
 					MinHeight="32"
+					IconSize="16"
 					Label="Button text">
 					<controls:ToolbarButton.Content>
 						<AnimatedIcon Width="16" Height="16">
@@ -95,6 +123,9 @@
 						</AnimatedIcon>
 					</controls:ToolbarButton.Content>
 				</controls:ToolbarButton>
+
+				<controls:ToolbarItem IconSize="16" Label="Test Label Xaml" />
+
 			</StackPanel>
 
 
@@ -106,12 +137,14 @@
 				<controls:ToolbarToggleButton
 					Width="40"
 					Height="32"
+					IconSize="16"
 					Label="Button text"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
 
 				<controls:ToolbarToggleButton
 					Width="40"
 					Height="32"
+					IconSize="16"
 					IsEnabled="False"
 					Label="Button text"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
@@ -119,6 +152,7 @@
 				<controls:ToolbarToggleButton
 					Width="40"
 					Height="32"
+					IconSize="16"
 					IsChecked="True"
 					Label="Button text"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
@@ -126,6 +160,7 @@
 				<controls:ToolbarToggleButton
 					Width="40"
 					Height="32"
+					IconSize="16"
 					IsChecked="True"
 					IsEnabled="False"
 					Label="Button text"
@@ -134,6 +169,7 @@
 				<controls:ToolbarToggleButton
 					Width="40"
 					Height="32"
+					IconSize="16"
 					Label="Button text">
 					<controls:ToolbarToggleButton.Content>
 						<AnimatedIcon Width="16" Height="16">
@@ -150,6 +186,7 @@
 				<controls:ToolbarToggleButton
 					Width="40"
 					Height="32"
+					IconSize="16"
 					IsChecked="True"
 					Label="Button text">
 					<controls:ToolbarToggleButton.Content>

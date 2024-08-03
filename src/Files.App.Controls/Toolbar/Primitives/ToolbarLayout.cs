@@ -46,13 +46,13 @@ namespace Files.App.Controls.Primitives
 
 			for ( int i = 0 ; i < GetItemCount( context ) ; ++i )
 			{
-				var toolbarItem = (ToolbarItem)GetElementAt(context, i);
-				toolbarItem.Measure( availableSize );
+				//var toolbarItem = (ToolbarItem)GetElementAt(context, i);
+				//toolbarItem.Measure( availableSize );
 
 				if ( i != 0 )
 				{
-					accumulatedItemsSize.Width += toolbarItem.DesiredSize.Width;
-					accumulatedItemsSize.Height = Math.Max( accumulatedItemsSize.Height , toolbarItem.DesiredSize.Height );
+					//accumulatedItemsSize.Width += toolbarItem.DesiredSize.Width;
+					//accumulatedItemsSize.Height = Math.Max( accumulatedItemsSize.Height , toolbarItem.DesiredSize.Height );
 				}
 			}
 

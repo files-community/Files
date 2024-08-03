@@ -36,9 +36,17 @@
 							</Grid.ColumnDefinitions>
 
 							<!--  Stack Panel is a placeholder to be replaced with the ItemsRepeater  -->
-							<ItemsRepeater x:Name="PART_ItemsRepeater" Visibility="Collapsed">
+							<ItemsRepeater
+								x:Name="PART_ItemsRepeater"
+								Grid.Column="0"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								Background="#44000000"
+								ItemTemplate="{TemplateBinding ItemTemplate}"
+								ItemsSource="{TemplateBinding Items}"
+								Visibility="Visible">
 								<ItemsRepeater.Layout>
-									<primitives:ToolbarLayout />
+									<StackLayout Orientation="Horizontal" Spacing="4" />
 								</ItemsRepeater.Layout>
 							</ItemsRepeater>
 
@@ -48,7 +56,7 @@
 								Background="#88FFFFFF"
 								Orientation="Horizontal"
 								Spacing="4"
-								Visibility="Visible">
+								Visibility="Collapsed">
 								<Border
 									Width="40"
 									Height="32"

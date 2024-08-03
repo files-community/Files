@@ -16,7 +16,7 @@ namespace Files.App.Controls
 	public partial class Toolbar : Control
 	{
 		// TemplatePart Names
-		internal const string ToolbarItemsRepeaterPartName		= "PART_ItemsRepeater";
+		internal const string ToolbarItemsRepeaterPartName	= "PART_ItemsRepeater";
 
 
 

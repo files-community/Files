@@ -54,7 +54,7 @@ namespace Files.App.Controls
 
 
 
-		#region ThemedIcon (style)
+		#region ThemedIcon (Style)
 
 		/// <summary>
 		/// The backing <see cref="DependencyProperty"/> for the <see cref="ThemedIcon"/> property.
@@ -84,6 +84,40 @@ namespace Files.App.Controls
 			if ( newValue != oldValue )
 			{
 				ThemedIconChanged( newValue );
+			}
+		}
+
+		#endregion
+
+
+
+		#region IconSize (double)
+
+		public static readonly DependencyProperty IconSizeProperty =
+			DependencyProperty.Register(
+				nameof(IconSize),
+				typeof(double),
+				typeof(ToolbarButton),
+				new PropertyMetadata((double)16, (d, e) => ((ToolbarButton)d).OnIconSizePropertyChanged((double)e.OldValue, (double)e.NewValue)));
+
+
+
+		/// <summary>
+		/// Gets or sets a value indicating the Icon's design size.
+		/// </summary>        
+		public double IconSize
+		{
+			get => (double)GetValue( IconSizeProperty );
+			set => SetValue( IconSizeProperty , value );
+		}
+
+
+
+		protected virtual void OnIconSizePropertyChanged(double oldValue , double newValue)
+		{
+			if ( newValue != oldValue )
+			{
+				IconSizeChanged( newValue );
 			}
 		}
 

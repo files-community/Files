@@ -142,10 +142,10 @@ namespace Files.App.Controls
 		#region Update Properties
 
 		/// <summary>
-		/// Updates the Toolbar's ItemsSource property
+		/// Updates the Toolbar's Items property
 		/// </summary>
-		/// <param name="newItemsSource"></param>
-		private void UpdateItemsSource(object newItemsSource)
+		/// <param name="newItems"></param>
+		private void UpdateItems(IList<ToolbarItem> newItems)
 		{
 			///
 			/// Reads in the ToolbarItem in the Toolbar.Items list
@@ -156,6 +156,8 @@ namespace Files.App.Controls
 			/// each item to the correct lists which we will use to 
 			/// manage the Buttons and the Menu items
 			///
+
+			
 
 			// clear both lists and re-add new items
 		}
@@ -265,9 +267,9 @@ namespace Files.App.Controls
 		/// Handles changes to the Items
 		/// </summary>
 		/// <param name="newItemsSource"></param>
-		private void ItemsSourceChanged(object newItemsSource)
+		private void ItemsChanged(IList<ToolbarItem> newItems)
 		{
-			UpdateItemsSource( newItemsSource );
+			UpdateItems( newItems );
 		}
 
 
