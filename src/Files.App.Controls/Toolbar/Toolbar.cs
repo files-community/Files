@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 
@@ -18,17 +19,20 @@ namespace Files.App.Controls
 	public partial class Toolbar : Control
 	{
 
-		private double			_availableSize;	  	        // A reference to the current available size for ToolbarItems
+		private double _availableSize;	  						// A reference to the current available size for ToolbarItems
 
-		private ItemsRepeater?	_itemsRepeater;
+		private ItemsRepeater?				_itemsRepeater;
+		private ToolbarItemList?			_toolbarItemsList;
+		private ToolbarItemOverflowList?    _toolbarItemsOverflowList;
+
+
+		private double				_smallMinWidth    = 24;     // I have set default values, but we pull from resources
+		private double				_mediumMinWidth   = 32;     // if they are available.
+		private double				_largeMinWidth    = 32;
 		 
-		private double			_smallMinWidth    = 24;     // I have set default values, but we pull from resources
-		private double			_mediumMinWidth   = 32;     // if they are available.
-		private double			_largeMinWidth    = 32;
-		 
-		private double			_smallMinHeight   = 24;
-		private double			_mediumMinHeight  = 24;
-		private double			_largeMinHeight   = 32;
+		private double				_smallMinHeight   = 24;
+		private double				_mediumMinHeight  = 24;
+		private double				_largeMinHeight   = 32;
 
 
 
@@ -57,6 +61,16 @@ namespace Files.App.Controls
 		private ItemsRepeater GetItemsRepeater()
 		{
 			return _itemsRepeater;
+		}
+
+		private ToolbarItemList GetToolbarItemsList()
+		{
+			return _toolbarItemsList;
+		}
+
+		private ToolbarItemOverflowList GetToolbarItemsOverflowList()
+		{
+			return _toolbarItemsOverflowList;
 		}
 
 		private double GetSmallMinWidth()
@@ -103,6 +117,16 @@ namespace Files.App.Controls
 		private void SetItemsRepeater(ItemsRepeater itemsRepeater)
 		{
 			_itemsRepeater = itemsRepeater;
+		}
+
+		private void SetToolbarItemsList(ToolbarItemList toolbarItemsList)
+		{
+			_toolbarItemsList = toolbarItemsList;
+		}
+
+		private void SetToolbarItemsList(ToolbarItemOverflowList toolbarItemsOverflowList)
+		{
+			_toolbarItemsOverflowList = toolbarItemsOverflowList;
 		}
 
 		private void SetSmallMinWidth(double newValue)
@@ -157,30 +181,45 @@ namespace Files.App.Controls
 			/// manage the Buttons and the Menu items
 			///
 
-			
-
 			// clear both lists and re-add new items
+
+			foreach ( ToolbarItem item in newItems )
+			{
+				if ( item != null )
+				{
+					if ( item.OverflowBehavior == OverflowBehaviors.Always )
+					{
+						AddItemToOverflowList( item );
+					}
+					else 
+					{						
+						/// For now we move it into the main list
+						/// Eventually we need to check if there is room
+						/// 
+						AddItemToItemList( item );
+
+
+						/// If there is no room for more items we must
+						/// move them to the Overflow list, unless...
+						/// 
+						if ( item.OverflowBehavior == OverflowBehaviors.Never )
+						{ 
+							/// If the overflow behaviour is set to never, items
+							/// without room will just be hidden.  This condition
+							/// must be checked as the toolbar size changes.
+						}
+					}
+				}
+			}
 		}
 
 
 
 		/// <summary>
-		/// Updates the Toolbar's Items property
+		/// EVENTUALLY REMOVE
 		/// </summary>
-		/// <param name="newObject"></param>
 		private void UpdateItemTemplate(DataTemplate newDataTemplate)
 		{
-			///
-			/// Reads in the ToolbarItem in the Toolbar.Items list
-			/// when iterating through them, we ignore any that do not
-			/// match the correct object of ToolbarItem
-			/// 
-			/// Then we read the porperties of each item and assign
-			/// each item to the correct lists which we will use to 
-			/// manage the Buttons and the Menu items
-			///
-
-			// clear both lists and re-add new items
 		}
 
 
@@ -222,6 +261,12 @@ namespace Files.App.Controls
 			// the Toolbar's Items space (ItemsRepeaterLayout?)
 
 			SetAvailableSize( newAvailableSize );
+
+			/// We need to check the Item Widths and Heights
+			/// (we know the sizes for buttons, but content will need
+			/// to be measured).  We also need to include the layout
+			/// spacing values, to determine how many of our items can
+			/// fit in the availableSize.
 		}
 
 
@@ -312,7 +357,138 @@ namespace Files.App.Controls
 		/// the ToolbarItemList/
 		///
 
-		// UpdateAvailableSize();
+		private void PopulateItemsSourceForItemsRepeater()
+		{
+			/// We then need to measure each item from the ToolbarItemList
+			/// we check the availableSize to see if there is room
+			/// If there is room, we place it into the ItemsSource and
+			/// remove that value from the availableSize + Spacing value
+			/// 
+
+			ItemsRepeater itemsRepeater = GetItemsRepeater();
+
+			foreach ( ToolbarItem item in GetToolbarItemsList() )
+			{
+				/// We can get the AvailableSize
+				/// 
+				double availableSize = GetAvailableSize();				
+
+				ObservableCollection<object> itemsSource = new ObservableCollection<object>();
+
+				/// Then we create the ToolbarButton, ToolbarSeparator, ToolbarToggleButton etc
+				/// for each item
+				/// 
+				if ( item.ItemType == ToolbarItemTypes.Button )
+				{
+					//Add a ToolbarButton to the ItemsSource for the ItemsRepeaterPartName
+					itemsSource.Add( new ToolbarButton
+					{ 
+						Label = item.Label , 
+						ThemedIcon = item.ThemedIcon , Command = item.Command , 
+						CommandParameter = item.CommandParameter , 
+						IconSize = item.IconSize,
+					} );
+				};
+
+				if ( item.ItemType == ToolbarItemTypes.ToggleButton )
+				{
+					//Add a ToolbarToggleButton to the ItemsSource for the ItemsRepeaterPartName
+					itemsSource.Add( new ToolbarToggleButton
+					{
+						Label = item.Label ,
+						ThemedIcon = item.ThemedIcon ,
+						Command = item.Command ,
+						CommandParameter = item.CommandParameter ,
+						IconSize = item.IconSize ,
+					} );
+				};
+
+				if ( item.ItemType == ToolbarItemTypes.Separator )
+				{
+					//Add a ToolbarSeparator to the ItemsSource for the ItemsRepeaterPartName
+					//itemsSource.Add( new ToolbarSeparator );
+				};
+				/// etc
+
+				//SetAvailableSize( availableSize - item.Width );
+
+				/// Once we have gone over the items and there is no more
+				/// items to add, then we set the ItemsRepeater's ItemsSource
+				///
+				itemsRepeater.ItemsSource = itemsSource;
+			}
+
+				/// We do this for each item until there is no more space
+				/// available, then we check its OverflowBehavior and move
+				/// it if neccessary.
+
+			}
+
+
+
+		private void PopulateItemsSourceForOverflowMenu()
+		{
+			/// After the sorting for the ItemsRepeater ItemsSource
+			/// whatever was put into the ToolbarItemOverflowList
+			/// is what we need to add to the Overflow Menu
+			/// 
+
+			foreach ( ToolbarItem item in GetToolbarItemsOverflowList() )
+			{
+				if ( item != null )
+				{
+					if ( item.ItemType != ToolbarItemTypes.Separator )
+					{ 
+						MenuFlyoutSeparator menuFlyoutSeparator = new MenuFlyoutSeparator();
+						/// OverflowMenuFlyout.AddMenuItem( menuFlyoutSeparator );
+					}
+
+					if ( item.ItemType != ToolbarItemTypes.FlyoutButton )
+					{
+						MenuFlyoutSubItem menuFlyoutSubItem = new MenuFlyoutSubItem();
+						menuFlyoutSubItem.Text = item.Label;
+						//menuFlyoutSubItem.ThemedIcon = item.ThemedIcon ;
+						//menuFlyoutSubItem.IconSize = item.IconSize ;
+						//menuFlyoutSubItem.Items.Add ;
+
+						/// We will need to make child menu items for the 
+						/// ToolbarItem's flyout items.
+						/// 
+					
+						/// OverflowMenuFlyout.AddMenuItem( menuFlyoutSubItem );
+					}
+
+					if ( item.ItemType != ToolbarItemTypes.Button )
+					{
+						MenuFlyoutItem menuFlyoutItem= new MenuFlyoutItem();
+						//MenuFlyoutItemEx menuFlyoutItemEx = new MenuFlyoutItemEx();
+						menuFlyoutItem.Text = item.Label;
+						menuFlyoutItem.Command = item.Command;
+						menuFlyoutItem.CommandParameter = item.CommandParameter;
+						menuFlyoutItem.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
+						//menuFlyoutItemEx.ThemedIcon = item.ThemedIcon ;
+						//menuFlyoutItemEx.IconSize = item.IconSize ;
+
+						/// OverflowMenuFlyout.AddMenuItem( menuFlyoutSeparator );
+					}
+
+					if ( item.ItemType != ToolbarItemTypes.ToggleButton )
+					{
+						ToggleMenuFlyoutItem menuToggleItem = new ToggleMenuFlyoutItem();
+						//ToggleMenuFlyoutItemEx menuToggleItemEx = new ToggleMenuFlyoutItemEx();
+						menuToggleItem.Text = item.Label;
+						menuToggleItem.Command = item.Command;
+						menuToggleItem.CommandParameter = item.CommandParameter;
+						menuToggleItem.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
+						//mmenuToggleItemEx.ThemedIcon = item.ThemedIcon ;
+						//menuToggleItemEx.IconSize = item.IconSize ;
+
+						/// OverflowMenuFlyout.AddMenuItem( menuFlyoutSeparator );
+					}
+
+				}
+			}
+		}
 
 		#endregion
 
