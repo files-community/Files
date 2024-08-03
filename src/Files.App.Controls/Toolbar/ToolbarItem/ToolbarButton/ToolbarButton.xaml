@@ -48,11 +48,12 @@
 							ContentTemplate="{TemplateBinding ContentTemplate}"
 							ContentTransitions="{TemplateBinding ContentTransitions}"
 							Visibility="Collapsed" />
+						
 						<local:ThemedIcon x:Name="PART_ThemedIcon" Style="{TemplateBinding ThemedIcon}" />
 
 						<VisualStateManager.VisualStateGroups>
+							
 							<VisualStateGroup x:Name="CommonStates">
-
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
 									<Storyboard>

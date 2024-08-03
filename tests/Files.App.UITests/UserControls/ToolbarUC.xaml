@@ -10,7 +10,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
-	<Grid Width="800" Height="600">
+	<Grid>
 
 		<StackPanel
 			Padding="24,24,24,24"
@@ -61,33 +61,29 @@
 
 			</StackPanel>
 
-			<StackPanel Orientation="Horizontal" Spacing="16">
-				<controls:ToolbarButton Label="Button text" ThemedIcon="{StaticResource App.ThemedIcons.RunAs.Elevated}" />
+			<TextBlock Text="ToolbarButton" />
+
+			<StackPanel
+				Margin="0,0,0,16"
+				Orientation="Horizontal"
+				Spacing="16">
+				<controls:ToolbarButton
+					MinWidth="40"
+					MinHeight="32"
+					Label="Button text"
+					ThemedIcon="{StaticResource App.ThemedIcons.RunAs.Elevated}" />
 
 				<controls:ToolbarButton
+					MinWidth="40"
+					MinHeight="32"
 					IsEnabled="False"
 					Label="Button text"
 					ThemedIcon="{StaticResource App.ThemedIcons.RunAs.Elevated}" />
 
-				<Border
+				<controls:ToolbarButton
 					MinWidth="40"
 					MinHeight="32"
-					Padding="0"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					Background="DarkBlue"
-					BackgroundSizing="InnerBorderEdge"
-					BorderBrush="#80FFFF00"
-					BorderThickness="1">
-					<Border
-						Width="16"
-						Height="16"
-						HorizontalAlignment="Center"
-						VerticalAlignment="Center"
-						Background="Black" />
-				</Border>
-
-				<controls:ToolbarButton Label="Button text">
+					Label="Button text">
 					<controls:ToolbarButton.Content>
 						<AnimatedIcon Width="16" Height="16">
 							<AnimatedIcon.Source>
@@ -101,6 +97,73 @@
 				</controls:ToolbarButton>
 			</StackPanel>
 
+
+			<TextBlock Text="ToolbarToggleButton" />
+			<StackPanel
+				Margin="0,0,0,16"
+				Orientation="Horizontal"
+				Spacing="16">
+				<controls:ToolbarToggleButton
+					Width="40"
+					Height="32"
+					Label="Button text"
+					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
+
+				<controls:ToolbarToggleButton
+					Width="40"
+					Height="32"
+					IsEnabled="False"
+					Label="Button text"
+					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
+
+				<controls:ToolbarToggleButton
+					Width="40"
+					Height="32"
+					IsChecked="True"
+					Label="Button text"
+					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
+
+				<controls:ToolbarToggleButton
+					Width="40"
+					Height="32"
+					IsChecked="True"
+					IsEnabled="False"
+					Label="Button text"
+					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
+
+				<controls:ToolbarToggleButton
+					Width="40"
+					Height="32"
+					Label="Button text">
+					<controls:ToolbarToggleButton.Content>
+						<AnimatedIcon Width="16" Height="16">
+							<AnimatedIcon.Source>
+								<animatedvisuals:AnimatedSettingsVisualSource />
+							</AnimatedIcon.Source>
+							<AnimatedIcon.FallbackIconSource>
+								<SymbolIconSource Symbol="Find" />
+							</AnimatedIcon.FallbackIconSource>
+						</AnimatedIcon>
+					</controls:ToolbarToggleButton.Content>
+				</controls:ToolbarToggleButton>
+
+				<controls:ToolbarToggleButton
+					Width="40"
+					Height="32"
+					IsChecked="True"
+					Label="Button text">
+					<controls:ToolbarToggleButton.Content>
+						<AnimatedIcon Width="16" Height="16">
+							<AnimatedIcon.Source>
+								<animatedvisuals:AnimatedSettingsVisualSource />
+							</AnimatedIcon.Source>
+							<AnimatedIcon.FallbackIconSource>
+								<SymbolIconSource Symbol="Find" />
+							</AnimatedIcon.FallbackIconSource>
+						</AnimatedIcon>
+					</controls:ToolbarToggleButton.Content>
+				</controls:ToolbarToggleButton>
+			</StackPanel>
 		</StackPanel>
 
 	</Grid>
