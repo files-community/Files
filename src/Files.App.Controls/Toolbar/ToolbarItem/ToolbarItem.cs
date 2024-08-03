@@ -15,6 +15,7 @@ namespace Files.App.Controls
 	/// </summary>
 	public partial class ToolbarItem : Control
 	{
+
 		public ToolbarItem()
 		{
 			DefaultStyleKey = typeof( ToolbarItem );
@@ -22,10 +23,12 @@ namespace Files.App.Controls
 
 
 
+		/// <inheritdoc/>
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
 		}
+
 
 
 		# region Update Item Properties
@@ -73,6 +76,16 @@ namespace Files.App.Controls
 			///
 			/// Updates the internal item's Text or Label
 			/// property as it changes.
+			///
+		}
+
+
+
+		private void UpdateContent(object newContent)
+		{
+			///
+			/// Updates the internal item's Content
+			/// property
 			///
 		}
 
@@ -162,6 +175,73 @@ namespace Files.App.Controls
 
 
 
+		#region Property Changed Events
+
+		private void ItemTypeChanged(ToolbarItemTypes newItemType)
+		{
+			UpdateItemType( newItemType );
+		}
+
+
+
+		private void OverflowBehaviorChanged(OverflowBehaviors newOverflowBehavior)
+		{
+			UpdateOverflowBehavior( newOverflowBehavior );
+		}
+
+
+
+		private void LabelChanged(string newLabel) 
+		{
+			UpdateLabel( newLabel );
+		}
+
+
+
+		private void ContentChanged(object newContent) 
+		{
+			UpdateContent( newContent );
+		}
+
+
+
+		private void ThemedIconChanged(Style newStyle)
+		{
+			UpdateThemedIcon( newStyle );
+		}
+
+
+
+		private void KeyboardAcceleratorTextOverrideChanged( string newKeyboardAcceleratorText)
+		{
+			UpdateKeyboardAcceleratorTextOverride( newKeyboardAcceleratorText );
+		}
+
+
+
+		private void GroupNameChanged(string newGroupName)
+		{
+			UpdateGroupName( newGroupName );
+		}
+
+
+
+		private void CommandChanged(XamlUICommand newCommand)
+		{
+			UpdateCommand( newCommand );
+		}
+
+
+
+		private void CommandParameterChanged(object newCommandParameter)
+		{
+			UpdateCommandParameter( newCommandParameter );
+		}
+
+		#endregion
+
+
+
 		#region Internal methods
 
 		///
@@ -192,5 +272,6 @@ namespace Files.App.Controls
 		/// 
 
 		#endregion
+
 	}
 }

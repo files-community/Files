@@ -10,6 +10,7 @@ namespace Files.App.Controls
 {
 	public partial class ToolbarItem : Control
 	{
+
 		#region ItemType (enum ToolbarItemTypes)
 
 		/// <summary>
@@ -37,7 +38,10 @@ namespace Files.App.Controls
 
 		protected virtual void OnItemTypePropertyChanged(ToolbarItemTypes oldValue , ToolbarItemTypes newValue)
 		{
-			UpdateItemType( newValue );
+			if ( oldValue != newValue ) 
+			{
+				ItemTypeChanged( newValue );
+			}
 		}
 
 		#endregion
@@ -71,7 +75,10 @@ namespace Files.App.Controls
 
 		protected virtual void OnOverflowBehaviorPropertyChanged(OverflowBehaviors oldValue , OverflowBehaviors newValue)
 		{
-			UpdateOverflowBehavior( newValue );
+			if ( newValue != oldValue )
+			{
+				OverflowBehaviorChanged( newValue );
+			}
 		}
 
 		#endregion
@@ -105,7 +112,47 @@ namespace Files.App.Controls
 
 		protected virtual void OnLabelPropertyChanged(string oldValue , string newValue)
 		{
-			UpdateLabel( newValue );
+			if ( newValue != oldValue )
+			{ 
+				LabelChanged( newValue );
+			}
+		}
+
+		#endregion
+
+
+
+		#region Content
+
+		/// <summary>
+		/// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
+		/// </summary>
+		public static readonly DependencyProperty ContentProperty =
+			DependencyProperty.Register(
+				nameof(Content),
+				typeof(object),
+				typeof(ToolbarItem),
+				new PropertyMetadata(null, (d, e) => ((ToolbarItem)d).OnContentPropertyChanged((object)e.OldValue, (object)e.NewValue)));
+
+
+
+		/// <summary>
+		/// Gets or sets the objects we use as Content for the ToolbarItem.
+		/// </summary>
+		public object Content
+		{
+			get => (object)GetValue( ContentProperty );
+			set => SetValue( ContentProperty , value );
+		}
+
+
+
+		protected virtual void OnContentPropertyChanged(object oldValue , object newValue)
+		{
+			if ( newValue != oldValue )
+			{
+				ContentChanged( newValue );
+			}
 		}
 
 		#endregion
@@ -139,7 +186,10 @@ namespace Files.App.Controls
 
 		protected virtual void OnThemedIconPropertyChanged(Style oldValue , Style newValue)
 		{
-			UpdateThemedIcon( newValue );
+			if ( newValue != oldValue )
+			{
+				ThemedIconChanged( newValue );
+			}
 		}
 
 		#endregion
@@ -173,7 +223,10 @@ namespace Files.App.Controls
 
 		protected virtual void OnKeyboardAcceleratorTextOverridePropertyChanged(string oldValue , string newValue)
 		{
-			UpdateKeyboardAcceleratorTextOverride( newValue );
+			if ( newValue != oldValue )
+			{
+				KeyboardAcceleratorTextOverrideChanged( newValue );
+			}
 		}
 
 		#endregion
@@ -207,7 +260,10 @@ namespace Files.App.Controls
 
 		protected virtual void OnGroupNamePropertyChanged(string oldValue , string newValue)
 		{
-			UpdateGroupName( newValue );
+			if ( newValue != oldValue )
+			{
+				GroupNameChanged( newValue );
+			}
 		}
 
 		#endregion
@@ -241,7 +297,10 @@ namespace Files.App.Controls
 
 		protected virtual void OnCommandPropertyChanged(XamlUICommand oldValue , XamlUICommand newValue)
 		{
-			UpdateCommand( newValue );
+			if ( newValue != oldValue )
+			{
+				CommandChanged( newValue );
+			}
 		}
 
 		#endregion
@@ -275,9 +334,13 @@ namespace Files.App.Controls
 
 		protected virtual void OnCommandParameterPropertyChanged(object oldValue , object newValue)
 		{
-			UpdateCommandParameter( newValue );
+			if ( newValue != oldValue )
+			{
+				CommandParameterChanged( newValue );
+			}
 		}
 
 		#endregion
+
 	}
 }

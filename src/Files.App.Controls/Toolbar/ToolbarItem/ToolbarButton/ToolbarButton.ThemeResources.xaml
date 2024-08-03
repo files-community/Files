@@ -5,11 +5,92 @@
 	xmlns:local="using:Files.App.Controls">
 
 	<ResourceDictionary.ThemeDictionaries>
-		<ResourceDictionary x:Key="Default" />
-
-		<ResourceDictionary x:Key="HighContrast" />
-
-		<ResourceDictionary x:Key="Light" />
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="ButtonBackground" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="ControlFillColorDisabledBrush" />
+			<StaticResource x:Key="ButtonForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ButtonForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ButtonBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<Thickness x:Key="ButtonBorderThemeThickness">1</Thickness>
+			<SolidColorBrush x:Key="ButtonBackgroundThemeBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="ButtonBorderThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ButtonDisabledBackgroundThemeBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="ButtonDisabledBorderThemeBrush" Color="#66FFFFFF" />
+			<SolidColorBrush x:Key="ButtonDisabledForegroundThemeBrush" Color="#66FFFFFF" />
+			<SolidColorBrush x:Key="ButtonForegroundThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ButtonPointerOverBackgroundThemeBrush" Color="#21FFFFFF" />
+			<SolidColorBrush x:Key="ButtonPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ButtonPressedBackgroundThemeBrush" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ButtonPressedForegroundThemeBrush" Color="#FF000000" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="ButtonBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+			<StaticResource x:Key="ButtonForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemControlHighlightBaseHighBrush" />
+			<StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemControlHighlightBaseHighBrush" />
+			<StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="ButtonBorderBrush" ResourceKey="SystemControlForegroundTransparentBrush" />
+			<StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="SystemControlDisabledTransparentBrush" />
+			<Thickness x:Key="ButtonBorderThemeThickness">1</Thickness>
+			<SolidColorBrush x:Key="ButtonBackgroundThemeBrush" Color="{ThemeResource SystemColorButtonFaceColor}" />
+			<SolidColorBrush x:Key="ButtonBorderThemeBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+			<SolidColorBrush x:Key="ButtonDisabledBackgroundThemeBrush" Color="{ThemeResource SystemColorButtonFaceColor}" />
+			<SolidColorBrush x:Key="ButtonDisabledBorderThemeBrush" Color="{ThemeResource SystemColorGrayTextColor}" />
+			<SolidColorBrush x:Key="ButtonDisabledForegroundThemeBrush" Color="{ThemeResource SystemColorGrayTextColor}" />
+			<SolidColorBrush x:Key="ButtonForegroundThemeBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+			<SolidColorBrush x:Key="ButtonPointerOverBackgroundThemeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
+			<SolidColorBrush x:Key="ButtonPointerOverForegroundThemeBrush" Color="{ThemeResource SystemColorHighlightTextColor}" />
+			<SolidColorBrush x:Key="ButtonPressedBackgroundThemeBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+			<SolidColorBrush x:Key="ButtonPressedForegroundThemeBrush" Color="{ThemeResource SystemColorButtonFaceColor}" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="ButtonBackground" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="ControlFillColorDisabledBrush" />
+			<StaticResource x:Key="ButtonForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ButtonForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ButtonBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<Thickness x:Key="ButtonBorderThemeThickness">1</Thickness>
+			<SolidColorBrush x:Key="ButtonBackgroundThemeBrush" Color="#B3B6B6B6" />
+			<SolidColorBrush x:Key="ButtonBorderThemeBrush" Color="#33000000" />
+			<SolidColorBrush x:Key="ButtonDisabledBackgroundThemeBrush" Color="#66CACACA" />
+			<SolidColorBrush x:Key="ButtonDisabledBorderThemeBrush" Color="#1A000000" />
+			<SolidColorBrush x:Key="ButtonDisabledForegroundThemeBrush" Color="#66000000" />
+			<SolidColorBrush x:Key="ButtonForegroundThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ButtonPointerOverBackgroundThemeBrush" Color="#D1CDCDCD" />
+			<SolidColorBrush x:Key="ButtonPointerOverForegroundThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ButtonPressedBackgroundThemeBrush" Color="#FF000000" />
+			<SolidColorBrush x:Key="ButtonPressedForegroundThemeBrush" Color="#FFFFFFFF" />
+		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
+
+	<Thickness x:Key="ToolbarButtonPadding">4</Thickness>
+
+	<x:Double x:Key="ToolbarButtonSmallMinHeight">32</x:Double>
+	<x:Double x:Key="ToolbarButtonSmallMinWidth">32</x:Double>
+
+	<x:Double x:Key="ToolbarButtonMediumMinHeight">32</x:Double>
+	<x:Double x:Key="ToolbarButtonMediumMinWidth">40</x:Double>
+
+	<x:Double x:Key="ToolbarButtonLargeMinHeight">40</x:Double>
+	<x:Double x:Key="ToolbarButtonLargeMinWidth">40</x:Double>
 
 </ResourceDictionary>

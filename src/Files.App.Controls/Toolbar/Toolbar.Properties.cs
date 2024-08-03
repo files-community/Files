@@ -39,7 +39,10 @@ namespace Files.App.Controls
 
 		protected virtual void OnItemsPropertyChanged(object oldValue , object newValue)
 		{
-			UpdateItemsProperty( newValue );
+			if ( newValue != oldValue )
+			{
+				ItemsChanged( newValue );
+			}
 		}
 
 		#endregion
@@ -70,10 +73,17 @@ namespace Files.App.Controls
 		}
 
 
-
+		/// <summary>
+		/// Triggers when the ToolbarSize property changes
+		/// </summary>
+		/// <param name="oldValue"></param>
+		/// <param name="newValue"></param>
 		protected virtual void OnToolbarSizePropertyChanged(ToolbarSizes oldValue , ToolbarSizes newValue)
 		{
-			OnToolbarSizePropertyChanged( newValue );
+			if ( newValue != oldValue )
+			{
+				ToolbarSizeChanged( newValue );
+			}
 		}
 
 		#endregion
