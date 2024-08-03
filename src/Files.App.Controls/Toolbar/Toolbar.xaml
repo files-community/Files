@@ -43,7 +43,6 @@
 							</ItemsRepeater>
 
 							<StackPanel
-								x:Name="PART_StackPanel"
 								Grid.Column="0"
 								HorizontalAlignment="Left"
 								Background="#88FFFFFF"

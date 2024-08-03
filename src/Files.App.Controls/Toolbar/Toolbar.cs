@@ -18,15 +18,17 @@ namespace Files.App.Controls
 	public partial class Toolbar : Control
 	{
 
-		private double  _availableSize;	  	        // A reference to the current available size for ToolbarItems
+		private double			_availableSize;	  	        // A reference to the current available size for ToolbarItems
+
+		private ItemsRepeater?	_itemsRepeater;
 		 
-		private double  _smallMinWidth    = 24;     // I have set default values, but we pull from resources
-		private double  _mediumMinWidth   = 32;     // if they are available.
-		private double  _largeMinWidth    = 32;
+		private double			_smallMinWidth    = 24;     // I have set default values, but we pull from resources
+		private double			_mediumMinWidth   = 32;     // if they are available.
+		private double			_largeMinWidth    = 32;
 		 
-		private double  _smallMinHeight   = 24;
-		private double  _mediumMinHeight  = 24;
-		private double  _largeMinHeight   = 32;
+		private double			_smallMinHeight   = 24;
+		private double			_mediumMinHeight  = 24;
+		private double			_largeMinHeight   = 32;
 
 
 
@@ -50,6 +52,11 @@ namespace Files.App.Controls
 		private double GetAvailableSize()
 		{
 			return _availableSize;
+		}
+
+		private ItemsRepeater GetItemsRepeater()
+		{
+			return _itemsRepeater;
 		}
 
 		private double GetSmallMinWidth()
@@ -93,6 +100,11 @@ namespace Files.App.Controls
 			_availableSize = newValue;
 		}
 
+		private void SetItemsRepeater(ItemsRepeater itemsRepeater)
+		{
+			_itemsRepeater = itemsRepeater;
+		}
+
 		private void SetSmallMinWidth(double newValue)
 		{
 			_smallMinWidth = newValue;
@@ -130,10 +142,31 @@ namespace Files.App.Controls
 		#region Update Properties
 
 		/// <summary>
+		/// Updates the Toolbar's ItemsSource property
+		/// </summary>
+		/// <param name="newItemsSource"></param>
+		private void UpdateItemsSource(object newItemsSource)
+		{
+			///
+			/// Reads in the ToolbarItem in the Toolbar.Items list
+			/// when iterating through them, we ignore any that do not
+			/// match the correct object of ToolbarItem
+			/// 
+			/// Then we read the porperties of each item and assign
+			/// each item to the correct lists which we will use to 
+			/// manage the Buttons and the Menu items
+			///
+
+			// clear both lists and re-add new items
+		}
+
+
+
+		/// <summary>
 		/// Updates the Toolbar's Items property
 		/// </summary>
 		/// <param name="newObject"></param>
-		private void UpdateItems(object newObject)
+		private void UpdateItemTemplate(DataTemplate newDataTemplate)
 		{
 			///
 			/// Reads in the ToolbarItem in the Toolbar.Items list
@@ -228,9 +261,24 @@ namespace Files.App.Controls
 
 		#region Property Changed Events
 
-		private void ItemsChanged(object newItems)
+		/// <summary>
+		/// Handles changes to the Items
+		/// </summary>
+		/// <param name="newItemsSource"></param>
+		private void ItemsSourceChanged(object newItemsSource)
 		{
-			UpdateItems( newItems );
+			UpdateItemsSource( newItemsSource );
+		}
+
+
+
+		/// <summary>
+		/// Handles changes to the ItemTemplate
+		/// </summary>
+		/// <param name="newDataTemplate"></param>
+		private void ItemTemplateChanged(DataTemplate newDataTemplate)
+		{
+			UpdateItemTemplate( newDataTemplate );
 		}
 
 

@@ -12,36 +12,73 @@ namespace Files.App.Controls
 	public partial class Toolbar : Control
 	{
 
-		#region Items (object)
+		#region ItemsSource (object)
 
 		/// <summary>
-		/// The backing <see cref="DependencyProperty"/> for the <see cref="Items"/> property.
+		/// The backing <see cref="DependencyProperty"/> for the <see cref="ItemsSource"/> property.
 		/// </summary>
-		public static readonly DependencyProperty ItemsProperty =
+		public static readonly DependencyProperty ItemsSourceProperty =
 			DependencyProperty.Register(
-				nameof(Items),
+				nameof(ItemsSource),
 				typeof(object),
 				typeof(Toolbar),
-				new PropertyMetadata(null, (d, e) => ((Toolbar)d).OnItemsPropertyChanged((object)e.OldValue, (object)e.NewValue)));
+				new PropertyMetadata(null, (d, e) => ((Toolbar)d).OnItemsSourcePropertyChanged((object)e.OldValue, (object)e.NewValue)));
 
 
 
 		/// <summary>
-		/// Gets or sets the objects we use as Items for the Toolbar.
+		/// Gets or sets the objects we use as ItemsSource for the Toolbar.
 		/// </summary>
-		public object Items
+		public object ItemsSource
 		{
-			get => (object)GetValue( ItemsProperty );
-			set => SetValue( ItemsProperty , value );
+			get => (object)GetValue( ItemsSourceProperty );
+			set => SetValue( ItemsSourceProperty , value );
 		}
 
 
 
-		protected virtual void OnItemsPropertyChanged(object oldValue , object newValue)
+		protected virtual void OnItemsSourcePropertyChanged(object oldValue , object newValue)
 		{
 			if ( newValue != oldValue )
 			{
-				ItemsChanged( newValue );
+				ItemsSourceChanged( newValue );
+			}
+		}
+
+		#endregion
+
+
+
+		#region ItemTemplate
+
+		/// <summary>
+		/// The backing <see cref="DependencyProperty"/> for the <see cref="ItemTemplate"/> property.
+		/// </summary>
+		public static readonly DependencyProperty ItemTemplateProperty =
+			DependencyProperty.Register(
+				nameof(ItemTemplate),
+				typeof(DataTemplate),
+				typeof(Toolbar),
+				new PropertyMetadata(null, (d, e) => ((Toolbar)d).OnItemTemplatePropertyChanged((DataTemplate)e.OldValue, (DataTemplate)e.NewValue)));
+
+
+
+		/// <summary>
+		/// Gets or sets the ItemTemplate we use for the ItemsSource for the Toolbar.
+		/// </summary>
+		public DataTemplate ItemTemplate
+		{
+			get { return (DataTemplate)GetValue( ItemTemplateProperty ); }
+			set { SetValue( ItemTemplateProperty , value ); }
+		}
+
+
+
+		protected virtual void OnItemTemplatePropertyChanged(DataTemplate oldValue , DataTemplate newValue)
+		{
+			if ( newValue != oldValue )
+			{
+				ItemTemplateChanged( newValue );
 			}
 		}
 
